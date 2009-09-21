@@ -14,6 +14,12 @@
 
 static NSString *AlertSuppressKey = @"moveToApplicationsFolderAlertSuppress";
 
+// Helper functions
+static BOOL IsInApplicationsFolder(NSString *path);
+static BOOL IsInDownloadsFolder(NSString *path);
+
+
+// Main worker function
 void PFMoveToApplicationsFolderIfNecessary()
 {
 	// Skip if user suppressed the alert before
@@ -31,13 +37,8 @@ void PFMoveToApplicationsFolderIfNecessary()
 		return;
 	}
 
-	// Get all Applications directories including ~/Applications
-	NSArray *allApplicationsDirectories = NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSAllDomainsMask, YES);
-
-	// If the application is already in some Applications directory, skip.
-	for (NSString *appDirPath in allApplicationsDirectories) {
-		if ([bundlePath hasPrefix:appDirPath]) return;
-	}
+	// Skip if the application is already in some Applications folder
+	if (IsInApplicationsFolder(bundlePath)) return;
 
 	// Since we are good to go, get /Applications
 	NSString *applicationsDirectory = [NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSLocalDomainMask, YES) lastObject];
@@ -57,21 +58,36 @@ void PFMoveToApplicationsFolderIfNecessary()
 		}
 	}
 
-	// Open up the alert
+	// Setup the alert
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	if (!useUserApplications) {
-		[alert setMessageText:NSLocalizedString(@"Move to Applications folder?", nil)];
-		[alert setInformativeText:NSLocalizedString(@"I can move myself to the Applications folder if you'd like. This will keep your Downloads folder uncluttered.", nil)];
+	{
+		NSString *informativeText = nil;
+
+		if (!useUserApplications) {
+			[alert setMessageText:NSLocalizedString(@"Move to Applications folder?", nil)];
+			informativeText = NSLocalizedString(@"I can move myself to the Applications folder if you'd like.", nil);
+		}
+		else {
+			[alert setMessageText:NSLocalizedString(@"Move to Applications folder in your Home folder?", nil)];
+			informativeText = NSLocalizedString(@"You don't have permissions to put me in the main Applications folder, but I can move myself to the Applications folder in your Home folder instead.", nil);
+		}
+
+		if (IsInDownloadsFolder(bundlePath)) {
+			informativeText = [informativeText stringByAppendingString:@" "];
+			informativeText = [informativeText stringByAppendingString:NSLocalizedString(@"This will keep your Downloads folder uncluttered", nil)];
+		}
+
+		[alert setInformativeText:informativeText];
+
+		// Add buttons
+		[alert addButtonWithTitle:NSLocalizedString(@"Move to Applications Folder", nil)];
+		[alert addButtonWithTitle:NSLocalizedString(@"Do Not Move", nil)];
+
+		// Setup suppression button
+		[alert setShowsSuppressionButton:YES];
+		[[[alert suppressionButton] cell] setControlSize:NSSmallControlSize];
+		[[[alert suppressionButton] cell] setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
 	}
-	else {
-		[alert setMessageText:NSLocalizedString(@"Move to Applications folder in your Home folder?", nil)];
-		[alert setInformativeText:NSLocalizedString(@"I can move myself to the Applications folder in your Home folder if you'd like. This will keep your Downloads folder uncluttered.", nil)];
-	}
-	[alert addButtonWithTitle:NSLocalizedString(@"Move to Applications Folder", nil)];
-	[alert addButtonWithTitle:NSLocalizedString(@"Do Not Move", nil)];
-	[alert setShowsSuppressionButton:YES];
-	[[[alert suppressionButton] cell] setControlSize:NSSmallControlSize];
-	[[[alert suppressionButton] cell] setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
 
 	if ([alert runModal] == NSAlertFirstButtonReturn) {
 		NSLog(@"Moving myself to the Applications folder");
@@ -131,4 +147,31 @@ fail:
 		[alert setMessageText:NSLocalizedString(@"Could not move to Applications folder", nil)];
 		[alert runModal];
 	}
+}
+
+#pragma mark -
+#pragma mark Helper Functions
+
+static BOOL IsInApplicationsFolder(NSString *path)
+{
+	NSArray *allApplicationsDirectories = NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSAllDomainsMask, YES);
+
+	// If the application is already in some Applications directory, skip.
+	for (NSString *appDirPath in allApplicationsDirectories) {
+		if ([path hasPrefix:appDirPath]) return YES;
+	}
+
+	return NO;
+}
+
+static BOOL IsInDownloadsFolder(NSString *path)
+{
+	NSArray *allDownloadsDirectories = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSAllDomainsMask, YES);
+
+	// If the application is already in some Applications directory, skip.
+	for (NSString *downloadsDirPath in allDownloadsDirectories) {
+		if ([path hasPrefix:downloadsDirPath]) return YES;
+	}
+
+	return NO;
 }
