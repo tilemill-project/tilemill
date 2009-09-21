@@ -18,7 +18,6 @@ static NSString *AlertSuppressKey = @"moveToApplicationsFolderAlertSuppress";
 static BOOL IsInApplicationsFolder(NSString *path);
 static BOOL IsInDownloadsFolder(NSString *path);
 
-
 // Main worker function
 void PFMoveToApplicationsFolderIfNecessary()
 {
@@ -124,11 +123,12 @@ void PFMoveToApplicationsFolderIfNecessary()
 			goto fail;
 		}
 
-		// Relaunch
-		NSString *executableName = [[[NSBundle mainBundle] executablePath] lastPathComponent];
-		NSString *relaunchPath = [destinationPath stringByAppendingPathComponent:[NSString stringWithFormat:@"Contents/MacOS/%@", executableName]];
-
-		[NSTask launchedTaskWithLaunchPath:relaunchPath arguments:[NSArray array]];
+		// Relaunch.
+		// The shell script waits until the original app process terminates.
+		// This is done so that the relaunched app opens as the front-most app.
+		int pid = [[NSProcessInfo processInfo] processIdentifier];
+		NSString *script = [NSString stringWithFormat:@"while [ `ps -p %d > /dev/null; echo $?` -eq 0 ]; do sleep 0.1; done; /usr/bin/open '%@'", pid, destinationPath];
+		[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", script, nil]];
 		[NSApp terminate:nil];
 	}
 	else {
