@@ -9,7 +9,9 @@
 //  Contributors:
 //	  Andy Kim
 //    John Brayton
+//    Chad Sellers
 
+#import <Security/Security.h>
 #import "PFMoveApplication.h"
 
 static NSString *AlertSuppressKey = @"moveToApplicationsFolderAlertSuppress";
@@ -17,6 +19,7 @@ static NSString *AlertSuppressKey = @"moveToApplicationsFolderAlertSuppress";
 // Helper functions
 static BOOL IsInApplicationsFolder(NSString *path);
 static BOOL IsInDownloadsFolder(NSString *path);
+static BOOL authorizedCopy(NSString *srcPath, NSString *dstPath);
 
 // Main worker function
 void PFMoveToApplicationsFolderIfNecessary()
@@ -46,17 +49,22 @@ void PFMoveToApplicationsFolderIfNecessary()
 	// So, offer to put in ~/Applications instead if it exists
 	BOOL useUserApplications = applicationsDirectory == nil || ![fm isWritableFileAtPath:applicationsDirectory];
 
+	BOOL cantmove = NO;
 	if (useUserApplications) {
 		NSLog(@"Can't write to /Applications, checking ~/Applications");
-		applicationsDirectory = [NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSUserDomainMask, YES) lastObject];
-		NSLog(@"User applicationsDirectory: %@", applicationsDirectory);
-
-		// Fail silently if there's no ~/Applications or if it's not writable
-		if (applicationsDirectory == nil || ![fm isWritableFileAtPath:applicationsDirectory]) {
-			return;
+		NSString *userApplicationsDirectory = [NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSUserDomainMask, YES) lastObject];
+		NSLog(@"User applicationsDirectory: %@", userApplicationsDirectory);
+		
+		// Require authorization if there's no ~/Applications or if it's not writable
+		if (userApplicationsDirectory == nil || ![fm isWritableFileAtPath:userApplicationsDirectory]) {
+			cantmove = YES;
+			useUserApplications = NO;
 		}
-	}
-
+		else {
+			applicationsDirectory = userApplicationsDirectory;
+		}
+	}	
+			
 	// Setup the alert
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	{
@@ -65,6 +73,10 @@ void PFMoveToApplicationsFolderIfNecessary()
 		if (!useUserApplications) {
 			[alert setMessageText:NSLocalizedString(@"Move to Applications folder?", nil)];
 			informativeText = NSLocalizedString(@"I can move myself to the Applications folder if you'd like.", nil);
+			if (cantmove) {
+				informativeText = [informativeText stringByAppendingString:@" "];
+				informativeText = [informativeText stringByAppendingString:NSLocalizedString(@"Note that this will require an administrator password.", nil)];
+			}
 		}
 		else {
 			[alert setMessageText:NSLocalizedString(@"Move to Applications folder in your Home folder?", nil)];
@@ -108,7 +120,13 @@ void PFMoveToApplicationsFolderIfNecessary()
 
 		// Copy myself to the Applications folder
 		NSError *error = nil;
-		if (![fm copyItemAtPath:bundlePath toPath:destinationPath error:&error]) {
+		if (cantmove) {
+			if (!authorizedCopy(bundlePath, destinationPath)) {
+				NSLog(@"ERROR == Could not copy myself to /Applications with authorization");
+				goto fail;
+			}
+		}
+		else if (![fm copyItemAtPath:bundlePath toPath:destinationPath error:&error]) {
 			NSLog(@"ERROR -- Could not copy myself to /Applications (%@)", error);
 			goto fail;
 		}
@@ -174,4 +192,42 @@ static BOOL IsInDownloadsFolder(NSString *path)
 	}
 
 	return NO;
+}
+
+static BOOL authorizedCopy(NSString *srcPath, NSString *dstPath)
+{
+	OSStatus myStatus;
+	BOOL ret = YES;
+	AuthorizationRef myAuthorizationRef;
+	int status, pid;
+	char *sourcePath = (char *)[srcPath cStringUsingEncoding:NSUTF8StringEncoding];
+	char *destPath = (char *)[dstPath cStringUsingEncoding:NSUTF8StringEncoding];
+	char myToolPath[] = "/bin/cp";
+	char *myArguments[] = { "-R", sourcePath, destPath, NULL };
+	myStatus = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &myAuthorizationRef);
+	if (myStatus != errAuthorizationSuccess)
+		return NO;
+	
+	AuthorizationItem myItems = {kAuthorizationRightExecute, 0, NULL, 0};
+	AuthorizationRights myRights = {1, &myItems};
+	AuthorizationFlags myFlags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed | kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
+	myStatus = AuthorizationCopyRights (myAuthorizationRef, &myRights, NULL, myFlags, NULL );
+	if (myStatus == errAuthorizationSuccess) {
+		myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, myToolPath, kAuthorizationFlagDefaults, myArguments, NULL);
+		if (myStatus == errAuthorizationSuccess) {
+			pid = wait(&status);
+			if (pid == -1 || ! WIFEXITED(status) || WEXITSTATUS(status)) {
+				ret = NO;
+			}
+		}
+		else {
+			ret = NO;
+		}
+	}
+	else {
+		ret = NO;
+	}
+	
+	AuthorizationFree (myAuthorizationRef, kAuthorizationFlagDefaults);
+	return ret;
 }
