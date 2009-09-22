@@ -11,7 +11,10 @@
 
 @implementation LetsMoveAppDelegate
 
-@synthesize window;
+- (NSWindow *)window
+{
+	return window;
+}
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {

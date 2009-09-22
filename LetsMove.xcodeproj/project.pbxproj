@@ -14,7 +14,6 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		A120E7F810630B160045BE3F /* PFMoveApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = A120E7F710630B160045BE3F /* PFMoveApplication.m */; };
-		A1A4C5A9106760B100AF3142 /* README.markdown in Resources */ = {isa = PBXBuildFile; fileRef = A1A4C5A8106760B100AF3142 /* README.markdown */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -173,7 +172,6 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
-				A1A4C5A9106760B100AF3142 /* README.markdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +249,8 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 			};
@@ -263,6 +263,8 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				PREBINDING = NO;
 			};
 			name = Release;

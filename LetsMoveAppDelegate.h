@@ -9,13 +9,14 @@
 #import <Cocoa/Cocoa.h>
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_5
-@interface LetsMoveAppDelegate : NSObject {
+@interface LetsMoveAppDelegate : NSObject
 #else
-@interface LetsMoveAppDelegate : NSObject <NSApplicationDelegate> {
+@interface LetsMoveAppDelegate : NSObject <NSApplicationDelegate>
 #endif
-    NSWindow *window;
+{
+    IBOutlet NSWindow *window;
 }
 
-@property (assign) IBOutlet NSWindow *window;
+- (NSWindow *)window;
 
 @end
