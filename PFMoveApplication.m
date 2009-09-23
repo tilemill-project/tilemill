@@ -223,11 +223,15 @@ static BOOL Trash(NSString *path)
 
 static BOOL AuthorizedInstall(NSString *srcPath, NSString *dstPath, BOOL *canceled)
 {
+	if (canceled) *canceled = NO;
+
 	// Make sure that the destination path is an app bundle. We're essentially running 'sudo rm -rf'
 	// so we really don't want to fuck this up.
 	if (![dstPath hasSuffix:@".app"]) return NO;
 
-	if (canceled) *canceled = NO;
+	// Do some more checks
+	if ([[dstPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] == 0) return NO;
+	if ([[srcPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] == 0) return NO;
 
 	int pid, status;
 	AuthorizationRef myAuthorizationRef;
