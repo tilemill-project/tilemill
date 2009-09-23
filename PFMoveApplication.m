@@ -190,14 +190,20 @@ static BOOL IsInApplicationsFolder(NSString *path)
 
 static BOOL IsInDownloadsFolder(NSString *path)
 {
-	NSEnumerator *e = [NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSAllDomainsMask, YES) objectEnumerator];
-	NSString *downloadsDirPath = nil;
+	// 10.5 or higher has NSDownloadsDirectory
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+		NSEnumerator *e = [NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSAllDomainsMask, YES) objectEnumerator];
+		NSString *downloadsDirPath = nil;
 
-	while ((downloadsDirPath = [e nextObject])) {
-		if ([path hasPrefix:downloadsDirPath]) return YES;
+		while ((downloadsDirPath = [e nextObject])) {
+			if ([path hasPrefix:downloadsDirPath]) return YES;
+		}
+
+		return NO;
 	}
-
-	return NO;
+	else {
+		return [[[path stringByDeletingLastPathComponent] lastPathComponent] isEqualToString:@"Downloads"];
+	}
 }
 
 static BOOL Trash(NSString *path)
