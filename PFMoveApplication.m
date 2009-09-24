@@ -75,29 +75,29 @@ void PFMoveToApplicationsFolderIfNecessary()
 		NSString *informativeText = nil;
 
 		if (!useUserApplications) {
-			[alert setMessageText:NSLocalizedString(@"Move to Applications folder?", nil)];
-			informativeText = NSLocalizedString(@"I can move myself to the Applications folder if you'd like.", nil);
+			[alert setMessageText:NSLocalizedStringFromTable(@"Move to Applications folder?", @"MoveApplication", nil)];
+			informativeText = NSLocalizedStringFromTable(@"I can move myself to the Applications folder if you'd like.", @"MoveApplication", nil);
 		}
 		else {
-			[alert setMessageText:NSLocalizedString(@"Move to Applications folder in your Home folder?", nil)];
-			informativeText = NSLocalizedString(@"You don't have permissions to put me in the main Applications folder, but I can move myself to the Applications folder in your Home folder instead.", nil);
+			[alert setMessageText:NSLocalizedStringFromTable(@"Move to Applications folder in your Home folder?", @"MoveApplication", nil)];
+			informativeText = NSLocalizedStringFromTable(@"You don't have permissions to put me in the main Applications folder, but I can move myself to the Applications folder in your Home folder instead.", @"MoveApplication", nil);
 		}
 
 		if (needAuthorization) {
 			informativeText = [informativeText stringByAppendingString:@" "];
-			informativeText = [informativeText stringByAppendingString:NSLocalizedString(@"Note that this will require an administrator password.", nil)];
+			informativeText = [informativeText stringByAppendingString:NSLocalizedStringFromTable(@"Note that this will require an administrator password.", @"MoveApplication", nil)];
 		}
 		else if (IsInDownloadsFolder(bundlePath)) {
 			// Don't mention this stuff if we need authentication. The informative text is long enough as it is in that case.
 			informativeText = [informativeText stringByAppendingString:@" "];
-			informativeText = [informativeText stringByAppendingString:NSLocalizedString(@"This will keep your Downloads folder uncluttered.", nil)];
+			informativeText = [informativeText stringByAppendingString:NSLocalizedStringFromTable(@"This will keep your Downloads folder uncluttered.", @"MoveApplication", nil)];
 		}
 
 		[alert setInformativeText:informativeText];
 
 		// Add buttons
-		[alert addButtonWithTitle:NSLocalizedString(@"Move to Applications Folder", nil)];
-		[alert addButtonWithTitle:NSLocalizedString(@"Do Not Move", nil)];
+		[alert addButtonWithTitle:NSLocalizedStringFromTable(@"Move to Applications Folder", @"MoveApplication", nil)];
+		[alert addButtonWithTitle:NSLocalizedStringFromTable(@"Do Not Move", @"MoveApplication", nil)];
 
 		// Setup suppression button
 		[alert setShowsSuppressionButton:YES];
@@ -168,7 +168,7 @@ fail:
 	{
 		// Show failure message
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-		[alert setMessageText:NSLocalizedString(@"Could not move to Applications folder", nil)];
+		[alert setMessageText:NSLocalizedStringFromTable(@"Could not move to Applications folder", @"MoveApplication", nil)];
 		[alert runModal];
 	}
 }

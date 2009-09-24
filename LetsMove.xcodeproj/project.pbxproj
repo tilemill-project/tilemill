@@ -13,6 +13,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		A10D5AD3106C082200E53420 /* MoveApplication.strings in Resources */ = {isa = PBXBuildFile; fileRef = A10D5AD1106C082200E53420 /* MoveApplication.strings */; };
 		A120E7F810630B160045BE3F /* PFMoveApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = A120E7F710630B160045BE3F /* PFMoveApplication.m */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,7 @@
 		6317AB1D1068842E000355D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* LetsMove-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LetsMove-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* LetsMove.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetsMove.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10D5AD2106C082200E53420 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		A120E7F610630B160045BE3F /* PFMoveApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFMoveApplication.h; sourceTree = "<group>"; };
 		A120E7F710630B160045BE3F /* PFMoveApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFMoveApplication.m; sourceTree = "<group>"; };
 		A1A4C5A8106760B100AF3142 /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			children = (
 				8D1107310486CEB800E47090 /* LetsMove-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				A10D5AD1106C082200E53420 /* MoveApplication.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 			);
 			name = Resources;
@@ -134,9 +137,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "LetsMove" */;
 			buildPhases = (
-				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				A10D5AB1106C03E400E53420 /* Generate Strings File */,
+				8D1107290486CEB800E47090 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -172,10 +176,28 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+				A10D5AD3106C082200E53420 /* MoveApplication.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A10D5AB1106C03E400E53420 /* Generate Strings File */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Strings File";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/bin/genstrings -o English.lproj PFMoveApplication.m";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D11072C0486CEB800E47090 /* Sources */ = {
@@ -205,6 +227,14 @@
 				1DDD58150DA1D0A300B32029 /* English */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		A10D5AD1106C082200E53420 /* MoveApplication.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A10D5AD2106C082200E53420 /* English */,
+			);
+			name = MoveApplication.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
