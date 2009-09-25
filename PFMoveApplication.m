@@ -14,6 +14,10 @@
 #import "PFMoveApplication.h"
 #import <Security/Security.h>
 
+#ifndef NSAppKitVersionNumber10_4
+#define NSAppKitVersionNumber10_4 824
+#endif
+
 
 static NSString *AlertSuppressKey = @"moveToApplicationsFolderAlertSuppress";
 
@@ -23,7 +27,7 @@ static BOOL IsInApplicationsFolder(NSString *path);
 static BOOL IsInDownloadsFolder(NSString *path);
 static BOOL Trash(NSString *path);
 static BOOL AuthorizedInstall(NSString *srcPath, NSString *dstPath, BOOL *canceled);
-
+static BOOL CopyBundle(NSString *srcPath, NSString *dstPath);
 
 // Main worker function
 void PFMoveToApplicationsFolderIfNecessary()
@@ -99,10 +103,14 @@ void PFMoveToApplicationsFolderIfNecessary()
 		[alert addButtonWithTitle:NSLocalizedStringFromTable(@"Move to Applications Folder", @"MoveApplication", nil)];
 		[alert addButtonWithTitle:NSLocalizedStringFromTable(@"Do Not Move", @"MoveApplication", nil)];
 
-		// Setup suppression button
-		[alert setShowsSuppressionButton:YES];
-		[[[alert suppressionButton] cell] setControlSize:NSSmallControlSize];
-		[[[alert suppressionButton] cell] setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+		#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
+		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+			// Setup suppression button
+			[alert setShowsSuppressionButton:YES];
+			[[[alert suppressionButton] cell] setControlSize:NSSmallControlSize];
+			[[[alert suppressionButton] cell] setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+		}
+		#endif
 	}
 
 	if ([alert runModal] == NSAlertFirstButtonReturn) {
@@ -131,10 +139,8 @@ void PFMoveToApplicationsFolderIfNecessary()
 				if (!Trash([applicationsDirectory stringByAppendingPathComponent:bundleName])) goto fail;
 			}
 
-			// Copy myself to the Applications folder
-			NSError *error = nil;
-			if (![fm copyItemAtPath:bundlePath toPath:destinationPath error:&error]) {
-				NSLog(@"ERROR -- Could not copy myself to /Applications (%@)", error);
+ 			if (!CopyBundle(bundlePath, destinationPath)) {
+				NSLog(@"ERROR -- Could not copy myself to /Applications");
 				goto fail;
 			}
 		}
@@ -151,13 +157,21 @@ void PFMoveToApplicationsFolderIfNecessary()
 		// The shell script waits until the original app process terminates.
 		// This is done so that the relaunched app opens as the front-most app.
 		int pid = [[NSProcessInfo processInfo] processIdentifier];
-		NSString *script = [NSString stringWithFormat:@"while [ `ps -p %d > /dev/null; echo $?` -eq 0 ]; do sleep 0.1; done; /usr/bin/open '%@'", pid, destinationPath];
+		NSString *script = [NSString stringWithFormat:@"while [ `ps -p %d | wc -l` -gt 1 ]; do sleep 0.1; done; open '%@'", pid, destinationPath];
 		[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", script, nil]];
 		[NSApp terminate:nil];
 	}
 	else {
-		// Save the alert suppress preference if checked
-		if ([[alert suppressionButton] state] == NSOnState) {
+		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+			// Save the alert suppress preference if checked
+			#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
+			if ([[alert suppressionButton] state] == NSOnState) {
+				[[NSUserDefaults standardUserDefaults] setBool:YES forKey:AlertSuppressKey];
+			}
+			#endif
+		}
+		else {
+			// Always suppress after the first decline on 10.4 since there is no suppression checkbox
 			[[NSUserDefaults standardUserDefaults] setBool:YES forKey:AlertSuppressKey];
 		}
 	}
@@ -190,6 +204,7 @@ static BOOL IsInApplicationsFolder(NSString *path)
 
 static BOOL IsInDownloadsFolder(NSString *path)
 {
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
 	// 10.5 or higher has NSDownloadsDirectory
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
 		NSEnumerator *e = [NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSAllDomainsMask, YES) objectEnumerator];
@@ -201,9 +216,9 @@ static BOOL IsInDownloadsFolder(NSString *path)
 
 		return NO;
 	}
-	else {
-		return [[[path stringByDeletingLastPathComponent] lastPathComponent] isEqualToString:@"Downloads"];
-	}
+#endif
+	// 10.4
+	return [[[path stringByDeletingLastPathComponent] lastPathComponent] isEqualToString:@"Downloads"];
 }
 
 static BOOL Trash(NSString *path)
@@ -279,4 +294,43 @@ static BOOL AuthorizedInstall(NSString *srcPath, NSString *dstPath, BOOL *cancel
 fail:
 	AuthorizationFree(myAuthorizationRef, kAuthorizationFlagDefaults);
 	return NO;
+}
+
+static BOOL CopyBundle(NSString *srcPath, NSString *dstPath)
+{
+	NSFileManager *fm = [NSFileManager defaultManager];
+
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
+	// 10.5 or higher
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+		NSError *error = nil;
+		if (![fm copyItemAtPath:srcPath toPath:dstPath error:&error]) {
+			NSLog(@"Could not copy '%@' to '%@' (%@)", srcPath, dstPath, error);
+			return NO;
+		}
+		return YES;
+	}
+#endif
+#if MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_4
+	// 10.4. Welcome to the whack a deprecation warning show
+	BOOL success = NO;
+	SEL selector = @selector(copyPath:toPath:handler:);
+	NSMethodSignature *methodSig = [fm methodSignatureForSelector:selector];
+	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSig];
+	id nilPointer = nil;
+	[invocation setSelector:selector];
+	[invocation setArgument:&srcPath atIndex:2];
+	[invocation setArgument:&dstPath atIndex:3];
+	[invocation setArgument:&nilPointer atIndex:4];
+	[invocation invokeWithTarget:fm];
+	[invocation getReturnValue:&success];
+
+	if (!success) {
+		NSLog(@"Could not copy '%@' to '%@'", srcPath, dstPath);
+	}
+
+	return success;
+#else
+	return NO;
+#endif
 }

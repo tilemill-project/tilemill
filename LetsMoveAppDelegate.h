@@ -8,10 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_5
-@interface LetsMoveAppDelegate : NSObject
-#else
+#ifdef MAC_OS_X_VERSION_10_6
 @interface LetsMoveAppDelegate : NSObject <NSApplicationDelegate>
+#else
+@interface LetsMoveAppDelegate : NSObject
 #endif
 {
     IBOutlet NSWindow *window;

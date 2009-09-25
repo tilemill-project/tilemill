@@ -9,4 +9,4 @@ with administrator authentication.
 
 Requirements
 ------------
-You need Mac OS X 10.5 (Leopard) or higher to build but the code runs on 10.4
+Builds and runs on Mac OS X 10.4 or higher
