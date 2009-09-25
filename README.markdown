@@ -10,3 +10,10 @@ with administrator authentication.
 Requirements
 ------------
 Builds and runs on Mac OS X 10.4 or higher
+
+Contributors:
+-------------
+* Andy Kim
+* John Brayton
+* Chad Sellers
+* Eita Hayashi (Japanese localization)

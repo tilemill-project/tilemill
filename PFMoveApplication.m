@@ -10,6 +10,7 @@
 //	  Andy Kim
 //    John Brayton
 //    Chad Sellers
+//    Eita Hayashi (Japanese localization)
 
 #import "PFMoveApplication.h"
 #import <Security/Security.h>

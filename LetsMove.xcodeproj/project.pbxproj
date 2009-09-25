@@ -32,6 +32,7 @@
 		8D1107310486CEB800E47090 /* LetsMove-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LetsMove-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* LetsMove.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetsMove.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10D5AD2106C082200E53420 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/MoveApplication.strings; sourceTree = "<group>"; };
+		A10D5BFB106C550F00E53420 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		A120E7F610630B160045BE3F /* PFMoveApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFMoveApplication.h; sourceTree = "<group>"; };
 		A120E7F710630B160045BE3F /* PFMoveApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFMoveApplication.m; sourceTree = "<group>"; };
 		A1A4C5A8106760B100AF3142 /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
@@ -233,6 +234,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A10D5AD2106C082200E53420 /* English */,
+				A10D5BFB106C550F00E53420 /* Japanese */,
 			);
 			name = MoveApplication.strings;
 			sourceTree = "<group>";
