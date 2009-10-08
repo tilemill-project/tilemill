@@ -24,6 +24,7 @@ static NSString *AlertSuppressKey = @"moveToApplicationsFolderAlertSuppress";
 
 
 // Helper functions
+static NSString *PreferredInstallLocation(void);
 static BOOL IsInApplicationsFolder(NSString *path);
 static BOOL IsInDownloadsFolder(NSString *path);
 static BOOL Trash(NSString *path);
@@ -51,43 +52,30 @@ void PFMoveToApplicationsFolderIfNecessary()
 		return;
 	}
 
-	// Since we are good to go, get /Applications
-	NSString *applicationsDirectory = [NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSLocalDomainMask, YES) lastObject];
-
-	// If the user is not an Administrator, that user will not be able to put the app in /Applications.
-	// So, offer to put in ~/Applications instead if it exists
-	BOOL useUserApplications = applicationsDirectory == nil || ![fm isWritableFileAtPath:applicationsDirectory];
-	BOOL needAuthorization = NO;
-
-	if (useUserApplications) {
-		NSLog(@"Can't write to /Applications, checking ~/Applications");
-		NSString *userApplicationsDirectory = [NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSUserDomainMask, YES) lastObject];
-		NSLog(@"User applicationsDirectory: %@", userApplicationsDirectory);
-
-		// Require authorization if there's no ~/Applications or if it's not writable
-		if (userApplicationsDirectory == nil || ![fm isWritableFileAtPath:userApplicationsDirectory]) {
-			needAuthorization = YES;
-			useUserApplications = NO;
-		}
-		else {
-			applicationsDirectory = userApplicationsDirectory;
-		}
+	// Since we are good to go, get the preferred installation directory.
+	NSString *applicationsDirectory = PreferredInstallLocation();
+	
+	BOOL useUserApplications = NO;
+	if ([applicationsDirectory hasPrefix:@"~"])
+	{
+		useUserApplications = YES;
+		applicationsDirectory = [applicationsDirectory stringByExpandingTildeInPath];
 	}
-
+	
+	BOOL needAuthorization = ([fm isWritableFileAtPath:applicationsDirectory] == NO);
+	
 	// Setup the alert
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	{
-		NSString *informativeText = nil;
-
-		if (!useUserApplications) {
-			[alert setMessageText:NSLocalizedStringFromTable(@"Move to Applications folder?", @"MoveApplication", nil)];
-			informativeText = NSLocalizedStringFromTable(@"I can move myself to the Applications folder if you'd like.", @"MoveApplication", nil);
+		[alert setMessageText:NSLocalizedStringFromTable(@"Move to Applications folder?", @"MoveApplication", nil)];
+		
+		NSString *informativeText = NSLocalizedStringFromTable(@"I can move myself to the Applications folder if you'd like.", @"MoveApplication", nil);
+		
+		if (useUserApplications) {
+			informativeText = [informativeText stringByAppendingString:@" "];
+			informativeText = [informativeText stringByAppendingString:NSLocalizedStringFromTable(@"The Applications folder in your Home folder will be used.", @"MoveApplication", nil)];
 		}
-		else {
-			[alert setMessageText:NSLocalizedStringFromTable(@"Move to Applications folder in your Home folder?", @"MoveApplication", nil)];
-			informativeText = NSLocalizedStringFromTable(@"You don't have permissions to put me in the main Applications folder, but I can move myself to the Applications folder in your Home folder instead.", @"MoveApplication", nil);
-		}
-
+		
 		if (needAuthorization) {
 			informativeText = [informativeText stringByAppendingString:@" "];
 			informativeText = [informativeText stringByAppendingString:NSLocalizedStringFromTable(@"Note that this will require an administrator password.", @"MoveApplication", nil)];
@@ -97,7 +85,7 @@ void PFMoveToApplicationsFolderIfNecessary()
 			informativeText = [informativeText stringByAppendingString:@" "];
 			informativeText = [informativeText stringByAppendingString:NSLocalizedStringFromTable(@"This will keep your Downloads folder uncluttered.", @"MoveApplication", nil)];
 		}
-
+		
 		[alert setInformativeText:informativeText];
 
 		// Add buttons
@@ -190,6 +178,20 @@ fail:
 
 #pragma mark -
 #pragma mark Helper Functions
+
+static NSString *PreferredInstallLocation(void)
+{
+	// Builds an array of possible install locations. This assumes
+	// that if the user has a ~/Applications folder, they'd prefer their
+	// applications to go there.
+	
+	NSMutableArray *paths = [NSMutableArray array];
+	
+	[paths addObjectsFromArray:NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSUserDomainMask, NO)];
+	[paths addObjectsFromArray:NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSLocalDomainMask, NO)];
+	
+	return [paths objectAtIndex:0];
+}
 
 static BOOL IsInApplicationsFolder(NSString *path)
 {
