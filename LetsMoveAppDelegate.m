@@ -18,10 +18,11 @@
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
-	[window center];
-
-	// If not in /Applications, offer to move it there
+	// Offer to the move the Application if necessary.
 	PFMoveToApplicationsFolderIfNecessary();
+	
+	[window center];
+	[window makeKeyAndOrderFront:self];
 }
 
 @end
