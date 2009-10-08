@@ -10,7 +10,7 @@ Version History
 ---------------
 
 * 1.1
-	* [CHANGE] Prefers ~/Applications over /Applications
+	* [CHANGE] Prefers ~/Applications over /Applications.
 	* [CHANGE] Renamed the second button from "Do Not Move" to "Cancel" to enable the esc key.
 	* [CHANGE] Renamed the default button from "Move to Applications Folder" to "Move and Relaunch".
 
