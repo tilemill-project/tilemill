@@ -3,16 +3,11 @@ LetsMove
 
 This is a sample project that demonstrates how to move a running Mac OS X application to the Applications folder.
 
-This fork differs in that it prefers ~/Applications over /Applications. It still checks for writability and uses
-authentication if necessary.
-
 Version History
 ---------------
 
 * 1.1
-	* [CHANGE] Prefers ~/Applications over /Applications.
-	* [CHANGE] Renamed the second button from "Do Not Move" to "Cancel" to enable the esc key.
-	* [CHANGE] Renamed the default button from "Move to Applications Folder" to "Move and Relaunch".
+	- Prefers ~/Applications over /Applications if it exists.
 
 * 1.0 - Original Potion Factory release.
 
@@ -26,4 +21,4 @@ Contributors:
 * John Brayton
 * Chad Sellers
 * Eita Hayashi (Japanese localization)
-* Kevin LaCoste (version 1.1 changes)
+* Kevin LaCoste
