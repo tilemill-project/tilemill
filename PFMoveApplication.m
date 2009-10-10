@@ -86,9 +86,12 @@ void PFMoveToApplicationsFolderIfNecessary()
 
 		[alert setInformativeText:informativeText];
 
-		// Add buttons
+		// Add accept button
 		[alert addButtonWithTitle:NSLocalizedStringFromTable(@"Move to Applications Folder", @"MoveApplication", nil)];
-		[alert addButtonWithTitle:NSLocalizedStringFromTable(@"Do Not Move", @"MoveApplication", nil)];
+
+		// Add deny button
+		NSButton *cancelButton = [alert addButtonWithTitle:NSLocalizedStringFromTable(@"Do Not Move", @"MoveApplication", nil)];
+		[cancelButton setKeyEquivalent:@"\e"];
 
 		#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
 		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {

@@ -7,9 +7,10 @@ Version History
 ---------------
 
 * 1.1
-	- Prefers ~/Applications over /Applications if it exists.
+	- Prefers ~/Applications over /Applications if it exists
+	- Escape key pushes the "Do Not Move" button
 
-* 1.0 - Original Potion Factory release.
+* 1.0 - First release
 
 Requirements
 ------------
