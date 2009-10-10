@@ -9,10 +9,12 @@
 #import <Cocoa/Cocoa.h>
 
 #ifdef MAC_OS_X_VERSION_10_6
-@interface LetsMoveAppDelegate : NSObject <NSApplicationDelegate>
+#define APPLICATION_DELEGATE <NSApplicationDelegate>
 #else
-@interface LetsMoveAppDelegate : NSObject
+#define APPLICATION_DELEGATE
 #endif
+
+@interface LetsMoveAppDelegate : NSObject APPLICATION_DELEGATE
 {
     IBOutlet NSWindow *window;
 }
