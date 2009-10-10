@@ -63,16 +63,16 @@ void PFMoveToApplicationsFolderIfNecessary()
 	// Setup the alert
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	{
-		[alert setMessageText:NSLocalizedStringFromTable(@"Move to Applications folder?", @"MoveApplication", nil)];
-
 		NSString *informativeText = nil;
 
 		if (installToUserApplications) {
-			informativeText = NSLocalizedStringFromTable(@"I can move myself to the Applications folder in your Home folder if you'd like.", @"MoveApplication", nil);
+			[alert setMessageText:NSLocalizedStringFromTable(@"Move to Applications folder in your Home folder?", @"MoveApplication", nil)];
 		}
 		else {
-			informativeText = NSLocalizedStringFromTable(@"I can move myself to the Applications folder if you'd like.", @"MoveApplication", nil);
+			[alert setMessageText:NSLocalizedStringFromTable(@"Move to Applications folder?", @"MoveApplication", nil)];
 		}
+
+		informativeText = NSLocalizedStringFromTable(@"I can move myself to the Applications folder if you'd like.", @"MoveApplication", nil);
 
 		if (needAuthorization) {
 			informativeText = [informativeText stringByAppendingString:@" "];
