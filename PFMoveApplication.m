@@ -19,16 +19,16 @@
 
 // Strings
 // These are macros to be able to use custom i18n tools
-#define _I18NS(nsstr) NSLocalizedStringFromTable(nsstr, @"MoveApplication", nil)
-#define kStrMoveApplicationCouldNotMove _I18NS(@"Could not move to Applications folder")
-#define kStrMoveApplicationQuestionTitle  _I18NS(@"Move to Applications folder?")
-#define kStrMoveApplicationQuestionTitleHome _I18NS(@"Move to Applications folder in your Home folder?")
-#define kStrMoveApplicationQuestionMessage _I18NS(@"I can move myself to the Applications folder if you'd like.")
-#define kStrMoveApplicationButtonMove _I18NS(@"Move to Applications Folder")
-#define kStrMoveApplicationButtonDoNotMove _I18NS(@"Do Not Move")
-#define kStrMoveApplicationQuestionInfoWillRequirePasswd _I18NS(@"Note that this will require an administrator password.")
-#define kStrMoveApplicationQuestionInfoInDownloadsFolder _I18NS(@"This will keep your Downloads folder uncluttered.")
-#define kStrMoveApplicationAddToDock _I18NS(@"Add to Dock")
+#define _I10NS(nsstr) NSLocalizedStringFromTable(nsstr, @"MoveApplication", nil)
+#define kStrMoveApplicationCouldNotMove _I10NS(@"Could not move to Applications folder")
+#define kStrMoveApplicationQuestionTitle  _I10NS(@"Move to Applications folder?")
+#define kStrMoveApplicationQuestionTitleHome _I10NS(@"Move to Applications folder in your Home folder?")
+#define kStrMoveApplicationQuestionMessage _I10NS(@"I can move myself to the Applications folder if you'd like.")
+#define kStrMoveApplicationButtonMove _I10NS(@"Move to Applications Folder")
+#define kStrMoveApplicationButtonDoNotMove _I10NS(@"Do Not Move")
+#define kStrMoveApplicationQuestionInfoWillRequirePasswd _I10NS(@"Note that this will require an administrator password.")
+#define kStrMoveApplicationQuestionInfoInDownloadsFolder _I10NS(@"This will keep your Downloads folder uncluttered.")
+#define kStrMoveApplicationAddToDock _I10NS(@"Add to Dock")
 
 // Need to be defined
 #ifndef NSAppKitVersionNumber10_4
