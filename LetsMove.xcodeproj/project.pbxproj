@@ -28,6 +28,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		3A85F5BA109373B6007143D7 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/MoveApplication.strings; sourceTree = "<group>"; };
+		3A85F5BB109374A8007143D7 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		6317AB1D1068842E000355D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* LetsMove-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LetsMove-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* LetsMove.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetsMove.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +163,13 @@
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "LetsMove" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				Spanish,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* LetsMove */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -235,6 +244,8 @@
 			children = (
 				A10D5AD2106C082200E53420 /* English */,
 				A10D5BFB106C550F00E53420 /* Japanese */,
+				3A85F5BA109373B6007143D7 /* French */,
+				3A85F5BB109374A8007143D7 /* Spanish */,
 			);
 			name = MoveApplication.strings;
 			sourceTree = "<group>";
