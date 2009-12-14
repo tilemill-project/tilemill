@@ -28,6 +28,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		3A85F5BA109373B6007143D7 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/MoveApplication.strings; sourceTree = "<group>"; };
+		3A85F5BB109374A8007143D7 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		6317AB1D1068842E000355D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		6C39736010D54A3E00515EB3 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* LetsMove-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LetsMove-Info.plist"; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				German,
 				Russian,
 				Dutch,
+				Spanish,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* LetsMove */;
 			projectDirPath = "";
@@ -247,6 +250,8 @@
 				A10D5BFB106C550F00E53420 /* Japanese */,
 				FFA30E7310C401D000AC7AC8 /* Russian */,
 				6C39736010D54A3E00515EB3 /* Dutch */,
+				3A85F5BA109373B6007143D7 /* French */,
+				3A85F5BB109374A8007143D7 /* Spanish */,
 			);
 			name = MoveApplication.strings;
 			sourceTree = "<group>";

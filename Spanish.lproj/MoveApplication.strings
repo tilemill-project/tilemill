@@ -1,0 +1,11 @@
+﻿"Could not move to Applications folder" = "No se puede trasladar a la carpeta Aplicaciones";
+"Do Not Move" = "No trasladar";
+"I can move myself to the Applications folder if you'd like." = "Yo mismo puedo trasladarme a la carpeta Aplicaciones si quieres.";
+"Move to Applications Folder" = "Trasladar a la carpeta Aplicaciones";
+"Move to Applications folder in your Home folder?" = "¿Trasladar la carpeta Aplicaciones a tu carpeta Hogar?";
+"Move to Applications folder?" = "¿Trasladar a la carpeta Aplicaciones?";
+"Note that this will require an administrator password." = "Ten en cuenta que esto requerirá la contraseña del administrador.";
+"This will keep your Downloads folder uncluttered." = "Esto tendrá tu carpeta de descargas sin amontonar.";
+
+/* Needs translation */
+/*"Add to Dock" = "" */

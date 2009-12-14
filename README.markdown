@@ -23,3 +23,4 @@ Contributors:
 * Chad Sellers
 * Eita Hayashi (Japanese localization)
 * Kevin LaCoste
+* Rasmus Andersson / Spotify
