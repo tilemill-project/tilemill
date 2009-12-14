@@ -1,5 +1,5 @@
 //
-//  PFMoveApplication.m, version 1.1
+//  PFMoveApplication.m, version 1.2
 //  LetsMove
 //
 //  Created by Andy Kim at Potion Factory LLC on 9/17/09
@@ -10,7 +10,7 @@
 //	  Andy Kim
 //    John Brayton
 //    Chad Sellers
-//    Eita Hayashi (Japanese localization)
+//    Kevin LaCoste
 //    Rasmus Andersson / Spotify
 //
 
@@ -28,29 +28,11 @@
 #define kStrMoveApplicationButtonDoNotMove _I10NS(@"Do Not Move")
 #define kStrMoveApplicationQuestionInfoWillRequirePasswd _I10NS(@"Note that this will require an administrator password.")
 #define kStrMoveApplicationQuestionInfoInDownloadsFolder _I10NS(@"This will keep your Downloads folder uncluttered.")
-#define kStrMoveApplicationAddToDock _I10NS(@"Add to Dock")
 
 // Need to be defined
 #ifndef NSAppKitVersionNumber10_4
 	#define NSAppKitVersionNumber10_4 824
 #endif
-
-// Experimental feature: Add to Dock
-//
-// Enabling this adds a "Add to Dock" checkbox, enabling the user to
-// automatically have the app added to the Dock.
-//
-// Note: This is a feature you should think really hard about before enabling.
-// The OS X user experience will be bad unless the user in the general use
-// cases _do want_ the icon in the Dock.
-#ifndef PFMOVE_INCLUDE_ADD_TO_DOCK_OPTION
-	#define PFMOVE_INCLUDE_ADD_TO_DOCK_OPTION 0
-#endif
-// Controls if the checkbox is checked by default or not
-#ifndef PFMOVE_INCLUDE_ADD_TO_DOCK_DEFAULT_STATE
-	#define PFMOVE_INCLUDE_ADD_TO_DOCK_DEFAULT_STATE NSOnState
-#endif
-
 
 static NSString *AlertSuppressKey = @"moveToApplicationsFolderAlertSuppress";
 
@@ -63,8 +45,10 @@ static BOOL Trash(NSString *path);
 static BOOL AuthorizedInstall(NSString *srcPath, NSString *dstPath, BOOL *canceled);
 static BOOL CopyBundle(NSString *srcPath, NSString *dstPath);
 
+
 // Main worker function
-void PFMoveToApplicationsFolderIfNecessary() {
+void PFMoveToApplicationsFolderIfNecessary()
+{
 	// Skip if user suppressed the alert before
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:AlertSuppressKey]) return;
 
@@ -83,7 +67,7 @@ void PFMoveToApplicationsFolderIfNecessary() {
 
 	// Fail silently if there's no access to delete the original application
 	if (!isLaunchedFromDMG && !bundlePathIsWritable) {
-		NSLog(@"No access to delete the app. Not offering to move it.");
+		NSLog(@"INFO -- No access to delete the app. Not offering to move it.");
 		return;
 	}
 
@@ -95,10 +79,6 @@ void PFMoveToApplicationsFolderIfNecessary() {
 
 	// Check if we need admin password to write to the Applications directory
 	BOOL needAuthorization = ([fm isWritableFileAtPath:applicationsDirectory] == NO);
-
-#if PFMOVE_INCLUDE_ADD_TO_DOCK_OPTION
-	NSButton *addToDockCheckbox = nil;
-#endif
 
 	// Setup the alert
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -128,26 +108,6 @@ void PFMoveToApplicationsFolderIfNecessary() {
 		NSButton *cancelButton = [alert addButtonWithTitle:kStrMoveApplicationButtonDoNotMove];
 		[cancelButton setKeyEquivalent:@"\e"];
 
-		// Add "Add to Dock" checkbox
-#if PFMOVE_INCLUDE_ADD_TO_DOCK_OPTION
-		// Only go ahead if the app is not already in the Dock
-		NSTask *ps = [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"defaults read com.apple.dock persistent-apps | grep '%@/' >/dev/null 2>&1", destinationPath], nil]];
-		[ps waitUntilExit];
-		if ([ps terminationStatus] != 0) {
-			NSRect cboxFrame = NSMakeRect(0.0,0.0,[[alert window] frame].size.width,18.0);
-			NSView *av = [[[NSView alloc] initWithFrame:cboxFrame] autorelease];
-			addToDockCheckbox = [[[NSButton alloc] initWithFrame:cboxFrame] autorelease];
-			[addToDockCheckbox setButtonType:NSSwitchButton];
-			[[addToDockCheckbox cell] setControlSize:NSSmallControlSize];
-			[[addToDockCheckbox cell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
-			[addToDockCheckbox setState:NSOnState];
-			[addToDockCheckbox setTitle:kStrMoveApplicationAddToDock];
-			[addToDockCheckbox sizeToFit];
-			[av addSubview:addToDockCheckbox];
-			[alert setAccessoryView:av];
-		}
-#endif
-
 #if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
 		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
 			// Setup suppression button
@@ -159,26 +119,7 @@ void PFMoveToApplicationsFolderIfNecessary() {
 	}
 
 	if ([alert runModal] == NSAlertFirstButtonReturn) {
-		NSLog(@"Moving myself to the Applications folder");
-
-		// Add to Dock
-#if PFMOVE_INCLUDE_ADD_TO_DOCK_OPTION
-		if (addToDockCheckbox && [addToDockCheckbox state] == NSOnState) {
-			// Note: here, we could have a if (not already in dock) {... but we trust
-			// that the initial check (when building the alert box) is ok.
-			NSLog(@"Adding myself to the Dock");
-			NSTask *addTask = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/defaults" arguments:[NSArray arrayWithObjects:@"write", @"com.apple.dock", @"persistent-apps", @"-array-add", [NSString stringWithFormat:@"<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>%@</string><key>_CFURLStringType</key><integer>0</integer></dict></dict><key>tile-type</key><string>file-tile</string></dict>", destinationPath], nil]];
-			[addTask waitUntilExit];
-			if ([addTask terminationStatus] != 0) {
-				NSLog(@"failed to add myself to the dock");
-			}
-			else {
-				// Delay reloading of Dock until we guess the new app is running.
-				// We do this to avoid the "blank icon" bug.
-				[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", @"sleep 4; killall -HUP Dock", nil]];
-			}
-		}
-#endif
+		NSLog(@"INFO -- Moving myself to the Applications folder");
 
 		// Move
 		if (needAuthorization) {
@@ -199,13 +140,16 @@ void PFMoveToApplicationsFolderIfNecessary() {
 			// If a copy already exists in the Applications folder, put it in the Trash
 			if ([fm fileExistsAtPath:destinationPath]) {
 				// If the app at destinationPath is running already, give that app focus and exit.
-				NSTask *ps = [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", [NSString stringWithFormat:@"ps xa -o pid,comm | grep '%@/' | grep -v grep | cut -d' ' -f1 | grep -v '^%d$' >/dev/null", destinationPath, getpid()], nil]];
+				NSString *script = [NSString stringWithFormat:@"ps xa -o pid,comm | grep '%@/' | grep -v grep | cut -d' ' -f1 | grep -v '^%d$' >/dev/null", destinationPath, getpid()];
+				NSTask *ps = [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", script, nil]];
 				[ps waitUntilExit];
+
 				if ([ps terminationStatus] == 0) {
-					NSLog(@"Switching to an already running version");
+					NSLog(@"INFO -- Switching to an already running version");
 					[[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObject:destinationPath]] waitUntilExit];
 					[NSApp terminate:nil];
 				}
+
 				if (!Trash([applicationsDirectory stringByAppendingPathComponent:bundleName]))
 					goto fail;
 			}
@@ -409,7 +353,7 @@ static BOOL CopyBundle(NSString *srcPath, NSString *dstPath)
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
 		NSError *error = nil;
 		if (![fm copyItemAtPath:srcPath toPath:dstPath error:&error]) {
-			NSLog(@"Could not copy '%@' to '%@' (%@)", srcPath, dstPath, error);
+			NSLog(@"ERROR -- Could not copy '%@' to '%@' (%@)", srcPath, dstPath, error);
 			return NO;
 		}
 		return YES;
@@ -430,7 +374,7 @@ static BOOL CopyBundle(NSString *srcPath, NSString *dstPath)
 	[invocation getReturnValue:&success];
 
 	if (!success) {
-		NSLog(@"Could not copy '%@' to '%@'", srcPath, dstPath);
+		NSLog(@"ERROR -- Could not copy '%@' to '%@'", srcPath, dstPath);
 	}
 
 	return success;
