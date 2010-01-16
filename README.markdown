@@ -38,3 +38,4 @@ Translators:
 * Gleb M. Borisov (Russian)
 * Wouter Broekhof (Dutch)
 * Rasmus Andersson / Spotify (French and Spanish)
+* Markus Kirschner (German)
