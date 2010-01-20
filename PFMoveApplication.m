@@ -118,6 +118,11 @@ void PFMoveToApplicationsFolderIfNecessary()
 #endif
 	}
 
+	// Activate app -- work-around for focus issues related to "scary file from internet" OS dialog.
+	if (![NSApp isActive]) {
+		[NSApp activateIgnoringOtherApps:YES];
+	}
+
 	if ([alert runModal] == NSAlertFirstButtonReturn) {
 		NSLog(@"INFO -- Moving myself to the Applications folder");
 
