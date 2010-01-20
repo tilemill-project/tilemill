@@ -177,7 +177,21 @@ void PFMoveToApplicationsFolderIfNecessary()
 		// The shell script waits until the original app process terminates.
 		// This is done so that the relaunched app opens as the front-most app.
 		int pid = [[NSProcessInfo processInfo] processIdentifier];
-		NSString *script = [NSString stringWithFormat:@"while [ `ps -p %d | wc -l` -gt 1 ]; do sleep 0.1; done; open '%@'", pid, destinationPath];
+
+		// Command run just before running open /final/path
+		NSString *preOpenCmd = @"";
+
+		// OS X >=10.5:
+		// Before we launch the new app, clear xattr:com.apple.quarantine to avoid
+		// duplicate "scary file from the internet" dialog.
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
+		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+			preOpenCmd = [NSString stringWithFormat:@"/usr/bin/xattr -d -r com.apple.quarantine '%@';", destinationPath];
+		}
+#endif
+
+		NSString *script = [NSString stringWithFormat:@"(while [ `ps -p %d | wc -l` -gt 1 ]; do sleep 0.1; done; %@ open '%@') &", pid, preOpenCmd, destinationPath];
+
 		[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", script, nil]];
 
 		// Launched from within a DMG? -- unmount (if no files are open after 5 seconds,
