@@ -40,6 +40,7 @@
 		A120E7F610630B160045BE3F /* PFMoveApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFMoveApplication.h; sourceTree = "<group>"; };
 		A120E7F710630B160045BE3F /* PFMoveApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFMoveApplication.m; sourceTree = "<group>"; };
 		A1A4C5A8106760B100AF3142 /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
+		A1B3A84D11290C9600A72428 /* Danish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Danish; path = Danish.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		FFA30E7310C401D000AC7AC8 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = Russian.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,6 +174,7 @@
 				Russian,
 				Dutch,
 				Spanish,
+				Danish,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* LetsMove */;
 			projectDirPath = "";
@@ -230,12 +232,13 @@
 			isa = PBXVariantGroup;
 			children = (
 				A10D5AD2106C082200E53420 /* English */,
-				A10D5BFB106C550F00E53420 /* Japanese */,
-				FFA30E7310C401D000AC7AC8 /* Russian */,
+				A1B3A84D11290C9600A72428 /* Danish */,
 				6C39736010D54A3E00515EB3 /* Dutch */,
 				3A85F5BA109373B6007143D7 /* French */,
-				3A85F5BB109374A8007143D7 /* Spanish */,
 				4D6F173F1100B52D00744BB5 /* German */,
+				A10D5BFB106C550F00E53420 /* Japanese */,
+				FFA30E7310C401D000AC7AC8 /* Russian */,
+				3A85F5BB109374A8007143D7 /* Spanish */,
 			);
 			name = MoveApplication.strings;
 			sourceTree = "<group>";

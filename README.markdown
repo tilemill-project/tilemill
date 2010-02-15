@@ -39,3 +39,4 @@ Translators:
 * Wouter Broekhof (Dutch)
 * Rasmus Andersson / Spotify (French and Spanish)
 * Markus Kirschner (German)
+* Fredrik Nannestad (Danish)
