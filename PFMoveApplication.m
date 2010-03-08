@@ -34,6 +34,13 @@
 	#define NSAppKitVersionNumber10_4 824
 #endif
 
+// By default, we use a small control/font for the suppression button.
+// If you prefer to use the system default (to match your other alerts),
+// set this to 0.
+
+#define PFSmallCheckbox 1
+
+
 static NSString *AlertSuppressKey = @"moveToApplicationsFolderAlertSuppress";
 
 
@@ -112,8 +119,11 @@ void PFMoveToApplicationsFolderIfNecessary()
 		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
 			// Setup suppression button
 			[alert setShowsSuppressionButton:YES];
-			[[[alert suppressionButton] cell] setControlSize:NSSmallControlSize];
-			[[[alert suppressionButton] cell] setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+			if (PFSmallCheckbox)
+			{
+				[[[alert suppressionButton] cell] setControlSize:NSSmallControlSize];
+				[[[alert suppressionButton] cell] setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+			}
 		}
 #endif
 	}
