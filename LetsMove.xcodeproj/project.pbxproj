@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* LetsMoveAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* LetsMoveAppDelegate.m */; };
+		564032111148F1010010E7A2 /* MoveApplication.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5640320F1148F1010010E7A2 /* MoveApplication.strings */; };
 		6317AB1E1068842E000355D9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6317AB1D1068842E000355D9 /* Security.framework */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -31,6 +32,7 @@
 		3A85F5BA109373B6007143D7 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		3A85F5BB109374A8007143D7 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		4D6F173F1100B52D00744BB5 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/MoveApplication.strings; sourceTree = "<group>"; };
+		564032101148F1010010E7A2 /* Norwegian */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Norwegian; path = Norwegian.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		6317AB1D1068842E000355D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		6C39736010D54A3E00515EB3 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* LetsMove-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LetsMove-Info.plist"; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 		29B97314FDCFA39411CA2CEA /* LetsMove */ = {
 			isa = PBXGroup;
 			children = (
+				5640320F1148F1010010E7A2 /* MoveApplication.strings */,
 				A1A4C5A8106760B100AF3142 /* README.markdown */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -175,6 +178,7 @@
 				Dutch,
 				Spanish,
 				Danish,
+				Norwegian,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* LetsMove */;
 			projectDirPath = "";
@@ -193,6 +197,7 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 				A10D5AD3106C082200E53420 /* MoveApplication.strings in Resources */,
+				564032111148F1010010E7A2 /* MoveApplication.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +231,14 @@
 				1DDD58150DA1D0A300B32029 /* English */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		5640320F1148F1010010E7A2 /* MoveApplication.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				564032101148F1010010E7A2 /* Norwegian */,
+			);
+			name = MoveApplication.strings;
 			sourceTree = "<group>";
 		};
 		A10D5AD1106C082200E53420 /* MoveApplication.strings */ = {
