@@ -23,7 +23,7 @@ Requirements
 Builds and runs on Mac OS X 10.4 or higher
 
 
-Contributors:
+Code Contributors:
 -------------
 * Andy Kim
 * John Brayton
@@ -40,3 +40,4 @@ Translators:
 * Rasmus Andersson / Spotify (French and Spanish)
 * Markus Kirschner (German)
 * Fredrik Nannestad (Danish)
+* Georg Alexander Bøe (Norwegian)
