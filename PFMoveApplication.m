@@ -139,23 +139,27 @@ void PFMoveToApplicationsFolderIfNecessary()
 		else {
 			// If a copy already exists in the Applications folder, put it in the Trash
 			if ([fm fileExistsAtPath:destinationPath]) {
-				// If the app at destinationPath is running already, give that app focus and exit.
-				NSString *script = [NSString stringWithFormat:@"ps xa -o pid,comm | grep '%@/' | grep -v grep | cut -d' ' -f1 | grep -v '^%d$' >/dev/null", destinationPath, getpid()];
-				NSTask *ps = [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", script, nil]];
-				[ps waitUntilExit];
+				// But first, make sure that it's not running
+				NSString *script = [NSString stringWithFormat:@"ps x -o comm | grep '%@/' | grep -v grep >/dev/null", destinationPath];
+				NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", script, nil]];
+				[task waitUntilExit];
 
-				if ([ps terminationStatus] == 0) {
+				// If the task terminated with status 0, it means that the final grep produced 1 or more lines of output.
+				// It means that the app is already running
+				if ([task terminationStatus] == 0) {
+					// Give the running app focus and terminate myself
 					NSLog(@"INFO -- Switching to an already running version");
 					[[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObject:destinationPath]] waitUntilExit];
 					[NSApp terminate:nil];
 				}
-
-				if (!Trash([applicationsDirectory stringByAppendingPathComponent:bundleName]))
-					goto fail;
+				else {
+					if (!Trash([applicationsDirectory stringByAppendingPathComponent:bundleName]))
+						goto fail;
+				}
 			}
 
  			if (!CopyBundle(bundlePath, destinationPath)) {
-				NSLog(@"ERROR -- Could not copy myself to /Applications");
+				NSLog(@"ERROR -- Could not copy myself to %@", destinationPath);
 				goto fail;
 			}
 		}
