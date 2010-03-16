@@ -7,6 +7,12 @@ A sample project that demonstrates how to move a running Mac OS X application to
 Version History
 ---------------
 
+* 1.3
+	- Fixed a rare bug in the shell script that checks to see if the app is already running
+	- Clear quarantine flag after copying
+	- Compile time option to show normal sized alert supress checkbox button
+	- German, Danish, and Norwegian localizations added
+
 * 1.2
 	- Copy application from disk image then unmount disk image
 	- Spanish, French, Dutch, and Russian localizations
