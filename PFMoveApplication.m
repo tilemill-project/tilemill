@@ -29,10 +29,16 @@
 #define kStrMoveApplicationQuestionInfoWillRequirePasswd _I10NS(@"Note that this will require an administrator password.")
 #define kStrMoveApplicationQuestionInfoInDownloadsFolder _I10NS(@"This will keep your Downloads folder uncluttered.")
 
-// Need to be defined
+// Needs to be defined for compiling under 10.4 SDK
 #ifndef NSAppKitVersionNumber10_4
 	#define NSAppKitVersionNumber10_4 824
 #endif
+
+// By default, we use a small control/font for the suppression button.
+// If you prefer to use the system default (to match your other alerts),
+// set this to 0.
+#define PFUseSmallAlertSuppressCheckbox 1
+
 
 static NSString *AlertSuppressKey = @"moveToApplicationsFolderAlertSuppress";
 
@@ -112,8 +118,11 @@ void PFMoveToApplicationsFolderIfNecessary()
 		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
 			// Setup suppression button
 			[alert setShowsSuppressionButton:YES];
-			[[[alert suppressionButton] cell] setControlSize:NSSmallControlSize];
-			[[[alert suppressionButton] cell] setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+
+			if (PFUseSmallAlertSuppressCheckbox) {
+				[[[alert suppressionButton] cell] setControlSize:NSSmallControlSize];
+				[[[alert suppressionButton] cell] setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+			}
 		}
 #endif
 	}
