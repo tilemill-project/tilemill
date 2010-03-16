@@ -154,7 +154,7 @@ void PFMoveToApplicationsFolderIfNecessary()
 			// If a copy already exists in the Applications folder, put it in the Trash
 			if ([fm fileExistsAtPath:destinationPath]) {
 				// But first, make sure that it's not running
-				NSString *script = [NSString stringWithFormat:@"ps x -o comm | grep '%@/' | grep -v grep >/dev/null", destinationPath];
+				NSString *script = [NSString stringWithFormat:@"ps ax -o comm | grep '%@/' | grep -v grep >/dev/null", destinationPath];
 				NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", script, nil]];
 				[task waitUntilExit];
 
