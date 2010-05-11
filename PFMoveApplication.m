@@ -198,7 +198,10 @@ void PFMoveToApplicationsFolderIfNecessary()
 		// Before we launch the new app, clear xattr:com.apple.quarantine to avoid
 		// duplicate "scary file from the internet" dialog.
 #if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
-		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) {
+			preOpenCmd = [NSString stringWithFormat:@"/usr/bin/xattr -d com.apple.quarantine '%@';", destinationPath];
+		}
+		else if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
 			preOpenCmd = [NSString stringWithFormat:@"/usr/bin/xattr -d -r com.apple.quarantine '%@';", destinationPath];
 		}
 #endif
