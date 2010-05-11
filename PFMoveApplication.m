@@ -383,9 +383,9 @@ static BOOL CopyBundle(NSString *srcPath, NSString *dstPath)
 {
 	NSFileManager *fm = [NSFileManager defaultManager];
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
-	// 10.5 or higher
-	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
+	// 10.6 or higher
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) {
 		NSError *error = nil;
 		if (![fm copyItemAtPath:srcPath toPath:dstPath error:&error]) {
 			NSLog(@"ERROR -- Could not copy '%@' to '%@' (%@)", srcPath, dstPath, error);
@@ -394,8 +394,8 @@ static BOOL CopyBundle(NSString *srcPath, NSString *dstPath)
 		return YES;
 	}
 #endif
-#if MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_4
-	// 10.4. Welcome to the whack a deprecation warning show
+#if MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_5
+	// 10.5. Welcome to the whack a deprecation warning show
 	BOOL success = NO;
 	SEL selector = @selector(copyPath:toPath:handler:);
 	NSMethodSignature *methodSig = [fm methodSignatureForSelector:selector];
