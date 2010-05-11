@@ -7,6 +7,9 @@ A sample project that demonstrates how to move a running Mac OS X application to
 Version History
 ---------------
 
+* 1.4
+	- Mac OS X 10.5 compatibility fixes
+
 * 1.3
 	- Fixed a rare bug in the shell script that checks to see if the app is already running
 	- Clear quarantine flag after copying

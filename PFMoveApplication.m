@@ -1,5 +1,5 @@
 //
-//  PFMoveApplication.m, version 1.3
+//  PFMoveApplication.m, version 1.4
 //  LetsMove
 //
 //  Created by Andy Kim at Potion Factory LLC on 9/17/09
@@ -213,7 +213,7 @@ void PFMoveToApplicationsFolderIfNecessary()
 		// Launched from within a DMG? -- unmount (if no files are open after 5 seconds,
 		// otherwise leave it mounted).
 		if (isLaunchedFromDMG) {
-			NSString *script = [NSString stringWithFormat:@"(sleep 5 && hdiutil detach '%@') &", [bundlePath stringByDeletingLastPathComponent]];
+			script = [NSString stringWithFormat:@"(sleep 5 && hdiutil detach '%@') &", [bundlePath stringByDeletingLastPathComponent]];
 			[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", script, nil]];
 		}
 
@@ -239,7 +239,7 @@ void PFMoveToApplicationsFolderIfNecessary()
 fail:
 	{
 		// Show failure message
-		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		alert = [[[NSAlert alloc] init] autorelease];
 		[alert setMessageText:kStrMoveApplicationCouldNotMove];
 		[alert runModal];
 	}
