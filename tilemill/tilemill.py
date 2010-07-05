@@ -9,6 +9,7 @@ import tornado.web
 import tornado.escape
 import tornado.template
 import shutil
+import re
 
 from tornado.options import define, options
 
@@ -46,6 +47,24 @@ class ProjectNewHandler(tornado.web.RequestHandler):
         else:
             self.redirect('/?message=' + tornado.escape.url_escape(message))
 
+class ProjectMMLHandler(tornado.web.RequestHandler):
+    extension = '.mml'
+    def post(self):
+        if re.match('^([A-Za-z0-9_-]+)$', self.filename()):
+            manager = ProjectManager(options);
+            manager.save(self.request.arguments['id'][0], self.filename() + self.extension, self.request.arguments['data'][0]);
+    def filename(self):
+        return self.request.arguments['id'][0]
+
+class ProjectMSSHandler(ProjectMMLHandler):
+    extension = '.mss'
+    def filename(self):
+        return self.request.arguments['filename'][0]
+    def get(self):
+        if re.match('^([A-Za-z0-9_-]+)$', self.filename()):
+            manager = ProjectManager(options);
+            self.write(manager.read(self.request.arguments['id'][0], self.filename() + self.extension));
+
 class ProjectManager:
     def __init__(self, options):
         self.options = options
@@ -67,12 +86,16 @@ class ProjectManager:
         shutil.copyfile(self.options.starter_mml, os.path.join(directory, name + '.mml'))
         return (True, "")
 
-    def save(self, name, data, file = False):
-        if !file:
-            file = name + '.mml'
-        buffer = open(os.path.join(self.options.projects, name, file), 'w')
+    def save(self, id, file, data):
+        buffer = open(os.path.join(self.options.projects, id, file), 'w')
         buffer.writelines(data)
-            
+        buffer.close()
+
+    def read(self, id, file):
+        buffer = open(os.path.join(self.options.projects, id, file))
+        data = buffer.read()
+        buffer.close()
+        return data
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -80,6 +103,8 @@ class Application(tornado.web.Application):
             (r"/", MainHandler),
             (r"/projects/edit", ProjectEditHandler),
             (r"/projects/new", ProjectNewHandler),
+            (r"/projects/mml", ProjectMMLHandler),
+            (r"/projects/mss", ProjectMSSHandler),
         ]
         settings = dict(
             tilemill_title=u"TileMill",
