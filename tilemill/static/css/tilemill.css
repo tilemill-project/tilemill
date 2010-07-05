@@ -84,6 +84,41 @@ input.submit {
   overflow:auto;
   }
 
+.sidebar-content li { position:relative; }
+.sidebar-content li a:hover { background-color:#fff; }
+
+/**
+ * Icon links
+ */
+a.color-picker,
+a.layer-edit,
+a.layer-inspect {
+  display:block;
+  width:20px;
+  height:20px;
+  text-indent:-9999px;
+  background:url(../images/sprite.png) 0px 0px no-repeat;
+
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  }
+
+a.layer-edit,
+a.layer-inspect {
+  position:absolute;
+  right:30px;
+  top:5px;
+  }
+
+a.layer-inspect {
+  right:10px;
+  background-position:-20px 0px;
+  }
+
+a.color-picker {
+  background-position:-40px -20px;
+  }
+  
 /**
  * Map preview
  */
@@ -109,7 +144,6 @@ input.submit {
   }
 
 #colors { float:left; }
-#color-picker { float:right; }
 
 #colors label,
 #colors .swatch {
@@ -121,3 +155,6 @@ input.submit {
   width:20px;
   text-indent:-9999px;
   }
+
+#color-picker { float:right; }
+#color-picker a:hover { background-color:#000; }
