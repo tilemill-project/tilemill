@@ -14,7 +14,7 @@ define("port", default=8888, help="run on the given port", type=int)
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-    self.write("Hello, world")
+        self.write("Hello, world")
 
 class ProjectHandler(tornado.web.RequestHandler):
     def get(self, project_id):
