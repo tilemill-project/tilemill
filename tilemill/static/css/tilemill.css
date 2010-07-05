@@ -85,7 +85,19 @@ input.submit {
   }
 
 .sidebar-content li { position:relative; }
+.sidebar-content li a { background-color:#ddd; }
 .sidebar-content li a:hover { background-color:#fff; }
+
+.sidebar-content li input.checkbox {
+  position:absolute;
+  left:10px;
+  top:5px;
+  }
+
+.sidebar-content li label {
+  display:block;
+  padding-left:20px;
+  }
 
 /**
  * Icon links
@@ -105,13 +117,12 @@ a.layer-inspect {
 
 a.layer-edit,
 a.layer-inspect {
-  position:absolute;
-  right:30px;
-  top:5px;
+  float:right;
+  margin-left:5px;
   }
 
 a.layer-inspect {
-  right:10px;
+  right:5px;
   background-position:-20px 0px;
   }
 
