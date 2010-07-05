@@ -16,7 +16,9 @@ define("port", default=8888, help="run on the given port", type=int)
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("home.html")
+        # Scan the directory...
+        projects = ['project1', 'project2']
+        self.render("home.html", projects = projects)
 
 class ProjectEditHandler(tornado.web.RequestHandler):
     def get(self):
@@ -37,6 +39,7 @@ class ProjectNewHandler(tornado.web.RequestHandler):
         else:
             tornado.web.HTTPError(404)
         """
+        
 
 class Application(tornado.web.Application):
     def __init__(self):

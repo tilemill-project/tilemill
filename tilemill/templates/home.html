@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <div>Hello world</div>
+    <ul>
+    {% for project in projects %}
+        <li><a href="/projects/edit?id={{ url_escape(project) }}">{{ escape(project) }}</a></li>
+    {% end %}
+    </ul>
 {% end %}
