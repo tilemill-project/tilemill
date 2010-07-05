@@ -11,11 +11,51 @@
       <h1>Editing {{ escape(project_id) }}</h1>
       <a class='home' href='/'>{{ escape(handler.settings['tilemill_title']) }}</a>
     </div>
-    <div id='layers'>
+    <div id='layers-wrapper'>
+      <div id='layers-header'>
+        <h2>Layers</h2>
+        <a href="#">+ Add</a>
+      </div>
+      <div id='layers'>
+        <ul>
+          <li>
+            <input type="checkbox" />
+            <span>.natural</span>
+            <a href="#">Edit</a>
+            <a href="#">Inspect</a>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>.water</span>
+            <a href="#">Edit</a>
+            <a href="#">Inspect</a>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>.border .district</span>
+            <a href="#">Edit</a>
+            <a href="#">Inspect</a>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>.road .outline</span>
+            <a href="#">Edit</a>
+            <a href="#">Inspect</a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div id='map-preview'>
     </div>
     <div id='editor'>
+      <div id='code'>
+      </div>
+      <div id="color-palette">
+        <div id='color-picker'>
+        </div>
+        <div id='colors'>
+        </div>
+      </div>
     </div>
   </body>
 </html>
