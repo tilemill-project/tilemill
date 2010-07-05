@@ -8,6 +8,7 @@ import tornado.options
 import tornado.web
 import tornado.escape
 import tornado.template
+from shutil import copy
 
 from tornado.options import define, options
 
@@ -31,12 +32,10 @@ class ProjectEditHandler(tornado.web.RequestHandler):
         else:
             tornado.web.HTTPError(404)
 
-
 class ProjectNewHandler(tornado.web.RequestHandler):
     def post(self):
         # Add a new project.
-        self.redirect('/projects/edit?id=' + self.request.arguments['name'][0])
-
+        self.redirect('/projects/edit?id=' + self.request.arguments['name'][0])        
 
 class Application(tornado.web.Application):
     def __init__(self):
