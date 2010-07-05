@@ -27,10 +27,10 @@
             <li><a href="/projects/edit?id={{ url_escape(project) }}">{{ escape(project) }}</a></li>
             {% end %}
             <li>
-                <form action="/projects/new" method="post">
-                    <input type="text" name="name" />
-                    <input type="submit" value="Add project" />
-                </form>
+              <form action="/projects/new" method="post">
+                <input type="text" name="name" />
+                <input type="submit" value="Add project" />
+              </form>
             </li>
         </ul>
         {% end %}
