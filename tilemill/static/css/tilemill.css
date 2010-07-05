@@ -10,9 +10,9 @@ h1 { font-size:20px; }
 h2 { font-size:16px; }
 h3 { font-size:13px; }
 
-.pane {
-  padding:10px;
-  }
+.hidden { display:none; }
+
+.pane { padding:10px; }
 
 #header {
   position:fixed;
@@ -63,18 +63,26 @@ input.submit {
 /**
  * Layers
  */
-#layers-wrapper {
+#sidebar {
   position:fixed;
   left:0px;
   top:40px;
   bottom:240px;
   width:320px;
-
   background:#eee;
   }
 
-#layers-header h2 { float:left; }
-#layers-header a.add { float:right; }
+.sidebar-header h2 { float:left; }
+.sidebar-header a { float:right; }
+
+.sidebar-content {
+  position:absolute;
+  left:0px;
+  bottom:0px;
+  right:0px;
+  top:40px;
+  overflow:auto;
+  }
 
 /**
  * Map preview
