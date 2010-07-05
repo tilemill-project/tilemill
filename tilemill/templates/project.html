@@ -8,6 +8,7 @@
     <script type="text/javascript" src="{{ static_url('js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/jquery-ui.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/editor.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/project.js') }}" />
     <script type="text/javascript">
       var mml = {{ mml }};
     </script>
@@ -31,7 +32,7 @@
       <div id='inspector' class='hidden'>
         <div class='sidebar-header clearfix pane'>
           <h2>[layer_name]</h2>
-          <a href="#inspector-close">Close</a>
+          <a class='inspector-close' href="#">Close</a>
         </div>
         <ul class='sidebar-content'>
           <li>
