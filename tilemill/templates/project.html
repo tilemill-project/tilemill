@@ -6,15 +6,17 @@
     <link rel='stylesheet' href='{{ static_url('css/reset.css') }}' type='text/css'/>
     <link rel='stylesheet' href='{{ static_url('css/tilemill.css') }}' type='text/css'/>
   </head>
-  <body>
-    <div id='header' class='pane'>
+  <body class='project'>
+    <div id='header' class='clearfix pane'>
       <h1>Editing {{ escape(project_id) }}</h1>
-      <a class='home' href='/'>{{ escape(handler.settings['tilemill_title']) }}</a>
+      <a class='info' href='#project-info'>Info</a>
+      <a class='save' href='#project-save'>Save</a>
+      <a class='home' href='/'>Back home</a>
     </div>
     <div id='layers-wrapper'>
-      <div id='layers-header'>
+      <div id='layers-header' class='clearfix pane'>
         <h2>Layers</h2>
-        <a href="#">+ Add</a>
+        <a href="#layers-add">+ Add</a>
       </div>
       <div id='layers'>
         <ul>
