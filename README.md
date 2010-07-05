@@ -2,7 +2,6 @@
 
 ## Requirements
 
-* Tornado
 
     wget http://www.tornadoweb.org/static/tornado-0.2.tar.gz
     tar xvzf tornado-0.2.tar.gz
