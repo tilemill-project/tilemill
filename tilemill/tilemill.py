@@ -50,11 +50,8 @@ class ProjectManager:
     def __init__(self, options):
         self.options = options
         
-    """
-    Retrieve a list of projects from the provided projects path. Projects are
-    identified by a path relative to the projects path.
-    """
     def list(self):
+        """Retrieve a relative paths of projects."""
         projects = []
         for root, dirs, files in os.walk(self.options.projects):
             basename = os.path.basename(root)
