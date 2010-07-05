@@ -32,7 +32,9 @@ class ProjectEditHandler(tornado.web.RequestHandler):
         project_id = self.request.arguments['id'][0]
         # Test that project exists.
         if True:
-            self.render("project.html", project_id=project_id, messages = [])
+            manager = ProjectManager(options);
+            mml = tornado.escape.json_encode(manager.read(self.request.arguments['id'][0], self.request.arguments['id'][0] + '.mml'));
+            self.render("project.html", project_id=project_id, messages = [], mml = mml)
         else:
             tornado.web.HTTPError(404)
 

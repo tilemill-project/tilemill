@@ -5,6 +5,11 @@
     <title>{{ escape(handler.settings['tilemill_title']) }}</title>
     <link rel='stylesheet' href='{{ static_url('css/reset.css') }}' type='text/css'/>
     <link rel='stylesheet' href='{{ static_url('css/tilemill.css') }}' type='text/css'/>
+    <script type="text/javascript" src="{{ static_url('js/jquery.js') }}" />
+    <script type="text/javascript" src="{{ static_url('js/jquery-ui.js') }}" />
+    <script type="text/javascript">
+      var mml = {{ mml }};
+    </script>
   </head>
   <body>
     <div id='header' class='pane'>
