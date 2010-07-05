@@ -11,15 +11,17 @@
       var mml = {{ mml }};
     </script>
   </head>
-  <body>
-    <div id='header' class='pane'>
+  <body class='project'>
+    <div id='header' class='clearfix pane'>
       <h1>Editing {{ escape(project_id) }}</h1>
-      <a class='home' href='/'>{{ escape(handler.settings['tilemill_title']) }}</a>
+      <a class='info' href='#project-info'>Info</a>
+      <a class='save' href='#project-save'>Save</a>
+      <a class='home' href='/'>Back home</a>
     </div>
     <div id='layers-wrapper'>
-      <div id='layers-header'>
+      <div id='layers-header' class='clearfix pane'>
         <h2>Layers</h2>
-        <a href="#">+ Add</a>
+        <a href="#layers-add">+ Add</a>
       </div>
       <div id='layers'>
         <ul>
@@ -55,17 +57,18 @@
     <div id='editor'>
       <div id='code'>
       </div>
-      <div id="color-palette">
+      <div id="color-palette" class='pane'>
         <div id='color-picker'>
-          <ul>
-            <li><span style="background-color: #ff0000">#ff0000</span></li>
-            <li><span style="background-color: #cccccc">#cccccc</span></li>
-            <li><span style="background-color: #ff00ff">#ff00ff</span></li>
-            <li><span style="background-color: #00ff00">#00ff00</span></li>
-            <li><span style="background-color: #0000ff">#0000ff</span></li>
-          </ul>
+          <a href='#color-picker'>Color picker</a>
+          <div class='color-picker'></div>
         </div>
         <div id='colors'>
+          <label>Colors</label>
+          <span class='swatch' style="background-color: #ff0000">#ff0000</span>
+          <span class='swatch' style="background-color: #cccccc">#cccccc</span>
+          <span class='swatch' style="background-color: #ff00ff">#ff00ff</span>
+          <span class='swatch' style="background-color: #00ff00">#00ff00</span>
+          <span class='swatch' style="background-color: #0000ff">#0000ff</span>
         </div>
       </div>
     </div>
