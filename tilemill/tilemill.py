@@ -32,13 +32,8 @@ class ProjectEditHandler(tornado.web.RequestHandler):
 
 class ProjectNewHandler(tornado.web.RequestHandler):
     def post(self):
-        # Test that project exists.
-        """
-        if True:
-            self.render("project.html", project_id=project_id)
-        else:
-            tornado.web.HTTPError(404)
-        """
+        # Add a new project.
+        self.redirect('/projects/edit?id=' + self.request.arguments['name'][0])
         
 
 class Application(tornado.web.Application):
