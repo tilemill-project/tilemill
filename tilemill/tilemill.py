@@ -19,11 +19,11 @@ class MainHandler(tornado.web.RequestHandler):
         self.render("home.html")
 
 class ProjectHandler(tornado.web.RequestHandler):
-    def get(self, project_id):
+    def get(self):
+        project_id = self.request.arguments['id'][0]
         # Test that project exists.
         if True:
             self.render("project.html", project_id=project_id)
-            # self.write("You requested the project " + project_id)
         else:
             tornado.web.HTTPError(404)
 
@@ -31,7 +31,7 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", MainHandler),
-            (r"/(\w+)", ProjectHandler),
+            (r"/projects/edit", ProjectEditHandler),
         ]
         settings = dict(
             tilemill_title=u"TileMill",
