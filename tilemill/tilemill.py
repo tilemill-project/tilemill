@@ -14,11 +14,15 @@ define("port", default=8888, help="run on the given port", type=int)
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-    self.write("Hello, world")
+        self.write("Hello, world")
 
 class ProjectHandler(tornado.web.RequestHandler):
     def get(self, project_id):
-        self.write("You requested the project " + project_id)
+        # Test that project exists.
+        if True:
+            self.write("You requested the project " + project_id)
+        else:
+            tornado.web.HTTPError(404)
 
 def main():
     tornado.options.parse_command_line()
