@@ -12,7 +12,7 @@ import tornado.template
 from tornado.options import define, options
 
 define("port", default=8888, help="run on the given port", type=int)
-define("projects", default="projects", help="projects directory", type=str)
+define("projects", default=os.path.join(os.path.dirname(__file__), "projects"), help="projects directory", type=str)
 define("config", default=os.path.join(os.path.dirname(__file__), "tilemill.cfg"), help="path to configuration file", type=str)
 
 class MainHandler(tornado.web.RequestHandler):
