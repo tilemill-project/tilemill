@@ -18,8 +18,8 @@ define("config", default=os.path.join(os.path.dirname(__file__), "tilemill.cfg")
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         # Scan the directory...
-        projects = ['project1', 'project2']
-        self.render("home.html", projects = projects)
+        manager = ProjectManager()
+        self.render("home.html", projects = manager.list(options.projects))
 
 class ProjectEditHandler(tornado.web.RequestHandler):
     def get(self):
@@ -35,12 +35,31 @@ class ProjectNewHandler(tornado.web.RequestHandler):
     def post(self):
         # Add a new project.
         self.redirect('/projects/edit?id=' + self.request.arguments['name'][0])
-        
+
 class ProjectManager:
-    def list(self, directory):
-        print os.listdir(directory)
-# [x for x in os.listdir(self.directory) if
-# os.path.isfile(os.path.join(self.directory, x))]
+    """
+    Retrieve a list of projects from the provided projects path. Projects are
+    identified by a path relative to the projects path.
+    """
+    def list(self, projects_path):
+        projects = []
+        files = self.findByExtension(projects_path)
+        for file in files:
+            projects = projects + [os.path.relpath(file, projects_path)]
+        return projects
+
+    """
+    Recurse through the provided path and retrieve a list of files that match
+    the provided extension. Defaults to '.mml'
+    """
+    def findByExtension(self, path, extension = '.mml'):
+        files = []
+        if os.path.isfile(path) and os.path.splitext(path)[1] == extension:
+            files = files + [path]
+        elif os.path.isdir(path):
+            for dir in os.listdir(path):
+                files = files + self.findByExtension(os.path.join(path, dir), extension)
+        return files
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -59,6 +78,7 @@ class Application(tornado.web.Application):
 def main():
     tornado.options.parse_config_file(options.config)
     tornado.options.parse_command_line()
+
     http_server = tornado.httpserver.HTTPServer(Application())
     http_server.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
