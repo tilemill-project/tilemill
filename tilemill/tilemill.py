@@ -66,7 +66,13 @@ class ProjectManager:
         os.mkdir(directory)
         shutil.copyfile(self.options.starter_mml, os.path.join(directory, name + '.mml'))
         return (True, "")
-    
+
+    def save(self, name, data, file = False):
+        if !file:
+            file = name + '.mml'
+        buffer = open(os.path.join(self.options.projects, name, file), 'w')
+        buffer.writelines(data)
+            
 
 class Application(tornado.web.Application):
     def __init__(self):
