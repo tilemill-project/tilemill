@@ -1,0 +1,32 @@
+a {
+  color:#369;
+  text-decoration:none;
+  }
+
+.pane {
+  padding:10px;
+  }
+
+#header {
+  background:#eee;
+  }
+
+h1 { font-size:20px; }
+
+ul.projects li {
+  padding:5px 10px 4px;
+  border-bottom:1px solid #eee;
+  }
+
+/**
+ * Form elements
+ */
+input.text {
+  border:1px solid #ccc;
+  }
+
+input.submit {
+  padding:0px 5px;
+  border:1px solid #ccc;
+  background:#eee;
+  }

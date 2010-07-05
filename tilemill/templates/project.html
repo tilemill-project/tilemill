@@ -1,31 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns='http://www.w3.org/1999/xhtml'>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>{{ escape(handler.settings["tilemill_title"]) }}</title>
-    <link rel="stylesheet" href="{{ static_url("css/blog.css") }}" type="text/css"/>
-    {% block head %}{% end %}
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+    <title>{{ escape(handler.settings['tilemill_title']) }}</title>
+    <link rel='stylesheet' href='{{ static_url('css/reset.css') }}' type='text/css'/>
+    <link rel='stylesheet' href='{{ static_url('css/tilemill.css') }}' type='text/css'/>
   </head>
   <body>
-    <div id="body">
-      <div id="header">
-        <h1><a href="/">{{ escape(handler.settings["tilemill_title"]) }}</a></h1>
-      </div>
-      {% if messages %}
-      <div id="messages">
-        <ul>
-        {% for message in messages %}
-          <li>{{ escape(message) }}</li>
-        {% end %}
-        <ul>
-      </div>
-      {% end %}
-      <div id="content">
-        {% block body %}
-            <div>You're currently editing {{ escape(project_id) }}.</div>
-        {% end %}
-      </div>
+    <div id='header' class='pane'>
+      <h1>Editing {{ escape(project_id) }}</h1>
+      <a class='home' href='/'>{{ escape(handler.settings['tilemill_title']) }}</a>
     </div>
-    {% block bottom %}{% end %}
+    <div id='layers'>
+    </div>
+    <div id='map-preview'>
+    </div>
+    <div id='editor'>
+    </div>
   </body>
 </html>
