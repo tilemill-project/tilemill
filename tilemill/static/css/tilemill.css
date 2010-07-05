@@ -87,3 +87,29 @@ input.submit {
   height:240px;
   background:#ddd;
   }
+
+/**
+ * Color palette
+ */
+#color-palette {
+  background:#333;
+  color:#fff;
+  position:fixed;
+  left:320px;
+  right:0px;
+  bottom:0px;
+  }
+
+#colors { float:left; }
+#color-picker { float:right; }
+
+#colors label,
+#colors .swatch {
+  float:left;
+  margin-right:10px;
+  }
+
+#colors .swatch {
+  width:20px;
+  text-indent:-9999px;
+  }
