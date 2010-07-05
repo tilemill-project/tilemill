@@ -19,14 +19,14 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         # Scan the directory...
         projects = ['project1', 'project2']
-        self.render("home.html", projects = projects)
+        self.render("home.html", projects = projects, messages = [])
 
 class ProjectEditHandler(tornado.web.RequestHandler):
     def get(self):
         project_id = self.request.arguments['id'][0]
         # Test that project exists.
         if True:
-            self.render("project.html", project_id=project_id)
+            self.render("project.html", project_id=project_id, messages = [])
         else:
             tornado.web.HTTPError(404)
 
@@ -35,7 +35,7 @@ class ProjectNewHandler(tornado.web.RequestHandler):
     def post(self):
         # Add a new project.
         self.redirect('/projects/edit?id=' + self.request.arguments['name'][0])
-        
+
 
 class Application(tornado.web.Application):
     def __init__(self):

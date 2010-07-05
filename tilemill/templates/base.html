@@ -11,6 +11,15 @@
       <div id="header">
         <h1><a href="/">{{ escape(handler.settings["tilemill_title"]) }}</a></h1>
       </div>
+      {% if messages %}
+      <div id="messages">
+        <ul>
+        {% for message in messages %}
+          <li>{{ escape(message) }}</li>
+        {% end %}
+        <ul>
+      </div>
+      {% end %}
       <div id="content">{% block body %}{% end %}</div>
     </div>
     {% block bottom %}{% end %}
