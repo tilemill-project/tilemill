@@ -26,16 +26,21 @@ class ProjectEditHandler(tornado.web.RequestHandler):
         project_id = self.request.arguments['id'][0]
         # Test that project exists.
         if True:
+            ProjectManager.list(directory=options.projects)
             self.render("project.html", project_id=project_id)
         else:
             tornado.web.HTTPError(404)
-
 
 class ProjectNewHandler(tornado.web.RequestHandler):
     def post(self):
         # Add a new project.
         self.redirect('/projects/edit?id=' + self.request.arguments['name'][0])
         
+class ProjectManager:
+    def list(self, directory):
+        print os.listdir(directory)
+# [x for x in os.listdir(self.directory) if
+# os.path.isfile(os.path.join(self.directory, x))]
 
 class Application(tornado.web.Application):
     def __init__(self):
