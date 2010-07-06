@@ -21,8 +21,17 @@ TileMill.addLayer = function(options) {
       return false;
     }))
     .append($('<a class="layer-inspect" href="#">Inspect</a>').click(function() {
+      if (!$(this).parents('li').attr('id')) {
+        alert('You need to add an id to a field and save to inspect it.');
+        return;
+      }
+      TileMill.save(false);
       $('#layers').hide();
       $('#inspector').show();
+      $('#inspector').data('id', $(this).parents('li').attr('id'));
+      url = window.server + 'projects/mml?id=' + window.project_id + '&c=' + (new Date().getTime());
+      encode = Base64.encode(url);
+      $.getJSON(window.tilelive + encode + "/fields.json?jsoncallback=?", TileMill.inspect);
       return false;
     }))
     .append($('<a class="layer-edit" href="#">Edit</a>').click(function() {
@@ -105,14 +114,19 @@ TileMill.initCodeEditor = function() {
   });
 };
 
-TileMill.save = function() {
+TileMill.save = function(map) {
   var mml = TileMill.mml();
   $.post('/projects/mml', {
     'id': window.project_id,
     'data': mml,
   });
   TileMill.mssSave(project_id);
-  TileMill.initMap();
+  if (map == undefined) {
+    TileMill.initMap();
+  }
+  else if (!!map) {
+    TileMill.initMap();
+  }
 }
 
 TileMill.mml = function() {
@@ -135,6 +149,9 @@ TileMill.mml = function() {
       layer.srs = '900913';
     }
     l += ' srs="&srs' + (layer.srs == '900913' ? '900913' : 'WGS84') + ';"';
+    if (!$(this).is(':checked')) {
+      l += ' status="off"';
+    }
     l += '>';
     output.push(l);
     output.push('    <Datasource>');
@@ -181,9 +198,20 @@ TileMill.reloadColors = function(data) {
   $('div#colors div').empty();
   for (color in colors) {
     $('div#colors div').append($("<a href='#' class='swatch' style='background-color: "+ colors[color][3] +"'><label>"+ colors[color][3] +"</label></a>").click(function() {
-      var position = TileMill.mirror.cursorPosition();
-      TileMill.mirror.insertIntoLine(position.line, position.character, $(this).text());
+      TileMill.insert($(this).text());
     }));
+  }
+}
+
+TileMill.insert = function(text) {
+  var position = TileMill.mirror.cursorPosition();
+  TileMill.mirror.insertIntoLine(position.line, position.character, text);
+}
+
+TileMill.inspect = function(data) {
+  index = $('#inspector').data('id');
+  for (field in data[index]) {
+    $('#layers ul.sidebar-content').append('<li><strong>' + field + '</strong> <em>' + data[index][field] + '</em></li>');
   }
 }
 
@@ -279,6 +307,7 @@ $(function() {
     if ($('#popup-info').is(':hidden')) {
       $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
       $('#popup-header h2').text('Info');
+      
       $('#popup-layer').hide();
     }
     return false;
