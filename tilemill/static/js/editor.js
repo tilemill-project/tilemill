@@ -115,7 +115,7 @@ TileMill.mml = function() {
   '  <!ENTITY srsWGS84 "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">',
   ']>',
   '<Map srs="&srs900913;">'];
-  output.push('<Stylesheet src="http://localhost:8889/projects/mss?id='+ project_id +'&filename='+ project_id +'" />');
+  output.push('  <Stylesheet src="http://localhost:8889/projects/mss?id='+ project_id +'&filename='+ project_id +'" />');
   $('#layers ul.sidebar-content li').each(function() {
     var layer = $(this).data('tilemill'), l = '  <Layer';
     if (layer.id) {
