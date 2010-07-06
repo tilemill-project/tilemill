@@ -21,17 +21,17 @@ TileMill.addLayer = function(options) {
       return false;
     }))
     .append($('<a class="layer-inspect" href="#">Inspect</a>').click(function() {
-      if (!$(this).parents('li').attr('id')) {
+      if (!$(this).parents('li').data('tilemill')['id']) {
         alert('You need to add an id to a field and save to inspect it.');
         return;
       }
       TileMill.save(false);
       $('#layers').hide();
       $('#inspector').show();
-      $('#inspector').data('id', $(this).parents('li').attr('id'));
+      $('#inspector').data('id', $(this).parents('li').data('tilemill').id);
       url = window.server + 'projects/mml?id=' + window.project_id + '&c=' + (new Date().getTime());
       encode = Base64.encode(url);
-      $.getJSON(window.tilelive + encode + "/fields.json?jsoncallback=?", TileMill.inspect);
+      $.getScript(window.tilelive + encode + "/fields.json?jsoncallback=TileMill.inspect");
       return false;
     }))
     .append($('<a class="layer-edit" href="#">Edit</a>').click(function() {
@@ -105,12 +105,20 @@ TileMill.initColors = function() {
   });
 };
 
-TileMill.initCodeEditor = function() {
-  TileMill.mirror = CodeMirror.fromTextArea('code', {
-    height: "auto",
-    parserfile: "parsecss.js",
-    stylesheet: static_path + "css/code.css",
-    path: static_path + "js/codemirror/js/"
+TileMill.initCodeEditor = function(file) {
+  $.get('/projects/mss', {'id': project_id, 'filename': file}, function(data) {
+    $('textarea#code').val(data);
+    TileMill.reloadColors(data);
+    TileMill.mirror = CodeMirror.fromTextArea('code', {
+      height: "auto",
+      parserfile: "parsecss.js",
+      stylesheet: static_path + "css/code.css",
+      path: static_path + "js/codemirror/js/"
+    });
+    TileMill.mirror.setCode(data);
+    setInterval(function() {
+      TileMill.reloadColors(TileMill.mirror.getCode());
+    }, 5000);
   });
 };
 
@@ -149,7 +157,7 @@ TileMill.mml = function() {
       layer.srs = '900913';
     }
     l += ' srs="&srs' + (layer.srs == '900913' ? '900913' : 'WGS84') + ';"';
-    if (!$(this).is(':checked')) {
+    if (!$(this).attr('checked') == 'checked') {
       l += ' status="off"';
     }
     l += '>';
@@ -157,21 +165,14 @@ TileMill.mml = function() {
     output.push('    <Datasource>');
     output.push('      <Parameter name="file">' + layer.dataSource + '</Parameter>');
     output.push('      <Parameter name="type">shape</Parameter>');
+    if (layer.id) {
+      output.push('      <Parameter name="id">' + layer.id + '</Parameter>');
+    }
     output.push('    </Datasource>');
     output.push('  </Layer>');
   });
   output.push('</Map>');
   return output.join("\n");
-}
-
-TileMill.mss = function(file) {
-  $.get('/projects/mss', {'id': project_id, 'filename': file}, function(data) {
-    TileMill.mirror.setCode(data);
-    TileMill.reloadColors(data);
-    setInterval(function() {
-      TileMill.reloadColors(TileMill.mirror.getCode());
-    }, 5000);
-  });
 }
 
 TileMill.mssSave = function(file) {
@@ -209,10 +210,10 @@ TileMill.insert = function(text) {
 }
 
 TileMill.inspect = function(data) {
-  $('#layers ul.sidebar-content').empty();
+  $('#inspector ul.sidebar-content').empty();
   index = $('#inspector').data('id');
   for (field in data[index]) {
-    $('#layers ul.sidebar-content').append('<li><strong>' + field + '</strong> <em>' + data[index][field] + '</em></li>');
+    $('#inspector ul.sidebar-content').append('<li><strong>' + field + '</strong> <em>' + data[index][field] + '</em></li>');
   }
 }
 
@@ -253,7 +254,7 @@ $(function() {
 
   TileMill.initMap();
   TileMill.initColors();
-  TileMill.initCodeEditor();
+  TileMill.initCodeEditor(project_id);
 
   $('a#layers-add').click(function() {
     if ($('#popup-layer').is(':hidden')) {
@@ -313,6 +314,4 @@ $(function() {
     }
     return false;
   });
-
-  TileMill.mss(project_id);
 });
