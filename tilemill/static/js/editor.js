@@ -27,7 +27,9 @@ TileMill.addLayer = function(options) {
         $('#popup-layer input#srs').val(options.srs);
         $('#popup-layer input#dataSource').val(options.dataSource);
         $('#popup-header h2').text('Edit layer');
+        $('#popup-info').hide();
       }
+      return false;
     }))
     .append($('<label>' + layerName + '</label>'));
   if (options.status == 'true') {
@@ -174,6 +176,7 @@ $(function() {
       $('#popup-layer').addClass('new');
       $('#popup-layer input.submit').text('Add layer');
       $('#popup-header').text('Add layer');
+      $('#popup-info').hide();
     }
     return false;
   });
@@ -214,4 +217,13 @@ $(function() {
     TileMill.save();
     return false;
   });
+
+  $('div#header a.info').click(function() {
+    if ($('#popup-info').is(':hidden')) {
+      $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
+      $('#popup-header h2').text('Info');
+      $('#popup-layer').hide();
+    }
+    return false;
+  })
 });
