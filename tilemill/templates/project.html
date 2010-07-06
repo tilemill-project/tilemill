@@ -23,7 +23,7 @@
       <div id='layers'>
         <div class='sidebar-header clearfix pane'>
           <h2>Layers</h2>
-          <a href="#layers-add">+ Add</a>
+          <a href="#layers-add" id="layers-add">+ Add</a>
         </div>
         <ul class='sidebar-content'>
         </ul>
@@ -91,25 +91,25 @@
       <div id='popup'>
         <div id='popup-header'>
           <h2>Edit layer</h2>
-          <div id="popup-close">Close</div>
+          <a href="#" id="popup-close">Close</a>
         </div>
         <div id='popup-layer'>
           <form>
-            <div><label for="class">Class</label><input type="text" name="" value="" id="class"></div>
-            <div><label for="id">Id</label><input type="text" name="" value="" id="id"></div>
-            <div><label for="data_source">Data Source</label><input type="text" name="" value="" id="data_source"></div>
+            <div><label for="class">Class</label><input type="text" class="text" id="class"></div>
+            <div><label for="id">Id</label><input type="text" class="text" id="id"></div>
+            <div><label for="data_source">Data Source</label><input type="text" class="text" id="data_source"></div>
             <div><label for="srs">SRS</label>
             <select name="srs" id="srs">
               <option value="900913">900913</option>
               <option value="4326">4326</option>
-            </select>
-            <div><input class='submit' type='submit' value='Add project' /></div>
+            </select></div>
+            <div><input class='submit' type='submit' value='Add layer' /></div>
           </form>
         </div>
       </div>
       <div id="color-palette" class='pane'>
         <div id='color-picker'>
-          <a href='#color-picker'>Color picker</a>
+          <a class='color-picker' href='#color-picker'>Color picker</a>
           <div class='color-picker'></div>
         </div>
         <div id='colors'>

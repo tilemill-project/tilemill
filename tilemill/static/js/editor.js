@@ -10,14 +10,14 @@ TileMill.addLayer = function(classes, id, status) {
     layerName += '.' + classes.join(', .');
   }
   $('<li>')
-    .append($('<input type="checkbox" />').attr('checked', status ? 'checked' : ''))
-    .append(layerName)
-    .append($('<a class="layer-edit" href="#">Edit</a>'))
+    .append($('<input class="checkbox" type="checkbox" />').attr('checked', status ? 'checked' : ''))
     .append($('<a class="layer-inspect" href="#">Inspect</a>').click(function() {
       $('#layers').hide();
       $('#inspector').show();
       return false;
     }))
+    .append($('<a class="layer-edit" href="#">Edit</a>'))
+    .append($('<label>' + layerName + '</label>'))
     .appendTo($('#layers ul.sidebar-content'));
 };
 
