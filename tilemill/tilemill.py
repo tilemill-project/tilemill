@@ -8,7 +8,6 @@ import tornado.options
 import tornado.web
 import tornado.escape
 import tornado.template
-import shutil
 import re
 
 from tornado.options import define, options
@@ -16,7 +15,6 @@ from tornado.options import define, options
 define("port", default=8888, help="run on the given port", type=int)
 define("projects", default=os.path.join(os.path.dirname(__file__), "projects"), help="projects directory", type=str)
 define("config", default=os.path.join(os.path.dirname(__file__), "tilemill.cfg"), help="path to configuration file", type=str)
-define("starter_mml", default=os.path.join(os.path.dirname(__file__), "starter.mml"), help="path to starter mml file", type=str)
 define("tilelive_server", "http://localhost:8888/", help="path to tilelive server file", type=str)
 
 class MainHandler(tornado.web.RequestHandler):
@@ -35,7 +33,7 @@ class ProjectEditHandler(tornado.web.RequestHandler):
         if True:
             manager = ProjectManager(options);
             mml = tornado.escape.json_encode(manager.read(self.request.arguments['id'][0], self.request.arguments['id'][0] + '.mml'));
-            url = self.request.host + '://' + self.request.protocol + '/';
+            url = self.request.protocol + '://' + self.request.host + '/';
             self.render("project.html", project_id=project_id, messages = [], mml = mml, tilelive = options.tilelive_server, url=url);
         else:
             tornado.web.HTTPError(404)
@@ -45,7 +43,7 @@ class ProjectNewHandler(tornado.web.RequestHandler):
         # Add a new project.
         project_id = self.request.arguments['name'][0]
         manager = ProjectManager(options)
-        result, message = manager.new(project_id)
+        result, message = manager.new(project_id, self)
         if result:
             self.redirect('/projects/edit?id=' + tornado.escape.url_escape(project_id))
         else:
@@ -82,12 +80,14 @@ class ProjectManager:
                 projects.append(basename)
         return projects
 
-    def new(self, name):
+    def new(self, name, request):
         directory = os.path.join(self.options.projects, name)
         if os.path.isdir(directory):
             return (False, "The directory " + name + " already exists")
         os.mkdir(directory)
-        shutil.copyfile(self.options.starter_mml, os.path.join(directory, name + '.mml'))
+        url = request.request.protocol + '://' + request.request.host + '/projects/mss?id=' + name + '&amp;filename=' + name;
+        self.save(name, name + '.mml', request.render_string('template.mml', url = url))
+        self.save(name, name + '.mss', request.render_string('template.mss'))
         return (True, "")
 
     def save(self, id, file, data):

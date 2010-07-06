@@ -1,4 +1,4 @@
-TileMill = {counter:0};
+TileMill = {};
 TileMill.addLayer = function(options) {
   var layerName = '';
   if (options.id) {
@@ -65,7 +65,7 @@ TileMill.initMap = function() {
       controls: []
     };
     TileMill.map = new OpenLayers.Map('map-preview', options);
-    url = window.server + 'projects/mml?id=' + window.project_id;
+    url = window.server + 'projects/mml?id=' + window.project_id + '&c=' + (new Date().getTime());
     encode = Base64.encode(url);
     TileMill.layer = new OpenLayers.Layer.XYZ("Preview", window.tilelive + 'tile/' + encode + '/${z}/${x}/${y}.png');
     TileMill.map.addLayers([ TileMill.layer ]);
@@ -80,7 +80,7 @@ TileMill.initMap = function() {
   }
   // Update map.
   else {
-    url = window.server + 'projects/mml?id=' + window.project_id + '&c=' + TileMill.counter++;
+    url = window.server + 'projects/mml?id=' + window.project_id + '&c=' + (new Date().getTime());
     encode = Base64.encode(url);
     layer = new OpenLayers.Layer.XYZ("Preview " + TileMill.counter, window.tilelive + 'tile/' + encode + '/${z}/${x}/${y}.png');
     TileMill.map.removeLayer(TileMill.layer);
