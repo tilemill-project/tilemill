@@ -84,7 +84,7 @@ TileMill.initColors = function() {
 
 TileMill.save = function() {
   var mml = TileMill.mml();
-  $.post('posts/mml', {
+  $.post('/projects/mml', {
     'id': window.project_id,
     'data': mml,
   });
@@ -112,7 +112,7 @@ TileMill.mml = function() {
     if (!layer.srs) {
       layer.srs = '900913';
     }
-    l += ' srs="&' + (layer.srs == '900913' ? '900913' : 'WGS84') + ';"';
+    l += ' srs="&srs' + (layer.srs == '900913' ? '900913' : 'WGS84') + ';"';
     l += '>';
     output.push(l);
     output.push('    <Datasource>');
