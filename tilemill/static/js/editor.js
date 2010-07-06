@@ -11,6 +11,15 @@ TileMill.addLayer = function(options) {
   var li = $('<li>')
     .append($('<div class="handle"></div>'))
     .append(checkbox)
+    .append($('<a class="layer-delete" href="#">Delete</a>').click(function() {
+      // @TODO: Fix Young's lazy code.
+      if (confirm('Are you sure you want to delete this layer?')) {
+        $(this).parents('li').hide('fast', function() {
+          $(this).remove();
+        });
+      }
+      return false;
+    }))
     .append($('<a class="layer-inspect" href="#">Inspect</a>').click(function() {
       $('#layers').hide();
       $('#inspector').show();

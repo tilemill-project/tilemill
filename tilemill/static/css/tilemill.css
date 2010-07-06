@@ -109,8 +109,7 @@ form div.buttons {
   }
 
 .sidebar-content li { position:relative; background:#eee; }
-.sidebar-content li a { background-color:#ddd; }
-.sidebar-content li a:hover { background-color:#fff; }
+.sidebar-content li a { background-color:#fff; }
 
 .sidebar-content li div.handle {
   position:absolute;
@@ -139,6 +138,7 @@ form div.buttons {
  */
 a.color-picker,
 a.layer-edit,
+a.layer-delete,
 a.layer-inspect {
   display:block;
   width:20px;
@@ -151,20 +151,21 @@ a.layer-inspect {
   }
 
 a.layer-edit,
+a.layer-delete,
 a.layer-inspect {
+  display:none;
   float:right;
   margin-left:5px;
   }
 
-a.layer-inspect {
-  right:5px;
-  background-position:-20px 0px;
-  }
+  li:hover a.layer-edit,
+  li:hover a.layer-delete,
+  li:hover a.layer-inspect { display:block; }
 
-a.color-picker {
-  background-position:-40px -20px;
-  }
-  
+a.layer-inspect { background-position:-20px 0px; }
+a.layer-delete  { background-position:-60px 0px; }
+a.color-picker  { background-position:-40px -20px; }
+
 /**
  * Map preview
  */
