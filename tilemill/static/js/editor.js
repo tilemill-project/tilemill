@@ -9,6 +9,7 @@ TileMill.addLayer = function(options) {
   }
   var checkbox = $('<input class="checkbox" type="checkbox" />');
   var li = $('<li>')
+    .append($('<div class="handle"></div>'))
     .append(checkbox)
     .append($('<a class="layer-inspect" href="#">Inspect</a>').click(function() {
       $('#layers').hide();
@@ -101,7 +102,8 @@ $(function() {
     });
   });
   $('#layers ul.sidebar-content').sortable({
-    axis: 'y'
+    axis: 'y',
+    handle: 'div.handle',
   });
 
   $('a.inspector-close').click(function() {
