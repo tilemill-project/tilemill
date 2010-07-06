@@ -12,7 +12,6 @@ TileMill.addLayer = function(options) {
     .append($('<div class="handle"></div>'))
     .append(checkbox)
     .append($('<a class="layer-delete" href="#">Delete</a>').click(function() {
-      // @TODO: Fix Young's lazy code.
       if (confirm('Are you sure you want to delete this layer?')) {
         $(this).parents('li').hide('fast', function() {
           $(this).remove();
@@ -25,22 +24,22 @@ TileMill.addLayer = function(options) {
         alert('You need to add an id to a field and save to inspect it.');
         return;
       }
+      $('#inspector h2').html('Layers &raquo; ' + $(this).parents('li').find('label').text());
       TileMill.inspect($(this).parents('li').data('tilemill').id);
       return false;
     }))
     .append($('<a class="layer-edit" href="#">Edit</a>').click(function() {
       var options = $(this).parents('li').data('tilemill');
-      if ($('#popup-layer').is(':hidden')) {
-        $('#popup, #popup-layer, #popup-backdrop, #popup-header').show();
-        $('#popup-layer input:not(.submit)').val('');
-        $('#popup-layer input.submit').val('Save').data('li', $(this).parents('li'));
-        $('#popup-layer input#classes').val(options.classes.join(' '));
-        $('#popup-layer input#id').val(options.id);
-        $('#popup-layer input#srs').val(options.srs);
-        $('#popup-layer input#dataSource').val(options.dataSource);
-        $('#popup-header h2').text('Edit layer');
-        $('#popup-info').hide();
+      $('#popup, #popup-layer, #popup-backdrop, #popup-header').show().removeClass('new');
+      var layer = $('#popup-layer').find('input.submit').val('Save').data('li', $(this).parents('li')).end();
+
+      options.classes = options.classes.join(' ');
+      for (option in options) {
+        layer.find('#' + option).val(options[option]).end();
       }
+
+      $('#popup-header h2').text('Edit layer');
+      $('#popup-info').hide();
       return false;
     }))
     .append($('<label>' + layerName + '</label>'));
@@ -208,7 +207,7 @@ TileMill.inspect = function(id) {
   $('#layers').hide();
   index = $('#inspector').find('ul.sidebar-content').empty().end().show().data('id');
   for (field in TileMill.inspection[id]) {
-    $('#inspector ul.sidebar-content').append('<li><strong>' + field + '</strong> <em>' + TileMill.inspection[id][field].replace({'int': 'integer', 'str': 'string'}) + '</em></li>');
+    $('#inspector ul.sidebar-content').append('<li><strong>' + field + '</strong> <em>' + TileMill.inspection[id][field].replace('int', 'integer').replace('str', 'string') + '</em></li>');
   }
 }
 
@@ -247,7 +246,7 @@ $(function() {
       id: $(this).attr('id'),
       status: status,
       dataSource: $(this).find('Datasource Parameter[name=file]').text(),
-      srs: $(this).attr('srs').replace({'&srs': '', ';': ''})
+      srs: $(this).attr('srs').replace('&srs', '').replace(';', '')
     });
   });
 
@@ -268,14 +267,12 @@ $(function() {
   TileMill.loadInspection(true);
 
   $('a#layers-add').click(function() {
-    if ($('#popup-layer').is(':hidden')) {
-      $('#popup, #popup-layer, #popup-backdrop, #popup-header').show();
-      $('#popup-layer input:not(.submit)').val('');
-      $('#popup-layer').addClass('new');
-      $('#popup-layer input.submit').text('Add layer');
-      $('#popup-header h2').text('Add layer');
-      $('#popup-info').hide();
-    }
+    $('#popup, #popup-layer, #popup-backdrop, #popup-header').show();
+    $('#popup-layer input:not(.submit)').val('');
+    $('#popup-layer').addClass('new');
+    $('#popup-layer input.submit').text('Add layer');
+    $('#popup-header h2').text('Add layer');
+    $('#popup-info').hide();
     return false;
   });
 
@@ -317,12 +314,9 @@ $(function() {
   });
 
   $('div#header a.info').click(function() {
-    if ($('#popup-info').is(':hidden')) {
-      $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
-      $('#popup-header h2').text('Info');
-      
-      $('#popup-layer').hide();
-    }
+    $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
+    $('#popup-header h2').text('Info');
+    $('#popup-layer').hide();
     return false;
   });
 });
