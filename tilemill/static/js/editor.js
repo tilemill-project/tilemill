@@ -209,6 +209,7 @@ TileMill.insert = function(text) {
 }
 
 TileMill.inspect = function(data) {
+  $('#layers ul.sidebar-content').empty();
   index = $('#inspector').data('id');
   for (field in data[index]) {
     $('#layers ul.sidebar-content').append('<li><strong>' + field + '</strong> <em>' + data[index][field] + '</em></li>');
