@@ -266,6 +266,24 @@
        x2="5"
        y2="225"
        gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3203"
+       id="linearGradient3220"
+       x1="70"
+       y1="190"
+       x2="70"
+       y2="218"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3203"
+       id="linearGradient3233"
+       x1="70"
+       y1="190"
+       x2="70"
+       y2="210"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -277,9 +295,9 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="-13.852189"
-     inkscape:cy="154.25732"
+     inkscape:zoom="2.4414062"
+     inkscape:cx="1.6368797"
+     inkscape:cy="205.07476"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -364,13 +382,6 @@
          y="360" />
     </g>
     <rect
-       style="opacity:1;fill:#202020;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="rect3204"
-       width="400"
-       height="1"
-       x="0"
-       y="399" />
-    <rect
        y="359"
        x="0"
        height="1"
@@ -400,5 +411,27 @@
        height="20"
        x="0"
        y="220" />
+    <g
+       id="g3237">
+      <path
+         style="opacity:1;fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         d="M 3,190 C 1.338,190 -2.6111925e-18,191.338 0,193 L 0,207 C 0,208.662 1.338,210 3,210 L 30,210 L 35,218 L 40,210 L 67,210 C 68.662,210 70,208.662 70,207 L 70,193 C 70,191.338 68.662,190 67,190 L 3,190 z"
+         id="path3222"
+         sodipodi:nodetypes="cccccccccccc" />
+      <rect
+         rx="2"
+         ry="2"
+         y="191"
+         x="1"
+         height="18"
+         width="68"
+         id="rect3224"
+         style="opacity:1;fill:url(#linearGradient3233);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <path
+         sodipodi:nodetypes="ccc"
+         id="path3235"
+         d="M 31,209 L 35,215.5 L 39,209"
+         style="opacity:1;fill:#e2e2e2;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
   </g>
 </svg>

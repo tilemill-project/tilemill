@@ -180,7 +180,7 @@ TileMill.reloadColors = function(data) {
   colors.sort(function(a, b) { return a[2] - b[2] });
   $('div#colors div').empty();
   for (color in colors) {
-    $('div#colors div').append($("<a href='#' class='swatch' style='background-color: "+ colors[color][3] +"'>"+ colors[color][3] +"</a>").click(function() {
+    $('div#colors div').append($("<a href='#' class='swatch' style='background-color: "+ colors[color][3] +"'><label>"+ colors[color][3] +"</label></a>").click(function() {
       var position = TileMill.mirror.cursorPosition();
       TileMill.mirror.insertIntoLine(position.line, position.character, $(this).text());
     }));

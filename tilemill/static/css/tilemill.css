@@ -244,31 +244,19 @@ a#popup-close   { background-position:-80px -20px; }
  * Color palette
  */
 #color-palette {
-  background:url(../images/sprite.png) 0px -360px repeat-x;
+  background:#303030 url(../images/sprite.png) 0px -360px repeat-x;
   color:#eee;
   position:fixed;
   left:320px;
   right:0px;
   bottom:0px;
+  padding-right:180px;
   }
 
 #colors {
   padding-left:70px;
   position:relative;
   float:left;
-  }
-
-#colors .swatch {
-  -moz-box-shadow:#222 0px 1px 2px;
-  -webkit-box-shadow:#222 0px 1px 2px;
-  background:url(../images/sprite.png) 0px -220px no-repeat;
-  float:left;
-  margin-right:5px;
-  text-indent:-9999px;
-
-  border:1px solid #222;
-  width:18px;
-  height:18px;
   }
 
 #colors label {
@@ -280,7 +268,40 @@ a#popup-close   { background-position:-80px -20px; }
   text-transform:uppercase;
   }
 
-#color-picker,
+#colors .swatch {
+  -moz-box-shadow:#222 0px 1px 2px;
+  -webkit-box-shadow:#222 0px 1px 2px;
+  background:url(../images/sprite.png) 0px -220px no-repeat;
+  float:left;
+  margin:3px 3px 2px 2px;
+
+  border:1px solid #222;
+  width:18px;
+  height:13px;
+  position:relative;
+  }
+
+  #colors .swatch label {
+    position:absolute;
+    left:-26px;
+    bottom:10px;
+    width:70px;
+
+    padding:0px 0px 10px;
+    text-align:center;
+    background:url(../images/sprite.png) 0px -190px no-repeat;
+    color:#333;
+    display:none;
+    text-shadow:none;
+    }
+
+  #colors .swatch:hover label { display:block; }
+
+#color-picker {
+  position:absolute;
+  right:10px;
+  }
+
 #color-picker a { float:right; }
 #color-picker a:hover { background-color:#000; }
 
