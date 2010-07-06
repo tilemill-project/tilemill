@@ -64,22 +64,28 @@ TileMill.initMap = function() {
       ),
       controls: []
     };
-    var map = new OpenLayers.Map('map-preview', options);
+    TileMill.map = new OpenLayers.Map('map-preview', options);
     url = window.server + 'projects/mml?id=' + window.project_id;
     encode = Base64.encode(url);
-    var layer = new OpenLayers.Layer.XYZ("Preview", window.tilelive + 'tile/' + encode + '/${z}/${x}/${y}.png');
-    map.addLayers([ layer ]);
+    TileMill.layer = new OpenLayers.Layer.XYZ("Preview", window.tilelive + 'tile/' + encode + '/${z}/${x}/${y}.png');
+    TileMill.map.addLayers([ TileMill.layer ]);
 
     // Set the map's initial center point
-    map.setCenter(new OpenLayers.LonLat(0, 0), 2);
+    TileMill.map.setCenter(new OpenLayers.LonLat(0, 0), 2);
 
     // Add control
     var control = new OpenLayers.Control.Navigation({ 'zoomWheelEnabled': true });
-    map.addControl(control);
+    TileMill.map.addControl(control);
     control.activate();
   }
   // Update map.
   else {
+    url = window.server + 'projects/mml?id=' + window.project_id + '&c=' + TileMill.counter++;
+    encode = Base64.encode(url);
+    layer = new OpenLayers.Layer.XYZ("Preview " + TileMill.counter, window.tilelive + 'tile/' + encode + '/${z}/${x}/${y}.png');
+    TileMill.map.removeLayer(TileMill.layer);
+    TileMill.map.addLayers([layer]);
+    TileMill.layer = layer;
   }
 };
 
@@ -106,6 +112,7 @@ TileMill.save = function() {
     'data': mml,
   });
   TileMill.mssSave(project_id);
+  TileMill.initMap();
 }
 
 TileMill.mml = function() {
@@ -115,14 +122,11 @@ TileMill.mml = function() {
   '  <!ENTITY srsWGS84 "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">',
   ']>',
   '<Map srs="&srs900913;">'];
-  output.push('<Stylesheet src="http://localhost:8889/projects/mss?id='+ project_id +'&filename='+ project_id +'" />');
+  output.push('  <Stylesheet src="http://localhost:8889/projects/mss?id='+ project_id +'&amp;filename='+ project_id +'" />');
   $('#layers ul.sidebar-content li').each(function() {
     var layer = $(this).data('tilemill'), l = '  <Layer';
     if (layer.id) {
       l += ' id="' + layer.id + '"';
-    }
-    if (layer.classes) {
-      l += ' class="' + layer.classes.join(' ') + '"';
     }
     if (layer.classes) {
       l += ' class="' + layer.classes.join(' ') + '"';
