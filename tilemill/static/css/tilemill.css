@@ -112,15 +112,26 @@ form div.buttons {
 .sidebar-content li a { background-color:#ddd; }
 .sidebar-content li a:hover { background-color:#fff; }
 
+.sidebar-content li div.handle {
+  position:absolute;
+  left:0px;
+  top:0px;
+  bottom:0px;
+  width:10px;
+  background:#ccc;
+  cursor:move;
+  }
+
 .sidebar-content li input.checkbox {
   position:absolute;
-  left:10px;
+  left:20px;
   top:5px;
   }
 
 .sidebar-content li label {
+  font-size:11px;
   display:block;
-  padding-left:20px;
+  padding-left:30px;
   }
 
 /**
