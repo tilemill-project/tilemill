@@ -227,6 +227,7 @@ TileMill.inspect = function(id) {
   for (field in TileMill.inspection[id]) {
     (function(layer, field) {
       var li = $('<li>')
+        .attr('id', 'field-' + field)
         .append('<a class="inspect-values" href="#inspect-values">See values</a>').click(function() {
           TileMill.values(layer, field);
         })
@@ -249,14 +250,36 @@ TileMill._loadInspection = function(data) {
 }
 
 TileMill.values = function(layer, field) {
-  encode = TileMill.mmlURL();
-  var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-  script.src = window.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start="+ TileMill.page * 10 +"&jsoncallback=TileMill._values";
-  head.insertBefore(script, head.firstChild);
+  if ($('li#field-' + field + ' ul').size()) {
+    if ($('li#field-' + field + ' ul').is(':hidden')) {
+      $('#inspector li ul').hide();
+      $('li#field-' + field + ' ul').show();
+    }
+    else {
+      $('li#field-' + field + ' ul').hide();
+    }
+  }
+  else {
+    $('#inspector li ul').hide();
+    encode = TileMill.mmlURL();
+    var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
+    script.src = window.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start="+ TileMill.page * 10 +"&jsoncallback=TileMill._values";
+    head.insertBefore(script, head.firstChild);
+  }
 }
 
 TileMill._values = function(data) {
   console.log(data);
+  if (data.field) {
+    var ul = $('<ul class="clearfix inspect-values">')
+      .addClass('field-values')
+      .append('<li class="min"><strong>Min</strong>: ' + data.min + '</li>')
+      .append('<li class="max"><strong>Max</strong>: ' + data.max + '</li>');
+    for (var i in data.values) {
+      ul.append('<li>' + data.values[i] + '</li>');
+    }
+    $('li#field-' + data.field).append(ul);
+  }
 }
 
 $(function() {
