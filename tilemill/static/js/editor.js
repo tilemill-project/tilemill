@@ -10,10 +10,14 @@ $.fn.reverse = [].reverse;
  *   TileLive caching.
  */
 TileMill.mmlURL = function(timestamp) {
+  console.log('here');
   var url = window.server + 'projects/mml?id=' + window.project_id;
-  if (!!timestamp) {
-    url = url + '&c=' + TileMill.uniq;
-  }  
+  console.log(timestamp);
+  console.log('here');
+  //if (timestamp != undefined && !!timestamp) {
+    url += '&c=' + TileMill.uniq;
+  //}  
+  console.log(url);
   url = Base64.encode(url);
   return url;
 };
@@ -100,10 +104,9 @@ TileMill.initMap = function() {
   }
   // Update map.
   else {
-    layer = new OpenLayers.Layer.XYZ("Preview " + TileMill.counter, window.tilelive + 'tile/' + TileMill.mmlURL() + '/${z}/${x}/${y}.png');
     TileMill.map.removeLayer(TileMill.layer);
-    TileMill.map.addLayers([layer]);
-    TileMill.layer = layer;
+    TileMill.layer = new OpenLayers.Layer.XYZ("Preview", window.tilelive + 'tile/' + TileMill.mmlURL() + '/${z}/${x}/${y}.png');
+    TileMill.map.addLayers([TileMill.layer]);
   }
 };
 
@@ -139,10 +142,8 @@ TileMill.save = function(map) {
   });
   TileMill.mssSave(project_id);
   TileMill.loadInspection();
-  if (map == undefined || !!map) {
-    TileMill.uniq = (new Date().getTime());
-    TileMill.initMap();
-  }
+  TileMill.uniq = (new Date().getTime());
+  TileMill.initMap();
 }
 
 TileMill.mml = function() {
@@ -152,7 +153,7 @@ TileMill.mml = function() {
   '  <!ENTITY srsWGS84 "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">',
   ']>',
   '<Map srs="&srs900913;">'];
-  output.push('  <Stylesheet src="' + window.server + 'projects/mss?id='+ project_id +'&amp;filename='+ project_id +'" />');
+  output.push('  <Stylesheet src="' + window.server + 'projects/mss?id='+ project_id +'&amp;filename='+ project_id +'&amp;c=' + TileMill.uniq + '" />');
   $('#layers ul.sidebar-content li').reverse().each(function() {
     var layer = $(this).data('tilemill'), l = '  <Layer';
     if (layer.id) {
@@ -260,6 +261,7 @@ TileMill._values = function(data) {
 }
 
 $(function() {
+  console.log(TileMill.mmlURL());
   $(mml).find('Layer').each(function() {
     status = $(this).attr('status');
     if (status == 'undefined') {
