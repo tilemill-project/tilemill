@@ -71,15 +71,32 @@ ul li {
 ul ul {
   background:#fff;
   margin-top:5px;
+  padding:5px;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   }
 
 ul ul li {
-  padding-top:0px;
-  padding-bottom:0px;
+  padding:0px;
   border:0px;
   background:transparent;
+  }
+
+ul.inspect-values li {
+  font-size:11px;
+  line-height:19px;
+  border-bottom:1px solid #eee;
+  white-space:nowrap;
+  overflow:hidden;
+  float:left;
+  width:50%;
+  }
+
+ul.inspect-values li.min,
+ul.inspect-values li.max {
+  width:auto;
+  float:none;
+  background:#f0f4f4;
   }
 
 /**
