@@ -26,7 +26,7 @@ TileMill.addLayer = function(options) {
         $('#popup-layer input#id').val(options.id);
         $('#popup-layer input#srs').val(options.srs);
         $('#popup-layer input#dataSource').val(options.dataSource);
-        $('#popup-header').text('Edit layer');
+        $('#popup-header h2').text('Edit layer');
       }
     }))
     .append($('<label>' + layerName + '</label>'));
