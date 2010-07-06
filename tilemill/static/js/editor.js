@@ -85,7 +85,7 @@ TileMill.initColors = function() {
 };
 
 TileMill.initCodeEditor = function() {
-  CodeMirror.fromTextArea('code', {
+  TileMill.mirror = CodeMirror.fromTextArea('code', {
     height: "auto",
     parserfile: "parsecss.js",
     stylesheet: static_path + "css/code.css",
@@ -135,12 +135,14 @@ TileMill.mml = function() {
   return output.join("\n");
 }
 
-TileMill.mss = function(file, callback) {
-  $.get('/projects/mss', {'project_id': project_id, 'filename': file}, callback);
+TileMill.mss = function(file) {
+  $.get('/projects/mss', {'id': project_id, 'filename': file}, function(data) {
+    TileMill.mirror.setCode(data);
+  });
 }
 
 TileMill.mssSave = function(file, data) {
-  $.post('/projects/mss', {'project_id': project_id, 'filename': file, 'data': data});
+  $.post('/projects/mss', {'id': project_id, 'filename': file, 'data': data});
 }
 
 $(function() {
@@ -238,5 +240,7 @@ $(function() {
       $('#popup-layer').hide();
     }
     return false;
-  })
+  });
+
+  TileMill.mss(project_id);
 });
