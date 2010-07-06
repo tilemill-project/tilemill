@@ -25,13 +25,7 @@ TileMill.addLayer = function(options) {
         alert('You need to add an id to a field and save to inspect it.');
         return;
       }
-      TileMill.save(false);
-      $('#layers').hide();
-      $('#inspector').show();
-      $('#inspector').data('id', $(this).parents('li').data('tilemill').id);
-      url = window.server + 'projects/mml?id=' + window.project_id + '&c=' + (new Date().getTime());
-      encode = Base64.encode(url);
-      $.getScript(window.tilelive + encode + "/fields.json?jsoncallback=TileMill.inspect");
+      TileMill.inspect($(this).parents('li').data('tilemill').id);
       return false;
     }))
     .append($('<a class="layer-edit" href="#">Edit</a>').click(function() {
@@ -129,10 +123,8 @@ TileMill.save = function(map) {
     'data': mml,
   });
   TileMill.mssSave(project_id);
-  if (map == undefined) {
-    TileMill.initMap();
-  }
-  else if (!!map) {
+  TileMill.loadInspection();
+  if (map == undefined || !!map) {
     TileMill.initMap();
   }
 }
@@ -209,12 +201,29 @@ TileMill.insert = function(text) {
   TileMill.mirror.insertIntoLine(position.line, position.character, text);
 }
 
-TileMill.inspect = function(data) {
-  $('#inspector ul.sidebar-content').empty();
-  index = $('#inspector').data('id');
-  for (field in data[index]) {
-    $('#inspector ul.sidebar-content').append('<li><strong>' + field + '</strong> <em>' + data[index][field] + '</em></li>');
+TileMill.inspect = function(id) {
+  if (!TileMill.inspection) {
+    setTimeout(TileMill.inspect, 1000);
   }
+  $('#layers').hide();
+  index = $('#inspector').find('ul.sidebar-content').empty().end().show().data('id');
+  for (field in TileMill.inspection[id]) {
+    $('#inspector ul.sidebar-content').append('<li><strong>' + field + '</strong> <em>' + TileMill.inspection[id][field].replace({'int': 'integer', 'str': 'string'}) + '</em></li>');
+  }
+}
+
+TileMill.loadInspection = function(init) {
+  if (init == undefined || !init) {
+    TileMill.save(false);
+  }
+  encode = Base64.encode(window.server + 'projects/mml?id=' + window.project_id + '&c=' + (new Date().getTime()));
+  var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
+  script.src = window.tilelive + encode + "/fields.json?jsoncallback=TileMill._loadInspection";
+  head.insertBefore(script, head.firstChild);
+}
+
+TileMill._loadInspection = function(data) {
+  TileMill.inspection = data;
 }
 
 $(function() {
@@ -241,6 +250,7 @@ $(function() {
       srs: $(this).attr('srs').replace({'&srs': '', ';': ''})
     });
   });
+
   $('#layers ul.sidebar-content').sortable({
     axis: 'y',
     handle: 'div.handle',
@@ -255,6 +265,7 @@ $(function() {
   TileMill.initMap();
   TileMill.initColors();
   TileMill.initCodeEditor(project_id);
+  TileMill.loadInspection(true);
 
   $('a#layers-add').click(function() {
     if ($('#popup-layer').is(':hidden')) {
