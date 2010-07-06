@@ -239,19 +239,19 @@ a.color-picker {
  */
 #editor #popup-backdrop {
   background-color:#fff;
-  opacity: 0.6;
+  opacity: 0.75;
   position:absolute;
-  top:40px;
-  left:320px;
-  bottom:40px;
+  top:0px;
+  left:0px;
+  bottom:0px;
   right:0px;
   }
 
 #editor #popup {
   z-index: 2;
   position:absolute;
-  top:40px;
-  left:320px;
+  top:0px;
+  left:0px;
   right:0px;
   width: 400px;
   background-color: #fff;

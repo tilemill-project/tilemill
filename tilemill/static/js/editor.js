@@ -190,7 +190,7 @@ $(function() {
       $('#popup-layer input:not(.submit)').val('');
       $('#popup-layer').addClass('new');
       $('#popup-layer input.submit').text('Add layer');
-      $('#popup-header').text('Add layer');
+      $('#popup-header h2').text('Add layer');
       $('#popup-info').hide();
     }
     return false;
