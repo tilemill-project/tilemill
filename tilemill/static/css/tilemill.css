@@ -1,0 +1,211 @@
+body { padding-top:40px; }
+body.project { padding-left:320px; }
+
+a {
+  color:#369;
+  text-decoration:none;
+  }
+
+h1 { font-size:20px; }
+h2 { font-size:16px; }
+h3 { font-size:13px; }
+
+.hidden { display:none; }
+
+.pane { padding:10px; }
+
+#header {
+  position:fixed;
+  left:0px;
+  right:0px;
+  top:0px;
+  height:20px;
+  background:#eee;
+  }
+
+  #header h1,
+  #header a.info,
+  #header a.save {
+    float:left;
+    margin-right:10px;
+    }
+
+  #header a.info,
+  #header a.save {
+    background:#666;
+    color:#fff;
+    padding:0px 10px;
+    }
+
+  #header a.home { float:right; }
+
+/**
+ * Home
+ */
+ul li {
+  padding:5px 10px 4px;
+  border-bottom:1px solid #ddd;
+  }
+
+/**
+ * Form elements
+ */
+input.text {
+  border:1px solid #ccc;
+  }
+
+input.submit {
+  padding:0px 5px;
+  border:1px solid #ccc;
+  background:#eee;
+  }
+
+/**
+ * Layers
+ */
+#sidebar {
+  position:fixed;
+  left:0px;
+  top:40px;
+  bottom:240px;
+  width:320px;
+  background:#eee;
+  }
+
+.sidebar-header h2 { float:left; }
+.sidebar-header a { float:right; }
+
+.sidebar-content {
+  position:absolute;
+  left:0px;
+  bottom:0px;
+  right:0px;
+  top:40px;
+  overflow:auto;
+  }
+
+.sidebar-content li { position:relative; }
+.sidebar-content li a { background-color:#ddd; }
+.sidebar-content li a:hover { background-color:#fff; }
+
+.sidebar-content li input.checkbox {
+  position:absolute;
+  left:10px;
+  top:5px;
+  }
+
+.sidebar-content li label {
+  display:block;
+  padding-left:20px;
+  }
+
+/**
+ * Icon links
+ */
+a.color-picker,
+a.layer-edit,
+a.layer-inspect {
+  display:block;
+  width:20px;
+  height:20px;
+  text-indent:-9999px;
+  background:url(../images/sprite.png) 0px 0px no-repeat;
+
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  }
+
+a.layer-edit,
+a.layer-inspect {
+  float:right;
+  margin-left:5px;
+  }
+
+a.layer-inspect {
+  right:5px;
+  background-position:-20px 0px;
+  }
+
+a.color-picker {
+  background-position:-40px -20px;
+  }
+  
+/**
+ * Map preview
+ */
+#map-preview {
+  position:fixed;
+  left:0px;
+  bottom:0px;
+  width:320px;
+  height:240px;
+  background:#ddd;
+  }
+
+/**
+ * Code editor
+ */
+#editor #code {
+  padding:10px;
+  overflow:auto;
+  position:fixed;
+  top:40px;
+  left:320px;
+  bottom:40px;
+  right:0px;
+  }
+
+/**
+ * Color palette
+ */
+#color-palette {
+  background:#333;
+  color:#fff;
+  position:fixed;
+  left:320px;
+  right:0px;
+  bottom:0px;
+  }
+
+#colors { float:left; }
+
+#colors label,
+#colors .swatch {
+  float:left;
+  margin-right:10px;
+  }
+
+#colors .swatch {
+  width:20px;
+  text-indent:-9999px;
+  }
+
+#color-picker { float:right; }
+#color-picker a:hover { background-color:#000; }
+
+/**
+ * Popup editor.
+ */
+#editor #popup-backdrop {
+  background-color:#fff;
+  opacity: 0.6;
+  position:absolute;
+  top:40px;
+  left:320px;
+  bottom:40px;
+  right:0px;
+  }
+
+#editor #popup {
+  z-index: 2;
+  position:absolute;
+  top:40px;
+  left:320px;
+  right:0px;
+  width: 400px;
+  background-color: #fff;
+  margin: 200px auto 0;
+  padding: 20px;
+  }
+
+#popup, #popup > div, #popup-backdrop { display:none; }
