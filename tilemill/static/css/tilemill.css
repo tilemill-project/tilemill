@@ -53,7 +53,10 @@ h3 { font-size:13px; }
     -webkit-border-radius:3px;
     }
 
-  #header a.home { float:right; }
+  #header a.home {
+    text-shadow:#000 0px -1px 0px;
+    float:right;
+    }
 
 /**
  * Home
@@ -69,13 +72,19 @@ ul li {
  * Form elements
  */
 input.text {
+  background:#f8f8f8;
   border:1px solid #ccc;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
   }
 
 input.submit {
-  padding:0px 5px;
+  cursor:pointer;
+  padding:0px 10px;
   border:1px solid #ccc;
-  background:#eee;
+  background:#f8f8f8;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
   }
 
 form div {
@@ -97,9 +106,8 @@ form div label {
 
 form div.buttons {
   text-align:right;
-  background:#eee;
   border:0px;
-  padding:5px 5px 5px 110px;
+  padding:5px 0px 5px 110px;
   }
 
 /**
@@ -114,7 +122,9 @@ form div.buttons {
   border-right:1px solid #ccc;
   }
 
+#popup-header,
 .sidebar-header { background:url(../images/sprite.png) 0px -320px repeat-x; }
+
 .sidebar-header h2 { float:left; }
 .sidebar-header a { float:right; }
 
@@ -156,6 +166,7 @@ form div.buttons {
 /**
  * Icon links
  */
+a#popup-close,
 a.color-picker,
 a.layer-edit,
 a.layer-delete,
@@ -188,6 +199,7 @@ a.layer-inspect {
 a.layer-inspect { background-position:-20px 0px; }
 a.layer-delete  { background-position:-60px 0px; }
 a.color-picker  { background-position:-40px -20px; }
+a#popup-close   { background-position:-80px -20px; }
 
 /**
  * Map preview
@@ -224,7 +236,7 @@ a.color-picker  { background-position:-40px -20px; }
  */
 #color-palette {
   background:url(../images/sprite.png) 0px -360px repeat-x;
-  color:#fff;
+  color:#eee;
   position:fixed;
   left:320px;
   right:0px;
@@ -238,13 +250,20 @@ a.color-picker  { background-position:-40px -20px; }
   }
 
 #colors .swatch {
+  -moz-box-shadow:#222 0px 1px 2px;
+  -webkit-box-shadow:#222 0px 1px 2px;
+  background:url(../images/sprite.png) 0px -220px no-repeat;
   float:left;
   margin-right:5px;
   text-indent:-9999px;
-  width:20px;
+
+  border:1px solid #222;
+  width:18px;
+  height:18px;
   }
 
 #colors label {
+  text-shadow:#000 0px -1px 0px;
   position:absolute;
   left:0px;
   font-size:11px;
@@ -296,3 +315,5 @@ a.color-picker  { background-position:-40px -20px; }
 
 #popup-header h2 { float:left; }
 #popup-header a { float:right; }
+
+a#popup-close { background-color:#222; }
