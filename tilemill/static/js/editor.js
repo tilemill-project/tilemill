@@ -4,9 +4,10 @@ TileMill.addLayer = function(options) {
   if (options.id) {
     layerName = '#' + options.id + ' ';
   }
-  if (options.classes) {
+  if (options.classes.length) {
     layerName += '.' + options.classes.join(', .');
   }
+  console.log(options.classes);
   var checkbox = $('<input class="checkbox" type="checkbox" />');
   var li = $('<li>')
     .append($('<div class="handle"></div>'))
@@ -93,8 +94,12 @@ $(function() {
     else {
       status = false;
     }
+    classes = []
+    if ($(this).attr('class')) {
+      classes = $(this).attr('class').split(' ');
+    }
     TileMill.addLayer({
-      classes: $(this).attr('class').split(' '),
+      classes: classes,
       id: $(this).attr('id'),
       status: status,
       dataSource: $(this).find('Datasource Parameter[name=file]').text(),
