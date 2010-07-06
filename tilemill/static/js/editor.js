@@ -198,7 +198,7 @@ $(function() {
         layerName += '.' + layer.classes.join(', .');
       }
       li = $(this).data('li');
-      $(li).find('label').text(layerName).data('tilemill', layer);
+      $(li).find('label').text(layerName).end().data('tilemill', layer);
     }
     $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
     $('#popup-layer').removeClass('new');
@@ -208,5 +208,10 @@ $(function() {
   $('a#popup-close').click(function() {
     $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
     $('#popup-layer').removeClass('new');
+  });
+
+  $('div#header a.save').click(function() {
+    TileMill.save();
+    return false;
   });
 });
