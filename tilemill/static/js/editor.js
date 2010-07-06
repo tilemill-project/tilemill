@@ -27,7 +27,9 @@ TileMill.addLayer = function(options) {
         $('#popup-layer input#srs').val(options.srs);
         $('#popup-layer input#dataSource').val(options.dataSource);
         $('#popup-header h2').text('Edit layer');
+        $('#popup-info').hide();
       }
+      return false;
     }))
     .append($('<label>' + layerName + '</label>'));
   if (options.status == 'true') {
@@ -97,7 +99,6 @@ TileMill.save = function() {
     'id': window.project_id,
     'data': mml,
   });
-  
 }
 
 TileMill.mml = function() {
@@ -132,6 +133,14 @@ TileMill.mml = function() {
   });
   output.push('</Map>');
   return output.join("\n");
+}
+
+TileMill.mss = function(file, callback) {
+  $.get('/projects/mss', {'project_id': project_id, 'filename': file}, callback);
+}
+
+TileMill.mssSave = function(file, data) {
+  $.post('/projects/mss', {'project_id': project_id, 'filename': file, 'data': data});
 }
 
 $(function() {
@@ -180,6 +189,7 @@ $(function() {
       $('#popup-layer').addClass('new');
       $('#popup-layer input.submit').text('Add layer');
       $('#popup-header').text('Add layer');
+      $('#popup-info').hide();
     }
     return false;
   });
@@ -204,7 +214,7 @@ $(function() {
         layerName += '.' + layer.classes.join(', .');
       }
       li = $(this).data('li');
-      $(li).find('label').text(layerName).data('tilemill', layer);
+      $(li).find('label').text(layerName).end().data('tilemill', layer);
     }
     $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
     $('#popup-layer').removeClass('new');
@@ -215,4 +225,18 @@ $(function() {
     $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
     $('#popup-layer').removeClass('new');
   });
+
+  $('div#header a.save').click(function() {
+    TileMill.save();
+    return false;
+  });
+
+  $('div#header a.info').click(function() {
+    if ($('#popup-info').is(':hidden')) {
+      $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
+      $('#popup-header h2').text('Info');
+      $('#popup-layer').hide();
+    }
+    return false;
+  })
 });
