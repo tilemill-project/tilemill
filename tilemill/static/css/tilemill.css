@@ -97,6 +97,19 @@ input.submit {
   }
 
 /**
+ * Code editor
+ */
+#editor #code {
+  padding:10px;
+  overflow:auto;
+  position:fixed;
+  top:40px;
+  left:320px;
+  bottom:40px;
+  right:0px;
+  }
+
+/**
  * Color palette
  */
 #color-palette {
@@ -120,4 +133,29 @@ input.submit {
 #colors .swatch {
   width:20px;
   text-indent:-9999px;
+  }
+
+/**
+ * Popup editor.
+ */
+#editor #popup-backdrop {
+  background-color:#fff;
+  opacity: 0.6;
+  position:absolute;
+  top:40px;
+  left:320px;
+  bottom:40px;
+  right:0px;
+  }
+
+#editor #popup {
+  z-index: 2;
+  position:absolute;
+  top:40px;
+  left:320px;
+  right:0px;
+  width: 400px;
+  background-color: #fff;
+  margin: 200px auto 0;
+  padding: 20px;
   }

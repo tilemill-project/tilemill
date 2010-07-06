@@ -1,3 +1,5 @@
+jQuery.fn.reverse = [].reverse;
+
 TileMill = {};
 TileMill.addLayer = function(classes, id, status) {
   var layerName = '';
@@ -14,18 +16,20 @@ TileMill.addLayer = function(classes, id, status) {
     .append($('<a class="layer-inspect" href="#">Inspect</a>').click(function() {
       $('#layers').hide();
       $('#inspector').show();
+      return false;
     }))
     .appendTo($('#layers ul.sidebar-content'));
 };
 
 $(function() {
-  $(mml).find('Layer').each(function() {
-    status = $(this).attr('status') == 'on';
+  $(mml).find('Layer').reverse().each(function() {
+    status = $(this).attr('status');
     TileMill.addLayer($(this).attr('class').split(' '), $(this).attr('id'), !status || $(this).attr('status') == 'on');
   });
 
   $('a.inspector-close').click(function() {
     $('#layers').show();
     $('#inspector').hide();
+    return false;
   });
 });
