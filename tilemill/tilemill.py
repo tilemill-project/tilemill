@@ -35,7 +35,8 @@ class ProjectEditHandler(tornado.web.RequestHandler):
         if True:
             manager = ProjectManager(options);
             mml = tornado.escape.json_encode(manager.read(self.request.arguments['id'][0], self.request.arguments['id'][0] + '.mml'));
-            self.render("project.html", project_id=project_id, messages = [], mml = mml, tilelive = options.tilelive_server, url='http://localhost:8889/');
+            url = self.request.host + '://' + self.request.protocol + '/';
+            self.render("project.html", project_id=project_id, messages = [], mml = mml, tilelive = options.tilelive_server, url=url);
         else:
             tornado.web.HTTPError(404)
 
