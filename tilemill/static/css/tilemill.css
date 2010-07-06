@@ -180,8 +180,21 @@ a.color-picker {
   text-indent:-9999px;
   }
 
-#color-picker { float:right; }
+#color-picker,
+#color-picker a { float:right; }
 #color-picker a:hover { background-color:#000; }
+
+#farbtastic {
+  background:#333;
+  color:#fff;
+  position:absolute;
+  right:0px;
+  bottom:40px;
+
+  display:none;
+  -moz-border-radius:3px 0px 0px 0px;
+  -webkit-border-radius:3px 0px 0px 0px;
+  }
 
 /**
  * Popup editor.

@@ -8,6 +8,7 @@
     <script type="text/javascript" src="{{ static_url('js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/jquery-ui.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/openlayers/OpenLayers.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/farbtastic/src/farbtastic.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/editor.js') }}"></script>
     <script type="text/javascript">
       var mml = {{ mml }};
@@ -111,7 +112,8 @@
       <div id="color-palette" class='pane'>
         <div id='color-picker'>
           <a class='color-picker' href='#color-picker'>Color picker</a>
-          <div class='color-picker'></div>
+          <input size='7' maxlength='7' id='color' type='text' class='text' />
+          <div class='pane' id='farbtastic'></div>
         </div>
         <div id='colors'>
           <label>Colors</label>
