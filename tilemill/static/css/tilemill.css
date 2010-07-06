@@ -128,6 +128,15 @@ form div.buttons {
 .sidebar-header h2 { float:left; }
 .sidebar-header a { float:right; }
 
+.sidebar-header a {
+  padding:0px 9px;
+  background:#f8f8f8;
+  line-height:18px;
+  border:1px solid #ccc;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  }
+
 .sidebar-content {
   position:absolute;
   left:0px;
