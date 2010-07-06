@@ -1,38 +1,17 @@
 body {
+  color:#333;
   background:#f8f8f8;
   padding:10px;
   margin:0px;
   font:13px/20px "Bitstream Vera Mono","Andale Mono",monospace;
   }
 
-span.css-at {
-  color: #770088;
-}
-
-span.css-unit {
-  color: #228811;
-}
-
-span.css-value {
-  color: #770088;
-}
-
-span.css-identifier {
-  color: black;
-}
-
-span.css-important {
-  color: #0000FF;
-}
-
-span.css-colorcode {
-  color: #004499;
-}
-
-span.css-comment {
-  color: #AA7700;
-}
-
-span.css-string {
-  color: #AA2222;
-}
+span.css-at           { color:#708; }
+span.css-unit         { color:#281; }
+span.css-value        { color:#708; }
+span.css-identifier   { color:#333; }
+span.css-important    { color:#03c; }
+span.css-colorcode    { color:#048; }
+span.css-punctuation  { color:#666; }
+span.css-comment      { color:#999; }
+span.css-string       { color:#a22; }
