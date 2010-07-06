@@ -1,6 +1,5 @@
 TileMill = {};
 TileMill.addLayer = function(options) {
-  console.log(options);
   var layerName = '';
   if (options.id) {
     layerName = '#' + options.id + ' ';
@@ -16,12 +15,23 @@ TileMill.addLayer = function(options) {
       $('#inspector').show();
       return false;
     }))
-    .append($('<a class="layer-edit" href="#">Edit</a>'))
+    .append($('<a class="layer-edit" href="#">Edit</a>').click(function() {
+      var options = $(this).parents('li').data('tilemill');
+      if ($('#popup-layer').is(':hidden')) {
+        $('#popup, #popup-layer, #popup-backdrop, #popup-header').show();
+        $('#popup-layer input:not(.submit)').val('');
+        $('#popup-layer input.submit').val('Save').data('li', $(this).parents('li'));
+        $('#popup-layer input#classes').val(options.classes.join(' '));
+        $('#popup-layer input#id').val(options.id);
+        $('#popup-layer input#srs').val(options.srs);
+        $('#popup-layer input#dataSource').val(options.dataSource);
+      }
+    }))
     .append($('<label>' + layerName + '</label>'));
   if (options.status == 'true') {
     checkbox[0].checked = true;
   }
-  $('#layers ul.sidebar-content').prepend(li);
+  $('#layers ul.sidebar-content').prepend(li.data('tilemill', options));
 };
 
 TileMill.initMap = function(hosts, layername, type) {
@@ -99,6 +109,7 @@ $(function() {
       $('#popup, #popup-layer, #popup-backdrop, #popup-header').show();
       $('#popup-layer input:not(.submit)').val('');
       $('#popup-layer').addClass('new');
+      $('#popup-layer input.submit').text('Add layer');
     }
     return false;
   });
@@ -111,7 +122,22 @@ $(function() {
       srs: $('#popup-layer input#srs').val(),
       status: 'true'
     };
-    TileMill.addLayer(layer);
+    if ($('#popup-layer').is('.new')) {
+      TileMill.addLayer(layer);
+    }
+    else {
+      var layerName = '';
+      if (layer.id) {
+        layerName = '#' + layer.id + ' ';
+      }
+      if (layer.classes) {
+        layerName += '.' + layer.classes.join(', .');
+      }
+      li = $(this).data('li');
+      $(li).find('label').text(layerName).data('tilemill', layer);
+    }
+    $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
+    $('#popup-layer').removeClass('new');
     return false;
   })
 
