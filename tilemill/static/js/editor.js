@@ -225,9 +225,9 @@ TileMill.inspect = function(id) {
     (function(layer, field) {
       var li = $('<li>')
         .attr('id', 'field-' + field)
-        .append('<a class="inspect-values" href="#inspect-values">See values</a>').click(function() {
+        .append($('<a class="inspect-values" href="#inspect-values">See values</a>').click(function() {
           TileMill.values(layer, field);
-        })
+        }))
         .append('<strong>' + field + '</strong>')
         .append('<em>' + TileMill.inspection[layer][field].replace('int', 'integer').replace('str', 'string') + '</em>')
         .appendTo('#inspector ul.sidebar-content');
