@@ -1,4 +1,20 @@
 TileMill = {};
+
+/**
+ * Generate the URL of the current project .mml file.
+ *
+ * @param bool timestamp
+ *   Optionally append a timestamp parameter to the URL to avoid
+ *   TileLive caching.
+ */
+TileMill.mmlURL = function(timestamp) {
+  var url = window.server + 'projects/mml?id=' + window.project_id;
+  if (timestamp) {
+    url = url + '&c=' + (new Date().getTime());
+  }
+  return url;
+};
+
 TileMill.addLayer = function(options) {
   var layerName = '';
   if (options.id) {
@@ -30,9 +46,7 @@ TileMill.addLayer = function(options) {
       $('#inspector').show();
       $('#inspector').data('id', $(this).parents('li').data('tilemill').id);
       $('#inspector .sidebar-header h2').text('#' + $(this).parents('li').data('tilemill').id);
-      url = window.server + 'projects/mml?id=' + window.project_id + '&c=' + (new Date().getTime());
-      encode = Base64.encode(url);
-      $.getScript(window.tilelive + encode + "/fields.json?jsoncallback=TileMill.inspect");
+      $.getScript(window.tilelive + Base64.encode(TileMill.mmlURL(true)) + "/fields.json?jsoncallback=TileMill.inspect");
       return false;
     }))
     .append($('<a class="layer-edit" href="#">Edit</a>').click(function() {
@@ -75,9 +89,7 @@ TileMill.initMap = function() {
       controls: []
     };
     TileMill.map = new OpenLayers.Map('map-preview', options);
-    url = window.server + 'projects/mml?id=' + window.project_id + '&c=' + (new Date().getTime());
-    encode = Base64.encode(url);
-    TileMill.layer = new OpenLayers.Layer.XYZ("Preview", window.tilelive + 'tile/' + encode + '/${z}/${x}/${y}.png');
+    TileMill.layer = new OpenLayers.Layer.XYZ("Preview", window.tilelive + 'tile/' + Base64.encode(TileMill.mmlURL()) + '/${z}/${x}/${y}.png');
     TileMill.map.addLayers([ TileMill.layer ]);
 
     // Set the map's initial center point
@@ -310,7 +322,7 @@ $(function() {
     if ($('#popup-info').is(':hidden')) {
       $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
       $('#popup-header h2').text('Info');
-      
+      $('#popup-info input').val(window.tilelive + 'tile/' + Base64.encode(TileMill.mmlURL()));
       $('#popup-layer').hide();
     }
     return false;
