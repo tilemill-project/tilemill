@@ -82,6 +82,8 @@ ul ul li {
   background:transparent;
   }
 
+#inspector ul li em { margin-left:5px; }
+
 ul.inspect-values li {
   font-size:11px;
   line-height:19px;
@@ -96,8 +98,11 @@ ul.inspect-values li.min,
 ul.inspect-values li.max {
   width:auto;
   float:none;
+  border-color:#e0e8e8;
   background:#f0f4f4;
   }
+
+ul.inspect-values strong { text-transform:uppercase; }
 
 /**
  * Form elements
