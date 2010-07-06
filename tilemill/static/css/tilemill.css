@@ -180,15 +180,18 @@ a.color-picker {
 /**
  * Code editor
  */
-#editor #code {
-  padding:10px;
+#editor {
   overflow:auto;
   position:fixed;
   top:40px;
   left:320px;
   bottom:40px;
   right:0px;
+  display:block;
+  width:auto !important;
   }
+
+#editor iframe { padding:0px; }
 
 /**
  * Color palette

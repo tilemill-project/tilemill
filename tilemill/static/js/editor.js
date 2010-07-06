@@ -82,6 +82,15 @@ TileMill.initColors = function() {
   });
 };
 
+TileMill.initCodeEditor = function() {
+  CodeMirror.fromTextArea('code', {
+    height: "auto",
+    parserfile: "parsecss.js",
+    stylesheet: static_path + "css/code.css",
+    path: static_path + "js/codemirror/js/"
+  });
+};
+
 TileMill.save = function() {
   var mml = TileMill.mml();
   $.post('/projects/mml', {
@@ -162,6 +171,7 @@ $(function() {
 
   TileMill.initMap();
   TileMill.initColors();
+  TileMill.initCodeEditor();
 
   $('a#layers-add').click(function() {
     if ($('#popup-layer').is(':hidden')) {

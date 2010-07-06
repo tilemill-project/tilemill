@@ -9,8 +9,10 @@
     <script type="text/javascript" src="{{ static_url('js/jquery-ui.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/openlayers/OpenLayers.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/farbtastic/src/farbtastic.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/codemirror/js/codemirror.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/editor.js') }}"></script>
     <script type="text/javascript">
+      var static_path = "{{ static_url('') }}";
       var mml = {{ mml }}, project_id = "{{ project_id }}";
     </script>
   </head>
@@ -54,7 +56,7 @@
     <div id='map-preview'>
     </div>
     <div id='editor'>
-      <div id='code'>
+      <textarea id='code'>
         Collaboratively myocardinate impactful synergy via premium convergence. Phosfluorescently parallel task adaptive intellectual capital without functional technology. Progressively strategize reliable outsourcing vis-a-vis turnkey intellectual capital. Globally enhance plug-and-play core competencies before sustainable solutions. Appropriately engineer one-to-one resources without quality portals. 
 
         Interactively innovate cutting-edge benefits after enterprise-wide supply chains. Efficiently plagiarize process-centric services for intermandated relationships. Dramatically fabricate future-proof "outside the box" thinking rather than inexpensive testing procedures. Assertively formulate 24/7 architectures whereas error-free deliverables. Uniquely scale one-to-one solutions before virtual leadership. 
@@ -85,10 +87,10 @@
 
         Credibly recaptiualize top-line imperatives after user-centric metrics. Synergistically unleash interoperable e-markets whereas orthogonal growth strategies. Appropriately engage vertical portals vis-a-vis equity invested imperatives. Credibly deploy future-proof testing procedures for low-risk high-yield deliverables. Conveniently iterate web-enabled infrastructures with highly efficient services. 
 
-        Collaboratively utilize just in time strategic theme areas without market-driven platforms. Enthusiastically synergize principle-centered ideas after team building e-markets. Holisticly aggregate holistic information before state of the art products. Authoritatively seize high-quality e-services through client-centric e-commerce. Phosfluorescently supply granular communities through resource sucking leadership skills. 
+        Collaboratively utilize just in time strategic theme areas without market-driven platforms. Enthusiastically synergize principle-centered ideas after team building e-markets. Holisticly aggregate holistic information before state of the art products. Authoritatively seize high-quality e-services through client-centric e-commerce. Phosfluorescently supply granular communities through resource sucking leadership skills.
 
         Energistically develop backend quality vectors with value-added total linkage. Dramatically maintain bleeding-edge infrastructures via installed base architectures.
-      </div>
+      </textarea>
       <div id='popup-backdrop'></div>
       <div id='popup'>
         <div id='popup-header' class='clearfix pane'>
