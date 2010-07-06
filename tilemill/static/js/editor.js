@@ -7,7 +7,6 @@ TileMill.addLayer = function(options) {
   if (options.classes.length) {
     layerName += '.' + options.classes.join(', .');
   }
-  console.log(options.classes);
   var checkbox = $('<input class="checkbox" type="checkbox" />');
   var li = $('<li>')
     .append(checkbox)
@@ -26,6 +25,7 @@ TileMill.addLayer = function(options) {
         $('#popup-layer input#id').val(options.id);
         $('#popup-layer input#srs').val(options.srs);
         $('#popup-layer input#dataSource').val(options.dataSource);
+        $('#popup-header').text('Edit layer');
       }
     }))
     .append($('<label>' + layerName + '</label>'));
@@ -81,6 +81,45 @@ TileMill.initColors = function() {
   });
 };
 
+TileMill.save = function() {
+  var mml = TileMill.mml();
+  
+}
+
+TileMill.mml = function() {
+  var output = ['<' + '?xml version="1.0" encoding="utf-8"?>',
+  '<!DOCTYPE Map[',
+  '  <!ENTITY srs900913 "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs">',
+  '  <!ENTITY srsWGS84 "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">',
+  ']>',
+  '<Map srs="&srs900913;">'];
+  $('#layers ul.sidebar-content li').each(function() {
+    var layer = $(this).data('tilemill'), l = '  <Layer';
+    if (layer.id) {
+      l += ' id="' + layer.id + '"';
+    }
+    if (layer.classes) {
+      l += ' class="' + layer.classes.join(' ') + '"';
+    }
+    if (layer.classes) {
+      l += ' class="' + layer.classes.join(' ') + '"';
+    }
+    if (!layer.srs) {
+      layer.srs = '900913';
+    }
+    l += ' srs="&' + (layer.srs == '900913' ? '900913' : 'WGS84') + ';"';
+    l += '>';
+    output.push(l);
+    output.push('    <Datasource>');
+    output.push('      <Parameter name="file">' + layer.dataSource + '</Parameter>');
+    output.push('      <Parameter name="type">shape</Parameter>');
+    output.push('    </Datasource>');
+    output.push('  </Layer>');
+  });
+  output.push('</Map>');
+  return output.join("\n");
+}
+
 $(function() {
   $(mml).find('Layer').each(function() {
     status = $(this).attr('status');
@@ -124,6 +163,7 @@ $(function() {
       $('#popup-layer input:not(.submit)').val('');
       $('#popup-layer').addClass('new');
       $('#popup-layer input.submit').text('Add layer');
+      $('#popup-header').text('Add layer');
     }
     return false;
   });
