@@ -99,6 +99,7 @@ TileMill.save = function() {
     'id': window.project_id,
     'data': mml,
   });
+  TileMill.mssSave(project_id);
 }
 
 TileMill.mml = function() {
@@ -141,8 +142,8 @@ TileMill.mss = function(file) {
   });
 }
 
-TileMill.mssSave = function(file, data) {
-  $.post('/projects/mss', {'id': project_id, 'filename': file, 'data': data});
+TileMill.mssSave = function(file) {
+  $.post('/projects/mss', {'id': project_id, 'filename': file, 'data': TileMill.mirror.getCode()});
 }
 
 $(function() {
