@@ -84,6 +84,10 @@ TileMill.initColors = function() {
 
 TileMill.save = function() {
   var mml = TileMill.mml();
+  $.post('posts/mml', {
+    'id': window.project_id,
+    'data': mml,
+  });
   
 }
 
