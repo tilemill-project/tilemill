@@ -84,7 +84,7 @@ input.submit {
   overflow:auto;
   }
 
-.sidebar-content li { position:relative; }
+.sidebar-content li { position:relative; background:#eee; }
 .sidebar-content li a { background-color:#ddd; }
 .sidebar-content li a:hover { background-color:#fff; }
 

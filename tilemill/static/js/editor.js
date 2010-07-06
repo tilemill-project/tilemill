@@ -1,24 +1,27 @@
-jQuery.fn.reverse = [].reverse;
-
 TileMill = {};
-TileMill.addLayer = function(classes, id, status) {
+TileMill.addLayer = function(options) {
+  console.log(options);
   var layerName = '';
-  if (id) {
-    layerName = '#' + id + ' ';
+  if (options.id) {
+    layerName = '#' + options.id + ' ';
   }
-  if (classes) {
-    layerName += '.' + classes.join(', .');
+  if (options.classes) {
+    layerName += '.' + options.classes.join(', .');
   }
-  $('<li>')
-    .append($('<input class="checkbox" type="checkbox" />').attr('checked', status ? 'checked' : ''))
+  var checkbox = $('<input class="checkbox" type="checkbox" />');
+  var li = $('<li>')
+    .append(checkbox)
     .append($('<a class="layer-inspect" href="#">Inspect</a>').click(function() {
       $('#layers').hide();
       $('#inspector').show();
       return false;
     }))
     .append($('<a class="layer-edit" href="#">Edit</a>'))
-    .append($('<label>' + layerName + '</label>'))
-    .appendTo($('#layers ul.sidebar-content'));
+    .append($('<label>' + layerName + '</label>'));
+  if (options.status == 'true') {
+    checkbox[0].checked = true;
+  }
+  $('#layers ul.sidebar-content').prepend(li);
 };
 
 TileMill.initMap = function(hosts, layername, type) {
@@ -61,9 +64,27 @@ TileMill.initMap = function(hosts, layername, type) {
 };
 
 $(function() {
-  $(mml).find('Layer').reverse().each(function() {
+  $(mml).find('Layer').each(function() {
     status = $(this).attr('status');
-    TileMill.addLayer($(this).attr('class').split(' '), $(this).attr('id'), !status || $(this).attr('status') == 'on');
+    if (status == 'undefined') {
+      status = true;
+    }
+    else if (status == 'on') {
+      status = true;
+    }
+    else {
+      status = false;
+    }
+    TileMill.addLayer({
+      classes: $(this).attr('class').split(' '),
+      id: $(this).attr('id'),
+      status: status,
+      dataSource: $(this).find('Datasource Parameter[name=file]').text(),
+      srs: $(this).attr('srs').replace({'&srs': '', ';': ''})
+    });
+  });
+  $('#layers ul.sidebar-content').sortable({
+    axis: 'y'
   });
 
   $('a.inspector-close').click(function() {
@@ -71,6 +92,18 @@ $(function() {
     $('#inspector').hide();
     return false;
   });
-
   TileMill.initMap();
+
+  $('a#layers-add').click(function() {
+    if ($('#popup-layer').is(':hidden')) {
+      $('#popup, #popup-layer, #popup-backdrop, #popup-header').show();
+      $('#popup-layer input:not(.submit)').val('');
+      $('#popup-layer').addClass('new');
+    }
+  });
+
+  $('a#popup-close').click(function() {
+    $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
+    $('#popup-layer').removeClass('new');
+  });
 });
