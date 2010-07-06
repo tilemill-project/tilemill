@@ -87,7 +87,7 @@ TileMill.initMap = function(hosts, layername, type) {
 };
 
 TileMill.initColors = function() {
-  $('#farbtastic').farbtastic({callback:'input#color', width:200, height:200});
+  TileMill.farbtastic = $.farbtastic($('#farbtastic'), {callback:'input#color', width:200, height:200});
   $('#color-picker a.color-picker').click(function() {
     $('#farbtastic').toggle('fast');
   });
@@ -148,11 +148,41 @@ TileMill.mml = function() {
 TileMill.mss = function(file) {
   $.get('/projects/mss', {'id': project_id, 'filename': file}, function(data) {
     TileMill.mirror.setCode(data);
+    TileMill.reloadColors(data);
+    setInterval(function() {
+      TileMill.reloadColors(TileMill.mirror.getCode());
+    }, 5000);
   });
 }
 
 TileMill.mssSave = function(file) {
-  $.post('/projects/mss', {'id': project_id, 'filename': file, 'data': TileMill.mirror.getCode()});
+  $.post('/projects/mss', {'id': project_id, 'filename': file, 'data': TileMill.mirror.getCode() });
+}
+
+TileMill.reloadColors = function(data) {
+  matches = data.match(/\#[A-Fa-f0-9]{3,6}/g);
+  colors = [];
+  for (i = 0; i < matches.length; i++) {
+    color = TileMill.farbtastic.RGBToHSL(TileMill.farbtastic.unpack(matches[i]));
+    color.push(matches[i]);
+    pass = false;
+    for (key in colors) {
+      if (colors[key][3] == matches[i]) {
+        pass = true;
+      }
+    }
+    if (!pass) {
+      colors.push(color);
+    }
+  }
+  colors.sort(function(a, b) { return a[2] - b[2] });
+  $('div#colors div').empty();
+  for (color in colors) {
+    $('div#colors div').append($("<a href='#' class='swatch' style='background-color: "+ colors[color][3] +"'>"+ colors[color][3] +"</a>").click(function() {
+      var position = TileMill.mirror.cursorPosition();
+      TileMill.mirror.insertIntoLine(position.line, position.character, $(this).text());
+    }));
+  }
 }
 
 $(function() {
