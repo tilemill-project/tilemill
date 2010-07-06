@@ -96,14 +96,16 @@
         </div>
         <div id='popup-layer'>
           <form>
-            <div><label for="class">Class</label><input type="text" class="text" id="class"></div>
+            <div><label for="class">Classes</label><input type="text" class="text" id="classes"></div>
             <div><label for="id">Id</label><input type="text" class="text" id="id"></div>
-            <div><label for="data_source">Data Source</label><input type="text" class="text" id="data_source"></div>
-            <div><label for="srs">SRS</label>
-            <select name="srs" id="srs">
-              <option value="900913">900913</option>
-              <option value="4326">4326</option>
-            </select></div>
+            <div><label for="dataSource">Data Source</label><input type="text" class="text" id="data_source"></div>
+            <div>
+              <label for="srs">SRS</label>
+              <select id="srs">
+                <option value="900913">900913</option>
+                <option value="4326">4326</option>
+              </select>
+            </div>
             <div><input class='submit' type='submit' value='Add layer' /></div>
           </form>
         </div>

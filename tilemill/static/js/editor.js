@@ -100,7 +100,20 @@ $(function() {
       $('#popup-layer input:not(.submit)').val('');
       $('#popup-layer').addClass('new');
     }
+    return false;
   });
+
+  $('#popup-layer input.submit').click(function() {
+    var layer = {
+      classes: $('#popup-layer input#classes').val().split(' '),
+      id: $('#popup-layer input#id').val(),
+      dataSource: $('#popup-layer input#dataSource').val(),
+      srs: $('#popup-layer input#srs').val(),
+      status: 'true'
+    };
+    TileMill.addLayer(layer);
+    return false;
+  })
 
   $('a#popup-close').click(function() {
     $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
