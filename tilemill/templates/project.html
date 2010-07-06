@@ -91,13 +91,13 @@
       </div>
       <div id='popup-backdrop'></div>
       <div id='popup'>
-        <div id='popup-header'>
+        <div id='popup-header' class='clearfix pane'>
           <h2>Edit layer</h2>
           <a href="#" id="popup-close">Close</a>
         </div>
-        <div id='popup-layer'>
+        <div id='popup-layer' class='clearfix pane'>
           <form>
-            <div><label for="class">Classes</label><input type="text" class="text" id="classes"></div>
+            <div><label for="classes">Classes</label><input type="text" class="text" id="classes"></div>
             <div><label for="id">Id</label><input type="text" class="text" id="id"></div>
             <div><label for="dataSource">Data Source</label><input type="text" class="text" id="dataSource"></div>
             <div>
@@ -107,7 +107,7 @@
                 <option value="4326">4326</option>
               </select>
             </div>
-            <div><input class='submit' type='submit' value='Add layer' /></div>
+            <div class='buttons'><input class='submit' type='submit' value='Add layer' /></div>
           </form>
         </div>
       </div>
