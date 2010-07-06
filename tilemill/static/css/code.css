@@ -3,3 +3,35 @@ body {
   margin:0px;
   font:13px/20px "Bitstream Vera Mono","Andale Mono",monospace;
   }
+
+span.css-at {
+  color: #770088;
+}
+
+span.css-unit {
+  color: #228811;
+}
+
+span.css-value {
+  color: #770088;
+}
+
+span.css-identifier {
+  color: black;
+}
+
+span.css-important {
+  color: #0000FF;
+}
+
+span.css-colorcode {
+  color: #004499;
+}
+
+span.css-comment {
+  color: #AA7700;
+}
+
+span.css-string {
+  color: #AA2222;
+}
