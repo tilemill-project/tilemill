@@ -73,6 +73,13 @@ TileMill.initMap = function(hosts, layername, type) {
   }
 };
 
+TileMill.initColors = function() {
+  $('#farbtastic').farbtastic({callback:'input#color', width:200, height:200});
+  $('#color-picker a.color-picker').click(function() {
+    $('#farbtastic').toggle('fast');
+  });
+};
+
 $(function() {
   $(mml).find('Layer').each(function() {
     status = $(this).attr('status');
@@ -102,7 +109,9 @@ $(function() {
     $('#inspector').hide();
     return false;
   });
+
   TileMill.initMap();
+  TileMill.initColors();
 
   $('a#layers-add').click(function() {
     if ($('#popup-layer').is(':hidden')) {
