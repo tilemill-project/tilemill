@@ -10,14 +10,10 @@ $.fn.reverse = [].reverse;
  *   TileLive caching.
  */
 TileMill.mmlURL = function(timestamp) {
-  console.log('here');
   var url = window.server + 'projects/mml?id=' + window.project_id;
-  console.log(timestamp);
-  console.log('here');
   //if (timestamp != undefined && !!timestamp) {
     url += '&c=' + TileMill.uniq;
-  //}  
-  console.log(url);
+  //}
   url = Base64.encode(url);
   return url;
 };
