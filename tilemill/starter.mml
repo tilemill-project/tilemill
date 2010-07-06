@@ -1,86 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+Map {
+  map-bgcolor: #69f;
+}
 
-<!DOCTYPE Map[
-  <!-- ENTITY DEFINITIONS -->
-  <!-- You can save keystrokes by entering your common DB info here, then   -->
-  <!-- putting  "&db_info;" (without the quotes) in the layer definition    -->
-
-  <!-- COMMON PROJECTIONS -->
-  <!-- 900913 (Google) - used by OSM, Google Maps -->
-  <!ENTITY srs900913 '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs'>
-  <!-- EPSG:4326 (WGS84) - commonly used for shapefiles -->
-  <!ENTITY srs4326 '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'>
-
-  <!-- DATABASE SETTINGS -->
-  <!ENTITY db_info '
-    <Parameter name="type">postgis</Parameter>
-    <Parameter name="password">your-password</Parameter>
-    <Parameter name="host">localhost</Parameter>
-    <Parameter name="port">5433</Parameter>
-    <Parameter name="user">your-username</Parameter>
-    <Parameter name="dbname">gis</Parameter>
-    <Parameter name="estimate_extent">true</Parameter>
-    <Parameter name="geometry_field">way</Parameter>
-    <Parameter name="srid">900913</Parameter>
-    '>
-]>
-
-<Map srs="&srs900913;" minimum_version="0.7.0">
-
-  <!-- CASCADENIK STYLESHEETS -->
-  <Stylesheet src='base.mss' />
-
-  <!-- TEMPLATE LAYER: SHAPEFILE -->
-  <!-- 
-  <Layer class="shapefile" srs="&srs4326;">
-    <Datasource>
-      <Parameter name="file">dir/shapefile</Parameter>
-      <Parameter name="type">shape</Parameter>
-    </Datasource>
-  </Layer>
-  -->
-
-  <!-- TEMPLATE LAYER: POSTGIS -->
-  <!--
-  <Layer class="postgis" srs="&srs900913;">
-    <Datasource>
-      &db_info;
-      <Parameter name="table"><![CDATA[
-        ( SELECT * FROM table
-          WHERE "attribute" = 'value'
-        ) AS type_of_data
-      ]]></Parameter>
-    </Datasource>
-  </Layer>
-  -->
-
-  <!-- TEMPLATE STYLE + LAYER: GDAL -->
-  <!-- NOTE: Some things to remember about Mapnik GDAL layers:              --> 
-  <!--  * Mapnik cannot reproject GDAL layers - you may need to do this     -->
-  <!--    beforehand with 'gdalwarp' or similar                             -->
-  <!--  * Cascadenik does not know about GDAL layers - you must style them  -->
-  <!--    using Mapnik & re-enable the layer after 'cascadenik_compile.py'  -->
-  <!--  * Valid style modes: grain_merge, grain_merge2, multiply, multiply2 -->
-  <!--    divide, divide2, screen, hard_light                               -->
-  <!--
-  <Style name="GDAL Layer">
-    <Rule>
-      <RasterSymbolizer>
-        <CssParameter name="opacity">1.0</CssParameter>
-        <CssParameter name="scaling">bilinear</CssParameter>
-        <CssParameter name="mode">multiply</CssParameter>
-      </RasterSymbolizer>
-    </Rule>
-  </Style>
-  
-  <Layer class="gdal" srs="&srs900913;">
-    <StyleName>GDAL Layer</StyleName>
-    <Datasource>
-      <Parameter name="file">dir/geo.tif</Parameter>
-      <Parameter name="format">tiff</Parameter>
-      <Parameter name="type">gdal</Parameter>
-    </Datasource>
-  </Layer>
-  -->
-
-</Map>
+Layer {
+  line-width: 1;
+  line-color: #696;
+  polygon-fill: #6f9;
+}

@@ -17,6 +17,7 @@ define("port", default=8888, help="run on the given port", type=int)
 define("projects", default=os.path.join(os.path.dirname(__file__), "projects"), help="projects directory", type=str)
 define("config", default=os.path.join(os.path.dirname(__file__), "tilemill.cfg"), help="path to configuration file", type=str)
 define("starter_mml", default=os.path.join(os.path.dirname(__file__), "starter.mml"), help="path to starter mml file", type=str)
+define("tilelive_server", "http://localhost:8888/", help="path to tilelive server file", type=str)
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -34,7 +35,7 @@ class ProjectEditHandler(tornado.web.RequestHandler):
         if True:
             manager = ProjectManager(options);
             mml = tornado.escape.json_encode(manager.read(self.request.arguments['id'][0], self.request.arguments['id'][0] + '.mml'));
-            self.render("project.html", project_id=project_id, messages = [], mml = mml)
+            self.render("project.html", project_id=project_id, messages = [], mml = mml, tilelive = options.tilelive_server, url='http://localhost:8889/');
         else:
             tornado.web.HTTPError(404)
 
@@ -55,6 +56,10 @@ class ProjectMMLHandler(tornado.web.RequestHandler):
         if re.match('^([A-Za-z0-9_-]+)$', self.filename()):
             manager = ProjectManager(options);
             manager.save(self.request.arguments['id'][0], self.filename() + self.extension, self.request.arguments['data'][0]);
+    def get(self):
+        if re.match('^([A-Za-z0-9_-]+)$', self.filename()):
+            manager = ProjectManager(options);
+            self.write(manager.read(self.request.arguments['id'][0], self.filename() + self.extension));
     def filename(self):
         return self.request.arguments['id'][0]
 
@@ -62,10 +67,6 @@ class ProjectMSSHandler(ProjectMMLHandler):
     extension = '.mss'
     def filename(self):
         return self.request.arguments['filename'][0]
-    def get(self):
-        if re.match('^([A-Za-z0-9_-]+)$', self.filename()):
-            manager = ProjectManager(options);
-            self.write(manager.read(self.request.arguments['id'][0], self.filename() + self.extension));
 
 class ProjectManager:
     def __init__(self, options):

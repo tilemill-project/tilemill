@@ -1,4 +1,4 @@
-TileMill = {};
+TileMill = {counter:0};
 TileMill.addLayer = function(options) {
   var layerName = '';
   if (options.id) {
@@ -47,12 +47,7 @@ TileMill.addLayer = function(options) {
   $('#layers ul.sidebar-content').prepend(li.data('tilemill', options));
 };
 
-TileMill.initMap = function(hosts, layername, type) {
-  // @TODO: have these options be passed by TileMill to point to TileLiteLive.
-  var hosts = hosts || [ "http://a.tile.mapbox.com/","http://b.tile.mapbox.com/", "http://c.tile.mapbox.com/", "http://d.tile.mapbox.com/" ],
-      layername = layername || 'world-light',
-      type = type || 'png';
-
+TileMill.initMap = function() {
   if (!$('#map-preview').is('.inited')) {
     $('#map-preview').addClass('inited');
     var options = {
@@ -70,7 +65,9 @@ TileMill.initMap = function(hosts, layername, type) {
       controls: []
     };
     var map = new OpenLayers.Map('map-preview', options);
-    var layer = new OpenLayers.Layer.TMS("Preview", hosts, {layername: layername, type: type});
+    url = window.server + 'projects/mml?id=' + window.project_id;
+    encode = Base64.encode(url);
+    var layer = new OpenLayers.Layer.XYZ("Preview", window.tilelive + 'tile/' + encode + '/${z}/${x}/${y}.png');
     map.addLayers([ layer ]);
 
     // Set the map's initial center point
@@ -118,6 +115,7 @@ TileMill.mml = function() {
   '  <!ENTITY srsWGS84 "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">',
   ']>',
   '<Map srs="&srs900913;">'];
+  output.push('<Stylesheet src="http://localhost:8889/projects/mss?id='+ project_id +'&filename='+ project_id +'" />');
   $('#layers ul.sidebar-content li').each(function() {
     var layer = $(this).data('tilemill'), l = '  <Layer';
     if (layer.id) {
