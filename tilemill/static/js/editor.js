@@ -29,6 +29,7 @@ TileMill.addLayer = function(options) {
       $('#layers').hide();
       $('#inspector').show();
       $('#inspector').data('id', $(this).parents('li').data('tilemill').id);
+      $('#inspector .sidebar-header h2').text('#' + $(this).parents('li').data('tilemill').id);
       url = window.server + 'projects/mml?id=' + window.project_id + '&c=' + (new Date().getTime());
       encode = Base64.encode(url);
       $.getScript(window.tilelive + encode + "/fields.json?jsoncallback=TileMill.inspect");
