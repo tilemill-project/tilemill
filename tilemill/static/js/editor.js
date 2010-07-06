@@ -1,4 +1,20 @@
 TileMill = {};
+
+/**
+ * Generate the URL of the current project .mml file.
+ *
+ * @param bool timestamp
+ *   Optionally append a timestamp parameter to the URL to avoid
+ *   TileLive caching.
+ */
+TileMill.mmlURL = function(timestamp) {
+  var url = window.server + 'projects/mml?id=' + window.project_id;
+  if (timestamp) {
+    url = url + '&c=' + (new Date().getTime());
+  }
+  return url;
+};
+
 TileMill.addLayer = function(options) {
   var layerName = '';
   if (options.id) {
@@ -24,7 +40,7 @@ TileMill.addLayer = function(options) {
         alert('You need to add an id to a field and save to inspect it.');
         return;
       }
-      $('#inspector h2').html('Layers &raquo; ' + $(this).parents('li').find('label').text());
+      $('#inspector .sidebar-header h2').html('Layers &raquo; ' + $(this).parents('li').find('label').text());
       TileMill.inspect($(this).parents('li').data('tilemill').id);
       return false;
     }))
@@ -67,9 +83,7 @@ TileMill.initMap = function() {
       controls: []
     };
     TileMill.map = new OpenLayers.Map('map-preview', options);
-    url = window.server + 'projects/mml?id=' + window.project_id + '&c=' + (new Date().getTime());
-    encode = Base64.encode(url);
-    TileMill.layer = new OpenLayers.Layer.XYZ("Preview", window.tilelive + 'tile/' + encode + '/${z}/${x}/${y}.png');
+    TileMill.layer = new OpenLayers.Layer.XYZ("Preview", window.tilelive + 'tile/' + Base64.encode(TileMill.mmlURL()) + '/${z}/${x}/${y}.png');
     TileMill.map.addLayers([ TileMill.layer ]);
 
     // Set the map's initial center point
@@ -316,6 +330,7 @@ $(function() {
   $('div#header a.info').click(function() {
     $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
     $('#popup-header h2').text('Info');
+    $('#popup-info input').val(window.tilelive + 'tile/' + Base64.encode(TileMill.mmlURL()));
     $('#popup-layer').hide();
     return false;
   });
