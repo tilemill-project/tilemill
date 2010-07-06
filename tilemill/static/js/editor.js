@@ -148,11 +148,30 @@ TileMill.mml = function() {
 TileMill.mss = function(file) {
   $.get('/projects/mss', {'id': project_id, 'filename': file}, function(data) {
     TileMill.mirror.setCode(data);
+    TileMill.reloadColors(data);
+    setInterval(function() {
+      TileMill.reloadColors(TileMill.mirror.getCode());
+    }, 5000);
   });
 }
 
 TileMill.mssSave = function(file) {
-  $.post('/projects/mss', {'id': project_id, 'filename': file, 'data': TileMill.mirror.getCode()});
+  $.post('/projects/mss', {'id': project_id, 'filename': file, 'data': TileMill.mirror.getCode() });
+}
+
+TileMill.reloadColors = function(data) {
+  matches = data.match(/\#[A-Fa-f0-9]{3,6}/g);
+  colors = {};
+  for (i = 0; i < matches.length; i++) {
+    colors[matches[i]] = matches[i];
+  }
+  $('div#colors div').empty();
+  for (color in colors) {
+    $('div#colors div').append($("<a href='#' class='swatch' style='background-color: "+ color +"'>"+ color +"</a>").click(function() {
+      var position = TileMill.mirror.cursorPosition();
+      TileMill.mirror.insertIntoLine(position.line, position.character, $(this).text());
+    }));
+  }
 }
 
 $(function() {
