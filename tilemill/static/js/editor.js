@@ -87,7 +87,7 @@ TileMill.initMap = function(hosts, layername, type) {
 };
 
 TileMill.initColors = function() {
-  $('#farbtastic').farbtastic({callback:'input#color', width:200, height:200});
+  TileMill.farbtastic = $.farbtastic($('#farbtastic'), {callback:'input#color', width:200, height:200});
   $('#color-picker a.color-picker').click(function() {
     $('#farbtastic').toggle('fast');
   });
@@ -161,13 +161,24 @@ TileMill.mssSave = function(file) {
 
 TileMill.reloadColors = function(data) {
   matches = data.match(/\#[A-Fa-f0-9]{3,6}/g);
-  colors = {};
+  colors = [];
   for (i = 0; i < matches.length; i++) {
-    colors[matches[i]] = matches[i];
+    color = TileMill.farbtastic.RGBToHSL(TileMill.farbtastic.unpack(matches[i]));
+    color.push(matches[i]);
+    pass = false;
+    for (key in colors) {
+      if (colors[key][3] == matches[i]) {
+        pass = true;
+      }
+    }
+    if (!pass) {
+      colors.push(color);
+    }
   }
+  colors.sort(function(a, b) { return a[2] - b[2] });
   $('div#colors div').empty();
   for (color in colors) {
-    $('div#colors div').append($("<a href='#' class='swatch' style='background-color: "+ color +"'>"+ color +"</a>").click(function() {
+    $('div#colors div').append($("<a href='#' class='swatch' style='background-color: "+ colors[color][3] +"'>"+ colors[color][3] +"</a>").click(function() {
       var position = TileMill.mirror.cursorPosition();
       TileMill.mirror.insertIntoLine(position.line, position.character, $(this).text());
     }));
