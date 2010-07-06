@@ -125,6 +125,10 @@ TileMill.mml = function() {
   return output.join("\n");
 }
 
+TileMill.mss = function(file, callback) {
+  $.get('/projects/mss', {'project_id': project_id, 'filename': file}, callback);
+}
+
 $(function() {
   $(mml).find('Layer').each(function() {
     status = $(this).attr('status');
