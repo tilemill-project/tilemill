@@ -1,4 +1,9 @@
-body { padding-top:40px; }
+body {
+  background:#f8f8f8;
+  color:#333;
+  padding-top:40px;
+  }
+
 body.project { padding-left:320px; }
 
 a {
@@ -20,8 +25,13 @@ h3 { font-size:13px; }
   right:0px;
   top:0px;
   height:20px;
-  background:#eee;
+  background:url(../images/sprite.png) 0px -360px repeat-x;
   }
+
+  #header,
+  #header a { color:#eee; }
+
+  #header a { font-weight:bold; }
 
   #header h1,
   #header a.info,
@@ -30,11 +40,17 @@ h3 { font-size:13px; }
     margin-right:10px;
     }
 
+  #header h1 {
+    text-shadow:#000 0px -1px 0px;
+    margin-right:20px;
+    }
+
   #header a.info,
   #header a.save {
-    background:#666;
-    color:#fff;
+    background:#222;
     padding:0px 10px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
     }
 
   #header a.home { float:right; }
@@ -43,8 +59,10 @@ h3 { font-size:13px; }
  * Home
  */
 ul li {
-  padding:5px 10px 4px;
+  padding:4px 10px;
   border-bottom:1px solid #ddd;
+  border-top:1px solid #fff;
+  background:#eee;
   }
 
 /**
@@ -92,10 +110,11 @@ form div.buttons {
   left:0px;
   top:40px;
   bottom:240px;
-  width:320px;
-  background:#eee;
+  width:319px;
+  border-right:1px solid #ccc;
   }
 
+.sidebar-header { background:url(../images/sprite.png) 0px -320px repeat-x; }
 .sidebar-header h2 { float:left; }
 .sidebar-header a { float:right; }
 
@@ -108,7 +127,8 @@ form div.buttons {
   overflow:auto;
   }
 
-.sidebar-content li { position:relative; background:#eee; }
+.sidebar-content li { position:relative; }
+
 .sidebar-content li a { background-color:#fff; }
 
 .sidebar-content li div.handle {
@@ -116,8 +136,8 @@ form div.buttons {
   left:0px;
   top:0px;
   bottom:0px;
-  width:10px;
-  background:#ccc;
+  width:15px;
+  background:url(../images/sprite.png) 0px -240px;
   cursor:move;
   }
 
@@ -154,9 +174,12 @@ a.layer-edit,
 a.layer-delete,
 a.layer-inspect {
   display:none;
-  float:right;
-  margin-left:5px;
+  position:absolute;
+  right:5px;
   }
+
+  a.layer-inspect { right:27px; }
+  a.layer-edit { right:49px; }
 
   li:hover a.layer-edit,
   li:hover a.layer-delete,
@@ -173,8 +196,10 @@ a.color-picker  { background-position:-40px -20px; }
   position:fixed;
   left:0px;
   bottom:0px;
-  width:320px;
-  height:240px;
+  width:319px;
+  height:239px;
+  border-top:1px solid #ccc;
+  border-right:1px solid #ccc;
   background:#ddd;
   }
 
@@ -198,7 +223,7 @@ a.color-picker  { background-position:-40px -20px; }
  * Color palette
  */
 #color-palette {
-  background:#333;
+  background:url(../images/sprite.png) 0px -360px repeat-x;
   color:#fff;
   position:fixed;
   left:320px;
@@ -206,17 +231,25 @@ a.color-picker  { background-position:-40px -20px; }
   bottom:0px;
   }
 
-#colors { float:left; }
-
-#colors label,
-#colors .swatch {
+#colors {
+  padding-left:70px;
+  position:relative;
   float:left;
-  margin-right:10px;
   }
 
 #colors .swatch {
-  width:20px;
+  float:left;
+  margin-right:5px;
   text-indent:-9999px;
+  width:20px;
+  }
+
+#colors label {
+  position:absolute;
+  left:0px;
+  font-size:11px;
+  font-weight:bold;
+  text-transform:uppercase;
   }
 
 #color-picker,
@@ -239,7 +272,7 @@ a.color-picker  { background-position:-40px -20px; }
  * Popup editor.
  */
 #editor #popup-backdrop {
-  background-color:#fff;
+  background-color:#999;
   opacity: 0.75;
   position:absolute;
   top:0px;
