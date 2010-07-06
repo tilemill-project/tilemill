@@ -60,6 +60,30 @@ input.submit {
   background:#eee;
   }
 
+form div {
+  position:relative;
+  padding:5px 5px 4px 110px;
+  border-bottom:1px solid #eee;
+  }
+
+form div label {
+  display:block;
+  font-size:11px;
+  text-transform:uppercase;
+
+  position:absolute;
+  left:0px;
+  width:100px;
+  text-align:right;
+  }
+
+form div.buttons {
+  text-align:right;
+  background:#eee;
+  border:0px;
+  padding:5px 5px 5px 110px;
+  }
+
 /**
  * Layers
  */
@@ -217,8 +241,10 @@ a.color-picker {
   right:0px;
   width: 400px;
   background-color: #fff;
-  margin: 200px auto 0;
-  padding: 20px;
+  margin: 100px auto 0;
   }
 
 #popup, #popup > div, #popup-backdrop { display:none; }
+
+#popup-header h2 { float:left; }
+#popup-header a { float:right; }
