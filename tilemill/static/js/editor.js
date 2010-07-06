@@ -218,15 +218,21 @@ TileMill.insert = function(text) {
 }
 
 TileMill.inspect = function(id) {
+  if (!TileMill.inspection) {
+    setTimeout(TileMill.inspect, 1000);
+    return;
+  }
   $('#layers').hide();
   index = $('#inspector').find('ul.sidebar-content').empty().end().show().data('id');
   for (field in TileMill.inspection[id]) {
     (function(layer, field) {
-      $('#inspector ul.sidebar-content').append(
-        $('<li><strong>' + field + '</strong> <em>' + TileMill.inspection[id][field].replace('int', 'integer').replace('str', 'string') + '</em></li>').click(function() {
+      var li = $('<li>')
+        .append('<a class="inspect-values" href="#inspect-values">See values</a>').click(function() {
           TileMill.values(layer, field);
         })
-      );
+        .append('<strong>' + field + '</strong>')
+        .append('<em>' + TileMill.inspection[layer][field].replace('int', 'integer').replace('str', 'string') + '</em>')
+        .appendTo('#inspector ul.sidebar-content');
     })(id, field);
   }
 }

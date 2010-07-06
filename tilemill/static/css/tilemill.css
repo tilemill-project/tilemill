@@ -68,6 +68,20 @@ ul li {
   background:#eee;
   }
 
+ul ul {
+  background:#fff;
+  margin-top:5px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  }
+
+ul ul li {
+  padding-top:0px;
+  padding-bottom:0px;
+  border:0px;
+  background:transparent;
+  }
+
 /**
  * Form elements
  */
@@ -179,7 +193,8 @@ a#popup-close,
 a.color-picker,
 a.layer-edit,
 a.layer-delete,
-a.layer-inspect {
+a.layer-inspect,
+a.inspect-values {
   display:block;
   width:20px;
   height:20px;
@@ -192,7 +207,8 @@ a.layer-inspect {
 
 a.layer-edit,
 a.layer-delete,
-a.layer-inspect {
+a.layer-inspect,
+a.inspect-values {
   display:none;
   position:absolute;
   right:5px;
@@ -203,12 +219,14 @@ a.layer-inspect {
 
   li:hover a.layer-edit,
   li:hover a.layer-delete,
-  li:hover a.layer-inspect { display:block; }
+  li:hover a.layer-inspect,
+  li:hover a.inspect-values { display:block; }
 
 a.layer-inspect { background-position:-20px 0px; }
 a.layer-delete  { background-position:-60px 0px; }
 a.color-picker  { background-position:-40px -20px; }
 a#popup-close   { background-position:-80px -20px; }
+a.inspect-values { background-position:-100px 0px; }
 
 /**
  * Map preview

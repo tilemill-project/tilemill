@@ -295,12 +295,12 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.4414062"
-     inkscape:cx="1.6368797"
-     inkscape:cy="205.07476"
+     inkscape:zoom="9.3132257"
+     inkscape:cx="99.433127"
+     inkscape:cy="379.32582"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:snap-bbox="true">
     <inkscape:grid
        type="xygrid"
@@ -433,5 +433,13 @@
          d="M 31,209 L 35,215.5 L 39,209"
          style="opacity:1;fill:#e2e2e2;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
+    <path
+       style="opacity:1;fill:url(#linearGradient3189);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;color:#000000"
+       d="M 110 6 C 105 6 103 10 103 10 C 103.13432 10.013576 105 14 110 14 C 115 14 117 10 117 10 C 117 10 115 6 110 6 z M 110 7 C 111.656 7 113 8.344 113 10 C 113 11.656 111.656 13 110 13 C 108.344 13 107 11.656 107 10 C 107 8.344 108.344 7 110 7 z "
+       id="path2445" />
+    <path
+       id="path3220"
+       d="M 110,26 C 105,26 103,30 103,30 C 103.13432,30.013576 105,34 110,34 C 115,34 117,30 117,30 C 117,30 115,26 110,26 z M 110,27 C 111.656,27 113,28.344 113,30 C 113,31.656 111.656,33 110,33 C 108.344,33 107,31.656 107,30 C 107,28.344 108.344,27 110,27 z"
+       style="opacity:1;fill:url(#linearGradient3197);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;color:#000000" />
   </g>
 </svg>
