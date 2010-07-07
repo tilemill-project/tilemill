@@ -17,12 +17,6 @@ TileMill.save = function() {
 }
 
 $(function() {
-  $('a.inspector-close').click(function() {
-    $('#layers').show();
-    $('#inspector').hide();
-    return false;
-  });
-
   $('a#popup-close').click(function() {
     $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
     $('#popup-layer').removeClass('new');

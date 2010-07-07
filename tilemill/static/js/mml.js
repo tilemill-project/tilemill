@@ -27,7 +27,7 @@ TileMill.mml.add = function(options) {
         return;
       }
       $('#inspector .sidebar-header h2').html('Layers &raquo; ' + $(this).parents('li').find('label').text());
-      TileMill.inspect($(this).parents('li').data('tilemill').id);
+      TileMill.inspector.inspect($(this).parents('li').data('tilemill').id);
       TileMill.page = 0;
       return false;
     }))

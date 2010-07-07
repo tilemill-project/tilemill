@@ -1,9 +1,6 @@
 TileMill.inspector = { inspection: {} };
 
-TileMill.inspect = function(id) {
-  if (!TileMill.inspection) {
-    return;
-  }
+TileMill.inspector.inspect = function(id) {
   $('#layers').hide();
   index = $('#inspector').find('ul.sidebar-content').empty().end().show().data('id');
   for (field in TileMill.inspection[id]) {
@@ -11,12 +8,12 @@ TileMill.inspect = function(id) {
       var li = $('<li>')
         .attr('id', 'field-' + field)
         .append($('<a class="inspect-values" href="#inspect-values">See values</a>').click(function() {
-          TileMill.values(layer, field);
+          TileMill.inspector.values(layer, field);
           return false;
         }))
         .append('<strong>' + field + '</strong>')
         .append('<em>' + TileMill.inspection[layer][field].replace('int', 'integer').replace('str', 'string') + '</em>')
-        .appendTo('#inspector ul.sidebar-content');
+        .appendTo($('#inspector ul.sidebar-content'));
     })(id, field);
   }
 }
@@ -25,16 +22,16 @@ TileMill.inspector.load = function() {
   $('.layer-inspect').removeClass('layer-inspect').addClass('layer-inspect-loading');
   encode = TileMill.mml.url();
   var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-  script.src = TileMill.settings.tilelive + encode + "/fields.json?jsoncallback=TileMill._loadInspection";
+  script.src = TileMill.settings.tilelive + encode + "/fields.json?jsoncallback=TileMill.inspector.loadCallback";
   head.insertBefore(script, head.firstChild);
 }
 
-TileMill._loadInspection = function(data) {
+TileMill.inspector.loadCallback = function(data) {
   $('.layer-inspect-loading').removeClass('layer-inspect-loading').addClass('layer-inspect');
   TileMill.inspection = data;
 }
 
-TileMill.values = function(layer, field) {
+TileMill.inspector.values = function(layer, field) {
   if (layer && field) {
     TileMill.page = 0;
     if ($('li#field-' + field + ' div.inspect-values').size()) {
@@ -50,7 +47,7 @@ TileMill.values = function(layer, field) {
       $('#inspector li div.inspect-values').hide();
       encode = TileMill.mml.url();
       var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-      TileMill.url = TileMill.settings.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start={{page}}&jsoncallback=TileMill._values";
+      TileMill.url = TileMill.settings.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start={{page}}&jsoncallback=TileMill.inspector.valueCallback";
       script.src = TileMill.url.replace('{{page}}', TileMill.page * 10);
       head.insertBefore(script, head.firstChild);
     }
@@ -62,7 +59,7 @@ TileMill.values = function(layer, field) {
   }
 }
 
-TileMill._values = function(data) {
+TileMill.inspector.valueCallback = function(data) {
   if (data.field) {
     var ul = $('<ul class="clearfix inspect-values">')
       .addClass('field-values')
@@ -77,7 +74,7 @@ TileMill._values = function(data) {
           return false;
         }
         TileMill.page--;
-        TileMill.values();
+        TileMill.inspector.values();
         return false;
       }))
       .append($('<a class="pager-next' + ((data.count - (TileMill.page * 10) > 10) ? '' : ' disabled') + '" href="#pager-next">Next</a>').click(function() {
@@ -85,7 +82,7 @@ TileMill._values = function(data) {
           return false;
         }
         TileMill.page++;
-        TileMill.values();
+        TileMill.inspector.values();
         return false;
       }));
     var values = $('<div class="inspect-values"></div>').append(ul).append(pager);
@@ -93,3 +90,11 @@ TileMill._values = function(data) {
     $('li#field-' + data.field).append(values);
   }
 }
+
+$(function() {
+  $('a.inspector-close').click(function() {
+    $('#layers').show();
+    $('#inspector').hide();
+    return false;
+  });
+});
