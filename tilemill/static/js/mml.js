@@ -1,12 +1,12 @@
 TileMill.mml = {};
 
 TileMill.mml.add = function(options) {
-  var layerName = '';
+  var name = [];
   if (options.id) {
-    layerName = '#' + options.id + ' ';
+    name.push('#' + options.id);
   }
   if (options.classes.length) {
-    layerName += '.' + options.classes.split(' ').join(', .');
+    name.push('.' + options.classes.split(' ').join(', .'));
   }
   var checkbox = $('<input class="checkbox" type="checkbox" />'),
     li = $('<li>')
@@ -32,8 +32,8 @@ TileMill.mml.add = function(options) {
       return false;
     }))
     .append($('<a class="layer-edit" href="#">Edit</a>').click(function() {
-      var layer = $('#popup-layer').find('input.submit').val('Save').data('li', $(this).parents('li')).end();
-      var options = $(this).parents('li').data('tilemill');
+      var layer = $('#popup-layer').find('input.submit').val('Save').data('li', $(this).parents('li')).end(),
+        options = $(this).parents('li').data('tilemill');
       for (option in options) {
         layer.find('#' + option).val(options[option]).end();
       }
@@ -41,7 +41,7 @@ TileMill.mml.add = function(options) {
       TileMill.popup.show({content: $('#popup-layer'), title: 'Edit layer'});
       return false;
     }))
-    .append($('<label>' + layerName + '</label>'));
+    .append($('<label>' + name.join(', ') + '</label>'));
   if (options.status == 'true' || options.status == true) {
     checkbox[0].checked = true;
   }
@@ -67,7 +67,7 @@ TileMill.mml.generate = function() {
       l += ' id="' + layer.id + '"';
     }
     if (layer.classes) {
-      l += ' class="' + layer.classes.join(' ') + '"';
+      l += ' class="' + layer.classes + '"';
     }
     if (!layer.srs) {
       layer.srs = '900913';
@@ -76,7 +76,7 @@ TileMill.mml.generate = function() {
       layer.srs = '&srs' + layer.srs + ';';
     }
     l += ' srs="' + layer.srs + '"';
-    if (!$(this).attr('checked') == 'checked') {
+    if (!$(this).find('input[type=checkbox]').is(':checked')) {
       l += ' status="off"';
     }
     l += '>';
@@ -128,7 +128,7 @@ $(function() {
     else {
       status = false;
     }
-    var classes = ''
+    var classes = '';
     if ($(this).attr('class')) {
       classes = $(this).attr('class');
     }
@@ -185,15 +185,15 @@ $(function() {
       TileMill.mml.add(layer);
     }
     else {
-      var layerName = '';
+      var name = [];
       if (layer.id) {
-        layerName = '#' + layer.id + ' ';
+        name.push('#' + layer.id);
       }
       if (layer.classes) {
-        layerName += '.' + layer.classes.split(' ').join(', .');
+        name.push('.' + layer.classes.split(' ').join(', .'));
       }
       li = $(this).data('li');
-      $(li).find('label').text(layerName).end().data('tilemill', layer);
+      $(li).find('label').text(name.join(', ')).end().data('tilemill', layer);
     }
     TileMill.popup.hide();
     return false;
