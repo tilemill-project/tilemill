@@ -336,7 +336,7 @@ $(function() {
       classes: $('#popup-layer input#classes').val().split(' '),
       id: $('#popup-layer input#id').val(),
       dataSource: $('#popup-layer input#dataSource').val(),
-      srs: $('#popup-layer input#srs').val(),
+      srs: $('#popup-layer select#srs').val(),
       status: 'true'
     };
     if ($('#popup-layer').is('.new')) {
