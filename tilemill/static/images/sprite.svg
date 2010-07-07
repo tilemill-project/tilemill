@@ -334,6 +334,26 @@
        y1="3"
        x2="53"
        y2="17" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3203"
+       id="linearGradient2463"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(25,20)"
+       x1="37"
+       y1="3"
+       x2="37"
+       y2="17" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3156"
+       id="linearGradient2465"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-1,0,0,1,240,0)"
+       x1="53"
+       y1="3"
+       x2="53"
+       y2="17" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -345,12 +365,12 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="180.58093"
-     inkscape:cy="368.91577"
+     inkscape:zoom="11.641532"
+     inkscape:cx="197.22636"
+     inkscape:cy="383.62438"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:snap-bbox="true">
     <inkscape:grid
        type="xygrid"
@@ -515,5 +535,15 @@
        style="opacity:1;fill:url(#linearGradient2462);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        d="M 153,26 L 148,30 L 153,34 L 153,34"
        id="path2458" />
+    <path
+       style="opacity:1;fill:url(#linearGradient2465);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 189.5,5 C 189.223,5 189,5.223 189,5.5 L 189,9 L 185.5,9 C 185.223,9 185,9.223 185,9.5 L 185,10.5 C 185,10.777 185.223,11 185.5,11 L 189,11 L 189,14.5 C 189,14.777 189.223,15 189.5,15 L 190.5,15 C 190.777,15 191,14.777 191,14.5 L 191,11 L 194.5,11 C 194.777,11 195,10.777 195,10.5 L 195,9.5 C 195,9.223 194.777,9 194.5,9 L 191,9 L 191,5.5 C 191,5.223 190.777,5 190.5,5 L 189.5,5 z"
+       id="rect2456"
+       sodipodi:nodetypes="ccccccccccccccccccccc" />
+    <path
+       id="path2461"
+       d="M 189.5,25 C 189.223,25 189,25.223 189,25.5 L 189,29 L 185.5,29 C 185.223,29 185,29.223 185,29.5 L 185,30.5 C 185,30.777 185.223,31 185.5,31 L 189,31 L 189,34.5 C 189,34.777 189.223,35 189.5,35 L 190.5,35 C 190.777,35 191,34.777 191,34.5 L 191,31 L 194.5,31 C 194.777,31 195,30.777 195,30.5 L 195,29.5 C 195,29.223 194.777,29 194.5,29 L 191,29 L 191,25.5 C 191,25.223 190.777,25 190.5,25 L 189.5,25 z"
+       style="opacity:1;fill:url(#linearGradient2463);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       sodipodi:nodetypes="ccccccccccccccccccccc" />
   </g>
 </svg>
