@@ -104,3 +104,67 @@ TileMill.mml.save = function() {
     'data': TileMill.mml.generate(),
   });
 };
+
+/**
+ * Generate the URL of the current project .mml file.
+ */
+TileMill.mml.url = function(options) {
+  if (!options) {
+    var options = {};
+  }
+  $.extend(options, { timestamp: true, encode: true });
+  var url = TileMill.settings.server + 'projects/mml?id=' + TileMill.settings.project_id;
+  if (options.timestamp) {
+    url += '&c=' + TileMill.uniq;
+  }
+  if (options.encode) {
+    url = Base64.encode(url);
+  }
+  return url;
+};
+
+$(function() {
+  $(TileMill.settings.mml).find('Layer').each(function() {
+    var status = $(this).attr('status');
+    if (status == 'undefined' || status == undefined || status == 'on') {
+      status = true;
+    }
+    else {
+      status = false;
+    }
+    var classes = []
+    if ($(this).attr('class')) {
+      classes = $(this).attr('class').split(' ');
+    }
+    var srs = $(this).attr('srs'), parsed_srs = srs.replace(/^&srs(.*);$/, '$1');
+    if (parsed_srs == srs) {
+      var pass = false;
+      for (var key in TileMill.customSrs) {
+        if (TileMill.customSrs[key] == srs) {
+          pass = true;
+        }
+      }
+      if (!pass) {
+        TileMill.customSrs.push(srs);
+      }
+    }
+    else {
+      srs = parsed_srs;
+    }
+    TileMill.mml.add({
+      classes: classes,
+      id: $(this).attr('id'),
+      status: status,
+      dataSource: $(this).find('Datasource Parameter[name=file]').text(),
+      srs: srs
+    });
+  });
+  for (var i in TileMill.customSrs) {
+    var srs = TileMill.customSrs[i];
+    if (srs.length > 23) {
+      srs = srs.substr(0, 20) + '...';
+    }
+    $('select#srs').append('<option value="' + TileMill.customSrs[i].replace('"', '\\"') + '">' + srs + "</option>");
+  }
+  $('#layers ul.sidebar-content').sortable({ axis: 'y', handle: 'div.handle' });
+});

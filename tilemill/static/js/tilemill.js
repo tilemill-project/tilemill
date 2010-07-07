@@ -1,24 +1,6 @@
 var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), customSrs: [], url: '' };
 $.fn.reverse = [].reverse;
 
-/**
- * Generate the URL of the current project .mml file.
- */
-TileMill.mmlURL = function(options) {
-  if (!options) {
-    var options = {};
-  }
-  $.extend(options, { timestamp: true, encode: true });
-  var url = TileMill.settings.server + 'projects/mml?id=' + TileMill.settings.project_id;
-  if (options.timestamp) {
-    url += '&c=' + TileMill.uniq;
-  }
-  if (options.encode) {
-    url = Base64.encode(url);
-  }
-  return url;
-};
-
 TileMill.save = function() {
   var mml = TileMill.mml.save();
 
@@ -31,55 +13,10 @@ TileMill.save = function() {
 
   TileMill.loadInspection();
   TileMill.uniq = (new Date().getTime());
-  TileMill.initMap();
+  TileMill.map.reload();
 }
 
 $(function() {
-  $(TileMill.settings.mml).find('Layer').each(function() {
-    var status = $(this).attr('status');
-    if (status == 'undefined' || status == undefined || status == 'on') {
-      status = true;
-    }
-    else {
-      status = false;
-    }
-    var classes = []
-    if ($(this).attr('class')) {
-      classes = $(this).attr('class').split(' ');
-    }
-    var srs = $(this).attr('srs'), parsed_srs = srs.replace(/^&srs(.*);$/, '$1');
-    if (parsed_srs == srs) {
-      var pass = false;
-      for (var key in TileMill.customSrs) {
-        if (TileMill.customSrs[key] == srs) {
-          pass = true;
-        }
-      }
-      if (!pass) {
-        TileMill.customSrs.push(srs);
-      }
-    }
-    else {
-      srs = parsed_srs;
-    }
-    TileMill.mml.add({
-      classes: classes,
-      id: $(this).attr('id'),
-      status: status,
-      dataSource: $(this).find('Datasource Parameter[name=file]').text(),
-      srs: srs
-    });
-  });
-  for (var i in TileMill.customSrs) {
-    var srs = TileMill.customSrs[i];
-    if (srs.length > 23) {
-      srs = srs.substr(0, 20) + '...';
-    }
-    $('select#srs').append('<option value="' + TileMill.customSrs[i].replace('"', '\\"') + '">' + srs + "</option>");
-  }
-
-  $('#layers ul.sidebar-content').sortable({ axis: 'y', handle: 'div.handle' });
-
   $('a.inspector-close').click(function() {
     $('#layers').show();
     $('#inspector').hide();
@@ -152,8 +89,8 @@ $(function() {
   $('div#header a.info').click(function() {
     $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
     $('#popup-header h2').text('Info');
-    $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive + 'tile/' + TileMill.mmlURL({timestamp:false, encode:true}));
-    $('#popup-info input#project-mml-url').val(TileMill.mmlURL({timestamp:false, encode:false}));
+    $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true }));
+    $('#popup-info input#project-mml-url').val(TileMill.mml.url({ timestamp: false, encode: false }));
     $('#popup-layer').hide();
     return false;
   });
