@@ -19,6 +19,7 @@
     <script type="text/javascript" src="{{ static_url('js/stylesheet.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/color.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/map.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/popup.js') }}"></script>
     <script type="text/javascript">
       $.extend(TileMill.settings, {
         mml: {{ mml }},
@@ -63,40 +64,6 @@
     </div>
     <div id='editor'>
       <textarea id='code'></textarea>
-      <div id='popup-backdrop'></div>
-      <div id='popup'>
-        <div id='popup-header' class='clearfix pane'>
-          <h2>Edit layer</h2>
-          <a href="#" id="popup-close">Close</a>
-        </div>
-        <div id='popup-layer' class='clearfix pane'>
-          <form>
-            <div><label for="classes">Classes</label><input type="text" class="text" id="classes"></div>
-            <div><label for="id">Id</label><input type="text" class="text" id="id"></div>
-            <div><label for="dataSource">Data Source</label><input type="text" class="text" id="dataSource"></div>
-            <div>
-              <label for="srs">SRS</label>
-              <select id="srs">
-                <option value="900913">900913</option>
-                <option value="WGS84">WGS84</option>
-              </select>
-            </div>
-            <div class='buttons'><input class='submit' type='submit' value='Add layer' /></div>
-          </form>
-        </div>
-        <div id='popup-info' class='clearfix pane'>
-          <form>
-            <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' /></div>
-            <div><label for='project-mml-url'>MML URL</label><input id='project-mml-url' class='text' type='text' /></div>
-          </form>
-        </div>
-        <div id='popup-stylesheet' class='clearfix pane'>
-          <form>
-            <div><label for='stylesheet-name'>Name</label><input id='stylesheet-name' class='text' type='text' /></div>
-            <div class='buttons'><input class='submit' type='submit' value='Add stylesheet' /></div>
-          </form>
-        </div>
-      </div>
       <div id="color-palette" class='pane'>
         <div id='color-picker' class='pane'>
           <a class='color-picker' href='#color-picker'>Color picker</a>
@@ -107,6 +74,35 @@
           <label>Colors</label>
           <div></div>
         </div>
+      </div>
+    </div>
+    <div id='popups' class='hidden'>
+      <div id='popup-layer' class='clearfix pane'>
+        <form>
+          <div><label for="classes">Classes</label><input type="text" class="text" id="classes"></div>
+          <div><label for="id">Id</label><input type="text" class="text" id="id"></div>
+          <div><label for="dataSource">Data Source</label><input type="text" class="text" id="dataSource"></div>
+          <div>
+            <label for="srs">SRS</label>
+            <select id="srs">
+              <option value="900913">900913</option>
+              <option value="WGS84">WGS84</option>
+            </select>
+          </div>
+          <div class='buttons'><input class='submit' type='submit' value='Add layer' /></div>
+        </form>
+      </div>
+      <div id='popup-info' class='clearfix pane'>
+        <form>
+          <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' /></div>
+          <div><label for='project-mml-url'>MML URL</label><input id='project-mml-url' class='text' type='text' /></div>
+        </form>
+      </div>
+      <div id='popup-stylesheet' class='clearfix pane'>
+        <form>
+          <div><label for='stylesheet-name'>Name</label><input id='stylesheet-name' class='text' type='text' /></div>
+          <div class='buttons'><input class='submit' type='submit' value='Add stylesheet' /></div>
+        </form>
       </div>
     </div>
   </body>
