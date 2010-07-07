@@ -25,43 +25,6 @@ $(function() {
 
   TileMill.loadInspection(true);
 
-  $('a#layers-add').click(function() {
-    $('#popup, #popup-layer, #popup-backdrop, #popup-header').show();
-    $('#popup-layer input:not(.submit)').val('');
-    $('#popup-layer').addClass('new');
-    $('#popup-layer input.submit').text('Add layer');
-    $('#popup-header h2').text('Add layer');
-    $('#popup-info').hide();
-    return false;
-  });
-
-  $('#popup-layer input.submit').click(function() {
-    var layer = {
-      classes: $('#popup-layer input#classes').val().split(' '),
-      id: $('#popup-layer input#id').val(),
-      dataSource: $('#popup-layer input#dataSource').val(),
-      srs: $('#popup-layer select#srs').val(),
-      status: 'true'
-    };
-    if ($('#popup-layer').is('.new')) {
-      TileMill.mml.add(layer);
-    }
-    else {
-      var layerName = '';
-      if (layer.id) {
-        layerName = '#' + layer.id + ' ';
-      }
-      if (layer.classes) {
-        layerName += '.' + layer.classes.join(', .');
-      }
-      li = $(this).data('li');
-      $(li).find('label').text(layerName).end().data('tilemill', layer);
-    }
-    $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
-    $('#popup-layer').removeClass('new');
-    return false;
-  })
-
   $('a#popup-close').click(function() {
     $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
     $('#popup-layer').removeClass('new');
