@@ -159,6 +159,7 @@ $(function() {
       srs: srs
     });
   });
+  TileMill.inspector.load();
   for (var i in TileMill.customSrs) {
     var srs = TileMill.customSrs[i];
     if (srs.length > 23) {

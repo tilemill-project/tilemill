@@ -266,8 +266,9 @@ a.inspect-values {
   right:5px;
   }
 
-  a.layer-inspect { right:27px; }
-  a.layer-edit { right:49px; }
+  a.layer-inspect { right:49px; }
+  a.layer-inspect-loading { display:none; }
+  a.layer-edit { right:27px; }
 
   li:hover a.layer-edit,
   li:hover a.layer-delete,

@@ -1,6 +1,7 @@
+TileMill.inspector = { inspection: {} };
+
 TileMill.inspect = function(id) {
   if (!TileMill.inspection) {
-    setTimeout(TileMill.inspect, 1000);
     return;
   }
   $('#layers').hide();
@@ -20,7 +21,8 @@ TileMill.inspect = function(id) {
   }
 }
 
-TileMill.loadInspection = function() {
+TileMill.inspector.load = function() {
+  $('.layer-inspect').removeClass('layer-inspect').addClass('layer-inspect-loading');
   encode = TileMill.mml.url();
   var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
   script.src = TileMill.settings.tilelive + encode + "/fields.json?jsoncallback=TileMill._loadInspection";
@@ -28,6 +30,7 @@ TileMill.loadInspection = function() {
 }
 
 TileMill._loadInspection = function(data) {
+  $('.layer-inspect-loading').removeClass('layer-inspect-loading').addClass('layer-inspect');
   TileMill.inspection = data;
 }
 

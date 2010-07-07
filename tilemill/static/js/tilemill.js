@@ -11,7 +11,7 @@ TileMill.save = function() {
     TileMill.stylesheet.save(url.param('filename'), $('input', this).val());
   });
 
-  TileMill.loadInspection();
+  TileMill.inspector.load();
   TileMill.uniq = (new Date().getTime());
   TileMill.map.reload();
 }
@@ -22,8 +22,6 @@ $(function() {
     $('#inspector').hide();
     return false;
   });
-
-  TileMill.loadInspection(true);
 
   $('a#popup-close').click(function() {
     $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
