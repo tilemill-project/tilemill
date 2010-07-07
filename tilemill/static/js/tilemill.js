@@ -1,11 +1,11 @@
-var TileMill = TileMill || { page:0, uniq: (new Date().getTime()), customSrs: [], url: '' };
+var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), customSrs: [], url: '' };
 $.fn.reverse = [].reverse;
 
 /**
  * Generate the URL of the current project .mml file.
  */
 TileMill.mmlURL = function(options) {
-  var url = window.server + 'projects/mml?id=' + window.project_id;
+  var url = TileMill.settings.server + 'projects/mml?id=' + TileMill.settings.project_id;
   options = options || { timestamp:1, encode:1 };
   if (options.timestamp) {
     url += '&c=' + TileMill.uniq;
@@ -20,7 +20,7 @@ TileMill.addStylesheet = function(options) {
   // If there is no / character, assume this is a single filename.
   if (options.src.split('/').length === 1) {
     var filename = options.src.split('.')[0];
-    options.src = window.server + 'projects/mss?id='+ window.project_id +'&filename='+ filename;
+    options.src = TileMill.settings.server + 'projects/mss?id='+ TileMill.settings.project_id +'&filename='+ filename;
   }
   // Otherwise, assume this is a URL.
   else {
@@ -51,7 +51,7 @@ TileMill.addStylesheet = function(options) {
     // the for the addition of the next stylesheet.
     if (typeof options.position !== 'undefined') {
       TileMill.initCodeEditor(stylesheet);
-      $('Stylesheet', mml).eq(options.position + 1).each(function() {
+      $('Stylesheet', TileMill.settings.mml).eq(options.position + 1).each(function() {
         if ($(this).attr('src')) {
           TileMill.addStylesheet({src: $(this).attr('src'), position: options.position + 1});
         }
@@ -66,7 +66,7 @@ TileMill.addStylesheet = function(options) {
 TileMill.save = function(map) {
   var mml = TileMill.mml();
   $.post('/projects/mml', {
-    'id': window.project_id,
+    'id': TileMill.settings.project_id,
     'data': mml,
   });
 
@@ -91,7 +91,7 @@ TileMill.mml = function() {
   '<Map srs="&srs900913;">'];
   $('#tabs a.tab').each(function() {
     var url = $.url.setUrl($(this).data('tilemill')['src']);
-    output.push('  <Stylesheet src="' + window.server + 'projects/mss?id='+ url.param('id') +'&amp;filename='+ url.param('filename') +'&amp;c=' + TileMill.uniq + '" />');
+    output.push('  <Stylesheet src="' + TileMill.settings.server + 'projects/mss?id='+ url.param('id') +'&amp;filename='+ url.param('filename') +'&amp;c=' + TileMill.uniq + '" />');
   });
   $('#layers ul.sidebar-content li').reverse().each(function() {
     var layer = $(this).data('tilemill'), l = '  <Layer';
@@ -127,16 +127,16 @@ TileMill.mml = function() {
 }
 
 TileMill.mssSave = function(file, data) {
-  $.post('/projects/mss', {'id': project_id, 'filename': file, 'data': data });
+  $.post('/projects/mss', {'id': TileMill.settings.project_id, 'filename': file, 'data': data });
 }
 
 $(function() {
-  $('Stylesheet:first', mml).each(function() {
+  $('Stylesheet:first', TileMill.settings.mml).each(function() {
     if ($(this).attr('src')) {
       TileMill.addStylesheet({src: $(this).attr('src'), position: 0});
     }
   });
-  $(mml).find('Layer').each(function() {
+  $(TileMill.settings.mml).find('Layer').each(function() {
     var status = $(this).attr('status');
     if (status == 'undefined' || status == undefined || status == 'on') {
       status = true;
@@ -240,7 +240,7 @@ $(function() {
   $('div#header a.info').click(function() {
     $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
     $('#popup-header h2').text('Info');
-    $('#popup-info input#tilelive-url').val(window.tilelive + 'tile/' + TileMill.mmlURL({timestamp:false, encode:true}));
+    $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive + 'tile/' + TileMill.mmlURL({timestamp:false, encode:true}));
     $('#popup-info input#project-mml-url').val(TileMill.mmlURL({timestamp:false, encode:false}));
     $('#popup-layer').hide();
     return false;

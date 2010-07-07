@@ -23,7 +23,7 @@ TileMill.inspect = function(id) {
 TileMill.loadInspection = function() {
   encode = TileMill.mmlURL();
   var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-  script.src = window.tilelive + encode + "/fields.json?jsoncallback=TileMill._loadInspection";
+  script.src = TileMill.settings.tilelive + encode + "/fields.json?jsoncallback=TileMill._loadInspection";
   head.insertBefore(script, head.firstChild);
 }
 
@@ -47,7 +47,7 @@ TileMill.values = function(layer, field) {
       $('#inspector li div.inspect-values').hide();
       encode = TileMill.mmlURL();
       var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-      TileMill.url = window.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start={{page}}&jsoncallback=TileMill._values";
+      TileMill.url = TileMill.settings.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start={{page}}&jsoncallback=TileMill._values";
       script.src = TileMill.url.replace('{{page}}', TileMill.page * 10);
       head.insertBefore(script, head.firstChild);
     }

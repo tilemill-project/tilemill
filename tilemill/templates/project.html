@@ -19,7 +19,13 @@
     <script type="text/javascript" src="{{ static_url('js/color.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/map.js') }}"></script>
     <script type="text/javascript">
-      var static_path = "{{ static_url('') }}", mml = {{ mml }}, project_id = "{{ project_id }}", tilelive = "{{ tilelive }}", server = "{{ url }}";
+      $.extend(TileMill.settings, {
+        mml: '{{ mml }}',
+        project_id: '{{ project_id }}',
+        tilelive: '{{ tilelive }}',
+        server: '{{ url }}',
+        static_path: '{{ static_url('') }}',
+      });
     </script>
   </head>
   <body class='project'>
