@@ -39,18 +39,20 @@ TileMill.colors.reload = function(data) {
       }
     }
     // Sort the colors by lightness.
-    colors.sort(function(a, b) { return a[2] - b[2] });
+    colors.sort(function(a, b) { return a[1] - b[1] });
+    var colors_div = $('div#colors div').empty();
+    // Go through the colors and add them to the color palette. When one is
+    // clicked, it's inserted into the document at the current cursor.
+    for (var color in colors) {
+      colors_div
+        .append($("<a href='#' class='swatch' style='background-color: "+ colors[color][3] +"'><label>"+ colors[color][3] +"</label></a>")
+          .click(function() {
+            TileMill.colors.insert($(this).text());
+          }));
+    }
   }
-
-  var colors_div = $('div#colors div').empty();
-  // Go through the colors and add them to the color palette. When one is
-  // clicked, it's inserted into the document at the current cursor.
-  for (var color in colors) {
-    colors_div
-      .append($("<a href='#' class='swatch' style='background-color: "+ colors[color][3] +"'><label>"+ colors[color][3] +"</label></a>")
-        .click(function() {
-          TileMill.colors.insert($(this).text());
-        }));
+  else {
+    $('div#colors div').empty()
   }
 }
 
