@@ -23,9 +23,11 @@ TileMill.stylesheet.add = function(options) {
       .append($('<span class="tab-delete">Delete</span>').click(function() {
         if (confirm('Are you sure you want to delete this stylesheet?')) {
           $(this).parents('a.tab').hide('fast', function() {
+            if ($(this).is('.active')) {
+              // Set the first stylesheet to active.
+              TileMill.initCodeEditor($('#tabs a.tab').eq(0), true);
+            }
             $(this).remove();
-            // Set the first stylesheet to active.
-            TileMill.initCodeEditor($('#tabs a.tab').eq(0), true);
           });
         }
         return false;
