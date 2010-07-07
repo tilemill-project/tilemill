@@ -294,6 +294,46 @@
        y1="3"
        x2="53"
        y2="17" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3156"
+       id="linearGradient2460"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(86,0)"
+       x1="53"
+       y1="3"
+       x2="53"
+       y2="17" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3203"
+       id="linearGradient2462"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-1,0,0,1,301,20)"
+       x1="37"
+       y1="3"
+       x2="37"
+       y2="17" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3203"
+       id="linearGradient2464"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(20,20)"
+       x1="37"
+       y1="3"
+       x2="37"
+       y2="17" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3156"
+       id="linearGradient2466"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-1,0,0,1,235,0)"
+       x1="53"
+       y1="3"
+       x2="53"
+       y2="17" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -306,8 +346,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="129.63355"
-     inkscape:cy="387.32155"
+     inkscape:cx="180.58093"
+     inkscape:cy="368.91577"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -459,5 +499,21 @@
        id="path2457"
        d="M 130,24 L 132,26 L 126,32 L 124,30 L 124,36 L 130,36 L 128,34 L 134,28 L 136,30 L 136,24 L 130,24 z"
        style="opacity:1;fill:url(#linearGradient3197);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;color:#000000" />
+    <path
+       style="opacity:1;fill:url(#linearGradient2466);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 168,6 L 173,10 L 168,14 L 168,14"
+       id="path2448" />
+    <path
+       id="path2450"
+       d="M 168,26 L 173,30 L 168,34 L 168,34"
+       style="opacity:1;fill:url(#linearGradient2464);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       id="path2456"
+       d="M 153,6 L 148,10 L 153,14 L 153,14"
+       style="opacity:1;fill:url(#linearGradient2460);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       style="opacity:1;fill:url(#linearGradient2462);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 153,26 L 148,30 L 153,34 L 153,34"
+       id="path2458" />
   </g>
 </svg>

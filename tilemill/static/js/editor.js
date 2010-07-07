@@ -282,7 +282,12 @@ TileMill._values = function(data) {
     for (var i in data.values) {
       ul.append('<li>' + data.values[i] + '</li>');
     }
-    $('li#field-' + data.field).append(ul);
+    var pager = $('<div class="pager clearfix"></div>')
+      .append('<a class="pager-prev disabled" href="#pager-prev">Prev</a>')
+      .append('<a class="pager-next" href="#pager-next">Next</a>');
+    $('li#field-' + data.field)
+      .append(ul)
+      .append(pager);
   }
 }
 
