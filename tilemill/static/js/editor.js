@@ -1,4 +1,4 @@
-TileMill = { page:0, uniq: (new Date().getTime()), customSrs: [] };
+TileMill = { page:0, uniq: (new Date().getTime()), customSrs: [], url: '' };
 
 $.fn.reverse = [].reverse;
 
@@ -236,6 +236,7 @@ TileMill.inspect = function(id) {
         .attr('id', 'field-' + field)
         .append($('<a class="inspect-values" href="#inspect-values">See values</a>').click(function() {
           TileMill.values(layer, field);
+          return false;
         }))
         .append('<strong>' + field + '</strong>')
         .append('<em>' + TileMill.inspection[layer][field].replace('int', 'integer').replace('str', 'string') + '</em>')
@@ -256,20 +257,28 @@ TileMill._loadInspection = function(data) {
 }
 
 TileMill.values = function(layer, field) {
-  if ($('li#field-' + field + ' div.inspect-values').size()) {
-    if ($('li#field-' + field + ' div.inspect-values').is(':hidden')) {
-      $('#inspector li div.inspect-values').hide();
-      $('li#field-' + field + ' div.inspect-values').show();
+  if (layer && field) {
+    if ($('li#field-' + field + ' div.inspect-values').size()) {
+      if ($('li#field-' + field + ' div.inspect-values').is(':hidden')) {
+        $('#inspector li div.inspect-values').hide();
+        $('li#field-' + field + ' div.inspect-values').show();
+      }
+      else {
+        $('li#field-' + field + ' div.inspect-values').hide();
+      }
     }
     else {
-      $('li#field-' + field + ' div.inspect-values').hide();
+      $('#inspector li div.inspect-values').hide();
+      encode = TileMill.mmlURL();
+      var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
+      TileMill.url = window.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start={{page}}&jsoncallback=TileMill._values";
+      script.src = TileMill.url.replace('{{page}}', TileMill.page * 10);
+      head.insertBefore(script, head.firstChild);
     }
   }
   else {
-    $('#inspector li div.inspect-values').hide();
-    encode = TileMill.mmlURL();
     var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-    script.src = window.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start="+ TileMill.page * 10 +"&jsoncallback=TileMill._values";
+    script.src = TileMill.url.replace('{{page}}', TileMill.page * 10);
     head.insertBefore(script, head.firstChild);
   }
 }
@@ -284,9 +293,24 @@ TileMill._values = function(data) {
       ul.append('<li>' + data.values[i] + '</li>');
     }
     var pager = $('<div class="pager clearfix"></div>')
-      .append('<a class="pager-prev disabled" href="#pager-prev">Prev</a>')
-      .append('<a class="pager-next" href="#pager-next">Next</a>');
+      .append($('<a class="pager-prev' + (TileMill.page != 0 ? '' : ' disabled') + '" href="#pager-prev">Prev</a>').click(function() {
+        if ($(this).is('.disabled')) {
+          return false;
+        }
+        TileMill.page--;
+        TileMill.values();
+        return false;
+      }))
+      .append($('<a class="pager-next' + ((data.count - (TileMill.page * 10) > 10) ? '' : ' disabled') + '" href="#pager-next">Next</a>').click(function() {
+        if ($(this).is('.disabled')) {
+          return false;
+        }
+        TileMill.page++;
+        TileMill.values();
+        return false;
+      }));
     var values = $('<div class="inspect-values"></div>').append(ul).append(pager);
+    $('li#field-' + data.field + ' div.inspect-values').remove();
     $('li#field-' + data.field).append(values);
   }
 }
