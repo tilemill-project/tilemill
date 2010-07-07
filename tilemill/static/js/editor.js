@@ -18,6 +18,45 @@ TileMill.mmlURL = function(timestamp) {
   return url;
 };
 
+TileMill.addStylesheet = function(options) {
+  $.get(options.src, function(data) {
+    var filename = $.url.setUrl(options.src).param('filename');
+    var stylesheet = $('<a class="tab" href="#tab">')
+      .text(filename)
+      .data('tilemill', options)
+      .append($('<input type="hidden">').val(data))
+      .append($('<span class="tab-delete">Delete</span>').click(function() {
+        if (confirm('Are you sure you want to delete this stylesheet?')) {
+          $(this).parents('a.tab').hide('fast', function() {
+            $(this).remove();
+            // Set the first stylesheet to active.
+            TileMill.initCodeEditor($('#tabs a.tab').eq(0), true);
+          });
+        }
+        return false;
+      }))
+      .click(function() {
+        TileMill.initCodeEditor($(this), true);
+        return false;
+      });
+    $('#tabs').append(stylesheet);
+
+    // If a position is defined we are adding stylesheets sequentially. Call
+    // the for the addition of the next stylesheet.
+    if (typeof options.position !== 'undefined') {
+      TileMill.initCodeEditor(stylesheet);
+      $('Stylesheet', mml).eq(options.position + 1).each(function() {
+        if ($(this).attr('src')) {
+          TileMill.addStylesheet({src: $(this).attr('src'), position: options.position + 1});
+        }
+      });
+      // If this is the last stylesheet, do final processing.
+      if (!$('Stylesheet', mml).eq(options.position + 1).size()) {
+      }
+    }
+  });
+};
+
 TileMill.addLayer = function(options) {
   var layerName = '';
   if (options.id) {
@@ -120,20 +159,36 @@ TileMill.initColors = function() {
   });
 };
 
-TileMill.initCodeEditor = function(file) {
-  $.get('/projects/mss', {'id': project_id, 'filename': file}, function(data) {
-    $('textarea#code').val(data);
-    TileMill.reloadColors(data);
-    TileMill.mirror = CodeMirror.fromTextArea('code', {
-      height: "auto",
-      parserfile: "parsecss.js",
-      stylesheet: static_path + "css/code.css",
-      path: static_path + "js/codemirror/js/"
-    });
-    setInterval(function() {
-      TileMill.reloadColors(TileMill.mirror.getCode());
-    }, 5000);
-  });
+TileMill.initCodeEditor = function(stylesheet, update) {
+  if (stylesheet && stylesheet.data('tilemill')) {
+    if (!$('#tabs .active').size() || update === true) {
+      var data = $('input', stylesheet).val();
+      if (!update) {
+        $('#tabs a.active').removeClass('active');
+        stylesheet.addClass('active');
+
+        $('#code').val(data);
+        TileMill.mirror = CodeMirror.fromTextArea('code', {
+          height: "auto",
+          parserfile: "parsecss.js",
+          stylesheet: static_path + "css/code.css",
+          path: static_path + "js/codemirror/js/"
+        });
+        setInterval(function() {
+          TileMill.reloadColors(TileMill.mirror.getCode());
+        }, 5000);
+        TileMill.reloadColors(data);
+      }
+      else {
+        $('#tabs a.active input').val(TileMill.mirror.getCode());
+        $('#tabs a.active').removeClass('active');
+        stylesheet.addClass('active');
+
+        TileMill.mirror.setCode(data);
+        TileMill.reloadColors(data);
+      }
+    }
+  }
 };
 
 TileMill.save = function(map) {
@@ -142,7 +197,14 @@ TileMill.save = function(map) {
     'id': window.project_id,
     'data': mml,
   });
-  TileMill.mssSave(project_id);
+
+  // Make sure latest edits to active tab's text have been recorded.
+  $('#tabs a.active input').val(TileMill.mirror.getCode());
+  $('#tabs a.tab').each(function() {
+    var url = $.url.setUrl($(this).data('tilemill')['src']);
+    TileMill.mssSave(url.param('filename'), $('input', this).val());
+  });
+
   TileMill.loadInspection();
   TileMill.uniq = (new Date().getTime());
   TileMill.initMap();
@@ -155,7 +217,10 @@ TileMill.mml = function() {
   '  <!ENTITY srsWGS84 "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">',
   ']>',
   '<Map srs="&srs900913;">'];
-  output.push('  <Stylesheet src="' + window.server + 'projects/mss?id='+ project_id +'&amp;filename='+ project_id +'&amp;c=' + TileMill.uniq + '" />');
+  $('#tabs a.tab').each(function() {
+    var url = $.url.setUrl($(this).data('tilemill')['src']);
+    output.push('  <Stylesheet src="' + window.server + 'projects/mss?id='+ url.param('id') +'&amp;filename='+ url.param('filename') +'&amp;c=' + TileMill.uniq + '" />');
+  });
   $('#layers ul.sidebar-content li').reverse().each(function() {
     var layer = $(this).data('tilemill'), l = '  <Layer';
     if (layer.id) {
@@ -186,8 +251,8 @@ TileMill.mml = function() {
   return output.join("\n");
 }
 
-TileMill.mssSave = function(file) {
-  $.post('/projects/mss', {'id': project_id, 'filename': file, 'data': TileMill.mirror.getCode() });
+TileMill.mssSave = function(file, data) {
+  $.post('/projects/mss', {'id': project_id, 'filename': file, 'data': data });
 }
 
 TileMill.reloadColors = function(data) {
@@ -289,6 +354,11 @@ TileMill._values = function(data) {
 }
 
 $(function() {
+  $('Stylesheet:first', mml).each(function() {
+    if ($(this).attr('src')) {
+      TileMill.addStylesheet({src: $(this).attr('src'), position: 0});
+    }
+  });
   $(mml).find('Layer').each(function() {
     status = $(this).attr('status');
     if (status == 'undefined') {
@@ -313,10 +383,8 @@ $(function() {
     });
   });
 
-  $('#layers ul.sidebar-content').sortable({
-    axis: 'y',
-    handle: 'div.handle',
-  });
+  $('#layers ul.sidebar-content').sortable({ axis: 'y', handle: 'div.handle' });
+  $('#tabs').sortable({ axis: 'x', });
 
   $('a.inspector-close').click(function() {
     $('#layers').show();
@@ -326,7 +394,6 @@ $(function() {
 
   TileMill.initMap();
   TileMill.initColors();
-  TileMill.initCodeEditor(project_id);
   TileMill.loadInspection(true);
 
   $('a#layers-add').click(function() {

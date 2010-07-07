@@ -234,6 +234,7 @@ form div.buttons {
 /**
  * Icon links
  */
+span.tab-delete,
 a.tab-add,
 a#layers-add,
 a.inspector-close,
@@ -274,6 +275,7 @@ a.inspect-values {
   li:hover a.inspect-values { display:block; }
 
 a.layer-inspect  { background-position:-20px 0px; }
+span.tab-delete,
 a.layer-delete   { background-position:-60px 0px; }
 a.color-picker   { background-position:-40px -20px; }
 a.inspector-close,
@@ -341,11 +343,23 @@ a#layers-add     { background-position:-180px -20px; }
   -moz-border-radius:3px 3px 0px 0px;
   -webkit-border-radius:3px 3px 0px 0px;
   background:transparent;
-  padding:5px 10px;
+  padding:5px 30px 5px 10px;
   font-size:11px;
   font-weight:bold;
   color:#999;
+  position:relative;
   }
+
+#tabs a.tab span.tab-delete {
+  display:none;
+  position:absolute;
+  opacity:.5;
+  right:5px;
+  top:5px;
+  }
+
+  #tabs a.tab:hover span.tab-delete { display:block; }
+  #tabs a.tab:hover span.tab-delete:hover { opacity:1; }
 
 #tabs a.active {
   border-width:1px 1px 0px;
@@ -353,7 +367,7 @@ a#layers-add     { background-position:-180px -20px; }
   border-style:solid;
   color:#333;
   background:#f8f8f8;
-  padding:4px 9px 5px;
+  padding:4px 29px 5px 9px;
   }
 
 #editor {
