@@ -130,7 +130,6 @@ TileMill.initCodeEditor = function(file) {
       stylesheet: static_path + "css/code.css",
       path: static_path + "js/codemirror/js/"
     });
-    TileMill.mirror.setCode(data);
     setInterval(function() {
       TileMill.reloadColors(TileMill.mirror.getCode());
     }, 5000);
@@ -290,7 +289,6 @@ TileMill._values = function(data) {
 }
 
 $(function() {
-  console.log(TileMill.mmlURL());
   $(mml).find('Layer').each(function() {
     status = $(this).attr('status');
     if (status == 'undefined') {
