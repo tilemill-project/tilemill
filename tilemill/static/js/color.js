@@ -51,9 +51,14 @@ TileMill.colors.reload = function(data) {
   }
 }
 
-TileMill.colors.insert = function(text) {
+/**
+ * Insert a color into the document
+ *
+ * @TODO Make this much better (replace selections etc).
+ */
+TileMill.colors.insert = function(color) {
   var position = TileMill.mirror.cursorPosition();
-  TileMill.mirror.insertIntoLine(position.line, position.character, text);
+  TileMill.mirror.insertIntoLine(position.line, position.character, color);
 }
 
 $(function() {
