@@ -74,16 +74,14 @@ $(function() {
   });
 
   $('#tabs a.tab-add').click(function() {
-    $('#popup > div').hide();
-    $('#popup, #popup-stylesheet, #popup-backdrop, #popup-header').show();
     $('#popup-stylesheet input:not(.submit)').val('');
-    $('#popup-header h2').text('Add stylesheet');
+    TileMill.popup.show({content:$('#popup-stylesheet'), title:'Add stylesheet'});
     return false;
   });
 
   $('#popup-stylesheet input.submit').click(function() {
     TileMill.stylesheet.add({src: $('#popup-stylesheet input#stylesheet-name').val(), create: true});
-    $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
+    TileMill.popup.hide();
     return false;
   });
 });
