@@ -20,7 +20,7 @@ TileMill.colors.reload = function(data) {
   // Find all colors.
   var matches = data.match(/\#[A-Fa-f0-9]{3,6}/g),
   // Keep track of unique colors.
-  colors = [];
+    colors = [];
 
   if (matches) {
     for (var i = 0; i < matches.length; i++) {
