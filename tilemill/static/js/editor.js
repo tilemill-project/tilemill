@@ -15,9 +15,9 @@ TileMill.initCodeEditor = function(stylesheet, update) {
           path: static_path + "js/codemirror/js/"
         });
         setInterval(function() {
-          TileMill.reloadColors(TileMill.mirror.getCode());
+          TileMill.colors.reload(TileMill.mirror.getCode());
         }, 5000);
-        TileMill.reloadColors(data);
+        TileMill.colors.reload(data);
       }
       else {
         $('#tabs a.active input').val(TileMill.mirror.getCode());
@@ -25,7 +25,7 @@ TileMill.initCodeEditor = function(stylesheet, update) {
         stylesheet.addClass('active');
 
         TileMill.mirror.setCode(data);
-        TileMill.reloadColors(data);
+        TileMill.colors.reload(data);
       }
     }
   }
