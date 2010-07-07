@@ -97,6 +97,13 @@ TileMill.initMap = function() {
     var control = new OpenLayers.Control.Navigation({ 'zoomWheelEnabled': true });
     TileMill.map.addControl(control);
     control.activate();
+
+    // Fullscreen toggle
+    var fullscreen = $('a.map-fullscreen').click(function() {
+      $('#map-preview').toggleClass('fullscreen');
+      TileMill.map.updateSize();
+      return false;
+    });
   }
   // Update map.
   else {

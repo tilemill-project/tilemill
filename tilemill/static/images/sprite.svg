@@ -284,6 +284,16 @@
        x2="70"
        y2="210"
        gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3156"
+       id="linearGradient2450"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-1,0,0,1,215,0)"
+       x1="53"
+       y1="3"
+       x2="53"
+       y2="17" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -295,12 +305,12 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="9.3132257"
-     inkscape:cx="99.433127"
-     inkscape:cy="379.32582"
+     inkscape:zoom="1"
+     inkscape:cx="129.63355"
+     inkscape:cy="387.32155"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="true"
+     showgrid="false"
      inkscape:snap-bbox="true">
     <inkscape:grid
        type="xygrid"
@@ -440,6 +450,14 @@
     <path
        id="path3220"
        d="M 110,26 C 105,26 103,30 103,30 C 103.13432,30.013576 105,34 110,34 C 115,34 117,30 117,30 C 117,30 115,26 110,26 z M 110,27 C 111.656,27 113,28.344 113,30 C 113,31.656 111.656,33 110,33 C 108.344,33 107,31.656 107,30 C 107,28.344 108.344,27 110,27 z"
+       style="opacity:1;fill:url(#linearGradient3197);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;color:#000000" />
+    <path
+       style="opacity:1;fill:url(#linearGradient2450);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 130 4 L 132 6 L 126 12 L 124 10 L 124 16 L 130 16 L 128 14 L 134 8 L 136 10 L 136 4 L 130 4 z "
+       id="path2446" />
+    <path
+       id="path2457"
+       d="M 130,24 L 132,26 L 126,32 L 124,30 L 124,36 L 130,36 L 128,34 L 134,28 L 136,30 L 136,24 L 130,24 z"
        style="opacity:1;fill:url(#linearGradient3197);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;color:#000000" />
   </g>
 </svg>

@@ -216,7 +216,8 @@ a.color-picker,
 a.layer-edit,
 a.layer-delete,
 a.layer-inspect,
-a.inspect-values {
+a.inspect-values,
+a.map-fullscreen {
   display:block;
   width:20px;
   height:20px;
@@ -249,6 +250,7 @@ a.layer-delete  { background-position:-60px 0px; }
 a.color-picker  { background-position:-40px -20px; }
 a#popup-close   { background-position:-80px -20px; }
 a.inspect-values { background-position:-100px 0px; }
+a.map-fullscreen { background-position:-120px -20px; }
 
 /**
  * Map preview
@@ -262,6 +264,25 @@ a.inspect-values { background-position:-100px 0px; }
   border-top:1px solid #ccc;
   border-right:1px solid #ccc;
   background:#ddd;
+  }
+
+#map-preview.fullscreen {
+  top:40px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  z-index:5;
+  width:auto;
+  height:auto;
+  border:0px;
+  }
+
+#map-preview a.map-fullscreen {
+  background-color:#222;
+  position:absolute;
+  right:5px;
+  top:5px;
+  z-index:10000;
   }
 
 /**
@@ -291,6 +312,7 @@ a.inspect-values { background-position:-100px 0px; }
   right:0px;
   bottom:0px;
   padding-right:180px;
+  min-height:20px;
   }
 
 #colors {
@@ -339,7 +361,9 @@ a.inspect-values { background-position:-100px 0px; }
 
 #color-picker {
   position:absolute;
-  right:10px;
+  right:0px;
+  bottom:0px;
+  height:20px;
   }
 
 #color-picker a { float:right; }
