@@ -1,4 +1,4 @@
-TileMill = {page:0, uniq: (new Date().getTime())};
+TileMill = { page:0, uniq: (new Date().getTime()), customSrs: [] };
 
 $.fn.reverse = [].reverse;
 
@@ -63,7 +63,7 @@ TileMill.addLayer = function(options) {
       return false;
     }))
     .append($('<label>' + layerName + '</label>'));
-  if (options.status == 'true') {
+  if (options.status == 'true' || options.status == true) {
     checkbox[0].checked = true;
   }
   $('#layers ul.sidebar-content').prepend(li.data('tilemill', options));
@@ -167,14 +167,17 @@ TileMill.mml = function() {
     if (!layer.srs) {
       layer.srs = '900913';
     }
-    l += ' srs="&srs' + (layer.srs == '900913' ? '900913' : 'WGS84') + ';"';
+    if (layer.srs == '900913' || layer.srs == 'WGS84') {
+      layer.srs = '&srs' + layer.srs + ';';
+    }
+    l += ' srs="' + $('<span/>').text(layer.srs).html() + '"';
     if (!$(this).attr('checked') == 'checked') {
       l += ' status="off"';
     }
     l += '>';
     output.push(l);
     output.push('    <Datasource>');
-    output.push('      <Parameter name="file">' + layer.dataSource + '</Parameter>');
+    output.push('      <Parameter name="file">' + $('<span/>').text(layer.dataSource).html() + '</Parameter>');
     output.push('      <Parameter name="type">shape</Parameter>');
     if (layer.id) {
       output.push('      <Parameter name="id">' + layer.id + '</Parameter>');
@@ -290,28 +293,47 @@ TileMill._values = function(data) {
 
 $(function() {
   $(mml).find('Layer').each(function() {
-    status = $(this).attr('status');
-    if (status == 'undefined') {
-      status = true;
-    }
-    else if (status == 'on') {
+    var status = $(this).attr('status');
+    if (status == 'undefined' || status == undefined || status == 'on') {
       status = true;
     }
     else {
       status = false;
     }
-    classes = []
+    var classes = []
     if ($(this).attr('class')) {
       classes = $(this).attr('class').split(' ');
+    }
+    var srs = $(this).attr('srs'), parsed_srs = srs.replace(/^&srs(.*);$/, '$1');
+    if (parsed_srs == srs) {
+      var pass = false;
+      for (var key in TileMill.customSrs) {
+        if (TileMill.customSrs[key] == srs) {
+          pass = true;
+        }
+      }
+      if (!pass) {
+        TileMill.customSrs.push(srs);
+      }
+    }
+    else {
+      srs = parsed_srs;
     }
     TileMill.addLayer({
       classes: classes,
       id: $(this).attr('id'),
       status: status,
       dataSource: $(this).find('Datasource Parameter[name=file]').text(),
-      srs: $(this).attr('srs').replace('&srs', '').replace(';', '')
+      srs: srs
     });
   });
+  for (var i in TileMill.customSrs) {
+    var srs = TileMill.customSrs[i];
+    if (srs.length > 23) {
+      srs = srs.substr(0, 20) + '...';
+    }
+    $('select#srs').append('<option value="' + TileMill.customSrs[i].replace('"', '\\"') + '">' + srs + "</option>");
+  }
 
   $('#layers ul.sidebar-content').sortable({
     axis: 'y',
