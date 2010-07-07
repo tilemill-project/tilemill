@@ -254,17 +254,17 @@ TileMill._loadInspection = function(data) {
 }
 
 TileMill.values = function(layer, field) {
-  if ($('li#field-' + field + ' ul').size()) {
-    if ($('li#field-' + field + ' ul').is(':hidden')) {
-      $('#inspector li ul').hide();
-      $('li#field-' + field + ' ul').show();
+  if ($('li#field-' + field + ' div.inspect-values').size()) {
+    if ($('li#field-' + field + ' div.inspect-values').is(':hidden')) {
+      $('#inspector li div.inspect-values').hide();
+      $('li#field-' + field + ' div.inspect-values').show();
     }
     else {
-      $('li#field-' + field + ' ul').hide();
+      $('li#field-' + field + ' div.inspect-values').hide();
     }
   }
   else {
-    $('#inspector li ul').hide();
+    $('#inspector li div.inspect-values').hide();
     encode = TileMill.mmlURL();
     var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
     script.src = window.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start="+ TileMill.page * 10 +"&jsoncallback=TileMill._values";
@@ -273,7 +273,6 @@ TileMill.values = function(layer, field) {
 }
 
 TileMill._values = function(data) {
-  console.log(data);
   if (data.field) {
     var ul = $('<ul class="clearfix inspect-values">')
       .addClass('field-values')
@@ -285,9 +284,8 @@ TileMill._values = function(data) {
     var pager = $('<div class="pager clearfix"></div>')
       .append('<a class="pager-prev disabled" href="#pager-prev">Prev</a>')
       .append('<a class="pager-next" href="#pager-next">Next</a>');
-    $('li#field-' + data.field)
-      .append(ul)
-      .append(pager);
+    var values = $('<div class="inspect-values"></div>').append(ul).append(pager);
+    $('li#field-' + data.field).append(values);
   }
 }
 

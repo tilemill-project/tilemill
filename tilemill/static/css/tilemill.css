@@ -194,7 +194,7 @@ form div.buttons {
 .sidebar-header h2 { float:left; }
 .sidebar-header a { float:right; }
 
-.sidebar-header a {
+.sidebar-header a#layers-add {
   padding:0px 9px;
   background:#f8f8f8;
   line-height:18px;
@@ -241,6 +241,7 @@ form div.buttons {
 /**
  * Icon links
  */
+a.inspector-close,
 a#popup-close,
 a.pager-prev,
 a.pager-next,
@@ -280,6 +281,7 @@ a.inspect-values {
 a.layer-inspect  { background-position:-20px 0px; }
 a.layer-delete   { background-position:-60px 0px; }
 a.color-picker   { background-position:-40px -20px; }
+a.inspector-close,
 a#popup-close    { background-position:-80px -20px; }
 a.inspect-values { background-position:-100px 0px; }
 a.map-fullscreen { background-position:-120px -20px; }
@@ -444,4 +446,5 @@ a.pager-next     { background-position:-160px 0px; }
 #popup-header h2 { float:left; }
 #popup-header a { float:right; }
 
+a.inspector-close,
 a#popup-close { background-color:#222; }
