@@ -57,7 +57,7 @@ TileMill.addStylesheet = function(options) {
         }
       });
       // If this is the last stylesheet, do final processing.
-      if (!$('Stylesheet', mml).eq(options.position + 1).size()) {
+      if (!$('Stylesheet', TileMill.settings.mml).eq(options.position + 1).size()) {
       }
     }
   });
