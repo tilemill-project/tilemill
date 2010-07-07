@@ -35,26 +35,12 @@ $(function() {
     return false;
   });
 
-  $('#tabs a.tab-add').click(function() {
-    $('#popup, #popup-stylesheet, #popup-backdrop, #popup-header').show();
-    $('#popup-stylesheet input:not(.submit)').val('');
-    $('#popup-header h2').text('Add stylesheet');
-    $('#popup-info').hide();
-    return false;
-  });
-
-  $('#popup-stylesheet input.submit').click(function() {
-    TileMill.stylesheet.add({src: $('#popup-stylesheet input#stylesheet-name').val(), create: true});
-    $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
-    return false;
-  });
-
   $('div#header a.info').click(function() {
+    $('#popup > div').hide();
     $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
     $('#popup-header h2').text('Info');
     $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true }));
     $('#popup-info input#project-mml-url').val(TileMill.mml.url({ timestamp: false, encode: false }));
-    $('#popup-layer').hide();
     return false;
   });
 });
