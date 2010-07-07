@@ -4,17 +4,16 @@ $.fn.reverse = [].reverse;
 
 /**
  * Generate the URL of the current project .mml file.
- *
- * @param bool timestamp
- *   Optionally append a timestamp parameter to the URL to avoid
- *   TileLive caching.
  */
-TileMill.mmlURL = function(timestamp) {
+TileMill.mmlURL = function(options) {
   var url = window.server + 'projects/mml?id=' + window.project_id;
-  //if (timestamp != undefined && !!timestamp) {
+  options = options || { timestamp:1, encode:1 };
+  if (options.timestamp) {
     url += '&c=' + TileMill.uniq;
-  //}
-  url = Base64.encode(url);
+  }
+  if (options.encode) {
+    url = Base64.encode(url);
+  }
   return url;
 };
 
@@ -500,7 +499,8 @@ $(function() {
   $('div#header a.info').click(function() {
     $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
     $('#popup-header h2').text('Info');
-    $('#popup-info input').val(window.tilelive + 'tile/' + TileMill.mmlURL(true));
+    $('#popup-info input#tilelive-url').val(window.tilelive + 'tile/' + TileMill.mmlURL({timestamp:false, encode:true}));
+    $('#popup-info input#project-mml-url').val(TileMill.mmlURL({timestamp:false, encode:false}));
     $('#popup-layer').hide();
     return false;
   });
