@@ -85,8 +85,8 @@ class ProjectManager:
         if os.path.isdir(directory):
             return (False, "The directory " + name + " already exists")
         os.mkdir(directory)
-        url = request.request.protocol + '://' + request.request.host + '/projects/mss?id=' + name + '&amp;filename=' + name;
-        self.save(name, name + '.mml', request.render_string('template.mml', url = url))
+        stylesheet = request.request.protocol + '://' + request.request.host + '/projects/mss?id=' + name + '&amp;filename=' + name;
+        self.save(name, name + '.mml', request.render_string('template.mml', stylesheet = stylesheet))
         self.save(name, name + '.mss', request.render_string('template.mss'))
         return (True, "")
 
