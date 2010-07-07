@@ -25,43 +25,6 @@ $(function() {
 
   TileMill.loadInspection(true);
 
-  $('a#layers-add').click(function() {
-    $('#popup, #popup-layer, #popup-backdrop, #popup-header').show();
-    $('#popup-layer input:not(.submit)').val('');
-    $('#popup-layer').addClass('new');
-    $('#popup-layer input.submit').text('Add layer');
-    $('#popup-header h2').text('Add layer');
-    $('#popup-info').hide();
-    return false;
-  });
-
-  $('#popup-layer input.submit').click(function() {
-    var layer = {
-      classes: $('#popup-layer input#classes').val().split(' '),
-      id: $('#popup-layer input#id').val(),
-      dataSource: $('#popup-layer input#dataSource').val(),
-      srs: $('#popup-layer select#srs').val(),
-      status: 'true'
-    };
-    if ($('#popup-layer').is('.new')) {
-      TileMill.mml.add(layer);
-    }
-    else {
-      var layerName = '';
-      if (layer.id) {
-        layerName = '#' + layer.id + ' ';
-      }
-      if (layer.classes) {
-        layerName += '.' + layer.classes.join(', .');
-      }
-      li = $(this).data('li');
-      $(li).find('label').text(layerName).end().data('tilemill', layer);
-    }
-    $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
-    $('#popup-layer').removeClass('new');
-    return false;
-  })
-
   $('a#popup-close').click(function() {
     $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
     $('#popup-layer').removeClass('new');
@@ -72,26 +35,12 @@ $(function() {
     return false;
   });
 
-  $('#tabs a.tab-add').click(function() {
-    $('#popup, #popup-stylesheet, #popup-backdrop, #popup-header').show();
-    $('#popup-stylesheet input:not(.submit)').val('');
-    $('#popup-header h2').text('Add stylesheet');
-    $('#popup-info').hide();
-    return false;
-  });
-
-  $('#popup-stylesheet input.submit').click(function() {
-    TileMill.stylesheet.add({src: $('#popup-stylesheet input#stylesheet-name').val(), create: true});
-    $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
-    return false;
-  });
-
   $('div#header a.info').click(function() {
+    $('#popup > div').hide();
     $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
     $('#popup-header h2').text('Info');
     $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true }));
     $('#popup-info input#project-mml-url').val(TileMill.mml.url({ timestamp: false, encode: false }));
-    $('#popup-layer').hide();
     return false;
   });
 });
