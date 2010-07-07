@@ -330,6 +330,7 @@ TileMill._loadInspection = function(data) {
 
 TileMill.values = function(layer, field) {
   if (layer && field) {
+    TileMill.page = 0;
     if ($('li#field-' + field + ' div.inspect-values').size()) {
       if ($('li#field-' + field + ' div.inspect-values').is(':hidden')) {
         $('#inspector li div.inspect-values').hide();
