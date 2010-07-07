@@ -140,6 +140,7 @@ div.pager a.pager-prev {
 input.text {
   background:#f8f8f8;
   border:1px solid #ccc;
+  padding:2px;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   }
@@ -313,13 +314,28 @@ a#layers-add     { background-position:-180px -20px; }
   border:0px;
   }
 
-#map-preview a.map-fullscreen {
+#map-preview a.map-fullscreen,
+#map-preview #zoom-display {
   background-color:#222;
+  height:20px;
   position:absolute;
-  right:5px;
   top:5px;
   z-index:10000;
+}
+
+#map-preview a.map-fullscreen {
+  right:5px;
   }
+
+#map-preview #zoom-display {
+  left:5px;
+  padding:0px 5px;
+  background-color:#222;
+  font-size:11px;
+  color:#eee;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+}
 
 /**
  * Code editor
@@ -483,10 +499,21 @@ a#layers-add     { background-position:-180px -20px; }
   top:0px;
   left:0px;
   right:0px;
-  width: 400px;
+  width: 500px;
   background-color: #fff;
   margin: 100px auto 0;
+
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+  -moz-box-shadow:#333 0px 3px 30px;
+  -webkit-box-shadow:#333 0px 3px 30px;
   }
+
+.popup-header {
+  -moz-border-radius:5px 5px 0px 0px;
+  -webkit-border-radius:5px 5px 0px 0px;
+}
 
 .popup-header h2 { float:left; }
 .popup-header a { float:right; }
