@@ -79,7 +79,7 @@ TileMill.mml.generate = function() {
     if (layer.srs == '900913' || layer.srs == 'WGS84') {
       layer.srs = '&srs' + layer.srs + ';';
     }
-    l += ' srs="' + $('<span/>').text(layer.srs).html() + '"';
+    l += ' srs="' + layer.srs + '"';
     if (!$(this).attr('checked') == 'checked') {
       l += ' status="off"';
     }
