@@ -170,6 +170,8 @@ form div label {
   text-align:right;
   }
 
+form div input.text { width:90%; }
+
 form div.buttons {
   text-align:right;
   border:0px;
@@ -232,6 +234,7 @@ form div.buttons {
 /**
  * Icon links
  */
+a.tab-add,
 a#layers-add,
 a.inspector-close,
 a#popup-close,
@@ -279,6 +282,7 @@ a.inspect-values { background-position:-100px 0px; }
 a.map-fullscreen { background-position:-120px -20px; }
 a.pager-prev     { background-position:-140px 0px; }
 a.pager-next     { background-position:-160px 0px; }
+a.tab-add,
 a#layers-add     { background-position:-180px -20px; }
 
 /**
@@ -317,10 +321,45 @@ a#layers-add     { background-position:-180px -20px; }
 /**
  * Code editor
  */
+#tabs {
+  top:40px;
+  left:320px;
+  right:0px;
+  height:29px;
+  padding:10px 10px 0px;
+  border-bottom:1px solid #eee;
+  background:#f8f8f8;
+  }
+
+#tabs a.tab-add {
+  position:absolute;
+  right:10px;
+  }
+
+#tabs a.tab {
+  float:left;
+  -moz-border-radius:3px 3px 0px 0px;
+  -webkit-border-radius:3px 3px 0px 0px;
+  background:transparent;
+  padding:5px 10px;
+  font-size:11px;
+  font-weight:bold;
+  color:#999;
+  }
+
+#tabs a.active {
+  border-width:1px 1px 0px;
+  border-color:#ddd;
+  border-style:solid;
+  color:#333;
+  background:#f8f8f8;
+  padding:4px 9px 5px;
+  }
+
 #editor {
   overflow:auto;
   position:fixed;
-  top:40px;
+  top:80px;
   left:320px;
   bottom:40px;
   right:0px;
@@ -439,6 +478,7 @@ a#layers-add     { background-position:-180px -20px; }
 #popup-header h2 { float:left; }
 #popup-header a { float:right; }
 
+a.tab-add,
 a#layers-add,
 a.inspector-close,
 a#popup-close { background-color:#222; }
