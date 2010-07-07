@@ -19,20 +19,20 @@ TileMill.map.init = function() {
     };
     TileMill.map.map = new OpenLayers.Map('map-preview', options);
     TileMill.map.layer = new OpenLayers.Layer.XYZ("Preview", TileMill.settings.tilelive + 'tile/' + TileMill.mml.url() + '/${z}/${x}/${y}.png');
-    TileMill.map.addLayers([ TileMill.map.layer ]);
+    TileMill.map.map.addLayers([ TileMill.map.layer ]);
 
     // Set the map's initial center point
-    TileMill.map.setCenter(new OpenLayers.LonLat(0, 0), 2);
+    TileMill.map.map.setCenter(new OpenLayers.LonLat(0, 0), 2);
 
     // Add control
     var control = new OpenLayers.Control.Navigation({ 'zoomWheelEnabled': true });
-    TileMill.map.addControl(control);
+    TileMill.map.map.addControl(control);
     control.activate();
 
     // Fullscreen toggle
     var fullscreen = $('a.map-fullscreen').click(function() {
       $('#map-preview').toggleClass('fullscreen');
-      TileMill.map.updateSize();
+      TileMill.map.map.updateSize();
       return false;
     });
   }
@@ -45,5 +45,5 @@ TileMill.map.reload = function() {
 }
 
 $(function() {
-  TileMill.map.reload();
+  TileMill.map.init();
 });
