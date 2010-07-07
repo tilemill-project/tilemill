@@ -31,7 +31,7 @@ TileMill.save = function() {
 
   TileMill.loadInspection();
   TileMill.uniq = (new Date().getTime());
-  TileMill.initMap();
+  TileMill.map.reload();
 }
 
 $(function() {
