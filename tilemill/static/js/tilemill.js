@@ -26,7 +26,7 @@ TileMill.save = function() {
   $('#tabs a.active input').val(TileMill.mirror.getCode());
   $('#tabs a.tab').each(function() {
     var url = $.url.setUrl($(this).data('tilemill')['src']);
-    TileMill.mssSave(url.param('filename'), $('input', this).val());
+    TileMill.stylesheet.save(url.param('filename'), $('input', this).val());
   });
 
   TileMill.loadInspection();
@@ -132,6 +132,20 @@ $(function() {
 
   $('div#header a.save').click(function() {
     TileMill.save();
+    return false;
+  });
+
+  $('#tabs a.tab-add').click(function() {
+    $('#popup, #popup-stylesheet, #popup-backdrop, #popup-header').show();
+    $('#popup-stylesheet input:not(.submit)').val('');
+    $('#popup-header h2').text('Add stylesheet');
+    $('#popup-info').hide();
+    return false;
+  });
+
+  $('#popup-stylesheet input.submit').click(function() {
+    TileMill.stylesheet.add({src: $('#popup-stylesheet input#stylesheet-name').val(), create: true});
+    $('#popup, #popup > div, #popup-backdrop, #popup-header').hide();
     return false;
   });
 
