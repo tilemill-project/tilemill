@@ -1,4 +1,4 @@
-TileMill.inspector = { inspection: {} };
+TileMill.inspector = { inspection: {}, urls: {} };
 
 TileMill.inspector.inspect = function(id) {
   $('#layers').hide();
@@ -8,7 +8,7 @@ TileMill.inspector.inspect = function(id) {
       var li = $('<li>')
         .attr('id', 'field-' + field)
         .append($('<a class="inspect-values" href="#inspect-values">See values</a>').click(function() {
-          TileMill.inspector.values(layer, field);
+          TileMill.inspector.values(field, layer);
           return false;
         }))
         .append('<strong>' + field + '</strong>')
@@ -31,8 +31,8 @@ TileMill.inspector.loadCallback = function(data) {
   TileMill.inspection = data;
 }
 
-TileMill.inspector.values = function(layer, field) {
-  if (layer && field) {
+TileMill.inspector.values = function(field, layer) {
+  if (layer) {
     TileMill.page = 0;
     if ($('li#field-' + field + ' div.inspect-values').size()) {
       if ($('li#field-' + field + ' div.inspect-values').is(':hidden')) {
@@ -47,14 +47,14 @@ TileMill.inspector.values = function(layer, field) {
       $('#inspector li div.inspect-values').hide();
       encode = TileMill.mml.url();
       var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-      TileMill.url = TileMill.settings.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start={{page}}&jsoncallback=TileMill.inspector.valueCallback";
-      script.src = TileMill.url.replace('{{page}}', TileMill.page * 10);
+      TileMill.inspector.urls[field] = TileMill.settings.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start={{page}}&jsoncallback=TileMill.inspector.valueCallback";
+      script.src = TileMill.inspector.urls[field].replace('{{page}}', TileMill.page * 10);
       head.insertBefore(script, head.firstChild);
     }
   }
   else {
     var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-    script.src = TileMill.url.replace('{{page}}', TileMill.page * 10);
+    script.src = TileMill.inspector.urls[field].replace('{{page}}', TileMill.page * 10);
     head.insertBefore(script, head.firstChild);
   }
 }
@@ -74,7 +74,7 @@ TileMill.inspector.valueCallback = function(data) {
           return false;
         }
         TileMill.page--;
-        TileMill.inspector.values();
+        TileMill.inspector.values(data.field);
         return false;
       }))
       .append($('<a class="pager-next' + ((data.count - (TileMill.page * 10) > 10) ? '' : ' disabled') + '" href="#pager-next">Next</a>').click(function() {
@@ -82,7 +82,7 @@ TileMill.inspector.valueCallback = function(data) {
           return false;
         }
         TileMill.page++;
-        TileMill.inspector.values();
+        TileMill.inspector.values(data.field);
         return false;
       }));
     var values = $('<div class="inspect-values"></div>').append(ul).append(pager);
