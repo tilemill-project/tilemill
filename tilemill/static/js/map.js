@@ -18,7 +18,7 @@ TileMill.map.init = function() {
       controls: []
     };
     TileMill.map.map = new OpenLayers.Map('map-preview', options);
-    TileMill.map.layer = new OpenLayers.Layer.XYZ("Preview", TileMill.settings.tilelive + 'tile/' + TileMill.mmlURL() + '/${z}/${x}/${y}.png');
+    TileMill.map.layer = new OpenLayers.Layer.XYZ("Preview", TileMill.settings.tilelive + 'tile/' + TileMill.mml.url() + '/${z}/${x}/${y}.png');
     TileMill.map.addLayers([ TileMill.map.layer ]);
 
     // Set the map's initial center point
@@ -40,7 +40,7 @@ TileMill.map.init = function() {
 
 TileMill.map.reload = function() {
   TileMill.map.map.removeLayer(TileMill.map.layer);
-  TileMill.map.layer = new OpenLayers.Layer.XYZ("Preview", TileMill.settings.tilelive + 'tile/' + TileMill.mmlURL() + '/${z}/${x}/${y}.png');
+  TileMill.map.layer = new OpenLayers.Layer.XYZ("Preview", TileMill.settings.tilelive + 'tile/' + TileMill.mml.url() + '/${z}/${x}/${y}.png');
   TileMill.map.map.addLayers([TileMill.map.layer]);
 }
 

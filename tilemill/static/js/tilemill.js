@@ -1,24 +1,6 @@
 var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), customSrs: [], url: '' };
 $.fn.reverse = [].reverse;
 
-/**
- * Generate the URL of the current project .mml file.
- */
-TileMill.mmlURL = function(options) {
-  if (!options) {
-    var options = {};
-  }
-  $.extend(options, { timestamp: true, encode: true });
-  var url = TileMill.settings.server + 'projects/mml?id=' + TileMill.settings.project_id;
-  if (options.timestamp) {
-    url += '&c=' + TileMill.uniq;
-  }
-  if (options.encode) {
-    url = Base64.encode(url);
-  }
-  return url;
-};
-
 TileMill.save = function() {
   var mml = TileMill.mml.save();
 
@@ -138,8 +120,8 @@ $(function() {
   $('div#header a.info').click(function() {
     $('#popup, #popup-info, #popup-backdrop, #popup-header').show();
     $('#popup-header h2').text('Info');
-    $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive + 'tile/' + TileMill.mmlURL({timestamp:false, encode:true}));
-    $('#popup-info input#project-mml-url').val(TileMill.mmlURL({timestamp:false, encode:false}));
+    $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true }));
+    $('#popup-info input#project-mml-url').val(TileMill.mml.url({ timestamp: false, encode: false }));
     $('#popup-layer').hide();
     return false;
   });
