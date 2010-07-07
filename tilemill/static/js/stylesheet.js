@@ -1,5 +1,8 @@
 TileMill.stylesheet = {};
 
+/**
+ * Add a stylesheet to the page
+ */
 TileMill.stylesheet.add = function(options) {
   // If there is no / character, assume this is a single filename.
   if (options.src.split('/').length === 1) {
@@ -10,7 +13,9 @@ TileMill.stylesheet.add = function(options) {
   else {
     var filename = $.url.setUrl(options.src).param('filename');
   }
+  // Get one at a time.
   $.get(options.src, function(data) {
+    // Add the stylesheet to the page.
     var stylesheet = $('<a class="tab" href="#tab">')
       .text(filename)
       .data('tilemill', options)
@@ -28,8 +33,8 @@ TileMill.stylesheet.add = function(options) {
       .click(function() {
         TileMill.initCodeEditor($(this), true);
         return false;
-      });
-    $('#tabs').append(stylesheet);
+      })
+      .appendTo($('#tabs'));
 
     // If a position is defined we are adding stylesheets sequentially. Call
     // the for the addition of the next stylesheet.
@@ -42,11 +47,24 @@ TileMill.stylesheet.add = function(options) {
       });
       // If this is the last stylesheet, do final processing.
       if (!$('Stylesheet', TileMill.settings.mml).eq(options.position + 1).size()) {
+        $('#tabs').sortable({ axis: 'x', });
       }
     }
   });
 };
 
 TileMill.stylesheet.save = function(file, data) {
-  $.post('/projects/mss', {'id': TileMill.settings.project_id, 'filename': file, 'data': data });
+  $.post('/projects/mss', {
+    'id': TileMill.settings.project_id,
+    'filename': file,
+    'data': data
+  });
 }
+
+$(function() {
+  $('Stylesheet:first', TileMill.settings.mml).each(function() {
+    if ($(this).attr('src')) {
+      TileMill.stylesheet.add({ src: $(this).attr('src'), position: 0 });
+    }
+  });
+});

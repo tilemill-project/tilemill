@@ -35,11 +35,6 @@ TileMill.save = function() {
 }
 
 $(function() {
-  $('Stylesheet:first', TileMill.settings.mml).each(function() {
-    if ($(this).attr('src')) {
-      TileMill.stylesheet.add({src: $(this).attr('src'), position: 0});
-    }
-  });
   $(TileMill.settings.mml).find('Layer').each(function() {
     var status = $(this).attr('status');
     if (status == 'undefined' || status == undefined || status == 'on') {
@@ -84,7 +79,6 @@ $(function() {
   }
 
   $('#layers ul.sidebar-content').sortable({ axis: 'y', handle: 'div.handle' });
-  $('#tabs').sortable({ axis: 'x', });
 
   $('a.inspector-close').click(function() {
     $('#layers').show();
