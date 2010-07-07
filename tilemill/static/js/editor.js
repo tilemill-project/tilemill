@@ -22,14 +22,13 @@ TileMill.addStylesheet = function(options) {
   // If there is no / character, assume this is a single filename.
   if (options.src.split('/').length === 1) {
     var filename = options.src.split('.')[0];
-    var mss_url = window.server + 'projects/mss?id='+ window.project_id +'&filename='+ filename;
+    options.src = window.server + 'projects/mss?id='+ window.project_id +'&filename='+ filename;
   }
   // Otherwise, assume this is a URL.
   else {
     var filename = $.url.setUrl(options.src).param('filename');
-    var mss_url = options.src;
   }
-  $.get(mss_url, function(data) {
+  $.get(options.src, function(data) {
     var stylesheet = $('<a class="tab" href="#tab">')
       .text(filename)
       .data('tilemill', options)
