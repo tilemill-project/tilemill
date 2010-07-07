@@ -23,7 +23,7 @@ TileMill.stylesheet.add = function(options) {
         $(this).parents('a.tab').hide('fast', function() {
           $(this).remove();
           // Set the first stylesheet to active.
-          TileMill.initCodeEditor($('#tabs a.tab').eq(0), true);
+          TileMill.initCodeEditor($('#tabs .stylesheets a.tab').eq(0), true);
         });
       }
       return false;
@@ -32,7 +32,7 @@ TileMill.stylesheet.add = function(options) {
       TileMill.initCodeEditor($(this), true);
       return false;
     });
-  $('#tabs').append(stylesheet);
+  $('#tabs .stylesheets').append(stylesheet);
   // If a position is defined we are adding stylesheets sequentially. Call
   // the for the addition of the next stylesheet.
   if (typeof options.position !== 'undefined') {
@@ -43,7 +43,7 @@ TileMill.stylesheet.add = function(options) {
     });
     // If this is the last stylesheet, do final processing.
     if (!$('Stylesheet', TileMill.settings.mml).eq(options.position + 1).size()) {
-      $('#tabs').sortable({ axis: 'x', });
+      $('#tabs .stylesheets').sortable({ axis: 'x', });
     }
   }
 
