@@ -5,8 +5,11 @@ $.fn.reverse = [].reverse;
  * Generate the URL of the current project .mml file.
  */
 TileMill.mmlURL = function(options) {
+  if (!options) {
+    var options = {};
+  }
+  $.extend(options, { timestamp: true, encode: true });
   var url = TileMill.settings.server + 'projects/mml?id=' + TileMill.settings.project_id;
-  options = options || { timestamp:1, encode:1 };
   if (options.timestamp) {
     url += '&c=' + TileMill.uniq;
   }
