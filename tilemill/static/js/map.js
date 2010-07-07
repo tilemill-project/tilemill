@@ -17,6 +17,11 @@ TileMill.map.init = function() {
       ),
       controls: []
     };
+
+    function getZoom(e) {
+      $('#zoom-display')[0].innerHTML = 'Zoom level ' + TileMill.map.map.getZoom(); 
+    }
+
     TileMill.map.map = new OpenLayers.Map('map-preview', options);
     TileMill.map.layer = new OpenLayers.Layer.XYZ("Preview", TileMill.settings.tilelive + 'tile/' + TileMill.mml.url() + '/${z}/${x}/${y}.png');
     TileMill.map.map.addLayers([ TileMill.map.layer ]);
@@ -35,6 +40,12 @@ TileMill.map.init = function() {
       TileMill.map.map.updateSize();
       return false;
     });
+    
+    // Display the current zoom level, and keep it up to date
+    getZoom();
+    TileMill.map.map.events.register("moveend", TileMill.map.map, getZoom);
+    TileMill.map.map.events.register("zoomend", TileMill.map.map, getZoom);
+
   }
 };
 
