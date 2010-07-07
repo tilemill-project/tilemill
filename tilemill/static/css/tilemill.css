@@ -140,6 +140,7 @@ div.pager a.pager-prev {
 input.text {
   background:#f8f8f8;
   border:1px solid #ccc;
+  padding:2px;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   }
@@ -498,10 +499,21 @@ a#layers-add     { background-position:-180px -20px; }
   top:0px;
   left:0px;
   right:0px;
-  width: 400px;
+  width: 500px;
   background-color: #fff;
   margin: 100px auto 0;
+
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+  -moz-box-shadow:#333 0px 3px 30px;
+  -webkit-box-shadow:#333 0px 3px 30px;
   }
+
+#popup-header {
+  -moz-border-radius:5px 5px 0px 0px;
+  -webkit-border-radius:5px 5px 0px 0px;
+}
 
 #popup, #popup > div, #popup-backdrop { display:none; }
 
