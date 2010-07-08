@@ -48,7 +48,7 @@ TileMill.basic.choropleth = function(data) {
     7: ['#e17057', '#95e47a', '#9095e3', '#c7658b', '#eba15f', '#7cd0a1', '#8e70a4'],
     8: ['#e17057', '#95e47a', '#9095e3', '#c7658b', '#eba15f', '#7cd0a1', '#8e70a4', '#ffdd55'],
     9: ['#e17057', '#95e47a', '#9095e3', '#c7658b', '#eba15f', '#7cd0a1', '#8e70a4', '#ffdd55', '#85ced7'],
-    10: ['#e17057', '#95e47a', '#9095e3', '#c7658b', '#eba15f', '#7cd0a1', '#8e70a4', '#ffdd55', '#85ced7', '#f397a4']
+    10: []
   };
   for (i = 0; i < split; i++) {
     TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + ">=" + data.min + (individual * i) + "] {\n  polygon-fill: " + colors[split][i] + ";\n}";
@@ -58,10 +58,17 @@ TileMill.basic.choropleth = function(data) {
 
 TileMill.basic.unique = function(data) {
   var colors = [
-      '#edaeae',
-      '#e86363',
-      '#f60000'
-    ], processed = [];
+      '#e17057',
+      '#95e47a',
+      '#9095e3',
+      '#c7658b',
+      '#eba15f',
+      '#7cd0a1',
+      '#8e70a4',
+      '#ffdd55',
+      '#85ced7',
+      '#f397a4'
+    ], processed = [], colorValues = {};
   for (i = 0; i < data.values.length; i++) {
     var pass = false;
     for (j = 0; j < processed.length; j++) {
@@ -71,9 +78,24 @@ TileMill.basic.unique = function(data) {
       }
     }
     if (!pass) {
-      TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + "='" + data.values[i] + "'] {\n  polygon-fill: " + colors[i % colors.length] + ";\n}";
+      var color = colors[i % colors.length];
+      if (colorValues[color]) {
+        colorValues[color].push(data.values[i]);
+      }
+      else {
+        colorValues[color] = [data.values[i]];
+      }
       processed.push(data.values[i]);
     }
+  }
+  for (var color in colorValues) {
+    for (var value = 0; value < colorValues[color].length; value++) {
+      if (value != 0) {
+        TileMill.basic.stylesheet += ',';
+      }
+      TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + "='" + colorValues[color][value] + "']";
+    }
+    TileMill.basic.stylesheet += " {\n  polygon-fill: " + color + ";\n}";
   }
   TileMill._save();
 }
@@ -223,7 +245,7 @@ $(function() {
   </Layer>\n\
 </Map>";
       $.post(TileMill.settings.server + 'projects/new', { 'name': $('#project-name').val() }, function() {
-        replaced = TileMill.basic.stylesheet.replace(/#inspect/g, '#data');
+        var replaced = TileMill.basic.stylesheet.replace(/#inspect/g, '#data');
         $.post(TileMill.settings.server + 'projects/mss', {
           'id': $('#project-name').val(),
           'filename': $('#project-name').val(),
