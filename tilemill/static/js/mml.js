@@ -108,7 +108,7 @@ TileMill.mml.url = function(options) {
   if (!options) {
     var options = {};
   }
-  $.extend(options, { timestamp: true, encode: true });
+  options = $.extend({ timestamp: true, encode: true }, options);
   var url = TileMill.settings.server + TileMill.settings.type + '/mml?id=' + TileMill.settings.project_id;
   if (options.timestamp) {
     url += '&c=' + TileMill.uniq;
