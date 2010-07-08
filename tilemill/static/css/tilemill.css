@@ -526,8 +526,8 @@ a.inspect-unique.active     { background-color:#222; }
   background-color:#999;
   opacity: 0.75;
   position:absolute;
-  top:0px;
-  left:0px;
+  top:40px;
+  left:320px;
   bottom:0px;
   right:0px;
   }
@@ -535,8 +535,8 @@ a.inspect-unique.active     { background-color:#222; }
 .popup {
   z-index:5000;
   position:absolute;
-  top:0px;
-  left:0px;
+  top:40px;
+  left:320px;
   right:0px;
   width: 500px;
   background-color: #fff;

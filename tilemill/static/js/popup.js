@@ -1,13 +1,7 @@
 TileMill.popup = {};
 
 TileMill.popup.show = function(options) {
-  if ($('#editor').size()) {
-    TileMill.popup.target = $('#editor');
-  }
-  else if ($('#map-preview').size()) {
-    TileMill.popup.target = $('#map-preview');
-  }
-
+  TileMill.popup.target = $('body');
   if ($('.popup', TileMill.popup.target).size()) {
     TileMill.popup.hide();
   }
