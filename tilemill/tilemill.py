@@ -114,7 +114,7 @@ class VisualizationsEditHandler(tornado.web.RequestHandler):
             manager = VisualizationsManager(options);
             mml = tornado.escape.json_encode(manager.read(self.request.arguments['id'][0], self.request.arguments['id'][0] + '.mml'));
             url = self.request.protocol + '://' + self.request.host + '/';
-            self.render("basic.html", project_id=project_id, mml = mml, tilelive = options.tilelive_server, url=url);
+            self.render("visualization.html", project_id=project_id, mml = mml, tilelive = options.tilelive_server, url=url);
         else:
             tornado.web.HTTPError(404)
 
@@ -134,7 +134,7 @@ class VisualizationsNewHandler(tornado.web.RequestHandler):
 
         srs = '&srsWGS84;';
         stylesheet = self.request.protocol + '://' + self.request.host + '/visualizations/mss?id=' + visualization_id + '&amp;filename=' + visualization_id;
-        result, message = manager.new(visualization_id, self.render_string('basic.mml', stylesheet = stylesheet, srs = srs, url = self.request.arguments['url'][0]), self.render_string('basic.mss'))
+        result, message = manager.new(visualization_id, self.render_string('visualization.mml', stylesheet = stylesheet, srs = srs, url = self.request.arguments['url'][0]), self.render_string('visualization.mss'))
         if result:
             self.redirect('/visualizations/edit?id=' + tornado.escape.url_escape(visualization_id))
         else:
