@@ -1,7 +1,8 @@
 TileMill.popup = {};
 
 TileMill.popup.show = function(options) {
-  if ($('#editor .popup').size()) {
+  TileMill.popup.target = $('body');
+  if ($('.popup', TileMill.popup.target).size()) {
     TileMill.popup.hide();
   }
   var popup = $('<div class="popup"><div class="popup-header clearfix pane"></div><div class="popup-content"></div></div>');
@@ -11,12 +12,12 @@ TileMill.popup.show = function(options) {
       TileMill.popup.hide();
     }));
   $('.popup-content', popup).append(options.content);
-  $('#editor').append('<div class="popup-backdrop"></div>').append(popup);
+  TileMill.popup.target.append('<div class="popup-backdrop"></div>').append(popup);
 };
 
 TileMill.popup.hide = function() {
-  if ($('#editor .popup').size()) {
-    $('#editor .popup .popup-content > *').appendTo('#popups');
-    $('#editor .popup, #editor .popup-backdrop').remove();
+  if ($('.popup', TileMill.popup.target).size()) {
+    $('.popup .popup-content > *', TileMill.popup.target).appendTo('#popups');
+    $('.popup, .popup-backdrop', TileMill.popup.target).remove();
   }
 };

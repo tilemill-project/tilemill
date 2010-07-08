@@ -1,10 +1,10 @@
-var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), editor: {}, basic: { stylesheet: '' } };
+var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), editor: {}, basic: { stylesheet: '', choroplethSplit: 5 } };
 
 $.fn.reverse = [].reverse;
 
 TileMill.save = function() {
   // No need to save MML, it's always the same.
-  TileMill.basic.stylesheet = "/* { 'label': '" + TileMill.basic.label + "', 'visualizationType': '" + TileMill.basic.visualizationType + "', 'visualizationField': '" + TileMill.basic.visualizationField + "' } */\n";
+  TileMill.basic.stylesheet = "/* { 'label': '" + TileMill.basic.label + "', 'visualizationType': '" + TileMill.basic.visualizationType + "', 'visualizationField': '" + TileMill.basic.visualizationField + "', 'choroplethSplit': '" + TileMill.basic.choroplethSplit + "' } */\n";
 
   TileMill.basic.stylesheet += "Map {\n  map-bgcolor: #fff;\n}\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}\n#inspect {\n  polygon-fill: #83bc69;\n  line-color: #333;\n  line-width: 0.5;\n}";
 
@@ -16,7 +16,6 @@ TileMill.save = function() {
     var field = TileMill.basic.visualizationField;
     if (TileMill.inspector.valueCache[field]) {
       TileMill.basic[TileMill.basic.visualizationType](TileMill.inspector.valueCache[field]);
-
       TileMill._save();
     }
     else {
@@ -29,7 +28,6 @@ TileMill.save = function() {
 }
 
 TileMill._save = function() {
-  // Todo: implement chloropleth, unique value.
   TileMill.stylesheet.save(TileMill.settings.project_id, TileMill.basic.stylesheet);
   TileMill.uniq = (new Date().getTime());
   TileMill.map.reload();
@@ -37,7 +35,7 @@ TileMill._save = function() {
 
 TileMill.basic.choropleth = function(data) {
   var range = Math.abs(data.max - data.min),
-    split = TileMill.settings.choroplethSplit ? TileMill.settings.choroplethSplit : 3,
+    split = TileMill.basic.choroplethSplit;
     individual = range / split,
     colors = {
     2: ['#e17057', '#95e47a'],
@@ -97,10 +95,17 @@ $(function() {
         var li = $('<li>')
           .attr('id', 'field-' + field)
           .append($('<a class="inspect-unique" href="#inspect-unique">Unique Value</a>').click(function() {
-            $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
-            $(this).addClass('active');
-            TileMill.basic.visualizationField = field;
-            TileMill.basic.visualizationType = 'unique';
+            if ($(this).is('.active')) {
+              delete TileMill.basic.visualizationField;
+              delete TileMill.basic.visualizationType;
+              $(this).removeClass('active');
+            }
+            else {
+              TileMill.basic.visualizationField = field;
+              TileMill.basic.visualizationType = 'unique';
+              $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
+              $(this).addClass('active');
+            }
             TileMill.save();
             return false;
           }))
@@ -109,19 +114,32 @@ $(function() {
             return false;
           }))
           .append($('<a class="inspect-label" href="#inspect-label">Label</a>').click(function() {
-            $('#inspector a.inspect-label').removeClass('active');
-            $(this).addClass('active');
-            TileMill.basic.label = field;
+            if ($(this).is('.active')) {
+              delete TileMill.basic.label;
+              $(this).removeClass('active');
+            }
+            else {
+              TileMill.basic.label = field;
+              $('#inspector a.inspect-label').removeClass('active');
+              $(this).addClass('active');
+            }
             TileMill.save();
             return false;
           }));
         // Only show choropleth for int and float fields.
         if (data['inspect'][field] == 'int' || data['inspect'][field] == 'float') {
           li.append($('<a class="inspect-choropleth" href="#inspect-choropleth">Choropleth</a>').click(function() {
-            $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
-            $(this).addClass('active');
-            TileMill.basic.visualizationField = field;
-            TileMill.basic.visualizationType = 'choropleth';
+            if ($(this).is('.active')) {
+              delete TileMill.basic.visualizationField;
+              delete TileMill.basic.visualizationType;
+              $(this).removeClass('active');
+            }
+            else {
+              TileMill.basic.visualizationField = field;
+              TileMill.basic.visualizationType = 'choropleth';
+              $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
+              $(this).addClass('active');
+            }
             TileMill.save();
             return false;
           }));
@@ -143,13 +161,30 @@ $(function() {
         TileMill.basic.label = settings.label;
         $('#field-' + settings.label).find('.inspect-label').addClass('active');
       }
-      if (settings.visualizationField != 'undefined') {
+      if (settings.visualizationField != 'undefined' && settings.visualizationType != 'undefined') {
         TileMill.basic.visualizationField = settings.visualizationField;
         TileMill.basic.visualizationType = settings.visualizationType;
         $('#field-' + settings.visualizationField).find('.inspect-' + settings.visualizationType).addClass('active');
+      }
+      if (settings.choroplethSplit != 'undefined') {
+        TileMill.basic.choroplethSplit = settings.choroplethSplit;
+        $('#popup-info select#choroplethSplit').val(TileMill.basic.choroplethSplit);
       }
     });
   };
   TileMill.inspector.load();
   $('#layers').hide();
+
+  $('div#header a.info').click(function() {
+    $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true }));
+    $('#popup-info input#project-mml-url').val(TileMill.mml.url({ timestamp: false, encode: false }));
+    $('#popup-info select#choroplethSplit').val(TileMill.basic.choroplethSplit);
+    TileMill.popup.show({content: $('#popup-info'), title: 'Info'});
+    return false;
+  });
+
+  $('#popup-info select#choroplethSplit').change(function() {
+    TileMill.basic.choroplethSplit = $(this).val();
+    TileMill.save();
+  });
 });
