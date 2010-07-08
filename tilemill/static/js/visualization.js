@@ -5,7 +5,7 @@ $.fn.reverse = [].reverse;
 TileMill.save = function(projectify) {
   // No need to save MML, it's always the same.
   if (!projectify) {
-    TileMill.basic.stylesheet = "/* { 'label': '" + TileMill.basic.label + "', 'visualizationType': '" + TileMill.basic.visualizationType + "', 'visualizationField': '" + TileMill.basic.visualizationField + "', 'choroplethSplit': '" + TileMill.basic.choroplethSplit + "' } */\n";
+    TileMill.basic.stylesheet = "/* { 'label': '" + TileMill.basic.label + "', 'visualizationType': '" + TileMill.basic.visualizationType + "', 'visualizationField': '" + TileMill.basic.visualizationField + "', 'choroplethSplit': '" + TileMill.basic.choroplethSplit + "', 'scaledPoints': '" + TileMill.basic.scaledPoints + "' } */\n";
   }
 
   TileMill.basic.stylesheet += "Map {\n  map-bgcolor: #fff;\n}\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}\n#inspect {\n  polygon-fill: #83bc69;\n  line-color: #333;\n  line-width: 0.5;\n}";
@@ -30,6 +30,31 @@ TileMill.save = function(projectify) {
 }
 
 TileMill._save = function() {
+  // scaledPoints
+  if (TileMill.basic.scaledPoints) {
+    if (TileMill.inspector.valueCache[field]) {
+      TileMill.basic.scaledPoints(TileMill.inspector.valueCache[field]);
+      TileMill._save();
+    }
+    else {
+      TileMill.inspector.values(field, 'inspect', 'TileMill.basic.scaledPoints', , 50);
+    }
+  }
+  else {
+    TileMill.__save();
+  }
+}
+
+TileMill.scaledPoints = function() {
+  var range = Math.abs(data.max - data.min),
+    individual = range / 10;
+  for (i = 0; i < 10; i++) {
+    TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + ">=" + data.min + (individual * i) + "] {\n  point-file: url(" + TileMill.settings.static_path + 'images/points/' + i  + ".png);\n}";
+  }
+  TileMill.__save();
+}
+
+TileMill.__save = function() {
   TileMill.stylesheet.save(TileMill.settings.project_id, TileMill.basic.stylesheet);
   TileMill.uniq = (new Date().getTime());
   TileMill.map.reload();
@@ -166,6 +191,18 @@ $(function() {
             }
             TileMill.save();
             return false;
+          })).append($('<a class="inspect-scaled-points" href="#inspect-scaled-points">Scaled points</a>').click(function() {
+            if ($(this).is('.active')) {
+              delete TileMill.basic.scaledPoints;
+              $(this).removeClass('active');
+            }
+            else {
+              TileMill.basic.scaledPoints = field;
+              $('#inspector a.inspect-scaled-points').removeClass('active');
+              $(this).addClass('active');
+            }
+            TileMill.save();
+            return false;
           }));
         }
         li.append('<strong>' + field + '</strong>')
@@ -198,6 +235,10 @@ $(function() {
         TileMill.basic.choroplethSplit = 5;
       }
     });
+    if (settings.scaledPoints != 'undefined') {
+      TileMill.basic.scaledPoints = settings.scaledPoints;
+      $('#field-' + settings.visualizationField).find('.inspect-scaled-points').addClass('active');
+    }
   };
   TileMill.inspector.load();
   $('#layers').hide();
