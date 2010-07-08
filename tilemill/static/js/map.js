@@ -19,7 +19,9 @@ TileMill.map.init = function() {
     };
 
     function getZoom(e) {
-      $('#zoom-display')[0].innerHTML = 'Zoom level ' + TileMill.map.map.getZoom(); 
+      if ($('#zoom-display').size()) {
+        $('#zoom-display').text('Zoom level ' + TileMill.map.map.getZoom()); 
+      }
     }
 
     TileMill.map.map = new OpenLayers.Map('map-preview', options);

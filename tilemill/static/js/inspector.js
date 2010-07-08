@@ -2,7 +2,6 @@ TileMill.inspector = { inspection: {}, urls: {} };
 
 TileMill.inspector.inspect = function(id) {
   $('#layers').hide();
-  index = $('#inspector').find('ul.sidebar-content').empty().end().show().data('id');
   for (field in TileMill.inspection[id]) {
     (function(layer, field) {
       var li = $('<li>')
@@ -91,10 +90,10 @@ TileMill.inspector.valueCallback = function(data) {
   }
 }
 
-$(function() {
+TileMill.editor.inspector = function() {
   $('a.inspector-close').click(function() {
     $('#layers').show();
     $('#inspector').hide();
     return false;
   });
-});
+};

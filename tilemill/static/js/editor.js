@@ -1,8 +1,8 @@
-var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), customSrs: [], url: '' };
+var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), customSrs: [], url: '', editor: {} };
 $.fn.reverse = [].reverse;
 
 TileMill.save = function() {
-  var mml = TileMill.mml.save();
+  var mml = TileMill.mml.save(TileMill.mml.generate());
 
   // Make sure latest edits to active tab's text have been recorded.
   $('#tabs a.active input').val(TileMill.mirror.getCode());
@@ -28,4 +28,8 @@ $(function() {
     TileMill.popup.show({content: $('#popup-info'), title: 'Info'});
     return false;
   });
+
+  for (var i in TileMill.editor) {
+    TileMill.editor[i]();
+  }
 });

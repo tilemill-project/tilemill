@@ -66,7 +66,7 @@ TileMill.stylesheet.save = function(file, data) {
   });
 }
 
-$(function() {
+TileMill.editor.stylesheet = function() {
   $('Stylesheet:first', TileMill.settings.mml).each(function() {
     if ($(this).attr('src')) {
       TileMill.stylesheet.add({ src: $(this).attr('src'), position: 0 });
@@ -84,4 +84,4 @@ $(function() {
     TileMill.popup.hide();
     return false;
   });
-});
+};

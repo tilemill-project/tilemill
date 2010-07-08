@@ -43,7 +43,8 @@ class ProjectNewHandler(tornado.web.RequestHandler):
         # Add a new project.
         project_id = self.request.arguments['name'][0]
         manager = ProjectManager(options)
-        result, message = manager.new(project_id, self)
+        stylesheet = self.request.protocol + '://' + self.request.host + '/projects/mss?id=' + project_id + '&amp;filename=' + project_id;
+        result, message = manager.new(project_id, self, self.render_string('template.mml', stylesheet = stylesheet), self.render_string('template.mss'))
         if result:
             self.redirect('/projects/edit?id=' + tornado.escape.url_escape(project_id))
         else:
@@ -67,6 +68,40 @@ class ProjectMSSHandler(ProjectMMLHandler):
     def filename(self):
         return self.request.arguments['filename'][0]
 
+class BasicEditHandler(tornado.web.RequestHandler):
+    def get(self):
+        project_id = self.request.arguments['id'][0]
+        # Test that project exists.
+        if True:
+            manager = ProjectManager(options);
+            mml = tornado.escape.json_encode(manager.read(self.request.arguments['id'][0], self.request.arguments['id'][0] + '.mml'));
+            url = self.request.protocol + '://' + self.request.host + '/';
+            self.render("basic.html", project_id=project_id, mml = mml, tilelive = options.tilelive_server, url=url);
+        else:
+            tornado.web.HTTPError(404)
+
+class BasicNewHandler(tornado.web.RequestHandler):
+    def post(self):
+        # Add a new project.
+        project_id = self.request.arguments['name'][0]
+        manager = ProjectManager(options)
+        srs = '&srsWGS84;';
+        stylesheet = self.request.protocol + '://' + self.request.host + '/projects/mss?id=' + project_id + '&amp;filename=' + project_id;
+        result, message = manager.new(project_id, self.render_string('basic.mml', stylesheet = stylesheet, srs = srs, url = self.request.arguments['url'][0]), self.render_string('basic.mss'))
+        if result:
+            self.redirect('/basic/edit?id=' + tornado.escape.url_escape(project_id))
+        else:
+            self.redirect('/?message=' + tornado.escape.url_escape(message))
+
+class BasicListHandler(tornado.web.RequestHandler):
+    def get(self):
+        # Scan the directory...
+        manager = ProjectManager(options)
+        messages = []
+        if self.request.arguments and self.request.arguments['message']:
+            messages.append(self.request.arguments['message'][0])
+        self.render("basic_list.html", projects = manager.list(), messages = messages)
+
 class ProjectManager:
     def __init__(self, options):
         self.options = options
@@ -80,14 +115,13 @@ class ProjectManager:
                 projects.append(basename)
         return projects
 
-    def new(self, name, request):
+    def new(self, name, mml, mss):
         directory = os.path.join(self.options.projects, name)
         if os.path.isdir(directory):
             return (False, "The directory " + name + " already exists")
         os.mkdir(directory)
-        stylesheet = request.request.protocol + '://' + request.request.host + '/projects/mss?id=' + name + '&amp;filename=' + name;
-        self.save(name, name + '.mml', request.render_string('template.mml', stylesheet = stylesheet))
-        self.save(name, name + '.mss', request.render_string('template.mss'))
+        self.save(name, name + '.mml', mml)
+        self.save(name, name + '.mss', mss)
         return (True, "")
 
     def save(self, id, file, data):
@@ -109,6 +143,9 @@ class Application(tornado.web.Application):
             (r"/projects/new", ProjectNewHandler),
             (r"/projects/mml", ProjectMMLHandler),
             (r"/projects/mss", ProjectMSSHandler),
+            (r"/basic/list", BasicListHandler),
+            (r"/basic/edit", BasicEditHandler),
+            (r"/basic/new", BasicNewHandler),
         ]
         settings = dict(
             tilemill_title=u"TileMill",

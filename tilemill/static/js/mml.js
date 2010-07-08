@@ -94,10 +94,10 @@ TileMill.mml.generate = function() {
   return output.join("\n");
 };
 
-TileMill.mml.save = function() {
+TileMill.mml.save = function(data) {
   $.post('/projects/mml', {
     'id': TileMill.settings.project_id,
-    'data': TileMill.mml.generate(),
+    'data': data,
   });
 };
 
@@ -119,7 +119,7 @@ TileMill.mml.url = function(options) {
   return url;
 };
 
-$(function() {
+TileMill.editor.mml = function() {
   $(TileMill.settings.mml).find('Layer').each(function() {
     var status = $(this).attr('status');
     if (status == 'undefined' || status == undefined || status == 'on') {
@@ -198,4 +198,4 @@ $(function() {
     TileMill.popup.hide();
     return false;
   });
-});
+};

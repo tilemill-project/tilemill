@@ -1,4 +1,3 @@
-
 TileMill.initCodeEditor = function(stylesheet, update) {
   if (stylesheet && stylesheet.data('tilemill')) {
     if (!$('#tabs .active').size() || update === true) {

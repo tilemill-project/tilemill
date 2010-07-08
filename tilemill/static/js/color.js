@@ -66,6 +66,6 @@ TileMill.colors.insert = function(color) {
   TileMill.mirror.insertIntoLine(position.line, position.character, color);
 }
 
-$(function() {
+TileMill.editor.color = function() {
   TileMill.colors.init();
-});
+};

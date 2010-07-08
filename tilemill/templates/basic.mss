@@ -1,0 +1,3 @@
+Map {
+  map-bgcolor: #fff;
+}
