@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+    <title>{{ escape(handler.settings['tilemill_title']) }}</title>
+    <link rel='stylesheet' href='{{ static_url('css/reset.css') }}' type='text/css'/>
+    <link rel='stylesheet' href='{{ static_url('css/tilemill.css') }}' type='text/css'/>
+    <link rel='stylesheet' href='{{ static_url('css/basic.css') }}' type='text/css'/>
+    <script type="text/javascript" src="{{ static_url('js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/jquery-ui.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/jquery.url.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/openlayers/OpenLayers.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/base64.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/basic.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/inspector.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/mml.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/stylesheet.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/map.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/popup.js') }}"></script>
+    <script type="text/javascript">
+      $.extend(TileMill.settings, {
+        mml: {{ mml }},
+        project_id: '{{ project_id }}',
+        tilelive: '{{ tilelive }}',
+        server: '{{ url }}',
+        static_path: '{{ static_url('') }}',
+      });
+    </script>
+  </head>
+  <body class='project'>
+    <div id='header' class='clearfix pane'>
+      <h1>Editing {{ escape(project_id) }}</h1>
+      <a class='info' href='#project-info'>Info</a>
+      <a class='save' href='#project-save'>Save</a>
+      <a class='home' href='/'>Back home</a>
+    </div>
+    <div id='sidebar'>
+      <div id='inspector' class='hidden'>
+        <div class='sidebar-header clearfix pane'>
+          <h2>Inspector</h2>
+        </div>
+        <ul class='sidebar-content'>
+        </ul>
+      </div>
+    </div>
+    <div id='map-preview'></div>
+    <div id='popups' class='hidden'>
+      <div id='popup-info' class='clearfix pane'>
+        <form>
+          <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' /></div>
+          <div><label for='project-mml-url'>MML URL</label><input id='project-mml-url' class='text' type='text' /></div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

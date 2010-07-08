@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+    <title>{{ escape(handler.settings['tilemill_title']) }}</title>
+    <link rel='stylesheet' href='{{ static_url('css/reset.css') }}' type='text/css'/>
+    <link rel='stylesheet' href='{{ static_url('css/tilemill.css') }}' type='text/css'/>
+  </head>
+  <body>
+    <div id='header' class='clearfix pane'>
+      <h1><a href='/'>{{ escape(handler.settings['tilemill_title']) }}</a></h1>
+    </div>
+    <div id='content'>
+      <ul class='projects'>
+        {% for project in projects %}
+          <li><a href='/basic/edit?id={{ url_escape(project) }}'>{{ escape(project) }}</a></li>
+        {% end %}
+        <li>
+          <form action='/basic/new' method='post'>
+            <input class='text' type='text' name='name' />
+            <input class='text' type='text' name='url' />
+            <input class='submit' type='submit' value='Add project' />
+          </form>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
