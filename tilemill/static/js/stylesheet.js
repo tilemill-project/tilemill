@@ -7,7 +7,7 @@ TileMill.stylesheet.add = function(options) {
   // If there is no / character, assume this is a single filename.
   if (options.src.split('/').length === 1) {
     var filename = options.src.split('.')[0];
-    options.src = TileMill.settings.server + 'projects/mss?id='+ TileMill.settings.project_id +'&filename='+ filename;
+    options.src = TileMill.settings.server + TileMill.settings.type + '/mss?id='+ TileMill.settings.project_id +'&filename='+ filename;
   }
   // Otherwise, assume this is a URL.
   else {
@@ -59,7 +59,7 @@ TileMill.stylesheet.add = function(options) {
 };
 
 TileMill.stylesheet.save = function(file, data) {
-  $.post('/projects/mss', {
+  $.post(TileMill.settings.server + TileMill.settings.type + '/mss', {
     'id': TileMill.settings.project_id,
     'filename': file,
     'data': data

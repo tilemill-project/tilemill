@@ -58,7 +58,7 @@ TileMill.mml.generate = function() {
   // @TODO refactor this out.
   $('#tabs a.tab').each(function() {
     var url = $.url.setUrl($(this).data('tilemill')['src']);
-    output.push('  <Stylesheet src="' + TileMill.settings.server + 'projects/mss?id='+ url.param('id') +'&amp;filename='+ url.param('filename') +'&amp;c=' + TileMill.uniq + '" />');
+    output.push('  <Stylesheet src="' + TileMill.settings.server + TileMill.settings.type + '/mss?id='+ url.param('id') +'&amp;filename='+ url.param('filename') +'&amp;c=' + TileMill.uniq + '" />');
   });
 
   $('#layers ul.sidebar-content li').reverse().each(function() {
@@ -95,7 +95,7 @@ TileMill.mml.generate = function() {
 };
 
 TileMill.mml.save = function(data) {
-  $.post('/projects/mml', {
+  $.post(TileMill.settings.server + TileMill.settings.type + '/mml', {
     'id': TileMill.settings.project_id,
     'data': data,
   });
@@ -109,7 +109,7 @@ TileMill.mml.url = function(options) {
     var options = {};
   }
   $.extend(options, { timestamp: true, encode: true });
-  var url = TileMill.settings.server + 'projects/mml?id=' + TileMill.settings.project_id;
+  var url = TileMill.settings.server + TileMill.settings.type + '/mml?id=' + TileMill.settings.project_id;
   if (options.timestamp) {
     url += '&c=' + TileMill.uniq;
   }
