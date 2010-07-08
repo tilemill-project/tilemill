@@ -7,7 +7,7 @@ TileMill.save = function() {
   var stylesheet = "Map {\n  map-bgcolor: #fff;\n}\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}\n#inspect {\n  polygon-fill: #83bc69;\n  line-color: #333;\n  line-width: 0.5;\n}";
 
   if (TileMill.basic.label) {
-    stylesheet += "\n#inspect ' + TileMill.basic.label + '{\n  text-face-name: \"DejaVu Sans Book\";\n  text-fill: #333;\n  text-size: 9;\n}";
+    stylesheet += "\n#inspect " + TileMill.basic.label + "{\n  text-face-name: \"DejaVu Sans Book\";\n  text-fill: #333;\n  text-size: 9;\n}";
   }
   // Todo: implement chloropleth, unique value.
   TileMill.stylesheet.save(TileMill.settings.project_id, stylesheet);
