@@ -223,18 +223,17 @@ $(function() {
   </Layer>\n\
 </Map>";
       $.post(TileMill.settings.server + 'projects/new', { 'name': $('#project-name').val() }, function() {
+        replaced = TileMill.basic.stylesheet.replace(/#inspect/g, '#data');
         $.post(TileMill.settings.server + 'projects/mss', {
           'id': $('#project-name').val(),
           'filename': $('#project-name').val(),
-          'data': TileMill.basic.stylesheet
+          'data': replaced
         }, function() {
           $.get(TileMill.settings.server + 'visualizations/mml', {
             'id': TileMill.settings.project_id,
           }, function(data) {
             var $inspect = $(data).find('Layer#inspect');
-            console.log($inspect.html(), $inspect.attr('srs'), $inspect.parent().html());
-            $inspect.end();
-            var fill = template.replace('{{ stylesheet }}', TileMill.settings.server + 'projects/mss?id=' + $('#project-name').val())
+            var fill = template.replace('{{ stylesheet }}', TileMill.settings.server + 'projects/mss?id=' + $('#project-name').val() + '&amp;filename=' + $('#project-name').val() + '&amp;c=' + (new Date().getTime()))
               .replace('{{ srs }}', $inspect.attr('srs'))
               .replace('{{ url }}', $inspect.find('parameter[name=file]').html());
             $.post(TileMill.settings.server + 'projects/mml', {
