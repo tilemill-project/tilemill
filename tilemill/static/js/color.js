@@ -32,6 +32,7 @@ TileMill.colors.reload = function(data) {
       for (var key in colors) {
         if (colors[key][3] == matches[i]) {
           pass = true;
+          continue;
         }
       }
       if (!pass) {

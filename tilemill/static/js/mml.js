@@ -138,6 +138,7 @@ TileMill.editor.mml = function() {
       for (var key in TileMill.customSrs) {
         if (TileMill.customSrs[key] == srs) {
           pass = true;
+          continue;
         }
       }
       if (!pass) {

@@ -10,15 +10,15 @@ TileMill.save = function() {
     TileMill.basic.stylesheet += "\n#inspect " + TileMill.basic.label + "{\n  text-face-name: \"DejaVu Sans Book\";\n  text-fill: #333;\n  text-size: 9;\n}";
   }
 
-  if (TileMill.basic.visualizationType == 'choropleth') {
+  if (TileMill.basic.visualizationType == 'choropleth' || TileMill.basic.visualizationType == 'unique') {
     var field = TileMill.basic.visualizationField;
     if (TileMill.inspector.valueCache[field]) {
-      TileMill.basic.choropleth(TileMill.inspector.valueCache[field]);
+      TileMill.basic[TileMill.basic.visualizationType](TileMill.inspector.valueCache[field]);
 
       TileMill._save();
     }
     else {
-      TileMill.inspector.values(field, 'inspect', 'TileMill.basic.choropleth');
+      TileMill.inspector.values(field, 'inspect', 'TileMill.basic.' + TileMill.basic.visualizationType, (TileMill.basic.visualizationType == 'unique' ? 50 : false));
     }
   }
   else {
@@ -34,11 +34,10 @@ TileMill._save = function() {
 }
 
 TileMill.basic.choropleth = function(data) {
-  console.log(data);
   var range = Math.abs(data.max - data.min),
     split = TileMill.settings.choroplethSplit,
-    individual = range / split;
-  var colors = {
+    individual = range / split,
+    colors = {
     2: [],
     3: ['#edaeae', '#e86363', '#f60000'],
     4: [],
@@ -51,6 +50,28 @@ TileMill.basic.choropleth = function(data) {
   };
   for (i = 0; i < split; i++) {
     TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + ">=" + data.min + (individual * i) + "] {\n  polygon-fill: " + colors[split][i] + ";\n}";
+  }
+  TileMill._save();
+}
+
+TileMill.basic.unique = function(data) {
+  var colors = [
+      '#edaeae',
+      '#e86363',
+      '#f60000'
+    ], processed = [];
+  for (i = 0; i < data.values.length; i++) {
+    var pass = false;
+    for (j = 0; j < processed.length; j++) {
+      if (processed[j] == data.values[i]) {
+        pass = true;
+        continue;
+      }
+    }
+    if (!pass) {
+      TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + "='" + data.values[i] + "'] {\n  polygon-fill: " + colors[i % colors.length] + ";\n}";
+      processed.push(data.values[i]);
+    }
   }
   TileMill._save();
 }
