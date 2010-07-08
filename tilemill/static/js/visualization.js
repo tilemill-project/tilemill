@@ -40,15 +40,15 @@ TileMill.basic.choropleth = function(data) {
     split = TileMill.basic.choroplethSplit;
     individual = range / split,
     colors = {
-    2: ['#e17057', '#95e47a'],
-    3: ['#e17057', '#95e47a', '#9095e3'],
-    4: ['#e17057', '#95e47a', '#9095e3', '#c7658b'],
-    5: ['#e17057', '#95e47a', '#9095e3', '#c7658b', '#eba15f'],
-    6: ['#e17057', '#95e47a', '#9095e3', '#c7658b', '#eba15f', '#7cd0a1'],
-    7: ['#e17057', '#95e47a', '#9095e3', '#c7658b', '#eba15f', '#7cd0a1', '#8e70a4'],
-    8: ['#e17057', '#95e47a', '#9095e3', '#c7658b', '#eba15f', '#7cd0a1', '#8e70a4', '#ffdd55'],
-    9: ['#e17057', '#95e47a', '#9095e3', '#c7658b', '#eba15f', '#7cd0a1', '#8e70a4', '#ffdd55', '#85ced7'],
-    10: []
+    2: ['#fd5', '#e57e57'],
+    3: ['#fd5', '#f2af56', '#e57e57'],
+    4: ['#fd5', '#f2af56', '#e57e57', '#b27082'],
+    5: ['#fd5', '#f2af56', '#e57e57', '#c57071', '#9f7094'],
+    6: ['#fd5', '#f2af56', '#e68457', '#cf7068', '#ae7086', '#8e70a4'],
+    7: ['#fd5', '#f4b556', '#ea9256', '#e07058', '#c47072', '#a8708b', '#8e70a4'],
+    8: ['#fd5', '#f6bc56', '#ee9e56', '#e57e57', '#d27065', '#bc707a', '#a5708f', '#8e70a4'],
+    9: ['#fd5', '#f7c156', '#f0a656', '#e88b57', '#e07058', '#cb706b', '#b7707e', '#a27091', '#8e70a4'],
+    10: ['#fd5', '#f9c655', '#f1ab56', '#eb9456', '#e47b57', '#d67061', '#c57071', '#b27083', '#a07093', '#8e70a4']
   };
   for (i = 0; i < split; i++) {
     TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + ">=" + data.min + (individual * i) + "] {\n  polygon-fill: " + colors[split][i] + ";\n}";
