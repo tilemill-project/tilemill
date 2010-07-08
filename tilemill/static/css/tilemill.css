@@ -235,6 +235,9 @@ form div.buttons {
 /**
  * Icon links
  */
+a.inspect-label,
+a.inspect-choropleth,
+a.inspect-unique,
 span.tab-delete,
 a.tab-add,
 a#layers-add,
@@ -258,6 +261,10 @@ a.map-fullscreen {
   -webkit-border-radius:3px;
   }
 
+a.inspect-label,
+a.inspect-choropleth,
+a.inspect-choropleth,
+a.inspect-unique,
 a.layer-edit,
 a.layer-delete,
 a.layer-inspect,
@@ -271,6 +278,16 @@ a.inspect-values {
   a.layer-inspect-loading { display:none; }
   a.layer-edit { right:27px; }
 
+  a.inspect-choropleth { right:70px; }
+  a.inspect-label { right:49px; }
+  a.inspect-unique { right:27px; }
+
+  li:hover a.inspect-label,
+  li:hover a.inspect-choropleth,
+  li:hover a.inspect-unique,
+  li a.inspect-label.active,
+  li a.inspect-choropleth.active,
+  li a.inspect-unique.active,
   li:hover a.layer-edit,
   li:hover a.layer-delete,
   li:hover a.layer-inspect,
@@ -288,6 +305,16 @@ a.pager-prev     { background-position:-140px 0px; }
 a.pager-next     { background-position:-160px 0px; }
 a.tab-add,
 a#layers-add     { background-position:-180px -20px; }
+a.inspect-label  { background-position:-200px 0px; }
+a.inspect-choropleth { background-position:-220px 0px; }
+a.inspect-unique { background-position:-240px 0px; }
+a.inspect-label.active      { background-position:-200px -20px; }
+a.inspect-choropleth.active { background-position:-220px -20px; }
+a.inspect-unique.active     { background-position:-240px -20px; }
+
+a.inspect-label.active,
+a.inspect-choropleth.active,
+a.inspect-unique.active     { background-color:#222; }
 
 /**
  * Map preview

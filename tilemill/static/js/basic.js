@@ -31,20 +31,12 @@ $(function() {
     $('.layer-inspect-loading').removeClass('layer-inspect-loading').addClass('layer-inspect');
     for (field in data['inspect']) {
       (function(field, data) {
+        console.log(data['inspect'][field]);
         var li = $('<li>')
           .attr('id', 'field-' + field)
-          .append($('<a class="inspect-label" href="#inspect-label">Label</a>').click(function() {
-            TileMill.basic.label = field;
-            TileMill.save();
-            return false;
-          }))
-          .append($('<a class="inspect-chloropleth" href="#inspect-chloropleth">Chloropleth</a>').click(function() {
-            TileMill.basic.visualizationField = field;
-            TileMill.basic.visualizationType = 'chloropleth';
-            TileMill.save();
-            return false;
-          }))
           .append($('<a class="inspect-unique" href="#inspect-unique">Unique Value</a>').click(function() {
+            $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
+            $(this).addClass('active');
             TileMill.basic.visualizationField = field;
             TileMill.basic.visualizationType = 'unique';
             TileMill.save();
@@ -54,9 +46,28 @@ $(function() {
             TileMill.inspector.values(field, 'inspect');
             return false;
           }))
-          .append('<strong>' + field + '</strong>')
+          .append($('<a class="inspect-label" href="#inspect-label">Label</a>').click(function() {
+            $('#inspector a.inspect-label').removeClass('active');
+            $(this).addClass('active');
+            TileMill.basic.label = field;
+            TileMill.save();
+            return false;
+          }));
+        // Only show choropleth for int and float fields.
+        if (data['inspect'][field] == 'int' || data['inspect'][field] == 'float') {
+          li.append($('<a class="inspect-choropleth" href="#inspect-choropleth">Choropleth</a>').click(function() {
+            $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
+            $(this).addClass('active');
+            TileMill.basic.visualizationField = field;
+            TileMill.basic.visualizationType = 'choropleth';
+            TileMill.save();
+            return false;
+          }));
+        }
+        li.append('<strong>' + field + '</strong>')
           .append('<em>' + data['inspect'][field].replace('int', 'integer').replace('str', 'string') + '</em>')
           .appendTo($('#inspector ul.sidebar-content'));
+
       })(field, data);
     }
   };
