@@ -234,11 +234,11 @@ $(function() {
       else {
         TileMill.basic.choroplethSplit = 5;
       }
+      if (settings.scaledPoints != 'undefined') {
+        TileMill.basic.scaledPoints = settings.scaledPoints;
+        $('#field-' + settings.visualizationField).find('.inspect-scaled-points').addClass('active');
+      }
     });
-    if (settings.scaledPoints != 'undefined') {
-      TileMill.basic.scaledPoints = settings.scaledPoints;
-      $('#field-' + settings.visualizationField).find('.inspect-scaled-points').addClass('active');
-    }
   };
   TileMill.inspector.load();
   $('#layers').hide();
