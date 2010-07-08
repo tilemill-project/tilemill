@@ -1,3 +1,4 @@
+/* { 'label': 'undefined', 'visualizationType': 'undefined', 'visualizationField': 'undefined' } */
 Map {
   map-bgcolor: #fff;
 }
