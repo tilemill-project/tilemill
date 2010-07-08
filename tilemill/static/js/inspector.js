@@ -49,7 +49,7 @@ TileMill.inspector.values = function(field, layer, callback) {
       $('#inspector li div.inspect-values').hide();
       encode = TileMill.mml.url();
       var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-      TileMill.inspector.urls[field] = TileMill.settings.tilelive.split(',')[1] + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start={{page}}&jsoncallback=" + callback;
+      TileMill.inspector.urls[field] = TileMill.settings.tilelive.split(',')[0] + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start={{page}}&jsoncallback=" + callback;
       script.src = TileMill.inspector.urls[field].replace('{{page}}', TileMill.page * 10);
       head.insertBefore(script, head.firstChild);
     }
