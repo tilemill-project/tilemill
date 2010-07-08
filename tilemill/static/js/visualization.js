@@ -62,7 +62,7 @@ TileMill.__save = function() {
 
 TileMill.basic.choropleth = function(data) {
   var range = Math.abs(data.max - data.min),
-    split = TileMill.basic.choroplethSplit;
+    split = (TileMill.basic.choroplethSplit && TileMill.basic.choroplethSplit != 'undefined' ? TileMill.basic.choroplethSplit : 5);
     individual = range / split,
     colors = {
     2: ['#fd5', '#e57e57'],
@@ -191,7 +191,7 @@ $(function() {
             }
             TileMill.save();
             return false;
-          }))/*.append($('<a class="inspect-scaled-points" href="#inspect-scaled-points">Scaled points</a>').click(function() {
+          })).append($('<a class="inspect-scaled-points" href="#inspect-scaled-points">Scaled points</a>').click(function() {
             if ($(this).is('.active')) {
               delete TileMill.basic.scaledPoints;
               $(this).removeClass('active');
@@ -203,7 +203,7 @@ $(function() {
             }
             TileMill.save();
             return false;
-          }))*/;
+          }));
         }
         li.append('<strong>' + field + '</strong>')
           .append('<em>' + data['inspect'].fields[field].replace('int', 'integer').replace('str', 'string') + '</em>')
