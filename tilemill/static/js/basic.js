@@ -50,7 +50,7 @@ TileMill.basic.choropleth = function(data) {
     10: []
   };
   for (i = 0; i < split; i++) {
-    TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + "<=" + data.min + (individual * (i + 1)) + "] {\n  polygon-fill: " + colors[split][i] + "\n}";
+    TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + ">=" + data.min + (individual * i) + "] {\n  polygon-fill: " + colors[split][i] + ";\n}";
   }
   TileMill._save();
 }
