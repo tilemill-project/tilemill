@@ -2,6 +2,7 @@ TileMill.inspector = { inspection: {}, urls: {}, valueCache: {} };
 
 TileMill.inspector.inspect = function(id) {
   $('#layers').hide();
+  $('#inspector').show();
   for (field in TileMill.inspection[id]) {
     (function(layer, field) {
       var li = $('<li>')
