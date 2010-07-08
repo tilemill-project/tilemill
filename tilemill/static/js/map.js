@@ -24,6 +24,10 @@ TileMill.map.init = function() {
       }
     }
 
+    // Nav control images.
+    // @TODO: Store locally so the application is portable/usable offline?
+    OpenLayers.ImgPath = 'http://js.mapbox.com/theme/dark/';
+
     TileMill.map.map = new OpenLayers.Map('map-preview', options);
     TileMill.map.layer = new OpenLayers.Layer.XYZ("Preview", TileMill.settings.tilelive + 'tile/' + TileMill.mml.url() + '/${z}/${x}/${y}.png');
     TileMill.map.map.addLayers([ TileMill.map.layer ]);
@@ -42,12 +46,17 @@ TileMill.map.init = function() {
       TileMill.map.map.updateSize();
       return false;
     });
-    
+
     // Display the current zoom level, and keep it up to date
     getZoom();
     TileMill.map.map.events.register("moveend", TileMill.map.map, getZoom);
     TileMill.map.map.events.register("zoomend", TileMill.map.map, getZoom);
 
+    if ($('#map-preview').is('.panzoombar')) {
+      var panzoombar = new OpenLayers.Control.PanZoomBar();
+      TileMill.map.map.addControl(panzoombar);
+      panzoombar.activate();
+    }
   }
 };
 
