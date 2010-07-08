@@ -8,7 +8,7 @@ TileMill.initCodeEditor = function(stylesheet, update) {
 
         $('#code').val(data);
         TileMill.mirror = CodeMirror.fromTextArea('code', {
-          height: "auto",
+          height: "100%",
           parserfile: "parsecss.js",
           stylesheet: TileMill.settings.static_path + "css/code.css",
           path: TileMill.settings.static_path + "js/codemirror/js/"
