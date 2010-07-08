@@ -360,8 +360,8 @@ a.inspect-unique.active     { background-color:#222; }
   height:20px;
   position:absolute;
   top:5px;
-  z-index:500;
-}
+  z-index:1003;
+  }
 
 #map-preview a.map-fullscreen {
   right:5px;
