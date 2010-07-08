@@ -19,6 +19,8 @@ h3 { font-size:13px; }
 
 .pane { padding:10px; }
 
+.column { float:left; width:50%; }
+
 #header {
   position:fixed;
   left:0px;
@@ -138,20 +140,27 @@ div.pager a.pager-prev {
  * Form elements
  */
 input.text {
+  line-height:18px;
   background:#f8f8f8;
   border:1px solid #ccc;
-  padding:2px;
+  padding:0px 2px;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   }
 
 input.submit {
+  line-height:18px;
   cursor:pointer;
   padding:0px 10px;
   border:1px solid #ccc;
   background:#f8f8f8;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
+  }
+
+form label {
+  font-size:11px;
+  text-transform:uppercase;
   }
 
 form div {
@@ -162,9 +171,6 @@ form div {
 
 form div label {
   display:block;
-  font-size:11px;
-  text-transform:uppercase;
-
   position:absolute;
   left:0px;
   width:100px;
@@ -191,6 +197,7 @@ form div.buttons {
   border-right:1px solid #ccc;
   }
 
+.column h2,
 .popup-header,
 .sidebar-header { background:url(../images/sprite.png) 0px -320px repeat-x; }
 

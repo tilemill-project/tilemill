@@ -19,6 +19,7 @@
           {% end %}
           <li>
             <form action='/projects/new' method='post'>
+              <label>Name</label>
               <input class='text' type='text' name='name' />
               <input class='submit' type='submit' value='Add project' />
             </form>
@@ -33,6 +34,7 @@
           {% end %}
           <li>
             <form action='/visualizations/new' method='post'>
+              <label>Shapefile URL</label>
               <input class='text' type='text' name='url' />
               <input class='submit' type='submit' value='Add visualization' />
             </form>
