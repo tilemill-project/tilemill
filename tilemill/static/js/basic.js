@@ -1,10 +1,10 @@
-var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), editor: {}, basic: { stylesheet: '' } };
+var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), editor: {}, basic: { stylesheet: '', choroplethSplit: 5 } };
 
 $.fn.reverse = [].reverse;
 
 TileMill.save = function() {
   // No need to save MML, it's always the same.
-  TileMill.basic.stylesheet = "/* { 'label': '" + TileMill.basic.label + "', 'visualizationType': '" + TileMill.basic.visualizationType + "', 'visualizationField': '" + TileMill.basic.visualizationField + "' } */\n";
+  TileMill.basic.stylesheet = "/* { 'label': '" + TileMill.basic.label + "', 'visualizationType': '" + TileMill.basic.visualizationType + "', 'visualizationField': '" + TileMill.basic.visualizationField + "', 'choroplethSplit': '" + TileMill.basic.choroplethSplit + "' } */\n";
 
   TileMill.basic.stylesheet += "Map {\n  map-bgcolor: #fff;\n}\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}\n#inspect {\n  polygon-fill: #83bc69;\n  line-color: #333;\n  line-width: 0.5;\n}";
 
@@ -16,7 +16,6 @@ TileMill.save = function() {
     var field = TileMill.basic.visualizationField;
     if (TileMill.inspector.valueCache[field]) {
       TileMill.basic[TileMill.basic.visualizationType](TileMill.inspector.valueCache[field]);
-
       TileMill._save();
     }
     else {
@@ -29,7 +28,6 @@ TileMill.save = function() {
 }
 
 TileMill._save = function() {
-  // Todo: implement chloropleth, unique value.
   TileMill.stylesheet.save(TileMill.settings.project_id, TileMill.basic.stylesheet);
   TileMill.uniq = (new Date().getTime());
   TileMill.map.reload();
@@ -37,18 +35,18 @@ TileMill._save = function() {
 
 TileMill.basic.choropleth = function(data) {
   var range = Math.abs(data.max - data.min),
-    split = TileMill.settings.choroplethSplit ? TileMill.settings.choroplethSplit : 3,
+    split = TileMill.basic.choroplethSplit;
     individual = range / split,
     colors = {
-    2: [],
-    3: ['#edaeae', '#e86363', '#f60000'],
-    4: [],
-    5: [],
-    6: [],
-    7: [],
-    8: [],
-    9: [],
-    10: []
+    2: ['#ccc', '#aaa'],
+    3: ['#eee', '#ccc', '#aaa'],
+    4: ['#eee', '#ccc', '#aaa', '#888'],
+    5: ['#eee', '#ccc', '#aaa', '#888', '#666'],
+    6: ['#eee', '#ddd', '#ccc', '#bbb', '#aaa', '#999'],
+    7: ['#eee', '#ddd', '#ccc', '#bbb', '#aaa', '#999', '#888'],
+    8: ['#eee', '#ddd', '#ccc', '#bbb', '#aaa', '#999', '#888', '#777'],
+    9: ['#eee', '#ddd', '#ccc', '#bbb', '#aaa', '#999', '#888', '#777', '#666'],
+    10: ['#eee', '#ddd', '#ccc', '#bbb', '#aaa', '#999', '#888', '#777', '#666', '#555']
   };
   for (i = 0; i < split; i++) {
     TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + ">=" + data.min + (individual * i) + "] {\n  polygon-fill: " + colors[split][i] + ";\n}";
@@ -163,10 +161,14 @@ $(function() {
         TileMill.basic.label = settings.label;
         $('#field-' + settings.label).find('.inspect-label').addClass('active');
       }
-      if (settings.visualizationField != 'undefined') {
+      if (settings.visualizationField != 'undefined' && settings.visualizationType != 'undefined') {
         TileMill.basic.visualizationField = settings.visualizationField;
         TileMill.basic.visualizationType = settings.visualizationType;
         $('#field-' + settings.visualizationField).find('.inspect-' + settings.visualizationType).addClass('active');
+      }
+      if (settings.choroplethSplit != 'undefined') {
+        TileMill.basic.choroplethSplit = settings.choroplethSplit;
+        $('#popup-info select#choroplethSplit').val(TileMill.basic.choroplethSplit);
       }
     });
   };
@@ -176,7 +178,13 @@ $(function() {
   $('div#header a.info').click(function() {
     $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true }));
     $('#popup-info input#project-mml-url').val(TileMill.mml.url({ timestamp: false, encode: false }));
+    $('#popup-info select#choroplethSplit').val(TileMill.basic.choroplethSplit);
     TileMill.popup.show({content: $('#popup-info'), title: 'Info'});
     return false;
+  });
+
+  $('#popup-info select#choroplethSplit').change(function() {
+    TileMill.basic.choroplethSplit = $(this).val();
+    TileMill.save();
   });
 });
