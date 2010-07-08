@@ -11,6 +11,7 @@
       <h1><a href='/'>{{ escape(handler.settings['tilemill_title']) }}</a></h1>
     </div>
     <div id='content'>
+      <h2 class='pane'>Projects</h2>
       <ul class='projects'>
         {% for project in projects %}
           <li><a href='/projects/edit?id={{ url_escape(project) }}'>{{ escape(project) }}</a></li>
@@ -19,6 +20,19 @@
           <form action='/projects/new' method='post'>
             <input class='text' type='text' name='name' />
             <input class='submit' type='submit' value='Add project' />
+          </form>
+        </li>
+      </ul>
+
+      <h2 class='pane'>Visualizations</h2>
+      <ul class='projects'>
+        {% for visualization in visualizations %}
+          <li><a href='/visualizations/edit?id={{ url_escape(visualization) }}'>{{ escape(visualization) }}</a></li>
+        {% end %}
+        <li>
+          <form action='/visualizations/new' method='post'>
+            <input class='text' type='text' name='url' />
+            <input class='submit' type='submit' value='Add visualization' />
           </form>
         </li>
       </ul>
