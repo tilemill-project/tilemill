@@ -1,18 +1,58 @@
-var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), editor: {}, basic: {} };
+var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), editor: {}, basic: { stylesheet: '' } };
 
 $.fn.reverse = [].reverse;
 
 TileMill.save = function() {
   // No need to save MML, it's always the same.
-  var stylesheet = "Map {\n  map-bgcolor: #fff;\n}\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}\n#inspect {\n  polygon-fill: #83bc69;\n  line-color: #333;\n  line-width: 0.5;\n}";
+  TileMill.basic.stylesheet = "Map {\n  map-bgcolor: #fff;\n}\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}\n#inspect {\n  polygon-fill: #83bc69;\n  line-color: #333;\n  line-width: 0.5;\n}";
 
   if (TileMill.basic.label) {
-    stylesheet += "\n#inspect " + TileMill.basic.label + "{\n  text-face-name: \"DejaVu Sans Book\";\n  text-fill: #333;\n  text-size: 9;\n}";
+    TileMill.basic.stylesheet += "\n#inspect " + TileMill.basic.label + "{\n  text-face-name: \"DejaVu Sans Book\";\n  text-fill: #333;\n  text-size: 9;\n}";
   }
+
+  if (TileMill.basic.visualizationType == 'choropleth') {
+    var field = TileMill.basic.visualizationField;
+    if (TileMill.inspector.valueCache[field]) {
+      TileMill.basic.choropleth(TileMill.inspector.valueCache[field]);
+
+      TileMill._save();
+    }
+    else {
+      TileMill.inspector.values(field, 'inspect', 'TileMill.basic.choropleth');
+    }
+  }
+  else {
+    TileMill._save();
+  }
+}
+
+TileMill._save = function() {
   // Todo: implement chloropleth, unique value.
-  TileMill.stylesheet.save(TileMill.settings.project_id, stylesheet);
+  TileMill.stylesheet.save(TileMill.settings.project_id, TileMill.basic.stylesheet);
   TileMill.uniq = (new Date().getTime());
   TileMill.map.reload();
+}
+
+TileMill.basic.choropleth = function(data) {
+  console.log(data);
+  var range = Math.abs(data.max - data.min),
+    split = TileMill.settings.choroplethSplit,
+    individual = range / split;
+  var colors = {
+    2: [],
+    3: ['#edaeae', '#e86363', '#f60000'],
+    4: [],
+    5: [],
+    6: [],
+    7: [],
+    8: [],
+    9: [],
+    10: []
+  };
+  for (i = 0; i < split; i++) {
+    TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + "<=" + data.min + (individual * (i + 1)) + "] {\n  polygon-fill: " + colors[split][i] + "\n}";
+  }
+  TileMill._save();
 }
 
 $(function() {
@@ -31,7 +71,6 @@ $(function() {
     $('.layer-inspect-loading').removeClass('layer-inspect-loading').addClass('layer-inspect');
     for (field in data['inspect']) {
       (function(field, data) {
-        console.log(data['inspect'][field]);
         var li = $('<li>')
           .attr('id', 'field-' + field)
           .append($('<a class="inspect-unique" href="#inspect-unique">Unique Value</a>').click(function() {

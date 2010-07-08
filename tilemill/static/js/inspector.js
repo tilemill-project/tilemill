@@ -1,4 +1,4 @@
-TileMill.inspector = { inspection: {}, urls: {} };
+TileMill.inspector = { inspection: {}, urls: {}, valueCache: {} };
 
 TileMill.inspector.inspect = function(id) {
   $('#layers').hide();
@@ -30,10 +30,10 @@ TileMill.inspector.loadCallback = function(data) {
   TileMill.inspection = data;
 }
 
-TileMill.inspector.values = function(field, layer) {
+TileMill.inspector.values = function(field, layer, callback) {
   if (layer) {
     TileMill.page = 0;
-    if ($('li#field-' + field + ' div.inspect-values').size()) {
+    if ($('li#field-' + field + ' div.inspect-values').size() && !callback) {
       if ($('li#field-' + field + ' div.inspect-values').is(':hidden')) {
         $('#inspector li div.inspect-values').hide();
         $('li#field-' + field + ' div.inspect-values').show();
@@ -43,10 +43,13 @@ TileMill.inspector.values = function(field, layer) {
       }
     }
     else {
+      if (!callback) {
+        callback = 'TileMill.inspector.valueCallback';
+      }
       $('#inspector li div.inspect-values').hide();
       encode = TileMill.mml.url();
       var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-      TileMill.inspector.urls[field] = TileMill.settings.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start={{page}}&jsoncallback=TileMill.inspector.valueCallback";
+      TileMill.inspector.urls[field] = TileMill.settings.tilelive + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start={{page}}&jsoncallback=" + callback;
       script.src = TileMill.inspector.urls[field].replace('{{page}}', TileMill.page * 10);
       head.insertBefore(script, head.firstChild);
     }
@@ -60,6 +63,7 @@ TileMill.inspector.values = function(field, layer) {
 
 TileMill.inspector.valueCallback = function(data) {
   if (data.field) {
+    TileMill.inspector.valueCache[data.field] = data;
     var ul = $('<ul class="clearfix inspect-values">')
       .addClass('field-values')
       .append('<li class="min"><strong>Min</strong>: ' + data.min + '</li>')
