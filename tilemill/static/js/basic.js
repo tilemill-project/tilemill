@@ -4,7 +4,9 @@ $.fn.reverse = [].reverse;
 
 TileMill.save = function() {
   // No need to save MML, it's always the same.
-  TileMill.basic.stylesheet = "Map {\n  map-bgcolor: #fff;\n}\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}\n#inspect {\n  polygon-fill: #83bc69;\n  line-color: #333;\n  line-width: 0.5;\n}";
+  TileMill.basic.stylesheet = "/* { 'label': '" + TileMill.basic.label + "', 'visualizationType': '" + TileMill.basic.visualizationType + "', 'visualizationField': '" + TileMill.basic.visualizationField + "' } */\n";
+
+  TileMill.basic.stylesheet += "Map {\n  map-bgcolor: #fff;\n}\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}\n#inspect {\n  polygon-fill: #83bc69;\n  line-color: #333;\n  line-width: 0.5;\n}";
 
   if (TileMill.basic.label) {
     TileMill.basic.stylesheet += "\n#inspect " + TileMill.basic.label + "{\n  text-face-name: \"DejaVu Sans Book\";\n  text-fill: #333;\n  text-size: 9;\n}";
@@ -35,7 +37,7 @@ TileMill._save = function() {
 
 TileMill.basic.choropleth = function(data) {
   var range = Math.abs(data.max - data.min),
-    split = TileMill.settings.choroplethSplit,
+    split = TileMill.settings.choroplethSplit ? TileMill.settings.choroplethSplit : 3,
     individual = range / split,
     colors = {
     2: [],
@@ -130,6 +132,24 @@ $(function() {
 
       })(field, data);
     }
+    var src = $('Stylesheet:first', TileMill.settings.mml).attr('src');
+    // If there is no / character, assume this is a single filename.
+    if (src.split('/').length === 1) {
+      src = TileMill.settings.server + 'projects/mss?id='+ TileMill.settings.project_id +'&filename='+ filename;
+    }
+    $.get(src, function(data) {
+      var settings = eval('(' + data.match(/(.+)/)[0].replace('/*', '').replace('*/', '') + ')');
+      console.log(settings);
+      if (settings.label) {
+        TileMill.basic.label = settings.label;
+        $('#field-' + settings.label).find('.inspect-label').addClass('active');
+      }
+      if (settings.visualizationField) {
+        TileMill.basic.visualizationField = settings.visualizationField;
+        TileMill.basic.visualizationType = settings.visualizationType;
+        $('#field-' + settings.visualizationField).find('.inspect-' + settings.visualizationType).addClass('active');
+      }
+    });
   };
   TileMill.inspector.load();
   $('#layers').hide();
