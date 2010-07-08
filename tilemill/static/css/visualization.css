@@ -9,3 +9,4 @@
 
 #inspector { display:block; }
 #sidebar { bottom:0; }
+#map-preview a.map-fullscreen { display:none; }
