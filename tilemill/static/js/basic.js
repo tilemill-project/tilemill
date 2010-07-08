@@ -139,12 +139,11 @@ $(function() {
     }
     $.get(src, function(data) {
       var settings = eval('(' + data.match(/(.+)/)[0].replace('/*', '').replace('*/', '') + ')');
-      console.log(settings);
-      if (settings.label) {
+      if (settings.label != 'undefined') {
         TileMill.basic.label = settings.label;
         $('#field-' + settings.label).find('.inspect-label').addClass('active');
       }
-      if (settings.visualizationField) {
+      if (settings.visualizationField != 'undefined') {
         TileMill.basic.visualizationField = settings.visualizationField;
         TileMill.basic.visualizationType = settings.visualizationType;
         $('#field-' + settings.visualizationField).find('.inspect-' + settings.visualizationType).addClass('active');
