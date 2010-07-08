@@ -330,6 +330,10 @@ a.inspect-unique.active     { background-color:#222; }
   background:#ddd;
   }
 
+#map-preview div.olControlPanZoomBar {
+  top:20px !important;
+  }
+
 #map-preview.fullscreen {
   top:40px;
   left:0px;
