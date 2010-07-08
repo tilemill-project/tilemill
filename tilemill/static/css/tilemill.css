@@ -358,7 +358,7 @@ a.inspect-unique.active     { background-color:#222; }
   height:20px;
   position:absolute;
   top:5px;
-  z-index:10000;
+  z-index:500;
 }
 
 #map-preview a.map-fullscreen {
@@ -521,7 +521,8 @@ a.inspect-unique.active     { background-color:#222; }
 /**
  * Popup editor.
  */
-#editor .popup-backdrop {
+.popup-backdrop {
+  z-index:5000;
   background-color:#999;
   opacity: 0.75;
   position:absolute;
@@ -531,8 +532,8 @@ a.inspect-unique.active     { background-color:#222; }
   right:0px;
   }
 
-#editor .popup {
-  z-index: 2;
+.popup {
+  z-index:5000;
   position:absolute;
   top:0px;
   left:0px;
