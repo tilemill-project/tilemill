@@ -97,10 +97,17 @@ $(function() {
         var li = $('<li>')
           .attr('id', 'field-' + field)
           .append($('<a class="inspect-unique" href="#inspect-unique">Unique Value</a>').click(function() {
-            $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
-            $(this).addClass('active');
-            TileMill.basic.visualizationField = field;
-            TileMill.basic.visualizationType = 'unique';
+            if ($(this).is('.active')) {
+              delete TileMill.basic.visualizationField;
+              delete TileMill.basic.visualizationType;
+              $(this).removeClass('active');
+            }
+            else {
+              TileMill.basic.visualizationField = field;
+              TileMill.basic.visualizationType = 'unique';
+              $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
+              $(this).addClass('active');
+            }
             TileMill.save();
             return false;
           }))
@@ -109,19 +116,32 @@ $(function() {
             return false;
           }))
           .append($('<a class="inspect-label" href="#inspect-label">Label</a>').click(function() {
-            $('#inspector a.inspect-label').removeClass('active');
-            $(this).addClass('active');
-            TileMill.basic.label = field;
+            if ($(this).is('.active')) {
+              delete TileMill.basic.label;
+              $(this).removeClass('active');
+            }
+            else {
+              TileMill.basic.label = field;
+              $('#inspector a.inspect-label').removeClass('active');
+              $(this).addClass('active');
+            }
             TileMill.save();
             return false;
           }));
         // Only show choropleth for int and float fields.
         if (data['inspect'][field] == 'int' || data['inspect'][field] == 'float') {
           li.append($('<a class="inspect-choropleth" href="#inspect-choropleth">Choropleth</a>').click(function() {
-            $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
-            $(this).addClass('active');
-            TileMill.basic.visualizationField = field;
-            TileMill.basic.visualizationType = 'choropleth';
+            if ($(this).is('.active')) {
+              delete TileMill.basic.visualizationField;
+              delete TileMill.basic.visualizationType;
+              $(this).removeClass('active');
+            }
+            else {
+              TileMill.basic.visualizationField = field;
+              TileMill.basic.visualizationType = 'choropleth';
+              $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
+              $(this).addClass('active');
+            }
             TileMill.save();
             return false;
           }));
