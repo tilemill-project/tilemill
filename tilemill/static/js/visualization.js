@@ -37,7 +37,7 @@ TileMill._save = function() {
       TileMill._save();
     }
     else {
-      TileMill.inspector.values(field, 'inspect', 'TileMill.basic.scaledPoints', , 50);
+      TileMill.inspector.values(field, 'inspect', 'TileMill.basic.scaledPoints', 50);
     }
   }
   else {
@@ -139,7 +139,7 @@ $(function() {
   });
   TileMill.inspector.loadCallback = function(data) {
     $('.layer-inspect-loading').removeClass('layer-inspect-loading').addClass('layer-inspect');
-    for (field in data['inspect']) {
+    for (field in data['inspect'].fields) {
       (function(field, data) {
         var li = $('<li>')
           .attr('id', 'field-' + field)
@@ -176,7 +176,7 @@ $(function() {
             return false;
           }));
         // Only show choropleth for int and float fields.
-        if (data['inspect'][field] == 'int' || data['inspect'][field] == 'float') {
+        if (data['inspect'].fields[field] == 'int' || data['inspect'].fields[field] == 'float') {
           li.append($('<a class="inspect-choropleth" href="#inspect-choropleth">Choropleth</a>').click(function() {
             if ($(this).is('.active')) {
               delete TileMill.basic.visualizationField;
@@ -191,7 +191,7 @@ $(function() {
             }
             TileMill.save();
             return false;
-          })).append($('<a class="inspect-scaled-points" href="#inspect-scaled-points">Scaled points</a>').click(function() {
+          }))/*.append($('<a class="inspect-scaled-points" href="#inspect-scaled-points">Scaled points</a>').click(function() {
             if ($(this).is('.active')) {
               delete TileMill.basic.scaledPoints;
               $(this).removeClass('active');
@@ -203,10 +203,10 @@ $(function() {
             }
             TileMill.save();
             return false;
-          }));
+          }))*/;
         }
         li.append('<strong>' + field + '</strong>')
-          .append('<em>' + data['inspect'][field].replace('int', 'integer').replace('str', 'string') + '</em>')
+          .append('<em>' + data['inspect'].fields[field].replace('int', 'integer').replace('str', 'string') + '</em>')
           .appendTo($('#inspector ul.sidebar-content'));
 
       })(field, data);

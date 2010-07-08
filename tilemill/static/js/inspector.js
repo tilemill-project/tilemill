@@ -3,7 +3,7 @@ TileMill.inspector = { inspection: {}, urls: {}, valueCache: {} };
 TileMill.inspector.inspect = function(id) {
   $('#layers').hide();
   $('#inspector').show();
-  for (field in TileMill.inspection[id]) {
+  for (field in TileMill.inspection[id].fields) {
     (function(layer, field) {
       var li = $('<li>')
         .attr('id', 'field-' + field)
@@ -12,7 +12,7 @@ TileMill.inspector.inspect = function(id) {
           return false;
         }))
         .append('<strong>' + field + '</strong>')
-        .append('<em>' + TileMill.inspection[layer][field].replace('int', 'integer').replace('str', 'string') + '</em>')
+        .append('<em>' + TileMill.inspection[layer].fields[field].replace('int', 'integer').replace('str', 'string') + '</em>')
         .appendTo($('#inspector ul.sidebar-content'));
     })(id, field);
   }
