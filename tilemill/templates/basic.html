@@ -32,6 +32,7 @@
     <div id='header' class='clearfix pane'>
       <h1>Visualizing {{ escape(project_id) }}</h1>
       <a class='info' href='#project-info'>Info</a>
+      <a class='projectify' href='#projectify'>Make project</a>
       <a class='home' href='/'>Back home</a>
     </div>
     <div id='sidebar'>
@@ -65,6 +66,12 @@
               <option value='10'>10 colors</option>
             </select>
           </div>
+        </form>
+      </div>
+      <div id='popup-projectify' class='clearfix pane'>
+        <form>
+          <div><label for='tilelive-url'>Project name</label><input id='project-name' class='text' type='text' /></div>
+          <div><input id='save' class='submit' type='submit' /></div>
         </form>
       </div>
     </div>

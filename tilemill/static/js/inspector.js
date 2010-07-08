@@ -31,7 +31,7 @@ TileMill.inspector.loadCallback = function(data) {
   TileMill.inspection = data;
 }
 
-TileMill.inspector.values = function(field, layer, callback) {
+TileMill.inspector.values = function(field, layer, callback, limit) {
   if (layer) {
     TileMill.page = 0;
     if ($('li#field-' + field + ' div.inspect-values').size() && !callback) {
@@ -51,13 +51,16 @@ TileMill.inspector.values = function(field, layer, callback) {
       encode = TileMill.mml.url();
       var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
       TileMill.inspector.urls[field] = TileMill.settings.tilelive.split(',')[0] + encode + '/' + Base64.encode(layer) + '/' + Base64.encode(field) + "/values.json?start={{page}}&jsoncallback=" + callback;
-      script.src = TileMill.inspector.urls[field].replace('{{page}}', TileMill.page * 10);
+      if (limit) {
+        TileMill.inspector.urls[field] += '&limit=' + limit;
+      }
+      script.src = TileMill.inspector.urls[field].replace('{{page}}', TileMill.page * 30);
       head.insertBefore(script, head.firstChild);
     }
   }
   else {
     var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-    script.src = TileMill.inspector.urls[field].replace('{{page}}', TileMill.page * 10);
+    script.src = TileMill.inspector.urls[field].replace('{{page}}', TileMill.page * 30);
     head.insertBefore(script, head.firstChild);
   }
 }
@@ -81,7 +84,7 @@ TileMill.inspector.valueCallback = function(data) {
         TileMill.inspector.values(data.field);
         return false;
       }))
-      .append($('<a class="pager-next' + ((data.count - (TileMill.page * 10) > 10) ? '' : ' disabled') + '" href="#pager-next">Next</a>').click(function() {
+      .append($('<a class="pager-next' + ((data.count - (TileMill.page * 30) > 30) ? '' : ' disabled') + '" href="#pager-next">Next</a>').click(function() {
         if ($(this).is('.disabled')) {
           return false;
         }

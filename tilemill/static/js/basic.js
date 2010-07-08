@@ -2,14 +2,16 @@ var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), 
 
 $.fn.reverse = [].reverse;
 
-TileMill.save = function() {
+TileMill.save = function(projectify) {
   // No need to save MML, it's always the same.
-  TileMill.basic.stylesheet = "/* { 'label': '" + TileMill.basic.label + "', 'visualizationType': '" + TileMill.basic.visualizationType + "', 'visualizationField': '" + TileMill.basic.visualizationField + "', 'choroplethSplit': '" + TileMill.basic.choroplethSplit + "' } */\n";
+  if (!projectify) {
+    TileMill.basic.stylesheet = "/* { 'label': '" + TileMill.basic.label + "', 'visualizationType': '" + TileMill.basic.visualizationType + "', 'visualizationField': '" + TileMill.basic.visualizationField + "', 'choroplethSplit': '" + TileMill.basic.choroplethSplit + "' } */\n";
+  }
 
   TileMill.basic.stylesheet += "Map {\n  map-bgcolor: #fff;\n}\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}\n#inspect {\n  polygon-fill: #83bc69;\n  line-color: #333;\n  line-width: 0.5;\n}";
 
   if (TileMill.basic.label) {
-    TileMill.basic.stylesheet += "\n#inspect " + TileMill.basic.label + "{\n  text-face-name: \"DejaVu Sans Book\";\n  text-fill: #333;\n  text-size: 9;\n}";
+    TileMill.basic.stylesheet += "\n#inspect " + TileMill.basic.label + " {\n  text-face-name: \"DejaVu Sans Book\";\n  text-fill: #333;\n  text-size: 9;\n}";
   }
 
   if (TileMill.basic.visualizationType == 'choropleth' || TileMill.basic.visualizationType == 'unique') {
@@ -19,7 +21,7 @@ TileMill.save = function() {
       TileMill._save();
     }
     else {
-      TileMill.inspector.values(field, 'inspect', 'TileMill.basic.' + TileMill.basic.visualizationType, (TileMill.basic.visualizationType == 'unique' ? 50 : false));
+      TileMill.inspector.values(field, 'inspect', 'TileMill.basic.' + TileMill.basic.visualizationType, (TileMill.basic.visualizationType == 'unique' ? 50 : false), 50);
     }
   }
   else {
@@ -170,6 +172,9 @@ $(function() {
         TileMill.basic.choroplethSplit = settings.choroplethSplit;
         $('#popup-info select#choroplethSplit').val(TileMill.basic.choroplethSplit);
       }
+      else {
+        TileMill.basic.choroplethSplit = 5;
+      }
     });
   };
   TileMill.inspector.load();
@@ -186,5 +191,63 @@ $(function() {
   $('#popup-info select#choroplethSplit').change(function() {
     TileMill.basic.choroplethSplit = $(this).val();
     TileMill.save();
+  });
+
+  $('a.projectify').click(function() {
+    TileMill.popup.show({content: $('#popup-projectify'), title: 'Save'});
+    return false;
+  });
+  $('#popup-projectify input.submit').click(function() {
+    $(this).unbind('click');
+    TileMill._save = function() {
+      var template = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\
+<!DOCTYPE Map[\n\
+  <!ENTITY srs900913 \"+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs\">\n\
+  <!ENTITY srsWGS84 \"+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs\">\n\
+]>\n\
+<Map srs=\"&srs900913;\">\n\
+  <Stylesheet src=\"{{ stylesheet }}\" />\n\
+  <Layer id=\"world\" srs=\"&srsWGS84;\">\n\
+    <Datasource>\n\
+      <Parameter name=\"file\">http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip</Parameter>\n\
+      <Parameter name=\"type\">shape</Parameter>\n\
+      <Parameter name=\"id\">world</Parameter>\n\
+    </Datasource>\n\
+  </Layer>\n\
+  <Layer id=\"data\" srs=\"{{ srs }}\">\n\
+    <Datasource>\n\
+      <Parameter name=\"file\">{{ url }}</Parameter>\n\
+      <Parameter name=\"type\">shape</Parameter>\n\
+      <Parameter name=\"id\">data</Parameter>\n\
+    </Datasource>\n\
+  </Layer>\n\
+</Map>";
+      $.post(TileMill.settings.server + 'projects/new', { 'name': $('#project-name').val() }, function() {
+        $.post(TileMill.settings.server + 'projects/mss', {
+          'id': $('#project-name').val(),
+          'filename': $('#project-name').val(),
+          'data': TileMill.basic.stylesheet
+        }, function() {
+          $.get(TileMill.settings.server + 'visualizations/mml', {
+            'id': TileMill.settings.project_id,
+          }, function(data) {
+            var $inspect = $(data).find('Layer#inspect');
+            console.log($inspect.html(), $inspect.attr('srs'), $inspect.parent().html());
+            $inspect.end();
+            var fill = template.replace('{{ stylesheet }}', TileMill.settings.server + 'projects/mss?id=' + $('#project-name').val())
+              .replace('{{ srs }}', $inspect.attr('srs'))
+              .replace('{{ url }}', $inspect.find('parameter[name=file]').html());
+            $.post(TileMill.settings.server + 'projects/mml', {
+              'id': $('#project-name').val(),
+              'data': fill
+            }, function() {
+              window.location = TileMill.settings.server + 'projects/edit?id=' + $('#project-name').val();
+            });
+          });
+        });
+      });
+    };
+    TileMill.save(true);
+    return false;
   });
 });

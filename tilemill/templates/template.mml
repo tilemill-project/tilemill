@@ -7,12 +7,6 @@
   <Stylesheet src="{{ stylesheet }}" />
   <Layer id="world" srs="&srsWGS84;">
     <Datasource>
-      <Parameter name="file">{{ url }}</Parameter>
-      <Parameter name="type">shape</Parameter>
-    </Datasource>
-  </Layer>
-  <Layer id="world" srs="&srsWGS84;">
-    <Datasource>
       <Parameter name="file">http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip</Parameter>
       <Parameter name="type">shape</Parameter>
     </Datasource>

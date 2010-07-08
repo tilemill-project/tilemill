@@ -9,6 +9,7 @@ import tornado.web
 import tornado.escape
 import tornado.template
 import re
+import shutil
 
 from urlparse import urlparse
 from tornado.options import define, options
@@ -82,7 +83,7 @@ class ProjectNewHandler(tornado.web.RequestHandler):
         project_id = self.request.arguments['name'][0]
         manager = ProjectManager(options)
         stylesheet = self.request.protocol + '://' + self.request.host + '/projects/mss?id=' + project_id + '&amp;filename=' + project_id;
-        result, message = manager.new(project_id, self, self.render_string('template.mml', stylesheet = stylesheet), self.render_string('template.mss'))
+        result, message = manager.new(project_id, self.render_string('template.mml', stylesheet = stylesheet), self.render_string('template.mss'))
         if result:
             self.redirect('/projects/edit?id=' + tornado.escape.url_escape(project_id))
         else:
@@ -125,10 +126,10 @@ class VisualizationsNewHandler(tornado.web.RequestHandler):
 
         # Generate a visualization id from the "filename" of the url
         parsed = urlparse(self.request.arguments['url'][0])
-        visualization_id = parsed.path.split('/').pop().split('.')[0]
-        i = 0
-        while (visualization_id in visualizations):
-          visualization_id = visualization_id + '_' + i
+        visualization_id = _v = parsed.path.split('/').pop().split('.')[0]
+        i = 1
+        while visualization_id in visualizations:
+          visualization_id = "%s_%d" % (_v, i)
           i = i + 1
 
         srs = '&srsWGS84;';

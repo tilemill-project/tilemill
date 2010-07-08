@@ -37,7 +37,8 @@ h3 { font-size:13px; }
 
   #header h1,
   #header a.info,
-  #header a.save {
+  #header a.save,
+  #header a.projectify {
     float:left;
     margin-right:10px;
     }
@@ -48,6 +49,7 @@ h3 { font-size:13px; }
     }
 
   #header a.info,
+  #header a.projectify,
   #header a.save {
     background:#222;
     padding:0px 10px;
