@@ -11,8 +11,11 @@ TileMill.controller.route = function() {
     case 'list':
       fn = 'list';
       break;
-    case 'edit':
-      fn = 'edit';
+    case 'project':
+      fn = 'project';
+      break;
+    case 'visualization':
+      fn = 'visualization';
       break;
   }
   $('body').attr('id', fn).empty().append('<div class="loading"></div>');

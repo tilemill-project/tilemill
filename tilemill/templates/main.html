@@ -18,7 +18,7 @@
     <script type="text/javascript" src="{{ static_url('js/tilemill.js') }}"></script>
 
     <script type="text/javascript" src="{{ static_url('js/list.js') }}"></script>
-    <script type="text/javascript" src="{{ static_url('js/editor.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/project.js') }}"></script>
 
     <script type="text/javascript" src="{{ static_url('js/template.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/cache.js') }}"></script>
@@ -49,18 +49,18 @@
       <h2 class='pane'><%= name %></h2>
       <ul class='items'>
         <% for (i in data) { %>
-          <li><a href='#action=edit&id=<%= data[i] %>' class='route'><%= data[i] %></a></li>
+          <li><a href='#action=<%= type %>&id=<%= data[i] %>' class='route'><%= data[i] %></a></li>
         <% } %>
         <li><form><input class='text' type='text' /><input class='submit' type='submit' value='Add' /></form></li>
       </ul>
     </div>
     </script>
-    <script type="text/html" name="editor">
+    <script type="text/html" name="project">
     <div id='header' class='clearfix pane'>
-      <h1>Editing <%= project_id %></h1>
+      <h1>Editing <%= id %></h1>
       <a class='info' href='#project-info'>Info</a>
       <a class='save' href='#project-save'>Save</a>
-      <a class='home' href='/'>Back home</a>
+      <a class='home' href='#list'>Back home</a>
     </div>
     <div id='sidebar'>
       <div id='layers'>
