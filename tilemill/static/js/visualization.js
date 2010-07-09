@@ -18,7 +18,6 @@ TileMill.save = function(projectify) {
     var field = TileMill.basic.visualizationField;
     if (TileMill.inspector.valueCache[field]) {
       TileMill.basic[TileMill.basic.visualizationType](TileMill.inspector.valueCache[field]);
-      TileMill._save();
     }
     else {
       TileMill.inspector.values(field, 'inspect', 'TileMill.basic.' + TileMill.basic.visualizationType, (TileMill.basic.visualizationType == 'unique' ? 50 : false), 50);
@@ -32,12 +31,12 @@ TileMill.save = function(projectify) {
 TileMill._save = function() {
   // scaledPoints
   if (TileMill.basic.scaledPoints) {
+    var field = TileMill.basic.scaledPoints;
     if (TileMill.inspector.valueCache[field]) {
-      TileMill.basic.scaledPoints(TileMill.inspector.valueCache[field]);
-      TileMill._save();
+      TileMill.scaledPoints(TileMill.inspector.valueCache[field]);
     }
     else {
-      TileMill.inspector.values(field, 'inspect', 'TileMill.basic.scaledPoints', 50);
+      TileMill.inspector.values(field, 'inspect', 'TileMill.scaledPoints', 50);
     }
   }
   else {
@@ -45,11 +44,12 @@ TileMill._save = function() {
   }
 }
 
-TileMill.scaledPoints = function() {
+TileMill.scaledPoints = function(data) {
   var range = Math.abs(data.max - data.min),
-    individual = range / 10;
+    individual = range / 10,
+    sizes = { 0: 2, 1: 4, 2: 6, 3: 9, 4: 13, 5: 18, 6: 25, 7: 34, 8: 45, 9: 60 };
   for (i = 0; i < 10; i++) {
-    TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + ">=" + data.min + (individual * i) + "] {\n  point-file: url(" + TileMill.settings.static_path + 'images/points/' + i  + ".png);\n}";
+    TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.scaledPoints + ">=" + data.min + (individual * i) + "] {\n  point-file: url(" + TileMill.settings.server.substr(0,TileMill.settings.server.length-1) + TileMill.settings.static_path + 'images/points/' + i  + ".png);\n  point-width: " + sizes[i] + ";\n  point-height: " + sizes[i] + ";\n}";
   }
   TileMill.__save();
 }
@@ -236,7 +236,7 @@ $(function() {
       }
       if (settings.scaledPoints != 'undefined') {
         TileMill.basic.scaledPoints = settings.scaledPoints;
-        $('#field-' + settings.visualizationField).find('.inspect-scaled-points').addClass('active');
+        $('#field-' + settings.scaledPoints).find('.inspect-scaled-points').addClass('active');
       }
     });
   };

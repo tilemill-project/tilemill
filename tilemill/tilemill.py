@@ -19,14 +19,13 @@ define("projects", default=os.path.join(os.path.dirname(__file__), "projects"), 
 define("visualizations", default=os.path.join(os.path.dirname(__file__), "visualizations"), help="visualizations directory", type=str)
 define("config", default=os.path.join(os.path.dirname(__file__), "tilemill.cfg"), help="path to configuration file", type=str)
 define("tilelive_server", "http://localhost:8888/", help="path to tilelive server file", type=str)
-
+"""
 class ProjectManager:
     def __init__(self, options):
         self.options = options
         self.directory = self.options.projects
 
     def list(self):
-        """Retrieve a relative paths of projects."""
         projects = []
         for root, dirs, files in os.walk(self.directory):
             basename = os.path.basename(root)
@@ -58,8 +57,36 @@ class VisualizationsManager(ProjectManager):
     def __init__(self, options):
         self.options = options
         self.directory = self.options.visualizations
+"""
 
 class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("main.html")
+
+class ListHandler(tornado.web.RequestHandler):
+    def get(self):
+        directories = []
+        for root, dirs, files in os.walk(self.request.arguments['type'][0]):
+            basename = os.path.basename(root)
+            if os.path.isfile(os.path.join(root, basename + '.mml')):
+                directories.append(basename)
+        self.write(tornado.escape.json_encode(directories))
+
+class NewHandler(tornado.web.RequestHandler):
+    def get(self):
+        name = self.request.arguments['id'][0]
+        directory = os.path.join(self.request.arguments['type'][0], name)
+        if os.path.isdir(directory):
+            return self.write(tornado.escape.json_encode({'status': False, 'message': 'The directory %s already exists' % (name)}))
+        os.mkdir(directory)
+        return self.write(tornado.escape.json_encode({'status': True}))
+
+
+
+
+
+"""
+class ProjectListHandler(tornado.web.RequestHandler):
     def get(self):
         projects = ProjectManager(options)
         visualizations = VisualizationsManager(options)
@@ -145,22 +172,15 @@ class VisualizationsMMLHandler(ProjectMMLHandler):
 
 class VisualizationsMSSHandler(ProjectMSSHandler):
     manager = VisualizationsManager(options);
-
+"""
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", MainHandler),
-            (r"/projects/edit", ProjectEditHandler),
-            (r"/projects/new", ProjectNewHandler),
-            (r"/projects/mml", ProjectMMLHandler),
-            (r"/projects/mss", ProjectMSSHandler),
-            (r"/visualizations/edit", VisualizationsEditHandler),
-            (r"/visualizations/new", VisualizationsNewHandler),
-            (r"/visualizations/mml", VisualizationsMMLHandler),
-            (r"/visualizations/mss", VisualizationsMSSHandler),
+            (r"/list", ListHandler),
+            (r"/new", NewHandler),
         ]
         settings = dict(
-            tilemill_title=u"TileMill",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
         )
