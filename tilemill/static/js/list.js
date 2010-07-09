@@ -1,20 +1,9 @@
 TileMill.controller.list = function() {
-<<<<<<< Updated upstream
-  TileMill.backend.list('project', function(projects) {
-    TileMill.backend.list('visualization', function(visualizations) {
-      var page = $(TileMill.template('list', {
-        projects: TileMill.template('column', { 'name': 'Projects', 'type': 'project', 'data': projects }),
-        visualizations: TileMill.template('column', { 'name': 'Visualizations', 'type': 'visualization', 'data': visualizations }),
-      }));
-      $('input[type=submit]', page).bind('click', function() {
-        if ($(this).is('.ajaxing')) {
-          return;
-=======
   var queue = new TileMill.queue();
 
   queue.add(function(next) {
     var self = this;
-    TileMill.backend.list('projects', function(projects) {
+    TileMill.backend.list('project', function(projects) {
       self.store('projects', projects);
       next();
     });
@@ -22,7 +11,7 @@ TileMill.controller.list = function() {
 
   queue.add(function(next) {
     var self = this;
-    TileMill.backend.list('visualizations', function(projects) {
+    TileMill.backend.list('visualization', function(projects) {
       self.store('visualizations', projects);
       next();
     });
@@ -48,7 +37,6 @@ TileMill.controller.list = function() {
       TileMill.backend.servers.python.add(name, type, function(data) {
         if (data.status) {
           console.log('success');
->>>>>>> Stashed changes
         }
         else {
           TileMill.popup.show({ title: 'Error', content: data.message });
