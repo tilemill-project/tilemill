@@ -1,4 +1,5 @@
 TileMill.mml = {};
+TileMill.customSrs = [];
 
 TileMill.mml.generate = function(mml) {
   // We can't store the MML in an HTML template because the template engine
