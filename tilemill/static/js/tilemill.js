@@ -5,7 +5,7 @@ var TileMill = {
     rasterizer: 'tilelive',
     pythonServer: 'http://localhost:8889/',
     tileliveServer: 'http://localhost:8888/',
-  },
+  }
 };
 
 // Controller.
