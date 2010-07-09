@@ -10,7 +10,7 @@ TileMill.backend.servers.python.list = function(type, callback) {
     callback(cache);
   }
   else {
-    $.getJSON(TileMill.settings.pythonServer + 'list', { 'type': type }, function(data) {
+    $.getJSON(TileMill.settings.pythonServer + 'list?jsoncallback=?', { 'type': type }, function(data) {
       TileMill.cache.set('python-list', type, data);
       callback(data);
     });
@@ -19,23 +19,15 @@ TileMill.backend.servers.python.list = function(type, callback) {
 
 TileMill.backend.servers.python.add = function(id, type, callback) {
   // No cache for this.
-  $.post(TileMill.settings.pythonServer + 'add', { 'id': id, 'type': type }, function(data) {
-    callback(eval('(' + data +')'));
-  });
+  TileMill.utilities.insertIFrame(TileMill.settings.pythonServer + 'add?jsoncallback=?', { 'id': id, 'type': type }, callback);
 }
 
 TileMill.backend.servers.python.get = function(filename, callback) {
-  $.get(TileMill.settings.pythonServer + 'file', { 'filename': filename }, function(data) {
-    callback(data);
-  });
+  $.getJSON(TileMill.settings.pythonServer + 'file?jsoncallback=?', { 'filename': filename }, callback);
 }
 
 TileMill.backend.servers.python.post = function(filename, file_data, callback) {
-  $.post(TileMill.settings.pythonServer + 'file', { 'filename': filename, 'data': file_data }, function(data) {
-    if (callback) {
-      callback();
-    }
-  });
+  TileMill.utilities.insertIFrame(TileMill.settings.pythonServer + 'file', { 'filename': filename, 'data': file_data }, callback);
 }
 
 TileMill.backend.servers.python.url = function(filename) {
@@ -88,3 +80,29 @@ $.each(['list', 'add', 'get', 'post', 'url'], function(i, func) {
 $.each(['fields', 'values', 'servers'], function(i, func) {
   TileMill.backend[func] = TileMill.backend.rasterizers[TileMill.settings.rasterizer][func];
 });
+
+TileMill.utilities.insertIFrame = function(url, data, callback) {
+  var iframe = $('<iframe></iframe>').attr({width: 0, height: 1 }).bind('load', callback).appendTo('body')[0];
+  var doc = null;
+  if (iframe.contentDocument) {
+    // Firefox, Opera
+    doc = iframe.contentDocument;
+  }
+  else if (iframe.contentWindow) {
+    // Internet Explorer
+    doc = iframe.contentWindow.document;
+  }
+  else if (iframe.document) {
+    // Others?
+    doc = iframe.document;
+  }
+  if(doc == null) {
+    throw "Document not initialized";
+  }
+  var form = $('<form>').attr({ 'action': url, 'method': 'post' });
+  for (key in data) {
+    form.append($('<input>').attr({ 'type': 'hidden', 'name': key, 'value': data[key] }));
+  }
+  form.appendTo(doc.body)[0].submit();
+
+}

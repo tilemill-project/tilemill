@@ -2,7 +2,9 @@ $.fn.reverse = [].reverse;
 
 TileMill.controller.project = function() {
   var id = $.bbq.getState("id");
-  TileMill.backend.get('project/' + id + '/' + id + '.mml', function(mml) {
+  TileMill.backend.get('project/' + id + '/' + id + '.mml', function(data) {
+    var mml = data.data;
+
     // Store current settings. @TODO: Refactor this.
     TileMill.settings.mml = mml;
     TileMill.settings.id = id;
