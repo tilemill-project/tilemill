@@ -1,6 +1,63 @@
-$.fn.reverse = [].reverse;
-
 TileMill.mml = {};
+
+TileMill.mml.generate = function(mml) {
+  // We can't store the MML in an HTML template because the template engine
+  // strips out all whitespace. While this is ok for HTML templates, which just
+  // get put in the DOM, we want the MML that we end up with to be readable by
+  // humans. Thus, we have to keep it entirely in JavaScript and join the
+  // lines together at the end of the script.
+  var output = ['<' + '?xml version="1.0" encoding="utf-8"?>',
+  '<!DOCTYPE Map[',
+  '  <!ENTITY srs900913 "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs">',
+  '  <!ENTITY srsWGS84 "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">',
+  ']>',
+  '<Map srs="&srs900913;">'];
+
+  // Add the stylesheets to the MML file.
+  if (mml.stylesheets) {
+    for (i = 0; i < mml.stylesheets.length; i++) {
+      output.push('  <Stylesheet src="' + mml.stylesheets[i] + '" />');
+    }
+  }
+
+  // And add the layers.
+  if (layers) {
+    for (i = 0; i < mml.layers.length; i++) {
+      var layer = mml.layers[i], layerDef = '  <Layer';
+      if (layer.id) {
+        layerDef += ' id="' + layer.id + '"';
+      }
+      if (layer.classes) {
+        layerDef += ' class="' + layer.classes + '"';
+      }
+      if (!layer.srs) {
+        // Detect SRS.
+        layer.srs = '&srsWGS84;';
+      }
+      layerDef += ' srs="' + layer.srs + '"';
+      if (mml.layers[i].status != undefined && !mml.layers[i].status) {
+        layerDef += ' status="off"';
+      }
+      layerDef += '>';
+      output.push(layerDef);
+      output.push('    <Datasource>');
+      output.push('      <Parameter name="file">' + layer.file + '</Parameter>');
+      if (!layer.type) {
+        layer.type = 'shape';
+      }
+      output.push('      <Parameter name="type">' + layer.type + '</Parameter>');
+      if (layer.id) {
+        output.push('      <Parameter name="id">' + layer.id + '</Parameter>');
+      }
+      output.push('    </Datasource>');
+      output.push('  </Layer>');
+    }
+  }
+  output.push('</Map>');
+  return output.join("\n");
+};
+
+
 
 TileMill.mml.add = function(options) {
   var name = [];
@@ -48,52 +105,6 @@ TileMill.mml.add = function(options) {
     checkbox[0].checked = true;
   }
   $('#layers ul.sidebar-content').prepend(li.data('tilemill', options));
-};
-
-TileMill.mml.generate = function() {
-  var output = ['<' + '?xml version="1.0" encoding="utf-8"?>',
-  '<!DOCTYPE Map[',
-  '  <!ENTITY srs900913 "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs">',
-  '  <!ENTITY srsWGS84 "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">',
-  ']>',
-  '<Map srs="&srs900913;">'];
-  // @TODO refactor this out.
-  $('#tabs a.tab').each(function() {
-    var url = $.url.setUrl($(this).data('tilemill')['src']);
-    output.push('  <Stylesheet src="' + TileMill.backend.url(url.param('filename')) +'&amp;c=' + TileMill.uniq + '" />');
-  });
-
-  $('#layers ul.sidebar-content li').reverse().each(function() {
-    var layer = $(this).data('tilemill'), l = '  <Layer';
-    if (layer.id) {
-      l += ' id="' + layer.id + '"';
-    }
-    if (layer.classes) {
-      l += ' class="' + layer.classes + '"';
-    }
-    if (!layer.srs) {
-      layer.srs = '900913';
-    }
-    if (layer.srs == '900913' || layer.srs == 'WGS84') {
-      layer.srs = '&srs' + layer.srs + ';';
-    }
-    l += ' srs="' + layer.srs + '"';
-    if (!$(this).find('input[type=checkbox]').is(':checked')) {
-      l += ' status="off"';
-    }
-    l += '>';
-    output.push(l);
-    output.push('    <Datasource>');
-    output.push('      <Parameter name="file">' + $('<span/>').text(layer.dataSource).html() + '</Parameter>');
-    output.push('      <Parameter name="type">shape</Parameter>');
-    if (layer.id) {
-      output.push('      <Parameter name="id">' + layer.id + '</Parameter>');
-    }
-    output.push('    </Datasource>');
-    output.push('  </Layer>');
-  });
-  output.push('</Map>');
-  return output.join("\n");
 };
 
 TileMill.mml.save = function(data) {
@@ -197,22 +208,6 @@ TileMill.editor.mml = function() {
       $(li).find('label').text(name.join(', ')).end().data('tilemill', layer);
     }
     TileMill.popup.hide();
-    return false;
-  });
-
-  $('div#header a.save').click(function() {
-    var mml = TileMill.mml.save(TileMill.mml.generate());
-
-    // Make sure latest edits to active tab's text have been recorded.
-    $('#tabs a.active input').val(TileMill.mirror.getCode());
-    $('#tabs a.tab').each(function() {
-      var url = $.url.setUrl($(this).data('tilemill')['src']);
-      TileMill.stylesheet.save(url.param('filename'), $('input', this).val());
-    });
-
-    TileMill.inspector.load();
-    TileMill.uniq = (new Date().getTime());
-    TileMill.map.reload();
     return false;
   });
 
