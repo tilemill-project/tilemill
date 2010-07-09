@@ -1,5 +1,10 @@
 TileMill.inspector = { page: {}, inspection: {}, urls: {}, valueCache: {} };
 
+TileMill.inspector.init = function() {
+  var inspector = $(TileMill.template('inspector', {}));
+  return inspector;
+};
+
 TileMill.inspector.inspect = function(id) {
   $('#layers').hide();
   $('#inspector').show();

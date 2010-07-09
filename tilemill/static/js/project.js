@@ -18,11 +18,13 @@ TileMill.controller.project = function() {
     }
 
     var layers = TileMill.mml.init();
+    var inspector = TileMill.inspector.init();
     var stylesheets = TileMill.stylesheet.init();
     var map = TileMill.map.init();
     var color = TileMill.colors.init();
 
     $('#sidebar').append(layers);
+    $('#sidebar').append(inspector);
     $('body').append(map);
     $('body').append(stylesheets);
     $('body').append(color);
@@ -44,6 +46,8 @@ TileMill.controller.project = function() {
       return false;
     });
 
+    // Hide inspector to start.
+    inspector.hide();
     $('a.inspector-close').click(function() {
       $('#layers').show();
       $('#inspector').hide();
