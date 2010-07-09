@@ -16,4 +16,5 @@ TileMill.popup.hide = function() {
   if ($('body #popup').size()) {
     $('body #popup').remove();
   }
+  return false;
 };
