@@ -29,17 +29,7 @@ TileMill.map.init = function() {
     OpenLayers.ImgPath = 'http://js.mapbox.com/theme/dark/';
 
     TileMill.map.map = new OpenLayers.Map('map-preview', options);
-    var split = TileMill.settings.tilelive.split(',');
-    if (split.length > 1) {
-      var servers = [];
-      for (i = 0; i < split.length; i++) {
-        servers.push(split[i] + 'tile/' + TileMill.mml.url() + '/${z}/${x}/${y}.png');
-      }
-    }
-    else {
-      var servers = TileMill.settings.tilelive + 'tile/' + TileMill.mml.url() + '/${z}/${x}/${y}.png';
-    }
-    TileMill.map.layer = new OpenLayers.Layer.XYZ("Preview", servers);
+    TileMill.map.layer = new OpenLayers.Layer.XYZ("Preview", TileMill.backend.servers(TileMill.mml.url()));
     TileMill.map.map.addLayers([ TileMill.map.layer ]);
 
     // Set the map's initial center point
@@ -85,6 +75,6 @@ TileMill.map.reload = function() {
   TileMill.map.map.addLayers([TileMill.map.layer]);
 }
 
-$(function() {
+TileMill.editor.map = function() {
   TileMill.map.init();
-});
+};
