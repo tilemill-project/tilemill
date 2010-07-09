@@ -92,13 +92,42 @@ TileMill.mml.add = function(options) {
       return false;
     }))
     .append($('<a class="layer-edit" href="#">Edit</a>').click(function() {
-      var layer = $('#popup-layer').find('input.submit').val('Save').data('li', $(this).parents('li')).end(),
-        options = $(this).parents('li').data('tilemill');
+      var popup = $(TileMill.template('popup-layer', {submit:'Save'}));
+
+      // Populate form values.
+      var options = $(this).parents('li').data('tilemill');
       for (option in options) {
-        layer.find('#' + option).val(options[option]).end();
+        $('#' + option, popup).val(options[option]).end();
       }
-      $('#popup-layer').removeClass('new');
-      TileMill.popup.show({content: $('#popup-layer'), title: 'Edit layer'});
+
+      // Create reference to layer li for submit handler to find.
+      $('input.submit', popup).data('li', $(this).parents('li'));
+
+      // Add submit handler.
+      $('input.submit', popup).click(function() {
+        var layer = {
+          classes: $('#popup-layer input#classes').val(),
+          id: $('#popup-layer input#id').val(),
+          dataSource: $('#popup-layer input#dataSource').val(),
+          srs: $('#popup-layer select#srs').val(),
+          status: 'true'
+        };
+        var name = [];
+        if (layer.id) {
+          name.push('#' + layer.id);
+        }
+        if (layer.classes) {
+          name.push('.' + layer.classes.split(' ').join(', .'));
+        }
+        var li = $(this).data('li');
+        $(li)
+          .data('tilemill', layer)
+          .find('label').text(name.join(', '));
+        TileMill.popup.hide();
+        return false;
+      });
+
+      TileMill.popup.show({content: popup, title: 'Edit layer'});
       return false;
     }))
     .append($('<label>' + name.join(', ') + '</label>'));
@@ -179,43 +208,22 @@ TileMill.editor.mml = function() {
   $('#layers ul.sidebar-content').sortable({ axis: 'y', handle: 'div.handle' });
 
   $('a#layers-add').click(function() {
-    $('#popup-layer').addClass('new');
-    $('#popup-layer input.submit').val('Add layer');
-    $('#popup-layer input:not(.submit)').val('');
-    TileMill.popup.show({content: $('#popup-layer'), title: 'Add layer'});
-    return false;
-  });
+    var popup = $(TileMill.template('popup-layer', {submit: 'Add layer'}));
 
-  $('#popup-layer input.submit').click(function() {
-    var layer = {
-      classes: $('#popup-layer input#classes').val(),
-      id: $('#popup-layer input#id').val(),
-      dataSource: $('#popup-layer input#dataSource').val(),
-      srs: $('#popup-layer select#srs').val(),
-      status: 'true'
-    };
-    if ($('#popup-layer').is('.new')) {
+    $('input.submit', popup).click(function() {
+      var layer = {
+        classes: $('#popup-layer input#classes').val(),
+        id: $('#popup-layer input#id').val(),
+        dataSource: $('#popup-layer input#dataSource').val(),
+        srs: $('#popup-layer select#srs').val(),
+        status: 'true'
+      };
       TileMill.mml.add(layer);
-    }
-    else {
-      var name = [];
-      if (layer.id) {
-        name.push('#' + layer.id);
-      }
-      if (layer.classes) {
-        name.push('.' + layer.classes.split(' ').join(', .'));
-      }
-      li = $(this).data('li');
-      $(li).find('label').text(name.join(', ')).end().data('tilemill', layer);
-    }
-    TileMill.popup.hide();
-    return false;
-  });
+      TileMill.popup.hide();
+      return false;
+    });
 
-  $('div#header a.info').click(function() {
-    $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive.split(',')[0] + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true }));
-    $('#popup-info input#project-mml-url').val(TileMill.mml.url({ timestamp: false, encode: false }));
-    TileMill.popup.show({content: $('#popup-info'), title: 'Info'});
+    TileMill.popup.show({content: popup, title: 'Add layer'});
     return false;
   });
 };
