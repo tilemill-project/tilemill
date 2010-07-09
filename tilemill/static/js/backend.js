@@ -23,7 +23,9 @@ TileMill.backend.servers.python.add = function(id, type, callback) {
 }
 
 TileMill.backend.servers.python.get = function(filename, callback) {
-  $.getJSON(TileMill.settings.pythonServer + 'file?jsoncallback=?', { 'filename': filename }, callback);
+  $.getJSON(TileMill.settings.pythonServer + 'file?jsoncallback=?', { 'filename': filename }, function(data) {
+    callback(data);
+  });
 }
 
 TileMill.backend.servers.python.post = function(filename, file_data, callback) {

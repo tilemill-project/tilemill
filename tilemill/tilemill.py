@@ -21,12 +21,10 @@ define("config", default=os.path.join(os.path.dirname(__file__), "tilemill.cfg")
 class TileMill(tornado.web.RequestHandler):
     def json(self, json):
         """ serve a page with an optional jsonp callback """
-        json = tornado.escape.json_encode(json)
         if self.get_argument('jsoncallback', None):
+            json = tornado.escape.json_encode(json)
             json = "%s(%s)" % (self.get_argument('jsoncallback', None), json)
             self.set_header('Content-Type', 'text/javascript')
-        else:
-            self.set_header('Content-Type', 'application/json')
         self.write(json)
 
 class ListHandler(TileMill):
@@ -55,7 +53,7 @@ class FileHandler(TileMill):
             buffer = open(path)
             data = buffer.read()
             buffer.close()
-            self.json({ 'status': True, 'data': data })
+            self.json(data)
         else:
             self.json({ 'status': False, 'message': 'The file could not be found' })
     def post(self):
