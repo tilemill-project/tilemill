@@ -15,10 +15,8 @@ from urlparse import urlparse
 from tornado.options import define, options
 
 define("port", default=8889, help="run on the given port", type=int)
-define("projects", default=os.path.join(os.path.dirname(__file__), "projects"), help="projects directory", type=str)
-define("visualizations", default=os.path.join(os.path.dirname(__file__), "visualizations"), help="visualizations directory", type=str)
+define("files", default=os.path.join(os.path.dirname(__file__)), help="files directory", type=str)
 define("config", default=os.path.join(os.path.dirname(__file__), "tilemill.cfg"), help="path to configuration file", type=str)
-define("tilelive_server", "http://localhost:8888/", help="path to tilelive server file", type=str)
 """
 class ProjectManager:
     def __init__(self, options):
