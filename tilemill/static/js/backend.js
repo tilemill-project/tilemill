@@ -84,7 +84,8 @@ $.each(['fields', 'values', 'servers'], function(i, func) {
 });
 
 TileMill.utilities.insertIFrame = function(url, data, callback) {
-  var iframe = $('<iframe></iframe>').attr({width: 0, height: 1 }).bind('load', callback).appendTo('body')[0];
+  var iframe = $('<iframe></iframe>').attr({width: 0, height: 1 }).appendTo('body')[0];
+  //iframe.onload = callback;
   var doc = null;
   if (iframe.contentDocument) {
     // Firefox, Opera
@@ -106,5 +107,5 @@ TileMill.utilities.insertIFrame = function(url, data, callback) {
     form.append($('<input>').attr({ 'type': 'hidden', 'name': key, 'value': data[key] }));
   }
   form.appendTo(doc.body)[0].submit();
-
+  $(iframe).bind('load', function() { console.log('here'); });
 }
