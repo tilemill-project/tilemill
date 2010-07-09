@@ -1,8 +1,7 @@
 TileMill.map = {};
 
-TileMill.map.init = function() {
-  if (!$('#map-preview').is('.inited')) {
-    $('#map-preview').addClass('inited');
+TileMill.map.init = function(map, servers, controls) {
+  if (!map.data('TileMill.map')) {
     var options = {
       projection: new OpenLayers.Projection("EPSG:900913"),
       displayProjection: new OpenLayers.Projection("EPSG:4326"),
@@ -18,45 +17,55 @@ TileMill.map.init = function() {
       controls: []
     };
 
-    function getZoom(e) {
-      if ($('#zoom-display').size()) {
-        $('#zoom-display').text('Zoom level ' + TileMill.map.map.getZoom()); 
-      }
-    }
-
     // Nav control images.
     // @TODO: Store locally so the application is portable/usable offline?
     OpenLayers.ImgPath = 'http://js.mapbox.com/theme/dark/';
 
-    TileMill.map.map = new OpenLayers.Map('map-preview', options);
-    TileMill.map.layer = new OpenLayers.Layer.XYZ("Preview", TileMill.backend.servers(TileMill.mml.url()));
-    TileMill.map.map.addLayers([ TileMill.map.layer ]);
+    var olMap = new OpenLayers.Map(map.attr('id'), options);
+    var olLayer = new OpenLayers.Layer.XYZ("Preview", servers);
+    olMap.addLayers([ olLayer ]);
 
     // Set the map's initial center point
-    TileMill.map.map.setCenter(new OpenLayers.LonLat(0, 0), 2);
+    olMap.setCenter(new OpenLayers.LonLat(0, 0), 2);
 
-    // Add control
-    var control = new OpenLayers.Control.Navigation({ 'zoomWheelEnabled': true });
-    TileMill.map.map.addControl(control);
-    control.activate();
-
-    // Fullscreen toggle
-    var fullscreen = $('a.map-fullscreen').click(function() {
-      $('#map-preview').toggleClass('fullscreen');
-      TileMill.map.map.updateSize();
-      return false;
-    });
-
-    // Display the current zoom level, and keep it up to date
-    getZoom();
-    TileMill.map.map.events.register("moveend", TileMill.map.map, getZoom);
-    TileMill.map.map.events.register("zoomend", TileMill.map.map, getZoom);
-
-    if ($('#map-preview').is('.panzoombar')) {
+    // Add custom controls
+    if (controls.navigation) {
+      var navigation = new OpenLayers.Control.Navigation({ 'zoomWheelEnabled': true });
+      olMap.addControl(navigation);
+      navigation.activate();
+    }
+    if (controls.fullscreen) {
+      var fullscreen = $('a.map-fullscreen', map).click(function() {
+        $(map).toggleClass('fullscreen');
+        olMap.updateSize();
+        return false;
+      });
+    }
+    if (controls.zoom) {
+      function getZoom(e) {
+        if ($('#zoom-display', map).size()) {
+          $('#zoom-display', map).text('Zoom level ' + olMap.getZoom());
+        }
+      }
+      getZoom();
+      olMap.events.register("moveend", olMap, getZoom);
+      olMap.events.register("zoomend", olMap, getZoom);
+    }
+    if (controls.panzoombar) {
       var panzoombar = new OpenLayers.Control.PanZoomBar();
-      TileMill.map.map.addControl(panzoombar);
+      openlayers.map.addControl(panzoombar);
       panzoombar.activate();
     }
+
+    // Store data on the map object.
+    map.data('TileMill.map', {olMap: olMap, olLayer: olLayer});
+  }
+  else {
+    var olMap = map.data('TileMill.map').olMap;
+    var olLayer = map.data('TileMill.map').olLayer;
+    olMap.removeLayer(olLayer);
+    olLayer = new OpenLayers.Layer.XYZ("Preview", servers);
+    olMap.addLayers([olLayer]);
   }
 };
 
@@ -65,7 +74,3 @@ TileMill.map.reload = function() {
   TileMill.map.layer = new OpenLayers.Layer.XYZ("Preview", TileMill.backend.servers(TileMill.mml.url()));
   TileMill.map.map.addLayers([TileMill.map.layer]);
 }
-
-TileMill.editor.map = function() {
-  TileMill.map.init();
-};

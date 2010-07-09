@@ -12,5 +12,7 @@ TileMill.controller.project = function() {
     for (var i in TileMill.editor) {
       TileMill.editor[i]();
     }
+
+    TileMill.map.init($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 0});
   });
 };
