@@ -92,6 +92,7 @@ class FileHandler(tornado.web.RequestHandler):
             tornado.web.HTTPError(404)
     def post(self):
         path = os.path.join(options.files, self.get_argument('filename'))
+        data = self.get_argument('data')
         if os.path.isdir(os.path.dirname(path)):
             buffer = open(path, 'w')
             buffer.writelines(data)
