@@ -19,6 +19,7 @@ TileMill.controller.project = function() {
       TileMill.editor[i]();
     }
 
+    TileMill.mml.init();
     TileMill.stylesheet.init();
     TileMill.map.init($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 0});
     TileMill.colors.init();
