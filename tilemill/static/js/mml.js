@@ -109,12 +109,12 @@ TileMill.mml.url = function(options) {
     var options = {};
   }
   options = $.extend({ timestamp: true, encode: true }, options);
-  var url = TileMill.settings.server + TileMill.settings.type + '/mml?id=' + TileMill.settings.project_id;
+  var url = TileMill.backend.url(TileMill.settings.filename);
   if (options.timestamp) {
     url += '&c=' + TileMill.uniq;
   }
   if (options.encode) {
-    url = Base64.encode(url);
+    url = Base64.urlsafe_encode(url);
   }
   return url;
 };

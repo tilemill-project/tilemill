@@ -20,10 +20,7 @@ TileMill.inspector.inspect = function(id) {
 
 TileMill.inspector.load = function() {
   $('.layer-inspect').removeClass('layer-inspect').addClass('layer-inspect-loading');
-  encode = TileMill.mml.url();
-  var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-  script.src = TileMill.settings.tilelive.split(',')[0] + encode + "/fields.json?jsoncallback=TileMill.inspector.loadCallback";
-  head.insertBefore(script, head.firstChild);
+  TileMill.backend.fields(TileMill.mml.url(), 'TileMill.inspector.loadCallback');
 }
 
 TileMill.inspector.loadCallback = function(data) {

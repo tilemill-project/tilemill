@@ -1,4 +1,12 @@
-var TileMill = { settings: { server: 'python', rasterizer: 'tilelive', pythonServer: 'http://localhost:8889/' } };
+var TileMill = {
+  editor: {},
+  settings: {
+    server: 'python',
+    rasterizer: 'tilelive',
+    pythonServer: 'http://localhost:8889/',
+    tileliveServer: 'http://localhost:8888/',
+  },
+};
 
 // Controller.
 
