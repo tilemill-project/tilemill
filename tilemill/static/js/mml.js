@@ -1,3 +1,5 @@
+$.fn.reverse = [].reverse;
+
 TileMill.mml = {};
 
 TileMill.mml.add = function(options) {
@@ -58,7 +60,7 @@ TileMill.mml.generate = function() {
   // @TODO refactor this out.
   $('#tabs a.tab').each(function() {
     var url = $.url.setUrl($(this).data('tilemill')['src']);
-    output.push('  <Stylesheet src="' + TileMill.settings.server + TileMill.settings.type + '/mss?id='+ url.param('id') +'&amp;filename='+ url.param('filename') +'&amp;c=' + TileMill.uniq + '" />');
+    output.push('  <Stylesheet src="' + TileMill.backend.url(url.param('filename')) +'&amp;c=' + TileMill.uniq + '" />');
   });
 
   $('#layers ul.sidebar-content li').reverse().each(function() {
@@ -95,10 +97,8 @@ TileMill.mml.generate = function() {
 };
 
 TileMill.mml.save = function(data) {
-  $.post(TileMill.settings.server + TileMill.settings.type + '/mml', {
-    'id': TileMill.settings.project_id,
-    'data': data,
-  });
+  filename = [TileMill.settings.type, TileMill.settings.id, TileMill.settings.id, '.mml'].join('/');
+  TileMill.backend.post(filename, data);
 };
 
 /**
@@ -197,6 +197,29 @@ TileMill.editor.mml = function() {
       $(li).find('label').text(name.join(', ')).end().data('tilemill', layer);
     }
     TileMill.popup.hide();
+    return false;
+  });
+
+  $('div#header a.save').click(function() {
+    var mml = TileMill.mml.save(TileMill.mml.generate());
+
+    // Make sure latest edits to active tab's text have been recorded.
+    $('#tabs a.active input').val(TileMill.mirror.getCode());
+    $('#tabs a.tab').each(function() {
+      var url = $.url.setUrl($(this).data('tilemill')['src']);
+      TileMill.stylesheet.save(url.param('filename'), $('input', this).val());
+    });
+
+    TileMill.inspector.load();
+    TileMill.uniq = (new Date().getTime());
+    TileMill.map.reload();
+    return false;
+  });
+
+  $('div#header a.info').click(function() {
+    $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive.split(',')[0] + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true }));
+    $('#popup-info input#project-mml-url').val(TileMill.mml.url({ timestamp: false, encode: false }));
+    TileMill.popup.show({content: $('#popup-info'), title: 'Info'});
     return false;
   });
 };

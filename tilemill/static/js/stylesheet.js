@@ -58,12 +58,8 @@ TileMill.stylesheet.add = function(options) {
   }
 };
 
-TileMill.stylesheet.save = function(file, data) {
-  $.post(TileMill.settings.server + TileMill.settings.type + '/mss', {
-    'id': TileMill.settings.project_id,
-    'filename': file,
-    'data': data
-  });
+TileMill.stylesheet.save = function(filename, data) {
+  TileMill.backend.post(filename, data);
 }
 
 TileMill.editor.stylesheet = function() {

@@ -24,17 +24,16 @@ TileMill.backend.servers.python.add = function(id, type, callback) {
   });
 }
 
-TileMill.backend.servers.python.file = function(filename, callback) {
-  var cache = TileMill.cache.get('python-file', filename);
-  if (cache) {
-    callback(cache);
-  }
-  else {
-    $.get(TileMill.settings.pythonServer + 'file', { 'filename': filename }, function(data) {
-      TileMill.cache.set('python-file', filename, data);
-      callback(data);
-    });
-  }
+TileMill.backend.servers.python.get = function(filename, callback) {
+  $.get(TileMill.settings.pythonServer + 'file', { 'filename': filename }, function(data) {
+    callback(data);
+  });
+}
+
+TileMill.backend.servers.python.post = function(filename, file_data, callback) {
+  $.get(TileMill.settings.pythonServer + 'file', { 'filename': filename, 'data': file_data }, function(data) {
+    callback(data);
+  });
 }
 
 TileMill.backend.servers.python.url = function(filename) {
@@ -80,7 +79,7 @@ TileMill.backend.rasterizers.tilelive.servers = function(mmlb64) {
   return servers;
 }
 
-$.each(['list', 'add', 'file', 'url'], function(i, func) {
+$.each(['list', 'add', 'get', 'post', 'url'], function(i, func) {
   TileMill.backend[func] = TileMill.backend.servers[TileMill.settings.server][func];
 });
 

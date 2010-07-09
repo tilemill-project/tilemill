@@ -46,18 +46,4 @@ $(function() {
   $(window).bind("hashchange", function() {
     TileMill.controller.route();
   }).trigger('hashchange');
-
-  /*
-  $('div#header a.save').click(function() {
-    TileMill.save();
-    return false;
-  });
-
-  $('div#header a.info').click(function() {
-    $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive.split(',')[0] + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true }));
-    $('#popup-info input#project-mml-url').val(TileMill.mml.url({ timestamp: false, encode: false }));
-    TileMill.popup.show({content: $('#popup-info'), title: 'Info'});
-    return false;
-  });
-  */
 });
