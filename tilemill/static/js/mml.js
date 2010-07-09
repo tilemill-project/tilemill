@@ -58,7 +58,49 @@ TileMill.mml.generate = function(mml) {
   return output.join("\n");
 };
 
-
+/**
+ * For a given mml jQuery object, return an array of layers.
+ */
+TileMill.mml.parseLayers = function(mml) {
+  var layers = [];
+  $(mml).find('Layer').each(function() {
+    var status = $(this).attr('status');
+    if (status == 'undefined' || status == undefined || status == 'on') {
+      status = true;
+    }
+    else {
+      status = false;
+    }
+    var classes = '';
+    if ($(this).attr('class')) {
+      classes = $(this).attr('class');
+    }
+    var srs = $(this).attr('srs'), parsed_srs = srs.replace(/^&srs(.*);$/, '$1');
+    if (parsed_srs == srs) {
+      var pass = false;
+      for (var key in TileMill.customSrs) {
+        if (TileMill.customSrs[key] == srs) {
+          pass = true;
+          continue;
+        }
+      }
+      if (!pass) {
+        TileMill.customSrs.push(srs);
+      }
+    }
+    else {
+      srs = parsed_srs;
+    }
+    layers.push({
+      classes: classes,
+      id: $(this).attr('id'),
+      status: status,
+      dataSource: $(this).find('Datasource Parameter[name=file]').text(),
+      srs: srs
+    });
+  });
+  return layers;
+};
 
 TileMill.mml.add = function(options) {
   var name = [];
@@ -160,43 +202,13 @@ TileMill.mml.url = function(options) {
   return url;
 };
 
-TileMill.editor.mml = function() {
-  $(TileMill.settings.mml).find('Layer').each(function() {
-    var status = $(this).attr('status');
-    if (status == 'undefined' || status == undefined || status == 'on') {
-      status = true;
-    }
-    else {
-      status = false;
-    }
-    var classes = '';
-    if ($(this).attr('class')) {
-      classes = $(this).attr('class');
-    }
-    var srs = $(this).attr('srs'), parsed_srs = srs.replace(/^&srs(.*);$/, '$1');
-    if (parsed_srs == srs) {
-      var pass = false;
-      for (var key in TileMill.customSrs) {
-        if (TileMill.customSrs[key] == srs) {
-          pass = true;
-          continue;
-        }
-      }
-      if (!pass) {
-        TileMill.customSrs.push(srs);
-      }
-    }
-    else {
-      srs = parsed_srs;
-    }
-    TileMill.mml.add({
-      classes: classes,
-      id: $(this).attr('id'),
-      status: status,
-      dataSource: $(this).find('Datasource Parameter[name=file]').text(),
-      srs: srs
-    });
-  });
+// @TODO: Move more of this to the controller.
+TileMill.mml.init = function() {
+  var layers = TileMill.mml.parseLayers(TileMill.settings.mml);
+  for (var layer in layers) {
+    TileMill.mml.add(layers[layer]);
+  }
+
   TileMill.inspector.load();
   for (var i in TileMill.customSrs) {
     var srs = TileMill.customSrs[i];

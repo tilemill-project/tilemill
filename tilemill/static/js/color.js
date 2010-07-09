@@ -46,7 +46,7 @@ TileMill.colors.reload = function(data) {
     // clicked, it's inserted into the document at the current cursor.
     for (var color in colors) {
       colors_div
-        .append($("<a href='#' class='swatch' style='background-color: "+ colors[color][3] +"'><label>"+ colors[color][3] +"</label></a>")
+        .append($(TileMill.template('color-swatch', {color: colors[color][3]}))
           .click(function() {
             TileMill.colors.insert($(this).text());
           }));

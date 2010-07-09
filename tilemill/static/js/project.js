@@ -14,10 +14,13 @@ TileMill.controller.project = function() {
     TileMill.uniq = (new Date().getTime());
 
     TileMill.show(TileMill.template('project', {id: id}));
+
     for (var i in TileMill.editor) {
       TileMill.editor[i]();
     }
 
+    TileMill.mml.init();
+    TileMill.stylesheet.init();
     TileMill.map.init($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 0});
     TileMill.colors.init();
 

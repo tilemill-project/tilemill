@@ -1,6 +1,27 @@
 TileMill.stylesheet = {};
 
 /**
+ * Init stylesheet editor.
+ */
+TileMill.stylesheet.init = function() {
+  $('Stylesheet:first', TileMill.settings.mml).each(function() {
+    if ($(this).attr('src')) {
+      TileMill.stylesheet.add({src: $(this).attr('src'), position: 0});
+    }
+  });
+  $('#tabs a.tab-add').click(function() {
+    var popup = $(TileMill.template('popup-stylesheet', {}));
+    $('input.submit', popup).click(function() {
+      TileMill.stylesheet.add({src: $('#popup-stylesheet input#stylesheet-name').val(), create: true});
+      TileMill.popup.hide();
+      return false;
+    });
+    TileMill.popup.show({content:popup, title:'Add stylesheet'});
+    return false;
+  });
+};
+
+/**
  * Add a stylesheet to the page
  */
 TileMill.stylesheet.add = function(options) {
@@ -65,26 +86,6 @@ TileMill.stylesheet.add = function(options) {
 TileMill.stylesheet.save = function(filename, data) {
   TileMill.backend.post(filename, data);
 }
-
-TileMill.editor.stylesheet = function() {
-  $('Stylesheet:first', TileMill.settings.mml).each(function() {
-    if ($(this).attr('src')) {
-      TileMill.stylesheet.add({ src: $(this).attr('src'), position: 0 });
-    }
-  });
-
-  $('#tabs a.tab-add').click(function() {
-    $('#popup-stylesheet input:not(.submit)').val('');
-    TileMill.popup.show({content:$('#popup-stylesheet'), title:'Add stylesheet'});
-    return false;
-  });
-
-  $('#popup-stylesheet input.submit').click(function() {
-    TileMill.stylesheet.add({src: $('#popup-stylesheet input#stylesheet-name').val(), create: true});
-    TileMill.popup.hide();
-    return false;
-  });
-};
 
 TileMill.stylesheet.setCode = function(stylesheet, update) {
   if (!$('#tabs .active').size() || update === true) {
