@@ -1,6 +1,6 @@
 TileMill.controller.list = function() {
-  TileMill.backend.list('projects', function(projects) {
-    TileMill.backend.list('visualizations', function(visualizations) {
+  TileMill.backend.list('project', function(projects) {
+    TileMill.backend.list('visualization', function(visualizations) {
       var page = $(TileMill.template('list', {
         projects: TileMill.template('column', { 'name': 'Projects', 'type': 'project', 'data': projects }),
         visualizations: TileMill.template('column', { 'name': 'Visualizations', 'type': 'visualization', 'data': visualizations }),
