@@ -15,7 +15,13 @@ TileMill.cache.set = function(bin, cid, data) {
 }
 
 TileMill.cache.clear = function(bin, cid) {
-  if (TileMill.cache.cache[bin] && TileMill.cache.cache[bin][cid]) {
+  if (!TileMill.cache.cache[bin]) {
+    return;
+  }
+  if (cid && TileMill.cache.cache[bin][cid]) {
     delete TileMill.cache.cache[bin][cid];
+  }
+  else if (!cid) {
+    TileMill.cache.cache[bin] = [];
   }
 }

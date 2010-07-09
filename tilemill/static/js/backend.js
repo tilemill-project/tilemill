@@ -47,14 +47,29 @@ TileMill.backend.rasterizers.tilelive.fields = function(mmlb64, callback) {
     callback(cache);
   }
   else {
-    var head = document.getElementsByTagName("head")[0], script = document.createElement("script");
-    script.src = TileMill.settings.tileliveServer.split(',')[0] + mmlb64 + "/fields.json?jsoncallback=" + callback;
-    head.insertBefore(script, head.firstChild);
+    $.getJSON(TileMill.settings.tileliveServer.split(',')[0] + mmlb64 + "/fields.json?jsoncallback=?", callback);
   }
 }
 
-TileMill.backend.rasterizers.tilelive.values = function(layer, field) {
-  
+TileMill.backend.rasterizers.tilelive.values = function(options) {
+  var cid = options.mmlb64 + options.layer + options.field + options.start + options.limit, cache = TileMill.cache.get('tilelive-values', cid);
+  if (cache) {
+    options.callback(cache);
+  }
+  else {
+    var url = TileMill.settings.tileliveServer.split(',')[0] + options.mmlb64 + '/' + Base64.urlsafe_encode(options.layer) + '/' + Base64.urlsafe_encode(options.field) + "/values.json?"
+    if (options.start) {
+      url += 'start=' + options.start + '&';
+    }
+    if (options.limit) {
+      url += 'limit=' + options.limit + '&';
+    }
+    url += 'jsoncallback=?';
+    $.getJSON(url, function(data) {
+      TileMill.cache.set('tilelive-values', cid, data);
+      options.callback(data);
+    });
+  }
 }
 
 /**
@@ -85,7 +100,6 @@ $.each(['fields', 'values', 'servers'], function(i, func) {
 
 TileMill.utilities.insertIFrame = function(url, data, callback) {
   var iframe = $('<iframe></iframe>').attr({width: 0, height: 1 }).appendTo('body')[0];
-  //iframe.onload = callback;
   var doc = null;
   if (iframe.contentDocument) {
     // Firefox, Opera
@@ -99,7 +113,7 @@ TileMill.utilities.insertIFrame = function(url, data, callback) {
     // Others?
     doc = iframe.document;
   }
-  if(doc == null) {
+  if (doc == null) {
     throw "Document not initialized";
   }
   var form = $('<form>').attr({ 'action': url, 'method': 'post' });
