@@ -35,7 +35,7 @@ TileMill.mml.generate = function(mml) {
         // Detect SRS.
         layer.srs = '&srsWGS84;';
       }
-      layerDef += ' srs="' + layer.srs + '"';
+      layerDef += ' srs="&srs' + layer.srs + ';"';
       if (mml.layers[i].status != undefined && !mml.layers[i].status) {
         layerDef += ' status="off"';
       }

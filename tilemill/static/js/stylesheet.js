@@ -6,30 +6,34 @@ TileMill.stylesheet = {};
 TileMill.stylesheet.add = function(options) {
   // If there is no / character, assume this is a single filename.
   if (options.src.split('/').length === 1) {
-    var filename = options.src.split('.')[0];
-    options.src = TileMill.backend.url(TileMill.settings.id + '/' + TileMill.settings.id + filename);
+    var shortname = options.src.split('.')[0];
+    var filename = TileMill.settings.type + '/' + TileMill.settings.id + '/' + shortname + '.mss';
+    options.src = TileMill.backend.url(filename);
   }
   // Otherwise, assume this is a URL.
   else {
-    var filename = $.url.setUrl(options.src).param('filename').split('/').pop().split('.')[0];
+    var filename = $.url.setUrl(options.src).param('filename');
+    var shortname = filename.split('/').pop().split('.')[0];
   }
 
   var stylesheet = $('<a class="tab" href="#tab">')
-    .text(filename)
+    .text(shortname)
     .data('tilemill', options)
     .append($('<input type="hidden">').val(' '))
     .append($('<span class="tab-delete">Delete</span>').click(function() {
       if (confirm('Are you sure you want to delete this stylesheet?')) {
         $(this).parents('a.tab').hide('fast', function() {
+          // If the deleted tab was active, set the first stylesheet to active.
+          if ($(this).is('.active')) {
+            TileMill.stylesheet.setCode($('#tabs .stylesheets a.tab').eq(0), true);
+          }
           $(this).remove();
-          // Set the first stylesheet to active.
-          TileMill.initCodeEditor($('#tabs .stylesheets a.tab').eq(0), true);
         });
       }
       return false;
     }))
     .click(function() {
-      TileMill.initCodeEditor($(this), true);
+      TileMill.stylesheet.setCode($(this), true);
       return false;
     });
   $('#tabs .stylesheets').append(stylesheet);
@@ -49,10 +53,10 @@ TileMill.stylesheet.add = function(options) {
 
   // If not a new stylesheet, load from server.
   if (!options.create) {
-    $.get(options.src, function(data) {
+    TileMill.backend.get(filename, function(data) {
       $('input', stylesheet).val(data);
       if (options.position === 0) {
-        TileMill.initCodeEditor(stylesheet);
+        TileMill.stylesheet.setCode(stylesheet);
       }
     });
   }
@@ -80,4 +84,36 @@ TileMill.editor.stylesheet = function() {
     TileMill.popup.hide();
     return false;
   });
+};
+
+TileMill.stylesheet.setCode = function(stylesheet, update) {
+  if (!$('#tabs .active').size() || update === true) {
+    if (!update) {
+      $('#tabs a.active').removeClass('active');
+      stylesheet.addClass('active');
+
+      var data = $('input', stylesheet).val();
+      $('#code').val(data);
+      TileMill.mirror = CodeMirror.fromTextArea('code', {
+        height: "100%",
+        parserfile: "parsecss.js",
+        // @TODO: Refactor how this is done.
+        stylesheet: "static/css/code.css",
+        path: "static/js/codemirror/js/"
+      });
+      setInterval(function() {
+        TileMill.colors.reload(TileMill.mirror.getCode());
+      }, 5000);
+      TileMill.colors.reload(data);
+    }
+    else {
+      $('#tabs a.active input').val(TileMill.mirror.getCode());
+      $('#tabs a.active').removeClass('active');
+      stylesheet.addClass('active');
+
+      var data = $('input', stylesheet).val();
+      TileMill.mirror.setCode(data);
+      TileMill.colors.reload(data);
+    }
+  }
 };
