@@ -25,6 +25,14 @@ TileMill.controller.project = function() {
       TileMill.project.save();
       return false;
     });
+
+    $('div#header a.info').click(function() {
+      var tilelive_url = TileMill.backend.servers(TileMill.mml.url())[0] + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true });
+      var mml_url = TileMill.mml.url({ timestamp: false, encode: false });
+      var popup = $(TileMill.template('popup-info', {tilelive_url: tilelive_url, mml_url: mml_url}));
+      TileMill.popup.show({content: popup, title: 'Info'});
+      return false;
+    });
   });
 };
 

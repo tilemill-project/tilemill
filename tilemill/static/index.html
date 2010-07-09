@@ -115,18 +115,16 @@
           <h2><%= title %></h2>
           <a href="#" class="popup-close">Close</a>
         </div>
-        <div class="popup-content">
-          <%= content %>
-        </div>
+        <div class="popup-content"></div>
       </div>
     </div>
     </script>
     <script type="text/html" name="popup-layer">
     <div id='popup-layer' class='clearfix pane'>
       <form>
-        <div><label for="classes">Classes</label><input type="text" class="text" id="classes"></div>
-        <div><label for="id">Id</label><input type="text" class="text" id="id"></div>
-        <div><label for="dataSource">Data Source</label><input type="text" class="text" id="dataSource"></div>
+        <div><label for="classes">Classes</label><input type="text" class="text" id="classes" /></div>
+        <div><label for="id">Id</label><input type="text" class="text" id="id" /></div>
+        <div><label for="dataSource">Data Source</label><input type="text" class="text" id="dataSource" /></div>
         <div>
           <label for="srs">SRS</label>
           <select id="srs">
@@ -134,15 +132,15 @@
             <option value="WGS84">WGS84</option>
           </select>
         </div>
-        <div class='buttons'><input class='submit' type='submit' value='Add layer' /></div>
+        <div class='buttons'><input class='submit' type='submit' value='<%= submit %>' /></div>
       </form>
     </div>
     </script>
     <script type="text/html" name="popup-info">
     <div id='popup-info' class='clearfix pane'>
       <form>
-        <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' /></div>
-        <div><label for='project-mml-url'>MML URL</label><input id='project-mml-url' class='text' type='text' /></div>
+        <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' value=<%= tilelive_url %>/></div>
+        <div><label for='mml-url'>MML URL</label><input id='mml-url' class='text' type='text' value=<%= mml_url %> /></div>
       </form>
     </div>
     </script>
