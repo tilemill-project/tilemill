@@ -93,7 +93,7 @@
     </div>
     <div id='editor'>
       <textarea id='code'></textarea>
-      <div id="color-palette" class='pane'>
+      <div id='color-palette' class='pane'>
         <div id='color-picker' class='pane'>
           <a class='color-picker' href='#color-picker'>Color picker</a>
           <input size='7' maxlength='7' id='color' type='text' class='text' />
@@ -156,6 +156,9 @@
     <div id='popup-standard' class='clearfix pane'>
       <%= content %>
     </div>
+    </script>
+    <script type="text/html" name="color-swatch">
+      <a href='#' class='swatch' style='background-color: <%= color %>'><label><%= color %></label></a>
     </script>
   </head>
   <body>
