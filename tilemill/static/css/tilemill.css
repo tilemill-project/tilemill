@@ -352,7 +352,7 @@ a.inspect-unique.active     { background-color:#222; }
   height:239px;
   border-top:1px solid #ccc;
   border-right:1px solid #ccc;
-  background:#ddd;
+  background:#ddd url(../images/checker-bg.png) 0% 0% repeat;
   }
 
 #map-preview div.olControlPanZoomBar {
