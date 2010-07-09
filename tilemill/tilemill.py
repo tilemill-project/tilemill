@@ -15,7 +15,7 @@ from urlparse import urlparse
 from tornado.options import define, options
 
 define("port", default=8889, help="run on the given port", type=int)
-define("files", default=os.path.join(os.path.dirname(__file__)), help="files directory", type=str)
+define("files", default=os.path.dirname(__file__), help="files directory", type=str)
 define("config", default=os.path.join(os.path.dirname(__file__), "tilemill.cfg"), help="path to configuration file", type=str)
 """
 class ProjectManager:
@@ -80,9 +80,24 @@ class AddHandler(tornado.web.RequestHandler):
             os.makedirs(directory)
             self.write(tornado.escape.json_encode({ 'status': True }))
 
-
-
-
+class FileHandler(tornado.web.RequestHandler):
+    def get(self):
+        path = os.path.join(options.files, self.get_argument('filename'))
+        if os.path.isfile(path):
+            buffer = open(path)
+            data = buffer.read()
+            buffer.close()
+            self.write(data)
+        else:
+            tornado.web.HTTPError(404)
+    def post(self):
+        path = os.path.join(options.files, self.get_argument('filename'))
+        if os.path.isdir(os.path.dirname(path)):
+            buffer = open(path, 'w')
+            buffer.writelines(data)
+            buffer.close()
+        else:
+            tornado.web.HTTPError(400)
 
 """
 class ProjectListHandler(tornado.web.RequestHandler):
@@ -178,6 +193,7 @@ class Application(tornado.web.Application):
             (r"/", MainHandler),
             (r"/list", ListHandler),
             (r"/add", AddHandler),
+            (r"/file", FileHandler),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
