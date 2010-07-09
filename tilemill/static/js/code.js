@@ -10,8 +10,9 @@ TileMill.initCodeEditor = function(stylesheet, update) {
         TileMill.mirror = CodeMirror.fromTextArea('code', {
           height: "100%",
           parserfile: "parsecss.js",
-          stylesheet: TileMill.settings.static_path + "css/code.css",
-          path: TileMill.settings.static_path + "js/codemirror/js/"
+          // @TODO: Refactor how this is done.
+          stylesheet: "static/css/code.css",
+          path: "static/js/codemirror/js/"
         });
         setInterval(function() {
           TileMill.colors.reload(TileMill.mirror.getCode());
