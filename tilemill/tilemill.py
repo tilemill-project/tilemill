@@ -72,14 +72,15 @@ class ListHandler(tornado.web.RequestHandler):
                 directories.append(basename)
         self.write(tornado.escape.json_encode(directories))
 
-class NewHandler(tornado.web.RequestHandler):
-    def get(self):
+class AddHandler(tornado.web.RequestHandler):
+    def post(self):
         name = self.request.arguments['id'][0]
         directory = os.path.join(self.request.arguments['type'][0], name)
         if os.path.isdir(directory):
-            return self.write(tornado.escape.json_encode({'status': False, 'message': 'The directory %s already exists' % (name)}))
-        os.mkdir(directory)
-        return self.write(tornado.escape.json_encode({'status': True}))
+            self.write(tornado.escape.json_encode({ 'status': False, 'message': 'The directory %s already exists' % (name) }))
+        else:
+            os.makedirs(directory)
+            self.write(tornado.escape.json_encode({ 'status': True }))
 
 
 
@@ -178,7 +179,7 @@ class Application(tornado.web.Application):
         handlers = [
             (r"/", MainHandler),
             (r"/list", ListHandler),
-            (r"/new", NewHandler),
+            (r"/add", AddHandler),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),

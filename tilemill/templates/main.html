@@ -22,6 +22,7 @@
 
     <script type="text/javascript" src="{{ static_url('js/template.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/cache.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('js/popup.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('js/backend.js') }}"></script>
 
     <!--
@@ -44,6 +45,7 @@
     </div>
     </div>
     </script>
+
     <script type="text/html" name="column">
     <div class='column'>
       <h2 class='pane'><%= name %></h2>
@@ -51,10 +53,11 @@
         <% for (i in data) { %>
           <li><a href='#action=edit&id=<%= data[i] %>' class='route'><%= data[i] %></a></li>
         <% } %>
-        <li><form><input class='text' type='text' /><input class='submit' type='submit' value='Add' /></form></li>
+        <li><form id='<%= type %>'><input class='text' type='text' /><input class='submit' type='submit' value='Add <%= type %>' /></form></li>
       </ul>
     </div>
     </script>
+
     <script type="text/html" name="editor">
     <div id='header' class='clearfix pane'>
       <h1>Editing <%= project_id %></h1>
@@ -102,34 +105,58 @@
         </div>
       </div>
     </div>
-    <div id='popups' class='hidden'>
-      <div id='popup-layer' class='clearfix pane'>
-        <form>
-          <div><label for="classes">Classes</label><input type="text" class="text" id="classes"></div>
-          <div><label for="id">Id</label><input type="text" class="text" id="id"></div>
-          <div><label for="dataSource">Data Source</label><input type="text" class="text" id="dataSource"></div>
-          <div>
-            <label for="srs">SRS</label>
-            <select id="srs">
-              <option value="900913">900913</option>
-              <option value="WGS84">WGS84</option>
-            </select>
-          </div>
-          <div class='buttons'><input class='submit' type='submit' value='Add layer' /></div>
-        </form>
+    </script>
+
+    <script type="text/html" name="popup">
+    <div id="popup">
+      <div class="popup-backdrop"></div>
+      <div class="popup">
+        <div class="popup-header clearfix pane">
+          <h2><%= title %></h2>
+          <a href="#" class="popup-close">Close</a>
+        </div>
+        <div class="popup-content">
+          <%= content %>
+        </div>
       </div>
-      <div id='popup-info' class='clearfix pane'>
-        <form>
-          <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' /></div>
-          <div><label for='project-mml-url'>MML URL</label><input id='project-mml-url' class='text' type='text' /></div>
-        </form>
-      </div>
-      <div id='popup-stylesheet' class='clearfix pane'>
-        <form>
-          <div><label for='stylesheet-name'>Name</label><input id='stylesheet-name' class='text' type='text' /></div>
-          <div class='buttons'><input class='submit' type='submit' value='Add stylesheet' /></div>
-        </form>
-      </div>
+    </div>
+    </script>
+    <script type="text/html" name="popup-layer">
+    <div id='popup-layer' class='clearfix pane'>
+      <form>
+        <div><label for="classes">Classes</label><input type="text" class="text" id="classes"></div>
+        <div><label for="id">Id</label><input type="text" class="text" id="id"></div>
+        <div><label for="dataSource">Data Source</label><input type="text" class="text" id="dataSource"></div>
+        <div>
+          <label for="srs">SRS</label>
+          <select id="srs">
+            <option value="900913">900913</option>
+            <option value="WGS84">WGS84</option>
+          </select>
+        </div>
+        <div class='buttons'><input class='submit' type='submit' value='Add layer' /></div>
+      </form>
+    </div>
+    </script>
+    <script type="text/html" name="popup-info">
+    <div id='popup-info' class='clearfix pane'>
+      <form>
+        <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' /></div>
+        <div><label for='project-mml-url'>MML URL</label><input id='project-mml-url' class='text' type='text' /></div>
+      </form>
+    </div>
+    </script>
+    <script type="text/html" name="popup-stylesheet">
+    <div id='popup-stylesheet' class='clearfix pane'>
+      <form>
+        <div><label for='stylesheet-name'>Name</label><input id='stylesheet-name' class='text' type='text' /></div>
+        <div class='buttons'><input class='submit' type='submit' value='Add stylesheet' /></div>
+      </form>
+    </div>
+    </script>
+    <script type="text/html" name="popup-standard">
+    <div id='popup-standard' class='clearfix pane'>
+      <%= content %>
     </div>
     </script>
     <!-- // Convert MML to template (in clipboard), then add "new project/visualization" functionality.-->

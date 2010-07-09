@@ -544,18 +544,18 @@ a.inspect-unique.active     { background-color:#222; }
   background-color:#999;
   opacity: 0.75;
   position:absolute;
-  top:40px;
-  left:320px;
-  bottom:0px;
-  right:0px;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
   }
 
 .popup {
   z-index:5000;
   position:absolute;
-  top:40px;
-  left:320px;
-  right:0px;
+  top:0;
+  left:0;
+  right:0;
   width: 500px;
   background-color: #fff;
   margin: 100px auto 0;

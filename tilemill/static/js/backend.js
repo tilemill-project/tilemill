@@ -17,12 +17,19 @@ TileMill.backend.servers.python.list = function(type, callback) {
   }
 }
 
+TileMill.backend.servers.python.add = function(id, type, callback) {
+  // No cache for this.
+  $.post(TileMill.settings.pythonServer + 'add', { 'id': id, 'type': type }, function(data) {
+    callback(eval('(' + data +')'));
+  });
+}
+
 // TileLive backend
 TileMill.backend.rasterizers.tilelive.values = function(layer, field) {
   
 }
 
-$.each(['list'], function(i, func) {
+$.each(['list', 'add'], function(i, func) {
   TileMill.backend[func] = TileMill.backend.servers[TileMill.settings.server][func];
 });
 
