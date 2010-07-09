@@ -31,8 +31,10 @@ TileMill.backend.servers.python.get = function(filename, callback) {
 }
 
 TileMill.backend.servers.python.post = function(filename, file_data, callback) {
-  $.get(TileMill.settings.pythonServer + 'file', { 'filename': filename, 'data': file_data }, function(data) {
-    callback(data);
+  $.post(TileMill.settings.pythonServer + 'file', { 'filename': filename, 'data': file_data }, function(data) {
+    if (callback) {
+      callback(eval('(' + data +')'));
+    }
   });
 }
 

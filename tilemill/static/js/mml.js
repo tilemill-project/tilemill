@@ -97,7 +97,7 @@ TileMill.mml.generate = function() {
 };
 
 TileMill.mml.save = function(data) {
-  filename = [TileMill.settings.type, TileMill.settings.id, TileMill.settings.id, '.mml'].join('/');
+  filename = [TileMill.settings.type, TileMill.settings.id, TileMill.settings.id + '.mml'].join('/');
   TileMill.backend.post(filename, data);
 };
 
