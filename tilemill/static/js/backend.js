@@ -42,6 +42,10 @@ TileMill.backend.servers.python.url = function(filename) {
 }
 
 // TileLive backend
+
+/**
+ * Retrieve fields for a given b64 encoded MML url.
+ */
 TileMill.backend.rasterizers.tilelive.fields = function(mmlb64, callback) {
   var cache = TileMill.cache.get('tilelive-fields', mmlb64);
   if (cache) {
@@ -58,10 +62,28 @@ TileMill.backend.rasterizers.tilelive.values = function(layer, field) {
   
 }
 
+/**
+ * For a given b64 encoded MML url, return an array of URLs suitable for use
+ * as OpenLayers tile servers.
+ */
+TileMill.backend.rasterizers.tilelive.servers = function(mmlb64) {
+  var split = TileMill.settings.tileliveServer.split(',');
+  if (split.length > 1) {
+    var servers = [];
+    for (i = 0; i < split.length; i++) {
+      servers.push(split[i] + 'tile/' + mmlb64 + '/${z}/${x}/${y}.png');
+    }
+  }
+  else {
+    var servers = TileMill.settings.tileliveServer + 'tile/' + mmlb64 + '/${z}/${x}/${y}.png';
+  }
+  return servers;
+}
+
 $.each(['list', 'add', 'file', 'url'], function(i, func) {
   TileMill.backend[func] = TileMill.backend.servers[TileMill.settings.server][func];
 });
 
-$.each(['fields', 'values'], function(i, func) {
+$.each(['fields', 'values', 'servers'], function(i, func) {
   TileMill.backend[func] = TileMill.backend.rasterizers[TileMill.settings.rasterizer][func];
 });
