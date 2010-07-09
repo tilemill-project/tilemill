@@ -68,9 +68,3 @@ TileMill.map.init = function(map, servers, controls) {
     olMap.addLayers([olLayer]);
   }
 };
-
-TileMill.map.reload = function() {
-  TileMill.map.map.removeLayer(TileMill.map.layer);
-  TileMill.map.layer = new OpenLayers.Layer.XYZ("Preview", TileMill.backend.servers(TileMill.mml.url()));
-  TileMill.map.map.addLayers([TileMill.map.layer]);
-}

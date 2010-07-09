@@ -46,7 +46,7 @@ TileMill.project.save = function() {
   queue.add(function() {
     TileMill.inspector.load();
     TileMill.uniq = (new Date().getTime());
-    TileMill.map.reload();
+    TileMill.map.init($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
   });
   queue.execute();
 }
