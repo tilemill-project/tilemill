@@ -1,5 +1,6 @@
 var TileMill = {
   editor: {},
+  utilities: {},
   settings: {
     server: 'python',
     rasterizer: 'tilelive',

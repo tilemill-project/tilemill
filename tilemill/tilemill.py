@@ -17,79 +17,47 @@ from tornado.options import define, options
 define("port", default=8889, help="run on the given port", type=int)
 define("files", default=os.path.dirname(__file__), help="files directory", type=str)
 define("config", default=os.path.join(os.path.dirname(__file__), "tilemill.cfg"), help="path to configuration file", type=str)
-"""
-class ProjectManager:
-    def __init__(self, options):
-        self.options = options
-        self.directory = self.options.projects
 
-    def list(self):
-        projects = []
-        for root, dirs, files in os.walk(self.directory):
-            basename = os.path.basename(root)
-            if os.path.isfile(os.path.join(root, basename + '.mml')):
-                projects.append(basename)
-        return projects
+class TileMill(tornado.web.RequestHandler):
+    def json(self, json):
+        """ serve a page with an optional jsonp callback """
+        json = tornado.escape.json_encode(json)
+        if self.get_argument('jsoncallback', None):
+            json = "%s(%s)" % (self.get_argument('jsoncallback', None), json)
+            self.set_header('Content-Type', 'text/javascript')
+        else:
+            self.set_header('Content-Type', 'application/json')
+        self.write(json)
 
-    def new(self, name, mml, mss):
-        directory = os.path.join(self.directory, name)
-        if os.path.isdir(directory):
-            return (False, "The directory " + name + " already exists")
-        os.mkdir(directory)
-        self.save(name, name + '.mml', mml)
-        self.save(name, name + '.mss', mss)
-        return (True, "")
-
-    def save(self, id, file, data):
-        buffer = open(os.path.join(self.directory, id, file), 'w')
-        buffer.writelines(data)
-        buffer.close()
-
-    def read(self, id, file):
-        buffer = open(os.path.join(self.directory, id, file))
-        data = buffer.read()
-        buffer.close()
-        return data
-
-class VisualizationsManager(ProjectManager):
-    def __init__(self, options):
-        self.options = options
-        self.directory = self.options.visualizations
-"""
-
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.render("main.html")
-
-class ListHandler(tornado.web.RequestHandler):
+class ListHandler(TileMill):
     def get(self):
         directories = []
         for root, dirs, files in os.walk(self.request.arguments['type'][0]):
             basename = os.path.basename(root)
             if os.path.isfile(os.path.join(root, basename + '.mml')):
                 directories.append(basename)
-        self.write(tornado.escape.json_encode(directories))
+        self.json(directories)
 
-class AddHandler(tornado.web.RequestHandler):
+class AddHandler(TileMill):
     def post(self):
         name = self.request.arguments['id'][0]
         directory = os.path.join(self.request.arguments['type'][0], name)
         if os.path.isdir(directory):
-            self.write(tornado.escape.json_encode({ 'status': False, 'message': 'The directory %s already exists' % (name) }))
+            self.json({ 'status': False, 'message': 'The directory %s already exists' % (name) })
         else:
             os.makedirs(directory)
-            self.write(tornado.escape.json_encode({ 'status': True }))
+            self.json({ 'status': True })
 
-class FileHandler(tornado.web.RequestHandler):
+class FileHandler(TileMill):
     def get(self):
         path = os.path.join(options.files, self.get_argument('filename'))
         if os.path.isfile(path):
             buffer = open(path)
             data = buffer.read()
             buffer.close()
-            self.write(data)
+            self.json({ 'status': True, 'data': data })
         else:
-            tornado.web.HTTPError(404)
+            self.json({ 'status': False, 'message': 'The file could not be found' })
     def post(self):
         path = os.path.join(options.files, self.get_argument('filename'))
         data = self.get_argument('data')
@@ -97,101 +65,13 @@ class FileHandler(tornado.web.RequestHandler):
             buffer = open(path, 'w')
             buffer.writelines(data)
             buffer.close()
+            self.json({ 'status': True })
         else:
-            tornado.web.HTTPError(400)
+            self.json({ 'status': False, 'data': 'Could not write file' })
 
-"""
-class ProjectListHandler(tornado.web.RequestHandler):
-    def get(self):
-        projects = ProjectManager(options)
-        visualizations = VisualizationsManager(options)
-        self.render("home.html", projects = projects.list(), visualizations = visualizations.list())
-
-class ProjectEditHandler(tornado.web.RequestHandler):
-    def get(self):
-        project_id = self.request.arguments['id'][0]
-        # Test that project exists.
-        if True:
-            manager = ProjectManager(options);
-            mml = tornado.escape.json_encode(manager.read(self.request.arguments['id'][0], self.request.arguments['id'][0] + '.mml'));
-            url = self.request.protocol + '://' + self.request.host + '/';
-            self.render("project.html", project_id=project_id, messages = [], mml = mml, tilelive = options.tilelive_server, url=url);
-        else:
-            tornado.web.HTTPError(404)
-
-class ProjectNewHandler(tornado.web.RequestHandler):
-    def post(self):
-        # Add a new project.
-        project_id = self.request.arguments['name'][0]
-        manager = ProjectManager(options)
-        stylesheet = self.request.protocol + '://' + self.request.host + '/projects/mss?id=' + project_id + '&amp;filename=' + project_id;
-        result, message = manager.new(project_id, self.render_string('template.mml', stylesheet = stylesheet), self.render_string('template.mss'))
-        if result:
-            self.redirect('/projects/edit?id=' + tornado.escape.url_escape(project_id))
-        else:
-            self.redirect('/?message=' + tornado.escape.url_escape(message))
-
-class ProjectMMLHandler(tornado.web.RequestHandler):
-    extension = '.mml'
-    manager = ProjectManager(options);
-    def post(self):
-        if re.match('^([A-Za-z0-9_-]+)$', self.filename()):
-            self.manager.save(self.request.arguments['id'][0], self.filename() + self.extension, self.request.arguments['data'][0]);
-    def get(self):
-        if re.match('^([A-Za-z0-9_-]+)$', self.filename()):
-            self.write(self.manager.read(self.request.arguments['id'][0], self.filename() + self.extension));
-    def filename(self):
-        return self.request.arguments['id'][0]
-
-class ProjectMSSHandler(ProjectMMLHandler):
-    extension = '.mss'
-    def filename(self):
-        return self.request.arguments['filename'][0]
-
-class VisualizationsEditHandler(tornado.web.RequestHandler):
-    def get(self):
-        project_id = self.request.arguments['id'][0]
-        # Test that project exists.
-        if True:
-            manager = VisualizationsManager(options);
-            mml = tornado.escape.json_encode(manager.read(self.request.arguments['id'][0], self.request.arguments['id'][0] + '.mml'));
-            url = self.request.protocol + '://' + self.request.host + '/';
-            self.render("visualization.html", project_id=project_id, mml = mml, tilelive = options.tilelive_server, url=url);
-        else:
-            tornado.web.HTTPError(404)
-
-class VisualizationsNewHandler(tornado.web.RequestHandler):
-    def post(self):
-        # Add a new visualization.
-        manager = VisualizationsManager(options)
-        visualizations = manager.list()
-
-        # Generate a visualization id from the "filename" of the url
-        parsed = urlparse(self.request.arguments['url'][0])
-        visualization_id = _v = parsed.path.split('/').pop().split('.')[0]
-        i = 1
-        while visualization_id in visualizations:
-          visualization_id = "%s_%d" % (_v, i)
-          i = i + 1
-
-        srs = '&srsWGS84;';
-        stylesheet = self.request.protocol + '://' + self.request.host + '/visualizations/mss?id=' + visualization_id + '&amp;filename=' + visualization_id;
-        result, message = manager.new(visualization_id, self.render_string('visualization.mml', stylesheet = stylesheet, srs = srs, url = self.request.arguments['url'][0]), self.render_string('visualization.mss'))
-        if result:
-            self.redirect('/visualizations/edit?id=' + tornado.escape.url_escape(visualization_id))
-        else:
-            self.redirect('/?message=' + tornado.escape.url_escape(message))
-
-class VisualizationsMMLHandler(ProjectMMLHandler):
-    manager = VisualizationsManager(options);
-
-class VisualizationsMSSHandler(ProjectMSSHandler):
-    manager = VisualizationsManager(options);
-"""
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            (r"/", MainHandler),
             (r"/list", ListHandler),
             (r"/add", AddHandler),
             (r"/file", FileHandler),
