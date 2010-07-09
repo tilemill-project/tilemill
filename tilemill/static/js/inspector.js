@@ -94,11 +94,3 @@ TileMill.inspector.valueCallback = function(data) {
     $('li#field-' + data.field).append(values);
   }
 }
-
-TileMill.editor.inspector = function() {
-  $('a.inspector-close').click(function() {
-    $('#layers').show();
-    $('#inspector').hide();
-    return false;
-  });
-};

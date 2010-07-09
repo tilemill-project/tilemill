@@ -1,5 +1,3 @@
-$.fn.reverse = [].reverse;
-
 TileMill.controller.project = function() {
   var id = $.bbq.getState("id");
   TileMill.backend.get('project/' + id + '/' + id + '.mml', function(mml) {
@@ -19,10 +17,19 @@ TileMill.controller.project = function() {
       TileMill.editor[i]();
     }
 
-    TileMill.mml.init();
-    TileMill.stylesheet.init();
-    TileMill.map.init($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 0});
-    TileMill.colors.init();
+    var layers = TileMill.mml.init();
+    var stylesheets = TileMill.stylesheet.init();
+    var map = TileMill.map.init();
+    var color = TileMill.colors.init();
+
+    $('#sidebar').append(layers);
+    $('body').append(map);
+    $('body').append(stylesheets);
+    $('body').append(color);
+
+    // Farbtastic needs to be inited after the element is added to the DOM.
+    TileMill.colors.initFarb(color);
+    TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 0});
 
     $('div#header a.save').click(function() {
       TileMill.project.save();
@@ -34,6 +41,12 @@ TileMill.controller.project = function() {
       var mml_url = TileMill.mml.url({ timestamp: false, encode: false });
       var popup = $(TileMill.template('popup-info', {tilelive_url: tilelive_url, mml_url: mml_url}));
       TileMill.popup.show({content: popup, title: 'Info'});
+      return false;
+    });
+
+    $('a.inspector-close').click(function() {
+      $('#layers').show();
+      $('#inspector').hide();
       return false;
     });
   });
@@ -65,7 +78,7 @@ TileMill.project.save = function() {
   queue.add(function() {
     TileMill.inspector.load();
     TileMill.uniq = (new Date().getTime());
-    TileMill.map.init($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
+    TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
   });
   queue.execute();
 }

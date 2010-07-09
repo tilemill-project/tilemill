@@ -1,6 +1,22 @@
-var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), editor: {}, basic: { stylesheet: '', choroplethSplit: 5 } };
+// var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), editor: {}, basic: { stylesheet: '', choroplethSplit: 5 } };
+// $.fn.reverse = [].reverse;
 
-$.fn.reverse = [].reverse;
+TileMill.controller.visualization = function() {
+  var id = $.bbq.getState("id");
+  TileMill.backend.get('visualization/' + id + '/' + id + '.mml', function(mml) {
+
+    // Store current settings. @TODO: Refactor this.
+    TileMill.settings.mml = mml;
+    TileMill.settings.id = id;
+    TileMill.settings.type = 'visualization';
+    TileMill.settings.filename = 'visualization/' + id + '/' + id + '.mml';
+
+    // Set the unique query string.
+    TileMill.uniq = (new Date().getTime());
+
+    TileMill.show(TileMill.template('visualization', {id: id}));
+  });
+};
 
 TileMill.save = function(projectify) {
   // No need to save MML, it's always the same.

@@ -9,6 +9,8 @@ var TileMill = {
   }
 };
 
+$.fn.reverse = [].reverse;
+
 // Controller.
 
 TileMill.controller = { arguments: {} };

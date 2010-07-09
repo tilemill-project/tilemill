@@ -4,13 +4,18 @@ TileMill.colors = {};
  * Initialize colors - initialize colorpicker.
  */
 TileMill.colors.init = function() {
-  var farb = $('#farbtastic');
-  TileMill.colors.farbtastic = $.farbtastic(farb, { callback:'input#color', width:200, height:200 });
+  var color = $(TileMill.template('color', {}));
 
-  $('#color-picker a.color-picker').click(function() {
+  $('a.color-picker', color).click(function() {
     farb.toggle('fast');
     return false;
   });
+  return color;
+};
+
+TileMill.colors.initFarb = function(color) {
+  var farb = $('#farbtastic', color);
+  TileMill.colors.farbtastic = $.farbtastic(farb, { callback:'input#color', width:200, height:200 });
 };
 
 /**

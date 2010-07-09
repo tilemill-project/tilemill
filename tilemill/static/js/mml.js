@@ -102,7 +102,7 @@ TileMill.mml.parseLayers = function(mml) {
   return layers;
 };
 
-TileMill.mml.add = function(options) {
+TileMill.mml.add = function(options, layers) {
   var name = [];
   if (options.id) {
     name.push('#' + options.id);
@@ -176,7 +176,7 @@ TileMill.mml.add = function(options) {
   if (options.status == 'true' || options.status == true) {
     checkbox[0].checked = true;
   }
-  $('#layers ul.sidebar-content').prepend(li.data('tilemill', options));
+  $('ul.sidebar-content', layers).prepend(li.data('tilemill', options));
 };
 
 TileMill.mml.save = function(data) {
@@ -204,10 +204,13 @@ TileMill.mml.url = function(options) {
 
 // @TODO: Move more of this to the controller.
 TileMill.mml.init = function() {
-  var layers = TileMill.mml.parseLayers(TileMill.settings.mml);
-  for (var layer in layers) {
-    TileMill.mml.add(layers[layer]);
+  var layers = $(TileMill.template('layers', {}));
+
+  var l = TileMill.mml.parseLayers(TileMill.settings.mml);
+  for (var layer in l) {
+    TileMill.mml.add(l[layer], layers);
   }
+  $('ul.sidebar-content', layers).sortable({ axis: 'y', handle: 'div.handle' });
 
   TileMill.inspector.load();
   for (var i in TileMill.customSrs) {
@@ -217,9 +220,8 @@ TileMill.mml.init = function() {
     }
     $('select#srs').append('<option value="' + TileMill.customSrs[i].replace('"', '\\"') + '">' + srs + "</option>");
   }
-  $('#layers ul.sidebar-content').sortable({ axis: 'y', handle: 'div.handle' });
 
-  $('a#layers-add').click(function() {
+  $('a#layers-add', layers).click(function() {
     var popup = $(TileMill.template('popup-layer', {submit: 'Add layer'}));
 
     $('input.submit', popup).click(function() {
@@ -238,4 +240,6 @@ TileMill.mml.init = function() {
     TileMill.popup.show({content: popup, title: 'Add layer'});
     return false;
   });
+
+  return layers;
 };
