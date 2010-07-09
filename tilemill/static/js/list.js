@@ -62,7 +62,7 @@ TileMill.controller.list = function() {
         }, [name]);
       }
       addQueue.add(function(name, type) {
-        
+        $.bbq.pushState({ 'action': type, 'id': name });
       }, [name, type]);
       return false;
     });
