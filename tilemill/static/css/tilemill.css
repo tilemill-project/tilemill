@@ -1,13 +1,7 @@
 body {
   background:#f8f8f8;
   color:#333;
-  }
-
-div.loading {
-  width:32px;
-  height:32px;
-  background-image:url(../images/swirly.gif);
-  margin:0 auto;
+  padding-top:40px;
   }
 
 body.project { padding-left:320px; }
@@ -71,9 +65,6 @@ h3 { font-size:13px; }
 /**
  * Home
  */
-body#list .column { margin-top:40px; }
-
-
 ul li {
   padding:4px 10px;
   border-bottom:1px solid #ddd;
