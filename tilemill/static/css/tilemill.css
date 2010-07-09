@@ -10,7 +10,7 @@ div.loading {
   margin:0 auto;
   }
 
-body.project { padding-left:320px; }
+body#project { padding-left:320px; }
 
 a {
   color:#369;
@@ -397,10 +397,12 @@ a.inspect-unique.active     { background-color:#222; }
  * Code editor
  */
 #tabs {
+  position:fixed;
   top:40px;
   left:320px;
   right:0px;
   height:29px;
+
   padding:10px 10px 0px;
   border-bottom:1px solid #eee;
   background:#f8f8f8;
