@@ -1,4 +1,4 @@
-TileMill.controller.list = function() {
+TileMill.controller.list = function() { 
   var queue = new TileMill.queue();
 
   queue.add(function(next) {
@@ -29,20 +29,41 @@ TileMill.controller.list = function() {
         return;
       }
       $(this).addClass('ajaxing');
-      var type = $(this).parents('form').attr('id'), name = $(this).parents('form').find('.text').val(), self = this;
+      var type = $(this).parents('form').attr('id'), name = $(this).parents('form').find('.text').val(), self = this, addQueue = new TileMill.queue();
       if (!name) {
         TileMill.popup.show({ title: 'Error', content: 'Name field is required.' });
         return false;
       }
-      TileMill.backend.servers.python.add(name, type, function(data) {
-        if (data.status) {
-          console.log('success');
-        }
-        else {
-          TileMill.popup.show({ title: 'Error', content: data.message });
-        }
-        $(self).removeClass('ajaxing');
-      })
+      addQueue.add(function(name, type, next) {
+        TileMill.backend.servers.python.add(name, type, function(data) {
+          if (data.status) {
+            next();
+          }
+          else {
+            TileMill.popup.show({ title: 'Error', content: data.message });
+          }
+          $(self).removeClass('ajaxing');
+        })
+      }, [name, type]);
+      if (type == 'visualization') {
+        addQueue.add(function(name, next) {
+          next();
+        }, [name]);
+        addQueue.add(function(name, next) {
+          next();
+        }, [name]);
+      }
+      else {
+        addQueue.add(function(name, next) {
+          next();
+        }, [name]);
+        addQueue.add(function(name, next) {
+          next();
+        }, [name]);
+      }
+      addQueue.add(function(name, type) {
+        
+      }, [name, type]);
       return false;
     });
     TileMill.show(page);
