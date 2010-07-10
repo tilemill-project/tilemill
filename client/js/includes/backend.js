@@ -2,6 +2,8 @@ TileMill.backend = {};
 
 TileMill.backend.servers = { 'python': {} };
 TileMill.backend.rasterizers = { 'tilelive': {} };
+TileMill.backend.runtimes = { 'html': {}, 'AIR': {} };
+TileMill.backend.runtime = {};
 
 // Python backend
 TileMill.backend.servers.python.list = function(type, callback) {
@@ -10,26 +12,43 @@ TileMill.backend.servers.python.list = function(type, callback) {
     callback(cache);
   }
   else {
-    $.getJSON(TileMill.settings.pythonServer + 'list?jsoncallback=?', { 'type': type }, function(data) {
-      TileMill.cache.set('python-list', type, data);
-      callback(data);
+    TileMill.backend.runtime.get({
+      'url': TileMill.settings.pythonServer + 'list', 
+      'data': { 'type': type },
+      'callback': function(data) {
+        TileMill.cache.set('python-list', type, data);
+        callback(data);
+      },
+      json: true
     });
   }
 }
 
 TileMill.backend.servers.python.add = function(id, type, callback) {
   // No cache for this.
-  TileMill.utilities.insertIFrame(TileMill.settings.pythonServer + 'add?jsoncallback=?', { 'id': id, 'type': type }, callback);
+  TileMill.backend.runtime.post({
+    'url': TileMill.settings.pythonServer + 'add',
+    'data': { 'id': id, 'type': type },
+    'callback': callback
+  });
 }
 
 TileMill.backend.servers.python.get = function(filename, callback) {
-  $.getJSON(TileMill.settings.pythonServer + 'file?jsoncallback=?', { 'filename': filename }, function(data) {
-    callback(data);
+  TileMill.backend.runtime.get({
+    'url': TileMill.settings.pythonServer + 'file',
+    'data': { 'filename': filename },
+    'callback': function(data) {
+      callback(data);
+    }
   });
 }
 
 TileMill.backend.servers.python.post = function(filename, file_data, callback) {
-  TileMill.utilities.insertIFrame(TileMill.settings.pythonServer + 'file', { 'filename': filename, 'data': file_data }, callback);
+  TileMill.backend.runtime.post({
+    'url': TileMill.settings.pythonServer + 'file',
+    'data': { 'filename': filename, 'data': file_data }, 
+    'callback': callback
+  });
 }
 
 TileMill.backend.servers.python.url = function(filename) {
@@ -47,7 +66,11 @@ TileMill.backend.rasterizers.tilelive.fields = function(mmlb64, callback) {
     callback(cache);
   }
   else {
-    $.getJSON(TileMill.settings.tileliveServer.split(',')[0] + mmlb64 + "/fields.json?jsoncallback=?", callback);
+    TileMill.backend.runtime.get({
+      'url': TileMill.settings.tileliveServer.split(',')[0] + mmlb64 + "/fields.json",
+      'callback': callback,
+      'json': true
+    });
   }
 }
 
@@ -64,10 +87,13 @@ TileMill.backend.rasterizers.tilelive.values = function(options) {
     if (options.limit) {
       url += 'limit=' + options.limit + '&';
     }
-    url += 'jsoncallback=?';
-    $.getJSON(url, function(data) {
-      TileMill.cache.set('tilelive-values', cid, data);
-      options.callback(data);
+    TileMill.backend.runtime.get({
+      'url': url,
+      'callback': function(data) {
+        TileMill.cache.set('tilelive-values', cid, data);
+        options.callback(data);
+      },
+      'json': true,
     });
   }
 }
@@ -90,15 +116,11 @@ TileMill.backend.rasterizers.tilelive.servers = function(mmlb64) {
   return servers;
 }
 
-$.each(['list', 'add', 'get', 'post', 'url'], function(i, func) {
-  TileMill.backend[func] = TileMill.backend.servers[TileMill.settings.server][func];
-});
+TileMill.backend.runtimes.html.get = function(options) {
+  $.getJSON(options.url + '?jsoncallback=?', options.data, options.callback);
+}
 
-$.each(['fields', 'values', 'servers'], function(i, func) {
-  TileMill.backend[func] = TileMill.backend.rasterizers[TileMill.settings.rasterizer][func];
-});
-
-TileMill.utilities.insertIFrame = function(url, data, callback) {
+TileMill.backend.runtimes.html.post = function(options) {
   var iframe = $('<iframe></iframe>').attr({width: 0, height: 1 }).appendTo('body')[0];
   var doc = null;
   if (iframe.contentDocument) {
@@ -116,10 +138,41 @@ TileMill.utilities.insertIFrame = function(url, data, callback) {
   if (doc == null) {
     throw "Document not initialized";
   }
-  var form = $('<form>').attr({ 'action': url, 'method': 'post' });
-  for (key in data) {
-    form.append($('<input>').attr({ 'type': 'hidden', 'name': key, 'value': data[key] }));
+  var form = $('<form>').attr({ 'action': options.url, 'method': 'post' });
+  for (key in options.data) {
+    form.append($('<input>').attr({ 'type': 'hidden', 'name': key, 'value': options.data[key] }));
   }
   form.appendTo(doc.body)[0].submit();
-  $(iframe).bind('load', function() { console.log('here'); });
+  $(iframe).bind('load', function() { options.callback(); });
 }
+
+/*
+TileMill.backend.runtimes.AIR.get = function(options) {
+  $.get(url.length, options.data, function(data) {
+    try {
+      // Try to parse it as JSON.
+      var parsed = JSON.parse(data);
+      options.callback(parsed);
+    }
+    catch (e) {
+      // If that doesn't work, parse it as raw data.
+      options.callback(data);
+    }
+  });
+}
+
+TileMill.backend.runtimes.html.post = function(options) {
+  
+}*/
+
+$.each(['get', 'post'], function(i, func) {
+  TileMill.backend.runtime[func] = TileMill.backend.runtimes[TileMill.settings.runtime][func];
+});
+
+$.each(['list', 'add', 'get', 'post', 'url'], function(i, func) {
+  TileMill.backend[func] = TileMill.backend.servers[TileMill.settings.server][func];
+});
+
+$.each(['fields', 'values', 'servers'], function(i, func) {
+  TileMill.backend[func] = TileMill.backend.rasterizers[TileMill.settings.rasterizer][func];
+});
