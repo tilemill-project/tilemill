@@ -30,7 +30,8 @@ class TileMill(tornado.web.RequestHandler):
 class ListHandler(TileMill):
     def get(self):
         directories = []
-        for root, dirs, files in os.walk(self.request.arguments['type'][0]):
+        path = os.path.join(options.files, self.request.arguments['type'][0])
+        for root, dirs, files in os.walk(path):
             basename = os.path.basename(root)
             if os.path.isfile(os.path.join(root, basename + '.mml')):
                 directories.append(basename)
