@@ -146,9 +146,8 @@ TileMill.backend.runtimes.html.post = function(options) {
   $(iframe).bind('load', function() { options.callback(); });
 }
 
-/*
 TileMill.backend.runtimes.AIR.get = function(options) {
-  $.get(url.length, options.data, function(data) {
+  $.get(options.url, options.data, function(data) {
     try {
       // Try to parse it as JSON.
       var parsed = JSON.parse(data);
@@ -161,9 +160,11 @@ TileMill.backend.runtimes.AIR.get = function(options) {
   });
 }
 
-TileMill.backend.runtimes.html.post = function(options) {
-  
-}*/
+TileMill.backend.runtimes.AIR.post = function(options) {
+  $.post(options.url, options.data, function() {
+    options.callback();
+  });
+}
 
 $.each(['get', 'post'], function(i, func) {
   TileMill.backend.runtime[func] = TileMill.backend.runtimes[TileMill.settings.runtime][func];
