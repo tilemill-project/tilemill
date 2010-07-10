@@ -25,6 +25,8 @@ class TileMill(tornado.web.RequestHandler):
             json = tornado.escape.json_encode(json)
             json = "%s(%s)" % (self.get_argument('jsoncallback', None), json)
             self.set_header('Content-Type', 'text/javascript')
+        elif force_json:
+            json = tornado.escape.json_encode(json)
         self.write(json)
 
 class ListHandler(TileMill):
@@ -35,17 +37,17 @@ class ListHandler(TileMill):
             basename = os.path.basename(root)
             if os.path.isfile(os.path.join(root, basename + '.mml')):
                 directories.append(basename)
-        self.json(directories)
+        self.json(directories, True)
 
 class AddHandler(TileMill):
     def post(self):
         name = self.request.arguments['id'][0]
         directory = os.path.join(self.request.arguments['type'][0], name)
         if os.path.isdir(directory):
-            self.json({ 'status': False, 'message': 'The directory %s already exists' % (name) })
+            self.json({ 'status': False, 'message': 'The directory %s already exists' % (name) }, True)
         else:
             os.makedirs(directory)
-            self.json({ 'status': True })
+            self.json({ 'status': True }, True)
 
 class FileHandler(TileMill):
     def get(self):
@@ -56,7 +58,7 @@ class FileHandler(TileMill):
             buffer.close()
             self.json(data)
         else:
-            self.json({ 'status': False, 'message': 'The file could not be found' })
+            self.json({ 'status': False, 'message': 'The file could not be found' }, True)
     def post(self):
         path = os.path.join(options.files, self.get_argument('filename'))
         data = self.get_argument('data')
@@ -64,9 +66,9 @@ class FileHandler(TileMill):
             buffer = open(path, 'w')
             buffer.writelines(data)
             buffer.close()
-            self.json({ 'status': True })
+            self.json({ 'status': True }, True)
         else:
-            self.json({ 'status': False, 'data': 'Could not write file' })
+            self.json({ 'status': False, 'data': 'Could not write file' }, True)
 
 class Application(tornado.web.Application):
     def __init__(self):
