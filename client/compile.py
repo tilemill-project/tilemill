@@ -12,6 +12,7 @@ JavaScript and create the template beforehand.
 class Compiler(HTMLParser):
     script = ''
     scripts = {}
+    javascripts = {}
     inScript = False
     scriptName = ''
     def handle_startendtag(self, tag, attrs):
@@ -30,15 +31,18 @@ class Compiler(HTMLParser):
                     self.script += ' ' + key + '=' + '"' + value + '"'
             self.script += '>'
         if tag == 'script':
-            found = False
             name = ''
+            target = ''
             for i in attrs:
-                if i[0] == 'type' and i[1] == 'text/html':
+                if i[0] == 'type':
+                    if i[1] == 'text/html':
+                        self.inScript = True;
+                    elif i[1] == 'text/javascript':
+                        # Evaluate the target and built it for the necesarry runtime.
                     found = True
                 elif i[0] == 'name':
                     name = i[1]
-            if found:
-                self.inScript = True
+            if self.inScript:
                 self.scriptName = name
 
     def handle_endtag(self, tag):
