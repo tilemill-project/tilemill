@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<application xmlns="http://ns.adobe.com/air/application/2.0"> 
+    <id>org.developmentseed.TileMill</id> 
+    <version>0.1</version> 
+    <filename>TileMill</filename> 
+    <initialWindow> 
+        <content>index.html</content> 
+        <visible>true</visible> 
+        <width>1024</width> 
+        <height>768</height> 
+    </initialWindow> 
+</application>
