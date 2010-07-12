@@ -17,7 +17,6 @@ TileMill.controller.list = function() {
     });
   });
 
-
   queue.add(function() {
     var projects = this.retrieve('projects'), visualizations = this.retrieve('visualizations');
     var page = $(TileMill.template('list', {
@@ -26,16 +25,21 @@ TileMill.controller.list = function() {
     }));
     $('input[type=submit]', page).bind('click', function() {
       if ($(this).is('.ajaxing')) {
-        return;
+        return false;
       }
-      $(this).addClass('ajaxing');
-      var type = $(this).parents('form').attr('id'), name = $(this).parents('form').find('.text').val(), self = this, addQueue = new TileMill.queue();
+      var type = $(this).parents('form').attr('id'),
+          name = $(this).parents('form').find('.text').val(),
+          self = this,
+          addQueue = new TileMill.queue();
       if (!name) {
         TileMill.popup.show({ title: 'Error', content: 'Name field is required.' });
         return false;
       }
+
+      $(this).addClass('ajaxing');
       addQueue.add(function(name, type, next) {
-        TileMill.backend.servers.python.add(name, type, function(data) {
+        var filename = type + '/' + name;
+        TileMill.backend.add(filename, function(data) {
           if (data.status) {
             next();
           }
@@ -64,6 +68,7 @@ TileMill.controller.list = function() {
       addQueue.add(function(name, type) {
         $.bbq.pushState({ 'action': type, 'id': name });
       }, [name, type]);
+      addQueue.execute();
       return false;
     });
     TileMill.show(page);

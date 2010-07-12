@@ -17,9 +17,8 @@ TileMill.backend.servers.python.list = function(type, callback) {
   }
 }
 
-TileMill.backend.servers.python.add = function(id, type, callback) {
-  // No cache for this.
-  TileMill.utilities.insertIFrame(TileMill.settings.pythonServer + 'add?jsoncallback=?', { 'id': id, 'type': type }, callback);
+TileMill.backend.servers.python.add = function(filename, callback) {
+  TileMill.utilities.insertIFrame(TileMill.settings.pythonServer + 'add?jsoncallback=?', { 'filename': filename }, callback);
 }
 
 TileMill.backend.servers.python.get = function(filename, callback) {
