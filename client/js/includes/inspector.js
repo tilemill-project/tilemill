@@ -5,26 +5,38 @@ TileMill.inspector.init = function() {
   return inspector;
 };
 
-TileMill.inspector.inspect = function(id) {
-  $('#layers').hide();
-  $('#inspector').show();
+TileMill.inspector.inspect = function(id, visualize) {
   for (field in TileMill.inspection[id].fields) {
     (function(layer, field) {
-      var li = $(TileMill.template('inspector-field', {field: field, type: TileMill.inspection[layer].fields[field].replace('int', 'integer').replace('str', 'string') }));
+      var type = TileMill.inspection[layer].fields[field];
+      var li = $(TileMill.template('inspector-field', {
+        field: field,
+        type: type.replace('int', 'integer').replace('str', 'string'),
+        visualize: visualize,
+      }));
+      // Attach value inspector.
       $('a.inspect-values', li).click(function() {
         TileMill.inspector.values(layer, field);
         return false;
       });
+      // Attach visualization modes.
+      if (visualize) {
+        TileMill.visualization.attach(field, type, li);
+      }
       $('#inspector ul.sidebar-content').append(li);
     })(id, field);
   }
 }
 
-TileMill.inspector.load = function() {
+TileMill.inspector.load = function(callback) {
   $('.layer-inspect').removeClass('layer-inspect').addClass('layer-inspect-loading');
   TileMill.backend.fields(TileMill.mml.url(), function(data) {
     $('.layer-inspect-loading').removeClass('layer-inspect-loading').addClass('layer-inspect');
     TileMill.inspection = data;
+
+    if (callback) {
+      callback();
+    }
   });
 }
 
