@@ -5,11 +5,23 @@ TileMill.stylesheet = {};
  */
 TileMill.stylesheet.init = function() {
   var stylesheets = $(TileMill.template('stylesheets', {}));
-  $('Stylesheet:first', TileMill.settings.mml).each(function() {
-    if ($(this).attr('src')) {
-      TileMill.stylesheet.add({src: $(this).attr('src'), position: 0}, stylesheets);
-    }
-  });
+
+  // Add stylesheets in order.
+  var queue = new TileMill.queue();
+  var s = TileMill.mml.parseMML(TileMill.settings.mml).stylesheets;
+  for (var i in s) {
+    var src = s[i];
+    queue.add(function(src, stylesheets, next) {
+      TileMill.stylesheet.add({src: src}, stylesheets, next);
+    }, [src, stylesheets]);
+  }
+  queue.add(function(stylesheets, next) {
+    TileMill.stylesheet.setCode($('a.tab:first', stylesheets), false, stylesheets);
+    $('.stylesheets', stylesheets).sortable({ axis: 'x', });
+    next();
+  }, [stylesheets]);
+  queue.execute();
+
   $('a.tab-add', stylesheets).click(function() {
     var popup = $(TileMill.template('popup-stylesheet', {}));
     $('input.submit', popup).click(function() {
@@ -26,7 +38,7 @@ TileMill.stylesheet.init = function() {
 /**
  * Add a stylesheet to the page
  */
-TileMill.stylesheet.add = function(options, stylesheets) {
+TileMill.stylesheet.add = function(options, stylesheets, callback) {
   // If there is no / character, assume this is a single filename.
   if (options.src.split('/').length === 1) {
     var shortname = options.src.split('.')[0];
@@ -60,28 +72,20 @@ TileMill.stylesheet.add = function(options, stylesheets) {
       return false;
     });
   $('.stylesheets', stylesheets).append(stylesheet);
-  // If a position is defined we are adding stylesheets sequentially. Call
-  // the for the addition of the next stylesheet.
-  if (typeof options.position !== 'undefined') {
-    $('Stylesheet', TileMill.settings.mml).eq(options.position + 1).each(function() {
-      if ($(this).attr('src')) {
-        TileMill.stylesheet.add({src: $(this).attr('src'), position: options.position + 1}, stylesheets);
-      }
-    });
-    // If this is the last stylesheet, do final processing.
-    if (!$('Stylesheet', TileMill.settings.mml).eq(options.position + 1).size()) {
-      $('.stylesheets', stylesheets).sortable({ axis: 'x', });
-    }
-  }
 
   // If not a new stylesheet, load from server.
   if (!options.create) {
     TileMill.backend.get(filename, function(data) {
       $('input', stylesheet).val(data);
-      if (options.position === 0) {
-        TileMill.stylesheet.setCode(stylesheet, false, stylesheets);
+      if (callback) {
+        callback();
       }
     });
+  }
+  else {
+    if (callback) {
+      callback();
+    }
   }
 };
 
