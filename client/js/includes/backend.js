@@ -5,16 +5,10 @@ TileMill.backend.rasterizers = { 'tilelive': {} };
 
 // Python backend
 TileMill.backend.servers.python.list = function(type, callback) {
-  var cache = TileMill.cache.get('python-list', type);
-  if (cache) {
-    callback(cache);
-  }
-  else {
-    $.getJSON(TileMill.settings.pythonServer + 'list?jsoncallback=?', { 'type': type }, function(data) {
-      TileMill.cache.set('python-list', type, data);
-      callback(data);
-    });
-  }
+  $.getJSON(TileMill.settings.pythonServer + 'list?jsoncallback=?', { 'type': type }, function(data) {
+    TileMill.cache.set('python-list', type, data);
+    callback(data);
+  });
 }
 
 TileMill.backend.servers.python.add = function(filename, callback) {
@@ -120,5 +114,8 @@ TileMill.utilities.insertIFrame = function(url, data, callback) {
     form.append($('<input>').attr({ 'type': 'hidden', 'name': key, 'value': data[key] }));
   }
   form.appendTo(doc.body)[0].submit();
-  $(iframe).bind('load', function() { console.log('here'); });
-}
+  $(iframe).bind('load', function() {
+    $(this).remove();
+    callback();
+  });
+};
