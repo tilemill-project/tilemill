@@ -4,10 +4,14 @@ body {
   }
 
 div.loading {
-  width:32px;
-  height:32px;
-  background-image:url(../images/swirly.gif);
-  margin:0 auto;
+  background:#fff url(../images/swirly.gif) 50% 50% no-repeat;
+  opacity:.5;
+
+  position:fixed;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  top:0px;
   }
 
 body#project { padding-left:320px; }
