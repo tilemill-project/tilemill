@@ -22,7 +22,7 @@ TileMill.mml.generate = function(mml) {
   }
 
   // And add the layers.
-  if (layers) {
+  if (mml.layers) {
     for (i = 0; i < mml.layers.length; i++) {
       var layer = mml.layers[i], layerDef = '  <Layer';
       if (layer.id) {
@@ -33,7 +33,7 @@ TileMill.mml.generate = function(mml) {
       }
       if (!layer.srs) {
         // Detect SRS.
-        layer.srs = '&srsWGS84;';
+        layer.srs = 'WGS84';
       }
       layerDef += ' srs="&srs' + layer.srs + ';"';
       if (mml.layers[i].status != undefined && !mml.layers[i].status) {

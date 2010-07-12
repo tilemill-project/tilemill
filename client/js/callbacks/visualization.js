@@ -1,6 +1,3 @@
-// var TileMill = TileMill || { settings:{}, page:0, uniq: (new Date().getTime()), editor: {}, basic: { stylesheet: '', choroplethSplit: 5 } };
-// $.fn.reverse = [].reverse;
-
 TileMill.controller.visualization = function() {
   var id = $.bbq.getState("id");
   TileMill.backend.get('visualization/' + id + '/' + id + '.mml', function(mml) {
@@ -15,34 +12,29 @@ TileMill.controller.visualization = function() {
     TileMill.uniq = (new Date().getTime());
 
     TileMill.show(TileMill.template('visualization', {id: id}));
+
+    var inspector = TileMill.inspector.init();
+    var map = TileMill.map.init();
+
+    $('#sidebar').append(inspector);
+    $('body').append(map);
+
+    // Init elements which require DOM presence.
+    TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 0});
   });
 };
 
 TileMill.visualization = {};
 TileMill.visualization.add = function(url) {
-  var visualization_mml = "<?xml version='1.0' encoding='utf-8'?>\n\
-<!DOCTYPE Map[\n\
-  <!ENTITY srs900913 '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs'>\n\
-  <!ENTITY srsWGS84 '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'>\n\
-]>\n\
-<Map srs='&srs900913;'>\n\
-  <Stylesheet src='{{ stylesheet }}' />\n\
-  <Layer id='world' srs='&srsWGS84;'>\n\
-    <Datasource>\n\
-      <Parameter name='file'>http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip</Parameter>\n\
-      <Parameter name='type'>shape</Parameter>\n\
-      <Parameter name='id'>world</Parameter>\n\
-    </Datasource>\n\
-  </Layer>\n\
-  <Layer id='inspect' srs='{{ srs }}'>\n\
-    <Datasource>\n\
-      <Parameter name='file'>{{ url }}</Parameter>\n\
-      <Parameter name='type'>shape</Parameter>\n\
-      <Parameter name='id'>inspect</Parameter>\n\
-    </Datasource>\n\
-  </Layer>\n\
-</Map>";
-  var visualization_mss = "/* {{ meta }} */\n\
+  var name = url.split('/').pop().split('.')[0];
+  var queue = new TileMill.queue();
+  queue.add(function(name, next) {
+    var filename = 'visualization/' + name;
+    TileMill.backend.add(filename, next);
+  }, [name]);
+  queue.add(function(name, next) {
+    var mss = 'visualization/' + name + '/' + name + '.mss';
+    var data = "/* {{ meta }} */\n\
 Map {\n\
   map-bgcolor: #fff;\n\
 }\n\
@@ -56,27 +48,28 @@ Map {\n\
   line-color: #333;\n\
   line-width: 0.5;\n\
 }";
-
-  var srs = '&srsWGS84;';
-  var name = url.split('/').pop().split('.')[0];
-
-  var queue = new TileMill.queue();
-  queue.add(function(name, next) {
-    var filename = 'visualization/' + name;
-    TileMill.backend.add(filename, next);
-  }, [name]);
-  queue.add(function(name, next) {
-    var mss = 'visualization/' + name + '/' + name + '.mss';
-    var data = visualization_mss;
     TileMill.backend.post(mss, data, next);
   }, [name]);
   queue.add(function(name, next) {
     var mss = 'visualization/' + name + '/' + name + '.mss';
     var mml = 'visualization/' + name + '/' + name + '.mml';
-    var data = visualization_mml
-      .replace('{{ stylesheet }}', TileMill.backend.url(mss))
-      .replace('{{ srs }}', srs)
-      .replace('{{ url }}', url);
+    var data = TileMill.mml.generate({
+      stylesheets: [TileMill.backend.url(mss)],
+      layers:[
+        {
+          id: 'world',
+          srs: 'WGS84',
+          file: 'http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip',
+          type: 'shape',
+        },
+        {
+          id: 'inspect',
+          srs: 'WGS84',
+          file: url,
+          type: 'shape',
+        }
+      ],
+    });
     TileMill.backend.post(mml, data, next);
   }, [name]);
   queue.add(function(name) {

@@ -184,7 +184,14 @@
     </div>
     </script>
     <script type="text/html" name="color-swatch">
-      <a href='#' class='swatch' style='background-color: <%= color %>'><label><%= color %></label></a>
+    <a href='#' class='swatch' style='background-color: <%= color %>'><label><%= color %></label></a>
+    </script>
+    <script type="text/html" name="inspector-field">
+    <li id='field-<%= field %>'>
+      <a class='inspect-values' href='#inspect-values'>See values</a>
+      <strong><%= field %></strong>
+      <em><%= type %></em>
+    </li>
     </script>
   </head>
   <body>

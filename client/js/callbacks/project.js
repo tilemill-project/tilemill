@@ -13,10 +13,6 @@ TileMill.controller.project = function() {
 
     TileMill.show(TileMill.template('project', {id: id}));
 
-    for (var i in TileMill.editor) {
-      TileMill.editor[i]();
-    }
-
     var layers = TileMill.mml.init();
     var inspector = TileMill.inspector.init();
     var stylesheets = TileMill.stylesheet.init();
@@ -29,7 +25,7 @@ TileMill.controller.project = function() {
     $('body').append(stylesheets);
     $('body').append(color);
 
-    // Farbtastic needs to be inited after the element is added to the DOM.
+    // Init elements which require DOM presence.
     TileMill.colors.initFarb(color);
     TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 0});
 
@@ -88,24 +84,6 @@ TileMill.project.save = function() {
 }
 
 TileMill.project.add = function(name) {
-  var project_mml = "<?xml version='1.0' encoding='utf-8'?>\n\
-<!DOCTYPE Map[\n\
-  <!ENTITY srs900913 '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs'>\n\
-  <!ENTITY srsWGS84 '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'>\n\
-]>\n\
-<Map srs='&srs900913;'>\n\
-  <Stylesheet src='{{ stylesheet }}' />\n\
-  <Layer id='world' srs='&srsWGS84;'>\n\
-    <Datasource>\n\
-      <Parameter name='file'>http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip</Parameter>\n\
-      <Parameter name='type'>shape</Parameter>\n\
-    </Datasource>\n\
-  </Layer>\n\
-</Map>";
-  var project_mss = "Map {\n\
-  map-bgcolor: #fff;\n\
-}";
-
   var queue = new TileMill.queue();
   queue.add(function(name, next) {
     var filename = 'project/' + name;
@@ -113,13 +91,21 @@ TileMill.project.add = function(name) {
   }, [name]);
   queue.add(function(name, next) {
     var mss = 'project/' + name + '/' + name + '.mss';
-    var data = project_mss;
+    var data = "Map {\n\map-bgcolor: #fff;\n\}";
     TileMill.backend.post(mss, data, next);
   }, [name]);
   queue.add(function(name, next) {
     var mss = 'project/' + name + '/' + name + '.mss';
     var mml = 'project/' + name + '/' + name + '.mml';
-    var data = project_mml.replace('{{ stylesheet }}', TileMill.backend.url(mss));
+    var data = TileMill.mml.generate({
+      stylesheets: [TileMill.backend.url(mss)],
+      layers:[{
+        id: 'world',
+        srs: 'WGS84',
+        file: 'http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip',
+        type: 'shape',
+      }],
+    });
     TileMill.backend.post(mml, data, next);
   }, [name]);
   queue.add(function(name) {

@@ -212,6 +212,8 @@ form div.buttons {
   border-right:1px solid #ccc;
   }
 
+#visualization #sidebar { bottom:0px; }
+
 .column h2,
 .popup-header,
 .sidebar-header { background:url(../images/sprite.png) 0px -320px repeat-x; }
@@ -357,6 +359,15 @@ a.inspect-unique.active     { background-color:#222; }
   border-top:1px solid #ccc;
   border-right:1px solid #ccc;
   background:#ddd url(../images/checker-bg.png) 0% 0% repeat;
+  }
+
+#visualization #map-preview {
+  top:40px;
+  left:320px;
+  bottom:0px;
+  right:0px;
+  width:auto;
+  height:auto;
   }
 
 #map-preview div.olControlPanZoomBar {

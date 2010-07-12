@@ -10,15 +10,12 @@ TileMill.inspector.inspect = function(id) {
   $('#inspector').show();
   for (field in TileMill.inspection[id].fields) {
     (function(layer, field) {
-      var li = $('<li>')
-        .attr('id', 'field-' + field)
-        .append($('<a class="inspect-values" href="#inspect-values">See values</a>').click(function() {
-          TileMill.inspector.values(layer, field);
-          return false;
-        }))
-        .append('<strong>' + field + '</strong>')
-        .append('<em>' + TileMill.inspection[layer].fields[field].replace('int', 'integer').replace('str', 'string') + '</em>')
-        .appendTo($('#inspector ul.sidebar-content'));
+      var li = $(TileMill.template('inspector-field', {field: field, type: TileMill.inspection[layer].fields[field].replace('int', 'integer').replace('str', 'string') }));
+      $('a.inspect-values', li).click(function() {
+        TileMill.inspector.values(layer, field);
+        return false;
+      });
+      $('#inspector ul.sidebar-content').append(li);
     })(id, field);
   }
 }
