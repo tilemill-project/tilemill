@@ -116,6 +116,8 @@ TileMill.utilities.insertIFrame = function(url, data, callback) {
   form.appendTo(doc.body)[0].submit();
   $(iframe).bind('load', function() {
     $(this).remove();
-    callback();
+    if (callback) {
+      callback();
+    }
   });
 };
