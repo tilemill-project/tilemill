@@ -1,5 +1,21 @@
 TileMill.mml = {};
+TileMill.mss = {};
 TileMill.customSrs = [];
+
+TileMill.mss.generate = function(mss) {
+  var output = [];
+  for (var i in mss) {
+    output.push(i + ' {');
+    if (mss[i]) {
+      for (var j in mss[i]) {
+        output.push('  ' + j + ': ' + mss[i][j] + ';');
+      }
+    }
+    output.push('}');
+    output.push('');
+  }
+  return output.join("\n");  
+};
 
 TileMill.mml.generate = function(mml) {
   // We can't store the MML in an HTML template because the template engine
@@ -131,7 +147,7 @@ TileMill.mml.add = function(options, layers) {
       $('#inspector .sidebar-header h2').html('Layers &raquo; ' + $(this).parents('li').find('label').text());
       $('#layers').hide();
       $('#inspector').show();
-      TileMill.inspector.inspect($(this).parents('li').data('tilemill').id);
+      TileMill.inspector.inspect($(this).parents('li').data('tilemill').id, false);
       TileMill.page = 0;
       return false;
     }))
