@@ -19,7 +19,7 @@ define("files", default=os.path.dirname(__file__), help="files directory", type=
 define("config", default=os.path.join(os.path.dirname(__file__), "tilemill.cfg"), help="path to configuration file", type=str)
 
 class TileMill(tornado.web.RequestHandler):
-    def json(self, json):
+    def json(self, json, force_json):
         """ serve a page with an optional jsonp callback """
         if self.get_argument('jsoncallback', None):
             json = tornado.escape.json_encode(json)
@@ -56,7 +56,7 @@ class FileHandler(TileMill):
             buffer = open(path)
             data = buffer.read()
             buffer.close()
-            self.json(data)
+            self.json(data, False)
         else:
             self.json({ 'status': False, 'message': 'The file could not be found' }, True)
     def post(self):
