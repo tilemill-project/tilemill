@@ -1,4 +1,4 @@
-TileMill.inspector = { page: {}, inspection: {}, urls: {}, valueCache: {} };
+TileMill.inspector = { page: {}, inspection: {}, urls: {} };
 
 TileMill.inspector.init = function() {
   var inspector = $(TileMill.template('inspector', {}));

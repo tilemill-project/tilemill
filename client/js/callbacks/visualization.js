@@ -142,7 +142,6 @@ TileMill.visualization.save = function() {
         var self = this;
         var mss = self.retrieve('mss');
         TileMill.visualization.plugins[type](field, mss, function(data) {
-          console.log(data);
           self.store('mss', data);
           next();
         });
@@ -182,6 +181,9 @@ TileMill.visualization.save = function() {
   */
 };
 
+/**
+ * Visualization plugin: label.
+ */
 TileMill.visualization.plugins.label = function(field, mss, callback) {
   mss['#inspect ' + field] = {
     'text-face-name': '"DejaVu Sans Book"',
@@ -195,6 +197,48 @@ TileMill.visualization.plugins.label = function(field, mss, callback) {
     return mss;
   }
 };
+
+/**
+ * Visualization plugin: choropleth.
+ */
+TileMill.visualization.plugins.choropleth = function(field, mss, callback) {
+  var pluginCallback = (function(data) {
+    var range = Math.abs(data.max - data.min),
+      split = (TileMill.visualization.settings.choroplethSplit && TileMill.visualization.settings.choroplethSplit != 'undefined' ? TileMill.visualization.settings.choroplethSplit : 5);
+      individual = range / split,
+      colors = {
+      2: ['#fd5', '#e57e57'],
+      3: ['#fd5', '#f2af56', '#e57e57'],
+      4: ['#fd5', '#f2af56', '#e57e57', '#b27082'],
+      5: ['#fd5', '#f2af56', '#e57e57', '#c57071', '#9f7094'],
+      6: ['#fd5', '#f2af56', '#e68457', '#cf7068', '#ae7086', '#8e70a4'],
+      7: ['#fd5', '#f4b556', '#ea9256', '#e07058', '#c47072', '#a8708b', '#8e70a4'],
+      8: ['#fd5', '#f6bc56', '#ee9e56', '#e57e57', '#d27065', '#bc707a', '#a5708f', '#8e70a4'],
+      9: ['#fd5', '#f7c156', '#f0a656', '#e88b57', '#e07058', '#cb706b', '#b7707e', '#a27091', '#8e70a4'],
+      10: ['#fd5', '#f9c655', '#f1ab56', '#eb9456', '#e47b57', '#d67061', '#c57071', '#b27083', '#a07093', '#8e70a4']
+    };
+    for (i = 0; i < split; i++) {
+      var selector = '#inspect[' + field + '>=' + data.min + (individual * i) + ']';
+      mss[selector] = { 'polygon-fill': colors[split][i] };
+    }
+    if (callback) {
+      callback(mss);
+    }
+    else {
+      return mss;
+    }
+  });
+
+  encode = TileMill.mml.url();
+  TileMill.backend.rasterizers.tilelive.values({
+    'mmlb64': encode,
+    'layer': 'inspect',
+    'field': field,
+    'start': 0,
+    'limit': false,
+    'callback': pluginCallback
+  });
+}
 
 TileMill.visualization.add = function(url) {
   var name = url.split('/').pop().split('.')[0];
@@ -339,27 +383,6 @@ TileMill.scaledPoints = function(data) {
     TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.scaledPoints + ">=" + data.min + (individual * i) + "] {\n  point-file: url(" + TileMill.settings.server.substr(0,TileMill.settings.server.length-1) + TileMill.settings.static_path + 'images/points/' + i  + ".png);\n  point-width: " + sizes[i] + ";\n  point-height: " + sizes[i] + ";\n}";
   }
   TileMill.__save();
-}
-
-TileMill.basic.choropleth = function(data) {
-  var range = Math.abs(data.max - data.min),
-    split = (TileMill.basic.choroplethSplit && TileMill.basic.choroplethSplit != 'undefined' ? TileMill.basic.choroplethSplit : 5);
-    individual = range / split,
-    colors = {
-    2: ['#fd5', '#e57e57'],
-    3: ['#fd5', '#f2af56', '#e57e57'],
-    4: ['#fd5', '#f2af56', '#e57e57', '#b27082'],
-    5: ['#fd5', '#f2af56', '#e57e57', '#c57071', '#9f7094'],
-    6: ['#fd5', '#f2af56', '#e68457', '#cf7068', '#ae7086', '#8e70a4'],
-    7: ['#fd5', '#f4b556', '#ea9256', '#e07058', '#c47072', '#a8708b', '#8e70a4'],
-    8: ['#fd5', '#f6bc56', '#ee9e56', '#e57e57', '#d27065', '#bc707a', '#a5708f', '#8e70a4'],
-    9: ['#fd5', '#f7c156', '#f0a656', '#e88b57', '#e07058', '#cb706b', '#b7707e', '#a27091', '#8e70a4'],
-    10: ['#fd5', '#f9c655', '#f1ab56', '#eb9456', '#e47b57', '#d67061', '#c57071', '#b27083', '#a07093', '#8e70a4']
-  };
-  for (i = 0; i < split; i++) {
-    TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + ">=" + data.min + (individual * i) + "] {\n  polygon-fill: " + colors[split][i] + ";\n}";
-  }
-  TileMill._save();
 }
 
 TileMill.basic.unique = function(data) {
