@@ -99,6 +99,8 @@ ul ul li {
   background:transparent;
   }
 
+ul.items li { line-height:40px; }
+
 #inspector ul li em { margin-left:5px; }
 
 ul.inspect-values {
@@ -346,6 +348,18 @@ a.inspect-scaled-points.active,
 a.inspect-label.active,
 a.inspect-choropleth.active,
 a.inspect-unique.active     { background-color:#222; }
+
+/**
+ * Map thumbnail
+ */
+.map-thumb {
+  float:left;
+  width:100px;
+  height:40px;
+  background:#ddd url(../images/checker-bg.png) 0% 0% repeat;
+  }
+
+#content div.map-thumb { margin-right:10px !important; }
 
 /**
  * Map preview
