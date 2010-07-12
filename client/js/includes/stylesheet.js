@@ -89,8 +89,8 @@ TileMill.stylesheet.add = function(options, stylesheets, callback) {
   }
 };
 
-TileMill.stylesheet.save = function(filename, data) {
-  TileMill.backend.post(filename, data);
+TileMill.stylesheet.save = function(filename, data, callback) {
+  TileMill.backend.post(filename, data, callback);
 }
 
 TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {

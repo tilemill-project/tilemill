@@ -153,7 +153,7 @@
       <form>
         <div><label for="classes">Classes</label><input type="text" class="text" id="classes" /></div>
         <div><label for="id">Id</label><input type="text" class="text" id="id" /></div>
-        <div><label for="dataSource">Data Source</label><input type="text" class="text" id="dataSource" /></div>
+        <div><label for="file">Data Source</label><input type="text" class="text" id="file" /></div>
         <div>
           <label for="srs">SRS</label>
           <select id="srs">
@@ -170,6 +170,27 @@
       <form>
         <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' value=<%= tilelive_url %>/></div>
         <div><label for='mml-url'>MML URL</label><input id='mml-url' class='text' type='text' value=<%= mml_url %> /></div>
+      </form>
+    </div>
+    </script>
+    <script type="text/html" name="popup-info-visualization">
+    <div id='popup-info' class='clearfix pane'>
+      <form>
+        <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' value=<%= tilelive_url %>/></div>
+        <div><label for='mml-url'>MML URL</label><input id='mml-url' class='text' type='text' value=<%= mml_url %> /></div>
+        <div><label for='choropleth-split'>Choropleth</label>
+          <select id='choropleth-split'>
+            <option value='2'>2 shades</option>
+            <option value='3'>3 shades</option>
+            <option value='4'>4 shades</option>
+            <option value='5'>5 shades</option>
+            <option value='6'>6 shades</option>
+            <option value='7'>7 shades</option>
+            <option value='8'>8 shades</option>
+            <option value='9'>9 shades</option>
+            <option value='10'>10 shades</option>
+          </select>
+        </div>
       </form>
     </div>
     </script>
@@ -193,10 +214,10 @@
     <li id='field-<%= field %>'>
       <a class='inspect-values' href='#inspect-values'>See values</a>
       <% if (visualize) { %>
-        <a class='visualizer-mode inspect-unique' href='#inspect-unique'>Unique Value</a>
-        <a class='visualizer-mode inspect-label' href='#inspect-label'>Label</a>
-        <a class='visualizer-mode inspect-choropleth' href='#inspect-choropleth'>Choropleth</a>
-        <a class='visualizer-mode inspect-scaled-points' href='#inspect-scaled-points'>Scaled points</a>
+        <a class='visualization-type inspect-unique' href='#inspect-unique'>Unique Value</a>
+        <a class='visualization-type inspect-label' href='#inspect-label'>Label</a>
+        <a class='visualization-type inspect-choropleth' href='#inspect-choropleth'>Choropleth</a>
+        <a class='visualization-type inspect-scaledPoints' href='#inspect-scaled-points'>Scaled points</a>
       <% } %>
       <strong><%= field %></strong>
       <em><%= type %></em>

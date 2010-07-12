@@ -1,7 +1,6 @@
 TileMill.controller.visualization = function() {
   var id = $.bbq.getState("id");
   TileMill.backend.get('visualization/' + id + '/' + id + '.mml', function(mml) {
-
     // Store current settings. @TODO: Refactor this.
     TileMill.settings.mml = mml;
     TileMill.settings.id = id;
@@ -22,38 +21,179 @@ TileMill.controller.visualization = function() {
     // Init elements which require DOM presence.
     TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 1});
 
+    // Init the visualization state.
+    TileMill.visualization.init(TileMill.mml.parseMML(mml));
+
     // Load, inspect queue
     var queue = new TileMill.queue;
     queue
       .add(function(next) { TileMill.inspector.load(next); })
       .add(function(next) { TileMill.inspector.inspect('inspect', true); })
       .execute();
+
+    $('div#header a.save').click(function() {
+      TileMill.visualization.save();
+      return false;
+    });
+
+    $('div#header a.info').click(function() {
+      var tilelive_url = TileMill.backend.servers(TileMill.mml.url())[0] + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true });
+      var mml_url = TileMill.mml.url({ timestamp: false, encode: false });
+      var popup = $(TileMill.template('popup-info-visualization', {tilelive_url: tilelive_url, mml_url: mml_url}));
+      $('select#choropleth-split', popup)
+        .change(function() {
+          TileMill.visualization.settings.choroplethSplit = $(this).val();
+          TileMill.visualization.save();
+        })
+        .val(TileMill.visualization.settings.choroplethSplit);
+      TileMill.popup.show({content: popup, title: 'Info'});
+      return false;
+    });
   });
 };
 
-TileMill.visualization = {};
+TileMill.visualization = {
+  settings: {},
+  plugins: {},
+};
 
-TileMill.visualization.attach = function(field, type, li) {
-  if (type === 'float' || type === 'int') {
-    $('a.inspect-choropleth', li).click(function() {
+TileMill.visualization.init = function(mml) {
+  if (mml.metadata) {
+    var keys = ['label', 'unique', 'choropleth', 'choroplethSplit', 'scaledPoints'];
+    for (var key in mml.metadata) {
+      if ($.inArray(key, keys)) {
+        TileMill.visualization.settings[key] = mml.metadata[key];
+      }
+    }
+  }
+};
+
+TileMill.visualization.attach = function(field, datatype, li) {
+  $('a.visualization-type', li).each(function() {
+    var type = $(this).attr('class').split('visualization-type inspect-')[1];
+
+    // Only show choropleth and scaledPoints on int, float types.
+    if ((type === 'choropleth' || type === 'scaledPoints') && (datatype !== 'int' && datatype !== 'float')) {
+      $(this).remove();
+    }
+
+    // Set active classes.
+    if (TileMill.visualization.settings[type] && TileMill.visualization.settings[type] === field) {
+      $(this).addClass('active');
+    }
+
+    // Attach click handler.
+    $(this).click(function() {
+      if ($(this).is('.active')) {
+        $(this).removeClass('active');
+        delete TileMill.visualization.settings[type];
+      }
+      else {
+        $('#inspector a.inspect-'+ type).removeClass('active');
+
+        // Choropleth and unique value are mutually exclusive.
+        if (type === 'choropleth' || type === 'unique') {
+          $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
+        }
+
+        $(this).addClass('active');
+        TileMill.visualization.settings[type] = field;
+      }
+      TileMill.visualization.save();
       return false;
     });
-    $('a.inspect-scaled-points', li).click(function() {
-      return false;
-    });
-  }
-  else {
-    $('a.inspect-choropleth, a.inspect-scaled-points', li).remove();
-  }
-  $('a.inspect-label', li).click(function() {
-    return false;
-  });
-  $('a.inspect-unique', li).click(function() {
-    return false;
   });
 };
 
 TileMill.visualization.save = function() {
+  var queue = new TileMill.queue();
+
+  // Save project MML including any changed metadata.
+  queue.add(function(next) {
+    var mml = TileMill.mml.parseMML(TileMill.settings.mml);
+    var id = TileMill.settings.id;
+    mml.metadata = TileMill.visualization.settings;
+    TileMill.backend.post('visualization/' + id + '/' + id + '.mml', TileMill.mml.generate(mml), next);
+  });
+  // Store project MSS and pass to each visualization type.
+  queue.add(function(next) {
+    var self = this;
+    var mss = {
+      'Map': {
+        'map-bgcolor': '#fff',
+      },
+      '#world': {
+        'polygon-fill': '#eee',
+        'line-color': '#ccc',
+        'line-width': '0.5',
+      },
+      '#inspect': {
+        'polygon-fill': '#83bc69',
+        'line-color': '#333',
+        'line-width': '0.5',
+      },
+    };
+    self.store('mss', mss);
+    next();
+  });
+  $.each(TileMill.visualization.settings, function(type, field) {
+    if (TileMill.visualization.plugins[type]) {
+      queue.add(function(next) {
+        var self = this;
+        var mss = self.retrieve('mss');
+        TileMill.visualization.plugins[type](field, mss, function(data) {
+          console.log(data);
+          self.store('mss', data);
+          next();
+        });
+      });
+    }
+  });
+  queue.add(function(next) {
+    var self = this;
+    var mss = self.retrieve('mss');
+    var id = TileMill.settings.id;
+    TileMill.stylesheet.save('visualization/' + id + '/' + id + '.mss', TileMill.mss.generate(mss), next);
+  });
+  queue.add(function(next) {
+    TileMill.inspector.load();
+    TileMill.uniq = (new Date().getTime());
+    TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
+  });
+  queue.execute();
+  
+  /*
+  if (TileMill.basic.label) {
+    TileMill.basic.stylesheet += "\n#inspect " + TileMill.basic.label + " {\n  text-face-name: \"DejaVu Sans Book\";\n  text-fill: #333;\n  text-size: 9;\n}";
+  }
+
+  if (TileMill.basic.visualizationType == 'choropleth' || TileMill.basic.visualizationType == 'unique') {
+    var field = TileMill.basic.visualizationField;
+    if (TileMill.inspector.valueCache[field]) {
+      TileMill.basic[TileMill.basic.visualizationType](TileMill.inspector.valueCache[field]);
+    }
+    else {
+      TileMill.inspector.values(field, 'inspect', 'TileMill.basic.' + TileMill.basic.visualizationType, (TileMill.basic.visualizationType == 'unique' ? 50 : false), 50);
+    }
+  }
+  else {
+    TileMill._save();
+  }
+  */
+};
+
+TileMill.visualization.plugins.label = function(field, mss, callback) {
+  mss['#inspect ' + field] = {
+    'text-face-name': '"DejaVu Sans Book"',
+    'text-fill': '#333',
+    'text-size': 9,
+  };
+  if (callback) {
+    callback(mss);
+  }
+  else {
+    return mss;
+  }
 };
 
 TileMill.visualization.add = function(url) {
@@ -111,136 +251,6 @@ TileMill.visualization.add = function(url) {
 };
 
 $(function() {
-  $('div#header a.save').click(function() {
-    TileMill.save();
-    return false;
-  });
-
-  $('div#header a.info').click(function() {
-    $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive.split(',')[0] + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true }));
-    $('#popup-info input#project-mml-url').val(TileMill.mml.url({ timestamp: false, encode: false }));
-    TileMill.popup.show({content: $('#popup-info'), title: 'Info'});
-    return false;
-  });
-  TileMill.inspector.loadCallback = function(data) {
-    $('.layer-inspect-loading').removeClass('layer-inspect-loading').addClass('layer-inspect');
-    for (field in data['inspect'].fields) {
-      (function(field, data) {
-        var li = $('<li>')
-          .attr('id', 'field-' + field)
-          .append($('<a class="inspect-unique" href="#inspect-unique">Unique Value</a>').click(function() {
-            if ($(this).is('.active')) {
-              delete TileMill.basic.visualizationField;
-              delete TileMill.basic.visualizationType;
-              $(this).removeClass('active');
-            }
-            else {
-              TileMill.basic.visualizationField = field;
-              TileMill.basic.visualizationType = 'unique';
-              $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
-              $(this).addClass('active');
-            }
-            TileMill.save();
-            return false;
-          }))
-          .append($('<a class="inspect-values" href="#inspect-values">See values</a>').click(function() {
-            TileMill.inspector.values(field, 'inspect');
-            return false;
-          }))
-          .append($('<a class="inspect-label" href="#inspect-label">Label</a>').click(function() {
-            if ($(this).is('.active')) {
-              delete TileMill.basic.label;
-              $(this).removeClass('active');
-            }
-            else {
-              TileMill.basic.label = field;
-              $('#inspector a.inspect-label').removeClass('active');
-              $(this).addClass('active');
-            }
-            TileMill.save();
-            return false;
-          }));
-        // Only show choropleth for int and float fields.
-        if (data['inspect'].fields[field] == 'int' || data['inspect'].fields[field] == 'float') {
-          li.append($('<a class="inspect-choropleth" href="#inspect-choropleth">Choropleth</a>').click(function() {
-            if ($(this).is('.active')) {
-              delete TileMill.basic.visualizationField;
-              delete TileMill.basic.visualizationType;
-              $(this).removeClass('active');
-            }
-            else {
-              TileMill.basic.visualizationField = field;
-              TileMill.basic.visualizationType = 'choropleth';
-              $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
-              $(this).addClass('active');
-            }
-            TileMill.save();
-            return false;
-          })).append($('<a class="inspect-scaled-points" href="#inspect-scaled-points">Scaled points</a>').click(function() {
-            if ($(this).is('.active')) {
-              delete TileMill.basic.scaledPoints;
-              $(this).removeClass('active');
-            }
-            else {
-              TileMill.basic.scaledPoints = field;
-              $('#inspector a.inspect-scaled-points').removeClass('active');
-              $(this).addClass('active');
-            }
-            TileMill.save();
-            return false;
-          }));
-        }
-        li.append('<strong>' + field + '</strong>')
-          .append('<em>' + data['inspect'].fields[field].replace('int', 'integer').replace('str', 'string') + '</em>')
-          .appendTo($('#inspector ul.sidebar-content'));
-
-      })(field, data);
-    }
-    var src = $('Stylesheet:first', TileMill.settings.mml).attr('src');
-    // If there is no / character, assume this is a single filename.
-    if (src.split('/').length === 1) {
-      src = TileMill.settings.server + 'projects/mss?id='+ TileMill.settings.project_id +'&filename='+ filename;
-    }
-    $.get(src, function(data) {
-      var settings = eval('(' + data.match(/(.+)/)[0].replace('/*', '').replace('*/', '') + ')');
-      if (settings.label != 'undefined') {
-        TileMill.basic.label = settings.label;
-        $('#field-' + settings.label).find('.inspect-label').addClass('active');
-      }
-      if (settings.visualizationField != 'undefined' && settings.visualizationType != 'undefined') {
-        TileMill.basic.visualizationField = settings.visualizationField;
-        TileMill.basic.visualizationType = settings.visualizationType;
-        $('#field-' + settings.visualizationField).find('.inspect-' + settings.visualizationType).addClass('active');
-      }
-      if (settings.choroplethSplit != 'undefined') {
-        TileMill.basic.choroplethSplit = settings.choroplethSplit;
-        $('#popup-info select#choroplethSplit').val(TileMill.basic.choroplethSplit);
-      }
-      else {
-        TileMill.basic.choroplethSplit = 5;
-      }
-      if (settings.scaledPoints != 'undefined') {
-        TileMill.basic.scaledPoints = settings.scaledPoints;
-        $('#field-' + settings.scaledPoints).find('.inspect-scaled-points').addClass('active');
-      }
-    });
-  };
-  TileMill.inspector.load();
-  $('#layers').hide();
-
-  $('div#header a.info').click(function() {
-    $('#popup-info input#tilelive-url').val(TileMill.settings.tilelive + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true }));
-    $('#popup-info input#project-mml-url').val(TileMill.mml.url({ timestamp: false, encode: false }));
-    $('#popup-info select#choroplethSplit').val(TileMill.basic.choroplethSplit);
-    TileMill.popup.show({content: $('#popup-info'), title: 'Info'});
-    return false;
-  });
-
-  $('#popup-info select#choroplethSplit').change(function() {
-    TileMill.basic.choroplethSplit = $(this).val();
-    TileMill.save();
-  });
-
   $('a.projectify').click(function() {
     TileMill.popup.show({content: $('#popup-projectify'), title: 'Save'});
     return false;
@@ -299,32 +309,6 @@ $(function() {
   });
 });
 
-TileMill.save = function(projectify) {
-  // No need to save MML, it's always the same.
-  if (!projectify) {
-    TileMill.basic.stylesheet = "/* { 'label': '" + TileMill.basic.label + "', 'visualizationType': '" + TileMill.basic.visualizationType + "', 'visualizationField': '" + TileMill.basic.visualizationField + "', 'choroplethSplit': '" + TileMill.basic.choroplethSplit + "', 'scaledPoints': '" + TileMill.basic.scaledPoints + "' } */\n";
-  }
-
-  TileMill.basic.stylesheet += "Map {\n  map-bgcolor: #fff;\n}\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}\n#inspect {\n  polygon-fill: #83bc69;\n  line-color: #333;\n  line-width: 0.5;\n}";
-
-  if (TileMill.basic.label) {
-    TileMill.basic.stylesheet += "\n#inspect " + TileMill.basic.label + " {\n  text-face-name: \"DejaVu Sans Book\";\n  text-fill: #333;\n  text-size: 9;\n}";
-  }
-
-  if (TileMill.basic.visualizationType == 'choropleth' || TileMill.basic.visualizationType == 'unique') {
-    var field = TileMill.basic.visualizationField;
-    if (TileMill.inspector.valueCache[field]) {
-      TileMill.basic[TileMill.basic.visualizationType](TileMill.inspector.valueCache[field]);
-    }
-    else {
-      TileMill.inspector.values(field, 'inspect', 'TileMill.basic.' + TileMill.basic.visualizationType, (TileMill.basic.visualizationType == 'unique' ? 50 : false), 50);
-    }
-  }
-  else {
-    TileMill._save();
-  }
-}
-
 TileMill._save = function() {
   // scaledPoints
   if (TileMill.basic.scaledPoints) {
@@ -341,6 +325,12 @@ TileMill._save = function() {
   }
 }
 
+TileMill.__save = function() {
+  TileMill.stylesheet.save(TileMill.settings.project_id, TileMill.basic.stylesheet);
+  TileMill.uniq = (new Date().getTime());
+  TileMill.map.reload();
+}
+
 TileMill.scaledPoints = function(data) {
   var range = Math.abs(data.max - data.min),
     individual = range / 10,
@@ -349,12 +339,6 @@ TileMill.scaledPoints = function(data) {
     TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.scaledPoints + ">=" + data.min + (individual * i) + "] {\n  point-file: url(" + TileMill.settings.server.substr(0,TileMill.settings.server.length-1) + TileMill.settings.static_path + 'images/points/' + i  + ".png);\n  point-width: " + sizes[i] + ";\n  point-height: " + sizes[i] + ";\n}";
   }
   TileMill.__save();
-}
-
-TileMill.__save = function() {
-  TileMill.stylesheet.save(TileMill.settings.project_id, TileMill.basic.stylesheet);
-  TileMill.uniq = (new Date().getTime());
-  TileMill.map.reload();
 }
 
 TileMill.basic.choropleth = function(data) {
