@@ -86,3 +86,44 @@ TileMill.project.save = function() {
   });
   queue.execute();
 }
+
+TileMill.project.add = function(name) {
+  var project_mml = "<?xml version='1.0' encoding='utf-8'?>\n\
+<!DOCTYPE Map[\n\
+  <!ENTITY srs900913 '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs'>\n\
+  <!ENTITY srsWGS84 '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'>\n\
+]>\n\
+<Map srs='&srs900913;'>\n\
+  <Stylesheet src='{{ stylesheet }}' />\n\
+  <Layer id='world' srs='&srsWGS84;'>\n\
+    <Datasource>\n\
+      <Parameter name='file'>http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip</Parameter>\n\
+      <Parameter name='type'>shape</Parameter>\n\
+    </Datasource>\n\
+  </Layer>\n\
+</Map>";
+  var project_mss = "Map {\n\
+  map-bgcolor: #fff;\n\
+}";
+
+  var queue = new TileMill.queue();
+  queue.add(function(name, next) {
+    var filename = 'project/' + name;
+    TileMill.backend.add(filename, next);
+  }, [name]);
+  queue.add(function(name, next) {
+    var mss = 'project/' + name + '/' + name + '.mss';
+    var data = project_mss;
+    TileMill.backend.post(mss, data, next);
+  }, [name]);
+  queue.add(function(name, next) {
+    var mss = 'project/' + name + '/' + name + '.mss';
+    var mml = 'project/' + name + '/' + name + '.mml';
+    var data = project_mml.replace('{{ stylesheet }}', TileMill.backend.url(mss));
+    TileMill.backend.post(mml, data, next);
+  }, [name]);
+  queue.add(function(name) {
+    $.bbq.pushState({ 'action': 'project', 'id': name });
+  }, [name]);
+  queue.execute();
+};

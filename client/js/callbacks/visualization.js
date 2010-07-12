@@ -18,6 +18,73 @@ TileMill.controller.visualization = function() {
   });
 };
 
+TileMill.visualization = {};
+TileMill.visualization.add = function(url) {
+  var visualization_mml = "<?xml version='1.0' encoding='utf-8'?>\n\
+<!DOCTYPE Map[\n\
+  <!ENTITY srs900913 '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs'>\n\
+  <!ENTITY srsWGS84 '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'>\n\
+]>\n\
+<Map srs='&srs900913;'>\n\
+  <Stylesheet src='{{ stylesheet }}' />\n\
+  <Layer id='world' srs='&srsWGS84;'>\n\
+    <Datasource>\n\
+      <Parameter name='file'>http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip</Parameter>\n\
+      <Parameter name='type'>shape</Parameter>\n\
+      <Parameter name='id'>world</Parameter>\n\
+    </Datasource>\n\
+  </Layer>\n\
+  <Layer id='inspect' srs='{{ srs }}'>\n\
+    <Datasource>\n\
+      <Parameter name='file'>{{ url }}</Parameter>\n\
+      <Parameter name='type'>shape</Parameter>\n\
+      <Parameter name='id'>inspect</Parameter>\n\
+    </Datasource>\n\
+  </Layer>\n\
+</Map>";
+  var visualization_mss = "/* {{ meta }} */\n\
+Map {\n\
+  map-bgcolor: #fff;\n\
+}\n\
+#world {\n\
+  polygon-fill: #eee;\n\
+  line-color: #ccc;\n\
+  line-width: 0.5;\n\
+}\n\
+#inspect {\n\
+  polygon-fill: #83bc69;\n\
+  line-color: #333;\n\
+  line-width: 0.5;\n\
+}";
+
+  var srs = '&srsWGS84;';
+  var name = url.split('/').pop().split('.')[0];
+
+  var queue = new TileMill.queue();
+  queue.add(function(name, next) {
+    var filename = 'visualization/' + name;
+    TileMill.backend.add(filename, next);
+  }, [name]);
+  queue.add(function(name, next) {
+    var mss = 'visualization/' + name + '/' + name + '.mss';
+    var data = visualization_mss;
+    TileMill.backend.post(mss, data, next);
+  }, [name]);
+  queue.add(function(name, next) {
+    var mss = 'visualization/' + name + '/' + name + '.mss';
+    var mml = 'visualization/' + name + '/' + name + '.mml';
+    var data = visualization_mml
+      .replace('{{ stylesheet }}', TileMill.backend.url(mss))
+      .replace('{{ srs }}', srs)
+      .replace('{{ url }}', url);
+    TileMill.backend.post(mml, data, next);
+  }, [name]);
+  queue.add(function(name) {
+    $.bbq.pushState({ 'action': 'visualization', 'id': name });
+  }, [name]);
+  queue.execute();
+};
+
 TileMill.save = function(projectify) {
   // No need to save MML, it's always the same.
   if (!projectify) {
