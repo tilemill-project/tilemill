@@ -68,9 +68,10 @@ TileMill.project.save = function() {
     });
     $('#layers ul.sidebar-content li').reverse().each(function() {
       var layer = $(this).data('tilemill');
-      layer.file = $('<span/>').text(layer.dataSource).html();
-      layer.status = !!$(this).find('input[type=checkbox]').is(':checked');
-      mml.layers.push(layer);
+      if (layer) {
+        layer.status = !!$(this).find('input[type=checkbox]').is(':checked');
+        mml.layers.push(layer);
+      }
     });
     mml = TileMill.mml.generate(mml);
     TileMill.backend.post('project/' + id + '/' + id + '.mml', mml, next);
