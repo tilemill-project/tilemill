@@ -57,7 +57,7 @@ TileMill.map.initOL = function(map, servers, controls) {
   }
   if (controls.panzoombar) {
     var panzoombar = new OpenLayers.Control.PanZoomBar();
-    openlayers.map.addControl(panzoombar);
+    olMap.addControl(panzoombar);
     panzoombar.activate();
   }
 
