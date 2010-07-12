@@ -126,9 +126,11 @@ TileMill.mml.add = function(options, layers) {
       // @TODO refactor this out.
       if (!$(this).parents('li').data('tilemill')['id']) {
         alert('You need to add an id to a field and save to inspect it.');
-        return;
+        return false;
       }
       $('#inspector .sidebar-header h2').html('Layers &raquo; ' + $(this).parents('li').find('label').text());
+      $('#layers').hide();
+      $('#inspector').show();
       TileMill.inspector.inspect($(this).parents('li').data('tilemill').id);
       TileMill.page = 0;
       return false;
