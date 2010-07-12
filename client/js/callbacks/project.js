@@ -91,7 +91,16 @@ TileMill.project.add = function(name) {
   }, [name]);
   queue.add(function(name, next) {
     var mss = 'project/' + name + '/' + name + '.mss';
-    var data = "Map {\n\map-bgcolor: #fff;\n\}";
+    var data = TileMill.mss.generate({
+      'Map': {
+        'map-bgcolor': '#fff',
+      },
+      '#world': {
+        'polygon-fill': '#eee',
+        'line-color': '#ccc',
+        'line-width': '0.5',
+      },
+    });
     TileMill.backend.post(mss, data, next);
   }, [name]);
   queue.add(function(name, next) {
