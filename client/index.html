@@ -193,6 +193,18 @@
       <em><%= type %></em>
     </li>
     </script>
+    <script type="text/html" name="inspector-values">
+    <div class='inspect-values'>
+      <ul class='clearfix inspect-values field-values'>
+        <li class='min'><strong>Min</strong> <%= min %></li>
+        <li class='max'><strong>Max</strong> <%= max %></li>
+      </ul>
+      <div class='pager clearfix'>
+        <a class='pager-prev <%= class_prev %>' href='#pager-prev'>Prev</a>
+        <a class='pager-next <%= class_next %>' href='#pager-next'>Next</a>
+      </div>
+    </div>
+    </script>
   </head>
   <body>
     <div class="loading">
