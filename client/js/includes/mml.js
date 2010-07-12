@@ -130,7 +130,7 @@ TileMill.mml.parseMML = function(mml) {
       classes: classes,
       id: $(this).attr('id'),
       status: status,
-      dataSource: $(this).find('Datasource Parameter[name=file]').text(),
+      file: $(this).find('Datasource Parameter[name=file]').text(),
       srs: srs
     });
   });
@@ -187,7 +187,7 @@ TileMill.mml.add = function(options, layers) {
         var layer = {
           classes: $('#popup-layer input#classes').val(),
           id: $('#popup-layer input#id').val(),
-          dataSource: $('#popup-layer input#dataSource').val(),
+          file: $('#popup-layer input#file').val(),
           srs: $('#popup-layer select#srs').val(),
           status: 'true'
         };
@@ -213,7 +213,8 @@ TileMill.mml.add = function(options, layers) {
   if (options.status == 'true' || options.status == true) {
     checkbox[0].checked = true;
   }
-  $('ul.sidebar-content', layers).prepend(li.data('tilemill', options));
+  $('ul.sidebar-content', layers).prepend(li);
+  li.data('tilemill', options);
 };
 
 TileMill.mml.save = function(data) {
@@ -264,7 +265,7 @@ TileMill.mml.init = function() {
       var layer = {
         classes: $('#popup-layer input#classes').val(),
         id: $('#popup-layer input#id').val(),
-        dataSource: $('#popup-layer input#dataSource').val(),
+        file: $('#popup-layer input#file').val(),
         srs: $('#popup-layer select#srs').val(),
         status: 'true'
       };
