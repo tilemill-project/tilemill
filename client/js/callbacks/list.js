@@ -37,33 +37,43 @@ TileMill.controller.list = function() {
       }
 
       $(this).addClass('ajaxing');
-      addQueue.add(function(name, type, next) {
-        var filename = type + '/' + name;
-        TileMill.backend.add(filename, function(data) {
-          if (data.status) {
-            next();
-          }
-          else {
-            TileMill.popup.show({ title: 'Error', content: data.message });
-          }
-          $(self).removeClass('ajaxing');
-        })
-      }, [name, type]);
       if (type == 'visualization') {
-        addQueue.add(function(name, next) {
-          next();
-        }, [name]);
-        addQueue.add(function(name, next) {
-          next();
-        }, [name]);
+        var url = name;
+        var srs = '&srsWGS84;';
+        name = url.split('/').pop().split('.')[0];
+
+        addQueue.add(function(name, type, next) {
+          var filename = type + '/' + name;
+          TileMill.backend.add(filename, next);
+        }, [name, type]);
+        addQueue.add(function(name, type, next) {
+          var mss = type + '/' + name + '/' + name + '.mss';
+          var data = TileMill.template('visualization-mss');
+          TileMill.backend.post(mss, data, next);
+        }, [name, type]);
+        addQueue.add(function(name, type, next) {
+          var mss = type + '/' + name + '/' + name + '.mss';
+          var mml = type + '/' + name + '/' + name + '.mml';
+          var data = TileMill.template('visualization-mml', {stylesheet: TileMill.backend.url(mss), url: url, srs: srs});
+          TileMill.backend.post(mml, data, next);
+        }, [name, type]);
       }
       else {
-        addQueue.add(function(name, next) {
-          next();
-        }, [name]);
-        addQueue.add(function(name, next) {
-          next();
-        }, [name]);
+        addQueue.add(function(name, type, next) {
+          var filename = type + '/' + name;
+          TileMill.backend.add(filename, next);
+        }, [name, type]);
+        addQueue.add(function(name, type, next) {
+          var mss = type + '/' + name + '/' + name + '.mss';
+          var data = TileMill.template('project-mss');
+          TileMill.backend.post(mss, data, next);
+        }, [name, type]);
+        addQueue.add(function(name, type, next) {
+          var mss = type + '/' + name + '/' + name + '.mss';
+          var mml = type + '/' + name + '/' + name + '.mml';
+          var data = TileMill.template('project-mml', {stylesheet: TileMill.backend.url(mss)});
+          TileMill.backend.post(mml, data, next);
+        }, [name, type]);
       }
       addQueue.add(function(name, type) {
         $.bbq.pushState({ 'action': type, 'id': name });

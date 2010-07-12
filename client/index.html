@@ -186,6 +186,67 @@
     <script type="text/html" name="color-swatch">
       <a href='#' class='swatch' style='background-color: <%= color %>'><label><%= color %></label></a>
     </script>
+    <script type="text/xml" name="project-mml">
+    <?xml version="1.0" encoding="utf-8"?>
+    <!DOCTYPE Map[
+      <!ENTITY srs900913 "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs">
+      <!ENTITY srsWGS84 "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
+    ]>
+    <Map srs="&srs900913;">
+      <Stylesheet src="<%= stylesheet %>" />
+      <Layer id="world" srs="&srsWGS84;">
+        <Datasource>
+          <Parameter name="file">http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip</Parameter>
+          <Parameter name="type">shape</Parameter>
+        </Datasource>
+      </Layer>
+    </Map>
+    </script>
+    <script type="text/xml" name="project-mss">
+    Map {
+      map-bgcolor: #fff;
+    }
+    </script>
+    <script type="text/xml" name="visualization-mml">
+    <?xml version="1.0" encoding="utf-8"?>
+    <!DOCTYPE Map[
+      <!ENTITY srs900913 "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs">
+      <!ENTITY srsWGS84 "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
+    ]>
+    <Map srs="&srs900913;">
+      <Stylesheet src="<%= stylesheet %>" />
+      <Layer id="world" srs="&srsWGS84;">
+        <Datasource>
+          <Parameter name="file">http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip</Parameter>
+          <Parameter name="type">shape</Parameter>
+          <Parameter name="id">world</Parameter>
+        </Datasource>
+      </Layer>
+      <Layer id="inspect" srs="<%= srs %>">
+        <Datasource>
+          <Parameter name="file"><%= url %></Parameter>
+          <Parameter name="type">shape</Parameter>
+          <Parameter name="id">inspect</Parameter>
+        </Datasource>
+      </Layer>
+    </Map>
+    </script>
+    <script type="text/xml" name="visualization-mss">
+    /* { 'label': 'undefined', 'visualizationType': 'undefined', 'visualizationField': 'undefined' } */
+    Map {
+      map-bgcolor: #fff;
+    }
+    #world {
+      polygon-fill: #eee;
+      line-color: #ccc;
+      line-width: 0.5;
+    }
+    #inspect {
+      polygon-fill: #83bc69;
+      line-color: #333;
+      line-width: 0.5;
+    }
+    </script>
   </head>
   <body>
     <div class="loading">
