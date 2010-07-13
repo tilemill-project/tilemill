@@ -82,6 +82,7 @@ TileMill.mml.generate = function(mml) {
 
 TileMill.mml.parseMML = function(mml) {
   var parsed = {
+    metadata: {},
     stylesheets: [],
     layers: [],
   };

@@ -10,6 +10,9 @@ TileMill.controller.visualization = function() {
     // Set the unique query string.
     TileMill.uniq = (new Date().getTime());
 
+    // Parse MML.
+    var parsed = TileMill.mml.parseMML(mml);
+
     TileMill.show(TileMill.template('visualization', {id: id}));
 
     var inspector = TileMill.inspector.init();
@@ -19,7 +22,7 @@ TileMill.controller.visualization = function() {
     $('body').append(map);
 
     // Init elements which require DOM presence.
-    TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 1});
+    TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 1}, parsed.metadata.mapCenter);
 
     // Init the visualization state.
     TileMill.visualization.init(TileMill.mml.parseMML(mml));
@@ -123,6 +126,7 @@ TileMill.visualization.save = function(callback) {
     var mml = TileMill.mml.parseMML(TileMill.settings.mml);
     var id = TileMill.settings.id;
     mml.metadata = TileMill.visualization.settings;
+    mml.metadata.mapCenter = TileMill.map.getCenter($('#map-preview'));
     TileMill.settings.mml = TileMill.mml.generate(mml);
     TileMill.backend.post('visualization/' + id + '/' + id + '.mml', TileMill.settings.mml, next);
   });

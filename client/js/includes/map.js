@@ -5,7 +5,7 @@ TileMill.map.init = function() {
   return map;
 };
 
-TileMill.map.initOL = function(map, servers, controls) {
+TileMill.map.initOL = function(map, servers, controls, center) {
   var options = {
     projection: new OpenLayers.Projection("EPSG:900913"),
     displayProjection: new OpenLayers.Projection("EPSG:4326"),
@@ -20,6 +20,7 @@ TileMill.map.initOL = function(map, servers, controls) {
     ),
     controls: []
   };
+  center = center || {lat: 0, lon: 0, zoom: 2};
 
   // Nav control images.
   // @TODO: Store locally so the application is portable/usable offline?
@@ -30,7 +31,7 @@ TileMill.map.initOL = function(map, servers, controls) {
   olMap.addLayers([ olLayer ]);
 
   // Set the map's initial center point
-  olMap.setCenter(new OpenLayers.LonLat(0, 0), 2);
+  olMap.setCenter(new OpenLayers.LonLat(center.lon, center.lat), center.zoom);
 
   // Add custom controls
   if (controls.navigation) {
@@ -78,4 +79,14 @@ TileMill.map.reload = function(map, servers) {
     olLayer = new OpenLayers.Layer.XYZ("Preview", servers, {buffer: 0});
     olMap.addLayers([olLayer]);
   }
+};
+
+TileMill.map.getCenter = function(map) {
+  var data = map.data('TileMill.map');
+  if (data && data.olMap) {
+    var olMap = data.olMap;
+    var center = olMap.getCenter();
+    return { lat: center.lat, lon: center.lon, zoom: olMap.getZoom() };
+  }
+  return { lat: 0, lon: 0, zoom: 2 };
 };
