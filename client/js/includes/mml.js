@@ -171,7 +171,6 @@ TileMill.mml.add = function(options, layers) {
     $('#layers').hide();
     $('#inspector').show();
     TileMill.inspector.inspect($(this).parents('li').data('tilemill').id, false);
-    TileMill.inspector.page = 0;
     return false;
   });
 
