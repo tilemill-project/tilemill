@@ -175,6 +175,8 @@ input.submit {
   -webkit-border-radius:3px;
   }
 
+form { position:relative; }
+
 form label {
   font-size:11px;
   text-transform:uppercase;
@@ -192,6 +194,29 @@ form div label {
   left:0px;
   width:100px;
   text-align:right;
+  }
+
+form div.messages {
+  display:none;
+  background:url(../images/black90.png);
+  color:#fff;
+
+  position:absolute;
+  border:0px;
+  padding:5px 10px;
+  bottom:100%;
+  line-height:20px;
+
+  z-index:1000;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  }
+
+form div.messages label {
+  position:static;
+  width:auto;
+  text-align:auto;
+  text-transform:none;
   }
 
 form div input.text { width:90%; }

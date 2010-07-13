@@ -27,12 +27,16 @@ TileMill.stylesheet.init = function() {
 
   $('a.tab-add', stylesheets).click(function() {
     var popup = $(TileMill.template('popup-stylesheet', {}));
-    $('input.submit', popup).click(function() {
-      TileMill.stylesheet.add({src: $('#popup-stylesheet input#stylesheet-name').val(), create: true});
-      TileMill.popup.hide();
-      return false;
-    });
     TileMill.popup.show({content:popup, title:'Add stylesheet'});
+
+    $('form', popup).validate({
+      errorLabelContainer: 'form .messages',
+      submitHandler: function(form) {
+        TileMill.stylesheet.add({src: $('input#stylesheet-name', form).val(), create: true});
+        TileMill.popup.hide();
+        return false;
+      }
+    });
     return false;
   });
   return stylesheets;

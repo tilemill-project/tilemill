@@ -180,34 +180,37 @@ TileMill.mml.add = function(options, layers) {
         $('#' + option, popup).val(options[option]).end();
       }
 
+      TileMill.popup.show({content: popup, title: 'Edit layer'});
+
       // Create reference to layer li for submit handler to find.
-      $('input.submit', popup).data('li', $(this).parents('li'));
+      $('form', popup).data('li', $(this).parents('li'));
 
       // Add submit handler.
-      $('input.submit', popup).click(function() {
-        var layer = {
-          classes: $('#popup-layer input#classes').val(),
-          id: $('#popup-layer input#id').val(),
-          file: $('#popup-layer input#file').val(),
-          srs: $('#popup-layer select#srs').val(),
-          status: 'true'
-        };
-        var name = [];
-        if (layer.id) {
-          name.push('#' + layer.id);
+      $('form', popup).validate({
+        errorLabelContainer: 'form .messages',
+        submitHandler: function(form) {
+          var layer = {
+            classes: $('input#classes', form).val(),
+            id: $('input#id', form).val(),
+            file: $('input#file', form).val(),
+            srs: $('select#srs', form).val(),
+            status: 'true'
+          };
+          var name = [];
+          if (layer.id) {
+            name.push('#' + layer.id);
+          }
+          if (layer.classes) {
+            name.push('.' + layer.classes.split(' ').join(', .'));
+          }
+          var li = $(form).data('li');
+          $(li)
+            .data('tilemill', layer)
+            .find('label').text(name.join(', '));
+          TileMill.popup.hide();
+          return false;
         }
-        if (layer.classes) {
-          name.push('.' + layer.classes.split(' ').join(', .'));
-        }
-        var li = $(this).data('li');
-        $(li)
-          .data('tilemill', layer)
-          .find('label').text(name.join(', '));
-        TileMill.popup.hide();
-        return false;
       });
-
-      TileMill.popup.show({content: popup, title: 'Edit layer'});
       return false;
     }))
     .append($('<label>' + name.join(', ') + '</label>'));
@@ -261,21 +264,24 @@ TileMill.mml.init = function() {
 
   $('a#layers-add', layers).click(function() {
     var popup = $(TileMill.template('popup-layer', {submit: 'Add layer'}));
-
-    $('input.submit', popup).click(function() {
-      var layer = {
-        classes: $('#popup-layer input#classes').val(),
-        id: $('#popup-layer input#id').val(),
-        file: $('#popup-layer input#file').val(),
-        srs: $('#popup-layer select#srs').val(),
-        status: 'true'
-      };
-      TileMill.mml.add(layer);
-      TileMill.popup.hide();
-      return false;
-    });
-
     TileMill.popup.show({content: popup, title: 'Add layer'});
+
+    // Add submit handler.
+    $('form', popup).validate({
+      errorLabelContainer: 'form .messages',
+      submitHandler: function(form) {
+        var layer = {
+          classes: $('input#classes', form).val(),
+          id: $('input#id', form).val(),
+          file: $('input#file', form).val(),
+          srs: $('select#srs', form).val(),
+          status: 'true'
+        };
+        TileMill.mml.add(layer);
+        TileMill.popup.hide();
+        return false;
+      }
+    });
     return false;
   });
 

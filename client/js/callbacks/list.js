@@ -37,19 +37,16 @@ TileMill.controller.list = function() {
       TileMill.map.initOL($('#map-thumb-' + id, page), TileMill.backend.servers(TileMill.mml.url()), {});
     }
 
-    $('input[type=submit]', page).bind('click', function() {
-      if ($(this).is('.ajaxing')) {
-        return false;
-      }
-      var type = $(this).parents('form').attr('id'),
-          name = $(this).parents('form').find('.text').val();
-      if (!name) {
-        TileMill.popup.show({ title: 'Error', content: 'Name field is required.' });
-        return false;
-      }
-      $(this).addClass('ajaxing');
-      TileMill[type].add(name);
-      return false;
+    $('form').each(function() {
+      $(this).validate({
+        errorLabelContainer: '#' + $(this).attr('id') + ' .messages',
+        submitHandler: function(form) {
+          var type = $(form).attr('id'),
+              name = $('input.text', form).val();
+          TileMill[type].add(name);
+          return false;
+        },
+      });
     });
   });
 

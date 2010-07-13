@@ -1,3 +1,12 @@
+/**
+ * Utility method for reversing an array.
+ */
+$.fn.reverse = [].reverse;
+
+/**
+ * Default settings for TileMill client. If a settings.js override is not
+ * included these settings will be used instead.
+ */
 var TileMill = {
   editor: {},
   utilities: {},
@@ -6,17 +15,19 @@ var TileMill = {
     rasterizer: 'tilelive',
     runtime: 'html',
     pythonServer: 'http://localhost:8889/',
-    tileliveServer: 'http://localhost:8888/',
+    tileliveServer: 'http://localhost:8888/'
   }
 };
 
-$.fn.reverse = [].reverse;
+/**
+ * Controllers can be added and registered as callbacks in the route method.
+ */
+TileMill.controller = {};
 
-// Controller.
-
-TileMill.controller = { arguments: {} };
-
-TileMill.controller.route = function() {
+/**
+ * Route a hashchange or other request to the proper controller.
+ */
+TileMill.route = function() {
   var url = $.bbq.getState("action");
   switch (url) {
     case undefined:
@@ -34,20 +45,29 @@ TileMill.controller.route = function() {
   TileMill.controller[fn]();
 };
 
+/**
+ * Simulate a browser "page load" by fully replacing DOM elements in the body.
+ */
 TileMill.show = function(data) {
   $('body').empty().append(data);
-}
+};
 
+/**
+ * Show a message popup (error, status, etc).
+ */
+TileMill.message = function(title, message, type) {
+  type = type || 'status';
+  var popup = TileMill.template('popup-message', {content: message, type: type});
+  TileMill.popup.show({title: title, content: popup});
+  return false;
+};
+
+/**
+ * Initial bootstrap. Bind routing to any hash change event and trigger an
+ * initial hash change.
+ */
 $(function() {
-  // Just show a quick swirly while everything is loading.
-  $(window).bind('resize', function() {
-    if ($('.loading').size()) {
-      $('.loading').css('margin-top', (window.innerHeight - 32)/2);
-    }
-  }).trigger('resize');
-
-
   $(window).bind("hashchange", function() {
-    TileMill.controller.route();
+    TileMill.route();
   }).trigger('hashchange');
 });

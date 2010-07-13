@@ -6,14 +6,15 @@
     <link rel='stylesheet' href='css/reset.css' type='text/css'/>
     <link rel='stylesheet' href='css/tilemill.css' type='text/css'/>
 
+    <script type="text/javascript" src="js/libraries/base64.js"></script>
     <script type="text/javascript" src="js/libraries/jquery.js"></script>
     <script type="text/javascript" src="js/libraries/jquery-ui.js"></script>
     <script type="text/javascript" src="js/libraries/jquery.url.js"></script>
+    <script type="text/javascript" src="js/libraries/jquery.bbq.js"></script>
+    <script type="text/javascript" src="js/libraries/jquery.validate.pack.js"></script>
     <script type="text/javascript" src="js/openlayers/OpenLayers.js"></script>
     <script type="text/javascript" src="js/libraries/farbtastic.js"></script>
     <script type="text/javascript" src="js/codemirror/js/codemirror.js"></script>
-    <script type="text/javascript" src="js/libraries/base64.js"></script>
-    <script type="text/javascript" src="js/libraries/jquery.bbq.js"></script>
 
     <script type="text/javascript" src="js/tilemill.js"></script>
 
@@ -56,7 +57,13 @@
             <a href='#action=<%= type %>&id=<%= data[i] %>' class='route'><%= data[i] %></a>
           </li>
         <% } %>
-        <li><form id='<%= type %>'><input class='text' type='text' /><input class='submit' type='submit' value='Add <%= type %>' /></form></li>
+        <li>
+          <form id='<%= type %>'>
+            <div class='messages'></div>
+            <input class='required text <%= (type === "visualization") ? "url" : "" %>' type='text' />
+            <input class='submit' type='submit' value='Add <%= type %>' />
+          </form>
+        </li>
       </ul>
     </div>
     </script>
@@ -150,10 +157,11 @@
     </script>
     <script type="text/html" name="popup-layer">
     <div id='popup-layer' class='clearfix pane'>
-      <form>
+      <form id='form-layer'>
+        <div class='messages'></div>
         <div><label for="classes">Classes</label><input type="text" class="text" id="classes" /></div>
-        <div><label for="id">Id</label><input type="text" class="text" id="id" /></div>
-        <div><label for="file">Data Source</label><input type="text" class="text" id="file" /></div>
+        <div><label for="id">Id</label><input type="text" class="text required" id="id" /></div>
+        <div><label for="file">Data Source</label><input type="text" class="text required" id="file" /></div>
         <div>
           <label for="srs">SRS</label>
           <select id="srs">
@@ -168,6 +176,7 @@
     <script type="text/html" name="popup-info">
     <div id='popup-info' class='clearfix pane'>
       <form>
+        <div class='messages'></div>
         <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' value='<%= tilelive_url %>' /></div>
         <div><label for='mml-url'>MML URL</label><input id='mml-url' class='text' type='text' value='<%= mml_url %>' /></div>
       </form>
@@ -176,6 +185,7 @@
     <script type="text/html" name="popup-info-visualization">
     <div id='popup-info' class='clearfix pane'>
       <form>
+        <div class='messages'></div>
         <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' value=<%= tilelive_url %>/></div>
         <div><label for='mml-url'>MML URL</label><input id='mml-url' class='text' type='text' value=<%= mml_url %> /></div>
         <div><label for='choropleth-split'>Choropleth</label>
@@ -197,7 +207,8 @@
     <script type="text/html" name="popup-stylesheet">
     <div id='popup-stylesheet' class='clearfix pane'>
       <form>
-        <div><label for='stylesheet-name'>Name</label><input id='stylesheet-name' class='text' type='text' /></div>
+        <div class='messages'></div>
+        <div><label for='stylesheet-name'>Name</label><input id='stylesheet-name' class='text required' type='text' /></div>
         <div class='buttons'><input class='submit' type='submit' value='Add stylesheet' /></div>
       </form>
     </div>
@@ -205,13 +216,14 @@
     <script type="text/html" name="popup-projectify">
     <div id='popup-projectify' class='clearfix pane'>
       <form>
-        <div><label for='stylesheet-name'>Name</label><input id='project-name' class='text' type='text' /></div>
+        <div class='messages'></div>
+        <div><label for='stylesheet-name'>Name</label><input id='project-name' class='text required' type='text' /></div>
         <div class='buttons'><input class='submit' type='submit' value='Make project' /></div>
       </form>
     </div>
     </script>
-    <script type="text/html" name="popup-standard">
-    <div id='popup-standard' class='clearfix pane'>
+    <script type="text/html" name="popup-message">
+    <div id='popup-message' class='clearfix pane <%= type %>'>
       <%= content %>
     </div>
     </script>

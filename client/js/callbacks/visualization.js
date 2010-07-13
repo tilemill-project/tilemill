@@ -56,9 +56,12 @@ TileMill.controller.visualization = function() {
     $('div#header a.projectify').click(function() {
       var popup = $(TileMill.template('popup-projectify', {}));
       TileMill.popup.show({content: popup, title: 'Make project'});
-      $('input.submit', popup).click(function() {
-        TileMill.visualization.projectify($('#project-name').val());
-        return false;
+      $('form', popup).validate({
+        errorLabelContainer: 'form .messages',
+        submitHandler: function(form) {
+          TileMill.visualization.projectify($('#project-name', form).val());
+          return false;
+        }
       });
       return false;
     });
