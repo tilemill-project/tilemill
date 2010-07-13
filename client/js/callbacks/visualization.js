@@ -117,6 +117,8 @@ TileMill.visualization.attach = function(field, datatype, li) {
         // Choropleth and unique value are mutually exclusive.
         if (type === 'choropleth' || type === 'unique') {
           $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
+          delete TileMill.visualization.settings.choropleth;
+          delete TileMill.visualization.settings.unique;
         }
 
         $(this).addClass('active');
@@ -307,18 +309,19 @@ TileMill.visualization.plugins.choropleth = function(field, mss, callback) {
       split = (TileMill.visualization.settings.choroplethSplit && TileMill.visualization.settings.choroplethSplit != 'undefined' ? TileMill.visualization.settings.choroplethSplit : 5);
       individual = range / split,
       colors = {
-      2: ['#fd5', '#e57e57'],
-      3: ['#fd5', '#f2af56', '#e57e57'],
-      4: ['#fd5', '#f2af56', '#e57e57', '#b27082'],
-      5: ['#fd5', '#f2af56', '#e57e57', '#c57071', '#9f7094'],
-      6: ['#fd5', '#f2af56', '#e68457', '#cf7068', '#ae7086', '#8e70a4'],
-      7: ['#fd5', '#f4b556', '#ea9256', '#e07058', '#c47072', '#a8708b', '#8e70a4'],
-      8: ['#fd5', '#f6bc56', '#ee9e56', '#e57e57', '#d27065', '#bc707a', '#a5708f', '#8e70a4'],
-      9: ['#fd5', '#f7c156', '#f0a656', '#e88b57', '#e07058', '#cb706b', '#b7707e', '#a27091', '#8e70a4'],
-      10: ['#fd5', '#f9c655', '#f1ab56', '#eb9456', '#e47b57', '#d67061', '#c57071', '#b27083', '#a07093', '#8e70a4']
-    };
+        2: ['#fd5', '#e57e57'],
+        3: ['#fd5', '#f2af56', '#e57e57'],
+        4: ['#fd5', '#f2af56', '#e57e57', '#b27082'],
+        5: ['#fd5', '#f2af56', '#e57e57', '#c57071', '#9f7094'],
+        6: ['#fd5', '#f2af56', '#e68457', '#cf7068', '#ae7086', '#8e70a4'],
+        7: ['#fd5', '#f4b556', '#ea9256', '#e07058', '#c47072', '#a8708b', '#8e70a4'],
+        8: ['#fd5', '#f6bc56', '#ee9e56', '#e57e57', '#d27065', '#bc707a', '#a5708f', '#8e70a4'],
+        9: ['#fd5', '#f7c156', '#f0a656', '#e88b57', '#e07058', '#cb706b', '#b7707e', '#a27091', '#8e70a4'],
+        10: ['#fd5', '#f9c655', '#f1ab56', '#eb9456', '#e47b57', '#d67061', '#c57071', '#b27083', '#a07093', '#8e70a4']
+      },
+      min = data.min ? data.min : 0;
     for (i = 0; i < split; i++) {
-      var selector = '#data[' + field + '>=' + data.min + (individual * i) + ']';
+      var selector = '#data[' + field + '>=' + (min + (individual * i)) + ']';
       mss[selector] = { 'polygon-fill': colors[split][i] };
     }
     if (callback) {
@@ -404,9 +407,10 @@ TileMill.visualization.plugins.scaledPoints = function(field, mss, callback) {
   var pluginCallback = (function(data) {
     var range = Math.abs(data.max - data.min),
         individual = range / 10,
-        sizes = { 0: 2, 1: 4, 2: 6, 3: 9, 4: 13, 5: 18, 6: 25, 7: 34, 8: 45, 9: 60 };
+        sizes = { 0: 2, 1: 4, 2: 6, 3: 9, 4: 13, 5: 18, 6: 25, 7: 34, 8: 45, 9: 60 },
+        min = data.min ? data.min : 0;
     for (i = 0; i < 10; i++) {
-      var selector = '#data[' + field + '>=' + data.min + (individual * i) + ']';
+      var selector = '#data[' + field + '>=' + (min + (individual * i)) + ']';
       mss[selector] = {
         'point-file': 'url(http://mapbox-icons.s3.amazonaws.com/tilemill/points/' + i  + '.png)',
         'point-width': sizes[i],
