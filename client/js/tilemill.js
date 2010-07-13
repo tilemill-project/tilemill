@@ -28,6 +28,7 @@ TileMill.controller = {};
  * Route a hashchange or other request to the proper controller.
  */
 TileMill.route = function() {
+  var fn;
   var url = $.bbq.getState("action");
   switch (url) {
     case undefined:
@@ -41,8 +42,13 @@ TileMill.route = function() {
       fn = 'visualization';
       break;
   }
-  $('body').attr('id', fn).empty().append('<div class="loading"></div>');
-  TileMill.controller[fn]();
+  if (TileMill.controller[fn]) {
+    $('body').attr('id', fn).empty().append('<div class="loading"></div>');
+    TileMill.controller[fn]();
+  }
+  else {
+    TileMill.errorPage('Page not found');
+  }
 };
 
 /**
