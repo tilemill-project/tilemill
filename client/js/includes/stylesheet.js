@@ -112,12 +112,10 @@ TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
         height: "100%",
         parserfile: "parsecss.js",
         stylesheet: "css/code.css",
-        path: "js/codemirror/js/"
+        path: "js/codemirror/js/",
+        onChange: function() { TileMill.colors.reload(stylesheets) },
+        initCallback: function() { TileMill.colors.reload(stylesheets) },
       });
-      setInterval(function() {
-        TileMill.colors.reload(stylesheets);
-      }, 5000);
-      TileMill.colors.reload(stylesheets);
     }
     else {
       $('#tabs a.active input').val(TileMill.mirror.getCode());
