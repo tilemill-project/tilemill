@@ -28,46 +28,60 @@ class TileMill(tornado.web.RequestHandler):
         elif force_json:
             json = tornado.escape.json_encode(json)
         self.write(json)
+    def isSafe(self, value):
+        return value.find('..') == -1 and not(re.search('[^\w.-_\/]', value))
 
 class ListHandler(TileMill):
     def get(self):
-        directories = []
-        path = os.path.join(options.files, self.request.arguments['type'][0])
-        for root, dirs, files in os.walk(path):
-            basename = os.path.basename(root)
-            if os.path.isfile(os.path.join(root, basename + '.mml')):
-                directories.append(basename)
-        self.json(directories, True)
+        path = os.path.join(options.files, self.get_argument('filename'))
+        if self.isSafe(path) and os.path.isdir(path):
+            directories = []
+            for root, dirs, files in os.walk(path):
+                basename = os.path.basename(root)
+                if os.path.isfile(os.path.join(root, basename + '.mml')):
+                    directories.append(basename)
+            self.json(directories, True)
+        else:
+            self.json({ 'status': False, 'data': 'Invalid path' }, True)
 
 class AddHandler(TileMill):
     def post(self):
         path = os.path.join(options.files, self.get_argument('filename'))
-        if os.path.isdir(path):
-            self.json({ 'status': False, 'message': 'The directory %s already exists' % (path) }, True)
+        if self.isSafe(path):
+            if os.path.isdir(path):
+                self.json({ 'status': False, 'message': 'The directory %s already exists' % (path) }, True)
+            else:
+                os.makedirs(path)
+                self.json({ 'status': True }, True)
         else:
-            os.makedirs(path)
-            self.json({ 'status': True }, True)
+            self.json({ 'status': False, 'data': 'Invalid path' }, True)
 
 class FileHandler(TileMill):
     def get(self):
         path = os.path.join(options.files, self.get_argument('filename'))
-        if os.path.isfile(path):
-            buffer = open(path)
-            data = buffer.read()
-            buffer.close()
-            self.json(data, False)
+        if self.isSafe(path):
+            if os.path.isfile(path):
+                buffer = open(path)
+                data = buffer.read()
+                buffer.close()
+                self.json(data, False)
+            else:
+                self.json({ 'status': False, 'message': 'The file could not be found' }, True)
         else:
-            self.json({ 'status': False, 'message': 'The file could not be found' }, True)
+            self.json({ 'status': False, 'data': 'Invalid path' }, True)
     def post(self):
         path = os.path.join(options.files, self.get_argument('filename'))
         data = self.get_argument('data')
-        if os.path.isdir(os.path.dirname(path)):
-            buffer = open(path, 'w')
-            buffer.writelines(data)
-            buffer.close()
-            self.json({ 'status': True }, True)
+        if self.isSafe(path):
+            if os.path.isdir(os.path.dirname(path)):
+                buffer = open(path, 'w')
+                buffer.writelines(data)
+                buffer.close()
+                self.json({ 'status': True }, True)
+            else:
+                self.json({ 'status': False, 'data': 'Could not write file' }, True)
         else:
-            self.json({ 'status': False, 'data': 'Could not write file' }, True)
+            self.json({ 'status': False, 'data': 'Invalid path' }, True)
 
 class Application(tornado.web.Application):
     def __init__(self):
