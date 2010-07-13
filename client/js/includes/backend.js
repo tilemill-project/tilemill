@@ -24,11 +24,11 @@ TileMill.backend.servers.python.list = function(type, callback) {
   }
 }
 
-TileMill.backend.servers.python.add = function(id, type, callback) {
+TileMill.backend.servers.python.add = function(filename, callback) {
   // No cache for this.
   TileMill.backend.runtime.post({
     'url': TileMill.settings.pythonServer + 'add',
-    'data': { 'id': id, 'type': type },
+    'data': { 'filename': filename},
     'callback': callback
   });
 }
