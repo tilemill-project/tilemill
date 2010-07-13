@@ -25,18 +25,6 @@ TileMill.controller.list = function() {
     }));
     TileMill.show(page);
 
-    // Thumbnails for projects & visualizations
-    for (var i in projects) {
-      var id = projects[i];
-      TileMill.settings.filename = 'project/' + id + '/' + id + '.mml';
-      TileMill.map.initOL($('#map-thumb-' + id, page), TileMill.backend.servers(TileMill.mml.url()), {});
-    }
-    for (var i in visualizations) {
-      var id = visualizations[i];
-      TileMill.settings.filename = 'visualization/' + id + '/' + id + '.mml';
-      TileMill.map.initOL($('#map-thumb-' + id, page), TileMill.backend.servers(TileMill.mml.url()), {});
-    }
-
     $('form').each(function() {
       $(this).validate({
         errorLabelContainer: '#' + $(this).attr('id') + ' .messages',

@@ -29,9 +29,11 @@ div.error-page {
 body#project { padding-left:320px; }
 
 a {
-  color:#369;
+  color:#48a;
   text-decoration:none;
   }
+
+a:hover { color:#333; }
 
 h1 { font-size:20px; }
 h2 { font-size:16px; }
@@ -89,7 +91,6 @@ h3 { font-size:13px; }
  */
 body#list .column { margin-top:40px; }
 
-
 ul li {
   padding:4px 10px;
   border-bottom:1px solid #ddd;
@@ -111,7 +112,23 @@ ul ul li {
   background:transparent;
   }
 
-ul.items li { line-height:40px; }
+ul.items li {
+  padding:4px 5px;
+  line-height:30px;
+  font-size:16px;
+  }
+
+ul.items li a {
+  padding:0px 5px;
+  display:block;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  }
+
+ul.items li a:hover {
+  background:#fff;
+  display:block;
+  }
 
 #inspector ul li em { margin-left:5px; }
 
@@ -385,18 +402,6 @@ a.inspect-scaledPoints.active,
 a.inspect-label.active,
 a.inspect-choropleth.active,
 a.inspect-unique.active     { background-color:#222; }
-
-/**
- * Map thumbnail
- */
-.map-thumb {
-  float:left;
-  width:100px;
-  height:40px;
-  background:#ddd url(../images/checker-bg.png) 0% 0% repeat;
-  }
-
-#content div.map-thumb { margin-right:10px !important; }
 
 /**
  * Map preview
