@@ -8,6 +8,10 @@ TileMill.stylesheet.init = function() {
 
   // Add stylesheets in order.
   var queue = new TileMill.queue();
+  // Under certain conditions, the queue may not be cleared. Investigate why
+  // this is the case!
+  queue.queue = []; 
+
   var s = TileMill.mml.parseMML(TileMill.settings.mml).stylesheets;
   for (var i in s) {
     var src = s[i];
