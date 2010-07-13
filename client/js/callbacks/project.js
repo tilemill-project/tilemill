@@ -28,6 +28,7 @@ TileMill.controller.project = function() {
     // Init elements which require DOM presence.
     TileMill.colors.initFarb(color);
     TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 0});
+    $('.stylesheets', stylesheets).sortable({ axis: 'x' });
 
     $('div#header a.save').click(function() {
       TileMill.project.save();

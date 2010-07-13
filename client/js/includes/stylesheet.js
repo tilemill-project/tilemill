@@ -21,7 +21,6 @@ TileMill.stylesheet.init = function() {
   }
   queue.add(function(stylesheets, next) {
     TileMill.stylesheet.setCode($('a.tab:first', stylesheets), false, stylesheets);
-    $('.stylesheets', stylesheets).sortable({ axis: 'x', });
     next();
   }, [stylesheets]);
   queue.execute();
@@ -113,7 +112,7 @@ TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
       });
       setInterval(function() {
         TileMill.colors.reload(stylesheets);
-      }, 2500);
+      }, 5000);
       TileMill.colors.reload(stylesheets);
     }
     else {
