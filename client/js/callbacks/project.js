@@ -6,6 +6,11 @@ TileMill.project = {};
 TileMill.controller.project = function() {
   var id = $.bbq.getState("id");
   TileMill.backend.get('project/' + id + '/' + id + '.mml', function(mml) {
+    // Bail if MML was not valid.
+    if (typeof mml != 'string') {
+      TileMill.errorPage(mml.message);
+      return false;
+    }
 
     // Store current settings. @TODO: Refactor this.
     TileMill.settings.mml = mml;

@@ -63,6 +63,13 @@ TileMill.message = function(title, message, type) {
 };
 
 /**
+ * Show an error page.
+ */
+TileMill.errorPage = function(message) {
+  TileMill.show(TileMill.template('error-page', {message: message}));
+};
+
+/**
  * Initial bootstrap. Bind routing to any hash change event and trigger an
  * initial hash change.
  */
