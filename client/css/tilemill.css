@@ -435,6 +435,7 @@ a.inspect-unique.active     { background-color:#222; }
   right:0px;
   width:auto;
   height:auto;
+  border:0px;
   }
 
 #map-preview div.olControlPanZoomBar {
