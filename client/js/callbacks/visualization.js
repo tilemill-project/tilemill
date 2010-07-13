@@ -153,7 +153,7 @@ TileMill.visualization.save = function(callback) {
         'line-width': '0.5',
       },
       '#data': {
-        'polygon-fill': '#83bc69',
+        'polygon-fill': '#bcb',
         'line-color': '#333',
         'line-width': '0.5',
       },
@@ -211,7 +211,7 @@ TileMill.visualization.add = function(url) {
         'line-width': '0.5',
       },
       '#data': {
-        'polygon-fill': '#83bc69',
+        'polygon-fill': '#bcb',
         'line-color': '#333',
         'line-width': '0.5',
       },
@@ -408,9 +408,7 @@ TileMill.visualization.plugins.scaledPoints = function(field, mss, callback) {
     for (i = 0; i < 10; i++) {
       var selector = '#data[' + field + '>=' + data.min + (individual * i) + ']';
       mss[selector] = {
-        // @TODO: How to determine point image URL.
-        // url(" + TileMill.settings.server.substr(0,TileMill.settings.server.length-1) + TileMill.settings.static_path + 'images/points/' + i  + ".png);
-        'point-file': 'url()',
+        'point-file': 'url(http://mapbox-icons.s3.amazonaws.com/tilemill/points/' + i  + '.png)',
         'point-width': sizes[i],
         'point-height': sizes[i],
       };
