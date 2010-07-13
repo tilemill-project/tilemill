@@ -26,7 +26,7 @@ TileMill.map.initOL = function(map, servers, controls) {
   OpenLayers.ImgPath = 'http://js.mapbox.com/theme/dark/';
 
   var olMap = new OpenLayers.Map(map.attr('id'), options);
-  var olLayer = new OpenLayers.Layer.XYZ("Preview", servers);
+  var olLayer = new OpenLayers.Layer.XYZ("Preview", servers, {buffer: 0});
   olMap.addLayers([ olLayer ]);
 
   // Set the map's initial center point
@@ -74,7 +74,7 @@ TileMill.map.reload = function(map, servers) {
         olMap.removeLayer(olMap.layers[i]);
       }
     }
-    olLayer = new OpenLayers.Layer.XYZ("Preview", servers);
+    olLayer = new OpenLayers.Layer.XYZ("Preview", servers, {buffer: 0});
     olMap.addLayers([olLayer]);
   }
 };
