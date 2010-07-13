@@ -4,10 +4,15 @@ TileMill.colors = {};
  * Initialize colors - initialize colorpicker.
  */
 TileMill.colors.init = function() {
-  var farb = $('#farbtastic');
+  var color = $(TileMill.template('color', {}));
+  return color;
+};
+
+TileMill.colors.initFarb = function(color) {
+  var farb = $('#farbtastic', color);
   TileMill.colors.farbtastic = $.farbtastic(farb, { callback:'input#color', width:200, height:200 });
 
-  $('#color-picker a.color-picker').click(function() {
+  $('a.color-picker', color).click(function() {
     farb.toggle('fast');
     return false;
   });
@@ -16,7 +21,15 @@ TileMill.colors.init = function() {
 /**
  * Reload the color palatte.
  */
-TileMill.colors.reload = function(data) {
+TileMill.colors.reload = function(stylesheets) {
+  // Collect text from all tabs.
+  var data = [];
+  $('a.tab:not(.active) input', stylesheets).each(function() {
+    data.push($(this).val());
+  });
+  data.push(TileMill.mirror.getCode());
+  data = data.join("\n");
+
   // Find all colors.
   var matches = data.match(/\#[A-Fa-f0-9]{3,6}/g),
   // Keep track of unique colors.
@@ -46,7 +59,7 @@ TileMill.colors.reload = function(data) {
     // clicked, it's inserted into the document at the current cursor.
     for (var color in colors) {
       colors_div
-        .append($("<a href='#' class='swatch' style='background-color: "+ colors[color][3] +"'><label>"+ colors[color][3] +"</label></a>")
+        .append($(TileMill.template('color-swatch', {color: colors[color][3]}))
           .click(function() {
             TileMill.colors.insert($(this).text());
           }));
@@ -66,7 +79,3 @@ TileMill.colors.insert = function(color) {
   var position = TileMill.mirror.cursorPosition();
   TileMill.mirror.insertIntoLine(position.line, position.character, color);
 }
-
-TileMill.editor.color = function() {
-  TileMill.colors.init();
-};

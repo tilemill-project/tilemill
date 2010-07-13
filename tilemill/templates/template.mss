@@ -1,3 +1,0 @@
-Map {
-  map-bgcolor: #fff;
-}
