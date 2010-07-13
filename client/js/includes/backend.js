@@ -75,7 +75,8 @@ TileMill.backend.rasterizers.tilelive.fields = function(mmlb64, callback) {
 }
 
 TileMill.backend.rasterizers.tilelive.values = function(options) {
-  var cid = options.mmlb64 + options.layer + options.field + options.start + options.limit, cache = TileMill.cache.get('tilelive-values', cid);
+  var cid = options.mmlb64 + options.layer + options.field + options.start + options.limit,
+      cache = TileMill.cache.get('tilelive-values', cid);
   if (cache) {
     options.callback(cache);
   }
@@ -117,7 +118,14 @@ TileMill.backend.rasterizers.tilelive.servers = function(mmlb64) {
 }
 
 TileMill.backend.runtimes.html.get = function(options) {
-  $.getJSON(options.url + '?jsoncallback=?', options.data, options.callback);
+  var url = options.url;
+  if (url.indexOf('?') !== -1) {
+    url = url + '&jsoncallback=?';
+  }
+  else {
+    url = url + '?jsoncallback=?';
+  }
+  $.getJSON(url, options.data, options.callback);
 }
 
 TileMill.backend.runtimes.html.post = function(options) {
