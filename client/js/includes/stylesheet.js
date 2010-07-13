@@ -21,6 +21,7 @@ TileMill.stylesheet.init = function() {
   }
   queue.add(function(stylesheets, next) {
     TileMill.stylesheet.setCode($('a.tab:first', stylesheets), false, stylesheets);
+    $('.stylesheets', stylesheets).sortable({ axis: 'x', change: TileMill.project.changed });
     next();
   }, [stylesheets]);
   queue.execute();
@@ -34,6 +35,7 @@ TileMill.stylesheet.init = function() {
       submitHandler: function(form) {
         TileMill.stylesheet.add({src: $('input#stylesheet-name', form).val(), create: true});
         TileMill.popup.hide();
+        TileMill.project.changed();
         return false;
       }
     });
@@ -70,6 +72,7 @@ TileMill.stylesheet.add = function(options, stylesheets, callback) {
             TileMill.stylesheet.setCode($('.stylesheets a.tab', stylesheets).eq(0), true, stylesheets);
           }
           $(this).remove();
+          TileMill.project.changed();
         });
       }
       return false;
@@ -113,7 +116,10 @@ TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
         parserfile: "parsecss.js",
         stylesheet: "css/code.css",
         path: "js/codemirror/js/",
-        onChange: function() { TileMill.colors.reload(stylesheets) },
+        onChange: function() {
+          TileMill.colors.reload(stylesheets);
+          TileMill.project.changed();
+        },
         initCallback: function() { TileMill.colors.reload(stylesheets) },
       });
     }

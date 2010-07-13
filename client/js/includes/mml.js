@@ -149,10 +149,13 @@ TileMill.mml.add = function(options, layers) {
   var status = options.status == 'true' || options.status == true;
   var li = $(TileMill.template('layers-li', {name: name.join(', '), status: status}));
 
+  $('ul.sidebar-content', layers).prepend(li);
+
   $('a.layer-delete', li).click(function() {
     if (confirm('Are you sure you want to delete this layer?')) {
       $(this).parents('li').hide('fast', function() {
         $(this).remove();
+        TileMill.project.changed();
       });
     }
     return false;
@@ -209,6 +212,7 @@ TileMill.mml.add = function(options, layers) {
           .data('tilemill', layer)
           .find('label').text(name.join(', '));
         TileMill.popup.hide();
+        TileMill.project.changed();
         return false;
       }
     });
@@ -217,8 +221,6 @@ TileMill.mml.add = function(options, layers) {
 
   // Attach layer data to li element.
   li.data('tilemill', options);
-
-  $('ul.sidebar-content', layers).prepend(li);
 };
 
 TileMill.mml.save = function(data) {
@@ -251,7 +253,7 @@ TileMill.mml.init = function() {
   for (var layer in l) {
     TileMill.mml.add(l[layer], layers);
   }
-  $('ul.sidebar-content', layers).sortable({ axis: 'y', handle: 'div.handle' });
+  $('ul.sidebar-content', layers).sortable({ axis: 'y', handle: 'div.handle', change: TileMill.project.changed });
 
   TileMill.inspector.load();
   for (var i in TileMill.customSrs) {
@@ -277,8 +279,9 @@ TileMill.mml.init = function() {
           srs: $('select#srs', form).val(),
           status: 'true'
         };
-        TileMill.mml.add(layer);
+        TileMill.mml.add(layer, $('#layers'));
         TileMill.popup.hide();
+        TileMill.project.changed();
         return false;
       }
     });

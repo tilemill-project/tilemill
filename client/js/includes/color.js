@@ -5,17 +5,17 @@ TileMill.colors = {};
  */
 TileMill.colors.init = function() {
   var color = $(TileMill.template('color', {}));
-
-  $('a.color-picker', color).click(function() {
-    farb.toggle('fast');
-    return false;
-  });
   return color;
 };
 
 TileMill.colors.initFarb = function(color) {
   var farb = $('#farbtastic', color);
   TileMill.colors.farbtastic = $.farbtastic(farb, { callback:'input#color', width:200, height:200 });
+
+  $('a.color-picker', color).click(function() {
+    farb.toggle('fast');
+    return false;
+  });
 };
 
 /**

@@ -81,6 +81,17 @@ h3 { font-size:13px; }
     -webkit-border-radius:3px;
     }
 
+  #header a.save {
+    color:#999;
+    display:none;
+    }
+
+  #header a.save.changed {
+    color:#fff;
+    background:#268;
+    display:block;
+    }
+
   #header a.home {
     text-shadow:#000 0px -1px 0px;
     float:right;
@@ -489,8 +500,8 @@ a.inspect-unique.active     { background-color:#222; }
   float:left;
   -moz-border-radius:3px 3px 0px 0px;
   -webkit-border-radius:3px 3px 0px 0px;
-  background:transparent;
-  padding:5px 30px 5px 10px;
+  background:#f8f8f8;
+  padding:5px 30px 4px 10px;
   font-size:11px;
   font-weight:bold;
   color:#999;

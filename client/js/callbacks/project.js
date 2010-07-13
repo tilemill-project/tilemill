@@ -41,10 +41,11 @@ TileMill.controller.project = function() {
     // Init elements which require DOM presence.
     TileMill.colors.initFarb(color);
     TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 0}, parsed.metadata.mapCenter);
-    $('.stylesheets', stylesheets).sortable({ axis: 'x' });
 
     $('div#header a.save').click(function() {
-      TileMill.project.save();
+      if ($(this).is('.changed')) {
+        TileMill.project.save();
+      }
       return false;
     });
 
@@ -56,6 +57,13 @@ TileMill.controller.project = function() {
       return false;
     });
 
+    $('div#header a.home').click(function() {
+      if (!$('div#header a.save').is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
+        return true;
+      }
+      return false;
+    });
+
     // Hide inspector to start.
     inspector.hide();
     $('a.inspector-close').click(function() {
@@ -64,6 +72,13 @@ TileMill.controller.project = function() {
       return false;
     });
   });
+};
+
+/**
+ * Mark this project as changed (and needing to be saved).
+ */
+TileMill.project.changed = function() {
+  $('div#header a.save').addClass('changed');
 };
 
 /**
@@ -103,6 +118,7 @@ TileMill.project.save = function() {
     TileMill.inspector.load();
     TileMill.uniq = (new Date().getTime());
     TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
+    $('div#header a.save').removeClass('changed');
   });
   queue.execute();
 };
