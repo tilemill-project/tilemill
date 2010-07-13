@@ -24,6 +24,7 @@ TileMill.controller.visualization = function() {
     var inspector = TileMill.inspector.init();
     var map = TileMill.map.init();
 
+    $('.inspector-close', inspector).remove();
     $('#sidebar').append(inspector);
     $('body').append(map);
 
