@@ -4,6 +4,13 @@
 $.fn.reverse = [].reverse;
 
 /**
+ * Add jQuery.validate plugin rules.
+ */
+jQuery.validator.addClassRules({
+  url2: { url2: true }
+});
+
+/**
  * Default settings for TileMill client. If a settings.js override is not
  * included these settings will be used instead.
  */

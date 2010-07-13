@@ -13,6 +13,7 @@
     <script type="text/javascript" src="js/libraries/jquery.url.js"></script>
     <script type="text/javascript" src="js/libraries/jquery.bbq.js"></script>
     <script type="text/javascript" src="js/libraries/jquery.validate.pack.js"></script>
+    <script type="text/javascript" src="js/libraries/jquery.validate.additional-methods.js"></script>
     <script type="text/javascript" src="js/openlayers/OpenLayers.js"></script>
     <script type="text/javascript" src="js/libraries/farbtastic.js"></script>
     <script type="text/javascript" src="js/codemirror/js/codemirror.js"></script>
@@ -69,7 +70,7 @@
         <li>
           <form id='<%= type %>'>
             <div class='messages'></div>
-            <input class='required text <%= (type === "visualization") ? "url" : "" %>' type='text' />
+            <input class='<%= (type === "visualization") ? "url2" : "" %> required text' type='text' />
             <input class='submit' type='submit' value='Add <%= type %>' />
           </form>
         </li>
