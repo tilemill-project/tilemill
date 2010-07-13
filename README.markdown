@@ -50,3 +50,4 @@ Translators:
 * Markus Kirschner (German)
 * Fredrik Nannestad (Danish)
 * Georg Alexander Bøe (Norwegian)
+* Marco Improda (Italian)

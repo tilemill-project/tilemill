@@ -42,6 +42,7 @@
 		A13A579A119960E500686A9E /* Norwegian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Norwegian; path = Norwegian.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		A1A4C5A8106760B100AF3142 /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
 		A1B3A84D11290C9600A72428 /* Danish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Danish; path = Danish.lproj/MoveApplication.strings; sourceTree = "<group>"; };
+		A1C56A0711EAB56A00579B0C /* Italian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Italian; path = Italian.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		FFA30E7310C401D000AC7AC8 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = Russian.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,6 +178,7 @@
 				Spanish,
 				Danish,
 				Norwegian,
+				Italian,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* LetsMove */;
 			projectDirPath = "";
@@ -238,6 +240,7 @@
 				6C39736010D54A3E00515EB3 /* Dutch */,
 				3A85F5BA109373B6007143D7 /* French */,
 				4D6F173F1100B52D00744BB5 /* German */,
+				A1C56A0711EAB56A00579B0C /* Italian */,
 				A10D5BFB106C550F00E53420 /* Japanese */,
 				A13A579A119960E500686A9E /* Norwegian */,
 				FFA30E7310C401D000AC7AC8 /* Russian */,
