@@ -67,8 +67,9 @@ TileMill.map.initOL = function(map, servers, controls) {
 }
 
 TileMill.map.reload = function(map, servers) {
-  var olMap = map.data('TileMill.map').olMap;
-  if (olMap) {
+  var data = map.data('TileMill.map');
+  if (data && data.olMap) {
+    var olMap = data.olMap;
     if (olMap.layers) {
       for (var i in olMap.layers) {
         olMap.removeLayer(olMap.layers[i]);
