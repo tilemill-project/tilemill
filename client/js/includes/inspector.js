@@ -6,7 +6,7 @@ TileMill.inspector.init = function() {
 };
 
 TileMill.inspector.inspect = function(id, visualize) {
-  if (TileMill.inspection && TileMill.inspection[id].fields) {
+  if (TileMill.inspection && TileMill.inspection[id] && TileMill.inspection[id].fields) {
     for (field in TileMill.inspection[id].fields) {
       (function(layer, field) {
         var type = TileMill.inspection[layer].fields[field];
