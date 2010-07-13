@@ -22,10 +22,9 @@
 
     <script type="text/javascript" src="js/callbacks/list.js"></script>
     <script type="text/javascript" src="js/callbacks/project.js"></script>
-    <!-- <script type="text/javascript" src="js/callbacks/visualization.js"></script> -->
+    <script type="text/javascript" src="js/callbacks/visualization.js"></script>
 
     <script type="text/javascript" src="js/includes/template.js"></script>
-    <script type="text/javascript" src="js/includes/template.cache.js"></script>
     <script type="text/javascript" src="js/includes/cache.js"></script>
     <script type="text/javascript" src="js/includes/popup.js"></script>
     <script type="text/javascript" src="js/includes/backend.js"></script>
@@ -53,7 +52,10 @@
       <h2 class='pane'><%= name %></h2>
       <ul class='items'>
         <% for (i in data) { %>
-          <li><a href='#action=<%= type %>&id=<%= data[i] %>' class='route'><%= data[i] %></a></li>
+          <li class='clearfix'>
+            <div class='map-thumb' id='map-thumb-<%= data[i] %>'></div>
+            <a href='#action=<%= type %>&id=<%= data[i] %>' class='route'><%= data[i] %></a>
+          </li>
         <% } %>
         <li><form id='<%= type %>'><input class='text' type='text' /><input class='submit' type='submit' value='Add <%= type %>' /></form></li>
       </ul>
@@ -65,6 +67,17 @@
       <h1>Editing <%= id %></h1>
       <a class='info' href='#project-info'>Info</a>
       <a class='save' href='#project-save'>Save</a>
+      <a class='home' href='#list'>Back home</a>
+    </div>
+    <div id='sidebar'>
+    </div>
+    </script>
+
+    <script type="text/html" name="visualization">
+    <div id='header' class='clearfix pane'>
+      <h1>Visualizing <%= id %></h1>
+      <a class='info' href='#project-info'>Info</a>
+      <a class='projectify' href='#project-save'>Make project</a>
       <a class='home' href='#list'>Back home</a>
     </div>
     <div id='sidebar'>
@@ -141,7 +154,7 @@
       <form>
         <div><label for="classes">Classes</label><input type="text" class="text" id="classes" /></div>
         <div><label for="id">Id</label><input type="text" class="text" id="id" /></div>
-        <div><label for="dataSource">Data Source</label><input type="text" class="text" id="dataSource" /></div>
+        <div><label for="file">Data Source</label><input type="text" class="text" id="file" /></div>
         <div>
           <label for="srs">SRS</label>
           <select id="srs">
@@ -161,6 +174,27 @@
       </form>
     </div>
     </script>
+    <script type="text/html" name="popup-info-visualization">
+    <div id='popup-info' class='clearfix pane'>
+      <form>
+        <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' value=<%= tilelive_url %>/></div>
+        <div><label for='mml-url'>MML URL</label><input id='mml-url' class='text' type='text' value=<%= mml_url %> /></div>
+        <div><label for='choropleth-split'>Choropleth</label>
+          <select id='choropleth-split'>
+            <option value='2'>2 shades</option>
+            <option value='3'>3 shades</option>
+            <option value='4'>4 shades</option>
+            <option value='5'>5 shades</option>
+            <option value='6'>6 shades</option>
+            <option value='7'>7 shades</option>
+            <option value='8'>8 shades</option>
+            <option value='9'>9 shades</option>
+            <option value='10'>10 shades</option>
+          </select>
+        </div>
+      </form>
+    </div>
+    </script>
     <script type="text/html" name="popup-stylesheet">
     <div id='popup-stylesheet' class='clearfix pane'>
       <form>
@@ -175,7 +209,32 @@
     </div>
     </script>
     <script type="text/html" name="color-swatch">
-      <a href='#' class='swatch' style='background-color: <%= color %>'><label><%= color %></label></a>
+    <a href='#' class='swatch' style='background-color: <%= color %>'><label><%= color %></label></a>
+    </script>
+    <script type="text/html" name="inspector-field">
+    <li id='field-<%= field %>'>
+      <a class='inspect-values' href='#inspect-values'>See values</a>
+      <% if (visualize) { %>
+        <a class='visualization-type inspect-unique' href='#inspect-unique'>Unique Value</a>
+        <a class='visualization-type inspect-label' href='#inspect-label'>Label</a>
+        <a class='visualization-type inspect-choropleth' href='#inspect-choropleth'>Choropleth</a>
+        <a class='visualization-type inspect-scaledPoints' href='#inspect-scaled-points'>Scaled points</a>
+      <% } %>
+      <strong><%= field %></strong>
+      <em><%= type %></em>
+    </li>
+    </script>
+    <script type="text/html" name="inspector-values">
+    <div class='inspect-values'>
+      <ul class='clearfix inspect-values field-values'>
+        <li class='min'><strong>Min</strong> <%= min %></li>
+        <li class='max'><strong>Max</strong> <%= max %></li>
+      </ul>
+      <div class='pager clearfix'>
+        <a class='pager-prev <%= class_prev %>' href='#pager-prev'>Prev</a>
+        <a class='pager-next <%= class_next %>' href='#pager-next'>Next</a>
+      </div>
+    </div>
     </script>
   </head>
   <body>

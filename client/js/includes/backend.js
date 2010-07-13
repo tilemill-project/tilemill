@@ -143,7 +143,7 @@ TileMill.backend.runtimes.html.post = function(options) {
     form.append($('<input>').attr({ 'type': 'hidden', 'name': key, 'value': options.data[key] }));
   }
   form.appendTo(doc.body)[0].submit();
-  $(iframe).bind('load', function() { options.callback(); });
+  $(iframe).bind('load', function() { options.callback(); $(this).remove() });
 }
 
 TileMill.backend.runtimes.AIR.get = function(options) {

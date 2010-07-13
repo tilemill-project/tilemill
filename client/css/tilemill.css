@@ -4,10 +4,14 @@ body {
   }
 
 div.loading {
-  width:32px;
-  height:32px;
-  background-image:url(../images/swirly.gif);
-  margin:0 auto;
+  background:#fff url(../images/swirly.gif) 50% 50% no-repeat;
+  opacity:.5;
+
+  position:fixed;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  top:0px;
   }
 
 body#project { padding-left:320px; }
@@ -94,6 +98,8 @@ ul ul li {
   border:0px;
   background:transparent;
   }
+
+ul.items li { line-height:40px; }
 
 #inspector ul li em { margin-left:5px; }
 
@@ -208,6 +214,8 @@ form div.buttons {
   border-right:1px solid #ccc;
   }
 
+#visualization #sidebar { bottom:0px; }
+
 .column h2,
 .popup-header,
 .sidebar-header { background:url(../images/sprite.png) 0px -320px repeat-x; }
@@ -256,7 +264,7 @@ form div.buttons {
 a.inspect-label,
 a.inspect-choropleth,
 a.inspect-unique,
-a.inspect-scaled-points,
+a.inspect-scaledPoints,
 span.tab-delete,
 a.tab-add,
 a#layers-add,
@@ -282,7 +290,7 @@ a.map-fullscreen {
 
 a.inspect-label,
 a.inspect-choropleth,
-a.inspect-scaled-points,
+a.inspect-scaledPoints,
 a.inspect-unique,
 a.layer-edit,
 a.layer-delete,
@@ -297,16 +305,16 @@ a.inspect-values {
   a.layer-inspect-loading { display:none; }
   a.layer-edit { right:27px; }
 
-  a.inspect-scaled-points { right:91px; }
+  a.inspect-scaledPoints { right:91px; }
   a.inspect-choropleth { right:70px; }
   a.inspect-label { right:49px; }
   a.inspect-unique { right:27px; }
 
-  li:hover a.inspect-scaled-points,
+  li:hover a.inspect-scaledPoints,
   li:hover a.inspect-label,
   li:hover a.inspect-choropleth,
   li:hover a.inspect-unique,
-  li a.inspect-scaled-points.active,
+  li a.inspect-scaledPoints.active,
   li a.inspect-label.active,
   li a.inspect-choropleth.active,
   li a.inspect-unique.active,
@@ -330,16 +338,28 @@ a#layers-add     { background-position:-180px -20px; }
 a.inspect-label  { background-position:-200px 0px; }
 a.inspect-choropleth { background-position:-220px 0px; }
 a.inspect-unique { background-position:-240px 0px; }
-a.inspect-scaled-points { background-position:-260px 0px; }
+a.inspect-scaledPoints { background-position:-260px 0px; }
 a.inspect-label.active      { background-position:-200px -20px; }
 a.inspect-choropleth.active { background-position:-220px -20px; }
 a.inspect-unique.active     { background-position:-240px -20px; }
-a.inspect-scaled-points.active     { background-position:-260px -20px; }
+a.inspect-scaledPoints.active     { background-position:-260px -20px; }
 
-a.inspect-scaled-points.active,
+a.inspect-scaledPoints.active,
 a.inspect-label.active,
 a.inspect-choropleth.active,
 a.inspect-unique.active     { background-color:#222; }
+
+/**
+ * Map thumbnail
+ */
+.map-thumb {
+  float:left;
+  width:100px;
+  height:40px;
+  background:#ddd url(../images/checker-bg.png) 0% 0% repeat;
+  }
+
+#content div.map-thumb { margin-right:10px !important; }
 
 /**
  * Map preview
@@ -353,6 +373,15 @@ a.inspect-unique.active     { background-color:#222; }
   border-top:1px solid #ccc;
   border-right:1px solid #ccc;
   background:#ddd url(../images/checker-bg.png) 0% 0% repeat;
+  }
+
+#visualization #map-preview {
+  top:40px;
+  left:320px;
+  bottom:0px;
+  right:0px;
+  width:auto;
+  height:auto;
   }
 
 #map-preview div.olControlPanZoomBar {

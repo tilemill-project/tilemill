@@ -1,5 +1,21 @@
 TileMill.mml = {};
+TileMill.mss = {};
 TileMill.customSrs = [];
+
+TileMill.mss.generate = function(mss) {
+  var output = [];
+  for (var i in mss) {
+    output.push(i + ' {');
+    if (mss[i]) {
+      for (var j in mss[i]) {
+        output.push('  ' + j + ': ' + mss[i][j] + ';');
+      }
+    }
+    output.push('}');
+    output.push('');
+  }
+  return output.join("\n");  
+};
 
 TileMill.mml.generate = function(mml) {
   // We can't store the MML in an HTML template because the template engine
@@ -11,8 +27,14 @@ TileMill.mml.generate = function(mml) {
   '<!DOCTYPE Map[',
   '  <!ENTITY srs900913 "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs">',
   '  <!ENTITY srsWGS84 "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">',
-  ']>',
-  '<Map srs="&srs900913;">'];
+  ']>'];
+
+  output.push('<Map srs="&srs900913;">');
+
+  // Add metadata to the MML file.
+  if (mml.metadata) {
+    output.push('  <![CDATA[ ' + JSON.stringify(mml.metadata) + ' ]]>');
+  }
 
   // Add the stylesheets to the MML file.
   if (mml.stylesheets) {
@@ -22,7 +44,7 @@ TileMill.mml.generate = function(mml) {
   }
 
   // And add the layers.
-  if (layers) {
+  if (mml.layers) {
     for (i = 0; i < mml.layers.length; i++) {
       var layer = mml.layers[i], layerDef = '  <Layer';
       if (layer.id) {
@@ -33,7 +55,7 @@ TileMill.mml.generate = function(mml) {
       }
       if (!layer.srs) {
         // Detect SRS.
-        layer.srs = '&srsWGS84;';
+        layer.srs = 'WGS84';
       }
       layerDef += ' srs="&srs' + layer.srs + ';"';
       if (mml.layers[i].status != undefined && !mml.layers[i].status) {
@@ -58,11 +80,24 @@ TileMill.mml.generate = function(mml) {
   return output.join("\n");
 };
 
-/**
- * For a given mml jQuery object, return an array of layers.
- */
-TileMill.mml.parseLayers = function(mml) {
-  var layers = [];
+TileMill.mml.parseMML = function(mml) {
+  var parsed = {
+    stylesheets: [],
+    layers: [],
+  };
+  // Parse metadata.
+  var matches = mml.match(/\<\!\[CDATA\[(.+)\]\]\>/);
+  if (matches && matches[1]) {
+    parsed.metadata = eval('(' + matches[1] + ')');
+  }
+
+  // Parse stylesheets.
+  $(mml).find('Stylesheet').each(function() {
+    if ($(this).attr('src')) {
+      parsed.stylesheets.push($(this).attr('src'));
+    }
+  });
+  // Parse layers.
   $(mml).find('Layer').each(function() {
     var status = $(this).attr('status');
     if (status == 'undefined' || status == undefined || status == 'on') {
@@ -91,15 +126,15 @@ TileMill.mml.parseLayers = function(mml) {
     else {
       srs = parsed_srs;
     }
-    layers.push({
+    parsed.layers.push({
       classes: classes,
       id: $(this).attr('id'),
       status: status,
-      dataSource: $(this).find('Datasource Parameter[name=file]').text(),
+      file: $(this).find('Datasource Parameter[name=file]').text(),
       srs: srs
     });
   });
-  return layers;
+  return parsed;
 };
 
 TileMill.mml.add = function(options, layers) {
@@ -126,10 +161,12 @@ TileMill.mml.add = function(options, layers) {
       // @TODO refactor this out.
       if (!$(this).parents('li').data('tilemill')['id']) {
         alert('You need to add an id to a field and save to inspect it.');
-        return;
+        return false;
       }
       $('#inspector .sidebar-header h2').html('Layers &raquo; ' + $(this).parents('li').find('label').text());
-      TileMill.inspector.inspect($(this).parents('li').data('tilemill').id);
+      $('#layers').hide();
+      $('#inspector').show();
+      TileMill.inspector.inspect($(this).parents('li').data('tilemill').id, false);
       TileMill.page = 0;
       return false;
     }))
@@ -150,7 +187,7 @@ TileMill.mml.add = function(options, layers) {
         var layer = {
           classes: $('#popup-layer input#classes').val(),
           id: $('#popup-layer input#id').val(),
-          dataSource: $('#popup-layer input#dataSource').val(),
+          file: $('#popup-layer input#file').val(),
           srs: $('#popup-layer select#srs').val(),
           status: 'true'
         };
@@ -176,7 +213,8 @@ TileMill.mml.add = function(options, layers) {
   if (options.status == 'true' || options.status == true) {
     checkbox[0].checked = true;
   }
-  $('ul.sidebar-content', layers).prepend(li.data('tilemill', options));
+  $('ul.sidebar-content', layers).prepend(li);
+  li.data('tilemill', options);
 };
 
 TileMill.mml.save = function(data) {
@@ -205,8 +243,7 @@ TileMill.mml.url = function(options) {
 // @TODO: Move more of this to the controller.
 TileMill.mml.init = function() {
   var layers = $(TileMill.template('layers', {}));
-
-  var l = TileMill.mml.parseLayers(TileMill.settings.mml);
+  var l = TileMill.mml.parseMML(TileMill.settings.mml).layers;
   for (var layer in l) {
     TileMill.mml.add(l[layer], layers);
   }
@@ -228,7 +265,7 @@ TileMill.mml.init = function() {
       var layer = {
         classes: $('#popup-layer input#classes').val(),
         id: $('#popup-layer input#id').val(),
-        dataSource: $('#popup-layer input#dataSource').val(),
+        file: $('#popup-layer input#file').val(),
         srs: $('#popup-layer select#srs').val(),
         status: 'true'
       };

@@ -41,12 +41,11 @@ class ListHandler(TileMill):
 
 class AddHandler(TileMill):
     def post(self):
-        name = self.request.arguments['id'][0]
-        directory = os.path.join(self.request.arguments['type'][0], name)
-        if os.path.isdir(directory):
-            self.json({ 'status': False, 'message': 'The directory %s already exists' % (name) }, True)
+        path = os.path.join(options.files, self.get_argument('filename'))
+        if os.path.isdir(path):
+            self.json({ 'status': False, 'message': 'The directory %s already exists' % (path) }, True)
         else:
-            os.makedirs(directory)
+            os.makedirs(path)
             self.json({ 'status': True }, True)
 
 class FileHandler(TileMill):
@@ -56,7 +55,7 @@ class FileHandler(TileMill):
             buffer = open(path)
             data = buffer.read()
             buffer.close()
-            self.json(data)
+            self.json(data, False)
         else:
             self.json({ 'status': False, 'message': 'The file could not be found' }, True)
     def post(self):

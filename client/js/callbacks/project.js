@@ -13,10 +13,6 @@ TileMill.controller.project = function() {
 
     TileMill.show(TileMill.template('project', {id: id}));
 
-    for (var i in TileMill.editor) {
-      TileMill.editor[i]();
-    }
-
     var layers = TileMill.mml.init();
     var inspector = TileMill.inspector.init();
     var stylesheets = TileMill.stylesheet.init();
@@ -29,7 +25,7 @@ TileMill.controller.project = function() {
     $('body').append(stylesheets);
     $('body').append(color);
 
-    // Farbtastic needs to be inited after the element is added to the DOM.
+    // Init elements which require DOM presence.
     TileMill.colors.initFarb(color);
     TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 0});
 
@@ -72,9 +68,10 @@ TileMill.project.save = function() {
     });
     $('#layers ul.sidebar-content li').reverse().each(function() {
       var layer = $(this).data('tilemill');
-      layer.file = $('<span/>').text(layer.dataSource).html();
-      layer.status = !!$(this).find('input[type=checkbox]').is(':checked');
-      mml.layers.push(layer);
+      if (layer) {
+        layer.status = !!$(this).find('input[type=checkbox]').is(':checked');
+        mml.layers.push(layer);
+      }
     });
     mml = TileMill.mml.generate(mml);
     TileMill.backend.post('project/' + id + '/' + id + '.mml', mml, next);
@@ -86,3 +83,43 @@ TileMill.project.save = function() {
   });
   queue.execute();
 }
+
+TileMill.project.add = function(name) {
+  var queue = new TileMill.queue();
+  queue.add(function(name, next) {
+    var filename = 'project/' + name;
+    TileMill.backend.add(filename, next);
+  }, [name]);
+  queue.add(function(name, next) {
+    var mss = 'project/' + name + '/' + name + '.mss';
+    var data = TileMill.mss.generate({
+      'Map': {
+        'map-bgcolor': '#fff',
+      },
+      '#world': {
+        'polygon-fill': '#eee',
+        'line-color': '#ccc',
+        'line-width': '0.5',
+      },
+    });
+    TileMill.backend.post(mss, data, next);
+  }, [name]);
+  queue.add(function(name, next) {
+    var mss = 'project/' + name + '/' + name + '.mss';
+    var mml = 'project/' + name + '/' + name + '.mml';
+    var data = TileMill.mml.generate({
+      stylesheets: [TileMill.backend.url(mss)],
+      layers:[{
+        id: 'world',
+        srs: 'WGS84',
+        file: 'http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip',
+        type: 'shape',
+      }],
+    });
+    TileMill.backend.post(mml, data, next);
+  }, [name]);
+  queue.add(function(name) {
+    $.bbq.pushState({ 'action': 'project', 'id': name });
+  }, [name]);
+  queue.execute();
+};
