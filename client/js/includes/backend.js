@@ -6,17 +6,17 @@ TileMill.backend.runtimes = { 'html': {}, 'AIR': {} };
 TileMill.backend.runtime = {};
 
 // Python backend
-TileMill.backend.servers.python.list = function(type, callback) {
-  var cache = TileMill.cache.get('python-list', type);
+TileMill.backend.servers.python.list = function(filename, callback) {
+  var cache = TileMill.cache.get('python-list', filename);
   if (cache) {
     callback(cache);
   }
   else {
     TileMill.backend.runtime.get({
       'url': TileMill.settings.pythonServer + 'list', 
-      'data': { 'type': type },
+      'data': { 'filename': filename},
       'callback': function(data) {
-        TileMill.cache.set('python-list', type, data);
+        TileMill.cache.set('python-list', filename, data);
         callback(data);
       },
       json: true
