@@ -146,79 +146,79 @@ TileMill.mml.add = function(options, layers) {
   if (options.classes.length) {
     name.push('.' + options.classes.split(' ').join(', .'));
   }
-  var checkbox = $('<input class="checkbox" type="checkbox" />'),
-    li = $('<li>')
-    .append($('<div class="handle"></div>'))
-    .append(checkbox)
-    .append($('<a class="layer-delete" href="#">Delete</a>').click(function() {
-      if (confirm('Are you sure you want to delete this layer?')) {
-        $(this).parents('li').hide('fast', function() {
-          $(this).remove();
-        });
-      }
+  var status = options.status == 'true' || options.status == true;
+  var li = $(TileMill.template('layers-li', {name: name.join(', '), status: status}));
+
+  $('a.layer-delete', li).click(function() {
+    if (confirm('Are you sure you want to delete this layer?')) {
+      $(this).parents('li').hide('fast', function() {
+        $(this).remove();
+      });
+    }
+    return false;
+  });
+
+  $('a.layer-inspect', li).click(function() {
+    // @TODO refactor this out.
+    if (!$(this).parents('li').data('tilemill')['id']) {
+      alert('You need to add an id to a field and save to inspect it.');
       return false;
-    }))
-    .append($('<a class="layer-inspect" href="#">Inspect</a>').click(function() {
-      // @TODO refactor this out.
-      if (!$(this).parents('li').data('tilemill')['id']) {
-        alert('You need to add an id to a field and save to inspect it.');
+    }
+    $('#inspector .sidebar-header h2').html('Layers &raquo; ' + $(this).parents('li').find('label').text());
+    $('#layers').hide();
+    $('#inspector').show();
+    TileMill.inspector.inspect($(this).parents('li').data('tilemill').id, false);
+    TileMill.inspector.page = 0;
+    return false;
+  });
+
+  $('a.layer-edit', li).click(function() {
+    var popup = $(TileMill.template('popup-layer', {submit:'Save'}));
+
+    // Populate form values.
+    var options = $(this).parents('li').data('tilemill');
+    for (option in options) {
+      $('#' + option, popup).val(options[option]).end();
+    }
+
+    TileMill.popup.show({content: popup, title: 'Edit layer'});
+
+    // Create reference to layer li for submit handler to find.
+    $('form', popup).data('li', $(this).parents('li'));
+
+    // Add submit handler.
+    $('form', popup).validate({
+      errorLabelContainer: 'form .messages',
+      submitHandler: function(form) {
+        var layer = {
+          classes: $('input#classes', form).val(),
+          id: $('input#id', form).val(),
+          file: $('input#file', form).val(),
+          srs: $('select#srs', form).val(),
+          status: 'true'
+        };
+        var name = [];
+        if (layer.id) {
+          name.push('#' + layer.id);
+        }
+        if (layer.classes) {
+          name.push('.' + layer.classes.split(' ').join(', .'));
+        }
+        var li = $(form).data('li');
+        $(li)
+          .data('tilemill', layer)
+          .find('label').text(name.join(', '));
+        TileMill.popup.hide();
         return false;
       }
-      $('#inspector .sidebar-header h2').html('Layers &raquo; ' + $(this).parents('li').find('label').text());
-      $('#layers').hide();
-      $('#inspector').show();
-      TileMill.inspector.inspect($(this).parents('li').data('tilemill').id, false);
-      TileMill.page = 0;
-      return false;
-    }))
-    .append($('<a class="layer-edit" href="#">Edit</a>').click(function() {
-      var popup = $(TileMill.template('popup-layer', {submit:'Save'}));
+    });
+    return false;
+  });
 
-      // Populate form values.
-      var options = $(this).parents('li').data('tilemill');
-      for (option in options) {
-        $('#' + option, popup).val(options[option]).end();
-      }
-
-      TileMill.popup.show({content: popup, title: 'Edit layer'});
-
-      // Create reference to layer li for submit handler to find.
-      $('form', popup).data('li', $(this).parents('li'));
-
-      // Add submit handler.
-      $('form', popup).validate({
-        errorLabelContainer: 'form .messages',
-        submitHandler: function(form) {
-          var layer = {
-            classes: $('input#classes', form).val(),
-            id: $('input#id', form).val(),
-            file: $('input#file', form).val(),
-            srs: $('select#srs', form).val(),
-            status: 'true'
-          };
-          var name = [];
-          if (layer.id) {
-            name.push('#' + layer.id);
-          }
-          if (layer.classes) {
-            name.push('.' + layer.classes.split(' ').join(', .'));
-          }
-          var li = $(form).data('li');
-          $(li)
-            .data('tilemill', layer)
-            .find('label').text(name.join(', '));
-          TileMill.popup.hide();
-          return false;
-        }
-      });
-      return false;
-    }))
-    .append($('<label>' + name.join(', ') + '</label>'));
-  if (options.status == 'true' || options.status == true) {
-    checkbox[0].checked = true;
-  }
-  $('ul.sidebar-content', layers).prepend(li);
+  // Attach layer data to li element.
   li.data('tilemill', options);
+
+  $('ul.sidebar-content', layers).prepend(li);
 };
 
 TileMill.mml.save = function(data) {

@@ -109,6 +109,17 @@
     </div>
     </script>
 
+    <script type="text/html" name="layers-li">
+    <li>
+      <div class="handle"></div>
+      <input class="checkbox" type="checkbox" <%= (status) ? "checked='checked'" : "" %> />
+      <a class="layer-delete" href="#">Delete</a>
+      <a class="layer-inspect" href="#">Inspect</a>
+      <a class="layer-edit" href="#">Edit</a>
+      <label><%= name %></label>
+    </li>
+    </script>
+
     <script type="text/html" name="inspector">
     <div id='inspector'>
       <div class='sidebar-header clearfix pane'>
