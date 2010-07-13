@@ -6,26 +6,19 @@ TileMill.backend.runtimes = { 'html': {}, 'AIR': {} };
 TileMill.backend.runtime = {};
 
 // Python backend
-TileMill.backend.servers.python.list = function(type, callback) {
-  var cache = TileMill.cache.get('python-list', type);
-  if (cache) {
-    callback(cache);
-  }
-  else {
-    TileMill.backend.runtime.get({
-      'url': TileMill.settings.pythonServer + 'list', 
-      'data': { 'type': type },
-      'callback': function(data) {
-        TileMill.cache.set('python-list', type, data);
-        callback(data);
-      },
-      json: true
-    });
-  }
+TileMill.backend.servers.python.list = function(filename, callback) {
+  TileMill.backend.runtime.get({
+    'url': TileMill.settings.pythonServer + 'list',
+    'data': { 'type': filename },
+    'callback': function(data) {
+      TileMill.cache.set('python-list', filename, data);
+      callback(data);
+    },
+    json: true
+  });
 }
 
 TileMill.backend.servers.python.add = function(filename, callback) {
-  // No cache for this.
   TileMill.backend.runtime.post({
     'url': TileMill.settings.pythonServer + 'add',
     'data': { 'filename': filename},
