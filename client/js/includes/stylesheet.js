@@ -112,9 +112,9 @@ TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
         path: "js/codemirror/js/"
       });
       setInterval(function() {
-        TileMill.colors.reload(TileMill.mirror.getCode());
-      }, 5000);
-      TileMill.colors.reload(data);
+        TileMill.colors.reload(stylesheets);
+      }, 2500);
+      TileMill.colors.reload(stylesheets);
     }
     else {
       $('#tabs a.active input').val(TileMill.mirror.getCode());
@@ -123,7 +123,7 @@ TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
 
       var data = $('input', stylesheet).val();
       TileMill.mirror.setCode(data);
-      TileMill.colors.reload(data);
+      TileMill.colors.reload(stylesheets);
     }
   }
 };

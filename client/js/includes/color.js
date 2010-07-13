@@ -21,7 +21,15 @@ TileMill.colors.initFarb = function(color) {
 /**
  * Reload the color palatte.
  */
-TileMill.colors.reload = function(data) {
+TileMill.colors.reload = function(stylesheets) {
+  // Collect text from all tabs.
+  var data = [];
+  $('a.tab:not(.active) input', stylesheets).each(function() {
+    data.push($(this).val());
+  });
+  data.push(TileMill.mirror.getCode());
+  data = data.join("\n");
+
   // Find all colors.
   var matches = data.match(/\#[A-Fa-f0-9]{3,6}/g),
   // Keep track of unique colors.
