@@ -160,25 +160,6 @@ TileMill.visualization.save = function() {
     TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
   });
   queue.execute();
-  
-  /*
-  if (TileMill.basic.label) {
-    TileMill.basic.stylesheet += "\n#inspect " + TileMill.basic.label + " {\n  text-face-name: \"DejaVu Sans Book\";\n  text-fill: #333;\n  text-size: 9;\n}";
-  }
-
-  if (TileMill.basic.visualizationType == 'choropleth' || TileMill.basic.visualizationType == 'unique') {
-    var field = TileMill.basic.visualizationField;
-    if (TileMill.inspector.valueCache[field]) {
-      TileMill.basic[TileMill.basic.visualizationType](TileMill.inspector.valueCache[field]);
-    }
-    else {
-      TileMill.inspector.values(field, 'inspect', 'TileMill.basic.' + TileMill.basic.visualizationType, (TileMill.basic.visualizationType == 'unique' ? 50 : false), 50);
-    }
-  }
-  else {
-    TileMill._save();
-  }
-  */
 };
 
 /**
@@ -228,10 +209,8 @@ TileMill.visualization.plugins.choropleth = function(field, mss, callback) {
       return mss;
     }
   });
-
-  encode = TileMill.mml.url();
-  TileMill.backend.rasterizers.tilelive.values({
-    'mmlb64': encode,
+  TileMill.backend.values({
+    'mmlb64': TileMill.mml.url(),
     'layer': 'inspect',
     'field': field,
     'start': 0,
@@ -239,6 +218,100 @@ TileMill.visualization.plugins.choropleth = function(field, mss, callback) {
     'callback': pluginCallback
   });
 }
+
+/**
+ * Visualization plugin: unique.
+ */
+TileMill.visualization.plugins.unique = function(field, mss, callback) {
+  var pluginCallback = (function(data) {
+    var colors = [
+        '#e17057',
+        '#95e47a',
+        '#9095e3',
+        '#c7658b',
+        '#eba15f',
+        '#7cd0a1',
+        '#8e70a4',
+        '#ffdd55',
+        '#85ced7',
+        '#f397a4'
+        ],
+        processed = [],
+        colorValues = {};
+    for (i = 0; i < data.values.length; i++) {
+      var pass = false;
+      for (j = 0; j < processed.length; j++) {
+        if (processed[j] == data.values[i]) {
+          pass = true;
+          continue;
+        }
+      }
+      if (!pass) {
+        var color = colors[i % colors.length];
+        if (colorValues[color]) {
+          colorValues[color].push(data.values[i]);
+        }
+        else {
+          colorValues[color] = [data.values[i]];
+        }
+        processed.push(data.values[i]);
+      }
+    }
+    for (var color in colorValues) {
+      var selectors = [];
+      for (var value = 0; value < colorValues[color].length; value++) {
+        selectors.push('#inspect[' + field + '="' + colorValues[color][value] + '"]');
+      }
+      mss[selectors.join(",\n")] = { 'polygon-fill': color };
+    }
+    if (callback) {
+      callback(mss);
+    }
+    else {
+      return mss;
+    }
+  });
+  TileMill.backend.values({
+    'mmlb64': TileMill.mml.url(),
+    'layer': 'inspect',
+    'field': field,
+    'start': 0,
+    'limit': false,
+    'callback': pluginCallback
+  });
+}
+
+TileMill.visualization.plugins.scaledPoints = function(field, mss, callback) {
+  var pluginCallback = (function(data) {
+    var range = Math.abs(data.max - data.min),
+        individual = range / 10,
+        sizes = { 0: 2, 1: 4, 2: 6, 3: 9, 4: 13, 5: 18, 6: 25, 7: 34, 8: 45, 9: 60 };
+    for (i = 0; i < 10; i++) {
+      var selector = '#inspect[' + field + '>=' + data.min + (individual * i) + ']';
+      mss[selector] = {
+        // @TODO: How to determine point image URL.
+        // url(" + TileMill.settings.server.substr(0,TileMill.settings.server.length-1) + TileMill.settings.static_path + 'images/points/' + i  + ".png);
+        'point-file': 'url()',
+        'point-width': sizes[i],
+        'point-height': sizes[i],
+      };
+    }
+    if (callback) {
+      callback(mss);
+    }
+    else {
+      return mss;
+    }
+  });
+  TileMill.backend.values({
+    'mmlb64': TileMill.mml.url(),
+    'layer': 'inspect',
+    'field': field,
+    'start': 0,
+    'limit': false,
+    'callback': pluginCallback
+  });
+};
 
 TileMill.visualization.add = function(url) {
   var name = url.split('/').pop().split('.')[0];
@@ -352,79 +425,3 @@ $(function() {
     return false;
   });
 });
-
-TileMill._save = function() {
-  // scaledPoints
-  if (TileMill.basic.scaledPoints) {
-    var field = TileMill.basic.scaledPoints;
-    if (TileMill.inspector.valueCache[field]) {
-      TileMill.scaledPoints(TileMill.inspector.valueCache[field]);
-    }
-    else {
-      TileMill.inspector.values(field, 'inspect', 'TileMill.scaledPoints', 50);
-    }
-  }
-  else {
-    TileMill.__save();
-  }
-}
-
-TileMill.__save = function() {
-  TileMill.stylesheet.save(TileMill.settings.project_id, TileMill.basic.stylesheet);
-  TileMill.uniq = (new Date().getTime());
-  TileMill.map.reload();
-}
-
-TileMill.scaledPoints = function(data) {
-  var range = Math.abs(data.max - data.min),
-    individual = range / 10,
-    sizes = { 0: 2, 1: 4, 2: 6, 3: 9, 4: 13, 5: 18, 6: 25, 7: 34, 8: 45, 9: 60 };
-  for (i = 0; i < 10; i++) {
-    TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.scaledPoints + ">=" + data.min + (individual * i) + "] {\n  point-file: url(" + TileMill.settings.server.substr(0,TileMill.settings.server.length-1) + TileMill.settings.static_path + 'images/points/' + i  + ".png);\n  point-width: " + sizes[i] + ";\n  point-height: " + sizes[i] + ";\n}";
-  }
-  TileMill.__save();
-}
-
-TileMill.basic.unique = function(data) {
-  var colors = [
-      '#e17057',
-      '#95e47a',
-      '#9095e3',
-      '#c7658b',
-      '#eba15f',
-      '#7cd0a1',
-      '#8e70a4',
-      '#ffdd55',
-      '#85ced7',
-      '#f397a4'
-    ], processed = [], colorValues = {};
-  for (i = 0; i < data.values.length; i++) {
-    var pass = false;
-    for (j = 0; j < processed.length; j++) {
-      if (processed[j] == data.values[i]) {
-        pass = true;
-        continue;
-      }
-    }
-    if (!pass) {
-      var color = colors[i % colors.length];
-      if (colorValues[color]) {
-        colorValues[color].push(data.values[i]);
-      }
-      else {
-        colorValues[color] = [data.values[i]];
-      }
-      processed.push(data.values[i]);
-    }
-  }
-  for (var color in colorValues) {
-    for (var value = 0; value < colorValues[color].length; value++) {
-      if (value != 0) {
-        TileMill.basic.stylesheet += ',';
-      }
-      TileMill.basic.stylesheet += "\n#inspect[" + TileMill.basic.visualizationField + "='" + colorValues[color][value] + "']";
-    }
-    TileMill.basic.stylesheet += " {\n  polygon-fill: " + color + ";\n}";
-  }
-  TileMill._save();
-}
