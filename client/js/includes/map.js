@@ -10,7 +10,7 @@ TileMill.map.initOL = function(map, servers, controls, center) {
     projection: new OpenLayers.Projection("EPSG:900913"),
     displayProjection: new OpenLayers.Projection("EPSG:4326"),
     units: "m",
-    numZoomLevels: 12,
+    numZoomLevels: 18,
     maxResolution: 156543.0339,
     maxExtent: new OpenLayers.Bounds(
       -20037500,
