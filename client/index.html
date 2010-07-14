@@ -191,9 +191,14 @@
         <div>
           <label for="srs">SRS</label>
           <select id="srs">
-            <option value="900913">900913</option>
-            <option value="WGS84">WGS84</option>
+            <option value="&srs900913;">900913</option>
+            <option value="&srsWGS84;">WGS84</option>
+            <option value="custom">Add custom</option>
           </select>
+        </div>
+        <div class='srs-custom'>
+          <label for="srs-custom">Custom</label>
+          <input type="text" class="text" id="srs-custom" />
         </div>
         <div class='buttons'><input class='submit' type='submit' value='<%= submit %>' /></div>
       </form>

@@ -2,6 +2,7 @@ TileMill.inspector = { page: {}, inspection: {}, urls: {} };
 
 TileMill.inspector.init = function() {
   var inspector = $(TileMill.template('inspector', {}));
+  TileMill.inspector.load();
   return inspector;
 };
 

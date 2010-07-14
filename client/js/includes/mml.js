@@ -1,6 +1,18 @@
 TileMill.mml = {};
 TileMill.mss = {};
-TileMill.customSrs = [];
+
+TileMill.mml.srs = function(srs) {
+  for (var entity in TileMill.settings.srs) {
+    if (
+      (entity === srs) ||
+      ('&' + entity + ';' === srs) ||
+      (TileMill.settings.srs[entity] === srs)
+    ) {
+      return '&' + entity + ';'
+    }
+  }
+  return false;
+};
 
 TileMill.mss.generate = function(mss) {
   var output = [];
@@ -23,12 +35,12 @@ TileMill.mml.generate = function(mml) {
   // get put in the DOM, we want the MML that we end up with to be readable by
   // humans. Thus, we have to keep it entirely in JavaScript and join the
   // lines together at the end of the script.
-  var output = ['<' + '?xml version="1.0" encoding="utf-8"?>',
-  '<!DOCTYPE Map[',
-  '  <!ENTITY srs900913 "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs">',
-  '  <!ENTITY srsWGS84 "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">',
-  ']>'];
-
+  var output = ['<' + '?xml version="1.0" encoding="utf-8"?>'];
+  output.push('<!DOCTYPE Map[');
+  for (var entity in TileMill.settings.srs) {
+    output.push('  <!ENTITY ' + entity + ' "' + TileMill.settings.srs[entity] + '">');
+  }
+  output.push(']>');
   output.push('<Map srs="&srs900913;">');
 
   // Add metadata to the MML file.
@@ -54,10 +66,10 @@ TileMill.mml.generate = function(mml) {
         layerDef += ' class="' + layer.classes + '"';
       }
       if (!layer.srs) {
-        // Detect SRS.
-        layer.srs = 'WGS84';
+        // @TODO detect SRS.
+        layer.srs = '&srsWGS84;';
       }
-      layerDef += ' srs="&srs' + layer.srs + ';"';
+      layerDef += ' srs="' + layer.srs + '"';
       if (mml.layers[i].status != undefined && !mml.layers[i].status) {
         layerDef += ' status="off"';
       }
@@ -111,22 +123,7 @@ TileMill.mml.parseMML = function(mml) {
     if ($(this).attr('class')) {
       classes = $(this).attr('class');
     }
-    var srs = $(this).attr('srs'), parsed_srs = srs.replace(/^&srs(.*);$/, '$1');
-    if (parsed_srs == srs) {
-      var pass = false;
-      for (var key in TileMill.customSrs) {
-        if (TileMill.customSrs[key] == srs) {
-          pass = true;
-          continue;
-        }
-      }
-      if (!pass) {
-        TileMill.customSrs.push(srs);
-      }
-    }
-    else {
-      srs = parsed_srs;
-    }
+    var srs = $(this).attr('srs');
     parsed.layers.push({
       classes: classes,
       id: $(this).attr('id'),
@@ -136,6 +133,76 @@ TileMill.mml.parseMML = function(mml) {
     });
   });
   return parsed;
+};
+
+TileMill.mml.layerForm = function(popup, li, options) {
+  // Populate form values.
+  for (option in options) {
+    if (option === 'srs') {
+      var srs = TileMill.mml.srs(options[option]);
+      if (srs) {
+        $('#' + option, popup).val(srs);
+      }
+      else {
+        $('#' + option, popup).val('custom');
+        $('#srs-custom', popup).val(options[option]);
+      }
+    }
+    else {
+      $('#' + option, popup).val(options[option]);
+    }
+  }
+
+  // Create reference to layer li for submit handler to find.
+  if (li) {
+    $('form', popup).data('li', li);
+  }
+
+  // Custom SRS selector switch.
+  $('select#srs', popup).change(function() {
+    if ($(this).val() === 'custom') {
+      $('div.srs-custom', $(this).parents('form')).show();
+    }
+    else {
+      $('div.srs-custom', $(this).parents('form')).hide();
+    }
+  });
+  $('select#srs', popup).change();
+
+  // Add submit handler.
+  $('form', popup).validate({
+    errorLabelContainer: 'form .messages',
+    submitHandler: function(form) {
+      var layer = {
+        classes: $('input#classes', form).val(),
+        id: $('input#id', form).val(),
+        file: $('input#file', form).val(),
+        srs: $('select#srs', form).val() !== 'custom' ? $('select#srs', form).val() : $('input#srs-custom', form).val(),
+        status: 'true'
+      };
+      // Update an existing layer item.
+      var li = $(form).data('li');
+      if (li) {
+        var name = [];
+        if (layer.id) {
+          name.push('#' + layer.id);
+        }
+        if (layer.classes) {
+          name.push('.' + layer.classes.split(' ').join(', .'));
+        }
+        $(li)
+          .data('tilemill', layer)
+          .find('label').text(name.join(', '));
+      }
+      // Add a new layer item.
+      else {
+        TileMill.mml.add(layer, $('#layers'));
+      }
+      TileMill.popup.hide();
+      TileMill.project.changed();
+      return false;
+    }
+  });
 };
 
 TileMill.mml.add = function(options, layers) {
@@ -176,45 +243,10 @@ TileMill.mml.add = function(options, layers) {
 
   $('a.layer-edit', li).click(function() {
     var popup = $(TileMill.template('popup-layer', {submit:'Save'}));
-
-    // Populate form values.
-    var options = $(this).parents('li').data('tilemill');
-    for (option in options) {
-      $('#' + option, popup).val(options[option]).end();
-    }
-
+    var li = $(this).parents('li');
+    var options = li.data('tilemill');
     TileMill.popup.show({content: popup, title: 'Edit layer'});
-
-    // Create reference to layer li for submit handler to find.
-    $('form', popup).data('li', $(this).parents('li'));
-
-    // Add submit handler.
-    $('form', popup).validate({
-      errorLabelContainer: 'form .messages',
-      submitHandler: function(form) {
-        var layer = {
-          classes: $('input#classes', form).val(),
-          id: $('input#id', form).val(),
-          file: $('input#file', form).val(),
-          srs: $('select#srs', form).val(),
-          status: 'true'
-        };
-        var name = [];
-        if (layer.id) {
-          name.push('#' + layer.id);
-        }
-        if (layer.classes) {
-          name.push('.' + layer.classes.split(' ').join(', .'));
-        }
-        var li = $(form).data('li');
-        $(li)
-          .data('tilemill', layer)
-          .find('label').text(name.join(', '));
-        TileMill.popup.hide();
-        TileMill.project.changed();
-        return false;
-      }
-    });
+    TileMill.mml.layerForm(popup, li, options);
     return false;
   });
 
@@ -245,45 +277,22 @@ TileMill.mml.url = function(options) {
   return url;
 };
 
-// @TODO: Move more of this to the controller.
 TileMill.mml.init = function() {
   var layers = $(TileMill.template('layers', {}));
   var l = TileMill.mml.parseMML(TileMill.settings.mml).layers;
   for (var layer in l) {
     TileMill.mml.add(l[layer], layers);
   }
-  $('ul.sidebar-content', layers).sortable({ axis: 'y', handle: 'div.handle', change: TileMill.project.changed });
-
-  TileMill.inspector.load();
-  for (var i in TileMill.customSrs) {
-    var srs = TileMill.customSrs[i];
-    if (srs.length > 23) {
-      srs = srs.substr(0, 20) + '...';
-    }
-    $('select#srs').append('<option value="' + TileMill.customSrs[i].replace('"', '\\"') + '">' + srs + "</option>");
-  }
+  $('ul.sidebar-content', layers).sortable({
+    axis: 'y',
+    handle: 'div.handle',
+    change: TileMill.project.changed
+  });
 
   $('a#layers-add', layers).click(function() {
     var popup = $(TileMill.template('popup-layer', {submit: 'Add layer'}));
     TileMill.popup.show({content: popup, title: 'Add layer'});
-
-    // Add submit handler.
-    $('form', popup).validate({
-      errorLabelContainer: 'form .messages',
-      submitHandler: function(form) {
-        var layer = {
-          classes: $('input#classes', form).val(),
-          id: $('input#id', form).val(),
-          file: $('input#file', form).val(),
-          srs: $('select#srs', form).val(),
-          status: 'true'
-        };
-        TileMill.mml.add(layer, $('#layers'));
-        TileMill.popup.hide();
-        TileMill.project.changed();
-        return false;
-      }
-    });
+    TileMill.mml.layerForm(popup, false, {});
     return false;
   });
 
