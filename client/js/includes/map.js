@@ -1,10 +1,16 @@
 TileMill.map = {};
 
+/**
+ * Init and return markup.
+ */
 TileMill.map.init = function() {
   var map = $(TileMill.template('map', {}));
   return map;
 };
 
+/**
+ * Init openlayers on a map element.
+ */
 TileMill.map.initOL = function(map, servers, controls, center) {
   var options = {
     projection: new OpenLayers.Projection("EPSG:900913"),
@@ -33,6 +39,9 @@ TileMill.map.initOL = function(map, servers, controls, center) {
   // Set the map's initial center point
   olMap.setCenter(new OpenLayers.LonLat(center.lon, center.lat), center.zoom);
 
+  // Store data on the map object.
+  map.data('TileMill.map', {olMap: olMap, olLayer: olLayer});
+
   // Add custom controls
   if (controls.navigation) {
     var navigation = new OpenLayers.Control.Navigation({ 'zoomWheelEnabled': true });
@@ -40,33 +49,28 @@ TileMill.map.initOL = function(map, servers, controls, center) {
     navigation.activate();
   }
   if (controls.fullscreen) {
-    var fullscreen = $('a.map-fullscreen', map).click(function() {
+    $('a.map-fullscreen', map).click(function() {
       $(map).toggleClass('fullscreen');
       olMap.updateSize();
       return false;
     });
   }
   if (controls.zoom) {
-    function getZoom(e) {
-      if ($('#zoom-display', map).size()) {
-        $('#zoom-display', map).text('Zoom level ' + olMap.getZoom());
-      }
-    }
-    getZoom();
-    olMap.events.register("moveend", olMap, getZoom);
-    olMap.events.register("zoomend", olMap, getZoom);
+    TileMill.map.controlZoom({element: olMap.div});
+    olMap.events.register("moveend", olMap, TileMill.map.controlZoom);
+    olMap.events.register("zoomend", olMap, TileMill.map.controlZoom);
   }
   if (controls.panzoombar) {
     var panzoombar = new OpenLayers.Control.PanZoomBar();
     olMap.addControl(panzoombar);
     panzoombar.activate();
   }
-
-  // Store data on the map object.
-  map.data('TileMill.map', {olMap: olMap, olLayer: olLayer});
   return map;
-}
+};
 
+/**
+ * Reload the map layers.
+ */
 TileMill.map.reload = function(map, servers) {
   var data = map.data('TileMill.map');
   if (data && data.olMap) {
@@ -81,6 +85,9 @@ TileMill.map.reload = function(map, servers) {
   }
 };
 
+/**
+ * Retrieve the centerpoint and zoom for a map.
+ */
 TileMill.map.getCenter = function(map) {
   var data = map.data('TileMill.map');
   if (data && data.olMap) {
@@ -89,4 +96,20 @@ TileMill.map.getCenter = function(map) {
     return { lat: center.lat, lon: center.lon, zoom: olMap.getZoom() };
   }
   return { lat: 0, lon: 0, zoom: 2 };
+};
+
+/**
+ * Zoom control event callback.
+ */
+TileMill.map.controlZoom = function(e) {
+  if (e.element.id) {
+    var map = $('#' + e.element.id);
+    var data = map.data('TileMill.map');
+    if (data && data.olMap) {
+      var olMap = data.olMap;
+      if ($('#zoom-display', map).size()) {
+        $('#zoom-display', map).text('Zoom level ' + olMap.getZoom());
+      }
+    }
+  }
 };
