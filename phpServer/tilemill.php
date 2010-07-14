@@ -92,10 +92,12 @@ Class InfoHandler extends RequestHandler {
 class NotFoundHandler extends RequestHandler {
   function get() {
     header('HTTP/1.1 404 Not Found');
+    header('Connection: close');
     return;
   }
   function post() {
     header('HTTP/1.1 404 Not Found');
+    header('Connection: close');
     return;
   }
 }
