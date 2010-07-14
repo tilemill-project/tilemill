@@ -40,7 +40,7 @@ class ListHandler(TileMill):
                 basename = os.path.basename(root)
                 if os.path.isfile(os.path.join(root, basename + '.mml')):
                     directories.append(basename)
-            self.json(directories, True)
+            self.json({ 'status': True, 'data': directories }, True)
         elif (self.safePath(path)):
             self.json({ 'status': False, 'data': 'The file could not be found' }, True)
         else:
@@ -53,7 +53,7 @@ class AddHandler(TileMill):
             os.makedirs(path)
             self.json({ 'status': True }, True)
         elif (self.safePath(path)):
-            self.json({ 'status': False, 'message': 'The directory %s already exists' % (path) }, True)
+            self.json({ 'status': False, 'data': 'The directory %s already exists' % (path) }, True)
         else:
             self.json({ 'status': False, 'data': 'Invalid filename' }, True)
 
@@ -66,7 +66,7 @@ class FileHandler(TileMill):
             buffer.close()
             self.json(data, False)
         elif (self.safePath(path)):
-            self.json({ 'status': False, 'message': 'The file could not be found' }, True)
+            self.json({ 'status': False, 'data': 'The file could not be found' }, True)
         else:
             self.json({ 'status': False, 'data': 'Invalid filename' }, True)
 

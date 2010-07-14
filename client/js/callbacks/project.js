@@ -8,7 +8,7 @@ TileMill.controller.project = function() {
   TileMill.backend.get('project/' + id + '/' + id + '.mml', function(mml) {
     // Bail if MML was not valid.
     if (typeof mml != 'string') {
-      TileMill.errorPage(mml.message);
+      TileMill.errorPage(mml.data);
       return false;
     }
 

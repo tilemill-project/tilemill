@@ -9,10 +9,14 @@ TileMill.backend.runtime = {};
 TileMill.backend.servers.python.list = function(filename, callback) {
   TileMill.backend.runtime.get({
     'url': TileMill.settings.pythonServer + 'list',
-    'data': { 'type': filename },
-    'callback': function(data) {
-      TileMill.cache.set('python-list', filename, data);
-      callback(data);
+    'data': { 'filename': filename },
+    'callback': function(response) {
+      if (response.status) {
+        callback(response.data);
+      }
+      else {
+        callback();
+      }
     },
     json: true
   });
