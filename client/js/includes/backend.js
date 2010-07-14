@@ -1,5 +1,4 @@
 TileMill.backend = {};
-
 TileMill.backend.servers = { 'simple': {} };
 TileMill.backend.rasterizers = { 'tilelive': {} };
 TileMill.backend.runtimes = { 'html': {}, 'AIR': {} };
@@ -31,7 +30,7 @@ TileMill.backend.servers.simple.add = function(filename, callback) {
     'data': { 'filename': filename},
     'callback': callback
   });
-}
+};
 
 TileMill.backend.servers.simple.get = function(filename, callback) {
   TileMill.backend.runtime.get({
@@ -86,7 +85,7 @@ TileMill.backend.rasterizers.tilelive.values = function(options) {
     options.callback(cache);
   }
   else {
-    var url = TileMill.settings.tileliveServer.split(',')[0] + options.mmlb64 + '/' + Base64.urlsafe_encode(options.layer) + '/' + Base64.urlsafe_encode(options.field) + "/values.json?"
+    var url = TileMill.settings.tileliveServer.split(',')[0] + options.mmlb64 + '/' + Base64.urlsafe_encode(options.layer) + '/' + Base64.urlsafe_encode(options.field) + "/values.json?";
     if (options.start) {
       url += 'start=' + options.start + '&';
     }
@@ -99,10 +98,10 @@ TileMill.backend.rasterizers.tilelive.values = function(options) {
         TileMill.cache.set('tilelive-values', cid, data);
         options.callback(data);
       },
-      'json': true,
+      'json': true
     });
   }
-}
+};
 
 /**
  * For a given b64 encoded MML url, return an array of URLs suitable for use
@@ -110,17 +109,18 @@ TileMill.backend.rasterizers.tilelive.values = function(options) {
  */
 TileMill.backend.rasterizers.tilelive.servers = function(mmlb64) {
   var split = TileMill.settings.tileliveServer.split(',');
+  var servers;
   if (split.length > 1) {
-    var servers = [];
+    servers = [];
     for (i = 0; i < split.length; i++) {
       servers.push(split[i] + 'tile/' + mmlb64 + '/${z}/${x}/${y}.png');
     }
   }
   else {
-    var servers = TileMill.settings.tileliveServer + 'tile/' + mmlb64 + '/${z}/${x}/${y}.png';
+    servers = TileMill.settings.tileliveServer + 'tile/' + mmlb64 + '/${z}/${x}/${y}.png';
   }
   return servers;
-}
+};
 
 TileMill.backend.runtimes.html.get = function(options) {
   var url = options.url;
@@ -131,7 +131,7 @@ TileMill.backend.runtimes.html.get = function(options) {
     url = url + '?jsoncallback=?';
   }
   $.getJSON(url, options.data, options.callback);
-}
+};
 
 TileMill.backend.runtimes.html.post = function(options) {
   var iframe = $('<iframe></iframe>').attr({width: 0, height: 1 }).appendTo('body')[0];
@@ -148,11 +148,11 @@ TileMill.backend.runtimes.html.post = function(options) {
     // Others?
     doc = iframe.document;
   }
-  if (doc == null) {
+  if (doc === null) {
     throw "Document not initialized";
   }
   var form = $('<form>').attr({ 'action': options.url, 'method': 'post' });
-  for (key in options.data) {
+  for (var key in options.data) {
     form.append($('<input>').attr({ 'type': 'hidden', 'name': key, 'value': options.data[key] }));
   }
   form.appendTo(doc.body)[0].submit();
@@ -162,7 +162,7 @@ TileMill.backend.runtimes.html.post = function(options) {
     }
     $(this).remove();
   });
-}
+};
 
 TileMill.backend.runtimes.AIR.get = function(options) {
   $.get(options.url, options.data, function(data) {
@@ -176,14 +176,17 @@ TileMill.backend.runtimes.AIR.get = function(options) {
       options.callback(data);
     }
   });
-}
+};
 
 TileMill.backend.runtimes.AIR.post = function(options) {
   $.post(options.url, options.data, function() {
     options.callback();
   });
-}
+};
 
+/**
+ * Init methods using the selected backends.
+ */
 $.each(['get', 'post'], function(i, func) {
   TileMill.backend.runtime[func] = TileMill.backend.runtimes[TileMill.settings.runtime][func];
 });
