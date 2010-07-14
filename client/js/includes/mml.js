@@ -1,19 +1,12 @@
+/**
+ * MML and MSS generation, manipulation tools.
+ */
 TileMill.mml = {};
 TileMill.mss = {};
 
-TileMill.mml.srs = function(srs) {
-  for (var entity in TileMill.settings.srs) {
-    if (
-      (entity === srs) ||
-      ('&' + entity + ';' === srs) ||
-      (TileMill.settings.srs[entity] === srs)
-    ) {
-      return '&' + entity + ';'
-    }
-  }
-  return false;
-};
-
+/**
+ * Render an MSS string from a structured array.
+ */
 TileMill.mss.generate = function(mss) {
   var output = [];
   for (var i in mss) {
@@ -29,6 +22,26 @@ TileMill.mss.generate = function(mss) {
   return output.join("\n");  
 };
 
+/**
+ * Determine and normalize any recognizable SRS strings. If the string is
+ * unknown, return false.
+ */
+TileMill.mml.srs = function(srs) {
+  for (var entity in TileMill.settings.srs) {
+    if (
+      (entity === srs) ||
+      ('&' + entity + ';' === srs) ||
+      (TileMill.settings.srs[entity] === srs)
+    ) {
+      return '&' + entity + ';';
+    }
+  }
+  return false;
+};
+
+/**
+ * Render an MML string from a structured array.
+ */
 TileMill.mml.generate = function(mml) {
   // We can't store the MML in an HTML template because the template engine
   // strips out all whitespace. While this is ok for HTML templates, which just
@@ -70,7 +83,7 @@ TileMill.mml.generate = function(mml) {
         layer.srs = '&srsWGS84;';
       }
       layerDef += ' srs="' + layer.srs + '"';
-      if (mml.layers[i].status != undefined && !mml.layers[i].status) {
+      if (mml.layers[i].status !== undefined && !mml.layers[i].status) {
         layerDef += ' status="off"';
       }
       layerDef += '>';
@@ -92,14 +105,17 @@ TileMill.mml.generate = function(mml) {
   return output.join("\n");
 };
 
+/**
+ * Parse an MML string into a structured array.
+ */
 TileMill.mml.parseMML = function(mml) {
   var parsed = {
     metadata: {},
     stylesheets: [],
-    layers: [],
+    layers: []
   };
   // Parse metadata.
-  var matches = mml.match(/\<\!\[CDATA\[(.+)\]\]\>/);
+  var matches = mml.match(/<\!\[CDATA\[(.+)\]\]\>/);
   if (matches && matches[1]) {
     parsed.metadata = eval('(' + matches[1] + ')');
   }
@@ -113,7 +129,7 @@ TileMill.mml.parseMML = function(mml) {
   // Parse layers.
   $(mml).find('Layer').each(function() {
     var status = $(this).attr('status');
-    if (status == 'undefined' || status == undefined || status == 'on') {
+    if (status == 'undefined' || status === undefined || status == 'on') {
       status = true;
     }
     else {
@@ -135,9 +151,12 @@ TileMill.mml.parseMML = function(mml) {
   return parsed;
 };
 
+/**
+ * Initialize a layer edit/addition form.
+ */
 TileMill.mml.layerForm = function(popup, li, options) {
   // Populate form values.
-  for (option in options) {
+  for (var option in options) {
     if (option === 'srs') {
       var srs = TileMill.mml.srs(options[option]);
       if (srs) {
@@ -205,6 +224,9 @@ TileMill.mml.layerForm = function(popup, li, options) {
   });
 };
 
+/**
+ * Add a layer li to the layer dialog.
+ */
 TileMill.mml.add = function(options, layers) {
   var name = [];
   if (options.id) {
@@ -213,7 +235,7 @@ TileMill.mml.add = function(options, layers) {
   if (options.classes.length) {
     name.push('.' + options.classes.split(' ').join(', .'));
   }
-  var status = options.status == 'true' || options.status == true;
+  var status = options.status == 'true' || options.status === true;
   var li = $(TileMill.template('layers-li', {name: name.join(', '), status: status}));
 
   $('ul.sidebar-content', layers).prepend(li);
@@ -230,7 +252,7 @@ TileMill.mml.add = function(options, layers) {
 
   $('a.layer-inspect', li).click(function() {
     // @TODO refactor this out.
-    if (!$(this).parents('li').data('tilemill')['id']) {
+    if (!$(this).parents('li').data('tilemill').id) {
       alert('You need to add an id to a field and save to inspect it.');
       return false;
     }
@@ -254,6 +276,9 @@ TileMill.mml.add = function(options, layers) {
   li.data('tilemill', options);
 };
 
+/**
+ * Save an MML string to the backend.
+ */
 TileMill.mml.save = function(data) {
   filename = [TileMill.settings.type, TileMill.settings.id, TileMill.settings.id + '.mml'].join('/');
   TileMill.backend.post(filename, data);
@@ -264,7 +289,7 @@ TileMill.mml.save = function(data) {
  */
 TileMill.mml.url = function(options) {
   if (!options) {
-    var options = {};
+    options = {};
   }
   options = $.extend({ timestamp: true, encode: true }, options);
   var url = TileMill.backend.url(TileMill.settings.filename);
@@ -277,6 +302,9 @@ TileMill.mml.url = function(options) {
   return url;
 };
 
+/**
+ * Init layers and return markup.
+ */
 TileMill.mml.init = function() {
   var layers = $(TileMill.template('layers', {}));
   var l = TileMill.mml.parseMML(TileMill.settings.mml).layers;
