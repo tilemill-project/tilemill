@@ -48,16 +48,17 @@ TileMill.stylesheet.init = function() {
  * Add a stylesheet to the page
  */
 TileMill.stylesheet.add = function(options, stylesheets, callback) {
+  var filename, shortname;
   // If there is no / character, assume this is a single filename.
   if (options.src.split('/').length === 1) {
-    var shortname = options.src.split('.')[0];
-    var filename = TileMill.settings.type + '/' + TileMill.settings.id + '/' + shortname + '.mss';
+    shortname = options.src.split('.')[0];
+    filename = TileMill.settings.type + '/' + TileMill.settings.id + '/' + shortname + '.mss';
     options.src = TileMill.backend.url(filename);
   }
   // Otherwise, assume this is a URL.
   else {
-    var filename = $.url.setUrl(options.src).param('filename');
-    var shortname = filename.split('/').pop().split('.')[0];
+    filename = $.url.setUrl(options.src).param('filename');
+    shortname = filename.split('/').pop().split('.')[0];
   }
 
   var stylesheet = $('<a class="tab" href="#tab">')
@@ -99,17 +100,24 @@ TileMill.stylesheet.add = function(options, stylesheets, callback) {
   }
 };
 
+/**
+ * Save a stylesheet to the backend.
+ */
 TileMill.stylesheet.save = function(filename, data, callback) {
   TileMill.backend.post(filename, data, callback);
-}
+};
 
+/**
+ * Set the code editor to edit a specified stylesheet.
+ */
 TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
+  var data;
   if (!$('#tabs .active', stylesheets).size() || update === true) {
     if (!update) {
       $('#tabs a.active').removeClass('active');
       stylesheet.addClass('active');
 
-      var data = $('input', stylesheet).val();
+      data = $('input', stylesheet).val();
       $('#code').val(data);
       TileMill.mirror = CodeMirror.fromTextArea('code', {
         height: "100%",
@@ -120,7 +128,7 @@ TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
           TileMill.colors.reload(stylesheets);
           TileMill.project.changed();
         },
-        initCallback: function() { TileMill.colors.reload(stylesheets) },
+        initCallback: function() { TileMill.colors.reload(stylesheets); }
       });
     }
     else {
@@ -128,7 +136,7 @@ TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
       $('#tabs a.active').removeClass('active');
       stylesheet.addClass('active');
 
-      var data = $('input', stylesheet).val();
+      data = $('input', stylesheet).val();
       TileMill.mirror.setCode(data);
       TileMill.colors.reload(stylesheets);
     }
