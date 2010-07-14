@@ -1,3 +1,6 @@
+/**
+ * Simple static cache handler.
+ */
 TileMill.cache = { cache: {} };
 
 TileMill.cache.get = function(bin, cid) {
@@ -5,14 +8,14 @@ TileMill.cache.get = function(bin, cid) {
     return undefined;
   }
   return TileMill.cache.cache[bin][cid];
-}
+};
 
 TileMill.cache.set = function(bin, cid, data) {
   if (!TileMill.cache.cache[bin]) {
     TileMill.cache.cache[bin] = {};
   }
   TileMill.cache.cache[bin][cid] = data;
-}
+};
 
 TileMill.cache.clear = function(bin, cid) {
   if (!TileMill.cache.cache[bin]) {
@@ -24,4 +27,4 @@ TileMill.cache.clear = function(bin, cid) {
   else if (!cid) {
     TileMill.cache.cache[bin] = [];
   }
-}
+};
