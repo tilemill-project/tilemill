@@ -31,6 +31,10 @@ class TileMill(tornado.web.RequestHandler):
     def safePath(self, path):
         return path.find('..') == -1 and not re.search('[^\w.-_\/]', path)
 
+class InfoHandler(TileMill):
+    def get(self):
+        self.json({ 'api': 'basic', 'version': 1.0 }, True)
+
 class ListHandler(TileMill):
     def get(self):
         path = os.path.join(options.files, self.get_argument('filename'))
@@ -86,6 +90,7 @@ class FileHandler(TileMill):
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
+            (r"/", InfoHandler),
             (r"/list", ListHandler),
             (r"/add", AddHandler),
             (r"/file", FileHandler),
