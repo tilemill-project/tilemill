@@ -11,6 +11,9 @@ function main($path, $args, $method = 'get') {
   }
 
   switch ($path) {
+    case '':
+      $handler = new InfoHandler($config, $path, $args);
+      return $handler->{$method}();
     case 'list':
       $handler = new ListHandler($config, $path, $args);
       return $handler->{$method}();
@@ -64,6 +67,20 @@ class RequestHandler {
 
   function safePath($path) {
     return strpos($path, '..') === FALSE && !preg_match('[^\w.-_\/]', $path);
+  }
+}
+
+/**
+ * Info handler class.
+ * @TODO: determine what other information we need to provide.
+ */
+Class InfoHandler extends RequestHandler {
+  function get() {
+    parent::get();
+    return $this->json(array(
+      'api' => 'basic',
+      'version' => 1.0,
+    ));
   }
 }
 
