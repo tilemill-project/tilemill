@@ -21,7 +21,7 @@ var TileMill = {
     server: 'simple',
     rasterizer: 'tilelive',
     runtime: 'html',
-    simpleServer: 'http://localhost:8889/',
+    simpleServer: 'http://tilemill/',
     tileliveServer: 'http://localhost:8888/'
   }
 };

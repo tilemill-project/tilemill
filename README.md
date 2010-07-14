@@ -1,38 +1,113 @@
-# TileMill
+TileMill
+--------
+TileMill is a map style editor and simple data visualization tool. It currently
+provides
 
-## Requirements
+- management of layers with shapefile-based datasources and stylesheets in a
+Mapnik/Cascadenik MML file,
+- an interface for editing Mapnik/Cascadenik MSS files,
+- inspection of metadata in datasources including field data types, sample
+values, and so on,
+- a set of sensible visualization tools for labeling and shading maps to quickly
+explore a datasource.
 
-    wget http://www.tornadoweb.org/static/tornado-0.2.tar.gz
-    tar xvzf tornado-0.2.tar.gz
-    cd tornado-0.2
-    python setup.py build
-    sudo python setup.py install
 
-## Setup
+Architecture
+------------
+TileMill is based on [TileLiteLive](http://github.com/tmcw/TileLiteLive) and
+follows its lead by making the interaction between the map storage backend, map
+editing client, and map rasterizer/inspector RESTful. A typical TileMill
+installation thus divides its tasks into three separate components:
 
-Options in `tilemill.cfg` you should review in order to setup TileMill:
+- The TileMill client consists of HTML and JavaScript that provides the editing
+and visualization interface that users interact with.
+- The TileMill server provides the storage and retrieval mechanism for the MML
+and MSS files that the client creates and edits. The TileMill server **must** be
+accessible via HTTP to both the TileMill client and the rasterizer.
+- The rasterizer (in this case TileLiteLive) renders maps based on the data
+sources and styles described by MML files on the TileMill server. The rasterizer
+**must** be accessible via HTTP to the TileMill client.
 
-- `port`: The port that TileMill should use. Defaults to 8889.
+In addition, references to MSS files, image resources, shapefile datasources,
+and so on must all be available to the rasterizer via HTTP. While this is a
+significant departure from many "typical" map designing workflows, it allows
+TileMill projects to be portable between clients if set up properly.
 
-- `files`: The location of the files directory for TileMill. This directory
-  must be readable and writable by the TileMill process. The default
-  location for this directory is `files`.
 
-To run the TileMill server run `tilemill.py`.
+Requirements
+------------
+- **TileMill client**: A modern standards compliant web browser. The developers
+are currently testing with Chrome and Firefox 3.x.
+- **TileMill server**: Apache/PHP 5.2+ or Python with the
+[Tornado](http://www.tornadoweb.org/) web server.
+- **Rasterizer**:
+  - [TileLiteLive](http://github.com/tmcw/TileLiteLive) using the
+`tornadoification` branch
+  - [Mapnik 0.7](http://mapnik.org/) or higher
+  - [Cascadenik HEAD](http://mapnik-utils.googlecode.com/svn/trunk) from SVN
 
-To run the client, open the client/index.html in your web browser.
 
-## Projects
+Setup: TileMill client
+----------------------
+Put the `client` directory included with TileMill in a web-accessible directory
+and open the URL to the directory in your web browser (e.g.
+`http://localhost/TileMill/client` if you installed TileMill at your webroot).
+If the TileMill client loads in your browser your installation was successful.
 
-Projects in TileLive are directories in the files directory containing an
-`.mml` file with a name matching the project directory name. They must also
-contain the project type (project or visualization). For example, a path could
-be `files/project/world_map/` with a corresponding `files/project/world_map/world_map.mml`
-The project `.mml` file may contain references to layers with shapefile
-datasources and to `.mss` stylesheets. However there are several requirements
- to the format of the `.mml` file:
+You may want to edit your `settings.js` file to adjust for your setup. In
+particular, you can
 
-- References to shapefiles and .mss files must be URLs reachable by the
-  TileLive server. Examples:
-  - `http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip`
-  - `http://localhost:8889/projects/mss?id=example&filename=example`
+- Choose a different server type. Currently only the `simple` HTTP based server
+is supported.
+- Set a different URL for your server. If your TileMill server will not be at
+the standard location, `http://tilemill`, you can change this setting.
+- Choose a different rasterizer type. Currently only the `tilelitelive`
+rasterizer is supported.
+- Set a different URL for your rasterizer. If your TileLiteLive server is not at
+the standard location, `http://localhost:8888`, you can change this setting.
+
+
+Setup: TileMill server (PHP)
+----------------------------
+Put the `phpServer` directory included with TileMill in a web-accessible
+directory and open the URL to that directory in your web browser (e.g.
+`http://localhost/TileMill/phpServer` if you installed TileMill at your
+webroot). If the TileMill server returns a JSON string with its version number
+your installation was successful.
+
+You should do some additional tasks to configure your server:
+
+- Choose a directory where files will be stored. By default, this is the
+`phpServer` directory itself. The files directory will need to be **writable by
+the web server**. You can specify a different path to your files in
+`tilemill.cfg`.
+- Set up an Apache vhost and `/etc/hosts` entry for your TileMill server such
+that it is accessible at the default location `http://tilemill`. While you can
+use your TileMill server from any location, using the standard location will
+ensure that the files generated by your TileMill editor will be portable and
+easily used by others.
+
+
+Setup: TileMill server (Python)
+-------------------------------
+Run the `tilemill.py` script included in the `pythonServer` directory and visit
+`http://localhost:8889` in your browser. If the TileMill server returns a JSON
+string with its version number your installation was successful.
+
+You should do some additional tasks to configure your server:
+
+- Choose a directory where files will be stored. By default, this is the
+`pythonServer` directory itself. The files directory will need to be **writable
+by the web server**. You can specify a different path to your files in
+`tilemill.cfg`.
+- Note that the TileMill python server cannot be set to use the default location
+of `http://tilemill` unless you have it run directly on port 80 or set up some
+other port trickery on your machine.
+
+
+Authors
+-------
+- Dmitri Gaskin (dmitrig01)
+- Young Hahn (yhahn)
+- Tom MacWright (tmcw)
+- AJ Ashton (ajashton)
