@@ -19,7 +19,8 @@ TileMill.colors.initFarb = function(color) {
 };
 
 /**
- * Reload the color palatte.
+ * Reload the color palatte. Find all color references and display a palette of
+ * all unique colors.
  */
 TileMill.colors.reload = function(stylesheets) {
   // Collect text from all tabs.
@@ -30,11 +31,9 @@ TileMill.colors.reload = function(stylesheets) {
   data.push(TileMill.mirror.getCode());
   data = data.join("\n");
 
-  // Find all colors.
-  var matches = data.match(/\#[A-Fa-f0-9]{3,6}/g),
-  // Keep track of unique colors.
-    colors = [];
-
+  var colors = [];
+  var colors_div = $('div#colors div').empty();
+  var matches = data.match(/\#[A-Fa-f0-9]{3,6}/g);
   if (matches) {
     for (var i = 0; i < matches.length; i++) {
       // Split up the color into an HSL triplet.
@@ -53,22 +52,18 @@ TileMill.colors.reload = function(stylesheets) {
       }
     }
     // Sort the colors by lightness.
-    colors.sort(function(a, b) { return a[2] - b[2] });
-    var colors_div = $('div#colors div').empty();
+    colors.sort(function(a, b) { return a[2] - b[2]; });
+
     // Go through the colors and add them to the color palette. When one is
     // clicked, it's inserted into the document at the current cursor.
-    for (var color in colors) {
-      colors_div
-        .append($(TileMill.template('color-swatch', {color: colors[color][3]}))
-          .click(function() {
-            TileMill.colors.insert($(this).text());
-          }));
-    }
+    $.each(colors, function(key, value) {
+      colors_div.append($(TileMill.template('color-swatch', {color: value[3]})));
+    });
+    $('a', colors_div).click(function() {
+      TileMill.colors.insert($(this).text());
+    });
   }
-  else {
-    $('div#colors div').empty()
-  }
-}
+};
 
 /**
  * Insert a color into the document
@@ -78,4 +73,4 @@ TileMill.colors.reload = function(stylesheets) {
 TileMill.colors.insert = function(color) {
   var position = TileMill.mirror.cursorPosition();
   TileMill.mirror.insertIntoLine(position.line, position.character, color);
-}
+};
