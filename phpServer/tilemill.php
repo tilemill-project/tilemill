@@ -45,11 +45,13 @@ class RequestHandler {
 
   function get() {
     header('HTTP/1.1 200 OK');
+    header('Connection: close');
     return;
   }
 
   function post() {
     header('HTTP/1.1 200 OK');
+    header('Connection: close');
     return;
   }
 
