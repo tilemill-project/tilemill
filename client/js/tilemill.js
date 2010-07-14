@@ -18,10 +18,10 @@ var TileMill = {
   editor: {},
   utilities: {},
   settings: {
-    server: 'python',
+    server: 'simple',
     rasterizer: 'tilelive',
     runtime: 'html',
-    pythonServer: 'http://localhost:8889/',
+    simpleServer: 'http://localhost:8889/',
     tileliveServer: 'http://localhost:8888/'
   }
 };

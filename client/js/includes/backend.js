@@ -1,14 +1,17 @@
 TileMill.backend = {};
 
-TileMill.backend.servers = { 'python': {} };
+TileMill.backend.servers = { 'simple': {} };
 TileMill.backend.rasterizers = { 'tilelive': {} };
 TileMill.backend.runtimes = { 'html': {}, 'AIR': {} };
 TileMill.backend.runtime = {};
 
-// Python backend
-TileMill.backend.servers.python.list = function(filename, callback) {
+/**
+ * Simple HTTP storage backend, python and PHP implementations are provided
+ * with TileMill.
+ */
+TileMill.backend.servers.simple.list = function(filename, callback) {
   TileMill.backend.runtime.get({
-    'url': TileMill.settings.pythonServer + 'list',
+    'url': TileMill.settings.simpleServer + 'list',
     'data': { 'filename': filename },
     'callback': function(response) {
       if (response.status) {
@@ -20,39 +23,41 @@ TileMill.backend.servers.python.list = function(filename, callback) {
     },
     json: true
   });
-}
+};
 
-TileMill.backend.servers.python.add = function(filename, callback) {
+TileMill.backend.servers.simple.add = function(filename, callback) {
   TileMill.backend.runtime.post({
-    'url': TileMill.settings.pythonServer + 'add',
+    'url': TileMill.settings.simpleServer + 'add',
     'data': { 'filename': filename},
     'callback': callback
   });
 }
 
-TileMill.backend.servers.python.get = function(filename, callback) {
+TileMill.backend.servers.simple.get = function(filename, callback) {
   TileMill.backend.runtime.get({
-    'url': TileMill.settings.pythonServer + 'file',
+    'url': TileMill.settings.simpleServer + 'file',
     'data': { 'filename': filename },
     'callback': function(data) {
       callback(data);
     }
   });
-}
+};
 
-TileMill.backend.servers.python.post = function(filename, file_data, callback) {
+TileMill.backend.servers.simple.post = function(filename, file_data, callback) {
   TileMill.backend.runtime.post({
-    'url': TileMill.settings.pythonServer + 'file',
+    'url': TileMill.settings.simpleServer + 'file',
     'data': { 'filename': filename, 'data': file_data }, 
     'callback': callback
   });
-}
+};
 
-TileMill.backend.servers.python.url = function(filename) {
-  return TileMill.settings.pythonServer + 'file?filename=' + filename;
-}
+TileMill.backend.servers.simple.url = function(filename) {
+  return TileMill.settings.simpleServer + 'file?filename=' + filename;
+};
 
-// TileLive backend
+/**
+ * TileLive rasterizer and introspection backend.
+ */
 
 /**
  * Retrieve fields for a given b64 encoded MML url.
@@ -69,8 +74,11 @@ TileMill.backend.rasterizers.tilelive.fields = function(mmlb64, callback) {
       'json': true
     });
   }
-}
+};
 
+/**
+ * Retrieve values.
+ */
 TileMill.backend.rasterizers.tilelive.values = function(options) {
   var cid = options.mmlb64 + options.layer + options.field + options.start + options.limit,
       cache = TileMill.cache.get('tilelive-values', cid);
