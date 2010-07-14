@@ -1,3 +1,6 @@
+/**
+ * Simple popup API.
+ */
 TileMill.popup = {};
 
 TileMill.popup.show = function(options) {
