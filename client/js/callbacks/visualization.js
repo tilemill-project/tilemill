@@ -1,3 +1,6 @@
+/**
+ * Router controller: Visualization page.
+ */
 TileMill.controller.visualization = function() {
   var id = $.bbq.getState("id");
   TileMill.backend.get('visualization/' + id + '/' + id + '.mml', function(mml) {
@@ -35,7 +38,7 @@ TileMill.controller.visualization = function() {
     TileMill.visualization.init(TileMill.mml.parseMML(mml));
 
     // Load, inspect queue
-    var queue = new TileMill.queue;
+    var queue = new TileMill.queue();
     queue
       .add(function(next) { TileMill.inspector.load(next); })
       .add(function(next) { TileMill.inspector.inspect('data', true); })
@@ -75,11 +78,12 @@ TileMill.controller.visualization = function() {
   });
 };
 
-TileMill.visualization = {
-  settings: {},
-  plugins: {},
-};
+TileMill.visualization = { settings: {}, plugins: {} };
 
+/**
+ * Init the visualization state from parsed MML. Grabs MML metadata and sets
+ * the visualization settings which are used to affect maps.
+ */
 TileMill.visualization.init = function(mml) {
   if (mml.metadata) {
     var keys = ['label', 'unique', 'choropleth', 'choroplethSplit', 'scaledPoints'];
@@ -91,6 +95,9 @@ TileMill.visualization.init = function(mml) {
   }
 };
 
+/**
+ * Attach handlers to an individual field.
+ */
 TileMill.visualization.attach = function(field, datatype, li) {
   $('a.visualization-type', li).each(function() {
     var type = $(this).attr('class').split('visualization-type inspect-')[1];
@@ -130,6 +137,9 @@ TileMill.visualization.attach = function(field, datatype, li) {
   });
 };
 
+/**
+ * Save the visualization.
+ */
 TileMill.visualization.save = function(callback) {
   var queue = new TileMill.queue();
 
@@ -147,18 +157,18 @@ TileMill.visualization.save = function(callback) {
     var self = this;
     var mss = {
       'Map': {
-        'map-bgcolor': '#fff',
+        'map-bgcolor': '#fff'
       },
       '#world': {
         'polygon-fill': '#eee',
         'line-color': '#ccc',
-        'line-width': '0.5',
+        'line-width': '0.5'
       },
       '#data': {
         'polygon-fill': '#bcb',
         'line-color': '#333',
-        'line-width': '0.5',
-      },
+        'line-width': '0.5'
+      }
     };
     self.store('mss', mss);
     next();
@@ -194,6 +204,9 @@ TileMill.visualization.save = function(callback) {
   queue.execute();
 };
 
+/**
+ * Create a new visualization.
+ */
 TileMill.visualization.add = function(url) {
   var name = url.split('/').pop().split('.')[0];
   var queue = new TileMill.queue();
@@ -205,18 +218,18 @@ TileMill.visualization.add = function(url) {
     var mss = 'visualization/' + name + '/' + name + '.mss';
     var data = TileMill.mss.generate({
       'Map': {
-        'map-bgcolor': '#fff',
+        'map-bgcolor': '#fff'
       },
       '#world': {
         'polygon-fill': '#eee',
         'line-color': '#ccc',
-        'line-width': '0.5',
+        'line-width': '0.5'
       },
       '#data': {
         'polygon-fill': '#bcb',
         'line-color': '#333',
-        'line-width': '0.5',
-      },
+        'line-width': '0.5'
+      }
     });
     TileMill.backend.post(mss, data, next);
   }, [name]);
@@ -228,17 +241,17 @@ TileMill.visualization.add = function(url) {
       layers:[
         {
           id: 'world',
-          srs: 'WGS84',
+          srs: '&srsWGS84;',
           file: 'http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip',
-          type: 'shape',
+          type: 'shape'
         },
         {
           id: 'data',
-          srs: 'WGS84',
+          srs: '&srsWGS84;',
           file: url,
-          type: 'shape',
+          type: 'shape'
         }
-      ],
+      ]
     });
     TileMill.backend.post(mml, data, next);
   }, [name]);
@@ -248,6 +261,9 @@ TileMill.visualization.add = function(url) {
   queue.execute();
 };
 
+/**
+ * Convert the current visualization into a project.
+ */
 TileMill.visualization.projectify = function(name) {
   var queue = new TileMill.queue();
   queue.add(function(next) {
@@ -290,7 +306,7 @@ TileMill.visualization.plugins.label = function(field, mss, callback) {
   mss['#data ' + field] = {
     'text-face-name': '"DejaVu Sans Book"',
     'text-fill': '#333',
-    'text-size': 9,
+    'text-size': 9
   };
   if (callback) {
     callback(mss);
@@ -306,7 +322,7 @@ TileMill.visualization.plugins.label = function(field, mss, callback) {
 TileMill.visualization.plugins.choropleth = function(field, mss, callback) {
   var pluginCallback = (function(data) {
     var range = Math.abs(data.max - data.min),
-      split = (TileMill.visualization.settings.choroplethSplit && TileMill.visualization.settings.choroplethSplit != 'undefined' ? TileMill.visualization.settings.choroplethSplit : 5);
+      split = (TileMill.visualization.settings.choroplethSplit && TileMill.visualization.settings.choroplethSplit != 'undefined' ? TileMill.visualization.settings.choroplethSplit : 5),
       individual = range / split,
       colors = {
         2: ['#fd5', '#e57e57'],
@@ -339,7 +355,7 @@ TileMill.visualization.plugins.choropleth = function(field, mss, callback) {
     'limit': false,
     'callback': pluginCallback
   });
-}
+};
 
 /**
  * Visualization plugin: unique.
@@ -369,12 +385,12 @@ TileMill.visualization.plugins.unique = function(field, mss, callback) {
         }
       }
       if (!pass) {
-        var color = colors[i % colors.length];
-        if (colorValues[color]) {
-          colorValues[color].push(data.values[i]);
+        var key = colors[i % colors.length];
+        if (colorValues[key]) {
+          colorValues[key].push(data.values[i]);
         }
         else {
-          colorValues[color] = [data.values[i]];
+          colorValues[key] = [data.values[i]];
         }
         processed.push(data.values[i]);
       }
@@ -401,8 +417,11 @@ TileMill.visualization.plugins.unique = function(field, mss, callback) {
     'limit': false,
     'callback': pluginCallback
   });
-}
+};
 
+/**
+ * Visualization plugin: scaled points.
+ */
 TileMill.visualization.plugins.scaledPoints = function(field, mss, callback) {
   var pluginCallback = (function(data) {
     var range = Math.abs(data.max - data.min),
@@ -414,7 +433,7 @@ TileMill.visualization.plugins.scaledPoints = function(field, mss, callback) {
       mss[selector] = {
         'point-file': 'url(http://mapbox-icons.s3.amazonaws.com/tilemill/points/' + i  + '.png)',
         'point-width': sizes[i],
-        'point-height': sizes[i],
+        'point-height': sizes[i]
       };
     }
     if (callback) {

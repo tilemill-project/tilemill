@@ -1,5 +1,3 @@
-TileMill.project = {};
-
 /**
  * Router controller: Project page.
  */
@@ -73,6 +71,8 @@ TileMill.controller.project = function() {
     });
   });
 };
+
+TileMill.project = {};
 
 /**
  * Mark this project as changed (and needing to be saved).
@@ -153,7 +153,7 @@ TileMill.project.add = function(name) {
       stylesheets: [TileMill.backend.url(mss)],
       layers:[{
         id: 'world',
-        srs: 'WGS84',
+        srs: '&srsWGS84;',
         file: 'http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip',
         type: 'shape'
       }]

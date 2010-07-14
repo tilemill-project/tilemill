@@ -1,5 +1,5 @@
 /**
- * Frontpage controller. Lists projects and visualizations.
+ * Router controller: Frontpage. Lists projects and visualizations.
  */
 TileMill.controller.list = function() { 
   var queue = new TileMill.queue();
