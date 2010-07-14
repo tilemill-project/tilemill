@@ -141,6 +141,10 @@ ul.items li a:hover {
   display:block;
   }
 
+ul.items li form { padding:0px 5px; }
+
+ul.items li form label { line-height:18px; }
+
 #inspector ul li em { margin-left:5px; }
 
 ul.inspect-values {

@@ -67,9 +67,14 @@
             <a href='#action=<%= type %>&id=<%= data[i] %>' class='route'><%= data[i] %></a>
           </li>
         <% } %>
-        <li>
+        <li class='form'>
           <form id='<%= type %>'>
             <div class='messages'></div>
+            <% if (type === "visualization") { %>
+              <label>Shapefile URL</label>
+            <% } else { %>
+              <label>Name</label>
+            <% } %>
             <input class='<%= (type === "visualization") ? "url2" : "" %> required text' type='text' />
             <input class='submit' type='submit' value='Add <%= type %>' />
           </form>
