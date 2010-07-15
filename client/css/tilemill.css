@@ -301,6 +301,8 @@ form div.buttons {
   overflow:auto;
   }
 
+  .sidebar-content.loading { background:url(../images/swirly.gif) 50% 50% no-repeat; }
+
 .sidebar-content li { position:relative; }
 
 .sidebar-content li a { background-color:#fff; }

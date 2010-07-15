@@ -44,9 +44,9 @@ TileMill.inspector.inspect = function(id, visualize) {
  * Load inspector data from the rasterizer backend.
  */
 TileMill.inspector.load = function(callback) {
-  $('.layer-inspect').removeClass('layer-inspect').addClass('layer-inspect-loading');
+  $('#inspector ul.sidebar-content').addClass('loading');
   TileMill.backend.fields(TileMill.mml.url(), function(data) {
-    $('.layer-inspect-loading').removeClass('layer-inspect-loading').addClass('layer-inspect');
+    $('#inspector ul.sidebar-content').removeClass('loading');
     TileMill.inspection = data;
 
     if (callback) {
