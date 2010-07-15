@@ -352,7 +352,7 @@ TileMill.visualization.plugins.choropleth = function(field, mss, callback) {
     'layer': 'data',
     'field': field,
     'start': 0,
-    'limit': false,
+    'limit': 500,
     'callback': pluginCallback
   });
 };
@@ -414,7 +414,7 @@ TileMill.visualization.plugins.unique = function(field, mss, callback) {
     'layer': 'data',
     'field': field,
     'start': 0,
-    'limit': false,
+    'limit': 500,
     'callback': pluginCallback
   });
 };
@@ -448,7 +448,7 @@ TileMill.visualization.plugins.scaledPoints = function(field, mss, callback) {
     'layer': 'data',
     'field': field,
     'start': 0,
-    'limit': false,
+    'limit': 500,
     'callback': pluginCallback
   });
 };
