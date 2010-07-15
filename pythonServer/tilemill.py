@@ -50,17 +50,6 @@ class ListHandler(TileMill):
         else:
             self.json({ 'status': False, 'data': 'Invalid filename' }, True)
 
-class AddHandler(TileMill):
-    def post(self):
-        path = os.path.join(options.files, self.get_argument('filename'))
-        if (self.safePath(path) and not os.path.isdir(path)):
-            os.makedirs(path)
-            self.json({ 'status': True }, True)
-        elif (self.safePath(path)):
-            self.json({ 'status': False, 'data': 'The directory %s already exists' % (path) }, True)
-        else:
-            self.json({ 'status': False, 'data': 'Invalid filename' }, True)
-
 class FileHandler(TileMill):
     def get(self):
         path = os.path.join(options.files, self.get_argument('filename'))
@@ -77,11 +66,16 @@ class FileHandler(TileMill):
     def post(self):
         path = os.path.join(options.files, self.get_argument('filename'))
         data = self.get_argument('data')
-        if (self.safePath(path) and os.path.isdir(os.path.dirname(path))):
-            buffer = open(path, 'w')
-            buffer.writelines(data)
-            buffer.close()
-            self.json({ 'status': True }, True)
+        if (self.safePath(path)):
+            if (not os.path.isdir(os.path.dirname(path))):
+                os.makedirs(os.path.dirname(path))
+            if (os.path.isdir(os.path.dirname(path))):
+                buffer = open(path, 'w')
+                buffer.writelines(data)
+                buffer.close()
+                self.json({ 'status': True }, True)
+            else:
+                self.json({ 'status': False, 'data': 'Could not write file' }, True)
         elif (self.safePath(path)):
             self.json({ 'status': False, 'data': 'Could not write file' }, True)
         else:
@@ -92,7 +86,6 @@ class Application(tornado.web.Application):
         handlers = [
             (r"/", InfoHandler),
             (r"/list", ListHandler),
-            (r"/add", AddHandler),
             (r"/file", FileHandler),
         ]
         settings = dict(

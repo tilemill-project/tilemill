@@ -171,6 +171,11 @@ class FileHandler extends RequestHandler {
     if (isset($this->args['filename'])) {
       $path = "{$this->config['files']}/{$this->args['filename']}";
       if ($this->safePath($path)) {
+        // Create paths in between.
+        if (!file_exists(dirname($path))) {
+          mkdir(dirname($path), 0777, TRUE);
+        }
+        // Write file.
         if (file_exists(dirname($path)) && is_dir(dirname($path))) {
           file_put_contents($path, $this->args['data']);
           return $this->json(array('status' => TRUE));
@@ -182,7 +187,7 @@ class FileHandler extends RequestHandler {
   }
 }
 
-$method = !empty($_POST) ? 'post' : 'get';
-$args = !empty($_POST) ? $_POST : $_GET;
+$method = strtolower($_SERVER['REQUEST_METHOD']);
+$args = $method === 'post' ? $_POST : $_GET;
 print main($_GET['q'], array_diff_key($args, array('q' => NULL)), $method);
 exit;

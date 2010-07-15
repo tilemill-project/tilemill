@@ -211,10 +211,6 @@ TileMill.visualization.add = function(url) {
   var name = url.split('/').pop().split('.')[0];
   var queue = new TileMill.queue();
   queue.add(function(name, next) {
-    var filename = 'visualization/' + name;
-    TileMill.backend.add(filename, next);
-  }, [name]);
-  queue.add(function(name, next) {
     var mss = 'visualization/' + name + '/' + name + '.mss';
     var data = TileMill.mss.generate({
       'Map': {
@@ -272,10 +268,6 @@ TileMill.visualization.projectify = function(name) {
   queue.add(function(next) {
     TileMill.visualization.save(next);
   });
-  queue.add(function(name, next) {
-    var filename = 'project/' + name;
-    TileMill.backend.add(filename, next);
-  }, [name]);
   // Copy MSS from visualization to project.
   queue.add(function(name, next) {
     var visualization = 'visualization/' + TileMill.data.id + '/' + TileMill.data.id + '.mss';

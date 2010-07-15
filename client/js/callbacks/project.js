@@ -129,10 +129,6 @@ TileMill.project.save = function() {
 TileMill.project.add = function(name) {
   var queue = new TileMill.queue();
   queue.add(function(name, next) {
-    var filename = 'project/' + name;
-    TileMill.backend.add(filename, next);
-  }, [name]);
-  queue.add(function(name, next) {
     var mss = 'project/' + name + '/' + name + '.mss';
     var data = TileMill.mss.generate({
       'Map': {
