@@ -200,10 +200,10 @@ TileMill.mml.layerForm = function(popup, li, options) {
         status: 'true'
       };
       popup.append(TileMill.template('loading', {}));
-      TileMill.backend.datasource(Base64.urlsafe_encode(url), function(info) {
+      TileMill.backend.datasource(Base64.urlsafe_encode(layer.file), function(info) {
         // Set layer SRS.
-        if (layer.srs === 'auto' && info.srs) {
-          layer.srs = info.srs;
+        if (layer.srs === 'auto') {
+          layer.srs = info.srs ? info.srs : '&srsWGS84;';
         }
         else if (layer.srs === 'custom') {
           layer.srs = $('input#srs-custom', form).val();
