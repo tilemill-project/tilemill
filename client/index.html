@@ -48,6 +48,7 @@
     <script type="text/html" name="list">
     <div id='header' class='clearfix pane'>
       <h1>TileMill</h1>
+      <a class='info' href='#info'>Info</a>
     </div>
     <div id='content' class='clearfix'>
       <%= projects %>
@@ -211,7 +212,16 @@
       </form>
     </div>
     </script>
-    <script type="text/html" name="popup-info">
+    <script type="text/html" name="popup-info-settings">
+    <div id='popup-info' class='clearfix pane'>
+      <form>
+        <% for (key in settings) { %>
+          <div><label><%= key %></label><input class='text' type='text' value='<%= settings[key] %>' /></div>
+        <% } %>
+      </form>
+    </div>
+    </script>
+    <script type="text/html" name="popup-info-project">
     <div id='popup-info' class='clearfix pane'>
       <form>
         <div class='messages'></div>

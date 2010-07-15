@@ -28,6 +28,18 @@ TileMill.controller.list = function() {
     }));
     TileMill.show(page);
 
+    $('div#header a.info').click(function() {
+      var settings = {};
+      for (var key in TileMill.settings) {
+        if (typeof TileMill.settings[key] === 'string') {
+          settings[key] = TileMill.settings[key];
+        }
+      }
+      var popup = $(TileMill.template('popup-info-settings', {settings: settings}));
+      TileMill.popup.show({content: popup, title: 'Info'});
+      return false;
+    });
+
     $('form').each(function() {
       $(this).validate({
         errorLabelContainer: '#' + $(this).attr('id') + ' .messages',

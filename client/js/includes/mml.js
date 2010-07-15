@@ -280,7 +280,7 @@ TileMill.mml.add = function(options, layers) {
  * Save an MML string to the backend.
  */
 TileMill.mml.save = function(data) {
-  filename = [TileMill.settings.type, TileMill.settings.id, TileMill.settings.id + '.mml'].join('/');
+  filename = [TileMill.data.type, TileMill.data.id, TileMill.data.id + '.mml'].join('/');
   TileMill.backend.post(filename, data);
 };
 
@@ -292,9 +292,9 @@ TileMill.mml.url = function(options) {
     options = {};
   }
   options = $.extend({ timestamp: true, encode: true }, options);
-  var url = TileMill.backend.url(TileMill.settings.filename);
+  var url = TileMill.backend.url(TileMill.data.filename);
   if (options.timestamp) {
-    url += '&c=' + TileMill.uniq;
+    url += '&c=' + TileMill.data.uniq;
   }
   if (options.encode) {
     url = Base64.urlsafe_encode(url);
@@ -307,7 +307,7 @@ TileMill.mml.url = function(options) {
  */
 TileMill.mml.init = function() {
   var layers = $(TileMill.template('layers', {}));
-  var l = TileMill.mml.parseMML(TileMill.settings.mml).layers;
+  var l = TileMill.mml.parseMML(TileMill.data.mml).layers;
   for (var layer in l) {
     TileMill.mml.add(l[layer], layers);
   }

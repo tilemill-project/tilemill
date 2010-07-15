@@ -12,7 +12,7 @@ TileMill.stylesheet.init = function() {
   // this is the case!
   queue.queue = []; 
 
-  var s = TileMill.mml.parseMML(TileMill.settings.mml).stylesheets;
+  var s = TileMill.mml.parseMML(TileMill.data.mml).stylesheets;
   for (var i in s) {
     var src = s[i];
     queue.add(function(src, stylesheets, next) {
@@ -52,7 +52,7 @@ TileMill.stylesheet.add = function(options, stylesheets, callback) {
   // If there is no / character, assume this is a single filename.
   if (options.src.split('/').length === 1) {
     shortname = options.src.split('.')[0];
-    filename = TileMill.settings.type + '/' + TileMill.settings.id + '/' + shortname + '.mss';
+    filename = TileMill.data.type + '/' + TileMill.data.id + '/' + shortname + '.mss';
     options.src = TileMill.backend.url(filename);
   }
   // Otherwise, assume this is a URL.

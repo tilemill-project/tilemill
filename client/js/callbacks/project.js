@@ -10,14 +10,14 @@ TileMill.controller.project = function() {
       return false;
     }
 
-    // Store current settings. @TODO: Refactor this.
-    TileMill.settings.mml = mml;
-    TileMill.settings.id = id;
-    TileMill.settings.type = 'project';
-    TileMill.settings.filename = 'project/' + id + '/' + id + '.mml';
+    // Store current project data.
+    TileMill.data.mml = mml;
+    TileMill.data.id = id;
+    TileMill.data.type = 'project';
+    TileMill.data.filename = 'project/' + id + '/' + id + '.mml';
 
     // Set the unique query string.
-    TileMill.uniq = (new Date().getTime());
+    TileMill.data.uniq = (new Date().getTime());
 
     // Parse MML.
     var parsed = TileMill.mml.parseMML(mml);
@@ -50,7 +50,7 @@ TileMill.controller.project = function() {
     $('div#header a.info').click(function() {
       var tilelive_url = TileMill.backend.servers(TileMill.mml.url())[0] + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true });
       var mml_url = TileMill.mml.url({ timestamp: false, encode: false });
-      var popup = $(TileMill.template('popup-info', {tilelive_url: tilelive_url, mml_url: mml_url}));
+      var popup = $(TileMill.template('popup-info-project', {tilelive_url: tilelive_url, mml_url: mml_url}));
       TileMill.popup.show({content: popup, title: 'Info'});
       return false;
     });
@@ -88,7 +88,7 @@ TileMill.project.save = function() {
   // Refresh storage of active stylesheet before saving.
   TileMill.stylesheet.setCode($('#tabs a.active'), true);
 
-  var id = TileMill.settings.id,
+  var id = TileMill.data.id,
       queue = new TileMill.queue();
   queue.add(function(id, next) {
     var mml = {
@@ -101,7 +101,7 @@ TileMill.project.save = function() {
     mml.metadata.mapCenter = TileMill.map.getCenter($('#map-preview'));
 
     $('#tabs a.tab').each(function() {
-      mml.stylesheets.push(TileMill.backend.url($.url.setUrl($(this).data('tilemill').src).param('filename')) + '&amp;c=' + TileMill.uniq);
+      mml.stylesheets.push(TileMill.backend.url($.url.setUrl($(this).data('tilemill').src).param('filename')) + '&amp;c=' + TileMill.data.uniq);
       TileMill.stylesheet.save($.url.setUrl($(this).data('tilemill').src).param('filename'), $('input', this).val());
     });
     $('#layers ul.sidebar-content li').reverse().each(function() {
@@ -116,7 +116,7 @@ TileMill.project.save = function() {
   }, [id]);
   queue.add(function() {
     TileMill.inspector.load();
-    TileMill.uniq = (new Date().getTime());
+    TileMill.data.uniq = (new Date().getTime());
     TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
     $('div#header a.save').removeClass('changed');
   });

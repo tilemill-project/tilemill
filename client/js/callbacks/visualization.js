@@ -10,14 +10,14 @@ TileMill.controller.visualization = function() {
       return false;
     }
 
-    // Store current settings. @TODO: Refactor this.
-    TileMill.settings.mml = mml;
-    TileMill.settings.id = id;
-    TileMill.settings.type = 'visualization';
-    TileMill.settings.filename = 'visualization/' + id + '/' + id + '.mml';
+    // Store current project data.
+    TileMill.data.mml = mml;
+    TileMill.data.id = id;
+    TileMill.data.type = 'visualization';
+    TileMill.data.filename = 'visualization/' + id + '/' + id + '.mml';
 
     // Set the unique query string.
-    TileMill.uniq = (new Date().getTime());
+    TileMill.data.uniq = (new Date().getTime());
 
     // Parse MML.
     var parsed = TileMill.mml.parseMML(mml);
@@ -145,12 +145,12 @@ TileMill.visualization.save = function(callback) {
 
   // Save project MML including any changed metadata.
   queue.add(function(next) {
-    var mml = TileMill.mml.parseMML(TileMill.settings.mml);
-    var id = TileMill.settings.id;
+    var mml = TileMill.mml.parseMML(TileMill.data.mml);
+    var id = TileMill.data.id;
     mml.metadata = TileMill.visualization.settings;
     mml.metadata.mapCenter = TileMill.map.getCenter($('#map-preview'));
-    TileMill.settings.mml = TileMill.mml.generate(mml);
-    TileMill.backend.post('visualization/' + id + '/' + id + '.mml', TileMill.settings.mml, next);
+    TileMill.data.mml = TileMill.mml.generate(mml);
+    TileMill.backend.post('visualization/' + id + '/' + id + '.mml', TileMill.data.mml, next);
   });
   // Store project MSS and pass to each visualization type.
   queue.add(function(next) {
@@ -188,12 +188,12 @@ TileMill.visualization.save = function(callback) {
   queue.add(function(next) {
     var self = this;
     var mss = self.retrieve('mss');
-    var id = TileMill.settings.id;
+    var id = TileMill.data.id;
     TileMill.stylesheet.save('visualization/' + id + '/' + id + '.mss', TileMill.mss.generate(mss), next);
   });
   queue.add(function(next) {
     TileMill.inspector.load();
-    TileMill.uniq = (new Date().getTime());
+    TileMill.data.uniq = (new Date().getTime());
     TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
   });
   if (callback) {
@@ -275,7 +275,7 @@ TileMill.visualization.projectify = function(name) {
   }, [name]);
   // Copy MSS from visualization to project.
   queue.add(function(name, next) {
-    var visualization = 'visualization/' + TileMill.settings.id + '/' + TileMill.settings.id + '.mss';
+    var visualization = 'visualization/' + TileMill.data.id + '/' + TileMill.data.id + '.mss';
     var project = 'project/' + name + '/' + name + '.mss';
     TileMill.backend.get(visualization, function(data) {
       TileMill.backend.post(project, data, next);
@@ -287,7 +287,7 @@ TileMill.visualization.projectify = function(name) {
     var mss = 'project/' + name + '/' + name + '.mss';
 
     // Rewrite current visualization MML 
-    var parsed = TileMill.mml.parseMML(TileMill.settings.mml);
+    var parsed = TileMill.mml.parseMML(TileMill.data.mml);
     parsed.stylesheets = [TileMill.backend.url(mss)];
     var data = TileMill.mml.generate(parsed);
 
