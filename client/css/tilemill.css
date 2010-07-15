@@ -4,14 +4,12 @@ body {
   }
 
 div.loading {
-  background:#fff url(../images/swirly.gif) 50% 50% no-repeat;
-  opacity:.5;
-
+  background:#eee url(../images/swirly.gif) 50% 50% no-repeat;
   position:fixed;
   left:0px;
   right:0px;
   bottom:0px;
-  top:0px;
+  top:40px;
   }
 
 div.error-page {
