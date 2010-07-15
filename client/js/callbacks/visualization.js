@@ -29,7 +29,7 @@ TileMill.controller.visualization = function() {
 
     $('.inspector-close', inspector).remove();
     $('#sidebar').append(inspector);
-    $('body').append(map);
+    $('#main').append(map);
 
     // Init elements which require DOM presence.
     TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 1}, parsed.metadata.mapCenter);

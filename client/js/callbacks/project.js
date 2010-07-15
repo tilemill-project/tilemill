@@ -32,9 +32,9 @@ TileMill.controller.project = function() {
 
     $('#sidebar').append(layers);
     $('#sidebar').append(inspector);
-    $('body').append(map);
-    $('body').append(stylesheets);
-    $('body').append(color);
+    $('#sidebar').append(map).addClass('with-map');
+    $('#main').append(stylesheets);
+    $('#main').append(color);
 
     // Init elements which require DOM presence.
     TileMill.colors.initFarb(color);

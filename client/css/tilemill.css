@@ -26,8 +26,6 @@ div.error-page {
   color:#ccc;
   }
 
-body#project { padding-left:320px; }
-
 a {
   color:#48a;
   text-decoration:none;
@@ -274,16 +272,22 @@ form div.buttons {
 /**
  * Layers
  */
-#sidebar {
+#main {
   position:fixed;
-  left:0px;
   top:40px;
-  bottom:240px;
-  width:319px;
-  border-right:1px solid #ccc;
+  left:30%;
+  right:0px;
+  bottom:0px;
   }
 
-#visualization #sidebar { bottom:0px; }
+#sidebar {
+  position:fixed;
+  top:40px;
+  left:0px;
+  bottom:0px;
+  width:30%;
+  border-right:1px solid #ccc;
+  }
 
 .column h2,
 .popup-header,
@@ -300,6 +304,8 @@ form div.buttons {
   top:40px;
   overflow:auto;
   }
+
+  .with-map .sidebar-content { bottom:240px; }
 
   .sidebar-content.loading { background:url(../images/swirly.gif) 50% 50% no-repeat; }
 
@@ -424,32 +430,27 @@ a.inspect-unique.active     { background-color:#222; }
  * Map preview
  */
 #map-preview {
-  position:fixed;
+  position:absolute;
   left:0px;
   bottom:0px;
-  width:319px;
-  height:239px;
-  border-top:1px solid #ccc;
-  border-right:1px solid #ccc;
+  right:0px;
+  top:0px;
   background:#ddd url(../images/checker-bg.png) 0% 0% repeat;
   }
 
-#visualization #map-preview {
-  top:40px;
-  left:320px;
-  bottom:0px;
-  right:0px;
-  width:auto;
-  height:auto;
-  border:0px;
+#sidebar #map-preview {
+  top:auto;
+  height:239px;
+  border-top:1px solid #ccc;
   }
 
 #map-preview div.olControlPanZoomBar {
   top:20px !important;
   }
 
-#visualization #map-preview.fullscreen,
-#map-preview.fullscreen {
+#map-preview.fullscreen,
+#sidebar #map-preview.fullscreen {
+  position:fixed;
   top:40px;
   left:0px;
   right:0px;
@@ -481,15 +482,15 @@ a.inspect-unique.active     { background-color:#222; }
   color:#eee;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
-}
+  }
 
 /**
  * Code editor
  */
 #tabs {
-  position:fixed;
-  top:40px;
-  left:320px;
+  position:absolute;
+  top:0px;
+  left:0px;
   right:0px;
   height:29px;
 
@@ -537,9 +538,9 @@ a.inspect-unique.active     { background-color:#222; }
 
 #editor {
   overflow:auto;
-  position:fixed;
-  top:80px;
-  left:320px;
+  position:absolute;
+  top:40px;
+  left:0px;
   bottom:40px;
   right:0px;
   display:block;
@@ -554,8 +555,8 @@ a.inspect-unique.active     { background-color:#222; }
 #color-palette {
   background:#303030 url(../images/sprite.png) 0px -360px repeat-x;
   color:#eee;
-  position:fixed;
-  left:320px;
+  position:absolute;
+  left:0px;
   right:0px;
   bottom:0px;
   padding-right:180px;
