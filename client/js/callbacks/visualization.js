@@ -234,26 +234,29 @@ TileMill.visualization.add = function(url) {
     TileMill.backend.post(mss, data, next);
   }, [name]);
   queue.add(function(name, next) {
-    var mss = 'visualization/' + name + '/' + name + '.mss';
-    var mml = 'visualization/' + name + '/' + name + '.mml';
-    var data = TileMill.mml.generate({
-      stylesheets: [TileMill.backend.url(mss)],
-      layers:[
-        {
-          id: 'world',
-          srs: '&srsWGS84;',
-          file: 'http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip',
-          type: 'shape'
-        },
-        {
-          id: 'data',
-          srs: '&srsWGS84;',
-          file: url,
-          type: 'shape'
-        }
-      ]
+    $('body').append(TileMill.template('loading', {}));
+    TileMill.backend.datasource(Base64.urlsafe_encode(url), function(info) {
+      var mss = 'visualization/' + name + '/' + name + '.mss';
+      var mml = 'visualization/' + name + '/' + name + '.mml';
+      var data = TileMill.mml.generate({
+        stylesheets: [TileMill.backend.url(mss)],
+        layers:[
+          {
+            id: 'world',
+            srs: '&srsWGS84;',
+            file: 'http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip',
+            type: 'shape'
+          },
+          {
+            id: 'data',
+            srs: info.srs ? info.srs : '&srsWGS84;',
+            file: url,
+            type: 'shape'
+          }
+        ]
+      });
+      TileMill.backend.post(mml, data, next);
     });
-    TileMill.backend.post(mml, data, next);
   }, [name]);
   queue.add(function(name) {
     $.bbq.pushState({ 'action': 'visualization', 'id': name });

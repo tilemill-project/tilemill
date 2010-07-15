@@ -56,7 +56,7 @@ TileMill.route = function() {
     $('body')
       .attr('id', fn)
       .empty()
-      .append(TileMill.template('loading', {}));
+      .append(TileMill.template('page-loading', {}));
     TileMill.controller[fn]();
   }
   else {

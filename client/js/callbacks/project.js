@@ -101,7 +101,7 @@ TileMill.project.save = function() {
     mml.metadata.mapCenter = TileMill.map.getCenter($('#map-preview'));
 
     $('#tabs a.tab').each(function() {
-      mml.stylesheets.push(TileMill.backend.url($.url.setUrl($(this).data('tilemill').src).param('filename')) + '&amp;c=' + TileMill.data.uniq);
+      mml.stylesheets.push(TileMill.backend.url($.url.setUrl($(this).data('tilemill').src).param('filename')) + '&c=' + TileMill.data.uniq);
       TileMill.stylesheet.save($.url.setUrl($(this).data('tilemill').src).param('filename'), $('input', this).val());
     });
     $('#layers ul.sidebar-content li').reverse().each(function() {

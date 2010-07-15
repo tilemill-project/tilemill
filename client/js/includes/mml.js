@@ -64,7 +64,7 @@ TileMill.mml.generate = function(mml) {
   // Add the stylesheets to the MML file.
   if (mml.stylesheets) {
     for (i = 0; i < mml.stylesheets.length; i++) {
-      output.push('  <Stylesheet src="' + mml.stylesheets[i] + '" />');
+      output.push('  <Stylesheet src="' + mml.stylesheets[i].replace('&', '&amp;') + '" />');
     }
   }
 
@@ -89,7 +89,7 @@ TileMill.mml.generate = function(mml) {
       layerDef += '>';
       output.push(layerDef);
       output.push('    <Datasource>');
-      output.push('      <Parameter name="file">' + layer.file + '</Parameter>');
+      output.push('      <Parameter name="file">' + layer.file.replace('&', '&amp;') + '</Parameter>');
       if (!layer.type) {
         layer.type = 'shape';
       }
@@ -196,29 +196,40 @@ TileMill.mml.layerForm = function(popup, li, options) {
         classes: $('input#classes', form).val(),
         id: $('input#id', form).val(),
         file: $('input#file', form).val(),
-        srs: $('select#srs', form).val() !== 'custom' ? $('select#srs', form).val() : $('input#srs-custom', form).val(),
+        srs: $('select#srs', form).val(),
         status: 'true'
       };
-      // Update an existing layer item.
-      var li = $(form).data('li');
-      if (li) {
-        var name = [];
-        if (layer.id) {
-          name.push('#' + layer.id);
+      popup.append(TileMill.template('loading', {}));
+      TileMill.backend.datasource(Base64.urlsafe_encode(url), function(info) {
+        // Set layer SRS.
+        if (layer.srs === 'auto' && info.srs) {
+          layer.srs = info.srs;
         }
-        if (layer.classes) {
-          name.push('.' + layer.classes.split(' ').join(', .'));
+        else if (layer.srs === 'custom') {
+          layer.srs = $('input#srs-custom', form).val();
         }
-        $(li)
-          .data('tilemill', layer)
-          .find('label').text(name.join(', '));
-      }
-      // Add a new layer item.
-      else {
-        TileMill.mml.add(layer, $('#layers'));
-      }
-      TileMill.popup.hide();
-      TileMill.project.changed();
+
+        // Update an existing layer item.
+        var li = $(form).data('li');
+        if (li) {
+          var name = [];
+          if (layer.id) {
+            name.push('#' + layer.id);
+          }
+          if (layer.classes) {
+            name.push('.' + layer.classes.split(' ').join(', .'));
+          }
+          $(li)
+            .data('tilemill', layer)
+            .find('label').text(name.join(', '));
+        }
+        // Add a new layer item.
+        else {
+          TileMill.mml.add(layer, $('#layers'));
+        }
+        TileMill.popup.hide();
+        TileMill.project.changed();
+      });
       return false;
     }
   });

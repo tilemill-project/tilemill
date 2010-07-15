@@ -59,6 +59,23 @@ TileMill.backend.servers.simple.url = function(filename) {
  */
 
 /**
+ * Retrieve datasource information for a given b64 encoded datasource url.
+ */
+TileMill.backend.rasterizers.tilelive.datasource = function(datab64, callback) {
+  var cache = TileMill.cache.get('tilelive-datasource', datab64);
+  if (cache) {
+    callback(cache);
+  }
+  else {
+    TileMill.backend.runtime.get({
+      'url': TileMill.settings.tileliveServer.split(',')[0] + datab64 + "/data.json",
+      'callback': callback,
+      'json': true
+    });
+  }
+};
+
+/**
  * Retrieve fields for a given b64 encoded MML url.
  */
 TileMill.backend.rasterizers.tilelive.fields = function(mmlb64, callback) {
@@ -195,6 +212,6 @@ $.each(['list', 'add', 'get', 'post', 'url'], function(i, func) {
   TileMill.backend[func] = TileMill.backend.servers[TileMill.settings.server][func];
 });
 
-$.each(['fields', 'values', 'servers'], function(i, func) {
+$.each(['datasource', 'fields', 'values', 'servers'], function(i, func) {
   TileMill.backend[func] = TileMill.backend.rasterizers[TileMill.settings.rasterizer][func];
 });

@@ -38,10 +38,14 @@
     <!-- This file is optional - it can contain JS settings -->
     <script type="text/javascript" src="settings.js"></script>
 
-    <script type="text/html" name="loading">
+    <script type="text/html" name="page-loading">
     <div id='header' class='clearfix pane'>
       <h1>TileMill</h1>
     </div>
+    <div class="loading page-loading"></div>
+    </script>
+
+    <script type="text/html" name="loading">
     <div class="loading"></div>
     </script>
 
@@ -199,6 +203,7 @@
         <div>
           <label for="srs">SRS</label>
           <select id="srs">
+            <option value="auto">Autodetect</option>
             <option value="&srs900913;">900913</option>
             <option value="&srsWGS84;">WGS84</option>
             <option value="custom">Add custom</option>

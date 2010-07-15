@@ -5,12 +5,15 @@ body {
 
 div.loading {
   background:#eee url(../images/swirly.gif) 50% 50% no-repeat;
-  position:fixed;
+  opacity:.5;
+  position:absolute;
   left:0px;
   right:0px;
   bottom:0px;
-  top:40px;
+  top:0px;
   }
+
+div.page-loading { top:40px; }
 
 div.error-page {
   position:fixed;
@@ -651,17 +654,19 @@ a.inspect-unique.active     { background-color:#222; }
   background-color: #fff;
   margin: 100px auto 0;
 
-  -moz-border-radius:5px;
-  -webkit-border-radius:5px;
-  border-radius:5px;
-  -moz-box-shadow:#333 0px 3px 30px;
-  -webkit-box-shadow:#333 0px 3px 30px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  border-radius:3px;
+  -moz-box-shadow:#666 0px 1px 10px;
+  -webkit-box-shadow:#666 0px 1px 10px;
   }
 
 .popup-header {
-  -moz-border-radius:5px 5px 0px 0px;
-  -webkit-border-radius:5px 5px 0px 0px;
-}
+  -moz-border-radius:3px 3px 0px 0px;
+  -webkit-border-radius:3px 3px 0px 0px;
+  }
+
+.popup-content { position:relative; }
 
 .popup-header h2 { float:left; }
 .popup-header a { float:right; }
