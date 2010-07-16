@@ -172,13 +172,22 @@ TileMill.backend.runtimes.html.post = function(options) {
   for (var key in options.data) {
     form.append($('<input>').attr({ 'type': 'hidden', 'name': key, 'value': options.data[key] }));
   }
-  form.appendTo(doc.body)[0].submit();
-  $(iframe).bind('load', function() {
+  var f = form.appendTo(doc.body)[0];
+  if (f) {
+    f.submit();
+    $(iframe).bind('load', function() {
+      if (options.callback) {
+        options.callback();
+      }
+      $(this).remove();
+    });
+  }
+  else {
     if (options.callback) {
       options.callback();
     }
     $(this).remove();
-  });
+  }
 };
 
 TileMill.backend.runtimes.AIR.get = function(options) {
