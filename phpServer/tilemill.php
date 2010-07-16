@@ -68,7 +68,7 @@ class RequestHandler {
   }
 
   function safePath($path) {
-    return strpos($path, '..') === FALSE && !preg_match('[^\w.-_\/]', $path);
+    return strpos($path, '..') === FALSE && !preg_match('/[^\w+\/._-]/', $path);
   }
 }
 
