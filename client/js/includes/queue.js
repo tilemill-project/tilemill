@@ -21,13 +21,18 @@
  * queue.execute();
  */
 TileMill.queue = function() {
+  this.queue = [];
+  this._store = {};
   return this;
 };
 
-TileMill.queue.prototype.queue = [];
-
 TileMill.queue.prototype.add = function(func, args) {
   this.queue.push([func, args]);
+  return this;
+};
+
+TileMill.queue.prototype.reset = function() {
+  this.queue = [];
   return this;
 };
 
@@ -57,5 +62,3 @@ TileMill.queue.prototype.store = function(k, v) {
 TileMill.queue.prototype.retrieve = function(k) {
   return this._store[k];
 };
-
-TileMill.queue.prototype._store = {};
