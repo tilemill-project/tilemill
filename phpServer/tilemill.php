@@ -17,9 +17,6 @@ function main($path, $args, $method = 'get') {
     case 'list':
       $handler = new ListHandler($config, $path, $args);
       return $handler->{$method}();
-    case 'add':
-      $handler = new AddHandler($config, $path, $args);
-      return $handler->{$method}();
     case 'file':
       $handler = new FileHandler($config, $path, $args);
       return $handler->{$method}();
@@ -129,26 +126,6 @@ class ListHandler extends RequestHandler {
 }
 
 /**
- * Add handler class.
- */
-class AddHandler extends RequestHandler {
-  function post() {
-    parent::post();
-    if (isset($this->args['filename'])) {
-      $path = "{$this->config['files']}/{$this->args['filename']}";
-      if ($this->safePath($path)) {
-        if (!file_exists($path)) {
-          mkdir($path);
-          return $this->json(array('status' => TRUE), TRUE);
-        }
-        return $this->json(array('status' => FALSE, 'data' => "The directory {$path} already exists"));
-      }
-    }
-    return $this->json(array('status' => FALSE, 'data' => 'Invalid filename'));
-  }
-}
-
-/**
  * File handler class.
  */
 class FileHandler extends RequestHandler {
@@ -169,21 +146,50 @@ class FileHandler extends RequestHandler {
   function post() {
     parent::post();
     if (isset($this->args['filename'])) {
+      $method = isset($this->args['method']) ? $this->args['method'] : 'put';
       $path = "{$this->config['files']}/{$this->args['filename']}";
       if ($this->safePath($path)) {
-        // Create paths in between.
-        if (!file_exists(dirname($path))) {
-          mkdir(dirname($path), 0777, TRUE);
+        switch ($method) {
+          case 'delete':
+            if (file_exists($path)) {
+              $this->rm($path);
+              return $this->json(array('status' => TRUE));
+            }
+            return $this->json(array('status' => FALSE, 'data' => "Could not delete file"));
+          case 'put':
+          default:
+            // Create paths in between.
+            if (!file_exists(dirname($path))) {
+              mkdir(dirname($path), 0777, TRUE);
+            }
+            // Write file.
+            if (file_exists(dirname($path)) && is_dir(dirname($path))) {
+              file_put_contents($path, $this->args['data']);
+              return $this->json(array('status' => TRUE));
+            }
+            return $this->json(array('status' => FALSE, 'data' => "Could not write file"));
         }
-        // Write file.
-        if (file_exists(dirname($path)) && is_dir(dirname($path))) {
-          file_put_contents($path, $this->args['data']);
-          return $this->json(array('status' => TRUE));
-        }
-        return $this->json(array('status' => FALSE, 'data' => "Could not write file"));
       }
     }
     return $this->json(array('status' => FALSE, 'data' => 'Invalid filename'));
+  }
+
+  /**
+   * Recursively remove files and directories contained in the specified path.
+   */
+  protected function rm($path) {
+    if (is_dir($path)) {
+      $objects = scandir($path);
+      foreach ($objects as $object) {
+        if ($object != "." && $object != "..") {
+          $this->rm("{$path}/{$object}");
+        }
+      }
+      rmdir($path);
+    }
+    elseif (is_file($path)) {
+      unlink($path);
+    }
   }
 }
 

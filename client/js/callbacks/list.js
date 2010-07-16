@@ -30,6 +30,21 @@ TileMill.controller.list = function() {
     }));
     TileMill.show(page);
 
+    // Attach delete link handlers.
+    $.each(['project', 'visualization'], function(dummy, type) {
+      $('#' + type + ' a.file-delete').click(function() {
+        if (confirm('Are you sure you want to delete this project?')) {
+          $('body').append(TileMill.template('loading', {}));
+          var filename = $(this).attr('href').split('#delete=')[1];
+          TileMill.backend.del(filename, function() {
+            $.bbq.pushState({ 'action': 'list' });
+            $(window).trigger('hashchange');
+          });
+        }
+        return false;
+      });
+    });
+
     $('div#header a.info').click(function() {
       var settings = {};
       for (var key in TileMill.settings) {

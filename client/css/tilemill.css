@@ -123,22 +123,21 @@ ul ul li {
   }
 
 ul.items li {
-  padding:4px 5px;
+  position:relative;
+  padding:4px 30px 4px 5px;
   line-height:30px;
   font-size:16px;
   }
 
-ul.items li a {
+ul.items li a.route {
   padding:0px 5px;
   display:block;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   }
 
-ul.items li a:hover {
-  background:#fff;
-  display:block;
-  }
+  ul.items li a.file-delete { top:8px; }
+  ul.items li a:hover { background-color:#fff; }
 
 ul.items li form { padding:0px 5px; }
 
@@ -339,6 +338,7 @@ form div.buttons {
 /**
  * Icon links
  */
+a.file-delete,
 a.inspect-label,
 a.inspect-choropleth,
 a.inspect-unique,
@@ -357,15 +357,17 @@ a.layer-inspect,
 a.inspect-values,
 a.map-fullscreen {
   display:block;
+  padding:0px;
   width:20px;
   height:20px;
   text-indent:-9999px;
-  background:url(../images/sprite.png) 0px 0px no-repeat;
+  background:url(../images/sprite.png) 20px 20px no-repeat;
 
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   }
 
+a.file-delete,
 a.inspect-label,
 a.inspect-choropleth,
 a.inspect-scaledPoints,
@@ -388,6 +390,7 @@ a.inspect-values {
   a.inspect-label { right:49px; }
   a.inspect-unique { right:27px; }
 
+  li:hover a.file-delete,
   li:hover a.inspect-scaledPoints,
   li:hover a.inspect-label,
   li:hover a.inspect-choropleth,
@@ -402,6 +405,7 @@ a.inspect-values {
   li:hover a.inspect-values { display:block; }
 
 a.layer-inspect  { background-position:-20px 0px; }
+a.file-delete,
 span.tab-delete,
 a.layer-delete   { background-position:-60px 0px; }
 a.color-picker   { background-position:-40px -20px; }

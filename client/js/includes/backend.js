@@ -42,6 +42,14 @@ TileMill.backend.servers.simple.post = function(filename, file_data, callback) {
   });
 };
 
+TileMill.backend.servers.simple.del = function(filename, callback) {
+  TileMill.backend.runtime.post({
+    'url': TileMill.settings.simpleServer + 'file',
+    'data': { 'filename': filename, 'method': 'delete' },
+    'callback': callback
+  });
+};
+
 TileMill.backend.servers.simple.url = function(filename) {
   return TileMill.settings.simpleServer + 'file?filename=' + filename;
 };
@@ -200,7 +208,7 @@ $.each(['get', 'post'], function(i, func) {
   TileMill.backend.runtime[func] = TileMill.backend.runtimes[TileMill.settings.runtime][func];
 });
 
-$.each(['list', 'get', 'post', 'url'], function(i, func) {
+$.each(['list', 'get', 'post', 'del', 'url'], function(i, func) {
   TileMill.backend[func] = TileMill.backend.servers[TileMill.settings.server][func];
 });
 

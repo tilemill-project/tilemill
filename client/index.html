@@ -71,11 +71,12 @@
     </script>
 
     <script type="text/html" name="column">
-    <div class='column'>
+    <div class='column' id='<%= type %>'>
       <h2 class='pane'><%= name %></h2>
       <ul class='items'>
         <% for (i in data) { %>
           <li class='clearfix'>
+            <a href='#delete=<%= type %>/<%= data[i] %>' class='file-delete'>Delete</a>
             <a href='#action=<%= type %>&id=<%= data[i] %>' class='route'><%= data[i] %></a>
           </li>
         <% } %>

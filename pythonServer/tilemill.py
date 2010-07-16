@@ -65,21 +65,33 @@ class FileHandler(TileMill):
 
     def post(self):
         path = os.path.join(options.files, self.get_argument('filename'))
-        data = self.get_argument('data')
         if (self.safePath(path)):
-            if (not os.path.isdir(os.path.dirname(path))):
-                os.makedirs(os.path.dirname(path))
-            if (os.path.isdir(os.path.dirname(path))):
-                buffer = open(path, 'w')
-                buffer.writelines(data)
-                buffer.close()
+            method = self.get_argument('method', 'put')
+            data = self.get_argument('data', '')
+            if method == 'delete':
+                self.rm(path);
                 self.json({ 'status': True }, True)
             else:
-                self.json({ 'status': False, 'data': 'Could not write file' }, True)
+                if (not os.path.isdir(os.path.dirname(path))):
+                    os.makedirs(os.path.dirname(path))
+                if (os.path.isdir(os.path.dirname(path))):
+                    buffer = open(path, 'w')
+                    buffer.writelines(data)
+                    buffer.close()
+                    self.json({ 'status': True }, True)
+                else:
+                    self.json({ 'status': False, 'data': 'Could not write file' }, True)
         elif (self.safePath(path)):
             self.json({ 'status': False, 'data': 'Could not write file' }, True)
         else:
             self.json({ 'status': False, 'data': 'Invalid filename' }, True)
+
+    def rm(self, path):
+        for root, dirs, files in os.walk(path, topdown=False):
+            for name in files:
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
 
 class Application(tornado.web.Application):
     def __init__(self):

@@ -10,7 +10,7 @@
  * Example: Use the TileMill PHP backend available at http://tilemill.
  */
 // TileMill.settings.server = 'simple';
-// TileMill.settings.simpleServer = 'http://tilemill/';
+TileMill.settings.simpleServer = 'http://localhost:8889/';
 
 /**
  * Example: Use a local TileLive rasterizer at http://localhost:8888/
