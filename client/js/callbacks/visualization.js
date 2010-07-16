@@ -88,7 +88,7 @@ TileMill.visualization.init = function(mml) {
   if (mml.metadata) {
     var keys = ['label', 'unique', 'choropleth', 'choroplethSplit', 'scaledPoints'];
     for (var key in mml.metadata) {
-      if ($.inArray(key, keys)) {
+      if ($.inArray(key, keys) !== -1) {
         TileMill.visualization.settings[key] = mml.metadata[key];
       }
     }
@@ -208,9 +208,28 @@ TileMill.visualization.save = function(callback) {
  * Create a new visualization.
  */
 TileMill.visualization.add = function(url) {
+  $('body').append(TileMill.template('loading', {}));
+
   var name = url.split('/').pop().split('.')[0];
   var queue = new TileMill.queue();
   queue.add(function(name, next) {
+    var self = this;
+    TileMill.backend.list('visualization', function(visualizations) {
+      // Ensure the name of this visualization does not collide with
+      // existing names
+      var newName = name;
+      var i = 1;
+      while ($.inArray(newName, visualizations) !== -1) {
+        newName = name + '_' + i;
+        i++;
+      }
+      self.store('name', newName);
+      next();
+    });
+  }, [name]);
+  queue.add(function(next) {
+    var self = this;
+    var name = self.retrieve('name');
     var mss = 'visualization/' + name + '/' + name + '.mss';
     var data = TileMill.mss.generate({
       'Map': {
@@ -228,9 +247,10 @@ TileMill.visualization.add = function(url) {
       }
     });
     TileMill.backend.post(mss, data, next);
-  }, [name]);
-  queue.add(function(name, next) {
-    $('body').append(TileMill.template('loading', {}));
+  });
+  queue.add(function(next) {
+    var self = this;
+    var name = self.retrieve('name');
     TileMill.backend.datasource(Base64.urlsafe_encode(url), function(info) {
       var mss = 'visualization/' + name + '/' + name + '.mss';
       var mml = 'visualization/' + name + '/' + name + '.mml';
@@ -253,10 +273,12 @@ TileMill.visualization.add = function(url) {
       });
       TileMill.backend.post(mml, data, next);
     });
-  }, [name]);
-  queue.add(function(name) {
+  });
+  queue.add(function() {
+    var self = this;
+    var name = self.retrieve('name');
     $.bbq.pushState({ 'action': 'visualization', 'id': name });
-  }, [name]);
+  });
   queue.execute();
 };
 
