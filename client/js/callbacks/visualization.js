@@ -50,9 +50,14 @@ TileMill.controller.visualization = function() {
     });
 
     $('div#header a.info').click(function() {
+      var datasource_url = TileMill.mml.parseMML(TileMill.data.mml).layers[1].file;
       var tilelive_url = TileMill.backend.servers(TileMill.mml.url())[0] + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true });
       var mml_url = TileMill.mml.url({ timestamp: false, encode: false });
-      var popup = $(TileMill.template('popup-info-visualization', {tilelive_url: tilelive_url, mml_url: mml_url}));
+      var popup = $(TileMill.template('popup-info-visualization', {
+        datasource_url: datasource_url,
+        tilelive_url: tilelive_url,
+        mml_url: mml_url
+      }));
       $('select#choropleth-split', popup)
         .change(function() {
           TileMill.visualization.settings.choroplethSplit = $(this).val();

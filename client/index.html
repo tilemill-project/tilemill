@@ -239,8 +239,9 @@
     <div id='popup-info' class='clearfix pane'>
       <form>
         <div class='messages'></div>
-        <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' value=<%= tilelive_url %>/></div>
-        <div><label for='mml-url'>MML URL</label><input id='mml-url' class='text' type='text' value=<%= mml_url %> /></div>
+        <div><label for='datasource-url'>Datasource</label><input id='datasource-url' disabled='disabled' class='text' type='text' value='<%= datasource_url %>' /></div>
+        <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' value='<%= tilelive_url %>' /></div>
+        <div><label for='mml-url'>MML URL</label><input id='mml-url' class='text' type='text' value='<%= mml_url %>' /></div>
         <div><label for='choropleth-split'>Choropleth</label>
           <select id='choropleth-split'>
             <option value='2'>2 shades</option>
