@@ -127,7 +127,22 @@ TileMill.project.save = function() {
  * Add a new project.
  */
 TileMill.project.add = function(name) {
+  $('body').append(TileMill.template('loading', {}));
+
   var queue = new TileMill.queue();
+  queue.add(function(name, next) {
+    var self = this;
+    TileMill.backend.list('project', function(projects) {
+      if ($.inArray(name, projects) !== -1) {
+        $('body div.loading').remove();
+        TileMill.message('Error', 'A project with the name <em>'+name+'</em> already exists. Please choose another name.', 'error');
+        self.reset();
+      }
+      else {
+        next();
+      }
+    });
+  }, [name]);
   queue.add(function(name, next) {
     var mss = 'project/' + name + '/' + name + '.mss';
     var data = TileMill.mss.generate({
