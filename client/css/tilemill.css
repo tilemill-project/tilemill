@@ -404,6 +404,7 @@ a.inspect-values {
   li:hover a.layer-inspect,
   li:hover a.inspect-values { display:block; }
 
+a.layer-edit     { background-position:0px 0px; }
 a.layer-inspect  { background-position:-20px 0px; }
 a.file-delete,
 span.tab-delete,
