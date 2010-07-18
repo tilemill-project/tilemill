@@ -420,7 +420,12 @@ TileMill.visualization.plugins.unique = function(field, mss, callback) {
     for (var color in colorValues) {
       var selectors = [];
       for (var value = 0; value < colorValues[color].length; value++) {
-        selectors.push('#data[' + field + '="' + colorValues[color][value] + '"]');
+        if (typeof colorValues[color][value] == 'string') {
+          selectors.push('#data[' + field + '="' + escape(colorValues[color][value]) + '"]');
+        }
+        else {
+          selectors.push('#data[' + field + '=' + escape(colorValues[color][value]) + ']');
+        }
       }
       mss[selectors.join(",\n")] = { 'polygon-fill': color };
     }
