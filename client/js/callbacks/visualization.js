@@ -322,6 +322,23 @@ TileMill.visualization.projectify = function(name) {
 };
 
 /**
+ * Sanitize values for expression in MSS.
+ */
+TileMill.visualization.sanitize = function(value) {
+  if (typeof value == 'string') {
+    return escape(value);
+  }
+  else if (typeof value == 'number') {
+    var string = value + '';
+    // e-x notation. Set to 0.
+    if (string.indexOf('e-') != -1) {
+      return 0;
+    }
+    return string;
+  }
+};
+
+/**
  * Visualization plugin: label.
  */
 TileMill.visualization.plugins.label = function(field, mss, callback) {
@@ -359,7 +376,7 @@ TileMill.visualization.plugins.choropleth = function(field, mss, callback) {
       },
       min = data.min ? data.min : 0;
     for (i = 0; i < split; i++) {
-      var selector = '#data[' + field + '>=' + (min + (individual * i)) + ']';
+      var selector = '#data[' + field + '>=' + TileMill.visualization.sanitize(min + (individual * i)) + ']';
       mss[selector] = { 'polygon-fill': colors[split][i] };
     }
     if (callback) {
@@ -421,10 +438,10 @@ TileMill.visualization.plugins.unique = function(field, mss, callback) {
       var selectors = [];
       for (var value = 0; value < colorValues[color].length; value++) {
         if (typeof colorValues[color][value] == 'string') {
-          selectors.push('#data[' + field + '="' + escape(colorValues[color][value]) + '"]');
+          selectors.push('#data[' + field + '="' + TileMill.visualization.sanitize(colorValues[color][value]) + '"]');
         }
         else {
-          selectors.push('#data[' + field + '=' + escape(colorValues[color][value]) + ']');
+          selectors.push('#data[' + field + '=' + TileMill.visualization.sanitize(colorValues[color][value]) + ']');
         }
       }
       mss[selectors.join(",\n")] = { 'polygon-fill': color };
@@ -456,7 +473,7 @@ TileMill.visualization.plugins.scaledPoints = function(field, mss, callback) {
         sizes = { 0: 2, 1: 4, 2: 6, 3: 9, 4: 13, 5: 18, 6: 25, 7: 34, 8: 45, 9: 60 },
         min = data.min ? data.min : 0;
     for (i = 0; i < 10; i++) {
-      var selector = '#data[' + field + '>=' + (min + (individual * i)) + ']';
+      var selector = '#data[' + field + '>=' + TileMill.visualization.sanitize(min + (individual * i)) + ']';
       mss[selector] = {
         'point-file': 'url(http://mapbox-icons.s3.amazonaws.com/tilemill/points/' + i  + '.png)',
         'point-width': sizes[i],
