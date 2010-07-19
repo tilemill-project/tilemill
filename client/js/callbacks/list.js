@@ -7,6 +7,7 @@ TileMill.controller.list = function() {
   queue.add(function(next) {
     var self = this;
     TileMill.backend.list('project', function(projects) {
+      projects = projects || [];
       projects.sort();
       self.store('projects', projects);
       next();
@@ -16,6 +17,7 @@ TileMill.controller.list = function() {
   queue.add(function(next) {
     var self = this;
     TileMill.backend.list('visualization', function(visualizations) {
+      visualizations = visualizations || [];
       visualizations.sort();
       self.store('visualizations', visualizations);
       next();
