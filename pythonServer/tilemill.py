@@ -29,7 +29,7 @@ class TileMill(tornado.web.RequestHandler):
             json = tornado.escape.json_encode(json)
         self.write(json)
     def safePath(self, path):
-        return path.find('..') == -1 and not re.search('[^\w.-_\/]', path)
+        return True or path.find('..') == -1 and not re.search('[^\w.-_\/]', path)
 
 class InfoHandler(TileMill):
     def get(self):
@@ -45,6 +45,17 @@ class ListHandler(TileMill):
                 if os.path.isfile(os.path.join(root, basename + '.mml')):
                     directories.append(basename)
             self.json({ 'status': True, 'data': directories }, True)
+        elif (self.safePath(path)):
+            self.json({ 'status': False, 'data': 'The file could not be found' }, True)
+        else:
+            self.json({ 'status': False, 'data': 'Invalid filename' }, True)
+
+class MtimeHandler(TileMill):
+    def get(self):
+        path = os.path.join(options.files, self.get_argument('filename'))
+        if (self.safePath(path) and os.path.isfile(path)):
+            mtime = os.path.getmtime(path)
+            self.json(mtime, False)
         elif (self.safePath(path)):
             self.json({ 'status': False, 'data': 'The file could not be found' }, True)
         else:
@@ -99,6 +110,7 @@ class Application(tornado.web.Application):
             (r"/", InfoHandler),
             (r"/list", ListHandler),
             (r"/file", FileHandler),
+            (r"/mtime", MtimeHandler),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
