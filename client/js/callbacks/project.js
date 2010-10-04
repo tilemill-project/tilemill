@@ -98,7 +98,6 @@ TileMill.project.checkStale = function(data) {
   $('#tabs a.tab').each(function() {
     if (($.url.setUrl($(this).data('tilemill').src).param('filename') == data.filename) && 
       ($(this).data('tilemill').mtime != data.mtime)) {
-        console.log('changed');
       TileMill.inspector.load();
       TileMill.data.uniq = (new Date().getTime());
       TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
@@ -111,23 +110,12 @@ TileMill.project.checkStale = function(data) {
 TileMill.project.watch = function() {
   var id = TileMill.data.id,
       queue = new TileMill.queue();
-  // TileMill.backend.url($.url.setUrl($(this).data('tilemill').src)
   $('#tabs a.tab').each(function() {
     TileMill.stylesheet.setCode($('#tabs a.active'), true);
     TileMill.stylesheet.mtime(
       $.url.setUrl($(this).data('tilemill').src).param('filename'), 
       TileMill.project.checkStale)
   });
-
-  /*
-  queue.add(function() {
-    TileMill.inspector.load();
-    TileMill.data.uniq = (new Date().getTime());
-    TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
-    $('div#header a.save').removeClass('changed');
-  });
-  queue.execute();
-  */
 }
 
 
