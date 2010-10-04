@@ -60,6 +60,7 @@ h3 { font-size:13px; }
 
   #header h1,
   #header a.info,
+  #header a.minimal,
   #header a.save,
   #header a.projectify {
     float:left;
@@ -72,6 +73,7 @@ h3 { font-size:13px; }
     }
 
   #header a.info,
+  #header a.minimal,
   #header a.projectify,
   #header a.save {
     background:#222;

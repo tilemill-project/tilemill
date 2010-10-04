@@ -55,6 +55,19 @@ TileMill.controller.project = function() {
       return false;
     });
 
+    $('div#header a.minimal').toggle(
+        function() {
+          $('#main').hide();
+          $('#sidebar').css('width', '100%');
+          TileMill.project_watcher = setInterval(TileMill.project.watch, 1000);
+        },
+        function() {
+          $('#main').show();
+          $('#sidebar').css('width', '30%');
+          TileMill.project_watcher = null;
+        }
+    );
+
     $('div#header a.home').click(function() {
       if (!$('div#header a.save').is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
         return true;
@@ -80,6 +93,43 @@ TileMill.project = {};
 TileMill.project.changed = function() {
   $('div#header a.save').addClass('changed');
 };
+
+TileMill.project.checkStale = function(data) {
+  $('#tabs a.tab').each(function() {
+    if (($.url.setUrl($(this).data('tilemill').src).param('filename') == data.filename) && 
+      ($(this).data('tilemill').mtime != data.mtime)) {
+        console.log('changed');
+      TileMill.inspector.load();
+      TileMill.data.uniq = (new Date().getTime());
+      TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
+      $('div#header a.save').removeClass('changed');
+      $(this).data('tilemill').mtime = data.mtime;
+    }
+  });
+};
+
+TileMill.project.watch = function() {
+  var id = TileMill.data.id,
+      queue = new TileMill.queue();
+  // TileMill.backend.url($.url.setUrl($(this).data('tilemill').src)
+  $('#tabs a.tab').each(function() {
+    TileMill.stylesheet.setCode($('#tabs a.active'), true);
+    TileMill.stylesheet.mtime(
+      $.url.setUrl($(this).data('tilemill').src).param('filename'), 
+      TileMill.project.checkStale)
+  });
+
+  /*
+  queue.add(function() {
+    TileMill.inspector.load();
+    TileMill.data.uniq = (new Date().getTime());
+    TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
+    $('div#header a.save').removeClass('changed');
+  });
+  queue.execute();
+  */
+}
+
 
 /**
  * Save a project from its current DOM state.

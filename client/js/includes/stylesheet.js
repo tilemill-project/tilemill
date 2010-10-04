@@ -105,6 +105,13 @@ TileMill.stylesheet.save = function(filename, data, callback) {
 };
 
 /**
+ * Get the time-modified of a stylesheet
+ */
+TileMill.stylesheet.mtime = function(filename, callback) {
+  TileMill.backend.mtime(filename, callback);
+};
+
+/**
  * Set the code editor to edit a specified stylesheet.
  */
 TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {

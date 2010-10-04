@@ -55,7 +55,7 @@ class MtimeHandler(TileMill):
         path = os.path.join(options.files, self.get_argument('filename'))
         if (self.safePath(path) and os.path.isfile(path)):
             mtime = os.path.getmtime(path)
-            self.json(mtime, False)
+            self.json({ 'status': True, 'mtime': mtime, 'filename': self.get_argument('filename')}, False)
         elif (self.safePath(path)):
             self.json({ 'status': False, 'data': 'The file could not be found' }, True)
         else:
