@@ -36,7 +36,9 @@ app.get('/list', function(req, res) {
 app.get('/file', function(req, res) {
   var path = req.param('filename');
   try {
-    res.send(jsonp("" + fs.readFileSync(path), req));
+    fs.readFile(path, function(err, data) {
+      res.send(jsonp("" + data, req));
+    })
   }
   catch(Exception) {
     res.send(jsonp(
@@ -83,8 +85,9 @@ app.post('/file', function(req, res) {
 app.get('/mtime', function(req, res) {
   var path = req.param('filename');
   try {
-    fstat = fs.statSync(path) 
-    res.send(jsonp("" + fstat.mtime, req));
+    fs.stat(path, function(err, stats) {
+      res.send(jsonp("" + stats.mtime, req));
+    });
   }
   catch(Exception) {
     res.send(jsonp(
