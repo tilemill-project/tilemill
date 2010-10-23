@@ -1,5 +1,5 @@
 //
-//  PFMoveApplication.m, version 1.4
+//  PFMoveApplication.m, version 1.5
 //  LetsMove
 //
 //  Created by Andy Kim at Potion Factory LLC on 9/17/09
@@ -12,6 +12,7 @@
 //    Chad Sellers
 //    Kevin LaCoste
 //    Rasmus Andersson / Spotify
+//    Timothy J. Wood
 //
 
 #import "PFMoveApplication.h"
@@ -288,9 +289,10 @@ static BOOL IsInApplicationsFolder(NSString *path)
 	}
 
 	// Also, handle the case that the user has some other Application directory (perhaps on a separate data partition).
-	if ([[path pathComponents] containsObject:@"Applications"])
-            return YES;
-        
+	if ([[path pathComponents] containsObject:@"Applications"]) {
+		return YES;
+	}
+
 	return NO;
 }
 

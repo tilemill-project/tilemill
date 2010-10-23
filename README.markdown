@@ -7,6 +7,9 @@ A sample project that demonstrates how to move a running Mac OS X application to
 Version History
 ---------------
 
+* 1.5
+	- Don't prompt to move the application if it has "Applications" in its path somewhere
+
 * 1.4
 	- Mac OS X 10.5 compatibility fixes
 
@@ -24,7 +27,8 @@ Version History
 	- Prefers ~/Applications over /Applications if it exists
 	- Escape key pushes the "Do Not Move" button
 
-* 1.0 - First release
+* 1.0
+	- First release
 
 
 Requirements
@@ -39,6 +43,7 @@ Code Contributors:
 * Chad Sellers
 * Kevin LaCoste
 * Rasmus Andersson
+* Timothy J. Wood
 
 
 Translators:
