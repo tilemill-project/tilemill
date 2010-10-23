@@ -279,6 +279,7 @@ static NSString *PreferredInstallLocation(BOOL *isUserDirectory)
 
 static BOOL IsInApplicationsFolder(NSString *path)
 {
+	// Check all the normal Application directories
 	NSEnumerator *e = [NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSAllDomainsMask, YES) objectEnumerator];
 	NSString *appDirPath = nil;
 
@@ -286,6 +287,10 @@ static BOOL IsInApplicationsFolder(NSString *path)
 		if ([path hasPrefix:appDirPath]) return YES;
 	}
 
+	// Also, handle the case that the user has some other Application directory (perhaps on a separate data partition).
+	if ([[path pathComponents] containsObject:@"Applications"])
+            return YES;
+        
 	return NO;
 }
 
