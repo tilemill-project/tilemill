@@ -4,6 +4,8 @@ var express = require('express'),
 
 var app = module.exports = express.createServer();
 
+app.use(express.bodyDecoder());
+
 var files = 'project'; // TODO: put in config
 
 function jsonp(obj, req) {
@@ -54,38 +56,32 @@ app.get('/file', function(req, res) {
     });
 });
 
-/*
+// TODO: delete as well
 app.post('/file', function(req, res) {
-  path = os.path.join(options.files, self.get_argument('filename'))
-  //if (self.safePath(path)):
-  method = req.param('method')
-  data = req.param('data')
-  if (method == 'delete') {
-    this.rm(path);
-    res.send(jsonp({ 'status': True }, req))
-  }
-  else {
-    // if (os.path.isdir(os.path.dirname(path))):
-    // os.makedirs(os.path.dirname(path))
-    if (fs.fstatSync(path))) {
-      buffer = fs.writeFile(path, data,
-        function() {
-          res.send(jsonp({ 'status': true }, req))
-        }
-      )
+    var data = req.body.data;
+    var path = req.body.filename;
+    // TODO: if (os.path.isdir(os.path.dirname(path))):
+    if (fs.statSync(path)) {
+        buffer = fs.writeFile(path, data, function() {
+            res.send(jsonp({
+                status: true
+            }, req))
+        });
+    } else {
+        res.send(jsonp({
+            status: false,
+            data: 'Could not write file'
+        }, req))
     }
-    else {
-      res.send(jsonp(
-      {
-        'status': False,
-        'data': 'Could not write file'
-      }, req)
-      )
-    }
-  }
-}
-*/
+});
 
+app.del('/file', function(req, res) {
+    fs.unlink(req.body.filename, function() {
+        res.send(jsonp({ status: true }));
+    });
+});
+
+// TODO: use watchfile
 app.get('/mtime', function(req, res) {
     var path = req.param('filename');
     try {
