@@ -7,7 +7,8 @@ var app = module.exports = express.createServer();
 var files = 'project'; // TODO: put in config
 
 function jsonp(obj, req) {
-    return req.param('jsoncallback') + '(' + JSON.stringify(obj) + ')';
+    return req.param('jsoncallback') ? (req.param('jsoncallback') + '(' + JSON.stringify(obj) + ')') :
+        obj;
 }
 
 function safePath(path) {
@@ -38,19 +39,19 @@ app.get('/list', function(req, res) {
 
 app.get('/file', function(req, res) {
     var path = req.param('filename');
-    try {
-        fs.readFile(path, function(err, data) {
+    fs.readFile(path, function(err, data) {
+        if (!err) {
             res.send(jsonp('' + data, req));
-        });
-    }
-    catch (Exception) {
-        res.send(jsonp(
-        {
-            status: false,
-            data: 'The file (' + req.param('filename') +
-              ') could not be found. Exception: ' + Exception
-        }, req));
-    }
+        }
+        else {
+            res.send(jsonp(
+            {
+                status: false,
+                data: 'The file (' + req.param('filename') +
+                  ') could not be found. Exception: ' + err
+            }, req));
+        }
+    });
 });
 
 /*
