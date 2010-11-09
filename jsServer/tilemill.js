@@ -1,6 +1,9 @@
-var express = require('express'), fs = require('fs');
-var _ = require('./underscore')._;
+var express = require('express'),
+    fs = require('fs'),
+    _ = require('./underscore')._;
+
 var app = module.exports = express.createServer();
+
 var files = 'project'; // TODO: put in config
 
 function jsonp(obj, req) {
@@ -12,7 +15,7 @@ function safePath(path) {
 }
 
 app.get('/', function(req, res, params) {
-    res.send({api:'basic', version:1.0});
+    res.send({api: 'basic', version: 1.0});
 });
 
 app.get('/list', function(req, res) {
@@ -24,9 +27,9 @@ app.get('/list', function(req, res) {
                     return _.any(
                         fs.readdirSync(files + '/' + dir),
                         function(filename) {
-                            return filename.match('.mml') 
+                            return filename.match('.mml');
                         }
-                    )
+                    );
                 }
             )
         }, req)
@@ -37,16 +40,16 @@ app.get('/file', function(req, res) {
     var path = req.param('filename');
     try {
         fs.readFile(path, function(err, data) {
-            res.send(jsonp("" + data, req));
-        })
+            res.send(jsonp('' + data, req));
+        });
     }
-    catch(Exception) {
-      res.send(jsonp(
-      {
-          status: false, 
-          data: 'The file (' + req.param('filename') + 
-            ') could not be found. Exception: ' + Exception
-      }, req))
+    catch (Exception) {
+        res.send(jsonp(
+        {
+            status: false,
+            data: 'The file (' + req.param('filename') +
+              ') could not be found. Exception: ' + Exception
+        }, req));
     }
 });
 
@@ -64,7 +67,7 @@ app.post('/file', function(req, res) {
     // if (os.path.isdir(os.path.dirname(path))):
     // os.makedirs(os.path.dirname(path))
     if (fs.fstatSync(path))) {
-      buffer = fs.writeFile(path, data, 
+      buffer = fs.writeFile(path, data,
         function() {
           res.send(jsonp({ 'status': true }, req))
         }
@@ -73,7 +76,7 @@ app.post('/file', function(req, res) {
     else {
       res.send(jsonp(
       {
-        'status': False, 
+        'status': False,
         'data': 'Could not write file'
       }, req)
       )
@@ -86,16 +89,16 @@ app.get('/mtime', function(req, res) {
     var path = req.param('filename');
     try {
         fs.stat(path, function(err, stats) {
-           res.send(jsonp("" + stats.mtime, req));
+           res.send(jsonp('' + stats.mtime, req));
         });
     }
-    catch(Exception) {
+    catch (Exception) {
       res.send(jsonp(
         {
-              status: false, 
-              data: 'The file (' + req.param('filename') + 
+              status: false,
+              data: 'The file (' + req.param('filename') +
                 ') could not be found. Exception: ' + Exception
-        }, req))
+        }, req));
     }
 });
 
