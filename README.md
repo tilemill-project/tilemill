@@ -14,7 +14,7 @@ explore a datasource.
 
 Architecture
 ------------
-TileMill is based on [TileLiteLive](http://github.com/tmcw/TileLiteLive) and
+TileMill is based on [TileLive](http://github.com/developmentseed/TileLive) and
 follows its lead by making the interaction between the map storage backend, map
 editing client, and map rasterizer/inspector RESTful. A typical TileMill
 installation thus divides its tasks into three separate components:
@@ -41,9 +41,9 @@ are currently testing with Chrome and Firefox 3.x.
 - **TileMill server**: Apache/PHP 5.2+ or Python with the
 [Tornado](http://www.tornadoweb.org/) web server.
 - **Rasterizer**:
-  - [TileLiteLive](http://github.com/tmcw/TileLiteLive) using the
+  - [TileLive](http://github.com/tmcw/TileLive) using the
 `tornadoification` branch
-  - [Mapnik 0.7](http://mapnik.org/) or higher
+  - [Mapnik 2.0](http://mapnik.org/)
   - [Cascadenik HEAD](http://mapnik-utils.googlecode.com/svn/trunk) from SVN
 
 Setup
