@@ -41,8 +41,7 @@ are currently testing with Chrome and Firefox 3.x.
 - **TileMill server**: Apache/PHP 5.2+ or Python with the
 [Tornado](http://www.tornadoweb.org/) web server.
 - **Rasterizer**:
-  - [TileLive](http://github.com/tmcw/TileLive) using the
-`tornadoification` branch
+  - [TileLive](http://github.com/tmcw/TileLive)
   - [Mapnik 2.0](http://mapnik.org/)
   - [Cascadenik HEAD](http://mapnik-utils.googlecode.com/svn/trunk) from SVN
 
