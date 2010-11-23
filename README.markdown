@@ -7,6 +7,9 @@ A sample project that demonstrates how to move a running Mac OS X application to
 Version History
 ---------------
 
+* 1.5.1
+	- Fixed a bug with clearing the quarantine file attribute on Mac OS X 10.5
+
 * 1.5
 	- Don't prompt to move the application if it has "Applications" in its path somewhere
 
