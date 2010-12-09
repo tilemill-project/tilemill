@@ -43,10 +43,12 @@
     <div id='header' class='clearfix pane'>
       <h1>TileMill</h1>
     </div>
+    <div class="loading-text">loading page</div>
     <div class="loading page-loading"></div>
     </script>
 
     <script type="text/html" name="loading">
+        <div class="loading-text"><% if (typeof message !== "undefined") { %>message<% } %></div>
     <div class="loading"></div>
     </script>
 

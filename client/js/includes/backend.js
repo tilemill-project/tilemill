@@ -105,8 +105,7 @@ TileMill.backend.rasterizers.tilelive.fields = function(mmlb64, callback) {
     TileMill.backend.runtime.get({
       url: TileMill.settings.tileliveServer.split(',')[0] +
         mmlb64 + '/fields.json',
-      callback: callback,
-      json: true
+      success: callback
     });
   }
 };
