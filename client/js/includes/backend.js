@@ -1,7 +1,7 @@
 TileMill.backend = {};
 TileMill.backend.servers = { 'simple': {} };
 TileMill.backend.rasterizers = { 'tilelive': {} };
-TileMill.backend.runtimes = { 'html': {}, 'AIR': {} };
+TileMill.backend.runtimes = { 'html': {} };
 TileMill.backend.runtime = {};
 
 /**
@@ -217,26 +217,6 @@ TileMill.backend.runtimes.html.post = function(options) {
     }
     $(this).remove();
   }
-};
-
-TileMill.backend.runtimes.AIR.get = function(options) {
-  $.get(options.url, options.data, function(data) {
-    try {
-      // Try to parse it as JSON.
-      var parsed = JSON.parse(data);
-      options.callback(parsed);
-    }
-    catch (e) {
-      // If that doesn't work, parse it as raw data.
-      options.callback(data);
-    }
-  });
-};
-
-TileMill.backend.runtimes.AIR.post = function(options) {
-  $.post(options.url, options.data, function() {
-    options.callback();
-  });
 };
 
 /**
