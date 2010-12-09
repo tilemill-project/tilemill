@@ -127,7 +127,7 @@
     <div id='layers'>
       <div class='sidebar-header clearfix pane'>
         <h2>Layers</h2>
-        <a href="#layers-add" id="layers-add">+ Add</a>
+        <a title="Add a Layer" href="#layers-add" id="layers-add">+ Add</a>
       </div>
       <ul class='sidebar-content'>
       </ul>
@@ -138,9 +138,9 @@
     <li>
       <div class="handle"></div>
       <input class="checkbox" type="checkbox" <%= (status) ? "checked='checked'" : "" %> />
-      <a class="layer-delete" href="#">Delete</a>
-      <a class="layer-inspect" href="#">Inspect</a>
-      <a class="layer-edit" href="#">Edit</a>
+      <a title="Delete Layer" class="layer-delete" href="#">Delete</a>
+      <a title="Inspect Layer Values" class="layer-inspect" href="#">Inspect</a>
+      <a title="Edit Layer Definition" class="layer-edit" href="#">Edit</a>
       <label><%= name %></label>
     </li>
     </script>
@@ -166,7 +166,7 @@
     <script type="text/html" name="stylesheets">
     <div id='tabs'>
       <div class='stylesheets'></div>
-      <a class='tab-add' href='#'>Add MSS</a>
+      <a title="Add a Stylesheet Tab" class='tab-add' href='#'>Add MSS</a>
     </div>
     <div id='editor'>
       <textarea id='code'></textarea>
