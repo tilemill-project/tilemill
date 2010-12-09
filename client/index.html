@@ -199,9 +199,15 @@
     <div id='popup-layer' class='clearfix pane'>
       <form id='form-layer'>
         <div class='messages'></div>
-        <div><label for="id">Id</label><input type="text" class="text required" id="id" /></div>
-        <div><label for="classes">Classes</label><input type="text" class="text" id="classes" /></div>
-        <div><label for="file">Data Source</label><input type="text" class="text required" id="file" /></div>
+        <div><label for="id">Id</label>
+            <input type="text" class="text required" id="id" />
+        </div>
+        <div><label for="classes">Classes</label>
+            <input type="text" class="text" id="classes" />
+        </div>
+        <div><label for="file">Data Source</label>
+            <input type="text" class="text required" id="file" />
+        </div>
         <div>
           <label for="srs">SRS</label>
           <select id="srs">
@@ -215,7 +221,9 @@
           <label for="srs-custom">Custom</label>
           <input type="text" class="text" id="srs-custom" />
         </div>
-        <div class='buttons'><input class='submit' type='submit' value='<%= submit %>' /></div>
+        <div class='buttons'>
+            <input class='submit' type='submit' value='<%= submit %>' />
+        </div>
       </form>
     </div>
     </script>
@@ -223,7 +231,9 @@
     <div id='popup-info' class='clearfix pane'>
       <form>
         <% for (key in settings) { %>
-          <div><label><%= key %></label><input class='text' type='text' value='<%= settings[key] %>' /></div>
+            <div><label><%= key %></label>
+                <input class='text' type='text' value='<%= settings[key] %>' />
+            </div>
         <% } %>
       </form>
     </div>
@@ -232,8 +242,12 @@
     <div id='popup-info' class='clearfix pane'>
       <form>
         <div class='messages'></div>
-        <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' value='<%= tilelive_url %>' /></div>
-        <div><label for='mml-url'>MML URL</label><input id='mml-url' class='text' type='text' value='<%= mml_url %>' /></div>
+        <div><label for='tilelive-url'>TileLive URL</label>
+            <input id='tilelive-url' class='text' type='text' value='<%= tilelive_url %>' />
+        </div>
+        <div><label for='mml-url'>MML URL</label>
+            <input id='mml-url' class='text' type='text' value='<%= mml_url %>' />
+        </div>
       </form>
     </div>
     </script>
@@ -241,9 +255,19 @@
     <div id='popup-info' class='clearfix pane'>
       <form>
         <div class='messages'></div>
-        <div><label for='datasource-url'>Datasource</label><input id='datasource-url' disabled='disabled' class='text' type='text' value='<%= datasource_url %>' /></div>
-        <div><label for='tilelive-url'>TileLive URL</label><input id='tilelive-url' class='text' type='text' value='<%= tilelive_url %>' /></div>
-        <div><label for='mml-url'>MML URL</label><input id='mml-url' class='text' type='text' value='<%= mml_url %>' /></div>
+        <div>
+            <label for='datasource-url'>Datasource</label>
+            <input id='datasource-url' disabled='disabled' 
+                class='text' type='text' value='<%= datasource_url %>' />
+        </div>
+        <div>
+            <label for='tilelive-url'>TileLive URL</label>
+            <input id='tilelive-url' class='text' type='text' value='<%= tilelive_url %>' />
+        </div>
+        <div>
+            <label for='mml-url'>MML URL</label>
+            <input id='mml-url' class='text' type='text' value='<%= mml_url %>' />
+        </div>
         <div><label for='choropleth-split'>Choropleth</label>
           <select id='choropleth-split'>
             <option value='2'>2 shades</option>
@@ -264,8 +288,13 @@
     <div id='popup-stylesheet' class='clearfix pane'>
       <form>
         <div class='messages'></div>
-        <div><label for='stylesheet-name'>Name</label><input id='stylesheet-name' class='text required' type='text' /></div>
-        <div class='buttons'><input class='submit' type='submit' value='Add stylesheet' /></div>
+        <div>
+            <label for='stylesheet-name'>Name</label>
+            <input id='stylesheet-name' class='text required' type='text' />
+        </div>
+        <div class='buttons'>
+            <input class='submit' type='submit' value='Add stylesheet' />
+        </div>
       </form>
     </div>
     </script>
@@ -273,8 +302,13 @@
     <div id='popup-projectify' class='clearfix pane'>
       <form>
         <div class='messages'></div>
-        <div><label for='stylesheet-name'>Name</label><input id='project-name' class='text required' type='text' /></div>
-        <div class='buttons'><input class='submit' type='submit' value='Make project' /></div>
+        <div>
+            <label for='stylesheet-name'>Name</label>
+            <input id='project-name' class='text required' type='text' />
+        </div>
+        <div class='buttons'>
+            <input class='submit' type='submit' value='Make project' />
+        </div>
       </form>
     </div>
     </script>
