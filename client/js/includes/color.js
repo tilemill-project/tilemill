@@ -10,7 +10,11 @@ TileMill.colors.init = function() {
 
 TileMill.colors.initFarb = function(color) {
   var farb = $('#farbtastic', color);
-  TileMill.colors.farbtastic = $.farbtastic(farb, { callback:'input#color', width:200, height:200 });
+  TileMill.colors.farbtastic = $.farbtastic(farb, {
+      callback: 'input#color',
+      width: 200,
+      height: 200
+  });
 
   $('a.color-picker', color).click(function() {
     farb.toggle('fast');
@@ -29,7 +33,7 @@ TileMill.colors.reload = function(stylesheets) {
     data.push($(this).val());
   });
   data.push(TileMill.mirror.getCode());
-  data = data.join("\n");
+  data = data.join('\n');
 
   var colors = [];
   var colors_div = $('div#colors div').empty();
@@ -37,7 +41,8 @@ TileMill.colors.reload = function(stylesheets) {
   if (matches) {
     for (var i = 0; i < matches.length; i++) {
       // Split up the color into an HSL triplet.
-      var color = TileMill.colors.farbtastic.RGBToHSL(TileMill.colors.farbtastic.unpack(matches[i]));
+      var color = TileMill.colors.farbtastic.RGBToHSL(
+          TileMill.colors.farbtastic.unpack(matches[i]));
       // Add the RGB to the color.
       color.push(matches[i]);
       var pass = false;
@@ -57,7 +62,10 @@ TileMill.colors.reload = function(stylesheets) {
     // Go through the colors and add them to the color palette. When one is
     // clicked, it's inserted into the document at the current cursor.
     $.each(colors, function(key, value) {
-      colors_div.append($(TileMill.template('color-swatch', {color: value[3]})));
+      colors_div.append(
+        $(TileMill.template('color-swatch', {
+            color: value[3]
+        })));
     });
     $('a', colors_div).click(function() {
       TileMill.colors.insert($(this).text());
@@ -72,5 +80,7 @@ TileMill.colors.reload = function(stylesheets) {
  */
 TileMill.colors.insert = function(color) {
   var position = TileMill.mirror.cursorPosition();
-  TileMill.mirror.insertIntoLine(position.line, position.character, color);
+  TileMill.mirror.insertIntoLine(
+      position.line,
+      position.character, color);
 };

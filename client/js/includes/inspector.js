@@ -1,7 +1,11 @@
 /**
  * Field and value inspector.
  */
-TileMill.inspector = { page: {}, inspection: {}, urls: {} };
+TileMill.inspector = {
+    page: {},
+    inspection: {},
+    urls: {}
+};
 
 /**
  * Init and return markup.
@@ -16,7 +20,9 @@ TileMill.inspector.init = function() {
  * Inspect a layer (show its fields).
  */
 TileMill.inspector.inspect = function(id, visualize) {
-  if (TileMill.inspection && TileMill.inspection[id] && TileMill.inspection[id].fields) {
+  if (TileMill.inspection &&
+          TileMill.inspection[id] &&
+          TileMill.inspection[id].fields) {
     $('#inspector ul.sidebar-content').empty();
     for (var field in TileMill.inspection[id].fields) {
       (function(layer, field) {
@@ -65,8 +71,10 @@ TileMill.inspector.values = function(layer, field, pager) {
       var values = $(TileMill.template('inspector-values', {
         min: data.min,
         max: data.max,
-        class_prev: (TileMill.inspector.page[layer][field] !== 0 ? '' : ' disabled'),
-        class_next: ((data.count - (TileMill.inspector.page[layer][field] * 30) > 30) ? '' : ' disabled')
+        class_prev: (TileMill.inspector.page[layer][field] !== 0 ?
+            '' : ' disabled'),
+        class_next: ((data.count - (TileMill.inspector.page[layer][field] * 30) > 30) ?
+            '' : ' disabled')
       }));
       for (var i in data.values) {
         $('ul', values).append('<li>' + data.values[i] + '</li>');
@@ -108,11 +116,11 @@ TileMill.inspector.values = function(layer, field, pager) {
     $('#inspector li div.inspect-values').hide();
     encode = TileMill.mml.url();
     TileMill.backend.rasterizers.tilelive.values({
-      'mmlb64': encode,
-      'layer': layer,
-      'field': field,
-      'start': TileMill.inspector.page[layer][field] * 30,
-      'callback': callback
+      mmlb64: encode,
+      layer: layer,
+      field: field,
+      start: TileMill.inspector.page[layer][field] * 30,
+      callback: callback
     });
   }
 };

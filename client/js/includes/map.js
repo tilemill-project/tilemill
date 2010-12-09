@@ -13,9 +13,9 @@ TileMill.map.init = function() {
  */
 TileMill.map.initOL = function(map, servers, controls, center) {
   var options = {
-    projection: new OpenLayers.Projection("EPSG:900913"),
-    displayProjection: new OpenLayers.Projection("EPSG:4326"),
-    units: "m",
+    projection: new OpenLayers.Projection('EPSG:900913'),
+    displayProjection: new OpenLayers.Projection('EPSG:4326'),
+    units: 'm',
     numZoomLevels: 18,
     maxResolution: 156543.0339,
     maxExtent: new OpenLayers.Bounds(
@@ -33,18 +33,26 @@ TileMill.map.initOL = function(map, servers, controls, center) {
   OpenLayers.ImgPath = 'http://js.mapbox.com/theme/dark/';
 
   var olMap = new OpenLayers.Map(map.attr('id'), options);
-  var olLayer = new OpenLayers.Layer.XYZ("Preview", servers, {buffer: 0, transitionEffect: 'resize'});
-  olMap.addLayers([ olLayer ]);
+  var olLayer = new OpenLayers.Layer.XYZ('Preview', servers, {
+      buffer: 0,
+      transitionEffect: 'resize'
+  });
+  olMap.addLayers([olLayer]);
 
   // Set the map's initial center point
   olMap.setCenter(new OpenLayers.LonLat(center.lon, center.lat), center.zoom);
 
   // Store data on the map object.
-  map.data('TileMill.map', {olMap: olMap, olLayer: olLayer});
+  map.data('TileMill.map', {
+      olMap: olMap,
+      olLayer: olLayer
+  });
 
   // Add custom controls
   if (controls.navigation) {
-    var navigation = new OpenLayers.Control.Navigation({ 'zoomWheelEnabled': true });
+    var navigation = new OpenLayers.Control.Navigation({
+        zoomWheelEnabled: true
+    });
     olMap.addControl(navigation);
     navigation.activate();
   }
@@ -57,8 +65,8 @@ TileMill.map.initOL = function(map, servers, controls, center) {
   }
   if (controls.zoom) {
     TileMill.map.controlZoom({element: olMap.div});
-    olMap.events.register("moveend", olMap, TileMill.map.controlZoom);
-    olMap.events.register("zoomend", olMap, TileMill.map.controlZoom);
+    olMap.events.register('moveend', olMap, TileMill.map.controlZoom);
+    olMap.events.register('zoomend', olMap, TileMill.map.controlZoom);
   }
   if (controls.panzoombar) {
     var panzoombar = new OpenLayers.Control.PanZoomBar();
@@ -90,9 +98,17 @@ TileMill.map.getCenter = function(map) {
   if (data && data.olMap) {
     var olMap = data.olMap;
     var center = olMap.getCenter();
-    return { lat: center.lat, lon: center.lon, zoom: olMap.getZoom() };
+    return {
+        lat: center.lat,
+        lon: center.lon,
+        zoom: olMap.getZoom()
+    };
   }
-  return { lat: 0, lon: 0, zoom: 2 };
+  return {
+      lat: 0,
+      lon: 0,
+      zoom: 2
+  };
 };
 
 /**
