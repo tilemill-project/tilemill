@@ -154,8 +154,12 @@ TileMill.project.save = function() {
     mml.metadata.mapCenter = TileMill.map.getCenter($('#map-preview'));
 
     $('#tabs a.tab').each(function() {
-      mml.stylesheets.push(TileMill.backend.url($.url.setUrl($(this).data('tilemill').src).param('filename')) + '&c=' + TileMill.data.uniq);
-      TileMill.stylesheet.save($.url.setUrl($(this).data('tilemill').src).param('filename'), $('input', this).val());
+      mml.stylesheets.push(
+          TileMill.backend.url($.url.setUrl($(this).data('tilemill').src)
+              .param('filename')) + '&c=' + TileMill.data.uniq);
+      TileMill.stylesheet.save(
+          $.url.setUrl($(this).data('tilemill').src).param('filename'),
+          $('input', this).val());
     });
     $('#layers ul.sidebar-content li').reverse().each(function() {
       var layer = $(this).data('tilemill');
@@ -170,7 +174,9 @@ TileMill.project.save = function() {
   queue.add(function() {
     TileMill.inspector.load();
     TileMill.data.uniq = (new Date().getTime());
-    TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
+    TileMill.map.reload(
+        $('#map-preview'),
+        TileMill.backend.servers(TileMill.mml.url()));
     $('div#header a.save').removeClass('changed');
   });
   queue.execute();

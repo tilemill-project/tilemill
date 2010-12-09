@@ -2,7 +2,7 @@
  * Router controller: Visualization page.
  */
 TileMill.controller.visualization = function() {
-  var id = $.bbq.getState("id");
+  var id = $.bbq.getState('id');
   TileMill.backend.get('visualization/' + id + '/' + id + '.mml', function(mml) {
     // Bail if MML was not valid.
     if (typeof mml != 'string') {
@@ -32,7 +32,12 @@ TileMill.controller.visualization = function() {
     $('#main').append(map);
 
     // Init elements which require DOM presence.
-    TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 1}, parsed.metadata.mapCenter);
+    TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {
+        navigation: 1,
+        fullscreen: 1,
+        zoom: 1,
+        panzoombar: 1
+    }, parsed.metadata.mapCenter);
 
     // Init the visualization state.
     TileMill.visualization.init(TileMill.mml.parseMML(mml));
@@ -51,7 +56,8 @@ TileMill.controller.visualization = function() {
 
     $('div#header a.info').click(function() {
       var datasource_url = TileMill.mml.parseMML(TileMill.data.mml).layers[1].file;
-      var tilelive_url = TileMill.backend.servers(TileMill.mml.url())[0] + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true });
+      var tilelive_url = TileMill.backend.servers(TileMill.mml.url())[0] +
+        'tile/' + TileMill.mml.url({ timestamp: false, encode: true });
       var mml_url = TileMill.mml.url({ timestamp: false, encode: false });
       var popup = $(TileMill.template('popup-info-visualization', {
         datasource_url: datasource_url,
@@ -108,12 +114,14 @@ TileMill.visualization.attach = function(field, datatype, li) {
     var type = $(this).attr('class').split('visualization-type inspect-')[1];
 
     // Only show choropleth and scaledPoints on int, float types.
-    if ((type === 'choropleth' || type === 'scaledPoints') && (datatype !== 'int' && datatype !== 'float')) {
+    if ((type === 'choropleth' || type === 'scaledPoints') &&
+        (datatype !== 'int' && datatype !== 'float')) {
       $(this).remove();
     }
 
     // Set active classes.
-    if (TileMill.visualization.settings[type] && TileMill.visualization.settings[type] === field) {
+    if (TileMill.visualization.settings[type] &&
+        TileMill.visualization.settings[type] === field) {
       $(this).addClass('active');
     }
 
@@ -124,11 +132,12 @@ TileMill.visualization.attach = function(field, datatype, li) {
         delete TileMill.visualization.settings[type];
       }
       else {
-        $('#inspector a.inspect-'+ type).removeClass('active');
+        $('#inspector a.inspect-' + type).removeClass('active');
 
         // Choropleth and unique value are mutually exclusive.
         if (type === 'choropleth' || type === 'unique') {
-          $('#inspector a.inspect-choropleth, #inspector a.inspect-unique').removeClass('active');
+          $('#inspector a.inspect-choropleth, #inspector a.inspect-unique')
+            .removeClass('active');
           delete TileMill.visualization.settings.choropleth;
           delete TileMill.visualization.settings.unique;
         }
@@ -155,7 +164,9 @@ TileMill.visualization.save = function(callback) {
     mml.metadata = TileMill.visualization.settings;
     mml.metadata.mapCenter = TileMill.map.getCenter($('#map-preview'));
     TileMill.data.mml = TileMill.mml.generate(mml);
-    TileMill.backend.post('visualization/' + id + '/' + id + '.mml', TileMill.data.mml, next);
+    TileMill.backend.post('visualization/' + id + '/' + id + '.mml',
+        TileMill.data.mml,
+        next);
   });
   // Store project MSS and pass to each visualization type.
   queue.add(function(next) {
@@ -194,12 +205,15 @@ TileMill.visualization.save = function(callback) {
     var self = this;
     var mss = self.retrieve('mss');
     var id = TileMill.data.id;
-    TileMill.stylesheet.save('visualization/' + id + '/' + id + '.mss', TileMill.mss.generate(mss), next);
+    TileMill.stylesheet.save('visualization/' + id + '/' + id + '.mss',
+        TileMill.mss.generate(mss),
+        next);
   });
   queue.add(function(next) {
     TileMill.inspector.load();
     TileMill.data.uniq = (new Date().getTime());
-    TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
+    TileMill.map.reload($('#map-preview'),
+        TileMill.backend.servers(TileMill.mml.url()));
   });
   if (callback) {
     queue.add(function(next) {
@@ -261,7 +275,7 @@ TileMill.visualization.add = function(url) {
       var mml = 'visualization/' + name + '/' + name + '.mml';
       var data = TileMill.mml.generate({
         stylesheets: [TileMill.backend.url(mss)],
-        layers:[
+        layers: [
           {
             id: 'world',
             srs: '&srsWGS84;',
@@ -297,7 +311,8 @@ TileMill.visualization.projectify = function(name) {
   });
   // Copy MSS from visualization to project.
   queue.add(function(name, next) {
-    var visualization = 'visualization/' + TileMill.data.id + '/' + TileMill.data.id + '.mss';
+    var visualization = 'visualization/' + TileMill.data.id +
+      '/' + TileMill.data.id + '.mss';
     var project = 'project/' + name + '/' + name + '.mss';
     TileMill.backend.get(visualization, function(data) {
       TileMill.backend.post(project, data, next);
@@ -308,7 +323,7 @@ TileMill.visualization.projectify = function(name) {
     var mml = 'project/' + name + '/' + name + '.mml';
     var mss = 'project/' + name + '/' + name + '.mss';
 
-    // Rewrite current visualization MML 
+    // Rewrite current visualization MML
     var parsed = TileMill.mml.parseMML(TileMill.data.mml);
     parsed.stylesheets = [TileMill.backend.url(mss)];
     var data = TileMill.mml.generate(parsed);
@@ -316,7 +331,10 @@ TileMill.visualization.projectify = function(name) {
     TileMill.backend.post(mml, data, next);
   }, [name]);
   queue.add(function(name) {
-    $.bbq.pushState({ 'action': 'project', 'id': name });
+    $.bbq.pushState({
+      action: 'project',
+      id: name
+    });
   }, [name]);
   queue.execute();
 };
@@ -361,7 +379,9 @@ TileMill.visualization.plugins.label = function(field, mss, callback) {
 TileMill.visualization.plugins.choropleth = function(field, mss, callback) {
   var pluginCallback = (function(data) {
     var range = Math.abs(data.max - data.min),
-      split = (TileMill.visualization.settings.choroplethSplit && TileMill.visualization.settings.choroplethSplit != 'undefined' ? TileMill.visualization.settings.choroplethSplit : 5),
+      split = (TileMill.visualization.settings.choroplethSplit &&
+          (TileMill.visualization.settings.choroplethSplit != 'undefined') ?
+            TileMill.visualization.settings.choroplethSplit : 5),
       individual = range / split,
       colors = {
         2: ['#fd5', '#e57e57'],
@@ -376,7 +396,8 @@ TileMill.visualization.plugins.choropleth = function(field, mss, callback) {
       },
       min = data.min ? data.min : 0;
     for (i = 0; i < split; i++) {
-      var selector = '#data[' + field + '>=' + TileMill.visualization.sanitize(min + (individual * i)) + ']';
+      var selector = '#data[' + field + '>=' +
+        TileMill.visualization.sanitize(min + (individual * i)) + ']';
       mss[selector] = { 'polygon-fill': colors[split][i] };
     }
     if (callback) {
@@ -438,13 +459,15 @@ TileMill.visualization.plugins.unique = function(field, mss, callback) {
       var selectors = [];
       for (var value = 0; value < colorValues[color].length; value++) {
         if (typeof colorValues[color][value] == 'string') {
-          selectors.push('#data[' + field + '="' + TileMill.visualization.sanitize(colorValues[color][value]) + '"]');
+          selectors.push('#data[' + field + '="' +
+            TileMill.visualization.sanitize(colorValues[color][value]) + '"]');
         }
         else {
-          selectors.push('#data[' + field + '=' + TileMill.visualization.sanitize(colorValues[color][value]) + ']');
+          selectors.push('#data[' + field + '=' +
+            TileMill.visualization.sanitize(colorValues[color][value]) + ']');
         }
       }
-      mss[selectors.join(",\n")] = { 'polygon-fill': color };
+      mss[selectors.join(',\n')] = { 'polygon-fill': color };
     }
     if (callback) {
       callback(mss);
@@ -454,12 +477,12 @@ TileMill.visualization.plugins.unique = function(field, mss, callback) {
     }
   });
   TileMill.backend.values({
-    'mmlb64': TileMill.mml.url(),
-    'layer': 'data',
-    'field': field,
-    'start': 0,
-    'limit': 500,
-    'callback': pluginCallback
+    mmlb64: TileMill.mml.url(),
+    layer: 'data',
+    field: field,
+    start: 0,
+    limit: 500,
+    callback: pluginCallback
   });
 };
 
@@ -470,12 +493,15 @@ TileMill.visualization.plugins.scaledPoints = function(field, mss, callback) {
   var pluginCallback = (function(data) {
     var range = Math.abs(data.max - data.min),
         individual = range / 10,
-        sizes = { 0: 2, 1: 4, 2: 6, 3: 9, 4: 13, 5: 18, 6: 25, 7: 34, 8: 45, 9: 60 },
+        sizes = { 0: 2, 1: 4, 2: 6, 3: 9, 4: 13,
+            5: 18, 6: 25, 7: 34, 8: 45, 9: 60 },
         min = data.min ? data.min : 0;
     for (i = 0; i < 10; i++) {
-      var selector = '#data[' + field + '>=' + TileMill.visualization.sanitize(min + (individual * i)) + ']';
+      var selector = '#data[' + field + '>=' +
+        TileMill.visualization.sanitize(min + (individual * i)) + ']';
       mss[selector] = {
-        'point-file': 'url(http://mapbox-icons.s3.amazonaws.com/tilemill/points/' + i  + '.png)',
+        'point-file': 'url(http://mapbox-icons.s3.amazonaws.com/tilemill/points/'
+            + i + '.png)',
         'point-width': sizes[i],
         'point-height': sizes[i]
       };
@@ -488,11 +514,11 @@ TileMill.visualization.plugins.scaledPoints = function(field, mss, callback) {
     }
   });
   TileMill.backend.values({
-    'mmlb64': TileMill.mml.url(),
-    'layer': 'data',
-    'field': field,
-    'start': 0,
-    'limit': 500,
-    'callback': pluginCallback
+    mmlb64: TileMill.mml.url(),
+    layer: 'data',
+    field: field,
+    start: 0,
+    limit: 500,
+    callback: pluginCallback
   });
 };
