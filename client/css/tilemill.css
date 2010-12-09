@@ -15,6 +15,16 @@ div.loading {
 
 div.page-loading { top:40px; }
 
+div.loading-text {
+  width:100px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  text-align:center;
+  margin-top:50px;
+  margin-left:-50px;
+  }
+
 div.error-page {
   position:fixed;
   top:40px;

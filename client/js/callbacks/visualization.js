@@ -89,7 +89,10 @@ TileMill.controller.visualization = function() {
   });
 };
 
-TileMill.visualization = { settings: {}, plugins: {} };
+TileMill.visualization = {
+    settings: {},
+    plugins: {}
+};
 
 /**
  * Init the visualization state from parsed MML. Grabs MML metadata and sets
@@ -205,7 +208,8 @@ TileMill.visualization.save = function(callback) {
     var self = this;
     var mss = self.retrieve('mss');
     var id = TileMill.data.id;
-    TileMill.stylesheet.save('visualization/' + id + '/' + id + '.mss',
+    TileMill.stylesheet.save(
+        'visualization/' + id + '/' + id + '.mss',
         TileMill.mss.generate(mss),
         next);
   });

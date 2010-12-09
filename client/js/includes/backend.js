@@ -132,11 +132,10 @@ TileMill.backend.rasterizers.tilelive.values = function(options) {
     }
     TileMill.backend.runtime.get({
       url: url,
-      callback: function(data) {
+      success: function(data) {
         TileMill.cache.set('tilelive-values', cid, data);
         options.callback(data);
-      },
-      json: true
+      }
     });
   }
 };

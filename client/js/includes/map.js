@@ -30,7 +30,7 @@ TileMill.map.initOL = function(map, servers, controls, center) {
 
   // Nav control images.
   // @TODO: Store locally so the application is portable/usable offline?
-  OpenLayers.ImgPath = 'http://js.mapbox.com/theme/dark/';
+  OpenLayers.ImgPath = 'images/openlayers_dark/';
 
   var olMap = new OpenLayers.Map(map.attr('id'), options);
   var olLayer = new OpenLayers.Layer.XYZ('Preview', servers, {
