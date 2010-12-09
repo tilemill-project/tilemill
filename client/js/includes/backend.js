@@ -15,15 +15,14 @@ TileMill.backend.servers.simple.list = function(filename, callback) {
     data: {
       filename: filename
     },
-    callback: function(res, status) {
+    success: function(res, status) {
       if (status == 'success') {
         callback(res.data);
       }
       else {
         callback();
       }
-    },
-    json: true
+    }
   });
 };
 
@@ -33,7 +32,7 @@ TileMill.backend.servers.simple.get = function(filename, callback) {
     data: {
       filename: filename
     },
-    callback: function(res) {
+    success: function(res) {
       callback(res);
     }
   });
@@ -43,7 +42,7 @@ TileMill.backend.servers.simple.mtime = function(filename, callback) {
   TileMill.backend.runtime.get({
     url: TileMill.settings.simpleServer + 'mtime',
     data: { 'filename': filename },
-    callback: function(data) {
+    success: function(data) {
       callback(data);
     }
   });
@@ -147,7 +146,14 @@ TileMill.backend.rasterizers.tilelive.status = function(callback) {
   TileMill.backend.runtime.get({
     url: TileMill.settings.tileliveServer.split(',')[0] +
       'status.json',
-    callback: callback,
+    success: function(data) {
+        if (data.status) {
+            callback(true);
+        }
+    },
+    error: function() {
+        callback(false);
+    },
     json: true
   });
 };
@@ -174,16 +180,16 @@ TileMill.backend.rasterizers.tilelive.servers = function(mmlb64) {
 };
 
 TileMill.backend.runtimes.html.get = function(options) {
-  $.jsonp({
-      url: options.url,
-      data: options.data,
+  $.jsonp($.extend({
       callbackParameter: 'jsoncallback',
-      success: options.callback,
       error: function(xOptions, textStatus) {
-          TileMill.message('Error', 'Request failed.',
+          // TODO: specify where
+          TileMill.message('Error', 'Request ' +
+            'failed: could not connect' +
+            ' to server',
             'error')
       }
-  });
+  }, options));
 };
 
 TileMill.backend.runtimes.html.post = function(options) {

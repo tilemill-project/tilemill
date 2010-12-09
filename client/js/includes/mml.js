@@ -68,6 +68,7 @@ TileMill.mml.generate = function(mml) {
     }
   }
 
+  // TODO: KILL KILL KILL
   // And add the layers.
   if (mml.layers) {
     for (i = 0; i < mml.layers.length; i++) {
@@ -89,13 +90,16 @@ TileMill.mml.generate = function(mml) {
       layerDef += '>';
       output.push(layerDef);
       output.push('    <Datasource>');
-      output.push('      <Parameter name="file">' + layer.file.replace('&', '&amp;') + '</Parameter>');
+      output.push('      <Parameter name="file">' +
+              layer.file.replace('&', '&amp;') + '</Parameter>');
       if (!layer.type) {
         layer.type = 'shape';
       }
-      output.push('      <Parameter name="type">' + layer.type + '</Parameter>');
+      output.push('      <Parameter name="type">' +
+              layer.type + '</Parameter>');
       if (layer.id) {
-        output.push('      <Parameter name="id">' + layer.id + '</Parameter>');
+        output.push('      <Parameter name="id">' +
+                layer.id + '</Parameter>');
       }
       output.push('    </Datasource>');
       output.push('  </Layer>');
@@ -267,7 +271,8 @@ TileMill.mml.add = function(options, layers) {
       alert('You need to add an id to a field and save to inspect it.');
       return false;
     }
-    $('#inspector .sidebar-header h2').html('Layers &raquo; ' + $(this).parents('li').find('label').text());
+    $('#inspector .sidebar-header h2').html('Layers &raquo; ' +
+        $(this).parents('li').find('label').text());
     $('#layers').hide();
     $('#inspector').show();
     TileMill.inspector.inspect($(this).parents('li').data('tilemill').id, false);
@@ -329,8 +334,14 @@ TileMill.mml.init = function() {
   });
 
   $('a#layers-add', layers).click(function() {
-    var popup = $(TileMill.template('popup-layer', {submit: 'Add layer'}));
-    TileMill.popup.show({content: popup, title: 'Add layer'});
+    var popup = $(TileMill.template(
+        'popup-layer', {
+            submit: 'Add layer'
+        }));
+    TileMill.popup.show({
+        content: popup,
+        title: 'Add layer'
+    });
     TileMill.mml.layerForm(popup, false, {});
     return false;
   });

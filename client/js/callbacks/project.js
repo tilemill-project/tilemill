@@ -97,6 +97,8 @@ TileMill.controller.project = function() {
       $('#inspector').hide();
       return false;
     });
+
+    setInterval(TileMill.project.status, 10000);
   });
 };
 
@@ -122,6 +124,17 @@ TileMill.project.checkStale = function(data) {
   });
 };
 
+TileMill.project.status = function() {
+  TileMill.backend.status(function(status) {
+    if (status) {
+        $('.status').removeClass('offline');
+    } else {
+        $('.status').text('tile server offline');
+        $('.status').addClass('offline');
+    }
+  });
+};
+
 TileMill.project.watch = function() {
   var id = TileMill.data.id,
       queue = new TileMill.queue();
@@ -132,7 +145,6 @@ TileMill.project.watch = function() {
       TileMill.project.checkStale);
   });
 };
-
 
 /**
  * Save a project from its current DOM state.

@@ -62,6 +62,7 @@ h3 { font-size:13px; }
   #header a.info,
   #header a.minimal,
   #header a.save,
+  #header a.status,
   #header a.projectify {
     float:left;
     margin-right:10px;
@@ -75,6 +76,7 @@ h3 { font-size:13px; }
   #header a.info,
   #header a.minimal,
   #header a.projectify,
+  #header a.status,
   #header a.save {
     background:#222;
     padding:0px 10px;
@@ -96,6 +98,17 @@ h3 { font-size:13px; }
   #header a.home {
     text-shadow:#000 0px -1px 0px;
     float:right;
+    }
+
+ #header a.status {
+    color:#999;
+    display:none;
+    }
+
+ #header a.status.offline {
+    color:#fff;
+    background:#B93D3D;
+    display:block;
     }
 
 /**
