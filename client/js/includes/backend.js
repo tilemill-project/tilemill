@@ -81,10 +81,10 @@ TileMill.backend.rasterizers.tilelive.datasource = function(datab64, callback) {
   }
   else {
     TileMill.backend.runtime.get({
-      'url': TileMill.settings.tileliveServer.split(',')[0] +
+      url: TileMill.settings.tileliveServer.split(',')[0] +
         datab64 + '/data.json',
-      'callback': callback,
-      'json': true
+      callback: callback,
+      json: true
     });
   }
 };
@@ -99,10 +99,10 @@ TileMill.backend.rasterizers.tilelive.fields = function(mmlb64, callback) {
   }
   else {
     TileMill.backend.runtime.get({
-      'url': TileMill.settings.tileliveServer.split(',')[0] +
+      url: TileMill.settings.tileliveServer.split(',')[0] +
         mmlb64 + '/fields.json',
-      'callback': callback,
-      'json': true
+      callback: callback,
+      json: true
     });
   }
 };
@@ -128,14 +128,23 @@ TileMill.backend.rasterizers.tilelive.values = function(options) {
       url += 'limit=' + options.limit + '&';
     }
     TileMill.backend.runtime.get({
-      'url': url,
-      'callback': function(data) {
+      url: url,
+      callback: function(data) {
         TileMill.cache.set('tilelive-values', cid, data);
         options.callback(data);
       },
-      'json': true
+      json: true
     });
   }
+};
+
+TileMill.backend.rasterizers.tilelive.status = function(callback) {
+  TileMill.backend.runtime.get({
+    url: TileMill.settings.tileliveServer.split(',')[0] +
+      'status.json',
+    callback: callback,
+    json: true
+  });
 };
 
 /**
@@ -145,6 +154,7 @@ TileMill.backend.rasterizers.tilelive.values = function(options) {
 TileMill.backend.rasterizers.tilelive.servers = function(mmlb64) {
   var split = TileMill.settings.tileliveServer.split(',');
   var servers;
+  // TODO: rewrite FP
   if (split.length > 1) {
     servers = [];
     for (i = 0; i < split.length; i++) {
@@ -159,14 +169,14 @@ TileMill.backend.rasterizers.tilelive.servers = function(mmlb64) {
 };
 
 TileMill.backend.runtimes.html.get = function(options) {
-  var url = options.url;
-  if (url.indexOf('?') !== -1) {
-    url = url + '&jsoncallback=?';
-  }
-  else {
-    url = url + '?jsoncallback=?';
-  }
-  $.getJSON(url, options.data, options.callback);
+  $.ajax({
+      url: options.url,
+      data: options.data,
+      jsonp: 'jsoncallback',
+      dataType: 'jsonp',
+      success: options.callback,
+      error: options.callback
+  });
 };
 
 TileMill.backend.runtimes.html.post = function(options) {
@@ -232,7 +242,7 @@ $.each(['list', 'get', 'post', 'del', 'url', 'mtime'], function(i, func) {
     TileMill.backend.servers[TileMill.settings.server][func];
 });
 
-$.each(['datasource', 'fields', 'values', 'servers'], function(i, func) {
+$.each(['datasource', 'fields', 'values', 'servers', 'status'], function(i, func) {
   TileMill.backend[func] =
     TileMill.backend.rasterizers[TileMill.settings.rasterizer][func];
 });
