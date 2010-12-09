@@ -52,7 +52,7 @@ TileMill.backend.servers.simple.post = function(filename, file_data, callback) {
   TileMill.backend.runtime.post({
     url: TileMill.settings.simpleServer + 'file',
     data: { 'filename': filename, 'data': file_data },
-    callback: callback
+    success: callback
   });
 };
 
@@ -63,7 +63,7 @@ TileMill.backend.servers.simple.del = function(filename, callback) {
       filename: filename,
       method: 'delete'
     },
-    callback: callback
+    success: callback
   });
 };
 
@@ -87,7 +87,7 @@ TileMill.backend.rasterizers.tilelive.datasource = function(datab64, callback) {
     TileMill.backend.runtime.get({
       url: TileMill.settings.tileliveServer.split(',')[0] +
         datab64 + '/data.json',
-      callback: callback,
+      success: callback,
       json: true
     });
   }
@@ -227,15 +227,15 @@ TileMill.backend.runtimes.html.post = function(options) {
   if (f) {
     f.submit();
     $(iframe).bind('load', function() {
-      if (options.callback) {
-        options.callback();
+      if (options.success) {
+        options.success();
       }
       $(this).remove();
     });
   }
   else {
     if (options.callback) {
-      options.callback();
+      options.success();
     }
     $(this).remove();
   }

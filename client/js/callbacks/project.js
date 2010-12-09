@@ -113,11 +113,14 @@ TileMill.project.changed = function() {
 
 TileMill.project.checkStale = function(data) {
   $('#tabs a.tab').each(function() {
-    if (($.url.setUrl($(this).data('tilemill').src).param('filename') == data.filename) &&
+    if (($.url.setUrl($(this).data('tilemill').src)
+            .param('filename') == data.filename) &&
       ($(this).data('tilemill').mtime != data.mtime)) {
       TileMill.inspector.load();
       TileMill.data.uniq = (new Date().getTime());
-      TileMill.map.reload($('#map-preview'), TileMill.backend.servers(TileMill.mml.url()));
+      TileMill.map.reload(
+          $('#map-preview'),
+          TileMill.backend.servers(TileMill.mml.url()));
       $('div#header a.save').removeClass('changed');
       $(this).data('tilemill').mtime = data.mtime;
     }
