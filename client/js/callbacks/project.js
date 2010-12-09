@@ -2,7 +2,7 @@
  * Router controller: Project page.
  */
 TileMill.controller.project = function() {
-  var id = $.bbq.getState("id");
+  var id = $.bbq.getState('id');
   TileMill.backend.get('project/' + id + '/' + id + '.mml', function(mml) {
     // Bail if MML was not valid.
     if (typeof mml != 'string') {
@@ -38,7 +38,13 @@ TileMill.controller.project = function() {
 
     // Init elements which require DOM presence.
     TileMill.colors.initFarb(color);
-    TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {navigation: 1, fullscreen: 1, zoom: 1, panzoombar: 0}, parsed.metadata.mapCenter);
+    // TODO: actually configure map, don't pretend to
+    TileMill.map.initOL(map, TileMill.backend.servers(TileMill.mml.url()), {
+        navigation: 1,
+        fullscreen: 1,
+        zoom: 1,
+        panzoombar: 0
+    }, parsed.metadata.mapCenter);
 
     $('div#header a.save').click(function() {
       if ($(this).is('.changed')) {
@@ -48,9 +54,16 @@ TileMill.controller.project = function() {
     });
 
     $('div#header a.info').click(function() {
-      var tilelive_url = TileMill.backend.servers(TileMill.mml.url())[0] + 'tile/' + TileMill.mml.url({ timestamp: false, encode: true });
-      var mml_url = TileMill.mml.url({ timestamp: false, encode: false });
-      var popup = $(TileMill.template('popup-info-project', {tilelive_url: tilelive_url, mml_url: mml_url}));
+      var tilelive_url = TileMill.backend.servers(TileMill.mml.url())[0] +
+        'tile/' + TileMill.mml.url({ timestamp: false, encode: true });
+      var mml_url = TileMill.mml.url({
+          timestamp: false,
+          encode: false
+      });
+      var popup = $(TileMill.template('popup-info-project', {
+          tilelive_url: tilelive_url,
+          mml_url: mml_url
+      }));
       TileMill.popup.show({content: popup, title: 'Info'});
       return false;
     });
@@ -69,7 +82,9 @@ TileMill.controller.project = function() {
     );
 
     $('div#header a.home').click(function() {
-      if (!$('div#header a.save').is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
+      if (!$('div#header a.save').is('.changed') ||
+          confirm('You have unsaved changes. Are you sure you ' +
+              'want to close this project?')) {
         return true;
       }
       return false;
@@ -96,7 +111,7 @@ TileMill.project.changed = function() {
 
 TileMill.project.checkStale = function(data) {
   $('#tabs a.tab').each(function() {
-    if (($.url.setUrl($(this).data('tilemill').src).param('filename') == data.filename) && 
+    if (($.url.setUrl($(this).data('tilemill').src).param('filename') == data.filename) &&
       ($(this).data('tilemill').mtime != data.mtime)) {
       TileMill.inspector.load();
       TileMill.data.uniq = (new Date().getTime());
@@ -113,10 +128,10 @@ TileMill.project.watch = function() {
   $('#tabs a.tab').each(function() {
     TileMill.stylesheet.setCode($('#tabs a.active'), true);
     TileMill.stylesheet.mtime(
-      $.url.setUrl($(this).data('tilemill').src).param('filename'), 
-      TileMill.project.checkStale)
+      $.url.setUrl($(this).data('tilemill').src).param('filename'),
+      TileMill.project.checkStale);
   });
-}
+};
 
 
 /**
@@ -173,7 +188,9 @@ TileMill.project.add = function(name) {
     TileMill.backend.list('project', function(projects) {
       if ($.inArray(name, projects) !== -1) {
         $('body div.loading').remove();
-        TileMill.message('Error', 'A project with the name <em>'+name+'</em> already exists. Please choose another name.', 'error');
+        TileMill.message('Error', 'A project with the name <em>' +
+            name + '</em> already exists. Please choose another name.',
+            'error');
         self.reset();
       }
       else {
@@ -200,9 +217,10 @@ TileMill.project.add = function(name) {
     var mml = 'project/' + name + '/' + name + '.mml';
     var data = TileMill.mml.generate({
       stylesheets: [TileMill.backend.url(mss)],
-      layers:[{
+      layers: [{
         id: 'world',
         srs: '&srsWGS84;',
+        // TODO: make configurable
         file: 'http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip',
         type: 'shape'
       }]

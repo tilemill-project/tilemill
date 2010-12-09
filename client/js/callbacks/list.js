@@ -1,7 +1,7 @@
 /**
  * Router controller: Frontpage. Lists projects and visualizations.
  */
-TileMill.controller.list = function() { 
+TileMill.controller.list = function() {
   var queue = new TileMill.queue();
 
   queue.add(function(next) {
@@ -25,10 +25,19 @@ TileMill.controller.list = function() {
   });
 
   queue.add(function() {
-    var projects = this.retrieve('projects'), visualizations = this.retrieve('visualizations');
+    var projects = this.retrieve('projects'),
+        visualizations = this.retrieve('visualizations');
     var page = $(TileMill.template('list', {
-      projects: TileMill.template('column', { 'name': 'Projects', 'type': 'project', 'data': projects }),
-      visualizations: TileMill.template('column', { 'name': 'Visualizations', 'type': 'visualization', 'data': visualizations })
+      projects: TileMill.template('column', {
+        name: 'Projects',
+        type: 'project',
+        data: projects
+      }),
+      visualizations: TileMill.template('column', {
+        name: 'Visualizations',
+        type: 'visualization',
+        data: visualizations
+      })
     }));
     TileMill.show(page);
 
@@ -54,8 +63,13 @@ TileMill.controller.list = function() {
           settings[key] = TileMill.settings[key];
         }
       }
-      var popup = $(TileMill.template('popup-info-settings', {settings: settings}));
-      TileMill.popup.show({content: popup, title: 'Info'});
+      var popup = $(TileMill.template('popup-info-settings', {
+          settings: settings
+      }));
+      TileMill.popup.show({
+          content: popup,
+          title: 'Info'
+      });
       return false;
     });
 
