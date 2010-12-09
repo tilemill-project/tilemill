@@ -1,8 +1,9 @@
-TileMill.backend = {};
-TileMill.backend.servers = { 'simple': {} };
-TileMill.backend.rasterizers = { 'tilelive': {} };
-TileMill.backend.runtimes = { 'html': {} };
-TileMill.backend.runtime = {};
+TileMill.backend = {
+    servers: { simple: {} },
+    rasterizers: { tilelive: {} },
+    runtimes: { html: {} },
+    runtime: {}
+};
 
 /**
  * Simple HTTP storage backend, python and PHP implementations are provided
@@ -11,10 +12,12 @@ TileMill.backend.runtime = {};
 TileMill.backend.servers.simple.list = function(filename, callback) {
   TileMill.backend.runtime.get({
     url: TileMill.settings.simpleServer + 'list',
-    data: { 'filename': filename },
-    callback: function(response) {
-      if (response.status) {
-        callback(response.data);
+    data: {
+      filename: filename
+    },
+    callback: function(res, status) {
+      if (status == 'success') {
+        callback(res.data);
       }
       else {
         callback();
@@ -27,9 +30,11 @@ TileMill.backend.servers.simple.list = function(filename, callback) {
 TileMill.backend.servers.simple.get = function(filename, callback) {
   TileMill.backend.runtime.get({
     url: TileMill.settings.simpleServer + 'file',
-    data: { 'filename': filename },
-    callback: function(data) {
-      callback(data);
+    data: {
+      filename: filename
+    },
+    callback: function(res) {
+      callback(res);
     }
   });
 };
@@ -169,13 +174,15 @@ TileMill.backend.rasterizers.tilelive.servers = function(mmlb64) {
 };
 
 TileMill.backend.runtimes.html.get = function(options) {
-  $.ajax({
+  $.jsonp({
       url: options.url,
       data: options.data,
-      jsonp: 'jsoncallback',
-      dataType: 'jsonp',
+      callbackParameter: 'jsoncallback',
       success: options.callback,
-      error: options.callback
+      error: function(xOptions, textStatus) {
+          TileMill.message('Error', 'Request failed.',
+            'error')
+      }
   });
 };
 
