@@ -22,7 +22,8 @@ var TileMill = {
     simpleServer: 'http://tilemill/',
     tileliveServer: 'http://localhost:8888/',
     srs: {
-      'srs900913': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+      'srs900913': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 ' +
+          '+x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
       'srsWGS84': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
     }
   },
@@ -39,7 +40,7 @@ TileMill.controller = {};
  */
 TileMill.route = function() {
   var fn;
-  var url = $.bbq.getState("action");
+  var url = $.bbq.getState('action');
   switch (url) {
     case undefined:
     case 'list':
@@ -66,6 +67,9 @@ TileMill.route = function() {
 
 /**
  * Simulate a browser "page load" by fully replacing DOM elements in the body.
+ *
+ * @param {String} data an HTML elements object of all dom elements
+ *  to be in the body element.
  */
 TileMill.show = function(data) {
   $('body').empty().append(data);
@@ -73,19 +77,32 @@ TileMill.show = function(data) {
 
 /**
  * Show a message popup (error, status, etc).
+ *
+ * @param {String} title the message title.
+ * @param {String} message the message.
+ * @param {String} type the template style of the message.
+ *
+ * @return {Boolean} always false.
  */
 TileMill.message = function(title, message, type) {
   type = type || 'status';
-  var popup = TileMill.template('popup-message', {content: message, type: type});
+  var popup = TileMill.template('popup-message', {
+      content: message,
+      type: type
+  });
   TileMill.popup.show({title: title, content: popup});
   return false;
 };
 
 /**
  * Show an error page.
+ *
+ * @param {String} message the message text.
  */
 TileMill.errorPage = function(message) {
-  TileMill.show(TileMill.template('error-page', {message: message}));
+  TileMill.show(TileMill.template('error-page', {
+      message: message
+  }));
 };
 
 /**
@@ -93,7 +110,7 @@ TileMill.errorPage = function(message) {
  * initial hash change.
  */
 $(function() {
-  $(window).bind("hashchange", function() {
+  $(window).bind('hashchange', function() {
     TileMill.route();
   }).trigger('hashchange');
 });
