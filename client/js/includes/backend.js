@@ -243,13 +243,16 @@ TileMill.backend.runtimes.AIR.post = function(options) {
  * Init methods using the selected backends.
  */
 $.each(['get', 'post'], function(i, func) {
-  TileMill.backend.runtime[func] = TileMill.backend.runtimes[TileMill.settings.runtime][func];
+  TileMill.backend.runtime[func] =
+    TileMill.backend.runtimes[TileMill.settings.runtime][func];
 });
 
 $.each(['list', 'get', 'post', 'del', 'url', 'mtime'], function(i, func) {
-  TileMill.backend[func] = TileMill.backend.servers[TileMill.settings.server][func];
+  TileMill.backend[func] =
+    TileMill.backend.servers[TileMill.settings.server][func];
 });
 
 $.each(['datasource', 'fields', 'values', 'servers'], function(i, func) {
-  TileMill.backend[func] = TileMill.backend.rasterizers[TileMill.settings.rasterizer][func];
+  TileMill.backend[func] =
+    TileMill.backend.rasterizers[TileMill.settings.rasterizer][func];
 });
