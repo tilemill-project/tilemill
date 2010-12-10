@@ -148,7 +148,17 @@ TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
           TileMill.colors.reload(stylesheets);
           TileMill.project.changed();
         },
-        initCallback: function() { TileMill.colors.reload(stylesheets); }
+        initCallback: function() {
+          TileMill.colors.reload(stylesheets);
+          TileMill.mirror.grabKeys(
+            // callback
+            function() { },
+            // filter function
+            function(code) {
+              (code == 19) && $('div#header a.save').trigger('click');
+            }
+          );
+        }
       });
     }
     else {
@@ -157,8 +167,11 @@ TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
       stylesheet.addClass('active');
 
       data = $('input', stylesheet).val();
+
+      var linenum = TileMill.mirror.lineNumber(TileMill.mirror.cursorLine());
       TileMill.mirror.setCode(data);
       TileMill.colors.reload(stylesheets);
+      TileMill.mirror.jumpToLine(TileMill.mirror.nthLine(linenum));;
     }
   }
 };

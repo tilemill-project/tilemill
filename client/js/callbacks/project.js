@@ -53,6 +53,11 @@ TileMill.controller.project = function() {
       return false;
     });
 
+    $(document).bind('keypress', 'Ctrl+S', function(event) {
+      TileMill.project.save();
+      return false;
+    });
+
     $('div#header a.info').click(function() {
       var tilelive_url = TileMill.backend.servers(TileMill.mml.url())[0] +
         'tile/' + TileMill.mml.url({ timestamp: false, encode: true });
