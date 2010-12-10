@@ -82,7 +82,7 @@ TileMill.controller.project = function() {
         function() {
           $('#main').show();
           $('#sidebar').css('width', '30%');
-          TileMill.project_watcher = null;
+          window.clearInterval(TileMill.project_watcher);
         }
     );
 
