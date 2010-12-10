@@ -214,10 +214,12 @@ TileMill.visualization.save = function(callback) {
         next);
   });
   queue.add(function(next) {
+    var self = this;
     TileMill.inspector.load();
     TileMill.data.uniq = (new Date().getTime());
     TileMill.map.reload($('#map-preview'),
         TileMill.backend.servers(TileMill.mml.url()));
+    next();
   });
   if (callback) {
     queue.add(function(next) {
