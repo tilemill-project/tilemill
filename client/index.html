@@ -106,6 +106,7 @@
       <h1>Editing <%= id %></h1>
       <a class='info' href='#project-info'>Info</a>
       <a class='minimal' href='#minimal'>Minimal Mode</a>
+      <a target='_blank' class='reference' href='#action=reference'>Reference</a>
       <a class='save' href='#project-save'>Save</a>
       <a class='home' href='#action=list'>Back home</a>
       <a class='status' href='#status'>Status</a>
@@ -361,7 +362,26 @@
         <div id='reference-content'>
         </div>
       </div>
-      <div id='sidebar'></div>
+      <div id='sidebar'>
+        <div class='reference-help'>
+          <p>TileMill supports the <a href="https://github.com/mapnik/Cascadenik">Cascadenik</a>
+          styling language. It should be familiar to <a href="http://www.w3schools.com/css/">CSS</a>
+          users and easy to pick up for everyone else.</p>
+          <p>A simple Cascadenik style looks like</p>
+<pre>
+#world {<br />
+  polygon-fill: #eee;<br />
+  line-color: #ccc;<br />
+  line-width: 0.5;<br />
+}
+</pre>
+          <p>Which is the <em>selector</em> <code>#world</code>
+          - which makes this affect the layer with the id <code>world</code>,
+          and then three <em>declarations</em> which color the countries 
+          the color <code>#eee</code> and give them a grey line <code>0.5</code>
+          units wide.</p>
+        </div>
+      </div>
     </script>
 
     <script type="text/html" name="reference-symbolizer">

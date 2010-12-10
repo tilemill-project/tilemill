@@ -744,3 +744,22 @@ a.popup-close { background-color:#222; }
   width: 25%;
   }
 
+.reference-help {
+  padding:10px;
+  }
+
+.reference-help p {
+  padding: 10px;
+  }
+
+.reference-help p code {
+  background-color: #eee;
+  padding:2px;
+  }
+
+.reference-help pre {
+  background-color: #eee;
+  border:1px solid #ccc;
+  padding:5px;
+  margin:10px;
+  }
