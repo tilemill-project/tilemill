@@ -380,6 +380,16 @@
           and then three <em>declarations</em> which color the countries 
           the color <code>#eee</code> and give them a grey line <code>0.5</code>
           units wide.</p>
+
+          <p>There are other selectors you can use to affect different parts of a map</p>
+
+          <ul>
+              <li><code>* { }</code>: All layers
+              <li><code>.red { }</code>: Only layers with the class 'red'
+              <li><code>.blue[zoom>8] { }</code> Only layers with the class blue, zoomed beyond 8
+              <li><code>#countries NAME { }</code> Country names, from a layer with id country an a 
+          property called NAME
+          </ul>
         </div>
       </div>
     </script>
