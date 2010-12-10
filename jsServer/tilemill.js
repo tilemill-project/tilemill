@@ -60,11 +60,10 @@ app.get('/file', function(req, res) {
 
 // TODO: delete as well
 app.post('/file', function(req, res) {
-  var data = req.body.data;
-  var path = req.body.filename;
-  // TODO: if (os.path.isdir(os.path.dirname(path))):
-  // if (fs.statSync(path)) {
-  buffer = fs.writeFile(path, data, function() {
+  buffer = fs.writeFile(
+      path.join(files, req.body.filename),
+      req.body.data,
+      function() {
     res.send(jsonp({
       status: true
     }, req));
