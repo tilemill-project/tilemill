@@ -705,3 +705,42 @@ a.tab-add,
 a#layers-add,
 a.inspector-close,
 a.popup-close { background-color:#222; }
+
+/**
+ * Reference page
+ */
+
+#reference #main {
+    overflow: auto;
+}
+
+#reference-content {
+    padding:10px;
+}
+
+#reference-content h2 {
+    font-size:16px;
+    margin:6px 0 8px 0;
+}
+
+.reference-table {
+    width: 100%;
+}
+
+.reference-table thead tr th {
+  border-top:1px solid #aaa;
+  background-color: #eee;
+}
+
+.reference-table th {
+  color: #555;
+  text-align:left;
+  }
+
+.reference-table td, th {
+  border-top:1px solid #eee;
+  border-collapse:collapse;
+  padding: 1px 3px;
+  width: 25%;
+  }
+

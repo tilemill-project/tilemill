@@ -9,6 +9,7 @@
 
     <script type="text/javascript" src="js/libraries/base64.js"></script>
     <script type="text/javascript" src="js/libraries/jquery.js"></script>
+    <script type="text/javascript" src="js/libraries/underscore-min.js"></script>
     <script type="text/javascript" src="js/libraries/jquery-ui.js"></script>
     <script type="text/javascript" src="js/libraries/jquery.jsonp-2.1.4.min.js"></script>
     <script type="text/javascript" src="js/libraries/jquery.url.js"></script>
@@ -24,6 +25,7 @@
     <script type="text/javascript" src="js/callbacks/list.js"></script>
     <script type="text/javascript" src="js/callbacks/project.js"></script>
     <script type="text/javascript" src="js/callbacks/visualization.js"></script>
+    <script type="text/javascript" src="js/callbacks/reference.js"></script>
 
     <script type="text/javascript" src="js/includes/template.js"></script>
     <script type="text/javascript" src="js/includes/cache.js"></script>
@@ -349,6 +351,45 @@
       </div>
     </div>
     </script>
+
+    <script type="text/html" name="reference">
+      <div id='header' class='clearfix pane'>
+        <h1>Reference</h1>
+        <a class='home' href='#action=list'>Back home</a>
+      </div>
+      <div id='main'>
+        <div id='reference-content'>
+        </div>
+      </div>
+      <div id='sidebar'></div>
+    </script>
+
+    <script type="text/html" name="reference-symbolizer">
+      <div class='reference-symbolizer'>
+        <h2><%= symbolizer %></h2>
+        <table class='reference-table'>
+          <thead>
+              <tr>
+                  <th>property</th>
+                  <th>type</th>
+                  <th>css parameter</th>
+                  <th>default value</th>
+              </tr>
+          </thead>
+          <%= properties %>
+        </table>
+      </div>
+    </script>
+
+    <script type="text/html" name="reference-property">
+      <tr>
+          <th><%= property_name %></th>
+          <td><%= type %></td>
+          <td><%= css %></td>
+          <td><%= default_value %></td>
+      </tr>
+    </script>
+
   </head>
   <body>
     <div class="loading">
