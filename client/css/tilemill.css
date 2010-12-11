@@ -3,6 +3,10 @@ body {
   color:#333;
   }
 
+small {
+  font-size:10px;
+  }
+
 div.loading {
   background:#eee url(../images/swirly.gif) 50% 50% no-repeat;
   opacity:.5;
@@ -710,15 +714,16 @@ a.popup-close { background-color:#222; }
  * Reference page
  */
 
-#reference #main {
+#reference #main,
+#data #main {
     overflow: auto;
 }
 
-#reference-content {
+#main-content {
     padding:10px;
 }
 
-#reference-content h2 {
+#main-content h2 {
     font-size:16px;
     margin:6px 0 8px 0;
 }

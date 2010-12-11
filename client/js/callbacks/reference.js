@@ -6,7 +6,7 @@ TileMill.controller.reference = function() {
 
   $.getJSON('js/data/reference.json', {}, function(data) {
     _.map(data.symbolizers, function(properties, symbolizer) {
-      $('#reference-content').append(TileMill.template('reference-symbolizer', {
+      $('#main-content').append(TileMill.template('reference-symbolizer', {
         properties: _.map(properties, function(property, name) {
           return TileMill.template('reference-property', {
             property_name: name,

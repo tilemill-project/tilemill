@@ -31,6 +31,7 @@ app.get('/list', function(req, res) {
       status: true,
       data: _.select(fs.readdirSync(path.join(files, req.param('filename'))),
         function(dir) {
+          // directories that contain at least one MML file
           return _.any(
             fs.readdirSync(path.join(files, req.param('filename'), dir)),
             function(filename) {
@@ -68,16 +69,10 @@ app.post('/file', function(req, res) {
       status: true
     }, req));
   });
-  // } else {
-  //     res.send(jsonp({
-  //         status: false,
-  //         data: 'Could not write file'
-  //     }, req));
-  // }
 });
 
 app.del('/file', function(req, res) {
-  fs.unlink(req.body.filename, function() {
+  fs.unlink(path.join(files, req.body.filename), function() {
     res.send(jsonp({ status: true }));
   });
 });
@@ -94,9 +89,9 @@ app.get('/mtime', function(req, res) {
     res.send(jsonp({
       status: false,
       data: 'The file (' +
-          req.param('filename') +
-          ') could not be found. Exception: ' +
-          Exception
+        req.param('filename') +
+        ') could not be found. Exception: ' +
+        Exception
     }, req));
   }
 });

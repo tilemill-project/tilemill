@@ -55,6 +55,9 @@ TileMill.route = function() {
     case 'reference':
       fn = 'reference';
       break;
+    case 'data':
+      fn = 'data';
+      break;
   }
   if (TileMill.controller[fn]) {
     $('body')

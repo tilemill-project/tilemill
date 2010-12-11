@@ -26,6 +26,7 @@
     <script type="text/javascript" src="js/callbacks/project.js"></script>
     <script type="text/javascript" src="js/callbacks/visualization.js"></script>
     <script type="text/javascript" src="js/callbacks/reference.js"></script>
+    <script type="text/javascript" src="js/callbacks/data.js"></script>
 
     <script type="text/javascript" src="js/includes/template.js"></script>
     <script type="text/javascript" src="js/includes/cache.js"></script>
@@ -58,6 +59,7 @@
     <div id='header' class='clearfix pane'>
       <h1>TileMill</h1>
       <a class='info' href='#info'>Info</a>
+      <a href='#action=data'>Data</a>
     </div>
     <div id='content' class='clearfix'>
       <%= projects %>
@@ -359,7 +361,7 @@
         <a class='home' href='#action=list'>Back home</a>
       </div>
       <div id='main'>
-        <div id='reference-content'>
+        <div id='main-content'>
         </div>
       </div>
       <div id='sidebar'>
@@ -394,6 +396,35 @@
       </div>
     </script>
 
+
+
+    <script type="text/html" name="data">
+      <div id='header' class='clearfix pane'>
+        <h1>Data</h1>
+        <a class='home' href='#action=list'>Back home</a>
+      </div>
+      <div id='main'>
+        <div id='main-content'>
+          <div id='providers'>
+          </div>
+        </div>
+      </div>
+      <div id='sidebar'>
+      </div>
+    </script>
+
+    <script type="text/html" name="data-provider">
+      <h3><%= name %></h3>
+      <%= datasources %>
+    </script>
+
+    <script type="text/html" name="data-datasource">
+      <div class='datasource'>
+      <code><%= url %></code>
+      <small>(<%= bytes %> bytes)</small>
+      </div>
+    </script>
+
     <script type="text/html" name="reference-symbolizer">
       <div class='reference-symbolizer'>
         <h2><%= symbolizer %></h2>
@@ -410,7 +441,6 @@
         </table>
       </div>
     </script>
-
     <script type="text/html" name="reference-property">
       <tr>
           <th><%= property_name %></th>
@@ -419,7 +449,6 @@
           <td><%= default_value %></td>
       </tr>
     </script>
-
   </head>
   <body>
     <div class="loading">
