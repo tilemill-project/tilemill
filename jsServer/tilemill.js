@@ -1,6 +1,7 @@
 var express = require('express'),
     fs = require('fs'),
     path = require('path'),
+    wrench = require('wrench'),
     _ = require('./underscore')._;
 
 var app = module.exports = express.createServer();
@@ -59,22 +60,34 @@ app.get('/file', function(req, res) {
   });
 });
 
-// TODO: delete as well
 app.post('/file', function(req, res) {
-  buffer = fs.writeFile(
-      path.join(files, req.body.filename),
-      req.body.data,
+  if ((req.param('method') || 'put') == 'put') {
+    if (path.dirname(req.body.filename)) {
+      fs.mkdir(
+          path.join(
+              files,
+              path.dirname(path.join(req.body.filename))),
+          0777,
       function() {
-    res.send(jsonp({
-      status: true
-    }, req));
-  });
-});
-
-app.del('/file', function(req, res) {
-  fs.unlink(path.join(files, req.body.filename), function() {
-    res.send(jsonp({ status: true }));
-  });
+        fs.writeFile(
+            path.join(files, req.body.filename),
+            req.body.data,
+            function() {
+          res.send(jsonp({
+            status: true
+          }, req));
+        });
+      });
+    }
+  } else {
+    // TODO: nodejs doesn't provide rm-rf functionality
+    wrench.rmdirRecursive(
+      path.join(files, req.body.filename),
+      function() {
+        res.send(jsonp({ status: true }, req));
+      }
+    );
+  }
 });
 
 // TODO: use watchfile
