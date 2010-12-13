@@ -19,7 +19,7 @@ function jsonp(obj, req) {
 
 app.get('/', function(req, res, params) {
   res.send(jsonp({
-    name: 'Directory Provider',
+    name: 'Local',
     version: 1.0,
     datasources: _.reduce(fs.readdirSync(path.join(__dirname, data_dir)),
       function(memo, dir) {
@@ -38,6 +38,7 @@ app.get('/', function(req, res, params) {
               protocol: 'http:',
               pathname: path.join(dir, filename)
             }),
+            name: path.basename(filename),
             bytes: fs.statSync(path.join(__dirname, data_dir, dir, filename)).size
           }
         }));

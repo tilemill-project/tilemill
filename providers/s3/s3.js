@@ -71,7 +71,7 @@ function jsonp(obj, req) {
 app.get('/', function(req, res, params) {
   listbucket(client, '', 100, function(objects) {
     res.send(jsonp({
-      name: 'S3 Provider',
+      name: 'S3',
       version: 1.0,
       datasources: _.map(objects, function(object) {
         return {
@@ -80,7 +80,8 @@ app.get('/', function(req, res, params) {
             protocol: 'http:',
             pathname: object.Key.text
           }),
-          bytes: object.Size.text
+          bytes: object.Size.text,
+          name: path.basename(object.Key.text)
         };
       })
     }, req));

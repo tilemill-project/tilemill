@@ -154,6 +154,40 @@ TileMill.mml.parseMML = function(mml) {
   return parsed;
 };
 
+TileMill.mml.showDatasources = function() {
+    var providers = [
+    'http://localhost:8891/', // directory provider
+    'http://localhost:8892/' // directory provider
+    ];
+
+    _.map(providers, function(provider) {
+    // TODO: generalize
+    $.jsonp({
+        url: provider,
+        data: {},
+        callbackParameter: 'jsoncallback',
+        error: function(xOptions, textStatus) {
+            // TODO: specify where
+            TileMill.message('Error', 'Request ' +
+              'failed: could not connect' +
+              ' to server',
+              'error')
+        },
+        success: function(res) {
+          $('#form-providers').append(TileMill.template('data-provider', {
+            name: res.name,
+            datasources: _.map(res.datasources, function(ds) {
+              return TileMill.template('data-datasource', ds);
+            }).join('')
+          }));
+          $('#form-providers .datasource').click(function() {
+            $('#form-layer #file').val($('.url', this).text());
+          });
+        }
+    });
+  });
+};
+
 /**
  * Initialize a layer edit/addition form.
  */
@@ -177,6 +211,11 @@ TileMill.mml.layerForm = function(popup, li, options) {
   if (li) {
     $('form', popup).data('li', li);
   }
+
+  $('#expand-datasources').click(function() {
+    $('#form-providers').show().css('height', '150px');
+    TileMill.mml.showDatasources();
+  });
 
   // Custom SRS selector switch.
   $('select#srs', popup).change(function() {
@@ -331,9 +370,9 @@ TileMill.mml.init = function() {
 
   $('a#layers-add', layers).click(function() {
     var popup = $(TileMill.template(
-        'popup-layer', {
-            submit: 'Add layer'
-        }));
+      'popup-layer', {
+          submit: 'Add layer'
+      }));
     TileMill.popup.show({
         content: popup,
         title: 'Add layer'

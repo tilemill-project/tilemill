@@ -214,8 +214,11 @@
         <div><label for="classes">Classes</label>
             <input type="text" class="text" id="classes" />
         </div>
-        <div><label for="file">Data Source</label>
+        <div>
+            <label for="file">Data Source</label>
             <input type="text" class="text required" id="file" />
+            <a id='expand-datasources'>[+]</a>
+            <div style='display:none;' id='form-providers'></div>
         </div>
         <div>
           <label for="srs">SRS</label>
@@ -420,8 +423,9 @@
 
     <script type="text/html" name="data-datasource">
       <div class='datasource'>
-      <code><%= url %></code>
-      <small>(<%= bytes %> bytes)</small>
+        <%= name %>
+        <small>(<%= bytes %> bytes)</small>
+        <span class='url'><%= url %></span>
       </div>
     </script>
 

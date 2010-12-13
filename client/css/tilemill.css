@@ -768,3 +768,30 @@ a.popup-close { background-color:#222; }
   padding:5px;
   margin:10px;
   }
+
+/**
+ * Add datasources from known data
+ */
+#form-providers {
+  padding: 5px;
+  margin-top: 5px;
+  background-color:#eee;
+  overflow-y:auto;
+  border: 1px solid #ccc;
+  }
+
+#form-providers div {
+  padding:0;
+  }
+
+  /**
+   * TODO: this will break in IE
+   */
+#form-providers div.datasource:hover {
+  background-color:#fff;
+  cursor:pointer;
+  }
+  
+#form-providers div.datasource .url {
+  display:none;
+  }
