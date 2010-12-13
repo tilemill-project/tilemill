@@ -53,9 +53,11 @@ TileMill.controller.project = function() {
       return false;
     });
 
-    $(document).bind('keypress', 'Ctrl+S', function(event) {
-      TileMill.project.save();
-      return false;
+    $(document).bind('keypress', function(event) {
+      if (event.charCode == 19) {
+        TileMill.project.save();
+        return false;
+      }
     });
 
     $('div#header a.info').click(function() {
@@ -144,8 +146,6 @@ TileMill.project.status = function() {
 };
 
 TileMill.project.watch = function() {
-  var id = TileMill.data.id,
-      queue = new TileMill.queue();
   $('#tabs a.tab').each(function() {
     TileMill.stylesheet.setCode($('#tabs a.active'), true);
     TileMill.stylesheet.mtime(
