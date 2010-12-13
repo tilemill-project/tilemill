@@ -67,8 +67,7 @@ TileMill.route = function() {
         message: 'page loading'
       }));
     TileMill.controller[fn]();
-  }
-  else {
+  } else {
     TileMill.errorPage('Page not found');
   }
 };

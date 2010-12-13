@@ -23,8 +23,7 @@ TileMill.cache.clear = function(bin, cid) {
   }
   if (cid && TileMill.cache.cache[bin][cid]) {
     delete TileMill.cache.cache[bin][cid];
-  }
-  else if (!cid) {
+  } else if (!cid) {
     TileMill.cache.cache[bin] = [];
   }
 };

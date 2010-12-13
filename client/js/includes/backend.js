@@ -18,8 +18,7 @@ TileMill.backend.servers.simple.list = function(filename, callback) {
     success: function(res, status) {
       if (status == 'success') {
         callback(res.data);
-      }
-      else {
+      } else {
         callback();
       }
     }
@@ -82,8 +81,7 @@ TileMill.backend.rasterizers.tilelive.datasource = function(datab64, callback) {
   var cache = TileMill.cache.get('tilelive-datasource', datab64);
   if (cache) {
     callback(cache);
-  }
-  else {
+  } else {
     TileMill.backend.runtime.get({
       url: TileMill.settings.tileliveServer.split(',')[0] +
         datab64 + '/data.json',
@@ -100,8 +98,7 @@ TileMill.backend.rasterizers.tilelive.fields = function(mmlb64, callback) {
   var cache = TileMill.cache.get('tilelive-fields', mmlb64);
   if (cache) {
     callback(cache);
-  }
-  else {
+  } else {
     TileMill.backend.runtime.get({
       url: TileMill.settings.tileliveServer.split(',')[0] +
         mmlb64 + '/fields.json',
@@ -119,8 +116,7 @@ TileMill.backend.rasterizers.tilelive.values = function(options) {
       cache = TileMill.cache.get('tilelive-values', cid);
   if (cache) {
     options.callback(cache);
-  }
-  else {
+  } else {
     var url = TileMill.settings.tileliveServer.split(',')[0] +
         options.mmlb64 + '/' + Base64.urlsafe_encode(options.layer) +
         '/' + Base64.urlsafe_encode(options.field) + '/values.json?';
@@ -169,8 +165,7 @@ TileMill.backend.rasterizers.tilelive.servers = function(mmlb64) {
     for (i = 0; i < split.length; i++) {
       servers.push(split[i] + 'tile/' + mmlb64 + '/${z}/${x}/${y}.png');
     }
-  }
-  else {
+  } else {
     servers = TileMill.settings.tileliveServer +
       'tile/' + mmlb64 + '/${z}/${x}/${y}.png';
   }
@@ -199,12 +194,10 @@ TileMill.backend.runtimes.html.post = function(options) {
   if (iframe.contentDocument) {
     // Firefox, Opera
     doc = iframe.contentDocument;
-  }
-  else if (iframe.contentWindow) {
+  } else if (iframe.contentWindow) {
     // Internet Explorer
     doc = iframe.contentWindow.document;
-  }
-  else if (iframe.document) {
+  } else if (iframe.document) {
     // Others?
     doc = iframe.document;
   }
@@ -231,8 +224,7 @@ TileMill.backend.runtimes.html.post = function(options) {
       }
       $(this).remove();
     });
-  }
-  else {
+  } else {
     if (options.callback) {
       options.success();
     }

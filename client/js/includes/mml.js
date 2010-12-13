@@ -135,8 +135,7 @@ TileMill.mml.parseMML = function(mml) {
     var status = $(this).attr('status');
     if (status == 'undefined' || status === undefined || status == 'on') {
       status = true;
-    }
-    else {
+    } else {
       status = false;
     }
     var classes = '';
@@ -165,13 +164,11 @@ TileMill.mml.layerForm = function(popup, li, options) {
       var srs = TileMill.mml.srs(options[option]);
       if (srs) {
         $('#' + option, popup).val(srs);
-      }
-      else {
+      } else {
         $('#' + option, popup).val('custom');
         $('#srs-custom', popup).val(options[option]);
       }
-    }
-    else {
+    } else {
       $('#' + option, popup).val(options[option]);
     }
   }
@@ -185,8 +182,7 @@ TileMill.mml.layerForm = function(popup, li, options) {
   $('select#srs', popup).change(function() {
     if ($(this).val() === 'custom') {
       $('div.srs-custom', $(this).parents('form')).show();
-    }
-    else {
+    } else {
       $('div.srs-custom', $(this).parents('form')).hide();
     }
   });

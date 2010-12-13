@@ -64,9 +64,8 @@ TileMill.stylesheet.add = function(options, stylesheets, callback) {
     filename = TileMill.data.type + '/' +
         TileMill.data.id + '/' + shortname + '.mss';
     options.src = TileMill.backend.url(filename);
-  }
+  } else {
   // Otherwise, assume this is a URL.
-  else {
     filename = $.url.setUrl(options.src).param('filename');
     shortname = filename.split('/').pop().split('.')[0];
   }
@@ -105,8 +104,7 @@ TileMill.stylesheet.add = function(options, stylesheets, callback) {
         callback();
       }
     });
-  }
-  else {
+  } else {
     if (callback) {
       callback();
     }
@@ -155,13 +153,17 @@ TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
             function() { },
             // filter function
             function(code) {
-              (code == 19) && $('div#header a.save').trigger('click');
+              if (code == 19) {
+                $('div#header a.save').trigger('click');
+                return true;
+              } else {
+                return false;
+              }
             }
           );
         }
       });
-    }
-    else {
+    } else {
       $('#tabs a.active input').val(TileMill.mirror.getCode());
       $('#tabs a.active').removeClass('active');
       stylesheet.addClass('active');
