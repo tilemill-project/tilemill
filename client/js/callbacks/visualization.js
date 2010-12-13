@@ -285,7 +285,7 @@ TileMill.visualization.add = function(url) {
           {
             id: 'world',
             srs: '&srsWGS84;',
-            file: 'http://cascadenik-sampledata.s3.amazonaws.com/world_borders.zip',
+            file: 'http://tilemill-data.s3.amazonaws.com/world_borders.zip',
             type: 'shape'
           },
           {
