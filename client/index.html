@@ -450,7 +450,7 @@
           <th><%= property_name %></th>
           <td><%= type %></td>
           <td><%= css %></td>
-          <td><%= default_value %></td>
+          <td><%= default_value %><% if(default_meaning) { %><small class='reference-default-meaning'>(<%= default_meaning %>)</small><% } %></td>
       </tr>
     </script>
   </head>
