@@ -68,7 +68,7 @@ TileMill.colors.reload = function(stylesheets) {
         })));
     });
     $('a', colors_div).click(function() {
-      TileMill.colors.insert($(this).text());
+      return TileMill.colors.insert($(this).text());
     });
   }
 };
@@ -83,4 +83,5 @@ TileMill.colors.insert = function(color) {
   TileMill.mirror.insertIntoLine(
       position.line,
       position.character, color);
+  return false;
 };
