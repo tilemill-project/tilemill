@@ -137,31 +137,34 @@ TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
 
       data = $('input', stylesheet).val();
       $('#code').val(data);
-      TileMill.mirror = CodeMirror.fromTextArea('code', {
-        height: '100%',
-        parserfile: 'parsecss.js',
-        stylesheet: 'css/code.css',
-        path: 'js/codemirror/js/',
-        onChange: function() {
-          TileMill.colors.reload(stylesheets);
-          TileMill.project.changed();
-        },
-        initCallback: function() {
-          TileMill.colors.reload(stylesheets);
-          TileMill.mirror.grabKeys(
-            // callback
-            function() { },
-            // filter function
-            function(code) {
-              if (code == 19) {
-                $('div#header a.save').trigger('click');
-                return true;
-              } else {
-                return false;
+      $.getJSON('js/data/reference.json', {}, function(data) {
+        TileMill.mirror = CodeMirror.fromTextArea('code', {
+          height: '100%',
+          parserfile: 'parsemss.js',
+          parserConfig: data,
+          stylesheet: 'css/code.css',
+          path: 'js/codemirror/js/',
+          onChange: function() {
+            TileMill.colors.reload(stylesheets);
+            TileMill.project.changed();
+          },
+          initCallback: function(cm) {
+            TileMill.colors.reload(stylesheets);
+            TileMill.mirror.grabKeys(
+              // callback
+              function() { },
+              // filter function
+              function(code) {
+                if (code == 19) {
+                  $('div#header a.save').trigger('click');
+                  return true;
+                } else {
+                  return false;
+                }
               }
-            }
-          );
-        }
+            );
+          }
+        });
       });
     } else {
       $('#tabs a.active input').val(TileMill.mirror.getCode());

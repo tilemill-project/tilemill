@@ -769,6 +769,11 @@ a.popup-close { background-color:#222; }
   margin:10px;
   }
 
+.reference-default-meaning {
+  float:right;
+  color:#999;
+  }
+
 /**
  * Add datasources from known data
  */

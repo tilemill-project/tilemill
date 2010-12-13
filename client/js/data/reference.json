@@ -2,6 +2,9 @@
     "symbolizers" : {
         "map": {
             "map-bgcolor": {
+                "css": "map-bgcolor",
+                "default-value": "none",
+                "default-meaning": "transparent",
                 "type": "color_transparent",
                 "description": "Map Background color" 
             } 
@@ -62,6 +65,7 @@
                 "css": "line-opacity",
                 "default-value": 1,
                 "type": "float",
+                "default-meaning": "opaque",
                 "doc": "The opacity of a line" 
             },
             "join": {
@@ -114,6 +118,7 @@
             "line-opacity": {
                 "css": "marker-line-opacity",
                 "default-value": 1,
+                "default-meaning": "opaque",
                 "type": "float" 
             },
             "placement": {
@@ -145,6 +150,7 @@
             "fill-opacity": {
                 "css": "marker-opacity",
                 "default-value": 1,
+                "default-meaning": "opaque",
                 "type": "float" 
             },
             "file": {
@@ -153,7 +159,9 @@
             },
             "allow-overlap": {
                 "css": "marker-allow-overlap",
-                "type": "boolean" 
+                "type": "boolean",
+                "default-value": "false",
+                "default-meaning": "do not allow overlap"
             },
             "spacing": {
                 "css": "marker-spacing",
@@ -222,7 +230,8 @@
             },
             "file": {
                 "css": "shield-file",
-                "type": "uri" 
+                "type": "uri",
+                "default-value": "none"
             },
             "width": {
                 "css": "shield-width",
@@ -313,6 +322,7 @@
             "opacity": {
                 "css": "raster-opacity",
                 "default-value": 1,
+                "default-meaning": "opaque",
                 "type": "float" 
             },
             "mode": {
@@ -358,7 +368,9 @@
             },
             "allow-overlap": {
                 "css": "point-allow-overlap",
-                "type": "boolean" 
+                "type": "boolean",
+                "default-value": "false",
+                "default-meaning": "do not allow overlap"
             },
             "meta-output": {
                 "css": "point-meta-output",
@@ -379,10 +391,12 @@
             },
             "size": {
                 "css": "text-size",
-                "type": "integer" 
+                "type": "integer",
+                "default-value": 10
             },
             "ratio": {
                 "css": "text-ratio",
+                "doc": "Define the amount of text (of the total) present on successive lines when wrapping occurs",
                 "type": "integer",
                 "type": "none" 
             },
@@ -402,6 +416,7 @@
             },
             "line-spacing": {
                 "css": "text-line-spacing",
+                "default-value": 0,
                 "type": "integer" 
             },
             "label-position-tolerance": {
@@ -410,28 +425,41 @@
             },
             "max-char-angle-delta": {
                 "css": "text-max-char-angle-delta",
-                "type": "integer" 
+                "type": "integer",
+                "default-value": "none",
+                "doc": "If present, the maximum angle change, in degrees, allowed between adjacent characters in a label.  This will stop label placement around sharp corners."
             },
             "fill": {
                 "css": "text-fill",
+                "doc": "Specifies the color for the text",
+                "default-value": "#000000",
                 "type": "color" 
             },
             "halo-fill": {
                 "css": "text-halo-fill",
                 "docs": "Color of the text halo",
-                "type": "color" 
+                "type": "color",
+                "default-value": "#FFFFFF",
+                "doc": "Specifies the color of the halo around the text."
             },
             "halo-radius": {
                 "css": "text-halo-radius",
+                "doc":  "Specify the radius of the halo in pixels",
+                "default-value": 0,
+                "default-meaning": "no halo",
                 "type": "integer" 
             },
             "dx": {
                 "css": "text-dx",
-                "type": "integer" 
+                "type": "integer",
+                "doc": "Displace text by fixed amount, in pixels, +/- along the X axis.  A positive value will shift the text right",
+                "default-value": 10
             },
             "dy": {
                 "css": "text-dy",
-                "type": "integer" 
+                "type": "integer",
+                "doc": "Displace text by fixed amount, in pixels, +/- along the Y axis.  A positive value will shift the text down",
+                "default-value": 10
             },
             "avoid-edges": {
                 "css": "text-avoid-edges",
@@ -444,14 +472,17 @@
             },
             "allow-overlap": {
                 "css": "text-allow-overlap",
-                "type": "boolean" 
+                "type": "boolean",
+                "default-value": "false",
+                "default-meaning": "do not allow overlap"
             },
             "placement": {
                 "css": "text-placement",
                 "type": [
                     "point",
                     "line" 
-                ] 
+                ],
+                "default-value": "point"
             },
             "transform": {
                 "css": "text-transform",
@@ -487,6 +518,7 @@
             "opacity": {
                 "css": "inline-opacity",
                 "default-value": 1,
+                "default-meaning": "opaque",
                 "type": "float" 
             },
             "join": {
@@ -537,6 +569,7 @@
             "opacity": {
                 "css": "outline-opacity",
                 "default-value": 1,
+                "default-meaning": "opaque",
                 "type": "float" 
             },
             "join": {

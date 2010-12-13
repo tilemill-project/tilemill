@@ -6,12 +6,14 @@ body {
   font:13px/20px monospace;
   }
 
-span.css-at           { color:#708; }
-span.css-unit         { color:#281; }
-span.css-value        { color:#708; }
-span.css-identifier   { color:#333; }
-span.css-important    { color:#03c; }
-span.css-colorcode    { color:#048; }
-span.css-punctuation  { color:#666; }
-span.css-comment      { color:#999; }
-span.css-string       { color:#a22; }
+span.mss-at                 { color:#708; }
+span.mss-unit               { color:#281; }
+span.mss-value              { color:#708; }
+span.mss-selector           { color:#b64f90; }
+span.mss-identifier         { color:#333; }
+span.mss-valid-identifier   { color:#7f0055; }
+span.mss-important          { color:#03c; }
+span.mss-colorcode          { color:#048; }
+span.mss-punctuation        { color:#666; }
+span.mss-comment            { color:#999; }
+span.mss-string             { color:#8010a0; }
