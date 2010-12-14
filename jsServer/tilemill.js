@@ -60,6 +60,21 @@ app.get('/file', function(req, res) {
   });
 });
 
+var rmRf = function(dir, callback) {
+  fs.readdir(dir, function(err, files) {
+      files.forEach(function(file) {
+          fs.stat(path.join(dir, file), function(err, stats) {
+              if (stats.isDirectory()) {
+                  rmRf(file);
+              } else {
+                  fs.unlink(path.join(dir, file), function(err) { });
+              }
+          });
+      });
+  });
+  callback && callback();
+};
+
 app.post('/file', function(req, res) {
   if ((req.param('method') || 'put') == 'put') {
     if (path.dirname(req.body.filename)) {
@@ -81,12 +96,11 @@ app.post('/file', function(req, res) {
     }
   } else {
     // TODO: nodejs doesn't provide rm-rf functionality
-    wrench.rmdirRecursive(
-      path.join(files, req.body.filename),
-      function() {
-        res.send(jsonp({ status: true }, req));
-      }
-    );
+    rmRf(path.join(files, req.body.filename), function() {
+        res.send(jsonp({
+            status: true
+        }, req));
+    });
   }
 });
 
