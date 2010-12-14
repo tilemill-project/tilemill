@@ -1,14 +1,12 @@
 var express = require('express'),
     fs = require('fs'),
     path = require('path'),
-    wrench = require('wrench'),
     _ = require('./underscore')._;
 
+var settings = require('./settings'); // TODO: put in config
 var app = module.exports = express.createServer();
-
 app.use(express.bodyDecoder());
 
-var files = '/Users/tmcw/Code/js/TileMill/project/'; // TODO: put in config
 
 function jsonp(obj, req) {
   return req.param('jsoncallback') ?
@@ -16,6 +14,7 @@ function jsonp(obj, req) {
     obj;
 }
 
+// TODO: finish
 function safePath(path) {
 }
 
@@ -30,11 +29,11 @@ app.get('/list', function(req, res) {
   res.send(
     jsonp({
       status: true,
-      data: _.select(fs.readdirSync(path.join(files, req.param('filename'))),
+      data: _.select(fs.readdirSync(path.join(settings.files, req.param('filename'))),
         function(dir) {
           // directories that contain at least one MML file
           return _.any(
-            fs.readdirSync(path.join(files, req.param('filename'), dir)),
+            fs.readdirSync(path.join(settings.files, req.param('filename'), dir)),
             function(filename) {
               return filename.match('.mml');
             }
@@ -46,7 +45,7 @@ app.get('/list', function(req, res) {
 });
 
 app.get('/file', function(req, res) {
-  fs.readFile(path.join(files, req.param('filename')), function(err, data) {
+  fs.readFile(path.join(settings.files, req.param('filename')), function(err, data) {
     if (!err) {
       res.send(jsonp('' + data, req));
     }
@@ -80,12 +79,12 @@ app.post('/file', function(req, res) {
     if (path.dirname(req.body.filename)) {
       fs.mkdir(
           path.join(
-              files,
+              settings.files,
               path.dirname(path.join(req.body.filename))),
           0777,
       function() {
         fs.writeFile(
-            path.join(files, req.body.filename),
+            path.join(settings.files, req.body.filename),
             req.body.data,
             function() {
           res.send(jsonp({
@@ -96,7 +95,7 @@ app.post('/file', function(req, res) {
     }
   } else {
     // TODO: nodejs doesn't provide rm-rf functionality
-    rmRf(path.join(files, req.body.filename), function() {
+    rmRf(path.join(settings.files, req.body.filename), function() {
         res.send(jsonp({
             status: true
         }, req));
