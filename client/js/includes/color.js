@@ -4,8 +4,7 @@ TileMill.colors = {};
  * Initialize colors - initialize colorpicker.
  */
 TileMill.colors.init = function() {
-  var color = $(TileMill.template('color', {}));
-  return color;
+  return $(TileMill.template('color', {}));
 };
 
 TileMill.colors.initFarb = function(color) {
