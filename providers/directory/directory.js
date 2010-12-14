@@ -24,24 +24,29 @@ app.get('/', function(req, res, params) {
     datasources: _.reduce(fs.readdirSync(path.join(__dirname, data_dir)),
       function(memo, dir) {
         // directories that contain at least one MML file
-        return memo.concat(
-          _.map(_.select(
-          fs.readdirSync(path.join(__dirname, data_dir, dir)),
+        if (fs.statSync(path.join(__dirname, data_dir, dir)).isDirectory()) {
+          return memo.concat(
+            _.map(_.select(
+            fs.readdirSync(path.join(__dirname, data_dir, dir)),
+            function(filename) {
+              return filename.match(/(.zip|.geojson)/);
+            }
+          ),
           function(filename) {
-            return filename.match(/(.zip|.geojson)/);
-          }
-        ),
-        function(filename) {
-          return {
-            url: url.format({
-              host: 'localhost:' + PORT,
-              protocol: 'http:',
-              pathname: path.join(dir, filename)
-            }),
-            name: path.basename(filename),
-            bytes: fs.statSync(path.join(__dirname, data_dir, dir, filename)).size
-          }
-        }));
+            return {
+              url: url.format({
+                host: 'localhost:' + PORT,
+                protocol: 'http:',
+                pathname: path.join(dir, filename)
+              }),
+              name: path.basename(filename),
+              bytes: fs.statSync(path.join(__dirname, data_dir, dir, filename)).size
+            }
+          }));
+        }
+        else {
+            return memo;
+        }
       }
     , [])
   }, req));
