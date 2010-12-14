@@ -61,17 +61,16 @@ TileMill.controller.project = function() {
     });
 
     $('div#header a.info').click(function() {
-      var tilelive_url = TileMill.backend.servers(TileMill.mml.url())[0] +
-        'tile/' + TileMill.mml.url({ timestamp: false, encode: true });
-      var mml_url = TileMill.mml.url({
-          timestamp: false,
-          encode: false
+      TileMill.popup.show({
+          content: $(TileMill.template('popup-info-project', {
+              tilelive_url: TileMill.backend.servers(TileMill.mml.url()),
+              mml_url: TileMill.mml.url({
+                  timestamp: false,
+                  encode: false
+              })
+          })),
+          title: 'Info'
       });
-      var popup = $(TileMill.template('popup-info-project', {
-          tilelive_url: tilelive_url,
-          mml_url: mml_url
-      }));
-      TileMill.popup.show({content: popup, title: 'Info'});
       return false;
     });
 
