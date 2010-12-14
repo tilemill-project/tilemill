@@ -10,8 +10,8 @@ span.mss-at                 { color:#708; }
 span.mss-unit               { color:#281; }
 span.mss-value              { color:#708; }
 span.mss-selector           { color:#b64f90; }
-span.mss-identifier         { color:#333; }
-span.mss-valid-identifier   { color:#7f0055; }
+span.mss-identifier         { color:#999; }
+span.mss-valid-identifier   { color:#333; }
 span.mss-important          { color:#03c; }
 span.mss-colorcode          { color:#048; }
 span.mss-punctuation        { color:#666; }
