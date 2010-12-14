@@ -21,8 +21,8 @@ TileMill.inspector.init = function() {
  */
 TileMill.inspector.inspect = function(id, visualize) {
   if (TileMill.inspection &&
-          TileMill.inspection[id] &&
-          TileMill.inspection[id].fields) {
+    TileMill.inspection[id] &&
+    TileMill.inspection[id].fields) {
     $('#inspector ul.sidebar-content').empty();
     for (var field in TileMill.inspection[id].fields) {
       (function(layer, field) {

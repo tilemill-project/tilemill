@@ -3,7 +3,8 @@
  */
 TileMill.controller.visualization = function() {
   var id = $.bbq.getState('id');
-  TileMill.backend.get('visualization/' + id + '/' + id + '.mml', function(mml) {
+  TileMill.backend.get('visualization/' + id + '/' + id + '.mml',
+    function(mml) {
     // Bail if MML was not valid.
     if (typeof mml != 'string') {
       TileMill.errorPage(mml.data);
@@ -55,7 +56,8 @@ TileMill.controller.visualization = function() {
     });
 
     $('div#header a.info').click(function() {
-      var datasource_url = TileMill.mml.parseMML(TileMill.data.mml).layers[1].file;
+      var datasource_url = TileMill.mml.parseMML(TileMill.data.mml)
+        .layers[1].file;
       var tilelive_url = TileMill.backend.servers(TileMill.mml.url())[0] +
         'tile/' + TileMill.mml.url({ timestamp: false, encode: true });
       var mml_url = TileMill.mml.url({ timestamp: false, encode: false });
@@ -174,7 +176,7 @@ TileMill.visualization.save = function(callback) {
   // Store project MSS and pass to each visualization type.
   queue.add(function(next) {
     var self = this;
-    var mss = {
+    self.store('mss', {
       'Map': {
         'map-bgcolor': '#fff'
       },
@@ -188,16 +190,15 @@ TileMill.visualization.save = function(callback) {
         'line-color': '#333',
         'line-width': '0.5'
       }
-    };
-    self.store('mss', mss);
+    });
     next();
   });
   $.each(TileMill.visualization.settings, function(type, field) {
     if (TileMill.visualization.plugins[type]) {
       queue.add(function(next) {
         var self = this;
-        var mss = self.retrieve('mss');
-        TileMill.visualization.plugins[type](field, mss, function(data) {
+        TileMill.visualization.plugins[type](field, self.retrieve('mss'),
+          function(data) {
           self.store('mss', data);
           next();
         });

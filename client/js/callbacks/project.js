@@ -164,13 +164,12 @@ TileMill.project.save = function() {
       queue = new TileMill.queue();
   queue.add(function(id, next) {
     var mml = {
-      metadata: {},
+      metadata: {
+        mapCenter: TileMill.map.getCenter($('#map-preview'))
+      },
       stylesheets: [],
       layers: []
     };
-
-    // Retrieve map preview.
-    mml.metadata.mapCenter = TileMill.map.getCenter($('#map-preview'));
 
     $('#tabs a.tab').each(function() {
       mml.stylesheets.push(
@@ -224,18 +223,18 @@ TileMill.project.add = function(name) {
     });
   }, [name]);
   queue.add(function(name, next) {
-    var mss = 'project/' + name + '/' + name + '.mss';
-    var data = TileMill.mss.generate({
-      'Map': {
-        'map-bgcolor': '#fff'
-      },
-      '#world': {
-        'polygon-fill': '#eee',
-        'line-color': '#ccc',
-        'line-width': '0.5'
-      }
-    });
-    TileMill.backend.post(mss, data, next);
+    TileMill.backend.post('project/' + name + '/' + name + '.mss',
+      TileMill.mss.generate({
+        'Map': {
+          'map-bgcolor': '#fff'
+        },
+        '#world': {
+          'polygon-fill': '#eee',
+          'line-color': '#ccc',
+          'line-width': '0.5'
+        }
+      }),
+      next);
   }, [name]);
   queue.add(function(name, next) {
     var mss = 'project/' + name + '/' + name + '.mss';
