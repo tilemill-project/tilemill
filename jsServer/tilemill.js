@@ -31,11 +31,17 @@ app.get('/list', function(req, res) {
   res.send(
     jsonp({
       status: true,
-      data: _.select(fs.readdirSync(path.join(settings.files, req.param('filename'))),
+      data: _.select(fs.readdirSync(
+              path.join(
+                  settings.files,
+                  req.param('filename'))),
         function(dir) {
           // directories that contain at least one MML file
           return _.any(
-            fs.readdirSync(path.join(settings.files, req.param('filename'), dir)),
+            fs.readdirSync(path.join(
+                    settings.files,
+                    req.param('filename'),
+                    dir)),
             function(filename) {
               return filename.match('.mml');
             }
