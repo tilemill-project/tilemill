@@ -74,13 +74,18 @@ TileMill.colors.reload = function(stylesheets) {
 
 /**
  * Insert a color into the document
- *
- * @TODO Make this much better (replace selections etc).
  */
 TileMill.colors.insert = function(color) {
-  var position = TileMill.mirror.cursorPosition();
-  TileMill.mirror.insertIntoLine(
+  var s = false;
+  if (s = TileMill.mirror.selection()) {
+    // don't add double hashes if selection contains hash
+    TileMill.mirror.replaceSelection(
+      s.match(/#/) ? color : color.slice(1));
+  } else {
+    var position = TileMill.mirror.cursorPosition();
+    TileMill.mirror.insertIntoLine(
       position.line,
       position.character, color);
+  }
   return false;
 };
