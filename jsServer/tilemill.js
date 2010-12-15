@@ -8,17 +8,7 @@ var express = require('express'),
 var settings = require('./settings'); // TODO: put in config
 var app = module.exports = express.createServer();
 app.use(express.bodyDecoder());
-
-
-function jsonp(obj, req) {
-  return req.param('jsoncallback') ?
-    (req.param('jsoncallback') + '(' + JSON.stringify(obj) + ')') :
-    obj;
-}
-
-// TODO: finish
-function safePath(path) {
-}
+app.set('jsonp callback', true);
 
 app.get('/', function(req, res, params) {
   res.send({
@@ -28,8 +18,7 @@ app.get('/', function(req, res, params) {
 });
 
 app.get('/list', function(req, res) {
-  res.send(
-    jsonp({
+  res.send({
       status: true,
       data: _.select(fs.readdirSync(
               path.join(
@@ -48,8 +37,7 @@ app.get('/list', function(req, res) {
           );
         }
       )
-    }, req)
-  );
+  });
 });
 
 app.get('/file', function(req, res) {
@@ -58,11 +46,11 @@ app.get('/file', function(req, res) {
       res.send(jsonp('' + data, req));
     }
     else {
-      res.send(jsonp({
+      res.send({
         status: false,
         data: 'The file (' + req.param('filename') +
           ') could not be found. Exception: ' + err
-      }, req));
+      });
     }
   });
 });
@@ -95,18 +83,18 @@ app.post('/file', function(req, res) {
             path.join(settings.files, req.body.filename),
             req.body.data,
             function() {
-          res.send(jsonp({
+          res.send({
             status: true
-          }, req));
+          });
         });
       });
     }
   } else {
     // TODO: nodejs doesn't provide rm-rf functionality
     rmRf(path.join(settings.files, req.body.filename), function() {
-        res.send(jsonp({
+        res.send({
             status: true
-        }, req));
+        });
     });
   }
 });
@@ -116,17 +104,17 @@ app.get('/mtime', function(req, res) {
   var path = req.param('filename');
   try {
     fs.stat(path, function(err, stats) {
-      res.send(jsonp('' + stats.mtime, req));
+      res.send('' + stats.mtime);
     });
   }
   catch (Exception) {
-    res.send(jsonp({
+    res.send({
       status: false,
       data: 'The file (' +
         req.param('filename') +
         ') could not be found. Exception: ' +
         Exception
-    }, req));
+    });
   }
 });
 
