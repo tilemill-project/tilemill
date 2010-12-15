@@ -105,6 +105,12 @@ of `http://tilemill` unless you have it run directly on port 80 or set up some
 other port trickery on your machine.
 
 
+### TileMill server (Node.js)
+
+Create directories called `project` and `visualization` in the TileLive
+directory. Change to the `jsServer` directory and run `ndistro`. Then, run
+`node tilemill.js` to start the server.
+
 Authors
 -------
 - Dmitri Gaskin (dmitrig01)

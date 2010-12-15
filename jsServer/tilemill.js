@@ -1,3 +1,5 @@
+require.paths.unshift(__dirname + '/lib/node');
+
 var express = require('express'),
     fs = require('fs'),
     path = require('path'),
