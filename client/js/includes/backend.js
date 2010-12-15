@@ -174,7 +174,7 @@ TileMill.backend.rasterizers.tilelive.servers = function(mmlb64) {
 
 TileMill.backend.runtimes.html.get = function(options) {
   $.jsonp($.extend({
-      callbackParameter: 'jsoncallback',
+      callbackParameter: 'callback',
       error: function(xOptions, textStatus) {
           // TODO: specify where
           TileMill.message('Error', 'Request ' +
