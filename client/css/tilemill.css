@@ -846,3 +846,12 @@ a.popup-close { background-color:#222; }
 #form-providers div.datasource .url {
   display:none;
   }
+
+/**
+ * Code snippets in info popup
+ */
+textarea.code-snippet {
+  font-family: monospace;
+  width: 100%;
+  height: 150px;
+  }

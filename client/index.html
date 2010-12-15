@@ -262,6 +262,30 @@
         <div><label for='mml-url'>MML URL</label>
             <input id='mml-url' class='text' type='text' value='<%= mml_url %>' />
         </div>
+        <div>
+            <label for='polymaps'>Polymaps</label>
+            <textarea class='code-snippet'>
+var po = org.polymaps;
+
+var map = po.map()
+    .container(document.getElementById("map").appendChild(po.svg("svg")))
+    .add(po.interact())
+    .add(po.hash())
+    // layer setup
+    .add(po.image()
+    .url(po.url(<%= tilelive_url %>
+    + "/{Z}/{X}/{Y}.png")
+    ))
+    // end layer setup
+    .add(po.compass()
+    .pan("none"));
+</textarea>
+</div>
+<div>       <label for='openlayers'>OpenLayers</label>
+            <textarea class='code-snippet'>
+                var layer = new OpenLayers.Layer('layer', <%= tilelive_url %>, { sphericalMercator: true });
+</textarea>
+        </div>
       </form>
     </div>
     </script>
