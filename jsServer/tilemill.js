@@ -6,27 +6,26 @@ var express = require('express'),
     _ = require('./underscore')._;
 
 var settings = JSON.parse(fs.readFileSync('settings.json'));
-
 var app = module.exports = express.createServer();
+
 app.use(express.bodyDecoder());
+app.use(express.staticProvider('../client'));
 app.set('jsonp callback', true);
 
-require('./providers/providers')(app, settings);
-
-app.get('/', function(req, res, params) {
+app.get('/api', function(req, res, params) {
   res.send({
     api: 'basic',
     version: 1.0
   });
 });
 
-app.get('/list', function(req, res) {
+app.get('/api/list', function(req, res) {
   res.send({
     status: true,
     data: _.select(fs.readdirSync(
-            path.join(
-                settings.files,
-                req.param('filename'))),
+        path.join(
+            settings.files,
+            req.param('filename'))),
       function(dir) {
         // directories that contain at least one MML file
         return _.any(
@@ -43,7 +42,7 @@ app.get('/list', function(req, res) {
   });
 });
 
-app.get('/file', function(req, res) {
+app.get('/api/file', function(req, res) {
   fs.readFile(path.join(settings.files, req.param('filename')), function(err, data) {
     if (!err) {
       if (req.param('callback')) {
@@ -78,7 +77,7 @@ var rmRf = function(dir, callback) {
   callback && callback();
 };
 
-app.post('/file', function(req, res) {
+app.post('/api/file', function(req, res) {
   if ((req.param('method') || 'put') == 'put') {
     if (path.dirname(req.body.filename)) {
       fs.mkdir(
@@ -108,7 +107,7 @@ app.post('/file', function(req, res) {
 });
 
 // TODO: use watchfile
-app.get('/mtime', function(req, res) {
+app.get('/api/mtime', function(req, res) {
   var filename = req.param('filename');
   if (path.exists(req.param('filename'))) {
     fs.stat(req.param('filename'), function(err, stats) {
@@ -125,5 +124,7 @@ app.get('/mtime', function(req, res) {
     });
   }
 });
+
+require('./providers/providers')(app, settings);
 
 app.listen(settings.port);
