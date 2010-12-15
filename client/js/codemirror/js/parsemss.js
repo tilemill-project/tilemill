@@ -44,6 +44,11 @@ var MSSParser = Editor.Parser = (function() {
         source.nextWhileMatches(/[\w.%]/);
         return "mss-unit";
       }
+      else if (ch == '[') {
+        source.nextWhileMatches(/[^\]]/);
+        source.next();
+        return "mss-filter";
+      }
       else if (/[,.+>*\/]/.test(ch)) {
         return "mss-select-op";
       }
