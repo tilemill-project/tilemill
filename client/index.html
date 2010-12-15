@@ -183,6 +183,10 @@
         <input size='7' maxlength='7' id='color' type='text' class='text' />
         <div class='pane' id='farbtastic'></div>
       </div>
+      <div id='fonts'>
+        <label>Fonts</label>
+        <select id='fonts-list'></select>
+      </div>
       <div id='colors'>
         <label>Colors</label>
         <div></div>
@@ -321,6 +325,9 @@
         </div>
       </form>
     </div>
+    </script>
+    <script type="text/html" name="font">
+        <option><%= font %>
     </script>
     <script type="text/html" name="popup-message">
     <div id='popup-message' class='clearfix pane <%= type %>'>

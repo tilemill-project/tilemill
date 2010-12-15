@@ -92,6 +92,17 @@ TileMill.backend.rasterizers.tilelive.datasource = function(datab64, callback) {
 };
 
 /**
+ * Retrieve available fonts on a map server.
+ */
+TileMill.backend.rasterizers.tilelive.fonts = function(callback) {
+  TileMill.backend.runtime.get({
+    url: TileMill.settings.tileliveServer.split(',')[0] +
+      'abilities.json',
+    success: callback
+  });
+};
+
+/**
  * Retrieve fields for a given b64 encoded MML url.
  */
 TileMill.backend.rasterizers.tilelive.fields = function(mmlb64, callback) {
@@ -245,7 +256,7 @@ $.each(['list', 'get', 'post', 'del', 'url', 'mtime'], function(i, func) {
     TileMill.backend.servers[TileMill.settings.server][func];
 });
 
-$.each(['datasource', 'fields', 'values', 'servers', 'status'], function(i, func) {
+$.each(['datasource', 'fields', 'values', 'servers', 'status', 'fonts'], function(i, func) {
   TileMill.backend[func] =
     TileMill.backend.rasterizers[TileMill.settings.rasterizer][func];
 });

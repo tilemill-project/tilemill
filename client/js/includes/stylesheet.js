@@ -9,6 +9,8 @@ TileMill.stylesheet.init = function() {
   // Add stylesheets in order.
   var queue = new TileMill.queue();
 
+  TileMill.stylesheet.initFonts();
+
   var s = TileMill.mml.parseMML(TileMill.data.mml).stylesheets;
   for (var i in s) {
     var src = s[i];
@@ -51,6 +53,22 @@ TileMill.stylesheet.init = function() {
     return false;
   });
   return stylesheets;
+};
+
+TileMill.stylesheet.initFonts = function() {
+  TileMill.backend.fonts(function(abilities) {
+    _.map(abilities.fonts, function(font) {
+      $('#fonts-list').append(TileMill.template('font', {
+        font: font
+      }));
+    });
+    $('#fonts-list').change(function() {
+      var position = TileMill.mirror.cursorPosition();
+      TileMill.mirror.insertIntoLine(
+        position.line,
+        position.character, '"' + $(this).val() + '"');
+    });
+  });
 };
 
 /**
