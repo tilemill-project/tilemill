@@ -65,15 +65,15 @@ app.get('/file', function(req, res) {
 
 var rmRf = function(dir, callback) {
   fs.readdir(dir, function(err, files) {
-      files.forEach(function(file) {
-          fs.stat(path.join(dir, file), function(err, stats) {
-              if (stats.isDirectory()) {
-                  rmRf(file);
-              } else {
-                  fs.unlink(path.join(dir, file), function(err) { });
-              }
-          });
+    files.forEach(function(file) {
+      fs.stat(path.join(dir, file), function(err, stats) {
+        if (stats.isDirectory()) {
+          rmRf(file);
+        } else {
+          fs.unlink(path.join(dir, file), function(err) { });
+        }
       });
+    });
   });
   callback && callback();
 };
