@@ -1,3 +1,5 @@
 module senchalabs connect 0.3.0
 module visionmedia express 1.0.0
-module ryanmcgrath wrench-js
+module tmcw knox
+module lucisferre node-xml2js
+module isaacs sax-js
