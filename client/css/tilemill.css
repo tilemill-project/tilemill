@@ -797,6 +797,29 @@ a.popup-close { background-color:#222; }
   color:#999;
   }
 
+.reference-doc {
+  display:none;
+  }
+
+.reference-doc-available {
+  font-size:9px;
+  color:#999;
+  margin-left:5px;
+  }
+
+.reference-table tr:hover .reference-doc {
+  background-color: #eee;
+  border:1px solid #ccc;
+  font-weight:normal;
+  padding:5px;
+  display:block;
+  position:absolute;
+  left:150px;
+  margin-top: -25px;
+  max-width:200px;
+  }
+
+
 /**
  * Add datasources from known data
  */

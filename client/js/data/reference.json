@@ -6,7 +6,7 @@
                 "default-value": "none",
                 "default-meaning": "transparent",
                 "type": "color_transparent",
-                "description": "Map Background color" 
+                "doc": "Map Background color" 
             } 
         },
         "polygon": {

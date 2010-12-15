@@ -440,9 +440,8 @@
         <table class='reference-table'>
           <thead>
               <tr>
-                  <th>property</th>
-                  <th>type</th>
                   <th>css parameter</th>
+                  <th>type</th>
                   <th>default value</th>
               </tr>
           </thead>
@@ -452,9 +451,15 @@
     </script>
     <script type="text/html" name="reference-property">
       <tr>
-          <th><%= property_name %></th>
+          <th><%= css %>
+            <% if(doc) { %>
+              <span class='reference-doc-available'>?</span>
+              <div class='reference-doc'>
+                  <%= doc %>
+              </div>
+            <% } %>
+          </th>
           <td><%= type %></td>
-          <td><%= css %></td>
           <td><%= default_value %><% if(default_meaning) { %><small class='reference-default-meaning'>(<%= default_meaning %>)</small><% } %></td>
       </tr>
     </script>
