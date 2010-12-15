@@ -155,33 +155,44 @@ TileMill.mml.parseMML = function(mml) {
 };
 
 TileMill.mml.showDatasources = function() {
-    var providers = [
-    'http://localhost:8891/', // directory provider
-    'http://localhost:8892/' // directory provider
-    ];
-
-    _.map(providers, function(provider) {
+    _.map(TileMill.settings.providers, function(provider) {
     // TODO: generalize
     $.jsonp({
         url: provider,
         data: {},
-        callbackParameter: 'jsoncallback',
+        callbackParameter: 'callback',
         error: function(xOptions, textStatus) {
-            // TODO: specify where
-            TileMill.message('Error', 'Request ' +
-              'failed: could not connect' +
-              ' to server',
-              'error')
+          // TODO: specify where
+          TileMill.message('Error', 'Request ' +
+            'failed: could not connect' +
+            ' to server',
+            'error')
         },
         success: function(res) {
-          $('#form-providers').append(TileMill.template('data-provider', {
-            name: res.name,
-            datasources: _.map(res.datasources, function(ds) {
-              return TileMill.template('data-datasource', ds);
-            }).join('')
-          }));
-          $('#form-providers .datasource').click(function() {
-            $('#form-layer #file').val($('.url', this).text());
+          _.map(res.provider, function(p) {
+            $.jsonp({
+              url: provider + p,
+              data: {},
+              callbackParameter: 'callback',
+              error: function(xOptions, textStatus) {
+                // TODO: specify where
+                TileMill.message('Error', 'Request ' +
+                  'failed: could not connect' +
+                  ' to server',
+                  'error')
+              },
+              success: function(res) {
+                $('#form-providers').append(TileMill.template('data-provider', {
+                  name: res.name,
+                  datasources: _.map(res.datasources, function(ds) {
+                    return TileMill.template('data-datasource', ds);
+                  }).join('')
+                }));
+                $('#form-providers .datasource').click(function() {
+                  $('#form-layer #file').val($('.url', this).text());
+                });
+              }
+            });
           });
         }
     });

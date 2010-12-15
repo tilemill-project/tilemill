@@ -47,32 +47,26 @@ var listbucket = function(client, prefix, n, callback, marker) {
     }
 };
 
-/*
-var client = knox.createClient(settings);
-app.get('/', function(req, res, params) {
-  listbucket(client, '', 100, function(objects) {
-    res.send(jsonp({
-      name: 'S3',
-      version: 1.0,
-      datasources: _.map(objects, function(object) {
-        return {
-          url: url.format({
-            host: client.bucket + '.s3.amazonaws.com',
-            protocol: 'http:',
-            pathname: object.Key.text
-          }),
-          bytes: object.Size.text,
-          name: path.basename(object.Key.text)
-        };
+module.exports = function(app, settings) {
+  return {
+    name: 'Amazon S3',
+    settings: settings,
+    objects: function(callback) {
+      var client = knox.createClient(settings.providers.s3);
+        listbucket(client, '', 100, function(objects) {
+          callback(_.map(objects, function(object) {
+            return {
+              url: url.format({
+                host: client.bucket + '.s3.amazonaws.com',
+                protocol: 'http:',
+                pathname: object.Key.text
+              }),
+              bytes: object.Size.text,
+              name: path.basename(object.Key.text)
+            };
+          })
+        )
       })
-    }, req));
-  });
-});
-
-*/
-
-module.exports = function(settings) {
-    return {
-        settings: settings
     }
+  }
 };

@@ -5,6 +5,7 @@ var express = require('express'),
     path = require('path');
 
 module.exports = function(app, settings) {
+
   // TODO: now requires absolute paths; change?
   app.get('/provider/directory/file*', function(req, res) {
       // TODO: make path secure!
@@ -17,8 +18,9 @@ module.exports = function(app, settings) {
               }
       });
   });
+
   return {
-    name: 'Local',
+    name: 'Local Files',
     settings: settings,
     objects: function(callback) {
       var settings = this.settings.providers.directory;
