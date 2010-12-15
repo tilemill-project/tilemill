@@ -5,10 +5,13 @@ var express = require('express'),
     path = require('path'),
     _ = require('./underscore')._;
 
-var settings = require('./settings'); // TODO: put in config
+var settings = JSON.parse(fs.readFileSync('settings.json'));
+
 var app = module.exports = express.createServer();
 app.use(express.bodyDecoder());
 app.set('jsonp callback', true);
+
+require('./providers/providers')(app, settings);
 
 app.get('/', function(req, res, params) {
   res.send({
@@ -19,31 +22,36 @@ app.get('/', function(req, res, params) {
 
 app.get('/list', function(req, res) {
   res.send({
-      status: true,
-      data: _.select(fs.readdirSync(
-              path.join(
-                  settings.files,
-                  req.param('filename'))),
-        function(dir) {
-          // directories that contain at least one MML file
-          return _.any(
-            fs.readdirSync(path.join(
-                    settings.files,
-                    req.param('filename'),
-                    dir)),
-            function(filename) {
-              return filename.match('.mml');
-            }
-          );
-        }
-      )
+    status: true,
+    data: _.select(fs.readdirSync(
+            path.join(
+                settings.files,
+                req.param('filename'))),
+      function(dir) {
+        // directories that contain at least one MML file
+        return _.any(
+          fs.readdirSync(path.join(
+            settings.files,
+            req.param('filename'),
+            dir)),
+          function(filename) {
+            return filename.match('.mml');
+          }
+        );
+      }
+    )
   });
 });
 
 app.get('/file', function(req, res) {
   fs.readFile(path.join(settings.files, req.param('filename')), function(err, data) {
     if (!err) {
-      res.send(jsonp('' + data, req));
+      if (req.param('callback')) {
+        res.send(Object('' + data));
+      } else {
+        // send non-json version if callback not given.
+        res.send('' + data);
+      }
     }
     else {
       res.send({
@@ -101,13 +109,13 @@ app.post('/file', function(req, res) {
 
 // TODO: use watchfile
 app.get('/mtime', function(req, res) {
-  var path = req.param('filename');
-  try {
-    fs.stat(path, function(err, stats) {
-      res.send('' + stats.mtime);
+  var filename = req.param('filename');
+  if (path.exists(req.param('filename'))) {
+    fs.stat(req.param('filename'), function(err, stats) {
+      res.send(Object('' + stats.mtime));
     });
   }
-  catch (Exception) {
+  else {
     res.send({
       status: false,
       data: 'The file (' +
@@ -118,4 +126,4 @@ app.get('/mtime', function(req, res) {
   }
 });
 
-app.listen(8889);
+app.listen(settings.port);
