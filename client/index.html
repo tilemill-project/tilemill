@@ -63,10 +63,10 @@
     </div>
     <div id='content' class='clearfix'>
         {{#projects}}
-            {{>column }}
+            {{>column_project }}
         {{/projects}}
         {{#visualizations}}
-            {{>column }}
+            {{>column_visualization }}
         {{/visualizations}}
     </div>
     </script>
@@ -81,22 +81,43 @@
     </div>
     </script>
 
-    <script type="text/html" class='partial' id='column'>
+    <script type="text/html" class='partial' id='column_project'>
       <div class='column' id='{{ type }}'>
       <h2 class='pane'>{{ name }}</h2>
       <ul class='items'>
         {{#data}}
           <li class='clearfix'>
-            <a href='#delete={{type}}/{{.}}' class='file-delete'>Delete</a>
-            <a href='#action={{type}}&id={{.}}' class='route'>{{.}}</a>
+            <a href='#delete=project/{{.}}' class='file-delete'>Delete</a>
+            <a href='#action=project&id={{.}}' class='route'>{{.}}</a>
           </li>
         {{/data}}
         <li class='form'>
         <form id='{{ type }}'>
             <div class='messages'></div>
-            <!-- TODO: fix regression -->
             <label>Name</label>
             <input class='required text' type='text' />
+            <input class='submit' type='submit' value='Add {{ type }}' />
+          </form>
+        </li>
+      </ul>
+    </div>
+    </script>
+
+    <script type="text/html" class='partial' id='column_visualization'>
+      <div class='column' id='{{ type }}'>
+      <h2 class='pane'>{{ name }}</h2>
+      <ul class='items'>
+        {{#data}}
+          <li class='clearfix'>
+            <a href='#delete=visualization/{{.}}' class='file-delete'>Delete</a>
+            <a href='#action=visualization&id={{.}}' class='route'>{{.}}</a>
+          </li>
+        {{/data}}
+        <li class='form'>
+        <form id='{{ type }}'>
+            <div class='messages'></div>
+            <label>Shapefile URL</label>
+            <input class='url2 required text' type='text' />
             <input class='submit' type='submit' value='Add {{ type }}' />
           </form>
         </li>
