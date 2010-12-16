@@ -39,24 +39,24 @@
     <script type='text/javascript' src='js/includes/map.js'></script>
 
     <!-- This file is optional - it can contain JS settings -->
-    <script type="text/javascript" src="settings.js"></script>
+    <script type='text/javascript' src='settings.js'></script>
 
-    <script type="text/html" id="page_loading">
+    <script type='text/html' id='page_loading'>
     <div id='header' class='clearfix pane'>
       <h1>TileMill</h1>
     </div>
-    <div class="loading-text">loading page</div>
-    <div class="loading page-loading"></div>
+    <div class='loading-text'>loading page</div>
+    <div class='loading page-loading'></div>
     </script>
 
-    <script type="text/html" id="loading">
-      <div class="loading-text">
+    <script type='text/html' id='loading'>
+      <div class='loading-text'>
         {{#message}}{{ message }}{{/message}}
       </div>
-      <div class="loading"></div>
+      <div class='loading'></div>
     </script>
 
-    <script type="text/html" id="list">
+    <script type='text/html' id='list'>
     <div id='header' class='clearfix pane'>
       <h1>TileMill</h1>
       <a class='info' href='#info'>Info</a>
@@ -71,7 +71,7 @@
     </div>
     </script>
 
-    <script type="text/html" id="error_page">
+    <script type='text/html' id='error_page'>
     <div id='header' class='clearfix pane'>
       <h1>TileMill</h1>
       <a class='home' href='#action=list'>Back home</a>
@@ -81,7 +81,7 @@
     </div>
     </script>
 
-    <script type="text/html" class='partial' id='column_project'>
+    <script type='text/html' class='partial' id='column_project'>
       <div class='column' id='{{ type }}'>
       <h2 class='pane'>{{ name }}</h2>
       <ul class='items'>
@@ -103,7 +103,7 @@
     </div>
     </script>
 
-    <script type="text/html" class='partial' id='column_visualization'>
+    <script type='text/html' class='partial' id='column_visualization'>
       <div class='column' id='{{ type }}'>
       <h2 class='pane'>{{ name }}</h2>
       <ul class='items'>
@@ -125,7 +125,7 @@
     </div>
     </script>
 
-    <script type="text/html" id="project">
+    <script type='text/html' id='project'>
     <div id='header' class='clearfix pane'>
       <h1>Editing {{ id }}</h1>
       <a class='info' href='#project-info'>Info</a>
@@ -139,7 +139,7 @@
     <div id='sidebar'></div>
     </script>
 
-    <script type="text/html" id="visualization">
+    <script type='text/html' id='visualization'>
     <div id='header' class='clearfix pane'>
       <h1>Visualizing {{ id }}</h1>
       <a class='info' href='#project-info'>Info</a>
@@ -150,57 +150,57 @@
     <div id='sidebar'></div>
     </script>
 
-    <script type="text/html" id="layers">
+    <script type='text/html' id='layers'>
     <div id='layers'>
       <div class='sidebar-header clearfix pane'>
         <h2>Layers</h2>
-        <a title="Add a Layer" href="#layers-add" id="layers-add">+ Add</a>
+        <a title='Add a Layer' href='#layers-add' id='layers-add'>+ Add</a>
       </div>
       <ul class='sidebar-content'>
       </ul>
     </div>
     </script>
 
-    <script type="text/html" id="layers_li">
+    <script type='text/html' id='layers_li'>
     <li>
-      <div class="handle"></div>
-      <input class="checkbox" type="checkbox" {{ status }} />
-      <a title="Delete Layer" class="layer-delete" href="#">Delete</a>
-      <a title="Inspect Layer Values" class="layer-inspect" href="#">Inspect</a>
-      <a title="Edit Layer Definition" class="layer-edit" href="#">Edit</a>
+      <div class='handle'></div>
+      <input class='checkbox' type='checkbox' {{ status }} />
+      <a title='Delete Layer' class='layer-delete' href='#'>Delete</a>
+      <a title='Inspect Layer Values' class='layer-inspect' href='#'>Inspect</a>
+      <a title='Edit Layer Definition' class='layer-edit' href='#'>Edit</a>
       <label>{{ name }}</label>
     </li>
     </script>
 
-    <script type="text/html" id="inspector">
+    <script type='text/html' id='inspector'>
     <div id='inspector'>
       <div class='sidebar-header clearfix pane'>
         <h2>Inspector</h2>
-        <a class='inspector-close' href="#">Close</a>
+        <a class='inspector-close' href='#'>Close</a>
       </div>
       <ul class='sidebar-content'>
       </ul>
     </div>
     </script>
 
-    <script type="text/html" id="map">
+    <script type='text/html' id='map'>
     <div id='map-preview'>
-      <a class="map-fullscreen" href="#map-fullscreen">Fullscreen</a>
+      <a class='map-fullscreen' href='#map-fullscreen'>Fullscreen</a>
       <h4 id='zoom-display'>Zoom level ?</h4>
     </div>
     </script>
 
-    <script type="text/html" id="stylesheets">
+    <script type='text/html' id='stylesheets'>
     <div id='tabs'>
       <div class='stylesheets'></div>
-      <a title="Add a Stylesheet Tab" class='tab-add' href='#'>Add MSS</a>
+      <a title='Add a Stylesheet Tab' class='tab-add' href='#'>Add MSS</a>
     </div>
     <div id='editor'>
       <textarea id='code'></textarea>
     </div>
     </script>
 
-    <script type="text/html" id="color">
+    <script type='text/html' id='color'>
     <div id='color-palette' class='pane'>
       <div id='color-picker' class='pane'>
         <a class='color-picker' href='#color-picker'>Color picker</a>
@@ -218,46 +218,46 @@
     </div>
     </script>
 
-    <script type="text/html" id="popup">
-    <div id="popup">
-      <div class="popup-backdrop"></div>
-      <div class="popup">
-        <div class="popup-header clearfix pane">
+    <script type='text/html' id='popup'>
+    <div id='popup'>
+      <div class='popup-backdrop'></div>
+      <div class='popup'>
+        <div class='popup-header clearfix pane'>
           <h2>{{ title }}</h2>
-          <a href="#" class="popup-close">Close</a>
+          <a href='#' class='popup-close'>Close</a>
         </div>
-        <div class="popup-content"></div>
+        <div class='popup-content'></div>
       </div>
     </div>
     </script>
-    <script type="text/html" id="popup_layer">
+    <script type='text/html' id='popup_layer'>
     <div id='popup-layer' class='clearfix pane'>
       <form id='form-layer'>
         <div class='messages'></div>
-        <div><label for="id">Id</label>
-            <input type="text" class="text required" id="id" />
+        <div><label for='id'>Id</label>
+            <input type='text' class='text required' id='id' />
         </div>
-        <div><label for="classes">Classes</label>
-            <input type="text" class="text" id="classes" />
+        <div><label for='classes'>Classes</label>
+            <input type='text' class='text' id='classes' />
         </div>
         <div>
-            <label for="file">Data Source</label>
-            <input type="text" class="text required" id="file" />
+            <label for='file'>Data Source</label>
+            <input type='text' class='text required' id='file' />
             <a id='expand-datasources' title='See available datasources'>[+]</a>
             <div style='display:none;' id='form-providers'></div>
         </div>
         <div>
-          <label for="srs">SRS</label>
-          <select id="srs">
-            <option value="auto">Autodetect</option>
-            <option value="&srs900913;">900913</option>
-            <option value="&srsWGS84;">WGS84</option>
-            <option value="custom">Add custom</option>
+          <label for='srs'>SRS</label>
+          <select id='srs'>
+            <option value='auto'>Autodetect</option>
+            <option value='&srs900913;'>900913</option>
+            <option value='&srsWGS84;'>WGS84</option>
+            <option value='custom'>Add custom</option>
           </select>
         </div>
         <div class='srs-custom'>
-          <label for="srs-custom">Custom</label>
-          <input type="text" class="text" id="srs-custom" />
+          <label for='srs-custom'>Custom</label>
+          <input type='text' class='text' id='srs-custom' />
         </div>
         <div class='buttons'>
             <input class='submit' type='submit' value='{{ submit }}' />
@@ -265,7 +265,7 @@
       </form>
     </div>
     </script>
-    <script type="text/html" id="popup_info_settings">
+    <script type='text/html' id='popup_info_settings'>
     <div id='popup-info' class='clearfix pane'>
       <form>
         {{#settings}}
@@ -276,7 +276,7 @@
       </form>
     </div>
     </script>
-    <script type="text/html" id="popup_info_project">
+    <script type='text/html' id='popup_info_project'>
     <div id='popup-info' class='clearfix pane'>
       <form>
         <div class='messages'></div>
@@ -292,17 +292,17 @@
 var po = org.polymaps;
 
 var map = po.map()
-    .container(document.getElementById("map").appendChild(po.svg("svg")))
+    .container(document.getElementById('map').appendChild(po.svg('svg')))
     .add(po.interact())
     .add(po.hash())
     // layer setup
     .add(po.image()
     .url(po.url({{ tilelive_url }}
-    + "/{Z}/{X}/{Y}.png")
+    + '/{Z}/{X}/{Y}.png')
     ))
     // end layer setup
     .add(po.compass()
-    .pan("none"));
+    .pan('none'));
 </textarea>
 </div>
 <div>       <label for='openlayers'>OpenLayers</label>
@@ -313,7 +313,7 @@ var map = po.map()
       </form>
     </div>
     </script>
-    <script type="text/html" id="popup_info_visualization">
+    <script type='text/html' id='popup_info_visualization'>
     <div id='popup-info' class='clearfix pane'>
       <form>
         <div class='messages'></div>
@@ -346,7 +346,7 @@ var map = po.map()
       </form>
     </div>
     </script>
-    <script type="text/html" id="popup_stylesheet">
+    <script type='text/html' id='popup_stylesheet'>
     <div id='popup-stylesheet' class='clearfix pane'>
       <form>
         <div class='messages'></div>
@@ -360,7 +360,7 @@ var map = po.map()
       </form>
     </div>
     </script>
-    <script type="text/html" id="popup_projectify">
+    <script type='text/html' id='popup_projectify'>
     <div id='popup-projectify' class='clearfix pane'>
       <form>
         <div class='messages'></div>
@@ -375,19 +375,19 @@ var map = po.map()
     </div>
     </script>
 
-    <script type="text/html" id="font">
+    <script type='text/html' id='font'>
         <option>{{ font }}</option>
     </script>
 
-    <script type="text/html" id="popup_message">
+    <script type='text/html' id='popup_message'>
     <div id='popup-message' class='clearfix pane {{ type }}'>
       {{ content }}
     </div>
     </script>
-    <script type="text/html" id="color_swatch">
+    <script type='text/html' id='color_swatch'>
     <a href='#' class='swatch' style='background-color: {{ color }}'><label>{{ color }}</label></a>
     </script>
-    <script type="text/html" id="inspector-field">
+    <script type='text/html' id='inspector-field'>
     <li id='field-{{ field }}'>
       <a class='inspect-values' href='#inspect-values'>See values</a>
       {{#visualize}}
@@ -400,7 +400,7 @@ var map = po.map()
       <em>{{ type }}</em>
     </li>
     </script>
-    <script type="text/html" id="inspector_values">
+    <script type='text/html' id='inspector_values'>
     <div class='inspect-values'>
       <ul class='clearfix inspect-values field-values'>
         <li class='min'><strong>Min</strong> {{ min }}</li>
@@ -413,7 +413,7 @@ var map = po.map()
     </div>
     </script>
 
-    <script type="text/html" id="reference">
+    <script type='text/html' id='reference'>
       <div id='header' class='clearfix pane'>
         <h1>Reference</h1>
         <a class='home' href='#action=list'>Back home</a>
@@ -424,8 +424,8 @@ var map = po.map()
       </div>
       <div id='sidebar'>
         <div class='reference-help'>
-          <p>TileMill supports the <a href="https://github.com/mapnik/Cascadenik">Cascadenik</a>
-          styling language. It should be familiar to <a href="http://www.w3schools.com/css/">CSS</a>
+          <p>TileMill supports the <a href='https://github.com/mapnik/Cascadenik'>Cascadenik</a>
+          styling language. It should be familiar to <a href='http://www.w3schools.com/css/'>CSS</a>
           users and easy to pick up for everyone else.</p>
           <p>A simple Cascadenik style looks like</p>
 <pre>
@@ -456,7 +456,7 @@ var map = po.map()
 
 
 
-    <script type="text/html" id="data">
+    <script type='text/html' id='data'>
       <div id='header' class='clearfix pane'>
         <h1>Data</h1>
         <a class='home' href='#action=list'>Back home</a>
@@ -471,14 +471,14 @@ var map = po.map()
       </div>
     </script>
 
-    <script type="text/html" id="data_provider">
+    <script type='text/html' id='data_provider'>
       <h3>{{ name }}</h3>
       {{#datasources}}
         {{>data_datasource}}
       {{/datasources}}
     </script>
 
-    <script type="text/html" class='partial' id="data_datasource">
+    <script type='text/html' class='partial' id='data_datasource'>
       <div class='datasource'>
         {{ name }}
         <span class='metadata'>{{ bytes }}</span>
@@ -486,7 +486,7 @@ var map = po.map()
       </div>
     </script>
 
-    <script type="text/html" id="reference_symbolizer">
+    <script type='text/html' id='reference_symbolizer'>
       <div class='reference-symbolizer'>
         <h2>{{ symbolizer }}</h2>
         <table class='reference-table'>
@@ -523,7 +523,7 @@ var map = po.map()
     </script>
   </head>
   <body>
-    <div class="loading">
+    <div class='loading'>
     </div>
   </body>
 </html>
