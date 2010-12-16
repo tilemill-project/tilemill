@@ -394,7 +394,7 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
       <a href='#' class='swatch' style='background-color: {{ color }}'><label>{{ color }}</label></a>
     </script>
 
-    <script type='text/html' id='inspector-field'>
+    <script type='text/html' id='inspector_field'>
       <li id='field-{{ field }}'>
         <a class='inspect-values' href='#inspect-values'>See values</a>
         {{#visualize}}
@@ -527,7 +527,7 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
         <td>{{ type }}</td>
         <td>{{ default_value }}
           {{#default_meaning}}
-          <small class='reference-default-meaning'>({{ default_meaning }})</small>
+            <small class='reference-default-meaning'>({{ default_meaning }})</small>
           {{/default_meaning}}
         </td>
       </tr>
