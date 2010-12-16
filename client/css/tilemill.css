@@ -375,6 +375,7 @@ a.inspect-scaledPoints,
 span.tab-delete,
 a.tab-add,
 a#layers-add,
+a#expand-datasources,
 a.inspector-close,
 a.popup-close,
 a.pager-prev,
@@ -823,6 +824,16 @@ a.popup-close { background-color:#222; }
 /**
  * Add datasources from known data
  */
+a#expand-datasources {
+  float:right;
+  background-position:-20px 0px;
+  }
+  
+a#expand-datasources:hover {
+  cursor:pointer;
+  }
+
+
 #form-providers {
   padding: 5px;
   margin-top: 5px;
