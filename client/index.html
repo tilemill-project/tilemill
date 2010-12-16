@@ -367,12 +367,12 @@ var map = po.map()
     <script type="text/html" id="inspector-field">
     <li id='field-{{ field }}'>
       <a class='inspect-values' href='#inspect-values'>See values</a>
-      <% if (visualize) { }}
+      {{#visualize}}
         <a class='visualization-type inspect-unique' href='#inspect-unique'>Unique Value</a>
         <a class='visualization-type inspect-label' href='#inspect-label'>Label</a>
         <a class='visualization-type inspect-choropleth' href='#inspect-choropleth'>Choropleth</a>
         <a class='visualization-type inspect-scaledPoints' href='#inspect-scaled-points'>Scaled points</a>
-      <% } }}
+      {{/visualize}}
       <strong>{{ field }}</strong>
       <em>{{ type }}</em>
     </li>
