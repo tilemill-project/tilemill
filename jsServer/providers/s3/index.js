@@ -47,6 +47,10 @@ var listbucket = function(client, prefix, n, callback, marker) {
     }
 };
 
+function formatbyte(n) {
+    return (Math.round(parseInt(n) / 1048576)) + ' MB';
+}
+
 module.exports = function(app, settings) {
   return {
     name: 'Amazon S3',
@@ -54,14 +58,19 @@ module.exports = function(app, settings) {
     objects: function(callback) {
       var client = knox.createClient(settings.providers.s3);
         listbucket(client, '', 100, function(objects) {
-          callback(_.map(objects, function(object) {
+          // TODO: don't list directories
+          // TODO: only list public files
+          callback(_.map(_.filter(objects, 
+            function(object) {
+              return object.Size.text !== '0'
+            }), function(object) {
             return {
               url: url.format({
                 host: client.bucket + '.s3.amazonaws.com',
                 protocol: 'http:',
                 pathname: object.Key.text
               }),
-              bytes: object.Size.text,
+              bytes: formatbyte(object.Size.text),
               name: path.basename(object.Key.text)
             };
           })

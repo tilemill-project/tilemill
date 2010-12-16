@@ -3,10 +3,6 @@ body {
   color:#333;
   }
 
-small {
-  font-size:10px;
-  }
-
 div.loading {
   background:#eee url(../images/swirly.gif) 50% 50% no-repeat;
   opacity:.5;
@@ -809,6 +805,7 @@ a.popup-close { background-color:#222; }
   }
 
 .reference-table tr:hover .reference-doc {
+  color:#222;
   background-color: #eee;
   border:1px solid #ccc;
   font-weight:normal;
@@ -818,6 +815,10 @@ a.popup-close { background-color:#222; }
   left:150px;
   margin-top: -25px;
   max-width:200px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  -moz-box-shadow:#222 0px 1px 2px;
+  -webkit-box-shadow:#222 0px 1px 2px;
   }
 
 
@@ -846,16 +847,23 @@ a#expand-datasources:hover {
   padding:0;
   }
 
-  /**
-   * TODO: this will break in IE
-   */
+/**
+ * TODO: this will break in IE
+ */
 #form-providers div.datasource:hover {
-  background-color:#fff;
+  color:#000;
   cursor:pointer;
   }
   
 #form-providers div.datasource .url {
   display:none;
+  }
+
+#form-providers div.datasource .metadata {
+  font-size:9px;
+  padding:3px;
+  background-color:#eee;
+  color:#aaa;
   }
 
 /**
