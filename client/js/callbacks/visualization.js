@@ -285,8 +285,8 @@ TileMill.visualization.add = function(url) {
         layers: [
           {
             id: 'world',
-            srs: '&srsWGS84;',
-            file: 'http://tilemill-data.s3.amazonaws.com/world_borders.zip',
+            srs: '&srs900913;',
+            file: 'http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip',
             type: 'shape'
           },
           {

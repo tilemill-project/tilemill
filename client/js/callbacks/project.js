@@ -243,9 +243,9 @@ TileMill.project.add = function(name) {
       stylesheets: [TileMill.backend.url(mss)],
       layers: [{
         id: 'world',
-        srs: '&srsWGS84;',
+        srs: '&srs900913;',
         // TODO: make configurable
-        file: 'http://tilemill-data.s3.amazonaws.com/world_borders.zip',
+        file: 'http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip',
         type: 'shape'
       }]
     });
