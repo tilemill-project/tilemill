@@ -194,7 +194,7 @@ TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
       var linenum = TileMill.mirror.lineNumber(TileMill.mirror.cursorLine());
       TileMill.mirror.setCode(data);
       TileMill.colors.reload(stylesheets);
-      TileMill.mirror.jumpToLine(TileMill.mirror.nthLine(linenum));;
+      TileMill.mirror.jumpToLine(TileMill.mirror.nthLine(linenum));
     }
   }
 };

@@ -191,7 +191,7 @@ TileMill.backend.runtimes.html.get = function(options) {
           TileMill.message('Error', 'Request ' +
             'failed: could not connect' +
             ' to server',
-            'error')
+            'error');
       }
   }, options));
 };

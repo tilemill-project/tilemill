@@ -19,7 +19,7 @@ TileMill.mss.generate = function(mss) {
     output.push('}');
     output.push('');
   }
-  return output.join("\n");  
+  return output.join('\n');
 };
 
 /**
@@ -97,6 +97,8 @@ TileMill.mml.generate = function(mml) {
       }
       output.push('      <Parameter name="type">' +
               layer.type + '</Parameter>');
+      output.push('      <Parameter name="estimate_extent">' +
+              'true</Parameter>');
       if (layer.id) {
         output.push('      <Parameter name="id">' +
                 layer.id + '</Parameter>');
@@ -106,7 +108,7 @@ TileMill.mml.generate = function(mml) {
     }
   }
   output.push('</Map>');
-  return output.join("\n");
+  return output.join('\n');
 };
 
 /**
@@ -166,7 +168,7 @@ TileMill.mml.showDatasources = function() {
           TileMill.message('Error', 'Request ' +
             'failed: could not connect' +
             ' to server',
-            'error')
+            'error');
         },
         success: function(res) {
           _.map(res.provider, function(p) {
@@ -179,7 +181,7 @@ TileMill.mml.showDatasources = function() {
                 TileMill.message('Error', 'Request ' +
                   'failed: could not connect' +
                   ' to server',
-                  'error')
+                  'error');
               },
               success: function(res) {
                 $('#form-providers').append(TileMill.template('data-provider', {
@@ -326,7 +328,7 @@ TileMill.mml.add = function(options, layers) {
   });
 
   $('a.layer-edit', li).click(function() {
-    var popup = $(TileMill.template('popup-layer', {submit:'Save'}));
+    var popup = $(TileMill.template('popup-layer', {submit: 'Save'}));
     var li = $(this).parents('li');
     var options = li.data('tilemill');
     TileMill.popup.show({content: popup, title: 'Edit layer'});

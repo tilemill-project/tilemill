@@ -16,7 +16,7 @@ TileMill.controller.reference = function() {
               property.type,
             default_value: property['default-value'],
             doc: property['doc'] || '',
-            default_meaning: property['default-meaning'] || '',
+            default_meaning: property['default-meaning'] || ''
           }); // TODO extend instead
         }).join(''),
         symbolizer: symbolizer
