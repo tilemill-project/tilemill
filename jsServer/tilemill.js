@@ -109,18 +109,26 @@ app.post('/api/file', function(req, res) {
 // TODO: use watchfile
 app.get('/api/mtime', function(req, res) {
   var filename = req.param('filename');
-  if (path.exists(req.param('filename'))) {
-    fs.stat(req.param('filename'), function(err, stats) {
-      res.send(Object('' + stats.mtime));
+  path.exists(path.join(settings.files, req.param('filename')),
+    function (exists) {
+        if (!exists) {
+            res.send({
+              status: false,
+              data: 'The file (' +
+                path.join(settings.files, req.param('filename')) +
+                ') could not be found.'
+            });
+        } else {
+            fs.stat(path.join(
+                    settings.files,
+                    req.param('filename')), function(err, stats) {
+                res.send({
+                    mtime: '' + stats.mtime,
+                    filename: req.param('filename')
+                });
+            });
+        }
     });
-  } else {
-    res.send({
-      status: false,
-      data: 'The file (' +
-        req.param('filename') +
-        ') could not be found.'
-    });
-  }
 });
 
 require('./providers/providers')(app, settings);
