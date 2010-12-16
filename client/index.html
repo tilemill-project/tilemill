@@ -42,11 +42,11 @@
     <script type='text/javascript' src='settings.js'></script>
 
     <script type='text/html' id='page_loading'>
-    <div id='header' class='clearfix pane'>
-      <h1>TileMill</h1>
-    </div>
-    <div class='loading-text'>loading page</div>
-    <div class='loading page-loading'></div>
+      <div id='header' class='clearfix pane'>
+        <h1>TileMill</h1>
+      </div>
+      <div class='loading-text'>loading page</div>
+      <div class='loading page-loading'></div>
     </script>
 
     <script type='text/html' id='loading'>
@@ -72,13 +72,13 @@
     </script>
 
     <script type='text/html' id='error_page'>
-    <div id='header' class='clearfix pane'>
-      <h1>TileMill</h1>
-      <a class='home' href='#action=list'>Back home</a>
-    </div>
-    <div id='content' class='clearfix'>
-        <div class='error-page'>{{ message }}</div>
-    </div>
+      <div id='header' class='clearfix pane'>
+        <h1>TileMill</h1>
+        <a class='home' href='#action=list'>Back home</a>
+      </div>
+      <div id='content' class='clearfix'>
+          <div class='error-page'>{{ message }}</div>
+      </div>
     </script>
 
     <script type='text/html' class='partial' id='column_project'>
@@ -114,7 +114,7 @@
           </li>
         {{/data}}
         <li class='form'>
-        <form id='{{ type }}'>
+          <form id='{{ type }}'>
             <div class='messages'></div>
             <label>Shapefile URL</label>
             <input class='url2 required text' type='text' />
@@ -126,171 +126,173 @@
     </script>
 
     <script type='text/html' id='project'>
-    <div id='header' class='clearfix pane'>
-      <h1>Editing {{ id }}</h1>
-      <a class='info' href='#project-info'>Info</a>
-      <a class='minimal' href='#minimal'>Minimal Mode</a>
-      <a target='_blank' class='reference' href='#action=reference'>Reference</a>
-      <a class='save' href='#project-save'>Save</a>
-      <a class='home' href='#action=list'>Back home</a>
-      <a class='status' href='#status'>Status</a>
-    </div>
-    <div id='main'></div>
-    <div id='sidebar'></div>
+      <div id='header' class='clearfix pane'>
+        <h1>Editing {{ id }}</h1>
+        <a class='info' href='#project-info'>Info</a>
+        <a class='minimal' href='#minimal'>Minimal Mode</a>
+        <a target='_blank' class='reference' href='#action=reference'>Reference</a>
+        <a class='save' href='#project-save'>Save</a>
+        <a class='home' href='#action=list'>Back home</a>
+        <a class='status' href='#status'>Status</a>
+      </div>
+      <div id='main'></div>
+      <div id='sidebar'></div>
     </script>
 
     <script type='text/html' id='visualization'>
-    <div id='header' class='clearfix pane'>
-      <h1>Visualizing {{ id }}</h1>
-      <a class='info' href='#project-info'>Info</a>
-      <a class='projectify' href='#project-save'>Make project</a>
-      <a class='home' href='#action=list'>Back home</a>
-    </div>
-    <div id='main'></div>
-    <div id='sidebar'></div>
+      <div id='header' class='clearfix pane'>
+        <h1>Visualizing {{ id }}</h1>
+        <a class='info' href='#project-info'>Info</a>
+        <a class='projectify' href='#project-save'>Make project</a>
+        <a class='home' href='#action=list'>Back home</a>
+      </div>
+      <div id='main'></div>
+      <div id='sidebar'></div>
     </script>
 
     <script type='text/html' id='layers'>
-    <div id='layers'>
-      <div class='sidebar-header clearfix pane'>
-        <h2>Layers</h2>
-        <a title='Add a Layer' href='#layers-add' id='layers-add'>+ Add</a>
+      <div id='layers'>
+        <div class='sidebar-header clearfix pane'>
+          <h2>Layers</h2>
+          <a title='Add a Layer' href='#layers-add' id='layers-add'>+ Add</a>
+        </div>
+        <ul class='sidebar-content'>
+        </ul>
       </div>
-      <ul class='sidebar-content'>
-      </ul>
-    </div>
     </script>
 
     <script type='text/html' id='layers_li'>
-    <li>
-      <div class='handle'></div>
-      <input class='checkbox' type='checkbox' {{ status }} />
-      <a title='Delete Layer' class='layer-delete' href='#'>Delete</a>
-      <a title='Inspect Layer Values' class='layer-inspect' href='#'>Inspect</a>
-      <a title='Edit Layer Definition' class='layer-edit' href='#'>Edit</a>
-      <label>{{ name }}</label>
-    </li>
+      <li>
+        <div class='handle'></div>
+        <input class='checkbox' type='checkbox' {{ status }} />
+        <a title='Delete Layer' class='layer-delete' href='#'>Delete</a>
+        <a title='Inspect Layer Values' class='layer-inspect' href='#'>Inspect</a>
+        <a title='Edit Layer Definition' class='layer-edit' href='#'>Edit</a>
+        <label>{{ name }}</label>
+      </li>
     </script>
 
     <script type='text/html' id='inspector'>
-    <div id='inspector'>
-      <div class='sidebar-header clearfix pane'>
-        <h2>Inspector</h2>
-        <a class='inspector-close' href='#'>Close</a>
+      <div id='inspector'>
+        <div class='sidebar-header clearfix pane'>
+          <h2>Inspector</h2>
+          <a class='inspector-close' href='#'>Close</a>
+        </div>
+        <ul class='sidebar-content'>
+        </ul>
       </div>
-      <ul class='sidebar-content'>
-      </ul>
-    </div>
     </script>
 
     <script type='text/html' id='map'>
-    <div id='map-preview'>
-      <a class='map-fullscreen' href='#map-fullscreen'>Fullscreen</a>
-      <h4 id='zoom-display'>Zoom level ?</h4>
-    </div>
+      <div id='map-preview'>
+        <a class='map-fullscreen' href='#map-fullscreen'>Fullscreen</a>
+        <h4 id='zoom-display'>Zoom level ?</h4>
+      </div>
     </script>
 
     <script type='text/html' id='stylesheets'>
-    <div id='tabs'>
-      <div class='stylesheets'></div>
-      <a title='Add a Stylesheet Tab' class='tab-add' href='#'>Add MSS</a>
-    </div>
-    <div id='editor'>
-      <textarea id='code'></textarea>
-    </div>
+      <div id='tabs'>
+        <div class='stylesheets'></div>
+        <a title='Add a Stylesheet Tab' class='tab-add' href='#'>Add MSS</a>
+      </div>
+      <div id='editor'>
+        <textarea id='code'></textarea>
+      </div>
     </script>
 
     <script type='text/html' id='color'>
-    <div id='color-palette' class='pane'>
-      <div id='color-picker' class='pane'>
-        <a class='color-picker' href='#color-picker'>Color picker</a>
-        <input size='7' maxlength='7' id='color' type='text' class='text' />
-        <div class='pane' id='farbtastic'></div>
+      <div id='color-palette' class='pane'>
+        <div id='color-picker' class='pane'>
+          <a class='color-picker' href='#color-picker'>Color picker</a>
+          <input size='7' maxlength='7' id='color' type='text' class='text' />
+          <div class='pane' id='farbtastic'></div>
+        </div>
+        <div id='fonts'>
+          <label>Fonts</label>
+          <select id='fonts-list'></select>
+        </div>
+        <div id='colors'>
+          <label>Colors</label>
+          <div></div>
+        </div>
       </div>
-      <div id='fonts'>
-        <label>Fonts</label>
-        <select id='fonts-list'></select>
-      </div>
-      <div id='colors'>
-        <label>Colors</label>
-        <div></div>
-      </div>
-    </div>
     </script>
 
     <script type='text/html' id='popup'>
-    <div id='popup'>
-      <div class='popup-backdrop'></div>
-      <div class='popup'>
-        <div class='popup-header clearfix pane'>
-          <h2>{{ title }}</h2>
-          <a href='#' class='popup-close'>Close</a>
+      <div id='popup'>
+        <div class='popup-backdrop'></div>
+        <div class='popup'>
+          <div class='popup-header clearfix pane'>
+            <h2>{{ title }}</h2>
+            <a href='#' class='popup-close'>Close</a>
+          </div>
+          <div class='popup-content'></div>
         </div>
-        <div class='popup-content'></div>
       </div>
-    </div>
     </script>
+
     <script type='text/html' id='popup_layer'>
-    <div id='popup-layer' class='clearfix pane'>
-      <form id='form-layer'>
-        <div class='messages'></div>
-        <div><label for='id'>Id</label>
+      <div id='popup-layer' class='clearfix pane'>
+        <form id='form-layer'>
+          <div class='messages'></div>
+          <div><label for='id'>Id</label>
             <input type='text' class='text required' id='id' />
-        </div>
-        <div><label for='classes'>Classes</label>
-            <input type='text' class='text' id='classes' />
-        </div>
-        <div>
+          </div>
+          <div><label for='classes'>Classes</label>
+              <input type='text' class='text' id='classes' />
+          </div>
+          <div>
             <label for='file'>Data Source</label>
             <input type='text' class='text required' id='file' />
             <a id='expand-datasources' title='See available datasources'>[+]</a>
             <div style='display:none;' id='form-providers'></div>
-        </div>
-        <div>
-          <label for='srs'>SRS</label>
-          <select id='srs'>
-            <option value='auto'>Autodetect</option>
-            <option value='&srs900913;'>900913</option>
-            <option value='&srsWGS84;'>WGS84</option>
-            <option value='custom'>Add custom</option>
-          </select>
-        </div>
-        <div class='srs-custom'>
-          <label for='srs-custom'>Custom</label>
-          <input type='text' class='text' id='srs-custom' />
-        </div>
-        <div class='buttons'>
-            <input class='submit' type='submit' value='{{ submit }}' />
-        </div>
-      </form>
-    </div>
-    </script>
-    <script type='text/html' id='popup_info_settings'>
-    <div id='popup-info' class='clearfix pane'>
-      <form>
-        {{#settings}}
-          <div><label>{{ key }}</label>
-              <input class='text' type='text' value='{{val}}' />
           </div>
-        {{/settings}}
-      </form>
-    </div>
+          <div>
+            <label for='srs'>SRS</label>
+            <select id='srs'>
+              <option value='auto'>Autodetect</option>
+              <option value='&srs900913;'>900913</option>
+              <option value='&srsWGS84;'>WGS84</option>
+              <option value='custom'>Add custom</option>
+            </select>
+          </div>
+          <div class='srs-custom'>
+            <label for='srs-custom'>Custom</label>
+            <input type='text' class='text' id='srs-custom' />
+          </div>
+          <div class='buttons'>
+              <input class='submit' type='submit' value='{{ submit }}' />
+          </div>
+        </form>
+      </div>
     </script>
+
+    <script type='text/html' id='popup_info_settings'>
+      <div id='popup-info' class='clearfix pane'>
+        <form>
+          {{#settings}}
+            <div><label>{{ key }}</label>
+              <input class='text' type='text' value='{{val}}' />
+            </div>
+          {{/settings}}
+        </form>
+      </div>
+    </script>
+
     <script type='text/html' id='popup_info_project'>
-    <div id='popup-info' class='clearfix pane'>
-      <form>
-        <div class='messages'></div>
-        <div><label for='tilelive-url'>TileLive URL</label>
+      <div id='popup-info' class='clearfix pane'>
+        <form>
+          <div class='messages'></div>
+          <div><label for='tilelive-url'>TileLive URL</label>
             <input id='tilelive-url' class='text' type='text' value='{{ tilelive_url }}' />
-        </div>
-        <div><label for='mml-url'>MML URL</label>
+          </div>
+          <div><label for='mml-url'>MML URL</label>
             <input id='mml-url' class='text' type='text' value='{{ mml_url }}' />
-        </div>
-        <div>
+          </div>
+          <div>
             <label for='polymaps'>Polymaps</label>
             <textarea class='code-snippet'>
 var po = org.polymaps;
-
 var map = po.map()
     .container(document.getElementById('map').appendChild(po.svg('svg')))
     .add(po.interact())
@@ -304,113 +306,123 @@ var map = po.map()
     .add(po.compass()
     .pan('none'));
 </textarea>
-</div>
-<div>       <label for='openlayers'>OpenLayers</label>
-            <textarea class='code-snippet'>
-                var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercator: true });
-</textarea>
         </div>
-      </form>
-    </div>
+        <div><label for='openlayers'>OpenLayers</label>
+            <textarea class='code-snippet'>
+var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercator: true });
+            </textarea>
+          </div>
+        </form>
+      </div>
     </script>
+
     <script type='text/html' id='popup_info_visualization'>
-    <div id='popup-info' class='clearfix pane'>
-      <form>
-        <div class='messages'></div>
-        <div>
+      <div id='popup-info' class='clearfix pane'>
+        <form>
+          <div class='messages'></div>
+          <div>
             <label for='datasource-url'>Datasource</label>
             <input id='datasource-url' disabled='disabled' 
-                class='text' type='text' value='{{ datasource_url }}' />
-        </div>
-        <div>
+              class='text' type='text' value='{{ datasource_url }}' />
+          </div>
+          <div>
             <label for='tilelive-url'>TileLive URL</label>
             <input id='tilelive-url' class='text' type='text' value='{{ tilelive_url }}' />
-        </div>
-        <div>
+          </div>
+          <div>
             <label for='mml-url'>MML URL</label>
             <input id='mml-url' class='text' type='text' value='{{ mml_url }}' />
-        </div>
-        <div><label for='choropleth-split'>Choropleth</label>
-          <select id='choropleth-split'>
-            <option value='2'>2 shades</option>
-            <option value='3'>3 shades</option>
-            <option value='4'>4 shades</option>
-            <option value='5'>5 shades</option>
-            <option value='6'>6 shades</option>
-            <option value='7'>7 shades</option>
-            <option value='8'>8 shades</option>
-            <option value='9'>9 shades</option>
-            <option value='10'>10 shades</option>
-          </select>
-        </div>
-      </form>
-    </div>
+          </div>
+          <div><label for='choropleth-split'>Choropleth</label>
+            <select id='choropleth-split'>
+              <option value='2'>2 shades</option>
+              <option value='3'>3 shades</option>
+              <option value='4'>4 shades</option>
+              <option value='5'>5 shades</option>
+              <option value='6'>6 shades</option>
+              <option value='7'>7 shades</option>
+              <option value='8'>8 shades</option>
+              <option value='9'>9 shades</option>
+              <option value='10'>10 shades</option>
+            </select>
+          </div>
+        </form>
+      </div>
     </script>
+
     <script type='text/html' id='popup_stylesheet'>
-    <div id='popup-stylesheet' class='clearfix pane'>
-      <form>
-        <div class='messages'></div>
-        <div>
+      <div id='popup-stylesheet' class='clearfix pane'>
+        <form>
+          <div class='messages'></div>
+          <div>
             <label for='stylesheet-name'>Name</label>
             <input id='stylesheet-name' class='text required' type='text' />
-        </div>
-        <div class='buttons'>
+          </div>
+          <div class='buttons'>
             <input class='submit' type='submit' value='Add stylesheet' />
-        </div>
-      </form>
-    </div>
+          </div>
+        </form>
+      </div>
     </script>
+
     <script type='text/html' id='popup_projectify'>
-    <div id='popup-projectify' class='clearfix pane'>
-      <form>
-        <div class='messages'></div>
-        <div>
+      <div id='popup-projectify' class='clearfix pane'>
+        <form>
+          <div class='messages'></div>
+          <div>
             <label for='stylesheet-name'>Name</label>
             <input id='project-name' class='text required' type='text' />
-        </div>
-        <div class='buttons'>
+          </div>
+          <div class='buttons'>
             <input class='submit' type='submit' value='Make project' />
-        </div>
-      </form>
-    </div>
+          </div>
+        </form>
+      </div>
     </script>
 
     <script type='text/html' id='font'>
-        <option>{{ font }}</option>
+      <option>{{ font }}</option>
     </script>
 
     <script type='text/html' id='popup_message'>
-    <div id='popup-message' class='clearfix pane {{ type }}'>
-      {{ content }}
-    </div>
-    </script>
-    <script type='text/html' id='color_swatch'>
-    <a href='#' class='swatch' style='background-color: {{ color }}'><label>{{ color }}</label></a>
-    </script>
-    <script type='text/html' id='inspector-field'>
-    <li id='field-{{ field }}'>
-      <a class='inspect-values' href='#inspect-values'>See values</a>
-      {{#visualize}}
-        <a class='visualization-type inspect-unique' href='#inspect-unique'>Unique Value</a>
-        <a class='visualization-type inspect-label' href='#inspect-label'>Label</a>
-        <a class='visualization-type inspect-choropleth' href='#inspect-choropleth'>Choropleth</a>
-        <a class='visualization-type inspect-scaledPoints' href='#inspect-scaled-points'>Scaled points</a>
-      {{/visualize}}
-      <strong>{{ field }}</strong>
-      <em>{{ type }}</em>
-    </li>
-    </script>
-    <script type='text/html' id='inspector_values'>
-    <div class='inspect-values'>
-      <ul class='clearfix inspect-values field-values'>
-        <li class='min'><strong>Min</strong> {{ min }}</li>
-        <li class='max'><strong>Max</strong> {{ max }}</li>
-      </ul>
-      <div class='pager clearfix'>
-        <a class='pager-prev {{ class_prev }}' href='#pager-prev'>Prev</a>
-        <a class='pager-next {{ class_next }}' href='#pager-next'>Next</a>
+      <div id='popup-message' class='clearfix pane {{ type }}'>
+        {{ content }}
       </div>
-    </div>
+    </script>
+
+    <script type='text/html' id='color_swatch'>
+      <a href='#' class='swatch' style='background-color: {{ color }}'><label>{{ color }}</label></a>
+    </script>
+
+    <script type='text/html' id='inspector-field'>
+      <li id='field-{{ field }}'>
+        <a class='inspect-values' href='#inspect-values'>See values</a>
+        {{#visualize}}
+          <a class='visualization-type inspect-unique'
+            href='#inspect-unique'>Unique Value</a>
+          <a class='visualization-type inspect-label'
+            href='#inspect-label'>Label</a>
+          <a class='visualization-type inspect-choropleth'
+            href='#inspect-choropleth'>Choropleth</a>
+          <a class='visualization-type inspect-scaledPoints'
+            href='#inspect-scaled-points'>Scaled points</a>
+        {{/visualize}}
+        <strong>{{ field }}</strong>
+        <em>{{ type }}</em>
+      </li>
+    </script>
+
+    <script type='text/html' id='inspector_values'>
+      <div class='inspect-values'>
+        <ul class='clearfix inspect-values field-values'>
+          <li class='min'><strong>Min</strong> {{ min }}</li>
+          <li class='max'><strong>Max</strong> {{ max }}</li>
+        </ul>
+        <div class='pager clearfix'>
+          <a class='pager-prev {{ class_prev }}' href='#pager-prev'>Prev</a>
+          <a class='pager-next {{ class_next }}' href='#pager-next'>Next</a>
+        </div>
+      </div>
     </script>
 
     <script type='text/html' id='reference'>
@@ -453,8 +465,6 @@ var map = po.map()
         </div>
       </div>
     </script>
-
-
 
     <script type='text/html' id='data'>
       <div id='header' class='clearfix pane'>
@@ -503,25 +513,27 @@ var map = po.map()
         </table>
       </div>
     </script>
+
     <script type='text/html' class='partial' id='reference_property'>
       <tr>
-          <th>{{ css }}
-            {{#doc}}
-              <span class='reference-doc-available'>?</span>
-              <div class='reference-doc'>
-                {{ doc }}
-              </div>
-            {{/doc}}
-          </th>
-          <td>{{ type }}</td>
-          <td>{{ default_value }}
-            {{#default_meaning}}
-            <small class='reference-default-meaning'>({{ default_meaning }})</small>
-            {{/default_meaning}}
-          </td>
+        <th>{{ css }}
+          {{#doc}}
+            <span class='reference-doc-available'>?</span>
+            <div class='reference-doc'>
+              {{ doc }}
+            </div>
+          {{/doc}}
+        </th>
+        <td>{{ type }}</td>
+        <td>{{ default_value }}
+          {{#default_meaning}}
+          <small class='reference-default-meaning'>({{ default_meaning }})</small>
+          {{/default_meaning}}
+        </td>
       </tr>
     </script>
   </head>
+
   <body>
     <div class='loading'>
     </div>
