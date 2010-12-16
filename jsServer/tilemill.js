@@ -113,14 +113,12 @@ app.get('/api/mtime', function(req, res) {
     fs.stat(req.param('filename'), function(err, stats) {
       res.send(Object('' + stats.mtime));
     });
-  }
-  else {
+  } else {
     res.send({
       status: false,
       data: 'The file (' +
         req.param('filename') +
-        ') could not be found. Exception: ' +
-        Exception
+        ') could not be found.'
     });
   }
 });
