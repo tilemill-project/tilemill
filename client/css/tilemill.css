@@ -516,6 +516,15 @@ a.inspect-unique.active     { background-color:#222; }
   -webkit-border-radius:3px;
   }
 
+#map-preview .olHandlerBoxZoomBox {
+  border:2px solid #000;
+  position:absolute;
+  background-color:#fff;
+  opacity:0.40;
+  font-size:1px;
+  filter:alpha(opacity=50);
+  }
+
 /**
  * Code editor
  */
