@@ -77,11 +77,15 @@ TileMill.controller.project = function() {
     $('div#header a.minimal').toggle(
         function() {
           $('#main').hide();
+          $('a.home').hide();
+          $('a.save').hide();
           $('#sidebar').css('width', '100%');
           TileMill.project_watcher = setInterval(TileMill.project.watch, 1000);
         },
         function() {
           $('#main').show();
+          $('a.home').show();
+          $('a.save').show();
           $('#sidebar').css('width', '30%');
           window.clearInterval(TileMill.project_watcher);
         }
