@@ -1,10 +1,6 @@
 /* Simple parser for MSS */
 
 var MSSParser = Editor.Parser = (function() {
-  function wordRegexp(words) {
-    return new RegExp("^(?:" + words.join("|") + ")$", "i");
-  }
-  var ops;
   var tokenizeMSS = (function() {
     function normal(source, setState) {
       var ch = source.next();
@@ -59,7 +55,7 @@ var MSSParser = Editor.Parser = (function() {
       else {
         source.nextWhileMatches(/[\w\\\-_]/);
         var word = source.get();
-        if (ops.test(word)) {
+        if (ops[word]) {
           return {style: "mss-valid-identifier", content: word};
         } else {
           return {style: "mss-identifier", content: word};
@@ -126,7 +122,7 @@ var MSSParser = Editor.Parser = (function() {
   // be provided with a more complicated parser.
   function parseMSS(source, basecolumn) {
     basecolumn = basecolumn || 0;
-    ops = wordRegexp(this.css_identifiers)
+    ops = this.css_identifiers;
     var tokens = tokenizeMSS(source);
     var inBraces = false, inRule = false, inDecl = false;;
 
@@ -178,11 +174,11 @@ var MSSParser = Editor.Parser = (function() {
       electricChars: "}",
       configure: function(config) {
           this.css_identifiers = (function() {
-              var list = [];
+              var list = {};
               for (var i in config.symbolizers) {
                   for (var j in config.symbolizers[i]) {
                       if (config.symbolizers[i][j].hasOwnProperty('css')) {
-                          list.push(config.symbolizers[i][j].css);
+                          list[config.symbolizers[i][j].css] = true;
                       }
                   }
               }
