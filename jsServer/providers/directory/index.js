@@ -20,7 +20,7 @@ module.exports = function(app, settings) {
   });
 
   function formatbyte(n) {
-    return (Math.round(parseInt(n) / 1048576)) + ' MB';
+    return (Math.ceil(parseInt(n) / 1048576)) + ' MB';
   }
 
   return {

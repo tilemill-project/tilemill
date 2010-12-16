@@ -48,7 +48,7 @@ var listbucket = function(client, prefix, n, callback, marker) {
 };
 
 function formatbyte(n) {
-    return (Math.round(parseInt(n) / 1048576)) + ' MB';
+    return (Math.ceil(parseInt(n) / 1048576)) + ' MB';
 }
 
 module.exports = function(app, settings) {
