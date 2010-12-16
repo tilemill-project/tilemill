@@ -11,7 +11,7 @@ TileMill.inspector = {
  * Init and return markup.
  */
 TileMill.inspector.init = function() {
-  var inspector = $(TileMill.template('inspector', {}));
+  var inspector = $(ich.inspector({}));
   TileMill.inspector.load();
   return inspector;
 };
@@ -27,7 +27,7 @@ TileMill.inspector.inspect = function(id, visualize) {
     for (var field in TileMill.inspection[id].fields) {
       (function(layer, field) {
         var type = TileMill.inspection[layer].fields[field];
-        var li = $(TileMill.template('inspector-field', {
+        var li = $(ich.inspector_field({
           field: field,
           type: type.replace('int', 'integer').replace('str', 'string'),
           visualize: visualize
@@ -68,7 +68,7 @@ TileMill.inspector.load = function(callback) {
 TileMill.inspector.values = function(layer, field, pager) {
   var callback = (function(data) {
     if (data.field) {
-      var values = $(TileMill.template('inspector-values', {
+      var values = $(ich.inspector_values({
         min: data.min,
         max: data.max,
         class_prev: (TileMill.inspector.page[layer][field] !== 0 ?

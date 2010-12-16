@@ -184,10 +184,10 @@ TileMill.mml.showDatasources = function() {
                   'error');
               },
               success: function(res) {
-                $('#form-providers').append(TileMill.template('data-provider', {
+                $('#form-providers').append(ich.data_provider({
                   name: res.name,
                   datasources: _.map(res.datasources, function(ds) {
-                    return TileMill.template('data-datasource', ds);
+                    return ich.data_datasource(ds);
                   }).join('')
                 }));
                 $('#form-providers .datasource').click(function() {
@@ -251,7 +251,7 @@ TileMill.mml.layerForm = function(popup, li, options) {
         srs: $('select#srs', form).val(),
         status: 'true'
       };
-      popup.append(TileMill.template('loading', {}));
+      popup.append(ich.loading({}));
       TileMill.backend.datasource(Base64.urlsafe_encode(layer.file), function(info) {
         // Set layer SRS.
         if (layer.srs === 'auto') {
@@ -299,7 +299,7 @@ TileMill.mml.add = function(options, layers) {
     name.push('.' + options.classes.split(' ').join(', .'));
   }
   var status = options.status == 'true' || options.status === true;
-  var li = $(TileMill.template('layers-li', {name: name.join(', '), status: status}));
+  var li = $(ich.layers_li({name: name.join(', '), status: status ? 'checked="checked"' : '' }));
 
   $('ul.sidebar-content', layers).prepend(li);
 
@@ -328,7 +328,7 @@ TileMill.mml.add = function(options, layers) {
   });
 
   $('a.layer-edit', li).click(function() {
-    var popup = $(TileMill.template('popup-layer', {submit: 'Save'}));
+    var popup = $(ich.popup_layer({submit: 'Save'}));
     var li = $(this).parents('li');
     var options = li.data('tilemill');
     TileMill.popup.show({content: popup, title: 'Edit layer'});
@@ -370,7 +370,7 @@ TileMill.mml.url = function(options) {
  * Init layers and return markup.
  */
 TileMill.mml.init = function() {
-  var layers = $(TileMill.template('layers', {}));
+  var layers = $(ich.layers({}));
   var l = TileMill.mml.parseMML(TileMill.data.mml).layers;
   for (var layer in l) {
     TileMill.mml.add(l[layer], layers);
@@ -382,8 +382,7 @@ TileMill.mml.init = function() {
   });
 
   $('a#layers-add', layers).click(function() {
-    var popup = $(TileMill.template(
-      'popup-layer', {
+    var popup = $(ich.popup_layer({
           submit: 'Add layer'
       }));
     TileMill.popup.show({

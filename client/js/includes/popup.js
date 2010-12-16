@@ -7,7 +7,7 @@ TileMill.popup.show = function(options) {
   if ($('body #popup').size()) {
     TileMill.popup.hide();
   }
-  var popup = $(TileMill.template('popup', {'title': options.title}));
+  var popup = $(ich.popup({title: options.title}));
   $('.popup-content', popup).append(options.content);
   popup.find('a.popup-close').bind('click', TileMill.popup.hide);
   $('body').append(popup);

@@ -22,7 +22,7 @@ TileMill.controller.project = function() {
     // Parse MML.
     var parsed = TileMill.mml.parseMML(mml);
 
-    TileMill.show(TileMill.template('project', {id: id}));
+    TileMill.show(ich.project({id: id}));
 
     var layers = TileMill.mml.init();
     var inspector = TileMill.inspector.init();
@@ -62,7 +62,7 @@ TileMill.controller.project = function() {
 
     $('div#header a.info').click(function() {
       TileMill.popup.show({
-          content: $(TileMill.template('popup-info-project', {
+          content: $(ich.popup_info_project({
               tilelive_url: TileMill.backend.servers(TileMill.mml.url()),
               mml_url: TileMill.mml.url({
                   timestamp: false,
@@ -208,7 +208,7 @@ TileMill.project.save = function() {
  * Add a new project.
  */
 TileMill.project.add = function(name) {
-  $('body').append(TileMill.template('loading', {}));
+  $('body').append(ich.loading({}));
 
   var queue = new TileMill.queue();
   queue.add(function(name, next) {

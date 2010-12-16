@@ -1,47 +1,47 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml'>
   <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
     <title>TileMill</title>
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel='shortcut icon' href='images/favicon.ico' type='image/x-icon' />
     <link rel='stylesheet' href='css/reset.css' type='text/css'/>
     <link rel='stylesheet' href='css/tilemill.css' type='text/css'/>
 
-    <script type="text/javascript" src="js/libraries/base64.js"></script>
-    <script type="text/javascript" src="js/libraries/jquery.js"></script>
-    <script type="text/javascript" src="js/libraries/underscore-min.js"></script>
-    <script type="text/javascript" src="js/libraries/jquery-ui.js"></script>
-    <script type="text/javascript" src="js/libraries/jquery.jsonp-2.1.4.min.js"></script>
-    <script type="text/javascript" src="js/libraries/jquery.url.js"></script>
-    <script type="text/javascript" src="js/libraries/jquery.bbq.js"></script>
-    <script type="text/javascript" src="js/libraries/jquery.validate.pack.js"></script>
-    <script type="text/javascript" src="js/libraries/jquery.validate.additional-methods.js"></script>
-    <script type="text/javascript" src="js/openlayers/OpenLayers.js"></script>
-    <script type="text/javascript" src="js/libraries/farbtastic.js"></script>
-    <script type="text/javascript" src="js/codemirror/js/codemirror.js"></script>
+    <script type='text/javascript' src='js/libraries/base64.js'></script>
+    <script type='text/javascript' src='js/libraries/jquery.js'></script>
+    <script type='text/javascript' src='js/libraries/underscore-min.js'></script>
+    <script type='text/javascript' src='js/libraries/jquery-ui.js'></script>
+    <script type='text/javascript' src='js/libraries/jquery.jsonp-2.1.4.min.js'></script>
+    <script type='text/javascript' src='js/libraries/jquery.url.js'></script>
+    <script type='text/javascript' src='js/libraries/ICanHaz.min.js'></script>
+    <script type='text/javascript' src='js/libraries/jquery.bbq.js'></script>
+    <script type='text/javascript' src='js/libraries/jquery.validate.pack.js'></script>
+    <script type='text/javascript' src='js/libraries/jquery.validate.additional-methods.js'></script>
+    <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
+    <script type='text/javascript' src='js/libraries/farbtastic.js'></script>
+    <script type='text/javascript' src='js/codemirror/js/codemirror.js'></script>
 
-    <script type="text/javascript" src="js/tilemill.js"></script>
+    <script type='text/javascript' src='js/tilemill.js'></script>
 
-    <script type="text/javascript" src="js/callbacks/list.js"></script>
-    <script type="text/javascript" src="js/callbacks/project.js"></script>
-    <script type="text/javascript" src="js/callbacks/visualization.js"></script>
-    <script type="text/javascript" src="js/callbacks/reference.js"></script>
+    <script type='text/javascript' src='js/callbacks/list.js'></script>
+    <script type='text/javascript' src='js/callbacks/project.js'></script>
+    <script type='text/javascript' src='js/callbacks/visualization.js'></script>
+    <script type='text/javascript' src='js/callbacks/reference.js'></script>
 
-    <script type="text/javascript" src="js/includes/template.js"></script>
-    <script type="text/javascript" src="js/includes/cache.js"></script>
-    <script type="text/javascript" src="js/includes/popup.js"></script>
-    <script type="text/javascript" src="js/includes/backend.js"></script>
-    <script type="text/javascript" src="js/includes/queue.js"></script>
-    <script type="text/javascript" src="js/includes/mml.js"></script>
-    <script type="text/javascript" src="js/includes/inspector.js"></script>
-    <script type="text/javascript" src="js/includes/stylesheet.js"></script>
-    <script type="text/javascript" src="js/includes/color.js"></script>
-    <script type="text/javascript" src="js/includes/map.js"></script>
+    <script type='text/javascript' src='js/includes/cache.js'></script>
+    <script type='text/javascript' src='js/includes/popup.js'></script>
+    <script type='text/javascript' src='js/includes/backend.js'></script>
+    <script type='text/javascript' src='js/includes/queue.js'></script>
+    <script type='text/javascript' src='js/includes/mml.js'></script>
+    <script type='text/javascript' src='js/includes/inspector.js'></script>
+    <script type='text/javascript' src='js/includes/stylesheet.js'></script>
+    <script type='text/javascript' src='js/includes/color.js'></script>
+    <script type='text/javascript' src='js/includes/map.js'></script>
 
     <!-- This file is optional - it can contain JS settings -->
     <script type="text/javascript" src="settings.js"></script>
 
-    <script type="text/html" name="page-loading">
+    <script type="text/html" id="page_loading">
     <div id='header' class='clearfix pane'>
       <h1>TileMill</h1>
     </div>
@@ -49,61 +49,64 @@
     <div class="loading page-loading"></div>
     </script>
 
-    <script type="text/html" name="loading">
-        <div class="loading-text"><% if (typeof message !== "undefined") { %>message<% } %></div>
-    <div class="loading"></div>
+    <script type="text/html" id="loading">
+      <div class="loading-text">
+        {{#message}}{{ message }}{{/message}}
+      </div>
+      <div class="loading"></div>
     </script>
 
-    <script type="text/html" name="list">
+    <script type="text/html" id="list">
     <div id='header' class='clearfix pane'>
       <h1>TileMill</h1>
       <a class='info' href='#info'>Info</a>
     </div>
     <div id='content' class='clearfix'>
-      <%= projects %>
-      <%= visualizations %>
+        {{#projects}}
+            {{>column }}
+        {{/projects}}
+        {{#visualizations}}
+            {{>column }}
+        {{/visualizations}}
     </div>
     </script>
 
-    <script type="text/html" name="error-page">
+    <script type="text/html" id="error_page">
     <div id='header' class='clearfix pane'>
       <h1>TileMill</h1>
       <a class='home' href='#action=list'>Back home</a>
     </div>
     <div id='content' class='clearfix'>
-      <div class='error-page'><%= message %></div>
+        <div class='error-page'>{{ message }}</div>
     </div>
     </script>
 
-    <script type="text/html" name="column">
-    <div class='column' id='<%= type %>'>
-      <h2 class='pane'><%= name %></h2>
+    <script type="text/html" class='partial' id='column'>
+      <div class='column' id='{{ type }}'>
+      <h2 class='pane'>{{ name }}</h2>
       <ul class='items'>
-        <% for (i in data) { %>
+        {{#data}}
           <li class='clearfix'>
-            <a href='#delete=<%= type %>/<%= data[i] %>' class='file-delete'>Delete</a>
-            <a href='#action=<%= type %>&id=<%= data[i] %>' class='route'><%= data[i] %></a>
+            <a href='#delete={{type}}/{{.}}' class='file-delete'>Delete</a>
+            <a href='#action={{type}}&id={{.}}' class='route'>{{.}}</a>
           </li>
-        <% } %>
+        {{/data}}
         <li class='form'>
-          <form id='<%= type %>'>
+        <form id='{{ type }}'>
             <div class='messages'></div>
-            <% if (type === "visualization") { %>
-              <label>Shapefile URL</label>
-            <% } else { %>
-              <label>Name</label>
-            <% } %>
-            <input class='<%= (type === "visualization") ? "url2" : "" %> required text' type='text' />
-            <input class='submit' type='submit' value='Add <%= type %>' />
+            <!-- TODO: fix regression -->
+            <label>Name</label>
+            <input class='required text' type='text' />
+            <input class='submit' type='submit' value='Add {{ type }}' />
           </form>
         </li>
       </ul>
     </div>
     </script>
 
-    <script type="text/html" name="project">
+    <script type="text/html" id="project">
     <div id='header' class='clearfix pane'>
-      <h1>Editing <%= id %></h1>
+      <h1>Editing {{ id }}</h1>
       <a class='info' href='#project-info'>Info</a>
       <a class='minimal' href='#minimal'>Minimal Mode</a>
       <a target='_blank' class='reference' href='#action=reference'>Reference</a>
@@ -115,9 +118,9 @@
     <div id='sidebar'></div>
     </script>
 
-    <script type="text/html" name="visualization">
+    <script type="text/html" id="visualization">
     <div id='header' class='clearfix pane'>
-      <h1>Visualizing <%= id %></h1>
+      <h1>Visualizing {{ id }}</h1>
       <a class='info' href='#project-info'>Info</a>
       <a class='projectify' href='#project-save'>Make project</a>
       <a class='home' href='#action=list'>Back home</a>
@@ -126,7 +129,7 @@
     <div id='sidebar'></div>
     </script>
 
-    <script type="text/html" name="layers">
+    <script type="text/html" id="layers">
     <div id='layers'>
       <div class='sidebar-header clearfix pane'>
         <h2>Layers</h2>
@@ -137,18 +140,18 @@
     </div>
     </script>
 
-    <script type="text/html" name="layers-li">
+    <script type="text/html" id="layers_li">
     <li>
       <div class="handle"></div>
-      <input class="checkbox" type="checkbox" <%= (status) ? "checked='checked'" : "" %> />
+      <input class="checkbox" type="checkbox" {{ status }} />
       <a title="Delete Layer" class="layer-delete" href="#">Delete</a>
       <a title="Inspect Layer Values" class="layer-inspect" href="#">Inspect</a>
       <a title="Edit Layer Definition" class="layer-edit" href="#">Edit</a>
-      <label><%= name %></label>
+      <label>{{ name }}</label>
     </li>
     </script>
 
-    <script type="text/html" name="inspector">
+    <script type="text/html" id="inspector">
     <div id='inspector'>
       <div class='sidebar-header clearfix pane'>
         <h2>Inspector</h2>
@@ -159,14 +162,14 @@
     </div>
     </script>
 
-    <script type="text/html" name="map">
+    <script type="text/html" id="map">
     <div id='map-preview'>
       <a class="map-fullscreen" href="#map-fullscreen">Fullscreen</a>
       <h4 id='zoom-display'>Zoom level ?</h4>
     </div>
     </script>
 
-    <script type="text/html" name="stylesheets">
+    <script type="text/html" id="stylesheets">
     <div id='tabs'>
       <div class='stylesheets'></div>
       <a title="Add a Stylesheet Tab" class='tab-add' href='#'>Add MSS</a>
@@ -176,7 +179,7 @@
     </div>
     </script>
 
-    <script type="text/html" name="color">
+    <script type="text/html" id="color">
     <div id='color-palette' class='pane'>
       <div id='color-picker' class='pane'>
         <a class='color-picker' href='#color-picker'>Color picker</a>
@@ -194,19 +197,19 @@
     </div>
     </script>
 
-    <script type="text/html" name="popup">
+    <script type="text/html" id="popup">
     <div id="popup">
       <div class="popup-backdrop"></div>
       <div class="popup">
         <div class="popup-header clearfix pane">
-          <h2><%= title %></h2>
+          <h2>{{ title }}</h2>
           <a href="#" class="popup-close">Close</a>
         </div>
         <div class="popup-content"></div>
       </div>
     </div>
     </script>
-    <script type="text/html" name="popup-layer">
+    <script type="text/html" id="popup_layer">
     <div id='popup-layer' class='clearfix pane'>
       <form id='form-layer'>
         <div class='messages'></div>
@@ -236,31 +239,31 @@
           <input type="text" class="text" id="srs-custom" />
         </div>
         <div class='buttons'>
-            <input class='submit' type='submit' value='<%= submit %>' />
+            <input class='submit' type='submit' value='{{ submit }}' />
         </div>
       </form>
     </div>
     </script>
-    <script type="text/html" name="popup-info-settings">
+    <script type="text/html" id="popup_info_settings">
     <div id='popup-info' class='clearfix pane'>
       <form>
-        <% for (key in settings) { %>
-            <div><label><%= key %></label>
-                <input class='text' type='text' value='<%= settings[key] %>' />
-            </div>
-        <% } %>
+        {{#settings}}
+          <div><label>{{ key }}</label>
+              <input class='text' type='text' value='{{val}}' />
+          </div>
+        {{/settings}}
       </form>
     </div>
     </script>
-    <script type="text/html" name="popup-info-project">
+    <script type="text/html" id="popup_info_project">
     <div id='popup-info' class='clearfix pane'>
       <form>
         <div class='messages'></div>
         <div><label for='tilelive-url'>TileLive URL</label>
-            <input id='tilelive-url' class='text' type='text' value='<%= tilelive_url %>' />
+            <input id='tilelive-url' class='text' type='text' value='{{ tilelive_url }}' />
         </div>
         <div><label for='mml-url'>MML URL</label>
-            <input id='mml-url' class='text' type='text' value='<%= mml_url %>' />
+            <input id='mml-url' class='text' type='text' value='{{ mml_url }}' />
         </div>
         <div>
             <label for='polymaps'>Polymaps</label>
@@ -273,7 +276,7 @@ var map = po.map()
     .add(po.hash())
     // layer setup
     .add(po.image()
-    .url(po.url(<%= tilelive_url %>
+    .url(po.url({{ tilelive_url }}
     + "/{Z}/{X}/{Y}.png")
     ))
     // end layer setup
@@ -283,28 +286,28 @@ var map = po.map()
 </div>
 <div>       <label for='openlayers'>OpenLayers</label>
             <textarea class='code-snippet'>
-                var layer = new OpenLayers.Layer('layer', <%= tilelive_url %>, { sphericalMercator: true });
+                var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercator: true });
 </textarea>
         </div>
       </form>
     </div>
     </script>
-    <script type="text/html" name="popup-info-visualization">
+    <script type="text/html" id="popup_info_visualization">
     <div id='popup-info' class='clearfix pane'>
       <form>
         <div class='messages'></div>
         <div>
             <label for='datasource-url'>Datasource</label>
             <input id='datasource-url' disabled='disabled' 
-                class='text' type='text' value='<%= datasource_url %>' />
+                class='text' type='text' value='{{ datasource_url }}' />
         </div>
         <div>
             <label for='tilelive-url'>TileLive URL</label>
-            <input id='tilelive-url' class='text' type='text' value='<%= tilelive_url %>' />
+            <input id='tilelive-url' class='text' type='text' value='{{ tilelive_url }}' />
         </div>
         <div>
             <label for='mml-url'>MML URL</label>
-            <input id='mml-url' class='text' type='text' value='<%= mml_url %>' />
+            <input id='mml-url' class='text' type='text' value='{{ mml_url }}' />
         </div>
         <div><label for='choropleth-split'>Choropleth</label>
           <select id='choropleth-split'>
@@ -322,7 +325,7 @@ var map = po.map()
       </form>
     </div>
     </script>
-    <script type="text/html" name="popup-stylesheet">
+    <script type="text/html" id="popup_stylesheet">
     <div id='popup-stylesheet' class='clearfix pane'>
       <form>
         <div class='messages'></div>
@@ -336,7 +339,7 @@ var map = po.map()
       </form>
     </div>
     </script>
-    <script type="text/html" name="popup-projectify">
+    <script type="text/html" id="popup_projectify">
     <div id='popup-projectify' class='clearfix pane'>
       <form>
         <div class='messages'></div>
@@ -350,44 +353,44 @@ var map = po.map()
       </form>
     </div>
     </script>
-    <script type="text/html" name="font">
-        <option><%= font %>
+    <script type="text/html" id="font">
+        <option>{{ font }}
     </script>
-    <script type="text/html" name="popup-message">
-    <div id='popup-message' class='clearfix pane <%= type %>'>
-      <%= content %>
+    <script type="text/html" id="popup_message">
+    <div id='popup-message' class='clearfix pane {{ type }}'>
+      {{ content }}
     </div>
     </script>
-    <script type="text/html" name="color-swatch">
-    <a href='#' class='swatch' style='background-color: <%= color %>'><label><%= color %></label></a>
+    <script type="text/html" id="color_swatch">
+    <a href='#' class='swatch' style='background-color: {{ color }}'><label>{{ color }}</label></a>
     </script>
-    <script type="text/html" name="inspector-field">
-    <li id='field-<%= field %>'>
+    <script type="text/html" id="inspector-field">
+    <li id='field-{{ field }}'>
       <a class='inspect-values' href='#inspect-values'>See values</a>
-      <% if (visualize) { %>
+      <% if (visualize) { }}
         <a class='visualization-type inspect-unique' href='#inspect-unique'>Unique Value</a>
         <a class='visualization-type inspect-label' href='#inspect-label'>Label</a>
         <a class='visualization-type inspect-choropleth' href='#inspect-choropleth'>Choropleth</a>
         <a class='visualization-type inspect-scaledPoints' href='#inspect-scaled-points'>Scaled points</a>
-      <% } %>
-      <strong><%= field %></strong>
-      <em><%= type %></em>
+      <% } }}
+      <strong>{{ field }}</strong>
+      <em>{{ type }}</em>
     </li>
     </script>
-    <script type="text/html" name="inspector-values">
+    <script type="text/html" id="inspector_values">
     <div class='inspect-values'>
       <ul class='clearfix inspect-values field-values'>
-        <li class='min'><strong>Min</strong> <%= min %></li>
-        <li class='max'><strong>Max</strong> <%= max %></li>
+        <li class='min'><strong>Min</strong> {{ min }}</li>
+        <li class='max'><strong>Max</strong> {{ max }}</li>
       </ul>
       <div class='pager clearfix'>
-        <a class='pager-prev <%= class_prev %>' href='#pager-prev'>Prev</a>
-        <a class='pager-next <%= class_next %>' href='#pager-next'>Next</a>
+        <a class='pager-prev {{ class_prev }}' href='#pager-prev'>Prev</a>
+        <a class='pager-next {{ class_next }}' href='#pager-next'>Next</a>
       </div>
     </div>
     </script>
 
-    <script type="text/html" name="reference">
+    <script type="text/html" id="reference">
       <div id='header' class='clearfix pane'>
         <h1>Reference</h1>
         <a class='home' href='#action=list'>Back home</a>
@@ -403,10 +406,10 @@ var map = po.map()
           users and easy to pick up for everyone else.</p>
           <p>A simple Cascadenik style looks like</p>
 <pre>
-#world {<br />
-  polygon-fill: #eee;<br />
-  line-color: #ccc;<br />
-  line-width: 0.5;<br />
+#world {
+  polygon-fill: #eee;
+  line-color: #ccc;
+  line-width: 0.5;
 }
 </pre>
           <p>Which is the <em>selector</em> <code>#world</code>
@@ -430,7 +433,7 @@ var map = po.map()
 
 
 
-    <script type="text/html" name="data">
+    <script type="text/html" id="data">
       <div id='header' class='clearfix pane'>
         <h1>Data</h1>
         <a class='home' href='#action=list'>Back home</a>
@@ -445,46 +448,52 @@ var map = po.map()
       </div>
     </script>
 
-    <script type="text/html" name="data-provider">
-      <h3><%= name %></h3>
-      <%= datasources %>
+    <script type="text/html" id="data_provider">
+      <h3>{{ name }}</h3>
+      {{ datasources }}
     </script>
 
-    <script type="text/html" name="data-datasource">
+    <script type="text/html" id="data_datasource">
       <div class='datasource'>
-        <%= name %>
-        <span class='metadata'><%= bytes %></span>
-        <span class='url'><%= url %></span>
+        {{ name }}
+        <span class='metadata'>{{ bytes }}</span>
+        <span class='url'>{{ url }}</span>
       </div>
     </script>
 
-    <script type="text/html" name="reference-symbolizer">
+    <script type="text/html" id="reference_symbolizer">
       <div class='reference-symbolizer'>
-        <h2><%= symbolizer %></h2>
+        <h2>{{ symbolizer }}</h2>
         <table class='reference-table'>
           <thead>
-              <tr>
-                  <th>css parameter</th>
-                  <th>type</th>
-                  <th>default value</th>
-              </tr>
+            <tr>
+              <th>css parameter</th>
+              <th>type</th>
+              <th>default value</th>
+            </tr>
           </thead>
-          <%= properties %>
+          {{#properties}}
+            {{>reference_property}}
+          {{/properties}}
         </table>
       </div>
     </script>
-    <script type="text/html" name="reference-property">
+    <script type='text/html' class='partial' id='reference_property'>
       <tr>
-          <th><%= css %>
-            <% if(doc) { %>
+          <th>{{ css }}
+            {{#doc}}
               <span class='reference-doc-available'>?</span>
               <div class='reference-doc'>
-                  <%= doc %>
+                {{ doc }}
               </div>
-            <% } %>
+            {{/doc}}
           </th>
-          <td><%= type %></td>
-          <td><%= default_value %><% if(default_meaning) { %><small class='reference-default-meaning'>(<%= default_meaning %>)</small><% } %></td>
+          <td>{{ type }}</td>
+          <td>{{ default_value }}
+            {{#default_meaning}}
+            <small class='reference-default-meaning'>({{ default_meaning }})</small>
+            {{/default_meaning}}
+          </td>
       </tr>
     </script>
   </head>

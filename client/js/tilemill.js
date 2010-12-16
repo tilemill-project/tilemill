@@ -63,7 +63,7 @@ TileMill.route = function() {
     $('body')
       .attr('id', fn)
       .empty()
-      .append(TileMill.template('page-loading', {
+      .append(ich.page_loading({
         message: 'page loading'
       }));
     TileMill.controller[fn]();
@@ -93,7 +93,7 @@ TileMill.show = function(data) {
  */
 TileMill.message = function(title, message, type) {
   type = type || 'status';
-  var popup = TileMill.template('popup-message', {
+  var popup = ich.popup_message({
       content: message,
       type: type
   });
@@ -107,7 +107,7 @@ TileMill.message = function(title, message, type) {
  * @param {String} message the message text.
  */
 TileMill.errorPage = function(message) {
-  TileMill.show(TileMill.template('error-page', {
+  TileMill.show(ich.error_page({
       message: message
   }));
 };

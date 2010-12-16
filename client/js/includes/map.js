@@ -4,7 +4,7 @@ TileMill.map = {};
  * Init and return markup.
  */
 TileMill.map.init = function() {
-  var map = $(TileMill.template('map', {}));
+  var map = $(ich.map({}));
   return map;
 };
 

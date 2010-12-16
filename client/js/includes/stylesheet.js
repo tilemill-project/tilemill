@@ -4,7 +4,7 @@ TileMill.stylesheet = {};
  * Init stylesheet editor.
  */
 TileMill.stylesheet.init = function() {
-  var stylesheets = $(TileMill.template('stylesheets', {}));
+  var stylesheets = $(ich.stylesheets({}));
 
   // Add stylesheets in order.
   var queue = new TileMill.queue();
@@ -32,7 +32,7 @@ TileMill.stylesheet.init = function() {
   queue.execute();
 
   $('a.tab-add', stylesheets).click(function() {
-    var popup = $(TileMill.template('popup-stylesheet', {}));
+    var popup = $(ich.popup_stylesheet({}));
     TileMill.popup.show({
         content: popup,
         title: 'Add stylesheet'
@@ -58,7 +58,7 @@ TileMill.stylesheet.init = function() {
 TileMill.stylesheet.initFonts = function() {
   TileMill.backend.fonts(function(abilities) {
     _.map(abilities.fonts, function(font) {
-      $('#fonts-list').append(TileMill.template('font', {
+      $('#fonts-list').append(ich.font({
         font: font
       }));
     });

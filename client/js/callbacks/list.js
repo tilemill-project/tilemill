@@ -27,17 +27,17 @@ TileMill.controller.list = function() {
   queue.add(function() {
     var projects = this.retrieve('projects'),
         visualizations = this.retrieve('visualizations');
-    var page = $(TileMill.template('list', {
-      projects: TileMill.template('column', {
+    var page = $(ich.list({
+      projects: {
         name: 'Projects',
         type: 'project',
         data: projects
-      }),
-      visualizations: TileMill.template('column', {
+      },
+      visualizations: {
         name: 'Visualizations',
         type: 'visualization',
         data: visualizations
-      })
+      }
     }));
     TileMill.show(page);
 
@@ -45,7 +45,7 @@ TileMill.controller.list = function() {
     $.each(['project', 'visualization'], function(dummy, type) {
       $('#' + type + ' a.file-delete').click(function() {
         if (confirm('Are you sure you want to delete this project?')) {
-          $('body').append(TileMill.template('loading', {}));
+          $('body').append(ich.loading({}));
           var filename = $(this).attr('href').split('#delete=')[1];
           TileMill.backend.del(filename, function() {
             $.bbq.pushState({ 'action': 'list' });
@@ -57,15 +57,16 @@ TileMill.controller.list = function() {
     });
 
     $('div#header a.info').click(function() {
-      var settings = {};
+      // TODO: rewrite fp
+      var settings = [];
       for (var key in TileMill.settings) {
         if (typeof TileMill.settings[key] === 'string') {
-          settings[key] = TileMill.settings[key];
+          settings.push({ key: key, val: TileMill.settings[key] });
         }
       }
-      var popup = $(TileMill.template('popup-info-settings', {
+      var popup = ich.popup_info_settings({
           settings: settings
-      }));
+      });
       TileMill.popup.show({
           content: popup,
           title: 'Info'

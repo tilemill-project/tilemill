@@ -4,7 +4,7 @@ TileMill.colors = {};
  * Initialize colors - initialize colorpicker.
  */
 TileMill.colors.init = function() {
-  return $(TileMill.template('color', {}));
+  return $(ich.color({}));
 };
 
 TileMill.colors.initFarb = function(color) {
@@ -62,7 +62,7 @@ TileMill.colors.reload = function(stylesheets) {
     // clicked, it's inserted into the document at the current cursor.
     $.each(colors, function(key, value) {
       colors_div.append(
-        $(TileMill.template('color-swatch', {
+        $(ich.color_swatch({
             color: value[3]
         })));
     });

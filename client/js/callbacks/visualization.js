@@ -23,7 +23,7 @@ TileMill.controller.visualization = function() {
     // Parse MML.
     var parsed = TileMill.mml.parseMML(mml);
 
-    TileMill.show(TileMill.template('visualization', {id: id}));
+    TileMill.show(ich.visualization({id: id}));
 
     var inspector = TileMill.inspector.init();
     var map = TileMill.map.init();
@@ -61,7 +61,7 @@ TileMill.controller.visualization = function() {
       var tilelive_url = TileMill.backend.servers(TileMill.mml.url())[0] +
         'tile/' + TileMill.mml.url({ timestamp: false, encode: true });
       var mml_url = TileMill.mml.url({ timestamp: false, encode: false });
-      var popup = $(TileMill.template('popup-info-visualization', {
+      var popup = $(ich.popup_info_visualization({
         datasource_url: datasource_url,
         tilelive_url: tilelive_url,
         mml_url: mml_url
@@ -77,7 +77,7 @@ TileMill.controller.visualization = function() {
     });
 
     $('div#header a.projectify').click(function() {
-      var popup = $(TileMill.template('popup-projectify', {}));
+      var popup = $(ich.popup_projectify({}));
       TileMill.popup.show({content: popup, title: 'Make project'});
       $('form', popup).validate({
         errorLabelContainer: 'form .messages',
@@ -234,7 +234,7 @@ TileMill.visualization.save = function(callback) {
  * Create a new visualization.
  */
 TileMill.visualization.add = function(url) {
-  $('body').append(TileMill.template('loading', {}));
+  $('body').append(ich.loading({}));
 
   var name = url.split('/').pop().split('.')[0];
   var queue = new TileMill.queue();
