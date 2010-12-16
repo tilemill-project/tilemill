@@ -186,9 +186,7 @@ TileMill.mml.showDatasources = function() {
               success: function(res) {
                 $('#form-providers').append(ich.data_provider({
                   name: res.name,
-                  datasources: _.map(res.datasources, function(ds) {
-                    return ich.data_datasource(ds);
-                  }).join('')
+                  datasources: res.datasources
                 }));
                 $('#form-providers .datasource').click(function() {
                   $('#form-layer #file').val($('.url', this).text());

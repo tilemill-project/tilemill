@@ -473,10 +473,12 @@ var map = po.map()
 
     <script type="text/html" id="data_provider">
       <h3>{{ name }}</h3>
-      {{ datasources }}
+      {{#datasources}}
+        {{>data_datasource}}
+      {{/datasources}}
     </script>
 
-    <script type="text/html" id="data_datasource">
+    <script type="text/html" class='partial' id="data_datasource">
       <div class='datasource'>
         {{ name }}
         <span class='metadata'>{{ bytes }}</span>
