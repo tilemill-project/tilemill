@@ -11,40 +11,40 @@ var knox = require('knox'),
 
 var sockets = 0;
 var listbucket = function(client, prefix, n, callback, marker) {
-    var step = 100;
-    if (n > 0) {
-        util.debug(n + ' records to process');
-        var params = {
-            'max-keys': step
-        };
-        prefix && (params.prefix = prefix);
-        marker && (params.marker = marker);
+  var step = 100;
+  if (n > 0) {
+    util.debug(n + ' records to process');
+    var params = {
+        'max-keys': step
+    };
+    prefix && (params.prefix = prefix);
+    marker && (params.marker = marker);
 
-        client.get('?' + querystring.stringify(params), {
-        }).on('response', function(res) {
-            res.setEncoding('utf8');
-            var listing = '';
-            res.on('data', function(chunk) {
-                listing += chunk;
-            })
-            .on('end', function() {
-                var parser = new xml2js.Parser();
-                parser.addListener('end', function(result) {
-                    callback(result.Contents);
-                    if (result.IsTruncated.text == 'true') {
-                        listbucket(client,
-                            prefix,
-                            n - step,
-                            callback,
-                            result
-                                .Contents[result.Contents.length - 1]
-                                .Key.text);
-                    }
-                });
-                parser.parseString(listing);
-            });
-        }).end();
-    }
+    client.get('?' + querystring.stringify(params), {
+    }).on('response', function(res) {
+        res.setEncoding('utf8');
+        var listing = '';
+        res.on('data', function(chunk) {
+            listing += chunk;
+        })
+        .on('end', function() {
+          var parser = new xml2js.Parser();
+          parser.addListener('end', function(result) {
+            callback(result.Contents);
+            if (result.IsTruncated.text == 'true') {
+              listbucket(client,
+                prefix,
+                n - step,
+                callback,
+                result
+                  .Contents[result.Contents.length - 1]
+                  .Key.text);
+            }
+          });
+          parser.parseString(listing);
+        });
+    }).end();
+  }
 };
 
 function formatbyte(n) {
