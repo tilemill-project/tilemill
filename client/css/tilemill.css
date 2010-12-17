@@ -606,6 +606,8 @@ a.inspect-unique.active     { background-color:#222; }
 
 #colors {
   padding-left:70px;
+  width: 270px;
+  overflow:hide;
   position:relative;
   float:left;
   }
@@ -676,13 +678,13 @@ a.inspect-unique.active     { background-color:#222; }
 #fonts {
   padding-left:70px;
   position:relative;
+  left:270px;
   float:left;
   }
 
 #fonts label {
   text-shadow:#000 0px -1px 0px;
   position:absolute;
-  left:300px;
   font-size:11px;
   font-weight:bold;
   text-transform:uppercase;
@@ -690,7 +692,8 @@ a.inspect-unique.active     { background-color:#222; }
 
   #fonts-list {
     position:absolute;
-    left:350px;
+    left:120px;
+    width: 220px;
     }
 
 /**
