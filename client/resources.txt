@@ -1,0 +1,22 @@
+codemirror (codemirror.net) zlib
+http://codemirror.net/codemirror.zip
+
+jquery (jquery.com) MIT and GPL
+http://code.jquery.com/jquery-1.4.4.min.js
+
+jquery bbq MIT and GPL
+http://benalman.com/projects/jquery-bbq-plugin/
+
+underscore (http://documentcloud.github.com/underscore/) BSD
+http://documentcloud.github.com/underscore/underscore-min.js
+
+jquery-jsonp (http://code.google.com/p/jquery-jsonp/) MIT
+http://jquery-jsonp.googlecode.com/files/jquery.jsonp-2.1.4.min.js
+
+jquery validate (http://bassistance.de/jquery-plugins/jquery-plugin-validation/)
+http://jquery.bassistance.de/validate/jquery.validate.zip
+
+farbtastic (https://github.com/mattfarina/farbtastic), GPL
+
+explorercanvas (http://code.google.com/p/explorercanvas/), Apache License 2.0
+http://code.google.com/p/explorercanvas/downloads/detail?name=excanvas_r3.zip
