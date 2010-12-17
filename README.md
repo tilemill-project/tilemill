@@ -13,13 +13,16 @@ explore a datasource.
 
 Requirements
 ------------
-- **TileMill client**: A modern standards compliant web browser. The developers
-are currently testing with Chrome and Firefox 3.x.
-- **TileMill server**: ndistro
-- **Rasterizer**:
-  - [TileLive](http://github.com/tmcw/TileLive)
-  - [Mapnik 2.0](http://mapnik.org/)
-  - [Cascadenik HEAD](http://mapnik-utils.googlecode.com/svn/trunk) from SVN
+* **TileMill client**: A modern, standards compliant web browser.
+  * Tested: Chrome 6+
+  * Tested: Firefox 3+
+  * Target: IE7+
+  * May work: Opera 11
+* **TileMill server**: ndistro
+* **Rasterizer**:
+  * [TileLive](http://github.com/tmcw/TileLive)
+  * [Mapnik 2.0](http://mapnik.org/)
+  * [Cascadenik HEAD](http://mapnik-utils.googlecode.com/svn/trunk) from SVN
 
 Setup
 -----
