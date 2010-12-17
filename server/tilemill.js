@@ -3,7 +3,7 @@ require.paths.unshift(__dirname + '/lib/node');
 var express = require('express'),
     fs = require('fs'),
     path = require('path'),
-    _ = require('./underscore')._;
+    _ = require('underscore')._;
 
 var settings = JSON.parse(fs.readFileSync('settings.json'));
 var app = module.exports = express.createServer();
