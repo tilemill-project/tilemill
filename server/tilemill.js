@@ -26,7 +26,7 @@ app.get('/api/list', function(req, res) {
       if (exists) {
         path.exists(path.join(settings.files, req.param('filename')),
           function(exists) {
-            if (!exists) fs.mkdirSync(path.join(settings.files, req.param('filename')), 777);
+            if (!exists) fs.mkdirSync(path.join(settings.files, req.param('filename')), 0777);
             res.send({
               status: true,
               data: _.select(fs.readdirSync(
