@@ -11,6 +11,43 @@ values, and so on,
 - a set of sensible visualization tools for labeling and shading maps to quickly
 explore a datasource.
 
+Requirements
+------------
+- **TileMill client**: A modern standards compliant web browser. The developers
+are currently testing with Chrome and Firefox 3.x.
+- **TileMill server**: ndistro
+- **Rasterizer**:
+  - [TileLive](http://github.com/tmcw/TileLive)
+  - [Mapnik 2.0](http://mapnik.org/)
+  - [Cascadenik HEAD](http://mapnik-utils.googlecode.com/svn/trunk) from SVN
+
+Setup
+-----
+
+## Building
+
+* Install node.js 2.5 using a package manager or building from source.
+* Install [ndistro](https://github.com/visionmedia/ndistro)
+* Enter the `/server` directory and build dependencies
+
+    cd server
+    ndistro
+
+## Configuration
+
+* Edit the file 'server/settings.json', including the directory where you'd like
+  to keep TileMill's working files (projects and stylesheets). These can be in
+  your main documents directory or near other TileMill files.
+* Include your s3 credentials or remove the s3 section if you don't want to use
+  that functionality.
+* Include the directory where you want to store shapefiles and other data, or
+  remove the section in configuration.
+
+## Running
+
+    node tilemill.js
+
+* TileMill should now be running on http://localhost:8889/
 
 Architecture
 ------------
@@ -32,45 +69,6 @@ In addition, references to MSS files, image resources, shapefile datasources,
 and so on must all be available to the rasterizer via HTTP. While this is a
 significant departure from many "typical" map designing workflows, it allows
 TileMill projects to be portable between clients if set up properly.
-
-
-Requirements
-------------
-- **TileMill client**: A modern standards compliant web browser. The developers
-are currently testing with Chrome and Firefox 3.x.
-- **TileMill server**: Apache/PHP 5.2+ or Python with the
-[Tornado](http://www.tornadoweb.org/) web server.
-- **Rasterizer**:
-  - [TileLive](http://github.com/tmcw/TileLive)
-  - [Mapnik 2.0](http://mapnik.org/)
-  - [Cascadenik HEAD](http://mapnik-utils.googlecode.com/svn/trunk) from SVN
-
-Setup
------
-### TileMill client
-
-Put the `client` directory included with TileMill in a web-accessible directory
-and open the URL to the directory in your web browser (e.g.
-`http://localhost/TileMill/client` if you installed TileMill at your webroot).
-If the TileMill client loads in your browser your installation was successful.
-
-You may want to edit your `settings.js` file to adjust for your setup. In
-particular, you can
-
-- Choose a different server type. Currently only the `simple` HTTP based server
-is supported.
-- Set a different URL for your server. If your TileMill server will not be at
-the standard location, `http://tilemill`, you can change this setting.
-- Choose a different rasterizer type. Currently only the `tilelitelive`
-rasterizer is supported.
-- Set a different URL for your rasterizer. If your TileLiteLive server is not at
-the standard location, `http://localhost:8888`, you can change this setting.
-
-### TileMill server (Node.js)
-
-Create directories called `project` and `visualization` in the TileLive
-directory. Change to the `jsServer` directory and run `ndistro`. Then, run
-`node tilemill.js` to start the server.
 
 Authors
 -------
