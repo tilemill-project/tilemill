@@ -532,6 +532,15 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
         </td>
       </tr>
     </script>
+
+    <script type='text/html' id='quick_reference'>
+      <div id='quick-reference'>
+        <strong>{{ css }}</strong>: {{ type }} <span class='default'>(default {{ default-value }})</span>
+        <p>{{#doc}}
+          {{ doc }}
+        {{/doc}}</p>
+      </div>
+    </script>
   </head>
 
   <body>

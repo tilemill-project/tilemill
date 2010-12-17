@@ -831,6 +831,26 @@ a.popup-close { background-color:#222; }
   }
 
 
+#quick-reference {
+  background:#eee;
+  color:#666;
+  position:absolute;
+  left:10px;
+  right:25px;
+  padding:3px 6px;
+  bottom:50px;
+  border:1px solid #ccc;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  z-index: 999999999999;
+  padding-right:180px;
+  min-height:20px;
+  }
+
+#quick-reference .default {
+  color: #888;
+  }
+
 /**
  * Add datasources from known data
  */

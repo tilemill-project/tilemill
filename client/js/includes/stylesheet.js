@@ -143,6 +143,23 @@ TileMill.stylesheet.mtime = function(filename, callback) {
   TileMill.backend.mtime(filename, callback);
 };
 
+TileMill.stylesheet.quickHelp = function(property) {
+  function byProperty(data) {
+    var props = {};
+    for (sym in data.symbolizers) {
+      for (prop in data.symbolizers[sym]) {
+        props[data.symbolizers[sym][prop].css] = data.symbolizers[sym][prop];
+      }
+    }
+    return props;
+  }
+  // TODO: optimize, don't reload
+  $.getJSON('js/data/reference.json', {}, function(data) {
+     var byProp = byProperty(data);
+     $('#tabs').after(ich.quick_reference(byProp[property]));
+  });
+};
+
 /**
  * Set the code editor to edit a specified stylesheet.
  */
