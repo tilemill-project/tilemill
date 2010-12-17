@@ -21,25 +21,40 @@ app.get('/api', function(req, res, params) {
 });
 
 app.get('/api/list', function(req, res) {
-  res.send({
-    status: true,
-    data: _.select(fs.readdirSync(
-      path.join(
-        settings.files,
-        req.param('filename'))),
-      function(dir) {
-        // directories that contain at least one MML file
-        return _.any(
-          fs.readdirSync(path.join(
-            settings.files,
-            req.param('filename'),
-            dir)),
-          function(filename) {
-            return filename.match('.mml');
-          }
-        );
+  path.exists(settings.files,
+    function(exists) {
+      if (exists) {
+        path.exists(path.join(settings.files, req.param('filename')),
+          function(exists) {
+            if (!exists) fs.mkdirSync(path.join(settings.files, req.param('filename')), 777);
+            res.send({
+              status: true,
+              data: _.select(fs.readdirSync(
+                path.join(
+                  settings.files,
+                  req.param('filename'))),
+                function(dir) {
+                  // directories that contain at least one MML file
+                  return _.any(
+                    fs.readdirSync(path.join(
+                      settings.files,
+                      req.param('filename'),
+                      dir)),
+                    function(filename) {
+                      return filename.match('.mml');
+                    }
+                  );
+                }
+              )
+            });
+          });
+      } else {
+        res.send({
+          status: false,
+          data: 'The directory where TileMill keeps files is not present. ' + 
+            'Please create the directory ' + settings.files
+        });
       }
-    )
   });
 });
 

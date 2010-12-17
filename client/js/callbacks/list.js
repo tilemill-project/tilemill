@@ -7,6 +7,10 @@ TileMill.controller.list = function() {
   queue.add(function(next) {
     var self = this;
     TileMill.backend.list('project', function(projects) {
+      if (typeof projects == 'string') {
+        alert(projects);
+        return;
+      }
       projects = projects || [];
       projects.sort();
       self.store('projects', projects);
