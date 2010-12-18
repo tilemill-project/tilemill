@@ -33,8 +33,10 @@ Setup
 * Install [ndistro](https://github.com/visionmedia/ndistro)
 * Enter the `/server` directory and build dependencies
 
+
     cd server
     ndistro
+
 
 ## Configuration
 
