@@ -98,7 +98,7 @@
         <form id='{{ type }}'>
             <div class='messages'></div>
             <label>Name</label>
-            <input class='required text' type='text' />
+            <input class='required text alphanum' type='text' />
             <input class='submit' type='submit' value='Add {{ type }}' />
           </form>
         </li>
@@ -374,7 +374,7 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
           <div class='messages'></div>
           <div>
             <label for='stylesheet-name'>Name</label>
-            <input id='project-name' class='text required' type='text' />
+            <input id='project-name' class='text required alphanum' type='text' />
           </div>
           <div class='buttons'>
             <input class='submit' type='submit' value='Make project' />

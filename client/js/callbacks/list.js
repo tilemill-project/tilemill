@@ -78,6 +78,10 @@ TileMill.controller.list = function() {
       return false;
     });
 
+    $.validator.addMethod("alphanum", function(value, element) {
+        return this.optional(element) || /^[a-z0-9\-_]+$/i.test(value);
+    }, "Name must contain only letters, numbers, dashes, and underscores.");
+
     $('form').each(function() {
       $(this).validate({
         errorLabelContainer: '#' + $(this).attr('id') + ' .messages',
