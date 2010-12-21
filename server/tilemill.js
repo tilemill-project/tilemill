@@ -80,27 +80,31 @@ app.get('/api/file', function(req, res) {
 
 app.post('/api/file', function(req, res) {
   if ((req.param('method') || 'put') == 'put') {
-    if ((req.body.filename.split('/').length < 3) &&
-        /^[a-z0-9\-_]+$/i.test(req.body.filename)) {
-    if (path.dirname(req.body.filename)) {
-      fs.mkdir(
-        path.join(
-          settings.files,
-          path.dirname(path.join(req.body.filename))),
-        0777,
-      function() {
-        fs.writeFile(
-            path.join(settings.files, req.body.filename),
-            req.body.data,
-            function() {
-          res.send({
-            status: true
+      console.log('here');
+    if ((req.body.filename.split('/').length < 4) &&
+        /^[a-z0-9\.\/\-_]+$/i.test(req.body.filename)) {
+        console.log('true');
+      if (path.dirname(req.body.filename)) {
+        fs.mkdir(
+          path.join(
+            settings.files,
+            path.dirname(path.join(req.body.filename))),
+          0777,
+        function() {
+          fs.writeFile(
+              path.join(settings.files, req.body.filename),
+              req.body.data,
+              function() {
+            res.send({
+              status: true
+            });
           });
         });
-      });
+      } else {
+          console.log('false');
+      }
     } else {
       res.send({status: false});
-    }
     }
   } else {
     // TODO: nodejs doesn't provide rm-rf functionality
