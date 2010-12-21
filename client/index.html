@@ -13,11 +13,11 @@
     <script type='text/javascript' src='js/libraries/base64.js'></script>
     <script type='text/javascript' src='js/libraries/jquery.js'></script>
     <script type='text/javascript' src='js/libraries/underscore-min.js'></script>
+    <script type='text/javascript' src='js/libraries/backbone.js'></script>
     <script type='text/javascript' src='js/libraries/jquery-ui.js'></script>
     <script type='text/javascript' src='js/libraries/jquery.jsonp-2.1.4.min.js'></script>
     <script type='text/javascript' src='js/libraries/jquery.url.js'></script>
     <script type='text/javascript' src='js/libraries/ICanHaz.min.js'></script>
-    <script type='text/javascript' src='js/libraries/jquery.bbq.js'></script>
     <script type='text/javascript' src='js/libraries/jquery.validate.pack.js'></script>
     <script type='text/javascript' src='js/libraries/jquery.validate.additional-methods.js'></script>
     <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
@@ -25,21 +25,25 @@
     <script type='text/javascript' src='js/codemirror/js/codemirror.js'></script>
 
     <script type='text/javascript' src='js/tilemill.js'></script>
+    
+    <script type='text/javascript' src='js/models/stylesheet.js'></script>
+    <script type='text/javascript' src='js/models/visualization.js'></script>
+    <script type='text/javascript' src='js/models/project.js'></script>
 
-    <script type='text/javascript' src='js/callbacks/list.js'></script>
-    <script type='text/javascript' src='js/callbacks/project.js'></script>
-    <script type='text/javascript' src='js/callbacks/visualization.js'></script>
-    <script type='text/javascript' src='js/callbacks/reference.js'></script>
-
+    <script type='text/javascript' src='js/views/list.js'></script>
+    <script type='text/javascript' src='js/views/project.js'></script>
+    <script type='text/javascript' src='js/views/visualization.js'></script>
+    <script type='text/javascript' src='js/views/reference.js'></script>
+    
+    <script type='text/javascript' src='js/includes/projects.js'></script>
     <script type='text/javascript' src='js/includes/cache.js'></script>
     <script type='text/javascript' src='js/includes/popup.js'></script>
-    <script type='text/javascript' src='js/includes/backend.js'></script>
-    <script type='text/javascript' src='js/includes/queue.js'></script>
     <script type='text/javascript' src='js/includes/mml.js'></script>
     <script type='text/javascript' src='js/includes/inspector.js'></script>
-    <script type='text/javascript' src='js/includes/stylesheet.js'></script>
+    <script type='text/javascript' src='js/includes/stylesheets.js'></script>
     <script type='text/javascript' src='js/includes/color.js'></script>
     <script type='text/javascript' src='js/includes/map.js'></script>
+    
 
     <!-- This file is optional - it can contain JS settings -->
     <script type='text/javascript' src='settings.js'></script>
@@ -82,6 +86,13 @@
       <div id='content' class='clearfix'>
           <div class='error-page'>{{ message }}</div>
       </div>
+    </script>
+
+    <script type='text/html' id='project_row'>
+    <li class='clearfix'>
+      <a href='#delete=project/{{.}}' class='file-delete'>Delete</a>
+      <a href='#action=project&id={{.}}' class='route'>{{.}}</a>
+    </li>
     </script>
 
     <script type='text/html' class='partial' id='column_project'>
@@ -547,7 +558,11 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
   </head>
 
   <body>
-    <div class='loading'>
+    <div id='reference-page'>
+    </div>
+    <div id='list-page'>
+    </div>
+    <div id='app'>
     </div>
   </body>
 </html>
