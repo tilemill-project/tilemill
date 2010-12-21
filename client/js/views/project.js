@@ -1,7 +1,39 @@
+var TMProjectView = Backbone.View.extend({
+  events: {
+    'div#header a.save': 'saveProject',
+    'div#header a.info': 'projectInfo'
+  },
+  
+  saveProject: function() {
+    if ($(this).is('.changed')) {
+      TileMill.project.save();
+    }
+    return false;
+  },
+  
+  projectInfo: function() {
+    TileMill.popup.show({
+        content: $(ich.popup_info_project({
+            tilelive_url: TileMill.backend.servers(TileMill.mml.url()),
+            mml_url: TileMill.mml.url({
+                timestamp: false,
+                encode: false
+            })
+        })),
+        title: 'Info'
+    });
+    return false;
+  },
+  
+  render: function() {
+    $(this.el).html('test');
+    return this;
+  }
+});
+
 /**
  * Router controller: Project page.
- */
-TileMill.controller.project = function() {
+TileMill.bind('project', function() {
   var id = $.bbq.getState('id');
   TileMill.backend.get('project/' + id + '/' + id + '.mml', function(mml) {
     // Bail if MML was not valid.
@@ -46,12 +78,7 @@ TileMill.controller.project = function() {
         panzoombar: 0
     }, parsed.metadata.mapCenter);
 
-    $('div#header a.save').click(function() {
-      if ($(this).is('.changed')) {
-        TileMill.project.save();
-      }
-      return false;
-    });
+
 
     $(document).bind('keypress', function(event) {
       if (event.charCode == 19) {
@@ -60,19 +87,6 @@ TileMill.controller.project = function() {
       }
     });
 
-    $('div#header a.info').click(function() {
-      TileMill.popup.show({
-          content: $(ich.popup_info_project({
-              tilelive_url: TileMill.backend.servers(TileMill.mml.url()),
-              mml_url: TileMill.mml.url({
-                  timestamp: false,
-                  encode: false
-              })
-          })),
-          title: 'Info'
-      });
-      return false;
-    });
 
     $('div#header a.minimal').toggle(
         function() {
@@ -110,13 +124,12 @@ TileMill.controller.project = function() {
 
     setInterval(TileMill.project.status, 10000);
   });
-};
+});
 
-TileMill.project = {};
+// TileMill.project = {};
 
 /**
  * Mark this project as changed (and needing to be saved).
- */
 TileMill.project.changed = function() {
   $('div#header a.save').addClass('changed');
 };
@@ -159,7 +172,6 @@ TileMill.project.watch = function() {
 
 /**
  * Save a project from its current DOM state.
- */
 TileMill.project.save = function() {
   // Refresh storage of active stylesheet before saving.
   TileMill.stylesheet.setCode($('#tabs a.active'), true);
@@ -206,7 +218,6 @@ TileMill.project.save = function() {
 
 /**
  * Add a new project.
- */
 TileMill.project.add = function(name) {
   $('body').append(ich.loading({}));
 
@@ -260,3 +271,4 @@ TileMill.project.add = function(name) {
   }, [name]);
   queue.execute();
 };
+*/

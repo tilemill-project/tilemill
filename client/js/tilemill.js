@@ -33,91 +33,31 @@ var TileMill = {
 /**
  * Controllers can be added and registered as callbacks in the route method.
  */
-TileMill.controller = {};
 
-/**
- * Route a hashchange or other request to the proper controller.
- */
-TileMill.route = function() {
-  var fn;
-  var url = $.bbq.getState('action');
-  switch (url) {
-    case undefined:
-    case 'list':
-      fn = 'list';
-      break;
-    case 'project':
-      fn = 'project';
-      break;
-    case 'visualization':
-      fn = 'visualization';
-      break;
-    case 'reference':
-      fn = 'reference';
-      break;
-    case 'data':
-      fn = 'data';
-      break;
-  }
-  if (TileMill.controller[fn]) {
-    $('body')
-      .attr('id', fn)
-      .empty()
-      .append(ich.page_loading({
-        message: 'page loading'
-      }));
-    TileMill.controller[fn]();
-  } else {
-    TileMill.errorPage('Page not found');
-  }
-};
+var TileMill = Backbone.Controller.extend({
+    routes: {
+        '': 'list',
+        'list': 'list',
+        'project': 'project', // TODO: url args
+        'visualization': 'visualization',
+        'reference': 'reference'
+    },
+    
+    initialize: function() {
+      this._list = new ListView;
+      this._reference = new ReferenceView;
+    },
 
-/**
- * Simulate a browser "page load" by fully replacing DOM elements in the body.
- *
- * @param {String} data an HTML elements object of all dom elements
- *  to be in the body element.
- */
-TileMill.show = function(data) {
-  $('body').empty().append(data);
-};
+    list: function() {
+      this._list.render();
+    },
+    
+    reference: function() {
+      this._reference.render();
+    }
+});
 
-/**
- * Show a message popup (error, status, etc).
- *
- * @param {String} title the message title.
- * @param {String} message the message.
- * @param {String} type the template style of the message.
- *
- * @return {Boolean} always false.
- */
-TileMill.message = function(title, message, type) {
-  type = type || 'status';
-  var popup = ich.popup_message({
-      content: message,
-      type: type
-  });
-  TileMill.popup.show({title: title, content: popup});
-  return false;
-};
-
-/**
- * Show an error page.
- *
- * @param {String} message the message text.
- */
-TileMill.errorPage = function(message) {
-  TileMill.show(ich.error_page({
-      message: message
-  }));
-};
-
-/**
- * Initial bootstrap. Bind routing to any hash change event and trigger an
- * initial hash change.
- */
 $(function() {
-  $(window).bind('hashchange', function() {
-    TileMill.route();
-  }).trigger('hashchange');
+  var tm = new TileMill();
+  Backbone.history.start()
 });

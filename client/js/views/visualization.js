@@ -1,7 +1,7 @@
 /**
  * Router controller: Visualization page.
  */
-TileMill.controller.visualization = function() {
+TileMill.bind('visualization', function() {
   var id = $.bbq.getState('id');
   TileMill.backend.get('visualization/' + id + '/' + id + '.mml',
     function(mml) {
@@ -89,17 +89,12 @@ TileMill.controller.visualization = function() {
       return false;
     });
   });
-};
+});
 
-TileMill.visualization = {
-    settings: {},
-    plugins: {}
-};
 
 /**
  * Init the visualization state from parsed MML. Grabs MML metadata and sets
  * the visualization settings which are used to affect maps.
- */
 TileMill.visualization.init = function(mml) {
   if (mml.metadata) {
     var keys = ['label', 'unique', 'choropleth', 'choroplethSplit', 'scaledPoints'];
@@ -113,7 +108,6 @@ TileMill.visualization.init = function(mml) {
 
 /**
  * Attach handlers to an individual field.
- */
 TileMill.visualization.attach = function(field, datatype, li) {
   $('a.visualization-type', li).each(function() {
     var type = $(this).attr('class').split('visualization-type inspect-')[1];
@@ -158,7 +152,6 @@ TileMill.visualization.attach = function(field, datatype, li) {
 
 /**
  * Save the visualization.
- */
 TileMill.visualization.save = function(callback) {
   var queue = new TileMill.queue();
 
@@ -232,7 +225,6 @@ TileMill.visualization.save = function(callback) {
 
 /**
  * Create a new visualization.
- */
 TileMill.visualization.add = function(url) {
   $('body').append(ich.loading({}));
 
@@ -310,7 +302,6 @@ TileMill.visualization.add = function(url) {
 
 /**
  * Convert the current visualization into a project.
- */
 TileMill.visualization.projectify = function(name) {
   var queue = new TileMill.queue();
   queue.add(function(next) {
@@ -348,7 +339,6 @@ TileMill.visualization.projectify = function(name) {
 
 /**
  * Sanitize values for expression in MSS.
- */
 TileMill.visualization.sanitize = function(value) {
   if (typeof value == 'string') {
     return escape(value);
@@ -365,7 +355,6 @@ TileMill.visualization.sanitize = function(value) {
 
 /**
  * Visualization plugin: label.
- */
 TileMill.visualization.plugins.label = function(field, mss, callback) {
   mss['#data ' + field] = {
     'text-face-name': '"DejaVu Sans Book"',
@@ -382,7 +371,6 @@ TileMill.visualization.plugins.label = function(field, mss, callback) {
 
 /**
  * Visualization plugin: choropleth.
- */
 TileMill.visualization.plugins.choropleth = function(field, mss, callback) {
   var pluginCallback = (function(data) {
     var range = Math.abs(data.max - data.min),
@@ -426,7 +414,6 @@ TileMill.visualization.plugins.choropleth = function(field, mss, callback) {
 
 /**
  * Visualization plugin: unique.
- */
 TileMill.visualization.plugins.unique = function(field, mss, callback) {
   var pluginCallback = (function(data) {
     var colors = [
@@ -495,7 +482,6 @@ TileMill.visualization.plugins.unique = function(field, mss, callback) {
 
 /**
  * Visualization plugin: scaled points.
- */
 TileMill.visualization.plugins.scaledPoints = function(field, mss, callback) {
   var pluginCallback = (function(data) {
     var range = Math.abs(data.max - data.min),
@@ -529,3 +515,4 @@ TileMill.visualization.plugins.scaledPoints = function(field, mss, callback) {
     callback: pluginCallback
   });
 };
+*/
