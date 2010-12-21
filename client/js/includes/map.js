@@ -33,6 +33,7 @@ TileMill.map.initOL = function(map, servers, controls, center) {
   OpenLayers.ImgPath = 'images/openlayers_dark/';
 
   var olMap = new OpenLayers.Map(map.attr('id'), options);
+  var fullControls = new OpenLayers.Control.PanZoom();
   var olLayer = new OpenLayers.Layer.XYZ('Preview', servers, {
       buffer: 0,
       transitionEffect: 'resize'
@@ -60,6 +61,12 @@ TileMill.map.initOL = function(map, servers, controls, center) {
     $('a.map-fullscreen', map).click(function() {
       $(map).toggleClass('fullscreen');
       olMap.updateSize();
+      if ($(map).hasClass('fullscreen')) {
+        fullControls = new OpenLayers.Control.PanZoom();
+        olMap.addControls([fullControls]);
+      } else {
+        olMap.removeControl(fullControls);
+      }
       return false;
     });
   }

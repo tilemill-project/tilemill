@@ -480,6 +480,10 @@ a.inspect-unique.active     { background-color:#222; }
   top:20px !important;
   }
 
+#map-preview div.olControlPanZoom {
+  top:20px !important;
+  }
+
 #map-preview.fullscreen,
 #sidebar #map-preview.fullscreen {
   position:fixed;
