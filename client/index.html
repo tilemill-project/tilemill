@@ -35,7 +35,7 @@
     <script type='text/javascript' src='js/views/visualization.js'></script>
     <script type='text/javascript' src='js/views/reference.js'></script>
     
-    <script type='text/javascript' src='js/includes/projects.js'></script>
+    <script type='text/javascript' src='js/collections/projects.js'></script>
     <script type='text/javascript' src='js/includes/cache.js'></script>
     <script type='text/javascript' src='js/includes/popup.js'></script>
     <script type='text/javascript' src='js/includes/mml.js'></script>
@@ -63,20 +63,7 @@
       <div class='loading'></div>
     </script>
 
-    <script type='text/html' id='list'>
-    <div id='header' class='clearfix pane'>
-      <h1>TileMill</h1>
-      <a class='info' href='#info'>Info</a>
-    </div>
-    <div id='content' class='clearfix'>
-        {{#projects}}
-            {{>column_project }}
-        {{/projects}}
-        {{#visualizations}}
-            {{>column_visualization }}
-        {{/visualizations}}
-    </div>
-    </script>
+
 
     <script type='text/html' id='error_page'>
       <div id='header' class='clearfix pane'>
@@ -561,6 +548,14 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
     <div id='reference-page'>
     </div>
     <div id='list-page'>
+      <div id='list' class='clearfix pane'>
+        <h1>TileMill</h1>
+        <a class='info' href='#info'>Info</a>
+        <div id='projects-list'></div>
+        <div id='visualizations-list'></div>
+      </div>
+      <div id='content' class='clearfix'>
+      </div>
     </div>
     <div id='app'>
     </div>

@@ -4,8 +4,6 @@
 TileMill.mml = {};
 TileMill.mss = {};
 
-var MML = Backbone.Model.extend({});
-
 /**
  * Render an MSS string from a structured array.
  */

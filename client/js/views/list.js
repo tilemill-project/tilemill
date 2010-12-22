@@ -1,6 +1,7 @@
-var ListView = Backbone.View.extend({
+var ProjectRow = Backbone.View.extend({
   
-  tagName: "ul",
+  tagName: "li",
+  className: "project-row",
   
   render: function() {
     console.log(this.projects);
@@ -8,17 +9,13 @@ var ListView = Backbone.View.extend({
   },
   
   initialize: function() {
-    this.projects = new Projects();
-    this.projects.bind('add', this.addOne);
-    this.projects.bind('all', this.render);
-    this.projects.fetch();
   },
   
   addOne: function() {
     console.log('called');
   }
   /*
-    console.log('list');
+  console.log('list');
   var queue = new TileMill.queue();
 
   queue.add(function(next) {
