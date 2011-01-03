@@ -10,7 +10,7 @@ var settings = require('./settings');
 var app = module.exports = express.createServer();
 
 app.use(express.bodyDecoder());
-app.use(express.staticProvider('../client'));
+app.use(express.staticProvider('client'));
 app.set('jsonp callback', true);
 
 app.get('/api', function(req, res, params) {
