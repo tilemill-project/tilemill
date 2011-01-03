@@ -16,8 +16,8 @@ TileMill.settings.providers = ['http://localhost:8889/provider/'];
 /**
  * Example: Use a local TileLive rasterizer at http://localhost:8888/
  */
-// TileMill.settings.rasterizer = 'tilelive';
-// TileMill.settings.tileliveServer = 'http://localhost:8888/';
+TileMill.settings.rasterizer = 'tilelive';
+TileMill.settings.tileliveServer = 'http://localhost:8889/';
 
 /**
  * Example: Use the default HTML client runtime.

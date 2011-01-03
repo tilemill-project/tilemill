@@ -6,7 +6,7 @@ var express = require('express'),
     rmrf = require('./rm-rf'),
     _ = require('underscore')._;
 
-var settings = JSON.parse(fs.readFileSync('settings.json'));
+var settings = require('./settings');
 var app = module.exports = express.createServer();
 
 app.use(express.bodyDecoder());
@@ -142,5 +142,6 @@ app.get('/api/mtime', function(req, res) {
 });
 
 require('./providers/providers')(app, settings);
+require('./tilehandler.js')(app, settings);
 
 app.listen(settings.port);
