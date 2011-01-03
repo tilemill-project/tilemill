@@ -142,6 +142,8 @@ app.get('/api/mtime', function(req, res) {
 });
 
 require('./providers/providers')(app, settings);
-require('./tilehandler.js')(app, settings);
+require('./tilehandler')(app, settings);
+require('./inspect')(app, settings);
+require('./bootstrap')(app, settings);
 
 app.listen(settings.port);

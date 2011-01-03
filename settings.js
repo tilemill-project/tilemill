@@ -1,11 +1,11 @@
 module.exports = {
     "port": 8889,
-    "files": "../files",
+    "files": "files",
     "providers": {
         "directory": { "path": "" }
     },
-    'mapfile_dir': 'mapfiles',
-    'data_dir': 'data',
+    'mapfile_dir': 'files/mapfiles',
+    'data_dir': 'files/data',
     // TODO: request-specific overrides
     'header_defaults': {
         'Expires': new Date(Date.now() +
