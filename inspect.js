@@ -4,6 +4,13 @@ module.exports = function(app, settings) {
     });
 
     /**
+     * @TODO expose available fonts (and other 'abilities').
+     */
+    app.get('/abilities.json', function(req, res) {
+        res.send({ fonts: [] });
+    });
+
+    /**
      * Inspect fields
      */
     app.get('/:mapfile_64/fields.json', function(req, res) {
