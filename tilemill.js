@@ -142,8 +142,14 @@ app.get('/api/mtime', function(req, res) {
 });
 
 require('./providers/providers')(app, settings);
-require('./tilehandler')(app, settings);
 require('./inspect')(app, settings);
+
+// Note that tilehandler must come last as its route rule acts as a "catchall"
+// @TODO: Either prefix the tile endpoint or come up with some other method of
+// allowing better route handling.
+require('./tilehandler')(app, settings);
+
+// "Bootstrap" (aka install) the application.
 require('./bootstrap')(app, settings);
 
 app.listen(settings.port);
