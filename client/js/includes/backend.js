@@ -11,7 +11,7 @@ TileMill.backend = {
  */
 TileMill.backend.servers.simple.list = function(filename, callback) {
   TileMill.backend.runtime.get({
-    url: TileMill.settings.simpleServer + 'list',
+    url: '/api/list',
     data: {
       filename: filename
     },
@@ -27,7 +27,7 @@ TileMill.backend.servers.simple.list = function(filename, callback) {
 
 TileMill.backend.servers.simple.get = function(filename, callback) {
   TileMill.backend.runtime.get({
-    url: TileMill.settings.simpleServer + 'file',
+    url: '/api/file',
     data: {
       filename: filename
     },
@@ -39,7 +39,7 @@ TileMill.backend.servers.simple.get = function(filename, callback) {
 
 TileMill.backend.servers.simple.mtime = function(filename, callback) {
   TileMill.backend.runtime.get({
-    url: TileMill.settings.simpleServer + 'mtime',
+    url: '/api/mtime',
     data: { 'filename': filename },
     success: function(data) {
       callback(data);
@@ -49,7 +49,7 @@ TileMill.backend.servers.simple.mtime = function(filename, callback) {
 
 TileMill.backend.servers.simple.post = function(filename, file_data, callback) {
   TileMill.backend.runtime.post({
-    url: TileMill.settings.simpleServer + 'file',
+    url: '/api/file',
     data: { 'filename': filename, 'data': file_data },
     success: callback
   });
@@ -57,7 +57,7 @@ TileMill.backend.servers.simple.post = function(filename, file_data, callback) {
 
 TileMill.backend.servers.simple.del = function(filename, callback) {
   TileMill.backend.runtime.post({
-    url: TileMill.settings.simpleServer + 'file',
+    url: '/api/file',
     data: {
       filename: filename,
       method: 'delete'
@@ -67,7 +67,7 @@ TileMill.backend.servers.simple.del = function(filename, callback) {
 };
 
 TileMill.backend.servers.simple.url = function(filename) {
-  return TileMill.settings.simpleServer + 'file?filename=' + filename;
+  return window.location.origin + '/api/file?filename=' + filename;
 };
 
 /**
@@ -83,8 +83,7 @@ TileMill.backend.rasterizers.tilelive.datasource = function(datab64, callback) {
     callback(cache);
   } else {
     TileMill.backend.runtime.get({
-      url: TileMill.settings.tileliveServer.split(',')[0] +
-        datab64 + '/data.json',
+      url: '/' + datab64 + '/data.json',
       success: callback,
       json: true
     });
@@ -96,8 +95,7 @@ TileMill.backend.rasterizers.tilelive.datasource = function(datab64, callback) {
  */
 TileMill.backend.rasterizers.tilelive.fonts = function(callback) {
   TileMill.backend.runtime.get({
-    url: TileMill.settings.tileliveServer.split(',')[0] +
-      'abilities.json',
+    url: '/abilities.json',
     success: callback
   });
 };
@@ -111,8 +109,7 @@ TileMill.backend.rasterizers.tilelive.fields = function(mmlb64, callback) {
     callback(cache);
   } else {
     TileMill.backend.runtime.get({
-      url: TileMill.settings.tileliveServer.split(',')[0] +
-        mmlb64 + '/fields.json',
+      url: '/' + mmlb64 + '/fields.json',
       success: callback
     });
   }
@@ -128,9 +125,11 @@ TileMill.backend.rasterizers.tilelive.values = function(options) {
   if (cache) {
     options.callback(cache);
   } else {
-    var url = TileMill.settings.tileliveServer.split(',')[0] +
-        options.mmlb64 + '/' + Base64.urlsafe_encode(options.layer) +
-        '/' + Base64.urlsafe_encode(options.field) + '/values.json?';
+    var url =
+        '/' + options.mmlb64 +
+        '/' + Base64.urlsafe_encode(options.layer) +
+        '/' + Base64.urlsafe_encode(options.field) +
+        '/values.json?';
     if (options.start) {
       url += 'start=' + options.start + '&';
     }
@@ -149,8 +148,7 @@ TileMill.backend.rasterizers.tilelive.values = function(options) {
 
 TileMill.backend.rasterizers.tilelive.status = function(callback) {
   TileMill.backend.runtime.get({
-    url: TileMill.settings.tileliveServer.split(',')[0] +
-      'status.json',
+    url: '/status.json',
     success: function(data) {
         if (data.status) {
             callback(true);
@@ -168,19 +166,7 @@ TileMill.backend.rasterizers.tilelive.status = function(callback) {
  * as OpenLayers tile servers.
  */
 TileMill.backend.rasterizers.tilelive.servers = function(mmlb64) {
-  var split = TileMill.settings.tileliveServer.split(',');
-  var servers;
-  // TODO: rewrite FP
-  if (split.length > 1) {
-    servers = [];
-    for (i = 0; i < split.length; i++) {
-      servers.push(split[i] + 'tile/' + mmlb64 + '/${z}/${x}/${y}.png');
-    }
-  } else {
-    servers = TileMill.settings.tileliveServer +
-      'tile/' + mmlb64 + '/${z}/${x}/${y}.png';
-  }
-  return servers;
+  return window.location.origin + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png';
 };
 
 TileMill.backend.runtimes.html.get = function(options) {
@@ -247,16 +233,14 @@ TileMill.backend.runtimes.html.post = function(options) {
  * Init methods using the selected backends.
  */
 $.each(['get', 'post'], function(i, func) {
-  TileMill.backend.runtime[func] =
-    TileMill.backend.runtimes[TileMill.settings.runtime][func];
+  TileMill.backend.runtime[func] = TileMill.backend.runtimes.html[func];
 });
 
 $.each(['list', 'get', 'post', 'del', 'url', 'mtime'], function(i, func) {
-  TileMill.backend[func] =
-    TileMill.backend.servers[TileMill.settings.server][func];
+  TileMill.backend[func] = TileMill.backend.servers.simple[func];
 });
 
 $.each(['datasource', 'fields', 'values', 'servers', 'status', 'fonts'], function(i, func) {
-  TileMill.backend[func] =
-    TileMill.backend.rasterizers[TileMill.settings.rasterizer][func];
+  TileMill.backend[func] = TileMill.backend.rasterizers.tilelive[func];
 });
+
