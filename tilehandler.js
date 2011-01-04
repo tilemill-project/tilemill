@@ -6,7 +6,7 @@ mapnik.register_datasources('/usr/local/lib/mapnik2/input');
 mapnik.register_fonts('/usr/local/lib/mapnik2/fonts/');
 
 module.exports = function(app, settings) {
-    app.get('/:scheme/:mapfile_64/:z/:x/:y.*', function(req, res) {
+    app.get('/:scheme/:mapfile_64/:z/:x/:y.*', function(req, res, next) {
         /*
          * scheme: (xyz|tms|tile (tms))
          *
@@ -35,9 +35,8 @@ module.exports = function(app, settings) {
                 // to the request object.
                 data[1] = _.extend(settings.header_defaults, data[1]);
                 res.send.apply(res, data);
-                // res.send.apply(res, ['hello', { 'Content-Type': 'image/png' }]);
             } else {
-                res.send('Tile rendering error: ' + err);
+                next(err);
             }
         });
     });
