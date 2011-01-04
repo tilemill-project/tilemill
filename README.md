@@ -18,31 +18,31 @@ Requirements
   * Tested: Firefox 3+
   * Target: IE7+
   * May work: Opera 11
-* **TileMill server**: ndistro
-* **Rasterizer**:
-  * [TileLive](http://github.com/tmcw/TileLive)
-  * [Mapnik 2.0](http://mapnik.org/)
-  * [Cascadenik HEAD](http://mapnik-utils.googlecode.com/svn/trunk) from SVN
+* **TileMill server**
+  * ndistro
+  * node 2.5
+  * Mapnik 2 [SVN Revision 2488](http://svn.mapnik.org/trunk)
+  * [node-mapnik](https://github.com/mapnik/node-mapnik)
 
 Setup
 -----
 
 ## Building
 
+* Build and install Mapnik 2.
 * Install node.js 2.5 using a package manager or building from source.
+* Install node-mapnik using a package manager or building from source.
 * Install [ndistro](https://github.com/visionmedia/ndistro)
-* Enter the `/server` directory and build dependencies
+* Build TileMill dependencies by running ndistro from the TileMill directory
 
-
-    cd server
-    ndistro
-
+        cd TileMill
+        ndistro
 
 ## Configuration
 
-* Edit the file 'server/settings.json', including the directory where you'd like
-  to keep TileMill's working files (projects and stylesheets). These can be in
-  your main documents directory or near other TileMill files.
+* Optional. Edit the file 'settings.js', including the directory where you'd
+  like to keep TileMill's working files (projects and stylesheets). These can
+  be in your main documents directory or near other TileMill files.
 * Include your s3 credentials or remove the s3 section if you don't want to use
   that functionality.
 * Include the directory where you want to store shapefiles and other data, or
@@ -52,10 +52,12 @@ Setup
 
     node tilemill.js
 
-* TileMill should now be running on http://localhost:8889/
+TileMill should now be running on http://localhost:8889/
 
 Architecture
 ------------
+@TODO out of date. Update to reflect recent consolidation.
+
 TileMill is based on [TileLive](http://github.com/developmentseed/TileLive) and
 follows its lead by making the interaction between the map storage backend, map
 editing client, and map rasterizer/inspector RESTful. A typical TileMill

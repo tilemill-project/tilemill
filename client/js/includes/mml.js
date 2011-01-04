@@ -157,8 +157,8 @@ TileMill.mml.parseMML = function(mml) {
 };
 
 TileMill.mml.showDatasources = function() {
-    _.map(TileMill.settings.providers, function(provider) {
     // TODO: generalize
+    var provider = '/provider';
     $.jsonp({
         url: provider,
         data: {},
@@ -196,7 +196,6 @@ TileMill.mml.showDatasources = function() {
           });
         }
     });
-  });
 };
 
 /**

@@ -6,11 +6,11 @@ var express = require('express'),
     rmrf = require('./rm-rf'),
     _ = require('underscore')._;
 
-var settings = JSON.parse(fs.readFileSync('settings.json'));
+var settings = require('./settings');
 var app = module.exports = express.createServer();
 
 app.use(express.bodyDecoder());
-app.use(express.staticProvider('../client'));
+app.use(express.staticProvider('client'));
 app.set('jsonp callback', true);
 
 app.get('/api', function(req, res, params) {
@@ -20,31 +20,42 @@ app.get('/api', function(req, res, params) {
   });
 });
 
-app.get('/api/projects', function(req, res) {
-  res.send(
-    _.map(
-      _.select(
-        fs.readdirSync(
-          path.join(settings.files, 'project')
-        ),
-        function(dir) {
-          return _.any(
-            fs.readdirSync(path.join(
-              settings.files,
-              'project',
-              dir)
-            ),
-            function(filename) { return filename.match('.mml'); }
-          )
-        }
-      ),
-      function(project) {
-        return {
-          id: project
-        }
+app.get('/api/list', function(req, res) {
+  path.exists(settings.files,
+    function(exists) {
+      if (exists) {
+        path.exists(path.join(settings.files, req.param('filename')),
+          function(exists) {
+            if (!exists) fs.mkdirSync(path.join(settings.files, req.param('filename')), 0777);
+            res.send({
+              status: true,
+              data: _.select(fs.readdirSync(
+                path.join(
+                  settings.files,
+                  req.param('filename'))),
+                function(dir) {
+                  // directories that contain at least one MML file
+                  return _.any(
+                    fs.readdirSync(path.join(
+                      settings.files,
+                      req.param('filename'),
+                      dir)),
+                    function(filename) {
+                      return filename.match('.mml');
+                    }
+                  );
+                }
+              )
+            });
+          });
+      } else {
+        res.send({
+          status: false,
+          data: 'The directory where TileMill keeps files is not present. ' + 
+            'Please create the directory ' + settings.files
+        });
       }
-    )
-  )
+  });
 });
 
 app.get('/api/file', function(req, res) {
@@ -131,5 +142,14 @@ app.get('/api/mtime', function(req, res) {
 });
 
 require('./providers/providers')(app, settings);
+require('./inspect')(app, settings);
+
+// Note that tilehandler must come last as its route rule acts as a "catchall"
+// @TODO: Either prefix the tile endpoint or come up with some other method of
+// allowing better route handling.
+require('./tilehandler')(app, settings);
+
+// "Bootstrap" (aka install) the application.
+require('./bootstrap')(app, settings);
 
 app.listen(settings.port);
