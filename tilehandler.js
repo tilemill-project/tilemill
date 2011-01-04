@@ -1,5 +1,5 @@
 var _ = require('underscore')._,
-    Tile = require('tilelive.js');
+    Tile = require('tilelive.js').Tile;
 
 var mapnik = require('mapnik');
 mapnik.register_datasources('/usr/local/lib/mapnik2/input');
