@@ -5,4 +5,3 @@ module documentcloud underscore
 module lucisferre node-xml2js
 module isaacs sax-js
 module developmentseed tilelive.js
-module creationix step
