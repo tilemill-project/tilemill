@@ -51,9 +51,9 @@ var StylesheetListView = Backbone.View.extend({
 });
 
 var StylesheetPopupView = PopupView.extend({
-    events: {
+    events: _.extend(PopupView.prototype.events, {
         'click input.submit': 'submit',
-    },
+    }),
     initialize: function(params) {
         this.options.title = 'Add stylesheet';
         this.options.content = ich.StylesheetPopupView({}, true);
