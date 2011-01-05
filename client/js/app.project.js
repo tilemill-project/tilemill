@@ -10,6 +10,11 @@ window.Project = Backbone.Model.extend({
         if (!this.get('Layer')) {
         this.set({'Layer': []});
         }
+    },
+    validate: function(attributes) {
+        if (/^[a-z0-9\-_]+$/i.test(this.id) === false) {
+            return 'Name must contain only letters, numbers, dashes, and underscores.';
+        }
     }
 });
 
@@ -44,17 +49,30 @@ window.ProjectListView = Backbone.View.extend({
         'click input.submit': 'add'
     },
     add: function() {
+        // @TODO: this code is considerably more complicated than it should be
+        // because this.collection.create() does not appear to stop itself from
+        // saving a project even if its validation fails.
+        // See: https://github.com/documentcloud/backbone/issues#issue/66
         window.app.loading();
         var projectId = $('input.text', this.el).val();
-        this.collection.create({id: projectId}, {
-            success: function() {
-                window.app.done();
-            },
-            error: function() {
-                window.app.done();
-                window.app.message('Error', 'The project could not be created.');
-            }
-        });
+        var project = new Project({id: projectId});
+        var error = project.validate();
+        if (!error) {
+            this.collection.add(project);
+            project.save(project, {
+                success: function() {
+                    window.app.done();
+                },
+                error: function(project, error) {
+                    window.app.done();
+                    window.app.message('Error', error);
+                }
+            });
+        }
+        else {
+            window.app.done();
+            window.app.message('Error', error);
+        }
         return false;
     }
 });
@@ -79,7 +97,6 @@ window.ProjectRowView = Backbone.View.extend({
             this.model.destroy({
                 success: function() {
                     window.app.done();
-                    Backbone.history.start();
                 },
                 error: function() {
                     window.app.done();
