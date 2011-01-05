@@ -1,4 +1,7 @@
 window.ListView = Backbone.View.extend({
+    events: {
+        'click div#header a.info': 'appInfo',
+    },
     initialize: function () {
         this.render();
     },
@@ -8,5 +11,9 @@ window.ListView = Backbone.View.extend({
         $('#content', this.el).append(projectList.el);
         window.app.el.html(this.el);
         return this;
+    },
+    appInfo: function() {
+        window.app.message('About TileLive', '@TODO: Put something facinating here.');
+        return false;
     }
 });
