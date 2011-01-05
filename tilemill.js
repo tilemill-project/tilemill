@@ -132,26 +132,29 @@ function loadProjects(req, res, next) {
     else {
         var queue = new events.EventEmitter;
         var basepath = path.join(settings.files, 'project');
-        fs.readdir(basepath, function(err, projects) {
-            if (err) {
-                return next(new Error('Error reading projects directory.'));
-            }
-            else if (projects.length === 0) {
-                next();
-            }
-            var queueLength = projects.length;
-            for (var i = 0; i < projects.length; i++) {
-                var project = new Project({id: projects[i] });
-                project.load(function(err, project) {
-                    if (!err) {
-                        res.projects.push(project);
-                    }
-                    queueLength--;
-                    if (queueLength === 0) {
-                        queue.emit('complete');
-                    }
-                });
-            }
+        path.exists(basepath, function(exists) {
+            if (!exists) fs.mkdirSync(basepath, 0777);
+            fs.readdir(basepath, function(err, projects) {
+                if (err) {
+                    return next(new Error('Error reading projects directory.'));
+                }
+                else if (projects.length === 0) {
+                    next();
+                }
+                var queueLength = projects.length;
+                for (var i = 0; i < projects.length; i++) {
+                    var project = new Project({id: projects[i] });
+                    project.load(function(err, project) {
+                        if (!err) {
+                            res.projects.push(project);
+                        }
+                        queueLength--;
+                        if (queueLength === 0) {
+                            queue.emit('complete');
+                        }
+                    });
+                }
+            });
         });
         queue.on('complete', next);
     }
