@@ -22,47 +22,109 @@ app.get('/api', function(req, res, params) {
   });
 });
 
-app.get('/api/project/:projectId?', loadProjectRoute, function(req, res, next) {
+app.get('/api/project/:projectId?', loadProjects, function(req, res, next) {
     if (req.param('projectId')) {
-        res.send(res.project.pop());
+        res.send(res.projects.pop());
     }
     else {
-        res.send(res.project);
+        res.send(res.projects);
     }
 });
 
 app.put('/api/project/:projectId', function(req, res, next) {
-    var project = req.body;
-});
-
-app.del('/api/project/:projectId', loadProjectRoute, function(req, res, next) {
-    var basepath = path.join(settings.files, 'project');
-    var projectId = res.project.pop().id;
-    var projectPath = path.join(basepath, projectId);
-    rmrf(projectPath, function() {
+    var project = new Project(req.body);
+    project.save(function() {
         res.send({});
     });
 });
 
-function loadProject(projectId, callback) {
-    var basepath = path.join(settings.files, 'project');
-    var projectPath = path.join(basepath, projectId, projectId + '.mml');
-    fs.readFile(projectPath, 'utf-8', function(err, data) {
-        if (!err) {
-            callback(err, { id: projectId, data: data });
+app.del('/api/project/:projectId', loadProjects, function(req, res, next) {
+    var project = res.projects.pop();
+    project.delete(function() {
+        res.send({});
+    });
+});
+
+/**
+ * Project model.
+ */
+var Project = function(object) {
+    this.srs = '';
+    this.Stylesheet = [];
+    this.Layer = [];
+    _.extend(this, object);
+}
+
+Project.prototype.load = function(callback) {
+    var self = this;
+    var projectPath = path.join(settings.files, 'project', this.id);
+    fs.readFile(path.join(projectPath, self.id + '.mml'), 'utf-8', function(err, data) {
+        if (err) {
+            return callback(new Error('Error reading project file.'));
+        }
+        var object = JSON.parse(data);
+        if (data && object) {
+            _.extend(self, object);
+        }
+        if (self.Stylesheet && self.Stylesheet.length > 0) {
+            var queue = new events.EventEmitter;
+            var queueLength = self.Stylesheet.length;
+            _.each(self.Stylesheet, function(filename, key) {
+                fs.readFile(path.join(projectPath, filename), 'utf-8', function(err, data) {
+                    self.Stylesheet[key] = {id: filename, data: data};
+                    queueLength--;
+                    if (queueLength === 0) {
+                        queue.emit('complete');
+                    }
+                });
+            });
+            queue.on('complete', function() {
+                callback(null, self);
+            });
         }
         else {
-            callback(err);
+            callback(err, self);
         }
     });
 }
 
-function loadProjectRoute(req, res, next) {
-    res.project = [];
+Project.prototype.save = function(callback) {
+    var self = this;
+    var projectPath = path.join(settings.files, 'project', this.id);
+
+    fs.mkdir(projectPath, 0777, function() {
+        var data = _.extend({}, self);
+        var stylesheets = {};
+        if (data.id) {
+            delete data.id;
+        }
+        if (data.Stylesheet) {
+            _.each(data.Stylesheet, function(stylesheet, key) {
+                if (stylesheet.id) {
+                    stylesheets[stylesheet.id] = stylesheet.data;
+                    data.Stylesheet[key] = stylesheet.id;
+                }
+            });
+        }
+        // @TODO work through stylesheet queue and save each one individually.
+        fs.writeFile(path.join(projectPath, self.id + '.mml'), JSON.stringify(data), function(err) {
+            callback(err);
+        });
+    });
+}
+
+Project.prototype.delete = function(callback) {
+    var projectPath = path.join(settings.files, 'project', this.id);
+    rmrf(projectPath, callback);
+}
+
+function loadProjects(req, res, next) {
+    res.projects = [];
     if (req.param('projectId')) {
-        loadProject(req.param('projectId'), function(err, project) {
+        var project = new Project({id: req.param('projectId') });
+        project.load(function(err, project) {
             if (project) {
-                res.project.push(project);
+                res.projects.push(project);
             }
             next();
         });
@@ -79,9 +141,10 @@ function loadProjectRoute(req, res, next) {
             }
             var queueLength = projects.length;
             for (var i = 0; i < projects.length; i++) {
-                loadProject(projects[i], function(err, project) {
+                var project = new Project({id: projects[i] });
+                project.load(function(err, project) {
                     if (!err) {
-                        res.project.push(project);
+                        res.projects.push(project);
                     }
                     queueLength--;
                     if (queueLength === 0) {
