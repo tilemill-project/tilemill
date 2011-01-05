@@ -24,26 +24,17 @@
     <script type='text/javascript' src='js/libraries/farbtastic.js'></script>
     <script type='text/javascript' src='js/codemirror/js/codemirror.js'></script>
 
-    <script type='text/javascript' src='js/tilemill.js'></script>
-    
-    <script type='text/javascript' src='js/models/stylesheet.js'></script>
-    <script type='text/javascript' src='js/models/visualization.js'></script>
-    <script type='text/javascript' src='js/models/project.js'></script>
+    <script type='text/javascript' src='js/app.project.js'></script>
+    <script type='text/javascript' src='js/app.reference.js'></script>
+    <script type='text/javascript' src='js/app.stylesheet.js'></script>
+    <script type='text/javascript' src='js/app.visualization.js'></script>
+    <script type='text/javascript' src='js/app.list.js'></script>
+    <script type='text/javascript' src='js/app.js'></script>
 
-    <script type='text/javascript' src='js/views/list.js'></script>
-    <script type='text/javascript' src='js/views/project.js'></script>
-    <script type='text/javascript' src='js/views/visualization.js'></script>
-    <script type='text/javascript' src='js/views/reference.js'></script>
-    
-    <script type='text/javascript' src='js/collections/projects.js'></script>
-    <script type='text/javascript' src='js/includes/cache.js'></script>
-    <script type='text/javascript' src='js/includes/popup.js'></script>
     <script type='text/javascript' src='js/includes/mml.js'></script>
     <script type='text/javascript' src='js/includes/inspector.js'></script>
-    <script type='text/javascript' src='js/includes/stylesheets.js'></script>
     <script type='text/javascript' src='js/includes/color.js'></script>
     <script type='text/javascript' src='js/includes/map.js'></script>
-    
 
     <script type='text/html' id='page_loading'>
       <div id='header' class='clearfix pane'>
@@ -53,11 +44,50 @@
       <div class='loading page-loading'></div>
     </script>
 
+    <script type='text/html' id='ListView'>
+    <div id='header' class='clearfix pane'>
+      <h1>TileMill</h1>
+      <a class='info' href='#info'>Info</a>
+    </div>
+    <div id='content' class='clearfix'>
+    </div>
+    </script>
+
+    <script type='text/html' id='ProjectListView'>
+    <h2 class='pane'>Projects</h2>
+    <ul class='items'>
+      <li class='form'>
+      <form id='projects'>
+          <div class='messages'></div>
+          <label>Name</label>
+          <input class='required text alphanum' type='text' />
+          <input class='submit' type='submit' value='Add project' />
+        </form>
+      </li>
+    </ul>
+    </script>
+
+    <script type='text/html' id='VisualizationListView'>
+    <h2 class='pane'>Visualizations</h2>
+    <ul class='items'>
+      <li class='form'>
+      <form id='visualizations'>
+        <div class='messages'></div>
+        <label>Shapefile URL</label>
+        <input class='url2 required text' type='text' />
+        <input class='submit' type='submit' value='Add visualization' />
+      </form>
+      </li>
+    </ul>
+    </script>
+
     <script type='text/html' id='loading'>
-      <div class='loading-text'>
-        {{#message}}{{ message }}{{/message}}
+      <div id='loading'>
+        <div class='loading-text'>
+          {{#message}}{{ message }}{{/message}}
+        </div>
+        <div class='loading'></div>
       </div>
-      <div class='loading'></div>
     </script>
 
 
@@ -72,11 +102,9 @@
       </div>
     </script>
 
-    <script type='text/html' id='project_row'>
-    <li class='clearfix'>
-      <a href='#delete=project/{{.}}' class='file-delete'>Delete</a>
-      <a href='#action=project&id={{.}}' class='route'>{{.}}</a>
-    </li>
+    <script type='text/html' id='ProjectRowView'>
+      <a href='#project/{{id}}/delete' class='file-delete'>Delete</a>
+      <a href='#project/{{id}}' class='route'>{{id}}</a>
     </script>
 
     <script type='text/html' class='partial' id='column_project'>
@@ -216,7 +244,7 @@
       </div>
     </script>
 
-    <script type='text/html' id='popup'>
+    <script type='text/html' id='PopupView'>
       <div id='popup'>
         <div class='popup-backdrop'></div>
         <div class='popup'>
@@ -224,7 +252,7 @@
             <h2>{{ title }}</h2>
             <a href='#' class='popup-close'>Close</a>
           </div>
-          <div class='popup-content'></div>
+          <div class='popup-content'>{{{ content }}}</div>
         </div>
       </div>
     </script>
@@ -382,9 +410,9 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
       <option>{{ font }}</option>
     </script>
 
-    <script type='text/html' id='popup_message'>
+    <script type='text/html' id='PopupMessage'>
       <div id='popup-message' class='clearfix pane {{ type }}'>
-        {{ content }}
+        {{ message }}
       </div>
     </script>
 
@@ -423,7 +451,7 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
       </div>
     </script>
 
-    <script type='text/html' id='reference'>
+    <script type='text/html' id='ReferenceViewfil'>
       <div id='header' class='clearfix pane'>
         <h1>Reference</h1>
         <a class='home' href='#action=list'>Back home</a>
@@ -542,19 +570,6 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
   </head>
 
   <body>
-    <div id='reference-page'>
-    </div>
-    <div id='list-page'>
-      <div id='list' class='clearfix pane'>
-        <h1>TileMill</h1>
-        <a class='info' href='#info'>Info</a>
-        <div id='projects-list'></div>
-        <div id='visualizations-list'></div>
-      </div>
-      <div id='content' class='clearfix'>
-      </div>
-    </div>
-    <div id='app'>
-    </div>
+    <div id='app'></div>
   </body>
 </html>

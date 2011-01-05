@@ -4,12 +4,14 @@ var express = require('express'),
     fs = require('fs'),
     path = require('path'),
     rmrf = require('./rm-rf'),
+    events = require('events'),
     _ = require('underscore')._;
 
 var settings = require('./settings');
 var app = module.exports = express.createServer();
 
 app.use(express.bodyDecoder());
+app.use(express.methodOverride());
 app.use(express.staticProvider('client'));
 app.set('jsonp callback', true);
 
@@ -19,6 +21,78 @@ app.get('/api', function(req, res, params) {
     version: 1.0
   });
 });
+
+app.get('/api/project/:projectId?', loadProjectRoute, function(req, res, next) {
+    if (req.param('projectId')) {
+        res.send(res.project.pop());
+    }
+    else {
+        res.send(res.project);
+    }
+});
+
+app.put('/api/project/:projectId', function(req, res, next) {
+    var project = req.body;
+});
+
+app.del('/api/project/:projectId', loadProjectRoute, function(req, res, next) {
+    var basepath = path.join(settings.files, 'project');
+    var projectId = res.project.pop().id;
+    var projectPath = path.join(basepath, projectId);
+    rmrf(projectPath, function() {
+        res.send({});
+    });
+});
+
+function loadProject(projectId, callback) {
+    var basepath = path.join(settings.files, 'project');
+    var projectPath = path.join(basepath, projectId, projectId + '.mml');
+    fs.readFile(projectPath, 'utf-8', function(err, data) {
+        if (!err) {
+            callback(err, { id: projectId, data: data });
+        }
+        else {
+            callback(err);
+        }
+    });
+}
+
+function loadProjectRoute(req, res, next) {
+    res.project = [];
+    if (req.param('projectId')) {
+        loadProject(req.param('projectId'), function(err, project) {
+            if (project) {
+                res.project.push(project);
+            }
+            next();
+        });
+    }
+    else {
+        var queue = new events.EventEmitter;
+        var basepath = path.join(settings.files, 'project');
+        fs.readdir(basepath, function(err, projects) {
+            if (err) {
+                return next(new Error('Error reading projects directory.'));
+            }
+            else if (projects.length === 0) {
+                next();
+            }
+            var queueLength = projects.length;
+            for (var i = 0; i < projects.length; i++) {
+                loadProject(projects[i], function(err, project) {
+                    if (!err) {
+                        res.project.push(project);
+                    }
+                    queueLength--;
+                    if (queueLength === 0) {
+                        queue.emit('complete');
+                    }
+                });
+            }
+        });
+        queue.on('complete', next);
+    }
+}
 
 app.get('/api/list', function(req, res) {
   path.exists(settings.files,
