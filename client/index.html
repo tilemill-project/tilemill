@@ -156,7 +156,7 @@
       </div>
     </script>
 
-    <script type='text/html' id='stylesheets'>
+    <script type='text/html' id='StylesheetListView'>
       <div id='tabs'>
         <div class='stylesheets'></div>
         <a title='Add a Stylesheet Tab' class='tab-add' href='#'>Add MSS</a>
@@ -164,6 +164,12 @@
       <div id='editor'>
         <textarea id='code'></textarea>
       </div>
+    </script>
+
+    <script type='text/html' id='StylesheetTabView'>
+      <span class='name'>{{ id }}</span>
+      <span class='tab-delete'>Delete</span>
+      <input type='hidden' value=' ' />
     </script>
 
     <script type='text/html' id='color'>
