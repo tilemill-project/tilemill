@@ -11,6 +11,11 @@ window.Project = Backbone.Model.extend({
         this.set({'Layer': []});
         }
     },
+    // Override url() method for convenience so we don't always need a
+    // collection reference around for CRUD operations on a single model.
+    url : function() {
+        return '/api/project/' + this.id;
+    },
     validate: function(attributes) {
         if (/^[a-z0-9\-_]+$/i.test(this.id) === false) {
             return 'Name must contain only letters, numbers, dashes, and underscores.';
@@ -32,6 +37,7 @@ window.ProjectListView = Backbone.View.extend({
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
         this.collection.bind('refresh', this.render);
+        this.collection.bind('change', this.render);
         this.collection.fetch();
     },
     render: function() {
@@ -56,23 +62,17 @@ window.ProjectListView = Backbone.View.extend({
         window.app.loading();
         var projectId = $('input.text', this.el).val();
         var project = new Project({id: projectId});
-        var error = project.validate();
-        if (!error) {
-            this.collection.add(project);
-            project.save(project, {
-                success: function() {
-                    window.app.done();
-                },
-                error: function(project, error) {
-                    window.app.done();
-                    window.app.message('Error', error);
-                }
-            });
-        }
-        else {
-            window.app.done();
-            window.app.message('Error', error);
-        }
+        var self = this;
+        project.save(project, {
+            success: function() {
+                self.collection.add(project);
+                window.app.done();
+            },
+            error: function(project, error) {
+                window.app.done();
+                window.app.message('Error', error);
+            }
+        });
         return false;
     }
 });
@@ -92,8 +92,8 @@ window.ProjectRowView = Backbone.View.extend({
         'click .file-delete': 'delete'
     },
     delete: function() {
+        window.app.loading();
         if (confirm('Are you sure you want to delete this project?')) {
-            window.app.loading();
             this.model.destroy({
                 success: function() {
                     window.app.done();
@@ -109,36 +109,37 @@ window.ProjectRowView = Backbone.View.extend({
 });
 
 window.ProjectView = Backbone.View.extend({
-  events: {
-    'div#header a.save': 'saveProject',
-    'div#header a.info': 'projectInfo'
-  },
-  
-  saveProject: function() {
-    if ($(this).is('.changed')) {
-      TileMill.project.save();
-    }
-    return false;
-  },
-  
-  projectInfo: function() {
-    TileMill.popup.show({
+    events: {
+        'div#header a.save': 'saveProject',
+        'div#header a.info': 'projectInfo'
+    },
+    initialize: function () {
+        _.bindAll(this, 'render');
+        this.model.bind('refresh', this.render);
+        this.model.bind('change', this.render);
+        this.render();
+    },
+    saveProject: function() {
+        alert('asdf');
+    },
+    projectInfo: function() {
+        TileMill.popup.show({
         content: $(ich.popup_info_project({
-            tilelive_url: TileMill.backend.servers(TileMill.mml.url()),
-            mml_url: TileMill.mml.url({
-                timestamp: false,
-                encode: false
-            })
+        tilelive_url: TileMill.backend.servers(TileMill.mml.url()),
+        mml_url: TileMill.mml.url({
+        timestamp: false,
+        encode: false
+        })
         })),
         title: 'Info'
-    });
-    return false;
-  },
-  
-  render: function() {
-    $(this.el).html('test');
-    return this;
-  }
+        });
+        return false;
+    },
+    render: function() {
+        $(this.el).html('test');
+        window.app.el.html(this.el);
+        return this;
+    }
 });
 
 /**
