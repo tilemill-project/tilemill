@@ -27,12 +27,18 @@ Requirements
 Setup
 -----
 
+## Prerequisites
+
+- make
+- Python 2.4 or better
+
 ## Building
 
-* Build and install Mapnik 2.
-* Install node.js 2.5 using a package manager or building from source.
-* Install node-mapnik using a package manager or building from source.
+* Build and install Mapnik 2 (latest trunk).
 * Install [ndistro](https://github.com/visionmedia/ndistro)
+
+        cd /usr/local/bin && curl http://github.com/visionmedia/ndistro/raw/master/install | sh
+
 * Build TileMill dependencies by running ndistro from the TileMill directory
 
         cd TileMill
@@ -50,7 +56,7 @@ Setup
 
 ## Running
 
-    node tilemill.js
+    ./run.sh
 
 TileMill should now be running on http://localhost:8889/
 
