@@ -139,8 +139,9 @@ var ProjectView = Backbone.View.extend({
     render: function() {
         $(this.el).html(ich.ProjectView(this.model));
         var layers = new LayerListView({collection: this.model.get('Layer')});
+        var stylesheets = new StylesheetListView({collection: this.model.get('Stylesheet')});
         $('#sidebar', this.el).append(layers.el);
-
+        $('#main', this.el).append(stylesheets.el);
         window.app.el.html(this.el);
         return this;
     }
@@ -197,6 +198,7 @@ var LayerRowView = Backbone.View.extend({
         this.render();
     },
     render: function () {
+        // @TODO: properly render name as "#id, .class", etc.
         this.model.set({'name': this.model.get('id')});
         $(this.el).html(ich.LayerRowView(this.model.attributes));
         return this;
@@ -227,9 +229,58 @@ var StylesheetList = Backbone.Collection.extend({
 });
 
 var StylesheetListView = Backbone.View.extend({
+    initialize: function() {
+        _.bindAll(this, 'render');
+        this.render();
+        /*
+        @TODO: bind re-render to project events.
+        */
+    },
+    render: function() {
+        var self = this;
+        $(this.el).html(ich.StylesheetListView());
+        this.collection.each(function(stylesheet) {
+            var stylesheetTab = new StylesheetTabView({
+                model: stylesheet,
+                collection: this.collection
+            });
+            $('.stylesheets', self.el).append(stylesheetTab.el);
+        });
+        $('.stylesheets', self.el).sortable({
+          axis: 'x'
+          // @TODO: proper event.
+          // change: TileMill.project.changed
+        });
+
+        return this;
+    },
+    events: {
+        'click .tab-add': 'add'
+    },
+    add: function() {
+        alert('@TODO add');
+        return false;
+    }
 });
 
 var StylesheetTabView = Backbone.View.extend({
+    tagName: 'a',
+    className: 'tab',
+    initialize: function () {
+        _.bindAll(this, 'render');
+        this.render();
+    },
+    render: function () {
+        $(this.el).html(ich.StylesheetTabView({ id: this.model.get('id') }));
+        return this;
+    },
+    events: {
+        'click .tab-delete': 'delete',
+    },
+    delete: function() {
+        alert('@TODO delete');
+        return false;
+    }
 });
 
 var MapView = Backbone.View.extend({
