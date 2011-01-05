@@ -21,10 +21,11 @@ else
 fi
 
 if ! [ -f "lib/node/mapnik/_mapnik.node" ]; then
-    echo "... installing node-mapnik"
+    echo "... building node-mapnik"
     cd modules/node-mapnik
-    node-waf --prefix=$RUN_DIR configure build install
+    $RUN_DIR/build/bin/node-waf --prefix=$RUN_DIR configure build
+    $RUN_DIR/build/bin/node-waf install
     cd $RUN_DIR;
 else
-    echo "... already installed node-mapnik"
+    echo "... already built node-mapnik"
 fi
