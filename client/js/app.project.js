@@ -1,9 +1,21 @@
 window.Project = Backbone.Model.extend({
+    SRS_DEFAULT: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+    initialize: function() {
+        if (!this.get('srs')) {
+        this.set({'srs': this.SRS_DEFAULT});
+        }
+        if (!this.get('Stylesheet')) {
+        this.set({'Stylesheet': []});
+        }
+        if (!this.get('Layer')) {
+        this.set({'Layer': []});
+        }
+    }
 });
 
 window.ProjectList = Backbone.Collection.extend({
     model: Project,
-    url: '/api/project',
+    url: '/api/project'
 });
 
 window.ProjectListView = Backbone.View.extend({
