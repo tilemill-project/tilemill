@@ -93,14 +93,14 @@
       <a href='#project/{{id}}' class='route'>{{id}}</a>
     </script>
 
-    <script type='text/html' id='project'>
+    <script type='text/html' id='ProjectView'>
       <div id='header' class='clearfix pane'>
         <h1>Editing {{ id }}</h1>
         <a class='info' href='#project-info'>Info</a>
         <a class='minimal' href='#minimal'>Minimal Mode</a>
-        <a target='_blank' class='reference' href='#action=reference'>Reference</a>
+        <a target='_blank' class='reference' href='#reference'>Reference</a>
         <a class='save' href='#project-save'>Save</a>
-        <a class='home' href='#action=list'>Back home</a>
+        <a class='home' href='#'>Back home</a>
         <a class='status' href='#status'>Status</a>
       </div>
       <div id='main'></div>
@@ -112,13 +112,13 @@
         <h1>Visualizing {{ id }}</h1>
         <a class='info' href='#project-info'>Info</a>
         <a class='projectify' href='#project-save'>Make project</a>
-        <a class='home' href='#action=list'>Back home</a>
+        <a class='home' href='#'>Back home</a>
       </div>
       <div id='main'></div>
       <div id='sidebar'></div>
     </script>
 
-    <script type='text/html' id='layers'>
+    <script type='text/html' id='LayerListView'>
       <div id='layers'>
         <div class='sidebar-header clearfix pane'>
           <h2>Layers</h2>
@@ -129,15 +129,13 @@
       </div>
     </script>
 
-    <script type='text/html' id='layers_li'>
-      <li>
-        <div class='handle'></div>
-        <input class='checkbox' type='checkbox' {{ status }} />
-        <a title='Delete Layer' class='layer-delete' href='#'>Delete</a>
-        <a title='Inspect Layer Values' class='layer-inspect' href='#'>Inspect</a>
-        <a title='Edit Layer Definition' class='layer-edit' href='#'>Edit</a>
-        <label>{{ name }}</label>
-      </li>
+    <script type='text/html' id='LayerRowView'>
+      <div class='handle'></div>
+      <input class='checkbox' type='checkbox' {{ status }} />
+      <a title='Delete Layer' class='layer-delete' href='#'>Delete</a>
+      <a title='Inspect Layer Values' class='layer-inspect' href='#'>Inspect</a>
+      <a title='Edit Layer Definition' class='layer-edit' href='#'>Edit</a>
+      <label>{{ name }}</label>
     </script>
 
     <script type='text/html' id='inspector'>
@@ -396,7 +394,7 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
     <script type='text/html' id='ReferenceView'>
       <div id='header' class='clearfix pane'>
         <h1>Reference</h1>
-        <a class='home' href='#action=list'>Back home</a>
+        <a class='home' href='#'>Back home</a>
       </div>
       <div id='main'>
         <div id='main-content'>
@@ -437,7 +435,7 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
     <script type='text/html' id='data'>
       <div id='header' class='clearfix pane'>
         <h1>Data</h1>
-        <a class='home' href='#action=list'>Back home</a>
+        <a class='home' href='#'>Back home</a>
       </div>
       <div id='main'>
         <div id='main-content'>
