@@ -5,3 +5,7 @@ module documentcloud underscore
 module lucisferre node-xml2js
 module isaacs sax-js
 module developmentseed tilelive.js
+module mapnik node-mapnik
+
+# Build node and node-mapnik
+./install.sh
