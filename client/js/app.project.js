@@ -120,13 +120,29 @@ var ProjectRowView = Backbone.View.extend({
 var ProjectView = Backbone.View.extend({
     events: {
         'click div#header a.save': 'saveProject',
-        'click div#header a.info': 'projectInfo'
+        'click div#header a.info': 'projectInfo',
+        'click div#header a.minimal': 'minimal',
+        'click div#header a.home': 'home'
     },
     initialize: function () {
         _.bindAll(this, 'render');
         this.model.bind('refresh', this.render);
         this.model.bind('change', this.render);
         this.model.fetch();
+    },
+    render: function() {
+        $(this.el).html(ich.ProjectView(this.model));
+
+        var layers = new LayerListView({collection: this.model.get('Layer')});
+        var stylesheets = new StylesheetListView({collection: this.model.get('Stylesheet')});
+        var map = new MapView({model: this.model});
+
+        $('#sidebar', this.el).append(layers.el);
+        $('#sidebar', this.el).append(map.el);
+        $('#main', this.el).append(stylesheets.el);
+
+        window.app.el.html(this.el);
+        return this;
     },
     saveProject: function() {
         alert('@TODO save');
@@ -136,16 +152,28 @@ var ProjectView = Backbone.View.extend({
         alert('@TODO projectInfo');
         return false;
     },
-    render: function() {
-        $(this.el).html(ich.ProjectView(this.model));
-        var layers = new LayerListView({collection: this.model.get('Layer')});
-        var stylesheets = new StylesheetListView({collection: this.model.get('Stylesheet')});
-        var map = new MapView({model: this.model});
-        $('#sidebar', this.el).append(layers.el);
-        $('#sidebar', this.el).append(map.el);
-        $('#main', this.el).append(stylesheets.el);
-        window.app.el.html(this.el);
-        return this;
+    home: function() {
+        return (!$('div#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?'));
+    },
+    minimal: function() {
+        $('a.minimal', this.el).toggleClass('active');
+        if ($('a.minimal', this.el).is('.active')) {
+            $('#main').hide();
+            $('a.home').hide();
+            $('a.save').hide();
+            $('#sidebar').css('width', '100%');
+            // @TODO.
+            // TileMill.project_watcher = setInterval(TileMill.project.watch, 1000);
+        }
+        else {
+            $('#main').show();
+            $('a.home').show();
+            $('a.save').show();
+            $('#sidebar').css('width', '30%');
+            // @TODO
+            // window.clearInterval(TileMill.project_watcher);
+        }
+        return false;
     }
 });
 
@@ -196,40 +224,11 @@ TileMill.bind('project', function() {
         panzoombar: 0
     }, parsed.metadata.mapCenter);
 
-
-
     $(document).bind('keypress', function(event) {
       if (event.charCode == 19) {
         TileMill.project.save();
         return false;
       }
-    });
-
-
-    $('div#header a.minimal').toggle(
-        function() {
-          $('#main').hide();
-          $('a.home').hide();
-          $('a.save').hide();
-          $('#sidebar').css('width', '100%');
-          TileMill.project_watcher = setInterval(TileMill.project.watch, 1000);
-        },
-        function() {
-          $('#main').show();
-          $('a.home').show();
-          $('a.save').show();
-          $('#sidebar').css('width', '30%');
-          window.clearInterval(TileMill.project_watcher);
-        }
-    );
-
-    $('div#header a.home').click(function() {
-      if (!$('div#header a.save').is('.changed') ||
-          confirm('You have unsaved changes. Are you sure you ' +
-              'want to close this project?')) {
-        return true;
-      }
-      return false;
     });
 
     // Hide inspector to start.

@@ -1,12 +1,7 @@
-var Visualization = Backbone.Model.extend({
-    initialize: function() {
-        // this.stylesheets = new Stylesheets;
-    }
-});
+var Visualization = Backbone.Model.extend();
 
 /**
  * Router controller: Visualization page.
- */
 TileMill.bind('visualization', function() {
   var id = $.bbq.getState('id');
   TileMill.backend.get('visualization/' + id + '/' + id + '.mml',
@@ -96,7 +91,7 @@ TileMill.bind('visualization', function() {
     });
   });
 });
-
+*/
 
 /**
  * Init the visualization state from parsed MML. Grabs MML metadata and sets

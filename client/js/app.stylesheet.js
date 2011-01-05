@@ -1,12 +1,23 @@
 var Stylesheet = Backbone.Model.extend({
+    initialize: function() {
+        // Set default values.
+        if (!this.get('data')) {
+            this.set({'data': ''});
+        }
+    }
 });
 
 var StylesheetList = Backbone.Collection.extend({
+    model: Stylesheet
 });
 
 var StylesheetListView = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, 'render');
+        this.collection.bind('add', this.render);
+        this.collection.bind('remove', this.render);
+        this.collection.bind('refresh', this.render);
+        this.collection.bind('change', this.render);
         this.render();
         /*
         @TODO: bind re-render to project events.
@@ -18,7 +29,7 @@ var StylesheetListView = Backbone.View.extend({
         this.collection.each(function(stylesheet) {
             var stylesheetTab = new StylesheetTabView({
                 model: stylesheet,
-                collection: this.collection
+                list: self
             });
             $('.stylesheets', self.el).append(stylesheetTab.el);
         });
@@ -34,7 +45,25 @@ var StylesheetListView = Backbone.View.extend({
         'click .tab-add': 'add'
     },
     add: function() {
-        alert('@TODO add');
+        new StylesheetPopupView({collection: this.collection});
+        return false;
+    }
+});
+
+var StylesheetPopupView = PopupView.extend({
+    events: {
+        'click input.submit': 'submit',
+    },
+    initialize: function(params) {
+        this.options.title = 'Add stylesheet';
+        this.options.content = ich.StylesheetPopupView({}, true);
+        this.render();
+    },
+    submit: function() {
+        var id = $('input.text', this.el).val();
+        var stylesheet = new Stylesheet({id: id});
+        this.collection.add(stylesheet);
+        this.remove();
         return false;
     }
 });
@@ -42,16 +71,111 @@ var StylesheetListView = Backbone.View.extend({
 var StylesheetTabView = Backbone.View.extend({
     tagName: 'a',
     className: 'tab',
-    initialize: function () {
+    initialize: function (params) {
         _.bindAll(this, 'render');
         this.render();
+        this.list = params.list;
+        this.input = $('textarea', this.el);
+        this.input.val(this.model.get('data'));
+        this.codemirror = false;
     },
     render: function () {
         $(this.el).html(ich.StylesheetTabView({ id: this.model.get('id') }));
         return this;
     },
     events: {
+        'click .name': 'activate',
         'click .tab-delete': 'delete',
+    },
+    activate: function() {
+        $('.stylesheets a.tab', this.list.el).removeClass('active');
+        $('#editor', this.list.el).append(this.input);
+        $(this.el).addClass('active');
+        if (!this.codemirror) {
+            return;
+            this.codemirror = CodeMirror.fromTextArea('code', {
+                height: '100%',
+                stylesheet: 'css/code.css',
+                path: 'js/codemirror/js/',
+                parserfile: 'parsemss.js',
+                parserConfig: window.data.reference,
+                /*
+                onChange: function() {
+                    TileMill.colors.reload(stylesheets);
+                    TileMill.project.changed();
+                 },
+                initCallback: function(cm) {
+                    TileMill.colors.reload(stylesheets);
+                    TileMill.mirror.grabKeys(
+                        // callback
+                        function() { },
+                        // filter function
+                        function(code) {
+                            if (code == 19) {
+                                $('div#header a.save').trigger('click');
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    );
+                }
+                */
+            });
+        }
+
+        /*
+          var data;
+          if (!$('#tabs .active', stylesheets).size() || update === true) {
+            if (!update) {
+              $('#tabs a.active').removeClass('active');
+              stylesheet.addClass('active');
+
+              data = $('input', stylesheet).val();
+              $('#code').val(data);
+              $.getJSON('js/data/reference.json', {}, function(data) {
+                TileMill.mirror = CodeMirror.fromTextArea('code', {
+                  height: '100%',
+                  parserfile: 'parsemss.js',
+                  parserConfig: data,
+                  stylesheet: 'css/code.css',
+                  path: 'js/codemirror/js/',
+                  onChange: function() {
+                    TileMill.colors.reload(stylesheets);
+                    TileMill.project.changed();
+                  },
+                  initCallback: function(cm) {
+                    TileMill.colors.reload(stylesheets);
+                    TileMill.mirror.grabKeys(
+                      // callback
+                      function() { },
+                      // filter function
+                      function(code) {
+                        if (code == 19) {
+                          $('div#header a.save').trigger('click');
+                          return true;
+                        } else {
+                          return false;
+                        }
+                      }
+                    );
+                  }
+                });
+              });
+            } else {
+              $('#tabs a.active input').val(TileMill.mirror.getCode());
+              $('#tabs a.active').removeClass('active');
+              stylesheet.addClass('active');
+
+              data = $('input', stylesheet).val();
+
+              var linenum = TileMill.mirror.lineNumber(TileMill.mirror.cursorLine());
+              TileMill.mirror.setCode(data);
+              TileMill.colors.reload(stylesheets);
+              TileMill.mirror.jumpToLine(TileMill.mirror.nthLine(linenum));
+            }
+          }
+        */
     },
     delete: function() {
         alert('@TODO delete');
