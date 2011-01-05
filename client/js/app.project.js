@@ -1,15 +1,23 @@
-window.Project = Backbone.Model.extend({
+var Project = Backbone.Model.extend({
     SRS_DEFAULT: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
     initialize: function() {
+        // Set default values.
         if (!this.get('srs')) {
-        this.set({'srs': this.SRS_DEFAULT});
+            this.set({'srs': this.SRS_DEFAULT});
         }
         if (!this.get('Stylesheet')) {
-        this.set({'Stylesheet': []});
+            this.set({'Stylesheet': new StylesheetList([])});
         }
         if (!this.get('Layer')) {
-        this.set({'Layer': []});
+            this.set({'Layer': new LayerList([])});
         }
+    },
+    parse: function(response) {
+        // Instantiate StylesheetList and LayerList collections from JSON lists
+        // of plain JSON objects.
+        response.Stylesheet = new StylesheetList(response.Stylesheet ? response.Stylesheet : []);
+        response.Layer = new LayerList(response.Layer ? response.Layer : []);
+        return response;
     },
     // Override url() method for convenience so we don't always need a
     // collection reference around for CRUD operations on a single model.
@@ -23,12 +31,12 @@ window.Project = Backbone.Model.extend({
     }
 });
 
-window.ProjectList = Backbone.Collection.extend({
+var ProjectList = Backbone.Collection.extend({
     model: Project,
     url: '/api/project'
 });
 
-window.ProjectListView = Backbone.View.extend({
+var ProjectListView = Backbone.View.extend({
     id: 'ProjectListView',
     tagName: 'div',
     className: 'column',
@@ -41,13 +49,14 @@ window.ProjectListView = Backbone.View.extend({
         this.collection.fetch();
     },
     render: function() {
+        var self = this;
         $(this.el).html(ich.ProjectListView());
         this.collection.each(function(project) {
             var projectRow = new ProjectRowView({
                 model: project,
                 collection: this.collection
             });
-            $('ul', this.el).append(projectRow.el);
+            $('ul', self.el).append(projectRow.el);
         });
         return this;
     },
@@ -77,7 +86,7 @@ window.ProjectListView = Backbone.View.extend({
     }
 });
 
-window.ProjectRowView = Backbone.View.extend({
+var ProjectRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
     initialize: function () {
@@ -108,38 +117,122 @@ window.ProjectRowView = Backbone.View.extend({
     }
 });
 
-window.ProjectView = Backbone.View.extend({
+var ProjectView = Backbone.View.extend({
     events: {
-        'div#header a.save': 'saveProject',
-        'div#header a.info': 'projectInfo'
+        'click div#header a.save': 'saveProject',
+        'click div#header a.info': 'projectInfo'
     },
     initialize: function () {
         _.bindAll(this, 'render');
         this.model.bind('refresh', this.render);
         this.model.bind('change', this.render);
-        this.render();
+        this.model.fetch();
     },
     saveProject: function() {
-        alert('asdf');
+        alert('@TODO save');
+        return false;
     },
     projectInfo: function() {
-        TileMill.popup.show({
-        content: $(ich.popup_info_project({
-        tilelive_url: TileMill.backend.servers(TileMill.mml.url()),
-        mml_url: TileMill.mml.url({
-        timestamp: false,
-        encode: false
-        })
-        })),
-        title: 'Info'
-        });
+        alert('@TODO projectInfo');
         return false;
     },
     render: function() {
-        $(this.el).html('test');
+        $(this.el).html(ich.ProjectView(this.model));
+        var layers = new LayerListView({collection: this.model.get('Layer')});
+        $('#sidebar', this.el).append(layers.el);
+
         window.app.el.html(this.el);
         return this;
     }
+});
+
+var Layer = Backbone.Model.extend({
+});
+
+var LayerList = Backbone.Collection.extend({
+});
+
+var LayerListView = Backbone.View.extend({
+    id: 'layers',
+    initialize: function() {
+        _.bindAll(this, 'render');
+        this.render();
+        /*
+        @TODO: bind re-render to project events.
+        */
+    },
+    render: function() {
+        var self = this;
+        $(this.el).html(ich.LayerListView());
+        this.collection.each(function(layer) {
+            var layerRow = new LayerRowView({
+                model: layer,
+                collection: this.collection
+            });
+            $('ul', self.el).append(layerRow.el);
+        });
+          $('ul', self.el).sortable({
+            axis: 'y',
+            handle: 'div.handle'
+            // @TODO: proper event.
+            // change: TileMill.project.changed
+          });
+
+        return this;
+    },
+    events: {
+        'click #layers-add': 'add'
+    },
+    add: function() {
+        alert('@TODO add');
+        return false;
+    }
+});
+
+var LayerRowView = Backbone.View.extend({
+    tagName: 'li',
+    className: 'clearfix',
+    initialize: function () {
+        _.bindAll(this, 'render');
+        this.render();
+    },
+    render: function () {
+        this.model.set({'name': this.model.get('id')});
+        $(this.el).html(ich.LayerRowView(this.model.attributes));
+        return this;
+    },
+    events: {
+        'click .layer-delete': 'delete',
+        'click .layer-inspect': 'inspect',
+        'click .layer-edit': 'edit'
+    },
+    edit: function() {
+        alert('@TODO edit');
+        return false;
+    },
+    inspect: function() {
+        alert('@TODO inspect');
+        return false;
+    },
+    delete: function() {
+        alert('@TODO delete');
+        return false;
+    }
+});
+
+var Stylesheet = Backbone.Model.extend({
+});
+
+var StylesheetList = Backbone.Collection.extend({
+});
+
+var StylesheetListView = Backbone.View.extend({
+});
+
+var StylesheetTabView = Backbone.View.extend({
+});
+
+var MapView = Backbone.View.extend({
 });
 
 /**
