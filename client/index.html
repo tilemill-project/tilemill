@@ -9,30 +9,34 @@
 
     <!-- IE includes -->
     <!--[if IE]><script src="js/libraries/excanvas.compiled.js"></script><![endif]-->
+    <script type='text/javascript' src='js/libraries/head.min.js'></script>
+    <script>
+        head.js(
+            'js/libraries/base64.js',
+            'js/libraries/jquery.js',
+            'js/libraries/underscore-min.js',
+            'js/libraries/backbone.js',
+            'js/libraries/jquery-ui.js',
+            'js/libraries/ICanHaz.min.js',
+            'js/openlayers/OpenLayers.js',
+            'js/libraries/farbtastic.js',
+            'js/codemirror/js/codemirror.js',
 
-    <script type='text/javascript' src='js/libraries/base64.js'></script>
-    <script type='text/javascript' src='js/libraries/jquery.js'></script>
-    <script type='text/javascript' src='js/libraries/underscore-min.js'></script>
-    <script type='text/javascript' src='js/libraries/backbone.js'></script>
-    <script type='text/javascript' src='js/libraries/jquery-ui.js'></script>
-    <script type='text/javascript' src='js/libraries/ICanHaz.min.js'></script>
-    <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
-    <script type='text/javascript' src='js/libraries/farbtastic.js'></script>
-    <script type='text/javascript' src='js/codemirror/js/codemirror.js'></script>
+            'js/app.project.js',
+            'js/app.layer.js',
+            'js/app.stylesheet.js',
+            'js/app.reference.js',
+            'js/app.visualization.js',
+            'js/app.list.js',
+            'js/app.map.js',
+            'js/app.js',
 
-    <script type='text/javascript' src='js/app.project.js'></script>
-    <script type='text/javascript' src='js/app.layer.js'></script>
-    <script type='text/javascript' src='js/app.stylesheet.js'></script>
-    <script type='text/javascript' src='js/app.reference.js'></script>
-    <script type='text/javascript' src='js/app.visualization.js'></script>
-    <script type='text/javascript' src='js/app.list.js'></script>
-    <script type='text/javascript' src='js/app.map.js'></script>
-    <script type='text/javascript' src='js/app.js'></script>
-
-    <script type='text/javascript' src='js/includes/mml.js'></script>
-    <script type='text/javascript' src='js/includes/inspector.js'></script>
-    <script type='text/javascript' src='js/includes/color.js'></script>
-    <script type='text/javascript' src='js/includes/map.js'></script>
+            'js/includes/mml.js',
+            'js/includes/inspector.js',
+            'js/includes/color.js',
+            'js/includes/map.js'
+        );
+    </script>
 
     <script type='text/html' id='ListView'>
     <div id='header' class='clearfix pane'>
