@@ -1,4 +1,5 @@
-{
+window.data = {};
+window.data.reference = {
     "symbolizers" : {
         "map": {
             "map-bgcolor": {
@@ -607,5 +608,5 @@
             } 
         } 
     }
-}
+};
 

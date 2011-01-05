@@ -22,6 +22,7 @@
             'js/libraries/farbtastic.js',
             'js/codemirror/js/codemirror.js',
 
+            'js/app.popup.js',
             'js/app.project.js',
             'js/app.layer.js',
             'js/app.stylesheet.js',
@@ -30,6 +31,7 @@
             'js/app.list.js',
             'js/app.map.js',
             'js/app.js',
+            'js/data.reference.js',
 
             'js/includes/mml.js',
             'js/includes/inspector.js',
@@ -165,15 +167,13 @@
         <div class='stylesheets'></div>
         <a title='Add a Stylesheet Tab' class='tab-add' href='#'>Add MSS</a>
       </div>
-      <div id='editor'>
-        <textarea id='code'></textarea>
-      </div>
+      <div id='editor'></div>
     </script>
 
     <script type='text/html' id='StylesheetTabView'>
       <span class='name'>{{ id }}</span>
       <span class='tab-delete'>Delete</span>
-      <input type='hidden' value=' ' />
+      <textarea id='code' class='code'></textarea>
     </script>
 
     <script type='text/html' id='color'>
@@ -326,7 +326,7 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
       </div>
     </script>
 
-    <script type='text/html' id='popup_stylesheet'>
+    <script type='text/html' id='StylesheetPopupView'>
       <div id='popup-stylesheet' class='clearfix pane'>
         <form>
           <div class='messages'></div>

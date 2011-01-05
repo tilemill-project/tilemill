@@ -561,6 +561,9 @@ a.inspect-unique.active     { background-color:#222; }
   position:relative;
   }
 
+#tabs a.tab textarea,
+#tabs a.tab div { display:none; }
+
 #tabs a.tab span.tab-delete {
   display:none;
   position:absolute;
