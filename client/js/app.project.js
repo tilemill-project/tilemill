@@ -1,4 +1,83 @@
-var TMProjectView = Backbone.View.extend({
+window.Project = Backbone.Model.extend({
+});
+
+window.ProjectList = Backbone.Collection.extend({
+    model: Project,
+    url: '/api/project',
+});
+
+window.ProjectListView = Backbone.View.extend({
+    id: 'ProjectListView',
+    tagName: 'div',
+    className: 'column',
+    initialize: function() {
+        _.bindAll(this, 'render');
+        this.collection.bind('refresh', this.render);
+        this.collection.fetch();
+    },
+    render: function() {
+        $(this.el).html(ich.ProjectListView());
+        this.collection.each(function(project) {
+            var projectRow = new ProjectRowView({
+                model: project,
+                collection: this.collection
+            });
+            $('ul', this.el).append(projectRow.el);
+        });
+        return this;
+    },
+    events: {
+        'click input.submit': 'add'
+    },
+    add: function() {
+        window.app.loading();
+        var projectId = $('input.text', this.el).val();
+        this.collection.create({id: projectId}, {
+            success: function() {
+                window.app.done();
+            },
+            error: function() {
+                window.app.done();
+                window.app.message('Error', 'The project could not be created.');
+            }
+        });
+        return false;
+    }
+});
+
+window.ProjectRowView = Backbone.View.extend({
+    tagName: 'li',
+    className: 'clearfix',
+    initialize: function () {
+        _.bindAll(this, 'render');
+        this.render();
+    },
+    render: function () {
+        $(this.el).html(ich.ProjectRowView(this.model));
+        return this;
+    },
+    events: {
+        'click .file-delete': 'delete'
+    },
+    delete: function() {
+        if (confirm('Are you sure you want to delete this project?')) {
+            window.app.loading();
+            this.model.destroy({
+                success: function() {
+                    window.app.done();
+                    Backbone.history.start();
+                },
+                error: function() {
+                    window.app.done();
+                    window.app.message('Error', 'The project could not be deleted.');
+                }
+            });
+        }
+        return false;
+    }
+});
+
+window.ProjectView = Backbone.View.extend({
   events: {
     'div#header a.save': 'saveProject',
     'div#header a.info': 'projectInfo'
