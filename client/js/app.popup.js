@@ -8,8 +8,12 @@ var PopupView = Backbone.View.extend({
         window.app.el.append(this.el);
         return this;
     },
+    close: function() {
+        this.remove();
+        return false;
+    },
     events: {
-        'click .popup-close': 'remove'
+        'click .popup-close': 'close'
     }
 });
 
