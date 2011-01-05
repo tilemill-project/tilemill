@@ -15,11 +15,7 @@
     <script type='text/javascript' src='js/libraries/underscore-min.js'></script>
     <script type='text/javascript' src='js/libraries/backbone.js'></script>
     <script type='text/javascript' src='js/libraries/jquery-ui.js'></script>
-    <script type='text/javascript' src='js/libraries/jquery.jsonp-2.1.4.min.js'></script>
-    <script type='text/javascript' src='js/libraries/jquery.url.js'></script>
     <script type='text/javascript' src='js/libraries/ICanHaz.min.js'></script>
-    <script type='text/javascript' src='js/libraries/jquery.validate.pack.js'></script>
-    <script type='text/javascript' src='js/libraries/jquery.validate.additional-methods.js'></script>
     <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
     <script type='text/javascript' src='js/libraries/farbtastic.js'></script>
     <script type='text/javascript' src='js/codemirror/js/codemirror.js'></script>
@@ -35,14 +31,6 @@
     <script type='text/javascript' src='js/includes/inspector.js'></script>
     <script type='text/javascript' src='js/includes/color.js'></script>
     <script type='text/javascript' src='js/includes/map.js'></script>
-
-    <script type='text/html' id='page_loading'>
-      <div id='header' class='clearfix pane'>
-        <h1>TileMill</h1>
-      </div>
-      <div class='loading-text'>loading page</div>
-      <div class='loading page-loading'></div>
-    </script>
 
     <script type='text/html' id='ListView'>
     <div id='header' class='clearfix pane'>
@@ -81,7 +69,7 @@
     </ul>
     </script>
 
-    <script type='text/html' id='loading'>
+    <script type='text/html' id='LoadingView'>
       <div id='loading'>
         <div class='loading-text'>
           {{#message}}{{ message }}{{/message}}
@@ -90,12 +78,10 @@
       </div>
     </script>
 
-
-
-    <script type='text/html' id='error_page'>
+    <script type='text/html' id='ErrorView'>
       <div id='header' class='clearfix pane'>
         <h1>TileMill</h1>
-        <a class='home' href='#action=list'>Back home</a>
+        <a class='home' href='#'>Back home</a>
       </div>
       <div id='content' class='clearfix'>
           <div class='error-page'>{{ message }}</div>
@@ -105,50 +91,6 @@
     <script type='text/html' id='ProjectRowView'>
       <a href='#project/{{id}}/delete' class='file-delete'>Delete</a>
       <a href='#project/{{id}}' class='route'>{{id}}</a>
-    </script>
-
-    <script type='text/html' class='partial' id='column_project'>
-      <div class='column' id='{{ type }}'>
-      <h2 class='pane'>{{ name }}</h2>
-      <ul class='items'>
-        {{#data}}
-          <li class='clearfix'>
-            <a href='#delete=project/{{.}}' class='file-delete'>Delete</a>
-            <a href='#action=project&id={{.}}' class='route'>{{.}}</a>
-          </li>
-        {{/data}}
-        <li class='form'>
-        <form id='{{ type }}'>
-            <div class='messages'></div>
-            <label>Name</label>
-            <input class='required text alphanum' type='text' />
-            <input class='submit' type='submit' value='Add {{ type }}' />
-          </form>
-        </li>
-      </ul>
-    </div>
-    </script>
-
-    <script type='text/html' class='partial' id='column_visualization'>
-      <div class='column' id='{{ type }}'>
-      <h2 class='pane'>{{ name }}</h2>
-      <ul class='items'>
-        {{#data}}
-          <li class='clearfix'>
-            <a href='#delete=visualization/{{.}}' class='file-delete'>Delete</a>
-            <a href='#action=visualization&id={{.}}' class='route'>{{.}}</a>
-          </li>
-        {{/data}}
-        <li class='form'>
-          <form id='{{ type }}'>
-            <div class='messages'></div>
-            <label>Shapefile URL</label>
-            <input class='url2 required text' type='text' />
-            <input class='submit' type='submit' value='Add {{ type }}' />
-          </form>
-        </li>
-      </ul>
-    </div>
     </script>
 
     <script type='text/html' id='project'>
@@ -451,7 +393,7 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
       </div>
     </script>
 
-    <script type='text/html' id='ReferenceViewfil'>
+    <script type='text/html' id='ReferenceView'>
       <div id='header' class='clearfix pane'>
         <h1>Reference</h1>
         <a class='home' href='#action=list'>Back home</a>
