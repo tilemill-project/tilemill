@@ -8,4 +8,4 @@ module developmentseed tilelive.js
 module mapnik node-mapnik
 
 # Build node and node-mapnik
-./install.sh
+exec ./install.sh
