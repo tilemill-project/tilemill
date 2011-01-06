@@ -1,22 +1,28 @@
 var Project = Backbone.Model.extend({
     SRS_DEFAULT: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
     initialize: function() {
+        var self = this;
         // Set default values.
         if (!this.get('srs')) {
             this.set({'srs': this.SRS_DEFAULT});
         }
         if (!this.get('Stylesheet')) {
             this.set({'Stylesheet': new StylesheetList([])});
+            this.get('Stylesheet').bind('all', function() { self.save(); });
         }
         if (!this.get('Layer')) {
             this.set({'Layer': new LayerList([])});
+            this.get('Layer').bind('all', function() { self.save(); });
         }
     },
     parse: function(response) {
+        var self = this;
         // Instantiate StylesheetList and LayerList collections from JSON lists
         // of plain JSON objects.
         response.Stylesheet = new StylesheetList(response.Stylesheet ? response.Stylesheet : []);
+        response.Stylesheet.bind('all', function() { self.save(); });
         response.Layer = new LayerList(response.Layer ? response.Layer : []);
+        response.Layer.bind('all', function() { self.save(); });
         return response;
     },
     // Override url() method for convenience so we don't always need a
@@ -42,10 +48,7 @@ var ProjectListView = Backbone.View.extend({
     className: 'column',
     initialize: function() {
         _.bindAll(this, 'render');
-        this.collection.bind('add', this.render);
-        this.collection.bind('remove', this.render);
-        this.collection.bind('refresh', this.render);
-        this.collection.bind('change', this.render);
+        this.collection.bind('all', this.render);
         this.collection.fetch();
     },
     render: function() {
@@ -113,6 +116,9 @@ var ProjectRowView = Backbone.View.extend({
                 }
             });
         }
+        else {
+            window.app.done();
+        }
         return false;
     }
 });
@@ -126,9 +132,10 @@ var ProjectView = Backbone.View.extend({
     },
     initialize: function () {
         _.bindAll(this, 'render');
-        this.model.bind('refresh', this.render);
-        this.model.bind('change', this.render);
-        this.model.fetch();
+        this.model.fetch({
+            success: this.render,
+            error: this.render
+        });
     },
     render: function() {
         $(this.el).html(ich.ProjectView(this.model));
