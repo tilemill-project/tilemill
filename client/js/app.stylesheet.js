@@ -1,11 +1,16 @@
+/**
+ * Model: Stylesheet
+ *
+ * This model is *not* backed directly by the server.
+ * It is a child model of Project and is saved serialized as part of the parent
+ * Project model.
+ */
 var Stylesheet = Backbone.Model.extend({
     initialize: function() {
-        // Set default values.
         if (!this.get('data')) {
             this.set({'data': ''});
         }
     },
-    // @TODO.
     validate: function() {
         if (/^[a-z0-9\-_.]+$/i.test(this.id) === false) {
             return 'Name must contain only letters, numbers, dashes, underscores and periods.';
@@ -13,6 +18,13 @@ var Stylesheet = Backbone.Model.extend({
     }
 });
 
+/**
+ * Collection: StylesheetList
+ *
+ * This collection is *not* backed directly by the server.
+ * This collection is a child of the Project model. When it is updated
+ * (add/remove events) it updates the attributes of its parent model as well.
+ */
 var StylesheetList = Backbone.Collection.extend({
     model: Stylesheet,
     initialize: function(models, options) {
@@ -29,6 +41,11 @@ var StylesheetList = Backbone.Collection.extend({
     },
 });
 
+/**
+ * View: StylesheetListView
+ *
+ * Display a StylesheetList collection as a set of tabs.
+ */
 var StylesheetListView = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, 'render', 'add', 'activate');
@@ -84,30 +101,11 @@ var StylesheetListView = Backbone.View.extend({
     }
 });
 
-var StylesheetPopupView = PopupView.extend({
-    events: _.extend(PopupView.prototype.events, {
-        'click input.submit': 'submit',
-    }),
-    initialize: function(params) {
-        this.options.title = 'Add stylesheet';
-        this.options.content = ich.StylesheetPopupView({}, true);
-        this.render();
-    },
-    submit: function() {
-        var id = $('input.text', this.el).val();
-        var stylesheet = new Stylesheet({id: id});
-        var error = stylesheet.validate();
-        if (error) {
-            window.app.message('Error', error);
-        }
-        else {
-            this.collection.add(stylesheet);
-            this.remove();
-        }
-        return false;
-    }
-});
-
+/**
+ * View: StylesheetTabView
+ *
+ * Display a Stylesheet as a tab within a StylesheetListView.
+ */
 var StylesheetTabView = Backbone.View.extend({
     tagName: 'a',
     className: 'tab',
@@ -153,10 +151,12 @@ var StylesheetTabView = Backbone.View.extend({
                 },
                 onChange: function() {
                     self.model.collection.parent.change();
-                    // @TODO need an event that the color picker can bind to.
+                    // @TODO need an event that the color picker (and other
+                    // editor "plugins" can bind to.
                 },
                 initCallback: function(cm) {
-                    // @TODO need an event that the color picker can bind to.
+                    // @TODO need an event that the color picker (and other
+                    // editor "plugins" can bind to.
                 },
             });
         }
@@ -189,186 +189,31 @@ var StylesheetTabView = Backbone.View.extend({
 });
 
 /**
- * Init stylesheet editor.
-TileMill.stylesheet.init = function() {
-  var stylesheets = $(ich.stylesheets({}));
-
-  // Add stylesheets in order.
-  var queue = new TileMill.queue();
-
-  TileMill.stylesheet.initFonts();
-
-  var s = TileMill.mml.parseMML(TileMill.data.mml).stylesheets;
-  for (var i in s) {
-    var src = s[i];
-    queue.add(function(src, stylesheets, next) {
-      TileMill.stylesheet.add({ src: src }, stylesheets, next);
-    }, [src, stylesheets]);
-  }
-  queue.add(function(stylesheets, next) {
-    TileMill.stylesheet.setCode(
-        $('a.tab:first', stylesheets),
-        false,
-        stylesheets);
-    $('.stylesheets', stylesheets).sortable({
-        axis: 'x',
-        change: TileMill.project.changed
-    });
-    next();
-  }, [stylesheets]);
-  queue.execute();
-
-  $('a.tab-add', stylesheets).click(function() {
-    var popup = $(ich.popup_stylesheet({}));
-    TileMill.popup.show({
-        content: popup,
-        title: 'Add stylesheet'
-    });
-
-    $('form', popup).validate({
-      errorLabelContainer: 'form .messages',
-      submitHandler: function(form) {
-        TileMill.stylesheet.add({
-            src: $('input#stylesheet-name', form).val(),
-            create: true
-        });
-        TileMill.popup.hide();
-        TileMill.project.changed();
+ * View: StylesheetPopupView
+ *
+ * Popup form for adding a new stylesheet.
+ */
+var StylesheetPopupView = PopupView.extend({
+    events: _.extend(PopupView.prototype.events, {
+        'click input.submit': 'submit',
+    }),
+    initialize: function(params) {
+        this.options.title = 'Add stylesheet';
+        this.options.content = ich.StylesheetPopupView({}, true);
+        this.render();
+    },
+    submit: function() {
+        var id = $('input.text', this.el).val();
+        var stylesheet = new Stylesheet({id: id});
+        var error = stylesheet.validate();
+        if (error) {
+            window.app.message('Error', error);
+        }
+        else {
+            this.collection.add(stylesheet);
+            this.remove();
+        }
         return false;
-      }
-    });
-    return false;
-  });
-  return stylesheets;
-};
-
-TileMill.stylesheet.initFonts = function() {
-  TileMill.backend.fonts(function(abilities) {
-    _.map(abilities.fonts, function(font) {
-      $('#fonts-list').append(ich.font({
-        font: font
-      }));
-    });
-    $('#fonts-list').change(function() {
-      var position = TileMill.mirror.cursorPosition();
-      TileMill.mirror.insertIntoLine(
-        position.line,
-        position.character, '"' + $(this).val() + '"');
-    });
-  });
-};
- */
-
-/**
- * Add a stylesheet to the page
-TileMill.stylesheet.add = function(options, stylesheets, callback) {
-  var filename, shortname;
-  // If there is no / character, assume this is a single filename.
-  if (options.src.split('/').length === 1) {
-    shortname = options.src.split('.')[0];
-    filename = TileMill.data.type + '/' +
-        TileMill.data.id + '/' + shortname + '.mss';
-    options.src = TileMill.backend.url(filename);
-  } else {
-  // Otherwise, assume this is a URL.
-    filename = $.url.setUrl(options.src).param('filename');
-    shortname = filename.split('/').pop().split('.')[0];
-  }
-
-  var stylesheet = $('<a class="tab" href="#tab">')
-    .text(shortname)
-    .data('tilemill', options)
-    .append($('<input type="hidden">').val(' '))
-    .append($('<span class="tab-delete">Delete</span>').click(function() {
-      if (confirm('Are you sure you want to delete this stylesheet?')) {
-        $(this).parents('a.tab').hide('fast', function() {
-          // If the deleted tab was active, set the first stylesheet to active.
-          if ($(this).is('.active')) {
-            TileMill.stylesheet.setCode(
-                $('.stylesheets a.tab', stylesheets).eq(0),
-                true,
-                stylesheets);
-          }
-          $(this).remove();
-          TileMill.project.changed();
-        });
-      }
-      return false;
-    }))
-    .click(function() {
-      TileMill.stylesheet.setCode($(this), true);
-      return false;
-    });
-  $('.stylesheets', stylesheets).append(stylesheet);
-
-  // If not a new stylesheet, load from server.
-  if (!options.create) {
-    TileMill.backend.get(filename, function(data) {
-      $('input', stylesheet).val(data);
-      if (callback) {
-        callback();
-      }
-    });
-  } else {
-    if (callback) {
-      callback();
     }
-  }
-};
- */
+});
 
-/**
- * Set the code editor to edit a specified stylesheet.
-TileMill.stylesheet.setCode = function(stylesheet, update, stylesheets) {
-  var data;
-  if (!$('#tabs .active', stylesheets).size() || update === true) {
-    if (!update) {
-      $('#tabs a.active').removeClass('active');
-      stylesheet.addClass('active');
-
-      data = $('input', stylesheet).val();
-      $('#code').val(data);
-      $.getJSON('js/data/reference.json', {}, function(data) {
-        TileMill.mirror = CodeMirror.fromTextArea('code', {
-          height: '100%',
-          parserfile: 'parsemss.js',
-          parserConfig: data,
-          stylesheet: 'css/code.css',
-          path: 'js/codemirror/js/',
-          onChange: function() {
-            TileMill.colors.reload(stylesheets);
-            TileMill.project.changed();
-          },
-          initCallback: function(cm) {
-            TileMill.colors.reload(stylesheets);
-            TileMill.mirror.grabKeys(
-              // callback
-              function() { },
-              // filter function
-              function(code) {
-                if (code == 19) {
-                  $('div#header a.save').trigger('click');
-                  return true;
-                } else {
-                  return false;
-                }
-              }
-            );
-          }
-        });
-      });
-    } else {
-      $('#tabs a.active input').val(TileMill.mirror.getCode());
-      $('#tabs a.active').removeClass('active');
-      stylesheet.addClass('active');
-
-      data = $('input', stylesheet).val();
-
-      var linenum = TileMill.mirror.lineNumber(TileMill.mirror.cursorLine());
-      TileMill.mirror.setCode(data);
-      TileMill.colors.reload(stylesheets);
-      TileMill.mirror.jumpToLine(TileMill.mirror.nthLine(linenum));
-    }
-  }
-};
- */
