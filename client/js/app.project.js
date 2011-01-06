@@ -47,10 +47,7 @@ var ProjectListView = Backbone.View.extend({
     className: 'column',
     initialize: function() {
         _.bindAll(this, 'render');
-        this.collection.bind('add', this.render);
-        this.collection.bind('remove', this.render);
-        this.collection.bind('refresh', this.render);
-        this.collection.bind('change', this.render);
+        this.collection.bind('all', this.render);
         this.collection.fetch();
     },
     render: function() {
