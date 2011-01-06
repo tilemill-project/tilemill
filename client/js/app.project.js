@@ -163,7 +163,7 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     projectInfo: function() {
-        alert('@TODO projectInfo');
+        window.app.message('Project Info', {'tilelive_url': this.model.layerURL(), 'mml_url': window.location.origin + this.model.url()}, 'projectInfo');
         return false;
     },
     home: function() {
