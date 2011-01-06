@@ -70,7 +70,7 @@ Project.prototype.load = function(callback) {
     var self = this;
     var projectPath = path.join(settings.files, 'project', this.id);
     fs.readFile(path.join(projectPath, self.id + '.mml'), 'utf-8', function(err, data) {
-        if (err) {
+        if (err || !data) {
             return callback(new Error('Error reading project file.'));
         }
         var object = JSON.parse(data);
@@ -103,40 +103,42 @@ Project.prototype.save = function(callback) {
     var self = this;
     var projectPath = path.join(settings.files, 'project', this.id);
 
-    fs.mkdir(projectPath, 0777, function() {
-        var data = _.extend({}, self);
-        var files = [];
-        if (data.id) {
-            delete data.id;
-        }
-        if (data.Stylesheet) {
-            _.each(data.Stylesheet, function(stylesheet, key) {
-                if (stylesheet.id) {
-                    files.push({
-                        filename: stylesheet.id,
-                        data: stylesheet.data
-                    });
-                    data.Stylesheet[key] = stylesheet.id;
-                }
+    rmrf(projectPath, function() {
+        fs.mkdir(projectPath, 0777, function() {
+            var data = _.extend({}, self);
+            var files = [];
+            if (data.id) {
+                delete data.id;
+            }
+            if (data.Stylesheet) {
+                _.each(data.Stylesheet, function(stylesheet, key) {
+                    if (stylesheet.id) {
+                        files.push({
+                            filename: stylesheet.id,
+                            data: stylesheet.data
+                        });
+                        data.Stylesheet[key] = stylesheet.id;
+                    }
+                });
+            }
+            files.push({
+                filename: self.id + '.mml',
+                data: JSON.stringify(data)
             });
-        }
-        files.push({
-            filename: self.id + '.mml',
-            data: JSON.stringify(data)
-        });
 
-        var queue = new events.EventEmitter;
-        var queueLength = files.length;
-        for (var i = 0; i < files.length; i++) {
-            // @TODO work through stylesheet queue and save each one individually.
-            fs.writeFile(path.join(projectPath, files[i].filename), files[i].data, function(err) {
-                queueLength--;
-                if (queueLength === 0) {
-                    queue.emit('complete');
-                }
-            });
-        }
-        queue.on('complete', callback);
+            var queue = new events.EventEmitter;
+            var queueLength = files.length;
+            for (var i = 0; i < files.length; i++) {
+                // @TODO work through stylesheet queue and save each one individually.
+                fs.writeFile(path.join(projectPath, files[i].filename), files[i].data, function(err) {
+                    queueLength--;
+                    if (queueLength === 0) {
+                        queue.emit('complete');
+                    }
+                });
+            }
+            queue.on('complete', callback);
+        });
     });
 }
 
