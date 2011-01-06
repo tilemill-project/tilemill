@@ -7,16 +7,21 @@ var Project = Backbone.Model.extend({
         }
         if (!this.get('Stylesheet')) {
             this.set({'Stylesheet': new StylesheetList([])});
+            this.get('Stylesheet').bind('all', function() { self.save(); });
         }
         if (!this.get('Layer')) {
             this.set({'Layer': new LayerList([])});
+            this.get('Layer').bind('all', function() { self.save(); });
         }
     },
     parse: function(response) {
+        var self = this;
         // Instantiate StylesheetList and LayerList collections from JSON lists
         // of plain JSON objects.
         response.Stylesheet = new StylesheetList(response.Stylesheet ? response.Stylesheet : []);
+        response.Stylesheet.bind('all', function() { self.save(); });
         response.Layer = new LayerList(response.Layer ? response.Layer : []);
+        response.Layer.bind('all', function() { self.save(); });
         return response;
     },
     // Override url() method for convenience so we don't always need a
