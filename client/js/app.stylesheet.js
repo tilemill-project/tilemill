@@ -96,86 +96,19 @@ var StylesheetTabView = Backbone.View.extend({
                 path: 'js/codemirror/js/',
                 parserfile: 'parsemss.js',
                 parserConfig: window.data.reference,
-                /*
-                onChange: function() {
-                    TileMill.colors.reload(stylesheets);
-                    TileMill.project.changed();
-                 },
-                initCallback: function(cm) {
-                    TileMill.colors.reload(stylesheets);
-                    TileMill.mirror.grabKeys(
-                        // callback
-                        function() { },
-                        // filter function
-                        function(code) {
-                            if (code == 19) {
-                                $('div#header a.save').trigger('click');
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }
-                    );
-                }
-                */
             });
         }
-
-        /*
-          var data;
-          if (!$('#tabs .active', stylesheets).size() || update === true) {
-            if (!update) {
-              $('#tabs a.active').removeClass('active');
-              stylesheet.addClass('active');
-
-              data = $('input', stylesheet).val();
-              $('#code').val(data);
-              $.getJSON('js/data/reference.json', {}, function(data) {
-                TileMill.mirror = CodeMirror.fromTextArea('code', {
-                  height: '100%',
-                  parserfile: 'parsemss.js',
-                  parserConfig: data,
-                  stylesheet: 'css/code.css',
-                  path: 'js/codemirror/js/',
-                  onChange: function() {
-                    TileMill.colors.reload(stylesheets);
-                    TileMill.project.changed();
-                  },
-                  initCallback: function(cm) {
-                    TileMill.colors.reload(stylesheets);
-                    TileMill.mirror.grabKeys(
-                      // callback
-                      function() { },
-                      // filter function
-                      function(code) {
-                        if (code == 19) {
-                          $('div#header a.save').trigger('click');
-                          return true;
-                        } else {
-                          return false;
-                        }
-                      }
-                    );
-                  }
-                });
-              });
-            } else {
-              $('#tabs a.active input').val(TileMill.mirror.getCode());
-              $('#tabs a.active').removeClass('active');
-              stylesheet.addClass('active');
-
-              data = $('input', stylesheet).val();
-
-              var linenum = TileMill.mirror.lineNumber(TileMill.mirror.cursorLine());
-              TileMill.mirror.setCode(data);
-              TileMill.colors.reload(stylesheets);
-              TileMill.mirror.jumpToLine(TileMill.mirror.nthLine(linenum));
-            }
-          }
-        */
     },
     delete: function() {
-        alert('@TODO delete');
+        window.app.loading();
+        if (confirm('Are you sure you want to delete this stylesheet?')) {
+            this.list.collection.remove(this.model);
+            this.remove();
+            window.app.done();
+        }
+        else {
+            window.app.done();
+        }
         return false;
     }
 });
