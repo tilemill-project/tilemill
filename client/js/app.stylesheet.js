@@ -38,7 +38,7 @@ var StylesheetList = Backbone.Collection.extend({
             this.parent.set({ 'Stylesheet': self });
             this.parent.change();
         });
-    },
+    }
 });
 
 /**
@@ -109,7 +109,7 @@ var StylesheetListView = Backbone.View.extend({
 var StylesheetTabView = Backbone.View.extend({
     tagName: 'a',
     className: 'tab',
-    initialize: function (params) {
+    initialize: function(params) {
         _.bindAll(this, 'render', 'update', 'del', 'activate', 'remove');
 
         // Bind an update event that stores the codemirror input contents with
@@ -122,12 +122,15 @@ var StylesheetTabView = Backbone.View.extend({
         this.codemirror = false;
         this.render();
     },
-    render: function () {
+    render: function() {
         $(this.el).html(ich.StylesheetTabView({ id: this.model.get('id') }));
         $('#editor', this.list.el).append(this.input);
         var colorPicker = new ColorPickerToolView();
         var colorSwatches = new ColorSwatchesToolView();
-        var fontPicker = new FontPickerToolView({model: new Abilities, parent: this});
+        var fontPicker = new FontPickerToolView({
+            model: new Abilities,
+            parent: this
+        });
         this.list.$('#tools').append(colorPicker.el);
         this.list.$('#tools').append(fontPicker.el);
         this.list.$('#tools').append(colorSwatches.el);
@@ -135,7 +138,7 @@ var StylesheetTabView = Backbone.View.extend({
     },
     events: {
         'click .name': 'activate',
-        'click .tab-delete': 'del',
+        'click .tab-delete': 'del'
     },
     activate: function() {
         var self = this;
@@ -163,7 +166,7 @@ var StylesheetTabView = Backbone.View.extend({
                 initCallback: function(cm) {
                     // @TODO need an event that the color picker (and other
                     // editor "plugins" can bind to.
-                },
+                }
             });
         }
     },
@@ -191,7 +194,7 @@ var StylesheetTabView = Backbone.View.extend({
         $(this.el).remove();
         $(this.input).remove();
         return this;
-    },
+    }
 });
 
 var ColorPickerToolView = Backbone.View.extend({
@@ -238,11 +241,16 @@ var FontPickerToolView = Backbone.View.extend({
     },
     initialize: function(options) {
         _.bindAll(this, 'render', 'insertFont');
-        this.model.fetch({ success: this.render, error: this.render});
+        this.model.fetch({
+            success: this.render,
+            error: this.render
+        });
         this.parent = options.parent;
     },
     render: function() {
-        $(this.el).html(ich.FontPickerToolView({ fonts: this.model.get('fonts') }));
+        $(this.el).html(ich.FontPickerToolView({
+            fonts: this.model.get('fonts')
+        }));
     },
     insertFont: function() {
         var mirror = this.parent.codemirror;
@@ -259,7 +267,7 @@ var FontPickerToolView = Backbone.View.extend({
  */
 var StylesheetPopupView = PopupView.extend({
     events: _.extend(PopupView.prototype.events, {
-        'click input.submit': 'submit',
+        'click input.submit': 'submit'
     }),
     initialize: function(params) {
         this.options.title = 'Add stylesheet';
