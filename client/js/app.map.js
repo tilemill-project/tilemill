@@ -1,7 +1,7 @@
 var MapView = Backbone.View.extend({
     id: 'map-preview',
     initialize: function() {
-        _.bindAll(this, 'render', 'activate');
+        _.bindAll(this, 'render', 'activate', 'controlZoom');
         this.render();
         window.app.bind('ready', this.activate);
     },
@@ -61,8 +61,8 @@ var MapView = Backbone.View.extend({
 
         if (controls.zoom) {
             this.controlZoom({element: this.map.div});
-            this.map.events.register('moveend', this.map, this.map.controlZoom);
-            this.map.events.register('zoomend', this.map, this.map.controlZoom);
+            this.map.events.register('moveend', this.map, this.controlZoom);
+            this.map.events.register('zoomend', this.map, this.controlZoom);
         }
 
         if (controls.panzoombar) {
@@ -86,19 +86,9 @@ var MapView = Backbone.View.extend({
     },
 
     controlZoom: function(e) {
-        // @TODO test and get working.
-        return;
-
-        if (e.element.id) {
-            var map = $('#' + e.element.id);
-            var data = map.data('TileMill.map');
-            if (data && data.olMap) {
-                var olMap = data.olMap;
-                if ($('#zoom-display', map).size()) {
-                    $('#zoom-display', map).text('Zoom level ' + olMap.getZoom());
-                }
-            }
-        }
+        (e.element.id && $('#zoom-display', e.element).size()) &&
+            $('#zoom-display', e.element)
+                .text('Zoom level ' + this.map.getZoom());
     }
 });
 
