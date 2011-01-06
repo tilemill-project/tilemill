@@ -348,16 +348,10 @@ form div.buttons {
   cursor:move;
   }
 
-.sidebar-content li input.checkbox {
-  position:absolute;
-  left:20px;
-  top:5px;
-  }
-
 .sidebar-content li label {
   font-size:11px;
   display:block;
-  padding-left:30px;
+  padding-left:15px;
   }
 
 /**
