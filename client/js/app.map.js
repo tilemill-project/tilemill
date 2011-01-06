@@ -1,20 +1,22 @@
 var MapView = Backbone.View.extend({
     id: 'map-preview',
-    initialize: function () {
-        _.bindAll(this, 'render');
+    initialize: function() {
+        _.bindAll(this, 'render', 'activate');
         this.render();
+        window.app.bind('ready', this.activate);
     },
     events: {
         'click a.map-fullscreen': 'fullscreen'
     },
-    render: function () {
+    render: function() {
         $(this.el).html(ich.MapView());
-
+    },
+    activate: function() {
         var controls = {
-            navigation:true,
-            fullscreen:true,
-            zoom:true,
-            panzoombar:false
+            navigation: true,
+            fullscreen: true,
+            zoom: true,
+            panzoombar: false
         };
         var options = {
             projection: new OpenLayers.Projection('EPSG:900913'),
