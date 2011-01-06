@@ -86,11 +86,9 @@ var StylesheetTabView = Backbone.View.extend({
     },
     activate: function() {
         $('.stylesheets a.tab', this.list.el).removeClass('active');
-        $('#editor', this.list.el).append(this.input);
         $(this.el).addClass('active');
         if (!this.codemirror) {
-            return;
-            this.codemirror = CodeMirror.fromTextArea('code', {
+            this.codemirror = CodeMirror.fromTextArea($('textarea', this.el).get(0), {
                 height: '100%',
                 stylesheet: 'css/code.css',
                 path: 'js/codemirror/js/',
