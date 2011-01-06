@@ -71,7 +71,7 @@ module.exports = function(app, settings) {
                 pathname: object.Key.text
               }),
               bytes: formatbyte(object.Size.text),
-              name: path.basename(object.Key.text)
+              id: path.basename(object.Key.text)
             };
           })
         )

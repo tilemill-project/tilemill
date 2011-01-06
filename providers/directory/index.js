@@ -47,8 +47,8 @@ module.exports = function(app, settings) {
                   protocol: 'http:',
                   pathname: path.join('/provider/directory/file/', dir, filename)
                 }),
-                name: path.basename(filename),
-                bytes: formatbyte(fs.statSync(path.join(settings.path, dir, filename)).size)
+                bytes: formatbyte(fs.statSync(path.join(settings.path, dir, filename)).size),
+                id: path.basename(filename)
               }
             }));
           }
