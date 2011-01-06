@@ -5,6 +5,10 @@ var PopupView = Backbone.View.extend({
     },
     render: function () {
         $(this.el).html(ich.PopupView(this.options));
+        var that = this;
+        $('body').keyup(function(e) {
+          if (e.keyCode == 27) { that.close() }   // esc
+        });
         window.app.el.append(this.el);
         return this;
     },
