@@ -7,11 +7,11 @@ var Project = Backbone.Model.extend({
             this.set({'srs': this.SRS_DEFAULT});
         }
         if (!this.get('Stylesheet')) {
-            this.set({'Stylesheet': new StylesheetList([])});
+            this.set({'Stylesheet': new StylesheetList([], {parent:this})});
             this.get('Stylesheet').bind('all', function() { self.save(); });
         }
         if (!this.get('Layer')) {
-            this.set({'Layer': new LayerList([])});
+            this.set({'Layer': new LayerList([], {parent:this})});
             this.get('Layer').bind('all', function() { self.save(); });
         }
     },
@@ -19,18 +19,21 @@ var Project = Backbone.Model.extend({
         var self = this;
         // Instantiate StylesheetList and LayerList collections from JSON lists
         // of plain JSON objects.
-        response.Stylesheet = new StylesheetList(response.Stylesheet ? response.Stylesheet : []);
+        response.Stylesheet = new StylesheetList(response.Stylesheet ? response.Stylesheet : [], {parent:this});
         response.Stylesheet.bind('all', function() { self.save(); });
-        response.Layer = new LayerList(response.Layer ? response.Layer : []);
+        response.Layer = new LayerList(response.Layer ? response.Layer : [], {parent:this});
         response.Layer.bind('all', function() { self.save(); });
         return response;
     },
     // Override url() method for convenience so we don't always need a
     // collection reference around for CRUD operations on a single model.
-    url : function() {
+    url: function() {
         return '/api/project/' + this.id;
     },
     validate: function(attributes) {
+        // Trigger a validation event.
+        this.trigger('validate');
+
         if (/^[a-z0-9\-_]+$/i.test(this.id) === false) {
             return 'Name must contain only letters, numbers, dashes, and underscores.';
         }
@@ -147,12 +150,11 @@ var ProjectView = Backbone.View.extend({
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(map.el);
         $('#main', this.el).append(stylesheets.el);
-
         window.app.el.html(this.el);
         return this;
     },
     saveProject: function() {
-        alert('@TODO save');
+        this.model.save();
         return false;
     },
     projectInfo: function() {

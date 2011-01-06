@@ -134,12 +134,11 @@
     <script type='text/html' id='ProjectView'>
       <div id='header' class='clearfix pane'>
         <h1>Editing {{ id }}</h1>
-        <a class='info' href='#project-info'>Info</a>
-        <a class='minimal' href='#minimal'>Minimal Mode</a>
+        <a class='info' href='#'>Info</a>
+        <a class='minimal' href='#'>Minimal Mode</a>
         <a target='_blank' class='reference' href='#reference'>Reference</a>
-        <a class='save' href='#project-save'>Save</a>
+        <a class='save' href='#'>Save</a>
         <a class='home' href='#'>Back home</a>
-        <a class='status' href='#status'>Status</a>
       </div>
       <div id='main'></div>
       <div id='sidebar'></div>
@@ -197,13 +196,17 @@
         <div class='stylesheets'></div>
         <a title='Add a Stylesheet Tab' class='tab-add' href='#'>Add MSS</a>
       </div>
-      <div id='editor'></div>
+      <div id='editor'>
+      </div>
     </script>
 
     <script type='text/html' id='StylesheetTabView'>
       <span class='name'>{{ id }}</span>
       <span class='tab-delete'>Delete</span>
-      <textarea id='code' class='code'></textarea>
+    </script>
+
+    <script type='text/html' id='StylesheetTabEditor'>
+      <div class='editor'><textarea></textarea></div>
     </script>
 
     <script type='text/html' id='color'>
