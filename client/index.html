@@ -26,6 +26,7 @@
     <script type='text/javascript' src='js/app.stylesheet.js'></script>
     <script type='text/javascript' src='js/app.reference.js'></script>
     <script type='text/javascript' src='js/app.visualization.js'></script>
+    <script type='text/javascript' src='js/app.datasource.js'></script>
     <script type='text/javascript' src='js/app.list.js'></script>
     <script type='text/javascript' src='js/app.map.js'></script>
     <script type='text/javascript' src='js/app.js'></script>
@@ -52,6 +53,7 @@
         'js/app.stylesheet.js',
         'js/app.reference.js',
         'js/app.visualization.js',
+        'js/app.datasource.js',
         'js/app.list.js',
         'js/app.map.js',
         'js/app.js',
@@ -244,7 +246,7 @@
             <label for='file'>Data Source</label>
             <input type='text' class='text required' id='file' value='{{ datasource_file }}' />
             <a id='expand-datasources' title='See available datasources'>[+]</a>
-            <div style='display:none;' id='form-providers'></div>
+            <div class='container datasources hidden'></div>
           </div>
           <div>
             <label for='srs'>SRS</label>
@@ -480,19 +482,10 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
       </div>
     </script>
 
-    <script type='text/html' id='data_provider'>
-      <h3>{{ name }}</h3>
-      {{#datasources}}
-        {{>data_datasource}}
-      {{/datasources}}
-    </script>
-
-    <script type='text/html' class='partial' id='data_datasource'>
-      <div class='datasource'>
-        {{ name }}
-        <span class='metadata'>{{ bytes }}</span>
-        <span class='url'>{{ url }}</span>
-      </div>
+    <script type='text/html' id='DatasourceRow'>
+      <span class='name'>{{ id }}</span>
+      <span class='metadata'>{{ bytes }}</span>
+      <span class='url'>{{ url }}</span>
     </script>
 
     <script type='text/html' id='reference_symbolizer'>
