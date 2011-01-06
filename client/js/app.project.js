@@ -2,7 +2,7 @@ var Project = Backbone.Model.extend({
     SRS_DEFAULT: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
     STYLESHEET_DEFAULT: [{
         id: 'style.mss',
-        data: "Map {\n  map-bgcolor: #fff;\n}\n\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}"
+        data: "#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}"
     }],
     LAYER_DEFAULT: [{
         id: 'world',
