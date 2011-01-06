@@ -8,35 +8,66 @@ var Stylesheet = Backbone.Model.extend({
 });
 
 var StylesheetList = Backbone.Collection.extend({
-    model: Stylesheet
+    model: Stylesheet,
+    initialize: function(models, options) {
+        var self = this;
+        this.parent = options.parent;
+        this.bind('add', function() {
+            this.parent.set({ 'Stylesheet': self });
+            this.parent.change();
+        });
+        this.bind('remove', function() {
+            this.parent.set({ 'Stylesheet': self });
+            this.parent.change();
+        });
+    },
 });
 
 var StylesheetListView = Backbone.View.extend({
     initialize: function() {
-        _.bindAll(this, 'render');
-        this.collection.bind('all', this.render);
+        _.bindAll(this, 'render', 'add', 'activate');
+        var self = this;
+        this.collection.bind('add', this.render);
+        this.collection.bind('add', this.activate);
+        this.collection.bind('remove', this.render);
+        this.collection.bind('remove', this.activate);
+        window.app.bind('ready', this.activate);
         this.render();
         /*
         @TODO: bind re-render to project events.
         */
     },
     render: function() {
-        var self = this;
-        $(this.el).html(ich.StylesheetListView());
-        this.collection.each(function(stylesheet) {
-            var stylesheetTab = new StylesheetTabView({
-                model: stylesheet,
-                list: self
+        // Render the stylesheets wrapper if not present.
+        if ($(this.el).has('.stylesheets').length === 0) {
+            $(this.el).html(ich.StylesheetListView());
+            $('.stylesheets', this.el).sortable({
+                axis: 'x',
+                revert: true,
+                containment: 'parent'
+                // @TODO: proper event.
+                // change: TileMill.project.changed
             });
-            $('.stylesheets', self.el).append(stylesheetTab.el);
-        });
-        $('.stylesheets', self.el).sortable({
-          axis: 'x'
-          // @TODO: proper event.
-          // change: TileMill.project.changed
-        });
+        }
 
+        // Add a tab view for each stylesheet.
+        var self = this;
+        this.collection.each(function(stylesheet) {
+            if (!stylesheet.view) {
+                stylesheet.view = new StylesheetTabView({
+                    model: stylesheet,
+                    list: self
+                });
+                $('.stylesheets', self.el).append(stylesheet.view.el);
+                self.activeTab = self.activeTab || stylesheet.view;
+            }
+        });
         return this;
+    },
+    activate: function() {
+        if (this.activeTab) {
+            this.activeTab.activate();
+        }
     },
     events: {
         'click .tab-add': 'add'
@@ -69,15 +100,21 @@ var StylesheetTabView = Backbone.View.extend({
     tagName: 'a',
     className: 'tab',
     initialize: function (params) {
-        _.bindAll(this, 'render');
-        this.render();
+        _.bindAll(this, 'render', 'update', 'delete', 'activate', 'remove');
+
+        // Bind an update event that stores the codemirror input contents with
+        // the Stylesheet model whenever the project model validate event
+        // occurs, indicating that a save/sync is imminent.
+        this.model.collection.parent.bind('validate', this.update);
+
         this.list = params.list;
-        this.input = $('textarea', this.el);
-        this.input.val(this.model.get('data'));
+        this.input = $(ich.StylesheetTabEditor());
         this.codemirror = false;
+        this.render();
     },
     render: function () {
         $(this.el).html(ich.StylesheetTabView({ id: this.model.get('id') }));
+        $('#editor', this.list.el).append(this.input);
         return this;
     },
     events: {
@@ -85,15 +122,22 @@ var StylesheetTabView = Backbone.View.extend({
         'click .tab-delete': 'delete',
     },
     activate: function() {
-        $('.stylesheets a.tab', this.list.el).removeClass('active');
+        $('#tabs .tab, #editor .editor', this.list.el).removeClass('active');
         $(this.el).addClass('active');
+        $(this.input).addClass('active');
+        this.list.activeTab = this;
         if (!this.codemirror) {
-            this.codemirror = CodeMirror.fromTextArea($('textarea', this.el).get(0), {
+            this.codemirror = CodeMirror.fromTextArea($('textarea', this.input).get(0), {
+                content: this.model.get('data'),
                 height: '100%',
                 stylesheet: 'css/code.css',
                 path: 'js/codemirror/js/',
                 parserfile: 'parsemss.js',
                 parserConfig: window.data.reference,
+                onChange: function() {
+                    // TileMill.colors.reload(stylesheets);
+                    // TileMill.project.changed();
+                },
             });
         }
     },
@@ -108,7 +152,20 @@ var StylesheetTabView = Backbone.View.extend({
             window.app.done();
         }
         return false;
-    }
+    },
+    update: function() {
+        if (this.codemirror) {
+            this.model.set({'data': this.codemirror.getCode()});
+        }
+    },
+    /**
+     * Override of .remove(). Removes the input editor element as well.
+     */
+    remove: function() {
+        $(this.el).remove();
+        $(this.input).remove();
+        return this;
+    },
 });
 
 /**
