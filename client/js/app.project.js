@@ -220,11 +220,27 @@ var ProjectView = Backbone.View.extend({
 var ColorPickerToolView = Backbone.View.extend({
     id: 'color-picker',
     className: 'pane',
+    events: {
+        'click a.color-picker': 'showPicker'
+    },
     initialize: function() {
+        _.bindAll(this, 'activate', 'showPicker');
         this.render();
+        window.app.bind('ready', this.activate);
     },
     render: function() {
         $(this.el).html(ich.ColorPickerToolView);
+    },
+    activate: function() {
+        this.$('#farbtastic').farbtastic({
+            callback: 'input#color',
+            width: 200,
+            height: 200
+        });
+    },
+    showPicker: function() {
+        this.$('#farbtastic').toggle('fast');
+        return false;
     }
 });
 
