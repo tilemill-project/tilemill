@@ -96,7 +96,7 @@ h3 { font-size:13px; }
 
   #header a.save {
     color:#999;
-    display:none;
+    /*display:none;*/
     }
 
   #header a.save.changed {
@@ -559,10 +559,8 @@ a.inspect-unique.active     { background-color:#222; }
   font-weight:bold;
   color:#999;
   position:relative;
+  cursor:pointer;
   }
-
-#tabs a.tab textarea,
-#tabs a.tab div { display:none; }
 
 #tabs a.tab span.tab-delete {
   display:none;
@@ -586,16 +584,26 @@ a.inspect-unique.active     { background-color:#222; }
 
 #editor {
   overflow:auto;
-  position:absolute;
-  top:40px;
-  left:0px;
+  position:fixed;
+  z-index:100;
+  top:80px;
+  left:30%;
   bottom:40px;
   right:0px;
-  display:block;
   width:auto !important;
   }
 
-#editor iframe { padding:0px; }
+#editor .editor {
+  display:none;
+  position:absolute;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  top:0px;
+  }
+
+#editor .editor.active { display:block; }
+#editor .editor iframe { padding:0px; }
 
 /**
  * Color palette

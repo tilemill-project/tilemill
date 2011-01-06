@@ -2,6 +2,10 @@ var Layer = Backbone.Model.extend({
 });
 
 var LayerList = Backbone.Collection.extend({
+    model: Layer,
+    initialize: function(models, options) {
+        this.parent = options.parent;
+    },
 });
 
 var LayerListView = Backbone.View.extend({
