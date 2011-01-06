@@ -600,7 +600,7 @@ a.inspect-unique.active     { background-color:#222; }
 /**
  * Color palette
  */
-#color-palette {
+#tools {
   background:#303030 url(../images/sprite.png) 0px -360px repeat-x;
   color:#eee;
   position:absolute;
@@ -611,7 +611,7 @@ a.inspect-unique.active     { background-color:#222; }
   min-height:20px;
   }
 
-#colors {
+#color-swatches {
   padding-left:70px;
   width: 270px;
   overflow:hide;
@@ -619,7 +619,7 @@ a.inspect-unique.active     { background-color:#222; }
   float:left;
   }
 
-#colors label {
+#color-swatches label {
   text-shadow:#000 0px -1px 0px;
   position:absolute;
   left:0px;
@@ -628,7 +628,7 @@ a.inspect-unique.active     { background-color:#222; }
   text-transform:uppercase;
   }
 
-#colors .swatch {
+#color-swatches .swatch {
   -moz-box-shadow:#222 0px 1px 2px;
   -webkit-box-shadow:#222 0px 1px 2px;
   background:url(../images/sprite.png) 0px -220px no-repeat;
@@ -641,7 +641,7 @@ a.inspect-unique.active     { background-color:#222; }
   position:relative;
   }
 
-  #colors .swatch label {
+  #color-swatches .swatch label {
     position:absolute;
     left:-26px;
     bottom:10px;
@@ -655,7 +655,7 @@ a.inspect-unique.active     { background-color:#222; }
     text-shadow:none;
     }
 
-  #colors .swatch:hover label { display:block; }
+  #color-swatches .swatch:hover label { display:block; }
 
 #color-picker {
   position:absolute;
@@ -682,14 +682,14 @@ a.inspect-unique.active     { background-color:#222; }
 /**
  * Font pallette
  */
-#fonts {
+#font-picker {
   padding-left:70px;
   position:relative;
   left:270px;
   float:left;
   }
 
-#fonts label {
+#font-picker label {
   text-shadow:#000 0px -1px 0px;
   position:absolute;
   font-size:11px;
