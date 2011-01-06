@@ -131,9 +131,10 @@ var ProjectView = Backbone.View.extend({
     },
     initialize: function () {
         _.bindAll(this, 'render');
-        this.model.bind('refresh', this.render);
-        this.model.bind('change', this.render);
-        this.model.fetch();
+        this.model.fetch({
+            success: this.render,
+            error: this.render
+        });
     },
     render: function() {
         $(this.el).html(ich.ProjectView(this.model));
