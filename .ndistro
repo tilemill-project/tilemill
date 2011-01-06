@@ -4,6 +4,7 @@ module tmcw knox
 module documentcloud underscore
 module lucisferre node-xml2js
 module isaacs sax-js
+module developmentseed mess.js
 module developmentseed tilelive.js
 module mapnik node-mapnik
 
