@@ -47,13 +47,25 @@ var App = function() {
 
     this.message = function(title, message, type) {
         type = type || 'status';
-        new PopupView({
-            title: title,
-            content: ich.PopupMessage({
-                message: message,
-                type: type
-            }, true)
-        });
+        if (type == 'projectInfo') {
+            new PopupView({
+                title: title,
+                content: ich.PopupProjectInfo({
+                    tilelive_url: message.tilelive_url,
+                    mml_url: message.mml_url,
+                    type: type
+                }, true)
+            });
+        }
+        else {
+            new PopupView({
+                title: title,
+                content: ich.PopupMessage({
+                    message: message,
+                    type: type
+                }, true)
+            });
+        }
     };
 };
 
