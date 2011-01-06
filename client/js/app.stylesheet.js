@@ -110,7 +110,7 @@ var StylesheetTabView = Backbone.View.extend({
     tagName: 'a',
     className: 'tab',
     initialize: function (params) {
-        _.bindAll(this, 'render', 'update', 'delete', 'activate', 'remove');
+        _.bindAll(this, 'render', 'update', 'del', 'activate', 'remove');
 
         // Bind an update event that stores the codemirror input contents with
         // the Stylesheet model whenever the project model validate event
@@ -135,7 +135,7 @@ var StylesheetTabView = Backbone.View.extend({
     },
     events: {
         'click .name': 'activate',
-        'click .tab-delete': 'delete',
+        'click .tab-delete': 'del',
     },
     activate: function() {
         var self = this;
@@ -167,7 +167,7 @@ var StylesheetTabView = Backbone.View.extend({
             });
         }
     },
-    delete: function() {
+    del: function() {
         window.app.loading();
         if (confirm('Are you sure you want to delete this stylesheet?')) {
             this.list.collection.remove(this.model);
