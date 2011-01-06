@@ -71,7 +71,7 @@ var LayerRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
     initialize: function (params) {
-        _.bindAll(this, 'render', 'edit', 'inspect', 'delete');
+        _.bindAll(this, 'render', 'edit', 'inspect', 'del');
         this.list = params.list;
         this.render();
     },
@@ -82,7 +82,7 @@ var LayerRowView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click .layer-delete': 'delete',
+        'click .layer-delete': 'del',
         'click .layer-inspect': 'inspect',
         'click .layer-edit': 'edit'
     },
@@ -98,7 +98,7 @@ var LayerRowView = Backbone.View.extend({
         alert('@TODO inspect');
         return false;
     },
-    delete: function() {
+    del: function() {
         window.app.loading();
         if (confirm('Are you sure you want to delete this layer?')) {
             this.list.collection.remove(this.model);
@@ -128,8 +128,8 @@ var LayerPopupView = PopupView.extend({
         this.model = this.options.model;
         this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
         this.options.content = ich.LayerPopupView({
-            id: this.model.id,
-            class: this.model.get('class'),
+            'id': this.model.id,
+            'class': this.model.get('class'),
             datasource_file: this.model.get('Datasource') ? this.model.get('Datasource').file : '',
         }, true);
         this.render();

@@ -119,9 +119,9 @@ var ProjectRowView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click .file-delete': 'delete'
+        'click .file-delete': 'del'
     },
-    delete: function() {
+    del: function() {
         window.app.loading();
         if (confirm('Are you sure you want to delete this project?')) {
             this.model.destroy({
