@@ -30,6 +30,13 @@ var Project = Backbone.Model.extend({
     url : function() {
         return '/api/project/' + this.id;
     },
+    /**
+     * Layer URL based on the model URL.
+     */
+    layerURL: function() {
+        var mmlb64 = Base64.urlsafe_encode(window.location.origin + this.url());
+        return window.location.origin + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png'
+    },
     validate: function(attributes) {
         if (/^[a-z0-9\-_]+$/i.test(this.id) === false) {
             return 'Name must contain only letters, numbers, dashes, and underscores.';
