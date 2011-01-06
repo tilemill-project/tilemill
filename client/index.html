@@ -130,9 +130,7 @@
         <a class='save' href='#'>Save</a>
         <a class='home' href='#'>Back home</a>
       </div>
-      <div id='main'>
-        <div id='tools' class='pane'></div>
-      </div>
+      <div id='main'></div>
       <div id='sidebar'></div>
     </script>
 
@@ -198,6 +196,7 @@
 
     <script type='text/html' id='StylesheetTabEditor'>
       <div class='editor'><textarea></textarea></div>
+      <div id='tools' class='pane'></div>
     </script>
 
     <script type='text/html' id='ColorPickerToolView'>
@@ -208,7 +207,9 @@
 
     <script type='text/html' id='FontPickerToolView'>
       <label>Fonts</label>
-      <select id='fonts-list'></select>
+      <select id='fonts-list'>
+      {{#fonts}}<option value='{{.}}'>{{.}}</option>{{/fonts}}
+      </select>
     </script>
 
     <script type='text/html' id='ColorSwatchesToolView'>

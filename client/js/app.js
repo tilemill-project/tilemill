@@ -69,6 +69,12 @@ var App = function() {
     };
 };
 
+var Abilities = Backbone.Model.extend({
+    url: function() {
+        return '/abilities';
+    }
+});
+
 var LoadingView = Backbone.View.extend({
     initialize: function () {
         _.bindAll(this, 'render');
