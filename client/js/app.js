@@ -95,6 +95,7 @@ var ErrorView = Backbone.View.extend({
 
 $(function() {
     window.app = new App();
+    _.extend(window.app, Backbone.Events);
     Backbone.history.start();
 });
 

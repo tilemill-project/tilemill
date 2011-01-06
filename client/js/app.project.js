@@ -7,27 +7,23 @@ var Project = Backbone.Model.extend({
             this.set({'srs': this.SRS_DEFAULT});
         }
         if (!this.get('Stylesheet')) {
-            this.set({'Stylesheet': new StylesheetList([])});
-            this.get('Stylesheet').bind('all', function() { self.save(); });
+            this.set({'Stylesheet': new StylesheetList([], {parent:this})});
         }
         if (!this.get('Layer')) {
-            this.set({'Layer': new LayerList([])});
-            this.get('Layer').bind('all', function() { self.save(); });
+            this.set({'Layer': new LayerList([], {parent:this})});
         }
     },
     parse: function(response) {
         var self = this;
         // Instantiate StylesheetList and LayerList collections from JSON lists
         // of plain JSON objects.
-        response.Stylesheet = new StylesheetList(response.Stylesheet ? response.Stylesheet : []);
-        response.Stylesheet.bind('all', function() { self.save(); });
-        response.Layer = new LayerList(response.Layer ? response.Layer : []);
-        response.Layer.bind('all', function() { self.save(); });
+        response.Stylesheet = new StylesheetList(response.Stylesheet ? response.Stylesheet : [], {parent:this});
+        response.Layer = new LayerList(response.Layer ? response.Layer : [], {parent:this});
         return response;
     },
     // Override url() method for convenience so we don't always need a
     // collection reference around for CRUD operations on a single model.
-    url : function() {
+    url: function() {
         return '/api/project/' + this.id;
     },
     /**
@@ -38,6 +34,9 @@ var Project = Backbone.Model.extend({
         return window.location.origin + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png'
     },
     validate: function(attributes) {
+        // Trigger a validation event.
+        this.trigger('validate');
+
         if (/^[a-z0-9\-_]+$/i.test(this.id) === false) {
             return 'Name must contain only letters, numbers, dashes, and underscores.';
         }
@@ -132,17 +131,15 @@ var ProjectRowView = Backbone.View.extend({
 
 var ProjectView = Backbone.View.extend({
     events: {
-        'click div#header a.save': 'saveProject',
-        'click div#header a.info': 'projectInfo',
-        'click div#header a.minimal': 'minimal',
-        'click div#header a.home': 'home'
+        'click #header a.save': 'saveProject',
+        'click #header a.info': 'projectInfo',
+        'click #header a.minimal': 'minimal',
+        'click #header a.home': 'home'
     },
     initialize: function () {
-        _.bindAll(this, 'render');
-        this.model.fetch({
-            success: this.render,
-            error: this.render
-        });
+        _.bindAll(this, 'render', 'saveProject', 'projectInfo', 'home', 'minimal', 'changed');
+        this.model.bind('change', this.changed);
+        this.model.fetch({ success: this.render, error: this.render});
     },
     render: function() {
         $(this.el).html(ich.ProjectView(this.model));
@@ -162,10 +159,18 @@ var ProjectView = Backbone.View.extend({
         this.$('#tools').append(colorSwatches.el);
 
         window.app.el.html(this.el);
+        window.app.trigger('ready');
         return this;
     },
     saveProject: function() {
-        alert('@TODO save');
+        this.model.save(this.model, {
+            success: function() {
+                $('#header a.save', this.el).removeClass('changed');
+            },
+            error: function(err) {
+                window.app.message('Error', err);
+            }
+        });
         return false;
     },
     projectInfo: function() {
@@ -173,7 +178,7 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     home: function() {
-        return (!$('div#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?'));
+        return (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?'));
     },
     minimal: function() {
         $('a.minimal', this.el).toggleClass('active');
@@ -194,6 +199,9 @@ var ProjectView = Backbone.View.extend({
             // window.clearInterval(TileMill.project_watcher);
         }
         return false;
+    },
+    changed: function() {
+        $('#header a.save', this.el).addClass('changed');
     }
 });
 
