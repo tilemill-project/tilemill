@@ -1,16 +1,28 @@
 var Project = Backbone.Model.extend({
     SRS_DEFAULT: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
-    initialize: function() {
-        var self = this;
-        // Set default values.
+    STYLESHEET_DEFAULT: [{
+        id: 'style.mss',
+        data: "Map {\n  map-bgcolor: #fff;\n}\n\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}"
+    }],
+    LAYER_DEFUALT: [{
+        id: 'world',
+        srs: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+        Datasource: {
+            file: 'http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip',
+            type: 'shape',
+            estimate_extent: 'id',
+            id: 'world',
+        }
+    }],
+    initialize: function(attributes) {
         if (!this.get('srs')) {
             this.set({'srs': this.SRS_DEFAULT});
         }
         if (!this.get('Stylesheet')) {
-            this.set({'Stylesheet': new StylesheetList([], {parent:this})});
+            this.set({'Stylesheet': new StylesheetList(this.STYLESHEET_DEFAULT, { parent: this })});
         }
         if (!this.get('Layer')) {
-            this.set({'Layer': new LayerList([], {parent:this})});
+            this.set({'Layer': new LayerList(this.LAYER_DEFAULT, { parent:this })});
         }
     },
     parse: function(response) {
