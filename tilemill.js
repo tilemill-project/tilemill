@@ -33,8 +33,19 @@ app.get('/api/project/:projectId?', loadProjects, function(req, res, next) {
 
 app.put('/api/project/:projectId', function(req, res, next) {
     var project = new Project(req.body);
-    project.save(function() {
-        res.send({});
+    project.save(function(err) {
+        project.load(function(err, project) {
+            res.send(project);
+        });
+    });
+});
+
+app.post('/api/project/:projectId', function(req, res, next) {
+    var project = new Project(req.body);
+    project.save(function(err) {
+        project.load(function(err, project) {
+            res.send(project);
+        });
     });
 });
 
