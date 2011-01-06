@@ -10,7 +10,16 @@ var Stylesheet = Backbone.Model.extend({
 var StylesheetList = Backbone.Collection.extend({
     model: Stylesheet,
     initialize: function(models, options) {
+        var self = this;
         this.parent = options.parent;
+        this.bind('add', function() {
+            this.parent.set({ 'Stylesheet': self });
+            this.parent.change();
+        });
+        this.bind('remove', function() {
+            this.parent.set({ 'Stylesheet': self });
+            this.parent.change();
+        });
     },
 });
 
@@ -91,7 +100,7 @@ var StylesheetTabView = Backbone.View.extend({
     tagName: 'a',
     className: 'tab',
     initialize: function (params) {
-        _.bindAll(this, 'render', 'update', 'delete', 'activate');
+        _.bindAll(this, 'render', 'update', 'delete', 'activate', 'remove');
 
         // Bind an update event that stores the codemirror input contents with
         // the Stylesheet model whenever the project model validate event
@@ -148,7 +157,15 @@ var StylesheetTabView = Backbone.View.extend({
         if (this.codemirror) {
             this.model.set({'data': this.codemirror.getCode()});
         }
-    }
+    },
+    /**
+     * Override of .remove(). Removes the input editor element as well.
+     */
+    remove: function() {
+        $(this.el).remove();
+        $(this.input).remove();
+        return this;
+    },
 });
 
 /**

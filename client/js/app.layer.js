@@ -4,7 +4,16 @@ var Layer = Backbone.Model.extend({
 var LayerList = Backbone.Collection.extend({
     model: Layer,
     initialize: function(models, options) {
+        var self = this;
         this.parent = options.parent;
+        this.bind('add', function() {
+            this.parent.set({ 'Layer': self });
+            this.parent.change();
+        });
+        this.bind('remove', function() {
+            this.parent.set({ 'Layer': self });
+            this.parent.change();
+        });
     },
 });
 
