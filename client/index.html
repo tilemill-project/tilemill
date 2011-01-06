@@ -140,7 +140,9 @@
         <a class='save' href='#'>Save</a>
         <a class='home' href='#'>Back home</a>
       </div>
-      <div id='main'></div>
+      <div id='main'>
+        <div id='tools' class='pane'></div>
+      </div>
       <div id='sidebar'></div>
     </script>
 
@@ -209,22 +211,20 @@
       <div class='editor'><textarea></textarea></div>
     </script>
 
-    <script type='text/html' id='color'>
-      <div id='color-palette' class='pane'>
-        <div id='color-picker' class='pane'>
-          <a class='color-picker' href='#color-picker'>Color picker</a>
-          <input size='7' maxlength='7' id='color' type='text' class='text' />
-          <div class='pane' id='farbtastic'></div>
-        </div>
-        <div id='fonts'>
-          <label>Fonts</label>
-          <select id='fonts-list'></select>
-        </div>
-        <div id='colors'>
-          <label>Colors</label>
-          <div></div>
-        </div>
-      </div>
+    <script type='text/html' id='ColorPickerToolView'>
+      <a class='color-picker' href='#color-picker'>Color picker</a>
+      <input size='7' maxlength='7' id='color' type='text' class='text' />
+      <div class='pane' id='farbtastic'></div>
+    </script>
+
+    <script type='text/html' id='FontPickerToolView'>
+      <label>Fonts</label>
+      <select id='fonts-list'></select>
+    </script>
+
+    <script type='text/html' id='ColorSwatchesToolView'>
+      <label>Colors</label>
+      <div></div>
     </script>
 
     <script type='text/html' id='PopupView'>

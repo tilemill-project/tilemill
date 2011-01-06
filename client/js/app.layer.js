@@ -1,10 +1,24 @@
 var Layer = Backbone.Model.extend({
+    // @TODO either as a feature or a bug, object attributes are not set
+    // automatically when passed to the constructor. We set it manually here.
+    initialize: function(attributes) {
+        this.set({'Datasource': attributes.Datasource});
+    }
 });
 
 var LayerList = Backbone.Collection.extend({
     model: Layer,
     initialize: function(models, options) {
+        var self = this;
         this.parent = options.parent;
+        this.bind('add', function() {
+            this.parent.set({ 'Layer': self });
+            this.parent.change();
+        });
+        this.bind('remove', function() {
+            this.parent.set({ 'Layer': self });
+            this.parent.change();
+        });
     },
 });
 

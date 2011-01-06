@@ -1,18 +1,28 @@
 var Project = Backbone.Model.extend({
     SRS_DEFAULT: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
-    initialize: function() {
-        var self = this;
-        // Set default values.
+    STYLESHEET_DEFAULT: [{
+        id: 'style.mss',
+        data: "Map {\n  map-bgcolor: #fff;\n}\n\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}"
+    }],
+    LAYER_DEFAULT: [{
+        id: 'world',
+        srs: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+        Datasource: {
+            file: 'http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip',
+            type: 'shape',
+            estimate_extent: 'id',
+            id: 'world',
+        }
+    }],
+    initialize: function(attributes) {
         if (!this.get('srs')) {
             this.set({'srs': this.SRS_DEFAULT});
         }
         if (!this.get('Stylesheet')) {
-            this.set({'Stylesheet': new StylesheetList([], {parent:this})});
-            this.get('Stylesheet').bind('all', function() { self.save(); });
+            this.set({'Stylesheet': new StylesheetList(this.STYLESHEET_DEFAULT, { parent: this })});
         }
         if (!this.get('Layer')) {
-            this.set({'Layer': new LayerList([], {parent:this})});
-            this.get('Layer').bind('all', function() { self.save(); });
+            this.set({'Layer': new LayerList(this.LAYER_DEFAULT, { parent:this })});
         }
     },
     parse: function(response) {
@@ -20,9 +30,7 @@ var Project = Backbone.Model.extend({
         // Instantiate StylesheetList and LayerList collections from JSON lists
         // of plain JSON objects.
         response.Stylesheet = new StylesheetList(response.Stylesheet ? response.Stylesheet : [], {parent:this});
-        response.Stylesheet.bind('all', function() { self.save(); });
         response.Layer = new LayerList(response.Layer ? response.Layer : [], {parent:this});
-        response.Layer.bind('all', function() { self.save(); });
         return response;
     },
     // Override url() method for convenience so we don't always need a
@@ -135,17 +143,16 @@ var ProjectRowView = Backbone.View.extend({
 
 var ProjectView = Backbone.View.extend({
     events: {
-        'click div#header a.save': 'saveProject',
-        'click div#header a.info': 'projectInfo',
-        'click div#header a.minimal': 'minimal',
-        'click div#header a.home': 'home'
+        'click #header a.save': 'saveProject',
+        'click #header a.info': 'projectInfo',
+        'click #header a.minimal': 'minimal',
+        'click #header a.home': 'home'
     },
     initialize: function () {
-        _.bindAll(this, 'render');
-        this.model.fetch({
-            success: this.render,
-            error: this.render
-        });
+        _.bindAll(this, 'render', 'saveProject', 'projectInfo', 'home', 'minimal', 'changed');
+        this.model.view = this;
+        this.model.bind('change', this.changed);
+        this.model.fetch({ success: this.render, error: this.render});
     },
     render: function() {
         $(this.el).html(ich.ProjectView(this.model));
@@ -153,16 +160,30 @@ var ProjectView = Backbone.View.extend({
         var layers = new LayerListView({collection: this.model.get('Layer')});
         var stylesheets = new StylesheetListView({collection: this.model.get('Stylesheet')});
         var map = new MapView({model: this.model});
+        var colorPicker = new ColorPickerToolView();
+        var colorSwatches = new ColorSwatchesToolView();
+        var fontPicker = new FontPickerToolView();
 
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(map.el);
         $('#main', this.el).append(stylesheets.el);
+        this.$('#tools').append(colorPicker.el);
+        this.$('#tools').append(fontPicker.el);
+        this.$('#tools').append(colorSwatches.el);
+
         window.app.el.html(this.el);
         window.app.trigger('ready');
         return this;
     },
     saveProject: function() {
-        this.model.save();
+        this.model.save(this.model, {
+            success: function() {
+                $('#header a.save', this.el).removeClass('changed');
+            },
+            error: function(err) {
+                window.app.message('Error', err);
+            }
+        });
         return false;
     },
     projectInfo: function() {
@@ -170,7 +191,7 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     home: function() {
-        return (!$('div#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?'));
+        return (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?'));
     },
     minimal: function() {
         $('a.minimal', this.el).toggleClass('active');
@@ -191,6 +212,40 @@ var ProjectView = Backbone.View.extend({
             // window.clearInterval(TileMill.project_watcher);
         }
         return false;
+    },
+    changed: function() {
+        $('#header a.save', this.el).addClass('changed');
+    }
+});
+
+var ColorPickerToolView = Backbone.View.extend({
+    id: 'color-picker',
+    className: 'pane',
+    initialize: function() {
+        this.render();
+    },
+    render: function() {
+        $(this.el).html(ich.ColorPickerToolView);
+    }
+});
+
+var ColorSwatchesToolView = Backbone.View.extend({
+    id: 'color-swatches',
+    initialize: function() {
+        this.render();
+    },
+    render: function() {
+        $(this.el).html(ich.ColorSwatchesToolView);
+    }
+});
+
+var FontPickerToolView = Backbone.View.extend({
+    id: 'font-picker',
+    initialize: function() {
+        this.render();
+    },
+    render: function() {
+        $(this.el).html(ich.FontPickerToolView);
     }
 });
 
