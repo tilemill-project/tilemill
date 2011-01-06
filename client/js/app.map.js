@@ -39,7 +39,7 @@ var MapView = Backbone.View.extend({
 
         this.map = new OpenLayers.Map(this.id, options);
         var fullControls = new OpenLayers.Control.PanZoom();
-        this.layer = new OpenLayers.Layer.XYZ('Preview', this.layerURL(), {
+        this.layer = new OpenLayers.Layer.XYZ('Preview', this.model.layerURL(), {
             buffer: 0,
             transitionEffect: 'resize'
         });
@@ -97,14 +97,6 @@ var MapView = Backbone.View.extend({
                 }
             }
         }
-    },
-
-    /**
-     * Layer URL based on the model URL.
-     */
-    layerURL: function() {
-        var mmlb64 = Base64.urlsafe_encode(window.location.origin + this.model.url());
-        return window.location.origin + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png'
     }
 });
 

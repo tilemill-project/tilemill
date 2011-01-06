@@ -30,6 +30,13 @@ var Project = Backbone.Model.extend({
     url: function() {
         return '/api/project/' + this.id;
     },
+    /**
+     * Layer URL based on the model URL.
+     */
+    layerURL: function() {
+        var mmlb64 = Base64.urlsafe_encode(window.location.origin + this.url());
+        return window.location.origin + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png'
+    },
     validate: function(attributes) {
         // Trigger a validation event.
         this.trigger('validate');
@@ -158,7 +165,7 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     projectInfo: function() {
-        alert('@TODO projectInfo');
+        window.app.message('Project Info', {'tilelive_url': this.model.layerURL(), 'mml_url': window.location.origin + this.model.url()}, 'projectInfo');
         return false;
     },
     home: function() {
