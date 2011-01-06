@@ -1,4 +1,5 @@
 var _ = require('underscore')._,
+    path = require('path'),
     Tile = require('tilelive.js').Tile;
 
 var mapnik = require('mapnik');
@@ -23,7 +24,7 @@ module.exports = function(app, settings) {
                 req.params.x,
                 req.params.y,
                 req.params[0],
-                settings.mapfile_dir);
+                path.join(__dirname, settings.mapfile_dir));
         } catch (err) {
             res.send('Tile invalid: ' + err.message);
         }
