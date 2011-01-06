@@ -15,11 +15,7 @@ module.exports = function(app, settings) {
   });
   app.get('/provider/:provider', function(req, res) {
       providers[req.params.provider].objects(function(objects) {
-          res.send({
-              status: true,
-              name: providers[req.params.provider].name,
-              datasources: objects
-          });
+          res.send(objects);
       });
   });
 };

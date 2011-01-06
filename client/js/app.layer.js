@@ -121,9 +121,10 @@ var LayerRowView = Backbone.View.extend({
 var LayerPopupView = PopupView.extend({
     events: _.extend(PopupView.prototype.events, {
         'click input.submit': 'submit',
+        'click a#expand-datasources': 'datasources'
     }),
     initialize: function(params) {
-        _.bindAll(this, 'submit');
+        _.bindAll(this, 'render', 'submit', 'datasources');
         this.model = this.options.model;
         this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
         this.options.content = ich.LayerPopupView({
@@ -153,6 +154,17 @@ var LayerPopupView = PopupView.extend({
             this.collection.add(this.model);
             this.remove();
         }
+        return false;
+    },
+    datasources: function() {
+        if (!this.list) {
+            this.list = new DatasourceListView({
+                collection: new DatasourceListDirectory,
+                target: $('input#file', this.el)
+            });
+            $('.datasources', this.el).append(this.list.el);
+        }
+        $('.datasources', this.el).toggle();
         return false;
     }
 });

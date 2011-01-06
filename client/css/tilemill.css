@@ -255,6 +255,8 @@ form div {
   border-bottom:1px solid #eee;
   }
 
+form div.container { border:0px; padding:0px; }
+
 form div label {
   display:block;
   position:absolute;
@@ -877,7 +879,7 @@ a#expand-datasources:hover {
   }
 
 
-#form-providers {
+#datasource-list {
   padding: 5px;
   margin-top: 5px;
   background-color:#eee;
@@ -885,23 +887,23 @@ a#expand-datasources:hover {
   border: 1px solid #ccc;
   }
 
-#form-providers div {
+#datasource-list div {
   padding:0;
   }
 
 /**
  * TODO: this will break in IE
  */
-#form-providers div.datasource:hover {
+#datasource-list div.datasource:hover {
   color:#000;
   cursor:pointer;
   }
   
-#form-providers div.datasource .url {
+#datasource-list div.datasource .url {
   display:none;
   }
 
-#form-providers div.datasource .metadata {
+#datasource-list div.datasource .metadata {
   font-size:9px;
   padding:3px;
   background-color:#eee;
