@@ -47,10 +47,16 @@ module.exports = function(app, settings) {
     });
 
     /**
-     * @TODO expose available fonts (and other 'abilities').
+     * Inspect abilities.
      */
-    app.get('/abilities.json', function(req, res) {
-        res.send({ fonts: [] });
+    app.get('/abilities', function(req, res) {
+        mapnik = require('mapnik');
+        res.send(
+            {
+                fonts: mapnik.fonts(),
+                datasources: mapnik.datasources()
+            }
+        );
     });
 
     /**

@@ -611,8 +611,8 @@ a.inspect-unique.active     { background-color:#222; }
 #tools {
   background:#303030 url(../images/sprite.png) 0px -360px repeat-x;
   color:#eee;
-  position:absolute;
-  left:0px;
+  position:fixed;
+  left:30%;
   right:0px;
   bottom:0px;
   padding-right:180px;

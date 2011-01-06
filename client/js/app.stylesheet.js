@@ -115,6 +115,12 @@ var StylesheetTabView = Backbone.View.extend({
     render: function () {
         $(this.el).html(ich.StylesheetTabView({ id: this.model.get('id') }));
         $('#editor', this.list.el).append(this.input);
+        var colorPicker = new ColorPickerToolView();
+        var colorSwatches = new ColorSwatchesToolView();
+        var fontPicker = new FontPickerToolView({model: new Abilities, parent: this});
+        this.list.$('#tools').append(colorPicker.el);
+        this.list.$('#tools').append(fontPicker.el);
+        this.list.$('#tools').append(colorSwatches.el);
         return this;
     },
     events: {
@@ -166,6 +172,64 @@ var StylesheetTabView = Backbone.View.extend({
         $(this.input).remove();
         return this;
     },
+});
+
+var ColorPickerToolView = Backbone.View.extend({
+    id: 'color-picker',
+    className: 'pane',
+    events: {
+        'click a.color-picker': 'showPicker'
+    },
+    initialize: function() {
+        _.bindAll(this, 'activate', 'showPicker');
+        this.render();
+        window.app.bind('ready', this.activate);
+    },
+    render: function() {
+        $(this.el).html(ich.ColorPickerToolView);
+    },
+    activate: function() {
+        this.$('#farbtastic').farbtastic({
+            callback: 'input#color',
+            width: 200,
+            height: 200
+        });
+    },
+    showPicker: function() {
+        this.$('#farbtastic').toggle('fast');
+        return false;
+    }
+});
+
+var ColorSwatchesToolView = Backbone.View.extend({
+    id: 'color-swatches',
+    initialize: function() {
+        this.render();
+    },
+    render: function() {
+        $(this.el).html(ich.ColorSwatchesToolView);
+    }
+});
+
+var FontPickerToolView = Backbone.View.extend({
+    id: 'font-picker',
+    events: {
+        'change #fonts-list': 'insertFont'
+    },
+    initialize: function(options) {
+        _.bindAll(this, 'render', 'insertFont');
+        this.model.fetch({ success: this.render, error: this.render});
+        this.parent = options.parent;
+    },
+    render: function() {
+        $(this.el).html(ich.FontPickerToolView({ fonts: this.model.get('fonts') }));
+    },
+    insertFont: function() {
+        var mirror = this.parent.codemirror;
+        mirror.insertIntoLine(
+          mirror.cursorPosition().line,
+          mirror.cursorPosition().character, '"' + this.$('select').val() + '"');
+    }
 });
 
 /**
