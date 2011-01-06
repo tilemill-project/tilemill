@@ -115,6 +115,9 @@ var ProjectRowView = Backbone.View.extend({
                 }
             });
         }
+        else {
+            window.app.done();
+        }
         return false;
     }
 });
