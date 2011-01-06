@@ -105,22 +105,38 @@ Project.prototype.save = function(callback) {
 
     fs.mkdir(projectPath, 0777, function() {
         var data = _.extend({}, self);
-        var stylesheets = {};
+        var files = [];
         if (data.id) {
             delete data.id;
         }
         if (data.Stylesheet) {
             _.each(data.Stylesheet, function(stylesheet, key) {
                 if (stylesheet.id) {
-                    stylesheets[stylesheet.id] = stylesheet.data;
+                    files.push({
+                        filename: stylesheet.id,
+                        data: stylesheet.data
+                    });
                     data.Stylesheet[key] = stylesheet.id;
                 }
             });
         }
-        // @TODO work through stylesheet queue and save each one individually.
-        fs.writeFile(path.join(projectPath, self.id + '.mml'), JSON.stringify(data), function(err) {
-            callback(err);
+        files.push({
+            filename: self.id + '.mml',
+            data: JSON.stringify(data)
         });
+
+        var queue = new events.EventEmitter;
+        var queueLength = files.length;
+        for (var i = 0; i < files.length; i++) {
+            // @TODO work through stylesheet queue and save each one individually.
+            fs.writeFile(path.join(projectPath, files[i].filename), files[i].data, function(err) {
+                queueLength--;
+                if (queueLength === 0) {
+                    queue.emit('complete');
+                }
+            });
+        }
+        queue.on('complete', callback);
     });
 }
 
