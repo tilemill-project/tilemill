@@ -158,6 +158,7 @@ var ProjectView = Backbone.View.extend({
         $('#sidebar', this.el).append(map.el);
         $('#main', this.el).append(stylesheets.el);
         window.app.el.html(this.el);
+        window.app.trigger('ready');
         return this;
     },
     saveProject: function() {
