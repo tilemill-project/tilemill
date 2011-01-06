@@ -150,6 +150,7 @@ var ProjectView = Backbone.View.extend({
     },
     initialize: function () {
         _.bindAll(this, 'render', 'saveProject', 'projectInfo', 'home', 'minimal', 'changed');
+        this.model.view = this;
         this.model.bind('change', this.changed);
         this.model.fetch({ success: this.render, error: this.render});
     },

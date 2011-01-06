@@ -4,6 +4,12 @@ var Stylesheet = Backbone.Model.extend({
         if (!this.get('data')) {
             this.set({'data': ''});
         }
+    },
+    // @TODO.
+    validate: function() {
+        if (/^[a-z0-9\-_.]+$/i.test(this.id) === false) {
+            return 'Name must contain only letters, numbers, dashes, underscores and periods.';
+        }
     }
 });
 
@@ -90,8 +96,14 @@ var StylesheetPopupView = PopupView.extend({
     submit: function() {
         var id = $('input.text', this.el).val();
         var stylesheet = new Stylesheet({id: id});
-        this.collection.add(stylesheet);
-        this.remove();
+        var error = stylesheet.validate();
+        if (error) {
+            window.app.message('Error', error);
+        }
+        else {
+            this.collection.add(stylesheet);
+            this.remove();
+        }
         return false;
     }
 });
@@ -122,6 +134,8 @@ var StylesheetTabView = Backbone.View.extend({
         'click .tab-delete': 'delete',
     },
     activate: function() {
+        var self = this;
+
         $('#tabs .tab, #editor .editor', this.list.el).removeClass('active');
         $(this.el).addClass('active');
         $(this.input).addClass('active');
@@ -134,9 +148,15 @@ var StylesheetTabView = Backbone.View.extend({
                 path: 'js/codemirror/js/',
                 parserfile: 'parsemss.js',
                 parserConfig: window.data.reference,
+                saveFunction: function() {
+                    self.model.collection.parent.view.saveProject();
+                },
                 onChange: function() {
-                    // TileMill.colors.reload(stylesheets);
-                    // TileMill.project.changed();
+                    self.model.collection.parent.change();
+                    // @TODO need an event that the color picker can bind to.
+                },
+                initCallback: function(cm) {
+                    // @TODO need an event that the color picker can bind to.
                 },
             });
         }
