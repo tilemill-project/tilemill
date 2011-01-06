@@ -159,10 +159,17 @@ var ProjectView = Backbone.View.extend({
         var layers = new LayerListView({collection: this.model.get('Layer')});
         var stylesheets = new StylesheetListView({collection: this.model.get('Stylesheet')});
         var map = new MapView({model: this.model});
+        var colorPicker = new ColorPickerToolView();
+        var colorSwatches = new ColorSwatchesToolView();
+        var fontPicker = new FontPickerToolView();
 
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(map.el);
         $('#main', this.el).append(stylesheets.el);
+        this.$('#tools').append(colorPicker.el);
+        this.$('#tools').append(fontPicker.el);
+        this.$('#tools').append(colorSwatches.el);
+
         window.app.el.html(this.el);
         window.app.trigger('ready');
         return this;
@@ -207,6 +214,37 @@ var ProjectView = Backbone.View.extend({
     },
     changed: function() {
         $('#header a.save', this.el).addClass('changed');
+    }
+});
+
+var ColorPickerToolView = Backbone.View.extend({
+    id: 'color-picker',
+    className: 'pane',
+    initialize: function() {
+        this.render();
+    },
+    render: function() {
+        $(this.el).html(ich.ColorPickerToolView);
+    }
+});
+
+var ColorSwatchesToolView = Backbone.View.extend({
+    id: 'color-swatches',
+    initialize: function() {
+        this.render();
+    },
+    render: function() {
+        $(this.el).html(ich.ColorSwatchesToolView);
+    }
+});
+
+var FontPickerToolView = Backbone.View.extend({
+    id: 'font-picker',
+    initialize: function() {
+        this.render();
+    },
+    render: function() {
+        $(this.el).html(ich.FontPickerToolView);
     }
 });
 
