@@ -86,5 +86,4 @@ module.exports = function(app, settings) {
     app.get('/:mapfile_64/:layer_64/:feature_64/values.json', loadMap, loadLayer, loadFeature, function(req, res, next) {
         res.send({});
     });
-}
-
+};
