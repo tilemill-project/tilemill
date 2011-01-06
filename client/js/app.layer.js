@@ -3,6 +3,8 @@ var Layer = Backbone.Model.extend({
     // automatically when passed to the constructor. We set it manually here.
     initialize: function(attributes) {
         this.set({'Datasource': attributes.Datasource});
+    },
+    validate: function() {
     }
 });
 
@@ -27,6 +29,9 @@ var LayerListView = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, 'render');
         this.render();
+        this.collection.bind('add', this.render);
+        this.collection.bind('remove', this.render);
+        this.render();
         /*
         @TODO: bind re-render to project events.
         */
@@ -37,24 +42,27 @@ var LayerListView = Backbone.View.extend({
         this.collection.each(function(layer) {
             var layerRow = new LayerRowView({
                 model: layer,
-                collection: this.collection
+                list: self
             });
             $('ul', self.el).append(layerRow.el);
         });
-          $('ul', self.el).sortable({
+        $('ul', self.el).sortable({
             axis: 'y',
             handle: 'div.handle'
             // @TODO: proper event.
             // change: TileMill.project.changed
-          });
-
+        });
         return this;
     },
     events: {
         'click #layers-add': 'add'
     },
     add: function() {
-        alert('@TODO add');
+        new LayerPopupView({
+            collection: this.collection,
+            model: new Layer,
+            add: true
+        });
         return false;
     }
 });
@@ -62,8 +70,9 @@ var LayerListView = Backbone.View.extend({
 var LayerRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
-    initialize: function () {
-        _.bindAll(this, 'render');
+    initialize: function (params) {
+        _.bindAll(this, 'render', 'edit', 'inspect', 'delete');
+        this.list = params.list;
         this.render();
     },
     render: function () {
@@ -78,7 +87,11 @@ var LayerRowView = Backbone.View.extend({
         'click .layer-edit': 'edit'
     },
     edit: function() {
-        alert('@TODO edit');
+        new LayerPopupView({
+            collection: this.collection,
+            model: this.model,
+            add: false
+        });
         return false;
     },
     inspect: function() {
@@ -86,7 +99,60 @@ var LayerRowView = Backbone.View.extend({
         return false;
     },
     delete: function() {
-        alert('@TODO delete');
+        window.app.loading();
+        if (confirm('Are you sure you want to delete this layer?')) {
+            this.list.collection.remove(this.model);
+            this.remove();
+            window.app.done();
+        }
+        else {
+            window.app.done();
+        }
+        return false;
+    }
+});
+
+
+/**
+ * View: LayerPopupView
+ *
+ * Popup form for adding a new stylesheet.
+ */
+var LayerPopupView = PopupView.extend({
+    events: _.extend(PopupView.prototype.events, {
+        'click input.submit': 'submit',
+    }),
+    initialize: function(params) {
+        _.bindAll(this, 'submit');
+        this.model = this.options.model;
+        this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
+        this.options.content = ich.LayerPopupView({
+            id: this.model.id,
+            class: this.model.get('class'),
+            datasource_file: this.model.get('Datasource') ? this.model.get('Datasource').file : '',
+        }, true);
+        this.render();
+    },
+    submit: function() {
+        this.model.set({
+            'id': $('input#id', this.el).val(),
+            'srs': $('input#srs', this.el).val(),
+            'class': $('input#class', this.el).val(),
+            'Datasource': {
+                'file': $('input#file', this.el).val(),
+                'type': 'shape',
+                'estimate_extent': 'id',
+                'id': $('input#id', this.el).val()
+            }
+        });
+        var error = this.model.validate();
+        if (error) {
+            window.app.message('Error', error);
+        }
+        else {
+            this.collection.add(this.model);
+            this.remove();
+        }
         return false;
     }
 });

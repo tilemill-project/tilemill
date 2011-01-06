@@ -240,19 +240,19 @@
       </div>
     </script>
 
-    <script type='text/html' id='popup_layer'>
+    <script type='text/html' id='LayerPopupView'>
       <div id='popup-layer' class='clearfix pane'>
         <form id='form-layer'>
           <div class='messages'></div>
           <div><label for='id'>Id</label>
-            <input type='text' class='text required' id='id' />
+            <input type='text' class='text required' id='id' value='{{ id }}' />
           </div>
-          <div><label for='classes'>Classes</label>
-              <input type='text' class='text' id='classes' />
+          <div><label for='class'>Class</label>
+            <input type='text' class='text' id='class' value='{{ class }}'/>
           </div>
           <div>
             <label for='file'>Data Source</label>
-            <input type='text' class='text required' id='file' />
+            <input type='text' class='text required' id='file' value='{{ datasource_file }}' />
             <a id='expand-datasources' title='See available datasources'>[+]</a>
             <div style='display:none;' id='form-providers'></div>
           </div>
@@ -270,7 +270,7 @@
             <input type='text' class='text' id='srs-custom' />
           </div>
           <div class='buttons'>
-              <input class='submit' type='submit' value='{{ submit }}' />
+              <input class='submit' type='submit' value='Save' />
           </div>
         </form>
       </div>
