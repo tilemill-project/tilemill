@@ -64,12 +64,14 @@ var Project = function(object) {
     this.Stylesheet = [];
     this.Layer = [];
     _.extend(this, object);
-}
+};
 
 Project.prototype.load = function(callback) {
     var self = this;
     var projectPath = path.join(settings.files, 'project', this.id);
-    fs.readFile(path.join(projectPath, self.id + '.mml'), 'utf-8', function(err, data) {
+    fs.readFile(path.join(projectPath, self.id + '.mml'),
+    'utf-8',
+    function(err, data) {
         if (err) {
             return callback(new Error('Error reading project file.'));
         }
@@ -81,7 +83,9 @@ Project.prototype.load = function(callback) {
             var queue = new events.EventEmitter;
             var queueLength = self.Stylesheet.length;
             _.each(self.Stylesheet, function(filename, key) {
-                fs.readFile(path.join(projectPath, filename), 'utf-8', function(err, data) {
+                fs.readFile(path.join(projectPath, filename),
+                'utf-8',
+                function(err, data) {
                     self.Stylesheet[key] = {id: filename, data: data};
                     queueLength--;
                     if (queueLength === 0) {
@@ -97,7 +101,7 @@ Project.prototype.load = function(callback) {
             callback(err, self);
         }
     });
-}
+};
 
 Project.prototype.save = function(callback) {
     var self = this;
@@ -129,7 +133,10 @@ Project.prototype.save = function(callback) {
         var queueLength = files.length;
         for (var i = 0; i < files.length; i++) {
             // @TODO work through stylesheet queue and save each one individually.
-            fs.writeFile(path.join(projectPath, files[i].filename), files[i].data, function(err) {
+            fs.writeFile(path.join(projectPath,
+            files[i].filename),
+            files[i].data,
+            function(err) {
                 queueLength--;
                 if (queueLength === 0) {
                     queue.emit('complete');
@@ -138,12 +145,12 @@ Project.prototype.save = function(callback) {
         }
         queue.on('complete', callback);
     });
-}
+};
 
 Project.prototype.delete = function(callback) {
     var projectPath = path.join(settings.files, 'project', this.id);
     rmrf(projectPath, callback);
-}
+};
 
 function loadProjects(req, res, next) {
     res.projects = [];
@@ -193,7 +200,9 @@ app.get('/api/list', function(req, res) {
       if (exists) {
         path.exists(path.join(settings.files, req.param('filename')),
           function(exists) {
-            if (!exists) fs.mkdirSync(path.join(settings.files, req.param('filename')), 0777);
+            if (!exists) fs.mkdirSync(path.join(
+                    settings.files,
+                    req.param('filename')), 0777);
             res.send({
               status: true,
               data: _.select(fs.readdirSync(
@@ -218,7 +227,7 @@ app.get('/api/list', function(req, res) {
       } else {
         res.send({
           status: false,
-          data: 'The directory where TileMill keeps files is not present. ' + 
+          data: 'The directory where TileMill keeps files is not present. ' +
             'Please create the directory ' + settings.files
         });
       }
@@ -226,7 +235,9 @@ app.get('/api/list', function(req, res) {
 });
 
 app.get('/api/file', function(req, res) {
-  fs.readFile(path.join(settings.files, req.param('filename')), function(err, data) {
+  fs.readFile(path.join(settings.files,
+  req.param('filename')),
+  function(err, data) {
     if (!err) {
       if (req.param('callback')) {
         res.send(Object('' + data));
@@ -247,7 +258,6 @@ app.get('/api/file', function(req, res) {
 
 app.post('/api/file', function(req, res) {
   if ((req.param('method') || 'put') == 'put') {
-      console.log('here');
     if ((req.body.filename.split('/').length < 4) &&
         /^[a-z0-9\.\/\-_]+$/i.test(req.body.filename)) {
         console.log('true');
@@ -268,7 +278,6 @@ app.post('/api/file', function(req, res) {
           });
         });
       } else {
-          console.log('false');
       }
     } else {
       res.send({status: false});
@@ -287,7 +296,7 @@ app.post('/api/file', function(req, res) {
 app.get('/api/mtime', function(req, res) {
   var filename = req.param('filename');
   path.exists(path.join(settings.files, req.param('filename')),
-    function (exists) {
+    function(exists) {
       if (!exists) {
         res.send({
           status: false,
