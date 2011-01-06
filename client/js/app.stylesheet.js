@@ -14,10 +14,7 @@ var StylesheetList = Backbone.Collection.extend({
 var StylesheetListView = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, 'render');
-        this.collection.bind('add', this.render);
-        this.collection.bind('remove', this.render);
-        this.collection.bind('refresh', this.render);
-        this.collection.bind('change', this.render);
+        this.collection.bind('all', this.render);
         this.render();
         /*
         @TODO: bind re-render to project events.
