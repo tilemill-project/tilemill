@@ -10,7 +10,7 @@ var MapView = Backbone.View.extend({
         'click a.map-fullscreen': 'fullscreen'
     },
     render: function() {
-        $(this.el).html(ich.MapView());
+        $(this.el).html(ich.MapView({ id: this.model.id }));
     },
     activate: function() {
         var controls = {
@@ -40,7 +40,7 @@ var MapView = Backbone.View.extend({
         // @TODO: Store locally so the application is portable/usable offline?
         OpenLayers.ImgPath = 'images/openlayers_dark/';
 
-        this.map = new OpenLayers.Map(this.id, options);
+        this.map = new OpenLayers.Map('map-preview-' + this.model.id, options);
         var fullControls = new OpenLayers.Control.PanZoom();
         this.layer = new OpenLayers.Layer.XYZ('Preview', this.model.layerURL({signed: true}), {
             buffer: 0,
