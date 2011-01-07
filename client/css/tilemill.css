@@ -94,13 +94,11 @@ h3 { font-size:13px; }
 
   #header a.save {
     color:#999;
-    /*display:none;*/
     }
 
   #header a.save.changed {
     color:#fff;
     background:#268;
-    display:block;
     }
 
   #header a.home {
@@ -325,6 +323,11 @@ form div.buttons {
   min-height:20px;
   }
 
+.minimal #sidebar { width:100%; }
+.minimal a.save,
+.minimal #main,
+.minimal #toolbar { display:none; }
+
 .column h2,
 .popup-header,
 .sidebar-header { background:url(../images/sprite.png) 0px -320px repeat-x; }
@@ -345,7 +348,8 @@ form div.buttons {
 
 #layers ul {
   position:absolute;
-  overflow:auto;
+  overflow-x:hidden;
+  overflow-y:auto;
   left:0px;
   top:40px;
   bottom:0px;
