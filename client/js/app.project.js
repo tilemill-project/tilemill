@@ -67,10 +67,8 @@ var ProjectList = Backbone.Collection.extend({
 
 var ProjectListView = Backbone.View.extend({
     id: 'ProjectListView',
-    tagName: 'div',
-    className: 'column',
     initialize: function() {
-        _.bindAll(this, 'render');
+        _.bindAll(this, 'render', 'add', 'about');
         this.collection.bind('all', this.render);
         this.collection.fetch();
     },
@@ -84,10 +82,12 @@ var ProjectListView = Backbone.View.extend({
             });
             $('ul', self.el).append(projectRow.el);
         });
+        window.app.el.html(this.el);
         return this;
     },
     events: {
-        'click input.submit': 'add'
+        'click input.submit': 'add',
+        'click div#header a.info': 'about'
     },
     add: function() {
         // @TODO: this code is considerably more complicated than it should be
@@ -109,6 +109,10 @@ var ProjectListView = Backbone.View.extend({
             }
         });
         return false;
+    },
+    about: function() {
+        window.app.message('About TileLive', '@TODO: Put something facinating here.');
+        return false;
     }
 });
 
@@ -124,7 +128,7 @@ var ProjectRowView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click .file-delete': 'del'
+        'click .delete': 'del'
     },
     del: function() {
         window.app.loading();
