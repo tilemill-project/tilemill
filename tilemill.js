@@ -190,31 +190,6 @@ function loadProjects(req, res, next) {
     }
 }
 
-// TODO: use watchfile
-app.get('/api/mtime', function(req, res) {
-  var filename = req.param('filename');
-  path.exists(path.join(settings.files, req.param('filename')),
-    function(exists) {
-      if (!exists) {
-        res.send({
-          status: false,
-          data: 'The file (' +
-            path.join(settings.files, req.param('filename')) +
-            ') could not be found.'
-        });
-      } else {
-        fs.stat(path.join(
-            settings.files,
-            req.param('filename')), function(err, stats) {
-          res.send({
-            mtime: '' + stats.mtime,
-            filename: req.param('filename')
-          });
-        });
-      }
-    });
-});
-
 require('./providers/providers')(app, settings);
 require('./inspect')(app, settings);
 
