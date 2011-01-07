@@ -26,7 +26,6 @@
     <script type='text/javascript' src='js/app.layer.js'></script>
     <script type='text/javascript' src='js/app.stylesheet.js'></script>
     <script type='text/javascript' src='js/app.reference.js'></script>
-    <script type='text/javascript' src='js/app.visualization.js'></script>
     <script type='text/javascript' src='js/app.datasource.js'></script>
     <script type='text/javascript' src='js/app.list.js'></script>
     <script type='text/javascript' src='js/app.map.js'></script>
@@ -54,7 +53,6 @@
         'js/app.layer.js',
         'js/app.stylesheet.js',
         'js/app.reference.js',
-        'js/app.visualization.js',
         'js/app.datasource.js',
         'js/app.list.js',
         'js/app.map.js',
@@ -83,20 +81,6 @@
           <input class='required text alphanum' type='text' />
           <input class='submit' type='submit' value='Add project' />
         </form>
-      </li>
-    </ul>
-    </script>
-
-    <script type='text/html' id='VisualizationListView'>
-    <h2 class='pane'>Visualizations</h2>
-    <ul class='items'>
-      <li class='form'>
-      <form id='visualizations'>
-        <div class='messages'></div>
-        <label>Shapefile URL</label>
-        <input class='url2 required text' type='text' />
-        <input class='submit' type='submit' value='Add visualization' />
-      </form>
       </li>
     </ul>
     </script>
@@ -132,17 +116,6 @@
         <a class='minimal' href='#'>Minimal Mode</a>
         <a target='_blank' class='reference' href='#reference'>Reference</a>
         <a class='save' href='#'>Save</a>
-        <a class='home' href='#'>Back home</a>
-      </div>
-      <div id='main'></div>
-      <div id='sidebar'></div>
-    </script>
-
-    <script type='text/html' id='visualization'>
-      <div id='header' class='clearfix pane'>
-        <h1>Visualizing {{ id }}</h1>
-        <a class='info' href='#project-info'>Info</a>
-        <a class='projectify' href='#project-save'>Make project</a>
         <a class='home' href='#'>Back home</a>
       </div>
       <div id='main'></div>
@@ -325,40 +298,6 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
       </div>
     </script>
 
-    <script type='text/html' id='popup_info_visualization'>
-      <div id='popup-info' class='clearfix pane'>
-        <form>
-          <div class='messages'></div>
-          <div>
-            <label for='datasource-url'>Datasource</label>
-            <input id='datasource-url' disabled='disabled' 
-              class='text' type='text' value='{{ datasource_url }}' />
-          </div>
-          <div>
-            <label for='tilelive-url'>TileLive URL</label>
-            <input id='tilelive-url' class='text' type='text' value='{{ tilelive_url }}' />
-          </div>
-          <div>
-            <label for='mml-url'>MML URL</label>
-            <input id='mml-url' class='text' type='text' value='{{ mml_url }}' />
-          </div>
-          <div><label for='choropleth-split'>Choropleth</label>
-            <select id='choropleth-split'>
-              <option value='2'>2 shades</option>
-              <option value='3'>3 shades</option>
-              <option value='4'>4 shades</option>
-              <option value='5'>5 shades</option>
-              <option value='6'>6 shades</option>
-              <option value='7'>7 shades</option>
-              <option value='8'>8 shades</option>
-              <option value='9'>9 shades</option>
-              <option value='10'>10 shades</option>
-            </select>
-          </div>
-        </form>
-      </div>
-    </script>
-
     <script type='text/html' id='StylesheetPopupView'>
       <div id='popup-stylesheet' class='clearfix pane'>
         <form>
@@ -369,21 +308,6 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
           </div>
           <div class='buttons'>
             <input class='submit' type='submit' value='Add stylesheet' />
-          </div>
-        </form>
-      </div>
-    </script>
-
-    <script type='text/html' id='popup_projectify'>
-      <div id='popup-projectify' class='clearfix pane'>
-        <form>
-          <div class='messages'></div>
-          <div>
-            <label for='stylesheet-name'>Name</label>
-            <input id='project-name' class='text required alphanum' type='text' />
-          </div>
-          <div class='buttons'>
-            <input class='submit' type='submit' value='Make project' />
           </div>
         </form>
       </div>
