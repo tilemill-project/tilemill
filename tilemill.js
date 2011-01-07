@@ -4,6 +4,8 @@ var express = require('express'),
     fs = require('fs'),
     path = require('path'),
     rmrf = require('./rm-rf'),
+    Step = require('step'),
+    mess = require('mess'),
     events = require('events'),
     _ = require('underscore')._;
 
@@ -32,10 +34,16 @@ app.get('/api/project/:projectId?', loadProjects, function(req, res, next) {
 
 app.put('/api/project/:projectId', function(req, res, next) {
     var project = new Project(req.body);
-    project.save(function(err) {
-        project.load(function(err, project) {
-            res.send(project);
-        });
+    project.validate(project.Stylesheet, function(err, tree) {
+        if (!err) {
+            project.save(function(err) {
+                project.load(function(err, project) {
+                    res.send(project);
+                });
+            });
+        } else {
+            res.send(err, 500);
+        }
     });
 });
 
@@ -63,6 +71,29 @@ var Project = function(object) {
     this.Stylesheet = [];
     this.Layer = [];
     _.extend(this, object);
+};
+
+Project.prototype.validate = function(stylesheets, callback) {
+    Step(
+        function() {
+            var group = this.group();
+            _.each(stylesheets, function(stylesheet) {
+                new(mess.Parser)({
+                    filename: stylesheet.id
+                }).parse(stylesheet.data, function(err, tree) {
+                    try {
+                        tree.toCSS({ compress: false });
+                        group()(null);
+                    } catch (e) {
+                        group()(e);
+                    }
+                });
+            });
+        },
+        function(err, res) {
+            callback(err);
+        }
+    );
 };
 
 Project.prototype.load = function(callback) {

@@ -51,7 +51,7 @@ var StylesheetList = Backbone.Collection.extend({
  * Display a StylesheetList collection as a set of tabs.
  */
 var StylesheetListView = Backbone.View.extend({
-    initialize: function() {
+    initialize: function(options) {
         _.bindAll(this, 'render', 'add', 'activate');
         var self = this;
         this.collection.bind('add', this.render);
@@ -59,6 +59,7 @@ var StylesheetListView = Backbone.View.extend({
         this.collection.bind('remove', this.render);
         this.collection.bind('remove', this.activate);
         window.app.bind('ready', this.activate);
+        options.project.view.stylesheets = this;
         this.render();
         /*
         @TODO: bind re-render to project events.
@@ -154,7 +155,8 @@ var StylesheetTabView = Backbone.View.extend({
                     self.model.set({'data': self.codemirror.getCode()});
                 },
                 onChange: function() {
-                    self.model.collection.parent.change();
+                    // Trigger event on the project
+                    self.model.collection.parent.trigger('codeMirrorChange');
                 },
                 initCallback: function(cm) {
                     self.model.collection.parent.trigger('ready');
