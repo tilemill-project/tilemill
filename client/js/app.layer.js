@@ -13,6 +13,10 @@ var LayerList = Backbone.Collection.extend({
     initialize: function(models, options) {
         var self = this;
         this.parent = options.parent;
+        this.bind('change', function() {
+            this.parent.set({ 'Layer': self });
+            this.parent.change();
+        });
         this.bind('add', function() {
             this.parent.set({ 'Layer': self });
             this.parent.change();
