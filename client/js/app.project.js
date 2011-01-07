@@ -41,14 +41,16 @@ var Project = Backbone.Model.extend({
     /**
      * Layer URL based on the model URL.
      */
-    layerURL: function() {
-        var mmlb64 = Base64.urlsafe_encode(window.location.origin + this.url());
-        return window.location.origin + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png'
+    layerURL: function(options) {
+        var url = window.location.origin + this.url();
+        if (options.signed) {
+            var md5 = new MD5();
+            url += '?' + md5.digest(JSON.stringify(this)).substr(0,6);
+        }
+        var mmlb64 = Base64.urlsafe_encode(url);
+        return window.location.origin + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png';
     },
     validate: function(attributes) {
-        // Trigger a validation event.
-        this.trigger('validate');
-
         if (/^[a-z0-9\-_]+$/i.test(this.id) === false) {
             return 'Name must contain only letters, numbers, dashes, and underscores.';
         }
@@ -170,9 +172,11 @@ var ProjectView = Backbone.View.extend({
         return this;
     },
     saveProject: function() {
+        var self = this;
         this.model.save(this.model, {
             success: function() {
-                $('#header a.save', this.el).removeClass('changed');
+                self.model.trigger('save');
+                $('#header a.save', self.el).removeClass('changed');
             },
             error: function(err) {
                 window.app.message('Error', err);
@@ -181,7 +185,10 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     projectInfo: function() {
-        window.app.message('Project Info', {'tilelive_url': this.model.layerURL(), 'mml_url': window.location.origin + this.model.url()}, 'projectInfo');
+        window.app.message('Project Info', {
+            'tilelive_url': this.model.layerURL({signed: true}),
+            'mml_url': window.location.origin + this.model.url()
+        }, 'projectInfo');
         return false;
     },
     home: function() {
