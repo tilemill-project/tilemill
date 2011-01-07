@@ -68,7 +68,9 @@ var Project = function(object) {
 Project.prototype.load = function(callback) {
     var self = this;
     var projectPath = path.join(settings.files, 'project', this.id);
-    fs.readFile(path.join(projectPath, self.id + '.mml'), 'utf-8', function(err, data) {
+    fs.readFile(path.join(projectPath, self.id + '.mml'),
+    'utf-8',
+    function(err, data) {
         if (err || !data) {
             return callback(new Error('Error reading project file.'));
         }
@@ -83,7 +85,10 @@ Project.prototype.load = function(callback) {
                 fs.readFile(path.join(projectPath, filename),
                 'utf-8',
                 function(err, data) {
-                    self.Stylesheet[key] = {id: filename, data: data};
+                    self.Stylesheet[key] = {
+                        id: filename,
+                        data: data
+                    };
                     queueLength--;
                     if (queueLength === 0) {
                         queue.emit('complete');
@@ -155,8 +160,11 @@ function loadProjects(req, res, next) {
         project.load(function(err, project) {
             if (project) {
                 res.projects.push(project);
+                next();
             }
-            next();
+            else {
+                next(err);
+            }
         });
     }
     else {
@@ -189,31 +197,6 @@ function loadProjects(req, res, next) {
         queue.on('complete', next);
     }
 }
-
-// TODO: use watchfile
-app.get('/api/mtime', function(req, res) {
-  var filename = req.param('filename');
-  path.exists(path.join(settings.files, req.param('filename')),
-    function(exists) {
-      if (!exists) {
-        res.send({
-          status: false,
-          data: 'The file (' +
-            path.join(settings.files, req.param('filename')) +
-            ') could not be found.'
-        });
-      } else {
-        fs.stat(path.join(
-            settings.files,
-            req.param('filename')), function(err, stats) {
-          res.send({
-            mtime: '' + stats.mtime,
-            filename: req.param('filename')
-          });
-        });
-      }
-    });
-});
 
 require('./providers/providers')(app, settings);
 require('./inspect')(app, settings);

@@ -144,6 +144,7 @@ var ProjectRowView = Backbone.View.extend({
 });
 
 var ProjectView = Backbone.View.extend({
+    id: 'ProjectView',
     events: {
         'click #header a.save': 'saveProject',
         'click #header a.info': 'projectInfo',
@@ -206,20 +207,12 @@ var ProjectView = Backbone.View.extend({
     minimal: function() {
         $('a.minimal', this.el).toggleClass('active');
         if ($('a.minimal', this.el).is('.active')) {
-            $('#main').hide();
-            $('a.home').hide();
-            $('a.save').hide();
-            $('#sidebar').css('width', '100%');
-            // @TODO.
-            // TileMill.project_watcher = setInterval(TileMill.project.watch, 1000);
+            $(this.el).addClass('minimal');
+            this.watcher = new Watcher(this.model);
         }
         else {
-            $('#main').show();
-            $('a.home').show();
-            $('a.save').show();
-            $('#sidebar').css('width', '30%');
-            // @TODO
-            // window.clearInterval(TileMill.project_watcher);
+            $(this.el).removeClass('minimal');
+            this.watcher.destroy();
         }
         return false;
     },
@@ -229,28 +222,28 @@ var ProjectView = Backbone.View.extend({
 });
 
 /**
-TileMill.project.checkStale = function(data) {
-  $('#tabs a.tab').each(function() {
-    if (($.url.setUrl($(this).data('tilemill').src)
-            .param('filename') == data.filename) &&
-      ($(this).data('tilemill').mtime != data.mtime)) {
-      TileMill.inspector.load();
-      TileMill.data.uniq = (new Date().getTime());
-      TileMill.map.reload(
-          $('#map-preview'),
-          TileMill.backend.servers(TileMill.mml.url()));
-      $('div#header a.save').removeClass('changed');
-      $(this).data('tilemill').mtime = data.mtime;
-    }
-  });
+ * Watcher.
+ * Class for updating project in minimal mode.
+ */
+var Watcher = function(model) {
+    _.bindAll(this, 'fetch', 'destroy');
+    var model = model;
+    this.model = model;
+    this.model.bind('change', this.fetch);
+    this.md5 = new MD5();
+    this.current = this.md5.digest(JSON.stringify(this.model));
+    this.watcher = setInterval(function() { model.fetch(); }, 1000);
 };
 
-TileMill.project.watch = function() {
-  $('#tabs a.tab').each(function() {
-    TileMill.stylesheet.setCode($('#tabs a.active'), true);
-    TileMill.stylesheet.mtime(
-      $.url.setUrl($(this).data('tilemill').src).param('filename'),
-      TileMill.project.checkStale);
-  });
+Watcher.prototype.fetch = function() {
+    var state = this.md5.digest(JSON.stringify(this.model));
+    if (this.current !== state) {
+        this.current = state;
+        this.model.trigger('save');
+    }
 };
-**/
+
+Watcher.prototype.destroy = function() {
+    window.clearInterval(this.watcher);
+};
+
