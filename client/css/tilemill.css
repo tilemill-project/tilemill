@@ -534,6 +534,14 @@ a.inspect-unique.active     { background-color:#222; }
   border-bottom:1px solid #ccc;
   }
 
+#map-preview .olMap {
+  position:absolute;
+  left:0px;
+  right:0px;
+  top:0px;
+  bottom:0px;
+  }
+
 #map-preview div.olControlPanZoomBar {
   top:20px !important;
   }
