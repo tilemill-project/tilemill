@@ -204,7 +204,7 @@ var ProjectView = Backbone.View.extend({
     projectInfo: function() {
         window.app.message('Project Info', {
             'tilelive_url': this.model.layerURL({signed: true}),
-            'mml_url': window.location.origin + this.model.url()
+            'mml_url': window.location.href.split('/#')[0] + this.model.url()
         }, 'projectInfo');
         return false;
     },
