@@ -43,15 +43,15 @@ var Project = Backbone.Model.extend({
      */
     layerURL: function(options) {
         // `window.location.origin` is not available in all browsers like
-        // Firefox. We use `window.location.href` and spilt at the hash
-        // in case TileMill is located in a subdirectory.
-        var url = window.location.href.split('/#')[0] + this.url();
+        // Firefox. @TODO This approach won't allow TileMill to be installed in
+        // a subdirectory. Fix.
+        var url = [window.location.protocol, window.location.host].join('//') + this.url();
         if (options.signed) {
             var md5 = new MD5();
             url += '?' + md5.digest(JSON.stringify(this)).substr(0,6);
         }
         var mmlb64 = Base64.urlsafe_encode(url);
-        return window.location.href.split('/#')[0] + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png';
+        return [window.location.protocol, window.location.host].join('//') + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png';
     },
     validate: function(attributes) {
         if (/^[a-z0-9\-_]+$/i.test(this.id) === false) {
@@ -204,7 +204,7 @@ var ProjectView = Backbone.View.extend({
     projectInfo: function() {
         window.app.message('Project Info', {
             'tilelive_url': this.model.layerURL({signed: true}),
-            'mml_url': window.location.href.split('/#')[0] + this.model.url()
+            'mml_url': [window.location.protocol, window.location.host].join('//') + this.model.url()
         }, 'projectInfo');
         return false;
     },
