@@ -37,7 +37,7 @@ module.exports = function(app, settings) {
                 data[1] = _.extend(settings.header_defaults, data[1]);
                 res.send.apply(res, data);
             } else {
-                next(err);
+                res.send('', { 'Content-Type': 'image/png' }, 500);
             }
         });
     });
