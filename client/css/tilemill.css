@@ -934,7 +934,7 @@ textarea.code-snippet {
 
 .CodeMirror-line-numbers {
   background:#eee;
-  color:#333;
+  color:#555;
   margin:0px;
   padding:10px 0;
   font:13px/20px monospace;
