@@ -28,7 +28,6 @@
     <script type='text/javascript' src='js/app.stylesheet.js'></script>
     <script type='text/javascript' src='js/app.reference.js'></script>
     <script type='text/javascript' src='js/app.datasource.js'></script>
-    <script type='text/javascript' src='js/app.list.js'></script>
     <script type='text/javascript' src='js/app.map.js'></script>
     <script type='text/javascript' src='js/app.js'></script>
     <script type='text/javascript' src='js/data.reference.js'></script>
@@ -56,7 +55,6 @@
         'js/app.stylesheet.js',
         'js/app.reference.js',
         'js/app.datasource.js',
-        'js/app.list.js',
         'js/app.map.js',
         'js/app.js',
         'js/data.reference.js',
@@ -64,27 +62,28 @@
     </script>
     -->
 
-    <script type='text/html' id='ListView'>
+    <script type='text/html' id='ProjectListView'>
     <div id='header' class='clearfix pane'>
       <h1>TileMill</h1>
-      <a class='info' href='#info'>About</a>
+      <span class='links'>
+        <a class='info' href='#info'>About</a>
+      </span>
     </div>
     <div id='content' class='clearfix'>
+      <div id='main'>
+        <ul class='pane projects clearfix'></ul>
+      </div>
+      <div id='sidebar'>
+        <div class='pane'>
+          <form id='projects' class='projects pane'>
+            <h2>Add a project</h2>
+            <p>Enter the name of your new project.</p>
+            <input class='required text alphanum' type='text' />
+            <input class='submit' type='submit' value='Add' />
+          </form>
+        </div>
+      </div>
     </div>
-    </script>
-
-    <script type='text/html' id='ProjectListView'>
-    <h2 class='pane'>Projects</h2>
-    <ul class='items'>
-      <li class='form'>
-      <form id='projects'>
-          <div class='messages'></div>
-          <label>Name</label>
-          <input class='required text alphanum' type='text' />
-          <input class='submit' type='submit' value='Add project' />
-        </form>
-      </li>
-    </ul>
     </script>
 
     <script type='text/html' id='LoadingView'>
@@ -107,18 +106,25 @@
     </script>
 
     <script type='text/html' id='ProjectRowView'>
-      <a href='#project/{{id}}/delete' class='file-delete'>Delete</a>
-      <a href='#project/{{id}}' class='route'>{{id}}</a>
+      <a href='#project/{{id}}'>
+        <span class='thumb' style='background-image:url("{{ thumb }}")'></span>
+        {{id}}
+        <span class='icon delete'>Delete</span>
+      </a>
     </script>
 
     <script type='text/html' id='ProjectView'>
       <div id='header' class='clearfix pane'>
         <h1>Editing {{ id }}</h1>
-        <a class='info' href='#'>Info</a>
-        <a class='minimal' href='#'>Minimal Mode</a>
-        <a target='_blank' class='reference' href='#reference'>Reference</a>
-        <a class='save' href='#'>Save</a>
-        <a class='home' href='#'>Back home</a>
+        <span class='links'>
+          <a target='_blank' class='reference' href='#reference'>Reference</a>
+        </span>
+        <div class='actions clearfix'>
+          <a class='save' href='#'>Save</a>
+          <a class='info' href='#'>Info</a>
+          <a class='minimal' href='#'>Minimal Mode</a>
+          <a class='icon close' href='#'>Back home</a>
+        </div>
       </div>
       <div id='main'></div>
       <div id='toolbar'></div>
@@ -128,16 +134,16 @@
     <script type='text/html' id='LayerListView'>
       <div class='sidebar-header clearfix pane'>
         <h2>Layers</h2>
-        <a title='Add a Layer' href='#layers-add' id='layers-add'>+ Add</a>
+        <a title='Add a Layer' href='#' class='icon add'>+ Add</a>
       </div>
       <ul class='sidebar-content'></ul>
     </script>
 
     <script type='text/html' id='LayerRowView'>
       <div class='handle'></div>
-      <a title='Delete Layer' class='layer-delete' href='#'>Delete</a>
-      <a title='Inspect Layer Values' class='layer-inspect' href='#'>Inspect</a>
-      <a title='Edit Layer Definition' class='layer-edit' href='#'>Edit</a>
+      <a title='Delete Layer' class='icon delete' href='#'>Delete</a>
+      <a title='Inspect Layer Values' class='icon inspect' href='#'>Inspect</a>
+      <a title='Edit Layer Definition' class='icon edit' href='#'>Edit</a>
       <label>{{ name }}</label>
     </script>
 
@@ -145,7 +151,7 @@
       <div id='inspector'>
         <div class='sidebar-header clearfix pane'>
           <h2>Inspector</h2>
-          <a class='inspector-close' href='#'>Close</a>
+          <a class='icon close' href='#'>Close</a>
         </div>
         <ul class='sidebar-content'>
         </ul>
@@ -154,7 +160,7 @@
 
     <script type='text/html' id='MapView'>
       <div id='map-preview-{{id}}'>
-        <a class='map-fullscreen' href='#map-fullscreen'>Fullscreen</a>
+        <a class='icon map-fullscreen' href='#'>Fullscreen</a>
         <h4 id='zoom-display'>Zoom level ?</h4>
       </div>
     </script>
@@ -162,14 +168,14 @@
     <script type='text/html' id='StylesheetListView'>
       <div id='tabs'>
         <div class='stylesheets'></div>
-        <a title='Add a Stylesheet Tab' class='tab-add' href='#'>Add MSS</a>
+        <a title='Add a Stylesheet Tab' class='icon add' href='#'>Add MSS</a>
       </div>
-      <div id='editor'></div>
+      <div id='editor' class='view'></div>
     </script>
 
     <script type='text/html' id='StylesheetTabView'>
       <span class='name'>{{ id }}</span>
-      <span class='tab-delete'>Delete</span>
+      <span class='icon delete'>Delete</span>
     </script>
 
     <script type='text/html' id='StylesheetTabEditor'>
@@ -181,7 +187,7 @@
     </script>
 
     <script type='text/html' id='ColorPickerToolView'>
-      <a class='color-picker' href='#color-picker'>Color picker</a>
+      <a class='icon color-picker' href='#color-picker'>Color picker</a>
       <input size='7' maxlength='7' class='color' type='text' class='text' />
       <div class='pane tilemill-farbtastic'></div>
     </script>
@@ -207,7 +213,7 @@
         <div class='popup'>
           <div class='popup-header clearfix pane'>
             <h2>{{ title }}</h2>
-            <a href='#' class='popup-close'>Close</a>
+            <a href='#' class='icon close'>Close</a>
           </div>
           <div class='popup-content'>{{{ content }}}</div>
         </div>
@@ -227,7 +233,7 @@
           <div>
             <label for='file'>Data Source</label>
             <input type='text' class='text required' id='file' value='{{ datasource_file }}' />
-            <a id='expand-datasources' title='See available datasources'>[+]</a>
+            <a class='icon expand-datasources' id='expand-datasources' title='See available datasources'>[+]</a>
             <div class='container datasources hidden'></div>
           </div>
           <div>
@@ -330,16 +336,16 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
 
     <script type='text/html' id='inspector_field'>
       <li id='field-{{ field }}'>
-        <a class='inspect-values' href='#inspect-values'>See values</a>
+        <a class='icon values' href='#'>See values</a>
         {{#visualize}}
-          <a class='visualization-type inspect-unique'
-            href='#inspect-unique'>Unique Value</a>
-          <a class='visualization-type inspect-label'
-            href='#inspect-label'>Label</a>
-          <a class='visualization-type inspect-choropleth'
-            href='#inspect-choropleth'>Choropleth</a>
-          <a class='visualization-type inspect-scaledPoints'
-            href='#inspect-scaled-points'>Scaled points</a>
+          <a class='visualization-type icon unique'
+            href='#'>Unique Value</a>
+          <a class='visualization-type icon label'
+            href='#'>Label</a>
+          <a class='visualization-type icon choropleth'
+            href='#'>Choropleth</a>
+          <a class='visualization-type icon scaledPoints'
+            href='#'>Scaled points</a>
         {{/visualize}}
         <strong>{{ field }}</strong>
         <em>{{ type }}</em>
@@ -353,8 +359,8 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
           <li class='max'><strong>Max</strong> {{ max }}</li>
         </ul>
         <div class='pager clearfix'>
-          <a class='pager-prev {{ class_prev }}' href='#pager-prev'>Prev</a>
-          <a class='pager-next {{ class_next }}' href='#pager-next'>Next</a>
+          <a class='icon prev {{ class_prev }}' href='#'>Prev</a>
+          <a class='icon next {{ class_next }}' href='#'>Next</a>
         </div>
       </div>
     </script>
@@ -362,14 +368,15 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
     <script type='text/html' id='ReferenceView'>
       <div id='header' class='clearfix pane'>
         <h1>Reference</h1>
-        <a class='home' href='#'>Back home</a>
-      </div>
-      <div id='main'>
-        <div id='main-content'>
+        <div class='actions clearfix'>
+          <a class='icon close' href='#'>Close</a>
         </div>
       </div>
+      <div id='main'>
+        <div id='main-content' class='pane'></div>
+      </div>
       <div id='sidebar'>
-        <div class='reference-help'>
+        <div class='reference-help pane'>
           <p>TileMill supports the <a href='https://github.com/mapnik/Cascadenik'>Cascadenik</a>
           styling language. It should be familiar to <a href='http://www.w3schools.com/css/'>CSS</a>
           users and easy to pick up for everyone else.</p>

@@ -17,7 +17,7 @@ var PopupView = Backbone.View.extend({
         return false;
     },
     events: {
-        'click .popup-close': 'close'
+        'click .close': 'close'
     }
 });
 

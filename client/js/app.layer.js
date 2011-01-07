@@ -30,6 +30,7 @@ var LayerList = Backbone.Collection.extend({
 
 var LayerListView = Backbone.View.extend({
     id: 'layers',
+    className: 'view',
     initialize: function() {
         _.bindAll(this, 'render');
         this.render();
@@ -59,7 +60,7 @@ var LayerListView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click #layers-add': 'add'
+        'click .add': 'add'
     },
     add: function() {
         new LayerPopupView({
