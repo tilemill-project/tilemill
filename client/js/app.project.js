@@ -164,7 +164,7 @@ var ProjectView = Backbone.View.extend({
         var stylesheets = new StylesheetListView({collection: this.model.get('Stylesheet')});
         var map = new MapView({model: this.model});
         var colorPicker = new ColorPickerToolView({model: this.model});
-        var fontPicker = new FontPickerToolView({model: new Abilities, parent: this});
+        var fontPicker = new FontPickerToolView({model: new Abilities, stylesheetsView: stylesheets});
 
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(colors.el);
