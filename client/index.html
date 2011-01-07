@@ -119,18 +119,16 @@
         <a class='home' href='#'>Back home</a>
       </div>
       <div id='main'></div>
+      <div id='toolbar'></div>
       <div id='sidebar'></div>
     </script>
 
     <script type='text/html' id='LayerListView'>
-      <div id='layers'>
-        <div class='sidebar-header clearfix pane'>
-          <h2>Layers</h2>
-          <a title='Add a Layer' href='#layers-add' id='layers-add'>+ Add</a>
-        </div>
-        <ul class='sidebar-content'>
-        </ul>
+      <div class='sidebar-header clearfix pane'>
+        <h2>Layers</h2>
+        <a title='Add a Layer' href='#layers-add' id='layers-add'>+ Add</a>
       </div>
+      <ul class='sidebar-content'></ul>
     </script>
 
     <script type='text/html' id='LayerRowView'>
@@ -162,10 +160,7 @@
         <div class='stylesheets'></div>
         <a title='Add a Stylesheet Tab' class='tab-add' href='#'>Add MSS</a>
       </div>
-      <div id='editor'>
-      </div>
-      <div id='tools'>
-      </div>
+      <div id='editor'></div>
     </script>
 
     <script type='text/html' id='StylesheetTabView'>
@@ -196,8 +191,10 @@
     </script>
 
     <script type='text/html' id='ColorSwatchesToolView'>
-      <label>Colors</label>
-      <div></div>
+      <div class='sidebar-header clearfix pane'>
+        <h2>Colors</h2>
+      </div>
+      <div class='swatches clearfix pane'></div>
     </script>
 
     <script type='text/html' id='PopupView'>
