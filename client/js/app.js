@@ -7,7 +7,7 @@ var Router = Backbone.Controller.extend({
         'visualization/:id': 'visualization',
     },
     list: function() {
-        new ListView();
+        new ProjectListView({ collection: new ProjectList });
     },
     project: function(id) {
         new ProjectView({ model: new Project({ id: id }) });
