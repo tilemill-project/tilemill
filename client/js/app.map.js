@@ -1,8 +1,9 @@
 var MapView = Backbone.View.extend({
     id: 'map-preview',
     initialize: function() {
-        _.bindAll(this, 'render', 'activate', 'controlZoom');
+        _.bindAll(this, 'render', 'activate', 'controlZoom', 'reload');
         this.render();
+        this.model.bind('save', this.reload);
         window.app.bind('ready', this.activate);
     },
     events: {
@@ -41,7 +42,7 @@ var MapView = Backbone.View.extend({
 
         this.map = new OpenLayers.Map(this.id, options);
         var fullControls = new OpenLayers.Control.PanZoom();
-        this.layer = new OpenLayers.Layer.XYZ('Preview', this.model.layerURL(), {
+        this.layer = new OpenLayers.Layer.XYZ('Preview', this.model.layerURL({signed: true}), {
             buffer: 0,
             transitionEffect: 'resize'
         });
@@ -89,6 +90,13 @@ var MapView = Backbone.View.extend({
         (e.element.id && $('#zoom-display', e.element).size()) &&
             $('#zoom-display', e.element)
                 .text('Zoom level ' + this.map.getZoom());
+    },
+
+    reload: function() {
+        if (this.map.layers && this.map.layers && this.map.layers[0]) {
+            this.map.layers[0].url = this.model.layerURL({signed: true});
+            this.map.layers[0].redraw();
+        }
     }
 });
 

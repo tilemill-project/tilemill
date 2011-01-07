@@ -30,6 +30,10 @@ var StylesheetList = Backbone.Collection.extend({
     initialize: function(models, options) {
         var self = this;
         this.parent = options.parent;
+        this.bind('change', function() {
+            this.parent.set({ 'Stylesheet': self });
+            this.parent.change();
+        });
         this.bind('add', function() {
             this.parent.set({ 'Stylesheet': self });
             this.parent.change();
@@ -111,12 +115,6 @@ var StylesheetTabView = Backbone.View.extend({
     className: 'tab',
     initialize: function(params) {
         _.bindAll(this, 'render', 'update', 'del', 'activate', 'remove');
-
-        // Bind an update event that stores the codemirror input contents with
-        // the Stylesheet model whenever the project model validate event
-        // occurs, indicating that a save/sync is imminent.
-        this.model.collection.parent.bind('validate', this.update);
-
         this.list = params.list;
         this.input = $(ich.StylesheetTabEditor());
         this.tools = $(ich.StylesheetTools());
@@ -165,6 +163,9 @@ var StylesheetTabView = Backbone.View.extend({
                 saveFunction: function() {
                     self.model.collection.parent.view.saveProject();
                 },
+                onCursorActivity: function() {
+                    self.model.set({'data': self.codemirror.getCode()});
+                },
                 onChange: function() {
                     self.model.collection.parent.change();
                     // @TODO need an event that the color picker (and other
@@ -188,11 +189,6 @@ var StylesheetTabView = Backbone.View.extend({
             window.app.done();
         }
         return false;
-    },
-    update: function() {
-        if (this.codemirror) {
-            this.model.set({'data': this.codemirror.getCode()});
-        }
     },
     /**
      * Override of .remove(). Removes the input editor element as well.
