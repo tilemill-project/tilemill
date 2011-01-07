@@ -129,7 +129,7 @@ var StylesheetTabView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click .name': 'activate',
+        'click': 'activate',
         'click .delete': 'del'
     },
     activate: function() {
