@@ -78,7 +78,6 @@ var ColorSwatchesList = Backbone.Collection.extend({
     },
     reload: function() {
         var matches = this.project.get('Stylesheet').pluck('data').join('\n').match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g);
-        console.log(matches);
         if (!matches) {
             matches = [];
         }
