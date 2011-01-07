@@ -189,6 +189,8 @@
       </div>
       <div id='editor'>
       </div>
+      <div id='tools'>
+      </div>
     </script>
 
     <script type='text/html' id='StylesheetTabView'>
@@ -198,18 +200,22 @@
 
     <script type='text/html' id='StylesheetTabEditor'>
       <div class='editor'><textarea></textarea></div>
-      <div id='tools' class='pane'></div>
+    </script>
+
+    <script type='text/html' id='StylesheetTools'>
+      <div class='tools pane'></div>
     </script>
 
     <script type='text/html' id='ColorPickerToolView'>
       <a class='color-picker' href='#color-picker'>Color picker</a>
-      <input size='7' maxlength='7' id='color' type='text' class='text' />
-      <div class='pane' id='farbtastic'></div>
+      <input size='7' maxlength='7' class='color' type='text' class='text' />
+      <div class='pane tilemill-farbtastic'></div>
     </script>
 
     <script type='text/html' id='FontPickerToolView'>
       <label>Fonts</label>
-      <select id='fonts-list'>
+      <select class='fonts-list'>
+      <option value=''>Select...</option>
       {{#fonts}}<option value='{{.}}'>{{.}}</option>{{/fonts}}
       </select>
     </script>
