@@ -10,7 +10,7 @@ var Project = Backbone.Model.extend({
         Datasource: {
             file: 'http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip',
             type: 'shape',
-            estimate_extent: 'id',
+            estimate_extent: 'true',
             id: 'world',
         }
     }],
