@@ -159,23 +159,41 @@ var ProjectView = Backbone.View.extend({
         'click #header a.home': 'home'
     },
     initialize: function () {
-        _.bindAll(this, 'render', 'saveProject', 'projectInfo', 'home', 'minimal', 'changed');
+        _.bindAll(this, 'render', 'saveProject', 'projectInfo',
+            'home', 'minimal', 'changed');
         this.model.view = this;
         this.model.bind('change', this.changed);
-        this.model.fetch({ success: this.render, error: this.render});
+        this.model.fetch({
+            success: this.render,
+            error: this.render
+        });
     },
     render: function() {
         $(this.el).html(ich.ProjectView(this.model));
 
-        var layers = new LayerListView({collection: this.model.get('Layer')});
-        var stylesheets = new StylesheetListView({collection: this.model.get('Stylesheet'), project: this.model});
-        var colors = new ColorSwatchesToolView({
-            collection: new ColorSwatchesList(null, { project: this.model }),
+        var layers = new LayerListView({
+            collection: this.model.get('Layer')
+        }),
+            stylesheets = new StylesheetListView({
+            collection: this.model.get('Stylesheet'),
+            project: this.model
+        }),
+            colors = new ColorSwatchesToolView({
+            collection: new ColorSwatchesList(null, {
+                project: this.model
+            }),
+            project: this.model
+        }),
+            map = new MapView({
+            model: this.model
+        }),
+            colorPicker = new ColorPickerToolView({
+            model: this.model
+        }),
+            fontPicker = new FontPickerToolView({
+            model: new Abilities,
             project: this.model
         });
-        var map = new MapView({model: this.model});
-        var colorPicker = new ColorPickerToolView({model: this.model});
-        var fontPicker = new FontPickerToolView({model: new Abilities, project: this.model});
 
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(colors.el);
@@ -189,14 +207,27 @@ var ProjectView = Backbone.View.extend({
         return this;
     },
     saveProject: function() {
-        var self = this;
+        var that = this;
         this.model.save(this.model, {
             success: function() {
-                self.model.trigger('save');
+                that.model.trigger('save');
                 $('#header a.save', self.el).removeClass('changed');
+                $('.CodeMirror-line-numbers div')
+                        .removeClass('syntax-error');
+
             },
-            error: function(err) {
-                window.app.message('Error', err);
+            error: function(err, data) {
+                if (data.status == 500) {
+                    var err_obj = $.parseJSON(data.responseText);
+                    var editor = _.detect(
+                        that.model.view.stylesheets.collection.models,
+                        function(s) { return s.id == err_obj.filename; }
+                        );
+                    $('div:nth-child(' + err_obj.line + ')',
+                        editor.view.codemirror.lineNumbers)
+                        .addClass('syntax-error').attr(
+                            'title', err_obj.message);
+                }
             }
         });
         return false;

@@ -931,3 +931,18 @@ textarea.code-snippet {
   width: 100%;
   height: 150px;
   }
+
+.CodeMirror-line-numbers {
+  background:#eee;
+  color:#333;
+  margin:0px;
+  padding:10px 0;
+  font:13px/20px monospace;
+  }
+.CodeMirror-line-numbers div {
+  padding:0 10px;
+  }
+
+div.syntax-error {
+  background-color:#FDF59F;
+  }
