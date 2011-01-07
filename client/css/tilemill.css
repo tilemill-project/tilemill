@@ -581,7 +581,6 @@ a.inspect-unique.active     { background-color:#222; }
 #editor {
   overflow:auto;
   position:fixed;
-  z-index:100;
   top:80px;
   left:30%;
   bottom:40px;
