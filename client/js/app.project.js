@@ -160,7 +160,7 @@ var ProjectView = Backbone.View.extend({
         $(this.el).html(ich.ProjectView(this.model));
 
         var layers = new LayerListView({collection: this.model.get('Layer')});
-        var colors = new ColorSwatchesToolView(); // @TODO pass the model over.
+        var colors = new ColorSwatchesToolView({ parent:this }); // @TODO pass the model over.
         var stylesheets = new StylesheetListView({collection: this.model.get('Stylesheet')});
         var map = new MapView({model: this.model});
         var colorPicker = new ColorPickerToolView({model: this.model});
