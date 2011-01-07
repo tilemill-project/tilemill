@@ -42,13 +42,16 @@ var Project = Backbone.Model.extend({
      * Layer URL based on the model URL.
      */
     layerURL: function(options) {
-        var url = window.location.origin + this.url();
+        // `window.location.origin` is not available in all browsers like
+        // Firefox. We use `window.location.href` and spilt at the hash
+        // in case TileMill is located in a subdirectory.
+        var url = window.location.href.split('/#')[0] + this.url();
         if (options.signed) {
             var md5 = new MD5();
             url += '?' + md5.digest(JSON.stringify(this)).substr(0,6);
         }
         var mmlb64 = Base64.urlsafe_encode(url);
-        return window.location.origin + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png';
+        return window.location.href.split('/#')[0] + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png';
     },
     validate: function(attributes) {
         if (/^[a-z0-9\-_]+$/i.test(this.id) === false) {
