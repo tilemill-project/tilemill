@@ -54,7 +54,7 @@ var Project = Backbone.Model.extend({
         return window.location.href.split('/#')[0] + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png';
     },
     validate: function(attributes) {
-        if (/^[a-z0-9\-_]+$/i.test(this.id) === false) {
+        if (/^[a-z0-9\-_]+$/i.test(attributes.id) === false) {
             return 'Name must contain only letters, numbers, dashes, and underscores.';
         }
     }
@@ -69,20 +69,31 @@ var ProjectListView = Backbone.View.extend({
     id: 'ProjectListView',
     initialize: function() {
         _.bindAll(this, 'render', 'add', 'about');
-        this.collection.bind('all', this.render);
-        this.collection.fetch();
+        this.collection.bind('add', this.render);
+        this.collection.bind('remove', this.render);
+        this.collection.fetch({
+            success: this.render,
+            error: this.render
+        });
     },
     render: function() {
-        var self = this;
-        $(this.el).html(ich.ProjectListView());
+        // Render the projects wrapper if not present.
+        if ($(this.el).has('ul.projects').length === 0) {
+            $(this.el).html(ich.ProjectListView());
+            window.app.el.html(this.el);
+        }
+
+        // Add a row view for each project.
+        var that = this;
         this.collection.each(function(project) {
-            var projectRow = new ProjectRowView({
-                model: project,
-                collection: this.collection
-            });
-            $('ul', self.el).append(projectRow.el);
+            if (!project.view) {
+                project.view = new ProjectRowView({
+                    model: project,
+                    collection: this.collection
+                });
+                $('ul.projects', self.el).append(project.view.el);
+            }
         });
-        window.app.el.html(this.el);
         return this;
     },
     events: {
@@ -90,29 +101,31 @@ var ProjectListView = Backbone.View.extend({
         'click div#header a.info': 'about'
     },
     add: function() {
-        // @TODO: this code is considerably more complicated than it should be
-        // because this.collection.create() does not appear to stop itself from
-        // saving a project even if its validation fails.
-        // See: https://github.com/documentcloud/backbone/issues#issue/66
         window.app.loading();
-        var projectId = $('input.text', this.el).val();
-        var project = new Project({id: projectId});
-        var self = this;
-        project.save(project, {
-            success: function() {
-                self.collection.add(project);
-                window.app.done();
-            },
-            error: function(project, error) {
-                window.app.done();
-                window.app.message('Error', error);
-            }
-        });
+        var that = this;
+        var project = new Project;
+        var success = project.set(
+            { id: $('input.text', this.el).val() },
+            { error: this.showError }
+        );
+        if (success) {
+            project.save(project, {
+                success: function() {
+                    that.collection.add(project);
+                    window.app.done();
+                },
+                error: this.showError
+            });
+        }
         return false;
     },
     about: function() {
         window.app.message('About TileLive', '@TODO: Put something facinating here.');
         return false;
+    },
+    showError: function(model, error) {
+        window.app.done();
+        window.app.message('Error', error);
     }
 });
 
@@ -120,7 +133,7 @@ var ProjectRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
     initialize: function () {
-        _.bindAll(this, 'render');
+        _.bindAll(this, 'render', 'del');
         this.render();
     },
     render: function () {
@@ -131,10 +144,12 @@ var ProjectRowView = Backbone.View.extend({
         'click .delete': 'del'
     },
     del: function() {
+        var that = this;
         window.app.loading();
         if (confirm('Are you sure you want to delete this project?')) {
             this.model.destroy({
                 success: function() {
+                    that.remove();
                     window.app.done();
                 },
                 error: function() {
