@@ -125,7 +125,7 @@ var ProjectRowView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click .file-delete': 'del'
+        'click .delete': 'del'
     },
     del: function() {
         window.app.loading();

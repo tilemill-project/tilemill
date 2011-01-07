@@ -102,6 +102,7 @@ var ColorSwatchesList = Backbone.Collection.extend({
 
 var ColorSwatchesToolView = Backbone.View.extend({
     id: 'color-swatches',
+    className: 'view',
     initialize: function(options) {
         _.bindAll(this, 'render', 'activate', 'reload');
         this.parent = options.parent;
