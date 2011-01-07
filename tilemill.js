@@ -42,7 +42,7 @@ app.put('/api/project/:projectId', function(req, res, next) {
                 });
             });
         } else {
-            res.send(err);
+            res.send(err, 500);
         }
     });
 });
@@ -91,7 +91,7 @@ Project.prototype.validate = function(stylesheets, callback) {
             });
         },
         function(err, res) {
-            callback();
+            callback(err);
         }
     );
 };
