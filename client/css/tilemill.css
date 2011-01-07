@@ -604,7 +604,7 @@ a.inspect-unique.active     { background-color:#222; }
 /**
  * Color palette
  */
-#tools {
+.tools {
   background:#303030 url(../images/sprite.png) 0px -360px repeat-x;
   color:#eee;
   position:fixed;
@@ -614,6 +614,11 @@ a.inspect-unique.active     { background-color:#222; }
   padding-right:180px;
   min-height:20px;
   z-index:2000;
+  display:none;
+  }
+
+.tools.active {
+  display:block;
   }
 
 #color-swatches {
@@ -672,7 +677,7 @@ a.inspect-unique.active     { background-color:#222; }
 #color-picker a { float:right; }
 #color-picker a:hover { background-color:#000; }
 
-#farbtastic {
+.tilemill-farbtastic {
   background:#333;
   color:#fff;
   position:absolute;
@@ -687,14 +692,14 @@ a.inspect-unique.active     { background-color:#222; }
 /**
  * Font pallette
  */
-#font-picker {
+.font-picker {
   padding-left:70px;
   position:relative;
   left:270px;
   float:left;
   }
 
-#font-picker label {
+.font-picker label {
   text-shadow:#000 0px -1px 0px;
   position:absolute;
   font-size:11px;
@@ -702,7 +707,7 @@ a.inspect-unique.active     { background-color:#222; }
   text-transform:uppercase;
   }
 
-  #fonts-list {
+  .fonts-list {
     position:absolute;
     left:120px;
     width: 220px;

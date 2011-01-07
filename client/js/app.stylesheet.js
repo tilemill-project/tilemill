@@ -119,21 +119,27 @@ var StylesheetTabView = Backbone.View.extend({
 
         this.list = params.list;
         this.input = $(ich.StylesheetTabEditor());
+        this.tools = $(ich.StylesheetTools());
         this.codemirror = false;
         this.render();
     },
     render: function() {
         $(this.el).html(ich.StylesheetTabView({ id: this.model.get('id') }));
         $('#editor', this.list.el).append(this.input);
-        var colorPicker = new ColorPickerToolView();
+        $('#tools', this.list.el).append(this.tools);
+
+        var colorPicker = new ColorPickerToolView({
+            model: this.model
+        });
         var colorSwatches = new ColorSwatchesToolView();
         var fontPicker = new FontPickerToolView({
             model: new Abilities,
             parent: this
         });
-        this.list.$('#tools').append(colorPicker.el);
-        this.list.$('#tools').append(fontPicker.el);
-        this.list.$('#tools').append(colorSwatches.el);
+        $(this.tools).append(colorPicker.el);
+        $(this.tools).append(fontPicker.el);
+        $(this.tools).append(colorSwatches.el);
+
         return this;
     },
     events: {
@@ -143,9 +149,10 @@ var StylesheetTabView = Backbone.View.extend({
     activate: function() {
         var self = this;
 
-        $('#tabs .tab, #editor .editor', this.list.el).removeClass('active');
+        $('#tabs .tab, #editor .editor, #tools .tools', this.list.el).removeClass('active');
         $(this.el).addClass('active');
         $(this.input).addClass('active');
+        $(this.tools).addClass('active');
         this.list.activeTab = this;
         if (!this.codemirror) {
             this.codemirror = CodeMirror.fromTextArea($('textarea', this.input).get(0), {
@@ -212,14 +219,14 @@ var ColorPickerToolView = Backbone.View.extend({
         $(this.el).html(ich.ColorPickerToolView);
     },
     activate: function() {
-        this.$('#farbtastic').farbtastic({
-            callback: 'input#color',
+        this.$('.tilemill-farbtastic').farbtastic({
+            callback: 'input.color',
             width: 200,
             height: 200
         });
     },
     showPicker: function() {
-        this.$('#farbtastic').toggle('fast');
+        this.$('.tilemill-farbtastic').toggle('fast');
         return false;
     }
 });
@@ -235,9 +242,9 @@ var ColorSwatchesToolView = Backbone.View.extend({
 });
 
 var FontPickerToolView = Backbone.View.extend({
-    id: 'font-picker',
+    className: 'font-picker',
     events: {
-        'change #fonts-list': 'insertFont'
+        'change .fonts-list': 'insertFont'
     },
     initialize: function(options) {
         _.bindAll(this, 'render', 'insertFont');
@@ -255,8 +262,10 @@ var FontPickerToolView = Backbone.View.extend({
     insertFont: function() {
         var mirror = this.parent.codemirror;
         mirror.insertIntoLine(
-          mirror.cursorPosition().line,
-          mirror.cursorPosition().character, '"' + this.$('select').val() + '"');
+            mirror.cursorPosition().line,
+            mirror.cursorPosition().character, '"' + this.$('select').val() + '"');
+        $(mirror).focus();
+        this.$('select').val('');
     }
 });
 
