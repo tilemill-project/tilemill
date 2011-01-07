@@ -636,16 +636,20 @@ li .icon {
   float:left;
   -moz-border-radius:3px 3px 0px 0px;
   -webkit-border-radius:3px 3px 0px 0px;
-  background:#f8f8f8;
-  padding:5px 30px 4px 10px;
+  background:#e4e4e4;
+  border-width:1px 1px 0px;
+  border-color:#ddd;
+  border-style:solid;
+  color:#999;
+  padding:4px 29px 4px 9px;
   font-size:11px;
   font-weight:bold;
-  color:#999;
   position:relative;
   cursor:pointer;
   }
 
 #tabs a.tab span.delete {
+  background-color:transparent;
   display:none;
   position:absolute;
   opacity:.5;
@@ -657,12 +661,10 @@ li .icon {
   #tabs a.tab:hover span.delete:hover { opacity:1; }
 
 #tabs a.active {
-  border-width:1px 1px 0px;
-  border-color:#ccc;
-  border-style:solid;
   color:#333;
   background:#f8f8f8;
-  padding:4px 29px 5px 9px;
+  border-color:#ccc;
+  padding-bottom:5px;
   }
 
 #editor {
