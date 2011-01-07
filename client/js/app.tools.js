@@ -70,13 +70,12 @@ var ColorSwatchesList = Backbone.Collection.extend({
     model: ColorSwatch,
     initialize: function(models, options) {
         _.bindAll(this, 'reload');
-        this.parent = options.parent;
-        var project = this.parent.model;
-        project.bind('codeMirrorChange', this.reload);
-        project.bind('ready', this.reload);
+        this.project = options.project;
+        this.project.bind('codeMirrorChange', this.reload);
+        this.project.bind('ready', this.reload);
     },
     reload: function() {
-        var matches = this.parent.model.get('Stylesheet').pluck('data').join('\n').match(/\#[A-Fa-f0-9]{3,6}/g);
+        var matches = this.project.get('Stylesheet').pluck('data').join('\n').match(/\#[A-Fa-f0-9]{3,6}/g);
         if (matches) {
             // Clear collection
             var coll = this;
@@ -105,25 +104,38 @@ var ColorSwatchesToolView = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this, 'render', 'createSwatchView');
         this.collection.bind('add', this.render);
-        this.parent = options.parent;
+        this.project = options.project;
     },
     render: function() {
         $(this.el).html(ich.ColorSwatchesToolView);
         this.collection.each(this.createSwatchView);
     },
     createSwatchView: function(swatch) {
-        var swatchView = new ColorSwatchView({model: swatch});
+        var swatchView = new ColorSwatchView({model: swatch, project:this.project});
         $(this.el).append(swatchView.el);
     }
 });
 
 var ColorSwatchView = Backbone.View.extend({
+    events: {
+        'click': 'insertHex',
+    },
     initialize: function(options) {
+        _.bindAll(this, 'render', 'insertHex');
+        this.project = options.project;
         this.render();
     },
     render: function() {
        $(this.el).html(ich.ColorSwatchView({color: this.model.get('hex')}));
        return this;
+    },
+    insertHex: function() {
+        var mirror = this.project.view.stylesheets.activeTab.codemirror;
+        mirror.insertIntoLine(
+            mirror.cursorPosition().line,
+            mirror.cursorPosition().character, this.model.get('hex'));
+        $(mirror).focus();
+        return false;
     }
 });
 
@@ -134,11 +146,11 @@ var FontPickerToolView = Backbone.View.extend({
     },
     initialize: function(options) {
         _.bindAll(this, 'render', 'insertFont');
+        this.project = options.project;
         this.model.fetch({
             success: this.render,
             error: this.render
         });
-        this.stylesheetsView = options.stylesheetsView;
     },
     render: function() {
         $(this.el).html(ich.FontPickerToolView({
@@ -146,7 +158,7 @@ var FontPickerToolView = Backbone.View.extend({
         }));
     },
     insertFont: function() {
-        var mirror = this.stylesheetsView.activeTab.codemirror;
+        var mirror = this.project.view.stylesheets.activeTab.codemirror;
         mirror.insertIntoLine(
             mirror.cursorPosition().line,
             mirror.cursorPosition().character, '"' + this.$('select').val() + '"');
