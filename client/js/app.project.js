@@ -43,15 +43,15 @@ var Project = Backbone.Model.extend({
      */
     layerURL: function(options) {
         // `window.location.origin` is not available in all browsers like
-        // Firefox. We use `window.location.href` and spilt at the hash
-        // in case TileMill is located in a subdirectory.
-        var url = window.location.href.split('/#')[0] + this.url();
+        // Firefox. @TODO This approach won't allow TileMill to be installed in
+        // a subdirectory. Fix.
+        var url = [window.location.protocol, window.location.host].join('//') + this.url();
         if (options.signed) {
             var md5 = new MD5();
             url += '?' + md5.digest(JSON.stringify(this)).substr(0,6);
         }
         var mmlb64 = Base64.urlsafe_encode(url);
-        return window.location.href.split('/#')[0] + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png';
+        return [window.location.protocol, window.location.host].join('//') + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png';
     },
     validate: function(attributes) {
         if (/^[a-z0-9\-_]+$/i.test(attributes.id) === false) {
@@ -174,23 +174,41 @@ var ProjectView = Backbone.View.extend({
         'click #header a.home': 'home'
     },
     initialize: function () {
-        _.bindAll(this, 'render', 'saveProject', 'projectInfo', 'home', 'minimal', 'changed');
+        _.bindAll(this, 'render', 'saveProject', 'projectInfo',
+            'home', 'minimal', 'changed');
         this.model.view = this;
         this.model.bind('change', this.changed);
-        this.model.fetch({ success: this.render, error: this.render});
+        this.model.fetch({
+            success: this.render,
+            error: this.render
+        });
     },
     render: function() {
         $(this.el).html(ich.ProjectView(this.model));
 
-        var layers = new LayerListView({collection: this.model.get('Layer')});
-        var stylesheets = new StylesheetListView({collection: this.model.get('Stylesheet'), project: this.model});
-        var colors = new ColorSwatchesToolView({
-            collection: new ColorSwatchesList(null, { project: this.model }),
+        var layers = new LayerListView({
+            collection: this.model.get('Layer')
+        }),
+            stylesheets = new StylesheetListView({
+            collection: this.model.get('Stylesheet'),
+            project: this.model
+        }),
+            colors = new ColorSwatchesToolView({
+            collection: new ColorSwatchesList(null, {
+                project: this.model
+            }),
+            project: this.model
+        }),
+            map = new MapView({
+            model: this.model
+        }),
+            colorPicker = new ColorPickerToolView({
+            model: this.model
+        }),
+            fontPicker = new FontPickerToolView({
+            model: new Abilities,
             project: this.model
         });
-        var map = new MapView({model: this.model});
-        var colorPicker = new ColorPickerToolView({model: this.model});
-        var fontPicker = new FontPickerToolView({model: new Abilities, project: this.model});
 
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(colors.el);
@@ -204,14 +222,27 @@ var ProjectView = Backbone.View.extend({
         return this;
     },
     saveProject: function() {
-        var self = this;
+        var that = this;
         this.model.save(this.model, {
             success: function() {
-                self.model.trigger('save');
+                that.model.trigger('save');
                 $('#header a.save', self.el).removeClass('changed');
+                $('.CodeMirror-line-numbers div')
+                        .removeClass('syntax-error');
+
             },
-            error: function(err) {
-                window.app.message('Error', err);
+            error: function(err, data) {
+                if (data.status == 500) {
+                    var err_obj = $.parseJSON(data.responseText);
+                    var editor = _.detect(
+                        that.model.view.stylesheets.collection.models,
+                        function(s) { return s.id == err_obj.filename; }
+                        );
+                    $('div:nth-child(' + err_obj.line + ')',
+                        editor.view.codemirror.lineNumbers)
+                        .addClass('syntax-error').attr(
+                            'title', err_obj.message);
+                }
             }
         });
         return false;
@@ -219,7 +250,7 @@ var ProjectView = Backbone.View.extend({
     projectInfo: function() {
         window.app.message('Project Info', {
             'tilelive_url': this.model.layerURL({signed: true}),
-            'mml_url': window.location.origin + this.model.url()
+            'mml_url': [window.location.protocol, window.location.host].join('//') + this.model.url()
         }, 'projectInfo');
         return false;
     },

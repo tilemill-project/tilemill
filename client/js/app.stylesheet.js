@@ -129,7 +129,7 @@ var StylesheetTabView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click .name': 'activate',
+        'click': 'activate',
         'click .delete': 'del'
     },
     activate: function() {
@@ -144,6 +144,7 @@ var StylesheetTabView = Backbone.View.extend({
             this.codemirror = CodeMirror.fromTextArea($('textarea', this.input).get(0), {
                 content: this.model.get('data'),
                 height: '100%',
+                lineNumbers: true,
                 stylesheet: 'css/code.css',
                 path: 'js/codemirror/js/',
                 parserfile: 'parsemss.js',
