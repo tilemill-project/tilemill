@@ -63,22 +63,20 @@ var ColorSwatch = Backbone.Model.extend({
         }
         return [ x(1), x(2), x(3) ];
       }
-    },
-    url: function() {
-        return '/foo';
     }
 });
 
 var ColorSwatchesList = Backbone.Collection.extend({
     model: ColorSwatch,
     initialize: function(models, options) {
-        this.parent = options.parent;
         _.bindAll(this, 'reload');
-        this.parent.model.collection.parent.bind('change', this.reload);
-        this.parent.model.collection.parent.bind('ready', this.reload);
+        this.parent = options.parent;
+        var project = this.parent.model;
+        project.bind('codeMirrorChange', this.reload);
+        project.bind('ready', this.reload);
     },
     reload: function() {
-        var matches = this.parent.model.collection.pluck('data').join('\n').match(/\#[A-Fa-f0-9]{3,6}/g);
+        var matches = this.parent.model.get('Stylesheet').pluck('data').join('\n').match(/\#[A-Fa-f0-9]{3,6}/g);
         if (matches) {
             // Clear collection
             var coll = this;
@@ -93,9 +91,11 @@ var ColorSwatchesList = Backbone.Collection.extend({
                     }
                 });
                 if (!pass) {
-                    this.add(new ColorSwatch({hex: matches[i]}));
+                    this.add(new ColorSwatch({hex: matches[i]}), {silent: true});
                 }
             }
+            // Trigger the deferred add event
+            this.trigger('add');
         }
     }
 });
@@ -103,12 +103,27 @@ var ColorSwatchesList = Backbone.Collection.extend({
 var ColorSwatchesToolView = Backbone.View.extend({
     id: 'color-swatches',
     initialize: function(options) {
-        _.bindAll(this, 'render', 'activate', 'reload');
+        _.bindAll(this, 'render', 'createSwatchView');
+        this.collection.bind('add', this.render);
         this.parent = options.parent;
-        this.render();
     },
     render: function() {
         $(this.el).html(ich.ColorSwatchesToolView);
+        this.collection.each(this.createSwatchView);
+    },
+    createSwatchView: function(swatch) {
+        var swatchView = new ColorSwatchView({model: swatch});
+        $(this.el).append(swatchView.el);
+    }
+});
+
+var ColorSwatchView = Backbone.View.extend({
+    initialize: function(options) {
+        this.render();
+    },
+    render: function() {
+       $(this.el).html(ich.ColorSwatchView({color: this.model.get('hex')}));
+       return this;
     }
 });
 
