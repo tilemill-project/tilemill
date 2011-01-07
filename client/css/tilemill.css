@@ -454,21 +454,19 @@ form div.buttons {
   }
 
 #color-swatches .swatch {
-  -moz-box-shadow:#222 0px 1px 2px;
-  -webkit-box-shadow:#222 0px 1px 2px;
+  -moz-box-shadow:#ccc 0px 1px 2px;
+  -webkit-box-shadow:#ccc 0px 1px 2px;
   background:url(../images/sprite.png) 0px -220px no-repeat;
   float:left;
-  margin:3px 3px 2px 2px;
-
-  border:1px solid #222;
-  width:18px;
-  height:13px;
+  margin:0px 5px 5px 0px;
+  width:20px;
+  height:20px;
   position:relative;
   }
 
 #color-swatches .swatch label {
   position:absolute;
-  left:-26px;
+  left:-25px;
   bottom:10px;
   width:70px;
 
