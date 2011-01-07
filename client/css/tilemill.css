@@ -612,7 +612,6 @@ a.inspect-unique.active     { background-color:#222; }
   bottom:0px;
   padding-right:180px;
   min-height:20px;
-  z-index:2000;
   display:none;
   }
 
