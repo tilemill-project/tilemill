@@ -129,7 +129,7 @@ var ColorSwatchesToolView = Backbone.View.extend({
     },
     createSwatchView: function(swatch) {
         var swatchView = new ColorSwatchView({model: swatch, project:this.project});
-        $(this.el).append(swatchView.el);
+        $('.swatches', this.el).append(swatchView.el);
     }
 });
 
