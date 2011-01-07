@@ -295,12 +295,12 @@ form div.buttons {
   }
 
 /**
- * Layers
+ * ProjectView layout
  */
 #main {
   position:fixed;
   top:40px;
-  left:30%;
+  left:50%;
   right:0px;
   bottom:0px;
   }
@@ -310,8 +310,19 @@ form div.buttons {
   top:40px;
   left:0px;
   bottom:0px;
-  width:30%;
+  width:50%;
   border-right:1px solid #ccc;
+  }
+
+#toolbar {
+  background:#303030 url(../images/sprite.png) 0px -360px repeat-x;
+  color:#eee;
+  position:absolute;
+  left:50%;
+  right:0px;
+  bottom:0px;
+  padding-right:180px;
+  min-height:20px;
   }
 
 .column h2,
@@ -321,18 +332,27 @@ form div.buttons {
 .sidebar-header h2 { float:left; }
 .sidebar-header a { float:right; }
 
-.sidebar-content {
+/**
+ * Layers
+ */
+#layers {
   position:absolute;
   left:0px;
   bottom:0px;
-  right:0px;
-  top:40px;
-  overflow:auto;
+  top:50%;
+  width:50%;
   }
 
-  .with-map .sidebar-content { bottom:240px; }
+#layers ul {
+  position:absolute;
+  overflow:auto;
+  left:0px;
+  top:40px;
+  bottom:0px;
+  right:0px;
+  }
 
-  .sidebar-content.loading { background:url(../images/swirly.gif) 50% 50% no-repeat; }
+.sidebar-content.loading { background:url(../images/swirly.gif) 50% 50% no-repeat; }
 
 .sidebar-content li { position:relative; }
 
@@ -353,6 +373,47 @@ form div.buttons {
   display:block;
   padding-left:15px;
   }
+
+/**
+ * ColorSwatchesToolView
+ */
+#color-swatches {
+  position:absolute;
+  right:0px;
+  bottom:0px;
+  top:50%;
+  width:50%;
+  border-left:1px solid #ccc;
+  }
+
+#color-swatches .swatch {
+  -moz-box-shadow:#222 0px 1px 2px;
+  -webkit-box-shadow:#222 0px 1px 2px;
+  background:url(../images/sprite.png) 0px -220px no-repeat;
+  float:left;
+  margin:3px 3px 2px 2px;
+
+  border:1px solid #222;
+  width:18px;
+  height:13px;
+  position:relative;
+  }
+
+#color-swatches .swatch label {
+  position:absolute;
+  left:-26px;
+  bottom:10px;
+  width:70px;
+
+  padding:0px 0px 10px;
+  text-align:center;
+  background:url(../images/sprite.png) 0px -190px no-repeat;
+  color:#333;
+  display:none;
+  text-shadow:none;
+  }
+
+#color-swatches .swatch:hover label { display:block; }
 
 /**
  * Icon links
@@ -456,18 +517,17 @@ a.inspect-unique.active     { background-color:#222; }
  * Map preview
  */
 #map-preview {
+  overflow:hidden;
   position:absolute;
   left:0px;
-  bottom:0px;
   right:0px;
   top:0px;
   background:#ddd url(../images/checker-bg.png) 0% 0% repeat;
   }
 
 #sidebar #map-preview {
-  top:auto;
-  height:239px;
-  border-top:1px solid #ccc;
+  height:50%;
+  border-bottom:1px solid #ccc;
   }
 
 #map-preview div.olControlPanZoomBar {
@@ -578,9 +638,9 @@ a.inspect-unique.active     { background-color:#222; }
 
 #editor {
   overflow:auto;
-  position:fixed;
-  top:80px;
-  left:30%;
+  position:absolute;
+  top:40px;
+  left:0px;
   bottom:40px;
   right:0px;
   width:auto !important;
@@ -601,68 +661,6 @@ a.inspect-unique.active     { background-color:#222; }
 /**
  * Color palette
  */
-.tools {
-  background:#303030 url(../images/sprite.png) 0px -360px repeat-x;
-  color:#eee;
-  position:fixed;
-  left:30%;
-  right:0px;
-  bottom:0px;
-  padding-right:180px;
-  min-height:20px;
-  display:none;
-  }
-
-.tools.active {
-  display:block;
-  }
-
-#color-swatches {
-  padding-left:70px;
-  width: 270px;
-  overflow:hide;
-  position:relative;
-  float:left;
-  }
-
-#color-swatches label {
-  text-shadow:#000 0px -1px 0px;
-  position:absolute;
-  left:0px;
-  font-size:11px;
-  font-weight:bold;
-  text-transform:uppercase;
-  }
-
-#color-swatches .swatch {
-  -moz-box-shadow:#222 0px 1px 2px;
-  -webkit-box-shadow:#222 0px 1px 2px;
-  background:url(../images/sprite.png) 0px -220px no-repeat;
-  float:left;
-  margin:3px 3px 2px 2px;
-
-  border:1px solid #222;
-  width:18px;
-  height:13px;
-  position:relative;
-  }
-
-  #color-swatches .swatch label {
-    position:absolute;
-    left:-26px;
-    bottom:10px;
-    width:70px;
-
-    padding:0px 0px 10px;
-    text-align:center;
-    background:url(../images/sprite.png) 0px -190px no-repeat;
-    color:#333;
-    display:none;
-    text-shadow:none;
-    }
-
-  #color-swatches .swatch:hover label { display:block; }
-
 #color-picker {
   position:absolute;
   right:0px;
@@ -689,9 +687,8 @@ a.inspect-unique.active     { background-color:#222; }
  * Font pallette
  */
 .font-picker {
-  padding-left:70px;
+  height:20px;
   position:relative;
-  left:270px;
   float:left;
   }
 
@@ -703,11 +700,11 @@ a.inspect-unique.active     { background-color:#222; }
   text-transform:uppercase;
   }
 
-  .fonts-list {
-    position:absolute;
-    left:120px;
-    width: 220px;
-    }
+.fonts-list {
+  position:absolute;
+  left:60px;
+  width: 220px;
+  }
 
 /**
  * Popup editor.

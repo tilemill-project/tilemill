@@ -125,19 +125,6 @@ var StylesheetTabView = Backbone.View.extend({
         $(this.el).html(ich.StylesheetTabView({ id: this.model.get('id') }));
         $('#editor', this.list.el).append(this.input);
         $('#tools', this.list.el).append(this.tools);
-
-        var colorPicker = new ColorPickerToolView({
-            model: this.model
-        });
-        var colorSwatches = new ColorSwatchesToolView();
-        var fontPicker = new FontPickerToolView({
-            model: new Abilities,
-            parent: this
-        });
-        $(this.tools).append(colorPicker.el);
-        $(this.tools).append(fontPicker.el);
-        $(this.tools).append(colorSwatches.el);
-
         return this;
     },
     events: {
@@ -147,7 +134,7 @@ var StylesheetTabView = Backbone.View.extend({
     activate: function() {
         var self = this;
 
-        $('#tabs .tab, #editor .editor, #tools .tools', this.list.el).removeClass('active');
+        $('#tabs .tab, #editor .editor', this.list.el).removeClass('active');
         $(this.el).addClass('active');
         $(this.input).addClass('active');
         $(this.tools).addClass('active');
@@ -238,7 +225,7 @@ var ColorSwatchesToolView = Backbone.View.extend({
 });
 
 var FontPickerToolView = Backbone.View.extend({
-    className: 'font-picker',
+    className: 'font-picker pane',
     events: {
         'change .fonts-list': 'insertFont'
     },
