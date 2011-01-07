@@ -11,8 +11,8 @@ var Stylesheet = Backbone.Model.extend({
             this.set({'data': ''});
         }
     },
-    validate: function() {
-        if (/^[a-z0-9\-_.]+$/i.test(this.id) === false) {
+    validate: function(attributes) {
+        if (/^[a-z0-9\-_.]+$/i.test(attributes.id) === false) {
             return 'Name must contain only letters, numbers, dashes, underscores and periods.';
         }
     }
@@ -200,14 +200,17 @@ var StylesheetPopupView = PopupView.extend({
         this.options.content = ich.StylesheetPopupView({}, true);
         this.render();
     },
+    showError: function(model, error) {
+        window.app.message('Error', error);
+    },
     submit: function() {
         var id = $('input.text', this.el).val();
-        var stylesheet = new Stylesheet({id: id});
-        var error = stylesheet.validate();
-        if (error) {
-            window.app.message('Error', error);
-        }
-        else {
+        var stylesheet = new Stylesheet;
+        var success = stylesheet.set(
+            { id: id },
+            { error: this.showError }
+        );
+        if (success) {
             this.collection.add(stylesheet);
             this.remove();
         }
