@@ -52,8 +52,6 @@ h3 { font-size:13px; }
 
 .pane { padding:10px; }
 
-.column { float:left; width:50%; }
-
 #header {
   position:fixed;
   left:0px;
