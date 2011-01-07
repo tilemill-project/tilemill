@@ -97,7 +97,7 @@ var StylesheetListView = Backbone.View.extend({
         }
     },
     events: {
-        'click .tab-add': 'add'
+        'click .add': 'add'
     },
     add: function() {
         new StylesheetPopupView({collection: this.collection});
@@ -129,7 +129,7 @@ var StylesheetTabView = Backbone.View.extend({
     },
     events: {
         'click .name': 'activate',
-        'click .tab-delete': 'del'
+        'click .delete': 'del'
     },
     activate: function() {
         var self = this;
