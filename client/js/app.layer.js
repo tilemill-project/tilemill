@@ -4,7 +4,13 @@ var Layer = Backbone.Model.extend({
     initialize: function(attributes) {
         this.set({'Datasource': attributes.Datasource});
     },
-    validate: function() {
+    validate: function(attributes) {
+        if (/^[a-z0-9\-_]+$/i.test(attributes.id) === false) {
+            return 'ID must contain only letters, numbers, dashes, and underscores.';
+        }
+        if (attributes['class'] && /^[a-z0-9\-_ ]+$/i.test(attributes['class']) === false) {
+            return 'Class must contain only letters, numbers, dashes, and underscores.';
+        }
     }
 });
 
@@ -33,29 +39,27 @@ var LayerListView = Backbone.View.extend({
     className: 'view',
     initialize: function() {
         _.bindAll(this, 'render');
-        this.render();
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
         this.render();
-        /*
-        @TODO: bind re-render to project events.
-        */
     },
     render: function() {
-        var self = this;
-        $(this.el).html(ich.LayerListView());
+        // Render wrapper if not present.
+        if ($(this.el).has('ul').length === 0) {
+            $(this.el).html(ich.LayerListView());
+            $('ul', this.el).sortable({ axis: 'y', handle: 'div.handle' });
+        }
+
+        // Add row view for each layer.
+        var that = this;
         this.collection.each(function(layer) {
-            var layerRow = new LayerRowView({
-                model: layer,
-                list: self
-            });
-            $('ul', self.el).append(layerRow.el);
-        });
-        $('ul', self.el).sortable({
-            axis: 'y',
-            handle: 'div.handle'
-            // @TODO: proper event.
-            // change: TileMill.project.changed
+            if (!layer.view) {
+                layer.view = new LayerRowView({
+                    model: layer,
+                    list: that
+                });
+                $('ul', that.el).append(layer.view.el);
+            }
         });
         return this;
     },
@@ -77,19 +81,23 @@ var LayerRowView = Backbone.View.extend({
     className: 'clearfix',
     initialize: function (params) {
         _.bindAll(this, 'render', 'edit', 'inspect', 'del');
+        this.model.bind('change', this.render);
         this.list = params.list;
         this.render();
     },
     render: function () {
-        // @TODO: properly render name as "#id, .class", etc.
-        this.model.set({'name': this.model.get('id')});
-        $(this.el).html(ich.LayerRowView(this.model.attributes));
+        var name = [];
+        name.push('#' + this.model.get('id'));
+        if (this.model.get('class')) {
+            name = name.concat(this.model.get('class').split(' '));
+        }
+        $(this.el).html(ich.LayerRowView({ name: name.join('.') }));
         return this;
     },
     events: {
-        'click .layer-delete': 'del',
-        'click .layer-inspect': 'inspect',
-        'click .layer-edit': 'edit'
+        'click .delete': 'del',
+        'click .inspect': 'inspect',
+        'click .edit': 'edit'
     },
     edit: function() {
         new LayerPopupView({
@@ -140,23 +148,24 @@ var LayerPopupView = PopupView.extend({
         this.render();
     },
     submit: function() {
-        this.model.set({
-            'id': $('input#id', this.el).val(),
-            'srs': $('input#srs', this.el).val(),
-            'class': $('input#class', this.el).val(),
-            'Datasource': {
-                'file': $('input#file', this.el).val(),
-                'type': 'shape',
-                'estimate_extent': 'id',
-                'id': $('input#id', this.el).val()
+        var success = this.model.set(
+            {
+                'id': $('input#id', this.el).val(),
+                'srs': $('input#srs', this.el).val(),
+                'class': $('input#class', this.el).val(),
+                'Datasource': {
+                    'file': $('input#file', this.el).val(),
+                    'type': 'shape',
+                    'estimate_extent': 'id',
+                    'id': $('input#id', this.el).val()
+                }
+            },
+            { 'error': this.showError }
+        );
+        if (success) {
+            if (this.options.add) {
+                this.collection.add(this.model);
             }
-        });
-        var error = this.model.validate();
-        if (error) {
-            window.app.message('Error', error);
-        }
-        else {
-            this.collection.add(this.model);
             this.remove();
         }
         return false;
@@ -171,6 +180,9 @@ var LayerPopupView = PopupView.extend({
         }
         $('.datasources', this.el).toggle();
         return false;
+    },
+    showError: function(model, error) {
+        window.app.message('Error', error);
     }
 });
 
