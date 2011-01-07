@@ -161,14 +161,14 @@ var ProjectView = Backbone.View.extend({
         $(this.el).html(ich.ProjectView(this.model));
 
         var layers = new LayerListView({collection: this.model.get('Layer')});
-        var stylesheets = new StylesheetListView({collection: this.model.get('Stylesheet')});
+        var stylesheets = new StylesheetListView({collection: this.model.get('Stylesheet'), project: this.model});
         var colors = new ColorSwatchesToolView({
-            collection: new ColorSwatchesList(null, { parent: this }),
-            parent: this,
+            collection: new ColorSwatchesList(null, { project: this.model }),
+            project: this.model
         });
         var map = new MapView({model: this.model});
         var colorPicker = new ColorPickerToolView({model: this.model});
-        var fontPicker = new FontPickerToolView({model: new Abilities, stylesheetsView: stylesheets});
+        var fontPicker = new FontPickerToolView({model: new Abilities, project: this.model});
 
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(colors.el);
