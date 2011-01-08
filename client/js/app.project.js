@@ -246,15 +246,19 @@ var ProjectView = Backbone.View.extend({
             error: function(err, data) {
                 if (data.status == 500) {
                     var err_obj = $.parseJSON(data.responseText);
-                    var editor = _.detect(
-                        that.model.view.stylesheets.collection.models,
-                        function(s) {
-                            return s.id == err_obj.filename;
-                    });
-                    $('div:nth-child(' + err_obj.line + ')',
-                        editor.view.codemirror.lineNumbers)
-                        .addClass('syntax-error')
-                        .attr('title', err_obj.message);
+                    if (err_obj.line) {
+                        var editor = _.detect(
+                            that.model.view.stylesheets.collection.models,
+                            function(s) {
+                                return s.id == err_obj.filename;
+                        });
+                        $('div:nth-child(' + err_obj.line + ')',
+                            editor.view.codemirror.lineNumbers)
+                            .addClass('syntax-error')
+                            .attr('title', err_obj.message);
+                    } else {
+                        window.app.message('Error', err_obj.message);
+                    }
                 }
             }
         });
