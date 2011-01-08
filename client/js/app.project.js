@@ -2,7 +2,7 @@ var Project = Backbone.Model.extend({
     SRS_DEFAULT: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
     STYLESHEET_DEFAULT: [{
         id: 'style.mss',
-        data: "#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}"
+        data: '#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}'
     }],
     LAYER_DEFAULT: [{
         id: 'world',
@@ -11,7 +11,7 @@ var Project = Backbone.Model.extend({
             file: 'http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip',
             type: 'shape',
             estimate_extent: 'true',
-            id: 'world',
+            id: 'world'
         }
     }],
     initialize: function(attributes) {
@@ -19,18 +19,29 @@ var Project = Backbone.Model.extend({
             this.set({'srs': this.SRS_DEFAULT});
         }
         if (!this.get('Stylesheet')) {
-            this.set({'Stylesheet': new StylesheetList(this.STYLESHEET_DEFAULT, { parent: this })});
+            this.set({
+                'Stylesheet': new StylesheetList(this.STYLESHEET_DEFAULT, {
+                    parent: this
+                })
+            });
         }
         if (!this.get('Layer')) {
-            this.set({'Layer': new LayerList(this.LAYER_DEFAULT, { parent:this })});
+            this.set({
+                'Layer': new LayerList(this.LAYER_DEFAULT, {
+                    parent: this
+                })
+            });
         }
     },
     parse: function(response) {
         var self = this;
         // Instantiate StylesheetList and LayerList collections from JSON lists
         // of plain JSON objects.
-        response.Stylesheet = new StylesheetList(response.Stylesheet ? response.Stylesheet : [], {parent:this});
-        response.Layer = new LayerList(response.Layer ? response.Layer : [], {parent:this});
+        response.Stylesheet = new StylesheetList(response.Stylesheet ?
+                response.Stylesheet :
+                [], { parent: this });
+        response.Layer = new LayerList(response.Layer ?
+                response.Layer : [], { parent: this });
         return response;
     },
     // Override url() method for convenience so we don't always need a
@@ -48,7 +59,7 @@ var Project = Backbone.Model.extend({
         var url = [window.location.protocol, window.location.host].join('//') + this.url();
         if (options.signed) {
             var md5 = new MD5();
-            url += '?' + md5.digest(JSON.stringify(this)).substr(0,6);
+            url += '?' + md5.digest(JSON.stringify(this)).substr(0, 6);
         }
         var mmlb64 = Base64.urlsafe_encode(url);
         return [window.location.protocol, window.location.host].join('//') + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png';
@@ -132,11 +143,11 @@ var ProjectListView = Backbone.View.extend({
 var ProjectRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
-    initialize: function () {
+    initialize: function() {
         _.bindAll(this, 'render', 'del');
         this.render();
     },
-    render: function () {
+    render: function() {
         $(this.el).html(ich.ProjectRowView(this.model));
         return this;
     },
@@ -173,7 +184,7 @@ var ProjectView = Backbone.View.extend({
         'click #header a.minimal': 'minimal',
         'click #header a.home': 'home'
     },
-    initialize: function () {
+    initialize: function() {
         _.bindAll(this, 'render', 'saveProject', 'projectInfo',
             'home', 'minimal', 'changed');
         this.model.view = this;
@@ -228,7 +239,8 @@ var ProjectView = Backbone.View.extend({
                 that.model.trigger('save');
                 $('#header a.save', self.el).removeClass('changed');
                 $('.CodeMirror-line-numbers div')
-                        .removeClass('syntax-error');
+                        .removeClass('syntax-error')
+                        .attr('title', '');
 
             },
             error: function(err, data) {
@@ -236,12 +248,13 @@ var ProjectView = Backbone.View.extend({
                     var err_obj = $.parseJSON(data.responseText);
                     var editor = _.detect(
                         that.model.view.stylesheets.collection.models,
-                        function(s) { return s.id == err_obj.filename; }
-                        );
+                        function(s) {
+                            return s.id == err_obj.filename;
+                    });
                     $('div:nth-child(' + err_obj.line + ')',
                         editor.view.codemirror.lineNumbers)
-                        .addClass('syntax-error').attr(
-                            'title', err_obj.message);
+                        .addClass('syntax-error')
+                        .attr('title', err_obj.message);
                 }
             }
         });
