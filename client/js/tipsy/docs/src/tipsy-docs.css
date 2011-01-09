@@ -1,0 +1,5 @@
+#gravity { width: 100%; margin: 5px 0; border-spacing: 5px; }
+  #gravity td { text-align: center; vertical-align: middle; padding: 5px 0; background-color: #d0d0d0; width: 33%; }
+  #gravity a { }
+    #gravity a:hover { color: #505050; background: none; }
+
