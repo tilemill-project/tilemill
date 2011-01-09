@@ -912,3 +912,9 @@ textarea.code-snippet {
 div.syntax-error {
   background-color:#FDF59F;
   }
+
+/**
+ * Tipsy ======================================================================
+ */
+body .tipsy { font-size:11px; }
+
