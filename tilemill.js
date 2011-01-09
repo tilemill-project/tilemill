@@ -81,11 +81,15 @@ Project.prototype.validate = function(stylesheets, callback) {
                 new(mess.Parser)({
                     filename: stylesheet.id
                 }).parse(stylesheet.data, function(err, tree) {
-                    try {
-                        tree.toCSS({ compress: false });
-                        group()(null);
-                    } catch (e) {
-                        group()(e);
+                    if (!err) {
+                        try {
+                            tree.toCSS({ compress: false });
+                            group()(null);
+                        } catch (e) {
+                            group()(e);
+                        }
+                    } else {
+                        group()(err);
                     }
                 });
             });
