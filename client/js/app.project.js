@@ -239,9 +239,9 @@ var ProjectView = Backbone.View.extend({
                 that.model.trigger('save');
                 $('#header a.save', self.el).removeClass('changed');
                 $('.CodeMirror-line-numbers div')
-                        .removeClass('syntax-error')
-                        .attr('title', '');
-
+                    .removeClass('syntax-error')
+                    .attr('title', '')
+                    .unbind('mouseenter mouseleave'); // Removes tipsy.
             },
             error: function(err, data) {
                 if (data.status == 500) {
@@ -255,7 +255,8 @@ var ProjectView = Backbone.View.extend({
                         $('div:nth-child(' + err_obj.line + ')',
                             editor.view.codemirror.lineNumbers)
                             .addClass('syntax-error')
-                            .attr('title', err_obj.message);
+                            .attr('title', err_obj.message)
+                            .tipsy({gravity: 'w'});
                     } else {
                         window.app.message('Error', err_obj.message);
                     }

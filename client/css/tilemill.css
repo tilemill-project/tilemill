@@ -464,20 +464,6 @@ form div.buttons {
   position:relative;
   }
 
-#color-swatches .swatch label {
-  position:absolute;
-  left:-25px;
-  bottom:10px;
-  width:70px;
-
-  padding:0px 0px 10px;
-  text-align:center;
-  background:url(../images/sprite.png) 0px -190px no-repeat;
-  display:none;
-  }
-
-#color-swatches .swatch:hover label { display:block; }
-
 /**
  * Icon links
  */
@@ -836,30 +822,8 @@ table thead th {
   color:#999;
   }
 
-.reference-doc { display:none; }
-
-.reference-doc-available {
-  font-size:9px;
-  color:#999;
-  margin-left:5px;
-  }
-
-.reference-table tr:hover .reference-doc {
-  color:#222;
-  background-color: #eee;
-  border:1px solid #ccc;
-  font-weight:normal;
-  padding:5px;
-  display:block;
-  position:absolute;
-  left:150px;
-  margin-top: -25px;
-  max-width:200px;
-  -moz-border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-box-shadow:#222 0px 1px 2px;
-  -webkit-box-shadow:#222 0px 1px 2px;
-  }
+.reference-table a { color:#666; }
+.reference-table a.reference-doc-available { color:#333; }
 
 #quick-reference {
   background:#eee;

@@ -103,5 +103,16 @@ $(function() {
     window.app = new App();
     _.extend(window.app, Backbone.Events);
     Backbone.history.start();
+
+   // Use jquery.tipsy for displaying tooltips.
+   $('a', this.el).tipsy({
+        live:true,
+        gravity: function() {
+            if ($(this).is('.tipsy-w')) { return 'w'; }
+            if ($(this).is('.tipsy-e')) { return 'e'; }
+            if ($(this).is('.tipsy-n')) { return 'n'; }
+            return 's';
+        }
+    });
 });
 
