@@ -33,8 +33,16 @@ var MapView = Backbone.View.extend({
             ),
             controls: []
         };
-        // @TODO set from project model.
-        var center = center || {lat: 0, lon: 0, zoom: 2};
+
+        // Retrieve stored centerpoint from model and convert to map units.
+        var center = this.model.get('center') || {lat: 0, lon: 0, zoom: 2};
+        var lonlat = new OpenLayers.LonLat(center.lon, center.lat)
+        lonlat.transform(
+            new OpenLayers.Projection('EPSG:4326'),
+            new OpenLayers.Projection('EPSG:900913')
+        );
+        center.lat = lonlat.lat;
+        center.lon = lonlat.lon;
 
         // Nav control images.
         // @TODO: Store locally so the application is portable/usable offline?
@@ -87,6 +95,20 @@ var MapView = Backbone.View.extend({
     },
 
     controlZoom: function(e) {
+        // Set the model center whenever the map is moved.
+        // Retrieve centerpoint from map and convert to lonlat units.
+        var center = this.map.getCenter();
+        var zoom = this.map.getZoom();
+        var lonlat = new OpenLayers.LonLat(center.lon, center.lat);
+        lonlat.transform(
+            this.map.projection,
+            new OpenLayers.Projection("EPSG:4326")
+        );
+        this.model.set(
+            { 'center': {lat: lonlat.lat, lon: lonlat.lon, zoom: zoom} },
+            { 'silent': true }
+        );
+
         (e.element.id && $('#zoom-display', e.element).size()) &&
             $('#zoom-display', e.element)
                 .text('Zoom level ' + this.map.getZoom());
