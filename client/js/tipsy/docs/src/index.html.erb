@@ -1,0 +1,318 @@
+       
+<script type='text/javascript'>
+  $(function() {
+    
+    $('#example-1').tipsy();
+    
+    $('#auto-gravity').tipsy({gravity: $.fn.tipsy.autoNS});
+    
+    $('#example-fade').tipsy({fade: true});
+    
+    $('#example-custom-attribute').tipsy({title: 'id'});
+    $('#example-callback').tipsy({title: function() { return this.getAttribute('original-title').toUpperCase(); } });
+    $('#example-fallback').tipsy({fallback: "Where's my tooltip yo'?" });
+    
+    $('#example-html').tipsy({html: true });
+    
+  });
+</script>
+
+<h2 class='first' id='overview'>Overview</h2>
+
+<p>Tipsy is a jQuery plugin for creating a Facebook-like tooltips effect based on
+an anchor tag's title attribute.</p>
+
+<h2 id='examples'>Examples &amp; Usage</h2>
+  
+<h3>Basic</h3>
+
+<p>By default, tooltips will appear centred underneath their anchor:</p>
+
+<p>
+	<a id='example-1' href='#' title='Hello World'>Hover over me</a>
+</p>
+
+<div class='caption'>Basic example:</div>
+<div class='code'><pre>$('#example-1').tipsy();</pre></div>
+
+<h3>Gravities</h3>
+
+<p>Using the gravity parameter, it's possible to control the positioning of the tooltip relative to the pointee:</p>
+
+<table id='gravity' cellspacing='5'>
+  <tr>
+    <td>
+      <a id='north-west' href='#' title='This is an example of north-west gravity'>Northwest</a>
+    </td>
+    <td>
+      <a id='north' href='#' title='This is an example of north gravity'>North</a>
+    </td>
+    <td>
+      <a id='north-east' href='#' title='This is an example of north-east gravity'>Northeast</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a id='west' href='#' title='This is an example of west gravity'>West</a>
+    </td>
+    <td>&nbsp;</td>
+    <td>
+      <a id='east' href='#' title='This is an example of east gravity'>East</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a id='south-west' href='#' title='This is an example of south-west gravity'>Southwest</a>
+    </td>
+    <td>
+      <a id='south' href='#' title='This is an example of south gravity'>South</a>
+    </td>
+    <td>
+      <a id='south-east' href='#' title='This is an example of south-east gravity'>Southeast</a>
+    </td>
+  </tr>
+</table>
+
+<script type='text/javascript'>
+  $(function() {
+    $('#north').tipsy({gravity: 'n'});
+    $('#south').tipsy({gravity: 's'});
+    $('#east').tipsy({gravity: 'e'});
+    $('#west').tipsy({gravity: 'w'});
+    $('#north-west').tipsy({gravity: 'nw'});
+    $('#north-east').tipsy({gravity: 'ne'});
+    $('#south-west').tipsy({gravity: 'sw'});
+    $('#south-east').tipsy({gravity: 'se'});
+  });
+</script>
+
+<div class='caption'>Gravity example:</div>
+<div class='code'><pre>$('#foo').tipsy({gravity: 'n'}); // nw | n | ne | w | e | sw | s | se</pre></div>
+
+<p>As of version 0.1.3, it's possible to use a callback function to set the gravity dynamically at hover-time. Within the callback, <code>this</code> refers to the active element, and the function should return the calculated gravity as a string. Two demo callbacks are supplied - <code>$.fn.tipsy.autoNS</code> and <code>$.fn.tipsy.autoWE</code> - which select north/south and west/east gravity, respectively, based on the element's location in the viewport.</p>
+
+<p>Here's an example (scroll the page to see the effect):</p>
+
+<a id='auto-gravity' href='#' title='This as an example of dynamic gravity'>Dynamic Gravity</a>
+
+<div class='caption'>Dynamic gravity example:</div>
+<div class='code'><pre>$('#foo').tipsy({gravity: $.fn.tipsy.autoNS});</pre></div>
+
+<h3>Fading</h3>
+
+<p>For full Wob2.0 compliance, you must fade these badboys in:</p>
+
+<p>
+	<a id='example-fade' href='#' title='Hello World'>Hover over me</a>
+</p>
+
+<div class='caption'>Fade example:</div>
+<div class='code'><pre>$('#example-fade').tipsy({fade: true});</pre></div>
+
+<h3>Bonus Feature</h3>
+
+<p>You can EVEN COMBINE FADE AND GRAVITY! (exercise for reader)</p>
+
+<h3>Slightly Advanced Usage</h3>
+
+<p>Tooltip text can be set based on any attribute, not just <code>title</code>:</p>
+
+<p>
+	<a id='example-custom-attribute' href='#' title='Hello World'>Hover over me</a>
+</p>
+
+<div class='caption'>Custom attribute example:</div>
+<div class='code'><pre>$('#example-custom-attribute').tipsy({title: 'id'});</pre></div>
+
+<p>If any attribute isn't good enough, you may pass a callback function instead. It should
+  return the tooltip text for <code>this</code> element:</p>
+
+<p>
+	<a id='example-callback' href='#' title='Hello World'>Hover over me</a>
+</p>
+
+<div class='caption'>Callback example:</div>
+<div class='code'><pre>$('#example-callback').tipsy({title: function() { return this.getAttribute('original-title').toUpperCase(); } });</pre></div>
+
+<p>Finally, it is possible to specify a fallback tooltip for any element which does not
+  have any tooltip text:</p>
+
+<p>
+	<a id='example-fallback' href='#'>Hover over me</a>
+</p>
+
+<div class='caption'>Fallback example:</div>
+<div class='code'><pre>$('#example-fallback').tipsy({fallback: "Where's my tooltip yo'?" });</pre></div>
+
+<p>If your tooltip content contains HTML, set the
+  <code>html</code> option to <code>true</code> (relies on invalid HTML, sorry):</p>
+
+<p>
+	<a id='example-html' title='this <i>contains</i> <b>formatted</b> text' href='#'>Hover over me</a>
+</p>
+
+<div class='caption'>HTML example:</div>
+<div class='code'><pre>$('#example-html').tipsy({html: true });</pre></div>
+
+  <!-- Delay -->
+  
+  <h3>Show/Hide Delay</h3>
+
+  <div class="caption">Delay example:</div>
+  <div class='code'><pre>$('#example-delay').tipsy({delayIn: 500, delayOut: 1000});</pre></div>
+
+  <p>
+  	<a id='delay-example' title='display is delayed by 0.5s, hiding by 1s' href='#'>Hover and wait</a>
+  </p>
+  
+  <script type='text/javascript'>
+    $('#delay-example').tipsy({delayIn: 500, delayOut: 1000});
+  </script>
+
+  <!-- Dynamic Updating -->
+
+  <h3>Dynamically Updating Text</h3>
+
+  <p>Tipsy tooltips are 'live' - if the source attribute's value changes, the tooltip text will be
+    updated the next time the tooltip is shown. There's one caveat - if you wish to remove the tooltip
+    by setting the <code>title</code> attribute to an empty string, set the <code>original-title</code>
+    attribute instead (this only applies if you're using the <code>title</code> attribute).
+  </p>
+  
+  <div class='caption'>Dynamic updating example:</div>
+  <div id='dynamic-example' class='example'>
+    <a href='#' rel='tipsy' title=''>Hover over me</a> |
+    New tooltip text:
+    <input type='text' value='' size='10' />
+    <input type='button' onclick="$('#dynamic-example a')[0].setAttribute('original-title', $('#dynamic-example input').val())" value='Update' />
+  </div>
+
+  <script type='text/javascript'>
+    $('#dynamic-example a').tipsy();
+  </script>
+  
+  <!-- Focus/Blur Triggering -->
+  
+  <h3>Using Tooltips on Form Inputs</h3>
+  
+  <p>Tooltips can be bound to form inputs' focus/blur events using the option
+    <code>{trigger: 'focus'}</code>:</p>
+  
+  <div class='caption'>Form input tooltips example:</div>
+  <div id='focus-example' class='example'>
+    <select name='title' title='Select title'>
+      <option>Mr</option>
+      <option>Mrs</option>
+      <option>Miss</option>
+    </select><br />
+    <input type='text' name='forename' title='Enter forename' /><br />
+    <input type='text' name='surname' title='Enter surname' /><br />
+    <textarea name='message' title='Enter your message' style='margin:0'></textarea>
+  </div>
+  
+  <script type='text/javascript'>
+    $(function() {
+      $('#focus-example [title]').tipsy({trigger: 'focus', gravity: 'w'});
+    });
+  </script>
+  
+  <div class='caption'>Form input tooltips code:</div>
+  <div class='code'><pre>&lt;script type=&#x27;text/javascript&#x27;&gt;
+  $(function() {
+    $(&#x27;#focus-example [title]&#x27;).tipsy({trigger: &#x27;focus&#x27;, gravity: &#x27;w&#x27;});
+  });
+&lt;/script&gt;</pre></div>
+
+  <!-- Manual Triggering -->
+
+  <h3>Manually Triggering a Tooltip</h3>
+  
+  <p>It's possible to disable hover events and instead trigger tooltips manually:</p>
+  
+  <div class='caption'>Manual triggering example:</div>
+  <div id='manual-example' class='example'>
+    <a rel='tipsy' title='Well hello there'>My tooltip is manually triggered</a> |
+    <a href='#' onclick='$("#manual-example a[rel=tipsy]").tipsy("show"); return false;'>Show it</a> |
+    <a href='#' onclick='$("#manual-example a[rel=tipsy]").tipsy("hide"); return false;'>Hide it</a>
+  </div>
+
+  <script type='text/javascript'>
+    $('#manual-example a[rel=tipsy]').tipsy({trigger: 'manual'});
+  </script>
+
+  <div class='caption'>Code for manual triggering:</div>
+  <div class='code'><pre>&lt;p id=&#x27;manual-example&#x27;&gt;
+  &lt;a rel=&#x27;tipsy&#x27; title=&#x27;Well hello there&#x27;&gt;My tooltip is manually triggered&lt;/a&gt;
+  &lt;a href=&#x27;#&#x27; onclick=&#x27;$(&quot;#manual-example a[rel=tipsy]&quot;).tipsy(&quot;show&quot;); return false;&#x27;&gt;Show&lt;/a&gt;
+  &lt;a href=&#x27;#&#x27; onclick=&#x27;$(&quot;#manual-example a[rel=tipsy]&quot;).tipsy(&quot;hide&quot;); return false;&#x27;&gt;Hide&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;script type=&#x27;text/javascript&#x27;&gt;
+  $(&#x27;#manual-example a[rel=tipsy]&#x27;).tipsy({trigger: &#x27;manual&#x27;});
+&lt;/script&gt;</pre></div>
+  
+  <!-- Live Events Support -->
+  
+  <h3>Support for Live Events</h3>
+  
+  <p>
+    Live events are supported using the option <code>{live: true}</code>.
+    jQuery &ge; 1.4.1 is required and live tooltips do not support manual triggering.
+  </p>
+  
+  <div class='caption'>Live events example:</div>
+  <div id='live-example' class='example'>
+    <div id='live-template' style='display:none'><a href='#' class='live-tipsy' title='A tooltip'>Dynamic tooltip</a></div>
+    <input type='button' value='Add' onclick='$("#live-example").append($("#live-template").clone().attr("id", "").show());' /><br />
+  </div>
+  
+  <script type='text/javascript'>
+    $('a.live-tipsy').tipsy({live: true});
+  </script>
+  
+  <div class='caption'>Code for live events:</div>
+  <div class='code'><pre>&lt;script type=&#x27;text/javascript&#x27;&gt;
+  $(&#x27;a.live-tipsy&#x27;).tipsy({live: true});
+&lt;/script&gt;</pre></div>
+  
+  <!-- Options -->
+
+  <h2 id="options">Summary of Configuration Options</h2>
+  <p>Here is the default options declaration:
+  <div class='code'><pre>$.fn.tipsy.defaults = {
+    delayIn: 0,      // delay before showing tooltip (ms)
+    delayOut: 0,     // delay before hiding tooltip (ms)
+    fade: false,     // fade tooltips in/out?
+    fallback: '',    // fallback text to use when no tooltip text
+    gravity: 'n',    // gravity
+    html: false,     // is tooltip content HTML?
+    live: false,     // use live event support?
+    offset: 0,       // pixel offset of tooltip from element
+    opacity: 0.8,    // opacity of tooltip
+    title: 'title',  // attribute/callback containing tooltip text
+    trigger: 'hover' // how tooltip is triggered - hover | focus | manual
+};</pre></div>
+  
+  <!-- Notes -->
+
+  <h2 id='notes'>Notes</h2>
+
+  <p>Tipsy needs to erase any existing value for an element's <code>title</code> attribute in
+    order to suppress the browser's native tooltips. It is stashed in the element's
+    <code>original-title</code> attribute in case you need to retrieve it later.</p>
+  
+  <p>As of version 0.1.4, the tooltip text is recomputed on every hover event so updating the
+    <code>title</code> attribute will have the expected effect.</p>
+
+  <!-- Download -->
+
+  <h2 id='download'>Download</h2>
+
+  <h3>Package</h3>
+  <p>
+    Package downloads are available from the
+    <a href='http://plugins.jquery.com/project/tipsy'>jQuery project page</a>.
+  </p>
+
+  <h3>github</h3>
+  <div class='code shell'><pre><span class='green'>jason@donut</span> <span class='blue'>~ $</span> git clone git://github.com/jaz303/tipsy.git</pre></div>
