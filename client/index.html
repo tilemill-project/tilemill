@@ -6,6 +6,7 @@
     <link rel='shortcut icon' href='images/favicon.ico' type='image/x-icon' />
     <link rel='stylesheet' href='css/reset.css' type='text/css'/>
     <link rel='stylesheet' href='css/tilemill.css' type='text/css'/>
+    <link rel='stylesheet' href='js/tipsy/src/stylesheets/tipsy.css' type='text/css'/>
 
     <!-- IE includes -->
     <!--[if IE]><script src="js/libraries/excanvas.compiled.js"></script><![endif]-->
@@ -20,6 +21,7 @@
     <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
     <script type='text/javascript' src='js/libraries/farbtastic.js'></script>
     <script type='text/javascript' src='js/codemirror/js/codemirror.js'></script>
+    <script type='text/javascript' src='js/tipsy/src/javascripts/jquery.tipsy.js'></script>
 
     <script type='text/javascript' src='js/app.popup.js'></script>
     <script type='text/javascript' src='js/app.tools.js'></script>
@@ -134,16 +136,16 @@
     <script type='text/html' id='LayerListView'>
       <div class='sidebar-header clearfix pane'>
         <h2>Layers</h2>
-        <a title='Add a Layer' href='#' class='icon add'>+ Add</a>
+        <a title='Add layer' href='#' class='tipsy-e icon add'>Add layer</a>
       </div>
       <ul class='sidebar-content'></ul>
     </script>
 
     <script type='text/html' id='LayerRowView'>
       <div class='handle'></div>
-      <a title='Delete Layer' class='icon delete' href='#'>Delete</a>
-      <a title='Inspect Layer Values' class='icon inspect' href='#'>Inspect</a>
-      <a title='Edit Layer Definition' class='icon edit' href='#'>Edit</a>
+      <a title='Delete layer' class='icon delete' href='#'>Delete</a>
+      <a title='Inspect layer values' class='icon inspect' href='#'>Inspect</a>
+      <a title='Edit layer' class='icon edit' href='#'>Edit</a>
       <label>{{ name }}</label>
     </script>
 
@@ -168,7 +170,7 @@
     <script type='text/html' id='StylesheetListView'>
       <div id='tabs'>
         <div class='stylesheets'></div>
-        <a title='Add a Stylesheet Tab' class='icon add' href='#'>Add MSS</a>
+        <a title='Add stylesheet' class='tipsy-e icon add' href='#'>Add stylesheet</a>
       </div>
       <div id='editor' class='view'></div>
     </script>
@@ -330,7 +332,7 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
     </script>
 
     <script type='text/html' id='ColorSwatchView'>
-      <a href='#' class='swatch' style='background-color: {{ color }}'><label>{{ color }}</label></a>
+      <a href='#' class='swatch' style='background-color: {{ color }}' title='{{ color }}'></a>
     </script>
 
     <script type='text/html' id='inspector_field'>
@@ -447,13 +449,7 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
 
     <script type='text/html' class='partial' id='reference_property'>
       <tr>
-        <th>{{ css }}
-          {{#doc}}
-            <span class='reference-doc-available'>?</span>
-            <div class='reference-doc'>
-              {{ doc }}
-            </div>
-          {{/doc}}
+        <th><a {{#doc}}title='{{ doc }}' class='reference-doc-available'{{/doc}}>{{ css }}</a>
         </th>
         <td>{{ type }}</td>
         <td>{{ default_value }}
