@@ -132,19 +132,28 @@ var LayerRowView = Backbone.View.extend({
  * Popup form for adding a new stylesheet.
  */
 var LayerPopupView = PopupView.extend({
+    SRS: {
+        '900913': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+        'WGS84': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
+    },
     events: _.extend(PopupView.prototype.events, {
         'click input.submit': 'submit',
-        'click a#expand-datasources': 'datasources'
+        'click a#expand-datasources': 'datasources',
+        'change select#srs-name': 'selectSRS'
     }),
     initialize: function(params) {
-        _.bindAll(this, 'render', 'submit', 'datasources');
+        _.bindAll(this, 'render', 'submit', 'datasources', 'getSRSName', 'selectSRS');
         this.model = this.options.model;
         this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
-        this.options.content = ich.LayerPopupView({
+
+        var object = {
             'id': this.model.id,
             'class': this.model.get('class'),
-            datasource_file: this.model.get('Datasource') ? this.model.get('Datasource').file : '',
-        }, true);
+            'datasource_file': this.model.get('Datasource') ? this.model.get('Datasource').file : '',
+            'srs': this.model.get('srs')
+        };
+        object['srs_name_' + this.getSRSName(this.model.get('srs'))] = true;
+        this.options.content = ich.LayerPopupView(object, true);
         this.render();
     },
     submit: function() {
@@ -183,6 +192,24 @@ var LayerPopupView = PopupView.extend({
     },
     showError: function(model, error) {
         window.app.message('Error', error);
-    }
+    },
+    getSRSName: function(srs) {
+        for (name in this.SRS) {
+            if (this.SRS[name] === srs) {
+                return name;
+            }
+        }
+        return 'custom';
+    },
+    selectSRS: function() {
+        var name = $('select#srs-name', this.el).val();
+        if (name === 'custom') {
+            $('.srs', this.el).show();
+        }
+        else {
+            $('input#srs', this.el).val(this.SRS[name]);
+            $('.srs', this.el).hide();
+        }
+    },
 });
 
