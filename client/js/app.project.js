@@ -73,7 +73,10 @@ var Project = Backbone.Model.extend({
 
 var ProjectList = Backbone.Collection.extend({
     model: Project,
-    url: '/api/project'
+    url: '/api/project',
+    comparator: function(project) {
+        return project.get('id');
+    }
 });
 
 var ProjectListView = Backbone.View.extend({
@@ -94,16 +97,25 @@ var ProjectListView = Backbone.View.extend({
             window.app.el.html(this.el);
         }
 
-        // Add a row view for each project.
+        // Add a row view for each project. Note that we use a pointer as the
+        // projects are added to ensure that when new projects are added on a
+        // re-render they are placed at the correct index in the list.
         var that = this;
+        var pointer = null;
         this.collection.each(function(project) {
             if (!project.view) {
                 project.view = new ProjectRowView({
                     model: project,
                     collection: this.collection
                 });
-                $('ul.projects', self.el).append(project.view.el);
+                if (!pointer) {
+                    $('ul.projects', self.el).append(project.view.el);
+                }
+                else {
+                    $(pointer).after(project.view.el);
+                }
             }
+            pointer = project.view.el;
         });
         return this;
     },
