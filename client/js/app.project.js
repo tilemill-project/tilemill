@@ -147,8 +147,21 @@ var ProjectRowView = Backbone.View.extend({
         _.bindAll(this, 'render', 'del');
         this.render();
     },
+    // See http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
+    thumb: function() {
+        var center = this.model.get('center') || {lat: 0, lon: 0, zoom: 2};
+        var z = center.zoom;
+        var lat_rad = center.lat * Math.PI / 180;
+        var x = parseInt((center.lon + 180.0) / 360.0 * Math.pow(2,z));
+        var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2,z));
+        var url = this.model.layerURL({ signed: true });
+        return url.replace('${z}', z).replace('${x}', x).replace('${y}', y);
+    },
     render: function() {
-        $(this.el).html(ich.ProjectRowView(this.model));
+        $(this.el).html(ich.ProjectRowView({
+            id: this.model.get('id'),
+            thumb: this.thumb()
+        }));
         return this;
     },
     events: {

@@ -179,6 +179,8 @@ ul.projects a {
   border:1px solid #eee;
   text-shadow:#eee 0px 1px 0px;
   background:#ddd;
+  box-shadow:#999 0px 1px 3px;
+  -moz-box-shadow:#999 0px 1px 3px;
   -webkit-box-shadow:#999 0px 1px 3px;
   border-radius:3px;
   -moz-border-radius:3px;
@@ -187,19 +189,26 @@ ul.projects a {
 
 ul.projects a { 
   position:relative;
-  padding:28px 28px 28px 108px;
+  padding:38px 38px 38px 138px;
   margin:0px 10px 10px 0px;
   font-weight:bold;
   }
 
 ul.projects span.thumb {
   display:block;
-  width:80px;
-  height:60px;
+  width:120px;
+  height:80px;
+  overflow:hidden;
   background-color:#ccc;
   position:absolute;
-  left:10px;
-  top:10px;
+  left:9px;
+  top:9px;
+  }
+
+ul.projects span.thumb img {
+  width:128px;
+  height:128px;
+  display:block;
   }
 
 ul.projects span.delete {
