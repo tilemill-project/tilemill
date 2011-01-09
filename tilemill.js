@@ -219,6 +219,10 @@ function loadProjects(req, res, next) {
                         }
                         queueLength--;
                         if (queueLength === 0) {
+                            // Sort projects by id, ascending.
+                            res.projects.sort(function(a, b) {
+                                return a.id <= b.id ? -1 : 1;
+                            });
                             queue.emit('complete');
                         }
                     });
