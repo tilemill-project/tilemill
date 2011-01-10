@@ -38,15 +38,9 @@
 </tr>
 <tr>
 	<td>click</td>
-	<td>link=#eee</td>
+	<td>//div[@id='color-swatches']/div[2]/div[2]/a</td>
 	<td></td>
 </tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>#eee</td>
-	<td></td>
-</tr>
-
 </tbody></table>
 </body>
 </html>

@@ -18,7 +18,7 @@
 </tr>
 <tr>
 	<td>click</td>
-	<td>link=Add MSS</td>
+	<td>link=Add stylesheet</td>
 	<td></td>
 </tr>
 <tr>
@@ -46,7 +46,6 @@
 	<td>link=Close</td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>
