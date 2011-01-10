@@ -1,38 +1,37 @@
 var _ = require('underscore')._;
 
-/**
- * Map loader, express route middleware.
- */
-function loadMap(req, res, next) {
-    if (req.param('mapfile_64')) {
-        var path = require('path');
-        var Map = require('tilelive.js').Map;
-        var map = new Map(req.param('mapfile_64'), path.join(__dirname, settings.mapfile_dir), true);
-        map.localize(function() {
-            res.map = map.mapnik_map();
-            next();
-        });
-    }
-    else {
-        next(new Error('Map could not be loaded.'));
-    }
-}
-
-/**
- * Layer loader, express route middleware.
- */
-function loadLayer(req, res, next) {
-    res.layers = [];
-    var layers = res.map.layers();
-    var data = res.map.describe_data();
-    for (var i = 0; i < layers.length; i++) {
-        var layer = {
-            id: layers[i].datasource.id,
-        };
-        if (data[layer.id]) {
-            _.extend(layer, data[layer.id]);
+module.exports = function(app, settings) {
+    /**
+     * Map loader, express route middleware.
+     */
+    function loadMap(req, res, next) {
+        if (req.param('mapfile_64')) {
+            var path = require('path');
+            var Map = require('tilelive.js').Map;
+            var map = new Map(req.param('mapfile_64'), path.join(__dirname, settings.mapfile_dir), true);
+            map.localize(function() {
+                res.map = map.mapnik_map();
+                next();
+            });
         }
-        if (layer.fields) {
+        else {
+            next(new Error('Map could not be loaded.'));
+        }
+    }
+
+    /**
+     * Layer loader, express route middleware.
+     */
+    function loadLayer(req, res, next) {
+        res.layers = [];
+        var layers = res.map.layers();
+        var data = res.map.describe_data();
+        for (var i = 0; i < layers.length; i++) {
+            var id = layers[i].datasource.id;
+            var layer = {
+                id: id,
+                fields: data[id] ? data[id].fields : {}
+            };
             for (var field in layer.fields) {
                 layer.fields[field] = {
                     type: layer.fields[field],
@@ -76,22 +75,20 @@ function loadLayer(req, res, next) {
                     }
                 }
             }
-        }
 
-        if (!req.param('layer_id')) {
-            res.layers.push(layer);
+            if (!req.param('layer_id')) {
+                res.layers.push(layer);
+            }
+            else if (req.param('layer_id') === layer.id) {
+                res.layers.push(layer);
+            }
         }
-        else if (req.param('layer_id') === layer.id) {
-            res.layers.push(layer);
+        if (req.param('layer_id') && res.layers.length === 0) {
+            next(new Error('Layer could not be loaded.'));
         }
+        next();
     }
-    if (req.param('layer_id') && res.layers.length === 0) {
-        next(new Error('Layer could not be loaded.'));
-    }
-    next();
-}
 
-module.exports = function(app, settings) {
     /**
      * Inspect abilities.
      */
