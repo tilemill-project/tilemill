@@ -699,6 +699,11 @@ li .icon {
   float:right;
   }
 
+#color-picker input.color {
+  position:fixed;
+  right:35px;
+}
+
 #color-picker a:hover { background-color:#666; }
 
 .tilemill-farbtastic {
