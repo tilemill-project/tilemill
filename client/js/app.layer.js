@@ -180,12 +180,18 @@ var LayerPopupView = PopupView.extend({
         return false;
     },
     datasources: function() {
-        if (!this.list) {
-            this.list = new DatasourceListView({
+        if (!this.lists) {
+            this.lists = {};
+            this.lists.directory = new DatasourceListView({
                 collection: new DatasourceListDirectory,
                 target: $('input#file', this.el)
             });
-            $('.datasources', this.el).append(this.list.el);
+            $('.datasources', this.el).append(this.lists.directory.el);
+            this.lists.s3 = new DatasourceListView({
+                collection: new DatasourceListS3,
+                target: $('input#file', this.el)
+            });
+            $('.datasources', this.el).append(this.lists.s3.el);
         }
         $('.datasources', this.el).toggle();
         return false;

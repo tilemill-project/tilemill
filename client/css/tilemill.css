@@ -867,34 +867,38 @@ a#expand-datasources:hover {
   cursor:pointer;
   }
 
-#datasource-list {
+form div.datasources {
   padding: 5px;
   margin-top: 5px;
+  height:200px;
   background-color:#eee;
   overflow-y:auto;
   border: 1px solid #ccc;
   }
 
-#datasource-list div {
-  padding:0;
-  }
+form div.datasources div { padding:0px; }
+
+form div.datasources .empty,
+form div.datasources .datasource { padding:0px 0px 0px 10px; }
 
 /**
  * TODO: this will break in IE
  */
-#datasource-list div.datasource:hover {
-  color:#000;
+a.datasource {
+  display:block;
   cursor:pointer;
   }
-  
-#datasource-list div.datasource .url {
-  display:none;
-  }
 
-#datasource-list div.datasource .metadata {
+a.datasource:hover {
+  color:#000;
+  background:#fff;
+  }
+  
+a.datasource .url { display:none; }
+
+a.datasource .metadata {
   font-size:9px;
-  padding:3px;
-  background-color:#eee;
+  padding:0px 3px;
   color:#aaa;
   }
 
