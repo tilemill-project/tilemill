@@ -3,16 +3,17 @@ var Datasource = Backbone.Model.extend({
 
 var DatasourceListS3 = Backbone.Collection.extend({
     model: Datasource,
-    url: '/provider/s3'
+    url: '/provider/s3',
+    title: 'Amazon S3'
 });
 
 var DatasourceListDirectory = Backbone.Collection.extend({
     model: Datasource,
-    url: '/provider/directory'
+    url: '/provider/directory',
+    title: 'Local directory'
 });
 
 var DatasourceListView = Backbone.View.extend({
-    id: 'datasource-list',
     initialize: function () {
         _.bindAll(this, 'render');
         this.collection.bind('all', this.render);
@@ -20,18 +21,25 @@ var DatasourceListView = Backbone.View.extend({
     },
     render: function () {
         var self = this;
-        this.collection.each(function(model) {
-            var datasourceRow = new DatasourceRowView({
-                model: model,
-                target: self.options.target
+        $(self.el).append('<h3>' + this.collection.title + '</h3>')
+        if (this.collection.length) {
+            this.collection.each(function(model) {
+                var datasourceRow = new DatasourceRowView({
+                    model: model,
+                    target: self.options.target
+                });
+                $(self.el).append(datasourceRow.el);
             });
-            $(self.el).append(datasourceRow.el);
-        });
+        }
+        else {
+            $(self.el).append('<div class="empty">No datasources found.</div>')
+        }
         return this;
     },
 });
 
 var DatasourceRowView = Backbone.View.extend({
+    tagName: 'a',
     className: 'datasource',
     initialize: function() {
         _.bindAll(this, 'render', 'setfield');
