@@ -19,6 +19,8 @@ http://code.jquery.com/jquery-1.4.4.min.js
 
 md5 (http://pajhome.org.uk/crypt/md5/contrib/md5-obj1.js) BSD
 
+tablesorter (http://tablesorter.com) MIT and GPL
+
 tipsy (https://github.com/jaz303/tipsy) MIT
 
 underscore (http://documentcloud.github.com/underscore/) BSD

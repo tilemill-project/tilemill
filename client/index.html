@@ -17,6 +17,7 @@
     <script type='text/javascript' src='js/libraries/underscore-min.js'></script>
     <script type='text/javascript' src='js/libraries/backbone.js'></script>
     <script type='text/javascript' src='js/libraries/jquery-ui.js'></script>
+    <script type='text/javascript' src='js/libraries/jquery.tablesorter.min.js'></script>
     <script type='text/javascript' src='js/libraries/ICanHaz.min.js'></script>
     <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
     <script type='text/javascript' src='js/libraries/farbtastic.js'></script>
@@ -45,6 +46,7 @@
         'js/libraries/underscore-min.js',
         'js/libraries/backbone.js',
         'js/libraries/jquery-ui.js',
+        'js/libraries/jquery.tablesorter.min.js',
         'js/libraries/ICanHaz.min.js',
         'js/openlayers/OpenLayers.js',
         'js/libraries/farbtastic.js',
@@ -149,14 +151,32 @@
       <label>{{ name }}</label>
     </script>
 
-    <script type='text/html' id='inspector'>
-      <div id='inspector'>
-        <div class='sidebar-header clearfix pane'>
-          <h2>Inspector</h2>
-          <a class='icon close' href='#'>Close</a>
-        </div>
-        <ul class='sidebar-content'>
-        </ul>
+    <script type='text/html' id='LayerFieldsView'>
+      <div class='sidebar-header clearfix pane'>
+        <h2>{{ id }}</h2>
+        <a class='icon close' href='#'>Close</a>
+      </div>
+      <div class='drawer-content'>
+        {{^loading}}
+        <table class='features'>
+          <thead>
+            <tr>
+              {{#fields}}
+                <th class='{{type}}'><a title='{{type}}'>{{name}}</a></th>
+              {{/fields}}
+            </tr>
+          </thead>
+          <tbody>
+            {{#features}}
+              <tr>
+                {{#values}}
+                <td class='{{type}}'>{{value}}</td>
+                {{/values}}
+              </tr>
+            {{/features}}
+          </tbody>
+        </table>
+        {{/loading}}
       </div>
     </script>
 
@@ -317,37 +337,6 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
 
     <script type='text/html' id='ColorSwatchView'>
       <a href='#' class='swatch' style='background-color: {{ color }}' title='{{ color }}'></a>
-    </script>
-
-    <script type='text/html' id='inspector_field'>
-      <li id='field-{{ field }}'>
-        <a class='icon values' href='#'>See values</a>
-        {{#visualize}}
-          <a class='visualization-type icon unique'
-            href='#'>Unique Value</a>
-          <a class='visualization-type icon label'
-            href='#'>Label</a>
-          <a class='visualization-type icon choropleth'
-            href='#'>Choropleth</a>
-          <a class='visualization-type icon scaledPoints'
-            href='#'>Scaled points</a>
-        {{/visualize}}
-        <strong>{{ field }}</strong>
-        <em>{{ type }}</em>
-      </li>
-    </script>
-
-    <script type='text/html' id='inspector_values'>
-      <div class='inspect-values'>
-        <ul class='clearfix inspect-values field-values'>
-          <li class='min'><strong>Min</strong> {{ min }}</li>
-          <li class='max'><strong>Max</strong> {{ max }}</li>
-        </ul>
-        <div class='pager clearfix'>
-          <a class='icon prev {{ class_prev }}' href='#'>Prev</a>
-          <a class='icon next {{ class_next }}' href='#'>Next</a>
-        </div>
-      </div>
     </script>
 
     <script type='text/html' id='ReferenceView'>
