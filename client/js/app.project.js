@@ -109,7 +109,7 @@ var ProjectListView = Backbone.View.extend({
                     collection: this.collection
                 });
                 if (!pointer) {
-                    $('ul.projects', self.el).append(project.view.el);
+                    $('ul.projects', self.el).prepend(project.view.el);
                 }
                 else {
                     $(pointer).after(project.view.el);
@@ -134,6 +134,7 @@ var ProjectListView = Backbone.View.extend({
         if (success) {
             project.save(project, {
                 success: function() {
+                    $('input.text', this.el).val('');
                     that.collection.add(project);
                     window.app.done();
                 },
