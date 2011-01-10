@@ -288,7 +288,7 @@ var ProjectView = Backbone.View.extend({
                             function(s) {
                                 return s.id == err_obj.filename;
                         });
-                        $('div:nth-child(' + err_obj.line + ')',
+                        $('div.CodeMirror-line-numbers div:nth-child(' + err_obj.line + ')',
                             editor.view.codemirror.lineNumbers)
                             .addClass('syntax-error')
                             .attr('title', err_obj.message)
