@@ -160,6 +160,7 @@ var LayerPopupView = PopupView.extend({
         var success = this.model.set(
             {
                 'id': $('input#id', this.el).val(),
+                'name': $('input#id', this.el).val(),
                 'srs': $('input#srs', this.el).val(),
                 'class': $('input#class', this.el).val(),
                 'Datasource': {
