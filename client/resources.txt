@@ -1,22 +1,25 @@
+backbone (http://documentcloud.github.com/backbone) MIT
+
+base64 (http://rumkin.com) Public domain
+
 codemirror (codemirror.net) zlib
 http://codemirror.net/codemirror.zip
+
+explorercanvas (http://code.google.com/p/explorercanvas/) Apache License 2.0
+http://code.google.com/p/explorercanvas/downloads/detail?name=excanvas_r3.zip
+
+farbtastic (https://github.com/mattfarina/farbtastic) GPL
+
+headjs (headjs.com) MIT
+
+icanhaz (https://github.com/andyet/ICanHaz.js) MIT
 
 jquery (jquery.com) MIT and GPL
 http://code.jquery.com/jquery-1.4.4.min.js
 
-jquery bbq MIT and GPL
-http://benalman.com/projects/jquery-bbq-plugin/
+md5 (http://pajhome.org.uk/crypt/md5/contrib/md5-obj1.js) BSD
+
+tipsy (https://github.com/jaz303/tipsy) MIT
 
 underscore (http://documentcloud.github.com/underscore/) BSD
 http://documentcloud.github.com/underscore/underscore-min.js
-
-jquery-jsonp (http://code.google.com/p/jquery-jsonp/) MIT
-http://jquery-jsonp.googlecode.com/files/jquery.jsonp-2.1.4.min.js
-
-jquery validate (http://bassistance.de/jquery-plugins/jquery-plugin-validation/)
-http://jquery.bassistance.de/validate/jquery.validate.zip
-
-farbtastic (https://github.com/mattfarina/farbtastic), GPL
-
-explorercanvas (http://code.google.com/p/explorercanvas/), Apache License 2.0
-http://code.google.com/p/explorercanvas/downloads/detail?name=excanvas_r3.zip
