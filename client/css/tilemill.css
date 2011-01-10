@@ -804,12 +804,25 @@ table thead th {
   text-shadow:#fff 0px 1px 0px;
   }
 
-.reference-table td, th {
-  border-top:1px solid #eee;
+table td,
+table th {
   border-collapse:collapse;
-  padding:0px 5px 0px 0px;
+  padding:0px 10px 0px 0px;
   width: 25%;
+  white-space:nowrap;
+  overflow:hidden;
   }
+
+table th.header { cursor:pointer; }
+
+table.features td,
+table.features th {
+  padding:0px 10px;
+  border-right:1px solid #ddd;
+  font-size:11px;
+  }
+
+table.features .Number { text-align:right; }
 
 .reference-help p { margin:0px 0px 20px; }
 
@@ -827,7 +840,7 @@ table thead th {
   }
 
 .reference-default-meaning {
-  float:right;
+  font-size:11px;
   color:#999;
   }
 
@@ -930,4 +943,26 @@ div.syntax-error {
  * Tipsy ======================================================================
  */
 body .tipsy { font-size:11px; }
+
+/**
+ * Slideout drawer ============================================================
+ */
+.drawer {
+  background:#f8f8f8;
+  width:50%;
+  position:fixed;
+  left:-50%;
+  top:50px;
+  bottom:0px;
+  right:auto;
+  }
+
+.drawer-content {
+  overflow:auto;
+  position:absolute;
+  top:40px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  }
 

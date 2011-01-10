@@ -123,15 +123,11 @@ var LayerRowView = Backbone.View.extend({
         return false;
     },
     inspect: function() {
-        alert('@TODO inspect');
-        var layerFields = new LayerFields(
-            { id: this.model.id },
-            { project: this.project }
-        );
-        layerFields.fetch({
-            success: function(model) {
-                console.log(model);
-            },
+        new LayerFieldsView({
+            model:  new LayerFields(
+                { id: this.model.id },
+                { project: this.project }
+            )
         });
         return false;
     },
@@ -242,5 +238,64 @@ var LayerPopupView = PopupView.extend({
             $('.srs', this.el).hide();
         }
     },
+});
+
+var LayerFieldsView = Backbone.View.extend({
+    id: 'layer-fields',
+    className: 'drawer',
+    events: {
+        'click .close': 'remove'
+    },
+    initialize: function (options) {
+        _.bindAll(this, 'loading', 'render', 'remove');
+        var that = this;
+        this.loading(function() {
+            that.model.fetch({
+                'success': that.render,
+                'error': that.render
+            });
+        });
+    },
+    loading: function(callback) {
+        window.app.el.append($(this.el));
+        $(this.el).html(ich.LayerFieldsView({
+            id: this.model.id,
+            loading: true,
+            fields: []
+        }));
+        $(this.el).animate({left: '0%'}, callback);
+    },
+    render: function () {
+        var object = {
+            id: this.model.id,
+            loading: false,
+            fields: [],
+            features: []
+        };
+        for (var field in this.model.get('fields')) {
+            object.fields.push({ name: field, type: this.model.get('fields')[field] });
+        }
+        var features = this.model.get('features');
+        for (var i = 0; i < features.length; i++) {
+            var feature = features[i];
+            var featureArray = [];
+            for (var j = 0; j < object.fields.length; j++) {
+                var field = object.fields[j].name;
+                featureArray.push({
+                    value: feature[field] ? feature[field] : '',
+                    type: object.fields[j].type
+                });
+            }
+            object.features.push({ values: featureArray });
+        }
+        $(this.el).html(ich.LayerFieldsView(object));
+        $('table', this.el).tablesorter();
+        return this;
+    },
+    remove: function() {
+        $('table', this.el).remove();
+        $(this.el).animate( {left: '-50%'}, function() { $(this).remove() });
+        return false;
+    }
 });
 
