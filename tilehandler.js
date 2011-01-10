@@ -41,4 +41,4 @@ module.exports = function(app, settings) {
             }
         });
     });
-}
+};
