@@ -466,16 +466,16 @@ window.data.reference = {
                 "doc": "Displace text by fixed amount, in pixels, +/- along the Y axis.  A positive value will shift the text down",
                 "default-value": 10
             },
-            "avoid-edges": {
+            "avoid_edges": {
                 "css": "text-avoid-edges",
                 "doc": "Tell positioning algorithm to avoid labeling near intersection edges.",
                 "type": "boolean" 
             },
-            "min-distance": {
+            "min_distance": {
                 "css": "text-min-distance",
                 "type": "integer" 
             },
-            "allow-overlap": {
+            "allow_overlap": {
                 "css": "text-allow-overlap",
                 "type": "boolean",
                 "default-value": "false",
