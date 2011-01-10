@@ -14,6 +14,18 @@ var Layer = Backbone.Model.extend({
     }
 });
 
+var LayerFields = Backbone.Model.extend({
+    // @TODO either as a feature or a bug, object attributes are not set
+    // automatically when passed to the constructor. We set it manually here.
+    initialize: function(attributes, options) {
+        this.set({'fields': attributes.fields});
+        this.project = options.project;
+    },
+    url: function() {
+        return '/' + this.project.project64({ signed: true }) + '/' + this.id;
+    }
+});
+
 var LayerList = Backbone.Collection.extend({
     model: Layer,
     initialize: function(models, options) {
@@ -37,8 +49,9 @@ var LayerList = Backbone.Collection.extend({
 var LayerListView = Backbone.View.extend({
     id: 'layers',
     className: 'view',
-    initialize: function() {
+    initialize: function(options) {
         _.bindAll(this, 'render');
+        this.project = options.project;
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
         this.render();
@@ -55,6 +68,7 @@ var LayerListView = Backbone.View.extend({
         this.collection.each(function(layer) {
             if (!layer.view) {
                 layer.view = new LayerRowView({
+                    project: that.project,
                     model: layer,
                     list: that
                 });
@@ -79,10 +93,11 @@ var LayerListView = Backbone.View.extend({
 var LayerRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
-    initialize: function (params) {
+    initialize: function (options) {
         _.bindAll(this, 'render', 'edit', 'inspect', 'del');
         this.model.bind('change', this.render);
-        this.list = params.list;
+        this.project = options.project;
+        this.list = options.list;
         this.render();
     },
     render: function () {
@@ -109,6 +124,15 @@ var LayerRowView = Backbone.View.extend({
     },
     inspect: function() {
         alert('@TODO inspect');
+        var layerFields = new LayerFields(
+            { id: this.model.id },
+            { project: this.project }
+        );
+        layerFields.fetch({
+            success: function(model) {
+                console.log(model);
+            },
+        });
         return false;
     },
     del: function() {

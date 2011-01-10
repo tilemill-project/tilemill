@@ -51,9 +51,9 @@ var Project = Backbone.Model.extend({
         return '/api/project/' + this.id;
     },
     /**
-     * Layer URL based on the model URL.
+     * Base64 encode this project's MML URL.
      */
-    layerURL: function(options) {
+    project64: function(options) {
         // `window.location.origin` is not available in all browsers like
         // Firefox. @TODO This approach won't allow TileMill to be installed in
         // a subdirectory. Fix.
@@ -62,8 +62,16 @@ var Project = Backbone.Model.extend({
             var md5 = new MD5();
             url += '?' + md5.digest(JSON.stringify(this)).substr(0, 6);
         }
-        var mmlb64 = Base64.urlsafe_encode(url);
-        return [window.location.protocol, window.location.host].join('//') + '/tile/' + mmlb64 + '/${z}/${x}/${y}.png';
+        return Base64.urlsafe_encode(url);
+    },
+    /**
+     * Layer URL based on the model URL.
+     */
+    layerURL: function(options) {
+        return [window.location.protocol, window.location.host].join('//')
+            + '/tile/'
+            + this.project64(options)
+            + '/${z}/${x}/${y}.png';
     },
     validate: function(attributes) {
         if (/^[a-z0-9\-_]+$/i.test(attributes.id) === false) {
@@ -225,7 +233,8 @@ var ProjectView = Backbone.View.extend({
         $(this.el).html(ich.ProjectView(this.model));
 
         var layers = new LayerListView({
-            collection: this.model.get('Layer')
+            collection: this.model.get('Layer'),
+            project: this.model
         }),
             stylesheets = new StylesheetListView({
             collection: this.model.get('Stylesheet'),
