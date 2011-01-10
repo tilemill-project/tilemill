@@ -13,6 +13,11 @@ module.exports = function(app, settings) {
             provider: _.keys(settings.providers)
         });
     });
+    /**
+     * This endpoint is a backbone.js collection compatible REST endpoint
+     * providing datasource model objects. The models provided are read-only
+     * and cannot be created, saved or destroyed back to the server.
+     */
     app.get('/provider/:provider', function(req, res) {
         if (providers[req.params.provider]) {
             providers[req.params.provider].objects(function(objects) {
