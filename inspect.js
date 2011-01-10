@@ -30,52 +30,9 @@ module.exports = function(app, settings) {
             var id = layers[i].datasource.id;
             var layer = {
                 id: id,
-                fields: data[id] ? data[id].fields : {}
+                fields: data[id] ? data[id].fields : {},
+                features: res.map.features(i)
             };
-            for (var field in layer.fields) {
-                layer.fields[field] = {
-                    type: layer.fields[field],
-                    values: [],
-                };
-            }
-            var values = res.map.features(i);
-            for (var j = 0; j < values.length; j++) {
-                for (var field in values[j]) {
-                    var layerValues = layer.fields[field].values;
-                    var fieldValue = values[j][field];
-                    if (
-                        _.indexOf(layerValues, fieldValue)  === -1 &&
-                        fieldValue !== ''
-                    ) {
-                        layerValues.push(fieldValue);
-                    }
-                }
-            }
-            for (var field in layer.fields) {
-                if (layer.fields[field].values.length) {
-                    if (layer.fields[field].type === 'Number') {
-                        layer.fields[field].min = _.min(
-                            layer.fields[field].values,
-                            function(object) { return object; }
-                        );
-                        layer.fields[field].max = _.max(
-                            layer.fields[field].values,
-                            function(object) { return object; }
-                        );
-                    }
-                    else if (layer.fields[field].type === 'String') {
-                        layer.fields[field].min = _.min(
-                            layer.fields[field].values,
-                            function(object) { return object.length; }
-                        );
-                        layer.fields[field].max = _.max(
-                            layer.fields[field].values,
-                            function(object) { return object.length; }
-                        );
-                    }
-                }
-            }
-
             if (!req.param('layer_id')) {
                 res.layers.push(layer);
             }
