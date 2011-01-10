@@ -386,7 +386,11 @@ window.data.reference = {
             } 
         },
         "text": {
-            "face-name": {
+            "name": {
+                "css": "text-name",
+                "type": "string"
+            },
+            "face_name": {
                 "css": "text-face-name",
                 "type": "string" 
             },
