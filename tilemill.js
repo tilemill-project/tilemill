@@ -255,3 +255,4 @@ require('./tilehandler')(app, settings);
 require('./bootstrap')(app, settings);
 
 app.listen(settings.port);
+console.log('Started TileMill on port %d.', settings.port);
