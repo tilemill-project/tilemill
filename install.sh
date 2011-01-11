@@ -6,7 +6,7 @@ RUN_DIR=`pwd`
 ! test -d $VENDOR_DIR && mkdir $VENDOR_DIR
 ! test -d $SRC_DIR && mkdir $SRC_DIR
 
-if ! [ -f $VENDOR_DIR/bin/node ]; then
+if ! [ -f $RUN_DIR/bin/node ]; then
     cd $SRC_DIR
     echo "... installing node $VERSION"
     wget -q http://nodejs.org/dist/node-v$VERSION.tar.gz
@@ -16,6 +16,7 @@ if ! [ -f $VENDOR_DIR/bin/node ]; then
     make
     make install
     cd $RUN_DIR
+    cp $VENDOR_DIR/bin/node $RUN_DIR/bin/node
 else
     echo "... already installed node $VERSION"
 fi
