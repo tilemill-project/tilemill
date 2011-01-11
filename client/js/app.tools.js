@@ -89,9 +89,9 @@ var ColorSwatchesList = Backbone.Collection.extend({
 
         // Get list of models to remove.
         var remove = _.without.apply(this, [this.pluck('hex')].concat(matches));
-        var coll = this;
+        var that = this;
         _.each(remove, function(hex) {
-            coll.remove(hexMap[hex]);
+            that.remove(hexMap[hex]);
         })
 
         for (var i = 0; i < matches.length; i++) {
@@ -102,7 +102,7 @@ var ColorSwatchesList = Backbone.Collection.extend({
                 }
             });
             if (!pass) {
-                this.add(new ColorSwatch({hex: matches[i]}), {silent: true});
+                this.add(new ColorSwatch({hex: matches[i]}));
             }
         }
         // Trigger the deferred add event
@@ -122,16 +122,32 @@ var ColorSwatchesToolView = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this, 'render', 'createSwatchView');
         this.collection.bind('add', this.render);
+        this.collection.bind('remove', this.del);
         this.project = options.project;
+        $(this.el).html(ich.ColorSwatchesToolView());
     },
     render: function() {
-        $(this.el).html(ich.ColorSwatchesToolView);
-        this.collection.each(this.createSwatchView);
+        var that = this;
+        var pointer = null;
+        this.collection.each(function(swatch) {
+            if (!swatch.view) {
+                swatch.view = new ColorSwatchView({
+                    model: swatch,
+                    project:this.project
+                });
+                if (!pointer) {
+                    self.$('.swatches').prepend(swatch.view.el);
+                }
+                else {
+                    $(pointer).after(swatch.view.el);
+                }
+            }
+            pointer = swatch.view.el;
+        });
     },
-    createSwatchView: function(swatch) {
-        var swatchView = new ColorSwatchView({model: swatch, project:this.project});
-        $('.swatches', this.el).append(swatchView.el);
-    }
+    del: function(swatch) {
+        swatch.view.remove();
+    },
 });
 
 var ColorSwatchView = Backbone.View.extend({
