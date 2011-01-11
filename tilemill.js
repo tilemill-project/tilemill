@@ -63,6 +63,10 @@ app.del('/api/project/:projectId', loadProjects, function(req, res, next) {
     });
 });
 
+app.error(function(err, req, res){
+    res.send(err, 500);
+});
+
 /**
  * Project model.
  */
@@ -171,7 +175,9 @@ Project.prototype.save = function(callback) {
             var queueLength = files.length;
             for (var i = 0; i < files.length; i++) {
                 // @TODO work through stylesheet queue and save each one individually.
-                fs.writeFile(path.join(projectPath, files[i].filename), files[i].data, function(err) {
+                fs.writeFile(path.join(projectPath, files[i].filename),
+                    files[i].data,
+                    function(err) {
                     queueLength--;
                     if (queueLength === 0) {
                         queue.emit('complete');

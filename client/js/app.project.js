@@ -1,13 +1,16 @@
 var Project = Backbone.Model.extend({
-    SRS_DEFAULT: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+    SRS_DEFAULT: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 '
+    + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
     STYLESHEET_DEFAULT: [{
         id: 'style.mss',
-        data: '#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}'
+        data: '#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  '
+            + 'line-width: 0.5;\n}'
     }],
     LAYER_DEFAULT: [{
         id: 'world',
         name: 'world',
-        srs: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+        srs: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 '
+        + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
         Datasource: {
             file: 'http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip',
             type: 'shape',
@@ -57,7 +60,9 @@ var Project = Backbone.Model.extend({
         // `window.location.origin` is not available in all browsers like
         // Firefox. @TODO This approach won't allow TileMill to be installed in
         // a subdirectory. Fix.
-        var url = [window.location.protocol, window.location.host].join('//') + this.url();
+        var url = [
+            window.location.protocol,
+            window.location.host].join('//') + this.url();
         if (options.signed) {
             var md5 = new MD5();
             url += '?' + md5.digest(JSON.stringify(this)).substr(0, 6);
@@ -75,7 +80,8 @@ var Project = Backbone.Model.extend({
     },
     validate: function(attributes) {
         if (/^[a-z0-9\-_]+$/i.test(attributes.id) === false) {
-            return 'Name must contain only letters, numbers, dashes, and underscores.';
+            return 'Name must contain only letters, numbers, dashes, '
+                + 'and underscores.';
         }
     }
 });
@@ -226,7 +232,10 @@ var ProjectView = Backbone.View.extend({
         this.model.bind('change', this.changed);
         this.model.fetch({
             success: this.render,
-            error: this.render
+            error: function(err, data) {
+                var obj = $.parseJSON(data.responseText);
+                window.app.message('Error', obj.message);
+            }
         });
     },
     render: function() {
@@ -288,7 +297,9 @@ var ProjectView = Backbone.View.extend({
                             function(s) {
                                 return s.id == err_obj.filename;
                         });
-                        $('div.CodeMirror-line-numbers div:nth-child(' + err_obj.line + ')',
+                        $('div.CodeMirror-line-numbers div:nth-child('
+                            + err_obj.line
+                            + ')',
                             editor.view.codemirror.lineNumbers)
                             .addClass('syntax-error')
                             .attr('title', err_obj.message)
@@ -304,7 +315,10 @@ var ProjectView = Backbone.View.extend({
     projectInfo: function() {
         window.app.message('Project Info', {
             'tilelive_url': this.model.layerURL({signed: true}),
-            'mml_url': [window.location.protocol, window.location.host].join('//') + this.model.url()
+            'mml_url': [
+                window.location.protocol,
+                window.location.host
+            ].join('//') + this.model.url()
         }, 'projectInfo');
         return false;
     },
