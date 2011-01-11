@@ -274,8 +274,14 @@ var LayerFieldsView = Backbone.View.extend({
             loading: false,
             fields: []
         };
-        for (var field in this.model.get('fields')) {
-            object.fields.push({ name: field, type: this.model.get('fields')[field] });
+        for (var fieldId in this.model.get('fields')) {
+            var field = this.model.get('fields')[fieldId];
+            field.name = fieldId;
+            if (field.type == 'Number') {
+                field.numeric = true;
+            }
+            field.tooltip = ich.LayerFieldsToolTip(field, true);
+            object.fields.push(field);
         }
         var max_cells = 1000;
         var features = this.model.get('features');

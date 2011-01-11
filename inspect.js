@@ -30,9 +30,24 @@ module.exports = function(app, settings) {
             var id = layers[i].datasource.id;
             var layer = {
                 id: id,
-                fields: data[id] ? data[id].fields : {},
+                fields: {},
                 features: res.map.features(i)
             };
+
+            for (var fieldId in data[id].fields) {
+                layer.fields[fieldId] = {type: data[id].fields[fieldId]};
+                var field = layer.fields[fieldId];
+                var values = _.pluck(layer.features, fieldId);
+                if (field.type == 'Number') {
+                    field.min = Math.min.apply(Math, values);
+                    field.max = Math.max.apply(Math, values);
+                }
+                else if (layer.fields[fieldId].type == 'String') {
+                    field.min = _.min(values, function(value) { return value.length; }).length;
+                    field.max = _.max(values, function(value) { return value.length; }).length;
+                }
+            }
+
             if (!req.param('layer_id')) {
                 res.layers.push(layer);
             }
