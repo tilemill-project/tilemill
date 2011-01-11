@@ -167,17 +167,25 @@
             </tr>
           </thead>
           <tbody>
-            {{#features}}
-              <tr>
-                {{#values}}
-                <td class='{{type}}'>{{value}}</td>
-                {{/values}}
-              </tr>
-            {{/features}}
+            {{{rows}}}
           </tbody>
         </table>
         {{/loading}}
       </div>
+    </script>
+
+    <script type='text/html' id='LayerFieldsRowsView'>
+      {{#features}}
+        <tr>
+          {{#values}}
+          <td class='{{type}}'>{{value}}</td>
+          {{/values}}
+        </tr>
+      {{/features}}
+    </script>
+
+    <script type='text/html' id='LayerFieldsViewAllRowsButtonView'>
+      <a class="showall" href="#">Show all ({{deferredCount}} more)</a>
     </script>
 
     <script type='text/html' id='MapView'>
