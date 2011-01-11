@@ -162,7 +162,7 @@
           <thead>
             <tr>
               {{#fields}}
-                <th class='{{type}}'><a title='{{type}}'>{{name}}</a></th>
+                <th class='{{type}}'><a title='{{{tooltip}}}'>{{name}}</a></th>
               {{/fields}}
             </tr>
           </thead>
@@ -172,6 +172,18 @@
         </table>
         {{/loading}}
       </div>
+    </script>
+
+    <script type='text/html' id='LayerFieldsToolTip'>
+      <div>{{type}}</div>
+      {{#numeric}}
+      <div>Max: {{max}}</div>
+      <div>Min: {{min}}</div>
+      {{/numeric}}
+      {{^numeric}}
+      <div>Longest: {{max}}</div>
+      <div>Shortest: {{min}}</div>
+      {{/numeric}}
     </script>
 
     <script type='text/html' id='LayerFieldsRowsView'>
