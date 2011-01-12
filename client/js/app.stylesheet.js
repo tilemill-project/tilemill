@@ -161,6 +161,7 @@ var StylesheetTabView = Backbone.View.extend({
                 },
                 initCallback: function(cm) {
                     self.model.collection.parent.trigger('ready');
+                    $(cm.frame).attr('name', 'codemirror');
                 }
             });
         }
