@@ -246,7 +246,9 @@ var ProjectView = Backbone.View.extend({
             success: this.render,
             error: function(err, data) {
                 var obj = $.parseJSON(data.responseText);
-                window.app.message('Error', obj.message);
+                window.app.message('Error', obj.message, 'error', function() {
+                    window.location = '/';
+                });
             }
         });
     },

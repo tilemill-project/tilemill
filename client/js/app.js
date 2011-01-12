@@ -45,7 +45,7 @@ var App = function() {
         this.loadingView.remove();
     }
 
-    this.message = function(title, message, type) {
+    this.message = function(title, message, type, after) {
         type = type || 'status';
         if (type == 'projectInfo') {
             new PopupView({
@@ -54,7 +54,8 @@ var App = function() {
                     tilelive_url: message.tilelive_url,
                     mml_url: message.mml_url,
                     type: type
-                }, true)
+                }, true),
+                after: after
             });
         }
         else {
@@ -63,7 +64,8 @@ var App = function() {
                 content: ich.PopupMessage({
                     message: message,
                     type: type
-                }, true)
+                }, true),
+                after: after
             });
         }
     };
