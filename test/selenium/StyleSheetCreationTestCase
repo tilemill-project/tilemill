@@ -19,7 +19,7 @@
 <tr>
 	<td>type</td>
 	<td>//body</td>
-	<td> #world {&nbsp;&nbsp;&nbsp;polygon-fill: #eee;&nbsp;&nbsp;&nbsp;line-color: #ccc;&nbsp;&nbsp;&nbsp;line-width: 0.5; }&nbsp;&nbsp;.label {&nbsp;&nbsp;&nbsp;text-name: &quot;[NAME_ENGLI]&quot;;&nbsp;&nbsp;&nbsp;text-face-name: &quot;DejaVu Sans Condensed&quot;; }</td>
+	<td>#world {&nbsp;&nbsp;&nbsp;polygon-fill: #eee;&nbsp;&nbsp;&nbsp;line-color: #ccc;&nbsp;&nbsp;&nbsp;line-width: 0.5; }&nbsp;&nbsp;.label {&nbsp;&nbsp;&nbsp;text-name: &quot;[NAME_ENGLI]&quot;;&nbsp;&nbsp;&nbsp;text-face-name: &quot;DejaVu Sans Condensed&quot;; }</td>
 </tr>
 <tr>
 	<td>selectFrame</td>
