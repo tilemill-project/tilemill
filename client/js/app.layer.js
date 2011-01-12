@@ -78,7 +78,8 @@ var LayerListView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click .add': 'add'
+        'click .add': 'add',
+        'sortupdate ul': 'sortUpdate',
     },
     add: function() {
         new LayerPopupView({
@@ -87,6 +88,17 @@ var LayerListView = Backbone.View.extend({
             add: true
         });
         return false;
+    },
+    sortUpdate: function(e, ui) {
+        var that = this;
+        var rows = this.$('ul li');
+        var newCollection = [];
+        this.collection.each(function(model) {
+            var index = $.inArray(model.view.el, rows);
+            newCollection[index] = model;
+        });
+        this.collection.models = newCollection;
+        this.collection.trigger('change');
     }
 });
 
