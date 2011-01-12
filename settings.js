@@ -2,7 +2,9 @@ module.exports = {
     "port": 8889,
     "files": "files",
     "providers": {
-        "directory": { "path": "files/data" },
+        "directory": {
+            "path": "files/local_data"
+        }
     },
     'mapfile_dir': 'files/mapfiles',
     'data_dir': 'files/data',
