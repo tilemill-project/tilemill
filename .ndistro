@@ -1,3 +1,5 @@
+# module | github repo | tag | alias
+
 module senchalabs connect 0.3.0
 module visionmedia express 1.0.0
 module learnboost knox 0.0.1
@@ -6,11 +8,21 @@ module creationix step v0.0.3
 module visionmedia expresso 0.7.2
 
 # Needs tag
+# note: if no tag 'master' works...
 module documentcloud underscore
 module lucisferre node-xml2js
 module developmentseed mess.js
 module developmentseed tilelive.js
-module mapnik node-mapnik
+
+# addons
+# latest ndistro is able to download and build c++ addons,
+# but is quite buggy so we skip using it to build node-mapnik
+# see:
+#   https://github.com/visionmedia/ndistro/issues#issue/24
+#   https://github.com/visionmedia/ndistro/issues/issue/25
+
+# once the issues are resolved above this will work
+#module mapnik node-mapnik master mapnik
 
 # Build node and node-mapnik
 exec ./install.sh
