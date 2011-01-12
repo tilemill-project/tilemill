@@ -43,7 +43,7 @@
 </tr>
 <tr>
 	<td>captureEntirePageScreenshot</td>
-	<td>/var/tmp/tilemill.png</td>
+	<td>/tmp/tilemill.png</td>
 	<td></td>
 </tr>
 <tr>
