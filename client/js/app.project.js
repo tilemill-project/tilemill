@@ -3,8 +3,14 @@ var Project = Backbone.Model.extend({
     + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
     STYLESHEET_DEFAULT: [{
         id: 'style.mss',
-        data: '#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  '
-            + 'line-width: 0.5;\n}'
+        data: 'Map {\n'
+            + '  background-color: #fff;\n'
+            + '}\n\n'
+            + '#world {\n'
+            + '  polygon-fill: #eee;\n'
+            + '  line-color: #ccc;\n'
+            + '  line-width: 0.5;\n'
+            + '}'
     }],
     LAYER_DEFAULT: [{
         id: 'world',
