@@ -6,6 +6,17 @@ RUN_DIR=`pwd`
 ! test -d $VENDOR_DIR && mkdir $VENDOR_DIR
 ! test -d $SRC_DIR && mkdir $SRC_DIR
 
+# wget/curl trick borrowed from ndistro
+GET=
+which wget > /dev/null && GET="wget -q -O-"
+which curl > /dev/null && GET="curl -# -L"
+
+abort() {
+  echo "Error: $@" && exit 1
+}
+
+test -z "$GET" && abort "curl or wget required"
+
 if ! [ -f $RUN_DIR/bin/node ]; then
     cd $SRC_DIR
     echo "... installing node $VERSION"
@@ -22,10 +33,16 @@ else
 fi
 
 if ! [ -f "lib/node/mapnik/_mapnik.node" ]; then
+    echo "... fetching node-mapnik"
+    cd modules
+    url="https://github.com/mapnik/node-mapnik/tarball/master"
+    mkdir -p node-mapnik
+    cd node-mapnik
     echo "... building node-mapnik"
-    cd modules/node-mapnik
-    $RUN_DIR/build/bin/node-waf --prefix=$RUN_DIR configure build
-    $RUN_DIR/build/bin/node-waf install
+    $GET $url | \
+    tar -xz --strip 1
+    $RUN_DIR/build/bin/node-waf -v --prefix=$RUN_DIR configure build
+    $RUN_DIR/build/bin/node-waf -v install
     cd $RUN_DIR;
 else
     echo "... already built node-mapnik"
