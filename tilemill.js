@@ -81,22 +81,27 @@ Project.prototype.validate = function(stylesheets, callback) {
     Step(
         function() {
             var group = this.group();
-            _.each(stylesheets, function(stylesheet) {
-                new(mess.Parser)({
-                    filename: stylesheet.id
-                }).parse(stylesheet.data, function(err, tree) {
-                    if (!err) {
-                        try {
-                            tree.toCSS({ compress: false });
-                            group()(null);
-                        } catch (e) {
-                            group()(e);
+            if (stylesheets.length !== 0) {
+                _.each(stylesheets, function(stylesheet) {
+                    new(mess.Parser)({
+                        filename: stylesheet.id
+                    }).parse(stylesheet.data, function(err, tree) {
+                        if (!err) {
+                            try {
+                                tree.toCSS({ compress: false });
+                                group()(null);
+                            } catch (e) {
+                                group()(e);
+                            }
+                        } else {
+                            group()(err);
                         }
-                    } else {
-                        group()(err);
-                    }
+                    });
                 });
-            });
+            }
+            else {
+                group()(new Error('No stylesheets found.'));
+            }
         },
         function(err, res) {
             callback(err);
