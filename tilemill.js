@@ -37,9 +37,13 @@ app.put('/api/project/:projectId', function(req, res, next) {
     project.validate(project.Stylesheet, function(err, tree) {
         if (!err) {
             project.save(function(err) {
-                project.load(function(err, project) {
-                    res.send(project);
-                });
+                if (!err) {
+                    project.load(function(err, project) {
+                        res.send(project);
+                    });
+                } else {
+                    res.send(err, 500);
+                }
             });
         } else {
             res.send(err, 500);
@@ -150,12 +154,27 @@ Project.prototype.load = function(callback) {
 };
 
 Project.prototype.save = function(callback) {
-    var self = this;
+    var that = this;
     var projectPath = path.join(settings.files, 'project', this.id);
+
+    if (!this.Stylesheet) {
+        callback(new Error('No stylesheets found'));
+        return
+    } else {
+        _.reduce(_.pluck(this.Stylesheet, 'id'), function(memo, val) {
+            if (memo[val]) {
+                callback(new Error('Stylesheet ids must be unique.'));
+                return;
+            } else {
+                memo[val] = true;
+                return memo;
+            }
+        }, {});
+    }
 
     rmrf(projectPath, function() {
         fs.mkdir(projectPath, 0777, function() {
-            var data = _.extend({}, self);
+            var data = _.extend({}, that);
             var files = [];
             if (data.id) {
                 delete data.id;
@@ -172,7 +191,7 @@ Project.prototype.save = function(callback) {
                 });
             }
             files.push({
-                filename: self.id + '.mml',
+                filename: that.id + '.mml',
                 data: JSON.stringify(data)
             });
 
