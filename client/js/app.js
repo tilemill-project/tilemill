@@ -47,26 +47,28 @@ var App = function() {
 
     this.message = function(title, message, type, after) {
         type = type || 'status';
-        if (type == 'projectInfo') {
-            new PopupView({
-                title: title,
-                content: ich.PopupProjectInfo({
-                    tilelive_url: message.tilelive_url,
-                    mml_url: message.mml_url,
-                    type: type
-                }, true),
-                after: after
-            });
-        }
-        else {
-            new PopupView({
-                title: title,
-                content: ich.PopupMessage({
-                    message: message,
-                    type: type
-                }, true),
-                after: after
-            });
+        if (!this.activePopup) {
+            if (type == 'projectInfo') {
+                this.activePopup = new PopupView({
+                    title: title,
+                    content: ich.PopupProjectInfo({
+                        tilelive_url: message.tilelive_url,
+                        mml_url: message.mml_url,
+                        type: type
+                    }, true),
+                    after: after
+                });
+            }
+            else {
+                this.activePopup = new PopupView({
+                    title: title,
+                    content: ich.PopupMessage({
+                        message: message,
+                        type: type
+                    }, true),
+                    after: after
+                });
+            }
         }
     };
 };
