@@ -19,7 +19,7 @@ Requirements
   * Target: IE7+
   * May work: Opera 11
 * **TileMill server**
-  * ndistro
+  * ndistro >= 0.4.0
   * node 2.5
   * Mapnik 2 [SVN Revision 2488](http://svn.mapnik.org/trunk)
   * [node-mapnik](https://github.com/mapnik/node-mapnik)
