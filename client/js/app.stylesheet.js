@@ -8,7 +8,7 @@
 var Stylesheet = Backbone.Model.extend({
     initialize: function() {
         if (!this.get('data')) {
-            this.set({'data': ''});
+            this.set({ 'data': '' });
         }
     },
     validate: function(attributes) {
@@ -28,18 +28,18 @@ var Stylesheet = Backbone.Model.extend({
 var StylesheetList = Backbone.Collection.extend({
     model: Stylesheet,
     initialize: function(models, options) {
-        var self = this;
+        var that = this;
         this.parent = options.parent;
         this.bind('change', function() {
-            this.parent.set({ 'Stylesheet': self });
+            this.parent.set({ 'Stylesheet': that });
             this.parent.change();
         });
         this.bind('add', function() {
-            this.parent.set({ 'Stylesheet': self });
+            this.parent.set({ 'Stylesheet': that });
             this.parent.change();
         });
         this.bind('remove', function() {
-            this.parent.set({ 'Stylesheet': self });
+            this.parent.set({ 'Stylesheet': that });
             this.parent.change();
         });
     }
@@ -101,7 +101,9 @@ var StylesheetListView = Backbone.View.extend({
         'click .add': 'add'
     },
     add: function() {
-        new StylesheetPopupView({collection: this.collection});
+        new StylesheetPopupView({
+            collection: this.collection
+        });
         return false;
     }
 });
@@ -207,6 +209,10 @@ var StylesheetPopupView = PopupView.extend({
     },
     submit: function() {
         var id = $('input.text', this.el).val();
+        if (this.collection.get(id)) {
+            window.app.message('Error', 'Stylesheet names must be unique.');
+            return false;
+        }
         var stylesheet = new Stylesheet;
         var success = stylesheet.set(
             { id: id },
