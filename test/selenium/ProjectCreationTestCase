@@ -66,11 +66,6 @@
 	<td>//div[@id='main']/ul/li/a</td>
 	<td></td>
 </tr>
-<tr>
-	<td>waitForTextPresent</td>
-	<td>#world</td>
-	<td></td>
-</tr>
 </tbody></table>
 </body>
 </html>
