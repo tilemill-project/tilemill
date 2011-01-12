@@ -14,6 +14,7 @@ var PopupView = Backbone.View.extend({
     },
     close: function() {
         this.remove();
+        window.app.activePopup = false;
         if ($.isFunction(this.options.after)) {
             this.options.after(this);
         }
