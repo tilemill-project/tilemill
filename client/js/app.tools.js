@@ -133,7 +133,7 @@ var ColorSwatchesToolView = Backbone.View.extend({
             if (!swatch.view) {
                 swatch.view = new ColorSwatchView({
                     model: swatch,
-                    project:this.project
+                    project:that.project
                 });
                 if (!pointer) {
                     self.$('.swatches').prepend(swatch.view.el);
