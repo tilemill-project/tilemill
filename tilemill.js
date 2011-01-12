@@ -254,5 +254,7 @@ require('./tilehandler')(app, settings);
 // "Bootstrap" (aka install) the application.
 require('./bootstrap')(app, settings);
 
-app.listen(settings.port);
-console.log('Started TileMill on port %d.', settings.port);
+if (app.settings.env !== 'test') {
+    app.listen(settings.port);
+    console.log('Started TileMill on port %d.', settings.port);
+}

@@ -3,7 +3,7 @@ module visionmedia express 1.0.0
 module learnboost knox 0.0.1
 module isaacs sax-js v0.1.1
 module creationix step v0.0.3
-module visionmedia expresso 0.6.4
+module visionmedia expresso 0.7.2
 
 # Needs tag
 module documentcloud underscore
