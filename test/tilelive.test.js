@@ -42,6 +42,7 @@ module.exports = {
             }, function(res) {
                 assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
             });
+            // Get project
             assert.response(app, {
                 url: '/api/project/Test',
                 method: 'GET',
@@ -50,32 +51,38 @@ module.exports = {
             }, function(res) {
                 assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
             });
-            assert.response(app, {
-                url: '/api/project/Test',
-                method: 'PUT',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                data: project
-            }, {
-                status: 200
-            }, function(res) {
-                assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
-            });
-            assert.response(app, {url: '/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9wcm9qZWN0L1Rlc3Q_MDI3N2M0/world'}, {
-                status: 200
-            }, function(res) {
-                var data = JSON.parse(res.body);
-                assert.equal(data.id, 'world', 'Unexpected layer id');
-                assert.equal(data.features.length, 245, 'Feature count mismatch');
-            });
-            assert.response(app, {
-                url: '/api/project/Test',
-                method: 'DELETE'
-            }, {
-                status: 200
-            }, function(res) {
-                assert.equal(res.body, '{}');
+
+            fs.readFile('./test/fixtures/project2.json', 'utf8', function(err, project) {
+                // Update project
+                assert.response(app, {
+                    url: '/api/project/Test',
+                    method: 'PUT',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    data: project
+                }, {
+                    status: 200
+                }, function(res) {
+                    assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
+                });
+                // Load layer
+                assert.response(app, {url: '/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9wcm9qZWN0L1Rlc3Q_MDI3N2M0/world'}, {
+                    status: 200
+                }, function(res) {
+                    var data = JSON.parse(res.body);
+                    assert.equal(data.id, 'world', 'Unexpected layer id');
+                    assert.equal(data.features.length, 245, 'Feature count mismatch');
+                });
+                // Delete project
+                assert.response(app, {
+                    url: '/api/project/Test',
+                    method: 'DELETE'
+                }, {
+                    status: 200
+                }, function(res) {
+                    assert.equal(res.body, '{}');
+                });
             });
         });
     },
