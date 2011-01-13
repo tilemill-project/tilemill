@@ -146,6 +146,11 @@ var LayerRowView = Backbone.View.extend({
     del: function() {
         window.app.loading();
         if (confirm('Are you sure you want to delete this layer?')) {
+            // Tipsy adds the tooltips to the document root,
+            // so we need to remove these elements, otherwise we
+            // are left with a zombie 'delete' tooltip.
+            $('.tipsy').remove();
+
             this.list.collection.remove(this.model);
             this.remove();
             window.app.done();
