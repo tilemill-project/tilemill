@@ -90,7 +90,6 @@ var LayerListView = Backbone.View.extend({
         return false;
     },
     sortUpdate: function(e, ui) {
-        var that = this;
         var rows = this.$('ul li');
         var newCollection = [];
         this.collection.each(function(model) {

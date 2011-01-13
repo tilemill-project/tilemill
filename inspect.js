@@ -14,8 +14,11 @@ module.exports = function(app, settings) {
                     next(new Error('Error loading map file'));
                     return;
                 }
-                res.map = map.mapnik_map();
-                next();
+                map.mapnik_map(function(err, map){
+                    if (err) return next(new Error('Error rendering map'));
+                    res.map = map;
+                    next();
+                });
             });
         }
         else {
