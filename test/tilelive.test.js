@@ -28,7 +28,7 @@ module.exports = {
             assert.equal(data.version, 1, 'API Version');
         });
     },
-    'create project': function() {
+    'project manipulation': function() {
         fs.readFile('./test/fixtures/project1.json', 'utf8', function(err, project) {
             assert.response(app, {
                 url: '/api/project/Test',
@@ -42,10 +42,6 @@ module.exports = {
             }, function(res) {
                 assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
             });
-        });
-    },
-    'load project': function() {
-        fs.readFile('./test/fixtures/project1.json', 'utf8', function(err, project) {
             assert.response(app, {
                 url: '/api/project/Test',
                 method: 'GET',
@@ -54,10 +50,6 @@ module.exports = {
             }, function(res) {
                 assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
             });
-        });
-    },
-    'edit project': function() {
-        fs.readFile('./test/fixtures/project2.json', 'utf8', function(err, project) {
             assert.response(app, {
                 url: '/api/project/Test',
                 method: 'PUT',
@@ -70,25 +62,21 @@ module.exports = {
             }, function(res) {
                 assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
             });
-        });        
-    },
-    'load layer': function() {
-        assert.response(app, {url: '/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9wcm9qZWN0L1Rlc3Q_MDI3N2M0/world'}, {
-            status: 200
-        }, function(res) {
-            var data = JSON.parse(res.body);
-            assert.equal(data.id, 'world', 'Unexpected layer id');
-            assert.equal(data.features.length, 245, 'Feature count mismatch');
-        });
-    },
-    'delete project': function() {
-        assert.response(app, {
-            url: '/api/project/Test',
-            method: 'DELETE'
-        }, {
-            status: 200
-        }, function(res) {
-            assert.equal(res.body, '{}');
+            assert.response(app, {url: '/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9wcm9qZWN0L1Rlc3Q_MDI3N2M0/world'}, {
+                status: 200
+            }, function(res) {
+                var data = JSON.parse(res.body);
+                assert.equal(data.id, 'world', 'Unexpected layer id');
+                assert.equal(data.features.length, 245, 'Feature count mismatch');
+            });
+            assert.response(app, {
+                url: '/api/project/Test',
+                method: 'DELETE'
+            }, {
+                status: 200
+            }, function(res) {
+                assert.equal(res.body, '{}');
+            });
         });
     },
     'invalid map': function() {
