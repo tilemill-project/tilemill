@@ -72,7 +72,7 @@ var LayerListView = Backbone.View.extend({
                     model: layer,
                     list: that
                 });
-                $('ul', that.el).append(layer.view.el);
+                $('ul', that.el).prepend(layer.view.el);
             }
         });
         return this;
@@ -96,7 +96,7 @@ var LayerListView = Backbone.View.extend({
             var index = $.inArray(model.view.el, rows);
             newCollection[index] = model;
         });
-        this.collection.models = newCollection;
+        this.collection.models = newCollection.reverse();
         this.collection.trigger('change');
     }
 });
@@ -185,7 +185,8 @@ var LayerPopupView = PopupView.extend({
         var object = {
             'id': this.model.id,
             'class': this.model.get('class'),
-            'datasource_file': this.model.get('Datasource') ? this.model.get('Datasource').file : '',
+            'datasource_file': this.model.get('Datasource') ?
+                this.model.get('Datasource').file : '',
             'srs': this.model.get('srs')
         };
         object['srs_name_' + this.getSRSName(this.model.get('srs'))] = true;
