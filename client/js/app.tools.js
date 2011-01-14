@@ -196,6 +196,7 @@ var FontPickerToolView = Backbone.View.extend({
         mirror.insertIntoLine(
             mirror.cursorPosition().line,
             mirror.cursorPosition().character, '"' + this.$('select').val() + '"');
+        mirror.reparseBuffer();
         $(mirror).focus();
         this.$('select').val('');
     }
