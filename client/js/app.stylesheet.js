@@ -160,6 +160,7 @@ var StylesheetTabView = Backbone.View.extend({
                 onChange: function() {
                     // Trigger event on the project
                     self.model.collection.parent.trigger('codeMirrorChange');
+                    self.model.set({'data': self.codemirror.getCode()});
                 },
                 initCallback: function(cm) {
                     self.model.collection.parent.trigger('ready');
