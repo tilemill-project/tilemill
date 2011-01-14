@@ -104,10 +104,16 @@ var MapView = Backbone.View.extend({
             this.map.projection,
             new OpenLayers.Projection("EPSG:4326")
         );
-        this.model.set(
-            { 'center': {lat: lonlat.lat, lon: lonlat.lon, zoom: zoom} },
-            { 'silent': true }
-        );
+        this.model.set({
+            center: {
+                lat: lonlat.lat,
+                lon: lonlat.lon,
+                zoom: zoom
+            }
+        },
+        {
+            silent: true
+        });
 
         (e.element.id && $('#zoom-display', e.element).size()) &&
             $('#zoom-display', e.element)
