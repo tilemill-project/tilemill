@@ -688,9 +688,10 @@ li .icon {
 #editor .editor iframe { padding:0px; }
 
 /**
- * Color palette
+ * Color picker
  */
 #color-picker a:hover { background-color:#999; }
+.colorpicker input { line-height:13px; }
 
 /**
  * Font pallette

@@ -273,7 +273,8 @@ var ProjectView = Backbone.View.extend({
             model: this.model
         }),
             colorPicker = new ColorPickerToolView({
-            model: this.model
+            model: this.model,
+            project: this.model
         }),
             fontPicker = new FontPickerToolView({
             model: new Abilities,
