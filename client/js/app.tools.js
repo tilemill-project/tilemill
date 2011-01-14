@@ -1,7 +1,7 @@
 var ColorPickerToolView = Backbone.View.extend({
     id: 'color-picker',
     initialize: function(options) {
-        _.bindAll(this, 'activate', 'pickerChange', 'pickerHide');
+        _.bindAll(this, 'activate', 'pickerChange', 'pickerShow', 'pickerHide');
         this.colorChanged = false;
         this.project = options.project;
         this.render();
@@ -12,13 +12,21 @@ var ColorPickerToolView = Backbone.View.extend({
     },
     activate: function() {
         var that = this;
-        $('a', this.el).ColorPicker({
+        this.colorpicker = $('a', this.el).ColorPicker({
             onChange: that.pickerChange,
+            onShow: that.pickerShow,
             onHide: that.pickerHide
         });
     },
     pickerChange: function(hsb, hex, rgb) {
         this.colorChanged = hex;
+    },
+    pickerShow: function() {
+        var selection = this.project.view.stylesheets.activeTab.codemirror.selection();
+        if (selection.match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
+            $(this.colorpicker).ColorPickerSetColor(
+                selection.substring(1, selection.length));
+        }
     },
     pickerHide: function(hsb, hex, rgb) {
         if (this.colorChanged) {
