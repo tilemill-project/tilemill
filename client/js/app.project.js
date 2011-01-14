@@ -273,7 +273,8 @@ var ProjectView = Backbone.View.extend({
             model: this.model
         }),
             colorPicker = new ColorPickerToolView({
-            model: this.model
+            model: this.model,
+            project: this.model
         }),
             fontPicker = new FontPickerToolView({
             model: new Abilities,
@@ -283,7 +284,7 @@ var ProjectView = Backbone.View.extend({
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(colors.el);
         $('#sidebar', this.el).append(map.el);
-        $('#toolbar', this.el).append(colorPicker.el);
+        $('.sidebar-header', colors.el).append(colorPicker.el);
         $('#toolbar', this.el).append(fontPicker.el);
         $('#main', this.el).append(stylesheets.el);
 

@@ -1,11 +1,9 @@
 var ColorPickerToolView = Backbone.View.extend({
     id: 'color-picker',
-    className: 'pane',
-    events: {
-        'click a.color-picker': 'showPicker'
-    },
-    initialize: function() {
-        _.bindAll(this, 'activate', 'showPicker');
+    initialize: function(options) {
+        _.bindAll(this, 'activate', 'pickerChange', 'pickerHide');
+        this.colorChanged = false;
+        this.project = options.project;
         this.render();
         window.app.bind('ready', this.activate);
     },
@@ -13,16 +11,23 @@ var ColorPickerToolView = Backbone.View.extend({
         $(this.el).html(ich.ColorPickerToolView);
     },
     activate: function() {
-        var farb = $('.tilemill-farbtastic', this.el);
-        this.farbtastic = $.farbtastic(farb, {
-            callback: 'input.color',
-            width: 200,
-            height: 200
+        var that = this;
+        $('a', this.el).ColorPicker({
+            onChange: that.pickerChange,
+            onHide: that.pickerHide
         });
     },
-    showPicker: function() {
-        this.$('.tilemill-farbtastic').toggle('fast');
-        return false;
+    pickerChange: function(hsb, hex, rgb) {
+        this.colorChanged = hex;
+    },
+    pickerHide: function(hsb, hex, rgb) {
+        if (this.colorChanged) {
+            var mirror = this.project.view.stylesheets.activeTab.codemirror;
+            if (mirror.selection().match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
+                mirror.replaceSelection('#' + this.colorChanged);
+            }
+            this.colorChanged = false;
+        }
     }
 });
 

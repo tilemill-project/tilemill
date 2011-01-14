@@ -7,6 +7,7 @@
     <link rel='stylesheet' href='css/reset.css' type='text/css'/>
     <link rel='stylesheet' href='css/tilemill.css' type='text/css'/>
     <link rel='stylesheet' href='js/tipsy/src/stylesheets/tipsy.css' type='text/css'/>
+    <link rel='stylesheet' href='js/colorpicker/css/colorpicker.css' type='text/css'/>
 
     <!-- IE includes -->
     <!--[if IE]><script src="js/libraries/excanvas.compiled.js"></script><![endif]-->
@@ -20,7 +21,7 @@
     <script type='text/javascript' src='js/libraries/jquery.tablesorter.min.js'></script>
     <script type='text/javascript' src='js/libraries/ICanHaz.min.js'></script>
     <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
-    <script type='text/javascript' src='js/libraries/farbtastic.js'></script>
+    <script type='text/javascript' src='js/colorpicker/js/colorpicker.js'></script>
     <script type='text/javascript' src='js/codemirror/js/codemirror.js'></script>
     <script type='text/javascript' src='js/tipsy/src/javascripts/jquery.tipsy.js'></script>
 
@@ -49,7 +50,6 @@
         'js/libraries/jquery.tablesorter.min.js',
         'js/libraries/ICanHaz.min.js',
         'js/openlayers/OpenLayers.js',
-        'js/libraries/farbtastic.js',
         'js/codemirror/js/codemirror.js',
 
         'js/app.popup.js',
@@ -230,8 +230,6 @@
 
     <script type='text/html' id='ColorPickerToolView'>
       <a class='icon color-picker' href='#color-picker'>Color picker</a>
-      <input size='7' maxlength='7' class='color' type='text' class='text' />
-      <div class='tilemill-farbtastic'></div>
     </script>
 
     <script type='text/html' id='FontPickerToolView'>
