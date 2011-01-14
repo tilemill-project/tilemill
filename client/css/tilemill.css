@@ -595,11 +595,34 @@ li .icon {
   left:5px;
   padding:0px 5px;
   background-color:#222;
-  font-size:11px;
-  color:#eee;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   }
+
+  #map-preview #zoom-display h4 {
+    font-size:11px;
+    color:#eee;
+    float:left;
+  }
+
+  #map-preview #zoom-display .zoom-in {
+    float:left;
+    width:10px;
+    height:10px;
+    margin:5px 5px 5px 10px;
+    text-indent:-9999px;
+    background:#222 url(../images/sprite.png) -5px -45px repeat-x;
+  }
+
+  #map-preview #zoom-display .zoom-out {
+    float:left;
+    width:10px;
+    height:10px;
+    margin:5px 0 5px 0;
+    text-indent:-9999px;
+    background:#222 url(../images/sprite.png) -25px -45px repeat-x;
+  }
+
 
 #map-preview .olHandlerBoxZoomBox {
   border:2px solid #000;
