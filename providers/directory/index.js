@@ -37,7 +37,7 @@ module.exports = function(app, settings) {
               _.map(_.select(
               fs.readdirSync(path.join(settings.path, dir)),
               function(filename) {
-                return filename.match(/(.zip|.geojson)/);
+                return filename.match(/(.zip|.geojson)/i);
               }
             ),
             function(filename) {

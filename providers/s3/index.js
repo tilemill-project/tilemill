@@ -62,7 +62,8 @@ module.exports = function(app, settings) {
           // TODO: only list public files
           callback(_.map(_.filter(objects, 
             function(object) {
-              return object.Size.text !== '0'
+              return (object.Size.text !== '0') &&
+                (object.Key.text.match(/(.zip|.geojson)/i));
             }), function(object) {
             return {
               url: url.format({
