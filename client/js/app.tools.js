@@ -1,6 +1,5 @@
 var ColorPickerToolView = Backbone.View.extend({
     id: 'color-picker',
-    className: 'pane',
     events: {
         'click a.color-picker': 'showPicker'
     },

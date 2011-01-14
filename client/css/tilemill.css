@@ -690,36 +690,7 @@ li .icon {
 /**
  * Color palette
  */
-#color-picker {
-  position:absolute;
-  right:0px;
-  bottom:0px;
-  height:20px;
-  }
-
-#color-picker a {
-  background-color:#999;
-  float:right;
-  }
-
-#color-picker input.color {
-  position:fixed;
-  right:35px;
-}
-
-#color-picker a:hover { background-color:#666; }
-
-.tilemill-farbtastic {
-  background:#eee;
-  color:#fff;
-  position:absolute;
-  right:0px;
-  bottom:40px;
-
-  display:none;
-  -moz-border-radius:3px 0px 0px 0px;
-  -webkit-border-radius:3px 0px 0px 0px;
-  }
+#color-picker a:hover { background-color:#999; }
 
 /**
  * Font pallette
