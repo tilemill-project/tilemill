@@ -18,7 +18,7 @@
 </tr>
 <tr>
 	<td>waitForElementPresent</td>
-	<td>//div[@id='color-picker']/div</td>
+	<td>//div[@class='colorpicker']/div</td>
 	<td></td>
 </tr>
 <tr>
@@ -28,7 +28,7 @@
 </tr>
 <tr>
 	<td>select</td>
-	<td>//div[@id='toolbar']/div[2]/select</td>
+	<td>//div[@id='toolbar']/div[1]/select</td>
 	<td>label=DejaVu Sans Mono Bold Oblique</td>
 </tr>
 <tr>
