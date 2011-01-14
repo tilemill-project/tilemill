@@ -23,40 +23,51 @@ module.exports = function(app, settings) {
     return (Math.ceil(parseInt(n) / 1048576)) + ' MB';
   }
 
+  var lsR = function(base_dir) {
+    return _.reduce(fs.readdirSync(base_dir), function(memo, item) {
+        var p = path.join(base_dir, item);
+        var stat = fs.statSync(p);
+        if (stat.isDirectory()) {
+            var l = lsR(p);
+            memo = memo.concat(l);
+        } else {
+            memo.push([p, stat]);
+        }
+        return memo;
+    }, []);
+    return result;
+  };
+
+  var lsFilter = function(files, re) {
+    return _.filter(files, function(f) {
+        return f[0].match(re);
+    });
+  };
+
+  var toObjects = function(files, base_dir, port) {
+    return _.map(files, function(f) {
+        return {
+            url: url.format({
+                host: 'localhost:' + port,
+                protocol: 'http:',
+                pathname: path.join('/provider/directory/file/',
+                    f[0].replace(base_dir, ''))
+            }),
+            bytes: formatbyte(f[1].size),
+            id: path.basename(f[0])
+        }
+    });
+  };
+
   return {
     name: 'Local Files',
     settings: settings,
     objects: function(callback) {
       var settings = this.settings.providers.directory;
-      var port = this.settings.port;
-      callback(_.reduce(fs.readdirSync(path.join(settings.path)),
-        function(memo, dir) {
-          // directories that contain at least one MML file
-          if (fs.statSync(path.join(settings.path, dir)).isDirectory()) {
-            return memo.concat(
-              _.map(_.select(
-              fs.readdirSync(path.join(settings.path, dir)),
-              function(filename) {
-                return filename.match(/(.zip|.geojson)/i);
-              }
-            ),
-            function(filename) {
-              return {
-                url: url.format({
-                  host: 'localhost:' + port,
-                  protocol: 'http:',
-                  pathname: path.join('/provider/directory/file/', dir, filename)
-                }),
-                bytes: formatbyte(fs.statSync(path.join(settings.path, dir, filename)).size),
-                id: path.basename(filename)
-              }
-            }));
-          }
-          else {
-              return memo;
-          }
-        }
-      , []));
+      callback(toObjects(
+        lsFilter(lsR(settings.path), /(.zip|.geojson)/i),
+        settings.path,
+        this.settings.port));
     }
   };
 };
