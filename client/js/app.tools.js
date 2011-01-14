@@ -12,10 +12,24 @@ var ColorPickerToolView = Backbone.View.extend({
     },
     activate: function() {
         var that = this;
+        var visible = false;
         this.colorpicker = $('a', this.el).ColorPicker({
+            eventName: 'toggle',
             onChange: that.pickerChange,
             onShow: that.pickerShow,
             onHide: that.pickerHide
+        }).bind('click', function() {
+            if (!visible) {
+                $(this).trigger('toggle');
+                visible = true;
+            }
+            else {
+                visible = false;
+            }
+            return false;
+        });
+        $(document).bind('click', function() {
+            visible = false;
         });
     },
     pickerChange: function(hsb, hex, rgb) {
