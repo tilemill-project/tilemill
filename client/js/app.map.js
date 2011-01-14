@@ -79,6 +79,15 @@ var MapView = Backbone.View.extend({
             olMap.addControl(panzoombar);
             panzoombar.activate();
         }
+
+        $('#zoom-display .zoom-in').click($.proxy(function() {
+            this.map.zoomIn();
+        }, this));
+
+        $('#zoom-display .zoom-out').click($.proxy(function() {
+            this.map.zoomOut();
+        }, this));
+
         return this;
     },
 
@@ -115,8 +124,8 @@ var MapView = Backbone.View.extend({
             silent: true
         });
 
-        (e.element.id && $('#zoom-display', e.element).size()) &&
-            $('#zoom-display', e.element)
+        (e.element.id && $('#zoom-display h4', e.element).size()) &&
+            $('#zoom-display h4', e.element)
                 .text('Zoom level ' + this.map.getZoom());
     },
 
