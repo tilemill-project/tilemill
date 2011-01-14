@@ -289,8 +289,6 @@ var ProjectView = Backbone.View.extend({
 
         window.app.el.html(this.el);
         window.app.trigger('ready');
-        // Save project immediately to trigger validation.
-        this.saveProject();
         return this;
     },
     saveProject: function() {
