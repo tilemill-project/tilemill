@@ -165,9 +165,7 @@ var ColorSwatchView = Backbone.View.extend({
     },
     insertHex: function() {
         var mirror = this.project.view.stylesheets.activeTab.codemirror;
-        mirror.insertIntoLine(
-            mirror.cursorPosition().line,
-            mirror.cursorPosition().character, this.model.get('hex'));
+        mirror.replaceSelection(this.model.get('hex'));
         $(mirror).focus();
         return false;
     }
@@ -193,10 +191,7 @@ var FontPickerToolView = Backbone.View.extend({
     },
     insertFont: function() {
         var mirror = this.project.view.stylesheets.activeTab.codemirror;
-        mirror.insertIntoLine(
-            mirror.cursorPosition().line,
-            mirror.cursorPosition().character, '"' + this.$('select').val() + '"');
-        mirror.reparseBuffer();
+        mirror.replaceSelection('"' + this.$('select').val() + '"');
         $(mirror).focus();
         this.$('select').val('');
     }
