@@ -44,9 +44,23 @@ module.exports = function(app, settings) {
     });
   };
 
+  var isRaw = function(filename) {
+      return filename.match(/(.shp|.geojson)/i);
+  };
+
   var toObjects = function(files, base_dir, port) {
     return _.map(files, function(f) {
-        return {
+        return isRaw(f[0]) ? {
+            url: url.format({
+                protocol: 'file:',
+                host: 'localhost',
+                pathname: f[0].replace(base_dir, '')
+            }),
+            bytes: formatbyte(f[1].size),
+            id: path.basename(f[0])
+        } :
+        // files that require processing
+        {
             url: url.format({
                 host: 'localhost:' + port,
                 protocol: 'http:',
@@ -65,7 +79,7 @@ module.exports = function(app, settings) {
     objects: function(callback) {
       var settings = this.settings.providers.directory;
       callback(toObjects(
-        lsFilter(lsR(settings.path), /(.zip|.geojson)/i),
+        lsFilter(lsR(settings.path), /(.zip|.geojson|.shp)/i),
         settings.path,
         this.settings.port));
     }
