@@ -1,6 +1,8 @@
-// Require Backbone, if we're on the server, and it's not already present.
+// Require Backbone, underscore, if we're on the server.
 var Backbone = this.Backbone;
 if (!Backbone && (typeof require !== 'undefined')) Backbone = require('./backbone');
+var _ = this._;
+if (!_ && (typeof require !== 'undefined')) _ = require('underscore')._;
 
 /**
  * Model: Stylesheet
@@ -190,9 +192,29 @@ var Project = Backbone.Model.extend({
             + '/${z}/${x}/${y}.png';
     },
     validate: function(attributes) {
-        if (/^[a-z0-9\-_]+$/i.test(attributes.id) === false) {
-            return 'Name must contain only letters, numbers, dashes, '
-                + 'and underscores.';
+        // Test character set of model ID.
+        if (typeof attributes.id !== 'undefined') {
+            if (/^[a-z0-9\-_]+$/i.test(attributes.id) === false) {
+                return 'Name must contain only letters, numbers, dashes, '
+                    + 'and underscores.';
+            }
+        }
+        // Test that there is at least one stylesheet.
+        if (typeof attributes.Stylesheet !== 'undefined') {
+            var stylesheet = attributes.Stylesheet instanceof StylesheetList
+                ? attributes.Stylesheet.models
+                : attributes.Stylesheet;
+            if (stylesheet.length === 0) {
+                return 'No stylesheets found.';
+            }
+            // Test that each stylesheet has a unique ID.
+            var counts = _.reduce(_.pluck(stylesheet, 'id'), function(memo, val) {
+                memo[val] = memo[val] ? memo[val] + 1 : 1;
+                return memo;
+            }, {});
+            if (_.max(_.values(counts)) > 1) {
+                return 'Stylesheet IDs must be unique.';
+            }
         }
     }
 });
