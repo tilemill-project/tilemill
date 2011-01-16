@@ -1,17 +1,10 @@
 require.paths.unshift(__dirname + '/lib/node');
 
 var express = require('express'),
-    fs = require('fs'),
-    path = require('path'),
-    rmrf = require('./rm-rf'),
-    Step = require('step'),
-    mess = require('mess'),
-    events = require('events'),
-    _ = require('underscore')._;
+    Project = require('./project').Project,
+    ProjectList = require('./project').ProjectList,
+    settings = require('./settings');
 
-var Project = require('./project').Project;
-var ProjectList = require('./project').ProjectList;
-var settings = require('./settings');
 var app = module.exports = express.createServer();
 
 app.use(express.bodyDecoder());
@@ -44,17 +37,31 @@ app.get('/api/project/:projectId?', function(req, res, next) {
 
 app.put('/api/project/:projectId', function(req, res, next) {
     var project = new Project(req.body);
-    project.save(req.body, {
-        success: function(model, resp) { res.send(model.toJSON()) },
-        error: function(model, resp) { res.send(resp, 500); }
+    project.validateAsync({
+        success: function(project) {
+            project.save(req.body, {
+                success: function(model, resp) { res.send(model.toJSON()) },
+                error: function(model, resp) { res.send(resp, 500); }
+            });
+        },
+        error: function(project, resp) {
+            res.send(resp, 500);
+        }
     });
 });
 
 app.post('/api/project/:projectId', function(req, res, next) {
     var project = new Project(req.body);
-    project.save(req.body, {
-        success: function(model, resp) { res.send(model.toJSON()) },
-        error: function(model, resp) { res.send(resp, 500); }
+    project.validateAsync({
+        success: function(project) {
+            project.save(req.body, {
+                success: function(model, resp) { res.send(model.toJSON()) },
+                error: function(model, resp) { res.send(resp, 500); }
+            });
+        },
+        error: function(project, resp) {
+            res.send(resp, 500);
+        }
     });
 });
 
@@ -69,40 +76,6 @@ app.del('/api/project/:projectId', function(req, res, next) {
 app.error(function(err, req, res){
     res.send(err, 500);
 });
-
-/*
-Project.prototype.validate = function(stylesheets, callback) {
-    Step(
-        function() {
-            var group = this.group();
-            if (stylesheets.length !== 0) {
-                _.each(stylesheets, function(stylesheet) {
-                    new(mess.Parser)({
-                        filename: stylesheet.id
-                    }).parse(stylesheet.data, function(err, tree) {
-                        if (!err) {
-                            try {
-                                tree.toCSS({ compress: false });
-                                group()(null);
-                            } catch (e) {
-                                group()(e);
-                            }
-                        } else {
-                            group()(err);
-                        }
-                    });
-                });
-            }
-            else {
-                group()(new Error('No stylesheets found.'));
-            }
-        },
-        function(err, res) {
-            callback(err);
-        }
-    );
-};
-*/
 
 require('./providers/providers')(app, settings);
 require('./inspect')(app, settings);
