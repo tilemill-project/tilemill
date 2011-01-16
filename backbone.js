@@ -37,31 +37,36 @@ function find(model, success, error) {
         }
         var object = JSON.parse(data);
         if (data && object) {
-            _.extend(model, object);
-        }
-        if (model.Stylesheet && model.Stylesheet.length > 0) {
-            var queue = new events.EventEmitter;
-            var queueLength = model.Stylesheet.length;
-            _.each(model.Stylesheet, function(filename, key) {
-                fs.readFile(path.join(projectPath, filename),
-                'utf-8',
-                function(err, data) {
-                    model.Stylesheet[key] = {
-                        id: filename,
-                        data: data
-                    };
-                    queueLength--;
-                    if (queueLength === 0) {
-                        queue.emit('complete');
-                    }
+            // Set the object ID explicitly for multiple-load scenarios where
+            // model parse()/set() is bypassed.
+            object.id = model.id;
+            if (object.Stylesheet && object.Stylesheet.length > 0) {
+                var queue = new events.EventEmitter;
+                var queueLength = object.Stylesheet.length;
+                _.each(object.Stylesheet, function(filename, key) {
+                    fs.readFile(path.join(projectPath, filename),
+                    'utf-8',
+                    function(err, data) {
+                        object.Stylesheet[key] = {
+                            id: filename,
+                            data: data
+                        };
+                        queueLength--;
+                        if (queueLength === 0) {
+                            queue.emit('complete');
+                        }
+                    });
                 });
-            });
-            queue.on('complete', function() {
-                return success(model);
-            });
+                queue.on('complete', function() {
+                    return success(object);
+                });
+            }
+            else {
+                return success(object);
+            }
         }
         else {
-            return success(model);
+            return error(new Error('Error parsing project JSON.'));
         }
     });
 };
@@ -144,16 +149,14 @@ function save(model, success, error) {
 
     rmrf(projectPath, function() {
         fs.mkdir(projectPath, 0777, function() {
-            var data = _.extend({}, model.toJSON());
+            // Hard clone the model JSON before doing adjustments to the data
+            // based on writing separate stylesheets.
+            var data = JSON.parse(JSON.stringify(model.toJSON()));
             var files = [];
             if (data.id) {
                 delete data.id;
             }
             if (data.Stylesheet) {
-                // Use _.extend() to create a clone of the Stylesheets object.
-                // We want to retain the original data for returning the model
-                // on success.
-                data.Stylesheet = _.extend({}, data.Stylesheet);
                 _.each(data.Stylesheet, function(stylesheet, key) {
                     if (stylesheet.id) {
                         files.push({
