@@ -44,7 +44,7 @@ app.get('/api/project/:projectId?', function(req, res, next) {
 
 app.put('/api/project/:projectId', function(req, res, next) {
     var project = new Project(req.body);
-    project.save({}, {
+    project.save(req.body, {
         success: function(model, resp) { res.send(model.toJSON()) },
         error: function(model, resp) { res.send(resp, 500); }
     });
@@ -52,7 +52,7 @@ app.put('/api/project/:projectId', function(req, res, next) {
 
 app.post('/api/project/:projectId', function(req, res, next) {
     var project = new Project(req.body);
-    project.save({}, {
+    project.save(req.body, {
         success: function(model, resp) { res.send(model.toJSON()) },
         error: function(model, resp) { res.send(resp, 500); }
     });
