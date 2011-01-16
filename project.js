@@ -123,7 +123,13 @@ var Project = Backbone.Model.extend({
             id: 'world'
         }
     }],
-    initialize: function(attributes) {
+    /**
+     * Custom setDefaults() method for creating a project with default layers,
+     * stylesheets, etc. Note that we do not use Backbone native initialize()
+     * or defaults(), both of which make default values far pervasive than the
+     * expected use here.
+     */
+    setDefaults: function() {
         if (!this.get('srs')) {
             this.set({'srs': this.SRS_DEFAULT});
         }
