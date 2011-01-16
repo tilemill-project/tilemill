@@ -41,12 +41,18 @@ var ColorPickerToolView = Backbone.View.extend({
             $(this.colorpicker).ColorPickerSetColor(
                 selection.substring(1, selection.length));
         }
+        else if (selection.match(/[A-Fa-f0-9]{6}\b|[A-Fa-f0-9]{3}\b/g)) {
+            $(this.colorpicker).ColorPickerSetColor(selection);
+        }
     },
     pickerHide: function(hsb, hex, rgb) {
         if (this.colorChanged) {
             var mirror = this.project.view.stylesheets.activeTab.codemirror;
             if (mirror.selection().match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
                 mirror.replaceSelection('#' + this.colorChanged);
+            }
+            else if (mirror.selection().match(/[A-Fa-f0-9]{6}\b|[A-Fa-f0-9]{3}\b/g)) {
+                mirror.replaceSelection(this.colorChanged);
             }
             this.colorChanged = false;
         }
