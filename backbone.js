@@ -1,3 +1,7 @@
+/**
+ * Server-side Backbone implementation for TileMill. This module should be
+ * required instead of directly requiring Backbone.
+ */
 var _ = require('underscore')._,
     Backbone = require('./modules/backbone/backbone.js'),
     settings = require('./settings'),
@@ -7,13 +11,17 @@ var _ = require('underscore')._,
     Step = require('step'),
     path = require('path');
 
+/**
+ * Override Backbone.sync() for the server-side context. Uses TileMill-specific
+ * file storage methods for model CRUD operations.
+ */
 Backbone.sync = function(method, model, success, error) {
     switch (method) {
     case 'read':
         if (model.id) {
-            find(model, success, error);
+            load(model, success, error);
         } else {
-            findAll(success, error);
+            loadAll(success, error);
         }
         break;
     case 'create':
@@ -28,7 +36,10 @@ Backbone.sync = function(method, model, success, error) {
     }
 };
 
-function find(model, success, error) {
+/**
+ * Load a single model. Requires that model.id be populated.
+ */
+function load(model, success, error) {
     var projectPath = path.join(settings.files, 'project', model.id);
     fs.readFile(path.join(projectPath, model.id + '.mml'), 'utf-8',
     function(err, data) {
@@ -71,7 +82,10 @@ function find(model, success, error) {
     });
 };
 
-function findAll(success, error) {
+/**
+ * Load an array of all models.
+ */
+function loadAll(success, error) {
     var loaded = [];
     var queue = new events.EventEmitter;
     var basepath = path.join(settings.files, 'project');
@@ -86,7 +100,7 @@ function findAll(success, error) {
             }
             var queueLength = files.length;
             for (var i = 0; i < files.length; i++) {
-                find(
+                load(
                     {id: files[i]},
                     function(model) {
                         loaded.push(model);
@@ -110,15 +124,24 @@ function findAll(success, error) {
     });
 };
 
+/**
+ * Create a new model.
+ */
 function create(model, success, error) {
     // @TODO assign a model id if not present.
     save(model, success, error);
 };
 
+/**
+ * Update an existing model.
+ */
 function update(model, success, error) {
     save(model, success, error);
 };
 
+/**
+ * Destroy (delete, remove, etc.) a model.
+ */
 function destroy(model, success, error) {
     var projectPath = path.join(settings.files, 'project', model.id);
     rmrf(projectPath, function() {
@@ -126,26 +149,11 @@ function destroy(model, success, error) {
     });
 };
 
+/**
+ * Save a model. Called by create/update.
+ */
 function save(model, success, error) {
     var projectPath = path.join(settings.files, 'project', model.id);
-
-    /*
-    @TODO: this is validation logic.
-    if (!this.Stylesheet) {
-        callback(new Error('No stylesheets found'));
-        return
-    } else {
-        _.reduce(_.pluck(this.Stylesheet, 'id'), function(memo, val) {
-            if (memo[val]) {
-                callback(new Error('Stylesheet ids must be unique.'));
-                return;
-            } else {
-                memo[val] = true;
-                return memo;
-            }
-        }, {});
-    }
-    */
 
     rmrf(projectPath, function() {
         fs.mkdir(projectPath, 0777, function() {
@@ -175,7 +183,6 @@ function save(model, success, error) {
             var queue = new events.EventEmitter;
             var queueLength = files.length;
             for (var i = 0; i < files.length; i++) {
-                // @TODO work through stylesheet queue and save each one individually.
                 fs.writeFile(path.join(projectPath, files[i].filename),
                     files[i].data,
                     function(err) {
