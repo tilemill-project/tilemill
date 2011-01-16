@@ -150,10 +150,12 @@ var Project = Backbone.Model.extend({
             });
         }
     },
+    /**
+     * Instantiate StylesheetList and LayerList collections from JSON lists
+     * of plain JSON objects.
+     */
     parse: function(response) {
         var self = this;
-        // Instantiate StylesheetList and LayerList collections from JSON lists
-        // of plain JSON objects.
         response.Stylesheet = new StylesheetList(response.Stylesheet ?
                 response.Stylesheet :
                 [], { parent: this });
@@ -161,8 +163,10 @@ var Project = Backbone.Model.extend({
                 response.Layer : [], { parent: this });
         return response;
     },
-    // Override url() method for convenience so we don't always need a
-    // collection reference around for CRUD operations on a single model.
+    /**
+     * Override url() method for convenience so we don't always need a
+     * collection reference around for CRUD operations on a single model.
+     */
     url: function() {
         return '/api/project/' + this.id;
     },
@@ -191,6 +195,9 @@ var Project = Backbone.Model.extend({
             + this.project64(options)
             + '/${z}/${x}/${y}.png';
     },
+    /**
+     * Native Backbone validation method.
+     */
     validate: function(attributes) {
         // Test character set of model ID.
         if (typeof attributes.id !== 'undefined') {
@@ -216,6 +223,58 @@ var Project = Backbone.Model.extend({
                 return 'Stylesheet IDs must be unique.';
             }
         }
+    },
+    /**
+     * Custom validation method that allows for asynchronous processing.
+     * Expects options.success and options.error callbacks to be consistent
+     * with other Backbone methods.
+     */
+    validateAsync: function(options) {
+        // If client-side, pass-through.
+        if (typeof require === 'undefined') { options.success(this, null) }
+
+        var Step = require('step');
+        var mess = require('mess');
+        var that = this;
+        var stylesheets = this.get('Stylesheet');
+        var stylesheets = stylesheets instanceof StylesheetList
+            ? stylesheets.toJSON()
+            : stylesheets;
+
+        Step(
+            function() {
+                var group = this.group();
+                if (stylesheets.length !== 0) {
+                    _.each(stylesheets, function(stylesheet) {
+                        new(mess.Parser)({
+                            filename: stylesheet.id
+                        }).parse(stylesheet.data, function(err, tree) {
+                            if (!err) {
+                                try {
+                                    tree.toCSS({ compress: false });
+                                    group()(null);
+                                } catch (e) {
+                                    group()(e);
+                                }
+                            } else {
+                                group()(err);
+                            }
+                        });
+                    });
+                }
+                else {
+                    group()(new Error('No stylesheets found.'));
+                }
+            },
+            function(err, res) {
+                if (err) {
+                    options.error(that, err);
+                }
+                else {
+                    options.success(that, null);
+                }
+            }
+        );
     }
 });
 
