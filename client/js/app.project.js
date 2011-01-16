@@ -57,6 +57,7 @@ var ProjectListView = Backbone.View.extend({
             { error: this.showError }
         );
         if (success) {
+            project.setDefaults();
             project.save(project, {
                 success: function() {
                     $('input.text', this.el).val('');
