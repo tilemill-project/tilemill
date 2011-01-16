@@ -82,7 +82,7 @@ function findAll(success, error) {
                 return error(new Error('Error reading projects directory.'));
             }
             else if (files.length === 0) {
-                next();
+                return success(loaded);
             }
             var queueLength = files.length;
             for (var i = 0; i < files.length; i++) {
