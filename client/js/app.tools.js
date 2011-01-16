@@ -51,7 +51,7 @@ var ColorPickerToolView = Backbone.View.extend({
             if (mirror.selection().match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
                 mirror.replaceSelection('#' + this.colorChanged);
             }
-            else if (mirror.selection().match(/[A-Fa-f0-9]{6}\b|[A-Fa-f0-9]{3}\b/g)) {
+            else if (mirror.selection().match(/^[A-Fa-f0-9]{6}\b|^[A-Fa-f0-9]{3}\b/g)) {
                 mirror.replaceSelection(this.colorChanged);
             }
             this.colorChanged = false;
@@ -198,7 +198,14 @@ var ColorSwatchView = Backbone.View.extend({
     },
     insertHex: function() {
         var mirror = this.project.view.stylesheets.activeTab.codemirror;
-        mirror.replaceSelection(this.model.get('hex'));
+        var pos = mirror.cursorPosition();
+        var hex = this.model.get('hex');
+        if (mirror.lineContent(pos.line).charAt(pos.character-1) == '#') {
+            mirror.replaceSelection(hex.slice(1));
+        }
+        else {
+            mirror.replaceSelection(hex);
+        }
         $(mirror).focus();
         return false;
     }
