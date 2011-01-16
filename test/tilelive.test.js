@@ -1,6 +1,7 @@
 require.paths.unshift(__dirname + '/../lib/node', __dirname + '/../');
 var assert = require('assert');
 var fs = require('fs');
+var _ = require('underscore')._;
 
 var app = require('tilemill');
 var inspect = require('inspect');
@@ -40,7 +41,7 @@ module.exports = {
             }, {
                 status: 200
             }, function(res) {
-                assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
+                assert.deepEqual(JSON.parse(res.body), JSON.parse(project));
             });
             // Get project
             assert.response(app, {
@@ -49,7 +50,7 @@ module.exports = {
             }, {
                 status: 200
             }, function(res) {
-                assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
+                assert.deepEqual(JSON.parse(res.body), JSON.parse(project));
             });
 
             fs.readFile('./test/fixtures/project2.json', 'utf8', function(err, project) {
@@ -64,7 +65,7 @@ module.exports = {
                 }, {
                     status: 200
                 }, function(res) {
-                    assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
+                    assert.deepEqual(JSON.parse(res.body), JSON.parse(project));
                 });
                 // Load layer
                 assert.response(app, {url: '/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9wcm9qZWN0L1Rlc3Q_MDI3N2M0/world'}, {
