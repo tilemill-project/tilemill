@@ -73,7 +73,7 @@ function load(model, callback) {
                 },
                 function(err, files) {
                     _.each(object.Stylesheet, function(filename, index) {
-                        if (files[index]) {
+                        if (typeof files[index] !== 'undefined') {
                             object.Stylesheet[index] = {
                                 id: filename,
                                 data: files[index]
