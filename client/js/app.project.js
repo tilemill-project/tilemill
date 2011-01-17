@@ -193,14 +193,20 @@ var ProjectView = Backbone.View.extend({
     },
     saveProject: function() {
         var that = this;
+
+        // Clear out validation error markers. They will be re-drawn if this
+        // save event encounters further errors.
+        $('.CodeMirror-line-numbers div')
+            .removeClass('syntax-error')
+            .attr('title', '')
+            .unbind('mouseenter mouseleave'); // Removes tipsy.
+        $('a.tab.hasError', self.el).removeClass('hasError')
+        $('.tipsy').remove();
+
         this.model.save(this.model, {
             success: function() {
                 that.model.trigger('save');
                 $('#header a.save', self.el).removeClass('changed');
-                $('.CodeMirror-line-numbers div')
-                    .removeClass('syntax-error')
-                    .attr('title', '')
-                    .unbind('mouseenter mouseleave'); // Removes tipsy.
             },
             error: function(err, data) {
                 if (typeof data === 'string') {
@@ -220,6 +226,7 @@ var ProjectView = Backbone.View.extend({
                             .addClass('syntax-error')
                             .attr('title', err_obj.message)
                             .tipsy({gravity: 'w'});
+                        $(editor.view.el).addClass('hasError');
                     } else {
                         window.app.message('Error', err_obj.message);
                     }
