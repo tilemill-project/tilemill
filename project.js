@@ -71,6 +71,9 @@ var Layer = Backbone.Model.extend({
         if (attributes['class'] && /^[a-z0-9\-_ ]+$/i.test(attributes['class']) === false) {
             return 'Class must contain only letters, numbers, dashes, and underscores.';
         }
+        if (attributes.Datasource && !attributes.Datasource.file) {
+            return 'Supplying a datasource is required.';
+        }
     }
 });
 
