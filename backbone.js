@@ -50,7 +50,11 @@ Backbone.sync = function(method, model, success, error) {
  */
 function load(model, callback) {
     var modelPath = path.join(settings.files, model.type, model.id);
-    fs.readFile(path.join(modelPath, model.id + '.mml'), 'utf-8',
+    var extension = 'json';
+    if (model.type == 'project') {
+        extension = 'mml';
+    }
+    fs.readFile(path.join(modelPath, model.id + '.' + extension), 'utf-8',
     function(err, data) {
         if (err || !data || !JSON.parse(data)) {
             return callback(new Error('Error reading model file.'));
@@ -200,7 +204,11 @@ function save(model, callback) {
                 }
             }
             else {
-                // TODO: Handle cases that are not specific to projects.
+                fs.writeFile(
+                    path.join(modelPath, model.id + '.json'),
+                    JSON.stringify(model.toJSON()),
+                    this
+                );
             }
         },
         function() {
