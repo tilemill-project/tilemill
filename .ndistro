@@ -6,6 +6,7 @@ module learnboost knox 0.0.2
 module isaacs sax-js v0.1.1
 module creationix step v0.0.3
 module visionmedia expresso 0.7.2
+module documentcloud backbone 0.3.3
 
 # Needs tag
 # note: if no tag 'master' works...

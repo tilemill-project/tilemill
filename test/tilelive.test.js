@@ -1,6 +1,7 @@
 require.paths.unshift(__dirname + '/../lib/node', __dirname + '/../');
 var assert = require('assert');
 var fs = require('fs');
+var _ = require('underscore')._;
 
 var app = require('tilemill');
 var inspect = require('inspect');
@@ -40,7 +41,7 @@ module.exports = {
             }, {
                 status: 200
             }, function(res) {
-                assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
+                assert.deepEqual(JSON.parse(res.body), JSON.parse(project));
             });
             // Get project
             assert.response(app, {
@@ -49,9 +50,75 @@ module.exports = {
             }, {
                 status: 200
             }, function(res) {
-                assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
+                assert.deepEqual(JSON.parse(res.body), JSON.parse(project));
             });
-
+            // Validation: Name must contain specified characters.
+            var invalid = _.extend(JSON.parse(project), { id: 'Bad !@!ID' });
+            assert.response(app, {
+                url: '/api/project/Test',
+                method: 'PUT',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                data: JSON.stringify(invalid)
+            }, {
+                status: 500
+            }, function(res) {
+                assert.equal(res.body, 'Name must contain only letters, numbers, dashes, and underscores.');
+            });
+            // Validation: No stylesheets found.
+            var invalid = _.extend(JSON.parse(project), {
+                Stylesheet: []
+            });
+            assert.response(app, {
+                url: '/api/project/Test',
+                method: 'PUT',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                data: JSON.stringify(invalid)
+            }, {
+                status: 500
+            }, function(res) {
+                assert.equal(res.body, 'No stylesheets found.');
+            });
+            // Validation: Stylesheet IDs must be unique.
+            var invalid = _.extend(JSON.parse(project), {
+                Stylesheet: [
+                    { id: 'foo', data: '' },
+                    { id: 'foo', data: '' }
+                ]
+            });
+            assert.response(app, {
+                url: '/api/project/Test',
+                method: 'PUT',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                data: JSON.stringify(invalid)
+            }, {
+                status: 500
+            }, function(res) {
+                assert.equal(res.body, 'Stylesheet IDs must be unique.');
+            });
+            // Validation: Stylesheet syntax validation.
+            var invalid = _.extend(JSON.parse(project), {
+                Stylesheet: [
+                    { id: 'style.mss', data: '#world {  polygon-fill: eee; }' },
+                ]
+            });
+            assert.response(app, {
+                url: '/api/project/Test',
+                method: 'PUT',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                data: JSON.stringify(invalid)
+            }, {
+                status: 500
+            }, function(res) {
+                assert.equal(JSON.parse(res.body).message, 'Invalid value for polygon-fill, a color is expected');
+            });
             fs.readFile('./test/fixtures/project2.json', 'utf8', function(err, project) {
                 // Update project
                 assert.response(app, {
@@ -64,7 +131,7 @@ module.exports = {
                 }, {
                     status: 200
                 }, function(res) {
-                    assert.equal(JSON.stringify(JSON.parse(res.body)), JSON.stringify(JSON.parse(project)));
+                    assert.deepEqual(JSON.parse(res.body), JSON.parse(project));
                 });
                 // Load layer
                 assert.response(app, {url: '/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9wcm9qZWN0L1Rlc3Q_MDI3N2M0/world'}, {
