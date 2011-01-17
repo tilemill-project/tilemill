@@ -151,6 +151,10 @@ var Project = Backbone.Model.extend({
         }
     }],
     /**
+     * Model name used for storage.
+     */
+    type: 'project',
+    /**
      * Custom setDefaults() method for creating a project with default layers,
      * stylesheets, etc. Note that we do not use Backbone native initialize()
      * or defaults(), both of which make default values far pervasive than the
@@ -311,6 +315,10 @@ var Project = Backbone.Model.extend({
 var ProjectList = Backbone.Collection.extend({
     model: Project,
     url: '/api/project',
+    /**
+     * Model name used for storage.
+     */
+    type: 'project',
     comparator: function(project) {
         return project.get('id');
     }
