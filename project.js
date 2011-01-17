@@ -51,6 +51,13 @@ var StylesheetList = Backbone.Collection.extend({
     }
 });
 
+/**
+ * Model: Layer
+ *
+ * This model is *not* backed directly by the server.
+ * It is a child model of Project and is saved serialized as part of the parent
+ * Project model.
+ */
 var Layer = Backbone.Model.extend({
     // @TODO either as a feature or a bug, object attributes are not set
     // automatically when passed to the constructor. We set it manually here.
@@ -67,18 +74,13 @@ var Layer = Backbone.Model.extend({
     }
 });
 
-var LayerFields = Backbone.Model.extend({
-    // @TODO either as a feature or a bug, object attributes are not set
-    // automatically when passed to the constructor. We set it manually here.
-    initialize: function(attributes, options) {
-        this.set({'fields': attributes.fields});
-        this.project = options.project;
-    },
-    url: function() {
-        return '/' + this.project.project64({ signed: true }) + '/' + this.id;
-    }
-});
-
+/**
+ * Collection: LayerList
+ *
+ * This collection is *not* backed directly by the server.
+ * This collection is a child of the Project model. When it is updated
+ * (add/remove events) it updates the attributes of its parent model as well.
+ */
 var LayerList = Backbone.Collection.extend({
     model: Layer,
     initialize: function(models, options) {
@@ -99,6 +101,29 @@ var LayerList = Backbone.Collection.extend({
     },
 });
 
+/**
+ * Model: LayerFields
+ *
+ * This is a read-only model of inspection metadata about a map layer.
+ */
+var LayerFields = Backbone.Model.extend({
+    // @TODO either as a feature or a bug, object attributes are not set
+    // automatically when passed to the constructor. We set it manually here.
+    initialize: function(attributes, options) {
+        this.set({'fields': attributes.fields});
+        this.project = options.project;
+    },
+    url: function() {
+        return '/' + this.project.project64({ signed: true }) + '/' + this.id;
+    }
+});
+
+/**
+ * Model: Project
+ *
+ * This model represents a single TileMill project. It is used both client-side
+ * and server-side for setting defaults and handling validation.
+ */
 var Project = Backbone.Model.extend({
     SRS_DEFAULT: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 '
     + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
@@ -278,6 +303,11 @@ var Project = Backbone.Model.extend({
     }
 });
 
+/**
+ * Collection: ProjectList
+ *
+ * Collection of project models.
+ */
 var ProjectList = Backbone.Collection.extend({
     model: Project,
     url: '/api/project',
