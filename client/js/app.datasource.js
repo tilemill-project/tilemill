@@ -4,13 +4,19 @@ var Datasource = Backbone.Model.extend({
 var DatasourceListS3 = Backbone.Collection.extend({
     model: Datasource,
     url: '/provider/s3',
-    title: 'Amazon S3'
+    title: 'Amazon S3',
+    comparator: function(model) {
+        return model.id;
+    }
 });
 
 var DatasourceListDirectory = Backbone.Collection.extend({
     model: Datasource,
     url: '/provider/directory',
-    title: 'Local directory'
+    title: 'Local directory',
+    comparator: function(model) {
+        return model.id;
+    }
 });
 
 var DatasourceListView = Backbone.View.extend({
