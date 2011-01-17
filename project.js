@@ -288,7 +288,7 @@ var Project = Backbone.Model.extend({
                     });
                 }
                 else {
-                    group()(new Error('No stylesheets found.'));
+                    group()('No stylesheets found.');
                 }
             },
             function(err, res) {
