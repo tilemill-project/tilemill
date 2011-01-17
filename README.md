@@ -19,10 +19,10 @@ Requirements
   * Target: IE7+
   * May work: Opera 11
 * **TileMill server**
-  * ndistro >= 0.4.0
+  * ndistro >= 0.4.0 or latest version
   * node 2.5
-  * Mapnik 2 [SVN Revision 2488](http://svn.mapnik.org/trunk)
-  * [node-mapnik](https://github.com/mapnik/node-mapnik)
+  * Mapnik 2 [at least revision 2488](http://svn.mapnik.org/trunk)
+  * node-mapnik [latest master](https://github.com/mapnik/node-mapnik)
 
 Setup
 -----
@@ -34,10 +34,10 @@ Setup
 
 ## Building
 
-* Build and install Mapnik 2 (latest trunk).
+* Build and install Mapnik 2 (latest trunk)
 * Install [ndistro](https://github.com/visionmedia/ndistro)
 
-        cd /usr/local/bin && curl http://github.com/visionmedia/ndistro/raw/master/install | sh
+        cd /usr/local/bin && curl https://github.com/visionmedia/ndistro/raw/master/install | sh
 
 * Build TileMill dependencies by running ndistro from the TileMill directory
 
