@@ -43,6 +43,15 @@ module.exports = {
             }, function(res) {
                 assert.deepEqual(JSON.parse(res.body), JSON.parse(project));
             });
+            // Get all projects
+            assert.response(app, {
+                url: '/api/project',
+                method: 'GET',
+            }, {
+                status: 200
+            }, function(res) {
+                assert.deepEqual(JSON.parse(res.body).pop(), JSON.parse(project));
+            });
             // Get project
             assert.response(app, {
                 url: '/api/project/Test',
