@@ -203,7 +203,9 @@ var ProjectView = Backbone.View.extend({
                     .unbind('mouseenter mouseleave'); // Removes tipsy.
             },
             error: function(err, data) {
-                if (data.status == 500) {
+                if (typeof data === 'string') {
+                    window.app.message('Error', data);
+                } else if (data.status == 500) {
                     var err_obj = $.parseJSON(data.responseText);
                     if (err_obj.line) {
                         var editor = _.detect(
