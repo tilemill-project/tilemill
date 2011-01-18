@@ -31,7 +31,7 @@ var LayerListView = Backbone.View.extend({
     },
     events: {
         'click .add': 'add',
-        'sortupdate ul': 'sortUpdate',
+        'sortupdate ul': 'sortUpdate'
     },
     add: function() {
         new LayerPopupView({
