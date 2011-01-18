@@ -76,6 +76,7 @@ h3 { font-size:13px; }
     padding:0px 10px;
     -moz-border-radius:3px;
     -webkit-border-radius:3px;
+    margin:0px 5px;
     }
 
   #header .links a,
@@ -110,7 +111,6 @@ h3 { font-size:13px; }
   #header .actions a {
     background-color:#e4e4e4;
     color:#666;
-    margin:0px 5px;
     }
 
   #header .actions a:hover {
@@ -355,6 +355,10 @@ form div.buttons {
   border:0px;
   padding:5px 0px 5px 110px;
   }
+  
+span.required {
+  color: #f73205;
+}
 
 /**
  * ProjectView layout
@@ -688,6 +692,12 @@ li .icon {
   padding-bottom:5px;
   }
 
+#tabs a.hasError {
+  color:#666;
+  background:#fcf4a0;
+  border-color:#ddb;
+  }
+
 #editor {
   overflow:auto;
   position:absolute;
@@ -747,6 +757,10 @@ li .icon {
   right:0;
   }
 
+  .overlay .popup-backdrop {
+    display:none;
+    }
+
 .popup {
   z-index:5000;
   position:absolute;
@@ -764,6 +778,13 @@ li .icon {
   -webkit-box-shadow:#666 0px 1px 10px;
   }
 
+  .overlay .popup {
+    top:auto;
+    left:auto;
+    right:20px;
+    bottom:20px;
+    }
+
 .popup-header {
   -moz-border-radius:3px 3px 0px 0px;
   -webkit-border-radius:3px 3px 0px 0px;
@@ -778,6 +799,29 @@ a.tab-add,
 a#layers-add,
 a.close,
 a.inspector-close { background-color:#666; }
+
+/**
+ * DropdownView
+ */
+
+.DropdownView {
+  position:relative;
+  float:left;
+}
+
+.DropdownView .dropdown-content {
+  z-index:5000;
+  display:none;
+  background: #666;
+  position:absolute;
+  padding:5px 10px;
+  top:20px;
+  left:5px;
+  }
+
+.DropdownView .dropdown-content.expanded {
+  display:block;
+  }
 
 /**
  * Reference page
@@ -938,9 +982,7 @@ textarea.code-snippet {
   padding:0 10px;
   }
 
-div.syntax-error {
-  background-color:#FDF59F;
-  }
+div.syntax-error { background-color:#fcf4a0; }
 
 /**
  * Tipsy ======================================================================

@@ -1,8 +1,11 @@
 // Require Backbone, underscore, if we're on the server.
-var Backbone = this.Backbone;
-if (!Backbone && (typeof require !== 'undefined')) Backbone = require('./backbone');
-var _ = this._;
-if (!_ && (typeof require !== 'undefined')) _ = require('underscore')._;
+// @TODO if we use the keyword 'var' in front of Backbone, _, IE will wipe the
+// globally defined Backbone and underscore leaving us with broken objects.
+// This is obviously not ideal.
+if (typeof require !== 'undefined') {
+    Backbone = require('./backbone');
+    _ = require('underscore')._;
+}
 
 /**
  * Model: Stylesheet
@@ -71,6 +74,9 @@ var Layer = Backbone.Model.extend({
         if (attributes['class'] && /^[a-z0-9\-_ ]+$/i.test(attributes['class']) === false) {
             return 'Class must contain only letters, numbers, dashes, and underscores.';
         }
+        if (attributes.Datasource && !attributes.Datasource.file) {
+            return 'Supplying a datasource is required.';
+        }
     }
 });
 
@@ -98,7 +104,7 @@ var LayerList = Backbone.Collection.extend({
             this.parent.set({ 'Layer': self });
             this.parent.change();
         });
-    },
+    }
 });
 
 /**
@@ -151,6 +157,10 @@ var Project = Backbone.Model.extend({
         }
     }],
     /**
+     * Model name used for storage.
+     */
+    type: 'project',
+    /**
      * Custom setDefaults() method for creating a project with default layers,
      * stylesheets, etc. Note that we do not use Backbone native initialize()
      * or defaults(), both of which make default values far pervasive than the
@@ -193,7 +203,7 @@ var Project = Backbone.Model.extend({
      * collection reference around for CRUD operations on a single model.
      */
     url: function() {
-        return '/api/project/' + this.id;
+        return '/api/Project/' + this.id;
     },
     /**
      * Base64 encode this project's MML URL.
@@ -276,13 +286,18 @@ var Project = Backbone.Model.extend({
                         }).parse(stylesheet.data, function(err, tree) {
                             if (!err) {
                                 try {
-                                    tree.toCSS({ compress: false });
-                                    group()(null);
+                                    var errors = tree.toCSS({ compress: false, returnErrors: true });
+                                    if (Array.isArray(errors)) {
+                                        group()(errors);
+                                    }
+                                    else {
+                                        group()(null);
+                                    }
                                 } catch (e) {
-                                    group()(e);
+                                    group()([ e ]);
                                 }
                             } else {
-                                group()(err);
+                                group()([ err ]);
                             }
                         });
                     });
@@ -310,16 +325,56 @@ var Project = Backbone.Model.extend({
  */
 var ProjectList = Backbone.Collection.extend({
     model: Project,
-    url: '/api/project',
+    url: '/api/Project',
+    /**
+     * Model name used for storage.
+     */
+    type: 'project',
     comparator: function(project) {
         return project.get('id');
     }
 });
 
+/**
+ * Model: ExportJob
+ *
+ * Job model.
+ */
+var ExportJob = Backbone.Model.extend({
+    /**
+     * Model name used for storage.
+     */
+    type: 'exportjob',
+    initialize: function() {
+        if (typeof MD5 !== 'undefined') {
+            var md5 = new MD5();
+            var date = new Date();
+            md5.digest(JSON.stringify(this)).substr(0, 6);
+            this.set({'id': md5.digest(JSON.stringify(this) + date.getTime()).substr(0, 6)});
+        }
+    }
+});
+
+/**
+ * Collection: ExportJobList
+ *
+ * A queue of job models.
+ */
+var ExportJobList = Backbone.Collection.extend({
+    model: ExportJob,
+    url: '/api/ExportJob',
+    /**
+     * Model name used for storage.
+     */
+    type: 'exportjob'
+});
+
 if (typeof module !== 'undefined') {
     module.exports = {
         Project: Project,
-        ProjectList: ProjectList
+        ProjectList: ProjectList,
+        ExportJob: ExportJob,
+        ExportJobList: ExportJobList
     };
 }
 

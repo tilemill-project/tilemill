@@ -1,9 +1,11 @@
 var MapView = Backbone.View.extend({
     id: 'map-preview',
     initialize: function() {
-        _.bindAll(this, 'render', 'activate', 'controlZoom', 'reload');
+        _.bindAll(this, 'render', 'activate', 'controlZoom', 'reload',
+            'fullscreen', 'minimize', 'maximize');
         this.render();
         this.model.bind('save', this.reload);
+        this.model.bind('export', this.maximize);
         window.app.bind('ready', this.activate);
     },
     events: {
@@ -23,7 +25,7 @@ var MapView = Backbone.View.extend({
             projection: new OpenLayers.Projection('EPSG:900913'),
             displayProjection: new OpenLayers.Projection('EPSG:4326'),
             units: 'm',
-            numZoomLevels: 19,
+            numZoomLevels: 23,
             maxResolution: 156543.0339,
             maxExtent: new OpenLayers.Bounds(
                 -20037500,
@@ -92,14 +94,26 @@ var MapView = Backbone.View.extend({
     },
 
     fullscreen: function() {
-        $(this.el).toggleClass('fullscreen');
-        this.map.updateSize();
         if ($(this.el).hasClass('fullscreen')) {
-            fullControls = new OpenLayers.Control.PanZoom();
-            this.map.addControls([fullControls]);
+            this.minimize();
         } else {
-            this.map.removeControl(fullControls);
+            this.maximize();
         }
+        return false;
+    },
+
+    maximize: function() {
+        $(this.el).addClass('fullscreen');
+        this.map.updateSize();
+        fullControls = new OpenLayers.Control.PanZoom();
+        this.map.addControls([fullControls]);
+        return false;
+    },
+
+    minimize: function() {
+        $(this.el).removeClass('fullscreen');
+        this.map.updateSize();
+        this.map.removeControl(fullControls);
         return false;
     },
 

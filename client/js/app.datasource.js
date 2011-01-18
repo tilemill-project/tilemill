@@ -41,7 +41,7 @@ var DatasourceListView = Backbone.View.extend({
             $(self.el).append('<div class="empty">No datasources found.</div>')
         }
         return this;
-    },
+    }
 });
 
 var DatasourceRowView = Backbone.View.extend({

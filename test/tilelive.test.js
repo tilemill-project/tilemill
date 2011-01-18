@@ -31,8 +31,9 @@ module.exports = {
     },
     'project manipulation': function() {
         fs.readFile('./test/fixtures/project1.json', 'utf8', function(err, project) {
+            // Create project
             assert.response(app, {
-                url: '/api/project/Test',
+                url: '/api/Project/Test',
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json'
@@ -43,9 +44,18 @@ module.exports = {
             }, function(res) {
                 assert.deepEqual(JSON.parse(res.body), JSON.parse(project));
             });
+            // Get all projects
+            assert.response(app, {
+                url: '/api/Project',
+                method: 'GET',
+            }, {
+                status: 200
+            }, function(res) {
+                assert.deepEqual(JSON.parse(res.body).pop(), JSON.parse(project));
+            });
             // Get project
             assert.response(app, {
-                url: '/api/project/Test',
+                url: '/api/Project/Test',
                 method: 'GET',
             }, {
                 status: 200
@@ -55,7 +65,7 @@ module.exports = {
             // Validation: Name must contain specified characters.
             var invalid = _.extend(JSON.parse(project), { id: 'Bad !@!ID' });
             assert.response(app, {
-                url: '/api/project/Test',
+                url: '/api/Project/Test',
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json'
@@ -71,7 +81,7 @@ module.exports = {
                 Stylesheet: []
             });
             assert.response(app, {
-                url: '/api/project/Test',
+                url: '/api/Project/Test',
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json'
@@ -90,7 +100,7 @@ module.exports = {
                 ]
             });
             assert.response(app, {
-                url: '/api/project/Test',
+                url: '/api/Project/Test',
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json'
@@ -108,7 +118,7 @@ module.exports = {
                 ]
             });
             assert.response(app, {
-                url: '/api/project/Test',
+                url: '/api/Project/Test',
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json'
@@ -117,12 +127,12 @@ module.exports = {
             }, {
                 status: 500
             }, function(res) {
-                assert.equal(JSON.parse(res.body).message, 'Invalid value for polygon-fill, a color is expected');
+                assert.equal(JSON.parse(res.body)[0].message, 'Invalid value for polygon-fill, a color is expected');
             });
             fs.readFile('./test/fixtures/project2.json', 'utf8', function(err, project) {
                 // Update project
                 assert.response(app, {
-                    url: '/api/project/Test',
+                    url: '/api/Project/Test',
                     method: 'PUT',
                     headers: {
                         'content-type': 'application/json'
@@ -134,7 +144,7 @@ module.exports = {
                     assert.deepEqual(JSON.parse(res.body), JSON.parse(project));
                 });
                 // Load layer
-                assert.response(app, {url: '/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9wcm9qZWN0L1Rlc3Q_MDI3N2M0/world'}, {
+                assert.response(app, {url: '/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_MmE5ZWFj/world'}, {
                     status: 200
                 }, function(res) {
                     var data = JSON.parse(res.body);
@@ -143,7 +153,7 @@ module.exports = {
                 });
                 // Delete project
                 assert.response(app, {
-                    url: '/api/project/Test',
+                    url: '/api/Project/Test',
                     method: 'DELETE'
                 }, {
                     status: 200

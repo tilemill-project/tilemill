@@ -180,6 +180,16 @@ var ProjectView = Backbone.View.extend({
             project: this.model
         });
 
+        var jobQueue = new ExportJobList();
+        var jobQueueView = new ExportJobQueueView({
+            model: jobQueue
+        }),
+            exportMenu = new ExportJobDropdownView({
+                model: jobQueue,
+                project: this.model
+        });
+
+        $('#header .actions', this.el).prepend(exportMenu.el);
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(colors.el);
         $('#sidebar', this.el).append(map.el);
@@ -193,33 +203,46 @@ var ProjectView = Backbone.View.extend({
     },
     saveProject: function() {
         var that = this;
+
+        // Clear out validation error markers. They will be re-drawn if this
+        // save event encounters further errors.
+        $('.CodeMirror-line-numbers div')
+            .removeClass('syntax-error')
+            .attr('title', '')
+            .unbind('mouseenter mouseleave'); // Removes tipsy.
+        $('a.tab.hasError', self.el).removeClass('hasError')
+        $('.tipsy').remove();
+
         this.model.save(this.model, {
             success: function() {
                 that.model.trigger('save');
                 $('#header a.save', self.el).removeClass('changed');
-                $('.CodeMirror-line-numbers div')
-                    .removeClass('syntax-error')
-                    .attr('title', '')
-                    .unbind('mouseenter mouseleave'); // Removes tipsy.
             },
             error: function(err, data) {
                 if (typeof data === 'string') {
                     window.app.message('Error', data);
                 } else if (data.status == 500) {
                     var err_obj = $.parseJSON(data.responseText);
-                    if (err_obj.line) {
-                        var editor = _.detect(
-                            that.model.view.stylesheets.collection.models,
-                            function(s) {
-                                return s.id == err_obj.filename;
+                    if (_.isArray(err_obj)) {
+                        _.each(err_obj, function(error) {
+                            if (error.line) {
+                                var editor = _.detect(
+                                    that.model.view.stylesheets.collection.models,
+                                    function(s) {
+                                        return s.id == error.filename;
+                                });
+                                $('div.CodeMirror-line-numbers div:nth-child('
+                                    + error.line
+                                    + ')',
+                                    editor.view.codemirror.lineNumbers)
+                                    .addClass('syntax-error')
+                                    .attr('title', error.message)
+                                    .tipsy({gravity: 'w'});
+                                $(editor.view.el).addClass('hasError');
+                            } else {
+                                window.app.message('Error', error.message);
+                            }
                         });
-                        $('div.CodeMirror-line-numbers div:nth-child('
-                            + err_obj.line
-                            + ')',
-                            editor.view.codemirror.lineNumbers)
-                            .addClass('syntax-error')
-                            .attr('title', err_obj.message)
-                            .tipsy({gravity: 'w'});
                     } else {
                         window.app.message('Error', err_obj.message);
                     }
@@ -257,6 +280,74 @@ var ProjectView = Backbone.View.extend({
         $('#header a.save', this.el).addClass('changed');
     }
 });
+
+var ExportJobQueueView = Backbone.View.extend({
+    render: function() {
+        $(this).html(ich.ExportJobQueueView());
+    }
+});
+
+var ExportJobDropdownView = DropdownView.extend({
+    initialize: function() {
+        this.options.title = 'Export';
+        this.options.content = ich.ExportJobOptions({}, true);
+        this.render();
+    },
+    events: _.extend(DropdownView.prototype.events, {
+        'click a.export-option': 'export'
+    }),
+    export: function(event) {
+        var method = $(event.currentTarget).attr('href').substring(1);
+        if (typeof exportMethods[method] === 'function') {
+            var view = new exportMethods[$(event.currentTarget).attr('href').substring(1)]({
+                model: this.model
+            });
+            this.options.project.trigger('export');
+            this.toggleContent();
+        }
+        return false;
+    }
+});
+
+var ExportJobView = PopupView.extend({
+    className: 'overlay',
+    initialize: function() {
+        var form = ich.ExportJobView();
+        $('span.fields', form).append(this.getFields());
+        this.options.content = $('<div>').append(form).remove().html();
+        this.render();
+    },
+    events: _.extend(PopupView.prototype.events, {
+        'click input.submit': 'submit'
+    }),
+    submit: function() {
+        var data = {}
+        $('input', this.el).each(function(index, element) {
+            if ($(element).attr('id') !== '' && typeof $(element).val() !== 'undefined') {
+                data[$(element).attr('id')] = $(element).val();
+            }
+        });
+        var job = new ExportJob(data);
+        this.model.add(job);
+        job.save();
+        this.close();
+        return false;
+    }
+});
+
+var ExportJobImageView = ExportJobView.extend({
+    initialize: function() {
+        this.options.title = 'Export image';
+        ExportJobView.prototype.initialize.call(this);
+    },
+    getFields: function() {
+        return ich.ExportJobImageView();
+    }
+});
+
+var exportMethods = {
+    ExportJobImage: ExportJobImageView
+};
 
 /**
  * Watcher.
