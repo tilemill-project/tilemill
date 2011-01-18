@@ -309,13 +309,8 @@ var ExportJobDropdownView = DropdownView.extend({
     }
 });
 
-var ExportImageView = PopupView.extend({
+var ExportJobView = PopupView.extend({
     className: 'overlay',
-    initialize: function() {
-        this.options.title = 'Export image';
-        this.options.content = ich.ExportImagePopupView({}, true);
-        this.render();
-    },
     events: _.extend(PopupView.prototype.events, {
         'click input.submit': 'submit'
     }),
@@ -334,8 +329,16 @@ var ExportImageView = PopupView.extend({
     }
 });
 
+var ExportJobImageView = ExportJobView.extend({
+    initialize: function() {
+        this.options.title = 'Export image';
+        this.options.content = ich.ExportJobImageView({}, true);
+        this.render();
+    }
+});
+
 var exportMethods = {
-    ExportImage: ExportImageView
+    ExportJobImage: ExportJobImageView
 };
 
 /**

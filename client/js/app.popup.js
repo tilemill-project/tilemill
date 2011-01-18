@@ -42,5 +42,8 @@ var DropdownView = Backbone.View.extend({
     toggleContent: function() {
         this.$('.dropdown-content').toggleClass('expanded');
         return false;
+    },
+    hideContent: function() {
+        this.$('.dropdown-content').removeClass('expanded');
     }
 });
