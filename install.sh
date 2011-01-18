@@ -47,3 +47,13 @@ if ! [ -f "lib/node/mapnik/_mapnik.node" ]; then
 else
     echo "... already built node-mapnik"
 fi
+
+# Create local data directory and populate with sample data
+if ! [ -d "files/local_data" ]; then
+    mkdir -p files/local_data
+    wget -q -O example_data.zip http://tilemill-data.s3.amazonaws.com/example_data.zip
+    unzip -q -d files/local_data example_data.zip
+    rm example_data.zip
+else
+    echo "... example data already downloaded"
+fi
