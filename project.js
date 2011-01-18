@@ -283,13 +283,18 @@ var Project = Backbone.Model.extend({
                         }).parse(stylesheet.data, function(err, tree) {
                             if (!err) {
                                 try {
-                                    tree.toCSS({ compress: false });
-                                    group()(null);
+                                    var errors = tree.toCSS({ compress: false, returnErrors: true });
+                                    if (Array.isArray(errors)) {
+                                        group()(errors);
+                                    }
+                                    else {
+                                        group()(null);
+                                    }
                                 } catch (e) {
-                                    group()(e);
+                                    group()([ e ]);
                                 }
                             } else {
-                                group()(err);
+                                group()([ err ]);
                             }
                         });
                     });

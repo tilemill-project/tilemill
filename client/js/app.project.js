@@ -213,20 +213,26 @@ var ProjectView = Backbone.View.extend({
                     window.app.message('Error', data);
                 } else if (data.status == 500) {
                     var err_obj = $.parseJSON(data.responseText);
-                    if (err_obj.line) {
-                        var editor = _.detect(
-                            that.model.view.stylesheets.collection.models,
-                            function(s) {
-                                return s.id == err_obj.filename;
+                    if (_.isArray(err_obj)) {
+                        _.each(err_obj, function(error) {
+                            if (error.line) {
+                                var editor = _.detect(
+                                    that.model.view.stylesheets.collection.models,
+                                    function(s) {
+                                        return s.id == error.filename;
+                                });
+                                $('div.CodeMirror-line-numbers div:nth-child('
+                                    + error.line
+                                    + ')',
+                                    editor.view.codemirror.lineNumbers)
+                                    .addClass('syntax-error')
+                                    .attr('title', error.message)
+                                    .tipsy({gravity: 'w'});
+                                $(editor.view.el).addClass('hasError');
+                            } else {
+                                window.app.message('Error', error.message);
+                            }
                         });
-                        $('div.CodeMirror-line-numbers div:nth-child('
-                            + err_obj.line
-                            + ')',
-                            editor.view.codemirror.lineNumbers)
-                            .addClass('syntax-error')
-                            .attr('title', err_obj.message)
-                            .tipsy({gravity: 'w'});
-                        $(editor.view.el).addClass('hasError');
                     } else {
                         window.app.message('Error', err_obj.message);
                     }
