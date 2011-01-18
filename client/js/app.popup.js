@@ -25,3 +25,22 @@ var PopupView = Backbone.View.extend({
     }
 });
 
+var DropdownView = Backbone.View.extend({
+    className: 'DropdownView',
+    initialize: function() {
+        _.bindAll(this, 'render', 'showContent');
+        this.render();
+    },
+    render: function() {
+        $(this.el).html(ich.DropdownView(this.options));
+        window.app.el.append(this.el);
+        return this;
+    },
+    events: {
+        'click a.show': 'showContent'
+    },
+    showContent: function() {
+        this.$('.dropdown-content').toggleClass('expanded');
+        return false;
+    }
+});
