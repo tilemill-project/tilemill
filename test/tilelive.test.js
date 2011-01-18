@@ -127,7 +127,7 @@ module.exports = {
             }, {
                 status: 500
             }, function(res) {
-                assert.equal(JSON.parse(res.body).message, 'Invalid value for polygon-fill, a color is expected');
+                assert.equal(JSON.parse(res.body)[0].message, 'Invalid value for polygon-fill, a color is expected');
             });
             fs.readFile('./test/fixtures/project2.json', 'utf8', function(err, project) {
                 // Update project

@@ -25,5 +25,5 @@ module developmentseed tilelive.js
 # once the issues are resolved above this will work
 #module mapnik node-mapnik master mapnik
 
-# Build node and node-mapnik
+# Build node and node-mapnik and install example data
 exec ./install.sh
