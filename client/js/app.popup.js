@@ -33,7 +33,10 @@ var DropdownView = Backbone.View.extend({
     },
     render: function() {
         $(this.el).html(ich.DropdownView(this.options));
-        window.app.el.append(this.el);
+        var that = this;
+        $(window).bind('click', function() {
+            that.hideContent();
+        });
         return this;
     },
     events: {
