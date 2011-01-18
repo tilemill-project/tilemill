@@ -1,8 +1,11 @@
 // Require Backbone, underscore, if we're on the server.
-var Backbone = this.Backbone;
-if (!Backbone && (typeof require !== 'undefined')) Backbone = require('./backbone');
-var _ = this._;
-if (!_ && (typeof require !== 'undefined')) _ = require('underscore')._;
+// @TODO if we use the keyword 'var' in front of Backbone, _, IE will wipe the
+// globally defined Backbone and underscore leaving us with broken objects.
+// This is obviously not ideal.
+if (typeof require !== 'undefined') {
+    Backbone = require('./backbone');
+    _ = require('underscore')._;
+}
 
 /**
  * Model: Stylesheet
@@ -101,7 +104,7 @@ var LayerList = Backbone.Collection.extend({
             this.parent.set({ 'Layer': self });
             this.parent.change();
         });
-    },
+    }
 });
 
 /**
