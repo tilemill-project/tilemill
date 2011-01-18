@@ -200,7 +200,7 @@ var Project = Backbone.Model.extend({
      * collection reference around for CRUD operations on a single model.
      */
     url: function() {
-        return '/api/project/' + this.id;
+        return '/api/Project/' + this.id;
     },
     /**
      * Base64 encode this project's MML URL.
@@ -317,7 +317,7 @@ var Project = Backbone.Model.extend({
  */
 var ProjectList = Backbone.Collection.extend({
     model: Project,
-    url: '/api/project',
+    url: '/api/Project',
     /**
      * Model name used for storage.
      */

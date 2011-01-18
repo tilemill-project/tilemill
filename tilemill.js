@@ -1,8 +1,7 @@
 require.paths.unshift(__dirname + '/lib/node');
 
 var express = require('express'),
-    Project = require('./project').Project,
-    ProjectList = require('./project').ProjectList,
+    models = require('./project');
     settings = require('./settings');
 
 var app = module.exports = express.createServer();
@@ -18,59 +17,73 @@ app.get('/api', function(req, res, params) {
   });
 });
 
-app.get('/api/project/:projectId?', function(req, res, next) {
-    if (req.param('projectId')) {
-        var project = new Project({ id: req.param('projectId') });
-        project.fetch({
-            success: function(model, resp) { res.send(model.toJSON()) },
+app.get('/api/:model/:id?', function(req, res, next) {
+    if (typeof models[req.param('model')] !== 'undefined') {
+        if (req.param('id')) {
+            var model = new models[req.param('model')]({ id: req.param('id') });
+            model.fetch({
+                success: function(model, resp) { res.send(model.toJSON()) },
+                error: function(model, resp) { res.send(resp, 500); }
+            });
+        }
+        else if(typeof models[req.param('model') + 'List'] !== 'undefined') {
+            var list = new models[req.param('model') + 'List']();
+            list.fetch({
+                success: function(coll, resp) { res.send(coll.toJSON()) },
+                error: function(coll, resp) { res.send(resp, 500) }
+            });
+        }
+        else {
+            next();
+        }
+    }
+    else {
+        next();
+    }
+});
+
+app.put('/api/:model/:id', function(req, res, next) {
+    if (typeof models[req.param('model')] !== 'undefined') {
+        var model = new models[req.param('model')](req.body);
+        model.validateAsync({
+            success: function(model) {
+                model.save(req.body, {
+                    success: function(model, resp) { res.send(model.toJSON()) },
+                    error: function(model, resp) { res.send(resp, 500); }
+                });
+            },
+            error: function(model, resp) {
+                res.send(resp, 500);
+            }
+        });
+    }
+});
+
+app.post('/api/:model/:id', function(req, res, next) {
+    if (typeof models[req.param('model')] !== 'undefined') {
+        var model = new models[req.param('model')](req.body);
+        model.validateAsync({
+            success: function(model) {
+                model.save(req.body, {
+                    success: function(model, resp) { res.send(model.toJSON()) },
+                    error: function(model, resp) { res.send(resp, 500); }
+                });
+            },
+            error: function(model, resp) {
+                res.send(resp, 500);
+            }
+        });
+    }
+});
+
+app.del('/api/:model/:id', function(req, res, next) {
+    if (typeof models[req.param('model')] !== 'undefined') {
+        var model = new models[req.param('model')]({ id: req.param('id') });
+        model.destroy({
+            success: function(model, resp) { res.send({}) },
             error: function(model, resp) { res.send(resp, 500); }
         });
     }
-    else {
-        var list = new ProjectList();
-        list.fetch({
-            success: function(coll, resp) { res.send(coll.toJSON()) },
-            error: function(coll, resp) { res.send(resp, 500) }
-        });
-    }
-});
-
-app.put('/api/project/:projectId', function(req, res, next) {
-    var project = new Project(req.body);
-    project.validateAsync({
-        success: function(project) {
-            project.save(req.body, {
-                success: function(model, resp) { res.send(model.toJSON()) },
-                error: function(model, resp) { res.send(resp, 500); }
-            });
-        },
-        error: function(project, resp) {
-            res.send(resp, 500);
-        }
-    });
-});
-
-app.post('/api/project/:projectId', function(req, res, next) {
-    var project = new Project(req.body);
-    project.validateAsync({
-        success: function(project) {
-            project.save(req.body, {
-                success: function(model, resp) { res.send(model.toJSON()) },
-                error: function(model, resp) { res.send(resp, 500); }
-            });
-        },
-        error: function(project, resp) {
-            res.send(resp, 500);
-        }
-    });
-});
-
-app.del('/api/project/:projectId', function(req, res, next) {
-    var project = new Project({ id: req.param('projectId') });
-    project.destroy({
-        success: function(model, resp) { res.send({}) },
-        error: function(model, resp) { res.send(resp, 500); }
-    });
 });
 
 app.error(function(err, req, res){
