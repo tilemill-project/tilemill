@@ -76,6 +76,7 @@ h3 { font-size:13px; }
     padding:0px 10px;
     -moz-border-radius:3px;
     -webkit-border-radius:3px;
+    margin:0px 5px;
     }
 
   #header .links a,
@@ -110,7 +111,6 @@ h3 { font-size:13px; }
   #header .actions a {
     background-color:#e4e4e4;
     color:#666;
-    margin:0px 5px;
     }
 
   #header .actions a:hover {
@@ -788,6 +788,29 @@ a.tab-add,
 a#layers-add,
 a.close,
 a.inspector-close { background-color:#666; }
+
+/**
+ * DropdownView
+ */
+
+.DropdownView {
+  position:relative;
+  float:left;
+}
+
+.DropdownView .dropdown-content {
+  z-index:5000;
+  display:none;
+  background: #ccc;
+  position:absolute;
+  padding:5px 10px;
+  top:20px;
+  left:5px;
+  }
+
+.DropdownView .dropdown-content.expanded {
+  display:block;
+  }
 
 /**
  * Reference page

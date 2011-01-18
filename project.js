@@ -203,7 +203,7 @@ var Project = Backbone.Model.extend({
      * collection reference around for CRUD operations on a single model.
      */
     url: function() {
-        return '/api/project/' + this.id;
+        return '/api/Project/' + this.id;
     },
     /**
      * Base64 encode this project's MML URL.
@@ -325,7 +325,7 @@ var Project = Backbone.Model.extend({
  */
 var ProjectList = Backbone.Collection.extend({
     model: Project,
-    url: '/api/project',
+    url: '/api/Project',
     /**
      * Model name used for storage.
      */
@@ -335,10 +335,46 @@ var ProjectList = Backbone.Collection.extend({
     }
 });
 
+/**
+ * Model: ExportJob
+ *
+ * Job model.
+ */
+var ExportJob = Backbone.Model.extend({
+    /**
+     * Model name used for storage.
+     */
+    type: 'exportjob',
+    initialize: function() {
+        if (typeof MD5 !== 'undefined') {
+            var md5 = new MD5();
+            var date = new Date();
+            md5.digest(JSON.stringify(this)).substr(0, 6);
+            this.set({'id': md5.digest(JSON.stringify(this) + date.getTime()).substr(0, 6)});
+        }
+    }
+});
+
+/**
+ * Collection: ExportJobList
+ *
+ * A queue of job models.
+ */
+var ExportJobList = Backbone.Collection.extend({
+    model: ExportJob,
+    url: '/api/ExportJob',
+    /**
+     * Model name used for storage.
+     */
+    type: 'exportjob'
+});
+
 if (typeof module !== 'undefined') {
     module.exports = {
         Project: Project,
-        ProjectList: ProjectList
+        ProjectList: ProjectList,
+        ExportJob: ExportJob,
+        ExportJobList: ExportJobList
     };
 }
 
