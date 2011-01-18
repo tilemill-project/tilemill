@@ -264,14 +264,14 @@
       <div id='popup-layer' class='clearfix pane'>
         <form id='form-layer'>
           <div class='messages'></div>
-          <div><label for='id'>Id</label>
+          <div><label for='id'>Id <span class="required" title="This field is required">*</span></label>
             <input type='text' class='text required' id='id' value='{{ id }}' />
           </div>
           <div><label for='class'>Class</label>
             <input type='text' class='text' id='class' value='{{ class }}'/>
           </div>
           <div>
-            <label for='file'>Data Source</label>
+            <label for='file'>Data Source <span class="required" title="This field is required">*</span></label>
             <input type='text' class='text required' id='file' value='{{ datasource_file }}' />
             <a class='icon expand-datasources' id='expand-datasources' title='See available datasources'>[+]</a>
             <div class='container datasources hidden'></div>

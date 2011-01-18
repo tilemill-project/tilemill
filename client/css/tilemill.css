@@ -355,6 +355,10 @@ form div.buttons {
   border:0px;
   padding:5px 0px 5px 110px;
   }
+  
+span.required {
+  color: #f73205;
+}
 
 /**
  * ProjectView layout
