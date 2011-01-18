@@ -688,6 +688,12 @@ li .icon {
   padding-bottom:5px;
   }
 
+#tabs a.hasError {
+  color:#666;
+  background:#fcf4a0;
+  border-color:#ddb;
+  }
+
 #editor {
   overflow:auto;
   position:absolute;
@@ -938,9 +944,7 @@ textarea.code-snippet {
   padding:0 10px;
   }
 
-div.syntax-error {
-  background-color:#FDF59F;
-  }
+div.syntax-error { background-color:#fcf4a0; }
 
 /**
  * Tipsy ======================================================================

@@ -22,7 +22,7 @@ Backbone.sync = function(method, model, success, error) {
                 return err ? error(err) : success(model);
             });
         } else {
-            loadAll(function(err, model) {
+            loadAll(model, function(err, model) {
                 return err ? error(err) : success(model);
             });
         }
@@ -49,23 +49,27 @@ Backbone.sync = function(method, model, success, error) {
  * Load a single model. Requires that model.id be populated.
  */
 function load(model, callback) {
-    var projectPath = path.join(settings.files, 'project', model.id);
-    fs.readFile(path.join(projectPath, model.id + '.mml'), 'utf-8',
+    var modelPath = path.join(settings.files, model.type, model.id);
+    var extension = 'json';
+    if (model.type == 'project') {
+        extension = 'mml';
+    }
+    fs.readFile(path.join(modelPath, model.id + '.' + extension), 'utf-8',
     function(err, data) {
         if (err || !data || !JSON.parse(data)) {
-            return callback(new Error('Error reading project file.'));
+            return callback(new Error('Error reading model file.'));
         }
         var object = JSON.parse(data);
         // Set the object ID explicitly for multiple-load scenarios where
         // model parse()/set() is bypassed.
         object.id = model.id;
-        if (object.Stylesheet && object.Stylesheet.length > 0) {
+        if (model.type == 'project' && object.Stylesheet && object.Stylesheet.length > 0) {
             Step(
                 function() {
                     var group = this.group();
                     _.each(object.Stylesheet, function(filename, index) {
                         fs.readFile(
-                            path.join(projectPath, filename),
+                            path.join(modelPath, filename),
                             'utf-8',
                             group()
                         );
@@ -73,7 +77,7 @@ function load(model, callback) {
                 },
                 function(err, files) {
                     _.each(object.Stylesheet, function(filename, index) {
-                        if (files[index]) {
+                        if (typeof files[index] !== 'undefined') {
                             object.Stylesheet[index] = {
                                 id: filename,
                                 data: files[index]
@@ -93,8 +97,8 @@ function load(model, callback) {
 /**
  * Load an array of all models.
  */
-function loadAll(callback) {
-    var basepath = path.join(settings.files, 'project');
+function loadAll(model, callback) {
+    var basepath = path.join(settings.files, model.type);
     Step(
         function() {
             path.exists(basepath, this);
@@ -112,18 +116,18 @@ function loadAll(callback) {
         },
         function(err, files) {
             if (err) {
-                return this(new Error('Error reading projects directory.'));
+                return this(new Error('Error reading model directory.'));
             }
             else if (files.length === 0) {
                 return this();
             }
             var group = this.group();
             for (var i = 0; i < files.length; i++) {
-                load({id: files[i]}, group());
+                load({id: files[i], type: model.type}, group());
             }
         },
-        function(err, projects) {
-            return callback(err, projects);
+        function(err, models) {
+            return callback(err, models);
         }
     );
 };
@@ -147,8 +151,8 @@ function update(model, callback) {
  * Destroy (delete, remove, etc.) a model.
  */
 function destroy(model, callback) {
-    var projectPath = path.join(settings.files, 'project', model.id);
-    rmrf(projectPath, function() {
+    var modelPath = path.join(settings.files, model.type, model.id);
+    rmrf(modelPath, function() {
         return callback(null, model);
     });
 };
@@ -157,44 +161,53 @@ function destroy(model, callback) {
  * Save a model. Called by create/update.
  */
 function save(model, callback) {
-    var projectPath = path.join(settings.files, 'project', model.id);
+    var modelPath = path.join(settings.files, model.type, model.id);
     Step(
         function() {
-            rmrf(projectPath, this);
+            rmrf(modelPath, this);
         },
         function() {
-            fs.mkdir(projectPath, 0777, this);
+            fs.mkdir(modelPath, 0777, this);
         },
         function() {
-            // Hard clone the model JSON before doing adjustments to the data
-            // based on writing separate stylesheets.
-            var data = JSON.parse(JSON.stringify(model.toJSON()));
-            var files = [];
-            if (data.id) {
-                delete data.id;
-            }
-            if (data.Stylesheet) {
-                _.each(data.Stylesheet, function(stylesheet, key) {
-                    if (stylesheet.id) {
-                        files.push({
-                            filename: stylesheet.id,
-                            data: stylesheet.data
-                        });
-                        data.Stylesheet[key] = stylesheet.id;
-                    }
+            if (model.type == 'project') {
+                // Hard clone the model JSON before doing adjustments to the data
+                // based on writing separate stylesheets.
+                var data = JSON.parse(JSON.stringify(model.toJSON()));
+                var files = [];
+                if (data.id) {
+                    delete data.id;
+                }
+                if (data.Stylesheet) {
+                    _.each(data.Stylesheet, function(stylesheet, key) {
+                        if (stylesheet.id) {
+                            files.push({
+                                filename: stylesheet.id,
+                                data: stylesheet.data
+                            });
+                            data.Stylesheet[key] = stylesheet.id;
+                        }
+                    });
+                }
+                files.push({
+                    filename: model.id + '.mml',
+                    data: JSON.stringify(data)
                 });
-            }
-            files.push({
-                filename: model.id + '.mml',
-                data: JSON.stringify(data)
-            });
 
-            var group = this.group();
-            for (var i = 0; i < files.length; i++) {
+                var group = this.group();
+                for (var i = 0; i < files.length; i++) {
+                    fs.writeFile(
+                        path.join(modelPath, files[i].filename),
+                        files[i].data,
+                        group()
+                    );
+                }
+            }
+            else {
                 fs.writeFile(
-                    path.join(projectPath, files[i].filename),
-                    files[i].data,
-                    group()
+                    path.join(modelPath, model.id + '.json'),
+                    JSON.stringify(model.toJSON()),
+                    this
                 );
             }
         },

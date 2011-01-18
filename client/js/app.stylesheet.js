@@ -140,6 +140,10 @@ var StylesheetTabView = Backbone.View.extend({
     remove: function() {
         $(this.el).remove();
         $(this.input).remove();
+
+        // Get the first tab and activate it.
+        var first = this.list.collection.at(0);
+        first && first.view.activate();
         return this;
     }
 });
