@@ -48,6 +48,22 @@ else
     echo "... already built node-mapnik"
 fi
 
+if ! [ -f "lib/node/srs/_srs.node" ]; then
+    echo "... fetching node-srs"
+    cd modules
+    url="https://github.com/springmeyer/node-srs/tarball/master"
+    mkdir -p node-srs
+    cd node-srs
+    echo "... building node-srs"
+    $GET $url | \
+    tar -xz --strip 1
+    $RUN_DIR/build/bin/node-waf -v --prefix=$RUN_DIR configure build
+    $RUN_DIR/build/bin/node-waf -v install
+    cd $RUN_DIR;
+else
+    echo "... already built node-srs"
+fi
+
 # Create local data directory and populate with sample data
 if ! [ -d "files/local_data" ]; then
     mkdir -p files/local_data
