@@ -311,6 +311,12 @@ var ExportJobDropdownView = DropdownView.extend({
 
 var ExportJobView = PopupView.extend({
     className: 'overlay',
+    initialize: function() {
+        var form = ich.ExportJobView();
+        $('span.fields', form).append(this.getFields());
+        this.options.content = $('<div>').append(form).remove().html();
+        this.render();
+    },
     events: _.extend(PopupView.prototype.events, {
         'click input.submit': 'submit'
     }),
@@ -332,8 +338,10 @@ var ExportJobView = PopupView.extend({
 var ExportJobImageView = ExportJobView.extend({
     initialize: function() {
         this.options.title = 'Export image';
-        this.options.content = ich.ExportJobImageView({}, true);
-        this.render();
+        ExportJobView.prototype.initialize.call(this);
+    },
+    getFields: function() {
+        return ich.ExportJobImageView();
     }
 });
 

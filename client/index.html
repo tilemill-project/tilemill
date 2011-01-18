@@ -423,24 +423,31 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
     <script type='text/html' id='ExportJobQueueView'>
     </script>
 
-    <script type='text/html' id='ExportJobImageView'>
+    <script type='text/html' id='ExportJobView'>
       <div class='clearfix pane'>
         <form id='form-layer'>
           <div class='messages'></div>
-          <div><label for='bbox'>Bounding Box <span class="required" title="This field is required">*</span></label>
-            <input type='text' class='text required' id='bbox' value='{{ bbox }}' />
-          </div>
-          <div><label for='class'>Pixel Dimmesions</label>
-            <input type='text' class='text' id='class' value='{{ class }}'/>
-          </div>
-          <div>
-            <label for='srs'>Custom</label>
-            <input type='text' class='text' id='srs' value='{{ srs }}'/>
-          </div>
+          <span class='fields'>
+            <div><label for='bbox'>Bounding Box <span class="required" title="This field is required">*</span></label>
+              <input type='text' class='text required' id='bbox' value='{{ bbox }}' />
+            </div>
+            <div>
+              <label for='zoom'>Zoom Levels</label>
+              <input type='text' class='text' id='zoom' value='{{ zoom }}'/>
+            </div>
+          </span>
           <div class='buttons'>
               <input class='submit' type='submit' value='Save' />
           </div>
         </form>
+      </div>
+    </script>
+
+    <script type='text/html' id='ExportJobImageView'>
+      <div><label for='class'>Pixel Dimmesions</label>
+        <input type='text' class='text' id='width' value='{{ width }}'/>
+        <span>x</span>
+        <input type='text' class='text' id='height' value='{{ height }}'/>
       </div>
     </script>
 
