@@ -37,9 +37,9 @@ var DropdownView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click a.show': 'showContent'
+        'click a.show': 'toggleContent'
     },
-    showContent: function() {
+    toggleContent: function() {
         this.$('.dropdown-content').toggleClass('expanded');
         return false;
     }

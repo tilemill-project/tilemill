@@ -260,6 +260,14 @@
       </div>
     </script>
 
+    <script type='text/html' id='ExportJobOptions'>
+      <ul>
+        <li><a class='export-option export-png' href='#ExportImage'>PNG</a></li>
+        <li><a class='export-option export-zip' href='#'>Zip</a></li>
+        <li><a class='export-option export-mbtiles' href='#'>MBTiles</a></li>
+      </ul>
+    </script>
+
     <script type='text/html' id='LayerPopupView'>
       <div id='popup-layer' class='clearfix pane'>
         <form id='form-layer'>
@@ -410,6 +418,30 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
       <span class='name'>{{ id }}</span>
       <span class='metadata'>{{ bytes }}</span>
       <span class='url'>{{ url }}</span>
+    </script>
+
+    <script type='text/html' id='ExportJobQueueView'>
+    </script>
+
+    <script type='text/html' id='ExportImagePopupView'>
+      <div class='clearfix pane'>
+        <form id='form-layer'>
+          <div class='messages'></div>
+          <div><label for='bbox'>Bounding Box <span class="required" title="This field is required">*</span></label>
+            <input type='text' class='text required' id='bbox' value='{{ bbox }}' />
+          </div>
+          <div><label for='class'>Pixel Dimmesions</label>
+            <input type='text' class='text' id='class' value='{{ class }}'/>
+          </div>
+          <div>
+            <label for='srs'>Custom</label>
+            <input type='text' class='text' id='srs' value='{{ srs }}'/>
+          </div>
+          <div class='buttons'>
+              <input class='submit' type='submit' value='Save' />
+          </div>
+        </form>
+      </div>
     </script>
 
     <script type='text/html' id='reference_symbolizer'>

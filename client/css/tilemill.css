@@ -757,6 +757,10 @@ li .icon {
   right:0;
   }
 
+  .overlay .popup-backdrop {
+    display:none;
+    }
+
 .popup {
   z-index:5000;
   position:absolute;
@@ -773,6 +777,13 @@ li .icon {
   -moz-box-shadow:#666 0px 1px 10px;
   -webkit-box-shadow:#666 0px 1px 10px;
   }
+
+  .overlay .popup {
+    top:auto;
+    left:auto;
+    right:20px;
+    bottom:20px;
+    }
 
 .popup-header {
   -moz-border-radius:3px 3px 0px 0px;
@@ -801,7 +812,7 @@ a.inspector-close { background-color:#666; }
 .DropdownView .dropdown-content {
   z-index:5000;
   display:none;
-  background: #ccc;
+  background: #666;
   position:absolute;
   padding:5px 10px;
   top:20px;

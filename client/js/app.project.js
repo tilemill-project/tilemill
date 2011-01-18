@@ -180,6 +180,16 @@ var ProjectView = Backbone.View.extend({
             project: this.model
         });
 
+        var jobQueue = new ExportJobList();
+        var jobQueueView = new ExportJobQueueView({
+            model: jobQueue
+        }),
+            exportMenu = new ExportJobDropdownView({
+                model: jobQueue,
+                project: this.model
+        });
+
+        $('#header .actions', this.el).prepend(exportMenu.el);
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(colors.el);
         $('#sidebar', this.el).append(map.el);
@@ -270,6 +280,63 @@ var ProjectView = Backbone.View.extend({
         $('#header a.save', this.el).addClass('changed');
     }
 });
+
+var ExportJobQueueView = Backbone.View.extend({
+    render: function() {
+        $(this).html(ich.ExportJobQueueView());
+    }
+});
+
+var ExportJobDropdownView = DropdownView.extend({
+    initialize: function() {
+        this.options.title = 'Export';
+        this.options.content = ich.ExportJobOptions({}, true);
+        this.render();
+    },
+    events: _.extend(DropdownView.prototype.events, {
+        'click a.export-option': 'export'
+    }),
+    export: function(event) {
+        var method = $(event.currentTarget).attr('href').substring(1);
+        if (typeof exportMethods[method] === 'function') {
+            var view = new exportMethods[$(event.currentTarget).attr('href').substring(1)]({
+                model: this.model
+            });
+            this.options.project.trigger('export');
+            this.toggleContent();
+        }
+        return false;
+    }
+});
+
+var ExportImageView = PopupView.extend({
+    className: 'overlay',
+    initialize: function() {
+        this.options.title = 'Export image';
+        this.options.content = ich.ExportImagePopupView({}, true);
+        this.render();
+    },
+    events: _.extend(PopupView.prototype.events, {
+        'click input.submit': 'submit'
+    }),
+    submit: function() {
+        var data = {}
+        $('input', this.el).each(function(index, element) {
+            if ($(element).attr('id') !== '' && typeof $(element).val() !== 'undefined') {
+                data[$(element).attr('id')] = $(element).val();
+            }
+        });
+        var job = new ExportJob(data);
+        this.model.add(job);
+        job.save();
+        this.close();
+        return false;
+    }
+});
+
+var exportMethods = {
+    ExportImage: ExportImageView
+};
 
 /**
  * Watcher.
