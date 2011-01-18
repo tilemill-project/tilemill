@@ -180,12 +180,12 @@ var ColorSwatchesToolView = Backbone.View.extend({
     },
     del: function(swatch) {
         swatch.view.remove();
-    },
+    }
 });
 
 var ColorSwatchView = Backbone.View.extend({
     events: {
-        'click': 'insertHex',
+        'click': 'insertHex'
     },
     initialize: function(options) {
         _.bindAll(this, 'render', 'insertHex');
