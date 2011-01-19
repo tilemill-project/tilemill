@@ -32,9 +32,10 @@ var App = Backbone.View.extend({
         // Bootstrap:
         // 1. Fetch settings object from server.
         // 2. Begin routing.
-        this.model.fetch({ success: function(model) {
-            Backbone.history.start();
-        }});
+        this.model.fetch({
+            success: function(model) { Backbone.history.start(); },
+            error: function(model) { Backbone.history.start(); }
+        });
     },
     loading: function(message) {
         this.loadingView = new LoadingView({message: message});
