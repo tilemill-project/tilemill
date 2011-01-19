@@ -428,12 +428,12 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
         <form id='form-layer'>
           <div class='messages'></div>
           <span class='fields'>
-            <div><label for='bbox'>Bounding Box <span class="required" title="This field is required">*</span></label>
-              <input type='text' class='text required' id='bbox' value='{{ bbox }}' />
-            </div>
             <div>
-              <label for='zoom'>Zoom Levels</label>
-              <input type='text' class='text' id='zoom' value='{{ zoom }}'/>
+              <label for='filename'>Filename</label>
+              <input type='text' class='text' id='filename' value='{{ filename }}'/>
+            </div>
+            <div><label for='bbox'>Bounding Box</label>
+              <input type='text' class='text required' id='bbox' value='{{ bbox }}' />
             </div>
           </span>
           <div class='buttons'>

@@ -2,10 +2,10 @@ var MapView = Backbone.View.extend({
     id: 'map-preview',
     initialize: function() {
         _.bindAll(this, 'render', 'activate', 'controlZoom', 'reload',
-            'fullscreen', 'minimize', 'maximize');
+            'fullscreen', 'projectExport', 'minimize', 'maximize');
         this.render();
         this.model.bind('save', this.reload);
-        this.model.bind('export', this.maximize);
+        this.model.bind('export', this.projectExport);
         window.app.bind('ready', this.activate);
     },
     events: {
@@ -100,6 +100,43 @@ var MapView = Backbone.View.extend({
             this.maximize();
         }
         return false;
+    },
+
+    projectExport: function(view) {
+        this.maximize();
+        var selections_layer = new OpenLayers.Layer.Vector('Temporary Box Layer');
+        view.trigger('bbox',
+            this.map.getExtent().transform(
+                this.map.projection,
+                new OpenLayers.Projection('EPSG:4326')
+            ).toArray()
+        );
+        control = new OpenLayers.Control.DrawFeature(
+            selections_layer,
+            OpenLayers.Handler.RegularPolygon,
+            {
+                featureAdded: function(box) {
+                    var boundingBox = box.geometry.getBounds().transform(
+                        box.layer.map.projection,
+                        new OpenLayers.Projection('EPSG:4326')).toArray();
+                    view.trigger('bbox', boundingBox);
+                    for(i = 0; i < selections_layer.features.length; i++) {
+                        if(selections_layer.features[i] != box) {
+                            selections_layer.features[i].destroy();
+                        }
+                    }
+                    // TODO: Determine pixel dimmensions of box.
+                }
+            }
+        );
+        control.handler.setOptions({
+            'keyMask': OpenLayers.Handler.MOD_ALT,
+            'sides': 4,
+            'irregular': true
+        });
+        this.map.addLayer(selections_layer);
+        this.map.addControl(control);
+        control.activate();
     },
 
     maximize: function() {

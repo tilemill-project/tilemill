@@ -300,9 +300,10 @@ var ExportJobDropdownView = DropdownView.extend({
         var method = $(event.currentTarget).attr('href').substring(1);
         if (typeof exportMethods[method] === 'function') {
             var view = new exportMethods[$(event.currentTarget).attr('href').substring(1)]({
-                model: this.model
+                model: this.model,
+                project: this.options.project
             });
-            this.options.project.trigger('export');
+            this.options.project.trigger('export', view);
             this.toggleContent();
         }
         return false;
@@ -312,9 +313,11 @@ var ExportJobDropdownView = DropdownView.extend({
 var ExportJobView = PopupView.extend({
     className: 'overlay',
     initialize: function() {
-        var form = ich.ExportJobView();
+        // _.bindAll(this, 'updateBbox');
+        var form = ich.ExportJobView(this.options);
         $('span.fields', form).append(this.getFields());
         this.options.content = $('<div>').append(form).remove().html();
+        this.bind('bbox', this.updateBbox)
         this.render();
     },
     events: _.extend(PopupView.prototype.events, {
@@ -332,12 +335,16 @@ var ExportJobView = PopupView.extend({
         job.save();
         this.close();
         return false;
+    },
+    updateBbox: function(bbox) {
+        this.$('#bbox').val(bbox.join());
     }
 });
 
 var ExportJobImageView = ExportJobView.extend({
     initialize: function() {
         this.options.title = 'Export image';
+        this.options.filename = this.options.project.get('id') + '.png';
         ExportJobView.prototype.initialize.call(this);
     },
     getFields: function() {
