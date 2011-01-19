@@ -45,34 +45,64 @@ app.get('/api/:model/:id?', function(req, res, next) {
 app.put('/api/:model/:id', function(req, res, next) {
     if (typeof models[req.param('model')] !== 'undefined') {
         var model = new models[req.param('model')](req.body);
-        model.validateAsync({
-            success: function(model) {
-                model.save(req.body, {
-                    success: function(model, resp) { res.send(model.toJSON()) },
-                    error: function(model, resp) { res.send(resp, 500); }
-                });
-            },
-            error: function(model, resp) {
-                res.send(resp, 500);
-            }
-        });
+        if (req.param('model') === 'Project') {
+            model.validateAsync({
+                success: function(model) {
+                    model.save(req.body, {
+                        success: function(model, resp) { res.send(model.toJSON()) },
+                        error: function(model, resp) { res.send(resp, 500); }
+                    });
+                },
+                error: function(model, resp) {
+                    res.send(resp, 500);
+                }
+            });
+        }
+        else {
+            model.save({}, {
+                success: function(model) {
+                    model.save(req.body, {
+                        success: function(model, resp) { res.send(model.toJSON()) },
+                        error: function(model, resp) { res.send(resp, 500); }
+                    });
+                },
+                error: function(model, resp) {
+                    res.send(resp, 500);
+                }
+            });
+        }
     }
 });
 
 app.post('/api/:model/:id', function(req, res, next) {
     if (typeof models[req.param('model')] !== 'undefined') {
         var model = new models[req.param('model')](req.body);
-        model.validateAsync({
-            success: function(model) {
-                model.save(req.body, {
-                    success: function(model, resp) { res.send(model.toJSON()) },
-                    error: function(model, resp) { res.send(resp, 500); }
-                });
-            },
-            error: function(model, resp) {
-                res.send(resp, 500);
-            }
-        });
+        if (req.param('model') === 'Project') {
+            model.validateAsync({
+                success: function(model) {
+                    model.save(req.body, {
+                        success: function(model, resp) { res.send(model.toJSON()) },
+                        error: function(model, resp) { res.send(resp, 500); }
+                    });
+                },
+                error: function(model, resp) {
+                    res.send(resp, 500);
+                }
+            });
+        }
+        else {
+            model.save({}, {
+                success: function(model) {
+                    model.save(req.body, {
+                        success: function(model, resp) { res.send(model.toJSON()) },
+                        error: function(model, resp) { res.send(resp, 500); }
+                    });
+                },
+                error: function(model, resp) {
+                    res.send(resp, 500);
+                }
+            });
+        }
     }
 });
 
