@@ -60,87 +60,86 @@ h3 { font-size:13px; }
   padding:15px 10px;
   }
 
-  #header a,
-  #header h1 { float:left; }
+#header a,
+#header h1 { float:left; }
 
-  #header h1 {
-    color:#fff;
-    text-shadow:#333 0px 1px 0px;
-    margin-right:20px;
-    }
+#header h1 {
+  color:#fff;
+  text-shadow:#333 0px 1px 0px;
+  margin-right:20px;
+  }
 
-  #header a,
-  a.button {
-    font-weight:bold;
-    float:left;
-    padding:0px 10px;
-    -moz-border-radius:3px;
-    -webkit-border-radius:3px;
-    margin:0px 5px;
-    }
+#header a,
+a.button {
+  font-weight:bold;
+  float:left;
+  padding:0px 10px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  margin:0px 5px;
+  }
 
-  #header .links a,
-  a.button {
-    line-height:18px;
-    border-top:1px solid #444;
-    border-bottom:1px solid #888;
-    color:#ccc;
-    background-color:#555;
-    }
+#header .links a,
+a.button {
+  line-height:18px;
+  border-top:1px solid #444;
+  border-bottom:1px solid #888;
+  color:#ccc;
+  background-color:#555;
+  }
 
-  #header .links a:hover,
-  a:hover.button { color:#fff; }
+#header .links a:hover,
+a:hover.button { color:#fff; }
 
-  #header .actions {
-    position:absolute;
-    right:0px;
-    top:10px;
-    background:#eee;
-    height:20px;
-    line-height:20px;
-    padding:9px 5px 10px 4px;
-    border-width:1px 0px 0px 1px;
-    border-style:solid;
-    border-color:#fff;
-    -moz-border-radius:5px 0px 0px 0px;
-    -webkit-border-radius:5px 0px 0px 0px;
-    -webkit-box-shadow:#444 0px 0px 3px;
+#header .actions {
+  position:absolute;
+  right:0px;
+  top:10px;
+  background:#eee;
+  height:20px;
+  line-height:20px;
+  padding:9px 5px 10px 4px;
+  border-width:1px 0px 0px 1px;
+  border-style:solid;
+  border-color:#fff;
+  -moz-border-radius:5px 0px 0px 0px;
+  -webkit-border-radius:5px 0px 0px 0px;
+  -webkit-box-shadow:#444 0px 0px 3px;
+  }
 
-    }
+#header .actions a {
+  background-color:#e4e4e4;
+  color:#666;
+  }
 
-  #header .actions a {
-    background-color:#e4e4e4;
-    color:#666;
-    }
+#header .actions a:hover {
+  background-color:#fff;
+  color:#333;
+  box-shadow:#ccc 0px 1px 3px;
+  -moz-box-shadow:#ccc 0px 1px 3px;
+  -webkit-box-shadow:#ccc 0px 1px 3px;
+  }
 
-  #header .actions a:hover {
-    background-color:#fff;
-    color:#333;
-    box-shadow:#ccc 0px 1px 3px;
-    -moz-box-shadow:#ccc 0px 1px 3px;
-    -webkit-box-shadow:#ccc 0px 1px 3px;
-    }
+#header .actions a.close {
+  background-color:#666;
+  padding:0px;
+  }
 
-  #header .actions a.close {
-    background-color:#666;
-    padding:0px;
-    }
+#header .actions a.close:active { background-color:#333; }
 
-  #header .actions a.close:active { background-color:#333; }
+/*#header .actions a:focus,
+#header .actions a:active,
+#header .actions a.active,
+#header .actions a.active:hover {
+  background-color:#666;
+  color:#fff;
+  }*/
 
-  #header .actions a:focus,
-  #header .actions a:active,
-  #header .actions a.active,
-  #header .actions a.active:hover {
-    background-color:#666;
-    color:#fff;
-    }
-
-  #header .actions a.save.changed,
-  #header .actions a.save.changed:hover {
-    background:#48a;
-    color:#fff;
-    }
+#header .actions a.save.changed,
+#header .actions a.save.changed:hover {
+  background:#48a;
+  color:#fff;
+  }
 
 /**
  * Home
@@ -612,31 +611,42 @@ li .icon {
   -webkit-border-radius:3px;
   }
 
-  #map-preview #zoom-display h4 {
-    font-size:11px;
-    color:#eee;
-    float:left;
+#map-preview #zoom-display h4 {
+  font-size:11px;
+  color:#eee;
+  float:left;
   }
 
-  #map-preview #zoom-display .zoom-in {
-    float:left;
-    width:10px;
-    height:10px;
-    margin:5px 5px 5px 10px;
-    text-indent:-9999px;
-    background:#222 url(../images/sprite.png) -5px -45px repeat-x;
+#map-preview #zoom-display .zoom-in,
+#map-preview #zoom-display .zoom-out {
+  background:#222 url(../images/sprite.png) -5px -71px repeat-x;
+  cursor: pointer;
+  position: relative;
   }
 
-  #map-preview #zoom-display .zoom-out {
-    float:left;
-    width:10px;
-    height:10px;
-    margin:5px 0 5px 0;
-    text-indent:-9999px;
-    background:#222 url(../images/sprite.png) -25px -45px repeat-x;
+#map-preview #zoom-display .zoom-in:active,
+#map-preview #zoom-display .zoom-out:active {
+  bottom: -1px;
   }
 
+#map-preview #zoom-display .zoom-in {
+  float:left;
+  width:10px;
+  height:10px;
+  margin:5px 5px 5px 10px;
+  text-indent:-9999px;
+  background-position:-5px -71px;
+  }
 
+#map-preview #zoom-display .zoom-out {
+  float:left;
+  width:10px;
+  height:10px;
+  margin:5px 0 5px 0;
+  text-indent:-9999px;
+  background-position:-25px -71px;
+  }
+  
 #map-preview .olHandlerBoxZoomBox {
   border:2px solid #000;
   position:absolute;
@@ -821,16 +831,63 @@ a.inspector-close { background-color:#666; }
 .DropdownView .dropdown-content {
   z-index:5000;
   display:none;
-  background: #666;
+  background: rgba(17,17,17,.9);
   position:absolute;
-  padding:5px 10px;
+  padding: 10px 0px;
   top:20px;
-  left:5px;
+  left:-6px;
+  -webkit-border-radius: 6px;
+  -webkit-border-top-right-radius: 0;
+  -moz-border-radius: 6px;
+  -moz-border-radius-topright: 0;
+  border-radius: 6px;
+  border-top-right-radius: 0;
   }
-
+  
 .DropdownView .dropdown-content.expanded {
   display:block;
   }
+  
+#project .DropdownView a.active,
+#project .DropdownView a.active:hover {
+  background:#e4e4e4 url(../images/sprite.png) no-repeat 58px -145px;
+  color:#666;
+  -webkit-border-radius: 6px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -moz-border-radius: 6px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  border-radius: 6px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  }
+
+#project .DropdownView a{
+  background:#e4e4e4 url(../images/sprite.png) no-repeat 58px -166px;
+  padding-right: 30px;
+  }
+#project .dropdown-content a {
+  background: transparent;
+  color: #FFFFFF;
+  display: block;
+  font-size: 11px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0 40px 0 10px;
+  width: 40px;
+}
+
+#project .dropdown-content a:hover {
+  background:transparent url(../images/sprite.png) 0px -415px repeat-x;
+  box-shadow:0;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  color: #fff;
+}
 
 /**
  * Reference page
