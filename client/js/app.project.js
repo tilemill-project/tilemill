@@ -181,15 +181,13 @@ var ProjectView = Backbone.View.extend({
         });
 
         var jobQueue = new ExportJobList();
-        var jobQueueView = new ExportJobQueueView({
-            model: jobQueue
-        }),
-            exportMenu = new ExportJobDropdownView({
-                model: jobQueue,
-                project: this.model
+        var jobExportMenu = new ExportJobDropdownView({
+            model: jobQueue,
+            project: this.model,
+            map: map
         });
 
-        $('#header .actions', this.el).prepend(exportMenu.el);
+        $('#header .actions', this.el).prepend(jobExportMenu.el);
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(colors.el);
         $('#sidebar', this.el).append(map.el);
@@ -297,14 +295,8 @@ var ExportJobDropdownView = DropdownView.extend({
         'click a.export-option': 'export'
     }),
     export: function(event) {
-        var method = $(event.currentTarget).attr('href').substring(1);
-        if (typeof exportMethods[method] === 'function') {
-            var view = new exportMethods[$(event.currentTarget).attr('href').substring(1)]({
-                model: this.model
-            });
-            this.options.project.trigger('export');
-            this.toggleContent();
-        }
+        this.options.map.xport($(event.currentTarget).attr('href').substring(1), this.model);
+        this.toggleContent();
         return false;
     }
 });
@@ -312,10 +304,54 @@ var ExportJobDropdownView = DropdownView.extend({
 var ExportJobView = PopupView.extend({
     className: 'overlay',
     initialize: function() {
-        var form = ich.ExportJobView();
+        _.bindAll(this, 'boundingBoxAdded');
+        $(this.options.map.el).addClass('exporting');
+        this.options.map.maximize();
+
+        var form = ich.ExportJobView(this.options);
         $('span.fields', form).append(this.getFields());
         this.options.content = $('<div>').append(form).remove().html();
         this.render();
+
+        this.updateBbox(
+            this.options.map.map.getExtent().transform(
+                this.options.map.map.projection,
+                new OpenLayers.Projection('EPSG:4326')
+            ).toArray()
+        );
+
+        this.boxDrawingLayer = new OpenLayers.Layer.Vector('Temporary Box Layer');
+        this.boxDrawingControl = new OpenLayers.Control.DrawFeature(
+            this.boxDrawingLayer,
+            OpenLayers.Handler.RegularPolygon,
+            {
+                featureAdded: this.boundingBoxAdded
+            }
+        );
+        this.boxDrawingControl.handler.setOptions({
+            'keyMask': OpenLayers.Handler.MOD_ALT,
+            'sides': 4,
+            'irregular': true
+        });
+        this.options.map.map.addLayer(this.boxDrawingLayer);
+        this.options.map.map.addControl(this.boxDrawingControl);
+        this.boxDrawingControl.activate();
+
+    },
+    boundingBoxAdded: function(box) {
+        var bounds = box.geometry.getBounds();
+        var boundingBox = bounds.transform(
+            box.layer.map.projection,
+            new OpenLayers.Projection('EPSG:4326')).toArray();
+        this.updateBbox(boundingBox);
+        // Remove old box
+        for(i = 0; i < this.boxDrawingLayer.features.length; i++) {
+            if(this.boxDrawingLayer.features[i] != box) {
+                this.boxDrawingLayer.features[i].destroy();
+            }
+        }
+        // TODO: Determine pixel dimmensions of box.
+        var aspect = bounds.getWidth() / bounds.getHeight();
     },
     events: _.extend(PopupView.prototype.events, {
         'click input.submit': 'submit'
@@ -328,16 +364,29 @@ var ExportJobView = PopupView.extend({
             }
         });
         var job = new ExportJob(data);
-        this.model.add(job);
+        this.options.collection.add(job);
         job.save();
         this.close();
         return false;
-    }
+    },
+    updateBbox: function(bbox) {
+        this.$('#bbox').val(bbox.join());
+    },
+    close: function() {
+        this.boxDrawingControl.deactivate();
+        this.options.map.map.removeControl(this.boxDrawingControl);
+        this.options.map.map.removeLayer(this.boxDrawingLayer);
+        $(this.options.map.el).removeClass('exporting');
+        this.options.map.minimize();
+        PopupView.prototype.close.call(this);
+        return false;
+    },
 });
 
 var ExportJobImageView = ExportJobView.extend({
     initialize: function() {
         this.options.title = 'Export image';
+        this.options.filename = this.model.get('id') + '.png';
         ExportJobView.prototype.initialize.call(this);
     },
     getFields: function() {

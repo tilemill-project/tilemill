@@ -287,6 +287,7 @@
           <div>
             <label for='srs-name'>SRS</label>
             <select id='srs-name'>
+              <option value='' {{#srs_name_autodetect}}selected='selected'{{/srs_name_autodetect}}>Autodetect</option>
               <option value='900913' {{#srs_name_900913}}selected='selected'{{/srs_name_900913}}>900913</option>
               <option value='WGS84' {{#srs_name_WGS84}}selected='selected'{{/srs_name_WGS84}}>WGS84</option>
               <option value='custom' {{#srs_name_custom}}selected='selected'{{/srs_name_custom}}>Add custom</option>
@@ -428,12 +429,12 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
         <form id='form-layer'>
           <div class='messages'></div>
           <span class='fields'>
-            <div><label for='bbox'>Bounding Box <span class="required" title="This field is required">*</span></label>
-              <input type='text' class='text required' id='bbox' value='{{ bbox }}' />
-            </div>
             <div>
-              <label for='zoom'>Zoom Levels</label>
-              <input type='text' class='text' id='zoom' value='{{ zoom }}'/>
+              <label for='filename'>Filename</label>
+              <input type='text' class='text' id='filename' value='{{ filename }}'/>
+            </div>
+            <div><label for='bbox'>Bounding Box</label>
+              <input type='text' class='text required' id='bbox' value='{{ bbox }}' />
             </div>
           </span>
           <div class='buttons'>

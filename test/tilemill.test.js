@@ -34,7 +34,7 @@ module.exports = {
             // Create project
             assert.response(app, {
                 url: '/api/Project/Test',
-                method: 'PUT',
+                method: 'POST',
                 headers: {
                     'content-type': 'application/json'
                 },

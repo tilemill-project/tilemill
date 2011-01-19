@@ -5,7 +5,6 @@ var MapView = Backbone.View.extend({
             'fullscreen', 'minimize', 'maximize');
         this.render();
         this.model.bind('save', this.reload);
-        this.model.bind('export', this.maximize);
         window.app.bind('ready', this.activate);
     },
     events: {
@@ -93,27 +92,31 @@ var MapView = Backbone.View.extend({
         return this;
     },
 
-    fullscreen: function() {
-        if ($(this.el).hasClass('fullscreen')) {
-            this.minimize();
-        } else {
-            this.maximize();
+    xport: function(method, collection) {
+        if (typeof exportMethods[method] === 'function') {
+            var view = new exportMethods[method]({
+                model: this.model,
+                collection: collection,
+                map: this
+            });
         }
+    },
+
+    fullscreen: function() {
+        $(this.el).toggleClass('fullscreen');
+        this.map.updateSize();
         return false;
     },
 
     maximize: function() {
         $(this.el).addClass('fullscreen');
         this.map.updateSize();
-        fullControls = new OpenLayers.Control.PanZoom();
-        this.map.addControls([fullControls]);
         return false;
     },
 
     minimize: function() {
         $(this.el).removeClass('fullscreen');
         this.map.updateSize();
-        this.map.removeControl(fullControls);
         return false;
     },
 
