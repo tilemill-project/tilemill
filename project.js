@@ -22,7 +22,7 @@ var Stylesheet = Backbone.Model.extend({
     },
     validate: function(attributes) {
         if (/^[a-z0-9\-_.]+$/i.test(attributes.id) === false) {
-            return 'Name must contain only letters, numbers, dashes, underscores and periods.';
+            return 'Name must contain no space and only letters, numbers, dashes, underscores and periods.';
         }
     }
 });
