@@ -161,8 +161,20 @@ function destroy(model, callback) {
  * Save a model. Called by create/update.
  */
 function save(model, callback) {
+    var basePath = path.join(settings.files, model.type);
     var modelPath = path.join(settings.files, model.type, model.id);
     Step(
+        function() {
+            path.exists(basePath, this);
+        },
+        function(exists) {
+            if (!exists) {
+                fs.mkdir(basePath, 0777, this);
+            }
+            else {
+                this();
+            }
+        },
         function() {
             rmrf(modelPath, this);
         },
