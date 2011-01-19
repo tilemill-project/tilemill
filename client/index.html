@@ -127,7 +127,6 @@
         </span>
         <div class='actions clearfix'>
           <a class='save' href='#'>Save</a>
-          <a class='info' href='#'>Info</a>
           <a class='icon close' href='#'>Back home</a>
         </div>
       </div>
@@ -268,6 +267,7 @@
         <li><a class='export-option export-png' href='#ExportJobImage'>PNG</a></li>
         <li><a class='export-option export-zip' href='#'>Zip</a></li>
         <li><a class='export-option export-mbtiles' href='#'>MBTiles</a></li>
+        <li><a class='export-option export-embed' href='#ExportJobEmbed'>Embed</a></li>
       </ul>
     </script>
 
@@ -307,15 +307,12 @@
       </div>
     </script>
 
-    <script type='text/html' id='PopupProjectInfo'>
+    <script type='text/html' id='ExportJobEmbedView'>
       <div id='popup-info' class='clearfix pane'>
         <form>
           <div class='messages'></div>
-          <div><label for='tilelive-url'>TileLive URL</label>
-            <input id='tilelive-url' class='text' type='text' value='{{ tilelive_url }}' />
-          </div>
-          <div><label for='mml-url'>MML URL</label>
-            <input id='mml-url' class='text' type='text' value='{{ mml_url }}' />
+          <div><label for='tile-url'>Tile URL</label>
+            <input id='tile-url' class='text' type='text' value='{{ tile_url }}' />
           </div>
           <div>
             <label for='polymaps'>Polymaps</label>
@@ -327,7 +324,7 @@ var map = po.map()
     .add(po.hash())
     // layer setup
     .add(po.image()
-    .url(po.url({{ tilelive_url }}
+    .url(po.url({{ tile_url }}
     + '/{Z}/{X}/{Y}.png')
     ))
     // end layer setup
@@ -337,7 +334,7 @@ var map = po.map()
         </div>
         <div><label for='openlayers'>OpenLayers</label>
             <textarea class='code-snippet'>
-var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercator: true });
+var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: true });
             </textarea>
           </div>
         </form>

@@ -137,13 +137,12 @@ var ProjectView = Backbone.View.extend({
     id: 'ProjectView',
     events: {
         'click #header a.save': 'saveProject',
-        'click #header a.info': 'projectInfo',
         'click #header a.settings': 'settings',
         'click #header a.close': 'close',
         'click #header a.reference': 'reference'
     },
     initialize: function() {
-        _.bindAll(this, 'render', 'saveProject', 'projectInfo',
+        _.bindAll(this, 'render', 'saveProject',
             'home', 'minimal', 'changed', 'reference', 'setMinimal');
         window.app.settings.bind('change', this.setMinimal);
         this.model.view = this;
@@ -257,16 +256,6 @@ var ProjectView = Backbone.View.extend({
         });
         return false;
     },
-    projectInfo: function() {
-        window.app.message('Project Info', {
-            'tilelive_url': this.model.layerURL({signed: true}),
-            'mml_url': [
-                window.location.protocol,
-                window.location.host
-            ].join('//') + this.model.url()
-        }, 'projectInfo');
-        return false;
-    },
     close: function() {
         return (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?'));
     },
@@ -316,7 +305,7 @@ var ExportJobDropdownView = DropdownView.extend({
         'click a.export-option': 'export'
     }),
     export: function(event) {
-        this.options.map.xport($(event.currentTarget).attr('href').substring(1), this.model);
+        this.options.map.xport($(event.currentTarget).attr('href').split('#').pop(), this.model);
         this.toggleContent();
         return false;
     }
@@ -460,8 +449,19 @@ var ExportJobImageView = ExportJobView.extend({
     }
 });
 
+var ExportJobEmbedView = PopupView.extend({
+    initialize: function(options) {
+        this.options.title = 'Embed';
+        this.options.content = ich.ExportJobEmbedView({
+            tile_url: this.options.project.layerURL({signed: true}),
+        }, true);
+        PopupView.prototype.initialize.call(this, options);
+    }
+});
+
 var exportMethods = {
-    ExportJobImage: ExportJobImageView
+    ExportJobImage: ExportJobImageView,
+    ExportJobEmbed: ExportJobEmbedView
 };
 
 /**
