@@ -139,7 +139,7 @@ var ProjectView = Backbone.View.extend({
         'click #header a.save': 'saveProject',
         'click #header a.info': 'projectInfo',
         'click #header a.settings': 'settings',
-        'click #header a.home': 'home',
+        'click #header a.close': 'close',
         'click #header a.reference': 'reference'
     },
     initialize: function() {
@@ -267,7 +267,7 @@ var ProjectView = Backbone.View.extend({
         }, 'projectInfo');
         return false;
     },
-    home: function() {
+    close: function() {
         return (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?'));
     },
     reference: function() {
