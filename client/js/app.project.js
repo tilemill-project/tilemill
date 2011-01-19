@@ -134,11 +134,12 @@ var ProjectView = Backbone.View.extend({
         'click #header a.save': 'saveProject',
         'click #header a.info': 'projectInfo',
         'click #header a.minimal': 'minimal',
-        'click #header a.home': 'home'
+        'click #header a.home': 'home',
+        'click #header a.reference': 'reference'
     },
     initialize: function() {
         _.bindAll(this, 'render', 'saveProject', 'projectInfo',
-            'home', 'minimal', 'changed');
+            'home', 'minimal', 'changed', 'reference');
         this.model.view = this;
         this.model.bind('change', this.changed);
         this.model.fetch({
@@ -261,6 +262,16 @@ var ProjectView = Backbone.View.extend({
     },
     home: function() {
         return (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?'));
+    },
+    reference: function() {
+        if (this.referenceView) {
+            this.referenceView.remove();
+            delete this.referenceView;
+        }
+        else {
+            this.referenceView = new ReferenceView();
+        }
+        return false;
     },
     minimal: function() {
         $('a.minimal', this.el).toggleClass('active');

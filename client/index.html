@@ -121,7 +121,7 @@
       <div id='header' class='clearfix'>
         <h1>Editing {{ id }}</h1>
         <span class='links'>
-          <a target='_blank' class='reference' href='#reference'>Reference</a>
+          <a class='reference' href='#'>Reference</a>
         </span>
         <div class='actions clearfix'>
           <a class='save' href='#'>Save</a>
@@ -152,26 +152,18 @@
     </script>
 
     <script type='text/html' id='LayerFieldsView'>
-      <div class='sidebar-header clearfix pane'>
-        <h2>{{ id }}</h2>
-        <a class='icon close' href='#'>Close</a>
-      </div>
-      <div class='drawer-content'>
-        {{^loading}}
-        <table class='features'>
-          <thead>
-            <tr>
-              {{#fields}}
-                <th class='{{type}}'><a title='{{{tooltip}}}'>{{name}}</a></th>
-              {{/fields}}
-            </tr>
-          </thead>
-          <tbody>
-            {{{rows}}}
-          </tbody>
-        </table>
-        {{/loading}}
-      </div>
+      <table class='features'>
+        <thead>
+          <tr>
+            {{#fields}}
+              <th class='{{type}}'><a title='{{{tooltip}}}'>{{name}}</a></th>
+            {{/fields}}
+          </tr>
+        </thead>
+        <tbody>
+          {{{rows}}}
+        </tbody>
+      </table>
     </script>
 
     <script type='text/html' id='LayerFieldsToolTip'>
@@ -245,6 +237,16 @@
         <h2>Colors</h2>
       </div>
       <div class='swatches clearfix pane'></div>
+    </script>
+
+    <script type='text/html' id='DrawerView'>
+      <div class='sidebar-header clearfix pane'>
+        <h2>{{title}}</h2>
+        <a class='icon close' href='#'>Close</a>
+      </div>
+      <div class='drawer-content'>
+        {{{content}}}
+      </div>
     </script>
 
     <script type='text/html' id='PopupView'>
@@ -374,21 +376,18 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
     </script>
 
     <script type='text/html' id='ReferenceView'>
-      <div id='header' class='clearfix'>
-        <h1>Reference</h1>
-        <div class='actions clearfix'>
-          <a class='icon close' href='#'>Close</a>
-        </div>
-      </div>
-      <div id='main'>
-        <div id='main-content' class='pane'></div>
-      </div>
-      <div id='sidebar'>
-        <div class='reference-help pane'>
-          <p>TileMill supports the <a href='https://github.com/mapnik/Cascadenik'>Cascadenik</a>
-          styling language. It should be familiar to <a href='http://www.w3schools.com/css/'>CSS</a>
-          users and easy to pick up for everyone else.</p>
-          <p>A simple Cascadenik style looks like</p>
+      <ul class='reference-links clearfix'>
+        <li><a class='active' href='#reference-section-intro'>intro</a></li>
+        {{#symbolizers}}
+          <li><a href='#reference-section-{{symbolizer}}'>{{symbolizer}}</a></li>
+        {{/symbolizers}}
+      </ul>
+      <div class='reference-section active' id='reference-section-intro'>
+        <h2>Introduction</h2>
+        <p>TileMill supports the <a href='https://github.com/mapnik/Cascadenik'>Cascadenik</a>
+        styling language. It should be familiar to <a href='http://www.w3schools.com/css/'>CSS</a>
+        users and easy to pick up for everyone else.</p>
+        <p>A simple Cascadenik style looks like</p>
 <pre>
 #world {
   polygon-fill: #eee;
@@ -396,23 +395,57 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
   line-width: 0.5;
 }
 </pre>
-          <p>Which is the <em>selector</em> <code>#world</code>
-          - which makes this affect the layer with the id <code>world</code>,
-          and then three <em>declarations</em> which color the countries 
-          the color <code>#eee</code> and give them a grey line <code>0.5</code>
-          units wide.</p>
+        <p>Which is the <em>selector</em> <code>#world</code>
+        - which makes this affect the layer with the id <code>world</code>,
+        and then three <em>declarations</em> which color the countries 
+        the color <code>#eee</code> and give them a grey line <code>0.5</code>
+        units wide.</p>
 
-          <p>There are other selectors you can use to affect different parts of a map</p>
+        <p>There are other selectors you can use to affect different parts of a map</p>
 
-          <ul>
-              <li><code>* { }</code>: All layers
-              <li><code>.red { }</code>: Only layers with the class 'red'
-              <li><code>.blue[zoom>8] { }</code> Only layers with the class blue, zoomed beyond 8
-              <li><code>#countries NAME { }</code> Country names, from a layer with id country an a 
-          property called NAME
-          </ul>
-        </div>
+        <ul>
+            <li><code>* { }</code>: All layers
+            <li><code>.red { }</code>: Only layers with the class 'red'
+            <li><code>.blue[zoom>8] { }</code> Only layers with the class blue, zoomed beyond 8
+            <li><code>#countries NAME { }</code> Country names, from a layer with id country an a 
+        property called NAME
+        </ul>
       </div>
+
+      {{#symbolizers}}
+        {{>ReferenceSymbolizer}}
+      {{/symbolizers}}
+    </script>
+
+    <script type='text/html' class='partial' id='ReferenceSymbolizer'>
+      <div class='reference-section' id='reference-section-{{symbolizer}}'>
+        <h2>{{ symbolizer }}</h2>
+        <table class='reference-table'>
+          <thead>
+            <tr>
+              <th>css parameter</th>
+              <th>type</th>
+              <th>default value</th>
+            </tr>
+          </thead>
+          {{#properties}}
+            {{>ReferenceProperty}}
+          {{/properties}}
+        </table>
+      </div>
+    </script>
+
+    <script type='text/html' class='partial' id='ReferenceProperty'>
+      <tr>
+        <th><a {{#doc}}title='{{ doc }}' class='reference-doc-available'{{/doc}}>{{ css }}</a>
+        </th>
+        <td>{{ type }}</td>
+        <td>{{ default_value }}
+          {{#default_meaning}}
+            <small class='reference-default-meaning'>({{ default_meaning }})</small>
+          {{/default_meaning}}
+        </td>
+      </tr>
     </script>
 
     <script type='text/html' id='DatasourceRow'>
@@ -451,47 +484,6 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
         <input type='text' class='text' id='height' value='{{ height }}'/>
       </div>
     </script>
-
-    <script type='text/html' id='reference_symbolizer'>
-      <div class='reference-symbolizer'>
-        <h2>{{ symbolizer }}</h2>
-        <table class='reference-table'>
-          <thead>
-            <tr>
-              <th>css parameter</th>
-              <th>type</th>
-              <th>default value</th>
-            </tr>
-          </thead>
-          {{#properties}}
-            {{>reference_property}}
-          {{/properties}}
-        </table>
-      </div>
-    </script>
-
-    <script type='text/html' class='partial' id='reference_property'>
-      <tr>
-        <th><a {{#doc}}title='{{ doc }}' class='reference-doc-available'{{/doc}}>{{ css }}</a>
-        </th>
-        <td>{{ type }}</td>
-        <td>{{ default_value }}
-          {{#default_meaning}}
-            <small class='reference-default-meaning'>({{ default_meaning }})</small>
-          {{/default_meaning}}
-        </td>
-      </tr>
-    </script>
-
-    <script type='text/html' id='quick_reference'>
-      <div id='quick-reference'>
-        <strong>{{ css }}</strong>: {{ type }} <span class='default'>(default {{ default-value }})</span>
-        <p>{{#doc}}
-          {{ doc }}
-        {{/doc}}</p>
-      </div>
-    </script>
-  </head>
 
   <body>
     <div id='app'></div>

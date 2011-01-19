@@ -2,7 +2,6 @@ var Router = Backbone.Controller.extend({
     routes: {
         '': 'list',
         'list': 'list',
-        'reference': 'reference',
         'project/:id': 'project',
         'visualization/:id': 'visualization'
     },
@@ -14,9 +13,6 @@ var Router = Backbone.Controller.extend({
     },
     visualization: function(id) {
         new VisualizationView({ id: id });
-    },
-    reference: function() {
-        new ReferenceView();
     },
     error: function() {
         new ErrorView({ message: 'Page not found.' });

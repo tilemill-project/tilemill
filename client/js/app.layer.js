@@ -207,40 +207,29 @@ var LayerPopupView = PopupView.extend({
     },
 });
 
-var LayerFieldsView = Backbone.View.extend({
-    id: 'layer-fields',
+var LayerFieldsView = DrawerView.extend({
     className: 'drawer',
-    events: {
-        'click .close': 'remove',
+    events: _.extend(DrawerView.prototype.events, {
         'click .showall': 'deferredRender'
-    },
+    }),
     initialize: function (options) {
-        _.bindAll(this, 'loading', 'render', 'deferredRender', 'remove');
+        options.title = this.model.id;
+        options.content = '';
+        DrawerView.prototype.initialize.call(this, options);
+
+        _.bindAll(this, 'deferredRender', 'loadFields');
         var that = this;
-        this.loading(function() {
+        this.bind('render', function() {
             that.model.fetch({
-                'success': that.render,
-                'error': that.render
+                'success': that.loadFields,
+                'error': that.loadFields
             });
         });
         this.features = [];
         this.deferredFeatures = [];
     },
-    loading: function(callback) {
-        window.app.el.append($(this.el));
-        $(this.el).html(ich.LayerFieldsView({
-            id: this.model.id,
-            loading: true,
-            fields: []
-        }));
-        $(this.el).animate({left: '0%'}, callback);
-    },
-    render: function () {
-        var object = {
-            id: this.model.id,
-            loading: false,
-            fields: []
-        };
+    loadFields: function () {
+        var object = { fields: [] };
         for (var fieldId in this.model.get('fields')) {
             var field = this.model.get('fields')[fieldId];
             field.name = fieldId;
@@ -270,7 +259,7 @@ var LayerFieldsView = Backbone.View.extend({
             }
         }
         object.rows = ich.LayerFieldsRowsView({features: this.features}, true);
-        $(this.el).html(ich.LayerFieldsView(object));
+        this.$('.drawer-content').html(ich.LayerFieldsView(object, true));
         if (this.deferredFeatures.length) {
             this.$('.drawer-content').append(ich.LayerFieldsViewAllRowsButtonView({deferredCount: this.deferredFeatures.length}));
         }
@@ -278,14 +267,8 @@ var LayerFieldsView = Backbone.View.extend({
     },
     deferredRender: function() {
         this.$('.drawer-content .showall').remove();
-        var rows = ich.LayerFieldsRowsView({features: this.deferredFeatures}, true);
+        var rows = ich.LayerFieldsRowsView({features: this.deferredFeatures});
         this.$('table.features tbody').append(rows);
-        return false;
-    },
-    remove: function() {
-        $('table', this.el).remove();
-        $(this.el).animate( {left: '-50%'}, function() { $(this).remove() });
         return false;
     }
 });
-

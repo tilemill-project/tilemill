@@ -52,3 +52,29 @@ var DropdownView = Backbone.View.extend({
         this.$('.dropdown-content').removeClass('expanded');
     }
 });
+
+var DrawerView = Backbone.View.extend({
+    className: 'drawer',
+    events: {
+        'click .close': 'remove'
+    },
+    initialize: function () {
+        _.bindAll(this, 'render');
+        this.render();
+    },
+    render: function () {
+        var that = this;
+        window.app.el.append($(this.el));
+        $(this.el).html(ich.DrawerView(this.options));
+        $(this.el).animate({left: '0%'}, function() {
+            that.trigger('render');
+        });
+        return this;
+    },
+    remove: function() {
+        $('.drawer-content', this.el).children().remove();
+        $(this.el).animate( {left: '-50%'}, function() { $(this).remove() });
+        return false;
+    }
+});
+
