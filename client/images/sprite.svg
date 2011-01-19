@@ -18,11 +18,23 @@
    version="1.0"
    sodipodi:docname="sprite.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/Users/tristen/devseed/TileMill/client/images/sprite.png"
+   inkscape:export-filename="/home/devseed/tilemill/client/images/sprite.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
      id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4098">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop4100" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop4102" />
+    </linearGradient>
     <linearGradient
        id="linearGradient5555">
       <stop
@@ -1265,6 +1277,16 @@
        y1="3"
        x2="53"
        y2="17" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4098"
+       id="linearGradient4104"
+       x1="-65"
+       y1="5"
+       x2="-50"
+       y2="20"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(2.2292672e-6,1e-7)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -1276,9 +1298,9 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4124458"
-     inkscape:cx="197.40552"
-     inkscape:cy="275.62729"
+     inkscape:zoom="1"
+     inkscape:cx="208.10888"
+     inkscape:cy="303.77282"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -1301,10 +1323,6 @@
        opacity="0.25882353"
        empcolor="#ff00d7"
        empopacity="0.11764706" />
-    <sodipodi:guide
-       orientation="1,0"
-       position="6.445557,313.39174"
-       id="guide5288" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -1314,7 +1332,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1323,13 +1341,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,80)">
-    <rect
-       style="fill:url(#linearGradient3219);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="rect3210"
-       width="400"
-       height="40"
-       x="0"
-       y="240" />
     <path
        id="path3191"
        d="m 28.5,-56 c -2.484,0 -4.5,2.016 -4.5,4.5 0,2.484 2.016,4.5 4.5,4.5 0.85669,0 1.630644,-0.271418 2.3125,-0.6875 L 34.5,-44 36,-45.5 32.3125,-49.1875 C 32.728582,-49.869356 33,-50.64331 33,-51.5 33,-53.984 30.984,-56 28.5,-56 z m 0,2 c 1.38,0 2.5,1.12 2.5,2.5 0,1.38 -1.12,2.5 -2.5,2.5 -1.380001,0 -2.5,-1.12 -2.5,-2.5 0,-1.380001 1.12,-2.5 2.5,-2.5 z"
@@ -1369,13 +1380,23 @@
          id="rect2404"
          style="fill:url(#linearGradient3182);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
-    <rect
-       y="304"
-       x="0"
-       height="1"
-       width="400"
-       id="rect3212"
-       style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <g
+       id="g3292">
+      <rect
+         y="240"
+         x="0"
+         height="40"
+         width="400"
+         id="rect3210"
+         style="fill:url(#linearGradient3219);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect3212"
+         width="400"
+         height="1"
+         x="0"
+         y="279" />
+    </g>
     <path
        style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        d="m 0,160 0,1 1,-1 -1,0 z m 4,0 -4,4 0,2 6,-6 -2,0 z m 5,0 -9,9 0,1 0,1 1,-1 9,-9 0,-1 -1,0 z m 1,4 -6,6 -4,4 0,2 6,-6 4,-4 0,-2 z m 0,5 -1,1 -9,9 0,1 0,1 1,-1 9,-9 0,-1 0,-1 z m 0,5 -6,6 -4,4 0,2 6,-6 4,-4 0,-2 z m 0,5 -1,1 -9,9 0,1 0,1 1,-1 9,-9 0,-1 0,-1 z m 0,5 -6,6 -4,4 0,2 6,-6 4,-4 0,-2 z m 0,5 -1,1 -9,9 0,1 0,1 1,-1 9,-9 0,-1 0,-1 z m 0,5 -6,6 -4,4 0,2 6,-6 4,-4 0,-2 z m 0,5 -1,1 -9,9 0,1 0,1 1,-1 9,-9 0,-1 0,-1 z m 0,5 -6,6 -4,4 0,2 6,-6 4,-4 0,-2 z m 0,5 -1,1 -9,9 0,1 0,1 1,-1 9,-9 0,-1 0,-1 z m 0,5 -6,6 -4,4 0,2 6,-6 4,-4 0,-2 z m 0,5 -1,1 -9,9 0,1 0,1 1,-1 9,-9 0,-1 0,-1 z m 0,5 -6,6 -4,4 0,2 6,-6 4,-4 0,-2 z m 0,5 -1,1 -9,9 0,1 1,0 9,-9 0,-1 0,-1 z m 0,5 -6,6 2,0 4,-4 0,-2 z m 0,5 -1,1 1,0 0,-1 z"
@@ -2064,7 +2085,7 @@
          inkscape:connector-curvature="0" />
     </g>
     <g
-       transform="matrix(1,0,0,-0.625,0,559)"
+       transform="matrix(1,0,0,-0.625,0,560)"
        id="g6781"
        style="fill:url(#linearGradient6789);fill-opacity:1">
       <rect
@@ -2084,26 +2105,18 @@
     </g>
     <path
        inkscape:connector-curvature="0"
-       id="path7317"
-       d="m 14.5,94.32642 -4,5 -4,-5 0,0"
-       style="fill:#666666;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    <g
-       id="g7693"
-       transform="matrix(1.4868471,0,0,1.3784635,-3.1065051,-28.377744)">
-      <g
-         id="g7697"
-         style="fill:#111111;fill-opacity:0.89999998">
-        <path
-           style="fill:#111111;fill-opacity:0.89999998;stroke-width:0.40000001000000002;stroke-miterlimit:4;stroke-dasharray:none"
-           d="m 4.835298,69.690316 c -1.421823,0 -2.5625,1.14068 -2.5625,2.5625 l 0,7.40625 c 0,0.09402 0.02149,0.1899 0.03125,0.28125 l 0,2.8125 13.59375,0 0,-3.09375 0,-5.21875 0,-2.1875 c 0,-1.42182 -1.140677,-2.5625 -2.5625,-2.5625 l -8.5,0 z"
-           id="rect7323"
-           inkscape:connector-curvature="0" />
-      </g>
-    </g>
+       style="color:#000000;fill:#111111;fill-opacity:0.9;fill-rule:nonzero;stroke:none;stroke-width:1.43163002;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 4,67 c -2.216,0 -4,1.784 -4,4 l 0,5 0,5 0,4 4,0 12,0 4,0 0,-4 0,-5 0,-5 c 0,-2.216 -1.784,-4 -4,-4 L 4,67 z"
+       id="rect4066" />
     <path
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 14.5,74.402238 -4,5 -4,-5 0,0"
-       id="path7321"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 6,74 8,0 -4,5 z"
+       id="path4106"
        inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path4193"
+       d="m 6,94 8,0 -4,5 z"
+       style="color:#000000;fill:#666666;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
   </g>
 </svg>
