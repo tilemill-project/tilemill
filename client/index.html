@@ -71,6 +71,7 @@
       <h1>TileMill</h1>
       <span class='links'>
         <a class='info' href='#info'>About</a>
+        <a class='settings' href='#'>Settings</a>
       </span>
     </div>
     <div id='content' class='clearfix'>
@@ -122,11 +123,11 @@
         <h1>Editing {{ id }}</h1>
         <span class='links'>
           <a class='reference' href='#'>Reference</a>
+          <a class='settings' href='#'>Settings</a>
         </span>
         <div class='actions clearfix'>
           <a class='save' href='#'>Save</a>
           <a class='info' href='#'>Info</a>
-          <a class='minimal' href='#'>Minimal Mode</a>
           <a class='icon close' href='#'>Back home</a>
         </div>
       </div>
@@ -482,6 +483,22 @@ var layer = new OpenLayers.Layer('layer', {{ tilelive_url }}, { sphericalMercato
         <input type='text' class='text' id='width' value='{{ width }}'/>
         <span>x</span>
         <input type='text' class='text' id='height' value='{{ height }}'/>
+      </div>
+    </script>
+
+    <script type='text/html' id='SettingsPopupView'>
+      <div id='popup-settings' class='clearfix pane'>
+        <form id='form-layer'>
+          <div><label for='mode'>Editing mode</label>
+            <select id='mode'>
+                <option value='normal' {{^minimal_mode}}selected='selected'{{/minimal_mode}}>Normal</option>
+                <option value='minimal' {{#minimal_mode}}selected='selected'{{/minimal_mode}}>Minimal</option>
+            </select>
+          </div>
+          <div class='buttons'>
+              <input class='submit' type='submit' value='Save' />
+          </div>
+        </form>
       </div>
     </script>
 

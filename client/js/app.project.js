@@ -40,7 +40,8 @@ var ProjectListView = Backbone.View.extend({
     },
     events: {
         'click input.submit': 'add',
-        'click div#header a.info': 'about'
+        'click div#header a.info': 'about',
+        'click div#header a.settings': 'settings'
     },
     add: function() {
         var id = $('input.text', this.el).val();
@@ -76,6 +77,10 @@ var ProjectListView = Backbone.View.extend({
     showError: function(model, error) {
         window.app.done();
         window.app.message('Error', error);
+    },
+    settings: function() {
+        new SettingsPopupView({ model: window.app.settings });
+        return false;
     }
 });
 
@@ -133,13 +138,14 @@ var ProjectView = Backbone.View.extend({
     events: {
         'click #header a.save': 'saveProject',
         'click #header a.info': 'projectInfo',
-        'click #header a.minimal': 'minimal',
+        'click #header a.settings': 'settings',
         'click #header a.home': 'home',
         'click #header a.reference': 'reference'
     },
     initialize: function() {
         _.bindAll(this, 'render', 'saveProject', 'projectInfo',
-            'home', 'minimal', 'changed', 'reference');
+            'home', 'minimal', 'changed', 'reference', 'setMinimal');
+        window.app.settings.bind('change', this.setMinimal);
         this.model.view = this;
         this.model.bind('change', this.changed);
         this.model.fetch({
@@ -198,6 +204,7 @@ var ProjectView = Backbone.View.extend({
 
         window.app.el.html(this.el);
         window.app.trigger('ready');
+        this.setMinimal(); // set minimal/normal mode
         return this;
     },
     saveProject: function() {
@@ -273,13 +280,12 @@ var ProjectView = Backbone.View.extend({
         }
         return false;
     },
-    minimal: function() {
-        $('a.minimal', this.el).toggleClass('active');
-        if ($('a.minimal', this.el).is('.active')) {
+    setMinimal: function() {
+        if (window.app.settings.get('mode') === 'minimal') {
             $(this.el).addClass('minimal');
             this.watcher = new Watcher(this.model);
         }
-        else {
+        else if (this.watcher) {
             $(this.el).removeClass('minimal');
             this.watcher.destroy();
         }
@@ -287,6 +293,10 @@ var ProjectView = Backbone.View.extend({
     },
     changed: function() {
         $('#header a.save', this.el).addClass('changed');
+    },
+    settings: function() {
+        new SettingsPopupView({ model: window.app.settings });
+        return false;
     }
 });
 

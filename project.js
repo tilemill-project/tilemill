@@ -8,6 +8,33 @@ if (typeof require !== 'undefined') {
 }
 
 /**
+ * Model: Settings
+ *
+ * Settings model. Stores any user-specific configuration related to the app.
+ */
+var Settings = Backbone.Model.extend({
+    /**
+     * Model name used for storage.
+     */
+    type: 'settings',
+    /**
+     * Override url() method for convenience so we don't always need a
+     * collection reference around for CRUD operations on a single model.
+     */
+    url: function() {
+        return '/api/Settings/' + this.id;
+    },
+    /**
+     * Validate settings.
+     */
+    validate: function(attributes) {
+        if (typeof attributes.mode !== 'undefined' && attributes.mode !== 'normal' && attributes.mode !== 'minimal') {
+            return 'Invalid editor mode specified.';
+        }
+    }
+});
+
+/**
  * Model: Stylesheet
  *
  * This model is *not* backed directly by the server.
@@ -372,7 +399,8 @@ if (typeof module !== 'undefined') {
         Project: Project,
         ProjectList: ProjectList,
         ExportJob: ExportJob,
-        ExportJobList: ExportJobList
+        ExportJobList: ExportJobList,
+        Settings: Settings
     };
 }
 
