@@ -184,7 +184,7 @@
        x2="0"
        y2="400"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0,48)" />
+       gradientTransform="translate(0,28)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3176"
@@ -983,7 +983,8 @@
        y1="408.79999"
        x2="170.5"
        y2="448"
-       gradientUnits="userSpaceOnUse" />
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,-81.6)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient5555"
@@ -992,16 +993,18 @@
        x1="171"
        y1="408.79999"
        x2="170.5"
-       y2="448" />
+       y2="448"
+       gradientTransform="translate(0,-81.6)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient5555"
        id="linearGradient6793"
        gradientUnits="userSpaceOnUse"
-       x1="171"
-       y1="408.79999"
-       x2="170.5"
-       y2="448" />
+       x1="108.79694"
+       y1="486.48248"
+       x2="108.76095"
+       y2="529.64203"
+       gradientTransform="translate(0,-81.6)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3156"
@@ -1273,19 +1276,19 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8248916"
-     inkscape:cx="13.681654"
-     inkscape:cy="315.67735"
+     inkscape:zoom="1.4124458"
+     inkscape:cx="197.40552"
+     inkscape:cy="275.62729"
      inkscape:document-units="px"
-     inkscape:current-layer="g7693"
+     inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:snap-bbox="true"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="1280"
      inkscape:window-height="756"
-     inkscape:window-x="30"
-     inkscape:window-y="0"
+     inkscape:window-x="10"
+     inkscape:window-y="5"
      inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
@@ -1311,7 +1314,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1350,7 +1353,7 @@
        inkscape:connector-curvature="0" />
     <g
        id="g3194"
-       transform="matrix(1,0,0,1.25,0,-230)">
+       transform="matrix(1,0,0,1.25,0,-205)">
       <rect
          style="fill:#666666;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
          id="rect3971"
@@ -1367,7 +1370,7 @@
          style="fill:url(#linearGradient3182);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
     <rect
-       y="279"
+       y="304"
        x="0"
        height="1"
        width="400"
@@ -1482,7 +1485,7 @@
        style="color:#000000;fill:url(#linearGradient2463);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        inkscape:connector-curvature="0" />
     <g
-       transform="matrix(1,0,0,0.025,0,320)"
+       transform="matrix(1,0,0,0.025,0,345)"
        id="g3900"
        style="fill:#aaaaaa;fill-opacity:1">
       <rect
@@ -1496,7 +1499,7 @@
     <g
        style="fill:#cccccc;fill-opacity:1"
        id="g3906"
-       transform="matrix(1,0,0,0.025,0,321)">
+       transform="matrix(1,0,0,0.025,0,344)">
       <rect
          y="360"
          x="0"
@@ -2061,7 +2064,7 @@
          inkscape:connector-curvature="0" />
     </g>
     <g
-       transform="matrix(1,0,0,-0.625,0,610)"
+       transform="matrix(1,0,0,-0.625,0,559)"
        id="g6781"
        style="fill:url(#linearGradient6789);fill-opacity:1">
       <rect

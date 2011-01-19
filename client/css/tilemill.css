@@ -1,5 +1,5 @@
 body {
-  background:#ccc url(../images/sprite.png) 0px -360px repeat-x;
+  background:#ccc url(../images/sprite.png) 0px -385px repeat-x;
   color:#333;
   }
 
@@ -870,7 +870,7 @@ a.inspector-close { background-color:#666; }
 }
 
 #project .dropdown-content a:hover {
-  background:transparent url(../images/sprite.png) 0px -415px repeat-x;
+  background:transparent url(../images/sprite.png) 0px -364px repeat-x;
   box-shadow:0;
   -moz-box-shadow:none;
   -webkit-box-shadow:none;
