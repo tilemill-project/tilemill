@@ -142,15 +142,12 @@ var MapView = Backbone.View.extend({
     maximize: function() {
         $(this.el).addClass('fullscreen');
         this.map.updateSize();
-        fullControls = new OpenLayers.Control.PanZoom();
-        this.map.addControls([fullControls]);
         return false;
     },
 
     minimize: function() {
         $(this.el).removeClass('fullscreen');
         this.map.updateSize();
-        this.map.removeControl(fullControls);
         return false;
     },
 
