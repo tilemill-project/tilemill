@@ -313,7 +313,9 @@ var ExportJobView = PopupView.extend({
         $('span.fields', form).append(this.getFields());
         this.options.content = $('<div>').append(form).remove().html();
         this.render();
-
+    },
+    render: function() {
+        PopupView.prototype.render.call(this);
         var boundingBox = this.options.map.map.getExtent().transform(
             this.options.map.map.projection,
             new OpenLayers.Projection('EPSG:4326')).toArray();
@@ -337,7 +339,6 @@ var ExportJobView = PopupView.extend({
         this.options.map.map.addLayer(this.boxDrawingLayer);
         this.options.map.map.addControl(this.boxDrawingControl);
         this.boxDrawingControl.activate();
-
     },
     boundingBoxAdded: function(box) {
         var bounds = box.geometry.getBounds();
@@ -390,24 +391,22 @@ var ExportJobImageView = ExportJobView.extend({
     initialize: function() {
         _.bindAll(this, 'updateUI');
         this.options.title = 'Export image';
-        this.options.filename = this.options.project.get('id') + '.png';
         this.options.map.maximize();
+        ExportJobView.prototype.initialize.call(this);
+    },
+    render: function() {
+        ExportJobView.prototype.render.call(this);
         var size = this.options.map.map.getSize();
         var data = {
+            filename: this.options.project.get('id') + '.png',
             width: size.w,
             height: size.h,
             aspect: size.w / size.h
         }
-        this.render();
-
-        this.model.bind('change', this.updateUI);
         this.model.set(data);
-        this.model.unbind('change', this.updateUI);
         this.model.bind('change:width', this.updateDimmesions);
         this.model.bind('change:height', this.updateDimmesions);
         this.model.bind('change:aspect', this.updateDimmesions);
-        _.extend(this.options, data);
-        ExportJobView.prototype.initialize.call(this);
     },
     getFields: function() {
         return ich.ExportJobImageView(this.options);
