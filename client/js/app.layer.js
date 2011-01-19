@@ -154,9 +154,7 @@ var LayerPopupView = PopupView.extend({
                 'class': $('input#class', this.el).val(),
                 'Datasource': {
                     'file': $('input#file', this.el).val(),
-                    'type': 'shape',
-                    'estimate_extent': 'id',
-                    'id': $('input#id', this.el).val()
+                    'type': 'shape'
                 }
             },
             { 'error': this.showError }
