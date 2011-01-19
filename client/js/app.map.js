@@ -95,7 +95,8 @@ var MapView = Backbone.View.extend({
     xport: function(method, collection) {
         if (typeof exportMethods[method] === 'function') {
             var view = new exportMethods[method]({
-                model: this.model,
+                model: new ExportJob(),
+                project: this.model,
                 collection: collection,
                 map: this
             });
