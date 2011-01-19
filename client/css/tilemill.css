@@ -581,6 +581,11 @@ li .icon {
   border:0px;
   }
 
+  #map-preview.fullscreen.exporting,
+  #sidebar #map-preview.fullscreen.exporting {
+    top:0;
+    }
+
 #map-preview a.map-fullscreen,
 #map-preview #zoom-display {
   background-color:#222;
@@ -588,6 +593,10 @@ li .icon {
   position:absolute;
   top:5px;
   z-index:1003;
+  }
+
+#map-preview.fullscreen.exporting a.map-fullscreen {
+  display:none;
   }
 
 #map-preview a.map-fullscreen {
