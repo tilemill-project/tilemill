@@ -50,10 +50,7 @@ Backbone.sync = function(method, model, success, error) {
  */
 function load(model, callback) {
     var modelPath = path.join(settings.files, model.type, model.id);
-    var extension = 'json';
-    if (model.type == 'project') {
-        extension = 'mml';
-    }
+    var extension = (model.type == 'project') ? 'mml' : 'json';
     fs.readFile(path.join(modelPath, model.id + '.' + extension), 'utf-8',
     function(err, data) {
         if (err || !data || !JSON.parse(data)) {
@@ -63,7 +60,7 @@ function load(model, callback) {
         // Set the object ID explicitly for multiple-load scenarios where
         // model parse()/set() is bypassed.
         object.id = model.id;
-        if (model.type == 'project' && object.Stylesheet && object.Stylesheet.length > 0) {
+        if (model.type === 'project' && object.Stylesheet && object.Stylesheet.length > 0) {
             Step(
                 function() {
                     var group = this.group();
@@ -106,8 +103,7 @@ function loadAll(model, callback) {
         function(exists) {
             if (!exists) {
                 fs.mkdir(basepath, 0777, this);
-            }
-            else {
+            } else {
                 this();
             }
         },
@@ -123,7 +119,12 @@ function loadAll(model, callback) {
             }
             var group = this.group();
             for (var i = 0; i < files.length; i++) {
-                load({id: files[i], type: model.type}, group());
+                if (model.type === 'project') {
+                    var id = files[i];
+                } else {
+                    var id = path.basename(files[i], '.json');
+                }
+                load({ id: id, type: model.type }, group());
             }
         },
         function(err, models) {
@@ -134,33 +135,47 @@ function loadAll(model, callback) {
 
 /**
  * Create a new model.
+ * @TODO assign a model id if not present.
  */
 function create(model, callback) {
-    // @TODO assign a model id if not present.
-    save(model, callback);
+    if (model.type === 'project') {
+        saveProject(model, callback);
+    } else {
+        save(model, callback);
+    }
 };
 
 /**
  * Update an existing model.
  */
 function update(model, callback) {
-    save(model, callback);
+    if (model.type === 'project') {
+        saveProject(model, callback);
+    } else {
+        save(model, callback);
+    }
 };
 
 /**
  * Destroy (delete, remove, etc.) a model.
  */
 function destroy(model, callback) {
-    var modelPath = path.join(settings.files, model.type, model.id);
-    rmrf(modelPath, function() {
-        return callback(null, model);
-    });
+    if (model.type === 'project') {
+        var modelPath = path.join(settings.files, model.type, model.id);
+        rmrf(modelPath, function() { return callback(null, model) });
+    } else {
+        var modelPath = path.join(settings.files, model.type, model.id + '.json');
+        fs.unlink(modelPath, function() { return callback(null, model) });
+    }
 };
 
 /**
- * Save a model. Called by create/update.
+ * Save a Project. Called by create/update.
+ *
+ * Special case for projects creates a subdirectory per project and does
+ * additional splitting out of subproperties (stylesheets) into separate files.
  */
-function save(model, callback) {
+function saveProject(model, callback) {
     var basePath = path.join(settings.files, model.type);
     var modelPath = path.join(settings.files, model.type, model.id);
     Step(
@@ -170,8 +185,7 @@ function save(model, callback) {
         function(exists) {
             if (!exists) {
                 fs.mkdir(basePath, 0777, this);
-            }
-            else {
+            } else {
                 this();
             }
         },
@@ -182,46 +196,66 @@ function save(model, callback) {
             fs.mkdir(modelPath, 0777, this);
         },
         function() {
-            if (model.type == 'project') {
-                // Hard clone the model JSON before doing adjustments to the data
-                // based on writing separate stylesheets.
-                var data = JSON.parse(JSON.stringify(model.toJSON()));
-                var files = [];
-                if (data.id) {
-                    delete data.id;
-                }
-                if (data.Stylesheet) {
-                    _.each(data.Stylesheet, function(stylesheet, key) {
-                        if (stylesheet.id) {
-                            files.push({
-                                filename: stylesheet.id,
-                                data: stylesheet.data
-                            });
-                            data.Stylesheet[key] = stylesheet.id;
-                        }
-                    });
-                }
-                files.push({
-                    filename: model.id + '.mml',
-                    data: JSON.stringify(data)
-                });
-
-                var group = this.group();
-                for (var i = 0; i < files.length; i++) {
-                    fs.writeFile(
-                        path.join(modelPath, files[i].filename),
-                        files[i].data,
-                        group()
-                    );
-                }
+            // Hard clone the model JSON before doing adjustments to the data
+            // based on writing separate stylesheets.
+            var data = JSON.parse(JSON.stringify(model.toJSON()));
+            var files = [];
+            if (data.id) {
+                delete data.id;
             }
-            else {
+            if (data.Stylesheet) {
+                _.each(data.Stylesheet, function(stylesheet, key) {
+                    if (stylesheet.id) {
+                        files.push({
+                            filename: stylesheet.id,
+                            data: stylesheet.data
+                        });
+                        data.Stylesheet[key] = stylesheet.id;
+                    }
+                });
+            }
+            files.push({
+                filename: model.id + '.mml',
+                data: JSON.stringify(data)
+            });
+
+            var group = this.group();
+            for (var i = 0; i < files.length; i++) {
                 fs.writeFile(
-                    path.join(modelPath, model.id + '.json'),
-                    JSON.stringify(model.toJSON()),
-                    this
+                    path.join(modelPath, files[i].filename),
+                    files[i].data,
+                    group()
                 );
             }
+        },
+        function() {
+            callback(null, model);
+        }
+    );
+}
+
+/**
+ * Save a model. Called by create/update.
+ */
+function save(model, callback) {
+    var basePath = path.join(settings.files, model.type);
+    Step(
+        function() {
+            path.exists(basePath, this);
+        },
+        function(exists) {
+            if (!exists) {
+                fs.mkdir(basePath, 0777, this);
+            } else {
+                this();
+            }
+        },
+        function() {
+            fs.writeFile(
+                path.join(basePath, model.id + '.json'),
+                JSON.stringify(model.toJSON()),
+                this
+            );
         },
         function() {
             callback(null, model);
