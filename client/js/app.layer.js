@@ -193,7 +193,7 @@ var LayerPopupView = PopupView.extend({
                 return name;
             }
         }
-        return 'custom';
+        return srs ? 'custom' : 'autodetect';
     },
     selectSRS: function() {
         var name = $('select#srs-name', this.el).val();
