@@ -34,7 +34,7 @@ module.exports = function(app, settings) {
         var layers = res.map.layers();
         var data = res.map.describe_data();
         for (var i = 0; i < layers.length; i++) {
-            var id = layers[i].datasource.id;
+            var id = layers[i].name;
             var layer = {
                 id: id,
                 fields: {},

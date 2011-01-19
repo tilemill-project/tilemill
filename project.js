@@ -151,9 +151,7 @@ var Project = Backbone.Model.extend({
         + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
         Datasource: {
             file: 'http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip',
-            type: 'shape',
-            estimate_extent: 'true',
-            id: 'world'
+            type: 'shape'
         }
     }],
     /**
