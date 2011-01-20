@@ -162,6 +162,9 @@ a:hover.button { color:#fff; }
   top:5px;
   }
 
+/**
+ * Export UI ==================================================================
+ */
 .exporting #header .links,
 .exporting #header .actions,
 .exporting #map-preview.fullscreen a.map-fullscreen { display:none; }
@@ -201,6 +204,21 @@ a:hover.button { color:#fff; }
 .palette .bbox-frame #bbox-w { top:25px; left:-20px; }
 .palette .bbox-frame #bbox-e { top:25px; right:-20px; }
 .palette .bbox-frame #bbox-s { bottom:-10px; left:50%; margin-left:-30px; }
+
+.status {
+  float:left;
+  font-size:11px;
+  font-weight:bold;
+  width:60px;
+  padding:0px 10px;
+  margin-right:10px;
+  border-radius:10px;
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  }
+
+.status-error { background-color:#fc3; }
+.status-error { background-color:#c33; }
 
 /**
  * Home
@@ -492,8 +510,7 @@ form .palette div { padding:5px 0px; }
 .sidebar-content.loading { background:url(../images/swirly.gif) 50% 50% no-repeat; }
 
 .sidebar-content li { position:relative; }
-
-.sidebar-content li a { background-color:#fff; }
+.sidebar-content li .icon { background-color:#fff; }
 
 .sidebar-content li div.handle {
   position:absolute;
@@ -871,7 +888,7 @@ a.inspector-close { background-color:#666; }
   display:none;
   background:rgba(17,17,17,.9);
   position:absolute;
-  padding: 10px 0px;
+  padding: 5px 0px;
   left:5px;
   top:20px;
   right:5px;
@@ -883,7 +900,7 @@ a.inspector-close { background-color:#666; }
 .DropdownView .dropdown-content.expanded { display:block; }
   
 .actions .DropdownView a.show {
-  padding-right:30px;
+  padding-right:40px;
   position:relative;
   }
 
@@ -906,6 +923,12 @@ a.inspector-close { background-color:#666; }
 .actions .DropdownView a.show.active .icon {
   background-color:transparent;
   background-position:-300px -20px;
+  }
+
+.actions .dropdown-content li.divider {
+  border-top:1px solid #444;
+  margin:5px 0px 0px;
+  padding:4px 0px 0px;
   }
 
 .actions .dropdown-content a {

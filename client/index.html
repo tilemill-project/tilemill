@@ -265,6 +265,7 @@
         <li><a class='export-option export-zip' href='#'>Zip</a></li>
         <li><a class='export-option export-mbtiles' href='#'>MBTiles</a></li>
         <li><a class='export-option export-embed' href='#ExportJobEmbed'>Embed</a></li>
+        <li class='divider'><a class='jobs' href='#'>View jobs</a></li>
       </ul>
     </script>
 
@@ -446,7 +447,14 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
       <span class='url'>{{ url }}</span>
     </script>
 
-    <script type='text/html' id='ExportJobQueueView'>
+    <script type='text/html' id='ExportJobListView'>
+      <ul class='sidebar-content jobs clearfix'></ul>
+    </script>
+
+    <script type='text/html' id='ExportJobRowView'>
+      <a href='#' class='icon delete'>Remove</a>
+      <span class='status status-{{status}}'>{{ status }}</span>
+      <a class='filename'>{{ filename }}</a>
     </script>
 
     <script type='text/html' id='ExportJobView'>

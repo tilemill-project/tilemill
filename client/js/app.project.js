@@ -285,23 +285,61 @@ var ProjectView = Backbone.View.extend({
     }
 });
 
-var ExportJobQueueView = Backbone.View.extend({
+var ExportJobListView = DrawerView.extend({
+    initialize: function() {
+        this.options.title = 'Export jobs';
+        this.options.content = ich.ExportJobListView({}, true);
+        this.bind('render', this.renderJobs);
+        DrawerView.prototype.initialize.call(this);
+    },
+    renderJobs: function() {
+        var that = this;
+        this.collection.fetch({
+            success: function() {
+                that.collection.each(function(job) {
+                    if (!job.view) {
+                        job.view = new ExportJobRowView({ model: job });
+                        $('.jobs', that.el).append(job.view.el);
+                    }
+                });
+            }
+        });
+    }
+});
+
+var ExportJobRowView = Backbone.View.extend({
+    tagName: 'li',
+    className: 'clearfix',
+    initialize: function() {
+        _.bindAll(this, 'render');
+        this.render();
+    },
     render: function() {
-        $(this).html(ich.ExportJobQueueView());
+        $(this.el).html(ich.ExportJobRowView({
+            filename: this.model.get('filename'),
+            status: this.model.get('status')
+        }));
     }
 });
 
 var ExportJobDropdownView = DropdownView.extend({
     initialize: function() {
+        _.bindAll(this, 'export', 'jobs');
         this.options.title = 'Export';
         this.options.content = ich.ExportJobOptions({}, true);
         this.render();
     },
     events: _.extend(DropdownView.prototype.events, {
-        'click a.export-option': 'export'
+        'click a.export-option': 'export',
+        'click a.jobs': 'jobs'
     }),
     export: function(event) {
         this.options.map.xport($(event.currentTarget).attr('href').split('#').pop(), this.model);
+        this.toggleContent();
+        return false;
+    },
+    jobs: function(event) {
+        new ExportJobListView({ collection: new ExportJobList });
         this.toggleContent();
         return false;
     }
@@ -394,6 +432,7 @@ var ExportJobView = Backbone.View.extend({
         this.options.collection.add(this.model);
         this.model.save();
         this.close();
+        new ExportJobListView({ collection: new ExportJobList });
         return false;
     },
     close: function() {
