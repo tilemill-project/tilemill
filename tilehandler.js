@@ -21,8 +21,6 @@ module.exports = function(app, settings) {
                 scheme: req.param('scheme'),
                 mapfile: req.param('mapfile_64'),
                 xyz: [req.param('x'), req.param('y'), req.param('z')],
-                height: 256,
-                width: 256,
                 format: req.params[0],
                 mapfile_dir: path.join(__dirname, settings.mapfile_dir)
             };
