@@ -15,11 +15,9 @@
     <script type='text/javascript' src='js/libraries/underscore-min.js'></script>
     <script type='text/javascript' src='js/libraries/backbone.js'></script>
     <script type='text/javascript' src='js/libraries/jquery-ui.js'></script>
-    
     <script type='text/javascript' src='js/libraries/jquery.ui.widget.min.js'></script>    
     <script type='text/javascript' src='js/libraries/jquery.ui.position.min.js'></script>
     <script type='text/javascript' src='js/libraries/jquery.ui.autocomplete.min.js'></script>
-        
     <script type='text/javascript' src='js/libraries/jquery.tablesorter.min.js'></script>
     <script type='text/javascript' src='js/libraries/ICanHaz.min.js'></script>
     <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
@@ -56,6 +54,8 @@
         'js/libraries/jquery.ui.widget.min.js',
         'js/libraries/jquery.ui.position.min.js',
         'js/libraries/jquery.ui.autocomplete.min.js',
+        'js/libraries/jquery.tablesorter.min.js',
+        'js/libraries/ICanHaz.min.js',
         'js/openlayers/OpenLayers.js',
         'js/codemirror/js/codemirror.js',
         'js/app.popup.js',
@@ -228,8 +228,9 @@
     </script>
 
     <script type='text/html' id='FontPickerToolView'>
-      <div class='ui-widget'> 
+      <div class='ui-widget'>      
       	<input id='fonts' title="Find fonts" />
+        <div id='font-list'></div>
       </div>
     </script>
 
