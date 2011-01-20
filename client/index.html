@@ -274,7 +274,6 @@
     <script type='text/html' id='LayerPopupView'>
       <div id='popup-layer' class='clearfix pane'>
         <form id='form-layer'>
-          <div class='messages'></div>
           <div><label for='id'>Id <span class="required" title="This field is required">*</span></label>
             <input type='text' class='text required' id='id' value='{{ id }}' />
           </div>
@@ -310,7 +309,6 @@
     <script type='text/html' id='ExportJobEmbedView'>
       <div id='popup-info' class='clearfix pane'>
         <form>
-          <div class='messages'></div>
           <div><label for='tile-url'>Tile URL</label>
             <input id='tile-url' class='text' type='text' value='{{ tile_url }}' />
           </div>
@@ -344,7 +342,6 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
     <script type='text/html' id='StylesheetPopupView'>
       <div id='popup-stylesheet' class='clearfix pane'>
         <form>
-          <div class='messages'></div>
           <div>
             <label for='stylesheet-name'>Name</label>
             <input id='stylesheet-name' class='text required' type='text' />
