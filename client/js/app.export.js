@@ -86,10 +86,10 @@ var ExportJobDropdownView = DropdownView.extend({
         this.render();
     },
     events: _.extend(DropdownView.prototype.events, {
-        'click a.export-option': 'export',
+        'click a.export-option': 'xport',
         'click a.jobs': 'jobs'
     }),
-    export: function(event) {
+    xport: function(event) {
         this.options.map.xport($(event.currentTarget).attr('href').split('#').pop(), this.model);
         this.toggleContent();
         return false;
