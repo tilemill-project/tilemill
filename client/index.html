@@ -67,7 +67,7 @@
     -->
 
     <script type='text/html' id='ProjectListView'>
-    <div id='header' class='clearfix'>
+    <div id='header' class='header clearfix'>
       <h1>TileMill</h1>
       <span class='links'>
         <a class='info' href='#info'>About</a>
@@ -101,7 +101,7 @@
     </script>
 
     <script type='text/html' id='ErrorView'>
-      <div id='header' class='clearfix'>
+      <div id='header' class='header clearfix'>
         <h1>TileMill</h1>
         <a class='home' href='#'>Back home</a>
       </div>
@@ -119,7 +119,7 @@
     </script>
 
     <script type='text/html' id='ProjectView'>
-      <div id='header' class='clearfix'>
+      <div id='header' class='header clearfix'>
         <h1>Editing {{ id }}</h1>
         <span class='links'>
           <a class='reference' href='#'>Reference</a>
@@ -453,30 +453,37 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
     </script>
 
     <script type='text/html' id='ExportJobView'>
-      <div class='clearfix pane'>
-        <form id='form-layer'>
-          <div class='messages'></div>
-          <span class='fields'>
-            <div>
-              <label for='filename'>Filename</label>
-              <input type='text' class='text' id='filename' value='{{ filename }}'/>
-            </div>
-            <div><label for='bbox'>Bounding Box</label>
-              <input type='text' class='text required' id='bbox' value='{{ bbox }}' />
-            </div>
-          </span>
-          <div class='buttons'>
-              <input class='submit' type='submit' value='Save' />
+      <form id='export'>
+        <div class='header clearfix'>
+          <h1>{{ title }}</h1>
+          <div class='form'>
+            <label class='inline' for='filename'>Filename</label>
+            <input type='text' class='inline text' id='filename' value='{{ filename }}'/>
+            <input class='submit' type='submit' value='Export' />
+            <a class='icon close' href='#'>Back home</a>
           </div>
-        </form>
-      </div>
+        </div>
+        <div class='palette pane clearfix'>
+          <div>
+            <label for='bbox'>Bounding Box</label>
+            <div class='bbox-frame'>
+              <input type='text' class='bbox text' id='bbox-n' value='{{ bbox_n }}' />
+              <input type='text' class='bbox text' id='bbox-e' value='{{ bbox_e }}' />
+              <input type='text' class='bbox text' id='bbox-s' value='{{ bbox_s }}' />
+              <input type='text' class='bbox text' id='bbox-w' value='{{ bbox_w }}' />
+            </div>
+          </div>
+        </div>
+      </form>
     </script>
 
     <script type='text/html' id='ExportJobImageView'>
-      <div><label for='class'>Pixel Dimmesions</label>
-        <input type='text' class='text' id='width' value='{{ width }}'/>
+      <div>
+        <label for='class'>Dimensions</label>
+        <input type='text' class='text' size='3' id='width' value='{{ width }}'/>
         <span>x</span>
-        <input type='text' class='text' id='height' value='{{ height }}'/>
+        <input type='text' class='text' size='3' id='height' value='{{ height }}'/>
+        px
       </div>
     </script>
 
