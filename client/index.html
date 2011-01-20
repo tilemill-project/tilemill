@@ -68,11 +68,8 @@
 
     <script type='text/html' id='ProjectListView'>
     <div id='header' class='header clearfix'>
+      <a class='icon settings' href='#'>Settings</a>
       <h1>TileMill</h1>
-      <span class='links'>
-        <a class='info' href='#info'>About</a>
-        <a class='settings' href='#'>Settings</a>
-      </span>
     </div>
     <div id='content' class='clearfix'>
       <div id='main'>
@@ -120,10 +117,10 @@
 
     <script type='text/html' id='ProjectView'>
       <div id='header' class='header clearfix'>
+        <a class='icon settings' href='#'>Settings</a>
         <h1>Editing {{ id }}</h1>
         <span class='links'>
           <a class='reference' href='#'>Reference</a>
-          <a class='settings' href='#'>Settings</a>
         </span>
         <div class='actions clearfix'>
           <a class='save' href='#'>Save</a>
@@ -360,7 +357,7 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
     </script>
 
     <script type='text/html' id='DropdownView'>
-      <a class='show' href='#'>{{title}}</a>
+      <a class='show' href='#'>{{title}} <span class='icon dropdown'></span></a>
       <div class='dropdown-content'>
         {{{content}}}
       </div>
@@ -455,6 +452,7 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
     <script type='text/html' id='ExportJobView'>
       <form id='export'>
         <div class='header clearfix'>
+          <span class='icon export'></span>
           <h1>{{ title }}</h1>
           <div class='form'>
             <label class='inline' for='filename'>Filename</label>
@@ -490,6 +488,10 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
     <script type='text/html' id='SettingsPopupView'>
       <div id='popup-settings' class='clearfix pane'>
         <form id='form-layer'>
+          <div>
+            <h3>About TileMill</h3>
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc laoreet. In rhoncus ultrices metus. Nunc ut tellus. Ut tortor. Curabitur nisi nulla, malesuada sit amet, feugiat non, elementum eu, arcu. Curabitur pretium velit et sem.</p>
+          </div>
           <div><label for='mode'>Editing mode</label>
             <select id='mode'>
                 <option value='normal' {{^minimal_mode}}selected='selected'{{/minimal_mode}}>Normal</option>
