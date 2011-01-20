@@ -371,7 +371,7 @@ var ExportJob = Backbone.Model.extend({
      */
     type: 'exportjob',
     initialize: function() {
-        if (typeof MD5 !== 'undefined') {
+        if (typeof MD5 !== 'undefined' && this.isNew()) {
             var md5 = new MD5();
             var date = new Date();
             md5.digest(JSON.stringify(this)).substr(0, 6);

@@ -1,3 +1,9 @@
+/**
+ * View: ExportJobListView
+ *
+ * Shows a list of current export jobs from an ExportJobList collection in a
+ * sidebar drawer.
+ */
 var ExportJobListView = DrawerView.extend({
     initialize: function() {
         this.options.title = 'Export jobs';
@@ -20,11 +26,31 @@ var ExportJobListView = DrawerView.extend({
     }
 });
 
+/**
+ * View: ExportJobRowView
+ *
+ * A single job row in an ExportJobListView.
+ */
 var ExportJobRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
+    events: {
+        'click a.delete': 'destroy'
+    },
     initialize: function() {
-        _.bindAll(this, 'render');
+        _.bindAll(this, 'render', 'destroy', 'update');
+        this.render();
+
+        // If this model has not been processed, add a watcher to update its status.
+        if (this.model.get('status') !== 'complete' && this.model.get('status') !== 'error') {
+            this.watcher = new Watcher(this.model, this.update);
+        }
+    },
+    update: function() {
+        // Remove watcher when complete.
+        if (this.model.get('status') !== 'complete' || this.model.get('status') !== 'error') {
+            this.watcher.destroy();
+        }
         this.render();
     },
     render: function() {
@@ -32,6 +58,20 @@ var ExportJobRowView = Backbone.View.extend({
             filename: this.model.get('filename'),
             status: this.model.get('status')
         }));
+    },
+    destroy: function() {
+        var that = this;
+        if (confirm('Are you sure you want to delete this job?')) {
+            this.model.destroy({
+                success: function() {
+                    that.remove();
+                },
+                error: function() {
+                    window.app.message('Error', 'The job could not be deleted.');
+                }
+            });
+        }
+        return false;
     }
 });
 
