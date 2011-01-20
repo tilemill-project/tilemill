@@ -8,6 +8,7 @@ module.exports = {
     },
     'mapfile_dir': 'files/mapfiles',
     'data_dir': 'files/data',
+    'export_dir': 'files/export',
     // TODO: request-specific overrides
     'header_defaults': {
         'Expires': new Date(Date.now() +

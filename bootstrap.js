@@ -24,5 +24,13 @@ module.exports = function(app, settings) {
         console.log('Creating data dir %s', settings.data_dir);
         fs.mkdirSync(settings.data_dir, 0777);
     }
+
+    try {
+        fs.statSync(settings.export_dir);
+    } catch (Exception) {
+        console.log('Creating export dir %s', settings.export_dir);
+        fs.mkdirSync(settings.export_dir, 0777);
+    }
+
 }
 
