@@ -265,7 +265,7 @@
       <ul>
         <li><a class='export-option export-png' href='#ExportJobImage'>PNG</a></li>
         <li><a class='export-option export-zip' href='#'>Zip</a></li>
-        <li><a class='export-option export-mbtiles' href='#'>MBTiles</a></li>
+        <li><a class='export-option export-mbtiles' href='#ExportJobMBTiles'>MBTiles</a></li>
         <li><a class='export-option export-embed' href='#ExportJobEmbed'>Embed</a></li>
         <li class='divider'><a class='jobs' href='#'>View jobs</a></li>
       </ul>
@@ -492,6 +492,17 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
         <span>x</span>
         <input type='text' class='text' size='3' id='height' value='{{ height }}'/>
         px
+      </div>
+    </script>
+
+    <script type='text/html' id='ExportJobMBTilesView'>
+      <div>
+        <label>Zoom Levels (<span class='min-zoom'></span> to <span class='max-zoom'></span>)</label>
+        <div id='mbtiles-zoom'></div>
+      </div>
+      <div>
+        <label for='mbtiles-attribution'>Attribution Text</label>
+        <input type='text' id='mbtiles-attribution' class='text' value='' />
       </div>
     </script>
 
