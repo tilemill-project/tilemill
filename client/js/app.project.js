@@ -188,8 +188,11 @@ var ProjectView = Backbone.View.extend({
             project: this.model,
             map: map
         });
-
-        $('#header .actions', this.el).prepend(jobExportMenu.el);
+        
+        console.log($(jobExportMenu.el));
+        
+        var target = $('#header .actions a.save', this.el);
+        $(jobExportMenu.el).insertAfter(target);
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(colors.el);
         $('#sidebar', this.el).append(map.el);
