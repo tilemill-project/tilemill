@@ -1,3 +1,8 @@
+/**
+ * View: LayerListView
+ *
+ * List of all layers on a project.
+ */
 var LayerListView = Backbone.View.extend({
     id: 'layers',
     className: 'view',
@@ -53,6 +58,11 @@ var LayerListView = Backbone.View.extend({
     }
 });
 
+/**
+ * View: LayerRowView
+ *
+ * Single layer row in a LayerListView.
+ */
 var LayerRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
@@ -113,11 +123,10 @@ var LayerRowView = Backbone.View.extend({
     }
 });
 
-
 /**
  * View: LayerPopupView
  *
- * Popup form for adding a new stylesheet.
+ * Popup form for adding a new layer.
  */
 var LayerPopupView = PopupView.extend({
     SRS: {
@@ -207,6 +216,11 @@ var LayerPopupView = PopupView.extend({
     },
 });
 
+/**
+ * View: LayerDrawerView.
+ *
+ * Drawer view for inspecting layer fields.
+ */
 var LayerFieldsView = DrawerView.extend({
     className: 'drawer',
     events: _.extend(DrawerView.prototype.events, {
@@ -272,3 +286,4 @@ var LayerFieldsView = DrawerView.extend({
         return false;
     }
 });
+

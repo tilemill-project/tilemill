@@ -1,6 +1,15 @@
-var Datasource = Backbone.Model.extend({
-});
+/**
+ * Model: Datasource
+ *
+ * A single layer datasource, e.g. a shapefile.
+ */
+var Datasource = Backbone.Model.extend({});
 
+/**
+ * Collection: DatasourceListS3
+ *
+ * A list of datasources available on an S3 bucket.
+ */
 var DatasourceListS3 = Backbone.Collection.extend({
     model: Datasource,
     url: '/provider/s3',
@@ -10,6 +19,11 @@ var DatasourceListS3 = Backbone.Collection.extend({
     }
 });
 
+/**
+ * Collection: DatasourceListDirectory
+ *
+ * A list of datasources available via local directory.
+ */
 var DatasourceListDirectory = Backbone.Collection.extend({
     model: Datasource,
     url: '/provider/directory',
@@ -19,6 +33,11 @@ var DatasourceListDirectory = Backbone.Collection.extend({
     }
 });
 
+/**
+ * View: DatasourceListView
+ *
+ * A list of datasources for a given collection.
+ */
 var DatasourceListView = Backbone.View.extend({
     initialize: function () {
         _.bindAll(this, 'render');
@@ -44,6 +63,11 @@ var DatasourceListView = Backbone.View.extend({
     }
 });
 
+/**
+ * View: DatasourceRowView
+ *
+ * A single datasource row in a DatasourceListView.
+ */
 var DatasourceRowView = Backbone.View.extend({
     tagName: 'a',
     className: 'datasource',
