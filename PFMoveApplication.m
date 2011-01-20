@@ -395,37 +395,25 @@ static BOOL CopyBundle(NSString *srcPath, NSString *dstPath)
 {
 	NSFileManager *fm = [NSFileManager defaultManager];
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
-	// 10.6 or higher
-	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) {
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
+	// 10.5 or higher
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
 		NSError *error = nil;
-		if (![fm copyItemAtPath:srcPath toPath:dstPath error:&error]) {
-			NSLog(@"ERROR -- Could not copy '%@' to '%@' (%@)", srcPath, dstPath, error);
-			return NO;
+		if ([fm copyItemAtPath:srcPath toPath:dstPath error:&error]) {
+			return YES;
 		}
+		else {
+			NSLog(@"ERROR -- Could not copy '%@' to '%@' (%@)", srcPath, dstPath, error);
+		}
+	}
+#endif
+#if MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_4
+	if ([fm copyPath:srcPath toPath:dstPath handler:nil]) {
 		return YES;
 	}
-#endif
-#if MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_5
-	// 10.5. Welcome to the whack a deprecation warning show
-	BOOL success = NO;
-	SEL selector = @selector(copyPath:toPath:handler:);
-	NSMethodSignature *methodSig = [fm methodSignatureForSelector:selector];
-	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSig];
-	id nilPointer = nil;
-	[invocation setSelector:selector];
-	[invocation setArgument:&srcPath atIndex:2];
-	[invocation setArgument:&dstPath atIndex:3];
-	[invocation setArgument:&nilPointer atIndex:4];
-	[invocation invokeWithTarget:fm];
-	[invocation getReturnValue:&success];
-
-	if (!success) {
+	else {
 		NSLog(@"ERROR -- Could not copy '%@' to '%@'", srcPath, dstPath);
 	}
-
-	return success;
-#else
-	return NO;
 #endif
+	return NO;
 }
