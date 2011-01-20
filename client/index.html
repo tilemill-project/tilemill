@@ -15,6 +15,11 @@
     <script type='text/javascript' src='js/libraries/underscore-min.js'></script>
     <script type='text/javascript' src='js/libraries/backbone.js'></script>
     <script type='text/javascript' src='js/libraries/jquery-ui.js'></script>
+    
+    <script type='text/javascript' src='js/libraries/jquery.ui.widget.min.js'></script>    
+    <script type='text/javascript' src='js/libraries/jquery.ui.position.min.js'></script>
+    <script type='text/javascript' src='js/libraries/jquery.ui.autocomplete.min.js'></script>
+        
     <script type='text/javascript' src='js/libraries/jquery.tablesorter.min.js'></script>
     <script type='text/javascript' src='js/libraries/ICanHaz.min.js'></script>
     <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
@@ -48,11 +53,11 @@
         'js/libraries/underscore-min.js',
         'js/libraries/backbone.js',
         'js/libraries/jquery-ui.js',
-        'js/libraries/jquery.tablesorter.min.js',
-        'js/libraries/ICanHaz.min.js',
+        'js/libraries/jquery.ui.widget.min.js',
+        'js/libraries/jquery.ui.position.min.js',
+        'js/libraries/jquery.ui.autocomplete.min.js',
         'js/openlayers/OpenLayers.js',
         'js/codemirror/js/codemirror.js',
-
         'js/app.popup.js',
         'js/app.tools.js',
         'js/app.project.js',
@@ -67,7 +72,6 @@
     );
     </script>
     -->
-
     <script type='text/html' id='ProjectListView'>
     <div id='header' class='header clearfix'>
       <a class='icon settings' href='#'>Settings</a>
@@ -224,11 +228,9 @@
     </script>
 
     <script type='text/html' id='FontPickerToolView'>
-      <label>Fonts</label>
-      <select class='fonts-list'>
-      <option value=''>Select...</option>
-      {{#fonts}}<option value='{{.}}'>{{.}}</option>{{/fonts}}
-      </select>
+      <div class='ui-widget'> 
+      	<input id='fonts' title="Find fonts" />
+      </div>
     </script>
 
     <script type='text/html' id='ColorSwatchesToolView'>

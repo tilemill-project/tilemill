@@ -834,6 +834,10 @@ li .icon {
   left:60px;
   width: 220px;
   }
+  
+.ui-autocomplete {
+  background:rgba(17,17,17,.9);
+}
 
 /**
  * Popup editor.
