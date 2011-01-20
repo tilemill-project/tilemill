@@ -205,27 +205,41 @@ a:hover.button { color:#fff; }
 .palette .bbox-frame #bbox-e { top:25px; right:-20px; }
 .palette .bbox-frame #bbox-s { bottom:-10px; left:50%; margin-left:-30px; }
 
-.status {
-  float:left;
+.drawer ul.jobs li { padding-left:90px; }
+
+.jobs .status {
+  position:absolute;
+  left:0px;
+  top:5px;
+
   font-size:9px;
   font-weight:bold;
   color:#fff;
   text-transform:uppercase;
-  text-align:center;
 
-  width:50px;
+  width:60px;
   line-height:15px;
   padding:0px 10px;
   margin:2px 10px 3px 0px;
-  border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
+  border-radius:0px 3px 3px 0px;
+  -webkit-border-radius:0px 3px 3px 0px;
+  -moz-border-radius:0px 3px 3px 0px;
   }
 
 .status-waiting    { background-color:#fc3; }
 .status-processing { background-color:#6c3; }
 .status-complete   { background-color:#3cf; }
 .status-error      { background-color:#c33; }
+
+.jobs .filename {
+  font-weight:bold;
+  }
+
+.jobs .download,
+.jobs .message {
+  font-size:11px;
+  color:#666;
+  }
 
 /**
  * Home

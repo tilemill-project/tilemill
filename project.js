@@ -382,6 +382,12 @@ var ExportJob = Backbone.Model.extend({
         progress: 0,
         status: 'waiting',
         timestamp: new Date().getTime()
+    },
+    /**
+     * Generate a download URL for a model.
+     */
+    downloadURL: function() {
+        return (this.get('status') === 'complete') && '/export/download/' + this.get('filename');
     }
 });
 

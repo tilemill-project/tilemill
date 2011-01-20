@@ -457,6 +457,13 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
       <a href='#' class='icon delete'>Remove</a>
       <span class='status status-{{status}}'>{{ status }}</span>
       <a class='filename'>{{ filename }}</a>
+      <span class='date'>{{ date }}</span>
+      {{#error}}
+        <div class='message'>{{ error }}</div>
+      {{/error}}
+      {{#download}}
+        <div class='download'><a href='{{ download }}'>Download</a></div>
+      {{/download}}
     </script>
 
     <script type='text/html' id='ExportJobView'>

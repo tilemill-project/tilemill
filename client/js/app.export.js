@@ -48,7 +48,7 @@ var ExportJobRowView = Backbone.View.extend({
     },
     update: function() {
         // Remove watcher when complete.
-        if (this.model.get('status') !== 'complete' || this.model.get('status') !== 'error') {
+        if (this.model.get('status') === 'complete' || this.model.get('status') === 'error') {
             this.watcher.destroy();
         }
         this.render();
@@ -56,7 +56,10 @@ var ExportJobRowView = Backbone.View.extend({
     render: function() {
         $(this.el).html(ich.ExportJobRowView({
             filename: this.model.get('filename'),
-            status: this.model.get('status')
+            status: this.model.get('status'),
+            error: this.model.get('error'),
+            type: this.model.get('type'),
+            download: this.model.downloadURL()
         }));
     },
     destroy: function() {
