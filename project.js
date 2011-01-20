@@ -389,6 +389,9 @@ var ExportJob = Backbone.Model.extend({
     downloadURL: function() {
         return (this.get('status') === 'complete') && '/export/download/' + this.get('filename');
     },
+    /**
+     * Prepare a list of taskmanager Tasks for processing.
+     */
     getTasks: function() {
         return require('./jobtasks')(this);
     }
