@@ -382,6 +382,9 @@ var ExportJob = Backbone.Model.extend({
         progress: 0,
         status: 'waiting',
         timestamp: new Date().getTime()
+    },
+    getTasks: function() {
+        return require('./jobtasks')(this);
     }
 });
 
