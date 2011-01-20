@@ -17,14 +17,16 @@ module.exports = function(app, settings) {
          * - Grid Tile: (*.grid.json)
          */
         try {
-            var tile = new Tile(
-                req.params.scheme,
-                req.params.mapfile_64,
-                req.params.z,
-                req.params.x,
-                req.params.y,
-                req.params[0],
-                path.join(__dirname, settings.mapfile_dir));
+            var options = {
+                scheme: req.param('scheme'),
+                mapfile: req.param('mapfile_64'),
+                xyz: [req.param('x'), req.param('y'), req.param('z')],
+                height: 256,
+                width: 256,
+                format: req.params[0],
+                mapfile_dir: path.join(__dirname, settings.mapfile_dir)
+            };
+            var tile = new Tile(options);
         } catch (err) {
             res.send('Tile invalid: ' + err.message);
         }
