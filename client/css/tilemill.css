@@ -207,18 +207,25 @@ a:hover.button { color:#fff; }
 
 .status {
   float:left;
-  font-size:11px;
+  font-size:9px;
   font-weight:bold;
-  width:60px;
+  color:#fff;
+  text-transform:uppercase;
+  text-align:center;
+
+  width:50px;
+  line-height:15px;
   padding:0px 10px;
-  margin-right:10px;
-  border-radius:10px;
-  -webkit-border-radius:10px;
-  -moz-border-radius:10px;
+  margin:2px 10px 3px 0px;
+  border-radius:3px;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
   }
 
-.status-error { background-color:#fc3; }
-.status-error { background-color:#c33; }
+.status-waiting    { background-color:#fc3; }
+.status-processing { background-color:#6c3; }
+.status-complete   { background-color:#3cf; }
+.status-error      { background-color:#c33; }
 
 /**
  * Home
