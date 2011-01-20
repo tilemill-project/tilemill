@@ -7,6 +7,9 @@ A sample project that demonstrates how to move a running Mac OS X application to
 Version History
 ---------------
 
+* 1.5.2
+	- Cleaned up the code a bit. Almost functionally equivalent to 1.5.1.
+
 * 1.5.1
 	- Fixed a bug with clearing the quarantine file attribute on Mac OS X 10.5
 
