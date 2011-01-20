@@ -20,7 +20,7 @@ test -z "$GET" && abort "curl or wget required"
 if ! [ -f $RUN_DIR/bin/node ]; then
     cd $SRC_DIR
     echo "... installing node $VERSION"
-    wget -q http://nodejs.org/dist/node-v$VERSION.tar.gz
+    curl -O -q http://nodejs.org/dist/node-v$VERSION.tar.gz
     tar -zxf node-v$VERSION.tar.gz
     cd node-v$VERSION
     ./configure --prefix=$RUN_DIR/build
@@ -41,8 +41,8 @@ if ! [ -f "lib/node/mapnik/_mapnik.node" ]; then
     echo "... building node-mapnik"
     $GET $url | \
     tar -xz --strip 1
-    $RUN_DIR/build/bin/node-waf -v --prefix=$RUN_DIR configure build
-    $RUN_DIR/build/bin/node-waf -v install
+    $RUN_DIR/build/bin/node-waf --prefix=$RUN_DIR configure build
+    $RUN_DIR/build/bin/node-waf install
     cd $RUN_DIR;
 else
     echo "... already built node-mapnik"
@@ -57,17 +57,33 @@ if ! [ -f "lib/node/srs/_srs.node" ]; then
     echo "... building node-srs"
     $GET $url | \
     tar -xz --strip 1
-    $RUN_DIR/build/bin/node-waf -v --prefix=$RUN_DIR configure build
-    $RUN_DIR/build/bin/node-waf -v install
+    $RUN_DIR/build/bin/node-waf --prefix=$RUN_DIR configure build
+    $RUN_DIR/build/bin/node-waf install
     cd $RUN_DIR;
 else
     echo "... already built node-srs"
 fi
 
+#if ! [ -f "lib/node/zipfile/_zipfile.node" ]; then
+#    echo "... fetching node-zipfile"
+#    cd modules
+#    url="https://github.com/springmeyer/node-zipfile/tarball/master"
+#    mkdir -p node-zipfile
+#    cd node-zipfile
+#    echo "... building node-zipfile"
+#    $GET $url | \
+#    tar -xz --strip 1
+#    $RUN_DIR/build/bin/node-waf --prefix=$RUN_DIR configure build
+#    $RUN_DIR/build/bin/node-waf install
+#    cd $RUN_DIR;
+#else
+#    echo "... already built node-zipfile"
+#fi
+
 # Create local data directory and populate with sample data
 if ! [ -d "files/local_data" ]; then
     mkdir -p files/local_data
-    wget -q -O example_data.zip http://tilemill-data.s3.amazonaws.com/example_data.zip
+    curl -O http://tilemill-data.s3.amazonaws.com/example_data.zip
     unzip -q -d files/local_data example_data.zip
     rm example_data.zip
 else

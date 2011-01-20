@@ -371,12 +371,23 @@ var ExportJob = Backbone.Model.extend({
      */
     type: 'exportjob',
     initialize: function() {
-        if (typeof MD5 !== 'undefined') {
+        if (typeof MD5 !== 'undefined' && this.isNew()) {
             var md5 = new MD5();
             var date = new Date();
             md5.digest(JSON.stringify(this)).substr(0, 6);
             this.set({'id': md5.digest(JSON.stringify(this) + date.getTime()).substr(0, 6)});
         }
+    },
+    defaults: {
+        progress: 0,
+        status: 'waiting',
+        timestamp: new Date().getTime()
+    },
+    /**
+     * Generate a download URL for a model.
+     */
+    downloadURL: function() {
+        return (this.get('status') === 'complete') && '/export/download/' + this.get('filename');
     }
 });
 
@@ -391,7 +402,10 @@ var ExportJobList = Backbone.Collection.extend({
     /**
      * Model name used for storage.
      */
-    type: 'exportjob'
+    type: 'exportjob',
+    comparator: function(job) {
+        return job.get('timestamp');
+    }
 });
 
 if (typeof module !== 'undefined') {

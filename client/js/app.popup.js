@@ -63,10 +63,14 @@ var DrawerView = Backbone.View.extend({
         this.render();
     },
     render: function () {
+        // Mark any existing drawers as stale to be removed after this new
+        // drawer has finished rendering.
+        $('.drawer').addClass('staleDrawer');
         var that = this;
         window.app.el.append($(this.el));
         $(this.el).html(ich.DrawerView(this.options));
         $(this.el).animate({left: '0%'}, function() {
+            $('.staleDrawer').remove();
             that.trigger('render');
         });
         return this;

@@ -1,7 +1,7 @@
 var ProjectListView = Backbone.View.extend({
     id: 'ProjectListView',
     initialize: function() {
-        _.bindAll(this, 'render', 'add', 'about');
+        _.bindAll(this, 'render', 'add');
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
         this.collection.fetch({
@@ -68,10 +68,6 @@ var ProjectListView = Backbone.View.extend({
                 error: this.showError
             });
         }
-        return false;
-    },
-    about: function() {
-        window.app.message('About TileLive', '@TODO: Put something facinating here.');
         return false;
     },
     showError: function(model, error) {
@@ -193,7 +189,8 @@ var ProjectView = Backbone.View.extend({
             map: map
         });
 
-        $('#header .actions', this.el).prepend(jobExportMenu.el);
+        var target = $('#header .actions a.save', this.el);
+        $(jobExportMenu.el).insertAfter(target);
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(colors.el);
         $('#sidebar', this.el).append(map.el);
@@ -270,9 +267,12 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     setMinimal: function() {
+        var that = this;
         if (window.app.settings.get('mode') === 'minimal') {
             $(this.el).addClass('minimal');
-            this.watcher = new Watcher(this.model);
+            this.watcher = new Watcher(this.model, function() {
+                that.model.trigger('save');
+            });
         }
         else if (this.watcher) {
             $(this.el).removeClass('minimal');
@@ -289,203 +289,18 @@ var ProjectView = Backbone.View.extend({
     }
 });
 
-var ExportJobQueueView = Backbone.View.extend({
-    render: function() {
-        $(this).html(ich.ExportJobQueueView());
-    }
-});
-
-var ExportJobDropdownView = DropdownView.extend({
-    initialize: function() {
-        this.options.title = 'Export';
-        this.options.content = ich.ExportJobOptions({}, true);
-        this.render();
-    },
-    events: _.extend(DropdownView.prototype.events, {
-        'click a.export-option': 'export'
-    }),
-    export: function(event) {
-        this.options.map.xport($(event.currentTarget).attr('href').split('#').pop(), this.model);
-        this.toggleContent();
-        return false;
-    }
-});
-
-var ExportJobView = Backbone.View.extend({
-    render: function() {
-        $(this.el).html(ich.ExportJobView(this.options));
-        $('.palette', this.el).append(this.getFields());
-        window.app.el.append(this.el);
-        return this;
-    },
-    initialize: function() {
-        _.bindAll(this, 'boundingBoxAdded', 'updateUI');
-        this.model.bind('change', this.updateUI);
-
-        $('body').addClass('exporting');
-        this.options.map.maximize();
-        this.render();
-        var boundingBox = this.options.map.map.getExtent().toArray();
-        this.model.set({
-            bbox: boundingBox.join(',')
-        });
-
-        this.boxDrawingLayer = new OpenLayers.Layer.Vector('Temporary Box Layer');
-        this.boxDrawingControl = new OpenLayers.Control.DrawFeature(
-            this.boxDrawingLayer,
-            OpenLayers.Handler.RegularPolygon,
-            {
-                featureAdded: this.boundingBoxAdded
-            }
-        );
-        this.boxDrawingControl.handler.setOptions({
-            'keyMask': OpenLayers.Handler.MOD_ALT,
-            'sides': 4,
-            'irregular': true
-        });
-        this.options.map.map.addLayer(this.boxDrawingLayer);
-        this.options.map.map.addControl(this.boxDrawingControl);
-        this.boxDrawingControl.activate();
-    },
-    boundingBoxAdded: function(box) {
-        var bounds = box.geometry.getBounds();
-        var boundingBox = bounds.toArray();
-        this.model.set({
-            bbox: boundingBox.join()
-        });
-        // Remove old box
-        for(i = 0; i < this.boxDrawingLayer.features.length; i++) {
-            if(this.boxDrawingLayer.features[i] != box) {
-                this.boxDrawingLayer.features[i].destroy();
-            }
-        }
-    },
-    events: _.extend(PopupView.prototype.events, {
-        'click input.submit': 'submit',
-        'change input': 'changeValue'
-    }),
-    changeValue: function(event) {
-        var data = {};
-        if ($(event.target).is('.bbox')) {
-            data.bbox = [
-                this.$('#bbox-w').val(),
-                this.$('#bbox-s').val(),
-                this.$('#bbox-e').val(),
-                this.$('#bbox-n').val()
-            ];
-        }
-        else {
-            data[$(event.target).attr('id')] = $(event.target).val();
-        }
-        this.model.set(data);
-    },
-    updateUI: function(model) {
-        var that = this;
-        _.each(model.changedAttributes(), function(value, key) {
-            if (key === 'bbox') {
-                var bbox = value.split(',');
-                that.$('#bbox-w').val(bbox[0]);
-                that.$('#bbox-s').val(bbox[1]);
-                that.$('#bbox-e').val(bbox[2]);
-                that.$('#bbox-n').val(bbox[3]);
-            }
-            else {
-                that.$('#' + key).val(value);
-            }
-        });
-    },
-    submit: function() {
-        this.options.collection.add(this.model);
-        this.model.save();
-        this.close();
-        return false;
-    },
-    close: function() {
-        this.boxDrawingControl.deactivate();
-        this.options.map.map.removeControl(this.boxDrawingControl);
-        this.options.map.map.removeLayer(this.boxDrawingLayer);
-        $('body').removeClass('exporting');
-        this.options.map.minimize();
-        PopupView.prototype.close.call(this);
-        return false;
-    },
-});
-
-var ExportJobImageView = ExportJobView.extend({
-    initialize: function() {
-        _.bindAll(this, 'updateUI');
-        this.options.title = 'Export image';
-        ExportJobView.prototype.initialize.call(this);
-    },
-    render: function() {
-        ExportJobView.prototype.render.call(this);
-        var size = this.options.map.map.getSize();
-        var data = {
-            filename: this.options.project.get('id') + '.png',
-            width: size.w,
-            height: size.h,
-            aspect: size.w / size.h
-        }
-        this.model.set(data);
-        this.model.bind('change:width', this.updateDimmesions);
-        this.model.bind('change:height', this.updateDimmesions);
-        this.model.bind('change:aspect', this.updateDimmesions);
-    },
-    getFields: function() {
-        return ich.ExportJobImageView(this.options);
-    },
-    boundingBoxAdded: function(box) {
-        ExportJobView.prototype.boundingBoxAdded.call(this, box);
-        var bounds = box.geometry.getBounds();
-        this.model.set({aspect: bounds.getWidth() / bounds.getHeight()});
-    },
-    updateDimmesions: function(model) {
-        var attributes = model.changedAttributes();
-        if (attributes.width) {
-            model.set({
-                height: Math.round(attributes.width / model.get('aspect'))},
-                {silent: true}
-            );
-        }
-        else if (attributes.height) {
-            model.set({
-                width: Math.round(model.get('aspect') * attributes.height)},
-                {silent: true}
-            );
-        }
-        else if (attributes.aspect) {
-            model.set({
-                height: Math.round(model.get('width') / attributes.aspect)},
-                {silent: true}
-            );
-        }
-    }
-});
-
-var ExportJobEmbedView = PopupView.extend({
-    initialize: function(options) {
-        this.options.title = 'Embed';
-        this.options.content = ich.ExportJobEmbedView({
-            tile_url: this.options.project.layerURL({signed: true}),
-        }, true);
-        PopupView.prototype.initialize.call(this, options);
-    }
-});
-
-var exportMethods = {
-    ExportJobImage: ExportJobImageView,
-    ExportJobEmbed: ExportJobEmbedView
-};
-
 /**
  * Watcher.
- * Class for updating project in minimal mode.
+ *
+ * Class for polling a given model (or collection) and firing a callback
+ * when it changes.
  */
-var Watcher = function(model) {
+var Watcher = function(model, callback) {
     _.bindAll(this, 'fetch', 'destroy');
     var model = model;
     this.model = model;
     this.model.bind('change', this.fetch);
+    this.callback = callback;
     this.md5 = new MD5();
     this.current = this.md5.digest(JSON.stringify(this.model));
     this.watcher = setInterval(function() { model.fetch(); }, 1000);
@@ -495,7 +310,7 @@ Watcher.prototype.fetch = function() {
     var state = this.md5.digest(JSON.stringify(this.model));
     if (this.current !== state) {
         this.current = state;
-        this.model.trigger('save');
+        this.callback && this.callback();
     }
 };
 

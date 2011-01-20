@@ -49,7 +49,8 @@ Backbone.sync = function(method, model, success, error) {
  * Load a single model. Requires that model.id be populated.
  */
 function load(model, callback) {
-    var modelPath = path.join(settings.files, model.type, model.id);
+    var modelPath = path.join(settings.files, model.type);
+    modelPath = (model.type == 'project') ? path.join(modelPath, model.id) : modelPath;
     var extension = (model.type == 'project') ? 'mml' : 'json';
     fs.readFile(path.join(modelPath, model.id + '.' + extension), 'utf-8',
     function(err, data) {
@@ -158,14 +159,49 @@ function update(model, callback) {
 
 /**
  * Destroy (delete, remove, etc.) a model.
+ * - Project: rm rf the project directory.
+ * - ExportJob: track and and kill the export file in addition to the model.
+ * - All others: rm the model json file.
  */
 function destroy(model, callback) {
-    if (model.type === 'project') {
+    switch (model.type) {
+    case 'project':
         var modelPath = path.join(settings.files, model.type, model.id);
         rmrf(modelPath, function() { return callback(null, model) });
-    } else {
+        break;
+    case 'exportjob':
+        var filepath;
+        Step(
+            function() {
+                load(model, this);
+            },
+            function(err, data) {
+                if (data && data.filename) {
+                    filepath = path.join(settings.export_dir, data.filename);
+                    path.exists(filepath, this);
+                }
+                else {
+                    this(false);
+                }
+            },
+            function(remove) {
+                if (remove) {
+                    fs.unlink(filepath, this);
+                }
+                else {
+                    this();
+                }
+            },
+            function() {
+                var modelPath = path.join(settings.files, model.type, model.id + '.json');
+                fs.unlink(modelPath, function() { return callback(null, model) });
+            }
+        );
+        break;
+    default:
         var modelPath = path.join(settings.files, model.type, model.id + '.json');
         fs.unlink(modelPath, function() { return callback(null, model) });
+        break;
     }
 };
 

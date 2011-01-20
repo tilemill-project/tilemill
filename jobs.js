@@ -114,15 +114,15 @@ var Job = function(opts) {
 
     this.opts = opts || {}
 
-    if (opts.start !== undefined) {
+    if (opts && opts.start !== undefined) {
         this.on('start', opts.start);
     }
 
-    if (opts.work !== undefined) {
+    if (opts && opts.work !== undefined) {
         this.on('work', opts.work);
     }
 
-    if (opts.finish !== undefined) {
+    if (opts && opts.finish !== undefined) {
         this.on('finish', opts.finish);
     }
 }
