@@ -48,7 +48,7 @@ var ExportJobRowView = Backbone.View.extend({
     },
     update: function() {
         // Remove watcher when complete.
-        if (this.model.get('status') !== 'complete' || this.model.get('status') !== 'error') {
+        if (this.model.get('status') === 'complete' || this.model.get('status') === 'error') {
             this.watcher.destroy();
         }
         this.render();
@@ -56,7 +56,10 @@ var ExportJobRowView = Backbone.View.extend({
     render: function() {
         $(this.el).html(ich.ExportJobRowView({
             filename: this.model.get('filename'),
-            status: this.model.get('status')
+            status: this.model.get('status'),
+            error: this.model.get('error'),
+            type: this.model.get('type'),
+            download: this.model.downloadURL()
         }));
     },
     destroy: function() {
@@ -83,10 +86,10 @@ var ExportJobDropdownView = DropdownView.extend({
         this.render();
     },
     events: _.extend(DropdownView.prototype.events, {
-        'click a.export-option': 'export',
+        'click a.export-option': 'xport',
         'click a.jobs': 'jobs'
     }),
-    export: function(event) {
+    xport: function(event) {
         this.options.map.xport($(event.currentTarget).attr('href').split('#').pop(), this.model);
         this.toggleContent();
         return false;

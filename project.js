@@ -383,6 +383,12 @@ var ExportJob = Backbone.Model.extend({
         status: 'waiting',
         timestamp: new Date().getTime()
     },
+    /**
+     * Generate a download URL for a model.
+     */
+    downloadURL: function() {
+        return (this.get('status') === 'complete') && '/export/download/' + this.get('filename');
+    },
     getTasks: function() {
         return require('./jobtasks')(this);
     }

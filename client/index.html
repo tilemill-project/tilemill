@@ -15,6 +15,9 @@
     <script type='text/javascript' src='js/libraries/underscore-min.js'></script>
     <script type='text/javascript' src='js/libraries/backbone.js'></script>
     <script type='text/javascript' src='js/libraries/jquery-ui.js'></script>
+    <script type='text/javascript' src='js/libraries/jquery.ui.widget.min.js'></script>    
+    <script type='text/javascript' src='js/libraries/jquery.ui.position.min.js'></script>
+    <script type='text/javascript' src='js/libraries/jquery.ui.autocomplete.min.js'></script>
     <script type='text/javascript' src='js/libraries/jquery.tablesorter.min.js'></script>
     <script type='text/javascript' src='js/libraries/ICanHaz.min.js'></script>
     <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
@@ -48,11 +51,13 @@
         'js/libraries/underscore-min.js',
         'js/libraries/backbone.js',
         'js/libraries/jquery-ui.js',
+        'js/libraries/jquery.ui.widget.min.js',
+        'js/libraries/jquery.ui.position.min.js',
+        'js/libraries/jquery.ui.autocomplete.min.js',
         'js/libraries/jquery.tablesorter.min.js',
         'js/libraries/ICanHaz.min.js',
         'js/openlayers/OpenLayers.js',
         'js/codemirror/js/codemirror.js',
-
         'js/app.popup.js',
         'js/app.tools.js',
         'js/app.project.js',
@@ -67,7 +72,6 @@
     );
     </script>
     -->
-
     <script type='text/html' id='ProjectListView'>
     <div id='header' class='header clearfix'>
       <a class='icon settings' href='#'>Settings</a>
@@ -224,11 +228,10 @@
     </script>
 
     <script type='text/html' id='FontPickerToolView'>
-      <label>Fonts</label>
-      <select class='fonts-list'>
-      <option value=''>Select...</option>
-      {{#fonts}}<option value='{{.}}'>{{.}}</option>{{/fonts}}
-      </select>
+      <div class='ui-widget'>      
+      	<input id='fonts' title="Find fonts" />
+        <div id='font-list'></div>
+      </div>
     </script>
 
     <script type='text/html' id='ColorSwatchesToolView'>
@@ -456,7 +459,20 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
     <script type='text/html' id='ExportJobRowView'>
       <a href='#' class='icon delete'>Remove</a>
       <span class='status status-{{status}}'>{{ status }}</span>
+      {{#download}}
+        <a class='file {{ type }}' href='{{ download }}'></a>
+      {{/download}}
+      {{^download}}
+        <span class='file {{ type }}'></span>
+      {{/download}}
       <a class='filename'>{{ filename }}</a>
+      <span class='date'>{{ date }}</span>
+      {{#error}}
+        <div class='message'>{{ error }}</div>
+      {{/error}}
+      {{#download}}
+        <div class='download'><a href='{{ download }}'>Download</a></div>
+      {{/download}}
     </script>
 
     <script type='text/html' id='ExportJobView'>

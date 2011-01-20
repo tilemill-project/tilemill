@@ -205,27 +205,46 @@ a:hover.button { color:#fff; }
 .palette .bbox-frame #bbox-e { top:25px; right:-20px; }
 .palette .bbox-frame #bbox-s { bottom:-10px; left:50%; margin-left:-30px; }
 
-.status {
+.drawer ul.jobs li { padding-left:90px; }
+
+.jobs .file {
   float:left;
+  margin-right:10px;
+  }
+
+.jobs .status {
+  position:absolute;
+  left:0px;
+  top:5px;
+
   font-size:9px;
   font-weight:bold;
   color:#fff;
   text-transform:uppercase;
-  text-align:center;
 
-  width:50px;
+  width:60px;
   line-height:15px;
   padding:0px 10px;
   margin:2px 10px 3px 0px;
-  border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
+  border-radius:0px 3px 3px 0px;
+  -webkit-border-radius:0px 3px 3px 0px;
+  -moz-border-radius:0px 3px 3px 0px;
   }
 
 .status-waiting    { background-color:#fc3; }
 .status-processing { background-color:#6c3; }
 .status-complete   { background-color:#3cf; }
 .status-error      { background-color:#c33; }
+
+.jobs .filename {
+  font-weight:bold;
+  }
+
+.jobs .download,
+.jobs .message {
+  font-size:11px;
+  color:#666;
+  }
 
 /**
  * Home
@@ -561,6 +580,7 @@ form .palette div { padding:5px 0px; }
 /**
  * Icon links
  */
+.file,
 .icon {
   display:block;
   padding:0px;
@@ -571,6 +591,13 @@ form .palette div { padding:5px 0px; }
 
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
+  }
+
+.file {
+  background-color:transparent;
+  background-position:40px 40px;
+  width:40px;
+  height:40px;
   }
 
 li .icon {
@@ -616,6 +643,11 @@ li .icon {
 .icon.label.active,
 .icon.choropleth.active,
 .icon.unique.active       { background-color:#222; }
+
+.file.ExportJobImage { background-position:0px -180px; }
+.file.ExportJobPDF { background-position:-40px -180px; }
+.file.ExportJobMBTiles { background-position:-80px -180px; }
+.file.ExportJobZIP { background-position:-120px -180px; }
 
 /**
  * Map preview
@@ -822,17 +854,33 @@ li .icon {
  * Font pallette
  */
 .font-picker {
-  height:20px;
   position:relative;
-  float:left;
+  }
+  
+input#fonts {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding-left: 5px;
+  color: #666;
+  font-weight: bold;
   }
 
-.font-picker label { position:absolute; }
+.ui-menu {
+  background:rgba(17,17,17,.9);
+  }
 
-.fonts-list {
-  position:absolute;
-  left:60px;
-  width: 220px;
+.ui-menu a {
+  color: #fff;
+  text-shadow: #1f3e4b 1px 1px;
+  display: block;
+  padding: 5px 8px;
+  cursor: pointer;
+  }
+  
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active,
+.ui-menu .ui-menu-item a:hover {
+  background:transparent url(../images/sprite.png) 0px -360px repeat-x;
   }
 
 /**

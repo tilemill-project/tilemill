@@ -1,3 +1,8 @@
+/**
+ * View: MapView
+ *
+ * The map preview for a project.
+ */
 var MapView = Backbone.View.extend({
     id: 'map-preview',
     initialize: function() {

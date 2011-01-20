@@ -4,6 +4,16 @@ var taskmanager = require('./taskmanager'),
 
 var tq = new taskmanager.TaskQueue();
 module.exports = function(app, settings) {
+    // Add Express route rule for serving export files for download.
+    app.get('/export/download/*', function(req, res, next) {
+        res.sendfile(
+            path.join(settings.export_dir, req.params[0]),
+            function(err, path) {
+                return err && next(new Error('File not found.'));
+            }
+        );
+    });
+
     var scan = function() {
         Step(
             function() {
