@@ -316,9 +316,7 @@ var ExportJobView = PopupView.extend({
     },
     render: function() {
         PopupView.prototype.render.call(this);
-        var boundingBox = this.options.map.map.getExtent().transform(
-            this.options.map.map.projection,
-            new OpenLayers.Projection('EPSG:4326')).toArray();
+        var boundingBox = this.options.map.map.getExtent().toArray();
         this.model.set({
             bbox: boundingBox.join(',')
         });
@@ -342,9 +340,7 @@ var ExportJobView = PopupView.extend({
     },
     boundingBoxAdded: function(box) {
         var bounds = box.geometry.getBounds();
-        var boundingBox = bounds.transform(
-            box.layer.map.projection,
-            new OpenLayers.Projection('EPSG:4326')).toArray();
+        var boundingBox = bounds.toArray();
         this.model.set({
             bbox: boundingBox.join()
         });
