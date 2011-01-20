@@ -226,7 +226,6 @@ var FontPickerToolView = Backbone.View.extend({
     },
     render: function() {
         $(this.el).html(ich.FontPickerToolView());
-        
         var $input = $('input', this.el),
             formTitle = $input.attr('title'),
             fontList = this.model.get('fonts');
