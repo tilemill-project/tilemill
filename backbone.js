@@ -49,7 +49,8 @@ Backbone.sync = function(method, model, success, error) {
  * Load a single model. Requires that model.id be populated.
  */
 function load(model, callback) {
-    var modelPath = path.join(settings.files, model.type, model.id);
+    var modelPath = path.join(settings.files, model.type);
+    modelPath = (model.type == 'project') ? path.join(modelPath, model.id) : modelPath;
     var extension = (model.type == 'project') ? 'mml' : 'json';
     fs.readFile(path.join(modelPath, model.id + '.' + extension), 'utf-8',
     function(err, data) {
