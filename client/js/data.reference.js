@@ -2,8 +2,8 @@ window.data = {};
 window.data.reference = {
     "symbolizers" : {
         "map": {
-            "map-bgcolor": {
-                "css": "map-bgcolor",
+            "background-color": {
+                "css": "background-color",
                 "default-value": "none",
                 "default-meaning": "transparent",
                 "type": "color_transparent",
@@ -60,7 +60,7 @@ window.data.reference = {
                 "css": "line-width",
                 "default-value": 1,
                 "type": "float",
-                "doc": "The width of a line" 
+                "doc": "The width of a line in pixels" 
             },
             "opacity": {
                 "css": "line-opacity",
@@ -87,13 +87,14 @@ window.data.reference = {
                     "round",
                     "square" 
                 ],
-                "doc": "The display of line endings." 
+                "doc": "The display of line endings" 
             },
             "dasharray": {
                 "css": "line-dasharray",
                 "type": "numbers",
-                "doc": "A pair of length values [a,b], where (a) is the dash length and (b) is the gap length respectively. More than two values are supported as well (e.g. to start the line not with a stroke, but with a gap).",
-                "default-value": "none" 
+                "doc": "A pair of length values [a,b], where (a) is the dash length and (b) is the gap length respectively. More than two values are supported for more complex patterns.",
+                "default-value": "none",
+                "default-meaning": "solid line" 
             },
             "meta-output": {
                 "css": "line-meta-output",
@@ -175,7 +176,7 @@ window.data.reference = {
             },
             "transform": {
                 "css": "marker-transform",
-                "type": "string" 
+                "type": "string"
             },
             "meta-output": {
                 "css": "marker-meta-output",
@@ -192,19 +193,22 @@ window.data.reference = {
         "shield": {
             "name": {
                 "css": "shield-name",
-                "type": "none" 
+                "type": "none"
             },
             "face-name": {
                 "css": "shield-name",
-                "type": "string" 
+                "type": "string",
+                "doc": "Font name and style to use for the shield text"
             },
             "size": {
                 "css": "shield-size",
-                "type": "int" 
+                "type": "int",
+                "doc": "The size of the shield text in pixels"
             },
             "fill": {
                 "css": "shield-fill",
-                "type": "color" 
+                "type": "color",
+                "doc": "The color of the shield text"
             },
             "min-distance": {
                 "css": "shield-min-distance",
@@ -216,7 +220,7 @@ window.data.reference = {
                 "css": "shield-spacing",
                 "type": "int",
                 "default-value": 0,
-                "doc": "The spacing between repeated occurrences of the same shield" 
+                "doc": "The spacing between repeated occurrences of the same shield on a line" 
             },
             "character-spacing": {
                 "css": "shield-spacing",
@@ -232,22 +236,26 @@ window.data.reference = {
             "file": {
                 "css": "shield-file",
                 "type": "uri",
-                "default-value": "none"
+                "default-value": "none",
+                "doc": "Image file to render behind the shield text"
             },
             "width": {
                 "css": "shield-width",
                 "type": "int",
-                "default-value": "The image's width" 
+                "default-meaning": "native width of the image",
+                "doc": "Width in pixels to scale the shield image to" 
             },
             "height": {
                 "css": "shield-height",
                 "type": "int",
-                "default-value": "The image's height" 
+                "default-meaning": "native height of the image",
+                "doc": "Width in pixels to scale the shield image to" 
             },
             "type": {
                 "css": "shield-type",
-                "type": "None",
-                "default-value": "The type of the image file: e.g. png" 
+                "type": ["png", "jpg", "svg"],
+                "default-meaning": "auto-detected", 
+                "doc": "The file type of the shield image"
             },
             "meta-output": {
                 "css": "shield-meta-output",
@@ -264,19 +272,26 @@ window.data.reference = {
         "line-pattern": {
             "file": {
                 "css": "line-pattern-file",
-                "type": "uri" 
+                "type": "uri",
+                "doc": "An image file to be repeated and warped along a line"
             },
             "width": {
                 "css": "line-pattern-width",
-                "type": "int" 
+                "type": "int",
+                "doc": "Width in pixels to scale the pattern image to",
+                "default-meaning": "native width of the image"
             },
             "height": {
                 "css": "line-pattern-height",
-                "type": "int" 
+                "type": "int",
+                "doc": "Height in pixels to scale the pattern image to",
+                "default-meaning": "native height of the image"
             },
             "type": {
                 "css": "line-pattern-type",
-                "type": "none" 
+                "type": "none",
+                "default-meaning": "auto-detected",
+                "doc": "The type of image file, e.g. 'png'"
             },
             "meta-output": {
                 "css": "line-pattern-meta-output",
@@ -293,19 +308,26 @@ window.data.reference = {
         "polygon-pattern": {
             "file": {
                 "css": "polygon-pattern-file",
-                "type": "uri" 
+                "type": "uri",
+                "doc": "Image to use as a repeated pattern fill within a polygon"
             },
             "width": {
                 "css": "polygon-pattern-width",
-                "type": "int" 
+                "type": "int",
+                "doc": "Width in pixels to scale the pattern image to",
+                "default-meaning": "native width of the image"
             },
             "height": {
                 "css": "polygon-pattern-height",
-                "type": "int" 
+                "type": "int",
+                "doc": "Height in pixels to scale the pattern image to",
+                "default-meaning": "native height of the image"
             },
             "type": {
                 "css": "polygon-pattern-type",
-                "type": "none" 
+                "type": "none",
+                "default-meaning": "auto-detected",
+                "doc": "The type of image file, e.g. 'png'"
             },
             "meta-output": {
                 "css": "polygon-pattern-meta-output",
@@ -353,19 +375,26 @@ window.data.reference = {
         "point": {
             "file": {
                 "css": "point-file",
-                "type": "uri" 
+                "type": "uri",
+                "doc": "Image file to represent a point"
             },
             "width": {
                 "css": "point-width",
-                "type": "int" 
+                "type": "int",
+                "default-meaning": "native width of the image",
+                "doc": "Width in pixels to scale the point image to"
             },
             "height": {
                 "css": "point-height",
-                "type": "int" 
+                "type": "int",
+                "default-meaning": "native height of the image",
+                "doc": "Height in pixels to scale the point image to"
             },
             "type": {
                 "css": "point-type",
-                "type": "none" 
+                "type": "none",
+                "default-meaning": "auto-detected",
+                "doc": "The type of image file, e.g. 'png'"
             },
             "allow-overlap": {
                 "css": "point-allow-overlap",
@@ -392,12 +421,14 @@ window.data.reference = {
             },
             "face_name": {
                 "css": "text-face-name",
-                "type": "string" 
+                "type": "string",
+                "doc": "Font name and style to render a label in" 
             },
             "size": {
                 "css": "text-size",
                 "type": "integer",
-                "default-value": 10
+                "default-value": 10,
+                "doc": "Text size in pixels"
             },
             "ratio": {
                 "css": "text-ratio",
@@ -412,17 +443,20 @@ window.data.reference = {
             },
             "spacing": {
                 "css": "text-spacing",
-                "type": "integer" 
+                "type": "integer",
+                "doc": "Distance between repeated text labels on a line"
             },
             "character-spacing": {
                 "css": "text-character-spacing",
                 "type": "integer",
-                "default-value": 0 
+                "default-value": 0,
+                "doc": "Horizontal spacing adjustment between characters in pixels" 
             },
             "line-spacing": {
                 "css": "text-line-spacing",
                 "default-value": 0,
-                "type": "integer" 
+                "type": "integer",
+                "doc": "Vertical spacing adjustment between lines in pixels" 
             },
             "label-position-tolerance": {
                 "css": "text-label-position-tolerance",
@@ -445,6 +479,7 @@ window.data.reference = {
                 "docs": "Color of the text halo",
                 "type": "color",
                 "default-value": "#FFFFFF",
+                "default-meaning": "white",
                 "doc": "Specifies the color of the halo around the text."
             },
             "halo-radius": {
@@ -458,13 +493,13 @@ window.data.reference = {
                 "css": "text-dx",
                 "type": "integer",
                 "doc": "Displace text by fixed amount, in pixels, +/- along the X axis.  A positive value will shift the text right",
-                "default-value": 10
+                "default-value": 0
             },
             "dy": {
                 "css": "text-dy",
                 "type": "integer",
                 "doc": "Displace text by fixed amount, in pixels, +/- along the Y axis.  A positive value will shift the text down",
-                "default-value": 10
+                "default-value": 0
             },
             "avoid_edges": {
                 "css": "text-avoid-edges",
@@ -492,11 +527,12 @@ window.data.reference = {
             "transform": {
                 "css": "text-transform",
                 "type": [
-                    "point",
-                    "line",
+                    "none",
                     "uppercase",
                     "lowercase" 
-                ] 
+                ],
+                "doc": "Transform the case of the characters",
+                "default-value": "none" 
             },
             "meta-output": {
                 "css": "text-meta-output",
@@ -510,107 +546,6 @@ window.data.reference = {
                 "default-value": "" 
             } 
         },
-        "inline": {
-            "color": {
-                "css": "inline-color",
-                "default-value": "black",
-                "type": "color" 
-            },
-            "width": {
-                "css": "inline-width",
-                "type": "float" 
-            },
-            "opacity": {
-                "css": "inline-opacity",
-                "default-value": 1,
-                "default-meaning": "opaque",
-                "type": "float" 
-            },
-            "join": {
-                "css": "inline-join",
-                "default-value": "miter",
-                "type": [
-                    "miter",
-                    "round",
-                    "bevel" 
-                ] 
-            },
-            "cap": {
-                "css": "inline-cap",
-                "default-value": "butt",
-                "type": [
-                    "butt",
-                    "round",
-                    "square" 
-                ] 
-            },
-            "dasharray": {
-                "css": "inline-dasharray",
-                "type": "numbers" 
-            },
-            "meta-output": {
-                "css": "inline-meta-output",
-                "type": "string",
-                "default-value": "none",
-                "default-meaning": "No MetaWriter Output" 
-            },
-            "meta-writer": {
-                "css": "inline-meta-writer",
-                "type": "string",
-                "default-value": "none" 
-            } 
-        },
-        "outline": {
-            "color": {
-                "css": "outline-color",
-                "default-value": "black",
-                "type": "color" 
-            },
-            "width": {
-                "css": "outline-width",
-                "default-value": 1,
-                "type": "float" 
-            },
-            "opacity": {
-                "css": "outline-opacity",
-                "default-value": 1,
-                "default-meaning": "opaque",
-                "type": "float" 
-            },
-            "join": {
-                "css": "outline-join",
-                "default-value": "miter",
-                "type": [
-                    "miter",
-                    "round",
-                    "bevel" 
-                ] 
-            },
-            "cap": {
-                "css": "outline-cap",
-                "default-value": "butt",
-                "type": [
-                    "butt",
-                    "round",
-                    "square" 
-                ] 
-            },
-            "dasharray": {
-                "css": "outline-dasharray",
-                "type": "numbers" 
-            },
-            "meta-output": {
-                "css": "outline-meta-output",
-                "type": "string",
-                "default-value": "none",
-                "default-meaning": "No MetaWriter Output" 
-            },
-            "meta-writer": {
-                "css": "outline-meta-writer",
-                "type": "string",
-                "default-value": "none" 
-            } 
-        } 
     }
 };
 

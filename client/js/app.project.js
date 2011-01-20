@@ -40,7 +40,8 @@ var ProjectListView = Backbone.View.extend({
     },
     events: {
         'click input.submit': 'add',
-        'click div#header a.info': 'about'
+        'click div#header a.info': 'about',
+        'click div#header a.settings': 'settings'
     },
     add: function() {
         var id = $('input.text', this.el).val();
@@ -76,6 +77,10 @@ var ProjectListView = Backbone.View.extend({
     showError: function(model, error) {
         window.app.done();
         window.app.message('Error', error);
+    },
+    settings: function() {
+        new SettingsPopupView({ model: window.app.settings });
+        return false;
     }
 });
 
@@ -132,13 +137,14 @@ var ProjectView = Backbone.View.extend({
     id: 'ProjectView',
     events: {
         'click #header a.save': 'saveProject',
-        'click #header a.info': 'projectInfo',
-        'click #header a.minimal': 'minimal',
-        'click #header a.home': 'home'
+        'click #header a.settings': 'settings',
+        'click #header a.close': 'close',
+        'click #header a.reference': 'reference'
     },
     initialize: function() {
-        _.bindAll(this, 'render', 'saveProject', 'projectInfo',
-            'home', 'minimal', 'changed');
+        _.bindAll(this, 'render', 'saveProject',
+            'home', 'minimal', 'changed', 'reference', 'setMinimal');
+        window.app.settings.bind('change', this.setMinimal);
         this.model.view = this;
         this.model.bind('change', this.changed);
         this.model.fetch({
@@ -197,6 +203,7 @@ var ProjectView = Backbone.View.extend({
 
         window.app.el.html(this.el);
         window.app.trigger('ready');
+        this.setMinimal(); // set minimal/normal mode
         return this;
     },
     saveProject: function() {
@@ -249,26 +256,25 @@ var ProjectView = Backbone.View.extend({
         });
         return false;
     },
-    projectInfo: function() {
-        window.app.message('Project Info', {
-            'tilelive_url': this.model.layerURL({signed: true}),
-            'mml_url': [
-                window.location.protocol,
-                window.location.host
-            ].join('//') + this.model.url()
-        }, 'projectInfo');
-        return false;
-    },
-    home: function() {
+    close: function() {
         return (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?'));
     },
-    minimal: function() {
-        $('a.minimal', this.el).toggleClass('active');
-        if ($('a.minimal', this.el).is('.active')) {
+    reference: function() {
+        if (this.referenceView) {
+            this.referenceView.remove();
+            delete this.referenceView;
+        }
+        else {
+            this.referenceView = new ReferenceView();
+        }
+        return false;
+    },
+    setMinimal: function() {
+        if (window.app.settings.get('mode') === 'minimal') {
             $(this.el).addClass('minimal');
             this.watcher = new Watcher(this.model);
         }
-        else {
+        else if (this.watcher) {
             $(this.el).removeClass('minimal');
             this.watcher.destroy();
         }
@@ -276,6 +282,10 @@ var ProjectView = Backbone.View.extend({
     },
     changed: function() {
         $('#header a.save', this.el).addClass('changed');
+    },
+    settings: function() {
+        new SettingsPopupView({ model: window.app.settings });
+        return false;
     }
 });
 
@@ -295,30 +305,30 @@ var ExportJobDropdownView = DropdownView.extend({
         'click a.export-option': 'export'
     }),
     export: function(event) {
-        this.options.map.xport($(event.currentTarget).attr('href').substring(1), this.model);
+        this.options.map.xport($(event.currentTarget).attr('href').split('#').pop(), this.model);
         this.toggleContent();
         return false;
     }
 });
 
-var ExportJobView = PopupView.extend({
-    className: 'overlay',
+var ExportJobView = Backbone.View.extend({
+    render: function() {
+        $(this.el).html(ich.ExportJobView(this.options));
+        $('.palette', this.el).append(this.getFields());
+        window.app.el.append(this.el);
+        return this;
+    },
     initialize: function() {
-        _.bindAll(this, 'boundingBoxAdded');
-        $(this.options.map.el).addClass('exporting');
+        _.bindAll(this, 'boundingBoxAdded', 'updateUI');
+        this.model.bind('change', this.updateUI);
+
+        $('body').addClass('exporting');
         this.options.map.maximize();
-
-        var form = ich.ExportJobView(this.options);
-        $('span.fields', form).append(this.getFields());
-        this.options.content = $('<div>').append(form).remove().html();
         this.render();
-
-        this.updateBbox(
-            this.options.map.map.getExtent().transform(
-                this.options.map.map.projection,
-                new OpenLayers.Projection('EPSG:4326')
-            ).toArray()
-        );
+        var boundingBox = this.options.map.map.getExtent().toArray();
+        this.model.set({
+            bbox: boundingBox.join(',')
+        });
 
         this.boxDrawingLayer = new OpenLayers.Layer.Vector('Temporary Box Layer');
         this.boxDrawingControl = new OpenLayers.Control.DrawFeature(
@@ -336,47 +346,65 @@ var ExportJobView = PopupView.extend({
         this.options.map.map.addLayer(this.boxDrawingLayer);
         this.options.map.map.addControl(this.boxDrawingControl);
         this.boxDrawingControl.activate();
-
     },
     boundingBoxAdded: function(box) {
         var bounds = box.geometry.getBounds();
-        var boundingBox = bounds.transform(
-            box.layer.map.projection,
-            new OpenLayers.Projection('EPSG:4326')).toArray();
-        this.updateBbox(boundingBox);
+        var boundingBox = bounds.toArray();
+        this.model.set({
+            bbox: boundingBox.join()
+        });
         // Remove old box
         for(i = 0; i < this.boxDrawingLayer.features.length; i++) {
             if(this.boxDrawingLayer.features[i] != box) {
                 this.boxDrawingLayer.features[i].destroy();
             }
         }
-        // TODO: Determine pixel dimmensions of box.
-        var aspect = bounds.getWidth() / bounds.getHeight();
     },
     events: _.extend(PopupView.prototype.events, {
-        'click input.submit': 'submit'
+        'click input.submit': 'submit',
+        'change input': 'changeValue'
     }),
-    submit: function() {
-        var data = {}
-        $('input', this.el).each(function(index, element) {
-            if ($(element).attr('id') !== '' && typeof $(element).val() !== 'undefined') {
-                data[$(element).attr('id')] = $(element).val();
+    changeValue: function(event) {
+        var data = {};
+        if ($(event.target).is('.bbox')) {
+            data.bbox = [
+                this.$('#bbox-w').val(),
+                this.$('#bbox-s').val(),
+                this.$('#bbox-e').val(),
+                this.$('#bbox-n').val()
+            ];
+        }
+        else {
+            data[$(event.target).attr('id')] = $(event.target).val();
+        }
+        this.model.set(data);
+    },
+    updateUI: function(model) {
+        var that = this;
+        _.each(model.changedAttributes(), function(value, key) {
+            if (key === 'bbox') {
+                var bbox = value.split(',');
+                that.$('#bbox-w').val(bbox[0]);
+                that.$('#bbox-s').val(bbox[1]);
+                that.$('#bbox-e').val(bbox[2]);
+                that.$('#bbox-n').val(bbox[3]);
+            }
+            else {
+                that.$('#' + key).val(value);
             }
         });
-        var job = new ExportJob(data);
-        this.options.collection.add(job);
-        job.save();
+    },
+    submit: function() {
+        this.options.collection.add(this.model);
+        this.model.save();
         this.close();
         return false;
-    },
-    updateBbox: function(bbox) {
-        this.$('#bbox').val(bbox.join());
     },
     close: function() {
         this.boxDrawingControl.deactivate();
         this.options.map.map.removeControl(this.boxDrawingControl);
         this.options.map.map.removeLayer(this.boxDrawingLayer);
-        $(this.options.map.el).removeClass('exporting');
+        $('body').removeClass('exporting');
         this.options.map.minimize();
         PopupView.prototype.close.call(this);
         return false;
@@ -385,17 +413,68 @@ var ExportJobView = PopupView.extend({
 
 var ExportJobImageView = ExportJobView.extend({
     initialize: function() {
+        _.bindAll(this, 'updateUI');
         this.options.title = 'Export image';
-        this.options.filename = this.model.get('id') + '.png';
         ExportJobView.prototype.initialize.call(this);
     },
+    render: function() {
+        ExportJobView.prototype.render.call(this);
+        var size = this.options.map.map.getSize();
+        var data = {
+            filename: this.options.project.get('id') + '.png',
+            width: size.w,
+            height: size.h,
+            aspect: size.w / size.h
+        }
+        this.model.set(data);
+        this.model.bind('change:width', this.updateDimmesions);
+        this.model.bind('change:height', this.updateDimmesions);
+        this.model.bind('change:aspect', this.updateDimmesions);
+    },
     getFields: function() {
-        return ich.ExportJobImageView();
+        return ich.ExportJobImageView(this.options);
+    },
+    boundingBoxAdded: function(box) {
+        ExportJobView.prototype.boundingBoxAdded.call(this, box);
+        var bounds = box.geometry.getBounds();
+        this.model.set({aspect: bounds.getWidth() / bounds.getHeight()});
+    },
+    updateDimmesions: function(model) {
+        var attributes = model.changedAttributes();
+        if (attributes.width) {
+            model.set({
+                height: Math.round(attributes.width / model.get('aspect'))},
+                {silent: true}
+            );
+        }
+        else if (attributes.height) {
+            model.set({
+                width: Math.round(model.get('aspect') * attributes.height)},
+                {silent: true}
+            );
+        }
+        else if (attributes.aspect) {
+            model.set({
+                height: Math.round(model.get('width') / attributes.aspect)},
+                {silent: true}
+            );
+        }
+    }
+});
+
+var ExportJobEmbedView = PopupView.extend({
+    initialize: function(options) {
+        this.options.title = 'Embed';
+        this.options.content = ich.ExportJobEmbedView({
+            tile_url: this.options.project.layerURL({signed: true}),
+        }, true);
+        PopupView.prototype.initialize.call(this, options);
     }
 });
 
 var exportMethods = {
-    ExportJobImage: ExportJobImageView
+    ExportJobImage: ExportJobImageView,
+    ExportJobEmbed: ExportJobEmbedView
 };
 
 /**

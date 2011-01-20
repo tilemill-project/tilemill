@@ -1,16 +1,14 @@
 /**
  * Router controller: Reference page.
  */
-var ReferenceView = Backbone.View.extend({
-    initialize: function () {
-        this.render();
-    },
-
-    render: function () {
-        $(this.el).html(ich.ReferenceView());
-        var that = this;        
-        _.map(window.data.reference.symbolizers, function(properties, symbolizer) {
-            $('#main-content', that.el).append(ich.reference_symbolizer({
+var ReferenceView = DrawerView.extend({
+    events: _.extend(DrawerView.prototype.events, {
+        'click .reference-links a': 'show'
+    }),
+    initialize: function (options) {
+        _.bindAll(this, 'show');
+        var symbolizers = _.map(window.data.reference.symbolizers, function(properties, symbolizer) {
+            return {
                 properties: _.map(properties, function(property, name) {
                     return {
                         property_name: name,
@@ -24,9 +22,21 @@ var ReferenceView = Backbone.View.extend({
                     }; // TODO extend instead
                 }),
                 symbolizer: symbolizer
-            }));
+            };
         });
-        window.app.el.html(this.el);
-        return this;
+        this.options = {
+            title: 'Reference',
+            content: ich.ReferenceView({ symbolizers: symbolizers }, true)
+        };
+        DrawerView.prototype.initialize.call(this, options);
+    },
+    show: function(event) {
+        var link = $(event.target);
+        var section = link.attr('href').split('#').pop();
+        this.$('.reference-links a.active').removeClass('active');
+        this.$('.reference-section.active').removeClass('active');
+        link.addClass('active');
+        this.$('#' + section).addClass('active');
+        return false;
     }
 });
