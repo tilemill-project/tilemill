@@ -90,6 +90,7 @@ ExportTaskImage.prototype.start = function() {
                         filename = filename.replace(path.extname(filename), '')
                             + require('crypto').createHash('md5').update(date.getTime()).digest('hex').substring(0,6)
                             + path.extname(filename);
+                        that.opts.model.save({filename: filename});
                     }
                     fs.writeFile(path.join(exportDir, filename), data[0], function(err) {
                         if (err) {

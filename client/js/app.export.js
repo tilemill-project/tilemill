@@ -253,6 +253,46 @@ var ExportJobImageView = ExportJobView.extend({
     }
 });
 
+var ExportJobMBTilesView = ExportJobView.extend({
+    initialize: function() {
+        _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
+        this.options.title = 'Export MBTiles';
+        ExportJobView.prototype.initialize.call(this);
+    },
+    render: function() {
+        ExportJobView.prototype.render.call(this);
+        var slider = this.$('#mbtiles-zoom').slider({
+            range: true,
+            min:0,
+            max:22,
+            step:1,
+            values: [0, 8],
+            slide: this.changeZoomLevels
+        });
+        this.model.bind('change:minzoom', this.updateZoomLabels);
+        this.model.bind('change:maxzoom', this.updateZoomLabels);
+        var data = {
+            filename: this.options.project.get('id') + '.mbtiles',
+            minzoom: 0,
+            maxzoom: 8
+        }
+        this.model.set(data);
+    },
+    getFields: function() {
+        return ich.ExportJobMBTilesView(this.options);
+    },
+    changeZoomLevels: function(event, ui) {
+        this.model.set({
+            minzoom: ui.values[0],
+            maxzoom: ui.values[1]
+        });
+    },
+    updateZoomLabels: function() {
+        this.$('span.min-zoom').text(this.model.get('minzoom'));
+        this.$('span.max-zoom').text(this.model.get('maxzoom'));
+    }
+});
+
 var ExportJobEmbedView = PopupView.extend({
     initialize: function(options) {
         this.options.title = 'Embed';
@@ -265,5 +305,6 @@ var ExportJobEmbedView = PopupView.extend({
 
 var exportMethods = {
     ExportJobImage: ExportJobImageView,
+    ExportJobMBTiles: ExportJobMBTilesView,
     ExportJobEmbed: ExportJobEmbedView
 };

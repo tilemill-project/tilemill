@@ -848,6 +848,10 @@ li .icon {
   left:60px;
   width: 220px;
   }
+  
+.ui-autocomplete {
+  background:rgba(17,17,17,.9);
+}
 
 /**
  * Popup editor.
@@ -1170,4 +1174,31 @@ body .tipsy { font-size:11px; }
 .showall a {
   margin:10px 0;
   float:none;
+  }
+
+.ui-slider,
+form .palette .ui-slider {
+  position:relative;
+  height:1px;
+  background: #ccc;
+  border-color: #888 #ccc #fff;
+  border-width:1px 0px;
+  padding:0px;
+  }
+
+.ui-slider-range,
+form .palette .ui-slider-range {
+  border-top:1px solid #a00;
+  background:#f88;
+  position:absolute;
+  height:1px;
+  padding:0px;
+  }
+
+.ui-slider-handle {
+  position:absolute;
+  height:5px;
+  width:10px;
+  background:#ddd;
+  display:block;
   }

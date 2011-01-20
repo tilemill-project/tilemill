@@ -15,6 +15,11 @@
     <script type='text/javascript' src='js/libraries/underscore-min.js'></script>
     <script type='text/javascript' src='js/libraries/backbone.js'></script>
     <script type='text/javascript' src='js/libraries/jquery-ui.js'></script>
+    
+    <script type='text/javascript' src='js/libraries/jquery.ui.widget.min.js'></script>    
+    <script type='text/javascript' src='js/libraries/jquery.ui.position.min.js'></script>
+    <script type='text/javascript' src='js/libraries/jquery.ui.autocomplete.min.js'></script>
+        
     <script type='text/javascript' src='js/libraries/jquery.tablesorter.min.js'></script>
     <script type='text/javascript' src='js/libraries/ICanHaz.min.js'></script>
     <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
@@ -48,11 +53,11 @@
         'js/libraries/underscore-min.js',
         'js/libraries/backbone.js',
         'js/libraries/jquery-ui.js',
-        'js/libraries/jquery.tablesorter.min.js',
-        'js/libraries/ICanHaz.min.js',
+        'js/libraries/jquery.ui.widget.min.js',
+        'js/libraries/jquery.ui.position.min.js',
+        'js/libraries/jquery.ui.autocomplete.min.js',
         'js/openlayers/OpenLayers.js',
         'js/codemirror/js/codemirror.js',
-
         'js/app.popup.js',
         'js/app.tools.js',
         'js/app.project.js',
@@ -67,7 +72,6 @@
     );
     </script>
     -->
-
     <script type='text/html' id='ProjectListView'>
     <div id='header' class='header clearfix'>
       <a class='icon settings' href='#'>Settings</a>
@@ -224,11 +228,9 @@
     </script>
 
     <script type='text/html' id='FontPickerToolView'>
-      <label>Fonts</label>
-      <select class='fonts-list'>
-      <option value=''>Select...</option>
-      {{#fonts}}<option value='{{.}}'>{{.}}</option>{{/fonts}}
-      </select>
+      <div class='ui-widget'> 
+      	<input id='fonts' title="Find fonts" />
+      </div>
     </script>
 
     <script type='text/html' id='ColorSwatchesToolView'>
@@ -265,7 +267,7 @@
       <ul>
         <li><a class='export-option export-png' href='#ExportJobImage'>PNG</a></li>
         <li><a class='export-option export-zip' href='#'>Zip</a></li>
-        <li><a class='export-option export-mbtiles' href='#'>MBTiles</a></li>
+        <li><a class='export-option export-mbtiles' href='#ExportJobMBTiles'>MBTiles</a></li>
         <li><a class='export-option export-embed' href='#ExportJobEmbed'>Embed</a></li>
         <li class='divider'><a class='jobs' href='#'>View jobs</a></li>
       </ul>
@@ -499,6 +501,17 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
         <span>x</span>
         <input type='text' class='text' size='3' id='height' value='{{ height }}'/>
         px
+      </div>
+    </script>
+
+    <script type='text/html' id='ExportJobMBTilesView'>
+      <div>
+        <label>Zoom Levels (<span class='min-zoom'></span> to <span class='max-zoom'></span>)</label>
+        <div id='mbtiles-zoom'></div>
+      </div>
+      <div>
+        <label for='mbtiles-attribution'>Attribution Text</label>
+        <input type='text' id='mbtiles-attribution' class='text' value='' />
       </div>
     </script>
 
