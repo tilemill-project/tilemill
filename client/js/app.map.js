@@ -157,34 +157,3 @@ var MapView = Backbone.View.extend({
     }
 });
 
-/*
-TileMill.map.reload = function(map, servers) {
-  var data = map.data('TileMill.map');
-  if (data && data.olMap) {
-    var olMap = data.olMap;
-    if (olMap.layers && olMap.layers[0]) {
-      olMap.layers[0].url = servers;
-      olMap.layers[0].redraw();
-    }
-  }
-};
-
-TileMill.map.getCenter = function(map) {
-  var data = map.data('TileMill.map');
-  if (data && data.olMap) {
-    var olMap = data.olMap;
-    var center = olMap.getCenter();
-    return {
-        lat: center.lat,
-        lon: center.lon,
-        zoom: olMap.getZoom()
-    };
-  }
-  return {
-      lat: 0,
-      lon: 0,
-      zoom: 2
-  };
-};
-*/
-

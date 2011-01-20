@@ -892,20 +892,39 @@ a.inspector-close { background-color:#666; }
 /**
  * Reference page
  */
-
-#reference #sidebar,
-#reference #main { background-color:#eee; }
-
-#reference #main,
-#data #main { overflow: auto; }
-
-#reference .pane { padding:20px; }
-
-.reference-symbolizer {
-  border-bottom:1px solid #ccc;
-  padding:0px 0px 19px;
-  margin:0px 0px 20px;
+.reference-links {
+  position:absolute;
+  left:0px;
+  top:0px;
+  padding:10px 5px;
+  width:110px;
   }
+
+.reference-links a {
+  display:block;
+  padding:0px 10px;
+  overflow:hidden;
+
+  font-weight:bold;
+  font-size:11px;
+  color:#666;
+  white-space:nowrap;
+  border-radius:10px;
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  }
+
+.reference-links a.active {
+  background:#666;
+  color:#fff;
+  }
+
+.reference-section {
+  display:none;
+  padding:10px 20px 10px 140px;
+  }
+
+.reference-section.active { display:block; }
 
 table { width:100%; }
 
@@ -922,7 +941,6 @@ table th {
   border-collapse:collapse;
   padding:0px 10px 0px 0px;
   width: 25%;
-  white-space:nowrap;
   overflow:hidden;
   }
 
@@ -937,17 +955,17 @@ table.features th {
 
 table.features .Number { text-align:right; }
 
-.reference-help p { margin:0px 0px 20px; }
+.reference-section p { margin:0px 0px 20px; }
 
-.reference-help pre,
-.reference-help code {
+.reference-section pre,
+.reference-section code {
   background-color:#f8f8f8;
   border:1px solid #fff;
   -webkit-box-shadow:#ccc 0px 1px 3px;
   padding:0px 2px;
   }
 
-.reference-help pre {
+.reference-section pre {
   padding:9px;
   margin:0px 0px 20px;
   }
@@ -959,26 +977,6 @@ table.features .Number { text-align:right; }
 
 .reference-table a { color:#666; }
 .reference-table a.reference-doc-available { color:#333; }
-
-#quick-reference {
-  background:#eee;
-  color:#666;
-  position:absolute;
-  left:10px;
-  right:25px;
-  padding:3px 6px;
-  bottom:50px;
-  border:1px solid #ccc;
-  -moz-border-radius:3px;
-  -webkit-border-radius:3px;
-  z-index: 999999999999;
-  padding-right:180px;
-  min-height:20px;
-  }
-
-#quick-reference .default {
-  color: #888;
-  }
 
 /**
  * Add datasources from known data
