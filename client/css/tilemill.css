@@ -857,10 +857,20 @@ li .icon {
   position:relative;
   }
   
+#font-list {
+/*  position: absolute;*/
+  bottom: 30px;
+  }
+
+#project input.working { 
+  background: #fff url(../images/loader.gif) no-repeat 185px center!important;
+}
+
 input#fonts {
   background: #fff;
   border: 1px solid #ccc;
-  padding-left: 5px;
+  padding: 6px 25px 6px 6px;
+  width: 175px;
   color: #666;
   font-weight: bold;
   }

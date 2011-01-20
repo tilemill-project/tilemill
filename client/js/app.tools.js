@@ -214,7 +214,7 @@ var ColorSwatchView = Backbone.View.extend({
 var FontPickerToolView = Backbone.View.extend({
     className: 'font-picker pane',
     events: {
-        'change .fonts-list': 'insertFont'
+        'change #fonts': 'insertFont'
     },
     initialize: function(options) {
         _.bindAll(this, 'render', 'insertFont');
@@ -232,7 +232,9 @@ var FontPickerToolView = Backbone.View.extend({
 
             $('input#fonts').autocomplete({
               appendTo: '#font-list',
-              source: fontList
+              source: fontList,
+              search  : function(){$(this).addClass('working');},
+              open    : function(){$(this).removeClass('working');}
             });
 
         function remove() {
@@ -241,7 +243,7 @@ var FontPickerToolView = Backbone.View.extend({
           }
         }
         $input.blur(function () {
-          $input.val(formTitle).addClass(blurClass);
+          $input.val(formTitle);
         }).focus(remove).blur();
         //Also remove if ..
         $input.submit(remove);
@@ -249,8 +251,9 @@ var FontPickerToolView = Backbone.View.extend({
     },
     insertFont: function() {
         var mirror = this.project.view.stylesheets.activeTab.codemirror;
-        mirror.replaceSelection('"' + this.$('select').val() + '"');
+        
+        mirror.replaceSelection('"' + this.$('input').val() + '"');
         $(mirror).focus();
-        this.$('select').val('');
+        this.$('input').val('');
     }
 });
