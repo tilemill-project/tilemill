@@ -975,6 +975,8 @@ table.features .Number { text-align:right; }
   color:#999;
   }
 
+.reference-table tr:hover { background-color:#eee; }
+
 .reference-table a { color:#666; }
 .reference-table a.reference-doc-available { color:#333; }
 
