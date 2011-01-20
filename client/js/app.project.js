@@ -266,9 +266,12 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     setMinimal: function() {
+        var that = this;
         if (window.app.settings.get('mode') === 'minimal') {
             $(this.el).addClass('minimal');
-            this.watcher = new Watcher(this.model);
+            this.watcher = new Watcher(this.model, function() {
+                that.model.trigger('save');
+            });
         }
         else if (this.watcher) {
             $(this.el).removeClass('minimal');
@@ -287,13 +290,16 @@ var ProjectView = Backbone.View.extend({
 
 /**
  * Watcher.
- * Class for updating project in minimal mode.
+ *
+ * Class for polling a given model (or collection) and firing a callback
+ * when it changes.
  */
-var Watcher = function(model) {
+var Watcher = function(model, callback) {
     _.bindAll(this, 'fetch', 'destroy');
     var model = model;
     this.model = model;
     this.model.bind('change', this.fetch);
+    this.callback = callback;
     this.md5 = new MD5();
     this.current = this.md5.digest(JSON.stringify(this.model));
     this.watcher = setInterval(function() { model.fetch(); }, 1000);
@@ -303,7 +309,7 @@ Watcher.prototype.fetch = function() {
     var state = this.md5.digest(JSON.stringify(this.model));
     if (this.current !== state) {
         this.current = state;
-        this.model.trigger('save');
+        this.callback && this.callback();
     }
 };
 

@@ -225,9 +225,28 @@ var FontPickerToolView = Backbone.View.extend({
         });
     },
     render: function() {
-        $(this.el).html(ich.FontPickerToolView({
-            fonts: this.model.get('fonts')
-        }));
+        $(this.el).html(ich.FontPickerToolView());
+        
+        var $input = $('input', this.el),
+            formTitle = $input.attr('title'),
+            fontList = this.model.get('fonts');
+
+            $('input#fonts').autocomplete({
+              appendTo: '#font-list',
+              source: fontList
+            });
+
+        function remove() {
+          if ($input.val() === formTitle) {
+            $input.val('');
+          }
+        }
+        $input.blur(function () {
+          $input.val(formTitle).addClass(blurClass);
+        }).focus(remove).blur();
+        //Also remove if ..
+        $input.submit(remove);
+        $(window).unload(remove); // For Firefox
     },
     insertFont: function() {
         var mirror = this.project.view.stylesheets.activeTab.codemirror;

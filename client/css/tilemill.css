@@ -205,27 +205,41 @@ a:hover.button { color:#fff; }
 .palette .bbox-frame #bbox-e { top:25px; right:-20px; }
 .palette .bbox-frame #bbox-s { bottom:-10px; left:50%; margin-left:-30px; }
 
-.status {
-  float:left;
+.drawer ul.jobs li { padding-left:90px; }
+
+.jobs .status {
+  position:absolute;
+  left:0px;
+  top:5px;
+
   font-size:9px;
   font-weight:bold;
   color:#fff;
   text-transform:uppercase;
-  text-align:center;
 
-  width:50px;
+  width:60px;
   line-height:15px;
   padding:0px 10px;
   margin:2px 10px 3px 0px;
-  border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
+  border-radius:0px 3px 3px 0px;
+  -webkit-border-radius:0px 3px 3px 0px;
+  -moz-border-radius:0px 3px 3px 0px;
   }
 
 .status-waiting    { background-color:#fc3; }
 .status-processing { background-color:#6c3; }
 .status-complete   { background-color:#3cf; }
 .status-error      { background-color:#c33; }
+
+.jobs .filename {
+  font-weight:bold;
+  }
+
+.jobs .download,
+.jobs .message {
+  font-size:11px;
+  color:#666;
+  }
 
 /**
  * Home
@@ -822,17 +836,33 @@ li .icon {
  * Font pallette
  */
 .font-picker {
-  height:20px;
   position:relative;
-  float:left;
+  }
+  
+input#fonts {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding-left: 5px;
+  color: #666;
+  font-weight: bold;
   }
 
-.font-picker label { position:absolute; }
+.ui-menu {
+  background:rgba(17,17,17,.9);
+  }
 
-.fonts-list {
-  position:absolute;
-  left:60px;
-  width: 220px;
+.ui-menu a {
+  color: #fff;
+  text-shadow: #1f3e4b 1px 1px;
+  display: block;
+  padding: 5px 8px;
+  cursor: pointer;
+  }
+  
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active,
+.ui-menu .ui-menu-item a:hover {
+  background:transparent url(../images/sprite.png) 0px -360px repeat-x;
   }
 
 /**
@@ -1156,4 +1186,31 @@ body .tipsy { font-size:11px; }
 .showall a {
   margin:10px 0;
   float:none;
+  }
+
+.ui-slider,
+form .palette .ui-slider {
+  position:relative;
+  height:1px;
+  background: #ccc;
+  border-color: #888 #ccc #fff;
+  border-width:1px 0px;
+  padding:0px;
+  }
+
+.ui-slider-range,
+form .palette .ui-slider-range {
+  border-top:1px solid #a00;
+  background:#f88;
+  position:absolute;
+  height:1px;
+  padding:0px;
+  }
+
+.ui-slider-handle {
+  position:absolute;
+  height:5px;
+  width:10px;
+  background:#ddd;
+  display:block;
   }

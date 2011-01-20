@@ -13,6 +13,15 @@ mapnik.register_fonts('/usr/local/lib/mapnik2/fonts/');
 var tq = new tasks.JobQueue();
 
 module.exports = function(app, settings) {
+    // Add Express route rule for serving export files for download.
+    app.get('/export/download/*', function(req, res, next) {
+        res.sendfile(
+            path.join(settings.export_dir, req.params[0]),
+            function(err, path) {
+                return err && next(new Error('File not found.'));
+            }
+        );
+    });
 
     var scan = function() {
         var jobQueue = new models.ExportJobList();
@@ -81,16 +90,19 @@ ExportTaskImage.prototype.start = function() {
                         filename = filename.replace(path.extname(filename), '')
                             + require('crypto').createHash('md5').update(date.getTime()).digest('hex').substring(0,6)
                             + path.extname(filename);
+                        that.opts.model.save({filename: filename});
                     }
                     fs.writeFile(path.join(exportDir, filename), data[0], function(err) {
                         if (err) {
                             that.opts.model.save({
+                                filename: filename,
                                 status: 'error',
                                 error: 'Error saving image: ' + err.message
                             });
                         }
                         else {
                             that.opts.model.save({
+                                filename: filename,
                                 status:'complete',
                                 progress: 1
                             });

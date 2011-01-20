@@ -38,13 +38,28 @@ var ExportJobRowView = Backbone.View.extend({
         'click a.delete': 'destroy'
     },
     initialize: function() {
-        _.bindAll(this, 'render', 'destroy');
+        _.bindAll(this, 'render', 'destroy', 'update');
+        this.render();
+
+        // If this model has not been processed, add a watcher to update its status.
+        if (this.model.get('status') !== 'complete' && this.model.get('status') !== 'error') {
+            this.watcher = new Watcher(this.model, this.update);
+        }
+    },
+    update: function() {
+        // Remove watcher when complete.
+        if (this.model.get('status') === 'complete' || this.model.get('status') === 'error') {
+            this.watcher.destroy();
+        }
         this.render();
     },
     render: function() {
         $(this.el).html(ich.ExportJobRowView({
             filename: this.model.get('filename'),
-            status: this.model.get('status')
+            status: this.model.get('status'),
+            error: this.model.get('error'),
+            type: this.model.get('type'),
+            download: this.model.downloadURL()
         }));
     },
     destroy: function() {
@@ -238,6 +253,46 @@ var ExportJobImageView = ExportJobView.extend({
     }
 });
 
+var ExportJobMBTilesView = ExportJobView.extend({
+    initialize: function() {
+        _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
+        this.options.title = 'Export MBTiles';
+        ExportJobView.prototype.initialize.call(this);
+    },
+    render: function() {
+        ExportJobView.prototype.render.call(this);
+        var slider = this.$('#mbtiles-zoom').slider({
+            range: true,
+            min:0,
+            max:22,
+            step:1,
+            values: [0, 8],
+            slide: this.changeZoomLevels
+        });
+        this.model.bind('change:minzoom', this.updateZoomLabels);
+        this.model.bind('change:maxzoom', this.updateZoomLabels);
+        var data = {
+            filename: this.options.project.get('id') + '.mbtiles',
+            minzoom: 0,
+            maxzoom: 8
+        }
+        this.model.set(data);
+    },
+    getFields: function() {
+        return ich.ExportJobMBTilesView(this.options);
+    },
+    changeZoomLevels: function(event, ui) {
+        this.model.set({
+            minzoom: ui.values[0],
+            maxzoom: ui.values[1]
+        });
+    },
+    updateZoomLabels: function() {
+        this.$('span.min-zoom').text(this.model.get('minzoom'));
+        this.$('span.max-zoom').text(this.model.get('maxzoom'));
+    }
+});
+
 var ExportJobEmbedView = PopupView.extend({
     initialize: function(options) {
         this.options.title = 'Embed';
@@ -250,5 +305,6 @@ var ExportJobEmbedView = PopupView.extend({
 
 var exportMethods = {
     ExportJobImage: ExportJobImageView,
+    ExportJobMBTiles: ExportJobMBTilesView,
     ExportJobEmbed: ExportJobEmbedView
 };
