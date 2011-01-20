@@ -121,12 +121,19 @@ a:hover.button { color:#fff; }
   -webkit-box-shadow:#ccc 0px 1px 3px;
   }
 
-.header a.close {
-  background-color:#666;
+.header .icon {
+  background-color:#333;
   padding:0px;
+  margin-right:10px;
+  float:left;
   }
 
-.header .actions a.close:active { background-color:#333; }
+.header .actions .icon {
+  background-color:#666;
+  margin-right:5px;
+  }
+
+.header .actions .icon:active { background-color:#333; }
 
 /*#header .actions a:focus,
 #header .actions a:active,
@@ -573,6 +580,9 @@ li .icon {
 .icon.choropleth     { background-position:-220px 0px; }
 .icon.unique         { background-position:-240px 0px; }
 .icon.scaledPoints   { background-position:-260px 0px; }
+.icon.settings       { background-position:-280px -20px; }
+.icon.export         { background-position:-320px -20px; }
+.icon.dropdown       { background-position:-300px 0px; }
 .icon.label.active        { background-position:-200px -20px; }
 .icon.choropleth.active   { background-position:-220px -20px; }
 .icon.unique.active       { background-position:-240px -20px; }
@@ -859,55 +869,59 @@ a.inspector-close { background-color:#666; }
 .DropdownView .dropdown-content {
   z-index:5000;
   display:none;
-  background: rgba(17,17,17,.9);
+  background:rgba(17,17,17,.9);
   position:absolute;
   padding: 10px 0px;
+  left:5px;
   top:20px;
-  left:-6px;
-  -webkit-border-radius: 6px;
-  -webkit-border-top-right-radius: 0;
-  -moz-border-radius: 6px;
-  -moz-border-radius-topright: 0;
-  border-radius: 6px;
-  border-top-right-radius: 0;
+  right:5px;
+  -webkit-border-radius:0px 0px 5px 5px;
+  -moz-border-radius:0px 0px 5px 5px;
+  border-radius:0px 0px 5px 5px;
   }
   
-.DropdownView .dropdown-content.expanded {
-  display:block;
-  }
+.DropdownView .dropdown-content.expanded { display:block; }
   
-#project .DropdownView a.active,
-#project .DropdownView a.active:hover {
-  background:#e4e4e4 url(../images/sprite.png) no-repeat 58px -145px;
-  color:#666;
-  -webkit-border-radius: 6px;
-  -webkit-border-bottom-right-radius: 0px;
-  -webkit-border-bottom-left-radius: 0px;
-  -moz-border-radius: 6px;
-  -moz-border-radius-bottomright: 0px;
-  -moz-border-radius-bottomleft: 0px;
-  border-radius: 6px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
+.actions .DropdownView a.show {
+  background:#e4e4e4;
+  padding-right:40px;
+  position:relative;
   }
 
-#project .DropdownView a{
-  background:#e4e4e4 url(../images/sprite.png) no-repeat 58px -166px;
-  padding-right: 30px;
+.actions .DropdownView a.show .icon {
+  background-color:#e4e4e4;
+  position:absolute;
+  right:0px;
+  top:0px;
   }
-#project .dropdown-content a {
+
+.actions .DropdownView a.show.active,
+.actions .DropdownView a.show.active:hover {
+  background:rgba(17,17,17,.9);
+  color:#fff;
+  -webkit-border-radius:5px 5px 0px 0px;
+  -moz-border-radius:5px 5px 0px 0px;
+  border-radius:5px 5px 0px 0px;
+  }
+
+.actions .DropdownView a.show.active .icon {
+  background-color:transparent;
+  background-position:-300px -20px;
+  }
+
+.actions .dropdown-content a {
   background: transparent;
-  color: #FFFFFF;
+  color:#fff;
   display: block;
   font-size: 11px;
   font-weight: normal;
   margin: 0;
   padding: 0 40px 0 10px;
   width: 40px;
-}
+  }
 
-#project .dropdown-content a:hover {
-  background:transparent url(../images/sprite.png) 0px -364px repeat-x;
+.actions .dropdown-content a:hover {
+  background:transparent url(../images/sprite.png) 0px -360px repeat-x;
   box-shadow:0;
   -moz-box-shadow:none;
   -webkit-box-shadow:none;
@@ -915,7 +929,7 @@ a.inspector-close { background-color:#666; }
   -moz-border-radius: 0;
   border-radius: 0;
   color: #fff;
-}
+  }
 
 /**
  * Reference page
