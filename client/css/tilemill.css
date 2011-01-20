@@ -822,22 +822,34 @@ li .icon {
  * Font pallette
  */
 .font-picker {
-  height:20px;
   position:relative;
-  float:left;
-  }
-
-.font-picker label { position:absolute; }
-
-.fonts-list {
-  position:absolute;
-  left:60px;
-  width: 220px;
   }
   
-.ui-autocomplete {
+input#fonts {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding-left: 5px;
+  color: #666;
+  font-weight: bold;
+  }
+
+.ui-menu {
   background:rgba(17,17,17,.9);
-}
+  }
+
+.ui-menu a {
+  color: #fff;
+  text-shadow: #1f3e4b 1px 1px;
+  display: block;
+  padding: 5px 8px;
+  cursor: pointer;
+  }
+  
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active,
+.ui-menu .ui-menu-item a:hover {
+  background:transparent url(../images/sprite.png) 0px -360px repeat-x;
+  }
 
 /**
  * Popup editor.
