@@ -58,8 +58,7 @@ static BOOL CopyBundle(NSString *srcPath, NSString *dstPath);
 
 
 // Main worker function
-void PFMoveToApplicationsFolderIfNecessary()
-{
+void PFMoveToApplicationsFolderIfNecessary() {
 	// Skip if user suppressed the alert before
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:AlertSuppressKey]) return;
 
@@ -254,8 +253,7 @@ fail:
 #pragma mark -
 #pragma mark Helper Functions
 
-static NSString *PreferredInstallLocation(BOOL *isUserDirectory)
-{
+static NSString *PreferredInstallLocation(BOOL *isUserDirectory) {
 	// Return the preferred install location.
 	// Assume that if the user has a ~/Applications folder, they'd prefer their
 	// applications to go there.
@@ -279,8 +277,7 @@ static NSString *PreferredInstallLocation(BOOL *isUserDirectory)
 	return [NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSLocalDomainMask, YES) lastObject];
 }
 
-static BOOL IsInApplicationsFolder(NSString *path)
-{
+static BOOL IsInApplicationsFolder(NSString *path) {
 	// Check all the normal Application directories
 	NSEnumerator *e = [NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSAllDomainsMask, YES) objectEnumerator];
 	NSString *appDirPath = nil;
@@ -297,8 +294,7 @@ static BOOL IsInApplicationsFolder(NSString *path)
 	return NO;
 }
 
-static BOOL IsInDownloadsFolder(NSString *path)
-{
+static BOOL IsInDownloadsFolder(NSString *path) {
 #if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
 	// 10.5 or higher has NSDownloadsDirectory
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
@@ -316,8 +312,7 @@ static BOOL IsInDownloadsFolder(NSString *path)
 	return [[[path stringByDeletingLastPathComponent] lastPathComponent] isEqualToString:@"Downloads"];
 }
 
-static BOOL Trash(NSString *path)
-{
+static BOOL Trash(NSString *path) {
 	if ([[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation
 													 source:[path stringByDeletingLastPathComponent]
 												destination:@""
@@ -331,8 +326,7 @@ static BOOL Trash(NSString *path)
 	}
 }
 
-static BOOL AuthorizedInstall(NSString *srcPath, NSString *dstPath, BOOL *canceled)
-{
+static BOOL AuthorizedInstall(NSString *srcPath, NSString *dstPath, BOOL *canceled) {
 	if (canceled) *canceled = NO;
 
 	// Make sure that the destination path is an app bundle. We're essentially running 'sudo rm -rf'
@@ -391,8 +385,7 @@ fail:
 	return NO;
 }
 
-static BOOL CopyBundle(NSString *srcPath, NSString *dstPath)
-{
+static BOOL CopyBundle(NSString *srcPath, NSString *dstPath) {
 	NSFileManager *fm = [NSFileManager defaultManager];
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4

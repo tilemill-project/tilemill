@@ -11,13 +11,11 @@
 
 @implementation LetsMoveAppDelegate
 
-- (NSWindow *)window
-{
+- (NSWindow *)window {
 	return window;
 }
 
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
-{
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 	// Offer to the move the Application if necessary.
 	// Note that if the user chooses to move the application,
 	// this call will never return. Therefore you can suppress

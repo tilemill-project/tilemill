@@ -14,8 +14,7 @@
 #define APPLICATION_DELEGATE
 #endif
 
-@interface LetsMoveAppDelegate : NSObject APPLICATION_DELEGATE
-{
+@interface LetsMoveAppDelegate : NSObject APPLICATION_DELEGATE {
     IBOutlet NSWindow *window;
 }
 
