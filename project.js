@@ -379,8 +379,9 @@ var ExportJob = Backbone.Model.extend({
         }
     },
     defaults: {
-        'progress': 0,
-        'status': 'waiting'
+        progress: 0,
+        status: 'waiting',
+        timestamp: new Date().getTime()
     }
 });
 
@@ -395,7 +396,10 @@ var ExportJobList = Backbone.Collection.extend({
     /**
      * Model name used for storage.
      */
-    type: 'exportjob'
+    type: 'exportjob',
+    comparator: function(job) {
+        return job.get('timestamp');
+    }
 });
 
 if (typeof module !== 'undefined') {
