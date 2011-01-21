@@ -213,9 +213,9 @@ var ColorSwatchView = Backbone.View.extend({
 
 var FontPickerToolView = Backbone.View.extend({
     className: 'font-picker pane',
-    events: {
-        'change #fonts': 'insertFont'
-    },
+    // events: {
+    //     'change #fonts': 'insertFont'
+    // },
     initialize: function(options) {
         _.bindAll(this, 'render', 'insertFont');
         this.project = options.project;
@@ -234,7 +234,8 @@ var FontPickerToolView = Backbone.View.extend({
               appendTo: '#font-list',
               source: fontList,
               search  : function(){$(this).addClass('working');},
-              open    : function(){$(this).removeClass('working');}
+              open    : function(){$(this).removeClass('working');},
+              select  : this.insertFont
             });
 
         function remove() {
@@ -251,9 +252,11 @@ var FontPickerToolView = Backbone.View.extend({
     },
     insertFont: function() {
         var mirror = this.project.view.stylesheets.activeTab.codemirror;
-        
+        var value = this.$('input').val();
+      if(value !== 'Find fonts' && value !== '') {
         mirror.replaceSelection('"' + this.$('input').val() + '"');
         $(mirror).focus();
-        this.$('input').val('');
+        this.$('input').val(''); 
+      }
     }
 });

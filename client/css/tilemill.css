@@ -863,13 +863,13 @@ li .icon {
   }
 
 #project input.working { 
-  background: #fff url(../images/loader.gif) no-repeat 185px center!important;
+  background: #fff url(../images/loader.gif) no-repeat 183px center;
 }
 
 input#fonts {
   background: #fff;
   border: 1px solid #ccc;
-  padding: 6px 25px 6px 6px;
+  padding: 4px 25px 4px 4px;
   width: 175px;
   color: #666;
   font-weight: bold;
