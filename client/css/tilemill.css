@@ -1227,6 +1227,7 @@ textarea.code-snippet {
   margin:0px;
   padding:10px 0;
   font:13px/20px monospace;
+  text-align:right;
   }
 .CodeMirror-line-numbers div {
   padding:0 10px;
