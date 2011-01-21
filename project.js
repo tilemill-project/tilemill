@@ -311,14 +311,21 @@ var Project = Backbone.Model.extend({
                         }).parse(stylesheet.data, function(err, tree) {
                             if (!err) {
                                 try {
-                                    var errors = tree.toCSS({ compress: false, returnErrors: true });
-                                    if (Array.isArray(errors)) {
-                                        group()(errors);
-                                    }
-                                    else {
+                                    // TODO: incompatible with 
+                                    if (tree.toList) {
+                                        tree.toList();
                                         group()(null);
+                                    } else {
+                                        var errors = tree.toCSS({ compress: false, returnErrors: true });
+                                        if (Array.isArray(errors)) {
+                                            group()(errors);
+                                        }
+                                        else {
+                                            group()(null);
+                                        }
                                     }
                                 } catch (e) {
+                                    console.log(e);
                                     group()([ e ]);
                                 }
                             } else {
