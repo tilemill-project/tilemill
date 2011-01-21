@@ -254,7 +254,11 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     close: function() {
-        return (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?'));
+        if (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
+            this.watcher && this.watcher.destroy();
+            return true;
+        }
+        return false;
     },
     reference: function() {
         if (this.referenceView) {
