@@ -1,5 +1,4 @@
 var taskmanager = require('./taskmanager'),
-    taskQueue = new taskmanager.TaskQueue(),
     path = require('path'),
     ExportJobList = require('./project').ExportJobList,
     Step = require('step');
@@ -15,27 +14,32 @@ module.exports = function(app, settings) {
         );
     });
 
-    // Loop for scanning and processing Exports.
-    var scan = function() {
-        Step(
-            function() {
-                var jobs = new ExportJobList();
-                jobs.fetch({
-                    success: this
-                });
-            },
-            function(jobs) {
-                jobs.each(function(job) {
-                    if (job.get('status') === 'waiting') {
-                        job.addTasks(taskQueue);
-                    }
-                });
-                this();
-            },
-            function() {
-                setTimeout(scan, 5000);
-            }
-        );
+    // Loop for scanning and processing exports. Do not process exports if
+    // testing -- otherwise, tests will never finish.
+    // @TODO: Set up some other mechanism for testing exports.
+    if (!process.env.NODE_ENV || process.env.NODE_ENV !== 'test') {
+        var taskQueue = new taskmanager.TaskQueue();
+        var scan = function() {
+            Step(
+                function() {
+                    var jobs = new ExportJobList();
+                    jobs.fetch({
+                        success: this
+                    });
+                },
+                function(jobs) {
+                    jobs.each(function(job) {
+                        if (job.get('status') === 'waiting') {
+                            job.addTasks(taskQueue);
+                        }
+                    });
+                    this();
+                },
+                function() {
+                    setTimeout(scan, 5000);
+                }
+            );
+        }
+        scan();
     }
-    scan();
 }
