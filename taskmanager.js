@@ -65,11 +65,12 @@ TaskQueue.prototype.spawn = function() {
 TaskQueue.prototype.startTask = function(task) {
 
     var that = this;
-    // set a status somewhere
-    task.emit('start', task);
 
     // set up a listener on the task to remove it from this queue.
     task.on('finish', function() { that.remove(task); });
+
+    // set a status somewhere
+    task.emit('start', task);
 
     // if there are no work listener, just emit finish.
     if (task.listeners('work').length === 0) {
