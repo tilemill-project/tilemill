@@ -186,6 +186,7 @@ a:hover.button { color:#fff; }
   }
 
 .palette .bbox-frame {
+  background:#111;
   height:58px;
   margin:10px 20px;
   border:2px solid #333;
@@ -455,6 +456,24 @@ span.required {
   }
 
 .palette label { display:block; }
+
+.palette .help {
+  text-align:center;
+  padding-bottom:20px;
+  }
+
+.palette .key {
+  padding:2px 4px;
+  background:#ccc;
+  color:#333;
+  text-shadow:#fff 0px 1px 0px;
+  border-color:#aaa #888 #888;
+  border-style:solid;
+  border-width:2px 2px 4px;
+  border-radius:2px;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
+  }
 
 form .palette div { padding:5px 0px; }
 

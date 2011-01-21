@@ -116,39 +116,20 @@ var ExportJobView = Backbone.View.extend({
         this.options.map.maximize();
         this.render();
         var boundingBox = this.options.map.map.getExtent().toArray();
-        this.model.set({
-            bbox: boundingBox.join(',')
-        });
+        this.model.set({ bbox: boundingBox.join(',') });
 
         this.boxDrawingLayer = new OpenLayers.Layer.Vector('Temporary Box Layer');
-        this.boxDrawingControl = new OpenLayers.Control.DrawFeature(
-            this.boxDrawingLayer,
-            OpenLayers.Handler.RegularPolygon,
-            {
-                featureAdded: this.boundingBoxAdded
-            }
-        );
-        this.boxDrawingControl.handler.setOptions({
-            'keyMask': OpenLayers.Handler.MOD_ALT,
-            'sides': 4,
-            'irregular': true
+        this.boxDrawingControl = new ExportCropControl(this.boxDrawingLayer, {
+            featureAdded: this.boundingBoxAdded,
+            bounds: boundingBox
         });
         this.options.map.map.addLayer(this.boxDrawingLayer);
         this.options.map.map.addControl(this.boxDrawingControl);
         this.boxDrawingControl.activate();
     },
     boundingBoxAdded: function(box) {
-        var bounds = box.geometry.getBounds();
-        var boundingBox = bounds.toArray();
-        this.model.set({
-            bbox: boundingBox.join()
-        });
-        // Remove old box
-        for(i = 0; i < this.boxDrawingLayer.features.length; i++) {
-            if(this.boxDrawingLayer.features[i] != box) {
-                this.boxDrawingLayer.features[i].destroy();
-            }
-        }
+        var bounds = box.geometry.components[1].getBounds().toArray();
+        this.model.set({ bbox: bounds.join(',') });
     },
     events: _.extend(PopupView.prototype.events, {
         'click input.submit': 'submit',
@@ -218,19 +199,19 @@ var ExportJobImageView = ExportJobView.extend({
             aspect: size.w / size.h
         }
         this.model.set(data);
-        this.model.bind('change:width', this.updateDimmesions);
-        this.model.bind('change:height', this.updateDimmesions);
-        this.model.bind('change:aspect', this.updateDimmesions);
+        this.model.bind('change:width', this.updateDimmensions);
+        this.model.bind('change:height', this.updateDimmensions);
+        this.model.bind('change:aspect', this.updateDimmensions);
     },
     getFields: function() {
         return ich.ExportJobImageView(this.options);
     },
     boundingBoxAdded: function(box) {
         ExportJobView.prototype.boundingBoxAdded.call(this, box);
-        var bounds = box.geometry.getBounds();
+        var bounds = box.geometry.components[1].getBounds();
         this.model.set({aspect: bounds.getWidth() / bounds.getHeight()});
     },
-    updateDimmesions: function(model) {
+    updateDimmensions: function(model) {
         var attributes = model.changedAttributes();
         if (attributes.width) {
             model.set({
@@ -308,3 +289,96 @@ var exportMethods = {
     ExportJobMBTiles: ExportJobMBTilesView,
     ExportJobEmbed: ExportJobEmbedView
 };
+
+/**
+ * Custom OpenLayers control for generating a masked crop box over the map.
+ * Assumes 900913 projection for extent of masked area.
+ */
+var ExportCropControl = OpenLayers.Class(OpenLayers.Control, {
+    CLASS_NAME: 'ExportCropControl',
+    EVENT_TYPES: ['featureadded'],
+
+    layer: null,
+    canvas: null,
+    feature: null,
+    callbacks: null,
+    multi: false,
+    featureAdded: function() {},
+    handlerOptions: null,
+
+    initialize: function(layer, options) {
+        // concatenate events specific to vector with those from the base
+        this.EVENT_TYPES =
+            OpenLayers.Control.DrawFeature.prototype.EVENT_TYPES.concat(
+            OpenLayers.Control.prototype.EVENT_TYPES
+        );
+        OpenLayers.Control.prototype.initialize.apply(this, [options]);
+        this.callbacks = OpenLayers.Util.extend(
+            { done: this.drawFeature },
+            this.callbacks
+        );
+        this.layer = layer;
+
+        // Set handler style and options.
+        this.handlerOptions = this.handlerOptions || {
+            'keyMask': OpenLayers.Handler.MOD_SHIFT,
+            'sides': 4,
+            'irregular': true
+        };
+        var style = OpenLayers.Util.extend(OpenLayers.Feature.Vector.style['default'], {
+            fillColor: '#000',
+            fillOpacity: 0.5,
+            strokeWidth: 0
+        });
+        this.handlerOptions.layerOptions = OpenLayers.Util.applyDefaults(
+            this.handlerOptions.layerOptions,
+            {styleMap: new OpenLayers.StyleMap({"default": style})}
+        );
+        this.handler = new OpenLayers.Handler.RegularPolygon(this, this.callbacks, this.handlerOptions);
+
+        // Draw initial handler.
+        var bounds = options.bounds || [-10000000, -10000000, 10000000, 10000000];
+        this.canvas = new OpenLayers.Geometry.LinearRing([
+            new OpenLayers.Geometry.Point(-20037500, 20037500),
+            new OpenLayers.Geometry.Point(20037500, 20037500),
+            new OpenLayers.Geometry.Point(20037500, -20037500),
+            new OpenLayers.Geometry.Point(-20037500, -20037500)
+        ]);
+        this.feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Polygon([
+                this.canvas,
+                new OpenLayers.Geometry.LinearRing([
+                    new OpenLayers.Geometry.Point(bounds[0], bounds[3]),
+                    new OpenLayers.Geometry.Point(bounds[2], bounds[3]),
+                    new OpenLayers.Geometry.Point(bounds[2], bounds[1]),
+                    new OpenLayers.Geometry.Point(bounds[0], bounds[1])
+                ])
+            ])
+        );
+        this.feature.state = OpenLayers.State.INSERT;
+        layer.addFeatures([this.feature]);
+    },
+
+    drawFeature: function(geometry) {
+        var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Polygon([
+                this.canvas,
+                geometry.components.pop()
+            ])
+        );
+        var proceed = this.layer.events.triggerEvent(
+            "sketchcomplete", {feature: feature}
+        );
+        if(proceed !== false) {
+            feature.state = OpenLayers.State.INSERT;
+
+            // Replace this.feature with the new feature.
+            this.feature.destroy();
+            this.feature = feature;
+            this.layer.addFeatures([feature]);
+            this.featureAdded(feature);
+            this.events.triggerEvent("featureadded", { feature : feature });
+        }
+    }
+});
+

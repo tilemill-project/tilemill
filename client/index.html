@@ -489,7 +489,9 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
         </div>
         <div class='palette pane clearfix'>
           <div>
-            <label for='bbox'>Bounding Box</label>
+            <div class='help'>
+              <strong class='key'>SHIFT + drag</strong> to crop
+            </div>
             <div class='bbox-frame'>
               <input type='text' class='bbox text' id='bbox-n' value='{{ bbox_n }}' />
               <input type='text' class='bbox text' id='bbox-e' value='{{ bbox_e }}' />
