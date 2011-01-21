@@ -521,7 +521,11 @@ form .palette div { padding:5px 0px; }
 .minimal #main,
 .minimal #toolbar { display:none; }
 
-#ProjectListView #main { left:25%; }
+#ProjectListView #main {
+  overflow:auto;
+  left:25%;
+  }
+
 #ProjectListView #sidebar { width:25%; border-color:#bbb; }
 
 .column h2,
