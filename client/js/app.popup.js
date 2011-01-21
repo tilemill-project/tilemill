@@ -77,7 +77,7 @@ var DrawerView = Backbone.View.extend({
     },
     remove: function() {
         $('.drawer-content', this.el).children().remove();
-        $(this.el).animate( {left: '-50%'}, function() { $(this).remove() });
+        $(this.el).animate( {left: '-100%'}, function() { $(this).remove() });
         return false;
     }
 });

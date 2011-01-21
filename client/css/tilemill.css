@@ -113,6 +113,16 @@ a:hover.button { color:#fff; }
   color:#666;
   }
 
+.header .actions a.disabled,
+.header .actions a.disabled:hover {
+  background-color:#e4e4e4;
+  box-shadow:none;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  color:#bbb;
+  cursor: default;
+  }
+
 .header .actions a:hover {
   background-color:#fff;
   color:#333;
@@ -121,11 +131,17 @@ a:hover.button { color:#fff; }
   -webkit-box-shadow:#ccc 0px 1px 3px;
   }
 
-.header .icon {
+.header .icon,
+.header .file {
   background-color:#333;
   padding:0px;
   margin-right:10px;
   float:left;
+  }
+
+.header .file {
+  margin-top:-10px;
+  background-color:transparent;
   }
 
 .header .actions .icon {
@@ -186,6 +202,7 @@ a:hover.button { color:#fff; }
   }
 
 .palette .bbox-frame {
+  background:#111;
   height:58px;
   margin:10px 20px;
   border:2px solid #333;
@@ -286,6 +303,7 @@ ul.projects a {
   border:1px solid #eee;
   text-shadow:#eee 0px 1px 0px;
   background:#ddd;
+  overflow:hidden;
   box-shadow:#999 0px 1px 3px;
   -moz-box-shadow:#999 0px 1px 3px;
   -webkit-box-shadow:#999 0px 1px 3px;
@@ -456,6 +474,24 @@ span.required {
 
 .palette label { display:block; }
 
+.palette .help {
+  text-align:center;
+  padding-bottom:20px;
+  }
+
+.palette .key {
+  padding:2px 4px;
+  background:#ccc;
+  color:#333;
+  text-shadow:#fff 0px 1px 0px;
+  border-color:#aaa #888 #888;
+  border-style:solid;
+  border-width:2px 2px 4px;
+  border-radius:2px;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
+  }
+
 form .palette div { padding:5px 0px; }
 
 /**
@@ -491,12 +527,30 @@ form .palette div { padding:5px 0px; }
   min-height:20px;
   }
 
+#toolbar span.links {
+  float: left;
+  margin: 15px;
+  }
+
+#toolbar a.reference {
+  background: #333;
+  height: 20px;
+  padding: 0px;
+  text-indent: -9999px;
+  width: 20px;
+  display: block;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  overflow: auto;
+  }
+
 .minimal #sidebar { width:100%; }
 .minimal a.save,
 .minimal #main,
 .minimal #toolbar { display:none; }
 
-#ProjectListView #main { left:25%; }
+#ProjectListView #main { left:25%; overflow:auto; }
 #ProjectListView #sidebar { width:25%; border-color:#bbb; }
 
 .column h2,
@@ -854,12 +908,12 @@ li .icon {
  * Font pallette
  */
 .font-picker {
-  position:relative;
+  float: left;
   }
   
 #font-list {
-/*  position: absolute;*/
-  bottom: 30px;
+  max-height: 350px;
+  overflow: auto;
   }
 
 #project input.working { 
@@ -1197,6 +1251,11 @@ body .tipsy { font-size:11px; }
   right:auto;
   }
 
+.minimal .drawer {
+  width:100%;
+  left:-100%;
+  }
+
 .drawer-content {
   overflow:auto;
   position:absolute;
@@ -1242,3 +1301,17 @@ form .palette .ui-slider-range {
   background:#ddd;
   display:block;
   }
+
+/**
+ * @media max-device-width rules. Allows us to adjust the design on the basis
+ * of the window size.
+ */
+@media screen and (max-width:800px) {
+  #ProjectListView #main { left:50%; }
+  #ProjectListView #sidebar { width:50%; }
+  ul.projects li {
+    float:none;
+    width:auto;
+    }
+}
+

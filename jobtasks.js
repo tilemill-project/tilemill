@@ -2,15 +2,42 @@ var taskmanager = require('./taskmanager'),
     Step = require('step'),
     path = require('path'),
     Tile = require('tilelive.js').Tile,
-    fs = require('fs');
+    fs = require('fs'),
+    sys = require('sys'),
+    events = require('events');
 
-var ExportJobImage = function(model) {
+var ExportMBTiles = function(model, taskQueue) {
+    var workTask = function(counter, taskQueue) {
+        events.EventEmitter.call(this);
+        this.counter = counter;
+        this.taskQueue = taskQueue;
+        this.on('start', function() {
+            this.emit('work');
+        });
+        this.on('work', function() {
+            this.emit('finish');
+        });
+        this.on('finish', function() {
+            if (this.counter < 10) {
+                var next = new workTask(this.counter + 1, this.taskQueue);
+                this.taskQueue.add(next);
+            }
+            else {
+                model.save({status: 'complete', progress: 1});
+            }
+        });
+    }
+    sys.inherits(workTask, events.EventEmitter);
+    taskQueue.add(new workTask(0, taskQueue));
+    model.save({status: 'processing'});
+}
+
+var ExportJobImage = function(model, taskQueue) {
     var task = new taskmanager.Task();
     task.on('start', function() {
         this.emit('work');
     });
     task.on('work', function() {
-        model.save({status: 'processing'});
         Step(
             function() {
                 path.exists(path.join(__dirname, 
@@ -22,7 +49,7 @@ var ExportJobImage = function(model) {
                     var extension = path.extname(filename);
                     var date = new Date();
                     var hash = require('crypto').createHash('md5')
-                        .update(date.getTime()).digest('hex').substring(0,6);                    
+                        .update(date.getTime()).digest('hex').substring(0,6);
                     model.set({
                         filename: filename.replace(extension, '') + '_' + hash + extension
                     });
@@ -73,13 +100,13 @@ var ExportJobImage = function(model) {
             }
         );
     });
-    var tasks = [];
-    tasks.push(task);
-    return tasks;
+    taskQueue.add(task);
+    model.save({status: 'processing'});
 }
 
-module.exports = function(model) {
+module.exports = function(model, taskQueue) {
     return {
-        ExportJobImage: ExportJobImage
-    }[model.get('type')](model);
+        ExportJobImage: ExportJobImage,
+        ExportMBTiles: ExportMBTiles
+    }[model.get('type')](model, taskQueue);
 }
