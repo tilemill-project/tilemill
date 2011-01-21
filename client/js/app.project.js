@@ -269,13 +269,13 @@ var ProjectView = Backbone.View.extend({
     setMinimal: function() {
         var that = this;
         if (window.app.settings.get('mode') === 'minimal') {
-            $(this.el).addClass('minimal');
+            $('body').addClass('minimal');
             this.watcher = new Watcher(this.model, function() {
                 that.model.trigger('save');
             });
         }
         else if (this.watcher) {
-            $(this.el).removeClass('minimal');
+            $('body').removeClass('minimal');
             this.watcher.destroy();
         }
         return false;

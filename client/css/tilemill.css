@@ -303,6 +303,7 @@ ul.projects a {
   border:1px solid #eee;
   text-shadow:#eee 0px 1px 0px;
   background:#ddd;
+  overflow:hidden;
   box-shadow:#999 0px 1px 3px;
   -moz-box-shadow:#999 0px 1px 3px;
   -webkit-box-shadow:#999 0px 1px 3px;
@@ -549,11 +550,7 @@ form .palette div { padding:5px 0px; }
 .minimal #main,
 .minimal #toolbar { display:none; }
 
-#ProjectListView #main {
-  overflow:auto;
-  left:25%;
-  }
-
+#ProjectListView #main { left:25%; overflow:auto; }
 #ProjectListView #sidebar { width:25%; border-color:#bbb; }
 
 .column h2,
@@ -1254,6 +1251,11 @@ body .tipsy { font-size:11px; }
   right:auto;
   }
 
+.minimal .drawer {
+  width:100%;
+  left:-100%;
+  }
+
 .drawer-content {
   overflow:auto;
   position:absolute;
@@ -1299,3 +1301,17 @@ form .palette .ui-slider-range {
   background:#ddd;
   display:block;
   }
+
+/**
+ * @media max-device-width rules. Allows us to adjust the design on the basis
+ * of the window size.
+ */
+@media screen and (max-width:800px) {
+  #ProjectListView #main { left:50%; }
+  #ProjectListView #sidebar { width:50%; }
+  ul.projects li {
+    float:none;
+    width:auto;
+    }
+}
+
