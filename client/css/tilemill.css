@@ -113,6 +113,16 @@ a:hover.button { color:#fff; }
   color:#666;
   }
 
+.header .actions a.disabled,
+.header .actions a.disabled:hover {
+  background-color:#e4e4e4;
+  box-shadow:none;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  color:#bbb;
+  cursor: default;
+  }
+
 .header .actions a:hover {
   background-color:#fff;
   color:#333;
@@ -121,11 +131,17 @@ a:hover.button { color:#fff; }
   -webkit-box-shadow:#ccc 0px 1px 3px;
   }
 
-.header .icon {
+.header .icon,
+.header .file {
   background-color:#333;
   padding:0px;
   margin-right:10px;
   float:left;
+  }
+
+.header .file {
+  margin-top:-10px;
+  background-color:transparent;
   }
 
 .header .actions .icon {
@@ -186,6 +202,7 @@ a:hover.button { color:#fff; }
   }
 
 .palette .bbox-frame {
+  background:#111;
   height:58px;
   margin:10px 20px;
   border:2px solid #333;
@@ -206,6 +223,11 @@ a:hover.button { color:#fff; }
 .palette .bbox-frame #bbox-s { bottom:-10px; left:50%; margin-left:-30px; }
 
 .drawer ul.jobs li { padding-left:90px; }
+
+.jobs .file {
+  float:left;
+  margin-right:10px;
+  }
 
 .jobs .status {
   position:absolute;
@@ -451,6 +473,24 @@ span.required {
 
 .palette label { display:block; }
 
+.palette .help {
+  text-align:center;
+  padding-bottom:20px;
+  }
+
+.palette .key {
+  padding:2px 4px;
+  background:#ccc;
+  color:#333;
+  text-shadow:#fff 0px 1px 0px;
+  border-color:#aaa #888 #888;
+  border-style:solid;
+  border-width:2px 2px 4px;
+  border-radius:2px;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
+  }
+
 form .palette div { padding:5px 0px; }
 
 /**
@@ -486,12 +526,34 @@ form .palette div { padding:5px 0px; }
   min-height:20px;
   }
 
+#toolbar span.links {
+  float: left;
+  margin: 15px;
+  }
+
+#toolbar a.reference {
+  background: #333;
+  height: 20px;
+  padding: 0px;
+  text-indent: -9999px;
+  width: 20px;
+  display: block;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  overflow: auto;
+  }
+
 .minimal #sidebar { width:100%; }
 .minimal a.save,
 .minimal #main,
 .minimal #toolbar { display:none; }
 
-#ProjectListView #main { left:25%; }
+#ProjectListView #main {
+  overflow:auto;
+  left:25%;
+  }
+
 #ProjectListView #sidebar { width:25%; border-color:#bbb; }
 
 .column h2,
@@ -575,6 +637,7 @@ form .palette div { padding:5px 0px; }
 /**
  * Icon links
  */
+.file,
 .icon {
   display:block;
   padding:0px;
@@ -585,6 +648,13 @@ form .palette div { padding:5px 0px; }
 
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
+  }
+
+.file {
+  background-color:transparent;
+  background-position:40px 40px;
+  width:40px;
+  height:40px;
   }
 
 li .icon {
@@ -630,6 +700,11 @@ li .icon {
 .icon.label.active,
 .icon.choropleth.active,
 .icon.unique.active       { background-color:#222; }
+
+.file.ExportJobImage { background-position:0px -180px; }
+.file.ExportJobPDF { background-position:-40px -180px; }
+.file.ExportJobMBTiles { background-position:-80px -180px; }
+.file.ExportJobZIP { background-position:-120px -180px; }
 
 /**
  * Map preview
@@ -836,13 +911,23 @@ li .icon {
  * Font pallette
  */
 .font-picker {
-  position:relative;
+  float: left;
   }
   
+#font-list {
+  max-height: 350px;
+  overflow: auto;
+  }
+
+#project input.working { 
+  background: #fff url(../images/loader.gif) no-repeat 183px center;
+}
+
 input#fonts {
   background: #fff;
   border: 1px solid #ccc;
-  padding-left: 5px;
+  padding: 4px 25px 4px 4px;
+  width: 175px;
   color: #666;
   font-weight: bold;
   }

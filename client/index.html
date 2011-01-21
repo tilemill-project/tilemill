@@ -125,16 +125,17 @@
       <div id='header' class='header clearfix'>
         <a class='icon settings' href='#'>Settings</a>
         <h1>Editing {{ id }}</h1>
-        <span class='links'>
-          <a class='reference' href='#'>Reference</a>
-        </span>
         <div class='actions clearfix'>
-          <a class='save' href='#'>Save</a>
+          <a class='save disabled' href='#'>Saved</a>
           <a class='icon close' href='#'>Back home</a>
         </div>
       </div>
       <div id='main'></div>
-      <div id='toolbar'></div>
+      <div id='toolbar'>
+        <span class='links'>
+          <a class='reference' title='Cascadenik Styling Reference' href='#'>Reference</a>
+        </span>
+      </div>
       <div id='sidebar'></div>
     </script>
 
@@ -270,7 +271,7 @@
         <li><a class='export-option export-zip' href='#'>Zip</a></li>
         <li><a class='export-option export-mbtiles' href='#ExportJobMBTiles'>MBTiles</a></li>
         <li><a class='export-option export-embed' href='#ExportJobEmbed'>Embed</a></li>
-        <li class='divider'><a class='jobs' href='#'>View jobs</a></li>
+        <li class='divider'><a class='jobs' href='#'>View exports</a></li>
       </ul>
     </script>
 
@@ -459,6 +460,12 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
     <script type='text/html' id='ExportJobRowView'>
       <a href='#' class='icon delete'>Remove</a>
       <span class='status status-{{status}}'>{{ status }}</span>
+      {{#download}}
+        <a class='file {{ type }}' href='{{ download }}'></a>
+      {{/download}}
+      {{^download}}
+        <span class='file {{ type }}'></span>
+      {{/download}}
       <a class='filename'>{{ filename }}</a>
       <span class='date'>{{ date }}</span>
       {{#error}}
@@ -472,7 +479,7 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
     <script type='text/html' id='ExportJobView'>
       <form id='export'>
         <div class='header clearfix'>
-          <span class='icon export'></span>
+          <span class='file {{ type }}'></span>
           <h1>{{ title }}</h1>
           <div class='form'>
             <label class='inline' for='filename'>Filename</label>
@@ -483,7 +490,9 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
         </div>
         <div class='palette pane clearfix'>
           <div>
-            <label for='bbox'>Bounding Box</label>
+            <div class='help'>
+              <strong class='key'>SHIFT + drag</strong> to crop
+            </div>
             <div class='bbox-frame'>
               <input type='text' class='bbox text' id='bbox-n' value='{{ bbox_n }}' />
               <input type='text' class='bbox text' id='bbox-e' value='{{ bbox_e }}' />

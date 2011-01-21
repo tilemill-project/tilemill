@@ -371,23 +371,32 @@ var ExportJob = Backbone.Model.extend({
      */
     type: 'exportjob',
     initialize: function() {
-        if (typeof MD5 !== 'undefined' && this.isNew()) {
-            var md5 = new MD5();
+        if (this.isNew()) {
             var date = new Date();
-            md5.digest(JSON.stringify(this)).substr(0, 6);
-            this.set({'id': md5.digest(JSON.stringify(this) + date.getTime()).substr(0, 6)});
+            this.set({timestamp: date.getTime()});
+            if (typeof MD5 !== 'undefined') {
+                var md5 = new MD5();
+                var date = new Date();
+                md5.digest(JSON.stringify(this)).substr(0, 6);
+                this.set({'id': md5.digest(JSON.stringify(this) + date.getTime()).substr(0, 6)});
+            }
         }
     },
     defaults: {
         progress: 0,
-        status: 'waiting',
-        timestamp: new Date().getTime()
+        status: 'waiting'
     },
     /**
      * Generate a download URL for a model.
      */
     downloadURL: function() {
         return (this.get('status') === 'complete') && '/export/download/' + this.get('filename');
+    },
+    /**
+     * Allow the export to add tasks to the task queue.
+     */
+    addTasks: function(taskQueue) {
+        return require('./jobtasks')(this, taskQueue);
     }
 });
 

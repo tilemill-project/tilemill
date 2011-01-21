@@ -1,12 +1,12 @@
 var events = require('events'),
     sys = require('sys');
 
-// constructor for job queue
-var JobQueue = function(opts) {
+// constructor for task queue
+var TaskQueue = function(opts) {
     var that = this;
 
     this.opts = opts || {}
-    this.jobs = [];
+    this.tasks = [];
     this.queue = [];
     this.active = [];
 
@@ -20,22 +20,22 @@ var JobQueue = function(opts) {
 }
 
 // start the timer to spawn tasks.
-JobQueue.prototype.start = function() {
+TaskQueue.prototype.start = function() {
     var that = this;
     this._interval = this._interval || setInterval(function() { that.spawn(); }, 1000, [this]);
 }
 
 // remove the timer from the queue to check for more items.
-JobQueue.prototype.stop = function() {
+TaskQueue.prototype.stop = function() {
     if (this._interval !== undefined) {
         clearInterval(this._interval);
         delete this._interval;
     }
 }
 
-// test to see if more jobs can be started
+// test to see if more tasks can be started
 // could be overridden if needed.
-JobQueue.prototype.spawnMore = function() {
+TaskQueue.prototype.spawnMore = function() {
   var count = 0;
 
   this.active.forEach(function(el) { count++ });
@@ -48,68 +48,69 @@ JobQueue.prototype.spawnMore = function() {
   }
 }
 
-// callback that spawns the individual jobs
-JobQueue.prototype.spawn = function() {
+// callback that spawns the individual tasks
+TaskQueue.prototype.spawn = function() {
     if (this.spawnMore()) {
         var next_task = this.queue.pop();
 
         if (next_task !== undefined) {
             this.active.push(next_task);
-            this.startJob(this.jobs[next_task]);
+            this.startTask(this.tasks[next_task]);
         }
      }
 
 }
 
-// start a job's processing.
-JobQueue.prototype.startJob = function(job) {
+// start a task's processing.
+TaskQueue.prototype.startTask = function(task) {
 
     var that = this;
-    // set a status somewhere
-    job.emit('start', job);
 
-    // set up a listener on the job to remove it from this queue.
-    job.on('finish', function() { that.remove(job); });
+    // set up a listener on the task to remove it from this queue.
+    task.on('finish', function() { that.remove(task); });
+
+    // set a status somewhere
+    task.emit('start', task);
 
     // if there are no work listener, just emit finish.
-    if (job.listeners('work').length === 0) {
-        job.emit('finish');
+    if (task.listeners('work').length === 0) {
+        task.emit('finish');
     }
 }
 
-// add a job to the queue
-JobQueue.prototype.add = function(job) {
-    // reset the length property on the jobs array.
-    this.jobs = this.jobs.some(function() { return true; }) ? this.jobs : [];
+// add a task to the queue
+TaskQueue.prototype.add = function(task) {
+    // reset the length property on the tasks array.
+    this.tasks = this.tasks.some(function() { return true; }) ? this.tasks : [];
 
-    // add the job to the end of the queue
-    job._index = this.jobs.push(job) - 1;
+    // add the task to the end of the queue
+    task._index = this.tasks.push(task) - 1;
 
     // add it to the queue array
-    this.queue.push(job._index);
+    this.queue.push(task._index);
 
-    return job;
+    return task;
 }
 
-// remove a job from the queue
-JobQueue.prototype.remove = function(job) {
+// remove a task from the queue
+TaskQueue.prototype.remove = function(task) {
     var idx;
-    idx = this.active.indexOf(job._index);
+    idx = this.active.indexOf(task._index);
     if (idx !== -1) {
         delete this.active[idx];
     }
 
-    idx = this.queue.indexOf(job._index);
+    idx = this.queue.indexOf(task._index);
     if (idx !== -1) {
         delete this.queue[idx];
     }
 
 
-    delete this.jobs[job._index];
+    delete this.tasks[task._index];
 }
 
-// constructor for the jobs
-var Job = function(opts) {
+// constructor for the tasks
+var Task = function(opts) {
     events.EventEmitter.call(this);
 
     this.opts = opts || {}
@@ -127,9 +128,9 @@ var Job = function(opts) {
     }
 }
 
-sys.inherits(Job, events.EventEmitter);
+sys.inherits(Task, events.EventEmitter);
 
 module.exports = {
-    JobQueue: JobQueue,
-    Job: Job
+    TaskQueue: TaskQueue,
+    Task: Task
 }

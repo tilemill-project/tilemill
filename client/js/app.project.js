@@ -135,7 +135,7 @@ var ProjectView = Backbone.View.extend({
         'click #header a.save': 'saveProject',
         'click #header a.settings': 'settings',
         'click #header a.close': 'close',
-        'click #header a.reference': 'reference'
+        'click #toolbar a.reference': 'reference'
     },
     initialize: function() {
         _.bindAll(this, 'render', 'saveProject',
@@ -218,7 +218,7 @@ var ProjectView = Backbone.View.extend({
         this.model.save(this.model, {
             success: function() {
                 that.model.trigger('save');
-                $('#header a.save', self.el).removeClass('changed');
+                $('#header a.save', self.el).removeClass('changed').addClass('disabled').html('Saved');
             },
             error: function(err, data) {
                 if (typeof data === 'string') {
@@ -281,7 +281,7 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     changed: function() {
-        $('#header a.save', this.el).addClass('changed');
+        $('#header a.save', this.el).removeClass('disabled').addClass('changed').html('Save');
     },
     settings: function() {
         new SettingsPopupView({ model: window.app.settings });
@@ -295,15 +295,16 @@ var ProjectView = Backbone.View.extend({
  * Class for polling a given model (or collection) and firing a callback
  * when it changes.
  */
-var Watcher = function(model, callback) {
+var Watcher = function(model, callback, interval) {
     _.bindAll(this, 'fetch', 'destroy');
     var model = model;
     this.model = model;
     this.model.bind('change', this.fetch);
     this.callback = callback;
+    this.interval = interval || 1000;
     this.md5 = new MD5();
     this.current = this.md5.digest(JSON.stringify(this.model));
-    this.watcher = setInterval(function() { model.fetch(); }, 1000);
+    this.watcher = setInterval(function() { model.fetch(); }, this.interval);
 };
 
 Watcher.prototype.fetch = function() {
