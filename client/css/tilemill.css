@@ -858,8 +858,8 @@ li .icon {
   }
   
 #font-list {
-/*  position: absolute;*/
-  bottom: 30px;
+  max-height: 350px;
+  overflow: auto;
   }
 
 #project input.working { 
