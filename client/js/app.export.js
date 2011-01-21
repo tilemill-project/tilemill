@@ -6,7 +6,7 @@
  */
 var ExportJobListView = DrawerView.extend({
     initialize: function() {
-        this.options.title = 'Export jobs';
+        this.options.title = 'Exports';
         this.options.content = ich.ExportJobListView({}, true);
         this.bind('render', this.renderJobs);
         DrawerView.prototype.initialize.call(this);
@@ -64,7 +64,7 @@ var ExportJobRowView = Backbone.View.extend({
     },
     destroy: function() {
         var that = this;
-        if (confirm('Are you sure you want to delete this job?')) {
+        if (confirm('Are you sure you want to delete this export?')) {
             this.model.destroy({
                 success: function() {
                     that.remove();
@@ -186,7 +186,8 @@ var ExportJobView = Backbone.View.extend({
 var ExportJobImageView = ExportJobView.extend({
     initialize: function() {
         _.bindAll(this, 'updateUI');
-        this.options.title = 'Export image';
+        this.options.title = 'Export PNG';
+        this.options.type = 'ExportJobImage';
         ExportJobView.prototype.initialize.call(this);
     },
     render: function() {
@@ -238,6 +239,7 @@ var ExportJobMBTilesView = ExportJobView.extend({
     initialize: function() {
         _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
         this.options.title = 'Export MBTiles';
+        this.options.type = 'ExportJobMBTiles';
         ExportJobView.prototype.initialize.call(this);
     },
     render: function() {

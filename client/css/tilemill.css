@@ -121,11 +121,17 @@ a:hover.button { color:#fff; }
   -webkit-box-shadow:#ccc 0px 1px 3px;
   }
 
-.header .icon {
+.header .icon,
+.header .file {
   background-color:#333;
   padding:0px;
   margin-right:10px;
   float:left;
+  }
+
+.header .file {
+  margin-top:-10px;
+  background-color:transparent;
   }
 
 .header .actions .icon {

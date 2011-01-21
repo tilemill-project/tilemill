@@ -270,7 +270,7 @@
         <li><a class='export-option export-zip' href='#'>Zip</a></li>
         <li><a class='export-option export-mbtiles' href='#ExportJobMBTiles'>MBTiles</a></li>
         <li><a class='export-option export-embed' href='#ExportJobEmbed'>Embed</a></li>
-        <li class='divider'><a class='jobs' href='#'>View jobs</a></li>
+        <li class='divider'><a class='jobs' href='#'>View exports</a></li>
       </ul>
     </script>
 
@@ -478,7 +478,7 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
     <script type='text/html' id='ExportJobView'>
       <form id='export'>
         <div class='header clearfix'>
-          <span class='icon export'></span>
+          <span class='file {{ type }}'></span>
           <h1>{{ title }}</h1>
           <div class='form'>
             <label class='inline' for='filename'>Filename</label>
