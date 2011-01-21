@@ -81,10 +81,10 @@ fi
 #fi
 
 # Create local data directory and populate with sample data
-if ! [ -d "files/local_data" ]; then
-    mkdir -p files/local_data
+if ! [ -d "files/data" ]; then
+    mkdir -p files/data
     curl -O http://tilemill-data.s3.amazonaws.com/example_data.zip
-    unzip -q -d files/local_data example_data.zip
+    unzip -q -d files/data example_data.zip
     rm example_data.zip
 else
     echo "... example data already downloaded"
