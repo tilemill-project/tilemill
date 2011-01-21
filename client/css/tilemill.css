@@ -113,6 +113,16 @@ a:hover.button { color:#fff; }
   color:#666;
   }
 
+.header .actions a.disabled,
+.header .actions a.disabled:hover {
+  background-color:#e4e4e4;
+  box-shadow:none;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  color:#bbb;
+  cursor: default;
+  }
+
 .header .actions a:hover {
   background-color:#fff;
   color:#333;
@@ -516,6 +526,24 @@ form .palette div { padding:5px 0px; }
   min-height:20px;
   }
 
+#toolbar span.links {
+  float: left;
+  margin: 15px;
+  }
+
+#toolbar a.reference {
+  background: #333;
+  height: 20px;
+  padding: 0px;
+  text-indent: -9999px;
+  width: 20px;
+  display: block;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  overflow: auto;
+  }
+
 .minimal #sidebar { width:100%; }
 .minimal a.save,
 .minimal #main,
@@ -883,7 +911,7 @@ li .icon {
  * Font pallette
  */
 .font-picker {
-  position:relative;
+  float: left;
   }
   
 #font-list {

@@ -135,7 +135,7 @@ var ProjectView = Backbone.View.extend({
         'click #header a.save': 'saveProject',
         'click #header a.settings': 'settings',
         'click #header a.close': 'close',
-        'click #header a.reference': 'reference'
+        'click #toolbar a.reference': 'reference'
     },
     initialize: function() {
         _.bindAll(this, 'render', 'saveProject',
@@ -218,7 +218,7 @@ var ProjectView = Backbone.View.extend({
         this.model.save(this.model, {
             success: function() {
                 that.model.trigger('save');
-                $('#header a.save', self.el).removeClass('changed');
+                $('#header a.save', self.el).removeClass('changed').addClass('disabled').html('Saved');
             },
             error: function(err, data) {
                 if (typeof data === 'string') {
@@ -281,7 +281,7 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     changed: function() {
-        $('#header a.save', this.el).addClass('changed');
+        $('#header a.save', this.el).removeClass('disabled').addClass('changed').html('Save');
     },
     settings: function() {
         new SettingsPopupView({ model: window.app.settings });
