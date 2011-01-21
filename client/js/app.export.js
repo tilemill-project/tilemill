@@ -43,7 +43,7 @@ var ExportJobRowView = Backbone.View.extend({
 
         // If this model has not been processed, add a watcher to update its status.
         if (this.model.get('status') !== 'complete' && this.model.get('status') !== 'error') {
-            this.watcher = new Watcher(this.model, this.update);
+            this.watcher = new Watcher(this.model, this.update, 5000);
         }
     },
     update: function() {
