@@ -92,13 +92,4 @@ module.exports = function(app, settings) {
             res.send(res.layers);
         }
     });
-
-    /**
-     * @TODO datasource SRS autodetection endpoint.
-     */
-    /*
-    app.get('/:datasource_64', loadDatasource, function(req, res, next) {
-        res.send({});
-    });
-    */
 };
