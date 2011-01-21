@@ -4,6 +4,12 @@ var fs = require('fs');
 var _ = require('underscore')._;
 var app = require('tilemill');
 
+var project1 = fs.readFileSync('./test/fixtures/project1.json', 'utf8');
+var project2 = fs.readFileSync('./test/fixtures/project2.json', 'utf8');
+var settings1 = fs.readFileSync('./test/fixtures/settings1.json', 'utf8');
+var settings2 = fs.readFileSync('./test/fixtures/settings2.json', 'utf8');
+var exportjob1 = fs.readFileSync('./test/fixtures/exportjob1.json', 'utf8');
+
 module.exports = {
     'abilities': function() {
         assert.response(app, { url: '/abilities' }, {
@@ -26,8 +32,6 @@ module.exports = {
         });
     },
     'project': function() {
-        var project1 = fs.readFileSync('./test/fixtures/project1.json', 'utf8');
-        var project2 = fs.readFileSync('./test/fixtures/project2.json', 'utf8');
         // Create project
         assert.response(app, {
             url: '/api/Project/Test',
@@ -160,8 +164,6 @@ module.exports = {
         });
     },
     'settings': function() {
-        var settings1 = fs.readFileSync('./test/fixtures/settings1.json', 'utf8');
-        var settings2 = fs.readFileSync('./test/fixtures/settings2.json', 'utf8');
         // Create settings
         assert.response(app, {
             url: '/api/Settings/settings',
@@ -223,8 +225,54 @@ module.exports = {
             assert.equal(res.body, '{}');
         });
     },
+    'export': function() {
+        // Create project
+        assert.response(app, {
+            url: '/api/Project/Test',
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            data: project1
+        }, {
+            status: 200
+        });
+        // Create export
+        assert.response(app, {
+            url: '/api/ExportJob/6566fe',
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            data: exportjob1
+        }, {
+            status: 200
+        }, function(res) {
+            assert.deepEqual(JSON.parse(res.body), JSON.parse(exportjob1));
+        });
+        // Get export
+        assert.response(app, {
+            url: '/api/ExportJob/6566fe',
+            method: 'GET'
+        }, {
+            status: 200
+        }, function(res) {
+            assert.deepEqual(JSON.parse(res.body), JSON.parse(exportjob1));
+        });
+        // Delete export
+        assert.response(app, {
+            url: '/api/ExportJob/6566fe',
+            method: 'DELETE'
+        }, {
+            status: 200
+        }, function(res) {
+            assert.equal(res.body, '{}');
+        });
+        // Delete project
+        assert.response(app, {
+            url: '/api/Project/Test',
+            method: 'DELETE'
+        }, {
+            status: 200
+        });
+    },
     'map': function() {
-        var project1 = fs.readFileSync('./test/fixtures/project1.json', 'utf8');
         // Create project
         assert.response(app, {
             url: '/api/Project/Test',
