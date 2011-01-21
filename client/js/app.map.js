@@ -67,11 +67,19 @@ var MapView = Backbone.View.extend({
         this.map.events.register('moveend', this.map, this.controlZoom);
         this.map.events.register('zoomend', this.map, this.controlZoom);
 
-        $('#zoom-display .zoom-in').click($.proxy(function() {
+        // Stop event propagation to the OL map.
+        $('#zoom-display div, a.map-fullscreen').mousedown(function(e) {
+            e.stopPropagation();
+        });
+        $('#zoom-display div, a.map-fullscreen').mouseup(function(e) {
+            e.stopPropagation();
+        });
+        $('#zoom-display .zoom-in').click($.proxy(function(e) {
+            e.stopPropagation();
             this.map.zoomIn();
         }, this));
-
-        $('#zoom-display .zoom-out').click($.proxy(function() {
+        $('#zoom-display .zoom-out').click($.proxy(function(e) {
+            e.stopPropagation();
             this.map.zoomOut();
         }, this));
 
