@@ -545,10 +545,10 @@ form .palette div { padding:5px 0px; }
   overflow: auto;
   }
 
-.minimal #sidebar { width:100%; }
-.minimal a.save,
-.minimal #main,
-.minimal #toolbar { display:none; }
+.minimal #ProjectView #sidebar { width:100%; }
+.minimal #ProjectView a.save,
+.minimal #ProjectView #main,
+.minimal #ProjectView #toolbar { display:none; }
 
 #ProjectListView #main { left:25%; overflow:auto; }
 #ProjectListView #sidebar { width:25%; border-color:#bbb; }
