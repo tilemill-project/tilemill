@@ -5,7 +5,7 @@
  */
 var StylesheetListView = Backbone.View.extend({
     initialize: function(options) {
-        _.bindAll(this, 'render', 'add', 'activate');
+        _.bindAll(this, 'render', 'add', 'activate', 'sortUpdate');
         var self = this;
         this.collection.bind('add', this.render);
         this.collection.bind('add', this.activate);
@@ -14,9 +14,6 @@ var StylesheetListView = Backbone.View.extend({
         window.app.bind('ready', this.activate);
         options.project.view.stylesheets = this;
         this.render();
-        /*
-        @TODO: bind re-render to project events.
-        */
     },
     render: function() {
         // Render the stylesheets wrapper if not present.
@@ -24,10 +21,7 @@ var StylesheetListView = Backbone.View.extend({
             $(this.el).html(ich.StylesheetListView());
             $('.stylesheets', this.el).sortable({
                 axis: 'x',
-                revert: true,
                 containment: 'parent'
-                // @TODO: proper event.
-                // change: TileMill.project.changed
             });
         }
 
@@ -43,6 +37,9 @@ var StylesheetListView = Backbone.View.extend({
                 self.activeTab = self.activeTab || stylesheet.view;
             }
         });
+
+        // Refresh sortable to recognize new stylesheets.
+        $('.stylesheets', this.el).sortable('refresh');
         return this;
     },
     activate: function() {
@@ -51,13 +48,24 @@ var StylesheetListView = Backbone.View.extend({
         }
     },
     events: {
-        'click .add': 'add'
+        'click .add': 'add',
+        'sortupdate .stylesheets': 'sortUpdate'
     },
     add: function() {
         new StylesheetPopupView({
             collection: this.collection
         });
         return false;
+    },
+    sortUpdate: function(e, ui) {
+        var rows = this.$('.stylesheets .tab');
+        var newCollection = [];
+        this.collection.each(function(model) {
+            var index = $.inArray(model.view.el, rows);
+            newCollection[index] = model;
+        });
+        this.collection.models = newCollection; //.reverse();
+        this.collection.trigger('change');
     }
 });
 
@@ -84,7 +92,7 @@ var StylesheetTabView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click': 'activate',
+        'mousedown': 'activate',
         'click .delete': 'del'
     },
     activate: function() {

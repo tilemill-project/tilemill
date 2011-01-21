@@ -254,7 +254,11 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     close: function() {
-        return (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?'));
+        if (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
+            this.watcher && this.watcher.destroy();
+            return true;
+        }
+        return false;
     },
     reference: function() {
         if (this.referenceView) {
@@ -269,13 +273,13 @@ var ProjectView = Backbone.View.extend({
     setMinimal: function() {
         var that = this;
         if (window.app.settings.get('mode') === 'minimal') {
-            $(this.el).addClass('minimal');
+            $('body').addClass('minimal');
             this.watcher = new Watcher(this.model, function() {
                 that.model.trigger('save');
             });
         }
         else if (this.watcher) {
-            $(this.el).removeClass('minimal');
+            $('body').removeClass('minimal');
             this.watcher.destroy();
         }
         return false;
