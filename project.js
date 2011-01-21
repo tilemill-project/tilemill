@@ -386,6 +386,14 @@ var ExportJob = Backbone.Model.extend({
         progress: 0,
         status: 'waiting'
     },
+    validate: function(attributes) {
+        if (attributes.status && ['waiting', 'processing', 'complete', 'error'].indexOf(attributes.status) === -1) {
+            return 'Invalid status.';
+        }
+        if (attributes.progress && (typeof attributes.progress !== 'number' || attributes.progress > 1 || attributes.progress < 0)) {
+            return 'Progress must be a value between 0 and 1 (inclusive).';
+        }
+    },
     /**
      * Generate a download URL for a model.
      */
