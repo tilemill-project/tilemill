@@ -3,11 +3,11 @@ module.exports = {
     "files": "files",
     "providers": {
         "directory": {
-            "path": "files/local_data"
+            "path": "files/data"
         }
     },
-    'mapfile_dir': 'files/mapfiles',
-    'data_dir': 'files/data',
+    'mapfile_dir': 'files/.cache',
+    'data_dir': 'files/.cache',
     'export_dir': 'files/export',
     // TODO: request-specific overrides
     'header_defaults': {
