@@ -66,16 +66,6 @@
 	<td>//div[@id='tabs']/div/a[2]/span[1]</td>
 	<td></td>
 </tr>
-<tr>
-	<td>click</td>
-	<td>link=Info</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=Close</td>
-	<td></td>
-</tr>
 </tbody></table>
 </body>
 </html>
