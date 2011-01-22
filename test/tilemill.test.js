@@ -115,6 +115,7 @@ module.exports = {
             assert.equal(res.body, 'Stylesheet IDs must be unique.');
         });
         // Validation: Stylesheet syntax validation.
+        // @TODO: this is currently broken with the update to mess2.
         var invalid = _.extend(JSON.parse(project1), {
             Stylesheet: [
                 { id: 'style.mss', data: '#world {  polygon-fill: eee; }' },
