@@ -2,34 +2,69 @@ var taskmanager = require('./taskmanager'),
     Step = require('step'),
     path = require('path'),
     Tile = require('tilelive.js').Tile,
+    TileBatch = require('tilelive.js').TileBatch,
     fs = require('fs'),
     sys = require('sys'),
+    settings = require('./settings'),
     events = require('events');
 
-var ExportMBTiles = function(model, taskQueue) {
-    var workTask = function(counter, taskQueue) {
+var ExportJobMBTiles = function(model, taskQueue) {
+    var batch;
+    var workTask = function(batch, model, taskQueue) {
         events.EventEmitter.call(this);
-        this.counter = counter;
+        this.batch = batch;
+        this.model = model;
         this.taskQueue = taskQueue;
         this.on('start', function() {
             this.emit('work');
         });
         this.on('work', function() {
-            this.emit('finish');
-        });
-        this.on('finish', function() {
-            if (this.counter < 10) {
-                var next = new workTask(this.counter + 1, this.taskQueue);
-                this.taskQueue.add(next);
-            }
-            else {
-                model.save({status: 'complete', progress: 1});
-            }
+            var that = this;
+            this.batch.renderChunk(function(err, rendered) {
+                if (rendered) {
+                    var next = new workTask(that.batch, that.model, that.taskQueue);
+                    that.taskQueue.add(next);
+                }
+                else {
+                    that.model.save({status: 'complete', progress: 1});
+                }
+                that.emit('finish');
+            });
         });
     }
     sys.inherits(workTask, events.EventEmitter);
-    taskQueue.add(new workTask(0, taskQueue));
-    model.save({status: 'processing'});
+
+    Step(
+        function() {
+            path.exists(path.join(__dirname, 
+                settings.export_dir, model.get('filename')), this);
+        },
+        function(exists) {
+            if (exists) {
+                var filename = model.get('filename');
+                var extension = path.extname(filename);
+                var date = new Date();
+                var hash = require('crypto').createHash('md5')
+                    .update(date.getTime()).digest('hex').substring(0,6);
+                model.set({
+                    filename: filename.replace(extension, '') + '_' + hash + extension
+                });
+            }
+            batch = new TileBatch({
+                filepath: path.join(__dirname, settings.export_dir, model.get('filename')),
+                bbox: model.get('bbox').split(','),
+                minzoom: model.get('minzoom'),
+                maxzoom: model.get('maxzoom'),
+                mapfile: model.get('mapfile'),
+                mapfile_dir: path.join(__dirname, settings.mapfile_dir)
+            });
+            batch.setup(this);
+        },
+        function(err) {
+            taskQueue.add(new workTask(batch, model, taskQueue));
+            model.save({status: 'processing'});
+        }
+    );
 }
 
 var ExportJobImage = function(model, taskQueue) {
@@ -107,6 +142,6 @@ var ExportJobImage = function(model, taskQueue) {
 module.exports = function(model, taskQueue) {
     return {
         ExportJobImage: ExportJobImage,
-        ExportMBTiles: ExportMBTiles
+        ExportJobMBTiles: ExportJobMBTiles
     }[model.get('type')](model, taskQueue);
 }
