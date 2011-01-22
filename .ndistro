@@ -13,7 +13,7 @@ module documentcloud underscore 1.1.4
 # note: if no tag 'master' works...
 module lucisferre node-xml2js
 module developmentseed mess.js
-module developmentseed tilelive.js
+module developmentseed tilelive.js mbtiles
 
 # addons
 # latest ndistro is able to download and build c++ addons,
