@@ -64,21 +64,21 @@ else
     echo "... already built node-srs"
 fi
 
-#if ! [ -f "lib/node/zipfile/_zipfile.node" ]; then
-#    echo "... fetching node-zipfile"
-#    cd modules
-#    url="https://github.com/springmeyer/node-zipfile/tarball/master"
-#    mkdir -p node-zipfile
-#    cd node-zipfile
-#    echo "... building node-zipfile"
-#    $GET $url | \
-#    tar -xz --strip 1
-#    $RUN_DIR/build/bin/node-waf --prefix=$RUN_DIR configure build
-#    $RUN_DIR/build/bin/node-waf install
-#    cd $RUN_DIR;
-#else
-#    echo "... already built node-zipfile"
-#fi
+if ! [ -f "lib/node/zipfile/_zipfile.node" ]; then
+    echo "... fetching node-zipfile"
+    cd modules
+    url="https://github.com/springmeyer/node-zipfile/tarball/master"
+    mkdir -p node-zipfile
+    cd node-zipfile
+    echo "... building node-zipfile"
+    $GET $url | \
+    tar -xz --strip 1
+    $RUN_DIR/build/bin/node-waf --prefix=$RUN_DIR configure build
+    $RUN_DIR/build/bin/node-waf install
+    cd $RUN_DIR;
+else
+    echo "... already built node-zipfile"
+fi
 
 # Create local data directory and populate with sample data
 if ! [ -d "files/data" ]; then
