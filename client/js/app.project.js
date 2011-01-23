@@ -90,12 +90,12 @@ var ProjectRowView = Backbone.View.extend({
     // See http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
     thumb: function() {
         var center = this.model.get('center') || {lat: 0, lon: 0, zoom: 2};
+        center.lat = -1 * center.lat; // TMS is flipped from OSM calc below.
         var z = center.zoom;
         var lat_rad = center.lat * Math.PI / 180;
         var x = parseInt((center.lon + 180.0) / 360.0 * Math.pow(2,z));
         var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2,z));
-        var url = this.model.layerURL({ signed: true });
-        return url.replace('${z}', z).replace('${x}', x).replace('${y}', y);
+        return this.model.layerURL() + ['1.0.0', this.model.project64({signed: true}), z, x, y].join('/') + '.png';
     },
     render: function() {
         $(this.el).html(ich.ProjectRowView({

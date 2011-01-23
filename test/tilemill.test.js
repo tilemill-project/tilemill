@@ -285,7 +285,7 @@ module.exports = {
         });
         // Test a few project tiles
         assert.response(app, {
-            url: '/tile/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_NTZiYTY5/0/0/0.png',
+            url: '/1.0.0/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_NTZiYTY5/0/0/0.png',
             method: 'GET'
         }, {
             status: 200
@@ -293,7 +293,7 @@ module.exports = {
             assert.ok(res.body.length > 5000, 'Tile is unexpectedly small.');
         });
         assert.response(app, {
-            url: '/tile/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_NTZiYTY5/2/2/1.png',
+            url: '/1.0.0/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_NTZiYTY5/2/2/1.png',
             method: 'GET'
         }, {
             status: 200
@@ -302,7 +302,7 @@ module.exports = {
         });
         // Test that an invalid project has no tiles
         assert.response(app, {
-            url: '/tile/foobar/0/0/0.png',
+            url: '/1.0.0/foobar/0/0/0.png',
             method: 'GET'
         }, {
             status: 500

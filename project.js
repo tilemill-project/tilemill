@@ -250,10 +250,7 @@ var Project = Backbone.Model.extend({
      * Layer URL based on the model URL.
      */
     layerURL: function(options) {
-        return [window.location.protocol, window.location.host].join('//')
-            + '/xyz/'
-            + this.project64(options)
-            + '/${z}/${x}/${y}.png';
+        return [window.location.protocol, window.location.host].join('//') + '/';
     },
     /**
      * Native Backbone validation method.
