@@ -133,7 +133,8 @@ var ExportJobView = Backbone.View.extend({
     },
     events: _.extend(PopupView.prototype.events, {
         'click input.submit': 'submit',
-        'change input': 'changeValue'
+        'change input': 'changeValue',
+        'change select': 'changeValue'
     }),
     changeValue: function(event) {
         var data = {};
@@ -244,25 +245,38 @@ var ExportJobMBTilesView = ExportJobView.extend({
     },
     render: function() {
         ExportJobView.prototype.render.call(this);
+        var data = {
+            filename: this.options.project.get('id') + '.mbtiles',
+            minzoom: 0,
+            maxzoom: 8,
+            metadata_name: this.options.project.get('id'),
+            metadata_description: '',
+            metadata_version: '1.0.0',
+            metadata_type: 'baselayer'
+        }
+        this.model.set(data);
+
         var slider = this.$('#mbtiles-zoom').slider({
             range: true,
             min:0,
             max:22,
             step:1,
-            values: [0, 8],
+            values: [
+                this.model.get('minzoom'),
+                this.model.get('maxzoom')
+            ],
             slide: this.changeZoomLevels
         });
         this.model.bind('change:minzoom', this.updateZoomLabels);
         this.model.bind('change:maxzoom', this.updateZoomLabels);
-        var data = {
-            filename: this.options.project.get('id') + '.mbtiles',
-            minzoom: 0,
-            maxzoom: 8
-        }
-        this.model.set(data);
     },
     getFields: function() {
-        return ich.ExportJobMBTilesView(this.options);
+        return ich.ExportJobMBTilesView({
+            metadata_name: this.model.get('metadata_name'),
+            metadata_description: this.model.get('metadata_description'),
+            metadata_version: this.model.get('metadata_version'),
+            metadata_type_baselayer: this.model.get('metadata_type') === 'baselayer',
+        });
     },
     changeZoomLevels: function(event, ui) {
         this.model.set({

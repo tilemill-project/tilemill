@@ -62,10 +62,10 @@ var ExportJobMBTiles = function(model, taskQueue) {
                 mapfile: model.get('mapfile'),
                 mapfile_dir: path.join(__dirname, settings.mapfile_dir),
                 metadata: {
-                    name: 'TileMill test',
-                    type: 'baselayer',
-                    description: 'Test mbtiles from TileMill',
-                    version: '1.0'
+                    name: model.get('metadata_name'),
+                    type: model.get('metadata_type'),
+                    description: model.get('metadata_description'),
+                    version: model.get('metadata_version')
                 }
             });
             batch.setup(this);

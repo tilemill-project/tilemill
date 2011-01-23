@@ -519,8 +519,23 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
         <div id='mbtiles-zoom'></div>
       </div>
       <div>
-        <label for='mbtiles-attribution'>Attribution Text</label>
-        <input type='text' id='mbtiles-attribution' class='text' value='' />
+        <label for='metadata_name'>Name</label>
+        <input type='text' id='metadata_name' class='text' value='{{ metadata_name }}' />
+      </div>
+      <div>
+        <label for='metadata_description'>Description</label>
+        <input type='text' id='metadata_description' class='text' value='{{ metadata_description }}' />
+      </div>
+      <div>
+        <label for='metadata_version'>Version</label>
+        <input type='text' id='metadata_version' class='text' value='{{ metadata_version }}' />
+      </div>
+      <div>
+        <label for='metadata_type'>Type</label>
+        <select id='metadata_type'>
+            <option value='baselayer' {{#metadata_type_baselayer}}selected='selected'{{/metadata_type_baselayer}}>Base layer</option>
+            <option value='overlay' {{^metadata_type_baselayer}}selected='selected'{{/metadata_type_baselayer}}>Overlay</option>
+        </select>
       </div>
     </script>
 
