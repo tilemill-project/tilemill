@@ -26,6 +26,7 @@ var ExportJobMBTiles = function(model, taskQueue) {
                     that.taskQueue.add(next);
                 }
                 else {
+                    batch.finish();
                     that.model.save({status: 'complete', progress: 1});
                 }
                 that.emit('finish');
@@ -44,8 +45,11 @@ var ExportJobMBTiles = function(model, taskQueue) {
                 var filename = model.get('filename');
                 var extension = path.extname(filename);
                 var date = new Date();
-                var hash = require('crypto').createHash('md5')
-                    .update(date.getTime()).digest('hex').substring(0,6);
+                var hash = require('crypto')
+                    .createHash('md5')
+                    .update(date.getTime())
+                    .digest('hex')
+                    .substring(0,6);
                 model.set({
                     filename: filename.replace(extension, '') + '_' + hash + extension
                 });
@@ -56,7 +60,13 @@ var ExportJobMBTiles = function(model, taskQueue) {
                 minzoom: model.get('minzoom'),
                 maxzoom: model.get('maxzoom'),
                 mapfile: model.get('mapfile'),
-                mapfile_dir: path.join(__dirname, settings.mapfile_dir)
+                mapfile_dir: path.join(__dirname, settings.mapfile_dir),
+                metadata: {
+                    name: 'TileMill test',
+                    type: 'baselayer',
+                    description: 'Test mbtiles from TileMill',
+                    version: '1.0'
+                }
             });
             batch.setup(this);
         },
