@@ -251,7 +251,7 @@ var Project = Backbone.Model.extend({
      */
     layerURL: function(options) {
         return [window.location.protocol, window.location.host].join('//')
-            + '/tile/'
+            + '/xyz/'
             + this.project64(options)
             + '/${z}/${x}/${y}.png';
     },
