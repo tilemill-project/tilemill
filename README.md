@@ -31,6 +31,8 @@ Setup
 
 - make
 - Python 2.4 or better
+- libzip (deb packages: libzip-dev libzip1)
+- libsqlite3 (deb packages: libsqlite3-dev libsqlite3-0)
 
 ## Building
 
