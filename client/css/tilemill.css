@@ -1306,28 +1306,38 @@ body .tipsy { font-size:11px; }
 .ui-slider,
 form .palette .ui-slider {
   position:relative;
+  background: #222;
+  border:#444 solid 1px;
   height:1px;
-  background: #ccc;
-  border-color: #888 #ccc #fff;
-  border-width:1px 0px;
   padding:0px;
+  border-radius:2px;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
   }
 
 .ui-slider-range,
 form .palette .ui-slider-range {
-  border-top:1px solid #a00;
-  background:#f88;
+  border:#c44 solid 1px;
+  background:#a22;
   position:absolute;
+  top:-1px;
   height:1px;
   padding:0px;
+  border-radius:2px;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
   }
 
 .ui-slider-handle {
   position:absolute;
-  height:5px;
-  width:10px;
-  background:#ddd;
-  display:block;
+  top:-4px;
+  height:7px;
+  width:8px;
+  border:#999 solid 1px;
+  background:#333;
+  border-radius:4px;
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
   }
 
 /**
