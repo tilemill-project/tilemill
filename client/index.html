@@ -15,9 +15,6 @@
     <script type='text/javascript' src='js/libraries/underscore-min.js'></script>
     <script type='text/javascript' src='js/libraries/backbone.js'></script>
     <script type='text/javascript' src='js/libraries/jquery-ui.js'></script>
-    <script type='text/javascript' src='js/libraries/jquery.ui.widget.min.js'></script>    
-    <script type='text/javascript' src='js/libraries/jquery.ui.position.min.js'></script>
-    <script type='text/javascript' src='js/libraries/jquery.ui.autocomplete.min.js'></script>
     <script type='text/javascript' src='js/libraries/jquery.tablesorter.min.js'></script>
     <script type='text/javascript' src='js/libraries/ICanHaz.min.js'></script>
     <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
@@ -28,7 +25,7 @@
     <!-- common server/client side js -->
     <script type='text/javascript' src='project.js'></script>
 
-    <script type='text/javascript' src='js/app.popup.js'></script>
+    <script type='text/javascript' src='js/app.utils.js'></script>
     <script type='text/javascript' src='js/app.tools.js'></script>
     <script type='text/javascript' src='js/app.project.js'></script>
     <script type='text/javascript' src='js/app.export.js'></script>
@@ -51,14 +48,11 @@
         'js/libraries/underscore-min.js',
         'js/libraries/backbone.js',
         'js/libraries/jquery-ui.js',
-        'js/libraries/jquery.ui.widget.min.js',
-        'js/libraries/jquery.ui.position.min.js',
-        'js/libraries/jquery.ui.autocomplete.min.js',
         'js/libraries/jquery.tablesorter.min.js',
         'js/libraries/ICanHaz.min.js',
         'js/openlayers/OpenLayers.js',
         'js/codemirror/js/codemirror.js',
-        'js/app.popup.js',
+        'js/app.utils.js',
         'js/app.tools.js',
         'js/app.project.js',
         'js/app.export.js',
@@ -127,15 +121,10 @@
         <h1>Editing {{ id }}</h1>
         <div class='actions clearfix'>
           <a class='save disabled' href='#'>Saved</a>
-          <a class='icon close' href='#'>Back home</a>
+          <a class='tipsy-e icon close' title='Back home' href='#'>Back home</a>
         </div>
       </div>
       <div id='main'></div>
-      <div id='toolbar'>
-        <span class='links'>
-          <a class='reference' title='Cascadenik Styling Reference' href='#'>Reference</a>
-        </span>
-      </div>
       <div id='sidebar'></div>
     </script>
 
@@ -207,6 +196,7 @@
       <div id='tabs'>
         <div class='stylesheets clearfix'></div>
         <a title='Add stylesheet' class='tipsy-e icon add' href='#'>Add stylesheet</a>
+        <a title='Stylesheet reference guide' class='tipsy-e icon reference' href='#'>Reference</a>
       </div>
       <div id='editor' class='view'></div>
     </script>
@@ -220,26 +210,26 @@
       <div class='editor'><textarea></textarea></div>
     </script>
 
-    <script type='text/html' id='StylesheetTools'>
-      <div class='tools pane'></div>
+    <script type='text/html' id='StylesheetTools'>    
+      <div class='sidebar-header clearfix pane'>
+        <h2><a href='#' class='show-colors tab active'>Colors</a></h2>
+        <h2><a href='#' class='show-fonts tab inactive'>Fonts</a></h2>
+      </div>
     </script>
 
-    <script type='text/html' id='ColorPickerToolView'>
-      <a class='icon color-picker' href='#color-picker'>Color picker</a>
-    </script>
-
-    <script type='text/html' id='FontPickerToolView'>
-      <div class='ui-widget'>      
-      	<input id='fonts' title="Find fonts" />
-        <div id='font-list'></div>
+    <script type='text/html' id='FontPickerToolView'> 
+    	<div id="fonts">
+    	  <input title="Filter list" />
+        <ul class='font-list'>{{fonts}}</ul>
       </div>
     </script>
 
     <script type='text/html' id='ColorSwatchesToolView'>
-      <div class='sidebar-header clearfix pane'>
-        <h2>Colors</h2>
-      </div>
       <div class='swatches clearfix pane'></div>
+    </script>
+    
+    <script type='text/html' id='ColorPickerToolView'>
+      <a class='tipsy-e icon color-picker' title="Color picker" href='#color-picker'>Color picker</a>
     </script>
 
     <script type='text/html' id='DrawerView'>

@@ -1,3 +1,41 @@
+var StylesheetTools = Backbone.View.extend({
+    id: 'stylesheet-tools',
+    className: 'view',
+    initialize: function(options) {
+        _.bindAll(this, 'render');
+        this.render();
+    },
+    render: function(){
+        $(this.el).html(ich.StylesheetTools);
+    },
+    events: {
+        'click .show-fonts' : 'showFonts',
+        'click .show-colors' : 'showColors'
+    },
+    showFonts: function(){
+        $('a.show-colors').removeClass('active').addClass('inactive');
+        var self = $('a.show-fonts', this.el);
+        if(self.hasClass('inactive')){
+            self.removeClass('inactive')
+                .addClass('active');
+            $('#colors', this.el).hide();
+            $('#fonts', this.el).show();
+        }
+        return false;
+    },
+    showColors: function(){
+        $('a.show-fonts').removeClass('active').addClass('inactive');
+        var self = $('a.show-colors', this.el);
+        if(self.hasClass('inactive')){
+            self.removeClass('inactive')
+                .addClass('active');
+            $('#fonts', this.el).hide();
+            $('#colors', this.el).show();
+        }
+        return false;
+    }
+});
+
 var ColorPickerToolView = Backbone.View.extend({
     id: 'color-picker',
     initialize: function(options) {
@@ -11,8 +49,8 @@ var ColorPickerToolView = Backbone.View.extend({
         $(this.el).html(ich.ColorPickerToolView);
     },
     activate: function() {
-        var that = this;
-        var visible = false;
+        var that = this,
+            visible = false;
         this.colorpicker = $('a', this.el).ColorPicker({
             eventName: 'toggle',
             onChange: that.pickerChange,
@@ -150,7 +188,7 @@ var ColorSwatchesList = Backbone.Collection.extend({
 });
 
 var ColorSwatchesToolView = Backbone.View.extend({
-    id: 'color-swatches',
+    id: 'colors',
     className: 'view',
     initialize: function(options) {
         _.bindAll(this, 'render', 'createSwatchView');
@@ -212,10 +250,10 @@ var ColorSwatchView = Backbone.View.extend({
 });
 
 var FontPickerToolView = Backbone.View.extend({
-    className: 'font-picker pane',
-    // events: {
-    //     'change #fonts': 'insertFont'
-    // },
+    id: 'font-picker',
+    events: {
+        'change #fonts': 'insertFont'
+    },
     initialize: function(options) {
         _.bindAll(this, 'render', 'insertFont');
         this.project = options.project;
@@ -224,20 +262,40 @@ var FontPickerToolView = Backbone.View.extend({
             error: this.render
         });
     },
+    //@TODO Having Some trouble here - will work on this in the morning :(
     render: function() {
-        $(this.el).html(ich.FontPickerToolView());
+        var fonts = this.model.get('fonts');
+        
+        _.each(fonts, function(i){
+            fontList = '<li>' + fonts + '</li>';
+        });
+        
+        $(this.el).html(ich.FontPickerToolView({
+            fonts: fontList
+        }));
+        
         var $input = $('input', this.el),
-            formTitle = $input.attr('title'),
-            fontList = this.model.get('fonts');
-
-            $('input#fonts').autocomplete({
-              appendTo: '#font-list',
-              source: fontList,
-              search  : function(){$(this).addClass('working');},
-              open    : function(){$(this).removeClass('working');},
-              select  : this.insertFont
-            });
-
+            $list = $('font-list'),
+            formTitle = $input.attr('title');
+            
+        // Returns a case-insensitive contains()
+        jQuery.expr[':'].Contains = function(a,i,m){
+            return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
+        };
+        $input.change( function () {
+            var filter = $input.val();
+            if(filter) {
+                $list.find('a:not(:Contains(' + filter + '))').parent().slideUp();
+                $list.find('a:Contains(' + filter + ')').parent().slideDown();
+            } else {
+                $list.find('li').slideDown();
+            }
+            return false;
+        })
+        .keyup( function () {
+            $(this).change();
+        });
+             
         function remove() {
           if ($input.val() === formTitle) {
             $input.val('');
@@ -253,7 +311,7 @@ var FontPickerToolView = Backbone.View.extend({
     insertFont: function() {
         var mirror = this.project.view.stylesheets.activeTab.codemirror;
         var value = this.$('input').val();
-      if(value !== 'Find fonts' && value !== '') {
+      if(value !== 'Filter list' && value !== '') {
         mirror.replaceSelection('"' + this.$('input').val() + '"');
         $(mirror).focus();
         this.$('input').val(''); 
