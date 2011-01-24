@@ -250,6 +250,7 @@ var ExportJobMBTilesView = ExportJobView.extend({
         _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
         this.options.title = 'Export MBTiles';
         this.options.type = 'ExportJobMBTiles';
+        this.options.filename = this.options.project.get('id') + '.mbtiles';
 
         // Set default values.
         this.model.set({
