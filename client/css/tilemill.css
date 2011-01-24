@@ -942,7 +942,13 @@ li .icon {
   }
 
 #fonts .fonts-list {
+  position:absolute;
+  left:12px;
+  right:0px;
+  top:80px;
+  bottom:0px;
   margin-top: 10px;
+  overflow: auto;
   }
 
 #fonts ul.fonts-list li{
