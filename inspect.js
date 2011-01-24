@@ -8,7 +8,7 @@ module.exports = function(app, settings) {
         if (req.param('mapfile_64')) {
             var path = require('path');
             var Map = require('tilelive.js').Map;
-            var map = new Map(req.param('mapfile_64'), path.join(__dirname, settings.mapfile_dir), true);
+            var map = new Map(req.param('mapfile_64'), settings.mapfile_dir, true);
             map.localize(function(err) {
                 if (err) {
                     next(new Error('Error loading map file'));

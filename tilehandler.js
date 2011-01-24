@@ -20,7 +20,7 @@ module.exports = function(app, settings) {
                 mapfile: req.param('mapfile_64'),
                 xyz: [req.param('x'), req.param('y'), req.param('z')],
                 format: req.params[0],
-                mapfile_dir: path.join(__dirname, settings.mapfile_dir)
+                mapfile_dir: path.join(settings.mapfile_dir)
             };
             var tile = new Tile(options);
         } catch (err) {
