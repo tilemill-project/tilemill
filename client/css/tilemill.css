@@ -135,7 +135,7 @@ a:hover.button { color:#fff; }
 .header .file {
   background-color:#333;
   padding:0px;
-  margin: 1px 10px 0 0;
+  margin: 0px 10px 0px 0px;
   float:left;
   }
 
@@ -579,7 +579,7 @@ form .palette div { padding:5px 0px; }
 
 .column h2,
 .popup-header,
-.sidebar-header { background:url(../images/sprite.png) 0px -320px repeat-x; border-top: 1px solid #CCC;}
+.sidebar-header { background:url(../images/sprite.png) 0px -320px repeat-x;}
 
 .sidebar-header h2 { float:left; margin-right: 8px;}
 .sidebar-header a { float:right; }
