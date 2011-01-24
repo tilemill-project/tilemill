@@ -308,13 +308,12 @@ var Project = Backbone.Model.extend({
                             if (!err) {
                                 try {
                                     var errors = null;
-                                    var env = {};
+                                    var env = { returnErrors: true, errors: [] };
                                     var l = tree.toList(env);
-                                    var errorpool = { returnErrors: true, errors: [] };
                                     l.map(function(t) {
-                                        t.toXML(errorpool);
+                                        t.toXML(env);
                                     });
-                                    if (errorpool.errors.length) {
+                                    if (env.errors.length) {
                                         group()(errorpool.errors.map(function(r) {
                                             // TODO: line numbers are one less
                                             // than expected.
