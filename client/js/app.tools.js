@@ -267,40 +267,39 @@ var FontPickerToolView = Backbone.View.extend({
             fonts: this.model.get('fonts')
         }));
         
-        var $input = $('input', this.el),
-            $list = $('ul.fonts-list'),
-            formTitle = $input.attr('title');
+        var input = $('input', this.el),
+            list = $('ul.fonts-list'),
+            formTitle = input.attr('title');
             
         // Returns a case-insensitive contains()
         jQuery.expr[':'].Contains = function(a,i,m){
             return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
         };
         
-        $input.change( function () {
+        input.change( function () {
             var filter = $(this).val();
-            if(filter) {
-                $list.find("li:not(:Contains(" + filter + "))").hide('slow');
-                $list.find("li:Contains(" + filter + ")").show();
+            if (filter) {
+                list.find("li:not(:Contains(" + filter + "))").fadeOut('fast');
+                list.find("li:Contains(" + filter + ")").show();
             } else {
-                $list.find("li").hide('slow');
+                list.find("li").show();
             }
             return false;
         })
         .keyup( function () {
-            $input.change();
+            input.change();
         });
         
-        function remove() {
-          if ($input.val() === formTitle) {
-            $input.val('');
-          }
-        }
-        $input.blur(function () {
-          $input.val(formTitle);
-        }).focus(remove).blur();
-        //Also remove if ..
-        $input.submit(remove);
-        $(window).unload(remove); // For Firefox
+        input
+        .blur(function () {
+            input.val(formTitle);
+        })
+        .focus(function () {
+            if (input.val() === formTitle) {
+                input.val('');
+            }
+        })
+        .blur();
     },
     insertFont: function() {
         var mirror = this.project.view.stylesheets.activeTab.codemirror,

@@ -944,7 +944,6 @@ li .icon {
   color: #bbb;
 }
 
-
 /**
  * Color picker
  */
@@ -954,60 +953,35 @@ li .icon {
 /**
  * Font pallette
  */
-.font-picker {
-  float: left;
-  }
-
 #fonts {
-  padding: 10px;
+  padding:5px 10px 4px;
+  border-bottom:1px solid #ddd;
   }
 
-#fonts input {
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 4px;
-  width: 175px;
-  font-weight: bold;
-  }
+#fonts input { font-weight: bold; }
 
 #fonts .fonts-list {
   position:absolute;
-  left:12px;
+  left:0px;
   right:0px;
-  top:80px;
+  top:70px;
   bottom:0px;
-  margin-top: 10px;
+  padding:5px;
   overflow: auto;
   }
 
-#fonts ul.fonts-list li{
-  border-bottom: 1px solid #eee;
-  display: block;
-  padding: 5px 0;
-  cursor: pointer;
-  }
-  
-#fonts ul.fonts-list li:hover{
-  background: #eee;
-  }  
+#fonts ul.fonts-list li {
+  display:block;
+  font-size:11px;
+  padding:0px 5px;
+  cursor:pointer;
 
-.ui-menu {
-  background:rgba(17,17,17,.9);
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
   }
 
-.ui-menu a {
-  color: #fff;
-  text-shadow: #1f3e4b 1px 1px;
-  display: block;
-  padding: 5px 8px;
-  cursor: pointer;
-  }
-  
-.ui-menu .ui-menu-item a.ui-state-hover,
-.ui-menu .ui-menu-item a.ui-state-active,
-.ui-menu .ui-menu-item a:hover {
-  background:transparent url(../images/sprite.png) 0px -360px repeat-x;
-  }
+#fonts ul.fonts-list li:hover { background: #eee; }
 
 /**
  * Popup editor.
