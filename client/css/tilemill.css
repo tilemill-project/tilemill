@@ -535,25 +535,8 @@ form .palette div { padding:5px 0px; }
   border-right:1px solid #ccc;
   }
 
-/*#toolbar {
-  background:#eee;
-  position:absolute;
-  left:50%;
-  right:0px;
-  bottom:0px;
-  border-top:1px solid #ddd;
-  padding-right:180px;
-  min-height:20px;
-  }
-
-#toolbar span.links {
-  float: left;
-  margin: 15px;
-  }*/
-
 .minimal #ProjectView #sidebar { width:100%; }
 .minimal #ProjectView a.save,
-/*.minimal #ProjectView #toolbar,*/
 .minimal #ProjectView #main { display:none; }
 
 #ProjectListView #main { left:25%; overflow:auto; }
@@ -565,12 +548,6 @@ form .palette div { padding:5px 0px; }
 
 .sidebar-header h2 { float:left; margin-right: 8px;}
 .sidebar-header a { float:right; }
-
-/*#toolbar label {
-  font-size:11px;
-  font-weight:bold;
-  text-transform:uppercase;
-  }*/
 
 /**
  * Layers
@@ -904,12 +881,11 @@ li .icon {
   }
 
 #editor {
-  border-bottom: 1px solid #CCC;
   overflow:auto;
   position:absolute;
   top:40px;
   left:0px;
-  bottom:40px;
+  bottom:0px;
   right:0px;
   width:auto !important;
   }
