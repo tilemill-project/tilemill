@@ -53,7 +53,8 @@ var MapView = Backbone.View.extend({
             layername: this.model.project64({signed: true}),
             type: 'png',
             buffer: 0,
-            transitionEffect: 'resize'
+            transitionEffect: 'resize',
+            wrapDateLine: true
         });
         this.map.addLayers([this.layer]);
 
