@@ -208,9 +208,9 @@ var ExportJobImageView = ExportJobView.extend({
             aspect: size.w / size.h
         }
         this.model.set(data);
-        this.model.bind('change:width', this.updateDimmensions);
-        this.model.bind('change:height', this.updateDimmensions);
-        this.model.bind('change:aspect', this.updateDimmensions);
+        this.model.bind('change:width', this.updateDimensions);
+        this.model.bind('change:height', this.updateDimensions);
+        this.model.bind('change:aspect', this.updateDimensions);
     },
     getFields: function() {
         return ich.ExportJobImageView(this.options);
@@ -220,7 +220,7 @@ var ExportJobImageView = ExportJobView.extend({
         var bounds = box.geometry.components[1].getBounds();
         this.model.set({aspect: bounds.getWidth() / bounds.getHeight()});
     },
-    updateDimmensions: function(model) {
+    updateDimensions: function(model) {
         var attributes = model.changedAttributes();
         if (attributes.width) {
             model.set({
