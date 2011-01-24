@@ -109,7 +109,7 @@ var ExportJobView = Backbone.View.extend({
         return this;
     },
     initialize: function() {
-        _.bindAll(this, 'boundingBoxAdded', 'updateUI');
+        _.bindAll(this, 'boundingBoxAdded', 'boundingBoxReset', 'updateUI');
         this.model.bind('change', this.updateUI);
 
         $('body').addClass('exporting');
@@ -131,7 +131,13 @@ var ExportJobView = Backbone.View.extend({
         var bounds = box.geometry.components[1].getBounds().toArray();
         this.model.set({ bbox: bounds.join(',') });
     },
+    boundingBoxReset: function() {
+        this.model.set({ bbox: [-20037500, -20037500, 20037500, 20037500].join(',') });
+        this.boxDrawingControl.drawFeature(this.model.get('bbox').split(','));
+        return false;
+    },
     events: _.extend(PopupView.prototype.events, {
+        'click a.reset': 'boundingBoxReset',
         'click input.submit': 'submit',
         'change input': 'changeValue',
         'change select': 'changeValue'
@@ -144,12 +150,13 @@ var ExportJobView = Backbone.View.extend({
                 this.$('#bbox-s').val(),
                 this.$('#bbox-e').val(),
                 this.$('#bbox-n').val()
-            ];
+            ].join(',');
         }
         else {
             data[$(event.target).attr('id')] = $(event.target).val();
         }
         this.model.set(data);
+        this.boxDrawingControl.drawFeature(this.model.get('bbox').split(','));
     },
     updateUI: function(model) {
         var that = this;
@@ -383,12 +390,29 @@ var ExportCropControl = OpenLayers.Class(OpenLayers.Control, {
     },
 
     drawFeature: function(geometry) {
-        var feature = new OpenLayers.Feature.Vector(
-            new OpenLayers.Geometry.Polygon([
-                this.canvas,
-                geometry.components.pop()
-            ])
-        );
+        if (geometry.components) {
+            var feature = new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Polygon([
+                    this.canvas,
+                    geometry.components.pop()
+                ])
+            );
+        }
+        // Allow a straight bbox to be passed in.
+        else if (geometry.length === 4) {
+            var feature = new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Polygon([
+                    this.canvas,
+                    new OpenLayers.Geometry.LinearRing([
+                        new OpenLayers.Geometry.Point(geometry[0], geometry[3]),
+                        new OpenLayers.Geometry.Point(geometry[2], geometry[3]),
+                        new OpenLayers.Geometry.Point(geometry[2], geometry[1]),
+                        new OpenLayers.Geometry.Point(geometry[0], geometry[1])
+                    ])
+                ])
+            );
+        }
+
         var proceed = this.layer.events.triggerEvent(
             "sketchcomplete", {feature: feature}
         );
