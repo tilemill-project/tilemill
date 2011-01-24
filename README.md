@@ -62,32 +62,11 @@ Setup
 
 TileMill should now be running on http://localhost:8889/
 
-Architecture
-------------
-@TODO out of date. Update to reflect recent consolidation.
-
-TileMill is based on [TileLive](http://github.com/developmentseed/TileLive) and
-follows its lead by making the interaction between the map storage backend, map
-editing client, and map rasterizer/inspector RESTful. A typical TileMill
-installation thus divides its tasks into three separate components:
-
-- The TileMill client consists of HTML and JavaScript that provides the editing
-and visualization interface that users interact with.
-- The TileMill server provides the storage and retrieval mechanism for the MML
-and MSS files that the client creates and edits. The TileMill server **must** be
-accessible via HTTP to both the TileMill client and the rasterizer.
-- The rasterizer (in this case TileLiteLive) renders maps based on the data
-sources and styles described by MML files on the TileMill server. The rasterizer
-**must** be accessible via HTTP to the TileMill client.
-
-In addition, references to MSS files, image resources, shapefile datasources,
-and so on must all be available to the rasterizer via HTTP. While this is a
-significant departure from many "typical" map designing workflows, it allows
-TileMill projects to be portable between clients if set up properly.
-
 Authors
 -------
 - Dmitri Gaskin (dmitrig01)
 - Young Hahn (yhahn)
 - Tom MacWright (tmcw)
+- Tristen Brown (tristen)
+- Will White (willwhite)
 - AJ Ashton (ajashton)
