@@ -389,6 +389,13 @@ var ExportJob = Backbone.Model.extend({
             }
         }
     },
+    /**
+     * Override url() method for convenience so we don't always need a
+     * collection reference around for CRUD operations on a single model.
+     */
+    url: function() {
+        return '/api/ExportJob/' + this.id;
+    },
     defaults: {
         progress: 0,
         status: 'waiting'
