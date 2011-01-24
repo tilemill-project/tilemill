@@ -314,13 +314,14 @@ var Project = Backbone.Model.extend({
                                         t.toXML(env);
                                     });
                                     if (env.errors.length) {
-                                        group()(errorpool.errors.map(function(r) {
+                                        var lined_errors = env.errors.map(function(r) {
                                             // TODO: line numbers are one less
                                             // than expected.
                                             r.line = tree.getLine(r.index) + 1;
                                             r.filename = stylesheet.id;
                                             return r;
-                                        }));
+                                        });
+                                        group()(lined_errors);
                                     }
                                     else {
                                         group()(null);
