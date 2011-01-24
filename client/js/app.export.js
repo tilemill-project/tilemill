@@ -241,11 +241,9 @@ var ExportJobMBTilesView = ExportJobView.extend({
         _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
         this.options.title = 'Export MBTiles';
         this.options.type = 'ExportJobMBTiles';
-        ExportJobView.prototype.initialize.call(this);
-    },
-    render: function() {
-        ExportJobView.prototype.render.call(this);
-        var data = {
+
+        // Set default values.
+        this.model.set({
             filename: this.options.project.get('id') + '.mbtiles',
             minzoom: 0,
             maxzoom: 8,
@@ -253,9 +251,12 @@ var ExportJobMBTilesView = ExportJobView.extend({
             metadata_description: '',
             metadata_version: '1.0.0',
             metadata_type: 'baselayer'
-        }
-        this.model.set(data);
+        });
 
+        ExportJobView.prototype.initialize.call(this);
+    },
+    render: function() {
+        ExportJobView.prototype.render.call(this);
         var slider = this.$('#mbtiles-zoom').slider({
             range: true,
             min:0,
@@ -272,6 +273,8 @@ var ExportJobMBTilesView = ExportJobView.extend({
     },
     getFields: function() {
         return ich.ExportJobMBTilesView({
+            minzoom: this.model.get('minzoom'),
+            maxzoom: this.model.get('maxzoom'),
             metadata_name: this.model.get('metadata_name'),
             metadata_description: this.model.get('metadata_description'),
             metadata_version: this.model.get('metadata_version'),
