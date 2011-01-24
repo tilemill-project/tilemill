@@ -264,14 +264,9 @@ var FontPickerToolView = Backbone.View.extend({
     },
     //@TODO Having Some trouble here - will work on this in the morning :(
     render: function() {
-        var fonts = this.model.get('fonts');
-        
-        _.each(fonts, function(i){
-            fontList = '<li>' + fonts + '</li>';
-        });
         
         $(this.el).html(ich.FontPickerToolView({
-            fonts: fontList
+            fonts: this.model.get('fonts')
         }));
         
         var $input = $('input', this.el),
