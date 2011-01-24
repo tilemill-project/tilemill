@@ -262,35 +262,34 @@ var FontPickerToolView = Backbone.View.extend({
             error: this.render
         });
     },
-    //@TODO Having Some trouble here - will work on this in the morning :(
     render: function() {
-        
         $(this.el).html(ich.FontPickerToolView({
             fonts: this.model.get('fonts')
         }));
         
         var $input = $('input', this.el),
-            $list = $('font-list'),
+            $list = $('ul.fonts-list'),
             formTitle = $input.attr('title');
             
         // Returns a case-insensitive contains()
         jQuery.expr[':'].Contains = function(a,i,m){
             return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
         };
-        $input.change(function() {
-            var filter = $input.val();
+        
+        $input.change( function () {
+            var filter = $(this).val();
             if(filter) {
-                $list.find('a:not(:Contains(' + filter + '))').parent().slideUp();
-                $list.find('a:Contains(' + filter + ')').parent().slideDown();
+                $list.find("li:not(:Contains(" + filter + "))").hide('slow');
+                $list.find("li:Contains(" + filter + ")").show();
             } else {
-                $list.find('li').slideDown();
+                $list.find("li").hide('slow');
             }
             return false;
         })
         .keyup( function () {
-            $(this).change();
+            $input.change();
         });
-             
+        
         function remove() {
           if ($input.val() === formTitle) {
             $input.val('');
