@@ -81,7 +81,6 @@ var StylesheetTabView = Backbone.View.extend({
         _.bindAll(this, 'render', 'update', 'del', 'activate', 'remove');
         this.list = params.list;
         this.input = $(ich.StylesheetTabEditor());
-        this.tools = $(ich.StylesheetTools());
         this.codemirror = false;
         this.render();
     },

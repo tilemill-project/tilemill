@@ -135,7 +135,7 @@ a:hover.button { color:#fff; }
 .header .file {
   background-color:#333;
   padding:0px;
-  margin-right:10px;
+  margin: 1px 10px 0 0;
   float:left;
   }
 
@@ -500,6 +500,7 @@ form .palette div { padding:5px 0px; }
 .view { background:#f8f8f8; }
 
 #main {
+  background: #eee;
   position:fixed;
   top:50px;
   left:50%;
@@ -516,7 +517,7 @@ form .palette div { padding:5px 0px; }
   border-right:1px solid #ccc;
   }
 
-#toolbar {
+/*#toolbar {
   background:#eee;
   position:absolute;
   left:50%;
@@ -530,41 +531,28 @@ form .palette div { padding:5px 0px; }
 #toolbar span.links {
   float: left;
   margin: 15px;
-  }
-
-#toolbar a.reference {
-  background: #333;
-  height: 20px;
-  padding: 0px;
-  text-indent: -9999px;
-  width: 20px;
-  display: block;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  overflow: auto;
-  }
+  }*/
 
 .minimal #ProjectView #sidebar { width:100%; }
 .minimal #ProjectView a.save,
-.minimal #ProjectView #main,
-.minimal #ProjectView #toolbar { display:none; }
+/*.minimal #ProjectView #toolbar,*/
+.minimal #ProjectView #main { display:none; }
 
 #ProjectListView #main { left:25%; overflow:auto; }
 #ProjectListView #sidebar { width:25%; border-color:#bbb; }
 
 .column h2,
 .popup-header,
-.sidebar-header { background:url(../images/sprite.png) 0px -320px repeat-x; }
+.sidebar-header { background:url(../images/sprite.png) 0px -320px repeat-x; border-top: 1px solid #CCC;}
 
-.sidebar-header h2 { float:left; }
+.sidebar-header h2 { float:left; margin-right: 8px;}
 .sidebar-header a { float:right; }
 
-#toolbar label {
+/*#toolbar label {
   font-size:11px;
   font-weight:bold;
   text-transform:uppercase;
-  }
+  }*/
 
 /**
  * Layers
@@ -609,9 +597,9 @@ form .palette div { padding:5px 0px; }
   }
 
 /**
- * ColorSwatchesToolView
+ * ColorSwatchesTools
  */
-#color-swatches {
+#stylesheet-tools {
   position:absolute;
   right:0px;
   bottom:0px;
@@ -620,7 +608,24 @@ form .palette div { padding:5px 0px; }
   border-left:1px solid #ccc;
   }
 
-#color-swatches .swatch {
+#stylesheet-tools #fonts {
+  display: none;
+  }
+
+/**
+ * ColorSwatchesToolView
+ */
+#stylesheet-tools .swatches {
+  width: 85%;
+  }
+  
+#stylesheet-tools #color-picker {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  }
+
+#stylesheet-tools .swatch {
   -moz-box-shadow:#ccc 0px 1px 2px;
   -webkit-box-shadow:#ccc 0px 1px 2px;
   background:url(../images/sprite.png) 0px -220px no-repeat;
@@ -687,6 +692,7 @@ li .icon {
 .icon.scaledPoints   { background-position:-260px 0px; }
 .icon.settings       { background-position:-280px -20px; }
 .icon.export         { background-position:-320px -20px; }
+.icon.reference      { background-position: -360px -20px;}
 .icon.dropdown       { background-position:-300px 0px; }
 .icon.label.active        { background-position:-200px -20px; }
 .icon.choropleth.active   { background-position:-220px -20px; }
@@ -754,12 +760,12 @@ li .icon {
   background-color:#222;
   height:20px;
   position:absolute;
-  top:5px;
+  top:10px;
   z-index:1003;
   }
 
 #map-preview a.map-fullscreen {
-  right:5px;
+  right:10px;
   }
 
 #map-preview #zoom-display {
@@ -830,11 +836,13 @@ li .icon {
   background:#eee;
   }
 
-#tabs a.add {
+#tabs a.add,
+#tabs a.reference {
   position:absolute;
   top:10px;
-  right:10px;
   }
+#tabs a.reference { right:10px; }
+#tabs a.add { right:35px; }
 
 #tabs a.tab {
   float:left;
@@ -861,8 +869,8 @@ li .icon {
   top:5px;
   }
 
-  #tabs a.tab:hover span.delete { display:block; }
-  #tabs a.tab:hover span.delete:hover { opacity:1; }
+#tabs a.tab:hover span.delete { display:block; }
+#tabs a.tab:hover span.delete:hover { opacity:1; }
 
 #tabs a.active {
   color:#333;
@@ -878,6 +886,7 @@ li .icon {
   }
 
 #editor {
+  border-bottom: 1px solid #CCC;
   overflow:auto;
   position:absolute;
   top:40px;
@@ -900,6 +909,14 @@ li .icon {
 #editor .editor iframe { padding:0px; }
 
 /**
+ * Stylesheet-Tools
+ */
+#stylesheet-tools a.inactive {
+  color: #bbb;
+}
+
+
+/**
  * Color picker
  */
 #color-picker a:hover { background-color:#999; }
@@ -911,23 +928,21 @@ li .icon {
 .font-picker {
   float: left;
   }
-  
-#font-list {
-  max-height: 350px;
-  overflow: auto;
+
+#fonts {
+  padding: 10px;
   }
 
-#project input.working { 
-  background: #fff url(../images/loader.gif) no-repeat 183px center;
-}
-
-input#fonts {
+#fonts input {
   background: #fff;
   border: 1px solid #ccc;
-  padding: 4px 25px 4px 4px;
+  padding: 4px;
   width: 175px;
-  color: #666;
   font-weight: bold;
+  }
+
+#fonts .font-list {
+  margin-top: 10px;
   }
 
 .ui-menu {
