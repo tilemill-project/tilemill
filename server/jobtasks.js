@@ -24,6 +24,7 @@ var ExportJobMBTiles = function(model, queue) {
                 if (rendered) {
                     var next = new RenderTask(that.batch, that.model, that.queue);
                     that.queue.add(next);
+                    that.model.save({progress: that.batch.tiles_current / that.batch.tiles_total });
                 }
                 else {
                     batch.finish();
