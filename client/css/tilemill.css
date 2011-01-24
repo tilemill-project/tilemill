@@ -652,7 +652,6 @@ form .palette div { padding:5px 0px; }
   float:left;
   font-size:16px;
   font-weight:bold;
-  width:70px;
   padding:10px 19px 9px 10px;
   border-right:1px solid #ddd;
   background:#fff url(../images/sprite.png) 0px -490px no-repeat;
@@ -667,14 +666,12 @@ form .palette div { padding:5px 0px; }
 
 .sidebar-tabs a.inactive { color:#999; }
 
-#stylesheet-tools .swatches {
-  width: 85%;
-  }
+#colors { padding-right:30px; }
   
-#stylesheet-tools #color-picker {
-  position: absolute;
-  top: 50px;
-  right: 10px;
+#color-picker {
+  position:absolute;
+  top:50px;
+  right:10px;
   }
 
 #stylesheet-tools .swatch {
