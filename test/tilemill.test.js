@@ -12,7 +12,7 @@ var exportjob1 = fs.readFileSync('./test/fixtures/exportjob1.json', 'utf8');
 
 module.exports = {
     'abilities': function() {
-        assert.response(app, { url: '/abilities' }, {
+        assert.response(app, { url: '/api/abilities' }, {
             status: 200
         }, function(res) {
             var data = JSON.parse(res.body);
@@ -147,7 +147,7 @@ module.exports = {
             assert.deepEqual(JSON.parse(res.body), JSON.parse(project2));
         });
         // Load layer
-        assert.response(app, {url: '/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_MmE5ZWFj/world'}, {
+        assert.response(app, {url: '/api/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_MmE5ZWFj/world'}, {
             status: 200
         }, function(res) {
             var data = JSON.parse(res.body);

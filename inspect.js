@@ -71,7 +71,7 @@ module.exports = function(app, settings) {
     /**
      * Inspect abilities.
      */
-    app.get('/abilities', function(req, res) {
+    app.get('/api/abilities', function(req, res) {
         var mapnik = require('mapnik');
         res.send(
             {
@@ -84,7 +84,7 @@ module.exports = function(app, settings) {
     /**
      * Load layer model.
      */
-    app.get('/:mapfile_64/:layer_id?', loadMap, loadLayer, function(req, res, next) {
+    app.get('/api/:mapfile_64/:layer_id?', loadMap, loadLayer, function(req, res, next) {
         if (req.param('layer_id')) {
             res.send(res.layers.pop());
         }

@@ -147,7 +147,7 @@ var LayerFields = Backbone.Model.extend({
         this.project = options.project;
     },
     url: function() {
-        return '/' + this.project.project64({ signed: true }) + '/' + this.id;
+        return '/api/' + this.project.project64({ signed: true }) + '/' + this.id;
     }
 });
 
