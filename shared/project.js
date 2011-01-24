@@ -303,27 +303,30 @@ var Project = Backbone.Model.extend({
                 var group = this.group();
                 if (stylesheets.length !== 0) {
                     _.each(stylesheets, function(stylesheet) {
-                        new(mess.Parser)({
-                            filename: stylesheet.id
-                        }).parse(stylesheet.data, function(err, tree) {
+                        new(mess.Parser)({ filename: stylesheet.id })
+                            .parse(stylesheet.data, function(err, tree) {
                             if (!err) {
                                 try {
-                                    // TODO: incompatible with 
-                                    if (tree.toList) {
-                                        tree.toList();
+                                    var errors = null;
+                                    var l = tree.toList();
+                                    var errorpool = { returnErrors: true, errors: [] };
+                                    l.map(function(t) {
+                                        t.toXML(errorpool);
+                                    });
+                                    if (errorpool.errors.length) {
+                                        group()(errorpool.errors.map(function(r) {
+                                            // TODO: line numbers are one less
+                                            // than expected.
+                                            r.line = tree.getLine(r.index) + 1;
+                                            r.filename = stylesheet.id;
+                                            return r;
+                                        }));
+                                    }
+                                    else {
                                         group()(null);
-                                    } else {
-                                        var errors = tree.toCSS({ compress: false, returnErrors: true });
-                                        if (Array.isArray(errors)) {
-                                            group()(errors);
-                                        }
-                                        else {
-                                            group()(null);
-                                        }
                                     }
                                 } catch (e) {
-                                    console.log(e);
-                                    group()([ e ]);
+                                    group()([e]);
                                 }
                             } else {
                                 group()([ err ]);
