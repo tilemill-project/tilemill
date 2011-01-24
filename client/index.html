@@ -507,7 +507,13 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
 
     <script type='text/html' id='ExportJobMBTilesView'>
       <div>
-        <label>Zoom Levels (<span class='min-zoom'></span> to <span class='max-zoom'></span>)</label>
+        <label>
+            Zoom Levels (
+            <span class='min-zoom'>{{minzoom}}</span>
+            to
+            <span class='max-zoom'>{{maxzoom}}</span>
+            )
+        </label>
         <div id='mbtiles-zoom'></div>
       </div>
       <div>
