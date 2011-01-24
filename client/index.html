@@ -15,9 +15,6 @@
     <script type='text/javascript' src='js/libraries/underscore-min.js'></script>
     <script type='text/javascript' src='js/libraries/backbone.js'></script>
     <script type='text/javascript' src='js/libraries/jquery-ui.js'></script>
-    <script type='text/javascript' src='js/libraries/jquery.ui.widget.min.js'></script>    
-    <script type='text/javascript' src='js/libraries/jquery.ui.position.min.js'></script>
-    <script type='text/javascript' src='js/libraries/jquery.ui.autocomplete.min.js'></script>
     <script type='text/javascript' src='js/libraries/jquery.tablesorter.min.js'></script>
     <script type='text/javascript' src='js/libraries/ICanHaz.min.js'></script>
     <script type='text/javascript' src='js/openlayers/OpenLayers.js'></script>
@@ -26,9 +23,9 @@
     <script type='text/javascript' src='js/tipsy/src/javascripts/jquery.tipsy.js'></script>
 
     <!-- common server/client side js -->
-    <script type='text/javascript' src='js/project.js'></script>
+    <script type='text/javascript' src='project.js'></script>
 
-    <script type='text/javascript' src='js/app.popup.js'></script>
+    <script type='text/javascript' src='js/app.utils.js'></script>
     <script type='text/javascript' src='js/app.tools.js'></script>
     <script type='text/javascript' src='js/app.project.js'></script>
     <script type='text/javascript' src='js/app.export.js'></script>
@@ -51,14 +48,11 @@
         'js/libraries/underscore-min.js',
         'js/libraries/backbone.js',
         'js/libraries/jquery-ui.js',
-        'js/libraries/jquery.ui.widget.min.js',
-        'js/libraries/jquery.ui.position.min.js',
-        'js/libraries/jquery.ui.autocomplete.min.js',
         'js/libraries/jquery.tablesorter.min.js',
         'js/libraries/ICanHaz.min.js',
         'js/openlayers/OpenLayers.js',
         'js/codemirror/js/codemirror.js',
-        'js/app.popup.js',
+        'js/app.utils.js',
         'js/app.tools.js',
         'js/app.project.js',
         'js/app.export.js',
@@ -127,15 +121,10 @@
         <h1>Editing {{ id }}</h1>
         <div class='actions clearfix'>
           <a class='save disabled' href='#'>Saved</a>
-          <a class='icon close' href='#'>Back home</a>
+          <a class='tipsy-e icon close' title='Back home' href='#'>Back home</a>
         </div>
       </div>
       <div id='main'></div>
-      <div id='toolbar'>
-        <span class='links'>
-          <a class='reference' title='Cascadenik Styling Reference' href='#'>Reference</a>
-        </span>
-      </div>
       <div id='sidebar'></div>
     </script>
 
@@ -205,8 +194,9 @@
 
     <script type='text/html' id='StylesheetListView'>
       <div id='tabs'>
-        <div class='stylesheets'></div>
+        <div class='stylesheets clearfix'></div>
         <a title='Add stylesheet' class='tipsy-e icon add' href='#'>Add stylesheet</a>
+        <a title='Stylesheet reference guide' class='tipsy-e icon reference' href='#'>Reference</a>
       </div>
       <div id='editor' class='view'></div>
     </script>
@@ -221,25 +211,27 @@
     </script>
 
     <script type='text/html' id='StylesheetTools'>
-      <div class='tools pane'></div>
+      <div class='sidebar-header sidebar-tabs clearfix'>
+        <a href='#' class='show-colors tab first active'>Colors</a>
+        <a href='#' class='show-fonts tab last inactive'>Fonts</a>
+      </div>
     </script>
 
-    <script type='text/html' id='ColorPickerToolView'>
-      <a class='icon color-picker' href='#color-picker'>Color picker</a>
-    </script>
-
-    <script type='text/html' id='FontPickerToolView'>
-      <div class='ui-widget'>      
-      	<input id='fonts' title="Find fonts" />
-        <div id='font-list'></div>
+    <script type='text/html' id='FontPickerToolView'> 
+      <div id='fonts'>
+        <input class='text' title='Filter list' />
+        <ul class='fonts-list'>
+          {{#fonts}}<li>{{.}}</li>{{/fonts}}
+        </ul>
       </div>
     </script>
 
     <script type='text/html' id='ColorSwatchesToolView'>
-      <div class='sidebar-header clearfix pane'>
-        <h2>Colors</h2>
-      </div>
       <div class='swatches clearfix pane'></div>
+    </script>
+    
+    <script type='text/html' id='ColorPickerToolView'>
+      <a class='tipsy-e icon color-picker' title="Color picker" href='#color-picker'>Color picker</a>
     </script>
 
     <script type='text/html' id='DrawerView'>
@@ -268,7 +260,6 @@
     <script type='text/html' id='ExportJobOptions'>
       <ul>
         <li><a class='export-option export-png' href='#ExportJobImage'>PNG</a></li>
-        <li><a class='export-option export-zip' href='#'>Zip</a></li>
         <li><a class='export-option export-mbtiles' href='#ExportJobMBTiles'>MBTiles</a></li>
         <li><a class='export-option export-embed' href='#ExportJobEmbed'>Embed</a></li>
         <li class='divider'><a class='jobs' href='#'>View exports</a></li>
@@ -460,6 +451,10 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
     <script type='text/html' id='ExportJobRowView'>
       <a href='#' class='icon delete'>Remove</a>
       <span class='status status-{{status}}'>{{ status }}</span>
+      <span class='progress'>
+        <span class='bar bar-{{progressClass}}'></span>
+        {{ progress }}%
+      </span>
       {{#download}}
         <a class='file {{ type }}' href='{{ download }}'></a>
       {{/download}}
@@ -494,6 +489,7 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
               <strong class='key'>SHIFT + drag</strong> to crop
             </div>
             <div class='bbox-frame'>
+              <a href='#' class='reset'>Reset</a>
               <input type='text' class='bbox text' id='bbox-n' value='{{ bbox_n }}' />
               <input type='text' class='bbox text' id='bbox-e' value='{{ bbox_e }}' />
               <input type='text' class='bbox text' id='bbox-s' value='{{ bbox_s }}' />
@@ -516,12 +512,33 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
 
     <script type='text/html' id='ExportJobMBTilesView'>
       <div>
-        <label>Zoom Levels (<span class='min-zoom'></span> to <span class='max-zoom'></span>)</label>
+        <label>
+            Zoom Levels (
+            <span class='min-zoom'>{{minzoom}}</span>
+            to
+            <span class='max-zoom'>{{maxzoom}}</span>
+            )
+        </label>
         <div id='mbtiles-zoom'></div>
       </div>
       <div>
-        <label for='mbtiles-attribution'>Attribution Text</label>
-        <input type='text' id='mbtiles-attribution' class='text' value='' />
+        <label for='metadata_name'>Name</label>
+        <input type='text' id='metadata_name' class='text' value='{{ metadata_name }}' />
+      </div>
+      <div>
+        <label for='metadata_description'>Description</label>
+        <input type='text' id='metadata_description' class='text' value='{{ metadata_description }}' />
+      </div>
+      <div>
+        <label for='metadata_version'>Version</label>
+        <input type='text' id='metadata_version' class='text' value='{{ metadata_version }}' />
+      </div>
+      <div>
+        <label for='metadata_type'>Type</label>
+        <select id='metadata_type'>
+            <option value='baselayer' {{#metadata_type_baselayer}}selected='selected'{{/metadata_type_baselayer}}>Base layer</option>
+            <option value='overlay' {{^metadata_type_baselayer}}selected='selected'{{/metadata_type_baselayer}}>Overlay</option>
+        </select>
       </div>
     </script>
 

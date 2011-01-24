@@ -3,7 +3,7 @@
 // globally defined Backbone and underscore leaving us with broken objects.
 // This is obviously not ideal.
 if (typeof require !== 'undefined') {
-    Backbone = require('./backbone');
+    Backbone = require('backbone-filesystem');
     _ = require('underscore')._;
 }
 
@@ -147,7 +147,7 @@ var LayerFields = Backbone.Model.extend({
         this.project = options.project;
     },
     url: function() {
-        return '/' + this.project.project64({ signed: true }) + '/' + this.id;
+        return '/api/' + this.project.project64({ signed: true }) + '/' + this.id;
     }
 });
 
@@ -250,10 +250,7 @@ var Project = Backbone.Model.extend({
      * Layer URL based on the model URL.
      */
     layerURL: function(options) {
-        return [window.location.protocol, window.location.host].join('//')
-            + '/tile/'
-            + this.project64(options)
-            + '/${z}/${x}/${y}.png';
+        return [window.location.protocol, window.location.host].join('//') + '/';
     },
     /**
      * Native Backbone validation method.
@@ -306,20 +303,31 @@ var Project = Backbone.Model.extend({
                 var group = this.group();
                 if (stylesheets.length !== 0) {
                     _.each(stylesheets, function(stylesheet) {
-                        new(mess.Parser)({
-                            filename: stylesheet.id
-                        }).parse(stylesheet.data, function(err, tree) {
+                        new(mess.Parser)({ filename: stylesheet.id })
+                            .parse(stylesheet.data, function(err, tree) {
                             if (!err) {
                                 try {
-                                    var errors = tree.toCSS({ compress: false, returnErrors: true });
-                                    if (Array.isArray(errors)) {
-                                        group()(errors);
+                                    var errors = null;
+                                    var env = { returnErrors: true, errors: [] };
+                                    var l = tree.toList(env);
+                                    l.map(function(t) {
+                                        t.toXML(env);
+                                    });
+                                    if (env.errors.length) {
+                                        var lined_errors = env.errors.map(function(r) {
+                                            // TODO: line numbers are one less
+                                            // than expected.
+                                            r.line = tree.getLine(r.index) + 1;
+                                            r.filename = stylesheet.id;
+                                            return r;
+                                        });
+                                        group()(lined_errors);
                                     }
                                     else {
                                         group()(null);
                                     }
                                 } catch (e) {
-                                    group()([ e ]);
+                                    group()([e]);
                                 }
                             } else {
                                 group()([ err ]);
@@ -382,9 +390,24 @@ var ExportJob = Backbone.Model.extend({
             }
         }
     },
+    /**
+     * Override url() method for convenience so we don't always need a
+     * collection reference around for CRUD operations on a single model.
+     */
+    url: function() {
+        return '/api/ExportJob/' + this.id;
+    },
     defaults: {
         progress: 0,
         status: 'waiting'
+    },
+    validate: function(attributes) {
+        if (attributes.status && ['waiting', 'processing', 'complete', 'error'].indexOf(attributes.status) === -1) {
+            return 'Invalid status.';
+        }
+        if (attributes.progress && (typeof attributes.progress !== 'number' || attributes.progress > 1 || attributes.progress < 0)) {
+            return 'Progress must be a value between 0 and 1 (inclusive).';
+        }
     },
     /**
      * Generate a download URL for a model.
@@ -396,7 +419,7 @@ var ExportJob = Backbone.Model.extend({
      * Allow the export to add tasks to the task queue.
      */
     addTasks: function(taskQueue) {
-        return require('./jobtasks')(this, taskQueue);
+        return require('jobtasks')(this, taskQueue);
     }
 });
 

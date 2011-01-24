@@ -7,22 +7,20 @@ mapnik.register_datasources('/usr/local/lib/mapnik2/input');
 mapnik.register_fonts('/usr/local/lib/mapnik2/fonts/');
 
 module.exports = function(app, settings) {
-    app.get('/:scheme/:mapfile_64/:z/:x/:y.*', function(req, res, next) {
-        /*
-         * scheme: (xyz|tms|tile (tms))
-         *
-         * format:
-         * - Tile: (png|jpg)
-         * - Data Tile: (geojson)
-         * - Grid Tile: (*.grid.json)
-         */
+    /**
+     * format:
+     * - Tile: (png|jpg)
+     * - Data Tile: (geojson)
+     * - Grid Tile: (*.grid.json)
+     */
+    app.get('/1.0.0/:mapfile_64/:z/:x/:y.*', function(req, res, next) {
         try {
             var options = {
-                scheme: req.param('scheme'),
+                scheme: 'tms',
                 mapfile: req.param('mapfile_64'),
                 xyz: [req.param('x'), req.param('y'), req.param('z')],
                 format: req.params[0],
-                mapfile_dir: path.join(__dirname, settings.mapfile_dir)
+                mapfile_dir: path.join(settings.mapfile_dir)
             };
             var tile = new Tile(options);
         } catch (err) {

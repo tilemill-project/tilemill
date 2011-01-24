@@ -83,7 +83,7 @@ $(function() {
  */
 var Abilities = Backbone.Model.extend({
     url: function() {
-        return '/abilities';
+        return '/api/abilities';
     }
 });
 

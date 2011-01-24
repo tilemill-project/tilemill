@@ -90,12 +90,12 @@ var ProjectRowView = Backbone.View.extend({
     // See http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
     thumb: function() {
         var center = this.model.get('center') || {lat: 0, lon: 0, zoom: 2};
+        center.lat = -1 * center.lat; // TMS is flipped from OSM calc below.
         var z = center.zoom;
         var lat_rad = center.lat * Math.PI / 180;
         var x = parseInt((center.lon + 180.0) / 360.0 * Math.pow(2,z));
         var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2,z));
-        var url = this.model.layerURL({ signed: true });
-        return url.replace('${z}', z).replace('${x}', x).replace('${y}', y);
+        return this.model.layerURL() + ['1.0.0', this.model.project64({signed: true}), z, x, y].join('/') + '.png';
     },
     render: function() {
         $(this.el).html(ich.ProjectRowView({
@@ -135,7 +135,7 @@ var ProjectView = Backbone.View.extend({
         'click #header a.save': 'saveProject',
         'click #header a.settings': 'settings',
         'click #header a.close': 'close',
-        'click #toolbar a.reference': 'reference'
+        'click #tabs a.reference': 'reference'
     },
     initialize: function() {
         _.bindAll(this, 'render', 'saveProject',
@@ -164,14 +164,14 @@ var ProjectView = Backbone.View.extend({
             collection: this.model.get('Stylesheet'),
             project: this.model
         }),
+            tools = new StylesheetTools({
+            project: this.model
+        }),
             colors = new ColorSwatchesToolView({
             collection: new ColorSwatchesList(null, {
                 project: this.model
             }),
             project: this.model
-        }),
-            map = new MapView({
-            model: this.model
         }),
             colorPicker = new ColorPickerToolView({
             model: this.model,
@@ -180,6 +180,9 @@ var ProjectView = Backbone.View.extend({
             fontPicker = new FontPickerToolView({
             model: new Abilities,
             project: this.model
+        }),
+            map = new MapView({
+            model: this.model
         });
 
         var jobQueue = new ExportJobList();
@@ -191,11 +194,12 @@ var ProjectView = Backbone.View.extend({
 
         var target = $('#header .actions a.save', this.el);
         $(jobExportMenu.el).insertAfter(target);
-        $('#sidebar', this.el).append(layers.el);
-        $('#sidebar', this.el).append(colors.el);
         $('#sidebar', this.el).append(map.el);
-        $('.sidebar-header', colors.el).append(colorPicker.el);
-        $('#toolbar', this.el).append(fontPicker.el);
+        $('#sidebar', this.el).append(layers.el);
+        $('#sidebar', this.el).append(tools.el);
+        $('#stylesheet-tools', this.el).append(fontPicker.el);
+        $('#stylesheet-tools', this.el).append(colors.el);
+        $('#colors', this.el).append(colorPicker.el);
         $('#main', this.el).append(stylesheets.el);
 
         window.app.el.html(this.el);
@@ -254,7 +258,11 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     close: function() {
-        return (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?'));
+        if (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
+            this.watcher && this.watcher.destroy();
+            return true;
+        }
+        return false;
     },
     reference: function() {
         if (this.referenceView) {

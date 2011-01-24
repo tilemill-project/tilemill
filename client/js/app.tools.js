@@ -1,3 +1,41 @@
+var StylesheetTools = Backbone.View.extend({
+    id: 'stylesheet-tools',
+    className: 'view',
+    initialize: function(options) {
+        _.bindAll(this, 'render');
+        this.render();
+    },
+    render: function(){
+        $(this.el).html(ich.StylesheetTools);
+    },
+    events: {
+        'click .show-fonts' : 'showFonts',
+        'click .show-colors' : 'showColors'
+    },
+    showFonts: function(){
+        $('a.show-colors').removeClass('active').addClass('inactive');
+        var self = $('a.show-fonts', this.el);
+        if(self.hasClass('inactive')){
+            self.removeClass('inactive')
+                .addClass('active');
+            $('#colors', this.el).hide();
+            $('#fonts', this.el).show();
+        }
+        return false;
+    },
+    showColors: function(){
+        $('a.show-fonts').removeClass('active').addClass('inactive');
+        var self = $('a.show-colors', this.el);
+        if(self.hasClass('inactive')){
+            self.removeClass('inactive')
+                .addClass('active');
+            $('#fonts', this.el).hide();
+            $('#colors', this.el).show();
+        }
+        return false;
+    }
+});
+
 var ColorPickerToolView = Backbone.View.extend({
     id: 'color-picker',
     initialize: function(options) {
@@ -11,8 +49,8 @@ var ColorPickerToolView = Backbone.View.extend({
         $(this.el).html(ich.ColorPickerToolView);
     },
     activate: function() {
-        var that = this;
-        var visible = false;
+        var that = this,
+            visible = false;
         this.colorpicker = $('a', this.el).ColorPicker({
             eventName: 'toggle',
             onChange: that.pickerChange,
@@ -150,7 +188,7 @@ var ColorSwatchesList = Backbone.Collection.extend({
 });
 
 var ColorSwatchesToolView = Backbone.View.extend({
-    id: 'color-swatches',
+    id: 'colors',
     className: 'view',
     initialize: function(options) {
         _.bindAll(this, 'render', 'createSwatchView');
@@ -212,10 +250,10 @@ var ColorSwatchView = Backbone.View.extend({
 });
 
 var FontPickerToolView = Backbone.View.extend({
-    className: 'font-picker pane',
-    // events: {
-    //     'change #fonts': 'insertFont'
-    // },
+    id: 'font-picker',
+    events: {
+        'click ul.fonts-list li': 'insertFont'
+    },
     initialize: function(options) {
         _.bindAll(this, 'render', 'insertFont');
         this.project = options.project;
@@ -225,38 +263,48 @@ var FontPickerToolView = Backbone.View.extend({
         });
     },
     render: function() {
-        $(this.el).html(ich.FontPickerToolView());
-        var $input = $('input', this.el),
-            formTitle = $input.attr('title'),
-            fontList = this.model.get('fonts');
-
-            $('input#fonts').autocomplete({
-              appendTo: '#font-list',
-              source: fontList,
-              search  : function(){$(this).addClass('working');},
-              open    : function(){$(this).removeClass('working');},
-              select  : this.insertFont
-            });
-
-        function remove() {
-          if ($input.val() === formTitle) {
-            $input.val('');
-          }
-        }
-        $input.blur(function () {
-          $input.val(formTitle);
-        }).focus(remove).blur();
-        //Also remove if ..
-        $input.submit(remove);
-        $(window).unload(remove); // For Firefox
+        $(this.el).html(ich.FontPickerToolView({
+            fonts: this.model.get('fonts')
+        }));
+        
+        var input = $('input', this.el),
+            list = $('ul.fonts-list'),
+            formTitle = input.attr('title');
+            
+        // Returns a case-insensitive contains()
+        jQuery.expr[':'].Contains = function(a,i,m){
+            return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
+        };
+        
+        input.change( function () {
+            var filter = $(this).val();
+            if (filter) {
+                list.find("li:not(:Contains(" + filter + "))").fadeOut('fast');
+                list.find("li:Contains(" + filter + ")").show();
+            } else {
+                list.find("li").show();
+            }
+            return false;
+        })
+        .keyup( function () {
+            input.change();
+        });
+        
+        input
+        .blur(function () {
+            input.val(formTitle);
+        })
+        .focus(function () {
+            if (input.val() === formTitle) {
+                input.val('');
+            }
+        })
+        .blur();
     },
     insertFont: function() {
-        var mirror = this.project.view.stylesheets.activeTab.codemirror;
-        var value = this.$('input').val();
-      if(value !== 'Find fonts' && value !== '') {
-        mirror.replaceSelection('"' + this.$('input').val() + '"');
+        var mirror = this.project.view.stylesheets.activeTab.codemirror,
+        value = this.$('li').html();
+        mirror.replaceSelection('"' + value + '"');
         $(mirror).focus();
-        this.$('input').val(''); 
-      }
     }
 });

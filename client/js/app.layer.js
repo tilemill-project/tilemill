@@ -7,7 +7,7 @@ var LayerListView = Backbone.View.extend({
     id: 'layers',
     className: 'view',
     initialize: function(options) {
-        _.bindAll(this, 'render');
+        _.bindAll(this, 'render', 'sortUpdate');
         this.project = options.project;
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
@@ -17,7 +17,11 @@ var LayerListView = Backbone.View.extend({
         // Render wrapper if not present.
         if ($(this.el).has('ul').length === 0) {
             $(this.el).html(ich.LayerListView());
-            $('ul', this.el).sortable({ axis: 'y', handle: 'div.handle' });
+            $('ul', this.el).sortable({
+                axis: 'y',
+                handle: 'div.handle',
+                containment: 'parent'
+            });
         }
 
         // Add row view for each layer.
@@ -32,6 +36,9 @@ var LayerListView = Backbone.View.extend({
                 $('ul', that.el).prepend(layer.view.el);
             }
         });
+
+        // Refresh sortable to recognize new layers.
+        $('ul', this.el).sortable('refresh');
         return this;
     },
     events: {

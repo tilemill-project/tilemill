@@ -1,8 +1,8 @@
 var events = require('events'),
     sys = require('sys');
 
-// constructor for task queue
-var TaskQueue = function(opts) {
+// constructor for queue
+var Queue = function(opts) {
     var that = this;
 
     this.opts = opts || {}
@@ -20,13 +20,13 @@ var TaskQueue = function(opts) {
 }
 
 // start the timer to spawn tasks.
-TaskQueue.prototype.start = function() {
+Queue.prototype.start = function() {
     var that = this;
-    this._interval = this._interval || setInterval(function() { that.spawn(); }, 1000, [this]);
+    this._interval = this._interval || setInterval(function() { that.spawn(); }, 100, [this]);
 }
 
 // remove the timer from the queue to check for more items.
-TaskQueue.prototype.stop = function() {
+Queue.prototype.stop = function() {
     if (this._interval !== undefined) {
         clearInterval(this._interval);
         delete this._interval;
@@ -35,7 +35,7 @@ TaskQueue.prototype.stop = function() {
 
 // test to see if more tasks can be started
 // could be overridden if needed.
-TaskQueue.prototype.spawnMore = function() {
+Queue.prototype.spawnMore = function() {
   var count = 0;
 
   this.active.forEach(function(el) { count++ });
@@ -49,7 +49,7 @@ TaskQueue.prototype.spawnMore = function() {
 }
 
 // callback that spawns the individual tasks
-TaskQueue.prototype.spawn = function() {
+Queue.prototype.spawn = function() {
     if (this.spawnMore()) {
         var next_task = this.queue.pop();
 
@@ -62,7 +62,7 @@ TaskQueue.prototype.spawn = function() {
 }
 
 // start a task's processing.
-TaskQueue.prototype.startTask = function(task) {
+Queue.prototype.startTask = function(task) {
 
     var that = this;
 
@@ -79,7 +79,7 @@ TaskQueue.prototype.startTask = function(task) {
 }
 
 // add a task to the queue
-TaskQueue.prototype.add = function(task) {
+Queue.prototype.add = function(task) {
     // reset the length property on the tasks array.
     this.tasks = this.tasks.some(function() { return true; }) ? this.tasks : [];
 
@@ -93,7 +93,7 @@ TaskQueue.prototype.add = function(task) {
 }
 
 // remove a task from the queue
-TaskQueue.prototype.remove = function(task) {
+Queue.prototype.remove = function(task) {
     var idx;
     idx = this.active.indexOf(task._index);
     if (idx !== -1) {
@@ -131,6 +131,6 @@ var Task = function(opts) {
 sys.inherits(Task, events.EventEmitter);
 
 module.exports = {
-    TaskQueue: TaskQueue,
+    Queue: Queue,
     Task: Task
 }

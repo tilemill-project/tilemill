@@ -55,6 +55,8 @@ var ExportJobRowView = Backbone.View.extend({
     },
     render: function() {
         $(this.el).html(ich.ExportJobRowView({
+            progress: parseInt(this.model.get('progress') * 100),
+            progressClass: parseInt(this.model.get('progress') * 10),
             filename: this.model.get('filename'),
             status: this.model.get('status'),
             error: this.model.get('error'),
@@ -109,7 +111,7 @@ var ExportJobView = Backbone.View.extend({
         return this;
     },
     initialize: function() {
-        _.bindAll(this, 'boundingBoxAdded', 'updateUI');
+        _.bindAll(this, 'boundingBoxAdded', 'boundingBoxReset', 'updateUI');
         this.model.bind('change', this.updateUI);
 
         $('body').addClass('exporting');
@@ -131,9 +133,16 @@ var ExportJobView = Backbone.View.extend({
         var bounds = box.geometry.components[1].getBounds().toArray();
         this.model.set({ bbox: bounds.join(',') });
     },
+    boundingBoxReset: function() {
+        this.model.set({ bbox: [-20037500, -20037500, 20037500, 20037500].join(',') });
+        this.boxDrawingControl.drawFeature(this.model.get('bbox').split(','));
+        return false;
+    },
     events: _.extend(PopupView.prototype.events, {
+        'click a.reset': 'boundingBoxReset',
         'click input.submit': 'submit',
-        'change input': 'changeValue'
+        'change input': 'changeValue',
+        'change select': 'changeValue'
     }),
     changeValue: function(event) {
         var data = {};
@@ -143,12 +152,13 @@ var ExportJobView = Backbone.View.extend({
                 this.$('#bbox-s').val(),
                 this.$('#bbox-e').val(),
                 this.$('#bbox-n').val()
-            ];
+            ].join(',');
         }
         else {
             data[$(event.target).attr('id')] = $(event.target).val();
         }
         this.model.set(data);
+        this.boxDrawingControl.drawFeature(this.model.get('bbox').split(','));
     },
     updateUI: function(model) {
         var that = this;
@@ -200,9 +210,9 @@ var ExportJobImageView = ExportJobView.extend({
             aspect: size.w / size.h
         }
         this.model.set(data);
-        this.model.bind('change:width', this.updateDimmensions);
-        this.model.bind('change:height', this.updateDimmensions);
-        this.model.bind('change:aspect', this.updateDimmensions);
+        this.model.bind('change:width', this.updateDimensions);
+        this.model.bind('change:height', this.updateDimensions);
+        this.model.bind('change:aspect', this.updateDimensions);
     },
     getFields: function() {
         return ich.ExportJobImageView(this.options);
@@ -212,7 +222,7 @@ var ExportJobImageView = ExportJobView.extend({
         var bounds = box.geometry.components[1].getBounds();
         this.model.set({aspect: bounds.getWidth() / bounds.getHeight()});
     },
-    updateDimmensions: function(model) {
+    updateDimensions: function(model) {
         var attributes = model.changedAttributes();
         if (attributes.width) {
             model.set({
@@ -240,6 +250,19 @@ var ExportJobMBTilesView = ExportJobView.extend({
         _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
         this.options.title = 'Export MBTiles';
         this.options.type = 'ExportJobMBTiles';
+        this.options.filename = this.options.project.get('id') + '.mbtiles';
+
+        // Set default values.
+        this.model.set({
+            filename: this.options.project.get('id') + '.mbtiles',
+            minzoom: 0,
+            maxzoom: 8,
+            metadata_name: this.options.project.get('id'),
+            metadata_description: '',
+            metadata_version: '1.0.0',
+            metadata_type: 'baselayer'
+        });
+
         ExportJobView.prototype.initialize.call(this);
     },
     render: function() {
@@ -249,20 +272,24 @@ var ExportJobMBTilesView = ExportJobView.extend({
             min:0,
             max:22,
             step:1,
-            values: [0, 8],
+            values: [
+                this.model.get('minzoom'),
+                this.model.get('maxzoom')
+            ],
             slide: this.changeZoomLevels
         });
         this.model.bind('change:minzoom', this.updateZoomLabels);
         this.model.bind('change:maxzoom', this.updateZoomLabels);
-        var data = {
-            filename: this.options.project.get('id') + '.mbtiles',
-            minzoom: 0,
-            maxzoom: 8
-        }
-        this.model.set(data);
     },
     getFields: function() {
-        return ich.ExportJobMBTilesView(this.options);
+        return ich.ExportJobMBTilesView({
+            minzoom: this.model.get('minzoom'),
+            maxzoom: this.model.get('maxzoom'),
+            metadata_name: this.model.get('metadata_name'),
+            metadata_description: this.model.get('metadata_description'),
+            metadata_version: this.model.get('metadata_version'),
+            metadata_type_baselayer: this.model.get('metadata_type') === 'baselayer',
+        });
     },
     changeZoomLevels: function(event, ui) {
         this.model.set({
@@ -276,6 +303,10 @@ var ExportJobMBTilesView = ExportJobView.extend({
     }
 });
 
+/**
+ * @TODO: This code is out of date (based on previous XYZ tile URLs).
+ * Update for TMS layer format.
+ */
 var ExportJobEmbedView = PopupView.extend({
     initialize: function(options) {
         this.options.title = 'Embed';
@@ -362,12 +393,29 @@ var ExportCropControl = OpenLayers.Class(OpenLayers.Control, {
     },
 
     drawFeature: function(geometry) {
-        var feature = new OpenLayers.Feature.Vector(
-            new OpenLayers.Geometry.Polygon([
-                this.canvas,
-                geometry.components.pop()
-            ])
-        );
+        if (geometry.components) {
+            var feature = new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Polygon([
+                    this.canvas,
+                    geometry.components.pop()
+                ])
+            );
+        }
+        // Allow a straight bbox to be passed in.
+        else if (geometry.length === 4) {
+            var feature = new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Polygon([
+                    this.canvas,
+                    new OpenLayers.Geometry.LinearRing([
+                        new OpenLayers.Geometry.Point(geometry[0], geometry[3]),
+                        new OpenLayers.Geometry.Point(geometry[2], geometry[3]),
+                        new OpenLayers.Geometry.Point(geometry[2], geometry[1]),
+                        new OpenLayers.Geometry.Point(geometry[0], geometry[1])
+                    ])
+                ])
+            );
+        }
+
         var proceed = this.layer.events.triggerEvent(
             "sketchcomplete", {feature: feature}
         );

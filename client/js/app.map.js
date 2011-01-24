@@ -19,12 +19,6 @@ var MapView = Backbone.View.extend({
         $(this.el).html(ich.MapView({ id: this.model.id }));
     },
     activate: function() {
-        var controls = {
-            navigation: true,
-            fullscreen: true,
-            zoom: true,
-            panzoombar: false
-        };
         var options = {
             projection: new OpenLayers.Projection('EPSG:900913'),
             displayProjection: new OpenLayers.Projection('EPSG:4326'),
@@ -55,10 +49,12 @@ var MapView = Backbone.View.extend({
         OpenLayers.ImgPath = 'images/openlayers_dark/';
 
         this.map = new OpenLayers.Map('map-preview-' + this.model.id, options);
-        var fullControls = new OpenLayers.Control.PanZoom();
-        this.layer = new OpenLayers.Layer.XYZ('Preview', this.model.layerURL({signed: true}), {
+        this.layer = new OpenLayers.Layer.TMS('Preview', this.model.layerURL(), {
+            layername: this.model.project64({signed: true}),
+            type: 'png',
             buffer: 0,
-            transitionEffect: 'resize'
+            transitionEffect: 'resize',
+            wrapDateLine: true
         });
         this.map.addLayers([this.layer]);
 
@@ -66,31 +62,27 @@ var MapView = Backbone.View.extend({
         this.map.setCenter(new OpenLayers.LonLat(center.lon, center.lat), center.zoom);
 
         // Add custom controls
-        if (controls.navigation) {
-            var navigation = new OpenLayers.Control.Navigation({
-                zoomWheelEnabled: true
-            });
-            this.map.addControl(navigation);
-            navigation.activate();
-        }
+        var navigation = new OpenLayers.Control.Navigation({ zoomWheelEnabled: true });
+        this.map.addControl(navigation);
+        navigation.activate();
 
-        if (controls.zoom) {
-            this.controlZoom({element: this.map.div});
-            this.map.events.register('moveend', this.map, this.controlZoom);
-            this.map.events.register('zoomend', this.map, this.controlZoom);
-        }
+        this.controlZoom({element: this.map.div});
+        this.map.events.register('moveend', this.map, this.controlZoom);
+        this.map.events.register('zoomend', this.map, this.controlZoom);
 
-        if (controls.panzoombar) {
-            var panzoombar = new OpenLayers.Control.PanZoomBar();
-            olMap.addControl(panzoombar);
-            panzoombar.activate();
-        }
-
-        $('#zoom-display .zoom-in').click($.proxy(function() {
+        // Stop event propagation to the OL map.
+        $('#zoom-display div, a.map-fullscreen').mousedown(function(e) {
+            e.stopPropagation();
+        });
+        $('#zoom-display div, a.map-fullscreen').mouseup(function(e) {
+            e.stopPropagation();
+        });
+        $('#zoom-display .zoom-in').click($.proxy(function(e) {
+            e.stopPropagation();
             this.map.zoomIn();
         }, this));
-
-        $('#zoom-display .zoom-out').click($.proxy(function() {
+        $('#zoom-display .zoom-out').click($.proxy(function(e) {
+            e.stopPropagation();
             this.map.zoomOut();
         }, this));
 
@@ -157,7 +149,7 @@ var MapView = Backbone.View.extend({
 
     reload: function() {
         if (this.map.layers && this.map.layers && this.map.layers[0]) {
-            this.map.layers[0].url = this.model.layerURL({signed: true});
+            this.map.layers[0].layername = this.model.project64({signed: true});
             this.map.layers[0].redraw();
         }
     }
