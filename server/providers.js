@@ -5,7 +5,7 @@ module.exports = function(app, settings) {
     var providers = {};
     for (var p in settings.providers) {
         // TODO :express better
-        providers[p] = require('./' + path.join(p, 'index'))(app, settings);
+        providers[p] = require('providers-' + p)(app, settings);
     }
     app.get('/provider', function(req, res) {
         res.send({

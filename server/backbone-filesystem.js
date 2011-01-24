@@ -3,9 +3,9 @@
  * required instead of directly requiring Backbone.
  */
 var _ = require('underscore')._,
-    Backbone = require('./modules/backbone/backbone.js'),
-    settings = require('./settings'),
-    rmrf = require('./rm-rf'),
+    Backbone = require('../modules/backbone/backbone.js'),
+    settings = require('settings'),
+    rmrf = require('rm-rf'),
     fs = require('fs'),
     Step = require('step'),
     path = require('path');

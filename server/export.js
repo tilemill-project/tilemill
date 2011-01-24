@@ -1,6 +1,6 @@
-var taskmanager = require('./taskmanager'),
+var taskmanager = require('taskmanager'),
     path = require('path'),
-    ExportJobList = require('./project').ExportJobList,
+    ExportJobList = require('project').ExportJobList,
     Step = require('step');
 
 module.exports = function(app, settings) {

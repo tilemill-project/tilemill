@@ -3,7 +3,7 @@
 // globally defined Backbone and underscore leaving us with broken objects.
 // This is obviously not ideal.
 if (typeof require !== 'undefined') {
-    Backbone = require('./backbone');
+    Backbone = require('backbone-filesystem');
     _ = require('underscore')._;
 }
 
