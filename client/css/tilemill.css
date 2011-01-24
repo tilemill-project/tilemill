@@ -941,9 +941,20 @@ li .icon {
   font-weight: bold;
   }
 
-#fonts .font-list {
+#fonts .fonts-list {
   margin-top: 10px;
   }
+
+#fonts ul.fonts-list li{
+  border-bottom: 1px solid #eee;
+  display: block;
+  padding: 5px 0;
+  cursor: pointer;
+  }
+  
+#fonts ul.fonts-list li:hover{
+  background: #eee;
+  }  
 
 .ui-menu {
   background:rgba(17,17,17,.9);

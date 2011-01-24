@@ -252,7 +252,7 @@ var ColorSwatchView = Backbone.View.extend({
 var FontPickerToolView = Backbone.View.extend({
     id: 'font-picker',
     events: {
-        'change #fonts': 'insertFont'
+        'click ul.fonts-list li': 'insertFont'
     },
     initialize: function(options) {
         _.bindAll(this, 'render', 'insertFont');
@@ -277,7 +277,7 @@ var FontPickerToolView = Backbone.View.extend({
         jQuery.expr[':'].Contains = function(a,i,m){
             return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
         };
-        $input.change( function () {
+        $input.change(function() {
             var filter = $input.val();
             if(filter) {
                 $list.find('a:not(:Contains(' + filter + '))').parent().slideUp();
@@ -304,12 +304,9 @@ var FontPickerToolView = Backbone.View.extend({
         $(window).unload(remove); // For Firefox
     },
     insertFont: function() {
-        var mirror = this.project.view.stylesheets.activeTab.codemirror;
-        var value = this.$('input').val();
-      if(value !== 'Filter list' && value !== '') {
-        mirror.replaceSelection('"' + this.$('input').val() + '"');
+        var mirror = this.project.view.stylesheets.activeTab.codemirror,
+        value = this.$('li').html();
+        mirror.replaceSelection('"' + value + '"');
         $(mirror).focus();
-        this.$('input').val(''); 
-      }
     }
 });
