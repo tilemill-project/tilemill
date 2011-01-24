@@ -655,11 +655,9 @@ form .palette div { padding:5px 0px; }
   padding:10px 19px 9px 10px;
   border-right:1px solid #ddd;
   background:#fff url(../images/sprite.png) 0px -490px no-repeat;
-  position:relative;
   }
 
 .sidebar-tabs a.active {
-  z-index:1;
   padding-bottom:10px;
   background-position:0px -530px;
   }
