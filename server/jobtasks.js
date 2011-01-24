@@ -55,6 +55,7 @@ var ExportJobMBTiles = function(model, queue) {
             }
             batch = new TileBatch({
                 filepath: path.join(settings.export_dir, model.get('filename')),
+                batchsize: 1,
                 bbox: model.get('bbox').split(','),
                 minzoom: model.get('minzoom'),
                 maxzoom: model.get('maxzoom'),

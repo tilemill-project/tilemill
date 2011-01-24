@@ -22,7 +22,7 @@ var Queue = function(opts) {
 // start the timer to spawn tasks.
 Queue.prototype.start = function() {
     var that = this;
-    this._interval = this._interval || setInterval(function() { that.spawn(); }, 1000, [this]);
+    this._interval = this._interval || setInterval(function() { that.spawn(); }, 100, [this]);
 }
 
 // remove the timer from the queue to check for more items.
