@@ -638,13 +638,35 @@ form .palette div { padding:5px 0px; }
   border-left:1px solid #ccc;
   }
 
-#stylesheet-tools #fonts {
-  display: none;
-  }
+#stylesheet-tools #fonts { display:none; }
 
 /**
  * ColorSwatchesToolView
  */
+.sidebar-tabs {
+  height:40px;
+  background:#eee url(../images/sprite.png) 0px -490px repeat-x;
+  }
+
+.sidebar-tabs a {
+  float:left;
+  font-size:16px;
+  font-weight:bold;
+  width:70px;
+  padding:10px 19px 9px 10px;
+  border-right:1px solid #ddd;
+  background:#fff url(../images/sprite.png) 0px -490px no-repeat;
+  position:relative;
+  }
+
+.sidebar-tabs a.active {
+  z-index:1;
+  padding-bottom:10px;
+  background-position:0px -530px;
+  }
+
+.sidebar-tabs a.inactive { color:#999; }
+
 #stylesheet-tools .swatches {
   width: 85%;
   }
@@ -859,11 +881,10 @@ li .icon {
   top:0px;
   left:0px;
   right:0px;
-  height:29px;
+  height:30px;
 
   padding:10px 40px 0px 10px;
-  border-bottom:1px solid #ccc;
-  background:#eee;
+  background:#eee url(../images/sprite.png) 0px -490px repeat-x;
   }
 
 #tabs a.add,
@@ -936,13 +957,6 @@ li .icon {
 
 #editor .editor.active { display:block; }
 #editor .editor iframe { padding:0px; }
-
-/**
- * Stylesheet-Tools
- */
-#stylesheet-tools a.inactive {
-  color: #bbb;
-}
 
 /**
  * Color picker
