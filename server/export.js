@@ -1,5 +1,5 @@
-var taskmanager = require('taskmanager'),
-    path = require('path'),
+var path = require('path'),
+    Queue = require('queue').Queue,
     ExportJobList = require('project').ExportJobList,
     Step = require('step');
 
@@ -18,7 +18,7 @@ module.exports = function(app, settings) {
     // testing -- otherwise, tests will never finish.
     // @TODO: Set up some other mechanism for testing exports.
     if (!process.env.NODE_ENV || process.env.NODE_ENV !== 'test') {
-        var taskQueue = new taskmanager.TaskQueue();
+        var queue = new Queue();
         var scan = function() {
             Step(
                 function() {
@@ -30,7 +30,7 @@ module.exports = function(app, settings) {
                 function(jobs) {
                     jobs.each(function(job) {
                         if (job.get('status') === 'waiting') {
-                            job.addTasks(taskQueue);
+                            job.addTasks(queue);
                         }
                     });
                     this();

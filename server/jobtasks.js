@@ -1,20 +1,20 @@
-var taskmanager = require('./taskmanager'),
+var Task = require('queue').Task,
     Step = require('step'),
     path = require('path'),
     Tile = require('tilelive.js').Tile,
     TileBatch = require('tilelive.js').TileBatch,
     fs = require('fs'),
     sys = require('sys'),
-    settings = require('./settings'),
+    settings = require('settings'),
     events = require('events');
 
-var ExportJobMBTiles = function(model, taskQueue) {
+var ExportJobMBTiles = function(model, queue) {
     var batch;
-    var workTask = function(batch, model, taskQueue) {
+    var RenderTask = function(batch, model, queue) {
         events.EventEmitter.call(this);
         this.batch = batch;
         this.model = model;
-        this.taskQueue = taskQueue;
+        this.queue = queue;
         this.on('start', function() {
             this.emit('work');
         });
@@ -22,8 +22,8 @@ var ExportJobMBTiles = function(model, taskQueue) {
             var that = this;
             this.batch.renderChunk(function(err, rendered) {
                 if (rendered) {
-                    var next = new workTask(that.batch, that.model, that.taskQueue);
-                    that.taskQueue.add(next);
+                    var next = new RenderTask(that.batch, that.model, that.queue);
+                    that.queue.add(next);
                 }
                 else {
                     batch.finish();
@@ -33,12 +33,11 @@ var ExportJobMBTiles = function(model, taskQueue) {
             });
         });
     }
-    sys.inherits(workTask, events.EventEmitter);
+    sys.inherits(RenderTask, events.EventEmitter);
 
     Step(
         function() {
-            path.exists(path.join(__dirname, 
-                settings.export_dir, model.get('filename')), this);
+            path.exists(path.join(settings.export_dir, model.get('filename')), this);
         },
         function(exists) {
             if (exists) {
@@ -55,12 +54,12 @@ var ExportJobMBTiles = function(model, taskQueue) {
                 });
             }
             batch = new TileBatch({
-                filepath: path.join(__dirname, settings.export_dir, model.get('filename')),
+                filepath: path.join(settings.export_dir, model.get('filename')),
                 bbox: model.get('bbox').split(','),
                 minzoom: model.get('minzoom'),
                 maxzoom: model.get('maxzoom'),
                 mapfile: model.get('mapfile'),
-                mapfile_dir: path.join(__dirname, settings.mapfile_dir),
+                mapfile_dir: path.join(settings.mapfile_dir),
                 metadata: {
                     name: model.get('metadata_name'),
                     type: model.get('metadata_type'),
@@ -71,22 +70,21 @@ var ExportJobMBTiles = function(model, taskQueue) {
             batch.setup(this);
         },
         function(err) {
-            taskQueue.add(new workTask(batch, model, taskQueue));
+            queue.add(new RenderTask(batch, model, queue));
             model.save({status: 'processing'});
         }
     );
 }
 
-var ExportJobImage = function(model, taskQueue) {
-    var task = new taskmanager.Task();
+var ExportJobImage = function(model, queue) {
+    var task = new Task();
     task.on('start', function() {
         this.emit('work');
     });
     task.on('work', function() {
         Step(
             function() {
-                path.exists(path.join(__dirname, 
-                    settings.export_dir, model.get('filename')), this);
+                path.exists(path.join(settings.export_dir, model.get('filename')), this);
             },
             function(exists) {
                 if (exists) {
@@ -102,7 +100,7 @@ var ExportJobImage = function(model, taskQueue) {
                 var options = _.extend({}, model.attributes, {
                     scheme: 'tile',
                     format: 'png',
-                    mapfile_dir: path.join(__dirname, settings.mapfile_dir),
+                    mapfile_dir: path.join(settings.mapfile_dir),
                     bbox: model.get('bbox').split(',')
                 });
                 try {
@@ -119,7 +117,7 @@ var ExportJobImage = function(model, taskQueue) {
             },
             function(err, data) {
                 if (!err) {
-                    fs.writeFile(path.join(__dirname, settings.export_dir, model.get('filename')), data[0], function(err) {
+                    fs.writeFile(path.join(settings.export_dir, model.get('filename')), data[0], function(err) {
                         if (err) {
                             model.save({
                                 status: 'error',
@@ -145,13 +143,13 @@ var ExportJobImage = function(model, taskQueue) {
             }
         );
     });
-    taskQueue.add(task);
+    queue.add(task);
     model.save({status: 'processing'});
 }
 
-module.exports = function(model, taskQueue) {
+module.exports = function(model, queue) {
     return {
         ExportJobImage: ExportJobImage,
         ExportJobMBTiles: ExportJobMBTiles
-    }[model.get('type')](model, taskQueue);
+    }[model.get('type')](model, queue);
 }
