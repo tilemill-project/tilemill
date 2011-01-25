@@ -42,7 +42,7 @@ module.exports = {
             data: project1
         }, {
             status: 200
-        }, function(res) {
+        }, 'create project', function(res) {
             assert.deepEqual(JSON.parse(res.body), JSON.parse(project1));
         });
         // Get all projects
@@ -51,7 +51,7 @@ module.exports = {
             method: 'GET',
         }, {
             status: 200
-        }, function(res) {
+        }, 'get all projects', function(res) {
             assert.deepEqual(JSON.parse(res.body).pop(), JSON.parse(project1));
         });
         // Get project
@@ -60,7 +60,7 @@ module.exports = {
             method: 'GET',
         }, {
             status: 200
-        }, function(res) {
+        }, 'get project', function(res) {
             assert.deepEqual(JSON.parse(res.body), JSON.parse(project1));
         });
         // Validation: Name must contain specified characters.
@@ -76,7 +76,7 @@ module.exports = {
             data: JSON.stringify(invalid)
         }, {
             status: 500
-        }, function(res) {
+        }, 'Validation: Name must contain specified characters', function(res) {
             assert.equal(res.body, 'Name must contain only letters, numbers, dashes, and underscores.');
         });
         // Validation: No stylesheets found.
@@ -92,7 +92,7 @@ module.exports = {
             data: JSON.stringify(invalid)
         }, {
             status: 500
-        }, function(res) {
+        }, 'Validation: No stylesheets found.', function(res) {
             assert.equal(res.body, 'No stylesheets found.');
         });
         // Validation: Stylesheet IDs must be unique.
@@ -111,7 +111,7 @@ module.exports = {
             data: JSON.stringify(invalid)
         }, {
             status: 500
-        }, function(res) {
+        }, 'Validation: Stylesheet IDs must be unique.', function(res) {
             assert.equal(res.body, 'Stylesheet IDs must be unique.');
         });
         // Validation: Stylesheet syntax validation.
@@ -129,7 +129,7 @@ module.exports = {
             data: JSON.stringify(invalid)
         }, {
             status: 500
-        }, function(res) {
+        }, 'Validation: Stylesheet syntax validation.', function(res) {
             assert.equal(JSON.parse(res.body)[0].message, 'Invalid value for polygon-fill, a color is expected. eee was given.');
         });
         // Update project
@@ -142,13 +142,13 @@ module.exports = {
             data: project2
         }, {
             status: 200
-        }, function(res) {
+        }, 'Update project', function(res) {
             assert.deepEqual(JSON.parse(res.body), JSON.parse(project2));
         });
         // Load layer
         assert.response(app, {url: '/api/Datasource/aHR0cDovL3RpbGVtaWxsLWRhdGEuczMuYW1hem9uYXdzLmNvbS93b3JsZF9ib3JkZXJzX21lcmMuemlw'}, {
             status: 200
-        }, function(res) {
+        }, 'Load layer', function(res) {
             var data = JSON.parse(res.body);
             assert.equal(data.fields.FIPS.type, 'String', 'Missing field metadata');
             assert.equal(data.features.length, 245, 'Feature count mismatch');
@@ -159,7 +159,7 @@ module.exports = {
             method: 'DELETE'
         }, {
             status: 200
-        }, function(res) {
+        }, 'Delete project', function(res) {
             assert.equal(res.body, '{}');
         });
     },
