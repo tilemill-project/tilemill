@@ -1,72 +1,48 @@
 var _ = require('underscore'),
-    models = require('project');
+    models = require('project'),
+    mapnik = require('mapnik'),
+    External = require('mess').External;
 
 module.exports = function(app, settings) {
-    /**
-     * Map loader, express route middleware.
-     */
-    function loadMap(req, res, next) {
-        if (req.param('mapfile_64')) {
-            var Map = require('tilelive.js').Map;
-            var map = new Map(req.param('mapfile_64'), settings.mapfile_dir, true);
-            map.localize(function(err) {
-                if (err) {
-                    next(new Error('Error loading map file'));
-                } else {
-                    res.map = map;
+    function loadDatasource(req, res, next) {
+        if (req.param('id')) {
+            // @TODO this is not an actual safe64 -> url conversion. Fix.
+            var url = (new Buffer(req.param('id'), 'base64')).toString('utf-8');
+            var external = new External(settings, url);
+            external.on('complete', function(external) {
+                external.findByExtension('.shp', function(err, files) {
+                    if (!files.length) {
+                        return next(new Error('Datasource could not be loaded.'));
+                    }
+                    var ds = new mapnik.Datasource({
+                        type: 'shape',
+                        file: files.pop()
+                    });
+                    res.datasource = _.extend({
+                        fields: {},
+                        features: ds.features()
+                    }, ds.describe());
+                    for (var fieldId in res.datasource.fields) {
+                        res.datasource.fields[fieldId] = {
+                            type: res.datasource.fields[fieldId]
+                        };
+                        var field = res.datasource.fields[fieldId];
+                        var values = _.pluck(res.datasource.features, fieldId);
+                        if (field.type == 'Number') {
+                            field.min = Math.min.apply(Math, values);
+                            field.max = Math.max.apply(Math, values);
+                        }
+                        else if (res.datasource.fields[fieldId].type == 'String') {
+                            field.min = _.min(values, function(value) { return value.length; }).length;
+                            field.max = _.max(values, function(value) { return value.length; }).length;
+                        }
+                    }
                     next();
-                }
+                });
             });
+        } else {
+            next(new Error('Datasource could not be loaded.'));
         }
-        else {
-            next(new Error('Map could not be loaded.'));
-        }
-    }
-
-    /**
-     * Layer loader, express route middleware.
-     */
-    function loadLayer(req, res, next) {
-        res.layers = [];
-        res.map.mapnik_map_acquire(function(err, map) {
-            var layers = map.layers();
-            var data = map.describe_data();
-            for (var i = 0; i < layers.length; i++) {
-                var id = layers[i].name;
-                var layer = {
-                    id: id,
-                    fields: {},
-                    features: map.features(i)
-                };
-
-                for (var fieldId in data[id].fields) {
-                    layer.fields[fieldId] = {type: data[id].fields[fieldId]};
-                    var field = layer.fields[fieldId];
-                    var values = _.pluck(layer.features, fieldId);
-                    if (field.type == 'Number') {
-                        field.min = Math.min.apply(Math, values);
-                        field.max = Math.max.apply(Math, values);
-                    }
-                    else if (layer.fields[fieldId].type == 'String') {
-                        field.min = _.min(values, function(value) { return value.length; }).length;
-                        field.max = _.max(values, function(value) { return value.length; }).length;
-                    }
-                }
-
-                if (!req.param('layer_id')) {
-                    res.layers.push(layer);
-                }
-                else if (req.param('layer_id') === layer.id) {
-                    res.layers.push(layer);
-                }
-            }
-            res.map.mapnik_map_release(map);
-            if (req.param('layer_id') && res.layers.length === 0) {
-                next(new Error('Layer could not be loaded.'));
-            } else {
-                next();
-            }
-        });
     }
 
     /**
@@ -77,6 +53,13 @@ module.exports = function(app, settings) {
         api: 'basic',
         version: 1.0
       });
+    });
+
+    /**
+     * Load datasource model. Exception to general GET rule below.
+     */
+    app.get('/api/Datasource/:id', loadDatasource, function(req, res, next) {
+        res.send(res.datasource);
     });
 
     /**
@@ -201,18 +184,6 @@ module.exports = function(app, settings) {
                 datasources: mapnik.datasources()
             }
         );
-    });
-
-    /**
-     * Load layer model.
-     */
-    app.get('/api/:mapfile_64/:layer_id?', loadMap, loadLayer, function(req, res, next) {
-        if (req.param('layer_id')) {
-            res.send(res.layers.pop());
-        }
-        else {
-            res.send(res.layers);
-        }
     });
 };
 

@@ -86,7 +86,10 @@ var LayerRowView = Backbone.View.extend({
         if (this.model.get('class')) {
             name = name.concat(this.model.get('class').split(' '));
         }
-        $(this.el).html(ich.LayerRowView({ name: name.join('.') }));
+        $(this.el).html(ich.LayerRowView({
+            name: name.join('.'),
+            geometry: this.model.get('geometry')
+        }));
         return this;
     },
     events: {
@@ -103,11 +106,11 @@ var LayerRowView = Backbone.View.extend({
         return false;
     },
     inspect: function() {
-        new LayerFieldsView({
-            model:  new LayerFields(
-                { id: this.model.id },
-                { project: this.project }
-            )
+        new DatasourceView({
+            model: new Datasource({ 
+                id: this.model.id,
+                url: this.model.get('Datasource').file
+            })
         });
         return false;
     },
@@ -142,11 +145,11 @@ var LayerPopupView = PopupView.extend({
     },
     events: _.extend({
         'click input.submit': 'submit',
-        'click a#expand-datasources': 'datasources',
+        'click a#expand-assets': 'assets',
         'change select#srs-name': 'selectSRS'
     }, PopupView.prototype.events),
     initialize: function(params) {
-        _.bindAll(this, 'render', 'submit', 'datasources', 'getSRSName', 'selectSRS');
+        _.bindAll(this, 'render', 'submit', 'assets', 'getSRSName', 'selectSRS');
         this.model = this.options.model;
         this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
 
@@ -162,45 +165,57 @@ var LayerPopupView = PopupView.extend({
         this.render();
     },
     submit: function() {
-        var success = this.model.set(
-            {
-                'id': $('input#id', this.el).val(),
-                'name': $('input#id', this.el).val(),
-                'srs': $('input#srs', this.el).val(),
-                'class': $('input#class', this.el).val(),
-                'Datasource': {
-                    'file': $('input#file', this.el).val(),
-                    'type': 'shape'
+        var that = this;
+        var datasource = new Datasource({
+            id: $('input#id', this.el).val(),
+            url: $('input#file', this.el).val()
+        });
+        this.loading('Loading datasource');
+        datasource.fetch({
+            success: function() {
+                that.done();
+                var success = that.model.set(
+                    {
+                        'id': $('input#id', that.el).val(),
+                        'name': $('input#id', that.el).val(),
+                        'srs': $('input#srs', that.el).val(),
+                        'class': $('input#class', that.el).val(),
+                        'geometry': datasource.get('geometry_type'),
+                        'Datasource': {
+                            'file': $('input#file', that.el).val(),
+                            'type': 'shape'
+                        }
+                    },
+                    { 'error': that.showError }
+                );
+                if (success) {
+                    that.options.add && that.collection.add(that.model);
+                    that.remove();
                 }
             },
-            { 'error': this.showError }
-        );
-        if (success) {
-            if (this.options.add) {
-                this.collection.add(this.model);
-            }
-            this.remove();
-        }
+            error: that.showError
+        });
         return false;
     },
-    datasources: function() {
+    assets: function() {
         if (!this.lists) {
             this.lists = {};
-            this.lists.directory = new DatasourceListView({
-                collection: new DatasourceListDirectory,
+            this.lists.directory = new AssetListView({
+                collection: new AssetListDirectory,
                 target: $('input#file', this.el)
             });
-            $('.datasources', this.el).append(this.lists.directory.el);
-            this.lists.s3 = new DatasourceListView({
-                collection: new DatasourceListS3,
+            $('.assets', this.el).append(this.lists.directory.el);
+            this.lists.s3 = new AssetListView({
+                collection: new AssetListS3,
                 target: $('input#file', this.el)
             });
-            $('.datasources', this.el).append(this.lists.s3.el);
+            $('.assets', this.el).append(this.lists.s3.el);
         }
-        $('.datasources', this.el).toggle();
+        $('.assets', this.el).toggle();
         return false;
     },
     showError: function(model, error) {
+        this.done();
         window.app.message('Error', error);
     },
     getSRSName: function(srs) {
@@ -228,7 +243,7 @@ var LayerPopupView = PopupView.extend({
  *
  * Drawer view for inspecting layer fields.
  */
-var LayerFieldsView = DrawerView.extend({
+var DatasourceView = DrawerView.extend({
     className: 'drawer',
     events: _.extend({
         'click .showall': 'deferredRender'
@@ -257,7 +272,7 @@ var LayerFieldsView = DrawerView.extend({
             if (field.type == 'Number') {
                 field.numeric = true;
             }
-            field.tooltip = ich.LayerFieldsToolTip(field, true);
+            field.tooltip = ich.DatasourceToolTip(field, true);
             object.fields.push(field);
         }
         var max_cells = 1000;
@@ -279,16 +294,16 @@ var LayerFieldsView = DrawerView.extend({
                 this.deferredFeatures.push({ values: featureArray });
             }
         }
-        object.rows = ich.LayerFieldsRowsView({features: this.features}, true);
-        this.$('.drawer-content').html(ich.LayerFieldsView(object, true));
+        object.rows = ich.DatasourceRowsView({features: this.features}, true);
+        this.$('.drawer-content').html(ich.DatasourceView(object, true));
         if (this.deferredFeatures.length) {
-            this.$('.drawer-content').append(ich.LayerFieldsViewAllRowsButtonView({deferredCount: this.deferredFeatures.length}));
+            this.$('.drawer-content').append(ich.DatasourceViewAllRowsButtonView({deferredCount: this.deferredFeatures.length}));
         }
         return this;
     },
     deferredRender: function() {
         this.$('.drawer-content .showall').remove();
-        var rows = ich.LayerFieldsRowsView({features: this.deferredFeatures});
+        var rows = ich.DatasourceRowsView({features: this.deferredFeatures});
         this.$('table.features tbody').append(rows);
         return false;
     }

@@ -32,7 +32,7 @@
     <script type='text/javascript' src='js/app.layer.js'></script>
     <script type='text/javascript' src='js/app.stylesheet.js'></script>
     <script type='text/javascript' src='js/app.reference.js'></script>
-    <script type='text/javascript' src='js/app.datasource.js'></script>
+    <script type='text/javascript' src='js/app.asset.js'></script>
     <script type='text/javascript' src='js/app.map.js'></script>
     <script type='text/javascript' src='js/app.js'></script>
     <script type='text/javascript' src='js/data.reference.js'></script>
@@ -59,7 +59,7 @@
         'js/app.layer.js',
         'js/app.stylesheet.js',
         'js/app.reference.js',
-        'js/app.datasource.js',
+        'js/app.asset.js',
         'js/app.map.js',
         'js/app.js',
         'js/data.reference.js',
@@ -89,18 +89,14 @@
     </script>
 
     <script type='text/html' id='LoadingView'>
-      <div id='loading'>
-        <div class='loading-text'>
-          {{#message}}{{ message }}{{/message}}
-        </div>
-        <div class='loading'></div>
+      <div class='loading'>
+        <div class='loading-text'>{{message}}</div>
       </div>
     </script>
 
     <script type='text/html' id='ErrorView'>
       <div id='header' class='header clearfix'>
         <h1>TileMill</h1>
-        <a class='home' href='#'>Back home</a>
       </div>
       <div id='content' class='clearfix'>
           <div class='error-page'>{{ message }}</div>
@@ -144,7 +140,7 @@
       <label>{{ name }}</label>
     </script>
 
-    <script type='text/html' id='LayerFieldsView'>
+    <script type='text/html' id='DatasourceView'>
       <table class='features'>
         <thead>
           <tr>
@@ -159,7 +155,7 @@
       </table>
     </script>
 
-    <script type='text/html' id='LayerFieldsToolTip'>
+    <script type='text/html' id='DatasourceToolTip'>
       <div>{{type}}</div>
       {{#numeric}}
       <div>Max: {{max}}</div>
@@ -171,7 +167,7 @@
       {{/numeric}}
     </script>
 
-    <script type='text/html' id='LayerFieldsRowsView'>
+    <script type='text/html' id='DatasourceRowsView'>
       {{#features}}
         <tr>
           {{#values}}
@@ -181,7 +177,7 @@
       {{/features}}
     </script>
 
-    <script type='text/html' id='LayerFieldsViewAllRowsButtonView'>
+    <script type='text/html' id='DatasourceViewAllRowsButtonView'>
       <div class="showall"><a class="button" href="#">Show all ({{deferredCount}} more)</a></div>
     </script>
 
@@ -261,7 +257,6 @@
       <ul>
         <li><a class='export-option export-png' href='#ExportJobImage'>PNG</a></li>
         <li><a class='export-option export-mbtiles' href='#ExportJobMBTiles'>MBTiles</a></li>
-        <li><a class='export-option export-embed' href='#ExportJobEmbed'>Embed</a></li>
         <li class='divider'><a class='jobs' href='#'>View exports</a></li>
       </ul>
     </script>
@@ -276,10 +271,10 @@
             <input type='text' class='text' id='class' value='{{ class }}'/>
           </div>
           <div>
-            <label for='file'>Data Source <span class="required" title="This field is required">*</span></label>
+            <label for='file'>Datasource <span class="required" title="This field is required">*</span></label>
             <input type='text' class='text required' id='file' value='{{ datasource_file }}' />
-            <a class='icon expand-datasources' id='expand-datasources' title='See available datasources'>[+]</a>
-            <div class='container datasources hidden'></div>
+            <a class='icon expand-assets' id='expand-assets' title='See available assets'>[+]</a>
+            <div class='container assets hidden'></div>
           </div>
           <div>
             <label for='srs-name'>SRS</label>
@@ -438,7 +433,7 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
       </tr>
     </script>
 
-    <script type='text/html' id='DatasourceRow'>
+    <script type='text/html' id='AssetRowView'>
       <span class='name'>{{ id }}</span>
       <span class='metadata'>{{ bytes }}</span>
       <span class='url'>{{ url }}</span>

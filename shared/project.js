@@ -8,6 +8,13 @@ if (typeof require !== 'undefined') {
 }
 
 /**
+ * Model: Abilities
+ *
+ * Read-only model describing the abilities of TileLive's Mapnik backend.
+ */
+var Abilities = Backbone.Model.extend({ url: '/api/abilities' });
+
+/**
  * Model: Settings
  *
  * Settings model. Stores any user-specific configuration related to the app.
@@ -135,19 +142,18 @@ var LayerList = Backbone.Collection.extend({
 });
 
 /**
- * Model: LayerFields
+ * Model: Datasource
  *
  * This is a read-only model of inspection metadata about a map layer.
  */
-var LayerFields = Backbone.Model.extend({
+var Datasource = Backbone.Model.extend({
     // @TODO either as a feature or a bug, object attributes are not set
     // automatically when passed to the constructor. We set it manually here.
     initialize: function(attributes, options) {
         this.set({'fields': attributes.fields});
-        this.project = options.project;
     },
     url: function() {
-        return '/api/' + this.project.project64({ signed: true }) + '/' + this.id;
+        return '/api/Datasource/' + Base64.urlsafe_encode(this.get('url'));
     }
 });
 
@@ -301,6 +307,11 @@ var Project = Backbone.Model.extend({
         Step(
             function() {
                 var group = this.group();
+                var env = {
+                    returnErrors: true,
+                    errors: [],
+                    effects: []
+                };
                 if (stylesheets.length !== 0) {
                     _.each(stylesheets, function(stylesheet) {
                         new(mess.Parser)({ filename: stylesheet.id })
@@ -308,7 +319,6 @@ var Project = Backbone.Model.extend({
                             if (!err) {
                                 try {
                                     var errors = null;
-                                    var env = { returnErrors: true, errors: [] };
                                     var l = tree.toList(env);
                                     l.map(function(t) {
                                         t.toXML(env);
@@ -453,7 +463,7 @@ var ExportJobList = Backbone.Collection.extend({
      */
     type: 'exportjob',
     comparator: function(job) {
-        return job.get('timestamp');
+        return job.get('created');
     }
 });
 
@@ -463,6 +473,7 @@ if (typeof module !== 'undefined') {
         ProjectList: ProjectList,
         ExportJob: ExportJob,
         ExportJobList: ExportJobList,
+        Datasource: Datasource,
         Settings: Settings
     };
 }

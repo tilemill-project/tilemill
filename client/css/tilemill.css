@@ -5,25 +5,29 @@ body {
 
 div.loading {
   background:#eee url(../images/swirly.gif) 50% 50% no-repeat;
-  opacity:.5;
-  left:0px;
+  opacity:.75;
   position:absolute;
+  left:0px;
   right:0px;
   bottom:0px;
   top:0px;
   }
 
-div.page-loading { top:40px; }
-
 div.loading-text {
-  width:100px;
+  width:200px;
   position:absolute;
   top:50%;
   left:50%;
+  margin-top:30px;
+  margin-left:-100px;
+
   text-align:center;
-  margin-top:50px;
-  margin-left:-50px;
+  color:#666;
+  font-weight:bold;
+  font-size:16px;
   }
+
+div.page-loading { top:40px; }
 
 div.error-page {
   position:fixed;
@@ -34,7 +38,7 @@ div.error-page {
   text-align:center;
   font-size:24px;
   line-height:40px;
-  color:#ccc;
+  color:#999;
   }
 
 a {
@@ -587,6 +591,7 @@ form .palette div { padding:5px 0px; }
  * Layers
  */
 #layers {
+  border-top:1px solid #ccc;
   position:absolute;
   left:0px;
   bottom:0px;
@@ -634,6 +639,7 @@ form .palette div { padding:5px 0px; }
   bottom:0px;
   top:50%;
   width:50%;
+  border-top:1px solid #ccc;
   border-left:1px solid #ccc;
   }
 
@@ -1208,19 +1214,19 @@ table.features .Number { text-align:right; }
 .reference-table a.reference-doc-available { color:#333; }
 
 /**
- * Add datasources from known data
+ * Add assets from known data
  */
-a#expand-datasources {
+a#expand-assets {
   background-color:#fff;
   float:right;
   background-position:-20px 0px;
   }
   
-a#expand-datasources:hover {
+a#expand-assets:hover {
   cursor:pointer;
   }
 
-form div.datasources {
+form div.assets {
   padding: 5px;
   margin-top: 5px;
   height:200px;
@@ -1229,27 +1235,27 @@ form div.datasources {
   border: 1px solid #ccc;
   }
 
-form div.datasources div { padding:0px; }
+form div.assets div { padding:0px; }
 
-form div.datasources .empty,
-form div.datasources .datasource { padding:0px 0px 0px 10px; }
+form div.assets .empty,
+form div.assets .assets { padding:0px 0px 0px 10px; }
 
 /**
  * TODO: this will break in IE
  */
-a.datasource {
+a.asset {
   display:block;
   cursor:pointer;
   }
 
-a.datasource:hover {
+a.asset:hover {
   color:#000;
   background:#fff;
   }
   
-a.datasource .url { display:none; }
+a.asset .url { display:none; }
 
-a.datasource .metadata {
+a.asset .metadata {
   font-size:9px;
   padding:0px 3px;
   color:#aaa;

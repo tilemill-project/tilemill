@@ -146,11 +146,11 @@ module.exports = {
             assert.deepEqual(JSON.parse(res.body), JSON.parse(project2));
         });
         // Load layer
-        assert.response(app, {url: '/api/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_MmE5ZWFj/world'}, {
+        assert.response(app, {url: '/api/Datasource/aHR0cDovL3RpbGVtaWxsLWRhdGEuczMuYW1hem9uYXdzLmNvbS93b3JsZF9ib3JkZXJzX21lcmMuemlw'}, {
             status: 200
         }, function(res) {
             var data = JSON.parse(res.body);
-            assert.equal(data.id, 'world', 'Unexpected layer id');
+            assert.equal(data.fields.FIPS.type, 'String', 'Missing field metadata');
             assert.equal(data.features.length, 245, 'Feature count mismatch');
         });
         // Delete project
