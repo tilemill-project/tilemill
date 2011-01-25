@@ -24,11 +24,18 @@ var ExportJobMBTiles = function(model, queue) {
                 if (rendered) {
                     var next = new RenderTask(that.batch, that.model, that.queue);
                     that.queue.add(next);
-                    that.model.save({progress: that.batch.tiles_current / that.batch.tiles_total });
+                    that.model.save({
+                        progress: that.batch.tiles_current / that.batch.tiles_total,
+                        updated: +new Date
+                    });
                 }
                 else {
                     batch.finish();
-                    that.model.save({status: 'complete', progress: 1});
+                    that.model.save({
+                        status: 'complete',
+                        progress: 1,
+                        updated: +new Date
+                    });
                 }
                 that.emit('finish');
             });
@@ -73,7 +80,10 @@ var ExportJobMBTiles = function(model, queue) {
         },
         function(err) {
             queue.add(new RenderTask(batch, model, queue));
-            model.save({status: 'processing'});
+            model.save({
+                status: 'processing',
+                updated: +new Date
+            });
         }
     );
 }
@@ -123,13 +133,15 @@ var ExportJobImage = function(model, queue) {
                         if (err) {
                             model.save({
                                 status: 'error',
-                                error: 'Error saving image: ' + err.message
+                                error: 'Error saving image: ' + err.message,
+                                updated: +new Date
                             });
                         }
                         else {
                             model.save({
                                 status:'complete',
-                                progress: 1
+                                progress: 1,
+                                updated: +new Date
                             });
                         }
                         task.emit('finish');
@@ -138,7 +150,8 @@ var ExportJobImage = function(model, queue) {
                 else {
                     model.save({
                         status: 'error',
-                        error: 'Error rendering image: ' + err.message
+                        error: 'Error rendering image: ' + err.message,
+                        updated: +new Date
                     });
                     task.emit('finish');
                 }

@@ -55,6 +55,7 @@ var ExportJobRowView = Backbone.View.extend({
     },
     render: function() {
         $(this.el).html(ich.ExportJobRowView({
+            time: this.model.time(),
             progress: parseInt(this.model.get('progress') * 100),
             progressClass: parseInt(this.model.get('progress') * 10),
             filename: this.model.get('filename'),

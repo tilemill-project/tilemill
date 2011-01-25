@@ -380,8 +380,7 @@ var ExportJob = Backbone.Model.extend({
     type: 'exportjob',
     initialize: function() {
         if (this.isNew()) {
-            var date = new Date();
-            this.set({timestamp: date.getTime()});
+            this.set({created: +new Date});
             if (typeof MD5 !== 'undefined') {
                 var md5 = new MD5();
                 var date = new Date();
@@ -420,6 +419,24 @@ var ExportJob = Backbone.Model.extend({
      */
     addTasks: function(taskQueue) {
         return require('jobtasks')(this, taskQueue);
+    },
+    /**
+     * Get the duration of the current export job.
+     */
+    time: function() {
+        if (this.get('updated')) {
+            var seconds = parseInt((this.get('updated') - this.get('created')) * .001, 10);
+            var minutes = parseInt(seconds / 60, 10);
+            var remainder = seconds - (minutes * 60);
+            if (minutes && remainder) {
+                return minutes + ' min ' + remainder + ' sec';
+            } else if (minutes) {
+                return minutes + ' min';
+            } else {
+                return seconds + ' sec';
+            }
+        }
+        return '0 sec';
     }
 });
 
