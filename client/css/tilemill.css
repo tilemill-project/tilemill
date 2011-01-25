@@ -306,10 +306,9 @@ a:hover.button { color:#fff; }
 .progress .bar-9 { width:36px; }
 .progress .bar-10 { width:40px; }
 
-.jobs .filename {
-  font-weight:bold;
-  }
+.jobs .filename { font-weight:bold; }
 
+.jobs .time,
 .jobs .download,
 .jobs .message {
   font-size:11px;
