@@ -115,7 +115,6 @@ module.exports = {
             assert.equal(res.body, 'Stylesheet IDs must be unique.');
         });
         // Validation: Stylesheet syntax validation.
-        // @TODO: this is currently broken with the update to mess2.
         var invalid = _.extend(JSON.parse(project1), {
             Stylesheet: [
                 { id: 'style.mss', data: '#world {  polygon-fill: eee; }' },
@@ -131,7 +130,7 @@ module.exports = {
         }, {
             status: 500
         }, function(res) {
-            assert.equal(JSON.parse(res.body)[0].message, 'Invalid value for polygon-fill, a color is expected');
+            assert.equal(JSON.parse(res.body)[0].message, 'Invalid value for polygon-fill, a color is expected. eee was given.');
         });
         // Update project
         assert.response(app, {
