@@ -627,7 +627,7 @@ form .palette div { padding:5px 0px; }
 .sidebar-content li label {
   font-size:11px;
   display:block;
-  padding-left:15px;
+  padding-left:35px;
   }
 
 /**
@@ -724,9 +724,15 @@ li .icon {
   li .inspect-loading { display:none; }
   li .edit { right:27px; }
   li .scaledPoints { right:91px; }
-  li. choropleth { right:70px; }
-  li. label { right:49px; }
-  li. unique { right:27px; }
+  li .choropleth { right:70px; }
+  li .label { right:49px; }
+  li .unique { right:27px; }
+
+  .sidebar-content li .geometry {
+    background-color:transparent;
+    display:block;
+    left:20px;
+    }
 
 .icon.edit           { background-position:0px 0px; }
 .icon.inspect        { background-position:-20px 0px; }
@@ -739,22 +745,13 @@ li .icon {
 .icon.next           { background-position:-160px 0px; }
 .icon.add            { background-position:-180px -20px; }
 .icon.label          { background-position:-200px 0px; }
-.icon.choropleth     { background-position:-220px 0px; }
-.icon.unique         { background-position:-240px 0px; }
-.icon.scaledPoints   { background-position:-260px 0px; }
 .icon.settings       { background-position:-280px -20px; }
 .icon.export         { background-position:-320px -20px; }
 .icon.reference      { background-position: -360px -20px;}
 .icon.dropdown       { background-position:-300px 0px; }
-.icon.label.active        { background-position:-200px -20px; }
-.icon.choropleth.active   { background-position:-220px -20px; }
-.icon.unique.active       { background-position:-240px -20px; }
-.icon.scaledPoints.active { background-position:-260px -20px; }
-
-.icon.scaledPoints.active,
-.icon.label.active,
-.icon.choropleth.active,
-.icon.unique.active       { background-color:#222; }
+.icon.geometry-linestring { background-position:-200px 0px; }
+.icon.geometry-point      { background-position:-220px 0px; }
+.icon.geometry-polygon    { background-position:-240px 0px; }
 
 .file.ExportJobImage { background-position:0px -180px; }
 .file.ExportJobPDF { background-position:-40px -180px; }
