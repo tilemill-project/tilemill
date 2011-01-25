@@ -453,7 +453,7 @@ var ExportJobList = Backbone.Collection.extend({
      */
     type: 'exportjob',
     comparator: function(job) {
-        return job.get('timestamp');
+        return job.get('created');
     }
 });
 
