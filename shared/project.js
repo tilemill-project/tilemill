@@ -418,7 +418,7 @@ var ExportJob = Backbone.Model.extend({
      * Allow the export to add tasks to the task queue.
      */
     addTasks: function(taskQueue) {
-        return require('jobtasks')(this, taskQueue);
+        return require('export').addTasks(this, taskQueue);
     },
     /**
      * Get the duration of the current export job.

@@ -21,7 +21,7 @@ app.error(function(err, req, res){
 
 require('api')(app, settings);
 require('tiles')(app, settings);
-require('export')(app, settings);
+require('export').ExportScanner(app, settings);
 require('providers')(app, settings);
 require('bootstrap')(app, settings);
 
