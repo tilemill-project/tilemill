@@ -18,13 +18,14 @@ module.exports = function(app, settings) {
                         type: 'shape',
                         file: files.pop()
                     });
-                    res.datasource = {
+                    res.datasource = _.extend({
                         fields: {},
                         features: ds.features()
-                    };
-                    var data = ds.describe();
-                    for (var fieldId in data.fields) {
-                        res.datasource.fields[fieldId] = {type: data.fields[fieldId]};
+                    }, ds.describe());
+                    for (var fieldId in res.datasource.fields) {
+                        res.datasource.fields[fieldId] = {
+                            type: res.datasource.fields[fieldId]
+                        };
                         var field = res.datasource.fields[fieldId];
                         var values = _.pluck(res.datasource.features, fieldId);
                         if (field.type == 'Number') {
