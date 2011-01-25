@@ -54,7 +54,7 @@ function load(model, callback) {
     var extension = (model.type == 'project') ? 'mml' : 'json';
     fs.readFile(path.join(modelPath, model.id + '.' + extension), 'utf-8',
     function(err, data) {
-        if (err || !data || !JSON.parse(data)) {
+        if (err || !data) {
             return callback(new Error('Error reading model file.'));
         }
         var object = JSON.parse(data);
