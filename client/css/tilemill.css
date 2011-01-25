@@ -6,8 +6,8 @@ body {
 div.loading {
   background:#eee url(../images/swirly.gif) 50% 50% no-repeat;
   opacity:.5;
-  left:0px;
   position:absolute;
+  left:0px;
   right:0px;
   bottom:0px;
   top:0px;
@@ -34,7 +34,7 @@ div.error-page {
   text-align:center;
   font-size:24px;
   line-height:40px;
-  color:#ccc;
+  color:#999;
   }
 
 a {
