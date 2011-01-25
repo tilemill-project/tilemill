@@ -307,6 +307,11 @@ var Project = Backbone.Model.extend({
         Step(
             function() {
                 var group = this.group();
+                var env = {
+                    returnErrors: true,
+                    errors: [],
+                    effects: []
+                };
                 if (stylesheets.length !== 0) {
                     _.each(stylesheets, function(stylesheet) {
                         new(mess.Parser)({ filename: stylesheet.id })
@@ -314,11 +319,6 @@ var Project = Backbone.Model.extend({
                             if (!err) {
                                 try {
                                     var errors = null;
-                                    var env = {
-                                        returnErrors: true,
-                                        errors: [],
-                                        effects: []
-                                    };
                                     var l = tree.toList(env);
                                     l.map(function(t) {
                                         t.toXML(env);
