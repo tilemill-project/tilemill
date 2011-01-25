@@ -140,11 +140,11 @@ var LayerPopupView = PopupView.extend({
         '900913': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
         'WGS84': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
     },
-    events: _.extend(PopupView.prototype.events, {
+    events: _.extend({
         'click input.submit': 'submit',
         'click a#expand-datasources': 'datasources',
         'change select#srs-name': 'selectSRS'
-    }),
+    }, PopupView.prototype.events),
     initialize: function(params) {
         _.bindAll(this, 'render', 'submit', 'datasources', 'getSRSName', 'selectSRS');
         this.model = this.options.model;
@@ -220,7 +220,7 @@ var LayerPopupView = PopupView.extend({
             $('input#srs', this.el).val(this.SRS[name]);
             $('.srs', this.el).hide();
         }
-    },
+    }
 });
 
 /**
@@ -230,9 +230,9 @@ var LayerPopupView = PopupView.extend({
  */
 var LayerFieldsView = DrawerView.extend({
     className: 'drawer',
-    events: _.extend(DrawerView.prototype.events, {
+    events: _.extend({
         'click .showall': 'deferredRender'
-    }),
+    }, DrawerView.prototype.events),
     initialize: function (options) {
         options.title = this.model.id;
         options.content = '';

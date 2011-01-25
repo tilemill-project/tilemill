@@ -2,9 +2,9 @@
  * Router controller: Reference page.
  */
 var ReferenceView = DrawerView.extend({
-    events: _.extend(DrawerView.prototype.events, {
+    events: _.extend({
         'click .reference-links a': 'show'
-    }),
+    }, DrawerView.prototype.events),
     initialize: function (options) {
         _.bindAll(this, 'show');
         var symbolizers = _.map(window.data.reference.symbolizers, function(properties, symbolizer) {

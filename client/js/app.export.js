@@ -88,10 +88,10 @@ var ExportJobDropdownView = DropdownView.extend({
         this.options.content = ich.ExportJobOptions({}, true);
         this.render();
     },
-    events: _.extend(DropdownView.prototype.events, {
+    events: _.extend({
         'click a.export-option': 'xport',
         'click a.jobs': 'jobs'
-    }),
+    }, DropdownView.prototype.events),
     xport: function(event) {
         this.options.map.xport($(event.currentTarget).attr('href').split('#').pop(), this.model);
         this.toggleContent();
@@ -139,12 +139,12 @@ var ExportJobView = Backbone.View.extend({
         this.boxDrawingControl.drawFeature(this.model.get('bbox').split(','));
         return false;
     },
-    events: _.extend(PopupView.prototype.events, {
+    events: _.extend({
         'click a.reset': 'boundingBoxReset',
         'click input.submit': 'submit',
         'change input': 'changeValue',
         'change select': 'changeValue'
-    }),
+    }, PopupView.prototype.events),
     changeValue: function(event) {
         var data = {};
         if ($(event.target).is('.bbox')) {

@@ -161,9 +161,9 @@ var StylesheetTabView = Backbone.View.extend({
  * Popup form for adding a new stylesheet.
  */
 var StylesheetPopupView = PopupView.extend({
-    events: _.extend(PopupView.prototype.events, {
+    events: _.extend({
         'click input.submit': 'submit'
-    }),
+    }, PopupView.prototype.events),
     initialize: function(params) {
         this.options.title = 'Add stylesheet';
         this.options.content = ich.StylesheetPopupView({}, true);

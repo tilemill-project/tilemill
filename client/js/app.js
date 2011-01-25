@@ -115,9 +115,9 @@ var ErrorView = Backbone.View.extend({
  * View: SettingsPopupView
  */
 var SettingsPopupView = PopupView.extend({
-    events: _.extend(PopupView.prototype.events, {
+    events: _.extend({
         'click input.submit': 'submit'
-    }),
+    }, PopupView.prototype.events),
     initialize: function(params) {
         _.bindAll(this, 'render', 'submit');
         this.model = this.options.model;
