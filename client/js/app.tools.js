@@ -301,9 +301,9 @@ var FontPickerToolView = Backbone.View.extend({
         })
         .blur();
     },
-    insertFont: function() {
+    insertFont: function(ev) {
         var mirror = this.project.view.stylesheets.activeTab.codemirror,
-        value = this.$('li').html();
+            value = this.$(ev.target).text();
         mirror.replaceSelection('"' + value + '"');
         $(mirror).focus();
     }
