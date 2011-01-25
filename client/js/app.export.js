@@ -325,24 +325,9 @@ var ExportJobMBTilesView = ExportJobView.extend({
     }
 });
 
-/**
- * @TODO: This code is out of date (based on previous XYZ tile URLs).
- * Update for TMS layer format.
- */
-var ExportJobEmbedView = PopupView.extend({
-    initialize: function(options) {
-        this.options.title = 'Embed';
-        this.options.content = ich.ExportJobEmbedView({
-            tile_url: this.options.project.layerURL({signed: true}),
-        }, true);
-        PopupView.prototype.initialize.call(this, options);
-    }
-});
-
 var exportMethods = {
     ExportJobImage: ExportJobImageView,
-    ExportJobMBTiles: ExportJobMBTilesView,
-    ExportJobEmbed: ExportJobEmbedView
+    ExportJobMBTiles: ExportJobMBTilesView
 };
 
 /**
