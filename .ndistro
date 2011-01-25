@@ -11,6 +11,7 @@ module documentcloud underscore 1.1.4
 
 # Needs tag
 # note: if no tag 'master' works...
+module coopernurse node-pool
 module lucisferre node-xml2js
 module developmentseed mess.js
 module developmentseed tilelive.js

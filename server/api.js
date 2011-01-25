@@ -7,19 +7,15 @@ module.exports = function(app, settings) {
      */
     function loadMap(req, res, next) {
         if (req.param('mapfile_64')) {
-            var path = require('path');
             var Map = require('tilelive.js').Map;
             var map = new Map(req.param('mapfile_64'), settings.mapfile_dir, true);
             map.localize(function(err) {
                 if (err) {
                     next(new Error('Error loading map file'));
-                    return;
-                }
-                map.mapnik_map(function(err, map){
-                    if (err) return next(new Error('Error rendering map'));
+                } else {
                     res.map = map;
                     next();
-                });
+                }
             });
         }
         else {
@@ -32,41 +28,45 @@ module.exports = function(app, settings) {
      */
     function loadLayer(req, res, next) {
         res.layers = [];
-        var layers = res.map.layers();
-        var data = res.map.describe_data();
-        for (var i = 0; i < layers.length; i++) {
-            var id = layers[i].name;
-            var layer = {
-                id: id,
-                fields: {},
-                features: res.map.features(i)
-            };
+        res.map.mapnik_map_acquire(function(err, map) {
+            var layers = map.layers();
+            var data = map.describe_data();
+            for (var i = 0; i < layers.length; i++) {
+                var id = layers[i].name;
+                var layer = {
+                    id: id,
+                    fields: {},
+                    features: map.features(i)
+                };
 
-            for (var fieldId in data[id].fields) {
-                layer.fields[fieldId] = {type: data[id].fields[fieldId]};
-                var field = layer.fields[fieldId];
-                var values = _.pluck(layer.features, fieldId);
-                if (field.type == 'Number') {
-                    field.min = Math.min.apply(Math, values);
-                    field.max = Math.max.apply(Math, values);
+                for (var fieldId in data[id].fields) {
+                    layer.fields[fieldId] = {type: data[id].fields[fieldId]};
+                    var field = layer.fields[fieldId];
+                    var values = _.pluck(layer.features, fieldId);
+                    if (field.type == 'Number') {
+                        field.min = Math.min.apply(Math, values);
+                        field.max = Math.max.apply(Math, values);
+                    }
+                    else if (layer.fields[fieldId].type == 'String') {
+                        field.min = _.min(values, function(value) { return value.length; }).length;
+                        field.max = _.max(values, function(value) { return value.length; }).length;
+                    }
                 }
-                else if (layer.fields[fieldId].type == 'String') {
-                    field.min = _.min(values, function(value) { return value.length; }).length;
-                    field.max = _.max(values, function(value) { return value.length; }).length;
-                }
-            }
 
-            if (!req.param('layer_id')) {
-                res.layers.push(layer);
+                if (!req.param('layer_id')) {
+                    res.layers.push(layer);
+                }
+                else if (req.param('layer_id') === layer.id) {
+                    res.layers.push(layer);
+                }
             }
-            else if (req.param('layer_id') === layer.id) {
-                res.layers.push(layer);
+            res.map.mapnik_map_release(map);
+            if (req.param('layer_id') && res.layers.length === 0) {
+                next(new Error('Layer could not be loaded.'));
+            } else {
+                next();
             }
-        }
-        if (req.param('layer_id') && res.layers.length === 0) {
-            next(new Error('Layer could not be loaded.'));
-        }
-        next();
+        });
     }
 
     /**
