@@ -164,7 +164,8 @@ var ExportJobImage = function(model, queue) {
                 } catch (err) {
                     model.save({
                         status: 'error',
-                        error: 'Tile invalid: ' + err.message
+                        error: 'Tile invalid: ' + err.message,
+                        updated: +new Date
                     });
                 }
                 if (tile) {
@@ -203,7 +204,10 @@ var ExportJobImage = function(model, queue) {
         );
     });
     queue.add(task);
-    model.save({status: 'processing'});
+    model.save({
+        status: 'processing',
+        updated: +new Date
+    });
 }
 
 module.exports = {
