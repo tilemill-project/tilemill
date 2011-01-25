@@ -226,10 +226,38 @@ function saveProject(model, callback) {
             }
         },
         function() {
-            rmrf(modelPath, this);
+            path.exists(modelPath, this);
+        },
+        function(exists) {
+            if (!exists) {
+                fs.mkdir(modelPath, 0777, this);
+            } else {
+                this();
+            }
         },
         function() {
-            fs.mkdir(modelPath, 0777, this);
+            fs.readdir(modelPath, this);
+        },
+        function(err, files) {
+            // Remove any stale files in the project directory.
+            var group = this.group();
+            var stylesheets = model.get('Stylesheet') || [];
+            var stale = _.select(files, function(filename) {
+                if (filename === (model.id + '.mml')) {
+                    return false;
+                } else if (_.pluck(stylesheets, 'id').indexOf(filename) !== -1) {
+                    return false;
+                }
+                return true;
+            });
+            if (stale.length) {
+                for (var i = 0; i < stale.length; i++) {
+                    fs.unlink(path.join(modelPath, stale[i]), group());
+                }
+            }
+            else {
+                group()();
+            }
         },
         function() {
             // Hard clone the model JSON before doing adjustments to the data
