@@ -57,7 +57,7 @@ module.exports = function(app, settings) {
     settings: settings,
     objects: function(callback) {
       var client = knox.createClient(settings.providers.s3);
-        listbucket(client, '', 100, function(objects) {
+        listbucket(client, '', 1000, function(objects) {
           // TODO: don't list directories
           // TODO: only list public files
           callback(_.map(_.filter(objects, 
