@@ -144,7 +144,7 @@
       <label>{{ name }}</label>
     </script>
 
-    <script type='text/html' id='LayerFieldsView'>
+    <script type='text/html' id='DatasourceView'>
       <table class='features'>
         <thead>
           <tr>
@@ -159,7 +159,7 @@
       </table>
     </script>
 
-    <script type='text/html' id='LayerFieldsToolTip'>
+    <script type='text/html' id='DatasourceToolTip'>
       <div>{{type}}</div>
       {{#numeric}}
       <div>Max: {{max}}</div>
@@ -171,7 +171,7 @@
       {{/numeric}}
     </script>
 
-    <script type='text/html' id='LayerFieldsRowsView'>
+    <script type='text/html' id='DatasourceRowsView'>
       {{#features}}
         <tr>
           {{#values}}
@@ -181,7 +181,7 @@
       {{/features}}
     </script>
 
-    <script type='text/html' id='LayerFieldsViewAllRowsButtonView'>
+    <script type='text/html' id='DatasourceViewAllRowsButtonView'>
       <div class="showall"><a class="button" href="#">Show all ({{deferredCount}} more)</a></div>
     </script>
 
@@ -275,10 +275,10 @@
             <input type='text' class='text' id='class' value='{{ class }}'/>
           </div>
           <div>
-            <label for='file'>Data Source <span class="required" title="This field is required">*</span></label>
+            <label for='file'>Datasource <span class="required" title="This field is required">*</span></label>
             <input type='text' class='text required' id='file' value='{{ datasource_file }}' />
-            <a class='icon expand-datasources' id='expand-datasources' title='See available datasources'>[+]</a>
-            <div class='container datasources hidden'></div>
+            <a class='icon expand-assets' id='expand-assets' title='See available assets'>[+]</a>
+            <div class='container assets hidden'></div>
           </div>
           <div>
             <label for='srs-name'>SRS</label>
@@ -437,7 +437,7 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
       </tr>
     </script>
 
-    <script type='text/html' id='DatasourceRow'>
+    <script type='text/html' id='AssetRowView'>
       <span class='name'>{{ id }}</span>
       <span class='metadata'>{{ bytes }}</span>
       <span class='url'>{{ url }}</span>

@@ -1,17 +1,17 @@
 /**
- * Model: Datasource
+ * Model: Asset
  *
- * A single layer datasource, e.g. a shapefile.
+ * An external asset, e.g. a shapefile, image, etc.
  */
-var Datasource = Backbone.Model.extend({});
+var Asset = Backbone.Model.extend({});
 
 /**
- * Collection: DatasourceListS3
+ * Collection: AssetListS3
  *
- * A list of datasources available on an S3 bucket.
+ * A list of assets available on an S3 bucket.
  */
-var DatasourceListS3 = Backbone.Collection.extend({
-    model: Datasource,
+var AssetListS3 = Backbone.Collection.extend({
+    model: Asset,
     url: '/provider/s3',
     title: 'Amazon S3',
     comparator: function(model) {
@@ -20,12 +20,12 @@ var DatasourceListS3 = Backbone.Collection.extend({
 });
 
 /**
- * Collection: DatasourceListDirectory
+ * Collection: AssetListDirectory
  *
- * A list of datasources available via local directory.
+ * A list of assets available via local directory.
  */
-var DatasourceListDirectory = Backbone.Collection.extend({
-    model: Datasource,
+var AssetListDirectory = Backbone.Collection.extend({
+    model: Asset,
     url: '/provider/directory',
     title: 'Local directory',
     comparator: function(model) {
@@ -34,49 +34,52 @@ var DatasourceListDirectory = Backbone.Collection.extend({
 });
 
 /**
- * View: DatasourceListView
+ * View: AssetListView
  *
- * A list of datasources for a given collection.
+ * A list of assets for a given collection.
  */
-var DatasourceListView = Backbone.View.extend({
+var AssetListView = Backbone.View.extend({
     initialize: function () {
         _.bindAll(this, 'render');
-        this.collection.bind('all', this.render);
-        this.collection.fetch();
+        // this.collection.bind('all', this.render);
+        this.collection.fetch({
+            success: this.render,
+            error: this.render
+        });
     },
     render: function () {
         var self = this;
         $(self.el).append('<h3>' + this.collection.title + '</h3>')
         if (this.collection.length) {
             this.collection.each(function(model) {
-                var datasourceRow = new DatasourceRowView({
+                var assetRow = new AssetRowView({
                     model: model,
                     target: self.options.target
                 });
-                $(self.el).append(datasourceRow.el);
+                $(self.el).append(assetRow.el);
             });
         }
         else {
-            $(self.el).append('<div class="empty">No datasources found.</div>')
+            $(self.el).append('<div class="empty">No assets found.</div>')
         }
         return this;
     }
 });
 
 /**
- * View: DatasourceRowView
+ * View: AssetRowView
  *
- * A single datasource row in a DatasourceListView.
+ * A single asset row in a AssetListView.
  */
-var DatasourceRowView = Backbone.View.extend({
+var AssetRowView = Backbone.View.extend({
     tagName: 'a',
-    className: 'datasource',
+    className: 'asset',
     initialize: function() {
         _.bindAll(this, 'render', 'setfield');
         this.render();
     },
     render: function() {
-        $(this.el).html(ich.DatasourceRow({
+        $(this.el).html(ich.AssetRowView({
             id: this.model.id,
             bytes: this.model.get('bytes'),
             url: this.model.get('url')

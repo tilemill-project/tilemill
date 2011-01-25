@@ -103,9 +103,9 @@ var LayerRowView = Backbone.View.extend({
         return false;
     },
     inspect: function() {
-        new LayerFieldsView({
-            model:  new LayerFields(
-                { id: this.model.id },
+        new DatasourceView({
+            model: new Datasource(
+                { id: this.model.id, url: this.model.get('Datasource').file },
                 { project: this.project }
             )
         });
@@ -142,11 +142,11 @@ var LayerPopupView = PopupView.extend({
     },
     events: _.extend({
         'click input.submit': 'submit',
-        'click a#expand-datasources': 'datasources',
+        'click a#expand-assets': 'assets',
         'change select#srs-name': 'selectSRS'
     }, PopupView.prototype.events),
     initialize: function(params) {
-        _.bindAll(this, 'render', 'submit', 'datasources', 'getSRSName', 'selectSRS');
+        _.bindAll(this, 'render', 'submit', 'assets', 'getSRSName', 'selectSRS');
         this.model = this.options.model;
         this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
 
@@ -183,21 +183,21 @@ var LayerPopupView = PopupView.extend({
         }
         return false;
     },
-    datasources: function() {
+    assets: function() {
         if (!this.lists) {
             this.lists = {};
-            this.lists.directory = new DatasourceListView({
-                collection: new DatasourceListDirectory,
+            this.lists.directory = new AssetListView({
+                collection: new AssetListDirectory,
                 target: $('input#file', this.el)
             });
-            $('.datasources', this.el).append(this.lists.directory.el);
-            this.lists.s3 = new DatasourceListView({
-                collection: new DatasourceListS3,
+            $('.assets', this.el).append(this.lists.directory.el);
+            this.lists.s3 = new AssetListView({
+                collection: new AssetListS3,
                 target: $('input#file', this.el)
             });
-            $('.datasources', this.el).append(this.lists.s3.el);
+            $('.assets', this.el).append(this.lists.s3.el);
         }
-        $('.datasources', this.el).toggle();
+        $('.assets', this.el).toggle();
         return false;
     },
     showError: function(model, error) {
@@ -228,7 +228,7 @@ var LayerPopupView = PopupView.extend({
  *
  * Drawer view for inspecting layer fields.
  */
-var LayerFieldsView = DrawerView.extend({
+var DatasourceView = DrawerView.extend({
     className: 'drawer',
     events: _.extend({
         'click .showall': 'deferredRender'
@@ -257,7 +257,7 @@ var LayerFieldsView = DrawerView.extend({
             if (field.type == 'Number') {
                 field.numeric = true;
             }
-            field.tooltip = ich.LayerFieldsToolTip(field, true);
+            field.tooltip = ich.DatasourceToolTip(field, true);
             object.fields.push(field);
         }
         var max_cells = 1000;
@@ -279,16 +279,16 @@ var LayerFieldsView = DrawerView.extend({
                 this.deferredFeatures.push({ values: featureArray });
             }
         }
-        object.rows = ich.LayerFieldsRowsView({features: this.features}, true);
-        this.$('.drawer-content').html(ich.LayerFieldsView(object, true));
+        object.rows = ich.DatasourceRowsView({features: this.features}, true);
+        this.$('.drawer-content').html(ich.DatasourceView(object, true));
         if (this.deferredFeatures.length) {
-            this.$('.drawer-content').append(ich.LayerFieldsViewAllRowsButtonView({deferredCount: this.deferredFeatures.length}));
+            this.$('.drawer-content').append(ich.DatasourceViewAllRowsButtonView({deferredCount: this.deferredFeatures.length}));
         }
         return this;
     },
     deferredRender: function() {
         this.$('.drawer-content .showall').remove();
-        var rows = ich.LayerFieldsRowsView({features: this.deferredFeatures});
+        var rows = ich.DatasourceRowsView({features: this.deferredFeatures});
         this.$('table.features tbody').append(rows);
         return false;
     }

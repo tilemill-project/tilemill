@@ -1208,19 +1208,19 @@ table.features .Number { text-align:right; }
 .reference-table a.reference-doc-available { color:#333; }
 
 /**
- * Add datasources from known data
+ * Add assets from known data
  */
-a#expand-datasources {
+a#expand-assets {
   background-color:#fff;
   float:right;
   background-position:-20px 0px;
   }
   
-a#expand-datasources:hover {
+a#expand-assets:hover {
   cursor:pointer;
   }
 
-form div.datasources {
+form div.assets {
   padding: 5px;
   margin-top: 5px;
   height:200px;
@@ -1229,27 +1229,27 @@ form div.datasources {
   border: 1px solid #ccc;
   }
 
-form div.datasources div { padding:0px; }
+form div.assets div { padding:0px; }
 
-form div.datasources .empty,
-form div.datasources .datasource { padding:0px 0px 0px 10px; }
+form div.assets .empty,
+form div.assets .assets { padding:0px 0px 0px 10px; }
 
 /**
  * TODO: this will break in IE
  */
-a.datasource {
+a.asset {
   display:block;
   cursor:pointer;
   }
 
-a.datasource:hover {
+a.asset:hover {
   color:#000;
   background:#fff;
   }
   
-a.datasource .url { display:none; }
+a.asset .url { display:none; }
 
-a.datasource .metadata {
+a.asset .metadata {
   font-size:9px;
   padding:0px 3px;
   color:#aaa;

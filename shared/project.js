@@ -135,11 +135,11 @@ var LayerList = Backbone.Collection.extend({
 });
 
 /**
- * Model: LayerFields
+ * Model: Datasource
  *
  * This is a read-only model of inspection metadata about a map layer.
  */
-var LayerFields = Backbone.Model.extend({
+var Datasource = Backbone.Model.extend({
     // @TODO either as a feature or a bug, object attributes are not set
     // automatically when passed to the constructor. We set it manually here.
     initialize: function(attributes, options) {
@@ -147,7 +147,7 @@ var LayerFields = Backbone.Model.extend({
         this.project = options.project;
     },
     url: function() {
-        return '/api/' + this.project.project64({ signed: true }) + '/' + this.id;
+        return '/api/Datasource/' + Base64.urlsafe_encode(this.get('url'));
     }
 });
 
@@ -463,6 +463,7 @@ if (typeof module !== 'undefined') {
         ProjectList: ProjectList,
         ExportJob: ExportJob,
         ExportJobList: ExportJobList,
+        Datasource: Datasource,
         Settings: Settings
     };
 }
