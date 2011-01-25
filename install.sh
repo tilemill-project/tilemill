@@ -17,17 +17,17 @@ abort() {
 
 test -z "$GET" && abort "curl or wget required"
 
-if ! [ -f $RUN_DIR/bin/node ]; then
+if ! [ -f "$RUN_DIR/bin/node" ]; then
     cd $SRC_DIR
     echo "... installing node $VERSION"
     curl -O -q http://nodejs.org/dist/node-v$VERSION.tar.gz
     tar -zxf node-v$VERSION.tar.gz
     cd node-v$VERSION
-    ./configure --prefix=$RUN_DIR/build
+    ./configure --prefix="$RUN_DIR/build"
     make
     make install
-    cd $RUN_DIR
-    cp $VENDOR_DIR/bin/node $RUN_DIR/bin/node
+    cd "$RUN_DIR"
+    cp $VENDOR_DIR/bin/node "$RUN_DIR/bin/node"
 else
     echo "... already installed node $VERSION"
 fi
@@ -41,9 +41,9 @@ if ! [ -f "lib/node/mapnik/_mapnik.node" ]; then
     echo "... building node-mapnik"
     $GET $url | \
     tar -xz --strip 1
-    $RUN_DIR/build/bin/node-waf --prefix=$RUN_DIR configure build
-    $RUN_DIR/build/bin/node-waf install
-    cd $RUN_DIR;
+    "$RUN_DIR/build/bin/node-waf" --prefix="$RUN_DIR" configure build
+    "$RUN_DIR/build/bin/node-waf" install
+    cd "$RUN_DIR";
 else
     echo "... already built node-mapnik"
 fi
@@ -57,9 +57,9 @@ if ! [ -f "lib/node/srs/_srs.node" ]; then
     echo "... building node-srs"
     $GET $url | \
     tar -xz --strip 1
-    $RUN_DIR/build/bin/node-waf --prefix=$RUN_DIR configure build
-    $RUN_DIR/build/bin/node-waf install
-    cd $RUN_DIR;
+    "$RUN_DIR/build/bin/node-waf" --prefix="$RUN_DIR" configure build
+    "$RUN_DIR/build/bin/node-waf" install
+    cd "$RUN_DIR";
 else
     echo "... already built node-srs"
 fi
@@ -73,9 +73,9 @@ if ! [ -f "lib/node/zipfile/_zipfile.node" ]; then
     echo "... building node-zipfile"
     $GET $url | \
     tar -xz --strip 1
-    $RUN_DIR/build/bin/node-waf --prefix=$RUN_DIR configure build
-    $RUN_DIR/build/bin/node-waf install
-    cd $RUN_DIR;
+    "$RUN_DIR/build/bin/node-waf" --prefix="$RUN_DIR" configure build
+    "$RUN_DIR/build/bin/node-waf" install
+    cd "$RUN_DIR";
 else
     echo "... already built node-zipfile"
 fi
@@ -89,9 +89,9 @@ if ! [ -f "lib/node/sqlite/sqlite3_bindings.node" ]; then
     echo "... building node-sqlite"
     $GET $url | \
     tar -xz --strip 1
-    $RUN_DIR/build/bin/node-waf --prefix=$RUN_DIR configure build
-    $RUN_DIR/build/bin/node-waf install
-    cd $RUN_DIR;
+    "$RUN_DIR/build/bin/node-waf" --prefix="$RUN_DIR" configure build
+    "$RUN_DIR/build/bin/node-waf" install
+    cd "$RUN_DIR";
 else
     echo "... already built node-sqlite"
 fi
