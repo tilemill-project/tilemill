@@ -587,6 +587,7 @@ form .palette div { padding:5px 0px; }
  * Layers
  */
 #layers {
+  border-top:1px solid #ccc;
   position:absolute;
   left:0px;
   bottom:0px;
@@ -634,6 +635,7 @@ form .palette div { padding:5px 0px; }
   bottom:0px;
   top:50%;
   width:50%;
+  border-top:1px solid #ccc;
   border-left:1px solid #ccc;
   }
 
