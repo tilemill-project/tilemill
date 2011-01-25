@@ -15,6 +15,7 @@ module coopernurse node-pool
 module lucisferre node-xml2js
 module developmentseed mess.js
 module developmentseed tilelive.js
+module willwhite node-worker
 
 # addons
 # latest ndistro is able to download and build c++ addons,

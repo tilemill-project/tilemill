@@ -1,14 +1,13 @@
 var path = require('path'),
-    Queue = require('queue').Queue,
     ExportJobList = require('project').ExportJobList,
     Step = require('step'),
     Task = require('queue').Task,
+    Queue = require('queue').Queue,
     Tile = require('tilelive.js').Tile,
     TileBatch = require('tilelive.js').TileBatch,
     fs = require('fs'),
-    sys = require('sys'),
     settings = require('settings'),
-    events = require('events');
+    Worker = require('worker').Worker;
 
 
 var ExportScanner  = function(app, settings) {
@@ -38,7 +37,21 @@ var ExportScanner  = function(app, settings) {
                 function(jobs) {
                     jobs.each(function(job) {
                         if (job.get('status') === 'waiting') {
-                            job.addTasks(queue);
+                            var task = Task();
+                            var nodePath = path.join(__dirname, '..', 'bin', 'node');
+                            var worker = new Worker(
+                                path.join(__dirname, 'export-worker.js'),
+                                null, {nodePath: nodePath});
+                            worker.on('start', function() {
+                                this.postMessage({
+                                    id: job.id
+                                });
+                                this.on('message', function (msg) {
+                                    worker.terminate();
+                                });
+                            });
+
+                            queue.add(worker);
                         }
                     });
                     this();
@@ -52,40 +65,31 @@ var ExportScanner  = function(app, settings) {
     }
 }
 
-var ExportJobMBTiles = function(model, queue) {
+var ExportJobMBTiles = function(model, callback) {
     var batch;
-    var RenderTask = function(batch, model, queue) {
-        events.EventEmitter.call(this);
+    var RenderTask = function(batch, model) {
         this.batch = batch;
         this.model = model;
-        this.queue = queue;
-        this.on('start', function() {
-            this.emit('work');
-        });
-        this.on('work', function() {
-            var that = this;
-            this.batch.renderChunk(function(err, rendered) {
-                if (rendered) {
-                    var next = new RenderTask(that.batch, that.model, that.queue);
-                    that.queue.add(next);
-                    that.model.save({
-                        progress: that.batch.tiles_current / that.batch.tiles_total,
-                        updated: +new Date
-                    });
-                }
-                else {
-                    batch.finish();
-                    that.model.save({
-                        status: 'complete',
-                        progress: 1,
-                        updated: +new Date
-                    });
-                }
-                that.emit('finish');
-            });
+        var that = this;
+        this.batch.renderChunk(function(err, rendered) {
+            if (rendered) {
+                var next = new RenderTask(that.batch, that.model);
+                that.model.save({
+                    progress: that.batch.tiles_current / that.batch.tiles_total,
+                    updated: +new Date
+                });
+            }
+            else {
+                batch.finish();
+                that.model.save({
+                    status: 'complete',
+                    progress: 1,
+                    updated: +new Date
+                });
+                callback(false);
+            }
         });
     }
-    sys.inherits(RenderTask, events.EventEmitter);
 
     Step(
         function() {
@@ -95,19 +99,19 @@ var ExportJobMBTiles = function(model, queue) {
             if (exists) {
                 var filename = model.get('filename');
                 var extension = path.extname(filename);
-                var date = new Date();
-                var hash = require('crypto')
-                    .createHash('md5')
-                    .update(date.getTime())
-                    .digest('hex')
-                    .substring(0,6);
+                var hash = require('crypto').createHash('md5')
+                    .update(+new Date).digest('hex').substring(0,6);
                 model.set({
-                    filename: filename.replace(extension, '') + '_' + hash + extension
+                    filename: filename.replace(extension, '') + '_' + hash + extension,
+                    updated: +new Date
                 });
             }
+            this();
+        },
+        function() {
             batch = new TileBatch({
                 filepath: path.join(settings.export_dir, model.get('filename')),
-                batchsize: 1,
+                batchsize: 100,
                 bbox: model.get('bbox').split(','),
                 minzoom: model.get('minzoom'),
                 maxzoom: model.get('maxzoom'),
@@ -123,7 +127,7 @@ var ExportJobMBTiles = function(model, queue) {
             batch.setup(this);
         },
         function(err) {
-            queue.add(new RenderTask(batch, model, queue));
+            new RenderTask(batch, model);
             model.save({
                 status: 'processing',
                 updated: +new Date
@@ -132,86 +136,89 @@ var ExportJobMBTiles = function(model, queue) {
     );
 }
 
-var ExportJobImage = function(model, queue) {
-    var task = new Task();
-    task.on('start', function() {
-        this.emit('work');
+var ExportJobImage = function(model, callback) {
+    model.save({
+        status: 'processing',
+        updated: +new Date
     });
-    task.on('work', function() {
-        Step(
-            function() {
-                path.exists(path.join(settings.export_dir, model.get('filename')), this);
-            },
-            function(exists) {
-                if (exists) {
-                    var filename = model.get('filename');
-                    var extension = path.extname(filename);
-                    var date = new Date();
-                    var hash = require('crypto').createHash('md5')
-                        .update(date.getTime()).digest('hex').substring(0,6);
-                    model.set({
-                        filename: filename.replace(extension, '') + '_' + hash + extension
-                    });
-                }
-                var options = _.extend({}, model.attributes, {
-                    scheme: 'tile',
-                    format: 'png',
-                    mapfile_dir: path.join(settings.mapfile_dir),
-                    bbox: model.get('bbox').split(',')
+
+    Step(
+        function() {
+            path.exists(path.join(settings.export_dir, model.get('filename')), this);
+        },
+        function(exists) {
+            if (exists) {
+                var filename = model.get('filename');
+                var extension = path.extname(filename);
+                var hash = require('crypto').createHash('md5')
+                    .update(+new Date).digest('hex').substring(0,6);
+                model.set({
+                    filename: filename.replace(extension, '') + '_' + hash + extension,
+                    updated: +new Date
                 });
-                try {
-                    var tile = new Tile(options);
-                } catch (err) {
-                    model.save({
-                        status: 'error',
-                        error: 'Tile invalid: ' + err.message
-                    });
-                }
-                if (tile) {
-                    tile.render(this);
-                }
-            },
-            function(err, data) {
-                if (!err) {
-                    fs.writeFile(path.join(settings.export_dir, model.get('filename')), data[0], function(err) {
-                        if (err) {
-                            model.save({
-                                status: 'error',
-                                error: 'Error saving image: ' + err.message,
-                                updated: +new Date
-                            });
-                        }
-                        else {
-                            model.save({
-                                status:'complete',
-                                progress: 1,
-                                updated: +new Date
-                            });
-                        }
-                        task.emit('finish');
-                    });
-                }
-                else {
-                    model.save({
-                        status: 'error',
-                        error: 'Error rendering image: ' + err.message,
-                        updated: +new Date
-                    });
-                    task.emit('finish');
-                }
             }
-        );
-    });
-    queue.add(task);
-    model.save({status: 'processing'});
+            this();
+        },
+        function() {
+            var options = _.extend({}, model.attributes, {
+                scheme: 'tile',
+                format: 'png',
+                mapfile_dir: path.join(settings.mapfile_dir),
+                bbox: model.get('bbox').split(',')
+            });
+            try {
+                var tile = new Tile(options);
+            } catch (err) {
+                model.save({
+                    status: 'error',
+                    error: 'Tile invalid: ' + err.message,
+                    updated: +new Date
+                });
+            }
+            if (tile) {
+                tile.render(this);
+            }
+        },
+        function(err, data) {
+            if (!err) {
+                fs.writeFile(path.join(settings.export_dir, model.get('filename')), data[0], function(err) {
+                    if (err) {
+                        model.save({
+                            status: 'error',
+                            error: 'Error saving image: ' + err.message,
+                            updated: +new Date
+                        });
+                        callback(true);
+                        
+                    }
+                    else {
+                        model.save({
+                            status:'complete',
+                            progress: 1,
+                            updated: +new Date
+                        });
+                        callback(false);
+                    }
+                });
+            }
+            else {
+                model.save({
+                    status: 'error',
+                    error: 'Error rendering image: ' + err.message,
+                    updated: +new Date
+                });
+                callback(true);
+            }
+        }
+    );
 }
 
 module.exports = {
     ExportScanner: ExportScanner,
-    addTasks: function(model, queue) {
+    doExport: function(model, callback) {
         return {
             ExportJobImage: ExportJobImage,
             ExportJobMBTiles: ExportJobMBTiles
-        }[model.get('type')](model, queue);
+        }[model.get('type')](model, callback);
     }
 }
