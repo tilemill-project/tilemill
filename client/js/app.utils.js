@@ -12,6 +12,13 @@ var PopupView = Backbone.View.extend({
         window.app.el.append(this.el);
         return this;
     },
+    loading: function(message) {
+        this.loadingView = new LoadingView({message: message});
+        this.$('.popup').append(this.loadingView.el);
+    },
+    done: function() {
+        this.loadingView && this.loadingView.remove();
+    },
     close: function() {
         this.remove();
         window.app.activePopup = false;
@@ -79,6 +86,61 @@ var DrawerView = Backbone.View.extend({
         $('.drawer-content', this.el).children().fadeOut('fast');
         $(this.el).animate( {left: '-100%'}, function() { $(this).remove() });
         return false;
+    }
+});
+
+var LoadingView = Backbone.View.extend({
+    initialize: function () {
+        _.bindAll(this, 'render');
+        this.render();
+    },
+    render: function () {
+        $(this.el).html(ich.LoadingView(this.options));
+        return this;
+    }
+});
+
+var ErrorView = Backbone.View.extend({
+    initialize: function () {
+        _.bindAll(this, 'render');
+        this.render();
+    },
+    render: function () {
+        $(this.el).html(ich.ErrorView(this.options));
+        window.app.el.html(this.el);
+        return this;
+    }
+});
+
+/**
+ * View: SettingsPopupView
+ */
+var SettingsPopupView = PopupView.extend({
+    events: _.extend({
+        'click input.submit': 'submit'
+    }, PopupView.prototype.events),
+    initialize: function(params) {
+        _.bindAll(this, 'render', 'submit');
+        this.model = this.options.model;
+        this.options.title = 'Settings';
+        this.options.content = ich.SettingsPopupView({
+            'minimal_mode': (this.model.get('mode') === 'minimal')
+        }, true);
+        this.render();
+    },
+    submit: function() {
+        var success = this.model.set(
+            { 'mode': $('select#mode', this.el).val() },
+            { 'error': this.showError }
+        );
+        if (success) {
+            this.model.save();
+            this.remove();
+        }
+        return false;
+    },
+    showError: function(model, error) {
+        window.app.message('Error', error);
     }
 });
 

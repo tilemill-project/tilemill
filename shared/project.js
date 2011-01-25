@@ -8,6 +8,13 @@ if (typeof require !== 'undefined') {
 }
 
 /**
+ * Model: Abilities
+ *
+ * Read-only model describing the abilities of TileLive's Mapnik backend.
+ */
+var Abilities = Backbone.Model.extend({ url: '/api/abilities' });
+
+/**
  * Model: Settings
  *
  * Settings model. Stores any user-specific configuration related to the app.
@@ -144,7 +151,6 @@ var Datasource = Backbone.Model.extend({
     // automatically when passed to the constructor. We set it manually here.
     initialize: function(attributes, options) {
         this.set({'fields': attributes.fields});
-        this.project = options.project;
     },
     url: function() {
         return '/api/Datasource/' + Base64.urlsafe_encode(this.get('url'));

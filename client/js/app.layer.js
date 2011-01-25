@@ -86,7 +86,10 @@ var LayerRowView = Backbone.View.extend({
         if (this.model.get('class')) {
             name = name.concat(this.model.get('class').split(' '));
         }
-        $(this.el).html(ich.LayerRowView({ name: name.join('.') }));
+        $(this.el).html(ich.LayerRowView({
+            name: name.join('.'),
+            geometry: this.model.get('geometry')
+        }));
         return this;
     },
     events: {
@@ -104,10 +107,10 @@ var LayerRowView = Backbone.View.extend({
     },
     inspect: function() {
         new DatasourceView({
-            model: new Datasource(
-                { id: this.model.id, url: this.model.get('Datasource').file },
-                { project: this.project }
-            )
+            model: new Datasource({ 
+                id: this.model.id,
+                url: this.model.get('Datasource').file
+            })
         });
         return false;
     },
@@ -162,25 +165,36 @@ var LayerPopupView = PopupView.extend({
         this.render();
     },
     submit: function() {
-        var success = this.model.set(
-            {
-                'id': $('input#id', this.el).val(),
-                'name': $('input#id', this.el).val(),
-                'srs': $('input#srs', this.el).val(),
-                'class': $('input#class', this.el).val(),
-                'Datasource': {
-                    'file': $('input#file', this.el).val(),
-                    'type': 'shape'
+        var that = this;
+        var datasource = new Datasource({
+            id: $('input#id', this.el).val(),
+            url: $('input#file', this.el).val()
+        });
+        this.loading('Loading datasource');
+        datasource.fetch({
+            success: function() {
+                that.done();
+                var success = that.model.set(
+                    {
+                        'id': $('input#id', that.el).val(),
+                        'name': $('input#id', that.el).val(),
+                        'srs': $('input#srs', that.el).val(),
+                        'class': $('input#class', that.el).val(),
+                        'geometry': datasource.get('geometry_type'),
+                        'Datasource': {
+                            'file': $('input#file', that.el).val(),
+                            'type': 'shape'
+                        }
+                    },
+                    { 'error': that.showError }
+                );
+                if (success) {
+                    that.options.add && that.collection.add(that.model);
+                    that.remove();
                 }
             },
-            { 'error': this.showError }
-        );
-        if (success) {
-            if (this.options.add) {
-                this.collection.add(this.model);
-            }
-            this.remove();
-        }
+            error: that.showError
+        });
         return false;
     },
     assets: function() {
@@ -201,6 +215,7 @@ var LayerPopupView = PopupView.extend({
         return false;
     },
     showError: function(model, error) {
+        this.done();
         window.app.message('Error', error);
     },
     getSRSName: function(srs) {
