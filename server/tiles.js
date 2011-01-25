@@ -2,10 +2,6 @@ var _ = require('underscore')._,
     path = require('path'),
     Tile = require('tilelive.js').Tile;
 
-var mapnik = require('mapnik');
-mapnik.register_datasources('/usr/local/lib/mapnik2/input');
-mapnik.register_fonts('/usr/local/lib/mapnik2/fonts/');
-
 module.exports = function(app, settings) {
     /**
      * format:
@@ -35,7 +31,7 @@ module.exports = function(app, settings) {
                 data[1] = _.extend(settings.header_defaults, data[1]);
                 res.send.apply(res, data);
             } else {
-                res.send('Error rendering image', 500);
+                res.send('Error rendering image: ' + err, 500);
                 // res.send('', { 'Content-Type': 'image/png' }, 500);
             }
         });

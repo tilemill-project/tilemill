@@ -308,7 +308,11 @@ var Project = Backbone.Model.extend({
                             if (!err) {
                                 try {
                                     var errors = null;
-                                    var env = { returnErrors: true, errors: [] };
+                                    var env = {
+                                        returnErrors: true,
+                                        errors: [],
+                                        effects: []
+                                    };
                                     var l = tree.toList(env);
                                     l.map(function(t) {
                                         t.toXML(env);
