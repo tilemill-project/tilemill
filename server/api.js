@@ -6,32 +6,38 @@ var _ = require('underscore'),
 module.exports = function(app, settings) {
     function loadDatasource(req, res, next) {
         if (req.param('id')) {
+            // @TODO this is not an actual safe64 -> url conversion. Fix.
             var url = (new Buffer(req.param('id'), 'base64')).toString('utf-8');
             var external = new External(settings, url);
             external.on('complete', function(external) {
-                var ds = new mapnik.Datasource({
-                    type: 'shape',
-                    file: external.shapeFile()
+                external.findByExtension('.shp', function(err, files) {
+                    if (!files.length) {
+                        return next(new Error('Datasource could not be loaded.'));
+                    }
+                    var ds = new mapnik.Datasource({
+                        type: 'shape',
+                        file: files.pop()
+                    });
+                    res.datasource = {
+                        fields: {},
+                        features: ds.features()
+                    };
+                    var data = ds.describe();
+                    for (var fieldId in data.fields) {
+                        res.datasource.fields[fieldId] = {type: data.fields[fieldId]};
+                        var field = res.datasource.fields[fieldId];
+                        var values = _.pluck(res.datasource.features, fieldId);
+                        if (field.type == 'Number') {
+                            field.min = Math.min.apply(Math, values);
+                            field.max = Math.max.apply(Math, values);
+                        }
+                        else if (res.datasource.fields[fieldId].type == 'String') {
+                            field.min = _.min(values, function(value) { return value.length; }).length;
+                            field.max = _.max(values, function(value) { return value.length; }).length;
+                        }
+                    }
+                    next();
                 });
-                res.datasource = {
-                    fields: {},
-                    features: ds.features()
-                };
-                var data = ds.describe();
-                for (var fieldId in data.fields) {
-                    res.datasource.fields[fieldId] = {type: data.fields[fieldId]};
-                    var field = res.datasource.fields[fieldId];
-                    var values = _.pluck(res.datasource.features, fieldId);
-                    if (field.type == 'Number') {
-                        field.min = Math.min.apply(Math, values);
-                        field.max = Math.max.apply(Math, values);
-                    }
-                    else if (res.datasource.fields[fieldId].type == 'String') {
-                        field.min = _.min(values, function(value) { return value.length; }).length;
-                        field.max = _.max(values, function(value) { return value.length; }).length;
-                    }
-                }
-                next();
             });
         } else {
             next(new Error('Datasource could not be loaded.'));
