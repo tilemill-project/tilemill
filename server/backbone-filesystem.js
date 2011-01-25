@@ -134,7 +134,12 @@ function loadAll(model, callback) {
             }
         },
         function(err, models) {
-            return callback(err, models);
+            // Ignore errors from loading individual models (e.g.
+            // don't let one bad apple spoil the collection).
+            models = _.select(models, function(model) {
+                return (typeof model === 'object');
+            });
+            return callback(null, models);
         }
     );
 };
