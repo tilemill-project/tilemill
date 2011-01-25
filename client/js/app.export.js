@@ -148,12 +148,23 @@ var ExportJobView = Backbone.View.extend({
     changeValue: function(event) {
         var data = {};
         if ($(event.target).is('.bbox')) {
-            data.bbox = [
-                this.$('#bbox-w').val(),
-                this.$('#bbox-s').val(),
-                this.$('#bbox-e').val(),
-                this.$('#bbox-n').val()
-            ].join(',');
+            var bbox = [
+                parseFloat(this.$('#bbox-w').val()),
+                parseFloat(this.$('#bbox-s').val()),
+                parseFloat(this.$('#bbox-e').val()),
+                parseFloat(this.$('#bbox-n').val())
+            ];
+            var nw = OpenLayers.Projection.transform(
+                { x: bbox[0], y: bbox[3] },
+                new OpenLayers.Projection('EPSG:4326'),
+                new OpenLayers.Projection('EPSG:900913')
+            );
+            var se = OpenLayers.Projection.transform(
+                { x: bbox[2], y: bbox[1] },
+                new OpenLayers.Projection('EPSG:4326'),
+                new OpenLayers.Projection('EPSG:900913')
+            );
+            data.bbox = [ nw.x, se.y, se.x, nw.y ].join(',');
         }
         else {
             data[$(event.target).attr('id')] = $(event.target).val();
@@ -166,10 +177,20 @@ var ExportJobView = Backbone.View.extend({
         _.each(model.changedAttributes(), function(value, key) {
             if (key === 'bbox') {
                 var bbox = value.split(',');
-                that.$('#bbox-w').val(bbox[0]);
-                that.$('#bbox-s').val(bbox[1]);
-                that.$('#bbox-e').val(bbox[2]);
-                that.$('#bbox-n').val(bbox[3]);
+                var nw = OpenLayers.Projection.transform(
+                    { x: bbox[0], y: bbox[3] },
+                    new OpenLayers.Projection('EPSG:900913'),
+                    new OpenLayers.Projection('EPSG:4326')
+                );
+                var se = OpenLayers.Projection.transform(
+                    { x: bbox[2], y: bbox[1] },
+                    new OpenLayers.Projection('EPSG:900913'),
+                    new OpenLayers.Projection('EPSG:4326')
+                );
+                that.$('#bbox-w').val(nw.x);
+                that.$('#bbox-s').val(se.y);
+                that.$('#bbox-e').val(se.x);
+                that.$('#bbox-n').val(nw.y);
             }
             else {
                 that.$('#' + key).val(value);
