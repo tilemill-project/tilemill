@@ -254,10 +254,11 @@
       </div>
     </script>
 
-    <script type='text/html' id='ExportJobOptions'>
+    <script type='text/html' id='ExportOptions'>
       <ul>
-        <li><a class='export-option export-png' href='#ExportJobImage'>PNG</a></li>
-        <li><a class='export-option export-mbtiles' href='#ExportJobMBTiles'>MBTiles</a></li>
+        {{#png}}<li><a class='export-option export-png' href='#ExportJobImage'>PNG</a></li>{{/png}}
+        {{#pdf}}<li><a class='export-option export-pdf' href='#ExportJobPDF'>PDF</a></li>{{/pdf}}
+        {{#mbtiles}}<li><a class='export-option export-mbtiles' href='#ExportJobMBTiles'>MBTiles</a></li>{{/mbtiles}}
         <li class='divider'><a class='jobs' href='#'>View exports</a></li>
       </ul>
     </script>
@@ -292,39 +293,6 @@
           </div>
           <div class='buttons'>
               <input class='submit' type='submit' value='Save' />
-          </div>
-        </form>
-      </div>
-    </script>
-
-    <script type='text/html' id='ExportJobEmbedView'>
-      <div id='popup-info' class='clearfix pane'>
-        <form>
-          <div><label for='tile-url'>Tile URL</label>
-            <input id='tile-url' class='text' type='text' value='{{ tile_url }}' />
-          </div>
-          <div>
-            <label for='polymaps'>Polymaps</label>
-            <textarea class='code-snippet'>
-var po = org.polymaps;
-var map = po.map()
-    .container(document.getElementById('map').appendChild(po.svg('svg')))
-    .add(po.interact())
-    .add(po.hash())
-    // layer setup
-    .add(po.image()
-    .url(po.url({{ tile_url }}
-    + '/{Z}/{X}/{Y}.png')
-    ))
-    // end layer setup
-    .add(po.compass()
-    .pan('none'));
-</textarea>
-        </div>
-        <div><label for='openlayers'>OpenLayers</label>
-            <textarea class='code-snippet'>
-var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: true });
-            </textarea>
           </div>
         </form>
       </div>
@@ -440,11 +408,11 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
       <span class='url'>{{ url }}</span>
     </script>
 
-    <script type='text/html' id='ExportJobListView'>
+    <script type='text/html' id='ExportListView'>
       <ul class='sidebar-content jobs clearfix'></ul>
     </script>
 
-    <script type='text/html' id='ExportJobRowView'>
+    <script type='text/html' id='ExportRowView'>
       <a href='#' class='icon delete'>Remove</a>
       <span class='status status-{{status}}'>{{ status }}</span>
       <span class='progress'>
@@ -467,14 +435,14 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
       {{/download}}
     </script>
 
-    <script type='text/html' id='ExportJobView'>
+    <script type='text/html' id='ExportView'>
       <form id='export'>
         <div class='header clearfix'>
           <span class='file {{ type }}'></span>
           <h1>{{ title }}</h1>
           <div class='form'>
             <label class='inline' for='filename'>Filename</label>
-            <input type='text' class='inline text' id='filename' value='{{ filename }}'/>
+            <input type='text' class='inline text' id='filename'/>
             <input class='submit' type='submit' value='Export' />
             <a class='icon close' href='#'>Back home</a>
           </div>
@@ -486,17 +454,17 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
             </div>
             <div class='bbox-frame'>
               <a href='#' class='reset'>Reset</a>
-              <input type='text' class='bbox text' id='bbox-n' value='{{ bbox_n }}' />
-              <input type='text' class='bbox text' id='bbox-e' value='{{ bbox_e }}' />
-              <input type='text' class='bbox text' id='bbox-s' value='{{ bbox_s }}' />
-              <input type='text' class='bbox text' id='bbox-w' value='{{ bbox_w }}' />
+              <input type='text' class='bbox text' id='bbox-n' />
+              <input type='text' class='bbox text' id='bbox-e' />
+              <input type='text' class='bbox text' id='bbox-s' />
+              <input type='text' class='bbox text' id='bbox-w' />
             </div>
           </div>
         </div>
       </form>
     </script>
 
-    <script type='text/html' id='ExportJobImageView'>
+    <script type='text/html' id='ExportImageView'>
       <div>
         <label for='class'>Dimensions</label>
         <input type='text' class='text' size='3' id='width' value='{{ width }}'/>
@@ -506,7 +474,7 @@ var layer = new OpenLayers.Layer('layer', {{ tile_url }}, { sphericalMercator: t
       </div>
     </script>
 
-    <script type='text/html' id='ExportJobMBTilesView'>
+    <script type='text/html' id='ExportMBTilesView'>
       <div>
         <label>
             Zoom Levels (

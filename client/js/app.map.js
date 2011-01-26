@@ -89,20 +89,6 @@ var MapView = Backbone.View.extend({
         return this;
     },
 
-    xport: function(method, collection) {
-        if (typeof exportMethods[method] === 'function') {
-            var view = new exportMethods[method]({
-                model: new ExportJob({
-                    mapfile: this.model.project64({signed: false}),
-                    type: method
-                }),
-                project: this.model,
-                collection: collection,
-                map: this
-            });
-        }
-    },
-
     fullscreen: function() {
         $(this.el).toggleClass('fullscreen');
         this.map.updateSize();

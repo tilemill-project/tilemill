@@ -311,6 +311,7 @@ var Project = Backbone.Model.extend({
                 var env = {
                     returnErrors: true,
                     errors: [],
+                    deferred_externals: [],
                     effects: []
                 };
                 if (stylesheets.length !== 0) {
