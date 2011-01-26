@@ -149,7 +149,7 @@ var LayerPopupView = PopupView.extend({
         'change select#srs-name': 'selectSRS'
     }, PopupView.prototype.events),
     initialize: function(params) {
-        _.bindAll(this, 'render', 'submit', 'assets', 'getSRSName', 'selectSRS');
+        _.bindAll(this, 'render', 'submit', 'assets', 'getSRSName', 'selectSRS', 'showError');
         this.model = this.options.model;
         this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
 
