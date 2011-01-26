@@ -96,7 +96,8 @@ module.exports = function(app, settings) {
      */
     app.put('/api/:model/:id', function(req, res, next) {
         if (typeof models[req.param('model')] !== 'undefined') {
-            var model = new models[req.param('model')](req.body);
+            var model = modelInstance.get(req.param('model'), req.param('id'));
+            model.set(req.body);
             if (req.param('model') === 'Project') {
                 model.validateAsync({
                     success: function(model) {
@@ -131,7 +132,8 @@ module.exports = function(app, settings) {
      */
     app.post('/api/:model/:id', function(req, res, next) {
         if (typeof models[req.param('model')] !== 'undefined') {
-            var model = new models[req.param('model')](req.body);
+            var model = modelInstance.get(req.param('model'), req.param('id'));
+            model.set(req.body);
             if (req.param('model') === 'Project') {
                 model.validateAsync({
                     success: function(model) {
