@@ -254,7 +254,7 @@
       </div>
     </script>
 
-    <script type='text/html' id='ExportJobOptions'>
+    <script type='text/html' id='ExportOptions'>
       <ul>
         {{#png}}<li><a class='export-option export-png' href='#ExportJobImage'>PNG</a></li>{{/png}}
         {{#pdf}}<li><a class='export-option export-pdf' href='#ExportJobPDF'>PDF</a></li>{{/pdf}}
@@ -408,11 +408,11 @@
       <span class='url'>{{ url }}</span>
     </script>
 
-    <script type='text/html' id='ExportJobListView'>
+    <script type='text/html' id='ExportListView'>
       <ul class='sidebar-content jobs clearfix'></ul>
     </script>
 
-    <script type='text/html' id='ExportJobRowView'>
+    <script type='text/html' id='ExportRowView'>
       <a href='#' class='icon delete'>Remove</a>
       <span class='status status-{{status}}'>{{ status }}</span>
       <span class='progress'>
@@ -435,7 +435,7 @@
       {{/download}}
     </script>
 
-    <script type='text/html' id='ExportJobView'>
+    <script type='text/html' id='ExportView'>
       <form id='export'>
         <div class='header clearfix'>
           <span class='file {{ type }}'></span>
@@ -464,7 +464,7 @@
       </form>
     </script>
 
-    <script type='text/html' id='ExportJobImageView'>
+    <script type='text/html' id='ExportImageView'>
       <div>
         <label for='class'>Dimensions</label>
         <input type='text' class='text' size='3' id='width' value='{{ width }}'/>
@@ -474,7 +474,7 @@
       </div>
     </script>
 
-    <script type='text/html' id='ExportJobMBTilesView'>
+    <script type='text/html' id='ExportMBTilesView'>
       <div>
         <label>
             Zoom Levels (

@@ -1,13 +1,13 @@
 /**
- * View: ExportJobListView
+ * View: ExportListView
  *
- * Shows a list of current export jobs from an ExportJobList collection in a
+ * Shows a list of current export jobs from an ExportList collection in a
  * sidebar drawer.
  */
-var ExportJobListView = DrawerView.extend({
+var ExportListView = DrawerView.extend({
     initialize: function() {
         this.options.title = 'Exports';
-        this.options.content = ich.ExportJobListView({}, true);
+        this.options.content = ich.ExportListView({}, true);
         this.bind('render', this.renderJobs);
         DrawerView.prototype.initialize.call(this);
     },
@@ -17,7 +17,7 @@ var ExportJobListView = DrawerView.extend({
             success: function() {
                 that.collection.each(function(job) {
                     if (!job.view) {
-                        job.view = new ExportJobRowView({ model: job });
+                        job.view = new ExportRowView({ model: job });
                         $('.jobs', that.el).append(job.view.el);
                     }
                 });
@@ -27,11 +27,11 @@ var ExportJobListView = DrawerView.extend({
 });
 
 /**
- * View: ExportJobRowView
+ * View: ExportRowView
  *
- * A single job row in an ExportJobListView.
+ * A single job row in an ExportListView.
  */
-var ExportJobRowView = Backbone.View.extend({
+var ExportRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
     events: {
@@ -54,7 +54,7 @@ var ExportJobRowView = Backbone.View.extend({
         this.render();
     },
     render: function() {
-        $(this.el).html(ich.ExportJobRowView({
+        $(this.el).html(ich.ExportRowView({
             time: this.model.time(),
             progress: parseInt(this.model.get('progress') * 100),
             progressClass: parseInt(this.model.get('progress') * 10),
@@ -82,11 +82,11 @@ var ExportJobRowView = Backbone.View.extend({
 });
 
 /**
- * View: ExportJobView
+ * View: ExportView
  *
  * Base view for all export types.
  */
-var ExportJobView = Backbone.View.extend({
+var ExportView = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, 'boundingBoxAdded', 'boundingBoxReset', 'updateModel', 'updateUI');
         this.map = this.options.map.map;
@@ -95,7 +95,7 @@ var ExportJobView = Backbone.View.extend({
         this.model.set({ bbox: this.map.getExtent().toArray().join(',') });
     },
     render: function() {
-        $(this.el).html(ich.ExportJobView(this.options));
+        $(this.el).html(ich.ExportView(this.options));
         $('.palette', this.el).append(this.getFields());
         $('body').addClass('exporting');
         window.app.el.append(this.el);
@@ -185,7 +185,7 @@ var ExportJobView = Backbone.View.extend({
         this.options.collection.add(this.model);
         this.model.save();
         this.close();
-        new ExportJobListView({ collection: new ExportJobList });
+        new ExportListView({ collection: new ExportJobList });
         return false;
     },
     close: function() {
@@ -200,15 +200,15 @@ var ExportJobView = Backbone.View.extend({
 });
 
 /**
- * View: ExportJobImageView
+ * View: ExportImageView
  *
  * PNG export view.
  */
-var ExportJobImageView = ExportJobView.extend({
+var ExportImageView = ExportView.extend({
     initialize: function() {
         this.options.title = 'Export PNG';
-        this.options.type = 'ExportJobImage';
-        ExportJobView.prototype.initialize.call(this);
+        this.options.type = 'ExportImage';
+        ExportView.prototype.initialize.call(this);
         var size = this.map.getSize();
         this.model.set({
             filename: this.options.project.get('id') + '.png',
@@ -221,12 +221,12 @@ var ExportJobImageView = ExportJobView.extend({
         this.model.bind('change:aspect', this.updateDimensions);
     },
     getFields: function() {
-        return ich.ExportJobImageView(this.options);
+        return ich.ExportImageView(this.options);
     },
     boundingBoxAdded: function(box) {
         var bounds = box.geometry.components[1].getBounds();
         this.model.set({aspect: bounds.getWidth() / bounds.getHeight()});
-        ExportJobView.prototype.boundingBoxAdded.call(this, box);
+        ExportView.prototype.boundingBoxAdded.call(this, box);
     },
     updateDimensions: function(model) {
         var attributes = model.changedAttributes();
@@ -252,16 +252,16 @@ var ExportJobImageView = ExportJobView.extend({
 });
 
 /**
- * View: ExportJobMBTilesView
+ * View: ExportMBTilesView
  *
  * MBTiles export view.
  */
-var ExportJobMBTilesView = ExportJobView.extend({
+var ExportMBTilesView = ExportView.extend({
     initialize: function() {
         _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
         this.options.title = 'Export MBTiles';
-        this.options.type = 'ExportJobMBTiles';
-        ExportJobView.prototype.initialize.call(this);
+        this.options.type = 'ExportMBTiles';
+        ExportView.prototype.initialize.call(this);
 
         // Set default values.
         this.model.set({
@@ -275,7 +275,7 @@ var ExportJobMBTilesView = ExportJobView.extend({
         });
     },
     render: function() {
-        ExportJobView.prototype.render.call(this);
+        ExportView.prototype.render.call(this);
         this.$('#mbtiles-zoom').slider({
             range: true,
             min:0,
@@ -285,7 +285,7 @@ var ExportJobMBTilesView = ExportJobView.extend({
         });
     },
     getFields: function() {
-        return ich.ExportJobMBTilesView({
+        return ich.ExportMBTilesView({
             minzoom: this.model.get('minzoom'),
             maxzoom: this.model.get('maxzoom'),
             metadata_name: this.model.get('metadata_name'),
@@ -295,7 +295,7 @@ var ExportJobMBTilesView = ExportJobView.extend({
         });
     },
     updateModel: function(event, ui) {
-        ExportJobView.prototype.updateModel.call(this, event);
+        ExportView.prototype.updateModel.call(this, event);
         if ($(event.target).is('#mbtiles-zoom')) {
             this.model.set({
                 minzoom: ui.values[0],
@@ -304,7 +304,7 @@ var ExportJobMBTilesView = ExportJobView.extend({
         }
     },
     updateUI: function(model) {
-        ExportJobView.prototype.updateUI.call(this, model);
+        ExportView.prototype.updateUI.call(this, model);
         this.$('#mbtiles-zoom').slider('values', 0, this.model.get('minzoom'));
         this.$('#mbtiles-zoom').slider('values', 1, this.model.get('maxzoom'));
         this.$('span.min-zoom').text(this.model.get('minzoom'));
@@ -313,21 +313,21 @@ var ExportJobMBTilesView = ExportJobView.extend({
 });
 
 /**
- * View: ExportJobDropdownView
+ * View: ExportDropdownView
  *
  * Dropdown menu for exporting a project.
  */
-var ExportJobDropdownView = DropdownView.extend({
+var ExportDropdownView = DropdownView.extend({
     FORMAT: {
-        ExportJobImage: ExportJobImageView,
-        ExportJobMBTiles: ExportJobMBTilesView
+        ExportJobImage: ExportImageView,
+        ExportJobMBTiles: ExportMBTilesView
     },
     initialize: function() {
         _.bindAll(this, 'xport', 'jobs');
         this.project = this.options.project;
         this.map = this.options.map;
         this.options.title = 'Export';
-        this.options.content = ich.ExportJobOptions(
+        this.options.content = ich.ExportOptions(
             this.options.abilities.get('exports'),
             true
         );
@@ -352,7 +352,7 @@ var ExportJobDropdownView = DropdownView.extend({
         return false;
     },
     jobs: function(event) {
-        new ExportJobListView({ collection: new ExportJobList });
+        new ExportListView({ collection: new ExportJobList });
         this.toggleContent();
         return false;
     }
