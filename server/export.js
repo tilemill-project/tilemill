@@ -8,6 +8,7 @@ var path = require('path'),
     fs = require('fs'),
     settings = require('settings'),
     Worker = require('worker').Worker,
+    sys = require('sys'),
     modelInstance = require('model');
 
 
@@ -69,12 +70,52 @@ var ExportScanner  = function(app, settings) {
     }
 }
 
+/**
+ * Generic export class.
+ */
+var Export = function(model, callback) {
+    this.model = model;
+    this.callback = callback;
+    var that = this;
+    this.setup(function() {
+        that.render(that.callback);
+    });
+}
+
+Export.prototype.setup = function(callback) {
+    var that = this;
+    Step(
+        function() {
+            path.exists(path.join(settings.export_dir, that.model.get('filename')), this);
+        },
+        function(exists) {
+            if (exists) {
+                var filename = that.model.get('filename');
+                var extension = path.extname(filename);
+                var hash = require('crypto').createHash('md5')
+                    .update(+new Date).digest('hex').substring(0,6);
+                that.model.set({
+                    filename: filename.replace(extension, '') + '_' + hash + extension,
+                    updated: +new Date
+                });
+            }
+            callback();
+        }
+    );
+}
+
 var ExportMBTiles = function(model, callback) {
+    Export.call(this, model, callback);
+}
+sys.inherits(ExportMBTiles, Export)
+
+ExportMBTiles.prototype.render = function(callback) {
     var batch;
+    var that = this;
     var RenderTask = function() {
         batch.renderChunk(function(err, rendered) {
             if (rendered) {
-                model.save({
+                that.model.save({
                     progress: batch.tiles_current / batch.tiles_total,
                     updated: +new Date
                 });
@@ -85,7 +126,7 @@ var ExportMBTiles = function(model, callback) {
             }
             else {
                 batch.finish();
-                model.save({
+                that.model.save({
                     status: 'complete',
                     progress: 1,
                     updated: +new Date
@@ -97,35 +138,19 @@ var ExportMBTiles = function(model, callback) {
 
     Step(
         function() {
-            path.exists(path.join(settings.export_dir, model.get('filename')), this);
-        },
-        function(exists) {
-            if (exists) {
-                var filename = model.get('filename');
-                var extension = path.extname(filename);
-                var hash = require('crypto').createHash('md5')
-                    .update(+new Date).digest('hex').substring(0,6);
-                model.set({
-                    filename: filename.replace(extension, '') + '_' + hash + extension,
-                    updated: +new Date
-                });
-            }
-            this();
-        },
-        function() {
             batch = new TileBatch({
-                filepath: path.join(settings.export_dir, model.get('filename')),
+                filepath: path.join(settings.export_dir, that.model.get('filename')),
                 batchsize: 100,
-                bbox: model.get('bbox').split(','),
-                minzoom: model.get('minzoom'),
-                maxzoom: model.get('maxzoom'),
-                mapfile: model.get('mapfile'),
+                bbox: that.model.get('bbox').split(','),
+                minzoom: that.model.get('minzoom'),
+                maxzoom: that.model.get('maxzoom'),
+                mapfile: that.model.get('mapfile'),
                 mapfile_dir: path.join(settings.mapfile_dir),
                 metadata: {
-                    name: model.get('metadata_name'),
-                    type: model.get('metadata_type'),
-                    description: model.get('metadata_description'),
-                    version: model.get('metadata_version')
+                    name: that.model.get('metadata_name'),
+                    type: that.model.get('metadata_type'),
+                    description: that.model.get('metadata_description'),
+                    version: that.model.get('metadata_version')
                 }
             });
             batch.setup(this);
@@ -134,7 +159,7 @@ var ExportMBTiles = function(model, callback) {
             process.nextTick(function() {
                 RenderTask();
             });
-            model.save({
+            that.model.save({
                 status: 'processing',
                 updated: +new Date
             });
@@ -143,42 +168,31 @@ var ExportMBTiles = function(model, callback) {
 }
 
 var ExportImage = function(model, callback) {
+    Export.call(this, model, callback);
+}
+sys.inherits(ExportImage, Export)
+
+ExportImage.prototype.render = function() {
     this.format = this.format || 'png';
     var that = this;
 
-    model.save({
+    this.model.save({
         status: 'processing',
         updated: +new Date
     });
 
     Step(
         function() {
-            path.exists(path.join(settings.export_dir, model.get('filename')), this);
-        },
-        function(exists) {
-            if (exists) {
-                var filename = model.get('filename');
-                var extension = path.extname(filename);
-                var hash = require('crypto').createHash('md5')
-                    .update(+new Date).digest('hex').substring(0,6);
-                model.set({
-                    filename: filename.replace(extension, '') + '_' + hash + extension,
-                    updated: +new Date
-                });
-            }
-            this();
-        },
-        function() {
-            var options = _.extend({}, model.attributes, {
+            var options = _.extend({}, that.model.attributes, {
                 scheme: 'tile',
                 format: that.format,
                 mapfile_dir: path.join(settings.mapfile_dir),
-                bbox: model.get('bbox').split(',')
+                bbox: that.model.get('bbox').split(',')
             });
             try {
                 var tile = new Tile(options);
             } catch (err) {
-                model.save({
+                that.model.save({
                     status: 'error',
                     error: 'Tile invalid: ' + err.message,
                     updated: +new Date
@@ -190,18 +204,18 @@ var ExportImage = function(model, callback) {
         },
         function(err, data) {
             if (!err) {
-                fs.writeFile( path.join(settings.export_dir, model.get('filename')), data[0], 'binary', function(err) {
+                fs.writeFile( path.join(settings.export_dir, that.model.get('filename')), data[0], 'binary', function(err) {
                     if (err) {
-                        model.save({
+                        that.model.save({
                             status: 'error',
                             error: 'Error saving image: ' + err.message,
                             updated: +new Date
                         });
                         callback(true);
-                        
+
                     }
                     else {
-                        model.save({
+                        that.model.save({
                             status:'complete',
                             progress: 1,
                             updated: +new Date
@@ -211,7 +225,7 @@ var ExportImage = function(model, callback) {
                 });
             }
             else {
-                model.save({
+                that.model.save({
                     status: 'error',
                     error: 'Error rendering image: ' + err.message,
                     updated: +new Date
@@ -226,11 +240,12 @@ var ExportPDF = function(model, callback) {
     this.format = 'pdf';
     ExportImage.call(this, model, callback);
 }
+sys.inherits(ExportPDF, Export)
 
 module.exports = {
     ExportScanner: ExportScanner,
     doExport: function(model, callback) {
-        return {
+        return new {
             ExportImage: ExportImage,
             ExportPDF: ExportPDF,
             ExportMBTiles: ExportMBTiles
