@@ -181,12 +181,15 @@ module.exports = function(app, settings) {
      */
     app.get('/api/abilities', function(req, res) {
         var mapnik = require('mapnik');
-        res.send(
-            {
-                fonts: mapnik.fonts(),
-                datasources: mapnik.datasources()
+        res.send({
+            'fonts': mapnik.fonts(),
+            'datasources': mapnik.datasources(),
+            'exports': {
+                mbtiles: true,
+                png: true,
+                pdf: mapnik.supports.cairo
             }
-        );
+        });
     });
 };
 
