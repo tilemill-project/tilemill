@@ -12,7 +12,7 @@ module.exports = function(app, settings) {
             var external = new External(settings, url);
             external.on('complete', function(external) {
                 external.findByExtension('.shp', function(err, files) {
-                    if (!files.length) {
+                    if (err || !files.length) {
                         return next(new Error('Datasource could not be loaded.'));
                     }
                     var ds = new mapnik.Datasource({
