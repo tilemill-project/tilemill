@@ -89,10 +89,22 @@ build_addon_git "developmentseed" "node-sqlite" "lib/node/sqlite/sqlite3_binding
 
 # Create local data directory and populate with sample data
 if ! [ -d "files/data" ]; then
+    echo "... fetching example data"
     mkdir -p files/data
     curl -O http://tilemill-data.s3.amazonaws.com/example_data.zip
     unzip -q -d files/data example_data.zip
     rm example_data.zip
 else
-    echo "... example data already downloaded"
+    echo "... already fetched example data"
+fi
+
+if ! [ -d "files/project" ]; then
+    echo "... fetching example projects"
+    mkdir -p files/project
+    cd files/project
+    $GET https://github.com/developmentseed/tilemill_examples/tarball/master | \
+    tar -xz --strip 1
+    cd "$RUN_DIR";
+else
+    echo "... already fetched example projects"
 fi
