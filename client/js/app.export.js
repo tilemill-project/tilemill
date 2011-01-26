@@ -251,6 +251,28 @@ var ExportImageView = ExportView.extend({
 });
 
 /**
+ * View: ExportPDFView
+ *
+ * PDF export view.
+ */
+var ExportPDFView = ExportImageView.extend({
+    initialize: function() {
+        this.options.title = 'Export PDF';
+        ExportView.prototype.initialize.call(this);
+        var size = this.map.getSize();
+        this.model.set({
+            filename: this.options.project.get('id') + '.pdf',
+            width: size.w,
+            height: size.h,
+            aspect: size.w / size.h
+        });
+        this.model.bind('change:width', this.updateDimensions);
+        this.model.bind('change:height', this.updateDimensions);
+        this.model.bind('change:aspect', this.updateDimensions);
+    }
+});
+
+/**
  * View: ExportMBTilesView
  *
  * MBTiles export view.
@@ -318,6 +340,7 @@ var ExportMBTilesView = ExportView.extend({
 var ExportDropdownView = DropdownView.extend({
     FORMAT: {
         ExportJobImage: ExportImageView,
+        ExportJobPDF: ExportPDFView,
         ExportJobMBTiles: ExportMBTilesView
     },
     initialize: function() {

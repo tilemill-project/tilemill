@@ -143,6 +143,9 @@ var ExportJobMBTiles = function(model, callback) {
 }
 
 var ExportJobImage = function(model, callback) {
+    this.format = this.format || 'png';
+    var that = this;
+
     model.save({
         status: 'processing',
         updated: +new Date
@@ -168,7 +171,7 @@ var ExportJobImage = function(model, callback) {
         function() {
             var options = _.extend({}, model.attributes, {
                 scheme: 'tile',
-                format: 'png',
+                format: that.format,
                 mapfile_dir: path.join(settings.mapfile_dir),
                 bbox: model.get('bbox').split(',')
             });
@@ -187,7 +190,7 @@ var ExportJobImage = function(model, callback) {
         },
         function(err, data) {
             if (!err) {
-                fs.writeFile(path.join(settings.export_dir, model.get('filename')), data[0], function(err) {
+                fs.writeFile( path.join(settings.export_dir, model.get('filename')), data[0], 'binary', function(err) {
                     if (err) {
                         model.save({
                             status: 'error',
@@ -219,11 +222,17 @@ var ExportJobImage = function(model, callback) {
     );
 }
 
+var ExportJobPDF = function(model, callback) {
+    this.format = 'pdf';
+    ExportJobImage.call(this, model, callback);
+}
+
 module.exports = {
     ExportScanner: ExportScanner,
     doExport: function(model, callback) {
         return {
             ExportJobImage: ExportJobImage,
+            ExportJobPDF: ExportJobPDF,
             ExportJobMBTiles: ExportJobMBTiles
         }[model.get('type')](model, callback);
     }
