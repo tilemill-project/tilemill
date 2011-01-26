@@ -7,7 +7,8 @@ var path = require('path'),
     TileBatch = require('tilelive.js').TileBatch,
     fs = require('fs'),
     settings = require('settings'),
-    Worker = require('worker').Worker;
+    Worker = require('worker').Worker,
+    modelInstance = require('model');
 
 
 var ExportScanner  = function(app, settings) {
@@ -37,6 +38,7 @@ var ExportScanner  = function(app, settings) {
                 function(jobs) {
                     jobs.each(function(job) {
                         if (job.get('status') === 'waiting') {
+                            modelInstance.set('ExportJob', job.id, job);
                             var task = Task();
                             var nodePath = path.join(__dirname, '..', 'bin', 'node');
                             var worker = new Worker(
@@ -50,7 +52,9 @@ var ExportScanner  = function(app, settings) {
                                     worker.terminate();
                                 });
                             });
-
+                            job.bind('delete', function() {
+                                worker.terminate();
+                            });
                             queue.add(worker);
                         }
                     });
