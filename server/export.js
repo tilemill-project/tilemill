@@ -26,48 +26,47 @@ var ExportScanner  = function(app, settings) {
     // Loop for scanning and processing exports. Do not process exports if
     // testing -- otherwise, tests will never finish.
     // @TODO: Set up some other mechanism for testing exports.
-    if (!process.env.NODE_ENV || process.env.NODE_ENV !== 'test') {
-        var queue = new Queue();
-        var scan = function() {
-            Step(
-                function() {
-                    var jobs = new ExportList();
-                    jobs.fetch({
-                        success: this
-                    });
-                },
-                function(jobs) {
-                    jobs.each(function(job) {
+    if (process.env.NODE_ENV && process.env.NODE_ENV === 'test') {
+        return;
+    }
+
+    var queue = new Queue();
+    var scan = function() {
+        Step(
+            function() {
+                var list = new ExportList();
+                list.fetch({ success: this });
+            },
+            function(list) {
+                list.each(function(model) {
+                    var job = modelInstance.get('Export', model.id);
+                    job.fetch({ success: function() {
                         if (job.get('status') === 'waiting') {
-                            modelInstance.set('Export', job.id, job);
-                            var task = Task();
                             var nodePath = path.join(__dirname, '..', 'bin', 'node');
                             var worker = new Worker(
                                 path.join(__dirname, 'export-worker.js'),
                                 null, {nodePath: nodePath});
                             worker.on('start', function() {
-                                this.postMessage({
-                                    id: job.id
-                                });
-                                this.on('message', function (msg) {
-                                    worker.terminate();
-                                });
+                                this.postMessage({ id: job.id });
+                            });
+                            worker.on('message', function (msg) {
+                                this.terminate();
                             });
                             job.bind('delete', function() {
                                 worker.kill();
                             });
                             queue.add(worker);
                         }
-                    });
-                    this();
-                },
-                function() {
-                    setTimeout(scan, 5000);
-                }
-            );
-        }
-        scan();
+                    }});
+                });
+                this();
+            },
+            function() {
+                setTimeout(scan, 5000);
+            }
+        );
     }
+    scan();
 }
 
 /**
@@ -89,17 +88,18 @@ Export.prototype.setup = function(callback) {
             path.exists(path.join(settings.export_dir, that.model.get('filename')), this);
         },
         function(exists) {
+            var filename = that.model.get('filename');
             if (exists) {
-                var filename = that.model.get('filename');
                 var extension = path.extname(filename);
                 var hash = require('crypto').createHash('md5')
                     .update(+new Date).digest('hex').substring(0,6);
-                that.model.set({
-                    filename: filename.replace(extension, '') + '_' + hash + extension,
-                    updated: +new Date
-                });
+                filename = filename.replace(extension, '') + '_' + hash + extension;
             }
-            callback();
+            that.model.save({
+                status: 'processing',
+                updated: +new Date,
+                filename: filename
+            }, { success: callback, error: callback });
         }
     );
 }
@@ -107,32 +107,29 @@ Export.prototype.setup = function(callback) {
 var ExportMBTiles = function(model, callback) {
     Export.call(this, model, callback);
 }
-sys.inherits(ExportMBTiles, Export)
+sys.inherits(ExportMBTiles, Export);
 
 ExportMBTiles.prototype.render = function(callback) {
     var batch;
     var that = this;
     var RenderTask = function() {
-        batch.renderChunk(function(err, rendered) {
-            if (rendered) {
-                that.model.save({
-                    progress: batch.tiles_current / batch.tiles_total,
-                    updated: +new Date
-                });
-                // Use nextTick to avoid recursion
-                process.nextTick(function() {
-                    RenderTask();
-                });
-            }
-            else {
-                batch.finish();
-                that.model.save({
-                    status: 'complete',
-                    progress: 1,
-                    updated: +new Date
-                });
-                callback(false);
-            }
+        process.nextTick(function() {
+            batch.renderChunk(function(err, rendered) {
+                if (rendered) {
+                    that.model.save({
+                        progress: batch.tiles_current / batch.tiles_total,
+                        updated: +new Date
+                    }, { success: RenderTask });
+                }
+                else {
+                    batch.finish();
+                    that.model.save({
+                        status: 'complete',
+                        progress: 1,
+                        updated: +new Date
+                    }, { success: callback });
+                }
+            });
         });
     }
 
@@ -156,13 +153,10 @@ ExportMBTiles.prototype.render = function(callback) {
             batch.setup(this);
         },
         function(err) {
-            process.nextTick(function() {
-                RenderTask();
-            });
             that.model.save({
                 status: 'processing',
                 updated: +new Date
-            });
+            }, { success: RenderTask });
         }
     );
 }
@@ -170,17 +164,11 @@ ExportMBTiles.prototype.render = function(callback) {
 var ExportImage = function(model, callback) {
     Export.call(this, model, callback);
 }
-sys.inherits(ExportImage, Export)
+sys.inherits(ExportImage, Export);
 
-ExportImage.prototype.render = function() {
+ExportImage.prototype.render = function(callback) {
     this.format = this.format || 'png';
     var that = this;
-
-    this.model.save({
-        status: 'processing',
-        updated: +new Date
-    });
-
     Step(
         function() {
             var options = _.extend({}, that.model.attributes, {
@@ -191,15 +179,17 @@ ExportImage.prototype.render = function() {
             });
             try {
                 var tile = new Tile(options);
+                tile.render(this);
             } catch (err) {
+                var next = this;
                 that.model.save({
                     status: 'error',
                     error: 'Tile invalid: ' + err.message,
                     updated: +new Date
+                }, {
+                    success: function() { next(err); },
+                    error: function() { next(err); }
                 });
-            }
-            if (tile) {
-                tile.render(this);
             }
         },
         function(err, data) {
@@ -210,17 +200,14 @@ ExportImage.prototype.render = function() {
                             status: 'error',
                             error: 'Error saving image: ' + err.message,
                             updated: +new Date
-                        });
-                        callback(true);
-
+                        }, { success: callback, error: callback});
                     }
                     else {
                         that.model.save({
                             status:'complete',
                             progress: 1,
                             updated: +new Date
-                        });
-                        callback(false);
+                        }, { success: callback, error: callback});
                     }
                 });
             }
@@ -229,8 +216,7 @@ ExportImage.prototype.render = function() {
                     status: 'error',
                     error: 'Error rendering image: ' + err.message,
                     updated: +new Date
-                });
-                callback(true);
+                }, { success: callback, error: callback});
             }
         }
     );
@@ -240,7 +226,7 @@ var ExportPDF = function(model, callback) {
     this.format = 'pdf';
     ExportImage.call(this, model, callback);
 }
-sys.inherits(ExportPDF, Export)
+sys.inherits(ExportPDF, ExportImage);
 
 module.exports = {
     ExportScanner: ExportScanner,
