@@ -753,10 +753,10 @@ li .icon {
 .icon.geometry-point      { background-position:-220px 0px; }
 .icon.geometry-polygon    { background-position:-240px 0px; }
 
-.file.ExportJobImage { background-position:0px -180px; }
-.file.ExportJobPDF { background-position:-40px -180px; }
-.file.ExportJobMBTiles { background-position:-80px -180px; }
-.file.ExportJobZIP { background-position:-120px -180px; }
+.file.ExportImage { background-position:0px -180px; }
+.file.ExportPDF { background-position:-40px -180px; }
+.file.ExportMBTiles { background-position:-80px -180px; }
+.file.ExportZIP { background-position:-120px -180px; }
 
 /**
  * Map preview

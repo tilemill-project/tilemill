@@ -170,7 +170,7 @@ function update(model, callback) {
 /**
  * Destroy (delete, remove, etc.) a model.
  * - Project: rm rf the project directory.
- * - ExportJob: track and and kill the export file in addition to the model.
+ * - Export: track and and kill the export file in addition to the model.
  * - All others: rm the model json file.
  */
 function destroy(model, callback) {
@@ -179,7 +179,7 @@ function destroy(model, callback) {
         var modelPath = path.join(settings.files, model.type, model.id);
         rmrf(modelPath, function() { return callback(null, model) });
         break;
-    case 'exportjob':
+    case 'export':
         var filepath;
         Step(
             function() {

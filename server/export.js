@@ -1,5 +1,5 @@
 var path = require('path'),
-    ExportJobList = require('project').ExportJobList,
+    ExportList = require('project').ExportList,
     Step = require('step'),
     Task = require('queue').Task,
     Queue = require('queue').Queue,
@@ -30,7 +30,7 @@ var ExportScanner  = function(app, settings) {
         var scan = function() {
             Step(
                 function() {
-                    var jobs = new ExportJobList();
+                    var jobs = new ExportList();
                     jobs.fetch({
                         success: this
                     });
@@ -38,7 +38,7 @@ var ExportScanner  = function(app, settings) {
                 function(jobs) {
                     jobs.each(function(job) {
                         if (job.get('status') === 'waiting') {
-                            modelInstance.set('ExportJob', job.id, job);
+                            modelInstance.set('Export', job.id, job);
                             var task = Task();
                             var nodePath = path.join(__dirname, '..', 'bin', 'node');
                             var worker = new Worker(
@@ -69,7 +69,7 @@ var ExportScanner  = function(app, settings) {
     }
 }
 
-var ExportJobMBTiles = function(model, callback) {
+var ExportMBTiles = function(model, callback) {
     var batch;
     var RenderTask = function() {
         batch.renderChunk(function(err, rendered) {
@@ -142,7 +142,7 @@ var ExportJobMBTiles = function(model, callback) {
     );
 }
 
-var ExportJobImage = function(model, callback) {
+var ExportImage = function(model, callback) {
     this.format = this.format || 'png';
     var that = this;
 
@@ -222,18 +222,18 @@ var ExportJobImage = function(model, callback) {
     );
 }
 
-var ExportJobPDF = function(model, callback) {
+var ExportPDF = function(model, callback) {
     this.format = 'pdf';
-    ExportJobImage.call(this, model, callback);
+    ExportImage.call(this, model, callback);
 }
 
 module.exports = {
     ExportScanner: ExportScanner,
     doExport: function(model, callback) {
         return {
-            ExportJobImage: ExportJobImage,
-            ExportJobPDF: ExportJobPDF,
-            ExportJobMBTiles: ExportJobMBTiles
+            ExportImage: ExportImage,
+            ExportPDF: ExportPDF,
+            ExportMBTiles: ExportMBTiles
         }[model.get('type')](model, callback);
     }
 }

@@ -237,7 +237,7 @@ module.exports = {
         });
         // Create export
         assert.response(app, {
-            url: '/api/ExportJob/6566fe',
+            url: '/api/Export/6566fe',
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             data: exportjob1
@@ -248,7 +248,7 @@ module.exports = {
         });
         // Get export
         assert.response(app, {
-            url: '/api/ExportJob/6566fe',
+            url: '/api/Export/6566fe',
             method: 'GET'
         }, {
             status: 200
@@ -257,7 +257,7 @@ module.exports = {
         });
         // Delete export
         assert.response(app, {
-            url: '/api/ExportJob/6566fe',
+            url: '/api/Export/6566fe',
             method: 'DELETE'
         }, {
             status: 200

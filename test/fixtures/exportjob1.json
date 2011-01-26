@@ -2,7 +2,7 @@
     "progress": 0,
     "status": "waiting",
     "mapfile": "aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q=",
-    "type": "ExportJobImage",
+    "type": "ExportImage",
     "timestamp": 1295645713965,
     "id": "6566fe",
     "filename": "Test.png",

@@ -381,15 +381,15 @@ var ProjectList = Backbone.Collection.extend({
 });
 
 /**
- * Model: ExportJob
+ * Model: Export
  *
  * Job model.
  */
-var ExportJob = Backbone.Model.extend({
+var Export = Backbone.Model.extend({
     /**
      * Model name used for storage.
      */
-    type: 'exportjob',
+    type: 'export',
     initialize: function() {
         if (this.isNew()) {
             this.set({created: +new Date});
@@ -406,7 +406,7 @@ var ExportJob = Backbone.Model.extend({
      * collection reference around for CRUD operations on a single model.
      */
     url: function() {
-        return '/api/ExportJob/' + this.id;
+        return '/api/Export/' + this.id;
     },
     defaults: {
         progress: 0,
@@ -453,17 +453,17 @@ var ExportJob = Backbone.Model.extend({
 });
 
 /**
- * Collection: ExportJobList
+ * Collection: ExportList
  *
  * A queue of job models.
  */
-var ExportJobList = Backbone.Collection.extend({
-    model: ExportJob,
-    url: '/api/ExportJob',
+var ExportList = Backbone.Collection.extend({
+    model: Export,
+    url: '/api/Export',
     /**
      * Model name used for storage.
      */
-    type: 'exportjob',
+    type: 'export',
     comparator: function(job) {
         return job.get('created');
     }
@@ -473,8 +473,8 @@ if (typeof module !== 'undefined') {
     module.exports = {
         Project: Project,
         ProjectList: ProjectList,
-        ExportJob: ExportJob,
-        ExportJobList: ExportJobList,
+        Export: Export,
+        ExportList: ExportList,
         Datasource: Datasource,
         Settings: Settings
     };

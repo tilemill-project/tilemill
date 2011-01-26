@@ -8,10 +8,10 @@ require.paths.unshift(
 var worker = require("worker").worker,
     Backbone = require('backbone-filesystem'),
     Project = require('project').Project,
-    ExportJob = require('project').ExportJob;
+    Export = require('project').Export;
  
 worker.onmessage = function (msg) {
-    this.model = new ExportJob({id:msg.id});
+    this.model = new Export({id:msg.id});
     var that = this;
     this.model.fetch({
         success: function() {

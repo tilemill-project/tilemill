@@ -185,7 +185,7 @@ var ExportView = Backbone.View.extend({
         this.options.collection.add(this.model);
         this.model.save();
         this.close();
-        new ExportListView({ collection: new ExportJobList });
+        new ExportListView({ collection: new ExportList });
         return false;
     },
     close: function() {
@@ -339,9 +339,9 @@ var ExportMBTilesView = ExportView.extend({
  */
 var ExportDropdownView = DropdownView.extend({
     FORMAT: {
-        ExportJobImage: ExportImageView,
-        ExportJobPDF: ExportPDFView,
-        ExportJobMBTiles: ExportMBTilesView
+        ExportImage: ExportImageView,
+        ExportPDF: ExportPDFView,
+        ExportMBTiles: ExportMBTilesView
     },
     initialize: function() {
         _.bindAll(this, 'xport', 'jobs');
@@ -361,7 +361,7 @@ var ExportDropdownView = DropdownView.extend({
     xport: function(event) {
         var format = $(event.currentTarget).attr('href').split('#').pop();
         this.FORMAT[format] && new this.FORMAT[format]({
-            model: new ExportJob({
+            model: new Export({
                 mapfile: this.project.project64({signed: false}),
                 type: format
             }),
@@ -373,7 +373,7 @@ var ExportDropdownView = DropdownView.extend({
         return false;
     },
     jobs: function(event) {
-        new ExportListView({ collection: new ExportJobList });
+        new ExportListView({ collection: new ExportList });
         this.toggleContent();
         return false;
     }
