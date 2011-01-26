@@ -5,20 +5,18 @@ require.paths.unshift(
     __dirname + '/../'
 );
 
-var worker = require("worker").worker,
+var worker = require('worker').worker,
     Backbone = require('backbone-filesystem'),
     Project = require('project').Project,
     Export = require('project').Export;
- 
+
 worker.onmessage = function (msg) {
-    this.model = new Export({id:msg.id});
     var that = this;
+    this.model = new Export({id:msg.id});
     this.model.fetch({
         success: function() {
-            that.model.doExport(function(err) {
-                that.postMessage({
-                    success: !err
-                });
+            that.model.doExport(function() {
+                that.postMessage({ complete: true });
             });
         }
     })
