@@ -157,43 +157,40 @@ var ProjectView = Backbone.View.extend({
         $(this.el).html(ich.ProjectView(this.model));
 
         var layers = new LayerListView({
-            collection: this.model.get('Layer'),
-            project: this.model
-        }),
-            stylesheets = new StylesheetListView({
-            collection: this.model.get('Stylesheet'),
-            project: this.model
-        }),
-            tools = new StylesheetTools({
-            project: this.model
-        }),
-            colors = new ColorSwatchesToolView({
-            collection: new ColorSwatchesList(null, {
+                collection: this.model.get('Layer'),
                 project: this.model
             }),
-            project: this.model
-        }),
+            stylesheets = new StylesheetListView({
+                collection: this.model.get('Stylesheet'),
+                project: this.model
+            }),
+            tools = new StylesheetTools({
+                project: this.model
+            }),
+            colors = new ColorSwatchesToolView({
+                collection: new ColorSwatchesList(null, {
+                    project: this.model
+                }),
+                project: this.model
+            }),
             colorPicker = new ColorPickerToolView({
-            model: this.model,
-            project: this.model
-        }),
+                model: this.model,
+                project: this.model
+            }),
             fontPicker = new FontPickerToolView({
-            model: new Abilities,
-            project: this.model
-        }),
+                model: window.app.abilities,
+                project: this.model
+            }),
             map = new MapView({
-            model: this.model
-        });
+                model: this.model
+            }),
+            exportDropdown = new ExportJobDropdownView({
+                model: new ExportJobList(),
+                abilities: window.app.abilities,
+                project: this.model,
+                map: map
+            });
 
-        var jobQueue = new ExportJobList();
-        var jobExportMenu = new ExportJobDropdownView({
-            model: jobQueue,
-            project: this.model,
-            map: map
-        });
-
-        var target = $('#header .actions a.save', this.el);
-        $(jobExportMenu.el).insertAfter(target);
         $('#sidebar', this.el).append(map.el);
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(tools.el);
@@ -201,6 +198,7 @@ var ProjectView = Backbone.View.extend({
         $('#stylesheet-tools', this.el).append(colors.el);
         $('#colors', this.el).append(colorPicker.el);
         $('#main', this.el).append(stylesheets.el);
+        $('#header .actions a.save', this.el).after(exportDropdown.el);
 
         window.app.el.html(this.el);
         window.app.trigger('ready');

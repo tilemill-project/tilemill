@@ -85,7 +85,10 @@ var ExportJobDropdownView = DropdownView.extend({
     initialize: function() {
         _.bindAll(this, 'export', 'jobs');
         this.options.title = 'Export';
-        this.options.content = ich.ExportJobOptions({}, true);
+        this.options.content = ich.ExportJobOptions(
+            this.options.abilities.get('exports'),
+            true
+        );
         this.render();
     },
     events: _.extend({
