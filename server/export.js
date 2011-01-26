@@ -71,21 +71,21 @@ var ExportScanner  = function(app, settings) {
 
 var ExportJobMBTiles = function(model, callback) {
     var batch;
-    var RenderTask = function(batch, model) {
-        this.batch = batch;
-        this.model = model;
-        var that = this;
-        this.batch.renderChunk(function(err, rendered) {
+    var RenderTask = function() {
+        batch.renderChunk(function(err, rendered) {
             if (rendered) {
-                var next = new RenderTask(that.batch, that.model);
-                that.model.save({
-                    progress: that.batch.tiles_current / that.batch.tiles_total,
+                model.save({
+                    progress: batch.tiles_current / batch.tiles_total,
                     updated: +new Date
+                });
+                // Use nextTick to avoid recursion
+                process.nextTick(function() {
+                    RenderTask();
                 });
             }
             else {
                 batch.finish();
-                that.model.save({
+                model.save({
                     status: 'complete',
                     progress: 1,
                     updated: +new Date
@@ -131,7 +131,9 @@ var ExportJobMBTiles = function(model, callback) {
             batch.setup(this);
         },
         function(err) {
-            new RenderTask(batch, model);
+            process.nextTick(function() {
+                RenderTask();
+            });
             model.save({
                 status: 'processing',
                 updated: +new Date
