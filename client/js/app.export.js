@@ -207,7 +207,6 @@ var ExportView = Backbone.View.extend({
 var ExportImageView = ExportView.extend({
     initialize: function() {
         this.options.title = 'Export PNG';
-        this.options.type = 'ExportImage';
         ExportView.prototype.initialize.call(this);
         var size = this.map.getSize();
         this.model.set({
@@ -260,7 +259,6 @@ var ExportMBTilesView = ExportView.extend({
     initialize: function() {
         _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
         this.options.title = 'Export MBTiles';
-        this.options.type = 'ExportMBTiles';
         ExportView.prototype.initialize.call(this);
 
         // Set default values.
