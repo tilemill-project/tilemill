@@ -53,7 +53,7 @@ var ExportScanner  = function(app, settings) {
                                 });
                             });
                             job.bind('delete', function() {
-                                worker.terminate();
+                                worker.kill();
                             });
                             queue.add(worker);
                         }
