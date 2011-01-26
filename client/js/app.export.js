@@ -81,32 +81,11 @@ var ExportJobRowView = Backbone.View.extend({
     }
 });
 
-var ExportJobDropdownView = DropdownView.extend({
-    initialize: function() {
-        _.bindAll(this, 'export', 'jobs');
-        this.options.title = 'Export';
-        this.options.content = ich.ExportJobOptions(
-            this.options.abilities.get('exports'),
-            true
-        );
-        this.render();
-    },
-    events: _.extend({
-        'click a.export-option': 'xport',
-        'click a.jobs': 'jobs'
-    }, DropdownView.prototype.events),
-    xport: function(event) {
-        this.options.map.xport($(event.currentTarget).attr('href').split('#').pop(), this.model);
-        this.toggleContent();
-        return false;
-    },
-    jobs: function(event) {
-        new ExportJobListView({ collection: new ExportJobList });
-        this.toggleContent();
-        return false;
-    }
-});
-
+/**
+ * View: ExportJobView
+ *
+ * Base view for all export types.
+ */
 var ExportJobView = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, 'boundingBoxAdded', 'boundingBoxReset', 'updateModel', 'updateUI');
@@ -220,12 +199,16 @@ var ExportJobView = Backbone.View.extend({
     },
 });
 
+/**
+ * View: ExportJobImageView
+ *
+ * PNG export view.
+ */
 var ExportJobImageView = ExportJobView.extend({
     initialize: function() {
         this.options.title = 'Export PNG';
         this.options.type = 'ExportJobImage';
         ExportJobView.prototype.initialize.call(this);
-
         var size = this.map.getSize();
         this.model.set({
             filename: this.options.project.get('id') + '.png',
@@ -268,6 +251,11 @@ var ExportJobImageView = ExportJobView.extend({
     }
 });
 
+/**
+ * View: ExportJobMBTilesView
+ *
+ * MBTiles export view.
+ */
 var ExportJobMBTilesView = ExportJobView.extend({
     initialize: function() {
         _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
@@ -324,10 +312,51 @@ var ExportJobMBTilesView = ExportJobView.extend({
     }
 });
 
-var exportMethods = {
-    ExportJobImage: ExportJobImageView,
-    ExportJobMBTiles: ExportJobMBTilesView
-};
+/**
+ * View: ExportJobDropdownView
+ *
+ * Dropdown menu for exporting a project.
+ */
+var ExportJobDropdownView = DropdownView.extend({
+    FORMAT: {
+        ExportJobImage: ExportJobImageView,
+        ExportJobMBTiles: ExportJobMBTilesView
+    },
+    initialize: function() {
+        _.bindAll(this, 'xport', 'jobs');
+        this.project = this.options.project;
+        this.map = this.options.map;
+        this.options.title = 'Export';
+        this.options.content = ich.ExportJobOptions(
+            this.options.abilities.get('exports'),
+            true
+        );
+        this.render();
+    },
+    events: _.extend({
+        'click a.export-option': 'xport',
+        'click a.jobs': 'jobs'
+    }, DropdownView.prototype.events),
+    xport: function(event) {
+        var format = $(event.currentTarget).attr('href').split('#').pop();
+        this.FORMAT[format] && new this.FORMAT[format]({
+            model: new ExportJob({
+                mapfile: this.project.project64({signed: false}),
+                type: format
+            }),
+            project: this.project,
+            collection: this.collection,
+            map: this.map
+        });
+        this.toggleContent();
+        return false;
+    },
+    jobs: function(event) {
+        new ExportJobListView({ collection: new ExportJobList });
+        this.toggleContent();
+        return false;
+    }
+});
 
 /**
  * Custom OpenLayers control for generating a masked crop box over the map.

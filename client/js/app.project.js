@@ -185,7 +185,7 @@ var ProjectView = Backbone.View.extend({
                 model: this.model
             }),
             exportDropdown = new ExportJobDropdownView({
-                model: new ExportJobList(),
+                collection: new ExportJobList(),
                 abilities: window.app.abilities,
                 project: this.model,
                 map: map
