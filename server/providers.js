@@ -19,7 +19,7 @@ module.exports = function(app, settings) {
             directory_path: dirPath,
           }, {
             success: function(savedSettings) {
-              console.log('Set default directory provider path to %s', dirPath);
+              console.log('Setting default directory provider path to %s', dirPath);
               that(savedSettings);
             }
           });
