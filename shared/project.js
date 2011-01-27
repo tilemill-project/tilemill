@@ -328,9 +328,12 @@ var Project = Backbone.Model.extend({
                 only_validate: true,
                 effects: []
             };
-        
+
+        // Hard clone the model JSON before rendering as rendering will change
+        // properties (e.g. localize a datasource URL to the filesystem).
+        var data = JSON.parse(JSON.stringify(this.toJSON()));
         new mess.Renderer(env)
-            .render(that.toJSON(), function(err, output) {
+            .render(data, function(err, output) {
             if (err) {
                 options.error(that, err);
             } else {
