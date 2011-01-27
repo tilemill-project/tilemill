@@ -31,8 +31,8 @@ var listbucket = function(client, prefix, n, callback, marker) {
         .on('end', function() {
           var parser = new xml2js.Parser();
           parser.addListener('end', function(result) {
-            callback(result.Contents);
             if (result.IsTruncated && result.IsTruncated.text == 'true') {
+              callback(result.Contents, true);
               listbucket(client,
                 prefix,
                 n - step,
@@ -40,6 +40,9 @@ var listbucket = function(client, prefix, n, callback, marker) {
                 result
                   .Contents[result.Contents.length - 1]
                   .Key.text);
+            }
+            else {
+              callback(result.Contents, false);
             }
           });
           parser.parseString(listing);
@@ -62,26 +65,30 @@ module.exports = function(app, settings) {
         key: settings.get('s3_key'),
         secret: settings.get('s3_secret')
       });
-      listbucket(client, '', 1000, function(objects) {
+      var keys = [];
+      listbucket(client, '', 1000, function(objects, more) {
         // TODO: don't list directories
         // TODO: only list public files
-        callback(_.map(_.filter(objects,
-          function(object) {
-            return (object.Size.text !== '0') &&
-              (object.Key.text.match(/(.zip|.geojson)/i));
-          }), function(object) {
-          return {
-            url: url.format({
-              host: client.bucket + '.s3.amazonaws.com',
-              protocol: 'http:',
-              pathname: object.Key.text
-            }),
-            bytes: formatbyte(object.Size.text),
-            id: path.basename(object.Key.text)
-          };
-          })
-        )
-      })
+        keys = keys.concat(objects);
+        if (!more) {
+          callback(_.map(_.filter(keys,
+            function(object) {
+              return (object.Size.text !== '0') &&
+                (object.Key.text.match(/(.zip|.geojson)/i));
+            }), function(object) {
+            return {
+              url: url.format({
+                host: client.bucket + '.s3.amazonaws.com',
+                protocol: 'http:',
+                pathname: object.Key.text
+              }),
+              bytes: formatbyte(object.Size.text),
+              id: path.basename(object.Key.text)
+            };
+            })
+          );
+        }
+      });
     }
   }
 };
