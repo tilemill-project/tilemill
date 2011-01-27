@@ -17,7 +17,11 @@ var worker = require('worker').worker,
     Tile = require('tilelive').Tile,
     TileBatch = require('tilelive').TileBatch;
 
-// Worker process. Instantiated via export.js.
+// Worker
+// ------
+// The main worker defined below as well as the export formats **run in a
+// different node process** from the main TileMill process. See the
+// `export.js` for how workers are created.
 worker.onmessage = function (msg) {
     var that = this;
     this.model = new Export({id:msg.id});
@@ -25,7 +29,7 @@ worker.onmessage = function (msg) {
         success: function() {
             // Get the format based on model 'format'.
             // This is set when the export model is first created
-            // in 'client/app.export.js'.
+            // in `client/app.export.js`.
             var Format = {
                 'png': FormatPNG,
                 'pdf': FormatPDF,
@@ -132,7 +136,7 @@ FormatMBTiles.prototype.render = function(callback) {
 }
 
 // Abstract image export format class.
-// Extenders of this class should set 'this.format', e.g. 'png'.
+// Extenders of this class should set `this.format`, e.g. `png`.
 var FormatImage = function(model, callback) {
     Format.call(this, model, callback);
 }
