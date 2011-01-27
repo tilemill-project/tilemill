@@ -1,7 +1,7 @@
 var path = require('path');
 var _ = require('underscore')._;
-var Step = require('Step');
-var Settings = require('project').Settings
+var Step = require('step');
+var Settings = require('project').Settings;
 
 module.exports = function(app, settings) {
     var providers = {};
