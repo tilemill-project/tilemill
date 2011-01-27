@@ -12,7 +12,7 @@ if (typeof require !== 'undefined') {
  *
  * Read-only model describing the abilities of TileLive's Mapnik backend.
  */
-var Abilities = Backbone.Model.extend({ url: '/api/abilities' });
+var Abilities = Backbone.Model.extend({ url: 'api/abilities' });
 
 /**
  * Model: Settings
@@ -29,7 +29,7 @@ var Settings = Backbone.Model.extend({
      * collection reference around for CRUD operations on a single model.
      */
     url: function() {
-        return '/api/Settings/' + this.id;
+        return 'api/Settings/' + this.id;
     },
     /**
      * Validate settings.
@@ -153,7 +153,7 @@ var Datasource = Backbone.Model.extend({
         this.set({'fields': attributes.fields});
     },
     url: function() {
-        return '/api/Datasource/' + Base64.urlsafe_encode(this.get('url'));
+        return 'api/Datasource/' + Base64.urlsafe_encode(this.get('url'));
     }
 });
 
@@ -235,7 +235,26 @@ var Project = Backbone.Model.extend({
      * collection reference around for CRUD operations on a single model.
      */
     url: function() {
-        return '/api/Project/' + this.id;
+        return 'api/Project/' + this.id;
+    },
+    /**
+     * Return the base URL of TileMill including a single trailing slash,
+     * e.g. http://localhost:8889/ or http://mapbox/tilemill/
+     */
+    baseURL: function() {
+        var baseURL = window.location.protocol + '//' + window.location.host;
+        var args = window.location.pathname.split('/');
+        // Path already ends with trailing slash.
+        if (args[args.length - 1] === '') {
+            return baseURL + args.join('/');
+        // index.html or similar trailing filename.
+        } else if (args[args.length - 1].indexOf('.') !== -1) {
+            args.pop();
+            return baseURL + args.join('/') + '/';
+        // Path beyond domain.
+        } else {
+            return baseURL + args.join('/') + '/';
+        }
     },
     /**
      * Base64 encode this project's MML URL.
@@ -244,9 +263,7 @@ var Project = Backbone.Model.extend({
         // `window.location.origin` is not available in all browsers like
         // Firefox. @TODO This approach won't allow TileMill to be installed in
         // a subdirectory. Fix.
-        var url = [
-            window.location.protocol,
-            window.location.host].join('//') + this.url();
+        var url = this.baseURL() + this.url();
         if (options.signed) {
             var md5 = new MD5();
             url += '?' + md5.digest(JSON.stringify(this)).substr(0, 6);
@@ -257,7 +274,7 @@ var Project = Backbone.Model.extend({
      * Layer URL based on the model URL.
      */
     layerURL: function(options) {
-        return [window.location.protocol, window.location.host].join('//') + '/';
+        return this.baseURL();
     },
     /**
      * Native Backbone validation method.
@@ -373,7 +390,7 @@ var Project = Backbone.Model.extend({
  */
 var ProjectList = Backbone.Collection.extend({
     model: Project,
-    url: '/api/Project',
+    url: 'api/Project',
     /**
      * Model name used for storage.
      */
@@ -409,7 +426,7 @@ var Export = Backbone.Model.extend({
      * collection reference around for CRUD operations on a single model.
      */
     url: function() {
-        return '/api/Export/' + this.id;
+        return 'api/Export/' + this.id;
     },
     defaults: {
         progress: 0,
@@ -462,7 +479,7 @@ var Export = Backbone.Model.extend({
  */
 var ExportList = Backbone.Collection.extend({
     model: Export,
-    url: '/api/Export',
+    url: 'api/Export',
     /**
      * Model name used for storage.
      */

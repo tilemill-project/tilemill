@@ -31,7 +31,7 @@ var App = Backbone.View.extend({
         });
 
         // Watch status of server and show message if the server is down.
-        this.status = new Status('/api', function(status) {
+        this.status = new Status('api', function(status) {
             window.app.message('Server down', 'The TileMill server could not be reached.', 'error');
         }, 5000);
 
