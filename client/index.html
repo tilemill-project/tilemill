@@ -517,6 +517,18 @@
                 <option value='minimal' {{#minimal_mode}}selected='selected'{{/minimal_mode}}>Minimal</option>
             </select>
           </div>
+          <div>
+            <label for='s3-bucket'>S3 Bucket</label>
+            <input type='text' class='text required' id='s3-bucket' value='{{ s3_bucket }}' />
+          </div>
+          <div>
+            <label for='s3-key'>S3 Access Key ID</label>
+            <input type='text' class='text required' id='s3-key' value='{{ s3_key }}' />
+          </div>
+          <div>
+            <label for='s3-secret'>S3 Secret</label>
+            <input type='text' class='text required' id='s3-secret' value='{{ s3_secret }}' />
+          </div>
           <div class='buttons'>
               <input class='submit' type='submit' value='Save' />
           </div>
