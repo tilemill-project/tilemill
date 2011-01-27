@@ -595,7 +595,7 @@ form .palette div { padding:5px 0px; }
   position:absolute;
   left:0px;
   bottom:0px;
-  top:50%;
+  top:60%;
   width:50%;
   }
 
@@ -637,7 +637,7 @@ form .palette div { padding:5px 0px; }
   position:absolute;
   right:0px;
   bottom:0px;
-  top:50%;
+  top:60%;
   width:50%;
   border-top:1px solid #ccc;
   border-left:1px solid #ccc;
@@ -771,7 +771,7 @@ li .icon {
   }
 
 #sidebar #MapView {
-  height:50%;
+  height:60%;
   border-bottom:1px solid #ccc;
   }
 
