@@ -9,7 +9,7 @@ module.exports = function(app, settings) {
   // TODO: now requires absolute paths; change?
   app.get('/provider/directory/file*', function(req, res) {
       // TODO: make path secure!
-      res.sendfile(path.join(settings.providers.directory.path, req.params[0]),
+      res.sendfile(path.join(settings.get('directory_path'), req.params[0]),
           function(err, path) {
               if (err) {
                   res.send({
@@ -77,11 +77,10 @@ module.exports = function(app, settings) {
     name: 'Local Files',
     settings: settings,
     objects: function(callback) {
-      var settings = this.settings.providers.directory;
       callback(toObjects(
-        lsFilter(lsR(settings.path), /(.zip|.geojson|.shp)/i),
-        settings.path,
-        this.settings.port));
+        lsFilter(lsR(this.settings.get('directory_path')), /(.zip|.geojson|.shp)/i),
+        this.settings.get('directory_path'),
+        require('settings').port));
     }
   };
 };
