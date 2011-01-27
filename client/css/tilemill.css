@@ -753,10 +753,9 @@ li .icon {
 .icon.geometry-point      { background-position:-220px 0px; }
 .icon.geometry-polygon    { background-position:-240px 0px; }
 
-.file.ExportImage { background-position:0px -180px; }
-.file.ExportPDF { background-position:-40px -180px; }
-.file.ExportMBTiles { background-position:-80px -180px; }
-.file.ExportZIP { background-position:-120px -180px; }
+.file.png { background-position:0px -180px; }
+.file.pdf { background-position:-40px -180px; }
+.file.mbtiles { background-position:-80px -180px; }
 
 /**
  * Map preview

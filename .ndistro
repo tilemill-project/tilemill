@@ -9,13 +9,13 @@ module visionmedia expresso 0.7.2
 module documentcloud backbone 0.3.3
 module documentcloud underscore 1.1.4
 module coopernurse node-pool 1.0.4
+module developmentseed tilelive.js 0.0.1
 module willwhite node-worker 0.0.1
 
 # Needs tag
 # note: if no tag 'master' works...
 module lucisferre node-xml2js
 module developmentseed mess.js
-module developmentseed tilelive.js
 
 # addons
 # latest ndistro is able to download and build c++ addons,

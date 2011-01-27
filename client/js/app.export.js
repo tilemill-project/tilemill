@@ -202,15 +202,17 @@ var ExportView = Backbone.View.extend({
 /**
  * View: ExportImageView
  *
- * PNG export view.
+ * Abstract image export class. Populate 'this.options.extension' and
+ * 'this.options.title' when extending this class.
  */
 var ExportImageView = ExportView.extend({
     initialize: function() {
-        this.options.title = 'Export PNG';
         ExportView.prototype.initialize.call(this);
         var size = this.map.getSize();
         this.model.set({
-            filename: this.options.project.get('id') + '.png',
+            filename: this.options.project.get('id')
+                + '.'
+                + this.options.extension,
             width: size.w,
             height: size.h,
             aspect: size.w / size.h
@@ -258,17 +260,21 @@ var ExportImageView = ExportView.extend({
 var ExportPDFView = ExportImageView.extend({
     initialize: function() {
         this.options.title = 'Export PDF';
-        ExportView.prototype.initialize.call(this);
-        var size = this.map.getSize();
-        this.model.set({
-            filename: this.options.project.get('id') + '.pdf',
-            width: size.w,
-            height: size.h,
-            aspect: size.w / size.h
-        });
-        this.model.bind('change:width', this.updateDimensions);
-        this.model.bind('change:height', this.updateDimensions);
-        this.model.bind('change:aspect', this.updateDimensions);
+        this.options.extension = 'pdf';
+        ExportImageView.prototype.initialize.call(this);
+    }
+});
+
+/**
+ * View: ExportPNGView
+ *
+ * PNG export view.
+ */
+var ExportPNGView = ExportImageView.extend({
+    initialize: function() {
+        this.options.title = 'Export PNG';
+        this.options.extension = 'png';
+        ExportImageView.prototype.initialize.call(this);
     }
 });
 
@@ -339,9 +345,9 @@ var ExportMBTilesView = ExportView.extend({
  */
 var ExportDropdownView = DropdownView.extend({
     FORMAT: {
-        ExportImage: ExportImageView,
-        ExportPDF: ExportPDFView,
-        ExportMBTiles: ExportMBTilesView
+        png: ExportPNGView,
+        pdf: ExportPDFView,
+        mbtiles: ExportMBTilesView
     },
     initialize: function() {
         _.bindAll(this, 'xport', 'jobs');
@@ -363,7 +369,7 @@ var ExportDropdownView = DropdownView.extend({
         this.FORMAT[format] && new this.FORMAT[format]({
             model: new Export({
                 mapfile: this.project.project64({signed: false}),
-                type: format
+                format: format
             }),
             project: this.project,
             collection: this.collection,
