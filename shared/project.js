@@ -447,12 +447,6 @@ var Export = Backbone.Model.extend({
         return (this.get('status') === 'complete') && '/export/download/' + this.get('filename');
     },
     /**
-     * Allow the export to add tasks to the task queue.
-     */
-    doExport: function(callback) {
-        return require('export').doExport(this, callback);
-    },
-    /**
      * Get the duration of the current export job.
      */
     time: function() {
