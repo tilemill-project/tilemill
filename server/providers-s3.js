@@ -7,7 +7,9 @@ var knox = require('knox'),
     express = require('express'),
     querystring = require('querystring'),
     path = require('path'), 
-    xml2js = require('xml2js');
+    xml2js = require('xml2js'),
+    Settings = require('project').Settings,
+    Step = require('Step');
 
 var sockets = 0;
 var listbucket = function(client, prefix, n, callback, marker) {
@@ -31,7 +33,7 @@ var listbucket = function(client, prefix, n, callback, marker) {
           var parser = new xml2js.Parser();
           parser.addListener('end', function(result) {
             callback(result.Contents);
-            if (result.IsTruncated.text == 'true') {
+            if (result.IsTruncated && result.IsTruncated.text == 'true') {
               listbucket(client,
                 prefix,
                 n - step,
@@ -56,27 +58,39 @@ module.exports = function(app, settings) {
     name: 'Amazon S3',
     settings: settings,
     objects: function(callback) {
-      var client = knox.createClient(settings.providers.s3);
-        listbucket(client, '', 1000, function(objects) {
-          // TODO: don't list directories
-          // TODO: only list public files
-          callback(_.map(_.filter(objects, 
-            function(object) {
-              return (object.Size.text !== '0') &&
-                (object.Key.text.match(/(.zip|.geojson)/i));
-            }), function(object) {
-            return {
-              url: url.format({
-                host: client.bucket + '.s3.amazonaws.com',
-                protocol: 'http:',
-                pathname: object.Key.text
-              }),
-              bytes: formatbyte(object.Size.text),
-              id: path.basename(object.Key.text)
-            };
+      Step(
+        function() {
+          var settingsModel = new Settings({ id: 'settings' });
+          settingsModel.fetch({ success: this });
+        },
+        function(settingsModel) {
+          var client = knox.createClient({
+            bucket: settingsModel.get('s3_bucket'),
+            key: settingsModel.get('s3_key'),
+            secret: settingsModel.get('s3_secret')
+          });
+          listbucket(client, '', 1000, function(objects) {
+            // TODO: don't list directories
+            // TODO: only list public files
+            callback(_.map(_.filter(objects,
+              function(object) {
+                return (object.Size.text !== '0') &&
+                  (object.Key.text.match(/(.zip|.geojson)/i));
+              }), function(object) {
+              return {
+                url: url.format({
+                  host: client.bucket + '.s3.amazonaws.com',
+                  protocol: 'http:',
+                  pathname: object.Key.text
+                }),
+                bytes: formatbyte(object.Size.text),
+                id: path.basename(object.Key.text)
+              };
+              })
+            )
           })
-        )
-      })
+        }
+      );
     }
   }
 };
