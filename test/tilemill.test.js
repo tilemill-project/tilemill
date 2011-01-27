@@ -31,7 +31,7 @@ module.exports = {
             assert.equal(data.version, 1, 'API Version');
         });
     },
-    'project': function() {
+    'project-create': function() {
         // Create project
         assert.response(app, {
             url: '/api/Project/Test',
@@ -42,16 +42,18 @@ module.exports = {
             data: project1
         }, {
             status: 200
-        }, 'create project', function(res) {
+        }, function(res) {
             assert.deepEqual(JSON.parse(res.body), JSON.parse(project1));
         });
+    },
+    'project-test': function() {
         // Get all projects
         assert.response(app, {
             url: '/api/Project',
             method: 'GET',
         }, {
             status: 200
-        }, 'get all projects', function(res) {
+        }, function(res) {
             assert.deepEqual(JSON.parse(res.body).pop(), JSON.parse(project1));
         });
         // Get project
@@ -60,7 +62,7 @@ module.exports = {
             method: 'GET',
         }, {
             status: 200
-        }, 'get project', function(res) {
+        }, function(res) {
             assert.deepEqual(JSON.parse(res.body), JSON.parse(project1));
         });
         // Validation: Name must contain specified characters.
@@ -76,7 +78,7 @@ module.exports = {
             data: JSON.stringify(invalid)
         }, {
             status: 500
-        }, 'Validation: Name must contain specified characters', function(res) {
+        }, function(res) {
             assert.equal(res.body, 'Name must contain only letters, numbers, dashes, and underscores.');
         });
         // Validation: No stylesheets found.
@@ -92,7 +94,7 @@ module.exports = {
             data: JSON.stringify(invalid)
         }, {
             status: 500
-        }, 'Validation: No stylesheets found.', function(res) {
+        }, function(res) {
             assert.equal(res.body, 'No stylesheets found.');
         });
         // Validation: Stylesheet IDs must be unique.
@@ -111,7 +113,7 @@ module.exports = {
             data: JSON.stringify(invalid)
         }, {
             status: 500
-        }, 'Validation: Stylesheet IDs must be unique.', function(res) {
+        }, function(res) {
             assert.equal(res.body, 'Stylesheet IDs must be unique.');
         });
         // Validation: Stylesheet syntax validation.
@@ -129,9 +131,38 @@ module.exports = {
             data: JSON.stringify(invalid)
         }, {
             status: 500
-        }, 'Validation: Stylesheet syntax validation.', function(res) {
-            assert.equal(JSON.parse(res.body)[0].message, 'Invalid value for polygon-fill, a color is expected. eee was given.');
+        }, function(res) {
+            assert.equal(JSON.parse(res.body)[0].message, 'Invalid value for polygon-fill, a valid color is expected. eee was given.');
         });
+    },
+    'project-tiles': function() {
+        // Test a few project tiles
+        assert.response(app, {
+            url: '/1.0.0/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_NTZiYTY5/0/0/0.png',
+            method: 'GET'
+        }, {
+            status: 200
+        }, function(res) {
+            assert.ok(res.body.length > 5000, 'Tile is unexpectedly small.');
+        });
+        assert.response(app, {
+            url: '/1.0.0/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_NTZiYTY5/2/2/1.png',
+            method: 'GET'
+        }, {
+            status: 200
+        }, function(res) {
+            assert.ok(res.body.length > 5000, 'Tile is unexpectedly small.');
+        });
+        // Test that an invalid project has no tiles
+        // @TODO this test currently fails hard. Find out why.
+        assert.response(app, {
+            url: '/1.0.0/foobar/0/0/0.png',
+            method: 'GET'
+        }, {
+            status: 500
+        });
+    },
+    'project-update': function() {
         // Update project
         assert.response(app, {
             url: '/api/Project/Test',
@@ -142,28 +173,67 @@ module.exports = {
             data: project2
         }, {
             status: 200
-        }, 'Update project', function(res) {
+        }, function(res) {
             assert.deepEqual(JSON.parse(res.body), JSON.parse(project2));
         });
-        // Load layer
-        assert.response(app, {url: '/api/Datasource/aHR0cDovL3RpbGVtaWxsLWRhdGEuczMuYW1hem9uYXdzLmNvbS93b3JsZF9ib3JkZXJzX21lcmMuemlw'}, {
-            status: 200
-        }, 'Load layer', function(res) {
-            var data = JSON.parse(res.body);
-            assert.equal(data.fields.FIPS.type, 'String', 'Missing field metadata');
-            assert.equal(data.features.length, 245, 'Feature count mismatch');
-        });
+    },
+    'project-delete': function() {
         // Delete project
         assert.response(app, {
             url: '/api/Project/Test',
             method: 'DELETE'
         }, {
             status: 200
-        }, 'Delete project', function(res) {
+        }, function(res) {
             assert.equal(res.body, '{}');
         });
     },
-    'settings': function() {
+    'layer-load': function() {
+        // Load layer
+        assert.response(app, {url: '/api/Datasource/aHR0cDovL3RpbGVtaWxsLWRhdGEuczMuYW1hem9uYXdzLmNvbS93b3JsZF9ib3JkZXJzX21lcmMuemlw'}, {
+            status: 200
+        }, function(res) {
+            var data = JSON.parse(res.body);
+            assert.equal(data.fields.FIPS.type, 'String', 'Missing field metadata');
+            assert.equal(data.features.length, 245, 'Feature count mismatch');
+        });
+    },
+    'export-create': function() {
+        // Create export
+        assert.response(app, {
+            url: '/api/Export/6566fe',
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            data: exportjob1
+        }, {
+            status: 200
+        }, function(res) {
+            assert.deepEqual(JSON.parse(res.body), JSON.parse(exportjob1));
+        });
+    },
+    'export-test': function() {
+        // Get export
+        assert.response(app, {
+            url: '/api/Export/6566fe',
+            method: 'GET'
+        }, {
+            status: 200
+        }, function(res) {
+            assert.deepEqual(JSON.parse(res.body), JSON.parse(exportjob1));
+        });
+    },
+    'export-delete': function() {
+        // Delete export
+        assert.response(app, {
+            url: '/api/Export/6566fe',
+            method: 'DELETE'
+        }, {
+            status: 200
+        }, function(res) {
+            assert.equal(res.body, '{}');
+        });
+    },
+    'settings-create': function() {
         // Create settings
         assert.response(app, {
             url: '/api/Settings/settings',
@@ -177,6 +247,8 @@ module.exports = {
         }, function(res) {
             assert.deepEqual(JSON.parse(res.body), JSON.parse(settings1));
         });
+    },
+    'settings-test': function() {
         // Get settings
         assert.response(app, {
             url: '/api/Settings/settings',
@@ -202,6 +274,8 @@ module.exports = {
         }, function(res) {
             assert.equal(res.body, 'Invalid editor mode specified.');
         });
+    },
+    'settings-update': function() {
         // Update settings
         assert.response(app, {
             url: '/api/Settings/settings',
@@ -215,6 +289,8 @@ module.exports = {
         }, function(res) {
             assert.deepEqual(JSON.parse(res.body), JSON.parse(settings2));
         });
+    },
+    'settings-delete': function() {
         // Delete settings
         assert.response(app, {
             url: '/api/Settings/settings',
@@ -225,94 +301,5 @@ module.exports = {
             assert.equal(res.body, '{}');
         });
     },
-    'export': function() {
-        // Create project
-        assert.response(app, {
-            url: '/api/Project/Test',
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            data: project1
-        }, {
-            status: 200
-        });
-        // Create export
-        assert.response(app, {
-            url: '/api/Export/6566fe',
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            data: exportjob1
-        }, {
-            status: 200
-        }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(exportjob1));
-        });
-        // Get export
-        assert.response(app, {
-            url: '/api/Export/6566fe',
-            method: 'GET'
-        }, {
-            status: 200
-        }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(exportjob1));
-        });
-        // Delete export
-        assert.response(app, {
-            url: '/api/Export/6566fe',
-            method: 'DELETE'
-        }, {
-            status: 200
-        }, function(res) {
-            assert.equal(res.body, '{}');
-        });
-        // Delete project
-        assert.response(app, {
-            url: '/api/Project/Test',
-            method: 'DELETE'
-        }, {
-            status: 200
-        });
-    },
-    'map': function() {
-        // Create project
-        assert.response(app, {
-            url: '/api/Project/Test',
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            data: project1
-        }, {
-            status: 200
-        });
-        // Test a few project tiles
-        assert.response(app, {
-            url: '/1.0.0/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_NTZiYTY5/0/0/0.png',
-            method: 'GET'
-        }, {
-            status: 200
-        }, function(res) {
-            assert.ok(res.body.length > 5000, 'Tile is unexpectedly small.');
-        });
-        assert.response(app, {
-            url: '/1.0.0/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_NTZiYTY5/2/2/1.png',
-            method: 'GET'
-        }, {
-            status: 200
-        }, function(res) {
-            assert.ok(res.body.length > 5000, 'Tile is unexpectedly small.');
-        });
-        // Test that an invalid project has no tiles
-        assert.response(app, {
-            url: '/1.0.0/foobar/0/0/0.png',
-            method: 'GET'
-        }, {
-            status: 500
-        });
-        // Delete project
-        assert.response(app, {
-            url: '/api/Project/Test',
-            method: 'DELETE'
-        }, {
-            status: 200
-        });
-    }
 };
 

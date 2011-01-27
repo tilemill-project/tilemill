@@ -1,2 +1,2 @@
 # Help script for running tests
-NODE_ENV=test ./bin/expresso --port 8889 $*
+NODE_ENV=test ./bin/expresso --serial --port 8889 $*
