@@ -314,72 +314,29 @@ var Project = Backbone.Model.extend({
         // If client-side, pass-through.
         if (typeof require === 'undefined') { options.success(this, null) }
 
-        var Step = require('step'),
-            mess = require('mess'),
+        var mess = require('mess'),
             mapnik = require('mapnik'),
             that = this,
-            stylesheets = this.get('Stylesheet');
-        var stylesheets = stylesheets instanceof StylesheetList
-            ? stylesheets.toJSON()
-            : stylesheets;
-        Step(
-            function() {
-                var group = this.group();
-                var env = {
-                    returnErrors: true,
-                    errors: [],
-                    validation_data: {
-                        fonts: mapnik.fonts()
-                    },
-                    deferred_externals: [],
-                    effects: []
-                };
-                if (stylesheets.length !== 0) {
-                    _.each(stylesheets, function(stylesheet) {
-                        new(mess.Parser)({ filename: stylesheet.id })
-                            .parse(stylesheet.data, function(err, tree) {
-                            if (!err) {
-                                try {
-                                    var errors = null;
-                                    var l = tree.toList(env);
-                                    l.map(function(t) {
-                                        t.toXML(env);
-                                    });
-                                    if (env.errors.length) {
-                                        var lined_errors = env.errors.map(function(r) {
-                                            // TODO: line numbers are one less
-                                            // than expected.
-                                            r.line = tree.getLine(r.index) + 1;
-                                            r.filename = stylesheet.id;
-                                            return r;
-                                        });
-                                        group()(lined_errors);
-                                    }
-                                    else {
-                                        group()(null);
-                                    }
-                                } catch (e) {
-                                    group()([e]);
-                                }
-                            } else {
-                                group()([ err ]);
-                            }
-                        });
-                    });
-                }
-                else {
-                    group()('No stylesheets found.');
-                }
-            },
-            function(err, res) {
-                if (err) {
-                    options.error(that, err);
-                }
-                else {
-                    options.success(that, null);
-                }
+            stylesheets = this.get('Stylesheet'),
+            env = {
+                returnErrors: true,
+                errors: [],
+                validation_data: {
+                    fonts: mapnik.fonts()
+                },
+                deferred_externals: [],
+                only_validate: true,
+                effects: []
+            };
+        
+        new mess.Renderer(env)
+            .render(that.toJSON(), function(err, output) {
+            if (err) {
+                options.error(that, err);
+            } else {
+                options.success(that, null);
             }
-        );
+        });
     }
 });
 
