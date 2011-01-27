@@ -98,6 +98,17 @@ else
     echo "... already fetched example data"
 fi
 
+# Create local resources directory and populate with stock images
+if ! [ -d "files/resources" ]; then
+    echo "... fetching stock resources"
+    mkdir -p files/resources
+    curl -O http://tilemill-data.s3.amazonaws.com/tilemill_resources.zip
+    unzip -q -d files/resources tilemill_resources.zip
+    rm tilemill_resources.zip
+else
+    echo "... already fetched stock resources"
+fi
+
 if ! [ -d "files/project" ]; then
     echo "... fetching example projects"
     mkdir -p files/project
