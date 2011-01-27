@@ -278,33 +278,3 @@ var ProjectView = Backbone.View.extend({
     }
 });
 
-/**
- * Watcher.
- *
- * Class for polling a given model (or collection) and firing a callback
- * when it changes.
- */
-var Watcher = function(model, callback, interval) {
-    _.bindAll(this, 'fetch', 'destroy');
-    var model = model;
-    this.model = model;
-    this.model.bind('change', this.fetch);
-    this.callback = callback;
-    this.interval = interval || 1000;
-    this.md5 = new MD5();
-    this.current = this.md5.digest(JSON.stringify(this.model));
-    this.watcher = setInterval(function() { model.fetch(); }, this.interval);
-};
-
-Watcher.prototype.fetch = function() {
-    var state = this.md5.digest(JSON.stringify(this.model));
-    if (this.current !== state) {
-        this.current = state;
-        this.callback && this.callback();
-    }
-};
-
-Watcher.prototype.destroy = function() {
-    window.clearInterval(this.watcher);
-};
-

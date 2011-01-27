@@ -108,7 +108,7 @@ var StylesheetTabView = Backbone.View.extend({
                 height: '100%',
                 lineNumbers: true,
                 stylesheet: 'css/code.css',
-                path: 'js/codemirror/js/',
+                path: 'js/libraries/codemirror/js/',
                 parserfile: 'parsemss.js',
                 parserConfig: window.data.reference,
                 saveFunction: function() {

@@ -30,10 +30,16 @@ var App = Backbone.View.extend({
             $('body').attr('id', page.split(':').pop());
         });
 
+        // Watch status of server and show message if the server is down.
+        this.status = new Status('/api', function(status) {
+            window.app.message('Server down', 'The TileMill server could not be reached.', 'error');
+        }, 5000);
+
         // Bootstrap:
         // 1. Fetch settings, abilities objects from server.
         // 2. Begin routing.
         this.abilities.fetch();
+
         this.model.fetch({
             success: function(model) { Backbone.history.start(); },
             error: function(model) { Backbone.history.start(); }
