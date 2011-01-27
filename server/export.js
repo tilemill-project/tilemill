@@ -37,28 +37,44 @@ var ExportScanner  = function(app, settings) {
                 list.fetch({ success: this });
             },
             function(list) {
+                var group = this.group();
+                if (list.length === 0) {
+                    group()();
+                }
                 list.each(function(model) {
+                    var next = group();
                     var job = modelInstance.get('Export', model.id);
                     job.fetch({ success: function() {
+                        // Job is waiting to be processed. Spawn a new worker.
                         if (job.get('status') === 'waiting') {
-                            var nodePath = path.join(__dirname, '..', 'bin', 'node');
-                            var worker = new Worker(
+                            job.worker = new Worker(
                                 path.join(__dirname, 'export-worker.js'),
-                                null, {nodePath: nodePath});
-                            worker.on('start', function() {
+                                null,
+                                { nodePath: path.join(__dirname, '..', 'bin', 'node') }
+                            );
+                            job.worker.on('start', function() {
                                 this.postMessage({ id: job.id });
                             });
-                            worker.on('message', function (msg) {
+                            job.worker.on('message', function (msg) {
                                 this.terminate();
                             });
                             job.bind('delete', function() {
-                                worker.kill();
+                                this.worker.kill();
                             });
-                            queue.add(worker);
+                            queue.add(job.worker);
+                            next();
+                        // Job is a stale process. Mark as such.
+                        } else if (job.get('status') === 'processing' && !job.worker) {
+                            job.save({
+                                status: 'error',
+                                error: 'Export did not complete' // @TODO
+                            }, { success: next, error: next });
+                        // Job is complete or already processing.
+                        } else {
+                            next();
                         }
                     }});
                 });
-                this();
             },
             function() {
                 setTimeout(scan, 5000);
