@@ -1,6 +1,6 @@
 var _ = require('underscore')._,
     path = require('path'),
-    Tile = require('tilelive.js').Tile;
+    Tile = require('tilelive').Tile;
 
 module.exports = function(app, settings) {
     /**
