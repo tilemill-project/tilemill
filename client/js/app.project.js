@@ -167,20 +167,6 @@ var ProjectView = Backbone.View.extend({
             tools = new StylesheetTools({
                 project: this.model
             }),
-            colors = new ColorSwatchesToolView({
-                collection: new ColorSwatchesList(null, {
-                    project: this.model
-                }),
-                project: this.model
-            }),
-            colorPicker = new ColorPickerToolView({
-                model: this.model,
-                project: this.model
-            }),
-            fontPicker = new FontPickerToolView({
-                model: window.app.abilities,
-                project: this.model
-            }),
             map = new MapView({
                 model: this.model
             }),
@@ -194,9 +180,6 @@ var ProjectView = Backbone.View.extend({
         $('#sidebar', this.el).append(map.el);
         $('#sidebar', this.el).append(layers.el);
         $('#sidebar', this.el).append(tools.el);
-        $('#stylesheet-tools', this.el).append(fontPicker.el);
-        $('#stylesheet-tools', this.el).append(colors.el);
-        $('#colors', this.el).append(colorPicker.el);
         $('#main', this.el).append(stylesheets.el);
         $('#header .actions a.save', this.el).after(exportDropdown.el);
 

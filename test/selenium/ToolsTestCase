@@ -17,13 +17,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>waitForElementPresent</td>
-	<td>//div[@class='colorpicker']/div</td>
-	<td></td>
-</tr>
-<tr>
 	<td>click</td>
-	<td>link=Color picker</td>
+	<td>link=Fonts</td>
 	<td></td>
 </tr>
 <!--

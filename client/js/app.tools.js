@@ -1,12 +1,29 @@
 var StylesheetTools = Backbone.View.extend({
-    id: 'stylesheet-tools',
+    id: 'StylesheetTools',
     className: 'view',
     initialize: function(options) {
         _.bindAll(this, 'render');
         this.render();
     },
     render: function(){
+        var colors = new ColorSwatches({
+                collection: new ColorSwatchesList(null, {
+                    project: this.options.project
+                }),
+                project: this.options.project
+            }),
+            colorPicker = new ColorPicker({
+                model: this.options.project,
+                project: this.options.project
+            }),
+            fonts = new FontPicker({
+                model: window.app.abilities,
+                project: this.options.project
+            });
         $(this.el).html(ich.StylesheetTools);
+        $(this.el).append(fonts.el);
+        $(this.el).append(colors.el);
+        $(colors.el).append(colorPicker.el);
     },
     events: {
         'click .show-fonts' : 'showFonts',
@@ -18,8 +35,8 @@ var StylesheetTools = Backbone.View.extend({
         if(self.hasClass('inactive')){
             self.removeClass('inactive')
                 .addClass('active');
-            $('#colors', this.el).hide();
-            $('#fonts', this.el).show();
+            $('#ColorSwatches', this.el).hide();
+            $('#FontPicker', this.el).show();
         }
         return false;
     },
@@ -29,15 +46,15 @@ var StylesheetTools = Backbone.View.extend({
         if(self.hasClass('inactive')){
             self.removeClass('inactive')
                 .addClass('active');
-            $('#fonts', this.el).hide();
-            $('#colors', this.el).show();
+            $('#FontPicker', this.el).hide();
+            $('#ColorSwatches', this.el).show();
         }
         return false;
     }
 });
 
-var ColorPickerToolView = Backbone.View.extend({
-    id: 'color-picker',
+var ColorPicker = Backbone.View.extend({
+    id: 'ColorPicker',
     initialize: function(options) {
         _.bindAll(this, 'activate', 'pickerChange', 'pickerShow', 'pickerHide');
         this.colorChanged = false;
@@ -46,7 +63,7 @@ var ColorPickerToolView = Backbone.View.extend({
         window.app.bind('ready', this.activate);
     },
     render: function() {
-        $(this.el).html(ich.ColorPickerToolView);
+        $(this.el).html(ich.ColorPicker);
     },
     activate: function() {
         var that = this,
@@ -187,15 +204,15 @@ var ColorSwatchesList = Backbone.Collection.extend({
     }
 });
 
-var ColorSwatchesToolView = Backbone.View.extend({
-    id: 'colors',
+var ColorSwatches = Backbone.View.extend({
+    id: 'ColorSwatches',
     className: 'view',
     initialize: function(options) {
         _.bindAll(this, 'render', 'createSwatchView');
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.del);
         this.project = options.project;
-        $(this.el).html(ich.ColorSwatchesToolView());
+        $(this.el).html(ich.ColorSwatches());
     },
     render: function() {
         var that = this;
@@ -249,8 +266,8 @@ var ColorSwatchView = Backbone.View.extend({
     }
 });
 
-var FontPickerToolView = Backbone.View.extend({
-    id: 'font-picker',
+var FontPicker = Backbone.View.extend({
+    id: 'FontPicker',
     events: {
         'click ul.fonts-list li': 'insertFont'
     },
@@ -263,7 +280,7 @@ var FontPickerToolView = Backbone.View.extend({
         });
     },
     render: function() {
-        $(this.el).html(ich.FontPickerToolView({
+        $(this.el).html(ich.FontPicker({
             fonts: this.model.get('fonts')
         }));
         

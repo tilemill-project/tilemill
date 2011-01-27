@@ -187,7 +187,7 @@ a:hover.button { color:#fff; }
  */
 .exporting #header .links,
 .exporting #header .actions,
-.exporting #map-preview.fullscreen a.map-fullscreen { display:none; }
+.exporting #MapView.fullscreen a.map-fullscreen { display:none; }
 
 .exporting .header { background-position:0px -440px; }
 
@@ -590,7 +590,7 @@ form .palette div { padding:5px 0px; }
 /**
  * Layers
  */
-#layers {
+#LayerListView {
   border-top:1px solid #ccc;
   position:absolute;
   left:0px;
@@ -599,7 +599,7 @@ form .palette div { padding:5px 0px; }
   width:50%;
   }
 
-#layers ul {
+#LayerListView ul {
   position:absolute;
   overflow-x:hidden;
   overflow-y:auto;
@@ -633,7 +633,7 @@ form .palette div { padding:5px 0px; }
 /**
  * ColorSwatchesTools
  */
-#stylesheet-tools {
+#StylesheetTools {
   position:absolute;
   right:0px;
   bottom:0px;
@@ -643,10 +643,10 @@ form .palette div { padding:5px 0px; }
   border-left:1px solid #ccc;
   }
 
-#stylesheet-tools #fonts { display:none; }
+#StylesheetTools #FontPicker { display:none; }
 
 /**
- * ColorSwatchesToolView
+ * ColorSwatches
  */
 .sidebar-tabs {
   height:40px;
@@ -669,15 +669,15 @@ form .palette div { padding:5px 0px; }
 
 .sidebar-tabs a.inactive { color:#999; }
 
-#colors { padding-right:30px; }
+#ColorSwatches { padding-right:30px; }
   
-#color-picker {
+#ColorPicker {
   position:absolute;
   top:50px;
   right:10px;
   }
 
-#stylesheet-tools .swatch {
+#StylesheetTools .swatch {
   -moz-box-shadow:#ccc 0px 1px 2px;
   -webkit-box-shadow:#ccc 0px 1px 2px;
   background:url(../images/sprite.png) 0px -220px no-repeat;
@@ -761,7 +761,7 @@ li .icon {
 /**
  * Map preview
  */
-#map-preview {
+#MapView {
   overflow:hidden;
   position:absolute;
   left:0px;
@@ -770,12 +770,12 @@ li .icon {
   background:#ddd url(../images/checker-bg.png) 0% 0% repeat;
   }
 
-#sidebar #map-preview {
+#sidebar #MapView {
   height:50%;
   border-bottom:1px solid #ccc;
   }
 
-#map-preview .olMap {
+#MapView .olMap {
   position:absolute;
   left:0px;
   right:0px;
@@ -783,16 +783,16 @@ li .icon {
   bottom:0px;
   }
 
-#map-preview div.olControlPanZoomBar {
+#MapView div.olControlPanZoomBar {
   top:20px !important;
   }
 
-#map-preview div.olControlPanZoom {
+#MapView div.olControlPanZoom {
   top:20px !important;
   }
 
-#map-preview.fullscreen,
-#sidebar #map-preview.fullscreen {
+#MapView.fullscreen,
+#sidebar #MapView.fullscreen {
   position:fixed;
   top:50px;
   left:0px;
@@ -804,8 +804,8 @@ li .icon {
   border:0px;
   }
 
-#map-preview a.map-fullscreen,
-#map-preview #zoom-display {
+#MapView a.map-fullscreen,
+#MapView #zoom-display {
   background-color:#222;
   height:20px;
   position:absolute;
@@ -813,11 +813,11 @@ li .icon {
   z-index:1003;
   }
 
-#map-preview a.map-fullscreen {
+#MapView a.map-fullscreen {
   right:10px;
   }
 
-#map-preview #zoom-display {
+#MapView #zoom-display {
   left:5px;
   padding:0px 5px;
   background-color:#222;
@@ -825,25 +825,25 @@ li .icon {
   -webkit-border-radius:3px;
   }
 
-#map-preview #zoom-display h4 {
+#MapView #zoom-display h4 {
   font-size:11px;
   color:#eee;
   float:left;
   }
 
-#map-preview #zoom-display .zoom-in,
-#map-preview #zoom-display .zoom-out {
+#MapView #zoom-display .zoom-in,
+#MapView #zoom-display .zoom-out {
   background:#222 url(../images/sprite.png) -5px -71px repeat-x;
   cursor: pointer;
   position: relative;
   }
 
-#map-preview #zoom-display .zoom-in:active,
-#map-preview #zoom-display .zoom-out:active {
+#MapView #zoom-display .zoom-in:active,
+#MapView #zoom-display .zoom-out:active {
   bottom: -1px;
   }
 
-#map-preview #zoom-display .zoom-in {
+#MapView #zoom-display .zoom-in {
   float:left;
   width:10px;
   height:10px;
@@ -852,7 +852,7 @@ li .icon {
   background-position:-5px -71px;
   }
 
-#map-preview #zoom-display .zoom-out {
+#MapView #zoom-display .zoom-out {
   float:left;
   width:10px;
   height:10px;
@@ -861,7 +861,7 @@ li .icon {
   background-position:-25px -71px;
   }
   
-#map-preview .olHandlerBoxZoomBox {
+#MapView .olHandlerBoxZoomBox {
   border:2px solid #000;
   position:absolute;
   background-color:#fff;
@@ -958,20 +958,20 @@ li .icon {
 /**
  * Color picker
  */
-#color-picker a:hover { background-color:#999; }
+#ColorPicker a:hover { background-color:#999; }
 .colorpicker input { line-height:13px; }
 
 /**
  * Font pallette
  */
-#fonts {
+#FontPicker {
   padding:5px 10px 4px;
   border-bottom:1px solid #ddd;
   }
 
-#fonts input { font-weight: bold; }
+#FontPicker input { font-weight: bold; }
 
-#fonts .fonts-list {
+#FontPicker .fonts-list {
   position:absolute;
   left:0px;
   right:0px;
@@ -981,7 +981,7 @@ li .icon {
   overflow: auto;
   }
 
-#fonts ul.fonts-list li {
+#FontPicker ul.fonts-list li {
   display:block;
   font-size:11px;
   padding:0px 5px;
@@ -992,7 +992,7 @@ li .icon {
   -webkit-border-radius:3px;
   }
 
-#fonts ul.fonts-list li:hover { background: #eee; }
+#FontPicker ul.fonts-list li:hover { background: #eee; }
 
 /**
  * Popup editor.

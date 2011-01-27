@@ -214,20 +214,18 @@
       </div>
     </script>
 
-    <script type='text/html' id='FontPickerToolView'> 
-      <div id='fonts'>
-        <input class='text' title='Filter list' />
-        <ul class='fonts-list'>
-          {{#fonts}}<li>{{.}}</li>{{/fonts}}
-        </ul>
-      </div>
+    <script type='text/html' id='FontPicker'>
+      <input class='text' title='Filter list' />
+      <ul class='fonts-list'>
+        {{#fonts}}<li>{{.}}</li>{{/fonts}}
+      </ul>
     </script>
 
-    <script type='text/html' id='ColorSwatchesToolView'>
+    <script type='text/html' id='ColorSwatches'>
       <div class='swatches clearfix pane'></div>
     </script>
     
-    <script type='text/html' id='ColorPickerToolView'>
+    <script type='text/html' id='ColorPicker'>
       <a class='tipsy-e icon color-picker' title="Color picker" href='#color-picker'>Color picker</a>
     </script>
 

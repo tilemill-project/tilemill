@@ -42,8 +42,13 @@
 	<td></td>
 </tr>
 <tr>
+	<td>waitForTextPresent</td>
+	<td>#gadm.label</td>
+	<td></td>
+</tr>
+<tr>
 	<td>click</td>
-	<td>//div[@id='layers']/ul/li[1]/a[1]</td>
+	<td>link=Delete</td>
 	<td></td>
 </tr>
 <tr>

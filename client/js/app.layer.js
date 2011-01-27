@@ -4,7 +4,7 @@
  * List of all layers on a project.
  */
 var LayerListView = Backbone.View.extend({
-    id: 'layers',
+    id: 'LayerListView',
     className: 'view',
     initialize: function(options) {
         _.bindAll(this, 'render', 'sortUpdate');
