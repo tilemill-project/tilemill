@@ -9,7 +9,7 @@ var knox = require('knox'),
     path = require('path'), 
     xml2js = require('xml2js'),
     Settings = require('project').Settings,
-    Step = require('Step');
+    Step = require('step');
 
 var sockets = 0;
 var listbucket = function(client, prefix, n, callback, marker) {
