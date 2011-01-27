@@ -297,20 +297,23 @@ var Project = Backbone.Model.extend({
         // If client-side, pass-through.
         if (typeof require === 'undefined') { options.success(this, null) }
 
-        var Step = require('step');
-        var mess = require('mess');
-        var that = this;
-        var stylesheets = this.get('Stylesheet');
+        var Step = require('step'),
+            mess = require('mess'),
+            mapnik = require('mapnik'),
+            that = this,
+            stylesheets = this.get('Stylesheet');
         var stylesheets = stylesheets instanceof StylesheetList
             ? stylesheets.toJSON()
             : stylesheets;
-
         Step(
             function() {
                 var group = this.group();
                 var env = {
                     returnErrors: true,
                     errors: [],
+                    validation_data: {
+                        fonts: mapnik.fonts()
+                    },
                     deferred_externals: [],
                     effects: []
                 };
