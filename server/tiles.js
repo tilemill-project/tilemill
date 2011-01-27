@@ -30,9 +30,11 @@ module.exports = function(app, settings) {
                 // to the request object.
                 data[1] = _.extend(settings.header_defaults, data[1]);
                 res.send.apply(res, data);
+            } else if (err.length) {
+                err = _.pluck(err, 'message').join("\n");
+                res.send('Error rendering image:\n' + err, 500);
             } else {
-                res.send('Error rendering image: ' + err, 500);
-                // res.send('', { 'Content-Type': 'image/png' }, 500);
+                res.send('Error rendering image:\n' + err, 500);
             }
         });
     });
