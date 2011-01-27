@@ -1,3 +1,76 @@
+/**
+ * Watcher.
+ *
+ * Class for polling a given model (or collection) and firing a callback
+ * when it changes.
+ */
+var Watcher = function(model, callback, interval) {
+    _.bindAll(this, 'fetch', 'destroy');
+    var model = model;
+    this.model = model;
+    this.model.bind('change', this.fetch);
+    this.callback = callback;
+    this.interval = interval || 1000;
+    this.md5 = new MD5();
+    this.current = this.md5.digest(JSON.stringify(this.model));
+    this.watcher = setInterval(function() { model.fetch(); }, this.interval);
+};
+
+Watcher.prototype.fetch = function() {
+    var state = this.md5.digest(JSON.stringify(this.model));
+    if (this.current !== state) {
+        this.current = state;
+        this.callback && this.callback();
+    }
+};
+
+Watcher.prototype.destroy = function() {
+    window.clearInterval(this.watcher);
+};
+
+/**
+ * Status.
+ *
+ * Class for polling a certain endpoint and firing a callback if it is down.
+ */
+var Status = function(url, callback, interval) {
+    _.bindAll(this, 'start', 'error', 'stop');
+    this.url = url;
+    this.callback = callback;
+    this.interval = interval || 1000;
+    this.start();
+};
+
+Status.prototype.start = function() {
+    if (!this.watcher) {
+        var that = this;
+        this.watcher = setInterval(function() {
+            $.ajax({
+                url: that.url,
+                type: 'GET',
+                error: that.error
+            });
+        }, this.interval);
+    }
+};
+
+Status.prototype.error = function() {
+    this.stop();
+    this.callback(this);
+};
+
+Status.prototype.stop = function() {
+    if (this.watcher) {
+        window.clearInterval(this.watcher);
+        delete this.watcher;
+    }
+};
+
+/**
+ * View: PopupView
+ *
+ * Modal popup.
+ */
 var PopupView = Backbone.View.extend({
     initialize: function () {
         _.bindAll(this, 'render');
@@ -32,6 +105,11 @@ var PopupView = Backbone.View.extend({
     }
 });
 
+/**
+ * View: DropdownView
+ *
+ * Dropdown menu.
+ */
 var DropdownView = Backbone.View.extend({
     className: 'DropdownView',
     initialize: function() {
@@ -60,6 +138,11 @@ var DropdownView = Backbone.View.extend({
     }
 });
 
+/**
+ * View: DrawerView
+ *
+ * Slideout drawer from the left side of the screen.
+ */
 var DrawerView = Backbone.View.extend({
     className: 'drawer',
     events: {
@@ -89,6 +172,11 @@ var DrawerView = Backbone.View.extend({
     }
 });
 
+/**
+ * View: LoadingView
+ *
+ * Load indicator overlay.
+ */
 var LoadingView = Backbone.View.extend({
     initialize: function () {
         _.bindAll(this, 'render');
@@ -100,6 +188,11 @@ var LoadingView = Backbone.View.extend({
     }
 });
 
+/**
+ * View: ErrorView
+ *
+ * Error page.
+ */
 var ErrorView = Backbone.View.extend({
     initialize: function () {
         _.bindAll(this, 'render');
@@ -114,6 +207,8 @@ var ErrorView = Backbone.View.extend({
 
 /**
  * View: SettingsPopupView
+ *
+ * Settings form. Extends PopupView.
  */
 var SettingsPopupView = PopupView.extend({
     events: _.extend({
