@@ -1,10 +1,6 @@
 module.exports = {
     'port': 8889,
-    'providers': {
-        'directory': {
-            'path': __dirname + '/files/data'
-        }
-    },
+    'providers': ['directory', 's3'],
     'files': __dirname + '/files',
     'mapfile_dir': __dirname + '/files/.cache',
     'data_dir': __dirname + '/files/.cache',
