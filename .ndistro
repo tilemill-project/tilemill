@@ -11,11 +11,11 @@ module documentcloud underscore 1.1.4
 module coopernurse node-pool 1.0.4
 module developmentseed tilelive.js 0.0.2
 module willwhite node-worker 0.0.1
+module developmentseed mess.js 0.0.1
 
 # Needs tag
 # note: if no tag 'master' works...
 module lucisferre node-xml2js
-module developmentseed mess.js
 
 # addons
 # latest ndistro is able to download and build c++ addons,
