@@ -10,15 +10,22 @@ module.exports = function(app, settings) {
             // @TODO this is not an actual safe64 -> url conversion. Fix.
             var url = (new Buffer(req.param('id'), 'base64')).toString('utf-8');
             var external = new External(settings, url);
+            external.on('err', function(external) {
+                return next('Datasource could not be loaded.');
+            });
             external.on('complete', function(external) {
                 external.findByExtension('.shp', function(err, files) {
                     if (err || !files.length) {
                         return next(new Error('Datasource could not be loaded.'));
                     }
-                    var ds = new mapnik.Datasource({
-                        type: 'shape',
-                        file: files.pop()
-                    });
+                    try {
+                        var ds = new mapnik.Datasource({
+                            type: 'shape',
+                            file: files.pop()
+                        });
+                    } catch (e) {
+                        return next('The datasource could not be loaded.');
+                    }
                     res.datasource = _.extend({
                         fields: {},
                         features: ds.features()
