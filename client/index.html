@@ -418,10 +418,10 @@
         {{ progress }}%
       </span>
       {{#download}}
-        <a class='file {{ type }}' href='{{ download }}'></a>
+        <a class='file {{format}}' href='{{ download }}'></a>
       {{/download}}
       {{^download}}
-        <span class='file {{ type }}'></span>
+        <span class='file {{format}}'></span>
       {{/download}}
       <a class='filename'>{{ filename }}</a>
       <span class='time'>{{ time }}</span>
