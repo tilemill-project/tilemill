@@ -35,7 +35,7 @@ var MapView = Backbone.View.extend({
         };
 
         // Retrieve stored centerpoint from model and convert to map units.
-        var center = this.model.get('center') || {lat: 0, lon: 0, zoom: 2};
+        var center = this.model.get('_center');
         var lonlat = new OpenLayers.LonLat(center.lon, center.lat)
         lonlat.transform(
             new OpenLayers.Projection('EPSG:4326'),
@@ -51,7 +51,7 @@ var MapView = Backbone.View.extend({
         this.map = new OpenLayers.Map('map-preview-' + this.model.id, options);
         this.layer = new OpenLayers.Layer.TMS('Preview', this.model.layerURL(), {
             layername: this.model.project64({signed: true}),
-            type: 'png',
+            type: this.model.get('_format'),
             buffer: 0,
             transitionEffect: 'resize',
             wrapDateLine: true
@@ -117,16 +117,8 @@ var MapView = Backbone.View.extend({
             this.map.projection,
             new OpenLayers.Projection("EPSG:4326")
         );
-        this.model.set({
-            center: {
-                lat: lonlat.lat,
-                lon: lonlat.lon,
-                zoom: zoom
-            }
-        },
-        {
-            silent: true
-        });
+        center = { lat: lonlat.lat, lon: lonlat.lon, zoom: zoom };
+        this.model.set({ _center: center }, { silent: true });
 
         (e.element.id && $('#zoom-display h4', e.element).size()) &&
             $('#zoom-display h4', e.element)
@@ -135,6 +127,7 @@ var MapView = Backbone.View.extend({
 
     reload: function() {
         if (this.map.layers && this.map.layers && this.map.layers[0]) {
+            this.map.layers[0].type = this.model.get('_format');
             this.map.layers[0].layername = this.model.project64({signed: true});
             this.map.layers[0].redraw();
         }

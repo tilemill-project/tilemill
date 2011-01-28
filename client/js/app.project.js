@@ -89,7 +89,7 @@ var ProjectRowView = Backbone.View.extend({
     },
     // See http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
     thumb: function() {
-        var center = this.model.get('center') || {lat: 0, lon: 0, zoom: 2};
+        var center = this.model.get('_center');
         center.lat = -1 * center.lat; // TMS is flipped from OSM calc below.
         var z = center.zoom;
         var lat_rad = center.lat * Math.PI / 180;
@@ -135,7 +135,8 @@ var ProjectView = Backbone.View.extend({
         'click #header a.save': 'saveProject',
         'click #header a.settings': 'settings',
         'click #header a.close': 'close',
-        'click #tabs a.reference': 'reference'
+        'click #tabs a.reference': 'reference',
+        'click div#header a.options': 'projectOptions'
     },
     initialize: function() {
         _.bindAll(this, 'render', 'saveProject',
@@ -275,6 +276,43 @@ var ProjectView = Backbone.View.extend({
     settings: function() {
         new SettingsPopupView({ model: window.app.settings });
         return false;
+    },
+    projectOptions: function() {
+        new ProjectPopupView({ model: this.model });
+        return false;
+    }
+});
+
+var ProjectPopupView = PopupView.extend({
+    events: _.extend({
+        'click input.submit': 'submit'
+    }, PopupView.prototype.events),
+    initialize: function(options) {
+        _.bindAll(this, 'submit');
+        this.options.title = 'Project options';
+        this.options.content = ich.ProjectPopupView({
+            'format_png': this.model.get('_format') === 'png',
+            'format_png8': this.model.get('_format') === 'png8',
+            'format_jpeg80': this.model.get('_format') === 'jpeg80',
+            'format_jpeg85': this.model.get('_format') === 'jpeg85',
+            'format_jpeg90': this.model.get('_format') === 'jpeg90',
+            'format_jpeg95': this.model.get('_format') === 'jpeg95'
+        }, true);
+        PopupView.prototype.initialize.call(this, options);
+    },
+    submit: function() {
+        var success = this.model.set(
+            { '_format': $('select#format', this.el).val() },
+            { 'error': this.showError }
+        );
+        if (success) {
+            this.model.view.saveProject();
+            this.remove();
+        }
+        return false;
+    },
+    showError: function(model, error) {
+        window.app.message('Error', error);
     }
 });
 

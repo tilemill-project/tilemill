@@ -217,7 +217,7 @@ var SettingsPopupView = PopupView.extend({
     initialize: function(params) {
         _.bindAll(this, 'render', 'submit');
         this.model = this.options.model;
-        this.options.title = 'Settings';
+        this.options.title = 'TileMill settings';
         this.options.content = ich.SettingsPopupView({
             'minimal_mode': (this.model.get('mode') === 'minimal'),
             'directory_path': this.model.get('directory_path'),

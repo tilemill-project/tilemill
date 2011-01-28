@@ -137,7 +137,6 @@ a:hover.button { color:#fff; }
 
 .header .icon,
 .header .file {
-  background-color:#333;
   padding:0px;
   margin: 0px 10px 0px 0px;
   float:left;
@@ -148,10 +147,12 @@ a:hover.button { color:#fff; }
   background-color:transparent;
   }
 
-.header .actions .icon {
-  background-color:#666;
-  margin-right:5px;
-  }
+.header .settings,
+.header .settings:hover { background-color:#333; }
+
+.header .actions .close,
+.header .actions .close:hover { background-color:#666; }
+.header .actions .icon { margin:0px 5px; }
 
 .header .actions .icon:active { background-color:#333; }
 
@@ -487,7 +488,15 @@ form label {
   text-transform:uppercase;
   }
 
+.popup form div.description,
+form div.description,
 form div.container { border:0px; padding:0px; }
+
+form div.description {
+  margin:5px 0px 0px;
+  font-size:11px;
+  line-height:15px;
+  }
 
 .popup form div {
   position:relative;
@@ -747,8 +756,9 @@ li .icon {
 .icon.label          { background-position:-200px 0px; }
 .icon.settings       { background-position:-280px -20px; }
 .icon.export         { background-position:-320px -20px; }
-.icon.reference      { background-position: -360px -20px;}
+.icon.reference      { background-position: -320px -20px;}
 .icon.dropdown       { background-position:-300px 0px; }
+.icon.options        { background-position:-260px 0px; }
 .icon.geometry-linestring { background-position:-200px 0px; }
 .icon.geometry-point      { background-position:-220px 0px; }
 .icon.geometry-polygon    { background-position:-240px 0px; }

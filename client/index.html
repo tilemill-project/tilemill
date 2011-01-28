@@ -117,11 +117,33 @@
         <h1>Editing {{ id }}</h1>
         <div class='actions clearfix'>
           <a class='save disabled' href='#'>Saved</a>
+          <a class='tipsy-e icon options' title='Project options' href='#'>Project options</a>
           <a class='tipsy-e icon close' title='Back home' href='#'>Back home</a>
         </div>
       </div>
       <div id='main'></div>
       <div id='sidebar'></div>
+    </script>
+
+    <script type='text/html' id='ProjectPopupView'>
+      <div id='popup-settings' class='clearfix pane'>
+        <form id='form-layer'>
+          <div><label for='format'>Tile format</label>
+            <select id='format'>
+              <option value='png' {{#format_png}}selected='selected'{{/format_png}}>png (24-bit)</option>
+              <option value='png8' {{#format_png8}}selected='selected'{{/format_png8}}>png (8-bit)</option>
+              <option value='jpeg80' {{#format_jpeg80}}selected='selected'{{/format_jpeg80}}>jpeg (80%)</option>
+              <option value='jpeg85' {{#format_jpeg85}}selected='selected'{{/format_jpeg85}}>jpeg (85%)</option>
+              <option value='jpeg90' {{#format_jpeg90}}selected='selected'{{/format_jpeg90}}>jpeg (90%)</option>
+              <option value='jpeg95' {{#format_jpeg95}}selected='selected'{{/format_jpeg95}}>jpeg (95%)</option>
+            </select>
+            <div class='description'>Image format for this project's tiles.</div>
+          </div>
+          <div class='buttons'>
+              <input class='submit' type='submit' value='Save' />
+          </div>
+        </form>
+      </div>
     </script>
 
     <script type='text/html' id='LayerListView'>

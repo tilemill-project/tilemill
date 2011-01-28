@@ -193,6 +193,13 @@ var Project = Backbone.Model.extend({
      */
     type: 'project',
     /**
+     * Model default attributes.
+     */
+    defaults: {
+        '_center': { lat:0, lon:0, zoom:2 },
+		'_format': 'png'
+    },
+    /**
      * Custom setDefaults() method for creating a project with default layers,
      * stylesheets, etc. Note that we do not use Backbone native initialize()
      * or defaults(), both of which make default values far pervasive than the
