@@ -61,7 +61,7 @@ var ExportRowView = Backbone.View.extend({
             filename: this.model.get('filename'),
             status: this.model.get('status'),
             error: this.model.get('error'),
-            type: this.model.get('type'),
+            format: this.model.get('format'),
             download: this.model.downloadURL()
         }));
     },
