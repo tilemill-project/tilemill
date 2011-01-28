@@ -53,7 +53,12 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body).pop(), JSON.parse(project1));
+            var projects = JSON.parse(res.body);
+            for (var i = 0; i < projects.length; i++) {
+                if (projects[i].id === 'Test') {
+                    assert.deepEqual(projects[i], JSON.parse(project1));
+                }
+            }
         });
         // Get project
         assert.response(app, {
