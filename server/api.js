@@ -10,6 +10,9 @@ module.exports = function(app, settings) {
             // @TODO this is not an actual safe64 -> url conversion. Fix.
             var url = (new Buffer(req.param('id'), 'base64')).toString('utf-8');
             var external = new External(settings, url);
+            external.on('err', function(external) {
+                return next('Datasource could not be loaded.');
+            });
             external.on('complete', function(external) {
                 external.findByExtension('.shp', function(err, files) {
                     if (err || !files.length) {
