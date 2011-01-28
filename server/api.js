@@ -18,10 +18,14 @@ module.exports = function(app, settings) {
                     if (err || !files.length) {
                         return next(new Error('Datasource could not be loaded.'));
                     }
-                    var ds = new mapnik.Datasource({
-                        type: 'shape',
-                        file: files.pop()
-                    });
+                    try {
+                        var ds = new mapnik.Datasource({
+                            type: 'shape',
+                            file: files.pop()
+                        });
+                    } catch (e) {
+                        return next('The datasource could not be loaded.');
+                    }
                     res.datasource = _.extend({
                         fields: {},
                         features: ds.features()
