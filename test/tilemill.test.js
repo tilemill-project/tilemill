@@ -8,7 +8,6 @@ var project1 = fs.readFileSync('./test/fixtures/project1.json', 'utf8');
 var project2 = fs.readFileSync('./test/fixtures/project2.json', 'utf8');
 var settings1 = fs.readFileSync('./test/fixtures/settings1.json', 'utf8');
 var settings2 = fs.readFileSync('./test/fixtures/settings2.json', 'utf8');
-var exportjob1 = fs.readFileSync('./test/fixtures/exportjob1.json', 'utf8');
 
 module.exports = {
     'abilities': function() {
@@ -196,41 +195,6 @@ module.exports = {
             var data = JSON.parse(res.body);
             assert.equal(data.fields.FIPS.type, 'String', 'Missing field metadata');
             assert.equal(data.features.length, 245, 'Feature count mismatch');
-        });
-    },
-    'export-create': function() {
-        // Create export
-        assert.response(app, {
-            url: '/api/Export/6566fe',
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            data: exportjob1
-        }, {
-            status: 200
-        }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(exportjob1));
-        });
-    },
-    'export-test': function() {
-        // Get export
-        assert.response(app, {
-            url: '/api/Export/6566fe',
-            method: 'GET'
-        }, {
-            status: 200
-        }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(exportjob1));
-        });
-    },
-    'export-delete': function() {
-        // Delete export
-        assert.response(app, {
-            url: '/api/Export/6566fe',
-            method: 'DELETE'
-        }, {
-            status: 200
-        }, function(res) {
-            assert.equal(res.body, '{}');
         });
     },
     'settings-create': function() {
