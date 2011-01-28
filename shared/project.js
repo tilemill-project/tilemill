@@ -172,9 +172,9 @@ var Project = Backbone.Model.extend({
             + '  background-color: #fff;\n'
             + '}\n\n'
             + '#world {\n'
-            + '  polygon-fill: #eee;\n'
             + '  line-color: #ccc;\n'
             + '  line-width: 0.5;\n'
+            + '  polygon-fill: #eee;\n'
             + '}'
     }],
     LAYER_DEFAULT: [{

@@ -37,12 +37,13 @@ fi
 build_addon_no_git() {
     REPO=$1
     NAME=$2
-    CHECK_FILE=$3
+    TAG=$3
+    CHECK_FILE=$4
     if ! [ -f "CHECK_FILE" ]; then
         cd $ADDONS_DIR
         if ! [ -a "$NAME" ]; then
             echo "... fetching $NAME"
-            url="https://github.com/mapnik/$NAME/tarball/master"
+            url="https://github.com/$REPO/$NAME/tarball/$TAG"
             mkdir -p $NAME
             cd $NAME
             echo "... un-packing $NAME"
@@ -62,7 +63,7 @@ build_addon_no_git() {
 build_addon_git() {
     REPO=$1
     NAME=$2
-    CHECK_FILE=$3
+    CHECK_FILE=$4
     if ! [ -f "CHECK_FILE" ]; then
         cd $ADDONS_DIR
         if ! [ -a "$NAME" ]; then
@@ -81,11 +82,11 @@ build_addon_git() {
     fi
 }
 
-# <repo> <module> <file to check to decide about re-download>
-build_addon_git "mapnik" "node-mapnik" "lib/node/mapnik/_mapnik.node"
-build_addon_git "springmeyer" "node-srs" "lib/node/srs/_srs.node"
-build_addon_git "springmeyer" "node-zipfile" "lib/node/zipfile/_zipfile.node"
-build_addon_git "developmentseed" "node-sqlite" "lib/node/sqlite/sqlite3_bindings.node"
+# <repo> <module> <tag> <file to check to decide about re-download>
+build_addon_no_git "mapnik" "node-mapnik" "0.2.3" "lib/node/mapnik/_mapnik.node"
+build_addon_no_git "springmeyer" "node-srs" "0.1.1" "lib/node/srs/_srs.node"
+build_addon_no_git "springmeyer" "node-zipfile" "0.1.3" "lib/node/zipfile/_zipfile.node"
+build_addon_no_git "developmentseed" "node-sqlite" "0.0.1" "lib/node/sqlite/sqlite3_bindings.node"
 
 # Create local data directory and populate with sample data
 if ! [ -d "files/data" ]; then
