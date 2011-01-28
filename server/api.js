@@ -119,16 +119,9 @@ module.exports = function(app, settings) {
                 });
             }
             else {
-                model.save({}, {
-                    success: function(model) {
-                        model.save(req.body, {
-                            success: function(model, resp) { res.send(model.toJSON()) },
-                            error: function(model, resp) { res.send(resp, 500); }
-                        });
-                    },
-                    error: function(model, resp) {
-                        res.send(resp, 500);
-                    }
+                model.save(req.body, {
+                    success: function(model, resp) { res.send(model.toJSON()) },
+                    error: function(model, resp) { res.send(resp, 500); }
                 });
             }
         }
@@ -155,16 +148,9 @@ module.exports = function(app, settings) {
                 });
             }
             else {
-                model.save({}, {
-                    success: function(model) {
-                        model.save(req.body, {
-                            success: function(model, resp) { res.send(model.toJSON()) },
-                            error: function(model, resp) { res.send(resp, 500); }
-                        });
-                    },
-                    error: function(model, resp) {
-                        res.send(resp, 500);
-                    }
+                model.save(req.body, {
+                    success: function(model, resp) { res.send(model.toJSON()) },
+                    error: function(model, resp) { res.send(resp, 500); }
                 });
             }
         }
