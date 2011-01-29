@@ -294,6 +294,7 @@ var ExportMBTilesView = ExportView.extend({
             filename: this.options.project.get('id') + '.mbtiles',
             minzoom: 0,
             maxzoom: 8,
+            tile_format: this.options.project.get('_format'),
             metadata_name: this.options.project.get('id'),
             metadata_description: '',
             metadata_version: '1.0.0',

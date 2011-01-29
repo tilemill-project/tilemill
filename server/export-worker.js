@@ -113,6 +113,7 @@ FormatMBTiles.prototype.render = function(callback) {
                 filepath: path.join(settings.export_dir, that.model.get('filename')),
                 batchsize: 100,
                 bbox: that.model.get('bbox').split(','),
+                format: that.model.get('tile_format'),
                 minzoom: that.model.get('minzoom'),
                 maxzoom: that.model.get('maxzoom'),
                 mapfile: that.model.get('mapfile'),
