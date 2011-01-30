@@ -176,11 +176,7 @@ a:hover.button { color:#fff; }
 /**
  * Export UI ==================================================================
  */
-.exporting #header .links,
-.exporting #header .actions,
-.exporting #MapView.fullscreen a.map-fullscreen { display:none; }
-
-.exporting .header { background-position:0px -440px; }
+#export .header { background-position:0px -440px; }
 
 .palette {
   position:fixed;

@@ -196,6 +196,9 @@ var LoadingView = Backbone.View.extend({
 var ErrorView = Backbone.View.extend({
     initialize: function () {
         _.bindAll(this, 'render');
+        if (typeof this.options.message === 'object' && this.options.message.responseText) {
+            this.options.message = this.options.message.responseText;
+        }
         this.render();
     },
     render: function () {

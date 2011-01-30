@@ -2,16 +2,51 @@ var Router = Backbone.Controller.extend({
     routes: {
         '': 'list',
         'list': 'list',
-        'project/:id': 'project'
+        'project/:id': 'project',
+        'project/:id/export': 'projectExport',
+        'project/:id/export/:format': 'projectExportFormat'
     },
-    list: function() {
-        new ProjectListView({ collection: new ProjectList });
+    list: function(next) {
+        new ProjectList().fetch({
+            success: function(collection) {
+                var view = new ProjectListView({ collection: collection });
+                window.app.page(view);
+                next && next();
+            },
+            error: function(collection, resp) {
+                var view = new ErrorView({ message: 'Page not found' });
+                window.app.page(view);
+            }
+        });
     },
-    project: function(id) {
-        new ProjectView({ model: new Project({ id: id }) });
+    project: function(id, next) {
+        new Project({ id: id}).fetch({
+            success: function(model) {
+                var view = new ProjectView({ model: model });
+                window.app.page(view);
+                next && next();
+            },
+            error: function(model, resp) {
+                var view = new ErrorView({ message: resp });
+                window.app.page(view);
+            }
+        });
+    },
+    projectExport: function(id, next) {
+        this.project(id, function() {
+            window.app.pageView.views.exportDropdown.jobs();
+            next && next();
+        });
+    },
+    projectExportFormat: function(id, format, next) {
+        this.project(id, function() {
+            window.app.pageView.views.exportDropdown.xport(format);
+            next && next();
+        });
     },
     error: function() {
-        new ErrorView({ message: 'Page not found.' });
+        new ErrorView({ message: 'Page not found' });
+        window.app.page(view);
     }
 });
 
@@ -44,6 +79,11 @@ var App = Backbone.View.extend({
             success: function(model) { Backbone.history.start(); },
             error: function(model) { Backbone.history.start(); }
         });
+    },
+    page: function(view) {
+        $(this.el).html(view.el);
+        this.pageView = view;
+        this.trigger('ready');
     },
     loading: function(message) {
         this.loadingView = new LoadingView({message: message});

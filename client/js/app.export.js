@@ -9,6 +9,7 @@ var ExportListView = DrawerView.extend({
         this.options.title = 'Exports';
         this.options.content = ich.ExportListView({}, true);
         this.bind('render', this.renderJobs);
+        window.app.controller.saveLocation('project/' + this.options.project.id + '/export');
         DrawerView.prototype.initialize.call(this);
     },
     renderJobs: function() {
@@ -23,6 +24,10 @@ var ExportListView = DrawerView.extend({
                 });
             }
         });
+    },
+    remove: function() {
+        window.app.controller.saveLocation('project/' + this.options.project.id);
+        return DrawerView.prototype.remove.call(this);
     }
 });
 
@@ -93,11 +98,11 @@ var ExportView = Backbone.View.extend({
         this.render();
         this.model.bind('change', this.updateUI);
         this.model.set({ bbox: this.map.getExtent().toArray().join(',') });
+        window.app.controller.saveLocation('project/' + this.options.project.id + '/export/' + this.options.format);
     },
     render: function() {
         $(this.el).html(ich.ExportView(this.options));
         $('.palette', this.el).append(this.getFields());
-        $('body').addClass('exporting');
         window.app.el.append(this.el);
         this.options.map.maximize();
 
@@ -193,8 +198,8 @@ var ExportView = Backbone.View.extend({
         this.options.map.map.removeControl(this.boxDrawingControl);
         this.options.map.map.removeLayer(this.boxDrawingLayer);
         this.options.map.minimize();
-        $('body').removeClass('exporting');
         PopupView.prototype.close.call(this);
+        window.app.controller.saveLocation('project/' + this.options.project.id);
         return false;
     },
 });
@@ -359,7 +364,7 @@ var ExportDropdownView = DropdownView.extend({
         this.map = this.options.map;
         this.options.title = 'Export';
         this.options.content = ich.ExportOptions(
-            this.options.abilities.get('exports'),
+            window.app.abilities.get('exports'),
             true
         );
         this.render();
@@ -369,22 +374,32 @@ var ExportDropdownView = DropdownView.extend({
         'click a.jobs': 'jobs'
     }, DropdownView.prototype.events),
     xport: function(event) {
-        var format = $(event.currentTarget).attr('href').split('#').pop();
-        this.FORMAT[format] && new this.FORMAT[format]({
-            model: new Export({
-                mapfile: this.project.project64({signed: false}),
+        var format = typeof event === 'string'
+            ? event
+            : $(event.currentTarget).attr('href').split('#').pop();
+        if (!this.FORMAT[format]) {
+            window.app.message('Error', 'Unsupported export format.', 'error');
+        } else {
+            new this.FORMAT[format]({
+                model: new Export({
+                    mapfile: this.project.project64({signed: false}),
+                    format: format
+                }),
+                project: this.project,
+                collection: this.collection,
+                map: this.map,
                 format: format
-            }),
-            project: this.project,
-            collection: this.collection,
-            map: this.map
-        });
-        this.toggleContent();
+            });
+        }
+        this.hideContent();
         return false;
     },
     jobs: function(event) {
-        new ExportListView({ collection: new ExportList });
-        this.toggleContent();
+        new ExportListView({
+            project: this.project,
+            collection: new ExportList
+        });
+        this.hideContent();
         return false;
     }
 });

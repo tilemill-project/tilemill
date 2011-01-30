@@ -1,21 +1,17 @@
 var ProjectListView = Backbone.View.extend({
     id: 'ProjectListView',
     initialize: function() {
-        _.bindAll(this, 'render', 'add');
-        this.collection.bind('add', this.render);
-        this.collection.bind('remove', this.render);
-        this.collection.fetch({
-            success: this.render,
-            error: this.render
-        });
+        _.bindAll(this, 'render', 'add', 'update');
+        this.collection.bind('add', this.update);
+        this.collection.bind('remove', this.update);
+        this.render();
     },
     render: function() {
-        // Render the projects wrapper if not present.
-        if ($(this.el).has('ul.projects').length === 0) {
-            $(this.el).html(ich.ProjectListView());
-            window.app.el.html(this.el);
-        }
-
+        $(this.el).html(ich.ProjectListView());
+        this.update();
+        return this;
+    },
+    update: function() {
         // Add a row view for each project. Note that we use a pointer as the
         // projects are added to ensure that when new projects are added on a
         // re-render they are placed at the correct index in the list.
@@ -28,7 +24,7 @@ var ProjectListView = Backbone.View.extend({
                     collection: this.collection
                 });
                 if (!pointer) {
-                    $('ul.projects', self.el).prepend(project.view.el);
+                    $('ul.projects', that.el).prepend(project.view.el);
                 }
                 else {
                     $(pointer).after(project.view.el);
@@ -36,7 +32,6 @@ var ProjectListView = Backbone.View.extend({
             }
             pointer = project.view.el;
         });
-        return this;
     },
     events: {
         'click input.submit': 'add',
@@ -142,50 +137,37 @@ var ProjectView = Backbone.View.extend({
         _.bindAll(this, 'render', 'saveProject',
             'home', 'minimal', 'changed', 'reference', 'setMinimal');
         window.app.settings.bind('change', this.setMinimal);
+        this.views = {};
         this.model.view = this;
         this.model.bind('change', this.changed);
-        this.model.fetch({
-            success: this.render,
-            error: function(err, data) {
-                var obj = $.parseJSON(data.responseText);
-                window.app.message('Error', obj.message, 'error', function() {
-                    window.location = '/';
-                });
-            }
-        });
+        this.render();
     },
     render: function() {
         $(this.el).html(ich.ProjectView(this.model));
-
-        var layers = new LayerListView({
-                collection: this.model.get('Layer'),
-                project: this.model
-            }),
-            stylesheets = new StylesheetListView({
-                collection: this.model.get('Stylesheet'),
-                project: this.model
-            }),
-            tools = new StylesheetTools({
-                project: this.model
-            }),
-            map = new MapView({
-                model: this.model
-            }),
-            exportDropdown = new ExportDropdownView({
-                collection: new ExportList(),
-                abilities: window.app.abilities,
-                project: this.model,
-                map: map
-            });
-
-        $('#sidebar', this.el).append(map.el);
-        $('#sidebar', this.el).append(layers.el);
-        $('#sidebar', this.el).append(tools.el);
-        $('#main', this.el).append(stylesheets.el);
-        $('#header .actions a.save', this.el).after(exportDropdown.el);
-
-        window.app.el.html(this.el);
-        window.app.trigger('ready');
+        this.views.layers = new LayerListView({
+            collection: this.model.get('Layer'),
+            project: this.model
+        });
+        this.views.stylesheets = new StylesheetListView({
+            collection: this.model.get('Stylesheet'),
+            project: this.model
+        });
+        this.views.tools = new StylesheetTools({
+            project: this.model
+        });
+        this.views.map = new MapView({
+            model: this.model
+        });
+        this.views.exportDropdown = new ExportDropdownView({
+            collection: new ExportList(),
+            project: this.model,
+            map: this.views.map
+        });
+        this.$('#sidebar').append(this.views.map.el);
+        this.$('#sidebar').append(this.views.layers.el);
+        this.$('#sidebar').append(this.views.tools.el);
+        this.$('#main').append(this.views.stylesheets.el);
+        this.$('#header .actions a.save').after(this.views.exportDropdown.el);
         this.setMinimal(); // set minimal/normal mode
         return this;
     },
@@ -250,8 +232,7 @@ var ProjectView = Backbone.View.extend({
         if (this.referenceView) {
             this.referenceView.remove();
             delete this.referenceView;
-        }
-        else {
+        } else {
             this.referenceView = new ReferenceView();
         }
         return false;
