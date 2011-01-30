@@ -287,11 +287,14 @@ var ExportMBTilesView = ExportView.extend({
     initialize: function() {
         _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
         this.options.title = 'Export MBTiles';
+        this.options.extension = 'mbtiles';
         ExportView.prototype.initialize.call(this);
 
         // Set default values.
         this.model.set({
-            filename: this.options.project.get('id') + '.mbtiles',
+            filename: this.options.project.get('id')
+                + '.'
+                + this.options.extension,
             minzoom: 0,
             maxzoom: 8,
             tile_format: this.options.project.get('_format'),
