@@ -27,8 +27,6 @@ div.loading-text {
   font-size:16px;
   }
 
-div.page-loading { top:40px; }
-
 div.error-page {
   position:fixed;
   top:40px;
@@ -155,14 +153,6 @@ a:hover.button { color:#fff; }
 .header .actions .icon { margin:0px 5px; }
 
 .header .actions .icon:active { background-color:#333; }
-
-/*#header .actions a:focus,
-#header .actions a:active,
-#header .actions a.active,
-#header .actions a.active:hover {
-  background-color:#666;
-  color:#fff;
-  }*/
 
 .header .actions a.save.changed,
 .header .actions a.save.changed:hover {
@@ -406,58 +396,6 @@ ul.projects a:hover {
 
 form.projects h2 { font-size:16px; }
 form.projects p { margin:0px 0px 10px; }
-
-#inspector ul li em { margin-left:5px; }
-
-ul.inspect-values {
-  -moz-border-radius:3px 3px 0px 3px;
-  -webkit-border-radius:3px 3px 0px 3px;
-  }
-
-ul.inspect-values li {
-  font-size:11px;
-  line-height:19px;
-  border-bottom:1px solid #eee;
-  white-space:nowrap;
-  overflow:hidden;
-  float:left;
-  width:50%;
-  }
-
-ul.inspect-values li.min,
-ul.inspect-values li.max {
-  width:auto;
-  float:none;
-  border-color:#e0e8e8;
-  background:#f0f4f4;
-  }
-
-ul.inspect-values strong { text-transform:uppercase; }
-
-/**
- * Pager
- */
-div.pager {
-  position:relative;
-  height:20px;
-  }
-
-div.pager a.disabled { opacity:.5; }
-
-div.pager a.pager-prev,
-div.pager a.pager-next { position:absolute; }
-
-div.pager a.pager-next {
-  -moz-border-radius:0px 0px 3px 0px;
-  -webkit-border-radius:0px 0px 3px 0px;
-  right:0px;
-  }
-
-div.pager a.pager-prev {
-  -moz-border-radius:0px 0px 0px 3px;
-  -webkit-border-radius:0px 0px 0px 3px;
-  right:20px;
-  }
 
 /**
  * Form elements
