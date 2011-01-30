@@ -55,7 +55,7 @@ function load(model, callback) {
     fs.readFile(path.join(modelPath, model.id + '.' + extension), 'utf-8',
     function(err, data) {
         if (err || !data) {
-            return callback(new Error('Error reading model file.'));
+            return callback('Error reading model file.');
         }
         var object = JSON.parse(data);
         // Set the object ID explicitly for multiple-load scenarios where
@@ -118,7 +118,7 @@ function loadAll(model, callback) {
         },
         function(err, files) {
             if (err) {
-                return this(new Error('Error reading model directory.'));
+                return this('Error reading model directory.');
             }
             else if (files.length === 0) {
                 return this();
