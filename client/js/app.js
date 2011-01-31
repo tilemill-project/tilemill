@@ -109,6 +109,10 @@ var App = Backbone.View.extend({
 });
 
 $(function() {
+    // Fix for IE8 AJAX payload caching.
+    // See: http://stackoverflow.com/questions/1013637/unexpected-caching-of-ajax-results-in-ie8
+    $.ajaxSetup({ cache: false });
+
     window.app = new App({
         el: $('#app'),
         model: new Settings({ id: 'settings' }),
