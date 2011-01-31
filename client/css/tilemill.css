@@ -969,11 +969,10 @@ div.syntax-error { background-color:#fcf4a0; }
   z-index:5000;
   position:absolute;
   top:100px;
-  left:0px;
-  right:0px;
+  left:50%;
   width: 500px;
+  margin-left:-250px;
   background-color: #fff;
-  margin:0px auto;
 
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
