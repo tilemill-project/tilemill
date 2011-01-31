@@ -461,3 +461,39 @@ if (typeof module !== 'undefined') {
     };
 }
 
+/**
+ * Model: Asset
+ *
+ * An external asset, e.g. a shapefile, image, etc.
+ */
+var Asset = Backbone.Model.extend({});
+
+/**
+ * Collection: AssetListS3
+ *
+ * A list of assets available on an S3 bucket.
+ */
+var AssetListS3 = Backbone.Collection.extend({
+    model: Asset,
+    url: '/provider/s3',
+    title: 'Amazon S3',
+    comparator: function(model) {
+        return model.id;
+    }
+});
+
+/**
+ * Collection: AssetListDirectory
+ *
+ * A list of assets available via local directory.
+ */
+var AssetListDirectory = Backbone.Collection.extend({
+    model: Asset,
+    url: '/provider/directory',
+    title: 'Local directory',
+    comparator: function(model) {
+        return model.id;
+    }
+});
+
+
