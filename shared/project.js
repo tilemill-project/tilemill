@@ -255,7 +255,7 @@ var Project = Backbone.Model.extend({
         if (args[args.length - 1] === '') {
             return baseURL + args.join('/');
         // index.html or similar trailing filename.
-        } else if (args[args.length - 1].indexOf('.') !== -1) {
+        } else if (_.indexOf(args[args.length - 1], '.') !== -1) {
             args.pop();
             return baseURL + args.join('/') + '/';
         // Path beyond domain.
@@ -402,7 +402,7 @@ var Export = Backbone.Model.extend({
         status: 'waiting'
     },
     validate: function(attributes) {
-        if (attributes.status && ['waiting', 'processing', 'complete', 'error'].indexOf(attributes.status) === -1) {
+        if (attributes.status && _.indexOf(['waiting', 'processing', 'complete', 'error'], attributes.status) === -1) {
             return 'Invalid status.';
         }
         if (attributes.progress && (typeof attributes.progress !== 'number' || attributes.progress > 1 || attributes.progress < 0)) {
