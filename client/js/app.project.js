@@ -2,16 +2,15 @@ var ProjectListView = Backbone.View.extend({
     id: 'ProjectListView',
     initialize: function() {
         _.bindAll(this, 'render', 'add', 'update');
-        this.collection.bind('add', this.update);
-        this.collection.bind('remove', this.update);
+        this.collection.bind('add', this.render);
+        this.collection.bind('remove', this.render);
         this.render();
     },
     render: function() {
-        $(this.el).html(ich.ProjectListView());
-        this.update();
-        return this;
-    },
-    update: function() {
+        if (!this.$('ul.projects').size()) {
+            $(this.el).html(ich.ProjectListView());
+        }
+
         // Add a row view for each project. Note that we use a pointer as the
         // projects are added to ensure that when new projects are added on a
         // re-render they are placed at the correct index in the list.
@@ -32,6 +31,7 @@ var ProjectListView = Backbone.View.extend({
             }
             pointer = project.view.el;
         });
+        return this;
     },
     events: {
         'click input.submit': 'add',
