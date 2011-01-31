@@ -10,6 +10,7 @@
     <link rel='stylesheet' href='js/libraries/colorpicker/css/colorpicker.css' type='text/css'/>
 
     <script type='text/javascript' src='js/libraries/md5.js'></script>
+    <script type='text/javascript' src='js/libraries/json2.js'></script>
     <script type='text/javascript' src='js/libraries/base64.js'></script>
     <script type='text/javascript' src='js/libraries/jquery.js'></script>
     <script type='text/javascript' src='js/libraries/underscore-min.js'></script>
@@ -43,6 +44,7 @@
     <script type='text/javascript'>
     head.js(
         'js/libraries/md5.js',
+        'js/libraries/json2.js',
         'js/libraries/base64.js',
         'js/libraries/jquery.js',
         'js/libraries/underscore-min.js',
@@ -126,26 +128,25 @@
     </script>
 
     <script type='text/html' id='ProjectPopupView'>
-        <form>
-          <ul class='form'>
-            <li>
-              <label for='format'>Tile format</label>
-              <select id='format'>
-                <option value='png' {{#format_png}}selected='selected'{{/format_png}}>png (24-bit)</option>
-                <option value='png8' {{#format_png8}}selected='selected'{{/format_png8}}>png (8-bit)</option>
-                <option value='jpeg80' {{#format_jpeg80}}selected='selected'{{/format_jpeg80}}>jpeg (80%)</option>
-                <option value='jpeg85' {{#format_jpeg85}}selected='selected'{{/format_jpeg85}}>jpeg (85%)</option>
-                <option value='jpeg90' {{#format_jpeg90}}selected='selected'{{/format_jpeg90}}>jpeg (90%)</option>
-                <option value='jpeg95' {{#format_jpeg95}}selected='selected'{{/format_jpeg95}}>jpeg (95%)</option>
-              </select>
-              <div class='description'>Image format for this project's tiles.</div>
-            </li>
-            <li class='buttons'>
-                <input class='submit' type='submit' value='Save' />
-            </li>
-          </ul>
-        </form>
-      </div>
+      <form>
+        <ul class='form'>
+          <li>
+            <label for='format'>Tile format</label>
+            <select id='format'>
+              <option value='png' {{#format_png}}selected='selected'{{/format_png}}>png (24-bit)</option>
+              <option value='png8' {{#format_png8}}selected='selected'{{/format_png8}}>png (8-bit)</option>
+              <option value='jpeg80' {{#format_jpeg80}}selected='selected'{{/format_jpeg80}}>jpeg (80%)</option>
+              <option value='jpeg85' {{#format_jpeg85}}selected='selected'{{/format_jpeg85}}>jpeg (85%)</option>
+              <option value='jpeg90' {{#format_jpeg90}}selected='selected'{{/format_jpeg90}}>jpeg (90%)</option>
+              <option value='jpeg95' {{#format_jpeg95}}selected='selected'{{/format_jpeg95}}>jpeg (95%)</option>
+            </select>
+            <div class='description'>Image format for this project's tiles.</div>
+          </li>
+          <li class='buttons'>
+              <input class='submit' type='submit' value='Save' />
+          </li>
+        </ul>
+      </form>
     </script>
 
     <script type='text/html' id='LayerListView'>
