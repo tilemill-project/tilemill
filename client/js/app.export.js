@@ -190,7 +190,10 @@ var ExportView = Backbone.View.extend({
         this.options.collection.add(this.model);
         this.model.save();
         this.close();
-        new ExportListView({ collection: new ExportList });
+        new ExportListView({
+            collection: new ExportList,
+            project: this.options.project,
+        });
         return false;
     },
     close: function() {
