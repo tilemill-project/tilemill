@@ -89,8 +89,8 @@
     </script>
 
     <script type='text/html' id='LoadingView'>
-      <div class='loading'>
-        <div class='loading-text'>{{message}}</div>
+      <div class='overlay'>
+        <div class='loading'>{{message}}</div>
       </div>
     </script>
 
@@ -264,15 +264,13 @@
     </script>
 
     <script type='text/html' id='PopupView'>
-      <div id='popup'>
-        <div class='popup-backdrop'></div>
-        <div class='popup'>
-          <div class='popup-header clearfix pane'>
-            <h2>{{ title }}</h2>
-            <a href='#' class='icon close'>Close</a>
-          </div>
-          <div class='popup-content'>{{{ content }}}</div>
+      <div class='overlay'></div>
+      <div class='popup'>
+        <div class='popup-header clearfix pane'>
+          <h2>{{ title }}</h2>
+          <a href='#' class='icon close'>Close</a>
         </div>
+        <div class='popup-content'>{{{ content }}}</div>
       </div>
     </script>
 

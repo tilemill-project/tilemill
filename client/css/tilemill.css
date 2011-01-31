@@ -3,25 +3,27 @@ body {
   color:#333;
   }
 
-div.loading {
-  background:#eee url(../images/swirly.gif) 50% 50% no-repeat;
-  opacity:.75;
+.overlay {
+  z-index:5000;
+  background:url(../images/overlay.png);
   position:absolute;
-  left:0px;
-  right:0px;
-  bottom:0px;
   top:0px;
+  left:0px;
+  bottom:0px;
+  right:0px;
   }
 
-div.loading-text {
-  width:200px;
+.loading {
   position:absolute;
   top:50%;
   left:50%;
-  margin-top:30px;
+  padding-top:40px;
+  margin-top:-40px;
   margin-left:-100px;
+  width:200px;
 
   text-align:center;
+  background:url(../images/swirly.gif) 50% 0% no-repeat;
   color:#666;
   font-weight:bold;
   font-size:16px;
@@ -963,17 +965,6 @@ div.syntax-error { background-color:#fcf4a0; }
 /**
  * Popup editor.
  */
-.popup-backdrop {
-  z-index:5000;
-  background-color:#999;
-  opacity: 0.75;
-  position:absolute;
-  top:0;
-  left:0;
-  bottom:0;
-  right:0;
-  }
-
 .popup {
   z-index:5000;
   position:absolute;
