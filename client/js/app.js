@@ -53,7 +53,7 @@ var Router = Backbone.Controller.extend({
 var App = Backbone.View.extend({
     initialize: function(options) {
         this.settings = this.model;
-        this.controller = new Router;
+        this.controller = new Router();
         this.abilities = this.options.abilities;
 
         // Catchall error page requires a regex so we must add its route manually.
@@ -81,6 +81,7 @@ var App = Backbone.View.extend({
         });
     },
     page: function(view) {
+        $('.tipsy').remove();
         $(this.el).html(view.el);
         this.pageView = view;
         this.trigger('ready');
@@ -109,13 +110,13 @@ var App = Backbone.View.extend({
 
 $(function() {
     window.app = new App({
-        el: $('body'),
+        el: $('#app'),
         model: new Settings({ id: 'settings' }),
         abilities: new Abilities()
     });
 
    // Use jquery.tipsy for displaying tooltips.
-   $('a', this.el).tipsy({
+   $('a').tipsy({
         live:true,
         html:true,
         gravity: function() {
