@@ -14,36 +14,50 @@ module.exports = function(app, settings) {
                 return next('Datasource could not be loaded.');
             });
             external.on('complete', function(external) {
-                external.findByExtension('.shp', function(err, files) {
-                    if (err || !files.length) {
+                external.findDataFile(function(err, file) {
+                    if (err || !file) {
                         return next(new Error('Datasource could not be loaded.'));
                     }
                     try {
-                        var ds = new mapnik.Datasource({
-                            type: 'shape',
-                            file: files.pop()
-                        });
+                        var ds = new mapnik.Datasource(_.extend({
+                            file: file
+                        }, external.type.ds_options));
                     } catch (e) {
                         return next('The datasource could not be loaded.');
                     }
-                    res.datasource = _.extend({
-                        fields: {},
-                        features: ds.features()
-                    }, ds.describe());
-                    for (var fieldId in res.datasource.fields) {
-                        res.datasource.fields[fieldId] = {
-                            type: res.datasource.fields[fieldId]
+                    if (external.type.ds_options !== 'gdal') {
+                        res.datasource = _.extend({
+                            fields: {},
+                            ds_options: external.type.ds_options,
+                            features: ds.features()
+                        }, ds.describe());
+                        for (var fieldId in res.datasource.fields) {
+                            res.datasource.fields[fieldId] = {
+                                type: res.datasource.fields[fieldId]
+                            };
+                            var field = res.datasource.fields[fieldId];
+                            var values = _.pluck(res.datasource.features, fieldId);
+                            if (field.type == 'Number') {
+                                field.min = Math.min.apply(Math, values);
+                                field.max = Math.max.apply(Math, values);
+                            }
+                            else if (res.datasource.fields[fieldId].type == 'String') {
+                                field.min = _.min(values,
+                                    function(value) { return value.length; }).length;
+                                field.max = _.max(values,
+                                    function(value) { return value.length; }).length;
+                            }
+                        }
+                    } else {
+                        res.datasource = {
+                            ds_options: external.type.ds_options,
+                            fields: {
+                                none: 'String'
+                            },
+                            features: [
+                                { none: 'Rasters do not contain fields.' }
+                            ]
                         };
-                        var field = res.datasource.fields[fieldId];
-                        var values = _.pluck(res.datasource.features, fieldId);
-                        if (field.type == 'Number') {
-                            field.min = Math.min.apply(Math, values);
-                            field.max = Math.max.apply(Math, values);
-                        }
-                        else if (res.datasource.fields[fieldId].type == 'String') {
-                            field.min = _.min(values, function(value) { return value.length; }).length;
-                            field.max = _.max(values, function(value) { return value.length; }).length;
-                        }
                     }
                     next();
                 });

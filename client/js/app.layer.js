@@ -181,10 +181,9 @@ var LayerPopupView = PopupView.extend({
                         'srs': $('input#srs', that.el).val(),
                         'class': $('input#class', that.el).val(),
                         'geometry': datasource.get('geometry_type'),
-                        'Datasource': {
-                            'file': $('input#file', that.el).val(),
-                            'type': 'shape'
-                        }
+                        'Datasource': _.extend({
+                            'file': $('input#file', that.el).val()
+                        }, datasource.get('ds_options'))
                     },
                     { 'error': that.showError }
                 );
