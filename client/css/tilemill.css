@@ -1009,7 +1009,7 @@ a.inspector-close { background-color:#666; }
 .DropdownView .dropdown-content {
   z-index:5000;
   display:none;
-  background:rgba(17,17,17,.9);
+  background:url(../images/black90.png);
   position:absolute;
   padding: 5px 0px;
   left:5px;
@@ -1036,7 +1036,7 @@ a.inspector-close { background-color:#666; }
 
 .actions .DropdownView a.show.active,
 .actions .DropdownView a.show.active:hover {
-  background:rgba(17,17,17,.9);
+  background:url(../images/black90.png);
   color:#fff;
   -webkit-border-radius:5px 5px 0px 0px;
   -moz-border-radius:5px 5px 0px 0px;
