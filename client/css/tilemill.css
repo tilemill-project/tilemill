@@ -133,6 +133,13 @@ a:hover.button { color:#fff; }
   -webkit-box-shadow:#ccc 0px 1px 3px;
   }
 
+.header .actions a.save.changed,
+.header .actions a.save.changed:hover {
+  background:#48a;
+  color:#fff;
+  text-shadow:#379 0px 1px;
+  }
+
 .header .icon,
 .header .file {
   padding:0px;
@@ -153,12 +160,6 @@ a:hover.button { color:#fff; }
 .header .actions .icon { margin:0px 5px; }
 
 .header .actions .icon:active { background-color:#333; }
-
-.header .actions a.save.changed,
-.header .actions a.save.changed:hover {
-  background:#48a;
-  color:#fff;
-  }
 
 .header .form {
   position:absolute;
@@ -396,69 +397,71 @@ form.projects p { margin:0px 0px 10px; }
 /**
  * Form elements
  */
+select,
 input.text {
   line-height:18px;
+  height:20px;
   background:#f8f8f8;
   border:1px solid #ccc;
   padding:0px 2px;
-  -moz-border-radius:3px;
-  -webkit-border-radius:3px;
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
   }
 
 input.submit {
-  line-height:18px;
+  line-height:20px;
+  height:20px;
   cursor:pointer;
   padding:0px 10px;
-  border:1px solid #ccc;
-  background:#f8f8f8;
+  background:#666;
+  color:#fff;
+  font-weight:bold;
+  text-shadow:#333 0px 1px;
+  border-radius:3px;
+  box-sizing:border-box;
   -moz-border-radius:3px;
+  -moz-box-sizing:border-box;
   -webkit-border-radius:3px;
+  -webkit-box-sizing:border-box;
   }
+
+input.submit:active { background:#333; }
 
 form { position:relative; }
+form label { font-weight:bold; }
+form .description { font-size:11px; }
+form .required { color: #f30; }
 
-form label {
-  font-size:11px;
-  text-transform:uppercase;
-  }
-
-.popup form div.description,
-form div.description,
-form div.container { border:0px; padding:0px; }
-
-form div.description {
-  margin:5px 0px 0px;
-  font-size:11px;
-  line-height:15px;
-  }
-
-.popup form div {
+ul.form > li {
   position:relative;
-  padding:5px 5px 4px 110px;
-  border-bottom:1px solid #eee;
+  padding:10px 10px 9px 150px;
+  border-bottom:1px solid #ddd;
   }
 
-.popup form div label {
+ul.form > li > label {
   display:block;
   position:absolute;
   left:0px;
-  width:100px;
+  top:0px;
+  bottom:0px;
+
+  border-right:1px solid #eee;
+  padding:10px 9px 9px 10px;
+  background:#f4f4f4;
+  width:120px;
   text-align:right;
   }
 
-.popup form div input.text { width:90%; }
-.popup form div input.inline { width:auto; }
+ul.form > li input.text { width:100%; }
+ul.form > li input.inline { width:auto; }
 
-.popup form div.buttons {
+ul.form > li.buttons {
   text-align:right;
   border:0px;
-  padding:5px 0px 5px 110px;
+  padding:10px;
   }
   
-span.required {
-  color: #f73205;
-  }
-
 .palette label,
 .header label { color:#999; }
 
@@ -823,7 +826,7 @@ li .icon {
   right:0px;
   height:30px;
 
-  padding:10px 40px 0px 10px;
+  padding:10px 70px 0px 10px;
   background:#eee url(../images/sprite.png) 0px -490px repeat-x;
   }
 
@@ -832,8 +835,9 @@ li .icon {
   position:absolute;
   top:10px;
   }
+
 #tabs a.reference { right:10px; }
-#tabs a.add { right:35px; }
+#tabs a.add { right:40px; }
 
 #tabs a.tab {
   float:left;
@@ -899,6 +903,22 @@ li .icon {
 #editor .editor iframe { padding:0px; }
 
 /**
+ * Line numbers
+ */
+.CodeMirror-line-numbers {
+  background:#eee;
+  color:#555;
+  margin:0px;
+  padding:10px 0px;
+  font:13px/20px monospace;
+  text-align:right;
+  }
+
+.CodeMirror-line-numbers div { padding:0px 10px; }
+
+div.syntax-error { background-color:#fcf4a0; }
+
+/**
  * Color picker
  */
 #ColorPicker a:hover { background-color:#999; }
@@ -954,18 +974,18 @@ li .icon {
 .popup {
   z-index:5000;
   position:absolute;
-  top:0;
-  left:0;
-  right:0;
+  top:100px;
+  left:0px;
+  right:0px;
   width: 500px;
   background-color: #fff;
-  margin: 100px auto 0;
+  margin:0px auto;
 
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   border-radius:3px;
-  -moz-box-shadow:#666 0px 1px 10px;
-  -webkit-box-shadow:#666 0px 1px 10px;
+  -moz-box-shadow:rgba(64,64,64,.25) 0px 0px 0px 5px;
+  -webkit-box-shadow:rgba(64,64,64,.25) 0px 0px 0px 5px;
   }
 
 .popup-header {
@@ -1157,17 +1177,18 @@ table.features .Number { text-align:right; }
  * Add assets from known data
  */
 a#expand-assets {
-  background-color:#fff;
-  float:right;
-  background-position:-20px 0px;
-  }
-  
-a#expand-assets:hover {
-  cursor:pointer;
+  position:absolute;
+  right:10px;
+  top:10px;
+  display:block;
+  background-position:-20px -20px;
+  border-radius:0px;
+  -moz-border-radius:0px;
+  -webkit-border-radius:0px;
   }
 
-form div.assets {
-  padding: 5px;
+div.assets {
+  padding:9px;
   margin-top: 5px;
   height:200px;
   background-color:#eee;
@@ -1175,10 +1196,8 @@ form div.assets {
   border: 1px solid #ccc;
   }
 
-form div.assets div { padding:0px; }
-
-form div.assets .empty,
-form div.assets .assets { padding:0px 0px 0px 10px; }
+div.assets .empty,
+div.assets .asset { padding:0px 0px 0px 10px; }
 
 /**
  * TODO: this will break in IE
@@ -1200,29 +1219,6 @@ a.asset .metadata {
   padding:0px 3px;
   color:#aaa;
   }
-
-/**
- * Code snippets in info popup
- */
-textarea.code-snippet {
-  font-family: monospace;
-  width: 100%;
-  height: 150px;
-  }
-
-.CodeMirror-line-numbers {
-  background:#eee;
-  color:#555;
-  margin:0px;
-  padding:10px 0;
-  font:13px/20px monospace;
-  text-align:right;
-  }
-.CodeMirror-line-numbers div {
-  padding:0 10px;
-  }
-
-div.syntax-error { background-color:#fcf4a0; }
 
 /**
  * Tipsy ======================================================================

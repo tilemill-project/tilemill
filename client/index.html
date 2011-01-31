@@ -77,10 +77,10 @@
       </div>
       <div id='sidebar'>
         <div class='pane'>
-          <form id='projects' class='projects pane'>
+          <form class='projects pane'>
             <h2>Add a project</h2>
             <p>Enter the name of your new project.</p>
-            <input class='required text alphanum' type='text' />
+            <input class='text' type='text' />
             <input class='submit' type='submit' value='Add' />
           </form>
         </div>
@@ -126,22 +126,24 @@
     </script>
 
     <script type='text/html' id='ProjectPopupView'>
-      <div id='popup-settings' class='clearfix pane'>
-        <form id='form-layer'>
-          <div><label for='format'>Tile format</label>
-            <select id='format'>
-              <option value='png' {{#format_png}}selected='selected'{{/format_png}}>png (24-bit)</option>
-              <option value='png8' {{#format_png8}}selected='selected'{{/format_png8}}>png (8-bit)</option>
-              <option value='jpeg80' {{#format_jpeg80}}selected='selected'{{/format_jpeg80}}>jpeg (80%)</option>
-              <option value='jpeg85' {{#format_jpeg85}}selected='selected'{{/format_jpeg85}}>jpeg (85%)</option>
-              <option value='jpeg90' {{#format_jpeg90}}selected='selected'{{/format_jpeg90}}>jpeg (90%)</option>
-              <option value='jpeg95' {{#format_jpeg95}}selected='selected'{{/format_jpeg95}}>jpeg (95%)</option>
-            </select>
-            <div class='description'>Image format for this project's tiles.</div>
-          </div>
-          <div class='buttons'>
-              <input class='submit' type='submit' value='Save' />
-          </div>
+        <form>
+          <ul class='form'>
+            <li>
+              <label for='format'>Tile format</label>
+              <select id='format'>
+                <option value='png' {{#format_png}}selected='selected'{{/format_png}}>png (24-bit)</option>
+                <option value='png8' {{#format_png8}}selected='selected'{{/format_png8}}>png (8-bit)</option>
+                <option value='jpeg80' {{#format_jpeg80}}selected='selected'{{/format_jpeg80}}>jpeg (80%)</option>
+                <option value='jpeg85' {{#format_jpeg85}}selected='selected'{{/format_jpeg85}}>jpeg (85%)</option>
+                <option value='jpeg90' {{#format_jpeg90}}selected='selected'{{/format_jpeg90}}>jpeg (90%)</option>
+                <option value='jpeg95' {{#format_jpeg95}}selected='selected'{{/format_jpeg95}}>jpeg (95%)</option>
+              </select>
+              <div class='description'>Image format for this project's tiles.</div>
+            </li>
+            <li class='buttons'>
+                <input class='submit' type='submit' value='Save' />
+            </li>
+          </ul>
         </form>
       </div>
     </script>
@@ -284,21 +286,23 @@
     </script>
 
     <script type='text/html' id='LayerPopupView'>
-      <div id='popup-layer' class='clearfix pane'>
-        <form id='form-layer'>
-          <div><label for='id'>Id <span class="required" title="This field is required">*</span></label>
-            <input type='text' class='text required' id='id' value='{{ id }}' />
-          </div>
-          <div><label for='class'>Class</label>
+      <form>
+        <ul class='form'>
+          <li>
+            <label for='id'><span class='required' title='This field is required'>*</span> ID</label>
+            <input type='text' class='text' id='id' value='{{ id }}' />
+          </li>
+          <li>
+            <label for='class'>Class</label>
             <input type='text' class='text' id='class' value='{{ class }}'/>
-          </div>
-          <div>
-            <label for='file'>Datasource <span class="required" title="This field is required">*</span></label>
-            <input type='text' class='text required' id='file' value='{{ datasource_file }}' />
-            <a class='icon expand-assets' id='expand-assets' title='See available assets'>[+]</a>
+          </li>
+          <li>
+            <label for='file'><span class='required' title='This field is required'>*</span> Datasource</label>
+            <input type='text' class='text' id='file' value='{{ datasource_file }}' />
+            <a href='#' class='icon expand-assets' id='expand-assets' title='See available assets'>[+]</a>
             <div class='container assets hidden'></div>
-          </div>
-          <div>
+          </li>
+          <li>
             <label for='srs-name'>SRS</label>
             <select id='srs-name'>
               <option value='' {{#srs_name_autodetect}}selected='selected'{{/srs_name_autodetect}}>Autodetect</option>
@@ -306,30 +310,30 @@
               <option value='WGS84' {{#srs_name_WGS84}}selected='selected'{{/srs_name_WGS84}}>WGS84</option>
               <option value='custom' {{#srs_name_custom}}selected='selected'{{/srs_name_custom}}>Add custom</option>
             </select>
-          </div>
-          <div class='srs {{^srs_name_custom}}hidden{{/srs_name_custom}}'>
+          </li>
+          <li class='srs {{^srs_name_custom}}hidden{{/srs_name_custom}}'>
             <label for='srs'>Custom</label>
             <input type='text' class='text' id='srs' value='{{ srs }}'/>
-          </div>
-          <div class='buttons'>
+          </li>
+          <li class='buttons'>
               <input class='submit' type='submit' value='Save' />
-          </div>
-        </form>
-      </div>
+          </li>
+        </ul>
+      </form>
     </script>
 
     <script type='text/html' id='StylesheetPopupView'>
-      <div id='popup-stylesheet' class='clearfix pane'>
-        <form>
-          <div>
+      <form>
+        <ul class='form'>
+          <li>
             <label for='stylesheet-name'>Name</label>
-            <input id='stylesheet-name' class='text required' type='text' />
-          </div>
-          <div class='buttons'>
+            <input id='stylesheet-name' class='text' type='text' />
+          </li>
+          <li class='buttons'>
             <input class='submit' type='submit' value='Add stylesheet' />
-          </div>
-        </form>
-      </div>
+          </li>
+        </ul>
+      </form>
     </script>
 
     <script type='text/html' id='PopupMessage'>
@@ -456,7 +460,7 @@
     </script>
 
     <script type='text/html' id='ExportView'>
-      <form id='export'>
+      <form>
         <div class='header clearfix'>
           <span class='file {{ extension }}'></span>
           <h1>{{ title }}</h1>
@@ -527,39 +531,36 @@
     </script>
 
     <script type='text/html' id='SettingsPopupView'>
-      <div id='popup-settings' class='clearfix pane'>
-        <form id='form-layer'>
-          <div>
-            <h3>About TileMill</h3>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc laoreet. In rhoncus ultrices metus. Nunc ut tellus. Ut tortor. Curabitur nisi nulla, malesuada sit amet, feugiat non, elementum eu, arcu. Curabitur pretium velit et sem.</p>
-          </div>
-          <div><label for='mode'>Editing mode</label>
+      <form>
+        <ul class='form'>
+          <li>
+            <label for='mode'>Editing mode</label>
             <select id='mode'>
-                <option value='normal' {{^minimal_mode}}selected='selected'{{/minimal_mode}}>Normal</option>
-                <option value='minimal' {{#minimal_mode}}selected='selected'{{/minimal_mode}}>Minimal</option>
+              <option value='normal' {{^minimal_mode}}selected='selected'{{/minimal_mode}}>Normal</option>
+              <option value='minimal' {{#minimal_mode}}selected='selected'{{/minimal_mode}}>Minimal</option>
             </select>
-          </div>
-          <div>
+          </li>
+          <li>
             <label for='directory-path'>Data Directory</label>
-            <input type='text' class='text required' id='directory-path' value='{{ directory_path }}' />
-          </div>
-          <div>
+            <input type='text' class='text' id='directory-path' value='{{ directory_path }}' />
+          </li>
+          <li>
             <label for='s3-bucket'>S3 Bucket</label>
-            <input type='text' class='text required' id='s3-bucket' value='{{ s3_bucket }}' />
-          </div>
-          <div>
+            <input type='text' class='text' id='s3-bucket' value='{{ s3_bucket }}' />
+          </li>
+          <li>
             <label for='s3-key'>S3 Access Key ID</label>
-            <input type='text' class='text required' id='s3-key' value='{{ s3_key }}' />
-          </div>
-          <div>
+            <input type='text' class='text' id='s3-key' value='{{ s3_key }}' />
+          </li>
+          <li>
             <label for='s3-secret'>S3 Secret</label>
-            <input type='text' class='text required' id='s3-secret' value='{{ s3_secret }}' />
-          </div>
-          <div class='buttons'>
-              <input class='submit' type='submit' value='Save' />
-          </div>
-        </form>
-      </div>
+            <input type='text' class='text' id='s3-secret' value='{{ s3_secret }}' />
+          </li>
+          <li class='buttons'>
+            <input class='submit' type='submit' value='Save' />
+          </li>
+        </ul>
+      </form>
     </script>
 
   <body></body>
