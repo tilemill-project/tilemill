@@ -74,7 +74,7 @@ module.exports = function(app, settings) {
           callback(_.map(_.filter(keys,
             function(object) {
               return (object.Size.text !== '0') &&
-                (object.Key.text.match(/(.zip|.geojson|.tiff?|.geotiff|.vrt)/i));
+                (object.Key.text.match(/(.zip|.geojson|.tiff?|.geotiff|.vrt|.kml)/i));
             }), function(object) {
             return {
               url: url.format({
