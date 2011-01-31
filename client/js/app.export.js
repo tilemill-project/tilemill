@@ -61,8 +61,8 @@ var ExportRowView = Backbone.View.extend({
     render: function() {
         $(this.el).html(ich.ExportRowView({
             time: this.model.time(),
-            progress: parseInt(this.model.get('progress') * 100),
-            progressClass: parseInt(this.model.get('progress') * 10),
+            progress: parseInt(this.model.get('progress') * 100, 10),
+            progressClass: parseInt(this.model.get('progress') * 10, 10),
             filename: this.model.get('filename'),
             status: this.model.get('status'),
             error: this.model.get('error'),
@@ -191,8 +191,8 @@ var ExportView = Backbone.View.extend({
         this.model.save();
         this.close();
         new ExportListView({
-            collection: new ExportList,
-            project: this.options.project,
+            collection: new ExportList(),
+            project: this.options.project
         });
         return false;
     },
@@ -204,7 +204,7 @@ var ExportView = Backbone.View.extend({
         PopupView.prototype.close.call(this);
         window.app.controller.saveLocation('project/' + this.options.project.id);
         return false;
-    },
+    }
 });
 
 /**
@@ -329,7 +329,7 @@ var ExportMBTilesView = ExportView.extend({
             metadata_name: this.model.get('metadata_name'),
             metadata_description: this.model.get('metadata_description'),
             metadata_version: this.model.get('metadata_version'),
-            metadata_type_baselayer: this.model.get('metadata_type') === 'baselayer',
+            metadata_type_baselayer: this.model.get('metadata_type') === 'baselayer'
         });
     },
     updateModel: function(event, ui) {
@@ -400,7 +400,7 @@ var ExportDropdownView = DropdownView.extend({
     jobs: function(event) {
         new ExportListView({
             project: this.project,
-            collection: new ExportList
+            collection: new ExportList()
         });
         this.hideContent();
         return false;
@@ -477,17 +477,17 @@ var ExportCropControl = OpenLayers.Class(OpenLayers.Control, {
     },
 
     drawFeature: function(geometry, quiet) {
+        var feature;
         if (geometry.components) {
-            var feature = new OpenLayers.Feature.Vector(
+            feature = new OpenLayers.Feature.Vector(
                 new OpenLayers.Geometry.Polygon([
                     this.canvas,
                     geometry.components.pop()
                 ])
             );
-        }
         // Allow a straight bbox to be passed in.
-        else if (geometry.length === 4) {
-            var feature = new OpenLayers.Feature.Vector(
+        } else if (geometry.length === 4) {
+            feature = new OpenLayers.Feature.Vector(
                 new OpenLayers.Geometry.Polygon([
                     this.canvas,
                     new OpenLayers.Geometry.LinearRing([
