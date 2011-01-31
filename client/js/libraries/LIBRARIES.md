@@ -14,6 +14,9 @@ https://github.com/headjs/headjs/raw/master/dist/head.min.js
 icanhaz 0.7 (https://github.com/andyet/ICanHaz.js) MIT
 https://github.com/andyet/ICanHaz.js/tarball/v0.7
 
+json2 (https://github.com/douglascrockford/JSON-js) Public domain
+https://github.com/douglascrockford/JSON-js/raw/master/json2.js
+
 jQuery UI (http://jqueryui.com/) MIT and GPL
 Custom build with Core, Widget, Mouse, Sortable, Slider
 
