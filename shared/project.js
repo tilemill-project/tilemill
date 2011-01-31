@@ -319,7 +319,9 @@ var Project = Backbone.Model.extend({
      */
     validateAsync: function(options) {
         // If client-side, pass-through.
-        if (typeof require === 'undefined') { options.success(this, null) }
+        if (typeof require === 'undefined') {
+            return options.success(this, null);
+        }
 
         var mess = require('mess'),
             mapnik = require('mapnik'),
