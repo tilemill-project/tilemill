@@ -30,7 +30,7 @@ module.exports = function(app, settings) {
                 // to the request object.
                 data[1] = _.extend(settings.header_defaults, data[1]);
                 res.send.apply(res, data);
-            } else if (err.length) {
+            } else if (typeof err === 'object' && err.length) {
                 err = _.pluck(err, 'message').join("\n");
                 res.send('Error rendering image:\n' + err, 500);
             } else {
