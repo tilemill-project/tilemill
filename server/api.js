@@ -6,9 +6,8 @@ var _ = require('underscore'),
 module.exports = function(app, settings) {
     function loadDatasource(req, res, next) {
         if (req.param('id')) {
-            var url = (new Buffer(req.param('id'), 'base64'))
-                .toString('utf-8')
-                .replace('+', '-').replace('/', '_');
+            var url = req.param('id').replace('+', '-').replace('/', '_');
+            url = (new Buffer(url, 'base64')).toString('utf-8');
             var external = new External(settings, url);
             external.on('err', function(external) {
                 return next('Datasource could not be loaded.');
