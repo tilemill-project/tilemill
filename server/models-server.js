@@ -47,7 +47,7 @@ models.Export.prototype.sync = function(method, model, success, error) {
             function() {
                 Backbone.sync('read', model, this, this);
             },
-            function(err, data) {
+            function(data) {
                 if (data && data.filename) {
                     filepath = path.join(settings.export_dir, data.filename);
                     path.exists(filepath, this);
