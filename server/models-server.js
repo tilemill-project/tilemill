@@ -1,7 +1,6 @@
 var _ = require('underscore'),
     Backbone = require('backbone-dirty'),
     settings = require('settings'),
-    rmrf = require('rm-rf'),
     fs = require('fs'),
     Step = require('step'),
     path = require('path'),
@@ -171,8 +170,47 @@ function loadProjectAll(model, callback) {
  * rm rf the project directory.
  */
 function destroyProject(model, callback) {
+    var rm = function(basePath, callback) {
+        var killswitch = false;
+        Step(
+            function() {
+                fs.stat(basePath, this);
+            },
+            function(err, stat) {
+                if (stat.isDirectory()) {
+                    this();
+                } else if (stat.isFile()) {
+                    killswitch = true;
+                    fs.unlink(basePath, this);
+                } else {
+                    killswitch = true;
+                    this();
+                }
+            },
+            // The next steps apply only when basePath refers to a directory.
+            function(err) {
+                if (killswitch) return this();
+                fs.readdir(basePath, this);
+            },
+            function(err, files) {
+                if (killswitch) return this();
+                if (files.length === 0) {
+                    this();
+                } else {
+                    var group = this.group();
+                    for (var i = 0; i < files.length; i++) {
+                        rm(path.join(basePath, files[i]), group());
+                    }
+                }
+            },
+            function(err) {
+                if (killswitch) return callback();
+                fs.rmdir(basePath, callback);
+            }
+        );
+    };
     var modelPath = path.join(settings.files, model.type, model.id);
-    rmrf(modelPath, function() { return callback(null, model) });
+    rm(modelPath, callback);
 }
 
 /**
