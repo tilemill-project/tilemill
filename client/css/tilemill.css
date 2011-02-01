@@ -479,6 +479,13 @@ ul.form > li.buttons {
   color:#fff;
   }
 
+.palette input.text,
+.header input.text {
+  box-shadow:inset #111 0px 2px 3px;
+  -moz-box-shadow:inset #111 0px 2px 3px;
+  -webkit-box-shadow:inset #111 0px 2px 3px;
+  }
+
 .palette label { display:block; }
 
 .palette .help {
