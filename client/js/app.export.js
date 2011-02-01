@@ -93,7 +93,6 @@ var ExportRowView = Backbone.View.extend({
  */
 var ExportView = Backbone.View.extend({
     id: 'ExportView',
-    tagName: 'form',
     initialize: function() {
         _.bindAll(this, 'boundingBoxAdded', 'boundingBoxReset', 'updateModel', 'updateUI');
         this.map = this.options.map.map;

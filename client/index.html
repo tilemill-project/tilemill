@@ -139,7 +139,7 @@
               <option value='jpeg90' {{#format_jpeg90}}selected='selected'{{/format_jpeg90}}>jpeg (90%)</option>
               <option value='jpeg95' {{#format_jpeg95}}selected='selected'{{/format_jpeg95}}>jpeg (95%)</option>
             </select>
-            <div class='description'>Image format for this project's tiles.</div>
+            <div class='description'>Tile image format/quality for this project.</div>
           </li>
           <li class='buttons'>
               <input class='submit' type='submit' value='Save' />
@@ -458,30 +458,32 @@
     </script>
 
     <script type='text/html' id='ExportView'>
-      <div class='header clearfix'>
-        <span class='file {{ extension }}'></span>
-        <h1>{{ title }}</h1>
-        <div class='form'>
-          <label class='inline' for='filename'>Filename</label>
-          <input type='text' class='inline text' id='filename'/>
-          <input class='submit' type='submit' value='Export' />
-          <a class='icon reverse close' href='#'>Back home</a>
-        </div>
-      </div>
-      <div class='palette pane clearfix'>
-        <div>
-          <div class='help'>
-            <strong class='key'>SHIFT + drag</strong> to crop
-          </div>
-          <div class='bbox-frame'>
-            <a href='#' class='reset'>Reset</a>
-            <input type='text' class='bbox text' id='bbox-n' />
-            <input type='text' class='bbox text' id='bbox-e' />
-            <input type='text' class='bbox text' id='bbox-s' />
-            <input type='text' class='bbox text' id='bbox-w' />
+      <form>
+        <div class='header clearfix'>
+          <span class='file {{ extension }}'></span>
+          <h1>{{ title }}</h1>
+          <div class='form'>
+            <label class='inline' for='filename'>Filename</label>
+            <input type='text' class='inline text' id='filename'/>
+            <input class='submit' type='submit' value='Export' />
+            <a class='icon reverse close' href='#'>Back home</a>
           </div>
         </div>
-      </div>
+        <div class='palette pane clearfix'>
+          <div>
+            <div class='help'>
+              <strong class='key'>SHIFT + drag</strong> to crop
+            </div>
+            <div class='bbox-frame'>
+              <a href='#' class='reset'>Reset</a>
+              <input type='text' class='bbox text' id='bbox-n' />
+              <input type='text' class='bbox text' id='bbox-e' />
+              <input type='text' class='bbox text' id='bbox-s' />
+              <input type='text' class='bbox text' id='bbox-w' />
+            </div>
+          </div>
+        </div>
+      </form>
     </script>
 
     <script type='text/html' id='ExportImageView'>
@@ -535,6 +537,7 @@
               <option value='normal' {{^minimal_mode}}selected='selected'{{/minimal_mode}}>Normal</option>
               <option value='minimal' {{#minimal_mode}}selected='selected'{{/minimal_mode}}>Minimal</option>
             </select>
+            <div class='description'>To edit projects with an external editor use <em>minimal mode</em>.</div>
           </li>
           <li>
             <label for='directory-path'>Data Directory</label>

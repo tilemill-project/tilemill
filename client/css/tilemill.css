@@ -316,6 +316,7 @@ input.text {
   height:20px;
   background:#f8f8f8;
   border:1px solid #ccc;
+  border-color:#ccc #ddd #ddd;
   padding:0px 2px;
   box-shadow:inset #ddd 0px 2px 3px;
   -moz-box-shadow:inset #ddd 0px 2px 3px;
@@ -976,7 +977,7 @@ form.projects p { margin:0px 0px 10px; }
 .popup {
   z-index:5000;
   position:absolute;
-  top:100px;
+  top:70px;
   left:50%;
   width: 500px;
   margin-left:-250px;
