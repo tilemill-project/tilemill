@@ -382,8 +382,10 @@ ul.form > li.buttons {
 .palette label,
 .header label { color:#999; }
 
+.palette select,
 .palette input.text,
 .palette input.submit,
+.header select,
 .header input.text,
 .header input.submit {
   background:#333;
