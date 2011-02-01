@@ -1,11 +1,108 @@
 var path = require('path'),
     ExportList = require('models-server').ExportList,
     Step = require('step'),
-    Queue = require('queue'),
     Worker = require('worker').Worker,
     models = require('models-server');
 
+// Loop for scanning and processing exports.
+var Scanner = function(options) {
+    _.bindAll(this, 'scan', 'process', 'add', 'remove', 'isFull');
+    this.options = options || {};
+    this.options.interval = this.options.interval || 1000;
+    this.options.limit = this.options.limit || 5;
+    this.workers = [];
+};
+
+Scanner.prototype.scan = function() {
+    var that = this;
+    Step(
+        function() {
+            (new ExportList()).fetch({
+                success: this,
+                error: this
+            });
+        },
+        function(list) {
+            if (list.length === 0) return this();
+            var group = this.group();
+            list.each(function(model) {
+                that.process(model.id, group());
+            });
+        },
+        function() {
+            setTimeout(that.scan, that.options.interval);
+        }
+    );
+};
+
+Scanner.prototype.process = function(id, callback) {
+    var that = this;
+    var model = models.cache.get('Export', id);
+    model.fetch({
+        success: function() {
+            // model is waiting to be processed. Spawn a new worker if the
+            // queue is not full. Otherwise, the worker will be spawned on
+            // a subsequent scan once there is space.
+            if (model.get('status') === 'waiting') {
+                if (that.isFull()) return callback();
+
+                model.worker = new Worker(
+                    path.join(__dirname, 'export-worker.js'),
+                    null,
+                    { nodePath: path.join(__dirname, '..', 'bin', 'node') }
+                );
+                model.worker.on('message', function (data) {
+                    if (data.event === 'complete') {
+                        this.terminate();
+                        that.remove(model.worker);
+                    } else if (data.event === 'update') {
+                        model.save(data.attributes);
+                    }
+                });
+                model.bind('delete', function() {
+                    this.worker.kill();
+                    that.remove(model.worker);
+                });
+                model.worker.postMessage(model.toJSON());
+                that.add(model.worker);
+                callback();
+            // model is a stale process (e.g. the server died or was shut
+            // down before the worker completed).
+            } else if (model.get('status') === 'processing' && !model.worker) {
+                model.save({
+                    status: 'error',
+                    error: 'Export did not complete'
+                }, { success: callback, error: callback });
+            // model is complete or already processing.
+            } else {
+                callback();
+            }
+        },
+        error: callback
+    });
+};
+
+Scanner.prototype.isFull = function() {
+    return (this.workers.length >= this.options.limit);
+};
+
+Scanner.prototype.add = function(worker) {
+    this.workers.push(worker);
+};
+
+Scanner.prototype.remove = function(worker) {
+    this.workers = _.reject(this.workers, function(w) {
+        return (worker === w);
+    });
+};
+
 module.exports = function(app, settings) {
+    // Do not process exports if testing -- otherwise, tests will never finish.
+    // @TODO: Set up some other mechanism for testing exports.
+    if (!process.env.NODE_ENV || process.env.NODE_ENV !== 'test') {
+        (new Scanner()).scan();
+    }
+
     // Add Express route rule for serving export files for download.
     app.get('/export/download/*', function(req, res, next) {
         res.sendfile(
@@ -15,70 +112,5 @@ module.exports = function(app, settings) {
             }
         );
     });
-
-    // Loop for scanning and processing exports. Do not process exports if
-    // testing -- otherwise, tests will never finish.
-    // @TODO: Set up some other mechanism for testing exports.
-    if (process.env.NODE_ENV && process.env.NODE_ENV === 'test') {
-        return;
-    }
-
-    var queue = new Queue();
-    var scan = function() {
-        Step(
-            function() {
-                var list = new ExportList();
-                list.fetch({ success: this });
-            },
-            function(list) {
-                var group = this.group();
-                if (list.length === 0) {
-                    group()();
-                }
-                list.each(function(model) {
-                    var next = group();
-                    var job = models.cache.get('Export', model.id);
-                    job.fetch({ success: function() {
-                        // Job is waiting to be processed. Spawn a new worker.
-                        if (job.get('status') === 'waiting') {
-                            job.worker = new Worker(
-                                path.join(__dirname, 'export-worker.js'),
-                                null,
-                                { nodePath: path.join(__dirname, '..', 'bin', 'node') }
-                            );
-                            job.worker.on('start', function() {
-                                this.postMessage(job.toJSON());
-                            });
-                            job.worker.on('message', function (data) {
-                                if (data.event === 'complete') {
-                                    this.terminate();
-                                } else if (data.event === 'update') {
-                                    job.save(data.attributes);
-                                }
-                            });
-                            job.bind('delete', function() {
-                                this.worker.kill();
-                            });
-                            queue.add(job.worker);
-                            next();
-                        // Job is a stale process. Mark as such.
-                        } else if (job.get('status') === 'processing' && !job.worker) {
-                            job.save({
-                                status: 'error',
-                                error: 'Export did not complete' // @TODO
-                            }, { success: next, error: next });
-                        // Job is complete or already processing.
-                        } else {
-                            next();
-                        }
-                    }});
-                });
-            },
-            function() {
-                setTimeout(scan, 5000);
-            }
-        );
-    }
-    scan();
 }
 
