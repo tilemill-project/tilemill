@@ -24,7 +24,7 @@
     <script type='text/javascript' src='js/libraries/tipsy/src/javascripts/jquery.tipsy.js'></script>
 
     <!-- common server/client side js -->
-    <script type='text/javascript' src='project.js'></script>
+    <script type='text/javascript' src='models.js'></script>
 
     <script type='text/javascript' src='js/app.utils.js'></script>
     <script type='text/javascript' src='js/app.tools.js'></script>
@@ -54,6 +54,7 @@
         'js/libraries/ICanHaz.min.js',
         'js/openlayers/OpenLayers.js',
         'js/codemirror/js/codemirror.js',
+        'models.js',
         'js/app.utils.js',
         'js/app.tools.js',
         'js/app.project.js',
@@ -154,7 +155,7 @@
         <h2>Layers</h2>
         <a title='Add layer' href='#' class='tipsy-e icon add'>Add layer</a>
       </div>
-      <ul class='sidebar-content'></ul>
+      <ul class='items'></ul>
     </script>
 
     <script type='text/html' id='LayerRowView'>
@@ -280,7 +281,7 @@
         {{#png}}<li><a class='export-option export-png' href='#png'>PNG</a></li>{{/png}}
         {{#pdf}}<li><a class='export-option export-pdf' href='#pdf'>PDF</a></li>{{/pdf}}
         {{#mbtiles}}<li><a class='export-option export-mbtiles' href='#mbtiles'>MBTiles</a></li>{{/mbtiles}}
-        <li class='divider'><a class='jobs' href='#'>View exports</a></li>
+        <li class='divider'><a class='exports' href='#'>View exports</a></li>
       </ul>
     </script>
 
@@ -432,7 +433,7 @@
     </script>
 
     <script type='text/html' id='ExportListView'>
-      <ul class='sidebar-content jobs clearfix'></ul>
+      <ul class='items exports clearfix'></ul>
     </script>
 
     <script type='text/html' id='ExportRowView'>
@@ -459,32 +460,30 @@
     </script>
 
     <script type='text/html' id='ExportView'>
-      <form>
-        <div class='header clearfix'>
-          <span class='file {{ extension }}'></span>
-          <h1>{{ title }}</h1>
-          <div class='form'>
-            <label class='inline' for='filename'>Filename</label>
-            <input type='text' class='inline text' id='filename'/>
-            <input class='submit' type='submit' value='Export' />
-            <a class='icon close' href='#'>Back home</a>
+      <div class='header clearfix'>
+        <span class='file {{ extension }}'></span>
+        <h1>{{ title }}</h1>
+        <div class='form'>
+          <label class='inline' for='filename'>Filename</label>
+          <input type='text' class='inline text' id='filename'/>
+          <input class='submit' type='submit' value='Export' />
+          <a class='icon close' href='#'>Back home</a>
+        </div>
+      </div>
+      <div class='palette pane clearfix'>
+        <div>
+          <div class='help'>
+            <strong class='key'>SHIFT + drag</strong> to crop
+          </div>
+          <div class='bbox-frame'>
+            <a href='#' class='reset'>Reset</a>
+            <input type='text' class='bbox text' id='bbox-n' />
+            <input type='text' class='bbox text' id='bbox-e' />
+            <input type='text' class='bbox text' id='bbox-s' />
+            <input type='text' class='bbox text' id='bbox-w' />
           </div>
         </div>
-        <div class='palette pane clearfix'>
-          <div>
-            <div class='help'>
-              <strong class='key'>SHIFT + drag</strong> to crop
-            </div>
-            <div class='bbox-frame'>
-              <a href='#' class='reset'>Reset</a>
-              <input type='text' class='bbox text' id='bbox-n' />
-              <input type='text' class='bbox text' id='bbox-e' />
-              <input type='text' class='bbox text' id='bbox-s' />
-              <input type='text' class='bbox text' id='bbox-w' />
-            </div>
-          </div>
-        </div>
-      </form>
+      </div>
     </script>
 
     <script type='text/html' id='ExportImageView'>

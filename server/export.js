@@ -1,9 +1,9 @@
 var path = require('path'),
-    ExportList = require('project').ExportList,
+    ExportList = require('models-server').ExportList,
     Step = require('step'),
     Queue = require('queue'),
     Worker = require('worker').Worker,
-    modelInstance = require('model');
+    models = require('models-server');
 
 module.exports = function(app, settings) {
     // Add Express route rule for serving export files for download.
@@ -37,7 +37,7 @@ module.exports = function(app, settings) {
                 }
                 list.each(function(model) {
                     var next = group();
-                    var job = modelInstance.get('Export', model.id);
+                    var job = models.cache.get('Export', model.id);
                     job.fetch({ success: function() {
                         // Job is waiting to be processed. Spawn a new worker.
                         if (job.get('status') === 'waiting') {
@@ -47,10 +47,14 @@ module.exports = function(app, settings) {
                                 { nodePath: path.join(__dirname, '..', 'bin', 'node') }
                             );
                             job.worker.on('start', function() {
-                                this.postMessage({ id: job.id });
+                                this.postMessage(job.toJSON());
                             });
-                            job.worker.on('message', function (msg) {
-                                this.terminate();
+                            job.worker.on('message', function (data) {
+                                if (data.event === 'complete') {
+                                    this.terminate();
+                                } else if (data.event === 'update') {
+                                    job.save(data.attributes);
+                                }
                             });
                             job.bind('delete', function() {
                                 this.worker.kill();

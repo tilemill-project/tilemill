@@ -1,46 +1,75 @@
-/**
- * Server-side Backbone implementation for TileMill. This module should be
- * required instead of directly requiring Backbone.
- */
-var _ = require('underscore')._,
-    Backbone = require('../modules/backbone/backbone.js'),
+var _ = require('underscore'),
+    Backbone = require('backbone-dirty'),
     settings = require('settings'),
     rmrf = require('rm-rf'),
     fs = require('fs'),
     Step = require('step'),
-    path = require('path');
+    path = require('path'),
+    models = require('models');
 
-/**
- * Override Backbone.sync() for the server-side context. Uses TileMill-specific
- * file storage methods for model CRUD operations.
- */
-Backbone.sync = function(method, model, success, error) {
+// Implement custom sync method for Project model.
+// Writes projects to individual directories and splits out Stylesheets from
+// the main project MML JSON file.
+models.ProjectList.prototype.sync =
+models.Project.prototype.sync = function(method, model, success, error) {
     switch (method) {
     case 'read':
         if (model.id) {
-            load(model, function(err, model) {
+            loadProject(model, function(err, model) {
                 return err ? error(err) : success(model);
             });
         } else {
-            loadAll(model, function(err, model) {
+            loadProjectAll(model, function(err, model) {
                 return err ? error(err) : success(model);
             });
         }
         break;
     case 'create':
-        create(model, function(err, model) {
-            return err ? error(err) : success(model);
-        });
-        break;
     case 'update':
-        update(model, function(err, model) {
+        saveProject(model, function(err, model) {
             return err ? error(err) : success(model);
         });
         break;
     case 'delete':
-        destroy(model, function(err, model) {
+        destroyProject(model, function(err, model) {
             return err ? error(err) : success(model);
         });
+        break;
+    }
+};
+
+// Implement custom sync method for Export model.
+// Removes any files associated with the export model.
+models.Export.prototype.sync = function(method, model, success, error) {
+    switch (method) {
+    case 'delete':
+        var filepath;
+        Step(
+            function() {
+                Backbone.sync('read', model, this, this);
+            },
+            function(err, data) {
+                if (data && data.filename) {
+                    filepath = path.join(settings.export_dir, data.filename);
+                    path.exists(filepath, this);
+                } else {
+                    this(false);
+                }
+            },
+            function(remove) {
+                if (remove) {
+                    fs.unlink(filepath, this);
+                } else {
+                    this();
+                }
+            },
+            function() {
+                Backbone.sync(method, model, success, error);
+            }
+        );
+        break;
+    default:
+        Backbone.sync(method, model, success, error);
         break;
     }
 };
@@ -48,11 +77,9 @@ Backbone.sync = function(method, model, success, error) {
 /**
  * Load a single model. Requires that model.id be populated.
  */
-function load(model, callback) {
-    var modelPath = path.join(settings.files, model.type);
-    modelPath = (model.type == 'project') ? path.join(modelPath, model.id) : modelPath;
-    var extension = (model.type == 'project') ? 'mml' : 'json';
-    fs.readFile(path.join(modelPath, model.id + '.' + extension), 'utf-8',
+function loadProject(model, callback) {
+    var modelPath = path.join(settings.files, model.type, model.id);
+    fs.readFile(path.join(modelPath, model.id) + '.mml', 'utf-8',
     function(err, data) {
         if (err || !data) {
             return callback('Error reading model file.');
@@ -61,7 +88,7 @@ function load(model, callback) {
         // Set the object ID explicitly for multiple-load scenarios where
         // model parse()/set() is bypassed.
         object.id = model.id;
-        if (model.type === 'project' && object.Stylesheet && object.Stylesheet.length > 0) {
+        if (object.Stylesheet && object.Stylesheet.length > 0) {
             Step(
                 function() {
                     var group = this.group();
@@ -90,8 +117,7 @@ function load(model, callback) {
                     return callback(null, object);
                 }
             );
-        }
-        else {
+        } else {
             return callback(null, object);
         }
     });
@@ -100,7 +126,7 @@ function load(model, callback) {
 /**
  * Load an array of all models.
  */
-function loadAll(model, callback) {
+function loadProjectAll(model, callback) {
     var basepath = path.join(settings.files, model.type);
     Step(
         function() {
@@ -125,12 +151,8 @@ function loadAll(model, callback) {
             }
             var group = this.group();
             for (var i = 0; i < files.length; i++) {
-                if (model.type === 'project') {
-                    var id = files[i];
-                } else {
-                    var id = path.basename(files[i], '.json');
-                }
-                load({ id: id, type: model.type }, group());
+                var id = files[i];
+                loadProject({ id: id, type: model.type }, group());
             }
         },
         function(err, models) {
@@ -145,75 +167,13 @@ function loadAll(model, callback) {
 };
 
 /**
- * Create a new model.
- * @TODO assign a model id if not present.
+ * Destroy a project.
+ * rm rf the project directory.
  */
-function create(model, callback) {
-    if (model.type === 'project') {
-        saveProject(model, callback);
-    } else {
-        save(model, callback);
-    }
-};
-
-/**
- * Update an existing model.
- */
-function update(model, callback) {
-    if (model.type === 'project') {
-        saveProject(model, callback);
-    } else {
-        save(model, callback);
-    }
-};
-
-/**
- * Destroy (delete, remove, etc.) a model.
- * - Project: rm rf the project directory.
- * - Export: track and and kill the export file in addition to the model.
- * - All others: rm the model json file.
- */
-function destroy(model, callback) {
-    switch (model.type) {
-    case 'project':
-        var modelPath = path.join(settings.files, model.type, model.id);
-        rmrf(modelPath, function() { return callback(null, model) });
-        break;
-    case 'export':
-        var filepath;
-        Step(
-            function() {
-                load(model, this);
-            },
-            function(err, data) {
-                if (data && data.filename) {
-                    filepath = path.join(settings.export_dir, data.filename);
-                    path.exists(filepath, this);
-                }
-                else {
-                    this(false);
-                }
-            },
-            function(remove) {
-                if (remove) {
-                    fs.unlink(filepath, this);
-                }
-                else {
-                    this();
-                }
-            },
-            function() {
-                var modelPath = path.join(settings.files, model.type, model.id + '.json');
-                fs.unlink(modelPath, function() { return callback(null, model) });
-            }
-        );
-        break;
-    default:
-        var modelPath = path.join(settings.files, model.type, model.id + '.json');
-        fs.unlink(modelPath, function() { return callback(null, model) });
-        break;
-    }
-};
+function destroyProject(model, callback) {
+    var modelPath = path.join(settings.files, model.type, model.id);
+    rmrf(modelPath, function() { return callback(null, model) });
+}
 
 /**
  * Save a Project. Called by create/update.
@@ -308,34 +268,28 @@ function saveProject(model, callback) {
     );
 }
 
-/**
- * Save a model. Called by create/update.
- */
-function save(model, callback) {
-    var basePath = path.join(settings.files, model.type);
-    Step(
-        function() {
-            path.exists(basePath, this);
-        },
-        function(exists) {
-            if (!exists) {
-                fs.mkdir(basePath, 0777, this);
-            } else {
-                this();
-            }
-        },
-        function() {
-            fs.writeFile(
-                path.join(basePath, model.id + '.json'),
-                JSON.stringify(model.toJSON()),
-                this
-            );
-        },
-        function() {
-            callback(null, model);
-        }
-    );
-}
+// A model instance cache.
+var Cache = function() {
+    this.cache = {};
+};
+Cache.prototype.get = function(type, id) {
+    if (this.cache[type] && this.cache[type][id]) {
+        return this.cache[type][id];
+    }
+    this.cache[type] = this.cache[type] || {}
+    this.set(type, id, new models[type]({id: id}));
+    return this.cache[type][id];
+};
+Cache.prototype.set = function(type, id, model) {
+    this.cache[type] = this.cache[type] || {}
+    this.cache[type][id] = model;
+    return this.cache[type][id];
+};
+Cache.prototype.del = function(type, id) {
+    if (this.cache[type][id]) {
+        delete this.cache[type][id];
+    }
+};
 
-module.exports = Backbone;
+module.exports = _.extend({ cache: new Cache() }, models);
 

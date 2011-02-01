@@ -1,25 +1,25 @@
 /**
  * View: ExportListView
  *
- * Shows a list of current export jobs from an ExportList collection in a
+ * Shows a list of current exports from an ExportList collection in a
  * sidebar drawer.
  */
 var ExportListView = DrawerView.extend({
     initialize: function() {
         this.options.title = 'Exports';
         this.options.content = ich.ExportListView({}, true);
-        this.bind('render', this.renderJobs);
+        this.bind('render', this.renderExports);
         window.app.controller.saveLocation('project/' + this.options.project.id + '/export');
         DrawerView.prototype.initialize.call(this);
     },
-    renderJobs: function() {
+    renderExports: function() {
         var that = this;
         this.collection.fetch({
             success: function() {
-                that.collection.each(function(job) {
-                    if (!job.view) {
-                        job.view = new ExportRowView({ model: job });
-                        $('.jobs', that.el).append(job.view.el);
+                that.collection.each(function(xport) {
+                    if (!xport.view) {
+                        xport.view = new ExportRowView({ model: xport });
+                        that.$('.exports').append(xport.view.el);
                     }
                 });
             }
@@ -92,6 +92,8 @@ var ExportRowView = Backbone.View.extend({
  * Base view for all export types.
  */
 var ExportView = Backbone.View.extend({
+    id: 'ExportView',
+    tagName: 'form',
     initialize: function() {
         _.bindAll(this, 'boundingBoxAdded', 'boundingBoxReset', 'updateModel', 'updateUI');
         this.map = this.options.map.map;
@@ -362,7 +364,7 @@ var ExportDropdownView = DropdownView.extend({
         mbtiles: ExportMBTilesView
     },
     initialize: function() {
-        _.bindAll(this, 'xport', 'jobs');
+        _.bindAll(this, 'xport', 'exportList');
         this.project = this.options.project;
         this.map = this.options.map;
         this.options.title = 'Export';
@@ -374,7 +376,7 @@ var ExportDropdownView = DropdownView.extend({
     },
     events: _.extend({
         'click a.export-option': 'xport',
-        'click a.jobs': 'jobs'
+        'click a.exports': 'exportList'
     }, DropdownView.prototype.events),
     xport: function(event) {
         var format = typeof event === 'string'
@@ -397,7 +399,7 @@ var ExportDropdownView = DropdownView.extend({
         this.hideContent();
         return false;
     },
-    jobs: function(event) {
+    exportList: function(event) {
         new ExportListView({
             project: this.project,
             collection: new ExportList()
