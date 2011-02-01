@@ -64,7 +64,7 @@ module.exports = function(app, settings) {
     settings: settings,
     objects: function(callback) {
       callback(toObjects(
-        lsFilter(lsR(this.settings.get('directory_path')), /(.zip|.json|.geojson|.shp|.vrt|.tiff)/i),
+        lsFilter(lsR(this.settings.get('directory_path')), /(.zip|.json|.geojson|.shp|.vrt|.tiff?)/i),
         this.settings.get('directory_path'),
         require('settings').port));
     }
