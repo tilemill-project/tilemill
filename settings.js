@@ -4,7 +4,7 @@ module.exports = {
     'files': __dirname + '/files',
     'mapfile_dir': __dirname + '/files/.cache',
     'data_dir': __dirname + '/files/.cache',
-    'export_dir': __dirname + '/files/output',
+    'export_dir': __dirname + '/files/export',
     // TODO: request-specific overrides
     'header_defaults': {
         'Expires': new Date(Date.now() +
