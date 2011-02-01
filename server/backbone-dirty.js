@@ -25,8 +25,12 @@ Backbone.sync = function(method, model, success, error) {
                 }
             } else {
                 var data = [];
+                var type = model.type;
+                if (model.model) {
+                    type = model.model.prototype.type;
+                }
                 dirty.forEach(function(key, val) {
-                    if (model.type === key.split(':')[0] && val && data.indexOf(val) === -1) {
+                    if (type === key.split(':')[0] && val && data.indexOf(val) === -1) {
                         data.push(val);
                     }
                 });
