@@ -1,7 +1,6 @@
 var _ = require('underscore'),
-    models = require('project'),
     mapnik = require('mapnik'),
-    modelInstance = require('model');
+    models = require('models-server'),
     External = require('mess').External;
 
 module.exports = function(app, settings) {
@@ -90,7 +89,7 @@ module.exports = function(app, settings) {
     app.get('/api/:model/:id?', function(req, res, next) {
         if (typeof models[req.param('model')] !== 'undefined') {
             if (req.param('id')) {
-                var model = modelInstance.get(req.param('model'), req.param('id'));
+                var model = models.cache.get(req.param('model'), req.param('id'));
                 model.fetch({
                     success: function(model, resp) { res.send(model.toJSON()) },
                     error: function(model, resp) { res.send(resp, 500); }
@@ -117,7 +116,7 @@ module.exports = function(app, settings) {
      */
     app.put('/api/:model/:id', function(req, res, next) {
         if (typeof models[req.param('model')] !== 'undefined') {
-            var model = modelInstance.get(req.param('model'), req.param('id'));
+            var model = models.cache.get(req.param('model'), req.param('id'));
             model.set(req.body);
             if (req.param('model') === 'Project') {
                 model.validateAsync({
@@ -146,7 +145,7 @@ module.exports = function(app, settings) {
      */
     app.post('/api/:model/:id', function(req, res, next) {
         if (typeof models[req.param('model')] !== 'undefined') {
-            var model = modelInstance.get(req.param('model'), req.param('id'));
+            var model = models.cache.get(req.param('model'), req.param('id'));
             model.set(req.body);
             if (req.param('model') === 'Project') {
                 model.validateAsync({
@@ -175,13 +174,13 @@ module.exports = function(app, settings) {
      */
     app.del('/api/:model/:id', function(req, res, next) {
         if (typeof models[req.param('model')] !== 'undefined') {
-            var model = modelInstance.get(req.param('model'), req.param('id'));
+            var model = models.cache.get(req.param('model'), req.param('id'));
             model.trigger('delete');
             model.destroy({
                 success: function(model, resp) { res.send({}) },
                 error: function(model, resp) { res.send(resp, 500); }
             });
-            modelInstance.del(req.param('model'), req.param('id'));
+            models.cache.del(req.param('model'), req.param('id'));
         }
     });
 
