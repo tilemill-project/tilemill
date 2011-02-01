@@ -11,19 +11,18 @@ var express = require('express'),
 var app = module.exports = express.createServer();
 
 app.use(express.bodyDecoder());
-app.use(express.methodOverride());
 app.use(express.staticProvider('client'));
 app.use(express.staticProvider('shared'));
-
-app.error(function(err, req, res){
-    res.send(err, 500);
-});
 
 require('api')(app, settings);
 require('tiles')(app, settings);
 require('export')(app, settings);
 require('providers')(app, settings);
 require('bootstrap')(app, settings);
+
+app.error(function(err, req, res){
+    res.send(err, 500);
+});
 
 if (app.settings.env !== 'test') {
     app.listen(settings.port);
