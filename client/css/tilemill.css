@@ -157,14 +157,14 @@ a:hover.button { color:#fff; }
   background-color:transparent;
   }
 
-.header .settings,
-.header .settings:hover { background-color:#333; }
-
-.header .actions .close,
-.header .actions .close:hover { background-color:#666; }
 .header .actions .icon { margin:0px 5px; }
 
-.header .actions .icon:active { background-color:#333; }
+.header .reverse { background-color:#444; }
+.header .reverse:hover { background-color:#333; }
+.header .reverse:active { background-color:#222; }
+.header .actions .reverse { background-color:#888; }
+.header .actions .reverse:hover { background-color:#666; }
+.header .actions .reverse:active { background-color:#444; }
 
 .header .form {
   position:absolute;
@@ -240,7 +240,7 @@ a:hover.button { color:#fff; }
   width:20px;
   height:20px;
   text-indent:-9999px;
-  background:#666 url(../images/sprite.png) 20px 20px no-repeat;
+  background:#fff url(../images/sprite.png) 20px 20px no-repeat;
 
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
@@ -265,21 +265,43 @@ li:hover .icon { display:block; }
 .icon.edit           { background-position:0px 0px; }
 .icon.inspect        { background-position:-20px 0px; }
 .icon.delete         { background-position:-60px 0px; }
-.icon.color-picker   { background-position:-40px -20px; }
-.icon.close          { background-position:-80px -20px; }
+.icon.color-picker   { background-position:-40px 0px; }
+.icon.close          { background-position:-80px 0px; }
 .icon.values         { background-position:-100px 0px; }
-.icon.map-fullscreen { background-position:-120px -20px; }
+.icon.map-fullscreen { background-position:-120px 0px; }
 .icon.prev           { background-position:-140px 0px; }
 .icon.next           { background-position:-160px 0px; }
-.icon.add            { background-position:-180px -20px; }
-.icon.settings       { background-position:-280px -20px; }
-.icon.export         { background-position:-320px -20px; }
-.icon.reference      { background-position: -320px -20px;}
+.icon.add            { background-position:-180px 0px; }
+.icon.settings       { background-position:-280px 0px; }
+.icon.export         { background-position:-320px 0px; }
+.icon.reference      { background-position: -320px 0px;}
 .icon.dropdown       { background-position:-300px 0px; }
 .icon.options        { background-position:-260px 0px; }
 .icon.geometry-linestring { background-position:-200px 0px; }
 .icon.geometry-point      { background-position:-220px 0px; }
 .icon.geometry-polygon    { background-position:-240px 0px; }
+
+.reverse { background-color:#888; }
+.reverse:hover { background-color:#666; }
+.reverse:active { background-color:#444; }
+.reverse.edit           { background-position:0px -20px; }
+.reverse.inspect        { background-position:-20px -20px; }
+.reverse.delete         { background-position:-60px -20px; }
+.reverse.color-picker   { background-position:-40px -20px; }
+.reverse.close          { background-position:-80px -20px; }
+.reverse.values         { background-position:-100px -20px; }
+.reverse.map-fullscreen { background-position:-120px -20px; }
+.reverse.prev           { background-position:-140px -20px; }
+.reverse.next           { background-position:-160px -20px; }
+.reverse.add            { background-position:-180px -20px; }
+.reverse.settings       { background-position:-280px -20px; }
+.reverse.export         { background-position:-320px -20px; }
+.reverse.reference      { background-position: -320px -20px;}
+.reverse.dropdown       { background-position:-300px -20px; }
+.reverse.options        { background-position:-260px -20px; }
+.reverse.geometry-linestring { background-position:-200px -20px; }
+.reverse.geometry-point      { background-position:-220px -20px; }
+.reverse.geometry-polygon    { background-position:-240px -20px; }
 
 .file.png { background-position:0px -180px; }
 .file.pdf { background-position:-40px -180px; }
@@ -308,10 +330,10 @@ input.submit {
   height:20px;
   cursor:pointer;
   padding:0px 10px;
-  background:#666;
+  background:#888;
   color:#fff;
   font-weight:bold;
-  text-shadow:#333 0px 1px;
+  text-shadow:#666 0px 1px;
   border-radius:3px;
   box-sizing:border-box;
   -moz-border-radius:3px;
@@ -320,7 +342,8 @@ input.submit {
   -webkit-box-sizing:border-box;
   }
 
-input.submit:active { background:#333; }
+input.submit:hover { background-color:#666; }
+input.submit:active { background-color:#444; }
 
 form { position:relative; }
 form label { font-weight:bold; }
@@ -724,12 +747,9 @@ form.projects p { margin:0px 0px 10px; }
   left:0px;
   right:0px;
   top:0px;
-  background:#ddd url(../images/checker-bg.png) 0% 0% repeat;
-  }
-
-#sidebar #MapView {
   height:60%;
   border-bottom:1px solid #ccc;
+  background:#ddd url(../images/checker-bg.png) 0% 0% repeat;
   }
 
 #MapView .olMap {
@@ -740,16 +760,10 @@ form.projects p { margin:0px 0px 10px; }
   bottom:0px;
   }
 
-#MapView div.olControlPanZoomBar {
-  top:20px !important;
-  }
+#MapView div.olControlPanZoomBar { top:20px !important; }
+#MapView div.olControlPanZoom { top:20px !important; }
 
-#MapView div.olControlPanZoom {
-  top:20px !important;
-  }
-
-#MapView.fullscreen,
-#sidebar #MapView.fullscreen {
+#MapView.fullscreen {
   position:fixed;
   top:50px;
   left:0px;
@@ -770,9 +784,7 @@ form.projects p { margin:0px 0px 10px; }
   z-index:1003;
   }
 
-#MapView a.map-fullscreen {
-  right:10px;
-  }
+#MapView a.map-fullscreen { right:10px; }
 
 #MapView #zoom-display {
   left:5px;
@@ -828,7 +840,7 @@ form.projects p { margin:0px 0px 10px; }
   }
 
 /**
- * Code editor
+ * StylesheetListView =========================================================
  */
 #tabs {
   position:absolute;
@@ -870,13 +882,11 @@ form.projects p { margin:0px 0px 10px; }
   background-color:transparent;
   display:none;
   position:absolute;
-  opacity:.5;
   right:5px;
   top:5px;
   }
 
 #tabs a.tab:hover span.delete { display:block; }
-#tabs a.tab:hover span.delete:hover { opacity:1; }
 
 #tabs a.active {
   color:#333;
@@ -885,6 +895,7 @@ form.projects p { margin:0px 0px 10px; }
   padding-bottom:5px;
   }
 
+.syntax-error,
 #tabs a.hasError {
   color:#666;
   background:#fcf4a0;
@@ -913,9 +924,6 @@ form.projects p { margin:0px 0px 10px; }
 #editor .editor.active { display:block; }
 #editor .editor iframe { padding:0px; }
 
-/**
- * Line numbers
- */
 .CodeMirror-line-numbers {
   background:#eee;
   color:#555;
@@ -926,8 +934,6 @@ form.projects p { margin:0px 0px 10px; }
   }
 
 .CodeMirror-line-numbers div { padding:0px 10px; }
-
-div.syntax-error { background-color:#fcf4a0; }
 
 /**
  * FontPicker =================================================================
@@ -990,11 +996,6 @@ div.syntax-error { background-color:#fcf4a0; }
 
 .popup-header h2 { float:left; }
 .popup-header a { float:right; }
-
-a.tab-add,
-a#layers-add,
-a.close,
-a.inspector-close { background-color:#666; }
 
 /**
  * DropdownView ===============================================================
@@ -1100,7 +1101,7 @@ a.inspector-close { background-color:#666; }
   }
 
 .reference-links a.active {
-  background:#666;
+  background:#888;
   color:#fff;
   }
 

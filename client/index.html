@@ -71,7 +71,7 @@
     -->
     <script type='text/html' id='ProjectListView'>
     <div id='header' class='header clearfix'>
-      <a class='icon settings' href='#'>Settings</a>
+      <a class='icon reverse settings' href='#'>Settings</a>
       <h1>TileMill</h1>
     </div>
     <div id='content' class='clearfix'>
@@ -116,12 +116,12 @@
 
     <script type='text/html' id='ProjectView'>
       <div id='header' class='header clearfix'>
-        <a class='icon settings' href='#'>Settings</a>
+        <a class='icon reverse settings' href='#'>Settings</a>
         <h1>Editing {{ id }}</h1>
         <div class='actions clearfix'>
           <a class='save disabled' href='#'>Saved</a>
           <a class='tipsy-e icon options' title='Project options' href='#'>Project options</a>
-          <a class='tipsy-e icon close' title='Back home' href='#'>Back home</a>
+          <a class='tipsy-e icon reverse close' title='Back home' href='#'>Back home</a>
         </div>
       </div>
       <div id='main'></div>
@@ -153,7 +153,7 @@
     <script type='text/html' id='LayerListView'>
       <div class='sidebar-header clearfix pane'>
         <h2>Layers</h2>
-        <a title='Add layer' href='#' class='tipsy-e icon add'>Add layer</a>
+        <a title='Add layer' href='#' class='tipsy-e icon reverse add'>Add layer</a>
       </div>
       <ul class='items'></ul>
     </script>
@@ -210,7 +210,7 @@
 
     <script type='text/html' id='MapView'>
       <div id='map-preview-{{id}}'>
-        <a class='icon map-fullscreen' href='#'>Fullscreen</a>
+        <a class='icon reverse map-fullscreen' href='#'>Fullscreen</a>
         <div id='zoom-display'><h4>Zoom level ?</h4><div class='zoom-in'>+</div><div class='zoom-out'></div>
       </div>
     </script>
@@ -218,8 +218,8 @@
     <script type='text/html' id='StylesheetListView'>
       <div id='tabs'>
         <div class='stylesheets clearfix'></div>
-        <a title='Add stylesheet' class='tipsy-e icon add' href='#'>Add stylesheet</a>
-        <a title='Stylesheet reference guide' class='tipsy-e icon reference' href='#'>Reference</a>
+        <a title='Add stylesheet' class='tipsy-e icon reverse add' href='#'>Add stylesheet</a>
+        <a title='Stylesheet reference guide' class='tipsy-e icon reverse reference' href='#'>Reference</a>
       </div>
       <div id='editor' class='view'></div>
     </script>
@@ -258,7 +258,7 @@
     <script type='text/html' id='DrawerView'>
       <div class='sidebar-header clearfix pane'>
         <h2>{{title}}</h2>
-        <a class='icon close' href='#'>Close</a>
+        <a class='icon reverse close' href='#'>Close</a>
       </div>
       <div class='drawer-content'>
         {{{content}}}
@@ -270,7 +270,7 @@
       <div class='popup'>
         <div class='popup-header clearfix pane'>
           <h2>{{ title }}</h2>
-          <a href='#' class='icon close'>Close</a>
+          <a href='#' class='icon reverse close'>Close</a>
         </div>
         <div class='popup-content'>{{{ content }}}</div>
       </div>
@@ -299,7 +299,7 @@
           <li>
             <label for='file'><span class='required' title='This field is required'>*</span> Datasource</label>
             <input type='text' class='text' id='file' value='{{ datasource_file }}' />
-            <a href='#' class='icon expand-assets' id='expand-assets' title='See available assets'>[+]</a>
+            <a href='#' class='icon reverse expand-assets' id='expand-assets' title='See available assets'>[+]</a>
             <div class='container assets hidden'></div>
           </li>
           <li>
@@ -467,7 +467,7 @@
           <label class='inline' for='filename'>Filename</label>
           <input type='text' class='inline text' id='filename'/>
           <input class='submit' type='submit' value='Export' />
-          <a class='icon close' href='#'>Back home</a>
+          <a class='icon reverse close' href='#'>Back home</a>
         </div>
       </div>
       <div class='palette pane clearfix'>
