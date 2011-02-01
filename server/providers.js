@@ -4,36 +4,29 @@ var Step = require('step');
 var Settings = require('models-server').Settings;
 
 module.exports = function(app, settings) {
-    var providers = {};
+    // Load userSettings model and set the default directory path if not set.
+    var providers = {},
+        userSettings;
     Step(
-      function() {
-        var userSettings = new Settings({ id: 'settings' });
-        userSettings.fetch({ success: this, error: this });
-      },
-      function(userSettings) {
-        // Set default path for directory provider.
-        var that = this;
-        if (typeof userSettings.get('directory_path') === 'undefined') {
-          var dirPath = require('path').join(__dirname, '..', 'files/data');
-          userSettings.save({
-            directory_path: dirPath,
-          }, {
-            success: function(savedSettings) {
-              console.log('Setting default directory provider path to %s', dirPath);
-              that(savedSettings);
+        function() {
+            userSettings = new Settings({ id: 'settings' });
+            userSettings.fetch({ success: this, error: this });
+        },
+        function() {
+            if (!userSettings.get('directory_path')) {
+                userSettings.save(
+                    { 'directory_path': path.join(__dirname, '..', 'files', 'data') },
+                    { success: this, error: this }
+                );
+            } else {
+                this();
             }
-          });
+        },
+        function() {
+            settings.providers.forEach(function(p) {
+                providers[p] = require('providers-' + p)(app, userSettings);
+            })
         }
-        else {
-          this(userSettings);
-        }
-      },
-      function(userSettings) {
-        settings.providers.forEach(function(p) {
-            // TODO :express better
-            providers[p] = require('providers-' + p)(app, userSettings);
-        })
-      }
     );
     app.get('/provider', function(req, res) {
         res.send({
