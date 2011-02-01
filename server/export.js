@@ -47,10 +47,14 @@ module.exports = function(app, settings) {
                                 { nodePath: path.join(__dirname, '..', 'bin', 'node') }
                             );
                             job.worker.on('start', function() {
-                                this.postMessage({ id: job.id });
+                                this.postMessage(job.toJSON());
                             });
-                            job.worker.on('message', function (msg) {
-                                this.terminate();
+                            job.worker.on('message', function (data) {
+                                if (data.event === 'complete') {
+                                    this.terminate();
+                                } else if (data.event === 'update') {
+                                    job.save(data.attributes);
+                                }
                             });
                             job.bind('delete', function() {
                                 this.worker.kill();

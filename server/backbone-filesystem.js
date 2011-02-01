@@ -8,7 +8,8 @@ var _ = require('underscore')._,
     rmrf = require('rm-rf'),
     fs = require('fs'),
     Step = require('step'),
-    path = require('path');
+    path = require('path'),
+    dirty = require('node-dirty')(path.join(settings.files, 'app.db'));
 
 /**
  * Override Backbone.sync() for the server-side context. Uses TileMill-specific
@@ -17,30 +18,68 @@ var _ = require('underscore')._,
 Backbone.sync = function(method, model, success, error) {
     switch (method) {
     case 'read':
-        if (model.id) {
-            load(model, function(err, model) {
-                return err ? error(err) : success(model);
-            });
+        if (model.type === 'project') {
+            if (model.id) {
+                load(model, function(err, model) {
+                    return err ? error(err) : success(model);
+                });
+            } else {
+                loadAll(model, function(err, model) {
+                    return err ? error(err) : success(model);
+                });
+            }
         } else {
-            loadAll(model, function(err, model) {
-                return err ? error(err) : success(model);
-            });
+            if (model.id) {
+                var data = dirty.get(model.type + ':' + model.id);
+                if (data) {
+                    success(data);
+                } else {
+                    error('Model not found.');
+                }
+            } else {
+                var data = [];
+                dirty.forEach(function(key, val) {
+                    if (model.type === key.split(':')[0] && val && data.indexOf(val) === -1) {
+                        data.push(val);
+                    }
+                });
+                success(data);
+            }
         }
         break;
     case 'create':
-        create(model, function(err, model) {
-            return err ? error(err) : success(model);
-        });
-        break;
     case 'update':
-        update(model, function(err, model) {
-            return err ? error(err) : success(model);
-        });
+        if (model.type === 'project') {
+            saveProject(model, function(err, model) {
+                return err ? error(err) : success(model);
+            });
+        } else {
+            dirty.set(
+                model.type + ':' + model.id,
+                model.toJSON(),
+                function(err, model) {
+                    return err ? error(err) : success(model);
+                }
+            );
+        }
         break;
     case 'delete':
-        destroy(model, function(err, model) {
-            return err ? error(err) : success(model);
-        });
+        if (model.type === 'project') {
+            destroyProject(model, function(err, model) {
+                return err ? error(err) : success(model);
+            });
+        } else if (model.type === 'export') {
+            destroyExport(model, function(err, model) {
+                return err ? error(err) : success(model);
+            });
+        } else {
+            dirty.rm(
+                model.type + ':' + model.id,
+                function(err, model) {
+                    return err ? error(err) : success(model);
+                }
+            );
+        }
         break;
     }
 };
@@ -145,75 +184,47 @@ function loadAll(model, callback) {
 };
 
 /**
- * Create a new model.
- * @TODO assign a model id if not present.
+ * Destroy a project.
+ * rm rf the project directory.
  */
-function create(model, callback) {
-    if (model.type === 'project') {
-        saveProject(model, callback);
-    } else {
-        save(model, callback);
-    }
-};
+function destroyProject(model, callback) {
+    var modelPath = path.join(settings.files, model.type, model.id);
+    rmrf(modelPath, function() { return callback(null, model) });
+}
 
 /**
- * Update an existing model.
+ * Destroy an export.
+ * remove the export file and remove its node-dirty entry.
  */
-function update(model, callback) {
-    if (model.type === 'project') {
-        saveProject(model, callback);
-    } else {
-        save(model, callback);
-    }
-};
-
-/**
- * Destroy (delete, remove, etc.) a model.
- * - Project: rm rf the project directory.
- * - Export: track and and kill the export file in addition to the model.
- * - All others: rm the model json file.
- */
-function destroy(model, callback) {
-    switch (model.type) {
-    case 'project':
-        var modelPath = path.join(settings.files, model.type, model.id);
-        rmrf(modelPath, function() { return callback(null, model) });
-        break;
-    case 'export':
-        var filepath;
-        Step(
-            function() {
-                load(model, this);
-            },
-            function(err, data) {
-                if (data && data.filename) {
-                    filepath = path.join(settings.export_dir, data.filename);
-                    path.exists(filepath, this);
-                }
-                else {
-                    this(false);
-                }
-            },
-            function(remove) {
-                if (remove) {
-                    fs.unlink(filepath, this);
-                }
-                else {
-                    this();
-                }
-            },
-            function() {
-                var modelPath = path.join(settings.files, model.type, model.id + '.json');
-                fs.unlink(modelPath, function() { return callback(null, model) });
+function destroyExport(model, callback) {
+    var filepath;
+    Step(
+        function() {
+            load(model, this);
+        },
+        function(err, data) {
+            if (data && data.filename) {
+                filepath = path.join(settings.export_dir, data.filename);
+                path.exists(filepath, this);
+            } else {
+                this(false);
             }
-        );
-        break;
-    default:
-        var modelPath = path.join(settings.files, model.type, model.id + '.json');
-        fs.unlink(modelPath, function() { return callback(null, model) });
-        break;
-    }
-};
+        },
+        function(remove) {
+            if (remove) {
+                fs.unlink(filepath, this);
+            } else {
+                this();
+            }
+        },
+        function() {
+            dirty.rm(
+                model.type + ':' + model.id,
+                function() { callback(null, model) }
+            );
+        }
+    );
+}
 
 /**
  * Save a Project. Called by create/update.
@@ -301,35 +312,6 @@ function saveProject(model, callback) {
                     group()
                 );
             }
-        },
-        function() {
-            callback(null, model);
-        }
-    );
-}
-
-/**
- * Save a model. Called by create/update.
- */
-function save(model, callback) {
-    var basePath = path.join(settings.files, model.type);
-    Step(
-        function() {
-            path.exists(basePath, this);
-        },
-        function(exists) {
-            if (!exists) {
-                fs.mkdir(basePath, 0777, this);
-            } else {
-                this();
-            }
-        },
-        function() {
-            fs.writeFile(
-                path.join(basePath, model.id + '.json'),
-                JSON.stringify(model.toJSON()),
-                this
-            );
         },
         function() {
             callback(null, model);
