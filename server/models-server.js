@@ -77,7 +77,7 @@ models.Export.prototype.sync = function(method, model, success, error) {
  * Load a single model. Requires that model.id be populated.
  */
 function loadProject(model, callback) {
-    var modelPath = path.join(settings.files, model.type, model.id);
+    var modelPath = path.join(settings.files, 'project', model.id);
     fs.readFile(path.join(modelPath, model.id) + '.mml', 'utf-8',
     function(err, data) {
         if (err || !data) {
@@ -126,7 +126,7 @@ function loadProject(model, callback) {
  * Load an array of all models.
  */
 function loadProjectAll(model, callback) {
-    var basepath = path.join(settings.files, model.type);
+    var basepath = path.join(settings.files, 'project');
     Step(
         function() {
             path.exists(basepath, this);
@@ -151,7 +151,7 @@ function loadProjectAll(model, callback) {
             var group = this.group();
             for (var i = 0; i < files.length; i++) {
                 var id = files[i];
-                loadProject({ id: id, type: model.type }, group());
+                loadProject({ id: id }, group());
             }
         },
         function(err, models) {
@@ -209,7 +209,7 @@ function destroyProject(model, callback) {
             }
         );
     };
-    var modelPath = path.join(settings.files, model.type, model.id);
+    var modelPath = path.join(settings.files, 'project', model.id);
     rm(modelPath, callback);
 }
 
@@ -220,8 +220,8 @@ function destroyProject(model, callback) {
  * additional splitting out of subproperties (stylesheets) into separate files.
  */
 function saveProject(model, callback) {
-    var basePath = path.join(settings.files, model.type);
-    var modelPath = path.join(settings.files, model.type, model.id);
+    var basePath = path.join(settings.files, 'project');
+    var modelPath = path.join(settings.files, 'project', model.id);
     Step(
         function() {
             path.exists(basePath, this);
