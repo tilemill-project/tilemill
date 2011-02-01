@@ -1,5 +1,5 @@
 var _ = require('underscore'),
-    Backbone = require('backbone-filesystem'),
+    Backbone = require('backbone-dirty'),
     settings = require('settings'),
     rmrf = require('rm-rf'),
     fs = require('fs'),
