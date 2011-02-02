@@ -18,17 +18,21 @@ var worker = require('worker').worker,
 
 // Worker
 // ------
-// The main worker defined below as well as the export formats **run in a
-// different node process** from the main TileMill process. See the
-// `export.js` for how workers are created.
+// A single worker for processing an export (e.g. rendering a map into an
+// MBTiles sqlite database). Workers run in a *different process* from the
+// main TileMill node process because:
+//
+// - export tasks can be long-running (minutes, sometimes hours)
+// - export tasks can be CPU intensive, to the point of compromising the
+//   responsiveness of the main TileMill process
+//
+// See the `export.js` for how workers are created.
 worker.onmessage = function (data) {
     var Format = {
         'png': FormatPNG,
         'pdf': FormatPDF,
         'mbtiles': FormatMBTiles
     }[data.format];
-
-    // Execute export format.
     new Format(this, data);
 };
 
@@ -51,14 +55,19 @@ var Format = function(worker, data) {
     );
 }
 
+// Tell the parent process to update the provided `attributes` of Export model.
 Format.prototype.update = function(attributes) {
     this.worker.postMessage({ event: 'update', attributes: attributes });
 }
 
+// Tell the parent process that the export task is complete.
 Format.prototype.complete = function() {
     this.worker.postMessage({ event: 'complete' });
 }
 
+// Setup tasks before processing begins. Ensures that the target export
+// filename does not conflict with an existing file by appending a short hash
+// if necessary.
 Format.prototype.setup = function(callback) {
     var that = this;
     Step(
@@ -85,7 +94,11 @@ Format.prototype.setup = function(callback) {
     );
 }
 
-// MBTiles export format class.
+// MBTiles format
+// --------------
+// Exports a map into an MBTiles sqlite database. Renders and inserts tiles in
+// batches of 100 images and updates the parent process on its progress after
+// each batch.
 var FormatMBTiles = function(worker, data) {
     Format.call(this, worker, data);
 }
@@ -147,8 +160,12 @@ FormatMBTiles.prototype.render = function(callback) {
     );
 }
 
-// Abstract image export format class.
-// Extenders of this class should set `this.format`, e.g. `png`.
+// Image format
+// ------------
+// Abstract image class. Exports a map into a single image file. Extenders of
+// this class should set:
+//
+// - `this.format` String image format, e.g. `png`.
 var FormatImage = function(worker, data) {
     Format.call(this, worker, data);
 }
