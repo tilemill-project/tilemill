@@ -1,14 +1,18 @@
-var _ = require('underscore')._,
+var _ = require('underscore'),
     path = require('path'),
     Tile = require('tilelive').Tile;
 
 module.exports = function(app, settings) {
-    /**
-     * format:
-     * - Tile: (png|jpg)
-     * - Data Tile: (geojson)
-     * - Grid Tile: (*.grid.json)
-     */
+    // TMS tiles
+    // ---------
+    // GET endpoint for TMS tile image requests. Uses `tilelive.js` Tile API.
+    //
+    // - `:mapfile_64` String, base64 encoded mapfile URL. This mapfile will
+    //   determine the styles and data displayed on the map.
+    // - `:z` Number, zoom level of the tile requested.
+    // - `:x` Number, x coordinate of the tile requested.
+    // - `:y` Number, y coordinate of the tile requested.
+    // - `*` String, file format of the tile requested, e.g. `png`, `jpeg`.
     app.get('/1.0.0/:mapfile_64/:z/:x/:y.*', function(req, res, next) {
         try {
             var options = {
@@ -25,9 +29,8 @@ module.exports = function(app, settings) {
 
         tile.render(function(err, data) {
             if (!err) {
-                // Using apply here allows the tile rendering
-                // function to send custom heades without access
-                // to the request object.
+                // Using `apply()` here allows the tile rendering function to
+                // send custom headers without access to the request object.
                 data[1] = _.extend(settings.header_defaults, data[1]);
                 res.send.apply(res, data);
             } else if (typeof err === 'object' && err.length) {
