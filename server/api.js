@@ -145,7 +145,12 @@ module.exports = function(app, settings) {
      */
     app.post('/api/:model/:id', function(req, res, next) {
         if (typeof models[req.param('model')] !== 'undefined') {
-            var model = models.cache.get(req.param('model'), req.param('id'));
+            var id = req.body.id || require('crypto')
+                .createHash('md5')
+                .update(+new Date)
+                .digest('hex')
+                .substring(0,6);
+            var model = models.cache.get(req.param('model'), id);
             model.set(req.body);
             if (req.param('model') === 'Project') {
                 model.validateAsync({
