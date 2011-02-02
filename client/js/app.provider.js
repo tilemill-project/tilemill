@@ -63,11 +63,14 @@ var ProviderListView = Backbone.View.extend({
         return false;
     },
     loading: function(message) {
+        if (this.loadingView) return;
         this.loadingView = new LoadingView({message: message});
         this.$('.main').append(this.loadingView.el);
     },
     done: function() {
+        if (!this.loadingView) return;
         this.loadingView.remove();
+        delete this.loadingView;
     }
 });
 
@@ -106,11 +109,14 @@ var ProviderListPopupView = PopupView.extend({
         return false;
     },
     loading: function(message) {
+        if (this.loadingView) return;
         this.loadingView = new LoadingView({message: message});
         this.$('.main').append(this.loadingView.el);
     },
     done: function() {
+        if (!this.loadingView) return;
         this.loadingView.remove();
+        delete this.loadingView;
     }
 });
 
