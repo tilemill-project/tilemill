@@ -11,7 +11,7 @@ var settings2 = fs.readFileSync('./test/fixtures/settings2.json', 'utf8');
 
 module.exports = {
     'abilities': function() {
-        assert.response(app, { url: '/api/abilities' }, {
+        assert.response(app, { url: '/api/Abilities' }, {
             status: 200
         }, function(res) {
             var data = JSON.parse(res.body);

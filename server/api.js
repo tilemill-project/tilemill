@@ -97,7 +97,7 @@ module.exports = function(app, settings) {
     // ------------------------------
     // GET endpoint for the Abilities model which describes the capabilities
     // of the mapnik renderer.
-    app.get('/api/abilities', function(req, res) {
+    app.get('/api/Abilities', function(req, res) {
         res.send({
             'fonts': mapnik.fonts(),
             'datasources': mapnik.datasources(),
