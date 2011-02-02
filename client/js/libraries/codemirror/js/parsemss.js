@@ -1,4 +1,10 @@
 /* Simple parser for MSS */
+if (!Array.isArray) {
+    Array.isArray = function(obj) {
+        return Object.prototype.toString.call(obj) === "[object Array]" ||
+               (obj instanceof Array);
+    };
+}
 
 var MSSParser = Editor.Parser = (function() {
   var tokenizeMSS = (function() {
@@ -6,6 +12,13 @@ var MSSParser = Editor.Parser = (function() {
       var ch = source.next();
       if (ch == "@") {
         source.nextWhileMatches(/\w/);
+        var word = source.get();
+        return {
+            style: (colors[word.replace('@', '')]) ?
+                "mss-color-variable" :
+                "mss-variable",
+            content: word
+        };
         return "mss-at";
       }
       else if (ch == "/" && source.equals("*")) {
@@ -55,10 +68,16 @@ var MSSParser = Editor.Parser = (function() {
       else {
         source.nextWhileMatches(/[\w\\\-_]/);
         var word = source.get();
-        if (ops[word]) {
-          return {style: "mss-valid-identifier", content: word};
+        if (identifiers[word]) {
+          return {
+              style: "mss-valid-identifier",
+              content: word
+          };
         } else {
-          return {style: "mss-identifier", content: word};
+          return {
+              style: "mss-identifier",
+              content: word
+          };
         }
       }
     }
@@ -122,7 +141,9 @@ var MSSParser = Editor.Parser = (function() {
   // be provided with a more complicated parser.
   function parseMSS(source, basecolumn) {
     basecolumn = basecolumn || 0;
-    ops = this.css_identifiers;
+    identifiers = this.mss_identifiers;
+    colors = this.mss_colors;
+    values = this.mss_values;
     var tokens = tokenizeMSS(source);
     var inBraces = false, inRule = false, inDecl = false;;
 
@@ -133,7 +154,7 @@ var MSSParser = Editor.Parser = (function() {
         if (style == "mss-hash")
           style = token.style =  inRule ? "mss-colorcode" : "mss-identifier";
         if (style == "mss-identifier") {
-          if (inRule) token.style = "mss-value";
+          if (inRule) token.style = (values[token.content]) ? "mss-known-value" : "mss-value";
           else if (!inBraces && !inDecl) token.style = "mss-selector";
         }
 
@@ -173,7 +194,7 @@ var MSSParser = Editor.Parser = (function() {
       make: parseMSS,
       electricChars: "}",
       configure: function(config) {
-          this.css_identifiers = (function() {
+          this.mss_identifiers = (function() {
               var list = {};
               for (var i in config.symbolizers) {
                   for (var j in config.symbolizers[i]) {
@@ -181,6 +202,26 @@ var MSSParser = Editor.Parser = (function() {
                           list[config.symbolizers[i][j].css] = true;
                       }
                   }
+              }
+              return list;
+          })();
+          this.mss_values = (function() {
+              var list = {};
+              for (var i in config.symbolizers) {
+                  for (var j in config.symbolizers[i]) {
+                      if (Array.isArray(config.symbolizers[i][j].type)) {
+                          for (var k in config.symbolizers[i][j].type) {
+                            list[config.symbolizers[i][j].type[k]] = true;
+                          }
+                      }
+                  }
+              }
+              return list;
+          })();
+          this.mss_colors = (function() {
+              var list = {};
+              for (var i in config.colors) {
+                  list[i] = true;
               }
               return list;
           })();

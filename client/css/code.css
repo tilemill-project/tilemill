@@ -6,9 +6,11 @@ body {
   font:13px/20px monospace;
   }
 
-span.mss-at                 { color:#708; }
+span.mss-variable           { color:#708; }
+span.mss-color-variable     { color:#B60049; }
 span.mss-unit               { color:#281; }
 span.mss-value              { color:#708; }
+span.mss-known-value        { color:#B60049; }
 span.mss-selector           { color:#b64f90; }
 span.mss-identifier         { color:#999; }
 span.mss-valid-identifier   { color:#333; }
