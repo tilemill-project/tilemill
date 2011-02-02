@@ -6,9 +6,16 @@ var _ = require('underscore'),
     path = require('path'),
     models = require('models');
 
-// Implement custom sync method for Project model.
-// Writes projects to individual directories and splits out Stylesheets from
-// the main project MML JSON file.
+// Models (server-side overrides)
+// ------------------------------
+// Server-side overrides for the Backbone models defined in `shared/models.js`.
+// Provides model-specific storage overrides.
+
+// Project
+// -------
+// Implement custom sync method for Project model. Writes projects to
+// individual directories and splits out Stylesheets from the main project
+// MML JSON file.
 models.ProjectList.prototype.sync =
 models.Project.prototype.sync = function(method, model, success, error) {
     switch (method) {
@@ -37,45 +44,7 @@ models.Project.prototype.sync = function(method, model, success, error) {
     }
 };
 
-// Implement custom sync method for Export model.
-// Removes any files associated with the export model.
-models.Export.prototype.sync = function(method, model, success, error) {
-    switch (method) {
-    case 'delete':
-        var filepath;
-        Step(
-            function() {
-                Backbone.sync('read', model, this, this);
-            },
-            function(data) {
-                if (data && data.filename) {
-                    filepath = path.join(settings.export_dir, data.filename);
-                    path.exists(filepath, this);
-                } else {
-                    this(false);
-                }
-            },
-            function(remove) {
-                if (remove) {
-                    fs.unlink(filepath, this);
-                } else {
-                    this();
-                }
-            },
-            function() {
-                Backbone.sync(method, model, success, error);
-            }
-        );
-        break;
-    default:
-        Backbone.sync(method, model, success, error);
-        break;
-    }
-};
-
-/**
- * Load a single model. Requires that model.id be populated.
- */
+// Load a single project model.
 function loadProject(model, callback) {
     var modelPath = path.join(settings.files, 'project', model.id);
     fs.readFile(path.join(modelPath, model.id) + '.mml', 'utf-8',
@@ -122,9 +91,7 @@ function loadProject(model, callback) {
     });
 };
 
-/**
- * Load an array of all models.
- */
+// Load all projects into an array.
 function loadProjectAll(model, callback) {
     var basepath = path.join(settings.files, 'project');
     Step(
@@ -165,10 +132,7 @@ function loadProjectAll(model, callback) {
     );
 };
 
-/**
- * Destroy a project.
- * rm rf the project directory.
- */
+// Destroy a project. `rm -rf` equivalent for the project directory.
 function destroyProject(model, callback) {
     var rm = function(basePath, callback) {
         var killswitch = false;
@@ -213,12 +177,8 @@ function destroyProject(model, callback) {
     rm(modelPath, callback);
 }
 
-/**
- * Save a Project. Called by create/update.
- *
- * Special case for projects creates a subdirectory per project and does
- * additional splitting out of subproperties (stylesheets) into separate files.
- */
+// Save a project. Creates a subdirectory per project and splits out
+// stylesheets into separate files.
 function saveProject(model, callback) {
     var basePath = path.join(settings.files, 'project');
     var modelPath = path.join(settings.files, 'project', model.id);
@@ -306,10 +266,58 @@ function saveProject(model, callback) {
     );
 }
 
-// A model instance cache.
+// Export
+// ------
+// Implement custom sync method for Export model. Removes any files associated
+// with the export model at `filename` when a model is destroyed.
+models.Export.prototype.sync = function(method, model, success, error) {
+    switch (method) {
+    case 'delete':
+        var filepath;
+        Step(
+            function() {
+                Backbone.sync('read', model, this, this);
+            },
+            function(data) {
+                if (data && data.filename) {
+                    filepath = path.join(settings.export_dir, data.filename);
+                    path.exists(filepath, this);
+                } else {
+                    this(false);
+                }
+            },
+            function(remove) {
+                if (remove) {
+                    fs.unlink(filepath, this);
+                } else {
+                    this();
+                }
+            },
+            function() {
+                Backbone.sync(method, model, success, error);
+            }
+        );
+        break;
+    default:
+        Backbone.sync(method, model, success, error);
+        break;
+    }
+};
+
+// Cache
+// -----
+// Provides a model instance cache for the server. Used to store and retrieve a
+// model instance in memory such that the same model is referenced in separate
+// requests as well as in other long-running processes.
+//
+// The main use-case in TileMill for this instance cache is triggering a model
+// `delete` event when a DELETE request is received. In the case of Exports,
+// this event is used to terminate and worker processes associated with the
+// Export model being deleted.
 var Cache = function() {
     this.cache = {};
 };
+
 Cache.prototype.get = function(type, id) {
     if (this.cache[type] && this.cache[type][id]) {
         return this.cache[type][id];
@@ -318,11 +326,13 @@ Cache.prototype.get = function(type, id) {
     this.set(type, id, new models[type]({id: id}));
     return this.cache[type][id];
 };
+
 Cache.prototype.set = function(type, id, model) {
     this.cache[type] = this.cache[type] || {}
     this.cache[type][id] = model;
     return this.cache[type][id];
 };
+
 Cache.prototype.del = function(type, id) {
     if (this.cache[type][id]) {
         delete this.cache[type][id];
