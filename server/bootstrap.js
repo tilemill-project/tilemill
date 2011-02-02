@@ -3,10 +3,9 @@ var fs = require('fs'),
     models = require('models-server'),
     Step = require('step');
 
-/**
- * Bootstrap the application - ensure that directories
- * exist, etc
- */
+// Bootstrap
+// ---------
+// Application bootstrap. Ensures that files directories exist at server start.
 module.exports = function(app, settings) {
     try {
         fs.statSync(settings.files);

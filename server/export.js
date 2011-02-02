@@ -4,6 +4,8 @@ var path = require('path'),
     Worker = require('worker').Worker,
     models = require('models-server');
 
+// Scanner
+// -------
 // Loop for scanning and processing exports.
 var Scanner = function(options) {
     _.bindAll(this, 'scan', 'process', 'add', 'remove', 'isFull');
@@ -13,6 +15,9 @@ var Scanner = function(options) {
     this.workers = [];
 };
 
+// A single scan that fetches the `ExportList` and passes each off for
+// processing. When complete, calls itself again after `options.interval`
+// has passed to continue the loop.
 Scanner.prototype.scan = function() {
     var that = this;
     Step(
@@ -35,12 +40,13 @@ Scanner.prototype.scan = function() {
     );
 };
 
+// Process an individual export based on its `status`.
 Scanner.prototype.process = function(id, callback) {
     var that = this;
     var model = models.cache.get('Export', id);
     model.fetch({
         success: function() {
-            // model is waiting to be processed. Spawn a new worker if the
+            // Export is waiting to be processed. Spawn a new worker if the
             // queue is not full. Otherwise, the worker will be spawned on
             // a subsequent scan once there is space.
             if (model.get('status') === 'waiting') {
@@ -66,14 +72,14 @@ Scanner.prototype.process = function(id, callback) {
                 model.worker.postMessage(model.toJSON());
                 that.add(model.worker);
                 callback();
-            // model is a stale process (e.g. the server died or was shut
-            // down before the worker completed).
+            // Export is a stale process (e.g. the server died or was shut
+            // down before the worker completed). Mark as an incomplete export.
             } else if (model.get('status') === 'processing' && !model.worker) {
                 model.save({
                     status: 'error',
                     error: 'Export did not complete'
                 }, { success: callback, error: callback });
-            // model is complete or already processing.
+            // Model is complete or already processing.
             } else {
                 callback();
             }
@@ -82,14 +88,17 @@ Scanner.prototype.process = function(id, callback) {
     });
 };
 
+// Helper function to determine whether the queue is full.
 Scanner.prototype.isFull = function() {
     return (this.workers.length >= this.options.limit);
 };
 
+// Add a worker to the queue.
 Scanner.prototype.add = function(worker) {
     this.workers.push(worker);
 };
 
+// Remove a worker from the queue.
 Scanner.prototype.remove = function(worker) {
     this.workers = _.reject(this.workers, function(w) {
         return (worker === w);
