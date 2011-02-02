@@ -74,6 +74,13 @@ window.data.reference = {
                 'default-meaning': 'opaque',
                 'doc': 'The opacity of a line'
             },
+            'stroke-gamma': {
+                'css': 'line-gamma',
+                'default-value': 1,
+                'type': 'float',
+                'default-meaning': 'fully antialiased',
+                'doc': 'The opacity of a line'
+            },
             'stroke-linejoin': {
                 'css': 'line-join',
                 'default-value': 'miter',
