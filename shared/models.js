@@ -13,6 +13,7 @@ if (typeof require !== 'undefined') {
  * Read-only model describing the abilities of TileLive's Mapnik backend.
  */
 var Abilities = Backbone.Model.extend({ url: 'api/Abilities' });
+var Reference = Backbone.Model.extend({ url: 'api/Reference' });
 
 /**
  * Model: Settings

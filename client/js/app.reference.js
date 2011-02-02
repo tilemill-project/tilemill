@@ -7,7 +7,7 @@ var ReferenceView = DrawerView.extend({
     }, DrawerView.prototype.events),
     initialize: function (options) {
         _.bindAll(this, 'show');
-        var symbolizers = _.map(window.data.reference.symbolizers, function(properties, symbolizer) {
+        var symbolizers = _.map(window.app.reference.toJSON().symbolizers, function(properties, symbolizer) {
             return {
                 properties: _.map(properties, function(property, name) {
                     return {

@@ -58,6 +58,7 @@ var App = Backbone.View.extend({
         this.settings = this.model;
         this.controller = new Router();
         this.abilities = this.options.abilities;
+        this.reference = this.options.reference;
 
         // Catchall error page requires a regex so we must add its route manually.
         this.controller.route(/^(.*?)/, 'error', Router.prototype.error);
@@ -74,9 +75,10 @@ var App = Backbone.View.extend({
         }, 5000);
 
         // Bootstrap:
-        // 1. Fetch settings, abilities objects from server.
+        // 1. Fetch settings, abilities, reference objects from server.
         // 2. Begin routing.
         this.abilities.fetch();
+        this.reference.fetch();
 
         this.model.fetch({
             success: function(model) { Backbone.history.start(); },
@@ -117,7 +119,8 @@ $(function() {
     window.app = new App({
         el: $('#app'),
         model: new Settings({ id: 'settings' }),
-        abilities: new Abilities()
+        abilities: new Abilities(),
+        reference: new Reference()
     });
 
    // Use jquery.tipsy for displaying tooltips.
