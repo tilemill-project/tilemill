@@ -375,20 +375,9 @@ var ProjectList = Backbone.Collection.extend({
  * Job model.
  */
 var Export = Backbone.Model.extend({
-    /**
-     * Model name used for storage.
-     */
     type: 'export',
     initialize: function() {
-        if (this.isNew()) {
-            this.set({created: +new Date});
-            if (typeof MD5 !== 'undefined') {
-                var md5 = new MD5();
-                var date = new Date();
-                md5.digest(JSON.stringify(this)).substr(0, 6);
-                this.set({'id': md5.digest(JSON.stringify(this) + date.getTime()).substr(0, 6)});
-            }
-        }
+        this.isNew() && this.set({created: +new Date});
     },
     /**
      * Override url() method for convenience so we don't always need a
