@@ -4,14 +4,12 @@ var Backbone = require('../modules/backbone/backbone.js'),
     dirty = require('node-dirty')(path.join(settings.files, 'app.db')),
     loaded = false;
 
-// Set a loaded flag to indicate whether Backbone.sync can begin accessing the
-// db immediately or must wait until the 'load' event is emitted.
-dirty.on('load', function() {
-    loaded = true;
-});
-
-// Override Backbone.sync() for the server-side context. Uses node-dirty for
-// model persistence.
+// Backbone (server-side with node-dirty)
+// --------------------------------------
+// Exports Backbone with `Backbone.sync()` overridden for the server-side
+// context. Uses `node-dirty` for model persistence. Models must have a `type`
+// property defined allowing type based collections to be fetched from the
+// `node-dirty` database.
 Backbone.sync = function(method, model, success, error) {
     var sync = function(method, model, success, error) {
         switch (method) {
@@ -58,7 +56,8 @@ Backbone.sync = function(method, model, success, error) {
         }
     };
 
-    // Wait until the node-dirty records have been fully loaded.
+    // The inner `sync()` function allows the actual operation to be deferred
+    // until the database has been fully loaded.
     if (loaded) {
         sync(method, model, success, error);
     } else {
@@ -67,6 +66,12 @@ Backbone.sync = function(method, model, success, error) {
         });
     }
 };
+
+// Set a loaded flag to indicate whether `Backbone.sync()` can begin accessing
+// the db immediately or must wait until the `load` event is emitted.
+dirty.on('load', function() {
+    loaded = true;
+});
 
 module.exports = Backbone;
 
