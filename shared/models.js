@@ -7,19 +7,37 @@ if (typeof require !== 'undefined') {
     _ = require('underscore')._;
 }
 
-/**
- * Model: Abilities
- *
- * Read-only model describing the abilities of TileLive's Mapnik backend.
- */
-var Abilities = Backbone.Model.extend({ url: 'api/Abilities' });
-var Reference = Backbone.Model.extend({ url: 'api/Reference' });
+// Abilities (read-only)
+// ---------------------
+// Model. Describes server API abilities.
+var Abilities = Backbone.Model.extend({
+    url: 'api/Abilities'
+});
 
-/**
- * Model: Settings
- *
- * Settings model. Stores any user-specific configuration related to the app.
- */
+// Reference (read-only)
+// ---------------------
+// Model. MSS syntax reference.
+var Reference = Backbone.Model.extend({
+    url: 'api/Reference'
+});
+
+// Datasource (read-only)
+// ----------------------
+// Model. Inspection metadata about a map layer.
+var Datasource = Backbone.Model.extend({
+    // @TODO either as a feature or a bug, object attributes are not set
+    // automatically when passed to the constructor. We set it manually here.
+    initialize: function(attributes, options) {
+        this.set({'fields': attributes.fields});
+    },
+    url: function() {
+        return 'api/Datasource/' + Base64.urlsafe_encode(this.get('url'));
+    }
+});
+
+// Settings
+// --------
+// Model. Stores any user-specific configuration related to the app.
 var Settings = Backbone.Model.extend({
     type: 'settings',
     url: function() {
@@ -32,13 +50,11 @@ var Settings = Backbone.Model.extend({
     }
 });
 
-/**
- * Model: Stylesheet
- *
- * This model is *not* backed directly by the server.
- * It is a child model of Project and is saved serialized as part of the parent
- * Project model.
- */
+// Stylesheet
+// ----------
+// Model. Represents a single map MSS stylesheet. This model is a child of
+// the Project model and is saved serialized as part of the parent.
+// **This model is not backed directly by the server.**
 var Stylesheet = Backbone.Model.extend({
     initialize: function() {
         if (!this.get('data')) {
@@ -52,13 +68,11 @@ var Stylesheet = Backbone.Model.extend({
     }
 });
 
-/**
- * Collection: StylesheetList
- *
- * This collection is *not* backed directly by the server.
- * This collection is a child of the Project model. When it is updated
- * (add/remove events) it updates the attributes of its parent model as well.
- */
+// StylesheetList
+// --------------
+// Collection. List of Stylesheet models. This collection is a child of the
+// Project model and updates its parent on update events.
+// **This collection is not backed directly by the server.**
 var StylesheetList = Backbone.Collection.extend({
     model: Stylesheet,
     initialize: function(models, options) {
@@ -79,13 +93,11 @@ var StylesheetList = Backbone.Collection.extend({
     }
 });
 
-/**
- * Model: Layer
- *
- * This model is *not* backed directly by the server.
- * It is a child model of Project and is saved serialized as part of the parent
- * Project model.
- */
+// Layer
+// -----
+// Model. Represents a single map layer. This model is a child of
+// the Project model and is saved serialized as part of the parent.
+// **This model is not backed directly by the server.**
 var Layer = Backbone.Model.extend({
     // @TODO either as a feature or a bug, object attributes are not set
     // automatically when passed to the constructor. We set it manually here.
@@ -105,13 +117,11 @@ var Layer = Backbone.Model.extend({
     }
 });
 
-/**
- * Collection: LayerList
- *
- * This collection is *not* backed directly by the server.
- * This collection is a child of the Project model. When it is updated
- * (add/remove events) it updates the attributes of its parent model as well.
- */
+// LayerList
+// ---------
+// Collection. List of Layer models. This collection is a child of the
+// Project model and updates its parent on update events.
+// **This collection is not backed directly by the server.**
 var LayerList = Backbone.Collection.extend({
     model: Layer,
     initialize: function(models, options) {
@@ -132,28 +142,10 @@ var LayerList = Backbone.Collection.extend({
     }
 });
 
-/**
- * Model: Datasource
- *
- * This is a read-only model of inspection metadata about a map layer.
- */
-var Datasource = Backbone.Model.extend({
-    // @TODO either as a feature or a bug, object attributes are not set
-    // automatically when passed to the constructor. We set it manually here.
-    initialize: function(attributes, options) {
-        this.set({'fields': attributes.fields});
-    },
-    url: function() {
-        return 'api/Datasource/' + Base64.urlsafe_encode(this.get('url'));
-    }
-});
-
-/**
- * Model: Project
- *
- * This model represents a single TileMill project. It is used both client-side
- * and server-side for setting defaults and handling validation.
- */
+// Project
+// -------
+// Model. A single TileMill map project. Describes an MML JSON map object that
+// can be used by `mess.js` to render a map.
 var Project = Backbone.Model.extend({
     SRS_DEFAULT: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 '
     + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
@@ -184,12 +176,10 @@ var Project = Backbone.Model.extend({
         '_center': { lat:0, lon:0, zoom:2 },
         '_format': 'png'
     },
-    /**
-     * Custom setDefaults() method for creating a project with default layers,
-     * stylesheets, etc. Note that we do not use Backbone native initialize()
-     * or defaults(), both of which make default values far pervasive than the
-     * expected use here.
-     */
+    // Custom setDefaults() method for creating a project with default layers,
+    // stylesheets, etc. Note that we do not use Backbone native initialize()
+    // or defaults(), both of which make default values far pervasive than the
+    // expected use here.
     setDefaults: function() {
         if (!this.get('srs')) {
             this.set({'srs': this.SRS_DEFAULT});
@@ -209,10 +199,8 @@ var Project = Backbone.Model.extend({
             });
         }
     },
-    /**
-     * Instantiate StylesheetList and LayerList collections from JSON lists
-     * of plain JSON objects.
-     */
+    // Instantiate StylesheetList and LayerList collections from JSON lists
+    // of plain JSON objects.
     parse: function(response) {
         var self = this;
         response.Stylesheet = new StylesheetList(response.Stylesheet ?
@@ -222,17 +210,11 @@ var Project = Backbone.Model.extend({
                 response.Layer : [], { parent: this });
         return response;
     },
-    /**
-     * Override url() method for convenience so we don't always need a
-     * collection reference around for CRUD operations on a single model.
-     */
     url: function() {
         return 'api/Project/' + this.id;
     },
-    /**
-     * Return the base URL of TileMill including a single trailing slash,
-     * e.g. http://localhost:8889/ or http://mapbox/tilemill/
-     */
+    // Return the base URL of TileMill including a single trailing slash,
+    // e.g. http://localhost:8889/ or http://mapbox/tilemill/
     baseURL: function() {
         var baseURL = window.location.protocol + '//' + window.location.host;
         var args = window.location.pathname.split('/');
@@ -248,9 +230,7 @@ var Project = Backbone.Model.extend({
             return baseURL + args.join('/') + '/';
         }
     },
-    /**
-     * Base64 encode this project's MML URL.
-     */
+    // Base64 encode this project's MML URL.
     project64: function(options) {
         // `window.location.origin` is not available in all browsers like
         // Firefox. @TODO This approach won't allow TileMill to be installed in
@@ -262,15 +242,10 @@ var Project = Backbone.Model.extend({
         }
         return Base64.urlsafe_encode(url);
     },
-    /**
-     * Layer URL based on the model URL.
-     */
+    // Layer URL based on the model URL.
     layerURL: function(options) {
         return this.baseURL();
     },
-    /**
-     * Native Backbone validation method.
-     */
     validate: function(attributes) {
         // Test character set of model ID.
         if (typeof attributes.id !== 'undefined') {
@@ -297,11 +272,9 @@ var Project = Backbone.Model.extend({
             }
         }
     },
-    /**
-     * Custom validation method that allows for asynchronous processing.
-     * Expects options.success and options.error callbacks to be consistent
-     * with other Backbone methods.
-     */
+    // Custom validation method that allows for asynchronous processing.
+    // Expects options.success and options.error callbacks to be consistent
+    // with other Backbone methods.
     validateAsync: function(options) {
         // If client-side, pass-through.
         if (typeof require === 'undefined') {
@@ -337,11 +310,9 @@ var Project = Backbone.Model.extend({
     }
 });
 
-/**
- * Collection: ProjectList
- *
- * Collection of project models.
- */
+// ProjectList
+// -----------
+// Collection. All project models.
 var ProjectList = Backbone.Collection.extend({
     model: Project,
     url: 'api/Project',
@@ -350,20 +321,14 @@ var ProjectList = Backbone.Collection.extend({
     }
 });
 
-/**
- * Model: Export
- *
- * Job model.
- */
+// Export
+// ------
+// Model. Describes a single export task, e.g. rendering a map to a PDF.
 var Export = Backbone.Model.extend({
     type: 'export',
     initialize: function() {
         this.isNew() && this.set({created: +new Date});
     },
-    /**
-     * Override url() method for convenience so we don't always need a
-     * collection reference around for CRUD operations on a single model.
-     */
     url: function() {
         return 'api/Export/' + this.id;
     },
@@ -379,15 +344,11 @@ var Export = Backbone.Model.extend({
             return 'Progress must be a value between 0 and 1 (inclusive).';
         }
     },
-    /**
-     * Generate a download URL for a model.
-     */
+    // Generate a download URL for an Export.
     downloadURL: function() {
         return (this.get('status') === 'complete') && '/export/download/' + this.get('filename');
     },
-    /**
-     * Get the duration of the current export job.
-     */
+    // Get the duration of the current export job.
     time: function() {
         if (this.get('updated')) {
             var seconds = parseInt((this.get('updated') - this.get('created')) * .001, 10);
@@ -405,11 +366,9 @@ var Export = Backbone.Model.extend({
     }
 });
 
-/**
- * Collection: ExportList
- *
- * A queue of job models.
- */
+// ExportList
+// ----------
+// Collection. List of all Exports.
 var ExportList = Backbone.Collection.extend({
     model: Export,
     url: 'api/Export',
@@ -420,7 +379,7 @@ var ExportList = Backbone.Collection.extend({
 
 // Asset
 // -----
-// Model for a single external asset, e.g. a shapefile, image, etc.
+// Model. Single external asset, e.g. a shapefile, image, etc.
 var Asset = Backbone.Model.extend({
     extension: function() {
         return this.id.split('.').pop();
@@ -429,8 +388,8 @@ var Asset = Backbone.Model.extend({
 
 // AssetList
 // ---------
-// Collection of assets. Must be given a Provider model at `options.provider`
-// in order to determine its URL endpoint.
+// Collection. List of all assets for a given Provider. Must be given a
+// Provider model at `options.provider` in order to determine its URL endpoint.
 var AssetList = Backbone.Collection.extend({
     model: Asset,
     url: function() {
@@ -446,8 +405,8 @@ var AssetList = Backbone.Collection.extend({
 
 // Provider
 // --------
-// Model for asset providers. Asset providers provide a way to browse and
-// reference asset files (shapefiles, images, json, etc.)
+// Model. Stores settings for a given asset provider type, e.g. a local file
+// directory or an Amazon S3 bucket.
 var Provider = Backbone.Model.extend({
     type: 'provider',
     url: function() {
@@ -466,7 +425,7 @@ var Provider = Backbone.Model.extend({
 
 // ProviderList
 // ------------
-// Collection of all providers.
+// Collection. All providers.
 var ProviderList = Backbone.Collection.extend({
     model: Provider,
     url: 'api/Provider',
@@ -489,5 +448,4 @@ if (typeof module !== 'undefined') {
         Settings: Settings
     };
 }
-
 
