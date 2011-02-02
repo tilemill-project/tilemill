@@ -17,7 +17,6 @@ app.use(express.staticProvider('shared'));
 require('api')(app, settings);
 require('tiles')(app, settings);
 require('export')(app, settings);
-require('providers')(app, settings);
 require('bootstrap')(app, settings);
 
 app.error(function(err, req, res){

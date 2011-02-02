@@ -1,6 +1,7 @@
 var _ = require('underscore'),
     mapnik = require('mapnik'),
     models = require('models-server'),
+    Step = require('step'),
     External = require('mess').External;
 
 module.exports = function(app, settings) {
@@ -81,6 +82,31 @@ module.exports = function(app, settings) {
      */
     app.get('/api/Datasource/:id', loadDatasource, function(req, res, next) {
         res.send(res.datasource);
+    });
+
+    // Provider (Backbone Collection)
+    // ------------------------------
+    // GET endpoint for provider assets. Loads the provider model and uses its
+    // `type` to determine which provider plugin should be used for generating
+    // the list of assets.
+    app.get('/api/Provider/:id/assets', function(req, res) {
+        if (req.param('id')) {
+            var model = models.cache.get('Provider', req.param('id'));
+            model.fetch({
+                success: function(model, resp) {
+                    require('providers-' + model.get('type'))(
+                        app,
+                        model.toJSON(),
+                        function(assets) {
+                            res.send(assets);
+                        }
+                    );
+                },
+                error: function(model, resp) {
+                    res.send([]);
+                }
+            });
+        }
     });
 
     /**
