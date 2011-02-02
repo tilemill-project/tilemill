@@ -6,6 +6,7 @@ var _ = require('underscore'),
     mapnik = require('mapnik'),
     models = require('models-server'),
     Step = require('step'),
+    reference = require('mess').tree.Reference.data;
     External = require('mess').External;
 
 module.exports = function(app, settings) {
@@ -107,6 +108,14 @@ module.exports = function(app, settings) {
                 pdf: mapnik.supports.cairo
             }
         });
+    });
+
+    // GET Reference (Backbone model)
+    // ------------------------------
+    // GET endpoint for the Reference model which describes the symbolizers
+    // and colors supported by Mapnik
+    app.get('/api/Reference', function(req, res) {
+        res.send(reference);
     });
 
     // GET Datasource (Backbone model)
