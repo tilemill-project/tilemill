@@ -7,7 +7,7 @@ var ProviderListView = Backbone.View.extend({
         'click a.add': 'add'
     },
     initialize: function () {
-        _.bindAll(this, 'render', 'settings', 'add');
+        _.bindAll(this, 'render', 'settings', 'add', 'loading', 'done');
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
         this.render();
@@ -61,6 +61,13 @@ var ProviderListView = Backbone.View.extend({
             add: true
         });
         return false;
+    },
+    loading: function(message) {
+        this.loadingView = new LoadingView({message: message});
+        this.$('.main').append(this.loadingView.el);
+    },
+    done: function() {
+        this.loadingView.remove();
     }
 });
 
@@ -70,7 +77,7 @@ var ProviderListPopupView = PopupView.extend({
         'click a.asset': 'select',
     }, PopupView.prototype.events),
     initialize: function (options) {
-        _.bindAll(this, 'select');
+        _.bindAll(this, 'select', 'loading', 'done');
         this.options.title = 'Providers';
         this.options.size = 'big';
         PopupView.prototype.initialize.call(this, options);
@@ -97,6 +104,13 @@ var ProviderListPopupView = PopupView.extend({
         this.options.target.val($(ev.currentTarget).attr('href'));
         this.close();
         return false;
+    },
+    loading: function(message) {
+        this.loadingView = new LoadingView({message: message});
+        this.$('.main').append(this.loadingView.el);
+    },
+    done: function() {
+        this.loadingView.remove();
     }
 });
 
@@ -124,12 +138,14 @@ var ProviderRowView = Backbone.View.extend({
     },
     show: function() {
         var that = this;
+        that.list.loading('Loading assets');
         that.list.$('ul.menu a.active').removeClass('active');
         that.$('a').addClass('active');
         if (this.model.get('type') === 'projects') {
             new ProjectList().fetch({
                 success: function(collection) {
                     var view = new ProjectListView({ collection: collection });
+                    that.list.done();
                     that.list.$('.main').html(view.el);
                 }
             });
@@ -137,6 +153,7 @@ var ProviderRowView = Backbone.View.extend({
             new AssetList({ provider: this.model }).fetch({
                 success: function(collection) {
                     var view = new AssetListView({ collection: collection });
+                    that.list.done();
                     that.list.$('.main').html(view.el);
                 }
             });

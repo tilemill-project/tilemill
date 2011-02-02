@@ -95,6 +95,7 @@ var App = Backbone.View.extend({
     },
     done: function() {
         this.loadingView.remove();
+        delete this.loadingView;
     },
     message: function(title, message, type) {
         type = type || 'status';
