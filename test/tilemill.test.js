@@ -26,7 +26,6 @@ module.exports = {
             status: 200
         }, function(res) {
             var data = JSON.parse(res.body);
-            assert.equal(data.api, 'basic', 'API');
             assert.equal(data.version, 1, 'API Version');
         });
     },
