@@ -169,9 +169,6 @@ var StylesheetPopupView = PopupView.extend({
         this.options.content = ich.StylesheetPopupView({}, true);
         this.render();
     },
-    showError: function(model, error) {
-        window.app.message('Error', error);
-    },
     submit: function() {
         var id = $('input.text', this.el).val();
         if (this.collection.get(id)) {
