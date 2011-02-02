@@ -1,15 +1,18 @@
 var Router = Backbone.Controller.extend({
     routes: {
         '': 'list',
-        'list': 'list',
+        'list/:provider': 'list',
         'project/:id': 'project',
         'project/:id/export': 'projectExport',
         'project/:id/export/:format': 'projectExportFormat'
     },
-    list: function(next) {
-        new ProjectList().fetch({
+    list: function(provider, next) {
+        (new ProviderList()).fetch({
             success: function(collection) {
-                var view = new ProjectListView({ collection: collection });
+                var view = new ProviderListView({
+                    collection: collection,
+                    provider: provider
+                });
                 window.app.page(view);
                 next && next();
             },
@@ -93,18 +96,15 @@ var App = Backbone.View.extend({
     done: function() {
         this.loadingView.remove();
     },
-    message: function(title, message, type, after) {
+    message: function(title, message, type) {
         type = type || 'status';
-        if (!this.activePopup) {
-            this.activePopup = new PopupView({
-                title: title,
-                content: ich.PopupMessage({
-                    message: message,
-                    type: type
-                }, true),
-                after: after
-            });
-        }
+        new PopupView({
+            title: title,
+            content: ich.PopupMessage({
+                message: message,
+                type: type
+            }, true)
+        });
     }
 });
 

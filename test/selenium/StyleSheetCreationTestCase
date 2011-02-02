@@ -38,7 +38,7 @@
 </tr>
 <tr>
 	<td>click</td>
-	<td>//div[@id='main']/ul/li/a</td>
+	<td>//div[@class='main']//ul/li/a</td>
 	<td></td>
 </tr>
 <tr>

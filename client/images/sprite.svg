@@ -25,6 +25,18 @@
      id="defs4">
     <linearGradient
        inkscape:collect="always"
+       id="linearGradient6065">
+      <stop
+         style="stop-color:#6c6c6c;stop-opacity:1"
+         offset="0"
+         id="stop6067" />
+      <stop
+         style="stop-color:#808080;stop-opacity:1"
+         offset="1"
+         id="stop6069" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
        id="linearGradient4807">
       <stop
          style="stop-color:#dddddd;stop-opacity:1;"
@@ -47,7 +59,6 @@
          style="stop-color:#f8f8f8;stop-opacity:1;" />
     </linearGradient>
     <linearGradient
-       inkscape:collect="always"
        id="linearGradient4143">
       <stop
          style="stop-color:#000000;stop-opacity:0.1254902"
@@ -2867,25 +2878,6 @@
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3156-1-9"
-       id="linearGradient6606"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0,177)"
-       x1="350"
-       y1="-80"
-       x2="350"
-       y2="-94" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3156-1-9"
-       id="linearGradient6608"
-       gradientUnits="userSpaceOnUse"
-       x1="348"
-       y1="-83"
-       x2="350"
-       y2="-95" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3156-1-9"
        id="linearGradient6610"
        gradientUnits="userSpaceOnUse"
        x1="348"
@@ -3302,16 +3294,6 @@
        xlink:href="#linearGradient3156-1-9"
        id="linearGradient6702"
        gradientUnits="userSpaceOnUse"
-       x1="348"
-       y1="-83"
-       x2="350"
-       y2="-95" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3156-1-9"
-       id="linearGradient6704"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0,178)"
        x1="348"
        y1="-83"
        x2="350"
@@ -3824,35 +3806,6 @@
        id="linearGradient9658"
        xlink:href="#linearGradient3203-7-6"
        inkscape:collect="always" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3156-1-9"
-       id="linearGradient9892"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0,177)"
-       x1="350"
-       y1="-80"
-       x2="350"
-       y2="-94" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3156-1-9"
-       id="linearGradient9894"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0,178)"
-       x1="348"
-       y1="-83"
-       x2="350"
-       y2="-95" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3156-1-9"
-       id="linearGradient9896"
-       gradientUnits="userSpaceOnUse"
-       x1="348"
-       y1="-83"
-       x2="350"
-       y2="-95" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3156-1-9"
@@ -4447,36 +4400,6 @@
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3203-7-1"
-       id="linearGradient3923"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0,-80)"
-       x1="340"
-       y1="0"
-       x2="340"
-       y2="20" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3203-7-1"
-       id="linearGradient3925"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0,-80)"
-       x1="340"
-       y1="0"
-       x2="340"
-       y2="20" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3203-7-1"
-       id="linearGradient3927"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0,-80)"
-       x1="340"
-       y1="0"
-       x2="340"
-       y2="20" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3203-7-1"
        id="linearGradient3929"
        gradientUnits="userSpaceOnUse"
        gradientTransform="translate(0,-80)"
@@ -4938,36 +4861,6 @@
        inkscape:collect="always"
        xlink:href="#linearGradient3203-7-1"
        id="linearGradient4021"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0,-80)"
-       x1="340"
-       y1="0"
-       x2="340"
-       y2="20" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3203-7-1"
-       id="linearGradient4023"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0,-80)"
-       x1="340"
-       y1="0"
-       x2="340"
-       y2="20" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3203-7-1"
-       id="linearGradient4025"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0,-80)"
-       x1="340"
-       y1="0"
-       x2="340"
-       y2="20" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3203-7-1"
-       id="linearGradient4027"
        gradientUnits="userSpaceOnUse"
        gradientTransform="translate(0,-80)"
        x1="340"
@@ -5534,17 +5427,6 @@
        x2="0"
        y2="400"
        gradientTransform="matrix(4,0,0,1,-1200,0)" />
-    <radialGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient4143"
-       id="radialGradient4795"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1,0,0,0.16666667,0,95.761751)"
-       cx="20"
-       cy="114.9141"
-       fx="20"
-       fy="114.9141"
-       r="18" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3203-8-9"
@@ -5933,6 +5815,158 @@
        y1="101"
        x2="8"
        y2="111" />
+    <linearGradient
+       id="linearGradient4143-5">
+      <stop
+         style="stop-color:#000000;stop-opacity:0.1254902"
+         offset="0"
+         id="stop4145-2" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0.03137255"
+         offset="1"
+         id="stop4147-0" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4143-5"
+       id="radialGradient5235"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.16666667,0,-14.15235)"
+       cx="20"
+       cy="114.9141"
+       fx="20"
+       fy="114.9141"
+       r="18" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4143"
+       id="radialGradient5239"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.16666667,0,95.84765)"
+       cx="20"
+       cy="114.9141"
+       fx="20"
+       fy="114.9141"
+       r="18" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4143-5"
+       id="radialGradient6032"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.16666667,40,-14.15235)"
+       cx="20"
+       cy="114.9141"
+       fx="20"
+       fy="114.9141"
+       r="18" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6065"
+       id="linearGradient6071"
+       x1="50"
+       y1="-15"
+       x2="60"
+       y2="-5"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.96551724,0,0,1,1.5862069,0)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3203-7-6"
+       id="linearGradient6080"
+       x1="50"
+       y1="-15"
+       x2="60"
+       y2="-5"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6065-8"
+       id="linearGradient6071-6"
+       x1="65"
+       y1="168"
+       x2="55"
+       y2="158"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient6065-8">
+      <stop
+         style="stop-color:#6c6c6c;stop-opacity:1"
+         offset="0"
+         id="stop6067-7" />
+      <stop
+         style="stop-color:#808080;stop-opacity:1"
+         offset="1"
+         id="stop6069-9" />
+    </linearGradient>
+    <linearGradient
+       gradientTransform="translate(-46,20)"
+       y2="-5"
+       x2="60"
+       y1="-15"
+       x1="50"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient6097"
+       xlink:href="#linearGradient6065-8"
+       inkscape:collect="always" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4143-5"
+       id="radialGradient6122"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.16666667,80,-14.15235)"
+       cx="20"
+       cy="114.9141"
+       fx="20"
+       fy="114.9141"
+       r="18" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6065"
+       id="linearGradient6134"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.96551724,0,0,1,1.5862069,0)"
+       x1="50"
+       y1="-15"
+       x2="60"
+       y2="-5" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3203-7-6"
+       id="linearGradient6136"
+       gradientUnits="userSpaceOnUse"
+       x1="50"
+       y1="-15"
+       x2="60"
+       y2="-5" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6065-8"
+       id="linearGradient6138"
+       gradientUnits="userSpaceOnUse"
+       x1="65"
+       y1="168"
+       x2="55"
+       y2="158" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3156"
+       id="linearGradient6336"
+       x1="360"
+       y1="5"
+       x2="360"
+       y2="15"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3203"
+       id="linearGradient6340"
+       gradientUnits="userSpaceOnUse"
+       x1="360"
+       y1="5"
+       x2="360"
+       y2="15"
+       gradientTransform="translate(0,-150)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -5944,9 +5978,9 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="353.02465"
-     inkscape:cy="533.07401"
+     inkscape:zoom="1.5625"
+     inkscape:cx="293.43293"
+     inkscape:cy="400.93799"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -6009,6 +6043,23 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,170)">
+    <rect
+       style="color:#000000;fill:#6c6c6c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect6234"
+       width="26"
+       height="22"
+       x="87"
+       y="150"
+       transform="translate(0,-170)" />
+    <rect
+       ry="3"
+       rx="10"
+       y="2"
+       x="42"
+       height="6"
+       width="36"
+       id="rect6030"
+       style="color:#000000;fill:url(#radialGradient6032);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <use
        x="0"
        y="0"
@@ -6379,12 +6430,12 @@
       <rect
          ry="3"
          rx="10"
-         y="111.9141"
+         y="112"
          x="2"
          height="6"
          width="36"
          id="rect4141"
-         style="color:#000000;fill:url(#radialGradient4795);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+         style="color:#000000;fill:url(#radialGradient5239);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
       <path
          sodipodi:nodetypes="cccccc"
          inkscape:connector-curvature="0"
@@ -6470,942 +6521,6 @@
          x="345.375"
          y="-154.25"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Gotham;-inkscape-font-specification:Gotham" /></text>
-    <g
-       id="g4494"
-       transform="matrix(0.85714289,0,0,1,49.999988,-70)">
-      <g
-         id="g4487">
-        <g
-           id="g4396"
-           style="fill:#000000;fill-opacity:1">
-          <g
-             id="g5839">
-            <g
-               id="g5774">
-              <g
-                 id="g5724">
-                <g
-                   id="g6017"
-                   style="fill:url(#linearGradient6079);fill-opacity:1">
-                  <g
-                     id="g6552"
-                     style="fill:url(#linearGradient9992);fill-opacity:1">
-                    <rect
-                       y="85"
-                       x="343"
-                       height="2"
-                       width="14"
-                       id="rect4180"
-                       style="fill:url(#linearGradient9892);fill-opacity:1;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none"
-                       transform="scale(1,-1)" />
-                    <rect
-                       style="fill:url(#linearGradient9894);fill-opacity:1;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none"
-                       id="rect4182"
-                       width="14"
-                       height="2"
-                       x="343"
-                       y="89"
-                       transform="scale(1,-1)" />
-                    <g
-                       transform="matrix(1,0,0,-1,0,-179)"
-                       id="g5675"
-                       style="fill:url(#linearGradient9990);fill-opacity:1">
-                      <g
-                         id="g5627"
-                         style="fill:url(#linearGradient9988);fill-opacity:1">
-                        <g
-                           id="g5580"
-                           style="fill:url(#linearGradient9986);fill-opacity:1">
-                          <g
-                             id="g5534"
-                             style="fill:url(#linearGradient9984);fill-opacity:1">
-                            <g
-                               id="g5489"
-                               style="fill:url(#linearGradient9982);fill-opacity:1">
-                              <g
-                                 id="g5445"
-                                 style="fill:url(#linearGradient9980);fill-opacity:1">
-                                <g
-                                   id="g5402"
-                                   style="fill:url(#linearGradient9978);fill-opacity:1">
-                                <g
-                                   id="g5360"
-                                   style="fill:url(#linearGradient9976);fill-opacity:1">
-                                <g
-                                   id="g5319"
-                                   style="fill:url(#linearGradient9974);fill-opacity:1">
-                                <g
-                                   id="g5279"
-                                   style="fill:url(#linearGradient9972);fill-opacity:1">
-                                <g
-                                   id="g5240"
-                                   style="fill:url(#linearGradient9970);fill-opacity:1">
-                                <g
-                                   id="g5202"
-                                   style="fill:url(#linearGradient9968);fill-opacity:1">
-                                <g
-                                   id="g5165"
-                                   style="fill:url(#linearGradient9966);fill-opacity:1">
-                                <g
-                                   id="g5129"
-                                   style="fill:url(#linearGradient9964);fill-opacity:1">
-                                <g
-                                   id="g5094"
-                                   style="fill:url(#linearGradient9962);fill-opacity:1">
-                                <g
-                                   id="g5060"
-                                   style="fill:url(#linearGradient9960);fill-opacity:1">
-                                <g
-                                   id="g5027"
-                                   style="fill:url(#linearGradient9958);fill-opacity:1">
-                                <g
-                                   id="g4995"
-                                   style="fill:url(#linearGradient9956);fill-opacity:1">
-                                <g
-                                   id="g4964"
-                                   style="fill:url(#linearGradient9954);fill-opacity:1">
-                                <g
-                                   id="g4934"
-                                   style="fill:url(#linearGradient9952);fill-opacity:1">
-                                <g
-                                   id="g4905"
-                                   style="fill:url(#linearGradient9950);fill-opacity:1">
-                                <g
-                                   id="g4877"
-                                   style="fill:url(#linearGradient9948);fill-opacity:1">
-                                <g
-                                   id="g4850"
-                                   style="fill:url(#linearGradient9946);fill-opacity:1">
-                                <g
-                                   id="g4824"
-                                   style="fill:url(#linearGradient9944);fill-opacity:1">
-                                <g
-                                   id="g4799"
-                                   style="fill:url(#linearGradient9942);fill-opacity:1">
-                                <g
-                                   id="g4775"
-                                   style="fill:url(#linearGradient9940);fill-opacity:1">
-                                <g
-                                   id="g4752"
-                                   style="fill:url(#linearGradient9938);fill-opacity:1">
-                                <g
-                                   id="g4730"
-                                   style="fill:url(#linearGradient9936);fill-opacity:1">
-                                <g
-                                   id="g4709"
-                                   style="fill:url(#linearGradient9934);fill-opacity:1">
-                                <g
-                                   id="g4689"
-                                   style="fill:url(#linearGradient9932);fill-opacity:1">
-                                <g
-                                   id="g4670"
-                                   style="fill:url(#linearGradient9930);fill-opacity:1">
-                                <g
-                                   id="g4652"
-                                   style="fill:url(#linearGradient9928);fill-opacity:1">
-                                <g
-                                   id="g4635"
-                                   style="fill:url(#linearGradient9926);fill-opacity:1">
-                                <g
-                                   id="g4619"
-                                   style="fill:url(#linearGradient9924);fill-opacity:1">
-                                <g
-                                   id="g4604"
-                                   style="fill:url(#linearGradient9922);fill-opacity:1">
-                                <g
-                                   id="g4590"
-                                   style="fill:url(#linearGradient9920);fill-opacity:1">
-                                <g
-                                   id="g4577"
-                                   style="fill:url(#linearGradient9918);fill-opacity:1">
-                                <g
-                                   id="g4565"
-                                   style="fill:url(#linearGradient9916);fill-opacity:1">
-                                <g
-                                   id="g4554"
-                                   style="fill:url(#linearGradient9914);fill-opacity:1">
-                                <g
-                                   id="g4544"
-                                   style="fill:url(#linearGradient9912);fill-opacity:1">
-                                <g
-                                   id="g4535"
-                                   style="fill:url(#linearGradient9910);fill-opacity:1">
-                                <g
-                                   id="g4527"
-                                   style="fill:url(#linearGradient9908);fill-opacity:1">
-                                <g
-                                   id="g4520"
-                                   style="fill:url(#linearGradient9906);fill-opacity:1">
-                                <g
-                                   id="g4514"
-                                   style="fill:url(#linearGradient9904);fill-opacity:1">
-                                <g
-                                   id="g4509"
-                                   style="fill:url(#linearGradient9902);fill-opacity:1">
-                                <g
-                                   id="g4505"
-                                   style="fill:url(#linearGradient9900);fill-opacity:1">
-                                <g
-                                   id="g4502"
-                                   style="fill:url(#linearGradient9898);fill-opacity:1">
-                                <rect
-                                   style="fill:url(#linearGradient9896);fill-opacity:1;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none"
-                                   id="rect4184"
-                                   width="14"
-                                   height="2"
-                                   x="343"
-                                   y="-86" />
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                    <rect
-                       transform="scale(1,-1)"
-                       style="fill:url(#linearGradient6606);fill-opacity:1;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none"
-                       id="rect6706"
-                       width="14"
-                       height="2"
-                       x="343"
-                       y="85" />
-                    <rect
-                       transform="scale(1,-1)"
-                       y="89"
-                       x="343"
-                       height="2"
-                       width="14"
-                       id="rect6708"
-                       style="fill:url(#linearGradient6704);fill-opacity:1;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none" />
-                    <g
-                       style="fill:url(#linearGradient6702);fill-opacity:1"
-                       id="g6710"
-                       transform="matrix(1,0,0,-1,0,-179)">
-                      <g
-                         style="fill:url(#linearGradient6700);fill-opacity:1"
-                         id="g6712">
-                        <g
-                           style="fill:url(#linearGradient6698);fill-opacity:1"
-                           id="g6714">
-                          <g
-                             style="fill:url(#linearGradient6696);fill-opacity:1"
-                             id="g6716">
-                            <g
-                               style="fill:url(#linearGradient6694);fill-opacity:1"
-                               id="g6718">
-                              <g
-                                 style="fill:url(#linearGradient6692);fill-opacity:1"
-                                 id="g6720">
-                                <g
-                                   style="fill:url(#linearGradient6690);fill-opacity:1"
-                                   id="g6722">
-                                <g
-                                   style="fill:url(#linearGradient6688);fill-opacity:1"
-                                   id="g6724">
-                                <g
-                                   style="fill:url(#linearGradient6686);fill-opacity:1"
-                                   id="g6726">
-                                <g
-                                   style="fill:url(#linearGradient6684);fill-opacity:1"
-                                   id="g6728">
-                                <g
-                                   style="fill:url(#linearGradient6682);fill-opacity:1"
-                                   id="g6730">
-                                <g
-                                   style="fill:url(#linearGradient6680);fill-opacity:1"
-                                   id="g6732">
-                                <g
-                                   style="fill:url(#linearGradient6678);fill-opacity:1"
-                                   id="g6734">
-                                <g
-                                   style="fill:url(#linearGradient6676);fill-opacity:1"
-                                   id="g6736">
-                                <g
-                                   style="fill:url(#linearGradient6674);fill-opacity:1"
-                                   id="g6738">
-                                <g
-                                   style="fill:url(#linearGradient6672);fill-opacity:1"
-                                   id="g6740">
-                                <g
-                                   style="fill:url(#linearGradient6670);fill-opacity:1"
-                                   id="g6742">
-                                <g
-                                   style="fill:url(#linearGradient6668);fill-opacity:1"
-                                   id="g6744">
-                                <g
-                                   style="fill:url(#linearGradient6666);fill-opacity:1"
-                                   id="g6746">
-                                <g
-                                   style="fill:url(#linearGradient6664);fill-opacity:1"
-                                   id="g6748">
-                                <g
-                                   style="fill:url(#linearGradient6662);fill-opacity:1"
-                                   id="g6750">
-                                <g
-                                   style="fill:url(#linearGradient6660);fill-opacity:1"
-                                   id="g6752">
-                                <g
-                                   style="fill:url(#linearGradient6658);fill-opacity:1"
-                                   id="g6754">
-                                <g
-                                   style="fill:url(#linearGradient6656);fill-opacity:1"
-                                   id="g6756">
-                                <g
-                                   style="fill:url(#linearGradient6654);fill-opacity:1"
-                                   id="g6758">
-                                <g
-                                   style="fill:url(#linearGradient6652);fill-opacity:1"
-                                   id="g6760">
-                                <g
-                                   style="fill:url(#linearGradient6650);fill-opacity:1"
-                                   id="g6762">
-                                <g
-                                   style="fill:url(#linearGradient6648);fill-opacity:1"
-                                   id="g6764">
-                                <g
-                                   style="fill:url(#linearGradient6646);fill-opacity:1"
-                                   id="g6766">
-                                <g
-                                   style="fill:url(#linearGradient6644);fill-opacity:1"
-                                   id="g6768">
-                                <g
-                                   style="fill:url(#linearGradient6642);fill-opacity:1"
-                                   id="g6770">
-                                <g
-                                   style="fill:url(#linearGradient6640);fill-opacity:1"
-                                   id="g6772">
-                                <g
-                                   style="fill:url(#linearGradient6638);fill-opacity:1"
-                                   id="g6774">
-                                <g
-                                   style="fill:url(#linearGradient6636);fill-opacity:1"
-                                   id="g6776">
-                                <g
-                                   style="fill:url(#linearGradient6634);fill-opacity:1"
-                                   id="g6778">
-                                <g
-                                   style="fill:url(#linearGradient6632);fill-opacity:1"
-                                   id="g6780">
-                                <g
-                                   style="fill:url(#linearGradient6630);fill-opacity:1"
-                                   id="g6782">
-                                <g
-                                   style="fill:url(#linearGradient6628);fill-opacity:1"
-                                   id="g6784">
-                                <g
-                                   style="fill:url(#linearGradient6626);fill-opacity:1"
-                                   id="g6786">
-                                <g
-                                   style="fill:url(#linearGradient6624);fill-opacity:1"
-                                   id="g6788">
-                                <g
-                                   style="fill:url(#linearGradient6622);fill-opacity:1"
-                                   id="g6790">
-                                <g
-                                   style="fill:url(#linearGradient6620);fill-opacity:1"
-                                   id="g6792">
-                                <g
-                                   style="fill:url(#linearGradient6618);fill-opacity:1"
-                                   id="g6794">
-                                <g
-                                   style="fill:url(#linearGradient6616);fill-opacity:1"
-                                   id="g6796">
-                                <g
-                                   style="fill:url(#linearGradient6614);fill-opacity:1"
-                                   id="g6798">
-                                <g
-                                   style="fill:url(#linearGradient6612);fill-opacity:1"
-                                   id="g6800">
-                                <g
-                                   style="fill:url(#linearGradient6610);fill-opacity:1"
-                                   id="g6802">
-                                <rect
-                                   y="-86"
-                                   x="343"
-                                   height="2"
-                                   width="14"
-                                   id="rect6804"
-                                   style="fill:url(#linearGradient6608);fill-opacity:1;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none" />
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </g>
-                <g
-                   style="fill:url(#linearGradient6291);fill-opacity:1"
-                   id="g6081"
-                   transform="translate(0,20)" />
-              </g>
-            </g>
-          </g>
-        </g>
-      </g>
-    </g>
-    <g
-       id="g4494-3"
-       transform="matrix(0.85714286,0,0,1,50.857141,-51)"
-       style="color:#000000;fill:url(#linearGradient4856-8);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-      <g
-         id="g4487-7"
-         style="color:#000000;fill:url(#linearGradient4138);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-        <g
-           id="g4396-9"
-           style="color:#000000;fill:url(#linearGradient4136);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-          <g
-             id="g5839-4"
-             style="color:#000000;fill:url(#linearGradient4134);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-             transform="translate(-1,1)">
-            <g
-               id="g5774-7"
-               style="color:#000000;fill:url(#linearGradient4131);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-              <g
-                 id="g5724-8"
-                 style="color:#000000;fill:url(#linearGradient4129);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                <g
-                   id="g6017-9"
-                   style="color:#000000;fill:url(#linearGradient4125);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                  <g
-                     id="g6552-2"
-                     style="color:#000000;fill:url(#linearGradient4123);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                    <rect
-                       y="85"
-                       x="343"
-                       height="2"
-                       width="14"
-                       id="rect4180-9"
-                       style="color:#000000;fill:url(#linearGradient3923);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                       transform="scale(1,-1)" />
-                    <rect
-                       style="color:#000000;fill:url(#linearGradient3925);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                       id="rect4182-3"
-                       width="14"
-                       height="2"
-                       x="343"
-                       y="89"
-                       transform="scale(1,-1)" />
-                    <g
-                       transform="matrix(1,0,0,-1,0,-179)"
-                       id="g5675-3"
-                       style="color:#000000;fill:url(#linearGradient4021);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                      <g
-                         id="g5627-0"
-                         style="color:#000000;fill:url(#linearGradient4019);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                        <g
-                           id="g5580-5"
-                           style="color:#000000;fill:url(#linearGradient4017);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                          <g
-                             id="g5534-9"
-                             style="color:#000000;fill:url(#linearGradient4015);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                            <g
-                               id="g5489-5"
-                               style="color:#000000;fill:url(#linearGradient4013);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                              <g
-                                 id="g5445-2"
-                                 style="color:#000000;fill:url(#linearGradient4011);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g5402-1"
-                                   style="color:#000000;fill:url(#linearGradient4009);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g5360-8"
-                                   style="color:#000000;fill:url(#linearGradient4007);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g5319-8"
-                                   style="color:#000000;fill:url(#linearGradient4005);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g5279-5"
-                                   style="color:#000000;fill:url(#linearGradient4003);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g5240-9"
-                                   style="color:#000000;fill:url(#linearGradient4001);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g5202-2"
-                                   style="color:#000000;fill:url(#linearGradient3999);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g5165-5"
-                                   style="color:#000000;fill:url(#linearGradient3997);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g5129-0"
-                                   style="color:#000000;fill:url(#linearGradient3995);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g5094-9"
-                                   style="color:#000000;fill:url(#linearGradient3993);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g5060-1"
-                                   style="color:#000000;fill:url(#linearGradient3991);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g5027-2"
-                                   style="color:#000000;fill:url(#linearGradient3989);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4995-5"
-                                   style="color:#000000;fill:url(#linearGradient3987);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4964-7"
-                                   style="color:#000000;fill:url(#linearGradient3985);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4934-4"
-                                   style="color:#000000;fill:url(#linearGradient3983);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4905-7"
-                                   style="color:#000000;fill:url(#linearGradient3981);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4877-9"
-                                   style="color:#000000;fill:url(#linearGradient3979);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4850-7"
-                                   style="color:#000000;fill:url(#linearGradient3977);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4824-3"
-                                   style="color:#000000;fill:url(#linearGradient3975);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4799-7"
-                                   style="color:#000000;fill:url(#linearGradient3973);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4775-6"
-                                   style="color:#000000;fill:url(#linearGradient3971);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4752-9"
-                                   style="color:#000000;fill:url(#linearGradient3969);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4730-8"
-                                   style="color:#000000;fill:url(#linearGradient3967);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4709-9"
-                                   style="color:#000000;fill:url(#linearGradient3965);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4689-1"
-                                   style="color:#000000;fill:url(#linearGradient3963);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4670-0"
-                                   style="color:#000000;fill:url(#linearGradient3961);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4652-2"
-                                   style="color:#000000;fill:url(#linearGradient3959);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4635-9"
-                                   style="color:#000000;fill:url(#linearGradient3957);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4619-3"
-                                   style="color:#000000;fill:url(#linearGradient3955);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4604-5"
-                                   style="color:#000000;fill:url(#linearGradient3953);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4590-1"
-                                   style="color:#000000;fill:url(#linearGradient3951);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4577-7"
-                                   style="color:#000000;fill:url(#linearGradient3949);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4565-5"
-                                   style="color:#000000;fill:url(#linearGradient3947);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4554-9"
-                                   style="color:#000000;fill:url(#linearGradient3945);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4544-9"
-                                   style="color:#000000;fill:url(#linearGradient3943);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4535-2"
-                                   style="color:#000000;fill:url(#linearGradient3941);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4527-5"
-                                   style="color:#000000;fill:url(#linearGradient3939);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4520-6"
-                                   style="color:#000000;fill:url(#linearGradient3937);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4514-1"
-                                   style="color:#000000;fill:url(#linearGradient3935);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4509-0"
-                                   style="color:#000000;fill:url(#linearGradient3933);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4505-9"
-                                   style="color:#000000;fill:url(#linearGradient3931);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <g
-                                   id="g4502-2"
-                                   style="color:#000000;fill:url(#linearGradient3929);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate">
-                                <rect
-                                   style="color:#000000;fill:url(#linearGradient3927);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="rect4184-5"
-                                   width="14"
-                                   height="2"
-                                   x="343"
-                                   y="-86" />
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                    <rect
-                       transform="scale(1,-1)"
-                       style="color:#000000;fill:url(#linearGradient4023);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                       id="rect6706-4"
-                       width="14"
-                       height="2"
-                       x="343"
-                       y="85" />
-                    <rect
-                       transform="scale(1,-1)"
-                       y="89"
-                       x="343"
-                       height="2"
-                       width="14"
-                       id="rect6708-3"
-                       style="color:#000000;fill:url(#linearGradient4025);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-                    <g
-                       style="color:#000000;fill:url(#linearGradient4121);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                       id="g6710-7"
-                       transform="matrix(1,0,0,-1,0,-179)">
-                      <g
-                         style="color:#000000;fill:url(#linearGradient4119);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                         id="g6712-8">
-                        <g
-                           style="color:#000000;fill:url(#linearGradient4117);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                           id="g6714-7">
-                          <g
-                             style="color:#000000;fill:url(#linearGradient4115);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                             id="g6716-8">
-                            <g
-                               style="color:#000000;fill:url(#linearGradient4113);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                               id="g6718-4">
-                              <g
-                                 style="color:#000000;fill:url(#linearGradient4111);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                 id="g6720-1">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4109);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6722-4">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4107);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6724-1">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4105);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6726-7">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4103);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6728-5">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4101);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6730-5">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4099);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6732-0">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4097);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6734-4">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4095);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6736-0">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4093);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6738-3">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4091);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6740-3">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4089);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6742-3">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4087);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6744-5">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4085);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6746-0">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4083);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6748-3">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4081);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6750-9">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4079);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6752-9">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4077);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6754-5">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4075);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6756-8">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4073);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6758-2">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4071);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6760-7">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4069);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6762-1">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4067);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6764-2">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4065);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6766-8">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4063);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6768-6">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4061);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6770-1">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4059);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6772-9">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4057);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6774-6">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4055);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6776-3">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4053);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6778-0">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4051);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6780-6">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4049);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6782-6">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4047);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6784-8">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4045);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6786-8">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4043);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6788-7">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4041);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6790-7">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4039);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6792-8">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4037);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6794-5">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4035);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6796-8">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4033);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6798-4">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4031);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6800-4">
-                                <g
-                                   style="color:#000000;fill:url(#linearGradient4029);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                                   id="g6802-9">
-                                <rect
-                                   y="-86"
-                                   x="343"
-                                   height="2"
-                                   width="14"
-                                   id="rect6804-1"
-                                   style="color:#000000;fill:url(#linearGradient4027);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </g>
-                <g
-                   style="color:#000000;fill:url(#linearGradient4127);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-                   id="g6081-2"
-                   transform="translate(0,20)" />
-              </g>
-            </g>
-          </g>
-        </g>
-      </g>
-    </g>
-    <g
-       transform="scale(0.99524621,1.0047765)"
-       style="font-size:40.84458542px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;color:#000000;fill:url(#linearGradient10035);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Helvetica"
-       id="text9994">
-      <path
-         d="m 372.88139,-157.28857 -2.87986,0 0,-0.39089 c -10e-6,-0.4361 0.0877,-0.82168 0.26325,-1.15673 0.1755,-0.34037 0.54513,-0.77115 1.10887,-1.29235 l 0.51056,-0.4627 c 0.30314,-0.27654 0.52385,-0.53714 0.66213,-0.78179 0.14359,-0.24463 0.21538,-0.48927 0.21539,-0.73392 -10e-6,-0.37227 -0.12765,-0.66212 -0.38292,-0.86955 -0.25528,-0.21272 -0.61161,-0.31908 -1.06898,-0.31909 -0.43079,1e-5 -0.89614,0.0904 -1.39605,0.27123 -0.49993,0.17551 -1.02112,0.43877 -1.56359,0.78977 l 0,-2.50492 c 0.64352,-0.22336 1.23119,-0.38823 1.76302,-0.49461 0.53183,-0.10635 1.04505,-0.15953 1.53965,-0.15954 1.29766,1e-5 2.28687,0.26592 2.96762,0.79774 0.68073,0.52652 1.0211,1.29768 1.02111,2.31346 -1e-5,0.52121 -0.10372,0.98922 -0.31112,1.40404 -0.20742,0.40951 -0.56109,0.85093 -1.061,1.32425 l -0.51056,0.45472 c -0.36165,0.32974 -0.59832,0.59565 -0.70999,0.79775 -0.11169,0.19678 -0.16754,0.41483 -0.16753,0.65415 l 0,0.35898 m -2.87986,1.18067 2.87986,0 0,2.83997 -2.87986,0 0,-2.83997"
-         style="font-size:16.3378334px;font-weight:bold;color:#000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica Neue LT Std;-inkscape-font-specification:Helvetica Neue LT Std Bold"
-         id="path5100" />
-    </g>
-    <g
-       transform="scale(0.99524621,1.0047765)"
-       style="font-size:40.84458542px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;color:#000000;fill:url(#linearGradient4856-4);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Helvetica"
-       id="text10092">
-      <path
-         d="m 372.88139,-137.38377 -2.87986,0 0,-0.39089 c -10e-6,-0.4361 0.0877,-0.82168 0.26325,-1.15673 0.1755,-0.34037 0.54513,-0.77115 1.10887,-1.29235 l 0.51056,-0.46269 c 0.30314,-0.27655 0.52385,-0.53715 0.66213,-0.7818 0.14359,-0.24463 0.21538,-0.48927 0.21539,-0.73392 -10e-6,-0.37227 -0.12765,-0.66212 -0.38292,-0.86954 -0.25528,-0.21273 -0.61161,-0.31909 -1.06898,-0.3191 -0.43079,1e-5 -0.89614,0.0904 -1.39605,0.27123 -0.49993,0.17551 -1.02112,0.43877 -1.56359,0.78977 l 0,-2.50492 c 0.64352,-0.22336 1.23119,-0.38823 1.76302,-0.49461 0.53183,-0.10635 1.04505,-0.15953 1.53965,-0.15954 1.29766,10e-6 2.28687,0.26592 2.96762,0.79774 0.68073,0.52652 1.0211,1.29768 1.02111,2.31346 -1e-5,0.52121 -0.10372,0.98922 -0.31112,1.40404 -0.20742,0.40951 -0.56109,0.85093 -1.061,1.32425 l -0.51056,0.45472 c -0.36165,0.32974 -0.59832,0.59566 -0.70999,0.79775 -0.11169,0.19678 -0.16754,0.41483 -0.16753,0.65415 l 0,0.35898 m -2.87986,1.18067 2.87986,0 0,2.83997 -2.87986,0 0,-2.83997"
-         style="font-size:16.3378334px;font-weight:bold;color:#000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica Neue LT Std;-inkscape-font-specification:Helvetica Neue LT Std Bold"
-         id="path5103" />
-    </g>
     <path
        style="fill:url(#linearGradient4148);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        d="m 0,360 400,0 0,40 -400,0 z"
@@ -7508,5 +6623,348 @@
        d="m 324,-145 0,9 4,0 c 1.10457,0 2,0.89543 2,2 0,-1.10457 0.89543,-2 2,-2 l 4,0 0,-9 -4,0 c -1.10457,0 -2,0.89543 -2,2 0,-1.10457 -0.89543,-2 -2,-2 l -4,0 z m 2,2 3,0.5 0,0.5 -3,0 0,-1 z m 8,0 0,1 -3,0 0,-0.5 3,-0.5 z m -8,2 3,0.5 0,0.5 -3,0 0,-1 z m 8,0 0,1 -3,0 0,-0.5 3,-0.5 z m -8,2 3,0.5 0,0.5 -3,0 0,-1 z m 8,0 0,1 -3,0 0,-0.5 3,-0.5 z"
        style="color:#000000;fill:url(#linearGradient4898);fill-opacity:1.0;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        inkscape:connector-curvature="0" />
+    <rect
+       style="color:#000000;fill:url(#radialGradient5235);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4141-3"
+       width="36"
+       height="6"
+       x="2"
+       y="2"
+       rx="10"
+       ry="3" />
+    <g
+       id="g6126">
+      <path
+         sodipodi:nodetypes="sccccscsss"
+         inkscape:connector-curvature="0"
+         id="rect6055"
+         transform="translate(0,-170)"
+         d="m 47,147 c -1.108,0 -2,0.892 -2,2 l 0,26 27,0 0,-22 c 0,-1.108 -0.892,-2 -2,-2 l -10,0 0,-2 c 0,-1.108 -0.892,-2 -2,-2 z"
+         style="color:#000000;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <rect
+         y="-18"
+         x="46"
+         height="19"
+         width="28"
+         id="rect6063"
+         style="color:#000000;fill:url(#linearGradient6134);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <path
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path6061"
+         d="m 47,2 0,-19 26,0 0,19"
+         style="color:#000000;fill:url(#linearGradient6136);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <path
+         sodipodi:nodetypes="ccccc"
+         transform="translate(0,-170)"
+         inkscape:connector-curvature="0"
+         id="path6053"
+         d="m 45,175 c 5,-5 5,-20 5,-20 l 27,0 c 0,0 0,15 -5,20 z"
+         style="color:#000000;fill:url(#linearGradient6138);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="rect6115"
+         transform="translate(0,-170)"
+         d="m 45.84375,174 c -0.262741,0.37556 -0.54678,0.70303 -0.84375,1 l 27,0 c 0.29697,-0.29697 0.581009,-0.62444 0.84375,-1 z"
+         style="color:#000000;fill:#6c6c6c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
+    <rect
+       style="color:#000000;fill:url(#radialGradient6122);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect6120"
+       width="36"
+       height="6"
+       x="82"
+       y="2"
+       rx="10"
+       ry="3" />
+    <rect
+       style="color:#000000;fill:#6c6c6c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect6140"
+       width="13"
+       height="13"
+       x="6"
+       y="-8"
+       ry="1" />
+    <rect
+       y="-8"
+       x="21"
+       height="13"
+       width="13"
+       id="rect6142"
+       style="color:#000000;fill:#6c6c6c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       ry="1" />
+    <rect
+       style="color:#000000;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect6144"
+       width="13"
+       height="13"
+       x="6"
+       y="-23"
+       ry="1" />
+    <rect
+       y="-23"
+       x="21"
+       height="13"
+       width="13"
+       id="rect6146"
+       style="color:#000000;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       ry="1" />
+    <rect
+       style="color:#000000;fill:#a0a0a0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect6165"
+       width="25"
+       height="1"
+       x="51"
+       y="156"
+       transform="translate(0,-170)"
+       ry="0.5" />
+    <rect
+       ry="0.5"
+       y="-22"
+       x="46"
+       height="1"
+       width="13"
+       id="rect6167"
+       style="color:#000000;fill:#a0a0a0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       rx="0.5" />
+    <rect
+       ry="0.5"
+       y="-17"
+       x="47"
+       height="1"
+       width="26"
+       id="rect6169"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       rx="0.5" />
+    <rect
+       style="color:#000000;fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect6206"
+       width="9"
+       height="6"
+       x="8"
+       y="-5"
+       ry="0.49999997"
+       rx="0.5" />
+    <rect
+       rx="0.5"
+       ry="0.49999997"
+       y="-5"
+       x="23"
+       height="6"
+       width="9"
+       id="rect6208"
+       style="color:#000000;fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       rx="0.5"
+       ry="0.49999997"
+       y="-20"
+       x="8"
+       height="6"
+       width="9"
+       id="rect6210"
+       style="color:#000000;fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       style="color:#000000;fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect6212"
+       width="9"
+       height="6"
+       x="23"
+       y="-20"
+       ry="0.49999997"
+       rx="0.5" />
+    <rect
+       rx="0.49999997"
+       style="color:#000000;fill:#a0a0a0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect6214"
+       width="11"
+       height="1"
+       x="22"
+       y="-22"
+       ry="0.5" />
+    <rect
+       ry="0.5"
+       y="-22"
+       x="7"
+       height="1"
+       width="11"
+       id="rect6216"
+       style="color:#000000;fill:#a0a0a0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       rx="0.49999997" />
+    <rect
+       ry="0.5"
+       y="-7"
+       x="22"
+       height="1"
+       width="11"
+       id="rect6218"
+       style="color:#000000;fill:#a0a0a0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       rx="0.49999997" />
+    <rect
+       rx="0.49999997"
+       style="color:#000000;fill:#a0a0a0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect6220"
+       width="11"
+       height="1"
+       x="7"
+       y="-7"
+       ry="0.5" />
+    <path
+       style="color:#000000;fill:#d8d8d8;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 10,156 7,-4 0,4"
+       id="path6222"
+       inkscape:connector-curvature="0"
+       transform="translate(0,-170)" />
+    <path
+       style="color:#000000;fill:#d8d8d8;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 23,152 3,0 1,2 2,0 2,2 -8,0"
+       id="path6224"
+       inkscape:connector-curvature="0"
+       transform="translate(0,-170)" />
+    <path
+       style="color:#000000;fill:#d8d8d8;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 10,165 1,2 3,0 2,2 1,0 0,-4"
+       id="path6226"
+       inkscape:connector-curvature="0"
+       transform="translate(0,-170)" />
+    <path
+       style="color:#000000;fill:#d8d8d8;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 23,169 4,0 2,-2 3,1 0,-3 -9,0"
+       id="path6228"
+       inkscape:connector-curvature="0"
+       transform="translate(0,-170)" />
+    <path
+       style="color:#000000;fill:#a0a0a0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 87.15625 150.5 C 87.061774 150.66623 87 150.82545 87 151 C 87 152.662 91.46 154 97 154 L 103 154 C 108.54 154 113 152.662 113 151 C 113 150.82545 112.93823 150.66623 112.84375 150.5 C 112.03868 151.91653 107.95816 153 103 153 L 97 153 C 92.041843 153 87.961321 151.91653 87.15625 150.5 z "
+       id="rect6236"
+       transform="translate(0,-170)" />
+    <rect
+       style="color:#000000;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect6230"
+       width="26"
+       height="6"
+       x="87"
+       y="-23"
+       rx="10"
+       ry="3" />
+    <rect
+       ry="3"
+       rx="10"
+       y="-1"
+       x="87"
+       height="6"
+       width="26"
+       id="rect6232"
+       style="color:#000000;fill:#6c6c6c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       style="color:#000000;fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect6247"
+       width="4"
+       height="1"
+       x="95"
+       y="-17"
+       rx="1"
+       ry="1" />
+    <path
+       id="path6249"
+       d="M 87.15625,-14.5 C 87.061774,-14.33377 87,-14.17455 87,-14 c 0,1.662 4.46,3 10,3 l 6,0 c 5.54,0 10,-1.338 10,-3 0,-0.17455 -0.0618,-0.33377 -0.15625,-0.5 -0.80507,1.41653 -4.88559,2.5 -9.84375,2.5 l -6,0 c -4.958157,0 -9.038679,-1.08347 -9.84375,-2.5 z"
+       style="color:#000000;fill:#a0a0a0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       inkscape:connector-curvature="0" />
+    <rect
+       ry="1"
+       rx="1"
+       y="-12"
+       x="95"
+       height="1"
+       width="4"
+       id="rect6251"
+       style="color:#000000;fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       inkscape:connector-curvature="0"
+       style="color:#000000;fill:#a0a0a0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 87.15625,-9.5 C 87.061774,-9.33377 87,-9.17455 87,-9 c 0,1.662 4.46,3 10,3 l 6,0 c 5.54,0 10,-1.338 10,-3 0,-0.17455 -0.0618,-0.33377 -0.15625,-0.5 C 112.03868,-8.08347 107.95816,-7 103,-7 l -6,0 c -4.958157,0 -9.038679,-1.08347 -9.84375,-2.5 z"
+       id="path6253" />
+    <rect
+       style="color:#000000;fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect6255"
+       width="4"
+       height="1"
+       x="95"
+       y="-7"
+       rx="1"
+       ry="1" />
+    <path
+       id="path6257"
+       d="M 87.15625,-4.5 C 87.061774,-4.33377 87,-4.17455 87,-4 c 0,1.662 4.46,3 10,3 l 6,0 c 5.54,0 10,-1.338 10,-3 0,-0.17455 -0.0618,-0.33377 -0.15625,-0.5 C 112.03868,-3.08347 107.95816,-2 103,-2 l -6,0 c -4.958157,0 -9.038679,-1.08347 -9.84375,-2.5 z"
+       style="color:#000000;fill:#a0a0a0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       style="color:#000000;fill:#606060;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 87.15625,-15.5 C 87.061774,-15.33377 87,-15.17455 87,-15 c 0,1.662 4.46,3 10,3 l 6,0 c 5.54,0 10,-1.338 10,-3 0,-0.17455 -0.0618,-0.33377 -0.15625,-0.5 -0.80507,1.41653 -4.88559,2.5 -9.84375,2.5 l -6,0 c -4.958157,0 -9.038679,-1.08347 -9.84375,-2.5 z"
+       id="path6265" />
+    <path
+       id="path6269"
+       d="M 87.15625,-10.5 C 87.061774,-10.33377 87,-10.17455 87,-10 c 0,1.662 4.46,3 10,3 l 6,0 c 5.54,0 10,-1.338 10,-3 0,-0.17455 -0.0618,-0.33377 -0.15625,-0.5 C 112.03868,-9.08347 107.95816,-8 103,-8 l -6,0 c -4.958157,0 -9.038679,-1.08347 -9.84375,-2.5 z"
+       style="color:#000000;fill:#606060;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       style="color:#000000;fill:#606060;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 87.15625,-5.5 C 87.061774,-5.33377 87,-5.17455 87,-5 c 0,1.662 4.46,3 10,3 l 6,0 c 5.54,0 10,-1.338 10,-3 0,-0.17455 -0.0618,-0.33377 -0.15625,-0.5 C 112.03868,-4.08347 107.95816,-3 103,-3 l -6,0 c -4.958157,0 -9.038679,-1.08347 -9.84375,-2.5 z"
+       id="path6271" />
+    <path
+       id="path6273"
+       d="M 87.15625,1.5 C 87.061774,1.66623 87,1.82545 87,2 c 0,1.662 4.46,3 10,3 l 6,0 c 5.54,0 10,-1.338 10,-3 0,-0.17455 -0.0618,-0.33377 -0.15625,-0.5 C 112.03868,2.91653 107.95816,4 103,4 L 97,4 C 92.041843,4 87.961321,2.91653 87.15625,1.5 z"
+       style="color:#000000;fill:#606060;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       inkscape:connector-curvature="0" />
+    <g
+       id="g6310"
+       transform="translate(6,3)">
+      <rect
+         style="color:#000000;fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect6259"
+         width="4"
+         height="1"
+         x="95"
+         y="-2"
+         rx="1"
+         ry="1" />
+      <rect
+         ry="2"
+         rx="2"
+         y="-5"
+         x="95"
+         height="9"
+         width="17"
+         id="rect6277"
+         style="color:#000000;fill:#505050;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <path
+         inkscape:connector-curvature="0"
+         id="rect6281"
+         d="m 100.5,-3 c -0.82843,0 -1.5,0.67157 -1.5,1.5 0,0.82843 0.67157,1.5 1.5,1.5 l 1,0 c 0.27614,0 0.5,0.22386 0.5,0.5 0,0.27614 -0.22386,0.5 -0.5,0.5 l -2,0 0,1 2,0 c 0.82843,0 1.5,-0.67157 1.5,-1.5 0,-0.82843 -0.67157,-1.5 -1.5,-1.5 l -1,0 c -0.27614,0 -0.5,-0.22386 -0.5,-0.5 0,-0.27614 0.22386,-0.5 0.5,-0.5 l 2,0 0,-1 -2,0 z m 4,0 0,1 2,0 c 0.27614,0 0.5,0.22386 0.5,0.5 0,0.27614 -0.22386,0.5 -0.5,0.5 l -2,0 0,1 2,0 c 0.27614,0 0.5,0.22386 0.5,0.5 0,0.27614 -0.22386,0.5 -0.5,0.5 l -2,0 0,1 2,0 c 0.82843,0 1.5,-0.67157 1.5,-1.5 0,-0.38254 -0.13929,-0.73503 -0.375,-1 0.23571,-0.26497 0.375,-0.61746 0.375,-1 0,-0.82843 -0.67157,-1.5 -1.5,-1.5 l -2,0 z"
+         style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
+    <path
+       style="color:#000000;fill:url(#linearGradient6336);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 345,4 c -0.554,0 -1,0.446 -1,1 l 0,9 c 0,0.554 0.446,1 1,1 l 10,0 1,0 2.5,-7 -11,0 -2.5,6 1,-7 10,0 c 0,-0.554 -0.446,-1 -1,-1 l -5,0 0,-1 c 0,-0.554 -0.446,-1 -1,-1 z"
+       transform="translate(0,-170)"
+       id="rect6315"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sssscccccccscsss" />
+    <path
+       sodipodi:nodetypes="sssscccccccscsss"
+       inkscape:connector-curvature="0"
+       id="path6338"
+       d="m 345,-146 c -0.554,0 -1,0.446 -1,1 l 0,9 c 0,0.554 0.446,1 1,1 l 10,0 1,0 2.5,-7 -11,0 -2.5,6 1,-7 10,0 c 0,-0.554 -0.446,-1 -1,-1 l -5,0 0,-1 c 0,-0.554 -0.446,-1 -1,-1 z"
+       style="color:#000000;fill:url(#linearGradient6340);fill-opacity:1.0;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#g4160"
+       id="use3845"
+       transform="translate(360,0)"
+       width="400"
+       height="570" />
   </g>
 </svg>

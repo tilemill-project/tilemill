@@ -77,8 +77,7 @@ h3 { font-size:13px; }
   margin-right:20px;
   }
 
-.header a,
-a.button {
+.header a {
   font-weight:bold;
   float:left;
   padding:0px 10px;
@@ -86,18 +85,6 @@ a.button {
   -webkit-border-radius:3px;
   margin:0px 5px;
   }
-
-.header .links a,
-a.button {
-  line-height:18px;
-  border-top:1px solid #444;
-  border-bottom:1px solid #888;
-  color:#ccc;
-  background-color:#555;
-  }
-
-.header .links a:hover,
-a:hover.button { color:#fff; }
 
 .header .actions {
   position:absolute;
@@ -180,6 +167,34 @@ a:hover.button { color:#fff; }
   }
 
 /**
+ * Menu =======================================================================
+ */
+.menu li { position:relative; }
+.menu li .icon { top:5px; }
+.menu li .edit { right:26px; }
+
+.menu li a.title {
+  position:relative;
+  display:block;
+  padding:20px 10px 19px 60px;
+  border-bottom:1px solid #bbb;
+  font-size:16px;
+  font-weight:bold;
+  color:#666;
+  }
+
+.menu li a.title .file {
+  position:absolute;
+  left:10px;
+  top:10px;
+  }
+
+.menu li a.title.active {
+  color:#333;
+  background:#f8f8f8;
+  }
+
+/**
  * Lists ======================================================================
  */
 .items li {
@@ -248,7 +263,7 @@ a:hover.button { color:#fff; }
 
 .file {
   background-color:transparent;
-  background-position:40px 40px;
+  background-position:-360px -180px;
   width:40px;
   height:40px;
   }
@@ -257,6 +272,11 @@ li .icon {
   display:none;
   position:absolute;
   right:5px;
+  }
+
+a.button .icon {
+  float:left;
+  margin-left:-10px;
   }
 
 a:hover .icon,
@@ -274,9 +294,10 @@ li:hover .icon { display:block; }
 .icon.add            { background-position:-180px 0px; }
 .icon.settings       { background-position:-280px 0px; }
 .icon.export         { background-position:-320px 0px; }
-.icon.reference      { background-position: -320px 0px;}
+.icon.reference      { background-position:-320px 0px;}
 .icon.dropdown       { background-position:-300px 0px; }
 .icon.options        { background-position:-260px 0px; }
+.icon.assets         { background-position:-340px 0px;}
 .icon.geometry-linestring { background-position:-200px 0px; }
 .icon.geometry-point      { background-position:-220px 0px; }
 .icon.geometry-polygon    { background-position:-240px 0px; }
@@ -299,13 +320,19 @@ li:hover .icon { display:block; }
 .reverse.reference      { background-position: -320px -20px;}
 .reverse.dropdown       { background-position:-300px -20px; }
 .reverse.options        { background-position:-260px -20px; }
+.reverse.assets         { background-position:-340px -20px;}
 .reverse.geometry-linestring { background-position:-200px -20px; }
 .reverse.geometry-point      { background-position:-220px -20px; }
 .reverse.geometry-polygon    { background-position:-240px -20px; }
 
 .file.png { background-position:0px -180px; }
 .file.pdf { background-position:-40px -180px; }
+.file.zip { background-position:-120px -180px; }
 .file.mbtiles { background-position:-80px -180px; }
+
+.file.projects { background-position:0px -140px; }
+.file.directory { background-position:-40px -140px; }
+.file.s3 { background-position:-80px -140px; }
 
 /**
  * Form elements ==============================================================
@@ -326,6 +353,7 @@ input.text {
   -webkit-box-sizing:border-box;
   }
 
+a.button,
 input.submit {
   line-height:20px;
   height:20px;
@@ -342,6 +370,8 @@ input.submit {
   -webkit-border-radius:3px;
   -webkit-box-sizing:border-box;
   }
+
+a.button { display:inline-block; }
 
 input.submit:hover { background-color:#666; }
 input.submit:active { background-color:#444; }
@@ -374,7 +404,7 @@ ul.form > li > label {
 ul.form > li input.text { width:100%; }
 ul.form > li input.inline { width:auto; }
 
-ul.form > li.buttons {
+.buttons {
   text-align:right;
   border:0px;
   padding:10px;
@@ -560,20 +590,21 @@ form .palette div { padding:5px 0px; }
  * ProjectListView ============================================================
  */
 ul.projects { padding-right:0px; }
+ul.projects li { float:left; }
 
-ul.projects li {
-  float:left;
-  width:50%;
-  font-size:20px;
-  }
-
-form.projects,
 ul.projects a {
   display:block;
+  overflow:hidden;
+  position:relative;
+  padding:9px;
+  margin:0px 10px 10px 0px;
   border:1px solid #eee;
+  max-width:240px;
+
+  font-weight:bold;
+  font-size:16px;
   text-shadow:#eee 0px 1px 0px;
   background:#ddd;
-  overflow:hidden;
   box-shadow:#999 0px 1px 3px;
   -moz-box-shadow:#999 0px 1px 3px;
   -webkit-box-shadow:#999 0px 1px 3px;
@@ -582,34 +613,23 @@ ul.projects a {
   -webkit-border-radius:3px;
   }
 
-ul.projects a { 
-  position:relative;
-  padding:38px 38px 38px 138px;
-  margin:0px 10px 10px 0px;
-  font-weight:bold;
-  }
-
 ul.projects span.thumb {
   display:block;
-  width:120px;
-  height:80px;
+  background-position:50% 50%;
+  background-repeat:no-repeat;
+  width:240px;
+  height:120px;
+  margin:0px 0px 10px;
   overflow:hidden;
   background-color:#ccc;
-  position:absolute;
-  left:9px;
-  top:9px;
-  }
-
-ul.projects span.thumb img {
-  width:128px;
-  height:128px;
-  display:block;
+  box-shadow:inset rgba(0,0,0,.4) 0px 1px 3px;
+  -moz-box-shadow:inset rgba(0,0,0,.4) 0px 1px 3px;
+  -webkit-box-shadow:inset rgba(0,0,0,.4) 0px 1px 3px;
   }
 
 ul.projects span.delete {
-  background-color:#fff;
-  top:5px;
-  right:5px;
+  bottom:10px;
+  right:10px;
   }
 
 ul.projects a:hover {
@@ -617,15 +637,19 @@ ul.projects a:hover {
   background-color:#eee;
   }
 
-form.projects h2 { font-size:16px; }
-form.projects p { margin:0px 0px 10px; }
+form.projects {
+  background:#eee url(../images/sprite.png) 0px -490px repeat-x;
+  height:20px;
+  padding-bottom:9px;
+  border-bottom:1px solid #ccc;
+  }
 
 /**
  * ProjectView layout =========================================================
  */
 .view { background:#f8f8f8; }
 
-#main {
+.main {
   background: #eee;
   position:fixed;
   top:50px;
@@ -634,7 +658,7 @@ form.projects p { margin:0px 0px 10px; }
   bottom:0px;
   }
 
-#sidebar {
+.sidebar {
   position:fixed;
   top:50px;
   left:0px;
@@ -643,12 +667,9 @@ form.projects p { margin:0px 0px 10px; }
   border-right:1px solid #ccc;
   }
 
-.minimal #ProjectView #sidebar { width:100%; }
+.minimal #ProjectView .sidebar { width:100%; }
 .minimal #ProjectView a.save,
-.minimal #ProjectView #main { display:none; }
-
-#ProjectListView #main { left:25%; overflow:auto; }
-#ProjectListView #sidebar { width:25%; border-color:#bbb; }
+.minimal #ProjectView .main { display:none; }
 
 .column h2,
 .popup-header,
@@ -656,6 +677,37 @@ form.projects p { margin:0px 0px 10px; }
 
 .sidebar-header h2 { float:left; margin-right: 8px;}
 .sidebar-header a { float:right; }
+
+/**
+ * ProviderListView ===========================================================
+ */
+#ProviderListView .main {
+  left:25%;
+  overflow:auto;
+  }
+
+#ProviderListView .sidebar {
+  width:25%;
+  border-color:#bbb;
+  }
+
+/**
+ * ProviderListPopupView ======================================================
+ */
+#ProviderListPopupView .main {
+  position:absolute;
+  top:0px;
+  left:25%;
+  overflow:auto;
+  }
+
+#ProviderListPopupView .sidebar {
+  position:absolute;
+  top:0px;
+  width:25%;
+  background:#ccc;
+  border-color:#bbb;
+  }
 
 /**
  * LayerListView ==============================================================
@@ -1000,6 +1052,23 @@ form.projects p { margin:0px 0px 10px; }
 .popup-header h2 { float:left; }
 .popup-header a { float:right; }
 
+.popup.big {
+  top:60px;
+  left:60px;
+  right:60px;
+  bottom:60px;
+  width:auto;
+  margin:0px;
+  }
+
+.popup.big .popup-content {
+  position:absolute;
+  left:0px;
+  right:0px;
+  top:40px;
+  bottom:0px;
+  }
+
 /**
  * DropdownView ===============================================================
  */
@@ -1172,12 +1241,11 @@ table.features .Number { text-align:right; }
 /**
  * Assets =====================================================================
  */
-a#expand-assets {
+ul.form > li a.assets {
   position:absolute;
   right:10px;
   top:10px;
   display:block;
-  background-position:-20px -20px;
   border-radius:0px;
   -moz-border-radius:0px;
   -webkit-border-radius:0px;
@@ -1198,14 +1266,36 @@ div.assets .asset { padding:0px 0px 0px 10px; }
 /**
  * TODO: this will break in IE
  */
+#AssetListView { padding:10px; }
+#AssetListView > div {
+  float:left;
+  width:50%;
+  }
+
 a.asset {
   display:block;
-  cursor:pointer;
+  position:relative;
+  padding:0px 0px 0px 40px;
+  height:40px;
+  line-height:40px;
+  white-space:nowrap;
+  overflow:hidden;
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  }
+
+a.asset .file {
+  position:absolute;
+  left:0px;
+  top:0px;
   }
 
 a.asset:hover {
-  color:#000;
   background:#fff;
+  box-shadow:#ccc 0px 1px 3px;
+  -moz-box-shadow:#ccc 0px 1px 3px;
+  -webkit-box-shadow:#ccc 0px 1px 3px;
   }
   
 a.asset .url { display:none; }
@@ -1213,7 +1303,7 @@ a.asset .url { display:none; }
 a.asset .metadata {
   font-size:9px;
   padding:0px 3px;
-  color:#aaa;
+  color:#666;
   }
 
 /**
@@ -1300,8 +1390,9 @@ form .palette .ui-slider-range {
  * of the window size.
  */
 @media screen and (max-width:800px) {
-  #ProjectListView #main { left:50%; }
-  #ProjectListView #sidebar { width:50%; }
+  #MainView .main { left:50%; }
+  #MainView .sidebar { width:50%; }
+  #AssetListView > div,
   ul.projects li {
     float:none;
     width:auto;

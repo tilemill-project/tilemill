@@ -4,6 +4,7 @@
  * A list of assets for a given collection.
  */
 var AssetListView = Backbone.View.extend({
+    id: 'AssetListView',
     initialize: function () {
         _.bindAll(this, 'render');
         this.collection.fetch({
@@ -13,7 +14,6 @@ var AssetListView = Backbone.View.extend({
     },
     render: function () {
         var self = this;
-        $(self.el).append('<h3>' + this.collection.title + '</h3>')
         if (this.collection.length) {
             this.collection.each(function(model) {
                 var assetRow = new AssetRowView({
@@ -36,25 +36,18 @@ var AssetListView = Backbone.View.extend({
  * A single asset row in a AssetListView.
  */
 var AssetRowView = Backbone.View.extend({
-    tagName: 'a',
-    className: 'asset',
     initialize: function() {
-        _.bindAll(this, 'render', 'setfield');
+        _.bindAll(this, 'render');
         this.render();
     },
     render: function() {
         $(this.el).html(ich.AssetRowView({
             id: this.model.id,
             bytes: this.model.get('bytes'),
-            url: this.model.get('url')
+            url: this.model.get('url'),
+            type: this.model.extension()
         }));
         return this;
-    },
-    events: {
-        'click': 'setfield'
-    },
-    setfield: function() {
-        this.options.target.val(this.model.get('url'));
     }
 });
 

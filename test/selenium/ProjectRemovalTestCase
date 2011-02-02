@@ -23,12 +23,12 @@
 </tr>
 <tr>
 	<td>waitForElementPresent</td>
-	<td>//div[@id='main']/ul/li/a/span[2]</td>
+	<td>//div[@class='main']//ul/li/a/span[2]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>//div[@id='main']/ul/li/a/span[2]</td>
+	<td>//div[@class='main']//ul/li/a/span[2]</td>
 	<td></td>
 </tr>
 <tr>

@@ -145,7 +145,7 @@ var LayerPopupView = PopupView.extend({
     },
     events: _.extend({
         'click input.submit': 'submit',
-        'click a#expand-assets': 'assets',
+        'click a.assets': 'assets',
         'change select#srs-name': 'selectSRS'
     }, PopupView.prototype.events),
     initialize: function(params) {
@@ -197,20 +197,14 @@ var LayerPopupView = PopupView.extend({
         return false;
     },
     assets: function() {
-        if (!this.lists) {
-            this.lists = {};
-            this.lists.directory = new AssetListView({
-                collection: new AssetListDirectory,
-                target: $('input#file', this.el)
-            });
-            $('.assets', this.el).append(this.lists.directory.el);
-            this.lists.s3 = new AssetListView({
-                collection: new AssetListS3,
-                target: $('input#file', this.el)
-            });
-            $('.assets', this.el).append(this.lists.s3.el);
-        }
-        $('.assets', this.el).toggle();
+        (new ProviderList()).fetch({
+            success: function(collection) {
+                new ProviderListPopupView({
+                    collection: collection,
+                    target: $('input#file')
+                });
+            }
+        });
         return false;
     },
     showError: function(model, error) {

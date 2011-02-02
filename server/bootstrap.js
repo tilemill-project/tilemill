@@ -1,9 +1,13 @@
+var fs = require('fs'),
+    path = require('path'),
+    models = require('models-server'),
+    Step = require('step');
+
 /**
  * Bootstrap the application - ensure that directories
  * exist, etc
  */
 module.exports = function(app, settings) {
-    var fs = require('fs');
     try {
         fs.statSync(settings.files);
     } catch (Exception) {
@@ -32,5 +36,23 @@ module.exports = function(app, settings) {
         fs.mkdirSync(settings.export_dir, 0777);
     }
 
+    // Create a default data provider for the local data directory.
+    var data = new models.Provider({
+        id: 'data',
+        name: 'Local data',
+        type: 'directory'
+    });
+    Step(
+        function() {
+            data.fetch({ success: this, error: this });
+        },
+        function() {
+            if (!data.get('directory_path')) {
+                data.save({
+                    'directory_path': path.join(__dirname, '..', 'files', 'data')
+                });
+            }
+        }
+    );
 }
 

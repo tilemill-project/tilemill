@@ -78,9 +78,10 @@ var PopupView = Backbone.View.extend({
     },
     render: function () {
         $(this.el).html(ich.PopupView(this.options));
+        $('.overlay').size() && this.$('.overlay').remove();
         var that = this;
         $('body').keyup(function(e) {
-          if (e.keyCode == 27) { that.close() }   // esc
+            if (e.keyCode == 27) { that.close() } // esc
         });
         window.app.el.append(this.el);
         return this;
@@ -95,9 +96,6 @@ var PopupView = Backbone.View.extend({
     close: function() {
         this.remove();
         window.app.activePopup = false;
-        if ($.isFunction(this.options.after)) {
-            this.options.after(this);
-        }
         return false;
     },
     events: {

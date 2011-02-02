@@ -28,6 +28,7 @@
     <script type='text/javascript' src='js/app.utils.js'></script>
     <script type='text/javascript' src='js/app.tools.js'></script>
     <script type='text/javascript' src='js/app.project.js'></script>
+    <script type='text/javascript' src='js/app.provider.js'></script>
     <script type='text/javascript' src='js/app.export.js'></script>
     <script type='text/javascript' src='js/app.layer.js'></script>
     <script type='text/javascript' src='js/app.stylesheet.js'></script>
@@ -56,6 +57,7 @@
         'js/app.utils.js',
         'js/app.tools.js',
         'js/app.project.js',
+        'js/app.provider.js',
         'js/app.export.js',
         'js/app.layer.js',
         'js/app.stylesheet.js',
@@ -67,26 +69,84 @@
     );
     </script>
     -->
-    <script type='text/html' id='ProjectListView'>
-    <div id='header' class='header clearfix'>
-      <a class='icon reverse settings' href='#'>Settings</a>
-      <h1>TileMill</h1>
-    </div>
-    <div id='content' class='clearfix'>
-      <div id='main'>
-        <ul class='pane projects clearfix'></ul>
+
+    <script type='text/html' id='ProviderListView'>
+      <div id='header' class='header clearfix'>
+        <a class='icon reverse settings' href='#'>Settings</a>
+        <h1>TileMill</h1>
       </div>
-      <div id='sidebar'>
-        <div class='pane'>
-          <form class='projects pane'>
-            <h2>Add a project</h2>
-            <p>Enter the name of your new project.</p>
-            <input class='text' type='text' />
-            <input class='submit' type='submit' value='Add' />
-          </form>
+      <div class='main'>
+      </div>
+      <div class='sidebar'>
+        <ul class='menu fixed'></ul>
+        <ul class='menu providers'></ul>
+        <div class='buttons'>
+          <a class='add button' href='#'><span class='icon reverse add'></span>Add provider</a>
         </div>
       </div>
-    </div>
+    </script>
+
+    <script type='text/html' id='ProviderListPopupView'>
+      <div class='main'>
+      </div>
+      <div class='sidebar'>
+        <ul class='menu providers'></ul>
+      </div>
+    </script>
+
+    <script type='text/html' id='ProviderRowView'>
+      <a class='title' href='#'>
+        <span class='file {{type}}'></span>
+        {{name}}
+      </a>
+      {{^fixed}}<a class='icon edit' href='#'></a>{{/fixed}}
+      {{^fixed}}<a class='icon delete' href='#'></a>{{/fixed}}
+    </script>
+
+    <script type='text/html' id='ProviderPopupView'>
+      <form>
+        <ul class='form'>
+          <li>
+            <label for='type'>Type</label>
+            <select id='type'>
+              <option value='directory' {{#type_directory}}selected='selected'{{/type_directory}}>Local filesystem</option>
+              <option value='s3' {{#type_s3}}selected='selected'{{/type_s3}}>Amazon S3</option>
+            </select>
+          </li>
+          <li>
+            <label for='name'>Name</label>
+            <input type='text' class='text' id='name' value='{{ name }}' />
+          </li>
+          <li class='dependent' field='type' target='directory'>
+            <label for='path'>Path</label>
+            <input type='text' class='text' id='directory_path' value='{{ directory_path }}' />
+          </li>
+          <li class='dependent' field='type' target='s3'>
+            <label for='s3_bucket'>S3 Bucket</label>
+            <input type='text' class='text' id='s3_bucket' value='{{ s3_bucket }}' />
+          </li>
+          <li class='dependent' field='type' target='s3'>
+            <label for='s3_key'>S3 Access Key ID</label>
+            <input type='text' class='text' id='s3_key' value='{{ s3_key }}' />
+          </li>
+          <li class='dependent' field='type' target='s3'>
+            <label for='s3_secret'>S3 Secret</label>
+            <input type='text' class='text' id='s3_secret' value='{{ s3_secret }}' />
+          </li>
+          <li class='buttons'>
+              <input class='submit' type='submit' value='Save' />
+          </li>
+        </ul>
+      </form>
+    </script>
+
+    <script type='text/html' id='ProjectListView'>
+      <form class='pane projects'>
+        <strong>New project</strong>
+        <input class='text' type='text' />
+        <input class='submit' type='submit' value='Add' />
+      </form>
+      <ul class='pane projects clearfix'></ul>
     </script>
 
     <script type='text/html' id='LoadingView'>
@@ -96,24 +156,22 @@
     </script>
 
     <script type='text/html' id='ErrorView'>
-      <div id='header' class='header clearfix'>
+      <div class='header clearfix'>
         <h1>TileMill</h1>
       </div>
-      <div id='content' class='clearfix'>
-          <div class='error-page'>{{ message }}</div>
-      </div>
+      <div class='error-page'>{{ message }}</div>
     </script>
 
     <script type='text/html' id='ProjectRowView'>
       <a href='#project/{{id}}'>
-        <span class='thumb'><img src='{{ thumb }}'/></span>
+        <span class='thumb' style='background-image:url("{{ thumb }}")'></span>
         {{id}}
         <span class='icon delete'>Delete</span>
       </a>
     </script>
 
     <script type='text/html' id='ProjectView'>
-      <div id='header' class='header clearfix'>
+      <div class='header clearfix'>
         <a class='icon reverse settings' href='#'>Settings</a>
         <h1>Editing {{ id }}</h1>
         <div class='actions clearfix'>
@@ -122,8 +180,8 @@
           <a class='tipsy-e icon reverse close' title='Back home' href='#'>Back home</a>
         </div>
       </div>
-      <div id='main'></div>
-      <div id='sidebar'></div>
+      <div class='main'></div>
+      <div class='sidebar'></div>
     </script>
 
     <script type='text/html' id='ProjectPopupView'>
@@ -265,7 +323,7 @@
 
     <script type='text/html' id='PopupView'>
       <div class='overlay'></div>
-      <div class='popup'>
+      <div class='popup {{ size }}'>
         <div class='popup-header clearfix pane'>
           <h2>{{ title }}</h2>
           <a href='#' class='icon reverse close'>Close</a>
@@ -297,7 +355,7 @@
           <li>
             <label for='file'><span class='required' title='This field is required'>*</span> Datasource</label>
             <input type='text' class='text' id='file' value='{{ datasource_file }}' />
-            <a href='#' class='icon reverse expand-assets' id='expand-assets' title='See available assets'>[+]</a>
+            <a href='#' class='icon reverse assets' title='See available assets'>[+]</a>
             <div class='container assets hidden'></div>
           </li>
           <li>
@@ -425,9 +483,12 @@
     </script>
 
     <script type='text/html' id='AssetRowView'>
-      <span class='name'>{{ id }}</span>
-      <span class='metadata'>{{ bytes }}</span>
-      <span class='url'>{{ url }}</span>
+      <a class='asset' href='{{ url }}'>
+        <span class='file {{ type }}'></span>
+        <span class='name'>{{ id }}</span>
+        <span class='metadata'>{{ bytes }}</span>
+        <span class='url'>{{ url }}</span>
+      </a>
     </script>
 
     <script type='text/html' id='ExportListView'>
@@ -538,22 +599,6 @@
               <option value='minimal' {{#minimal_mode}}selected='selected'{{/minimal_mode}}>Minimal</option>
             </select>
             <div class='description'>To edit projects with an external editor use <em>minimal mode</em>.</div>
-          </li>
-          <li>
-            <label for='directory-path'>Data Directory</label>
-            <input type='text' class='text' id='directory-path' value='{{ directory_path }}' />
-          </li>
-          <li>
-            <label for='s3-bucket'>S3 Bucket</label>
-            <input type='text' class='text' id='s3-bucket' value='{{ s3_bucket }}' />
-          </li>
-          <li>
-            <label for='s3-key'>S3 Access Key ID</label>
-            <input type='text' class='text' id='s3-key' value='{{ s3_key }}' />
-          </li>
-          <li>
-            <label for='s3-secret'>S3 Secret</label>
-            <input type='text' class='text' id='s3-secret' value='{{ s3_secret }}' />
           </li>
           <li class='buttons'>
             <input class='submit' type='submit' value='Save' />

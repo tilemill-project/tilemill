@@ -20,20 +20,10 @@ var Abilities = Backbone.Model.extend({ url: 'api/abilities' });
  * Settings model. Stores any user-specific configuration related to the app.
  */
 var Settings = Backbone.Model.extend({
-    /**
-     * Model name used for storage.
-     */
     type: 'settings',
-    /**
-     * Override url() method for convenience so we don't always need a
-     * collection reference around for CRUD operations on a single model.
-     */
     url: function() {
         return 'api/Settings/' + this.id;
     },
-    /**
-     * Validate settings.
-     */
     validate: function(attributes) {
         if (typeof attributes.mode !== 'undefined' && attributes.mode !== 'normal' && attributes.mode !== 'minimal') {
             return 'Invalid editor mode specified.';
@@ -188,16 +178,10 @@ var Project = Backbone.Model.extend({
             type: 'shape'
         }
     }],
-    /**
-     * Model name used for storage.
-     */
     type: 'project',
-    /**
-     * Model default attributes.
-     */
     defaults: {
         '_center': { lat:0, lon:0, zoom:2 },
-		'_format': 'png'
+        '_format': 'png'
     },
     /**
      * Custom setDefaults() method for creating a project with default layers,
@@ -360,10 +344,6 @@ var Project = Backbone.Model.extend({
 var ProjectList = Backbone.Collection.extend({
     model: Project,
     url: 'api/Project',
-    /**
-     * Model name used for storage.
-     */
-    type: 'project',
     comparator: function(project) {
         return project.get('id');
     }
@@ -432,17 +412,74 @@ var Export = Backbone.Model.extend({
 var ExportList = Backbone.Collection.extend({
     model: Export,
     url: 'api/Export',
-    /**
-     * Model name used for storage.
-     */
-    type: 'export',
     comparator: function(job) {
         return job.get('created');
     }
 });
 
+// Asset
+// -----
+// Model for a single external asset, e.g. a shapefile, image, etc.
+var Asset = Backbone.Model.extend({
+    extension: function() {
+        return this.id.split('.').pop();
+    }
+});
+
+// AssetList
+// ---------
+// Collection of assets. Must be given a Provider model at `options.provider`
+// in order to determine its URL endpoint.
+var AssetList = Backbone.Collection.extend({
+    model: Asset,
+    url: function() {
+        return 'api/Provider/' + this.provider.id + '/assets';
+    },
+    comparator: function(model) {
+        return model.id;
+    },
+    initialize: function(options) {
+        this.provider = options.provider;
+    }
+});
+
+// Provider
+// --------
+// Model for asset providers. Asset providers provide a way to browse and
+// reference asset files (shapefiles, images, json, etc.)
+var Provider = Backbone.Model.extend({
+    type: 'provider',
+    url: function() {
+        return 'api/Provider/' + this.id;
+    },
+    defaults: {
+        type: 'local'
+    },
+    // @TODO
+    validate: function() {
+    },
+    initialize: function(options) {
+        this.assets = new AssetList({ provider: this });
+    }
+});
+
+// ProviderList
+// ------------
+// Collection of all providers.
+var ProviderList = Backbone.Collection.extend({
+    model: Provider,
+    url: 'api/Provider',
+    comparator: function(model) {
+        return model.get('name');
+    }
+});
+
 if (typeof module !== 'undefined') {
     module.exports = {
+        Asset: Asset,
+        AssetList: AssetList,
+        Provider: Provider,
+        ProviderList: ProviderList,
         Project: Project,
         ProjectList: ProjectList,
         Export: Export,
@@ -451,40 +488,5 @@ if (typeof module !== 'undefined') {
         Settings: Settings
     };
 }
-
-/**
- * Model: Asset
- *
- * An external asset, e.g. a shapefile, image, etc.
- */
-var Asset = Backbone.Model.extend({});
-
-/**
- * Collection: AssetListS3
- *
- * A list of assets available on an S3 bucket.
- */
-var AssetListS3 = Backbone.Collection.extend({
-    model: Asset,
-    url: '/provider/s3',
-    title: 'Amazon S3',
-    comparator: function(model) {
-        return model.id;
-    }
-});
-
-/**
- * Collection: AssetListDirectory
- *
- * A list of assets available via local directory.
- */
-var AssetListDirectory = Backbone.Collection.extend({
-    model: Asset,
-    url: '/provider/directory',
-    title: 'Local directory',
-    comparator: function(model) {
-        return model.id;
-    }
-});
 
 

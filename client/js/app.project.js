@@ -34,9 +34,7 @@ var ProjectListView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click input.submit': 'add',
-        'click div#header a.info': 'about',
-        'click div#header a.settings': 'settings'
+        'click input.submit': 'add'
     },
     add: function() {
         var id = $('input.text', this.el).val();
@@ -68,10 +66,6 @@ var ProjectListView = Backbone.View.extend({
     showError: function(model, error) {
         window.app.done();
         window.app.message('Error', error);
-    },
-    settings: function() {
-        new SettingsPopupView({ model: window.app.settings });
-        return false;
     }
 });
 
@@ -127,11 +121,11 @@ var ProjectRowView = Backbone.View.extend({
 var ProjectView = Backbone.View.extend({
     id: 'ProjectView',
     events: {
-        'click #header a.save': 'saveProject',
-        'click #header a.settings': 'settings',
-        'click #header a.close': 'close',
+        'click .header a.save': 'saveProject',
+        'click .header a.settings': 'settings',
+        'click .header a.close': 'close',
         'click #tabs a.reference': 'reference',
-        'click div#header a.options': 'projectOptions'
+        'click .header a.options': 'projectOptions'
     },
     initialize: function() {
         _.bindAll(this, 'render', 'saveProject',
@@ -163,11 +157,11 @@ var ProjectView = Backbone.View.extend({
             project: this.model,
             map: this.views.map
         });
-        this.$('#sidebar').append(this.views.map.el);
-        this.$('#sidebar').append(this.views.layers.el);
-        this.$('#sidebar').append(this.views.tools.el);
-        this.$('#main').append(this.views.stylesheets.el);
-        this.$('#header .actions a.save').after(this.views.exportDropdown.el);
+        this.$('.sidebar').append(this.views.map.el);
+        this.$('.sidebar').append(this.views.layers.el);
+        this.$('.sidebar').append(this.views.tools.el);
+        this.$('.main').append(this.views.stylesheets.el);
+        this.$('.header .actions a.save').after(this.views.exportDropdown.el);
         this.setMinimal(); // set minimal/normal mode
         return this;
     },
@@ -186,7 +180,7 @@ var ProjectView = Backbone.View.extend({
         this.model.save(this.model, {
             success: function() {
                 that.model.trigger('save');
-                $('#header a.save', self.el).removeClass('changed').addClass('disabled').html('Saved');
+                $('.header a.save', self.el).removeClass('changed').addClass('disabled').html('Saved');
             },
             error: function(err, data) {
                 if (typeof data === 'string') {
@@ -222,7 +216,7 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     close: function() {
-        if (!$('#header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
+        if (!$('.header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
             this.watcher && this.watcher.destroy();
             return true;
         }
@@ -252,7 +246,7 @@ var ProjectView = Backbone.View.extend({
         return false;
     },
     changed: function() {
-        $('#header a.save', this.el).removeClass('disabled').addClass('changed').html('Save');
+        $('.header a.save', this.el).removeClass('disabled').addClass('changed').html('Save');
     },
     settings: function() {
         new SettingsPopupView({ model: window.app.settings });

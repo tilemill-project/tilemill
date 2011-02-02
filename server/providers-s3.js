@@ -55,40 +55,35 @@ function formatbyte(n) {
     return (Math.ceil(parseInt(n) / 1048576)) + ' MB';
 }
 
-module.exports = function(app, settings) {
-  return {
-    name: 'Amazon S3',
-    settings: settings,
-    objects: function(callback) {
-      var client = knox.createClient({
-        bucket: settings.get('s3_bucket'),
-        key: settings.get('s3_key'),
-        secret: settings.get('s3_secret')
-      });
-      var keys = [];
-      listbucket(client, '', 1000, function(objects, more) {
+module.exports = function(app, options, callback) {
+    console.log(options);
+    var client = knox.createClient({
+        bucket: options.s3_bucket,
+        key: options.s3_key,
+        secret: options.s3_secret
+    });
+    var keys = [];
+    listbucket(client, '', 1000, function(objects, more) {
         // TODO: don't list directories
         // TODO: only list public files
         keys = keys.concat(objects);
         if (!more) {
-          callback(_.map(_.filter(keys,
-            function(object) {
-              return (object.Size.text !== '0') &&
-                (object.Key.text.match(/(.zip|.geojson|.tiff?|.geotiff|.vrt|.kml)/i));
-            }), function(object) {
-            return {
-              url: url.format({
-                host: client.bucket + '.s3.amazonaws.com',
-                protocol: 'http:',
-                pathname: object.Key.text
-              }),
-              bytes: formatbyte(object.Size.text),
-              id: path.basename(object.Key.text)
-            };
-            })
-          );
+            callback(_.map(_.filter(keys,
+                function(object) {
+                    return (object.Size.text !== '0') &&
+                        (object.Key.text.match(/(.zip|.geojson|.tiff?|.geotiff|.vrt|.kml)/i));
+                    }), function(object) {
+                    return {
+                        url: url.format({
+                            host: client.bucket + '.s3.amazonaws.com',
+                            protocol: 'http:',
+                            pathname: object.Key.text
+                        }),
+                        bytes: formatbyte(object.Size.text),
+                        id: path.basename(object.Key.text)
+                    };
+                })
+            );
         }
-      });
-    }
-  }
+    });
 };
