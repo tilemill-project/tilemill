@@ -2,6 +2,7 @@ var _ = require('underscore'),
     fs = require('fs'),
     url = require('url'),
     path = require('path'),
+    querystring = require('querystring'),
     Step = require('step');
 
 // Directory (Library plugin)
@@ -73,8 +74,8 @@ module.exports = function(app, options, callback) {
                     pathname: path.join(
                         '/api/Library/'
                         + options.id
-                        + '/files'
-                        + f.filename.replace(base_dir, '')
+                        + '/files/'
+                        + querystring.escape(f.filename.replace(base_dir + '/', ''))
                     )
                 }),
                 bytes: (Math.ceil(parseInt(f.stat.size) / 1048576)) + ' MB',
