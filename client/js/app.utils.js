@@ -223,23 +223,13 @@ var SettingsPopupView = PopupView.extend({
         this.model = this.options.model;
         this.options.title = 'TileMill settings';
         this.options.content = ich.SettingsPopupView({
-            'minimal_mode': (this.model.get('mode') === 'minimal'),
-            'directory_path': this.model.get('directory_path'),
-            's3_bucket': this.model.get('s3_bucket'),
-            's3_key': this.model.get('s3_key'),
-            's3_secret': this.model.get('s3_secret')
+            'minimal_mode': (this.model.get('mode') === 'minimal')
         }, true);
         this.render();
     },
     submit: function() {
         var success = this.model.set(
-            {
-                'mode': $('select#mode', this.el).val(),
-                'directory_path': $('input#directory-path', this.el).val(),
-                's3_bucket': $('input#s3-bucket', this.el).val(),
-                's3_key': $('input#s3-key', this.el).val(),
-                's3_secret': $('input#s3-secret', this.el).val()
-            },
+            { 'mode': $('select#mode', this.el).val() },
             { 'error': this.showError }
         );
         if (success) {
