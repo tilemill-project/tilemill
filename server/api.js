@@ -132,13 +132,17 @@ module.exports = function(app, settings) {
     // GET endpoint for provider assets. Loads the provider model and uses its
     // `type` to determine which provider plugin should be used for generating
     // the list of assets.
-    app.get('/api/Provider/:id/assets', function(req, res) {
+    app.get('/api/Provider/:id/assets/:page?', function(req, res) {
         var model = models.cache.get('Provider', req.param('id'));
         model.fetch({
             success: function(model, resp) {
+                var options = _.extend({
+                    page: req.param('page') || 0,
+                    limit: 100, // @TODO
+                }, model.toJSON());
                 require('providers-' + model.get('type'))(
                     app,
-                    model.toJSON(),
+                    options,
                     function(assets) {
                         res.send(assets);
                     }

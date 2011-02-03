@@ -139,7 +139,7 @@
     </script>
 
     <script type='text/html' id='ProjectListView'>
-      <form class='pane projects'>
+      <form class='toolbar clearfix'>
         <strong>New project</strong>
         <input class='text' type='text' />
         <input class='submit' type='submit' value='Add' />
@@ -478,6 +478,22 @@
           {{/default_meaning}}
         </td>
       </tr>
+    </script>
+
+    <script type='text/html' id='AssetListView'>
+      {{#hasPager}}
+      <form class='toolbar clearfix'>
+        <div class='pager clearfix'>
+          {{#hasPrev}}
+          <a href='#' class='button prev'><span class='icon reverse prev'></span> Prev</a>
+          {{/hasPrev}}
+          {{#hasNext}}
+          <a href='#' class='button next'><span class='icon reverse next right'></span> Next</a>
+          {{/hasNext}}
+        </div>
+      </form>
+      {{/hasPager}}
+      <ul class='assets clearfix'></ul>
     </script>
 
     <script type='text/html' id='AssetRowView'>

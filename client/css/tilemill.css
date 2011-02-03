@@ -246,6 +246,26 @@ h3 { font-size:13px; }
   }
 
 /**
+ * Toolbar ====================================================================
+ */
+.toolbar {
+  background:#eee url(../images/sprite.png) 0px -490px repeat-x;
+  height:20px;
+  padding:10px 10px 9px;
+  border-bottom:1px solid #ccc;
+  }
+
+.toolbar .pager { float:right; }
+
+/**
+ * Pager ======================================================================
+ */
+.pager a {
+  float:left;
+  margin-right:1px;
+  }
+
+/**
  * Icons ======================================================================
  */
 .file,
@@ -274,13 +294,21 @@ li .icon {
   right:5px;
   }
 
-a.button .icon {
-  float:left;
-  margin-left:-10px;
-  }
-
 a:hover .icon,
 li:hover .icon { display:block; }
+
+a.button .icon,
+a.button:hover .icon {
+  background-color:transparent;
+  float:left;
+  margin:0px 0px 0px -10px;
+  }
+
+a.button .icon.right,
+a.button:hover .icon.right {
+  float:right;
+  margin:0px -10px 0px 0px;
+  }
 
 .icon.edit           { background-position:0px 0px; }
 .icon.inspect        { background-position:-20px 0px; }
@@ -373,7 +401,10 @@ input.submit {
 
 a.button { display:inline-block; }
 
+a.button:hover,
 input.submit:hover { background-color:#666; }
+
+a.button:active,
 input.submit:active { background-color:#444; }
 
 form { position:relative; }
@@ -635,13 +666,6 @@ ul.projects span.delete {
 ul.projects a:hover {
   border-color:#fff;
   background-color:#eee;
-  }
-
-form.projects {
-  background:#eee url(../images/sprite.png) 0px -490px repeat-x;
-  height:20px;
-  padding-bottom:9px;
-  border-bottom:1px solid #ccc;
   }
 
 /**
@@ -1251,23 +1275,9 @@ ul.form > li a.assets {
   -webkit-border-radius:0px;
   }
 
-div.assets {
-  padding:9px;
-  margin-top: 5px;
-  height:200px;
-  background-color:#eee;
-  overflow-y:auto;
-  border: 1px solid #ccc;
-  }
+ul.assets { padding:10px; }
 
-div.assets .empty,
-div.assets .asset { padding:0px 0px 0px 10px; }
-
-/**
- * TODO: this will break in IE
- */
-#AssetListView { padding:10px; }
-#AssetListView > div {
+ul.assets li {
   float:left;
   width:50%;
   }
@@ -1392,7 +1402,7 @@ form .palette .ui-slider-range {
 @media screen and (max-width:800px) {
   #MainView .main { left:50%; }
   #MainView .sidebar { width:50%; }
-  #AssetListView > div,
+  ul.assets li,
   ul.projects li {
     float:none;
     width:auto;

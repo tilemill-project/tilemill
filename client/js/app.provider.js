@@ -156,7 +156,7 @@ var ProviderRowView = Backbone.View.extend({
                 }
             });
         } else {
-            new AssetList({ provider: this.model }).fetch({
+            this.model.assets.fetch({
                 success: function(collection) {
                     var view = new AssetListView({ collection: collection });
                     that.list.done();

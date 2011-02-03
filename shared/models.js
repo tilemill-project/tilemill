@@ -393,13 +393,83 @@ var Asset = Backbone.Model.extend({
 var AssetList = Backbone.Collection.extend({
     model: Asset,
     url: function() {
-        return 'api/Provider/' + this.provider.id + '/assets';
-    },
-    comparator: function(model) {
-        return model.id;
+        return 'api/Provider/' + this.provider.id + '/assets/' + this.page;
     },
     initialize: function(options) {
+        this.page = 0;
+        this.pageTotal = 1;
         this.provider = options.provider;
+    },
+    parse: function(response) {
+        if (_.isArray(response)) {
+            return response;
+        } else {
+            this.page = response.page;
+            this.pageTotal = response.pageTotal;
+            return response.models;
+        }
+    },
+    hasNext: function() {
+        return this.page < (this.pageTotal - 1);
+    },
+    hasPrev: function() {
+        return this.page > 0;
+    },
+    nextPage: function(options) {
+        if (!this.hasNext()) return;
+        this.page++;
+        this.fetch(options);
+    },
+    prevPage: function(options) {
+        if (!this.hasPrev()) return;
+        this.page--;
+        this.fetch(options);
+    }
+});
+
+// AssetListS3
+// -----------
+// Collection. Override of AssetList for S3 provider. S3 uses a marker key
+// system for pagination instead of a page # system.
+var AssetListS3 = AssetList.extend({
+    url: function() {
+        var url = 'api/Provider/' + this.provider.id + '/assets';
+        if (this.marker()) {
+            url += '/' + Base64.urlsafe_encode(this.marker());
+        }
+        return url;
+    },
+    initialize: function(options) {
+        this.markers = [];
+        this.provider = options.provider;
+    },
+    marker: function() {
+        if (this.markers.length) {
+            return this.markers[this.markers.length - 1];
+        }
+        return false;
+    },
+    parse: function(response) {
+        if (this.marker() != response.marker) {
+            this.markers.push(response.marker);
+        }
+        return response.models;
+    },
+    hasNext: function() {
+        return this.marker();
+    },
+    hasPrev: function() {
+        return this.markers.length > 1;
+    },
+    nextPage: function(options) {
+        if (!this.hasNext()) return;
+        this.fetch(options);
+    },
+    prevPage: function(options) {
+        if (!this.hasPrev()) return;
+        this.markers.pop();
+        this.markers.pop();
+        this.fetch(options);
     }
 });
 
@@ -419,7 +489,14 @@ var Provider = Backbone.Model.extend({
     validate: function() {
     },
     initialize: function(options) {
-        this.assets = new AssetList({ provider: this });
+        switch (this.get('type')) {
+        case 's3':
+            this.assets = new AssetListS3({ provider: this });
+            break;
+        default:
+            this.assets = new AssetList({ provider: this });
+            break;
+        }
     }
 });
 

@@ -58,10 +58,29 @@ module.exports = function(app, options, callback) {
         });
     };
 
-    callback(toObjects(
-        lsFilter(lsR(options.directory_path), /(.zip|.json|.geojson|.shp|.vrt|.tiff?)/i),
+    var paginate = function(objects, page, limit) {
+        return _.sortBy(objects, function(f) {
+            return f.id;
+        }).slice(page * limit, page * limit + limit);
+    };
+
+    var objects = toObjects(
+        lsFilter(
+            lsR(options.directory_path),
+            /(.zip|.json|.geojson|.shp|.vrt|.tiff?)/i
+        ),
         options.directory_path,
         require('settings').port
-    ));
+    );
+
+    callback({
+        models: paginate(
+            objects,
+            options.page,
+            options.limit
+        ),
+        page: options.page,
+        pageTotal: Math.ceil(objects.length / options.limit)
+    });
 };
 
