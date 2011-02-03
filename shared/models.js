@@ -390,6 +390,15 @@ var Asset = Backbone.Model.extend({
 // ---------
 // Collection. List of all assets for a given Library. Must be given a
 // Library model at `options.library` in order to determine its URL endpoint.
+// The REST endpoint for a LibraryList collection must return an array of asset
+// models, or may optionally return a more complex object suited for handling
+// pagination:
+//
+//      {
+//          page: 0,        // The current page number
+//          pageTotal: 10,  // The total number of pages
+//          models: []      // An array of asset models
+//      }
 var AssetList = Backbone.Collection.extend({
     model: Asset,
     url: function() {

@@ -4,7 +4,14 @@ var _ = require('underscore'),
     path = require('path'),
     Step = require('step');
 
+// Directory (Library plugin)
+// --------------------------
+// Plugin for using a local directory as a Library. Generates the payload for
+// an AssetList REST endpoint consisting of asset models as well as pagination
+// helpers.
 module.exports = function(app, options, callback) {
+    // Recursive readdir. `callback(err, files)` is given a `files` array where
+    // each file is an object with `filename` and `stat` properties.
     var lsR = function(basedir, callback) {
         var files = [];
         var ls = [];
@@ -32,7 +39,10 @@ module.exports = function(app, options, callback) {
                     if (stats[k].isDirectory()) {
                         lsR(v, next);
                     } else {
-                        files.push([v, stats[k]]);
+                        files.push({
+                            filename: v,
+                            stat: stats[k]
+                        });
                         next();
                     }
                 });
@@ -46,12 +56,14 @@ module.exports = function(app, options, callback) {
         );
     }
 
+    // Filter an array of files where filenames match regex `re`.
     var lsFilter = function(files, re) {
         return _.filter(files, function(f) {
-            return f[0].match(re);
+            return f.filename.match(re);
         });
     };
 
+    // Convert a list of files into asset models.
     var toAssets = function(files, base_dir, port) {
         return _.map(files, function(f) {
             return {
@@ -62,21 +74,23 @@ module.exports = function(app, options, callback) {
                         '/api/Library/'
                         + options.id
                         + '/files'
-                        + f[0].replace(base_dir, '')
+                        + f.filename.replace(base_dir, '')
                     )
                 }),
-                bytes: (Math.ceil(parseInt(f[1].size) / 1048576)) + ' MB',
-                id: path.basename(f[0])
+                bytes: (Math.ceil(parseInt(f.stat.size) / 1048576)) + ' MB',
+                id: path.basename(f.filename)
             };
         });
     };
 
+    // Sort and slice to the specified page.
     var paginate = function(objects, page, limit) {
         return _.sortBy(objects, function(f) {
             return f.id;
         }).slice(page * limit, page * limit + limit);
     };
 
+    // Generate the AssetList payload object.
     lsR(options.directory_path, function(err, files) {
         var assets = toAssets(
             lsFilter(files, /(.zip|.json|.geojson|.shp|.vrt|.tiff?)/i),
