@@ -16,6 +16,7 @@ var AssetListView = Backbone.View.extend({
     },
     render: function () {
         $(this.el).html(ich.AssetListView({
+            name: this.model.get('name'),
             hasNext: this.collection.hasNext(),
             hasPrev: this.collection.hasPrev()
         }));

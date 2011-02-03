@@ -27,7 +27,13 @@ var LibraryListView = Backbone.View.extend({
                 list: this,
                 fixed: true
             });
+            this.exports = new LibraryRowView({
+                model: new Library({ name: 'Exports', type: 'exports' }),
+                list: this,
+                fixed: true
+            });
             this.$('ul.fixed').append(this.projects.el);
+            this.$('ul.fixed').append(this.exports.el);
         }
 
         // Add a row view for each Library.
@@ -143,27 +149,35 @@ var LibraryRowView = Backbone.View.extend({
         return this;
     },
     show: function() {
-        var that = this;
+        var that = this,
+            List,
+            ListView;
+
         that.list.loading('Loading assets');
         that.list.$('ul.menu a.active').removeClass('active');
         that.$('a').addClass('active');
+
         if (this.model.get('type') === 'projects') {
-            new ProjectList().fetch({
-                success: function(collection) {
-                    var view = new ProjectListView({ collection: collection });
-                    that.list.done();
-                    that.list.$('.main').html(view.el);
-                }
-            });
+            List = new ProjectList();
+            ListView = ProjectListView;
+        } else if (this.model.get('type') === 'exports') {
+            List = new ExportList();
+            ListView = ExportListView;
         } else {
-            this.model.assets.fetch({
-                success: function(collection) {
-                    var view = new AssetListView({ collection: collection });
-                    that.list.done();
-                    that.list.$('.main').html(view.el);
-                }
-            });
+            List = this.model.assets;
+            ListView = AssetListView;
         }
+
+        List.fetch({
+            success: function(collection) {
+                var view = new ListView({
+                    model: that.model,
+                    collection: collection
+                });
+                that.list.done();
+                that.list.$('.main').html(view.el);
+            }
+        });
         return false;
     },
     del: function() {

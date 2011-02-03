@@ -1,13 +1,33 @@
 /**
  * View: ExportListView
+ */
+var ExportListView = Backbone.View.extend({
+    initialize: function() {
+        _.bindAll(this, 'render');
+        this.render();
+    },
+    render: function() {
+        !this.$('.exports').size() && $(this.el).html(ich.ExportListView({}, true));
+        var that = this;
+        that.collection.each(function(xport) {
+            if (!xport.view) {
+                xport.view = new ExportRowView({ model: xport });
+                that.$('.exports').append(xport.view.el);
+            }
+        });
+    }
+});
+
+/**
+ * View: ExportDrawerView
  *
  * Shows a list of current exports from an ExportList collection in a
  * sidebar drawer.
  */
-var ExportListView = DrawerView.extend({
+var ExportDrawerView = DrawerView.extend({
     initialize: function() {
         this.options.title = 'Exports';
-        this.options.content = ich.ExportListView({}, true);
+        this.options.content = ich.ExportDrawerView({}, true);
         this.bind('render', this.renderExports);
         window.app.controller.saveLocation('project/' + this.options.project.id + '/export');
         DrawerView.prototype.initialize.call(this);
@@ -34,7 +54,7 @@ var ExportListView = DrawerView.extend({
 /**
  * View: ExportRowView
  *
- * A single job row in an ExportListView.
+ * A single job row in an ExportDrawerView.
  */
 var ExportRowView = Backbone.View.extend({
     tagName: 'li',
@@ -191,7 +211,7 @@ var ExportView = Backbone.View.extend({
         this.options.collection.add(this.model);
         this.model.save();
         this.close();
-        new ExportListView({
+        new ExportDrawerView({
             collection: new ExportList(),
             project: this.options.project
         });
@@ -399,7 +419,7 @@ var ExportDropdownView = DropdownView.extend({
         return false;
     },
     exportList: function(event) {
-        new ExportListView({
+        new ExportDrawerView({
             project: this.project,
             collection: new ExportList()
         });

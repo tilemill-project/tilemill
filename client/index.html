@@ -482,6 +482,7 @@
           <a href='#' class='button prev {{^hasPrev}}disabled{{/hasPrev}}'><span class='icon reverse prev'></span> Prev</a>
           <a href='#' class='button next {{^hasNext}}disabled{{/hasNext}}'><span class='icon reverse next right'></span> Next</a>
         </div>
+        <h3>{{name}}</h3>
       </form>
       <ul class='assets clearfix'></ul>
     </script>
@@ -496,6 +497,13 @@
     </script>
 
     <script type='text/html' id='ExportListView'>
+      <form class='toolbar clearfix'>
+        <h3>Exports</h3>
+      </form>
+      <ul class='items exports clearfix'></ul>
+    </script>
+
+    <script type='text/html' id='ExportDrawerView'>
       <ul class='items exports clearfix'></ul>
     </script>
 

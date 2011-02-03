@@ -368,6 +368,7 @@ a.button:hover .icon.right {
 .file.projects { background-position:0px -140px; }
 .file.directory { background-position:-40px -140px; }
 .file.s3 { background-position:-80px -140px; }
+.file.exports { background-position:-120px -140px; }
 
 /**
  * Form elements ==============================================================
@@ -550,7 +551,7 @@ form .palette div { padding:5px 0px; }
 .palette .bbox-frame #bbox-s { bottom:-10px; left:50%; margin-left:-20px; }
 
 /**
- * ExportListView =============================================================
+ * ExportDrawerView ===========================================================
  */
 .exports li {
   min-height:40px;
