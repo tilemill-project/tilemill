@@ -1,41 +1,50 @@
-var express = require('express'),
+var _ = require('underscore'),
     fs = require('fs'),
     url = require('url'),
-    _ = require('underscore')._,
-    path = require('path');
+    path = require('path'),
+    Step = require('step');
 
 module.exports = function(app, options, callback) {
-    // TODO: now requires absolute paths; change?
-    app.get('/provider/directory/file*', function(req, res) {
-        // TODO: make path secure!
-        res.sendfile(path.join(options.directory_path, req.params[0]),
-            function(err, path) {
-                if (err) {
-                    res.send({
-                        status: false
-                    });
-                }
-        });
-    });
+    var lsR = function(basedir, callback) {
+        var files = [];
+        var ls = [];
+        Step(
+            function() {
+                fs.readdir(basedir, this);
+            },
+            function(err, data) {
+                if (data.length === 0) return this();
 
-    function formatbyte(n) {
-        return (Math.ceil(parseInt(n) / 1048576)) + ' MB';
-    }
+                var group = this.group();
+                ls = _.map(data, function(v) {
+                    return path.join(basedir, v);
+                });
+                _.each(ls, function(v) {
+                    fs.stat(v, group());
+                });
+            },
+            function(err, stats) {
+                if (ls.length === 0) return this();
 
-    var lsR = function(base_dir) {
-        return _.reduce(fs.readdirSync(base_dir), function(memo, item) {
-            var p = path.join(base_dir, item);
-            var stat = fs.statSync(p);
-            if (stat.isDirectory()) {
-                var l = lsR(p);
-                memo = memo.concat(l);
-            } else {
-                memo.push([p, stat]);
+                var group = this.group();
+                _.each(ls, function(v, k) {
+                    var next = group();
+                    if (stats[k].isDirectory()) {
+                        lsR(v, next);
+                    } else {
+                        files.push([v, stats[k]]);
+                        next();
+                    }
+                });
+            },
+            function(err, sub) {
+                _.each(sub, function(v) {
+                    v && (files = files.concat(v));
+                });
+                callback(err, files);
             }
-            return memo;
-        }, []);
-        return result;
-    };
+        );
+    }
 
     var lsFilter = function(files, re) {
         return _.filter(files, function(f) {
@@ -43,16 +52,20 @@ module.exports = function(app, options, callback) {
         });
     };
 
-    var toObjects = function(files, base_dir, port) {
+    var toAssets = function(files, base_dir, port) {
         return _.map(files, function(f) {
             return {
                 url: url.format({
                     host: 'localhost:' + port,
                     protocol: 'http:',
-                    pathname: path.join('/provider/directory/file/',
-                        f[0].replace(base_dir, ''))
+                    pathname: path.join(
+                        '/api/Provider/'
+                        + options.id
+                        + '/files'
+                        + f[0].replace(base_dir, '')
+                    )
                 }),
-                bytes: formatbyte(f[1].size),
+                bytes: (Math.ceil(parseInt(f[1].size) / 1048576)) + ' MB',
                 id: path.basename(f[0])
             };
         });
@@ -64,23 +77,21 @@ module.exports = function(app, options, callback) {
         }).slice(page * limit, page * limit + limit);
     };
 
-    var objects = toObjects(
-        lsFilter(
-            lsR(options.directory_path),
-            /(.zip|.json|.geojson|.shp|.vrt|.tiff?)/i
-        ),
-        options.directory_path,
-        require('settings').port
-    );
-
-    callback({
-        models: paginate(
-            objects,
-            options.page,
-            options.limit
-        ),
-        page: options.page,
-        pageTotal: Math.ceil(objects.length / options.limit)
+    lsR(options.directory_path, function(err, files) {
+        var assets = toAssets(
+            lsFilter(files, /(.zip|.json|.geojson|.shp|.vrt|.tiff?)/i),
+            options.directory_path,
+            require('settings').port
+        );
+        callback({
+            models: paginate(
+                assets,
+                options.page,
+                options.limit
+            ),
+            page: options.page,
+            pageTotal: Math.ceil(assets.length / options.limit)
+        });
     });
 };
 

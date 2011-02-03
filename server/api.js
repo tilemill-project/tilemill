@@ -154,6 +154,31 @@ module.exports = function(app, settings) {
         });
     });
 
+    // GET file for Directory Provider
+    // -------------------------------
+    // GET endpoint for file downloads for the Directory provider. See
+    // `provider-directory.js`.
+    app.get('/api/Provider/:id/files/*', function(req, res, next) {
+        var path = require('path');
+        var model = models.cache.get('Provider', req.param('id'));
+        model.fetch({
+            success: function(model, resp) {
+                if (model.get('type') === 'directory') {
+                    // @TODO: make path secure!
+                    res.sendfile(
+                        path.join(model.get('directory_path'), req.params[0]),
+                        function(err, path) {
+                            return err && next(err);
+                        }
+                    );
+                }
+            },
+            error: function(model, resp) {
+                next(new Error('File not found'));
+            }
+        });
+    });
+
     // GET Collection (all)
     // --------------------
     // GET endpoint for all Backbone collections. The model class is specified
