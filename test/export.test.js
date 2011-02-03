@@ -1,4 +1,11 @@
 require.paths.unshift(__dirname + '/../lib/node', __dirname + '/../');
+
+var settings = require('settings');
+settings.files = __dirname + '/files';
+settings.mapfile_dir = __dirname + '/files/.cache';
+settings.data_dir = __dirname + '/files/.cache';
+settings.export_dir = __dirname + '/files/export';
+
 var assert = require('assert');
 var fs = require('fs');
 var _ = require('underscore')._;

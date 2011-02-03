@@ -1,6 +1,5 @@
 var fs = require('fs'),
     path = require('path'),
-    models = require('models-server'),
     Step = require('step');
 
 // Bootstrap
@@ -36,6 +35,7 @@ module.exports = function(app, settings) {
     }
 
     // Create a default library for the local data directory.
+    var models = require('models-server');
     var data = new models.Library({
         id: 'data',
         name: 'Local data',

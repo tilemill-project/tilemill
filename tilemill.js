@@ -14,10 +14,11 @@ app.use(express.bodyDecoder());
 app.use(express.staticProvider('client'));
 app.use(express.staticProvider('shared'));
 
+// Bootstrap must be required first and is *blocking* while it does its setup.
+require('bootstrap')(app, settings);
 require('api')(app, settings);
 require('tiles')(app, settings);
 require('export')(app, settings);
-require('bootstrap')(app, settings);
 
 app.error(function(err, req, res){
     res.send(err, 500);
