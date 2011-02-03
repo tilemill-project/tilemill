@@ -337,6 +337,7 @@ a.button:hover .icon.right {
 .icon.geometry-linestring { background-position:-200px 0px; }
 .icon.geometry-point      { background-position:-220px 0px; }
 .icon.geometry-polygon    { background-position:-240px 0px; }
+.icon.geometry-raster     { background-position:-360px 0px; }
 
 .reverse { background-color:#888; }
 .reverse:hover { background-color:#666; }
@@ -360,6 +361,8 @@ a.button:hover .icon.right {
 .reverse.geometry-linestring { background-position:-200px -20px; }
 .reverse.geometry-point      { background-position:-220px -20px; }
 .reverse.geometry-polygon    { background-position:-240px -20px; }
+.reverse.geometry-raster     { background-position:-360px -20px; }
+
 
 .file.png { background-position:0px -180px; }
 .file.pdf { background-position:-40px -180px; }

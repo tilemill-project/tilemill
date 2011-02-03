@@ -211,9 +211,11 @@
     <script type='text/html' id='LayerRowView'>
       <div class='handle'></div>
       <a title='{{geometry}}' class='icon geometry geometry-{{geometry}}'></a>
-      <a title='Delete layer' class='icon delete' href='#'>Delete</a>
+      {{^geometry_raster}}
       <a title='Inspect layer values' class='icon inspect' href='#'>Inspect</a>
+      {{/geometry_raster}}
       <a title='Edit layer' class='icon edit' href='#'>Edit</a>
+      <a title='Delete layer' class='icon delete' href='#'>Delete</a>
       <label>{{ name }}</label>
     </script>
 

@@ -88,7 +88,8 @@ var LayerRowView = Backbone.View.extend({
         }
         $(this.el).html(ich.LayerRowView({
             name: name.join('.'),
-            geometry: this.model.get('geometry')
+            geometry: this.model.get('geometry'),
+            geometry_raster: this.model.get('geometry') === 'raster'
         }));
         return this;
     },
@@ -178,12 +179,15 @@ var LayerPopupView = PopupView.extend({
                     {
                         'id': $('input#id', that.el).val(),
                         'name': $('input#id', that.el).val(),
-                        'srs': $('input#srs', that.el).val(),
+                        'srs': (datasource.get('ds_type') === 'gdal')
+                            ? that.SRS['900913']
+                            : $('input#srs', that.el).val(),
                         'class': $('input#class', that.el).val(),
                         'geometry': datasource.get('geometry_type'),
-                        'Datasource': _.extend({
-                            'file': $('input#file', that.el).val()
-                        }, datasource.get('ds_options'))
+                        'Datasource': _.extend(
+                            { 'file': $('input#file', that.el).val() },
+                            datasource.get('ds_options')
+                        )
                     },
                     { 'error': that.showError }
                 );

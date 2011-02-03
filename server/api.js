@@ -30,10 +30,11 @@ module.exports = function(app, settings) {
                 } catch (e) {
                     return next('The datasource could not be loaded.');
                 }
-                if (external.type.ds_options !== 'gdal') {
+                if (external.type.ds_options.type !== 'gdal') {
                     res.datasource = _.extend({
-                        fields: {},
                         ds_options: external.type.ds_options,
+                        ds_type: external.type.ds_options.type,
+                        fields: {},
                         features: ds.features()
                     }, ds.describe());
                     for (var fieldId in res.datasource.fields) {
@@ -61,12 +62,10 @@ module.exports = function(app, settings) {
                 } else {
                     res.datasource = {
                         ds_options: external.type.ds_options,
-                        fields: {
-                            none: 'String'
-                        },
-                        features: [
-                            { none: 'Rasters do not contain fields.' }
-                        ]
+                        ds_type: external.type.ds_options.type,
+                        geometry_type: 'raster',
+                        fields: {},
+                        features: []
                     };
                 }
                 next();
