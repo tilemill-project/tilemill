@@ -481,18 +481,12 @@
     </script>
 
     <script type='text/html' id='AssetListView'>
-      {{#hasPager}}
       <form class='toolbar clearfix'>
         <div class='pager clearfix'>
-          {{#hasPrev}}
-          <a href='#' class='button prev'><span class='icon reverse prev'></span> Prev</a>
-          {{/hasPrev}}
-          {{#hasNext}}
-          <a href='#' class='button next'><span class='icon reverse next right'></span> Next</a>
-          {{/hasNext}}
+          <a href='#' class='button prev {{^hasPrev}}disabled{{/hasPrev}}'><span class='icon reverse prev'></span> Prev</a>
+          <a href='#' class='button next {{^hasNext}}disabled{{/hasNext}}'><span class='icon reverse next right'></span> Next</a>
         </div>
       </form>
-      {{/hasPager}}
       <ul class='assets clearfix'></ul>
     </script>
 

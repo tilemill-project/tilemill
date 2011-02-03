@@ -16,7 +16,6 @@ var AssetListView = Backbone.View.extend({
     },
     render: function () {
         $(this.el).html(ich.AssetListView({
-            hasPager: this.collection.hasNext() || this.collection.hasPrev(),
             hasNext: this.collection.hasNext(),
             hasPrev: this.collection.hasPrev()
         }));
@@ -35,7 +34,8 @@ var AssetListView = Backbone.View.extend({
         }
         return this;
     },
-    next: function() {
+    next: function(ev) {
+        if ($(ev.currentTarget).is('.disabled')) return false;
         var that = this;
         this.loading('Loading assets');
         this.collection.nextPage({
@@ -44,7 +44,8 @@ var AssetListView = Backbone.View.extend({
         });
         return false;
     },
-    prev: function() {
+    prev: function(ev) {
+        if ($(ev.currentTarget).is('.disabled')) return false;
         var that = this;
         this.loading('Loading assets');
         this.collection.prevPage({

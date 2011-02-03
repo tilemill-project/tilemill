@@ -265,6 +265,13 @@ h3 { font-size:13px; }
   margin-right:1px;
   }
 
+.pager a.disabled,
+.pager a.disabled:hover,
+.pager a.disabled:active {
+  background-color:#ccc;
+  text-shadow:#999 0px 1px;
+  }
+
 /**
  * Icons ======================================================================
  */
