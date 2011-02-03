@@ -15,8 +15,8 @@ module.exports = function(app, settings) {
         var url = req.param('id').replace('+', '-').replace('/', '_');
         url = (new Buffer(url, 'base64')).toString('utf-8');
         var external = new External(settings, url);
-        external.on('err', function(external) {
-            return next('Datasource could not be loaded.');
+        external.on('err', function(err) {
+            return next('Datasource could not be loaded. Error: ' + err.message);
         });
         external.on('complete', function(external) {
             external.findDataFile(function(err, file) {
@@ -42,15 +42,20 @@ module.exports = function(app, settings) {
                         };
                         var field = res.datasource.fields[fieldId];
                         var values = _.pluck(res.datasource.features, fieldId);
-                        if (field.type == 'Number') {
-                            field.min = Math.min.apply(Math, values);
-                            field.max = Math.max.apply(Math, values);
-                        }
-                        else if (res.datasource.fields[fieldId].type == 'String') {
-                            field.min = _.min(values,
-                                function(value) { return value.length; }).length;
-                            field.max = _.max(values,
-                                function(value) { return value.length; }).length;
+                        if (values.length) {
+                            if (field.type == 'Number') {
+                                field.min = Math.min.apply(Math, values);
+                                field.max = Math.max.apply(Math, values);
+                            }
+                            else if (res.datasource.fields[fieldId].type == 'String') {
+                                field.min = _.min(values,
+                                    function(value) { return value.length; }).length;
+                                field.max = _.max(values,
+                                    function(value) { return value.length; }).length;
+                            }
+                        } else {
+                            field.max = 0;
+                            field.min = 0;
                         }
                     }
                 } else {
