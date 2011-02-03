@@ -35,8 +35,8 @@ module.exports = function(app, settings) {
         fs.mkdirSync(settings.export_dir, 0777);
     }
 
-    // Create a default data provider for the local data directory.
-    var data = new models.Provider({
+    // Create a default library for the local data directory.
+    var data = new models.Library({
         id: 'data',
         name: 'Local data',
         type: 'directory'

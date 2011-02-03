@@ -388,17 +388,17 @@ var Asset = Backbone.Model.extend({
 
 // AssetList
 // ---------
-// Collection. List of all assets for a given Provider. Must be given a
-// Provider model at `options.provider` in order to determine its URL endpoint.
+// Collection. List of all assets for a given Library. Must be given a
+// Library model at `options.library` in order to determine its URL endpoint.
 var AssetList = Backbone.Collection.extend({
     model: Asset,
     url: function() {
-        return 'api/Provider/' + this.provider.id + '/assets/' + this.page;
+        return 'api/Library/' + this.library.id + '/assets/' + this.page;
     },
     initialize: function(options) {
         this.page = 0;
         this.pageTotal = 1;
-        this.provider = options.provider;
+        this.library = options.library;
     },
     parse: function(response) {
         if (_.isArray(response)) {
@@ -429,11 +429,11 @@ var AssetList = Backbone.Collection.extend({
 
 // AssetListS3
 // -----------
-// Collection. Override of AssetList for S3 provider. S3 uses a marker key
+// Collection. Override of AssetList for S3 library. S3 uses a marker key
 // system for pagination instead of a page # system.
 var AssetListS3 = AssetList.extend({
     url: function() {
-        var url = 'api/Provider/' + this.provider.id + '/assets';
+        var url = 'api/Library/' + this.library.id + '/assets';
         if (this.marker()) {
             url += '/' + Base64.urlsafe_encode(this.marker());
         }
@@ -441,7 +441,7 @@ var AssetListS3 = AssetList.extend({
     },
     initialize: function(options) {
         this.markers = [];
-        this.provider = options.provider;
+        this.library = options.library;
     },
     marker: function() {
         if (this.markers.length) {
@@ -473,14 +473,14 @@ var AssetListS3 = AssetList.extend({
     }
 });
 
-// Provider
+// Library
 // --------
-// Model. Stores settings for a given asset provider type, e.g. a local file
+// Model. Stores settings for a given asset library type, e.g. a local file
 // directory or an Amazon S3 bucket.
-var Provider = Backbone.Model.extend({
-    type: 'provider',
+var Library = Backbone.Model.extend({
+    type: 'library',
     url: function() {
-        return 'api/Provider/' + this.id;
+        return 'api/Library/' + this.id;
     },
     defaults: {
         type: 'local'
@@ -491,21 +491,21 @@ var Provider = Backbone.Model.extend({
     initialize: function(options) {
         switch (this.get('type')) {
         case 's3':
-            this.assets = new AssetListS3({ provider: this });
+            this.assets = new AssetListS3({ library: this });
             break;
         default:
-            this.assets = new AssetList({ provider: this });
+            this.assets = new AssetList({ library: this });
             break;
         }
     }
 });
 
-// ProviderList
+// LibraryList
 // ------------
-// Collection. All providers.
-var ProviderList = Backbone.Collection.extend({
-    model: Provider,
-    url: 'api/Provider',
+// Collection. All librarys.
+var LibraryList = Backbone.Collection.extend({
+    model: Library,
+    url: 'api/Library',
     comparator: function(model) {
         return model.get('name');
     }
@@ -515,8 +515,9 @@ if (typeof module !== 'undefined') {
     module.exports = {
         Asset: Asset,
         AssetList: AssetList,
-        Provider: Provider,
-        ProviderList: ProviderList,
+        AssetListS3: AssetListS3,
+        Library: Library,
+        LibraryList: LibraryList,
         Project: Project,
         ProjectList: ProjectList,
         Export: Export,

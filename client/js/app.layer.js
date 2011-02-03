@@ -197,9 +197,9 @@ var LayerPopupView = PopupView.extend({
         return false;
     },
     assets: function() {
-        (new ProviderList()).fetch({
+        (new LibraryList()).fetch({
             success: function(collection) {
-                new ProviderListPopupView({
+                new LibraryListPopupView({
                     collection: collection,
                     target: $('input#file')
                 });

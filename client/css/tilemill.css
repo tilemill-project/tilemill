@@ -710,29 +710,29 @@ ul.projects a:hover {
 .sidebar-header a { float:right; }
 
 /**
- * ProviderListView ===========================================================
+ * LibraryListView ============================================================
  */
-#ProviderListView .main {
+#LibraryListView .main {
   left:25%;
   overflow:auto;
   }
 
-#ProviderListView .sidebar {
+#LibraryListView .sidebar {
   width:25%;
   border-color:#bbb;
   }
 
 /**
- * ProviderListPopupView ======================================================
+ * LibraryListPopupView =======================================================
  */
-#ProviderListPopupView .main {
+#LibraryListPopupView .main {
   position:absolute;
   top:0px;
   left:25%;
   overflow:auto;
   }
 
-#ProviderListPopupView .sidebar {
+#LibraryListPopupView .sidebar {
   position:absolute;
   top:0px;
   width:25%;

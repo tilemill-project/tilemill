@@ -1,17 +1,17 @@
 var Router = Backbone.Controller.extend({
     routes: {
         '': 'list',
-        'list/:provider': 'list',
+        'list/:library': 'list',
         'project/:id': 'project',
         'project/:id/export': 'projectExport',
         'project/:id/export/:format': 'projectExportFormat'
     },
-    list: function(provider, next) {
-        (new ProviderList()).fetch({
+    list: function(library, next) {
+        (new LibraryList()).fetch({
             success: function(collection) {
-                var view = new ProviderListView({
+                var view = new LibraryListView({
                     collection: collection,
-                    provider: provider
+                    library: library
                 });
                 window.app.page(view);
                 next && next();

@@ -59,7 +59,7 @@ module.exports = function(app, options, callback) {
                     host: 'localhost:' + port,
                     protocol: 'http:',
                     pathname: path.join(
-                        '/api/Provider/'
+                        '/api/Library/'
                         + options.id
                         + '/files'
                         + f[0].replace(base_dir, '')

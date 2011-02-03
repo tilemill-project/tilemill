@@ -1,7 +1,7 @@
-// ProviderListView
+// LibraryListView
 // ----------------
-var ProviderListView = Backbone.View.extend({
-    id: 'ProviderListView',
+var LibraryListView = Backbone.View.extend({
+    id: 'LibraryListView',
     events: {
         'click .header a.settings': 'settings',
         'click a.add': 'add'
@@ -12,41 +12,41 @@ var ProviderListView = Backbone.View.extend({
         this.collection.bind('remove', this.render);
         this.render();
 
-        // Show the specified active provider or fallback to projects.
-        if (this.options.provider && this.collection.get(this.options.provider)) {
-            this.collection.get(this.options.provider).view.show();
+        // Show the specified active Library or fallback to projects.
+        if (this.options.Library && this.collection.get(this.options.Library)) {
+            this.collection.get(this.options.Library).view.show();
         } else {
             this.projects.show();
         }
     },
     render: function () {
-        if (!this.$('ul.providers').size()) {
-            $(this.el).html(ich.ProviderListView());
-            this.projects = new ProviderRowView({
-                model: new Provider({ name: 'Projects', type: 'projects' }),
+        if (!this.$('ul.libraries').size()) {
+            $(this.el).html(ich.LibraryListView());
+            this.projects = new LibraryRowView({
+                model: new Library({ name: 'Projects', type: 'projects' }),
                 list: this,
                 fixed: true
             });
             this.$('ul.fixed').append(this.projects.el);
         }
 
-        // Add a row view for each provider.
+        // Add a row view for each Library.
         var that = this;
         var pointer = null;
-        this.collection.each(function(provider) {
-            if (!provider.view) {
-                provider.view = new ProviderRowView({
-                    model: provider,
+        this.collection.each(function(Library) {
+            if (!Library.view) {
+                Library.view = new LibraryRowView({
+                    model: Library,
                     list: that
                 });
                 if (!pointer) {
-                    that.$('ul.providers').prepend(provider.view.el);
+                    that.$('ul.libraries').prepend(Library.view.el);
                 }
                 else {
-                    $(pointer).after(provider.view.el);
+                    $(pointer).after(Library.view.el);
                 }
             }
-            pointer = provider.view.el;
+            pointer = Library.view.el;
         });
         return this;
     },
@@ -55,8 +55,8 @@ var ProviderListView = Backbone.View.extend({
         return false;
     },
     add: function() {
-        new ProviderPopupView({
-            model: new Provider(),
+        new LibraryPopupView({
+            model: new Library(),
             collection: this.collection,
             add: true
         });
@@ -74,32 +74,32 @@ var ProviderListView = Backbone.View.extend({
     }
 });
 
-var ProviderListPopupView = PopupView.extend({
-    id: 'ProviderListPopupView',
+var LibraryListPopupView = PopupView.extend({
+    id: 'LibraryListPopupView',
     events: _.extend({
         'click a.asset': 'select',
     }, PopupView.prototype.events),
     initialize: function (options) {
         _.bindAll(this, 'select', 'loading', 'done');
-        this.options.title = 'Providers';
+        this.options.title = 'Libraries';
         this.options.size = 'big';
         PopupView.prototype.initialize.call(this, options);
 
-        // Show the first provider.
+        // Show the first Library.
         this.collection.at(0).view.show();
     },
     render: function () {
         PopupView.prototype.render.call(this);
-        this.$('.popup-content').html(ich.ProviderListPopupView());
+        this.$('.popup-content').html(ich.LibraryListPopupView());
 
-        // Add a row view for each provider.
+        // Add a row view for each Library.
         var that = this;
-        this.collection.each(function(provider) {
-            provider.view = new ProviderRowView({
-                model: provider,
+        this.collection.each(function(Library) {
+            Library.view = new LibraryRowView({
+                model: Library,
                 list: that
             });
-            that.$('ul.providers').append(provider.view.el);
+            that.$('ul.libraries').append(Library.view.el);
         });
         return this;
     },
@@ -120,7 +120,7 @@ var ProviderListPopupView = PopupView.extend({
     }
 });
 
-var ProviderRowView = Backbone.View.extend({
+var LibraryRowView = Backbone.View.extend({
     tagName: 'li',
     events: {
         'click a.title': 'show',
@@ -135,7 +135,7 @@ var ProviderRowView = Backbone.View.extend({
 
     },
     render: function () {
-        $(this.el).html(ich.ProviderRowView({
+        $(this.el).html(ich.LibraryRowView({
             name: this.model.get('name'),
             fixed: this.options.fixed,
             type: this.model.get('type')
@@ -167,14 +167,14 @@ var ProviderRowView = Backbone.View.extend({
         return false;
     },
     del: function() {
-        if (confirm('Are you sure you want to delete this provider?')) {
+        if (confirm('Are you sure you want to delete this Library?')) {
             this.model.destroy();
             this.remove();
         }
         return false;
     },
     edit: function() {
-        new ProviderPopupView({
+        new LibraryPopupView({
             model: this.model,
             collection: this.list
         });
@@ -182,7 +182,7 @@ var ProviderRowView = Backbone.View.extend({
     }
 });
 
-var ProviderPopupView = PopupView.extend({
+var LibraryPopupView = PopupView.extend({
     events: _.extend({
         'change select#type': 'dependent',
         'submit form': 'submit'
@@ -193,8 +193,8 @@ var ProviderPopupView = PopupView.extend({
             type_local: (this.model.get('type') === 'local'),
             type_s3: (this.model.get('type') === 's3'),
         }, this.model.attributes);
-        this.options.title = this.options.add ? 'Add provider' : 'Edit provider';
-        this.options.content = ich.ProviderPopupView(data, true);
+        this.options.title = this.options.add ? 'Add Library' : 'Edit Library';
+        this.options.content = ich.LibraryPopupView(data, true);
         PopupView.prototype.initialize.call(this, options);
     },
     render: function() {

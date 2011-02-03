@@ -127,20 +127,20 @@ module.exports = function(app, settings) {
         res.send(res.datasource);
     });
 
-    // GET Provider (Backbone collection)
-    // ----------------------------------
-    // GET endpoint for provider assets. Loads the provider model and uses its
-    // `type` to determine which provider plugin should be used for generating
+    // GET Library (Backbone collection)
+    // ---------------------------------
+    // GET endpoint for library assets. Loads the library model and uses its
+    // `type` to determine which library plugin should be used for generating
     // the list of assets.
-    app.get('/api/Provider/:id/assets/:page?', function(req, res) {
-        var model = models.cache.get('Provider', req.param('id'));
+    app.get('/api/Library/:id/assets/:page?', function(req, res) {
+        var model = models.cache.get('Library', req.param('id'));
         model.fetch({
             success: function(model, resp) {
                 var options = _.extend({
                     page: req.param('page') || 0,
                     limit: 100, // @TODO
                 }, model.toJSON());
-                require('providers-' + model.get('type'))(
+                require('library-' + model.get('type'))(
                     app,
                     options,
                     function(assets) {
@@ -154,13 +154,13 @@ module.exports = function(app, settings) {
         });
     });
 
-    // GET file for Directory Provider
-    // -------------------------------
-    // GET endpoint for file downloads for the Directory provider. See
-    // `provider-directory.js`.
-    app.get('/api/Provider/:id/files/*', function(req, res, next) {
+    // GET file for Directory Library
+    // ------------------------------
+    // GET endpoint for file downloads for the Directory library. See
+    // `library-directory.js`.
+    app.get('/api/Library/:id/files/*', function(req, res, next) {
         var path = require('path');
-        var model = models.cache.get('Provider', req.param('id'));
+        var model = models.cache.get('Library', req.param('id'));
         model.fetch({
             success: function(model, resp) {
                 if (model.get('type') === 'directory') {

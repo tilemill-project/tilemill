@@ -28,7 +28,7 @@
     <script type='text/javascript' src='js/app.utils.js'></script>
     <script type='text/javascript' src='js/app.tools.js'></script>
     <script type='text/javascript' src='js/app.project.js'></script>
-    <script type='text/javascript' src='js/app.provider.js'></script>
+    <script type='text/javascript' src='js/app.library.js'></script>
     <script type='text/javascript' src='js/app.export.js'></script>
     <script type='text/javascript' src='js/app.layer.js'></script>
     <script type='text/javascript' src='js/app.stylesheet.js'></script>
@@ -56,7 +56,7 @@
         'js/app.utils.js',
         'js/app.tools.js',
         'js/app.project.js',
-        'js/app.provider.js',
+        'js/app.library.js',
         'js/app.export.js',
         'js/app.layer.js',
         'js/app.stylesheet.js',
@@ -68,31 +68,27 @@
     </script>
     -->
 
-    <script type='text/html' id='ProviderListView'>
+    <script type='text/html' id='LibraryListView'>
       <div id='header' class='header clearfix'>
         <a class='icon reverse settings' href='#'>Settings</a>
         <h1>TileMill</h1>
       </div>
-      <div class='main'>
-      </div>
+      <div class='main'></div>
       <div class='sidebar'>
         <ul class='menu fixed'></ul>
-        <ul class='menu providers'></ul>
+        <ul class='menu libraries'></ul>
         <div class='buttons'>
-          <a class='add button' href='#'><span class='icon reverse add'></span>Add provider</a>
+          <a class='add button' href='#'><span class='icon reverse add'></span>Add library</a>
         </div>
       </div>
     </script>
 
-    <script type='text/html' id='ProviderListPopupView'>
-      <div class='main'>
-      </div>
-      <div class='sidebar'>
-        <ul class='menu providers'></ul>
-      </div>
+    <script type='text/html' id='LibraryListPopupView'>
+      <div class='main'></div>
+      <div class='sidebar'><ul class='menu libraries'></ul></div>
     </script>
 
-    <script type='text/html' id='ProviderRowView'>
+    <script type='text/html' id='LibraryRowView'>
       <a class='title' href='#'>
         <span class='file {{type}}'></span>
         {{name}}
@@ -101,7 +97,7 @@
       {{^fixed}}<a class='icon delete' href='#'></a>{{/fixed}}
     </script>
 
-    <script type='text/html' id='ProviderPopupView'>
+    <script type='text/html' id='LibraryPopupView'>
       <form>
         <ul class='form'>
           <li>

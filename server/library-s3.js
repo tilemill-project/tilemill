@@ -1,6 +1,6 @@
 var knox = require('knox'),
     url = require('url'),
-    _ = require('underscore')._,
+    _ = require('underscore'),
     querystring = require('querystring'),
     path = require('path'), 
     xml2js = require('xml2js');
