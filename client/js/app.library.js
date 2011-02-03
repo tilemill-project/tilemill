@@ -228,13 +228,14 @@ var LibraryPopupView = PopupView.extend({
         return false;
     },
     submit: function() {
+        var that = this;
         var data = {};
         this.$('input.text:visible, select:visible').each(function(index, element) {
             var key = $(element).attr('id');
             var value = $(element).val();
             data[key] = value;
         });
-        var success = this.model.set(data, { 'error': this.showError });
+        var success = this.model.set(data, { 'error': that.showError });
         if (success) {
             this.model.save();
             this.options.add && this.collection.add(this.model);

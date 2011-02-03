@@ -492,10 +492,31 @@ var Library = Backbone.Model.extend({
         return 'api/Library/' + this.id;
     },
     defaults: {
-        type: 'local'
+        type: 'directory'
     },
-    // @TODO
-    validate: function() {
+    validate: function(attributes) {
+        var required;
+        switch (attributes.type || this.get('type')) {
+        case 's3':
+            required = {
+                name: 'Name is required.',
+                s3_bucket: 'S3 bucket is required.',
+                s3_key: 'S3 access key is required.',
+                s3_secret: 'S3 secret is required.'
+            };
+            break;
+        case 'directory':
+            required = {
+                name: 'Name is required.',
+                directory_path: 'Path is required.'
+            };
+            break;
+        }
+        for (var field in required) {
+            if (!_.isUndefined(attributes[field]) && !attributes[field]) {
+                return required[field];
+            }
+        }
     },
     initialize: function(options) {
         switch (this.get('type')) {
