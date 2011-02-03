@@ -101,6 +101,7 @@ var App = Backbone.View.extend({
     },
     message: function(title, message, type) {
         type = type || 'status';
+        message.responseText && (message = message.responseText);
         new PopupView({
             title: title,
             content: ich.PopupMessage({

@@ -21,6 +21,7 @@ require('tiles')(app, settings);
 require('export')(app, settings);
 
 app.error(function(err, req, res){
+    err.message && (err = err.message);
     res.send(err, 500);
 });
 
