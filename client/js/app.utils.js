@@ -100,6 +100,9 @@ var PopupView = Backbone.View.extend({
     },
     events: {
         'click .close': 'close'
+    },
+    showError: function(model, error) {
+        window.app.message('Error', error);
     }
 });
 
@@ -244,9 +247,6 @@ var SettingsPopupView = PopupView.extend({
             this.remove();
         }
         return false;
-    },
-    showError: function(model, error) {
-        window.app.message('Error', error);
     }
 });
 
