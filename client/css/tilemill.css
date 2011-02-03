@@ -1,5 +1,5 @@
 body {
-  background:#ccc;
+  background:#f8f8f8;
   color:#333;
   }
 
@@ -177,7 +177,7 @@ h3 { font-size:13px; }
   position:relative;
   display:block;
   padding:20px 10px 19px 60px;
-  border-bottom:1px solid #bbb;
+  border-bottom:1px solid #ddd;
   font-size:16px;
   font-weight:bold;
   color:#666;
@@ -190,8 +190,9 @@ h3 { font-size:13px; }
   }
 
 .menu li a.title.active {
-  color:#333;
-  background:#f8f8f8;
+  color:#fff;
+  background:#48a;
+  border-color:#268;
   }
 
 /**
@@ -718,10 +719,7 @@ ul.projects a:hover {
   overflow:auto;
   }
 
-#LibraryListView .sidebar {
-  width:25%;
-  border-color:#bbb;
-  }
+#LibraryListView .sidebar { width:25%; }
 
 /**
  * LibraryListPopupView =======================================================
@@ -737,8 +735,6 @@ ul.projects a:hover {
   position:absolute;
   top:0px;
   width:25%;
-  background:#ccc;
-  border-color:#bbb;
   }
 
 /**
