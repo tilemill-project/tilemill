@@ -353,14 +353,6 @@ var Project = Backbone.Model.extend({
     url: function() {
         return 'api/Project/' + this.id;
     },
-    // Base64 encode this project's MML URL.
-    project64: function(options) {
-        var url = this.baseURL() + this.url();
-        if (options.signed) {
-            url += '?' + ('' + (+new Date)).substring(0,10);
-        }
-        return Base64.encodeURI(url);
-    },
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent
     // with other Backbone methods.
