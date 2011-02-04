@@ -1,8 +1,7 @@
-/**
- * View: LayerListView
- *
- * List of all layers on a project.
- */
+// LayerListView
+// -------------
+// List of all layers on a project. Provides UI for adding, editing, deleting,
+// and drag-sorting layers.
 var LayerListView = Backbone.View.extend({
     id: 'LayerListView',
     className: 'view',
@@ -23,7 +22,6 @@ var LayerListView = Backbone.View.extend({
                 containment: 'parent'
             });
         }
-
         // Add row view for each layer.
         var that = this;
         this.collection.each(function(layer) {
@@ -36,7 +34,6 @@ var LayerListView = Backbone.View.extend({
                 $('ul', that.el).prepend(layer.view.el);
             }
         });
-
         // Refresh sortable to recognize new layers.
         $('ul', this.el).sortable('refresh');
         return this;
@@ -65,11 +62,9 @@ var LayerListView = Backbone.View.extend({
     }
 });
 
-/**
- * View: LayerRowView
- *
- * Single layer row in a LayerListView.
- */
+// LayerRowView
+// ------------
+// Single layer row in a LayerListView.
 var LayerRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
@@ -126,19 +121,16 @@ var LayerRowView = Backbone.View.extend({
             this.list.collection.remove(this.model);
             this.remove();
             window.app.done();
-        }
-        else {
+        } else {
             window.app.done();
         }
         return false;
     }
 });
 
-/**
- * View: LayerPopupView
- *
- * Popup form for adding a new layer.
- */
+// LayerPopupView
+// --------------
+// Form for adding or editing a layer.
 var LayerPopupView = PopupView.extend({
     events: _.extend({
         'click input.submit': 'submit',
@@ -220,11 +212,11 @@ var LayerPopupView = PopupView.extend({
     }
 });
 
-/**
- * View: LayerDrawerView.
- *
- * Drawer view for inspecting layer fields.
- */
+// LayerDrawerView
+// ---------------
+// Drawer view for inspecting a layer datasource. Renders only the first 1000
+// cells of large datasources to not spam the DOM. A button allows for showing
+// the rest.
 var DatasourceView = DrawerView.extend({
     className: 'drawer',
     events: _.extend({

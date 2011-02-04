@@ -1,8 +1,6 @@
-/**
- * View: MapView
- *
- * The map preview for a project.
- */
+// MapView
+// -------
+// OpenLayers map preview for a project.
 var MapView = Backbone.View.extend({
     id: 'MapView',
     initialize: function() {
@@ -90,25 +88,21 @@ var MapView = Backbone.View.extend({
 
         return this;
     },
-
     fullscreen: function() {
         $(this.el).toggleClass('fullscreen');
         this.map.updateSize();
         return false;
     },
-
     maximize: function() {
         $(this.el).addClass('fullscreen');
         this.map.updateSize();
         return false;
     },
-
     minimize: function() {
         $(this.el).removeClass('fullscreen');
         this.map.updateSize();
         return false;
     },
-
     controlZoom: function(e) {
         // Set the model center whenever the map is moved.
         // Retrieve centerpoint from map and convert to lonlat units.
@@ -124,7 +118,6 @@ var MapView = Backbone.View.extend({
 
         $('#zoom-display h4').text('Zoom level ' + this.map.getZoom());
     },
-
     reload: function() {
         if (this.map.layers && this.map.layers && this.map.layers[0]) {
             this.map.layers[0].type = this.model.get('_format');

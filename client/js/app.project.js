@@ -1,3 +1,6 @@
+// ProjectListView
+// ---------------
+// Page view. List map projects and provide a way to add/delete projects.
 var ProjectListView = Backbone.View.extend({
     id: 'ProjectListView',
     initialize: function() {
@@ -69,6 +72,10 @@ var ProjectListView = Backbone.View.extend({
     }
 });
 
+// ProjectRowView
+// --------------
+// A single project in a ProjectListView. Displays a project and a thumbnail
+// (single tile) preview of the map.
 var ProjectRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
@@ -111,14 +118,16 @@ var ProjectRowView = Backbone.View.extend({
                     window.app.message('Error', 'The project could not be deleted.');
                 }
             });
-        }
-        else {
+        } else {
             window.app.done();
         }
         return false;
     }
 });
 
+// ProjectView
+// -----------
+// Page view. Main project editor.
 var ProjectView = Backbone.View.extend({
     id: 'ProjectView',
     events: {
@@ -259,6 +268,9 @@ var ProjectView = Backbone.View.extend({
     }
 });
 
+// ProjectPopupView
+// ----------------
+// Form for editing project-specific settings.
 var ProjectPopupView = PopupView.extend({
     events: _.extend({
         'click input.submit': 'submit'
