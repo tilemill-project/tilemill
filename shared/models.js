@@ -353,23 +353,6 @@ var Project = Backbone.Model.extend({
     url: function() {
         return 'api/Project/' + this.id;
     },
-    // Return the base URL of TileMill including a single trailing slash,
-    // e.g. http://localhost:8889/ or http://mapbox/tilemill/
-    baseURL: function() {
-        var baseURL = window.location.protocol + '//' + window.location.host;
-        var args = window.location.pathname.split('/');
-        // Path already ends with trailing slash.
-        if (args[args.length - 1] === '') {
-            return baseURL + args.join('/');
-        // index.html or similar trailing filename.
-        } else if (_.indexOf(args[args.length - 1], '.') !== -1) {
-            args.pop();
-            return baseURL + args.join('/') + '/';
-        // Path beyond domain.
-        } else {
-            return baseURL + args.join('/') + '/';
-        }
-    },
     // Base64 encode this project's MML URL.
     project64: function(options) {
         var url = this.baseURL() + this.url();
@@ -377,10 +360,6 @@ var Project = Backbone.Model.extend({
             url += '?' + ('' + (+new Date)).substring(0,10);
         }
         return Base64.encodeURI(url);
-    },
-    // Layer URL based on the model URL.
-    layerURL: function(options) {
-        return this.baseURL();
     },
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent

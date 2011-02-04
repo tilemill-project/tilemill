@@ -49,8 +49,10 @@ var MapView = Backbone.View.extend({
         OpenLayers.ImgPath = 'images/openlayers_dark/';
 
         this.map = new OpenLayers.Map('map-preview-' + this.model.id, options);
-        this.layer = new OpenLayers.Layer.TMS('Preview', this.model.layerURL(), {
-            layername: this.model.project64({signed: true}),
+        this.layer = new OpenLayers.Layer.TMS('Preview', window.app.baseURL(), {
+            layername: window.app.safe64(
+                window.app.baseURL() + this.model.url()
+            ),
             type: this.model.get('_format'),
             buffer: 0,
             transitionEffect: 'resize',
@@ -128,7 +130,9 @@ var MapView = Backbone.View.extend({
     reload: function() {
         if (this.map.layers && this.map.layers && this.map.layers[0]) {
             this.map.layers[0].type = this.model.get('_format');
-            this.map.layers[0].layername = this.model.project64({signed: true});
+            this.map.layers[0].layername = window.app.safe64(
+                window.app.baseURL() + this.model.url()
+            );
             this.map.layers[0].redraw();
         }
     }

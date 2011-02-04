@@ -85,6 +85,30 @@ var App = Backbone.View.extend({
             error: function(model) { Backbone.history.start(); }
         });
     },
+    // Return the base URL of TileMill including a single trailing slash,
+    // e.g. http://localhost:8889/ or http://mapbox/tilemill/
+    baseURL: function() {
+        var baseURL = window.location.protocol + '//' + window.location.host;
+        var args = window.location.pathname.split('/');
+        // Path already ends with trailing slash.
+        if (args[args.length - 1] === '') {
+            return baseURL + args.join('/');
+        // index.html or similar trailing filename.
+        } else if (_.indexOf(args[args.length - 1], '.') !== -1) {
+            args.pop();
+            return baseURL + args.join('/') + '/';
+        // Path beyond domain.
+        } else {
+            return baseURL + args.join('/') + '/';
+        }
+    },
+    // URL-safe base64 encode a string. Optionally add a datestamp based
+    // querystring.
+    safe64: function(url, signed) {
+        _.isUndefined(signed) && (signed = true);
+        signed && (url += '?' + ('' + (+new Date)).substring(0,10));
+        return Base64.encodeURI(url);
+    },
     page: function(view) {
         $('.tipsy').remove();
         $(this.el).html(view.el);

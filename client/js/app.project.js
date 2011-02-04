@@ -84,7 +84,8 @@ var ProjectRowView = Backbone.View.extend({
         var lat_rad = center.lat * Math.PI / 180;
         var x = parseInt((center.lon + 180.0) / 360.0 * Math.pow(2,z));
         var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2,z));
-        return this.model.layerURL() + ['1.0.0', this.model.project64({signed: true}), z, x, y].join('/') + '.png';
+        var layer = window.app.safe64(window.app.baseURL() + this.model.url());
+        return window.app.baseURL() + ['1.0.0', layer, z, x, y].join('/') + '.png';
     },
     render: function() {
         $(this.el).html(ich.ProjectRowView({
