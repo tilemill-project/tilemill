@@ -5,7 +5,7 @@ var StylesheetTools = Backbone.View.extend({
         _.bindAll(this, 'render');
         this.render();
     },
-    render: function(){
+    render: function() {
         var colors = new ColorSwatches({
                 collection: new ColorSwatchesList(null, {
                     project: this.options.project
@@ -29,10 +29,10 @@ var StylesheetTools = Backbone.View.extend({
         'click .show-fonts' : 'showFonts',
         'click .show-colors' : 'showColors'
     },
-    showFonts: function(){
+    showFonts: function() {
         $('a.show-colors').removeClass('active').addClass('inactive');
         var self = $('a.show-fonts', this.el);
-        if(self.hasClass('inactive')){
+        if (self.hasClass('inactive')) {
             self.removeClass('inactive')
                 .addClass('active');
             $('#ColorSwatches', this.el).hide();
@@ -40,10 +40,10 @@ var StylesheetTools = Backbone.View.extend({
         }
         return false;
     },
-    showColors: function(){
+    showColors: function() {
         $('a.show-fonts').removeClass('active').addClass('inactive');
         var self = $('a.show-colors', this.el);
-        if(self.hasClass('inactive')){
+        if (self.hasClass('inactive')) {
             self.removeClass('inactive')
                 .addClass('active');
             $('#FontPicker', this.el).hide();
@@ -91,7 +91,8 @@ var ColorPicker = Backbone.View.extend({
         this.colorChanged = hex;
     },
     pickerShow: function() {
-        var selection = this.project.view.stylesheets.activeTab.codemirror.selection();
+        var selection = this.project.view.stylesheets
+            .activeTab.codemirror.selection();
         if (selection.match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
             $(this.colorpicker).ColorPickerSetColor(
                 selection.substring(1, selection.length));
@@ -103,10 +104,12 @@ var ColorPicker = Backbone.View.extend({
     pickerHide: function(hsb, hex, rgb) {
         if (this.colorChanged) {
             var mirror = this.project.view.stylesheets.activeTab.codemirror;
-            if (mirror.selection().match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
+            if (mirror.selection()
+                .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
                 mirror.replaceSelection('#' + this.colorChanged);
             }
-            else if (mirror.selection().match(/^[A-Fa-f0-9]{6}\b|^[A-Fa-f0-9]{3}\b/g)) {
+            else if (mirror.selection()
+                .match(/^[A-Fa-f0-9]{6}\b|^[A-Fa-f0-9]{3}\b/g)) {
                 mirror.replaceSelection(this.colorChanged);
             }
             this.colorChanged = false;
@@ -116,12 +119,18 @@ var ColorPicker = Backbone.View.extend({
 
 var ColorSwatch = Backbone.Model.extend({
     initialize: function() {
-        this.set({ hsl: this.RGBToHSL(this.unpack(this.get('hex'))) });
+        this.set({
+            hsl: this.RGBToHSL(this.unpack(this.get('hex')))
+        });
     },
-    /**
-     * From farbtastic.
-     */
-    RGBToHSL: function (rgb) {
+    // Compare this color to another color, normalizing the formatting
+    // of each to avoid duplicates.
+    eq: function(other) {
+        return this.pack(this.unpack(other)) ==
+            this.pack(this.unpack(this.get('hex')));
+    },
+    // # From farbtastic.
+    RGBToHSL: function(rgb) {
       var r = rgb[0], g = rgb[1], b = rgb[2],
           min = Math.min(r, g, b),
           max = Math.max(r, g, b),
@@ -140,18 +149,29 @@ var ColorSwatch = Backbone.Model.extend({
       }
       return [h, s, l];
     },
-    unpack: function (color) {
+    dec2hex: function(x) {
+      return (x < 16 ? '0' : '') + x.toString(16);
+    },
+    // Given a [r, g, b] array, return a CSS-formatted
+    // color string.
+    pack: function(rgb) {
+      var r = Math.round(rgb[0] * 255);
+      var g = Math.round(rgb[1] * 255);
+      var b = Math.round(rgb[2] * 255);
+      return '#' + this.dec2hex(r) + this.dec2hex(g) + this.dec2hex(b);
+    },
+    unpack: function(color) {
       if (color.length == 7) {
         function x(i) {
           return parseInt(color.substring(i, i + 2), 16) / 255;
         }
-        return [ x(1), x(3), x(5) ];
+        return [x(1), x(3), x(5)];
       }
       else if (color.length == 4) {
         function x(i) {
           return parseInt(color.substring(i, i + 1), 16) / 15;
         }
-        return [ x(1), x(2), x(3) ];
+        return [x(1), x(2), x(3)];
       }
     }
 });
@@ -165,40 +185,38 @@ var ColorSwatchesList = Backbone.Collection.extend({
         this.project.bind('ready', this.reload);
     },
     reload: function() {
+        // Find all color-like strings in all of the stylesheets
+        // available from this project.
         var matches = this.project.get('Stylesheet').pluck('data')
-            .join('\n').match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g);
-        if (!matches) {
-            matches = [];
-        }
+            .join('\n').match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g) || [];
+
+        // Eliminate obvious duplicate colors.
         matches = _.uniq(matches);
 
-        var hexMap = {}
-        this.each(function(swatch) { hexMap[swatch.get('hex')]  = swatch; });
+        var hexMap = {};
+        this.each(function(swatch) { hexMap[swatch.get('hex')] = swatch; });
 
         // Get list of models to remove.
         var remove = _.without.apply(this, [this.pluck('hex')].concat(matches));
         var that = this;
         _.each(remove, function(hex) {
             that.remove(hexMap[hex]);
-        })
+        });
 
+        // Add all of the matches that aren't already in this
+        // collection to this collection, making sure that there aren't
+        // any differently-formatted (#f00 vs #FF0000) duplicates
         for (var i = 0; i < matches.length; i++) {
-            var pass = false;
-            this.forEach(function(color) {
-                if (color.get('hex') == matches[i]) {
-                    pass = true;
-                }
-            });
-            if (!pass) {
+            if (!this.find(function(color) {
+                return color.eq(matches[i]);
+            })) {
                 this.add(new ColorSwatch({hex: matches[i]}));
             }
         }
         // Trigger the deferred add event
         this.trigger('add');
     },
-    /**
-     * Sort swatches by lightness.
-     */
+    // Sort swatches by lightness.
     comparator: function(swatch) {
         return swatch.get('hsl')[2];
     }
@@ -221,7 +239,7 @@ var ColorSwatches = Backbone.View.extend({
             if (!swatch.view) {
                 swatch.view = new ColorSwatchView({
                     model: swatch,
-                    project:that.project
+                    project: that.project
                 });
                 if (!pointer) {
                     self.$('.swatches').prepend(swatch.view.el);
@@ -255,7 +273,7 @@ var ColorSwatchView = Backbone.View.extend({
         var mirror = this.project.view.stylesheets.activeTab.codemirror;
         var pos = mirror.cursorPosition();
         var hex = this.model.get('hex');
-        if (mirror.lineContent(pos.line).charAt(pos.character-1) == '#') {
+        if (mirror.lineContent(pos.line).charAt(pos.character - 1) == '#') {
             mirror.replaceSelection(hex.slice(1));
         }
         else {
@@ -283,35 +301,35 @@ var FontPicker = Backbone.View.extend({
         $(this.el).html(ich.FontPicker({
             fonts: this.model.get('fonts')
         }));
-        
+
         var input = $('input', this.el),
             list = $('ul.fonts-list'),
             formTitle = input.attr('title');
-            
+
         // Returns a case-insensitive contains()
-        jQuery.expr[':'].Contains = function(a,i,m){
-            return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
+        jQuery.expr[':'].Contains = function(a,i,m) {
+            return (a.textContent || a.innerText || '').toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
         };
-        
-        input.change( function () {
+
+        input.change(function() {
             var filter = $(this).val();
             if (filter) {
-                list.find("li:not(:Contains(" + filter + "))").fadeOut('fast');
-                list.find("li:Contains(" + filter + ")").show();
+                list.find('li:not(:Contains(' + filter + '))').fadeOut('fast');
+                list.find('li:Contains(' + filter + ')').show();
             } else {
-                list.find("li").show();
+                list.find('li').show();
             }
             return false;
         })
-        .keyup( function () {
+        .keyup(function() {
             input.change();
         });
-        
+
         input
-        .blur(function () {
+        .blur(function() {
             input.val(formTitle);
         })
-        .focus(function () {
+        .focus(function() {
             if (input.val() === formTitle) {
                 input.val('');
             }
