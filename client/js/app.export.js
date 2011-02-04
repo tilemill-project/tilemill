@@ -1,6 +1,6 @@
-/**
- * View: ExportListView
- */
+// ExportListView
+// --------------
+// List of all exports. Available as a pane from LibraryListView.
 var ExportListView = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, 'render');
@@ -18,12 +18,10 @@ var ExportListView = Backbone.View.extend({
     }
 });
 
-/**
- * View: ExportDrawerView
- *
- * Shows a list of current exports from an ExportList collection in a
- * sidebar drawer.
- */
+// ExportDrawerView
+// ----------------
+// Shows a list of current exports from an ExportList collection in a sidebar
+// drawer.
 var ExportDrawerView = DrawerView.extend({
     initialize: function() {
         this.options.title = 'Exports';
@@ -51,11 +49,11 @@ var ExportDrawerView = DrawerView.extend({
     }
 });
 
-/**
- * View: ExportRowView
- *
- * A single job row in an ExportDrawerView.
- */
+// View: ExportRowView
+// -------------------
+// A single job row in an ExportListView or ExportDrawerView. Uses `Watcher` to
+// update the progress display of each job and provides download/delete actions
+// for each export.
 var ExportRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
@@ -106,13 +104,20 @@ var ExportRowView = Backbone.View.extend({
     }
 });
 
-/**
- * View: ExportView
- *
- * Base view for all export types.
- */
+// ExportView
+// ----------
+// Abstract view for the project export form.
+//
+// - `options.model` Export model
+// - `options.project` Project model
 var ExportView = Backbone.View.extend({
     id: 'ExportView',
+    events: _.extend({
+        'click a.reset': 'boundingBoxReset',
+        'click input.submit': 'submit',
+        'change input': 'updateModel',
+        'change select': 'updateModel'
+    }, PopupView.prototype.events),
     initialize: function() {
         _.bindAll(this, 'boundingBoxAdded', 'boundingBoxReset', 'updateModel', 'updateUI');
         this.map = this.options.map.map;
@@ -123,7 +128,6 @@ var ExportView = Backbone.View.extend({
     },
     render: function() {
         $(this.el).html(ich.ExportView(this.options));
-        $('.palette', this.el).append(this.getFields());
         window.app.el.append(this.el);
         this.options.map.maximize();
 
@@ -137,24 +141,22 @@ var ExportView = Backbone.View.extend({
         this.boxDrawingControl.activate();
         return this;
     },
+    // OpenLayers ExportCropControl callback. Sets the bounding box of the
+    // model when a user drags a crop box over the map.
     boundingBoxAdded: function(box) {
         this.model.set({
             bbox: box.geometry.components[1].getBounds().toArray().join(',')
         });
         return false;
     },
+    // Resets the bounding box of the model to the maximum layer extents.
     boundingBoxReset: function() {
         this.model.set({
             bbox: [-20037500, -20037500, 20037500, 20037500].join(',')
         });
         return false;
     },
-    events: _.extend({
-        'click a.reset': 'boundingBoxReset',
-        'click input.submit': 'submit',
-        'change input': 'updateModel',
-        'change select': 'updateModel'
-    }, PopupView.prototype.events),
+    // Update the export model from form fields.
     updateModel: function(event) {
         var data = {};
         if ($(event.target).is('.bbox')) {
@@ -175,12 +177,12 @@ var ExportView = Backbone.View.extend({
                 new OpenLayers.Projection('EPSG:900913')
             );
             data.bbox = [ nw.x, se.y, se.x, nw.y ].join(',');
-        }
-        else {
+        } else {
             data[$(event.target).attr('id')] = $(event.target).val();
         }
         this.model.set(data);
     },
+    // Update form field values when model values change.
     updateUI: function(model) {
         var that = this;
         _.each(model.changedAttributes(), function(value, key) {
@@ -228,12 +230,13 @@ var ExportView = Backbone.View.extend({
     }
 });
 
-/**
- * View: ExportImageView
- *
- * Abstract image export class. Populate 'this.options.extension' and
- * 'this.options.title' when extending this class.
- */
+// ExportImageView
+// ---------------
+// Abstract image export class. The following properites should be populated
+// in `initialize` before calling the parent method when extending this class:
+//
+// - 'this.options.extension' file format extension for this export format.
+// - 'this.options.title' user-friendly name for this export format.
 var ExportImageView = ExportView.extend({
     initialize: function() {
         ExportView.prototype.initialize.call(this);
@@ -250,14 +253,18 @@ var ExportImageView = ExportView.extend({
         this.model.bind('change:height', this.updateDimensions);
         this.model.bind('change:aspect', this.updateDimensions);
     },
-    getFields: function() {
-        return ich.ExportImageView(this.options);
+    render: function() {
+        ExportView.prototype.render.call(this);
+        this.$('.palette').append(ich.ExportImageView(this.options));
+        return this;
     },
     boundingBoxAdded: function(box) {
         var bounds = box.geometry.components[1].getBounds();
         this.model.set({aspect: bounds.getWidth() / bounds.getHeight()});
         ExportView.prototype.boundingBoxAdded.call(this, box);
     },
+    // Update the image width or height based on the bounding box aspect ratio
+    // when the user changes one of the w/h/bbox values.
     updateDimensions: function(model) {
         var attributes = model.changedAttributes();
         if (attributes.width) {
@@ -265,14 +272,12 @@ var ExportImageView = ExportView.extend({
                 height: Math.round(attributes.width / model.get('aspect'))},
                 {silent: true}
             );
-        }
-        else if (attributes.height) {
+        } else if (attributes.height) {
             model.set({
                 width: Math.round(model.get('aspect') * attributes.height)},
                 {silent: true}
             );
-        }
-        else if (attributes.aspect) {
+        } else if (attributes.aspect) {
             model.set({
                 height: Math.round(model.get('width') / attributes.aspect)},
                 {silent: true}
@@ -281,11 +286,7 @@ var ExportImageView = ExportView.extend({
     }
 });
 
-/**
- * View: ExportPDFView
- *
- * PDF export view.
- */
+// PDF format
 var ExportPDFView = ExportImageView.extend({
     initialize: function() {
         this.options.title = 'Export PDF';
@@ -294,11 +295,7 @@ var ExportPDFView = ExportImageView.extend({
     }
 });
 
-/**
- * View: ExportPNGView
- *
- * PNG export view.
- */
+// PNG format
 var ExportPNGView = ExportImageView.extend({
     initialize: function() {
         this.options.title = 'Export PNG';
@@ -307,11 +304,11 @@ var ExportPNGView = ExportImageView.extend({
     }
 });
 
-/**
- * View: ExportMBTilesView
- *
- * MBTiles export view.
- */
+// ExportMBTilesView
+// -----------------
+// MBTiles export form. MBTiles exports include a range of zoom levels to
+// render as well as key/value metadata pairs for describing the mbtiles data
+// itself.
 var ExportMBTilesView = ExportView.extend({
     initialize: function() {
         _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
@@ -335,22 +332,20 @@ var ExportMBTilesView = ExportView.extend({
     },
     render: function() {
         ExportView.prototype.render.call(this);
-        this.$('#mbtiles-zoom').slider({
-            range: true,
-            min:0,
-            max:22,
-            step:1,
-            slide: this.updateModel
-        });
-    },
-    getFields: function() {
-        return ich.ExportMBTilesView({
+        this.$('.palette').append(ich.ExportMBTilesView({
             minzoom: this.model.get('minzoom'),
             maxzoom: this.model.get('maxzoom'),
             metadata_name: this.model.get('metadata_name'),
             metadata_description: this.model.get('metadata_description'),
             metadata_version: this.model.get('metadata_version'),
             metadata_type_baselayer: this.model.get('metadata_type') === 'baselayer'
+        }));
+        this.$('#mbtiles-zoom').slider({
+            range: true,
+            min:0,
+            max:22,
+            step:1,
+            slide: this.updateModel
         });
     },
     updateModel: function(event, ui) {
@@ -371,11 +366,9 @@ var ExportMBTilesView = ExportView.extend({
     }
 });
 
-/**
- * View: ExportDropdownView
- *
- * Dropdown menu for exporting a project.
- */
+// ExportDropdownView
+// ------------------
+// Dropdown menu for selecting the export format for a project.
 var ExportDropdownView = DropdownView.extend({
     FORMAT: {
         png: ExportPNGView,
@@ -430,10 +423,10 @@ var ExportDropdownView = DropdownView.extend({
     }
 });
 
-/**
- * Custom OpenLayers control for generating a masked crop box over the map.
- * Assumes 900913 projection for extent of masked area.
- */
+// ExportCropControl
+// -----------------
+// Custom OpenLayers control for generating a masked crop box over the map.
+// Assumes 900913 projection for extent of masked area.
 var ExportCropControl = OpenLayers.Class(OpenLayers.Control, {
     CLASS_NAME: 'ExportCropControl',
     EVENT_TYPES: ['featureadded'],

@@ -1,8 +1,10 @@
-/**
- * View: AssetListView
- *
- * A list of assets for a given collection.
- */
+// AssetListView
+// -------------
+// List of assets for a library. Displays assets with a simple next/prev pager
+// for larger collections.
+//
+// - `options.collection` is an AssetList
+// - `options.model` is the Provider to which the AssetList belongs
 var AssetListView = Backbone.View.extend({
     id: 'AssetListView',
     events: {
@@ -67,11 +69,9 @@ var AssetListView = Backbone.View.extend({
     }
 });
 
-/**
- * View: AssetRowView
- *
- * A single asset row in a AssetListView.
- */
+// AssetRowView
+// ------------
+// Single asset in an AssetListView.
 var AssetRowView = Backbone.View.extend({
     tagName: 'li',
     initialize: function() {
