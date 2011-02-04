@@ -140,28 +140,24 @@ var LayerRowView = Backbone.View.extend({
  * Popup form for adding a new layer.
  */
 var LayerPopupView = PopupView.extend({
-    SRS: {
-        '900913': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
-        'WGS84': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
-    },
     events: _.extend({
         'click input.submit': 'submit',
         'click a.assets': 'assets',
         'change select#srs-name': 'selectSRS'
     }, PopupView.prototype.events),
     initialize: function(params) {
-        _.bindAll(this, 'render', 'submit', 'assets', 'getSRSName', 'selectSRS', 'showError');
+        _.bindAll(this, 'render', 'submit', 'assets', 'selectSRS');
         this.model = this.options.model;
         this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
 
-        var object = {
-            'id': this.model.id,
-            'class': this.model.get('class'),
-            'datasource_file': this.model.get('Datasource') ?
-                this.model.get('Datasource').file : '',
-            'srs': this.model.get('srs')
-        };
-        object['srs_name_' + this.getSRSName(this.model.get('srs'))] = true;
+        var object = {};
+        object['id'] = this.model.id;
+        object['class'] = this.model.get('class');
+        object['datasource_file'] = this.model.get('Datasource')
+            ? this.model.get('Datasource').file
+            : '';
+        object['srs'] = this.model.get('srs');
+        object['srs_name_' + this.model.srsName()] = true;
         this.options.content = ich.LayerPopupView(object, true);
         this.render();
     },
@@ -181,17 +177,16 @@ var LayerPopupView = PopupView.extend({
                         {
                             'id': $('input#id', that.el).val(),
                             'name': $('input#id', that.el).val(),
-                            'srs': (datasource.get('ds_type') === 'gdal')
-                                ? that.SRS['900913']
-                                : $('input#srs', that.el).val(),
+                            'srs': $('input#srs', that.el).val(),
                             'class': $('input#class', that.el).val(),
-                            'geometry': datasource.get('geometry_type'),
-                            'Datasource': _.extend(
-                                { 'file': $('input#file', that.el).val() },
-                                datasource.get('ds_options')
-                            )
+                            'Datasource': {
+                                'file': $('input#file', that.el).val()
+                            }
                         },
-                        { 'error': that.showError }
+                        {
+                            'datasource': datasource,
+                            'error': that.showError
+                        }
                     );
                     if (success) {
                         that.options.add && that.collection.add(that.model);
@@ -214,25 +209,12 @@ var LayerPopupView = PopupView.extend({
         });
         return false;
     },
-    showError: function(model, error) {
-        this.done();
-        window.app.message('Error', error);
-    },
-    getSRSName: function(srs) {
-        for (name in this.SRS) {
-            if (this.SRS[name] === srs) {
-                return name;
-            }
-        }
-        return srs ? 'custom' : 'autodetect';
-    },
     selectSRS: function() {
         var name = $('select#srs-name', this.el).val();
         if (name === 'custom') {
             $('.srs', this.el).show();
-        }
-        else {
-            $('input#srs', this.el).val(this.SRS[name]);
+        } else {
+            $('input#srs', this.el).val(this.model.SRS[name]);
             $('.srs', this.el).hide();
         }
     }

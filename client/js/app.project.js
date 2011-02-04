@@ -286,9 +286,6 @@ var ProjectPopupView = PopupView.extend({
             this.remove();
         }
         return false;
-    },
-    showError: function(model, error) {
-        window.app.message('Error', error);
     }
 });
 

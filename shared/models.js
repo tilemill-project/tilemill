@@ -234,6 +234,41 @@ var Layer = Backbone.Model.extend({
     // automatically when passed to the constructor. We set it manually here.
     initialize: function(attributes) {
         this.set({'Datasource': attributes.Datasource});
+    },
+    // Constant. Hash of simple names to known SRS strings.
+    SRS: {
+        '900913': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+        'WGS84': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
+    },
+    // Get the name of a model's SRS string if known, otherwise reteurn
+    // 'custom' or 'autodetect' if empty.
+    srsName: function() {
+        for (name in this.SRS) {
+            if (this.SRS[name] === this.get('srs')) {
+                return name;
+            }
+        }
+        return this.get('srs') ? 'custom' : 'autodetect';
+    },
+    // Implementation of `Model.set()` that allows a datasource model to be
+    // passed in as `options.datasource`. If provided, the datasource will be
+    // used to enforce key attributes.
+    set: function(attributes, options) {
+        if (options && options.datasource) {
+            if (options.datasource.get('ds_type') === 'gdal') {
+                attributes.srs = this.SRS['900913'];
+            }
+            if (options.datasource.get('geometry_type')) {
+                attributes.geometry = options.datasource.get('geometry_type');
+            }
+            if (options.datasource.get('ds_options')) {
+                attributes.Datasource = _.extend(
+                    attributes.Datasource,
+                    options.datasource.get('ds_options')
+                );
+            }
+        }
+        return Backbone.Model.prototype.set.call(this, attributes, options);
     }
 });
 
