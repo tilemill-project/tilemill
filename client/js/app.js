@@ -1,38 +1,38 @@
+// Router
+// ------
+// Route rules for TileMill client. Only a small subset of possible states
+// are represented here, but the major ones are covered.
 var Router = Backbone.Controller.extend({
     routes: {
-        '': 'list',
-        'list/:library': 'list',
+        '': 'library',
+        'library/:id': 'library',
         'project/:id': 'project',
         'project/:id/export': 'projectExport',
         'project/:id/export/:format': 'projectExportFormat'
     },
-    list: function(library, next) {
+    library: function(id, next) {
+        var that = this;
         (new LibraryList()).fetch({
             success: function(collection) {
                 var view = new LibraryListView({
                     collection: collection,
-                    library: library
+                    active: id
                 });
                 window.app.page(view);
                 next && next();
             },
-            error: function(collection, resp) {
-                var view = new ErrorView({ message: 'Page not found' });
-                window.app.page(view);
-            }
+            error: that.error
         });
     },
     project: function(id, next) {
-        new Project({ id: id}).fetch({
+        var that = this;
+        (new Project({ id: id })).fetch({
             success: function(model) {
                 var view = new ProjectView({ model: model });
                 window.app.page(view);
                 next && next();
             },
-            error: function(model, resp) {
-                var view = new ErrorView({ message: resp });
-                window.app.page(view);
-            }
+            error: that.error
         });
     },
     projectExport: function(id, next) {
@@ -48,11 +48,16 @@ var Router = Backbone.Controller.extend({
         });
     },
     error: function() {
-        new ErrorView({ message: 'Page not found' });
+        var view = new ErrorView({ message: 'Page not found' });
         window.app.page(view);
     }
 });
 
+// App
+// ---
+// View. Represents the entire application "viewport", aka the entire page.
+// Available in the global namespace as `window.app` and contains various
+// useful utility methods.
 var App = Backbone.View.extend({
     initialize: function(options) {
         this.settings = this.model;
@@ -62,12 +67,6 @@ var App = Backbone.View.extend({
 
         // Catchall error page requires a regex so we must add its route manually.
         this.controller.route(/^(.*?)/, 'error', Router.prototype.error);
-
-        // Set body ID on each route page.
-        // @TODO needs more sanitization.
-        this.controller.bind('all', function(page) {
-            $('body').attr('id', page.split(':').pop());
-        });
 
         // Watch status of server and show message if the server is down.
         this.status = new Status('api', function(status) {
@@ -79,7 +78,6 @@ var App = Backbone.View.extend({
         // 2. Begin routing.
         this.abilities.fetch();
         this.reference.fetch();
-
         this.model.fetch({
             success: function(model) { Backbone.history.start(); },
             error: function(model) { Backbone.history.start(); }
@@ -109,20 +107,26 @@ var App = Backbone.View.extend({
         signed && (url += '?' + ('' + (+new Date)).substring(0,10));
         return Base64.encodeURI(url);
     },
+    // Set the application page viweport to the provided view. Triggers a
+    // `ready` event for any behaviors that expect DOM elements to be present
+    // in the document before attaching/initing (e.g. CodeMirror, OpenLayers).
     page: function(view) {
         $('.tipsy').remove();
         $(this.el).html(view.el);
         this.pageView = view;
         this.trigger('ready');
     },
+    // Display a loading overlay over the page viewport.
     loading: function(message) {
         this.loadingView = new LoadingView({message: message});
         $(this.el).append(this.loadingView.el);
     },
+    // Remove a loading overlay from the page viewport.
     done: function() {
         this.loadingView.remove();
         delete this.loadingView;
     },
+    // Display a popup message.
     message: function(title, message, type) {
         type = type || 'status';
         message.responseText && (message = message.responseText);
@@ -136,11 +140,13 @@ var App = Backbone.View.extend({
     }
 });
 
+// Application bootstrap.
 $(function() {
     // Fix for IE8 AJAX payload caching.
     // See: http://stackoverflow.com/questions/1013637/unexpected-caching-of-ajax-results-in-ie8
     $.ajaxSetup({ cache: false });
 
+    // Create the app.
     window.app = new App({
         el: $('#app'),
         model: new Settings({ id: 'settings' }),

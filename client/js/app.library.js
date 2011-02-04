@@ -1,5 +1,7 @@
 // LibraryListView
-// ----------------
+// ---------------
+// Page view. Wrapper around library list views that allows switching between
+// various library views through a sidebar menu.
 var LibraryListView = Backbone.View.extend({
     id: 'LibraryListView',
     events: {
@@ -13,8 +15,10 @@ var LibraryListView = Backbone.View.extend({
         this.render();
 
         // Show the specified active Library or fallback to projects.
-        if (this.options.Library && this.collection.get(this.options.Library)) {
-            this.collection.get(this.options.Library).view.show();
+        if (this.options.active && this.collection.get(this.options.active)) {
+            this.collection.get(this.options.active).view.show();
+        } else if (this.options.active === 'exports') {
+            this.exports.show();
         } else {
             this.projects.show();
         }
@@ -80,6 +84,10 @@ var LibraryListView = Backbone.View.extend({
     }
 });
 
+// LibraryListPopupView
+// --------------------
+// Popup view for browsing libraries with the intention of adding an asset to
+// the input form field specified by `options.target`.
 var LibraryListPopupView = PopupView.extend({
     id: 'LibraryListPopupView',
     events: _.extend({
@@ -126,6 +134,9 @@ var LibraryListPopupView = PopupView.extend({
     }
 });
 
+// LibraryRowView
+// --------------
+// An individual library menu item in LibraryListView or LibraryPopupView.
 var LibraryRowView = Backbone.View.extend({
     tagName: 'li',
     events: {
@@ -150,6 +161,7 @@ var LibraryRowView = Backbone.View.extend({
     },
     show: function() {
         var that = this,
+            path,
             List,
             ListView;
 
@@ -158,12 +170,15 @@ var LibraryRowView = Backbone.View.extend({
         that.$('a').addClass('active');
 
         if (this.model.get('type') === 'projects') {
+            path = 'projects';
             List = new ProjectList();
             ListView = ProjectListView;
         } else if (this.model.get('type') === 'exports') {
+            path = 'exports';
             List = new ExportList();
             ListView = ExportListView;
         } else {
+            path = this.model.id;
             List = this.model.assets;
             ListView = AssetListView;
         }
@@ -176,6 +191,7 @@ var LibraryRowView = Backbone.View.extend({
                 });
                 that.list.done();
                 that.list.$('.main').html(view.el);
+                window.app.controller.saveLocation('library/' + path);
             }
         });
         return false;
@@ -196,6 +212,9 @@ var LibraryRowView = Backbone.View.extend({
     }
 });
 
+// LibraryPopupView
+// ----------------
+// Popup form for adding or editing a Library model.
 var LibraryPopupView = PopupView.extend({
     events: _.extend({
         'change select#type': 'dependent',
