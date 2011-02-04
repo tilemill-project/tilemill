@@ -122,9 +122,7 @@ var MapView = Backbone.View.extend({
         center = { lat: lonlat.lat, lon: lonlat.lon, zoom: zoom };
         this.model.set({ _center: center }, { silent: true });
 
-        (e.element.id && $('#zoom-display h4', e.element).size()) &&
-            $('#zoom-display h4', e.element)
-                .text('Zoom level ' + this.map.getZoom());
+        $('#zoom-display h4').text('Zoom level ' + this.map.getZoom());
     },
 
     reload: function() {
