@@ -120,23 +120,23 @@
           </li>
           <li>
             <label for='name'>Name</label>
-            <input type='text' class='text' id='name' value='{{ name }}' />
+            <input type='text' class='text' id='name' value='{{name}}' />
           </li>
           <li class='dependent' field='type' target='directory'>
             <label for='path'>Path</label>
-            <input type='text' class='text' id='directory_path' value='{{ directory_path }}' />
+            <input type='text' class='text' id='directory_path' value='{{directory_path}}' />
           </li>
           <li class='dependent' field='type' target='s3'>
             <label for='s3_bucket'>S3 Bucket</label>
-            <input type='text' class='text' id='s3_bucket' value='{{ s3_bucket }}' />
+            <input type='text' class='text' id='s3_bucket' value='{{s3_bucket}}' />
           </li>
           <li class='dependent' field='type' target='s3'>
             <label for='s3_key'>S3 Access Key ID</label>
-            <input type='text' class='text' id='s3_key' value='{{ s3_key }}' />
+            <input type='text' class='text' id='s3_key' value='{{s3_key}}' />
           </li>
           <li class='dependent' field='type' target='s3'>
             <label for='s3_secret'>S3 Secret</label>
-            <input type='text' class='text' id='s3_secret' value='{{ s3_secret }}' />
+            <input type='text' class='text' id='s3_secret' value='{{s3_secret}}' />
           </li>
           <li class='buttons'>
               <input class='submit' type='submit' value='Save' />
@@ -164,12 +164,12 @@
       <div class='header clearfix'>
         <h1>TileMill</h1>
       </div>
-      <div class='error-page'>{{ message }}</div>
+      <div class='error-page'>{{message}}</div>
     </script>
 
     <script type='text/html' id='ProjectRowView'>
       <a href='#project/{{id}}'>
-        <span class='thumb' style='background-image:url("{{ thumb }}")'></span>
+        <span class='thumb' style='background-image:url("{{thumb}}")'></span>
         {{id}}
         <span class='icon delete'>Delete</span>
       </a>
@@ -178,7 +178,7 @@
     <script type='text/html' id='ProjectView'>
       <div class='header clearfix'>
         <a class='icon reverse settings' href='#'>Settings</a>
-        <h1>Editing {{ id }}</h1>
+        <h1>Editing {{id}}</h1>
         <div class='actions clearfix'>
           <a class='save disabled' href='#'>Saved</a>
           <a class='tipsy-e icon options' title='Project options' href='#'>Project options</a>
@@ -227,7 +227,7 @@
       {{/geometry_raster}}
       <a title='Edit layer' class='icon edit' href='#'>Edit</a>
       <a title='Delete layer' class='icon delete' href='#'>Delete</a>
-      <label>{{ name }}</label>
+      <label>{{name}}</label>
     </script>
 
     <script type='text/html' id='DatasourceView'>
@@ -288,7 +288,7 @@
     </script>
 
     <script type='text/html' id='StylesheetTabView'>
-      <span class='name'>{{ id }}</span>
+      <span class='name'>{{id}}</span>
       <span class='icon delete'>Delete</span>
     </script>
 
@@ -330,12 +330,12 @@
 
     <script type='text/html' id='PopupView'>
       <div class='overlay'></div>
-      <div class='popup {{ size }}'>
+      <div class='popup {{size}}'>
         <div class='popup-header clearfix pane'>
-          <h2>{{ title }}</h2>
+          <h2>{{title}}</h2>
           <a href='#' class='icon reverse close'>Close</a>
         </div>
-        <div class='popup-content'>{{{ content }}}</div>
+        <div class='popup-content'>{{{content}}}</div>
       </div>
     </script>
 
@@ -353,15 +353,15 @@
         <ul class='form'>
           <li>
             <label for='id'><span class='required' title='This field is required'>*</span> ID</label>
-            <input type='text' class='text' id='id' value='{{ id }}' />
+            <input type='text' class='text' id='id' value='{{id}}' />
           </li>
           <li>
             <label for='class'>Class</label>
-            <input type='text' class='text' id='class' value='{{ class }}'/>
+            <input type='text' class='text' id='class' value='{{class}}'/>
           </li>
           <li>
             <label for='file'><span class='required' title='This field is required'>*</span> Datasource</label>
-            <input type='text' class='text' id='file' value='{{ datasource_file }}' />
+            <input type='text' class='text' id='file' value='{{datasource_file}}' />
             <a href='#' class='icon reverse assets' title='See available assets'>[+]</a>
             <div class='container assets hidden'></div>
           </li>
@@ -376,7 +376,7 @@
           </li>
           <li class='srs {{^srs_name_custom}}hidden{{/srs_name_custom}}'>
             <label for='srs'>Custom</label>
-            <input type='text' class='text' id='srs' value='{{ srs }}'/>
+            <input type='text' class='text' id='srs' value='{{srs}}'/>
           </li>
           <li class='buttons'>
               <input class='submit' type='submit' value='Save' />
@@ -400,8 +400,8 @@
     </script>
 
     <script type='text/html' id='PopupMessage'>
-      <div id='popup-message' class='clearfix pane {{ type }}'>
-        {{ message }}
+      <div id='popup-message' class='clearfix pane {{type}}'>
+        {{message}}
       </div>
     </script>
 
@@ -413,7 +413,7 @@
     </script>
 
     <script type='text/html' id='ColorSwatchView'>
-      <a href='#' class='swatch' style='background-color: {{ color }}' title='{{ color }}'></a>
+      <a href='#' class='swatch' style='background-color: {{color}}' title='{{color}}'></a>
     </script>
 
     <script type='text/html' id='ReferenceView'>
@@ -460,7 +460,7 @@
 
     <script type='text/html' class='partial' id='ReferenceSymbolizer'>
       <div class='reference-section' id='reference-section-{{symbolizer}}'>
-        <h2>{{ symbolizer }}</h2>
+        <h2>{{symbolizer}}</h2>
         <table class='reference-table'>
           <thead>
             <tr>
@@ -478,12 +478,12 @@
 
     <script type='text/html' class='partial' id='ReferenceProperty'>
       <tr>
-        <th><a {{#doc}}title='{{ doc }}' class='reference-doc-available'{{/doc}}>{{ css }}</a>
+        <th><a {{#doc}}title='{{doc}}' class='reference-doc-available'{{/doc}}>{{css}}</a>
         </th>
-        <td>{{ type }}</td>
-        <td>{{ default_value }}
+        <td>{{type}}</td>
+        <td>{{default_value}}
           {{#default_meaning}}
-            <small class='reference-default-meaning'>({{ default_meaning }})</small>
+            <small class='reference-default-meaning'>({{default_meaning}})</small>
           {{/default_meaning}}
         </td>
       </tr>
@@ -501,11 +501,11 @@
     </script>
 
     <script type='text/html' id='AssetRowView'>
-      <a class='asset' href='{{ url }}'>
-        <span class='file {{ type }}'></span>
-        <span class='name'>{{ id }}</span>
-        <span class='metadata'>{{ bytes }}</span>
-        <span class='url'>{{ url }}</span>
+      <a class='asset' href='{{url}}'>
+        <span class='file {{type}}'></span>
+        <span class='name'>{{id}}</span>
+        <span class='metadata'>{{bytes}}</span>
+        <span class='url'>{{url}}</span>
       </a>
     </script>
 
@@ -522,32 +522,32 @@
 
     <script type='text/html' id='ExportRowView'>
       <a href='#' class='icon delete'>Remove</a>
-      <span class='status status-{{status}}'>{{ status }}</span>
+      <span class='status status-{{status}}'>{{status}}</span>
       <span class='progress'>
         <span class='bar bar-{{progressClass}}'></span>
-        {{ progress }}%
+        {{progress}}%
       </span>
       {{#download}}
-        <a class='file {{format}}' href='{{ download }}'></a>
+        <a class='file {{format}}' href='{{download}}'></a>
       {{/download}}
       {{^download}}
         <span class='file {{format}}'></span>
       {{/download}}
-      <a class='filename'>{{ filename }}</a>
-      <span class='time'>{{ time }}</span>
+      <a class='filename'>{{filename}}</a>
+      <span class='time'>{{time}}</span>
       {{#error}}
-        <div class='message'>{{ error }}</div>
+        <div class='message'>{{error}}</div>
       {{/error}}
       {{#download}}
-        <div class='download'><a href='{{ download }}'>Download</a></div>
+        <div class='download'><a href='{{download}}'>Download</a></div>
       {{/download}}
     </script>
 
     <script type='text/html' id='ExportView'>
       <form>
         <div class='header clearfix'>
-          <span class='file {{ extension }}'></span>
-          <h1>{{ title }}</h1>
+          <span class='file {{extension}}'></span>
+          <h1>{{title}}</h1>
           <div class='form'>
             <label class='inline' for='filename'>Filename</label>
             <input type='text' class='inline text' id='filename'/>
@@ -575,9 +575,9 @@
     <script type='text/html' id='ExportImageView'>
       <div>
         <label for='class'>Dimensions</label>
-        <input type='text' class='text' size='3' id='width' value='{{ width }}'/>
+        <input type='text' class='text' size='3' id='width' value='{{width}}'/>
         <span>x</span>
-        <input type='text' class='text' size='3' id='height' value='{{ height }}'/>
+        <input type='text' class='text' size='3' id='height' value='{{height}}'/>
         px
       </div>
     </script>
@@ -595,15 +595,15 @@
       </div>
       <div>
         <label for='metadata_name'>Name</label>
-        <input type='text' id='metadata_name' class='text' value='{{ metadata_name }}' />
+        <input type='text' id='metadata_name' class='text' value='{{metadata_name}}' />
       </div>
       <div>
         <label for='metadata_description'>Description</label>
-        <input type='text' id='metadata_description' class='text' value='{{ metadata_description }}' />
+        <input type='text' id='metadata_description' class='text' value='{{metadata_description}}' />
       </div>
       <div>
         <label for='metadata_version'>Version</label>
-        <input type='text' id='metadata_version' class='text' value='{{ metadata_version }}' />
+        <input type='text' id='metadata_version' class='text' value='{{metadata_version}}' />
       </div>
       <div>
         <label for='metadata_type'>Type</label>
