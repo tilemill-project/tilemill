@@ -5,7 +5,7 @@
  */
 var StylesheetListView = Backbone.View.extend({
     initialize: function(options) {
-        _.bindAll(this, 'render', 'add', 'activate', 'sortUpdate');
+        _.bindAll(this, 'render', 'add', 'activate', 'sortUpdate', 'showError');
         var self = this;
         this.collection.bind('add', this.render);
         this.collection.bind('add', this.activate);
@@ -66,6 +66,43 @@ var StylesheetListView = Backbone.View.extend({
         });
         this.collection.models = newCollection; //.reverse();
         this.collection.trigger('change');
+    },
+    showError: function(err, data) {
+        var that = this;
+        var err_obj = $.parseJSON(data.responseText);
+        if (_.isArray(err_obj)) {
+            _.each(err_obj, function(error) {
+                if (error.line) {
+                    var editor = _.detect(
+                        that.collection.models,
+                        function(s) { return s.id == error.filename; }
+                    );
+                    if (editor) {
+                        $('div.CodeMirror-line-numbers div:nth-child('
+                            + error.line
+                            + ')',
+                            editor.view.codemirror.lineNumbers)
+                            .addClass('syntax-error')
+                            .attr('title', error.message)
+                            .tipsy({gravity: 'w'});
+                        $(editor.view.el).addClass('hasError');
+                    }
+                } else {
+                    window.app.message('Error', error.message);
+                }
+            });
+        } else {
+            window.app.message('Error', err_obj.message);
+        }
+    },
+    clearError: function() {
+        // Clear out validation error markers. They will be re-drawn if this
+        // save event encounters further errors.
+        this.$('div.CodeMirror-line-numbers div')
+            .removeClass('syntax-error')
+            .attr('title', '')
+            .unbind('mouseenter mouseleave'); // Removes tipsy.
+        this.$('a.tab.hasError').removeClass('hasError');
     }
 });
 

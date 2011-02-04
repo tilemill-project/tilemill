@@ -177,16 +177,7 @@ var ProjectView = Backbone.View.extend({
     },
     saveProject: function() {
         var that = this;
-
-        // Clear out validation error markers. They will be re-drawn if this
-        // save event encounters further errors.
-        $('.CodeMirror-line-numbers div')
-            .removeClass('syntax-error')
-            .attr('title', '')
-            .unbind('mouseenter mouseleave'); // Removes tipsy.
-        $('a.tab.hasError', self.el).removeClass('hasError')
-        $('.tipsy').remove();
-
+        this.views.stylesheets.clearError();
         this.model.save(this.model, {
             success: function() {
                 that.model.trigger('save');
@@ -196,33 +187,11 @@ var ProjectView = Backbone.View.extend({
                 if (typeof data === 'string') {
                     window.app.message('Error', data);
                 } else if (data.status == 500) {
-                    var err_obj = $.parseJSON(data.responseText);
-                    if (_.isArray(err_obj)) {
-                        _.each(err_obj, function(error) {
-                            if (error.line) {
-                                var editor = _.detect(
-                                    that.model.view.stylesheets.collection.models,
-                                    function(s) {
-                                        return s.id == error.filename;
-                                });
-                                $('div.CodeMirror-line-numbers div:nth-child('
-                                    + error.line
-                                    + ')',
-                                    editor.view.codemirror.lineNumbers)
-                                    .addClass('syntax-error')
-                                    .attr('title', error.message)
-                                    .tipsy({gravity: 'w'});
-                                $(editor.view.el).addClass('hasError');
-                            } else {
-                                window.app.message('Error', error.message);
-                            }
-                        });
-                    } else {
-                        window.app.message('Error', err_obj.message);
-                    }
+                    that.views.stylesheets.showError(err, data);
                 }
             }
         });
+        $('.tipsy').remove();
         return false;
     },
     close: function() {
