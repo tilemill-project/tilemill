@@ -1,3 +1,6 @@
+// StylesheetTools
+// ---------------
+// View. Tools for inserting font and color values into a stylesheet.
 var StylesheetTools = Backbone.View.extend({
     id: 'StylesheetTools',
     className: 'view',
@@ -6,8 +9,8 @@ var StylesheetTools = Backbone.View.extend({
         this.render();
     },
     render: function() {
-        var colors = new ColorSwatches({
-                collection: new ColorSwatchesList(null, {
+        var colors = new ColorSwatchListView({
+                collection: new ColorSwatchList(null, {
                     project: this.options.project
                 }),
                 project: this.options.project
@@ -35,7 +38,7 @@ var StylesheetTools = Backbone.View.extend({
         if (self.hasClass('inactive')) {
             self.removeClass('inactive')
                 .addClass('active');
-            $('#ColorSwatches', this.el).hide();
+            $('#ColorSwatchListView', this.el).hide();
             $('#FontPicker', this.el).show();
         }
         return false;
@@ -47,12 +50,15 @@ var StylesheetTools = Backbone.View.extend({
             self.removeClass('inactive')
                 .addClass('active');
             $('#FontPicker', this.el).hide();
-            $('#ColorSwatches', this.el).show();
+            $('#ColorSwatchListView', this.el).show();
         }
         return false;
     }
 });
 
+// ColorPicker
+// -----------
+// View. ColorPicker widget.
 var ColorPicker = Backbone.View.extend({
     id: 'ColorPicker',
     initialize: function(options) {
@@ -117,6 +123,9 @@ var ColorPicker = Backbone.View.extend({
     }
 });
 
+// ColorSwatch
+// -----------
+// Model. A single color swatch.
 var ColorSwatch = Backbone.Model.extend({
     initialize: function() {
         this.set({
@@ -131,52 +140,55 @@ var ColorSwatch = Backbone.Model.extend({
     },
     // # From farbtastic.
     RGBToHSL: function(rgb) {
-      var r = rgb[0], g = rgb[1], b = rgb[2],
-          min = Math.min(r, g, b),
-          max = Math.max(r, g, b),
-          delta = max - min,
-          h = 0,
-          s = 0,
-          l = (min + max) / 2;
-      if (l > 0 && l < 1) {
-        s = delta / (l < 0.5 ? (2 * l) : (2 - 2 * l));
-      }
-      if (delta > 0) {
-        if (max == r && max != g) h += (g - b) / delta;
-        if (max == g && max != b) h += (2 + (b - r) / delta);
-        if (max == b && max != r) h += (4 + (r - g) / delta);
-        h /= 6;
-      }
-      return [h, s, l];
+        var r = rgb[0], g = rgb[1], b = rgb[2],
+            min = Math.min(r, g, b),
+            max = Math.max(r, g, b),
+            delta = max - min,
+            h = 0,
+            s = 0,
+            l = (min + max) / 2;
+        if (l > 0 && l < 1) {
+            s = delta / (l < 0.5 ? (2 * l) : (2 - 2 * l));
+        }
+        if (delta > 0) {
+            if (max == r && max != g) h += (g - b) / delta;
+            if (max == g && max != b) h += (2 + (b - r) / delta);
+            if (max == b && max != r) h += (4 + (r - g) / delta);
+            h /= 6;
+        }
+        return [h, s, l];
     },
     dec2hex: function(x) {
-      return (x < 16 ? '0' : '') + x.toString(16);
+        return (x < 16 ? '0' : '') + x.toString(16);
     },
     // Given a [r, g, b] array, return a CSS-formatted
     // color string.
     pack: function(rgb) {
-      var r = Math.round(rgb[0] * 255);
-      var g = Math.round(rgb[1] * 255);
-      var b = Math.round(rgb[2] * 255);
-      return '#' + this.dec2hex(r) + this.dec2hex(g) + this.dec2hex(b);
+        var r = Math.round(rgb[0] * 255);
+        var g = Math.round(rgb[1] * 255);
+        var b = Math.round(rgb[2] * 255);
+        return '#' + this.dec2hex(r) + this.dec2hex(g) + this.dec2hex(b);
     },
     unpack: function(color) {
-      if (color.length == 7) {
-        function x(i) {
-          return parseInt(color.substring(i, i + 2), 16) / 255;
+        if (color.length == 7) {
+            function x(i) {
+                return parseInt(color.substring(i, i + 2), 16) / 255;
+            }
+            return [x(1), x(3), x(5)];
         }
-        return [x(1), x(3), x(5)];
-      }
-      else if (color.length == 4) {
-        function x(i) {
-          return parseInt(color.substring(i, i + 1), 16) / 15;
+        else if (color.length == 4) {
+            function x(i) {
+                return parseInt(color.substring(i, i + 1), 16) / 15;
+            }
+            return [x(1), x(2), x(3)];
         }
-        return [x(1), x(2), x(3)];
-      }
     }
 });
 
-var ColorSwatchesList = Backbone.Collection.extend({
+// ColorSwatchList
+// ---------------
+// Collection. List of ColorSwatch models.
+var ColorSwatchList = Backbone.Collection.extend({
     model: ColorSwatch,
     initialize: function(models, options) {
         _.bindAll(this, 'reload');
@@ -222,15 +234,18 @@ var ColorSwatchesList = Backbone.Collection.extend({
     }
 });
 
-var ColorSwatches = Backbone.View.extend({
-    id: 'ColorSwatches',
+// ColorSwatchListView
+// -------------------
+// View. Displays all colors in a project as a set of color swatches.
+var ColorSwatchListView = Backbone.View.extend({
+    id: 'ColorSwatchListView',
     className: 'view',
     initialize: function(options) {
         _.bindAll(this, 'render', 'createSwatchView');
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.del);
         this.project = options.project;
-        $(this.el).html(ich.ColorSwatches());
+        $(this.el).html(ich.ColorSwatchListView());
     },
     render: function() {
         var that = this;
@@ -256,6 +271,9 @@ var ColorSwatches = Backbone.View.extend({
     }
 });
 
+// ColorSwatchView
+// ---------------
+// View. Single color swatch.
 var ColorSwatchView = Backbone.View.extend({
     events: {
         'click': 'insertHex'
@@ -284,6 +302,9 @@ var ColorSwatchView = Backbone.View.extend({
     }
 });
 
+// FontPicker
+// ----------
+// View. Font selection list.
 var FontPicker = Backbone.View.extend({
     id: 'FontPicker',
     events: {
@@ -343,3 +364,4 @@ var FontPicker = Backbone.View.extend({
         $(mirror).focus();
     }
 });
+
