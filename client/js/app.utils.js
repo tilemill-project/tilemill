@@ -1,9 +1,11 @@
-/**
- * Watcher.
- *
- * Class for polling a given model (or collection) and firing a callback
- * when it changes.
- */
+// Watcher
+// -------
+// Class for polling a given model (or collection) and firing a callback
+// when it changes.
+//
+// - `model` model to watch
+// - `callback` function to call when a change occurs to the model
+// - `interval` interval to polling the server (in milliseconds)
 var Watcher = function(model, callback, interval) {
     _.bindAll(this, 'fetch', 'destroy');
     var model = model;
@@ -27,11 +29,13 @@ Watcher.prototype.destroy = function() {
     window.clearInterval(this.watcher);
 };
 
-/**
- * Status.
- *
- * Class for polling a certain endpoint and firing a callback if it is down.
- */
+// Status
+// ------
+// Class for polling a certain endpoint and firing a callback if it is down.
+//
+// - `url` URL to poll
+// - `callback` function to call if the URL request results in an error
+// - `interval` interval to poll the URL (in milliseconds)
 var Status = function(url, callback, interval) {
     _.bindAll(this, 'start', 'error', 'stop');
     this.url = url;
@@ -65,11 +69,17 @@ Status.prototype.stop = function() {
     }
 };
 
-/**
- * View: PopupView
- *
- * Modal popup.
- */
+// PopupView
+// ---------
+// View. Modal popup base class. Extending classes should populate the
+// following properties on `initialize()`:
+//
+// - `this.options.title` title text of the popup
+// - `this.options.content` HTML string of the popup contents. Use
+//   the render as string second argument of `ich[template].()` to
+//   render a mustache template to a string.
+// - `this.options.className` an additional HTML class to attach to
+//   the popup div.
 var PopupView = Backbone.View.extend({
     initialize: function () {
         _.bindAll(this, 'render');
@@ -105,11 +115,13 @@ var PopupView = Backbone.View.extend({
     }
 });
 
-/**
- * View: DropdownView
- *
- * Dropdown menu.
- */
+// DropdownView
+// ------------
+// View. Dropdown menu base class. Extending classes should populate the
+// following properties on `initialize()`:
+//
+// - `this.options.title` text for the dropdown menu button
+// - `this.options.content` HTML string of dropdown contents
 var DropdownView = Backbone.View.extend({
     className: 'DropdownView',
     initialize: function() {
@@ -138,11 +150,14 @@ var DropdownView = Backbone.View.extend({
     }
 });
 
-/**
- * View: DrawerView
- *
- * Slideout drawer from the left side of the screen.
- */
+// DrawerView
+// ----------
+// View. Twitter-style slideout drawer base class. Because the rendering of
+// this view is animated, it's recommended that any loading/rendering of the
+// contents of your drawer be bound using the `view.bind('render')` event.
+//
+// - `this.options.title` text for drawer title
+// - `this.options.content` HTML string of drawer contents
 var DrawerView = Backbone.View.extend({
     className: 'drawer',
     events: {
@@ -172,11 +187,10 @@ var DrawerView = Backbone.View.extend({
     }
 });
 
-/**
- * View: LoadingView
- *
- * Load indicator overlay.
- */
+// LoadingView
+// -----------
+// Loading overlay. Populate `options.message` to show text giving the user
+// context about what is loading.
 var LoadingView = Backbone.View.extend({
     initialize: function () {
         _.bindAll(this, 'render');
@@ -188,11 +202,9 @@ var LoadingView = Backbone.View.extend({
     }
 });
 
-/**
- * View: ErrorView
- *
- * Error page.
- */
+// ErrorView
+// ---------
+// Page view. Error, like a 404.
 var ErrorView = Backbone.View.extend({
     initialize: function () {
         _.bindAll(this, 'render');
@@ -208,11 +220,9 @@ var ErrorView = Backbone.View.extend({
     }
 });
 
-/**
- * View: SettingsPopupView
- *
- * Settings form. Extends PopupView.
- */
+// SettingsPopupView
+// -----------------
+// App-wide settings form.
 var SettingsPopupView = PopupView.extend({
     events: _.extend({
         'click input.submit': 'submit'
