@@ -85,7 +85,7 @@ build_addon_git() {
 # <repo> <module> <tag> <file to check to decide about re-download>
 build_addon_no_git "mapnik" "node-mapnik" "0.2.3" "lib/node/mapnik/_mapnik.node"
 build_addon_no_git "springmeyer" "node-srs" "0.1.1" "lib/node/srs/_srs.node"
-build_addon_no_git "springmeyer" "node-zipfile" "0.1.4" "lib/node/zipfile/_zipfile.node"
+build_addon_no_git "springmeyer" "node-zipfile" "0.1.5" "lib/node/zipfile/_zipfile.node"
 build_addon_no_git "developmentseed" "node-sqlite" "0.0.1" "lib/node/sqlite/sqlite3_bindings.node"
 
 # Create local data directory and populate with sample data
