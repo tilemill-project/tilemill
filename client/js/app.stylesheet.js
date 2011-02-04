@@ -108,8 +108,8 @@ var StylesheetTabView = Backbone.View.extend({
                 height: '100%',
                 lineNumbers: true,
                 stylesheet: 'css/code.css',
-                path: 'js/libraries/codemirror/js/',
-                parserfile: 'parsemss.js',
+                path: 'CodeMirror/js/',
+                parserfile: '../../js/app.parsemss.js',
                 parserConfig: window.app.reference.toJSON(),
                 saveFunction: function() {
                     self.model.collection.parent.view.saveProject();
