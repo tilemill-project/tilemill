@@ -232,15 +232,11 @@ var Project = Backbone.Model.extend({
     },
     // Base64 encode this project's MML URL.
     project64: function(options) {
-        // `window.location.origin` is not available in all browsers like
-        // Firefox. @TODO This approach won't allow TileMill to be installed in
-        // a subdirectory. Fix.
         var url = this.baseURL() + this.url();
         if (options.signed) {
-            var md5 = new MD5();
-            url += '?' + md5.digest(JSON.stringify(this)).substr(0, 6);
+            url += '?' + ('' + (+new Date)).substring(0,10);
         }
-        return Base64.urlsafe_encode(url);
+        return Base64.encodeURI(url);
     },
     // Layer URL based on the model URL.
     layerURL: function(options) {
