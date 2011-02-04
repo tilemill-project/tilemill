@@ -2,15 +2,66 @@
 // @TODO if we use the keyword 'var' in front of Backbone, _, IE will wipe the
 // globally defined Backbone and underscore leaving us with broken objects.
 // This is obviously not ideal.
-if (typeof require !== 'undefined') {
+if (typeof require !== 'undefined' && typeof window === 'undefined') {
+    JSV = require('jsv').JSV;
     Backbone = require('backbone-dirty');
     _ = require('underscore')._;
 }
+
+// JSON schema validation
+// ----------------------
+// Provide a default `validate()` method for all models. If a `schema` property
+// is defined on a model, use JSON-schema validation by default.
+Backbone.Model.prototype.validate = function(attributes) {
+    if (!this.schema || !this.schema.properties) return;
+    var env = JSV.createEnvironment();
+    for (var key in attributes) {
+        if (this.schema.properties[key]) {
+            var property = this.schema.properties[key],
+                value = attributes[key];
+            // Do a custom check for required properties, (e.g. do not allow
+            // an empty string to validate against a required property.)
+            if (!value && property.required) {
+                return (property.title || key) + ' is required.';
+            }
+
+            var errors = env.validate(value, property).errors;
+            if (errors.length) {
+                var error = errors.pop();
+                if (property.description) {
+                    return property.description;
+                } else {
+                    return (property.title || key) + ': ' + error.message;
+                }
+            }
+        }
+    }
+};
 
 // Abilities (read-only)
 // ---------------------
 // Model. Describes server API abilities.
 var Abilities = Backbone.Model.extend({
+    schema: {
+        'type': 'object',
+        'properties': {
+            'fonts': {
+                'type': 'array',
+                'title': 'Fonts',
+                'description': 'Fonts available to Mapnik.'
+            },
+            'datasources': {
+                'type': 'array',
+                'title': 'Datasources',
+                'description': 'Datasource types available to Mapnik.'
+            },
+            'exports': {
+                'type': 'object',
+                'title': 'Exports',
+                'description': 'Export types available to Mapnik.'
+            }
+        }
+    },
     url: 'api/Abilities'
 });
 
@@ -25,6 +76,37 @@ var Reference = Backbone.Model.extend({
 // ----------------------
 // Model. Inspection metadata about a map layer.
 var Datasource = Backbone.Model.extend({
+    schema: {
+        'type': 'object',
+        'properties': {
+            'id': {
+                'type': 'string',
+            },
+            'url': {
+                'type': 'string',
+                'required': true,
+                'minLength': 1,
+                'title': 'URL',
+                'description': 'URL of the datasource.'
+            },
+            'fields': {
+                'type': 'object'
+            },
+            'features': {
+                'type': 'array'
+            },
+            'ds_options': {
+                'type': 'object'
+            },
+            'ds_type': {
+                'type': 'string'
+            },
+            'geometry_type': {
+                'type': 'string',
+                'enum': ['polygon', 'point', 'linestring', 'raster']
+            }
+        }
+    },
     // @TODO either as a feature or a bug, object attributes are not set
     // automatically when passed to the constructor. We set it manually here.
     initialize: function(attributes, options) {
@@ -39,14 +121,25 @@ var Datasource = Backbone.Model.extend({
 // --------
 // Model. Stores any user-specific configuration related to the app.
 var Settings = Backbone.Model.extend({
+    schema: {
+        'type': 'object',
+        'properties': {
+            'id': {
+                'type': 'string',
+                'required': true,
+                'enum': ['settings']
+            },
+            'mode': {
+                'type': 'string',
+                'enum': ['normal', 'minimal'],
+                'title': 'Editing mode',
+                'description': 'Editing mode may be \'normal\' or \'minimal\' to allow use of external editors.'
+            }
+        }
+    },
     type: 'settings',
     url: function() {
         return 'api/Settings/' + this.id;
-    },
-    validate: function(attributes) {
-        if (typeof attributes.mode !== 'undefined' && attributes.mode !== 'normal' && attributes.mode !== 'minimal') {
-            return 'Invalid editor mode specified.';
-        }
     }
 });
 
@@ -56,15 +149,24 @@ var Settings = Backbone.Model.extend({
 // the Project model and is saved serialized as part of the parent.
 // **This model is not backed directly by the server.**
 var Stylesheet = Backbone.Model.extend({
-    initialize: function() {
-        if (!this.get('data')) {
-            this.set({ 'data': '' });
+    schema: {
+        'type': 'object',
+        'properties': {
+            'id': {
+                'type': 'string',
+                'required': true,
+                'pattern': '^[A-Za-z0-9\-_.]+$',
+                'title': 'Name',
+                'description': 'Name may include alphanumeric characters, dots, dashes and underscores.'
+            },
+            'data': {
+                'type': 'string',
+                'required': true
+            }
         }
     },
-    validate: function(attributes) {
-        if (/^[a-z0-9\-_.]+$/i.test(attributes.id) === false) {
-            return 'Name must contain no space and only letters, numbers, dashes, underscores and periods.';
-        }
+    defaults: {
+        'data': ''
     }
 });
 
@@ -99,21 +201,39 @@ var StylesheetList = Backbone.Collection.extend({
 // the Project model and is saved serialized as part of the parent.
 // **This model is not backed directly by the server.**
 var Layer = Backbone.Model.extend({
+    schema: {
+        'type': 'object',
+        'properties': {
+            'id': {
+                'type': 'string',
+                'required': true,
+                'pattern': '^[A-Za-z0-9\-_]+$',
+                'title': 'ID',
+                'description': 'ID may include alphanumeric characters, dashes and underscores.'
+            },
+            'class': {
+                'type': 'string',
+                'pattern': '^[A-Za-z0-9\-_]*$',
+                'title': 'Class',
+                'description': 'Class may include alphanumeric characters, dashes and underscores.'
+            },
+            'srs': {
+                'type': 'string'
+            },
+            'geometry': {
+                'type': 'string',
+                'enum': ['polygon', 'point', 'linestring', 'raster']
+            },
+            'Datasource': {
+                'type': 'object',
+                'required': true
+            }
+        }
+    },
     // @TODO either as a feature or a bug, object attributes are not set
     // automatically when passed to the constructor. We set it manually here.
     initialize: function(attributes) {
         this.set({'Datasource': attributes.Datasource});
-    },
-    validate: function(attributes) {
-        if (/^[a-z0-9\-_]+$/i.test(attributes.id) === false) {
-            return 'ID must contain only letters, numbers, dashes, and underscores.';
-        }
-        if (attributes['class'] && /^[a-z0-9\-_ ]+$/i.test(attributes['class']) === false) {
-            return 'Class must contain only letters, numbers, dashes, and underscores.';
-        }
-        if (attributes.Datasource && !attributes.Datasource.file) {
-            return 'Supplying a datasource is required.';
-        }
     }
 });
 
@@ -147,8 +267,37 @@ var LayerList = Backbone.Collection.extend({
 // Model. A single TileMill map project. Describes an MML JSON map object that
 // can be used by `mess.js` to render a map.
 var Project = Backbone.Model.extend({
-    SRS_DEFAULT: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 '
-    + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+    schema: {
+        'type': 'object',
+        'properties': {
+            'id': {
+                'type': 'string',
+                'required': true,
+                'pattern': '^[A-Za-z0-9\-_]+$',
+                'title': 'Name',
+                'description': 'Name may include alphanumeric characters, dashes and underscores.'
+            },
+            'srs': {
+                'type': 'string',
+                'required': true
+            },
+            'Stylesheet': {
+                'type': ['object', 'array'],
+                'required': true
+            },
+            'Layer': {
+                'type': ['object', 'array'],
+                'required': true
+            },
+            '_format': {
+                'type': 'string',
+                'enum': ['png', 'png24', 'jpeg80', 'jpeg85', 'jpeg90', 'jpeg95']
+            },
+            '_center': {
+                'type': 'object'
+            }
+        }
+    },
     STYLESHEET_DEFAULT: [{
         id: 'style.mss',
         data: 'Map {\n'
@@ -174,30 +323,21 @@ var Project = Backbone.Model.extend({
     type: 'project',
     defaults: {
         '_center': { lat:0, lon:0, zoom:2 },
-        '_format': 'png'
+        '_format': 'png',
+        'srs': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 '
+            + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+        'Stylesheet': [],
+        'Layer': []
     },
     // Custom setDefaults() method for creating a project with default layers,
     // stylesheets, etc. Note that we do not use Backbone native initialize()
     // or defaults(), both of which make default values far pervasive than the
     // expected use here.
     setDefaults: function() {
-        if (!this.get('srs')) {
-            this.set({'srs': this.SRS_DEFAULT});
-        }
-        if (!this.get('Stylesheet')) {
-            this.set({
-                'Stylesheet': new StylesheetList(this.STYLESHEET_DEFAULT, {
-                    parent: this
-                })
-            });
-        }
-        if (!this.get('Layer')) {
-            this.set({
-                'Layer': new LayerList(this.LAYER_DEFAULT, {
-                    parent: this
-                })
-            });
-        }
+        var template = {};
+        !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT);
+        !this.get('Layer').length && (template.Layer = this.LAYER_DEFAULT);
+        this.set(template, { silent: true });
     },
     // Instantiate StylesheetList and LayerList collections from JSON lists
     // of plain JSON objects.
@@ -241,32 +381,6 @@ var Project = Backbone.Model.extend({
     // Layer URL based on the model URL.
     layerURL: function(options) {
         return this.baseURL();
-    },
-    validate: function(attributes) {
-        // Test character set of model ID.
-        if (typeof attributes.id !== 'undefined') {
-            if (/^[a-z0-9\-_]+$/i.test(attributes.id) === false) {
-                return 'Name must contain only letters, numbers, dashes, '
-                    + 'and underscores.';
-            }
-        }
-        // Test that there is at least one stylesheet.
-        if (typeof attributes.Stylesheet !== 'undefined') {
-            var stylesheet = attributes.Stylesheet instanceof StylesheetList
-                ? attributes.Stylesheet.models
-                : attributes.Stylesheet;
-            if (stylesheet.length === 0) {
-                return 'No stylesheets found.';
-            }
-            // Test that each stylesheet has a unique ID.
-            var counts = _.reduce(_.pluck(stylesheet, 'id'), function(memo, val) {
-                memo[val] = memo[val] ? memo[val] + 1 : 1;
-                return memo;
-            }, {});
-            if (_.max(_.values(counts)) > 1) {
-                return 'Stylesheet IDs must be unique.';
-            }
-        }
     },
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent
@@ -321,6 +435,38 @@ var ProjectList = Backbone.Collection.extend({
 // ------
 // Model. Describes a single export task, e.g. rendering a map to a PDF.
 var Export = Backbone.Model.extend({
+    schema: {
+        'type': 'object',
+        'properties': {
+            'id': {
+                'type': 'string',
+                'required': true
+            },
+            'status': {
+                'type': 'string',
+                'required': true,
+                'enum': ['waiting', 'processing', 'complete', 'error']
+            },
+            'progress': {
+                'type': 'number',
+                'minimum': 0,
+                'maximum': 1
+            },
+            'filename': {
+                'type': 'string',
+                'pattern': '^[A-Za-z0-9\-_.]+$'
+            },
+            'created': {
+                'type': 'integer'
+            },
+            'updated': {
+                'type': 'integer'
+            },
+            'error': {
+                'type': 'string'
+            }
+        }
+    },
     type: 'export',
     initialize: function() {
         this.isNew() && this.set({created: +new Date});
@@ -331,14 +477,6 @@ var Export = Backbone.Model.extend({
     defaults: {
         progress: 0,
         status: 'waiting'
-    },
-    validate: function(attributes) {
-        if (attributes.status && _.indexOf(['waiting', 'processing', 'complete', 'error'], attributes.status) === -1) {
-            return 'Invalid status.';
-        }
-        if (attributes.progress && (typeof attributes.progress !== 'number' || attributes.progress > 1 || attributes.progress < 0)) {
-            return 'Progress must be a value between 0 and 1 (inclusive).';
-        }
     },
     // Generate a download URL for an Export.
     downloadURL: function() {
@@ -377,6 +515,22 @@ var ExportList = Backbone.Collection.extend({
 // -----
 // Model. Single external asset, e.g. a shapefile, image, etc.
 var Asset = Backbone.Model.extend({
+    schema: {
+        'type': 'object',
+        'properties': {
+            'id': {
+                'type': 'string',
+                'required': true
+            },
+            'url': {
+                'type': 'string',
+                'required': true
+            },
+            'bytes': {
+                'type': 'string'
+            }
+        }
+    },
     extension: function() {
         return this.id.split('.').pop();
     }
@@ -483,36 +637,74 @@ var AssetListS3 = AssetList.extend({
 // Model. Stores settings for a given asset library type, e.g. a local file
 // directory or an Amazon S3 bucket.
 var Library = Backbone.Model.extend({
+    schema: {
+        'type': 'object',
+        'properties': {
+            'id': {
+                'type': 'string',
+                'required': true,
+                'minLength': 1
+            },
+            'type': {
+                'type': 'string',
+                'required': true,
+                'enum': ['s3', 'directory']
+            },
+            'name': {
+                'type': 'string',
+                'required': true,
+                'minLength': 1
+            },
+            's3_bucket': {
+                'type': 'string',
+                'required': true,
+                'minLength': 1
+            },
+            's3_key': {
+                'type': 'string',
+                'required': true,
+                'minLength': 1
+            },
+            's3_secret': {
+                'type': 'string',
+                'required': true,
+                'minLength': 1
+            },
+            'directory_path': {
+                'type': 'string',
+                'required': true,
+                'minLength': 1
+            }
+        },
+        'dependencies': {
+            's3_bucket': {
+                'properties': {
+                    'type': { 'enum': ['s3'], 'required': true }
+                }
+            },
+            's3_key': {
+                'properties': {
+                    'type': { 'enum': ['s3'], 'required': true }
+                }
+            },
+            's3_secret': {
+                'properties': {
+                    'type': { 'enum': ['s3'], 'required': true }
+                }
+            },
+            'directory_path': {
+                'properties': {
+                    'type': { 'enum': ['directory'], 'required': true }
+                }
+            }
+        }
+    },
     type: 'library',
     url: function() {
         return 'api/Library/' + this.id;
     },
     defaults: {
         type: 'directory'
-    },
-    validate: function(attributes) {
-        var required;
-        switch (attributes.type || this.get('type')) {
-        case 's3':
-            required = {
-                name: 'Name is required.',
-                s3_bucket: 'S3 bucket is required.',
-                s3_key: 'S3 access key is required.',
-                s3_secret: 'S3 secret is required.'
-            };
-            break;
-        case 'directory':
-            required = {
-                name: 'Name is required.',
-                directory_path: 'Path is required.'
-            };
-            break;
-        }
-        for (var field in required) {
-            if (!_.isUndefined(attributes[field]) && !attributes[field]) {
-                return required[field];
-            }
-        }
     },
     initialize: function(options) {
         switch (this.get('type')) {

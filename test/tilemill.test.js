@@ -89,42 +89,7 @@ module.exports = {
         }, {
             status: 500
         }, function(res) {
-            assert.equal(res.body, 'Name must contain only letters, numbers, dashes, and underscores.');
-        });
-        // Validation: No stylesheets found.
-        var invalid = _.extend(JSON.parse(project1), {
-            Stylesheet: []
-        });
-        assert.response(app, {
-            url: '/api/Project/Test',
-            method: 'PUT',
-            headers: {
-                'content-type': 'application/json'
-            },
-            data: JSON.stringify(invalid)
-        }, {
-            status: 500
-        }, function(res) {
-            assert.equal(res.body, 'No stylesheets found.');
-        });
-        // Validation: Stylesheet IDs must be unique.
-        var invalid = _.extend(JSON.parse(project1), {
-            Stylesheet: [
-                { id: 'foo', data: '' },
-                { id: 'foo', data: '' }
-            ]
-        });
-        assert.response(app, {
-            url: '/api/Project/Test',
-            method: 'PUT',
-            headers: {
-                'content-type': 'application/json'
-            },
-            data: JSON.stringify(invalid)
-        }, {
-            status: 500
-        }, function(res) {
-            assert.equal(res.body, 'Stylesheet IDs must be unique.');
+            assert.equal(res.body, 'Name may include alphanumeric characters, dashes and underscores.');
         });
         // Validation: Stylesheet syntax validation.
         var invalid = _.extend(JSON.parse(project1), {
@@ -247,7 +212,7 @@ module.exports = {
         }, {
             status: 500
         }, function(res) {
-            assert.equal(res.body, 'Invalid editor mode specified.');
+            assert.equal(res.body, 'Editing mode may be \'normal\' or \'minimal\' to allow use of external editors.');
         });
     },
     'settings-update': function() {
