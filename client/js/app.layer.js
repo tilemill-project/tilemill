@@ -167,37 +167,40 @@ var LayerPopupView = PopupView.extend({
     },
     submit: function() {
         var that = this;
-        var datasource = new Datasource({
+        var datasource = new Datasource();
+        var success = datasource.set({
             id: $('input#id', this.el).val(),
             url: $('input#file', this.el).val()
-        });
-        this.loading('Loading datasource');
-        datasource.fetch({
-            success: function() {
-                that.done();
-                var success = that.model.set(
-                    {
-                        'id': $('input#id', that.el).val(),
-                        'name': $('input#id', that.el).val(),
-                        'srs': (datasource.get('ds_type') === 'gdal')
-                            ? that.SRS['900913']
-                            : $('input#srs', that.el).val(),
-                        'class': $('input#class', that.el).val(),
-                        'geometry': datasource.get('geometry_type'),
-                        'Datasource': _.extend(
-                            { 'file': $('input#file', that.el).val() },
-                            datasource.get('ds_options')
-                        )
-                    },
-                    { 'error': that.showError }
-                );
-                if (success) {
-                    that.options.add && that.collection.add(that.model);
-                    that.remove();
-                }
-            },
-            error: that.showError
-        });
+        }, { error: that.showError });
+        if (success) {
+            this.loading('Loading datasource');
+            datasource.fetch({
+                success: function() {
+                    that.done();
+                    var success = that.model.set(
+                        {
+                            'id': $('input#id', that.el).val(),
+                            'name': $('input#id', that.el).val(),
+                            'srs': (datasource.get('ds_type') === 'gdal')
+                                ? that.SRS['900913']
+                                : $('input#srs', that.el).val(),
+                            'class': $('input#class', that.el).val(),
+                            'geometry': datasource.get('geometry_type'),
+                            'Datasource': _.extend(
+                                { 'file': $('input#file', that.el).val() },
+                                datasource.get('ds_options')
+                            )
+                        },
+                        { 'error': that.showError }
+                    );
+                    if (success) {
+                        that.options.add && that.collection.add(that.model);
+                        that.remove();
+                    }
+                },
+                error: that.showError
+            });
+        }
         return false;
     },
     assets: function() {
