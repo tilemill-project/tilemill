@@ -170,6 +170,7 @@ var StylesheetPopupView = PopupView.extend({
         this.render();
     },
     submit: function() {
+        var that = this;
         var id = $('input.text', this.el).val();
         if (this.collection.get(id)) {
             window.app.message('Error', 'Stylesheet names must be unique.');
@@ -178,7 +179,7 @@ var StylesheetPopupView = PopupView.extend({
         var stylesheet = new Stylesheet;
         var success = stylesheet.set(
             { id: id },
-            { error: this.showError }
+            { error: that.showError }
         );
         if (success) {
             this.collection.add(stylesheet);
