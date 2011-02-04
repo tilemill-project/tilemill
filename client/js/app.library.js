@@ -96,7 +96,7 @@ var LibraryListPopupView = PopupView.extend({
     initialize: function (options) {
         _.bindAll(this, 'select', 'loading', 'done');
         this.options.title = 'Libraries';
-        this.options.size = 'big';
+        this.options.className = 'big';
         PopupView.prototype.initialize.call(this, options);
 
         // Show the first Library.
