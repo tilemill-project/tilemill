@@ -1407,10 +1407,7 @@ form .palette .ui-slider-range {
  * of the window size.
  */
 @media screen and (max-width:800px) {
-  #MainView .main { left:50%; }
-  #MainView .sidebar { width:50%; }
-  ul.assets li,
-  ul.projects li {
+  ul.assets li {
     float:none;
     width:auto;
     }
