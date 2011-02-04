@@ -600,7 +600,7 @@ var AssetListS3 = AssetList.extend({
     url: function() {
         var url = 'api/Library/' + this.library.id + '/assets';
         if (this.marker()) {
-            url += '/' + Base64.urlsafe_encode(this.marker());
+            url += '/' + Base64.encodeURI(this.marker());
         }
         return url;
     },
