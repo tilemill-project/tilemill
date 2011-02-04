@@ -11,13 +11,12 @@ var Watcher = function(model, callback, interval) {
     this.model.bind('change', this.fetch);
     this.callback = callback;
     this.interval = interval || 1000;
-    this.md5 = new MD5();
-    this.current = this.md5.digest(JSON.stringify(this.model));
+    this.current = JSON.stringify(this.model);
     this.watcher = setInterval(function() { model.fetch(); }, this.interval);
 };
 
 Watcher.prototype.fetch = function() {
-    var state = this.md5.digest(JSON.stringify(this.model));
+    var state = JSON.stringify(this.model);
     if (this.current !== state) {
         this.current = state;
         this.callback && this.callback();

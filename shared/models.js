@@ -31,7 +31,7 @@ var Datasource = Backbone.Model.extend({
         this.set({'fields': attributes.fields});
     },
     url: function() {
-        return 'api/Datasource/' + Base64.urlsafe_encode(this.get('url'));
+        return 'api/Datasource/' + Base64.encodeURI(this.get('url'));
     }
 });
 

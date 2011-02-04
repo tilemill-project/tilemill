@@ -13,6 +13,7 @@ var app = module.exports = express.createServer();
 app.use(express.bodyDecoder());
 app.use(express.staticProvider('client'));
 app.use(express.staticProvider('shared'));
+app.use(express.staticProvider('modules'));
 
 // Bootstrap must be required first and is *blocking* while it does its setup.
 require('bootstrap')(app, settings);
