@@ -801,9 +801,9 @@ ul.projects a:hover {
 /**
  * ColorSwatches ==============================================================
  */
-#ColorSwatches { padding-right:30px; }
+#ColorSwatchListView { padding-right:30px; }
   
-#ColorSwatches .swatch {
+#ColorSwatchListView .swatch {
   -moz-box-shadow:#ccc 0px 1px 2px;
   -webkit-box-shadow:#ccc 0px 1px 2px;
   background:url(../images/sprite.png) 0px -220px no-repeat;

@@ -310,10 +310,14 @@
       </ul>
     </script>
 
-    <script type='text/html' id='ColorSwatches'>
+    <script type='text/html' id='ColorSwatchListView'>
       <div class='swatches clearfix pane'></div>
     </script>
-    
+
+    <script type='text/html' id='ColorSwatchView'>
+      <a href='#' class='swatch' style='background-color: {{color}}' title='{{color}}'></a>
+    </script>
+
     <script type='text/html' id='ColorPicker'>
       <a class='tipsy-e icon color-picker' title="Color picker" href='#color-picker'>Color picker</a>
     </script>
@@ -410,10 +414,6 @@
       <div class='dropdown-content'>
         {{{content}}}
       </div>
-    </script>
-
-    <script type='text/html' id='ColorSwatchView'>
-      <a href='#' class='swatch' style='background-color: {{color}}' title='{{color}}'></a>
     </script>
 
     <script type='text/html' id='ReferenceView'>
