@@ -1060,22 +1060,14 @@ ul.projects a:hover {
 .popup {
   z-index:5000;
   position:absolute;
-  top:70px;
+  top:69px;
   left:50%;
   width: 500px;
-  margin-left:-250px;
-  background-color: #fff;
-
-  -moz-border-radius:3px;
-  -webkit-border-radius:3px;
-  border-radius:3px;
+  margin-left:-251px;
+  background-color:#fff;
+  border:1px solid #999;
   -moz-box-shadow:rgba(64,64,64,.25) 0px 0px 0px 5px;
   -webkit-box-shadow:rgba(64,64,64,.25) 0px 0px 0px 5px;
-  }
-
-.popup-header {
-  -moz-border-radius:3px 3px 0px 0px;
-  -webkit-border-radius:3px 3px 0px 0px;
   }
 
 .popup-content { position:relative; }
@@ -1084,10 +1076,10 @@ ul.projects a:hover {
 .popup-header a { float:right; }
 
 .popup.big {
-  top:60px;
-  left:60px;
-  right:60px;
-  bottom:60px;
+  top:59px;
+  left:59px;
+  right:59px;
+  bottom:59px;
   width:auto;
   margin:0px;
   }
