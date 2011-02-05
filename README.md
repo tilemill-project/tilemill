@@ -50,7 +50,7 @@ Setup
 
 ## Running
 
-    ./run.sh
+    ./tilemill.js
 
 TileMill should now be running on http://localhost:8889/
 

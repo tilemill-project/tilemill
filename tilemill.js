@@ -1,3 +1,36 @@
+#!./build/bin/node
+
+// The TileMill application consists of:
+//
+//     +-----------------+
+//     | tilemill client |
+//     +-----------------+
+//              |                   +----------------+
+//     +-----------------+          |+----------------+
+//     | express         | -------> ||+----------------+
+//     | tilemill server | -------> +|| node-worker    |
+//     +-----------------+           +| export process |
+//                                    +----------------+
+//
+// - `/client`  
+//   The TileMill client which consists of a single static HTML page and
+//   client-side javascript.
+// - `/server`  
+//   The TileMill server which communicates to the client through JSON HTTP
+//   requests.
+// - `/server/export-worker.js`  
+//   `node-worker` export processes whenever a map export is requested by the
+//   user. Each of these export jobs run in a *separate* node process.
+// - `/modules`  
+//   `backbone`, `underscore`, and `JSV` are js libraries used by both the
+//   client and the server. The `/modules` directory is exposed to the client
+//   via `express.staticProvider` and contains both server-side and client-side
+//   modules.
+// - `/shared`  
+//   The `/shared/models.js` file contains Backbone models and collections
+//   that are used on both the client and server.
+//
+// This file is the main Express server.
 require.paths.unshift(
     __dirname + '/lib/node',
     __dirname + '/server',
@@ -15,16 +48,10 @@ app.use(express.staticProvider('client'));
 app.use(express.staticProvider('shared'));
 app.use(express.staticProvider('modules'));
 
-// Bootstrap must be required first and is *blocking* while it does its setup.
 require('bootstrap')(app, settings);
 require('api')(app, settings);
 require('tiles')(app, settings);
 require('export')(app, settings);
-
-app.error(function(err, req, res){
-    err.message && (err = err.message);
-    res.send(err, 500);
-});
 
 if (app.settings.env !== 'test') {
     app.listen(settings.port);

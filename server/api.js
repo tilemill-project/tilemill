@@ -277,5 +277,11 @@ module.exports = function(app, settings) {
         });
         models.cache.del(req.param('model'), req.param('id'));
     });
+
+    // Generic error handler.
+    app.error(function(err, req, res){
+        err.message && (err = err.message);
+        res.send(err, 500);
+    });
 };
 
