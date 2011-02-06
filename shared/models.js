@@ -213,9 +213,9 @@ var Layer = Backbone.Model.extend({
             },
             'class': {
                 'type': 'string',
-                'pattern': '^[A-Za-z0-9\-_]*$',
+                'pattern': '^[A-Za-z0-9\-_ ]*$',
                 'title': 'Class',
-                'description': 'Class may include alphanumeric characters, dashes and underscores.'
+                'description': 'Class may include alphanumeric characters, spaces, dashes and underscores.'
             },
             'srs': {
                 'type': 'string'
