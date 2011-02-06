@@ -1,18 +1,16 @@
+// GET endpoint for TMS tile image requests. Uses `tilelive.js` Tile API.
+//
+// - `:mapfile_64` String, base64 encoded mapfile URL. This mapfile will
+//   determine the styles and data displayed on the map.
+// - `:z` Number, zoom level of the tile requested.
+// - `:x` Number, x coordinate of the tile requested.
+// - `:y` Number, y coordinate of the tile requested.
+// - `*` String, file format of the tile requested, e.g. `png`, `jpeg`.
 var _ = require('underscore'),
     path = require('path'),
     Tile = require('tilelive').Tile;
 
 module.exports = function(app, settings) {
-    // TMS tiles
-    // ---------
-    // GET endpoint for TMS tile image requests. Uses `tilelive.js` Tile API.
-    //
-    // - `:mapfile_64` String, base64 encoded mapfile URL. This mapfile will
-    //   determine the styles and data displayed on the map.
-    // - `:z` Number, zoom level of the tile requested.
-    // - `:x` Number, x coordinate of the tile requested.
-    // - `:y` Number, y coordinate of the tile requested.
-    // - `*` String, file format of the tile requested, e.g. `png`, `jpeg`.
     app.get('/1.0.0/:mapfile_64/:z/:x/:y.*', function(req, res, next) {
         try {
             var options = {

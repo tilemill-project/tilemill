@@ -83,7 +83,8 @@ var ProjectRowView = Backbone.View.extend({
         _.bindAll(this, 'render', 'del');
         this.render();
     },
-    // See http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
+    // Single tile thumbnail URL generation. From [OSM wiki][1].
+    // [1]: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
     thumb: function() {
         var center = this.model.get('_center');
         center.lat = -1 * center.lat; // TMS is flipped from OSM calc below.

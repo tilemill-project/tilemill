@@ -1,5 +1,4 @@
 #!./build/bin/node
-
 // The TileMill application consists of:
 //
 //     +-----------------+
@@ -12,23 +11,32 @@
 //     +-----------------+           +| export process |
 //                                    +----------------+
 //
-// - `/client`  
-//   The TileMill client which consists of a single static HTML page and
-//   client-side javascript.
-// - `/server`  
-//   The TileMill server which communicates to the client through JSON HTTP
-//   requests.
-// - `/server/export-worker.js`  
-//   `node-worker` export processes whenever a map export is requested by the
-//   user. Each of these export jobs run in a *separate* node process.
-// - `/modules`  
-//   `backbone`, `underscore`, and `JSV` are js libraries used by both the
-//   client and the server. The `/modules` directory is exposed to the client
-//   via `express.staticProvider` and contains both server-side and client-side
-//   modules.
-// - `/shared`  
-//   The `/shared/models.js` file contains Backbone models and collections
-//   that are used on both the client and server.
+// ### /client
+//
+// The TileMill client which consists of a single static HTML page and
+// client-side javascript.
+//
+// ### /server
+//
+// The TileMill server which communicates to the client using JSON over HTTP
+// requests.
+//
+// ### /server/export-worker.js
+//
+// `node-worker` export process created whenever a map export is requested by
+// the user. Each of these export jobs run in a separate node process.
+//
+// ### /modules
+//
+// `backbone`, `underscore`, and `JSV` are libraries used by both the
+// client and the server. The `/modules` directory is exposed to the client
+// via `express.staticProvider` and contains both server-side and client-side
+// modules.
+//
+// ### /shared
+//
+// The `/shared/models.js` file contains Backbone models and collections
+// that are used on both the client and server.
 //
 // This file is the main Express server.
 require.paths.unshift(

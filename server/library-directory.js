@@ -1,3 +1,6 @@
+// Plugin for using a local directory as a Library. Generates the payload for
+// an AssetList REST endpoint consisting of asset models as well as pagination
+// helpers.
 var _ = require('underscore'),
     fs = require('fs'),
     url = require('url'),
@@ -5,11 +8,6 @@ var _ = require('underscore'),
     querystring = require('querystring'),
     Step = require('step');
 
-// Directory (Library plugin)
-// --------------------------
-// Plugin for using a local directory as a Library. Generates the payload for
-// an AssetList REST endpoint consisting of asset models as well as pagination
-// helpers.
 module.exports = function(app, options, callback) {
     // Recursive readdir. `callback(err, files)` is given a `files` array where
     // each file is an object with `filename` and `stat` properties.

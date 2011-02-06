@@ -1,7 +1,5 @@
-// Router
-// ------
-// Route rules for TileMill client. Only a small subset of possible states
-// are represented here, but the major ones are covered.
+// Controller. Router rules for TileMill client. Covers the major possible
+// application states.
 var Router = Backbone.Controller.extend({
     routes: {
         '': 'library',
@@ -55,9 +53,8 @@ var Router = Backbone.Controller.extend({
 
 // App
 // ---
-// View. Represents the entire application "viewport", aka the entire page.
-// Available in the global namespace as `window.app` and contains various
-// useful utility methods.
+// View. Represents the entire application "viewport". Available in the global
+// namespace as `window.app` and contains various utility methods.
 var App = Backbone.View.extend({
     initialize: function(options) {
         this.settings = this.model;
@@ -74,7 +71,8 @@ var App = Backbone.View.extend({
         }, 5000);
 
         // Bootstrap:
-        // 1. Fetch settings, abilities, reference objects from server.
+        //
+        // 1. Fetch settings, abilities, reference models from server.
         // 2. Begin routing.
         this.abilities.fetch();
         this.reference.fetch();
@@ -84,14 +82,14 @@ var App = Backbone.View.extend({
         });
     },
     // Return the base URL of TileMill including a single trailing slash,
-    // e.g. http://localhost:8889/ or http://mapbox/tilemill/
+    // e.g. `http://localhost:8889/` or `http://mapbox/tilemill/`
     baseURL: function() {
         var baseURL = window.location.protocol + '//' + window.location.host;
         var args = window.location.pathname.split('/');
         // Path already ends with trailing slash.
         if (args[args.length - 1] === '') {
             return baseURL + args.join('/');
-        // index.html or similar trailing filename.
+        // `index.html` or similar trailing filename.
         } else if (_.indexOf(args[args.length - 1], '.') !== -1) {
             args.pop();
             return baseURL + args.join('/') + '/';
@@ -142,8 +140,8 @@ var App = Backbone.View.extend({
 
 // Application bootstrap.
 $(function() {
-    // Fix for IE8 AJAX payload caching.
-    // See: http://stackoverflow.com/questions/1013637/unexpected-caching-of-ajax-results-in-ie8
+    // Fix for [IE8 AJAX payload caching][1].
+    // [1]: http://stackoverflow.com/questions/1013637/unexpected-caching-of-ajax-results-in-ie8
     $.ajaxSetup({ cache: false });
 
     // Create the app.
@@ -154,7 +152,7 @@ $(function() {
         reference: new Reference()
     });
 
-   // Use jquery.tipsy for displaying tooltips.
+   // Use `jquery.tipsy` for displaying tooltips.
    $('a').tipsy({
         live:true,
         html:true,

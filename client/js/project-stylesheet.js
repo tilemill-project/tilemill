@@ -1,8 +1,6 @@
-/**
- * View: StylesheetListView
- *
- * Display a StylesheetList collection as a set of tabs.
- */
+// StylesheetListView
+// ------------------
+// Display a StylesheetList collection as a set of tabs.
 var StylesheetListView = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this, 'render', 'add', 'activate', 'sortUpdate', 'showError');
@@ -38,7 +36,7 @@ var StylesheetListView = Backbone.View.extend({
             }
         });
 
-        // Refresh sortable to recognize new stylesheets.
+        // Refresh `.sortable()` to recognize new stylesheets.
         $('.stylesheets', this.el).sortable('refresh');
         return this;
     },
@@ -106,11 +104,9 @@ var StylesheetListView = Backbone.View.extend({
     }
 });
 
-/**
- * View: StylesheetTabView
- *
- * Display a Stylesheet as a tab within a StylesheetListView.
- */
+// StylesheetTabView
+// -----------------
+// Display a Stylesheet as a tab within a StylesheetListView.
 var StylesheetTabView = Backbone.View.extend({
     tagName: 'a',
     className: 'tab',
@@ -192,11 +188,9 @@ var StylesheetTabView = Backbone.View.extend({
     }
 });
 
-/**
- * View: StylesheetPopupView
- *
- * Popup form for adding a new stylesheet.
- */
+// StylesheetPopupView
+// -------------------
+// Popup form for adding a new stylesheet.
 var StylesheetPopupView = PopupView.extend({
     events: _.extend({
         'click input.submit': 'submit'

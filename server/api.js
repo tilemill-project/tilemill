@@ -1,7 +1,4 @@
-// Backbone API
-// ------------
 // REST endpoints for Backbone models and collections.
-
 var _ = require('underscore'),
     mapnik = require('mapnik'),
     models = require('models-server'),

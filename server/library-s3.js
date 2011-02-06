@@ -1,3 +1,6 @@
+// Plugin for using an Amazon S3 bucket as a Library. Generates the payload for
+// an AssetListS3 REST endpoint consisting of asset models as well as the S3
+// specific `marker`.
 var knox = require('knox'),
     url = require('url'),
     _ = require('underscore'),
@@ -5,11 +8,6 @@ var knox = require('knox'),
     path = require('path'), 
     xml2js = require('xml2js');
 
-// Amazon S3 (Library plugin)
-// --------------------------
-// Plugin for using an Amazon S3 bucket as a Library. Generates the payload for
-// an AssetListS3 REST endpoint consisting of asset models as well as the S3
-// specific `marker`.
 module.exports = function(app, options, callback) {
     // Retrieve the contents of an S3 bucket, limiting to the formats accepted
     // by `filterformat()`. The number of items requested at a time is

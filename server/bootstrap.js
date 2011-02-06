@@ -1,10 +1,8 @@
+// Application bootstrap. Ensures that files directories exist at server start.
 var fs = require('fs'),
     path = require('path'),
     Step = require('step');
 
-// Bootstrap
-// ---------
-// Application bootstrap. Ensures that files directories exist at server start.
 module.exports = function(app, settings) {
     try {
         fs.statSync(settings.files);

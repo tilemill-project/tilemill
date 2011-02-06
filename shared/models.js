@@ -1,4 +1,4 @@
-// Require Backbone, underscore, if we're on the server.
+// Backbone models and collections for use on both the client and server.
 // @TODO if we use the keyword 'var' in front of Backbone, _, IE will wipe the
 // globally defined Backbone and underscore leaving us with broken objects.
 // This is obviously not ideal.

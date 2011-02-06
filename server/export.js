@@ -1,12 +1,10 @@
+// Loop for scanning and processing exports.
 var path = require('path'),
     ExportList = require('models-server').ExportList,
     Step = require('step'),
     Worker = require('worker').Worker,
     models = require('models-server');
 
-// Scanner
-// -------
-// Loop for scanning and processing exports.
 var Scanner = function(options) {
     _.bindAll(this, 'scan', 'process', 'add', 'remove', 'isFull');
     this.options = options || {};

@@ -1,3 +1,12 @@
+// A single worker for processing an export (e.g. rendering a map into an
+// MBTiles sqlite database). Workers run in a *different process* from the
+// main TileMill node process because:
+//
+// - export tasks can be long-running (minutes, sometimes hours)
+// - export tasks can be CPU intensive, to the point of compromising the
+//   responsiveness of the main TileMill process
+//
+// See the `export.js` for how workers are created.
 require.paths.unshift(
     __dirname + '/../lib/node',
     __dirname + '/../server',
@@ -16,17 +25,6 @@ var worker = require('worker').worker,
     Tile = require('tilelive').Tile,
     TileBatch = require('tilelive').TileBatch;
 
-// Worker
-// ------
-// A single worker for processing an export (e.g. rendering a map into an
-// MBTiles sqlite database). Workers run in a *different process* from the
-// main TileMill node process because:
-//
-// - export tasks can be long-running (minutes, sometimes hours)
-// - export tasks can be CPU intensive, to the point of compromising the
-//   responsiveness of the main TileMill process
-//
-// See the `export.js` for how workers are created.
 worker.onmessage = function (data) {
     var Format = {
         'png': FormatPNG,

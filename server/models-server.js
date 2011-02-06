@@ -1,3 +1,6 @@
+// Server-side overrides for the Backbone models defined in `shared/models.js`.
+// Provides model-specific storage overrides.
+
 var _ = require('underscore'),
     Backbone = require('backbone-dirty'),
     settings = require('settings'),
@@ -5,11 +8,6 @@ var _ = require('underscore'),
     Step = require('step'),
     path = require('path'),
     models = require('models');
-
-// Models (server-side overrides)
-// ------------------------------
-// Server-side overrides for the Backbone models defined in `shared/models.js`.
-// Provides model-specific storage overrides.
 
 // Project
 // -------
