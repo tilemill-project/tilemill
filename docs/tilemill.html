@@ -1,4 +1,4 @@
-<!DOCTYPE html>  <html> <head>   <title>tilemill.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               tilemill.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="err">#</span><span class="o">!</span><span class="p">.</span><span class="o">/</span><span class="nx">build</span><span class="o">/</span><span class="nx">bin</span><span class="o">/</span><span class="nx">node</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>The TileMill application consists of:</p>
+<!DOCTYPE html>  <html> <head>   <title>tilemill.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.js               </a>                                           <a class="source" href="export.html">                 export.js               </a>                                           <a class="source" href="library.html">                 library.js               </a>                                           <a class="source" href="parsemss.html">                 parsemss.js               </a>                                           <a class="source" href="project-layer.html">                 project-layer.js               </a>                                           <a class="source" href="project-map.html">                 project-map.js               </a>                                           <a class="source" href="project-reference.html">                 project-reference.js               </a>                                           <a class="source" href="project-stylesheet.html">                 project-stylesheet.js               </a>                                           <a class="source" href="project-tools.html">                 project-tools.js               </a>                                           <a class="source" href="project.html">                 project.js               </a>                                           <a class="source" href="utils.html">                 utils.js               </a>                                           <a class="source" href="api.html">                 api.js               </a>                                           <a class="source" href="backbone-dirty.html">                 backbone-dirty.js               </a>                                           <a class="source" href="bootstrap.html">                 bootstrap.js               </a>                                           <a class="source" href="export-worker.html">                 export-worker.js               </a>                                           <a class="source" href="export.html">                 export.js               </a>                                           <a class="source" href="library-directory.html">                 library-directory.js               </a>                                           <a class="source" href="library-s3.html">                 library-s3.js               </a>                                           <a class="source" href="models-server.html">                 models-server.js               </a>                                           <a class="source" href="tiles.html">                 tiles.js               </a>                                           <a class="source" href="models.html">                 models.js               </a>                                           <a class="source" href="tilemill.html">                 tilemill.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               tilemill.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="err">#</span><span class="o">!</span><span class="p">.</span><span class="o">/</span><span class="nx">build</span><span class="o">/</span><span class="nx">bin</span><span class="o">/</span><span class="nx">node</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>The TileMill application consists of:</p>
 
 <pre><code>+-----------------+
 | tilemill client |
@@ -11,25 +11,32 @@
                                +----------------+
 </code></pre>
 
-<ul>
-<li><code>/client</code> <br />
-The TileMill client which consists of a single static HTML page and
-client-side javascript.</li>
-<li><code>/server</code> <br />
-The TileMill server which communicates to the client through JSON HTTP
-requests.</li>
-<li><code>/server/export-worker.js</code> <br />
-<code>node-worker</code> export processes whenever a map export is requested by the
-user. Each of these export jobs run in a <em>separate</em> node process.</li>
-<li><code>/modules</code> <br />
-<code>backbone</code>, <code>underscore</code>, and <code>JSV</code> are js libraries used by both the
+<h3>/client</h3>
+
+<p>The TileMill client which consists of a single static HTML page and
+client-side javascript.</p>
+
+<h3>/server</h3>
+
+<p>The TileMill server which communicates to the client using JSON over HTTP
+requests.</p>
+
+<h3>/server/export-worker.js</h3>
+
+<p><code>node-worker</code> export process created whenever a map export is requested by
+the user. Each of these export jobs run in a separate node process.</p>
+
+<h3>/modules</h3>
+
+<p><code>backbone</code>, <code>underscore</code>, and <code>JSV</code> are libraries used by both the
 client and the server. The <code>/modules</code> directory is exposed to the client
 via <code>express.staticProvider</code> and contains both server-side and client-side
-modules.</li>
-<li><code>/shared</code> <br />
-The <code>/shared/models.js</code> file contains Backbone models and collections
-that are used on both the client and server.</li>
-</ul>
+modules.</p>
+
+<h3>/shared</h3>
+
+<p>The <code>/shared/models.js</code> file contains Backbone models and collections
+that are used on both the client and server.</p>
 
 <p>This file is the main Express server.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">require</span><span class="p">.</span><span class="nx">paths</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span>
     <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/lib/node&#39;</span><span class="p">,</span>
