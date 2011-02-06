@@ -1,46 +1,113 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>TileMill</title>
+  <title>TileMill | Home</title>
+  <link rel='stylesheet' media='all' href='reset.css' />
+  <link rel='stylesheet' media='all' href='style.css' />
+  <script type='text/javascript' src='jquery.js'></script>
+  <script type='text/javascript' src='showdown.js'></script>
+  <script type='text/javascript' src='script.js'></script>
 </head>
 <body>
+<div class='banner'>
+  <div class='header'>
+    <h1 class='logo'>TileMill</h1>
+    <ul class='navigation clearfix'>
+      <li><a href='index.html'>Home</a></li>
+      <li><a href='tutorials.html'>Tutorials</a></li>
+      <li><a href='code.html'>Code</a></li>
+    </ul>
+  </div>
+</div>
+<a class='fork' href='http://github.com/developmentseed/TileMill'>Fork me on GitHub</a>
 
-<div class='navigation'>
-  <h3>Documentation</h3>
-  <ul>
-    <li><a href='docs/tilemill.html'>tilemill.js</a></li>
-    <li>shared
-      <ul>
-        <li><a href='docs/models.html'>models.js</a></li>
-      </ul>
-    </li>
-    <li>server
-      <ul>
-        <li><a href='docs/api.html'>api.js</a></li>
-        <li><a href='docs/backbone-dirty.html'>backbone-dirty.js</a></li>
-        <li><a href='docs/bootstrap.html'>bootstrap.js</a></li>
-        <li><a href='docs/export.html'>export.js</a></li>
-        <li><a href='docs/export-worker.html'>export-worker.js</a></li>
-        <li><a href='docs/library-directory.html'>library-directory.js</a></li>
-        <li><a href='docs/library-s3.html'>library-s3.js</a></li>
-        <li><a href='docs/models-server.html'>models-server.js</a></li>
-        <li><a href='docs/tiles.html'>tiles.js</a></li>
-      </ul>
-    </li>
-    <li>client
-      <ul>
-        <li><a href='docs/app.html'>app.js</a></li>
-        <li><a href='docs/library.html'>library.js</a></li>
-        <li><a href='docs/project.html'>project.js</a></li>
-        <li><a href='docs/project-layer.html'>project-layer.js</a></li>
-        <li><a href='docs/project-map.html'>project-map.js</a></li>
-        <li><a href='docs/project-reference.html'>project-reference.js</a></li>
-        <li><a href='docs/project-stylesheet.html'>project-stylesheet.js</a></li>
-        <li><a href='docs/project-tools.html'>project-tools.js</a></li>
-        <li><a href='docs/utils.html'>utils.js</a></li>
-      </ul>
-    </li>
-  </ul>
+<h2 class='slogan'>
+  TileMill is a full-featured map design studio<br/>
+  powered by open source technology
+</h2>
+
+<div class='screenshots clearfix'>
+  <a href='#'>
+    <img src='' />
+    <label>Create maps and instantly preview changes in a fast, efficient map design interface.</label>
+  </a>
+  <a href='#'>
+    <img src='' />
+    <label>The CSS-like MSS styling language makes map design easy for anyone familiar with the web.</label>
+  </a>
+  <a href='#'>
+    <img src='' />
+    <label>Export maps as images, PDFs, or render tilesets to the portable MBTiles format.</label>
+  </a>
+</div>
+
+<div class='md'>
+Requirements
+------------
+- *TileMill client*
+  - A modern, standards compliant web browser.
+  - Tested: Chrome 6+
+  - Tested: Firefox 3+
+  - Tested: IE8+
+  - May work: Opera 11
+- *TileMill server*
+  - ndistro >= 0.4.0 or latest version
+  - node 2.5
+  - Mapnik 2 [at least revision 2488](http://svn.mapnik.org/trunk)
+  - node-mapnik [latest master](https://github.com/mapnik/node-mapnik)
+
+Setup
+-----
+
+## Prerequisites
+
+- make
+- Python 2.4 or better
+- libzip (deb packages: libzip-dev libzip1)
+- libsqlite3 (deb packages: libsqlite3-dev libsqlite3-0)
+
+## Building
+
+- Build and install Mapnik 2 (latest trunk)
+
+        svn checkout http://svn.mapnik.org/trunk mapnik
+        cd mapnik
+        python scons/scons.py configure
+        python scons/scons.py
+        sudo python scons/scons.py install
+        sudo ldconfig
+
+- Install [ndistro](https://github.com/visionmedia/ndistro)
+
+        cd /usr/local/bin
+        curl https://github.com/visionmedia/ndistro/raw/master/install | sh
+
+- Build TileMill dependencies by running ndistro from the TileMill directory
+
+        cd TileMill
+        ndistro
+
+## Configuration
+
+- Optional. Edit `settings.js` to change server settings including port, files
+  directories, and enabled asset providers.
+
+## Running
+
+    ./tilemill.js
+
+TileMill should now be running on `http://localhost:8889/`
+
+Authors
+-------
+- Dmitri Gaskin (dmitrig01)
+- Young Hahn (yhahn)
+- Tom MacWright (tmcw)
+- Tristen Brown (tristen)
+- Will White (willwhite)
+- AJ Ashton (ajashton)
+- Konstantin Käfer (kkaefer)
+- Dane Springmeyer (springmeyer)
 </div>
 
 </body>
