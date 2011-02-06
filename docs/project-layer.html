@@ -1,0 +1,268 @@
+<!DOCTYPE html>  <html> <head>   <title>project-layer.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.js               </a>                                           <a class="source" href="export.html">                 export.js               </a>                                           <a class="source" href="library.html">                 library.js               </a>                                           <a class="source" href="parsemss.html">                 parsemss.js               </a>                                           <a class="source" href="project-layer.html">                 project-layer.js               </a>                                           <a class="source" href="project-map.html">                 project-map.js               </a>                                           <a class="source" href="project-reference.html">                 project-reference.js               </a>                                           <a class="source" href="project-stylesheet.html">                 project-stylesheet.js               </a>                                           <a class="source" href="project-tools.html">                 project-tools.js               </a>                                           <a class="source" href="project.html">                 project.js               </a>                                           <a class="source" href="utils.html">                 utils.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               project-layer.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h2>LayerListView</h2>
+
+<p>List of all layers on a project. Provides UI for adding, editing, deleting,
+and drag-sorting layers.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">LayerListView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;LayerListView&#39;</span><span class="p">,</span>
+    <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;view&#39;</span><span class="p">,</span>
+    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;render&#39;</span><span class="p">,</span> <span class="s1">&#39;sortUpdate&#39;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">project</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">project</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;remove&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Render wrapper if not present.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">has</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">).</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">ich</span><span class="p">.</span><span class="nx">LayerListView</span><span class="p">());</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">sortable</span><span class="p">({</span>
+                <span class="nx">axis</span><span class="o">:</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span>
+                <span class="nx">handle</span><span class="o">:</span> <span class="s1">&#39;div.handle&#39;</span><span class="p">,</span>
+                <span class="nx">containment</span><span class="o">:</span> <span class="s1">&#39;parent&#39;</span>
+            <span class="p">});</span>
+        <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Add row view for each layer.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">layer</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">layer</span><span class="p">.</span><span class="nx">view</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">layer</span><span class="p">.</span><span class="nx">view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LayerRowView</span><span class="p">({</span>
+                    <span class="nx">project</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">project</span><span class="p">,</span>
+                    <span class="nx">model</span><span class="o">:</span> <span class="nx">layer</span><span class="p">,</span>
+                    <span class="nx">list</span><span class="o">:</span> <span class="nx">that</span>
+                <span class="p">});</span>
+                <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">,</span> <span class="nx">that</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">prepend</span><span class="p">(</span><span class="nx">layer</span><span class="p">.</span><span class="nx">view</span><span class="p">.</span><span class="nx">el</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Refresh sortable to recognize new layers.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">sortable</span><span class="p">(</span><span class="s1">&#39;refresh&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;click .add&#39;</span><span class="o">:</span> <span class="s1">&#39;add&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sortupdate ul&#39;</span><span class="o">:</span> <span class="s1">&#39;sortUpdate&#39;</span>
+    <span class="p">},</span>
+    <span class="nx">add</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">new</span> <span class="nx">LayerPopupView</span><span class="p">({</span>
+            <span class="nx">collection</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">,</span>
+            <span class="nx">model</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Layer</span><span class="p">,</span>
+            <span class="nx">add</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">sortUpdate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">ui</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">rows</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;ul li&#39;</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">newCollection</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">inArray</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">view</span><span class="p">.</span><span class="nx">el</span><span class="p">,</span> <span class="nx">rows</span><span class="p">);</span>
+            <span class="nx">newCollection</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">=</span> <span class="nx">model</span><span class="p">;</span>
+        <span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">models</span> <span class="o">=</span> <span class="nx">newCollection</span><span class="p">.</span><span class="nx">reverse</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;change&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <h2>LayerRowView</h2>
+
+<p>Single layer row in a LayerListView.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">LayerRowView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">tagName</span><span class="o">:</span> <span class="s1">&#39;li&#39;</span><span class="p">,</span>
+    <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;clearfix&#39;</span><span class="p">,</span>
+    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;render&#39;</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">,</span> <span class="s1">&#39;inspect&#39;</span><span class="p">,</span> <span class="s1">&#39;del&#39;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;change&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">project</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">project</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">list</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">list</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="nx">name</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">));</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">));</span>
+        <span class="p">}</span>
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">ich</span><span class="p">.</span><span class="nx">LayerRowView</span><span class="p">({</span>
+            <span class="nx">name</span><span class="o">:</span> <span class="nx">name</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">),</span>
+            <span class="nx">geometry</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">),</span>
+            <span class="nx">geometry_raster</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;raster&#39;</span>
+        <span class="p">}));</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;click .delete&#39;</span><span class="o">:</span> <span class="s1">&#39;del&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;click .inspect&#39;</span><span class="o">:</span> <span class="s1">&#39;inspect&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;click .edit&#39;</span><span class="o">:</span> <span class="s1">&#39;edit&#39;</span>
+    <span class="p">},</span>
+    <span class="nx">edit</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">new</span> <span class="nx">LayerPopupView</span><span class="p">({</span>
+            <span class="nx">collection</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">,</span>
+            <span class="nx">model</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">,</span>
+            <span class="nx">add</span><span class="o">:</span> <span class="kc">false</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">inspect</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">new</span> <span class="nx">DatasourceView</span><span class="p">({</span>
+            <span class="nx">model</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Datasource</span><span class="p">({</span> 
+                <span class="nx">id</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+                <span class="nx">url</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;Datasource&#39;</span><span class="p">).</span><span class="nx">file</span>
+            <span class="p">})</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">del</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nb">window</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">loading</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">confirm</span><span class="p">(</span><span class="s1">&#39;Are you sure you want to delete this layer?&#39;</span><span class="p">))</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Tipsy adds the tooltips to the document root,
+so we need to remove these elements, otherwise we
+are left with a zombie 'delete' tooltip.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.tipsy&#39;</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
+
+            <span class="k">this</span><span class="p">.</span><span class="nx">list</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+            <span class="nb">window</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">done</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nb">window</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">done</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h2>LayerPopupView</h2>
+
+<p>Form for adding or editing a layer.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">LayerPopupView</span> <span class="o">=</span> <span class="nx">PopupView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">events</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+        <span class="s1">&#39;click input.submit&#39;</span><span class="o">:</span> <span class="s1">&#39;submit&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;click a.assets&#39;</span><span class="o">:</span> <span class="s1">&#39;assets&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;change select#srs-name&#39;</span><span class="o">:</span> <span class="s1">&#39;selectSRS&#39;</span>
+    <span class="p">},</span> <span class="nx">PopupView</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">events</span><span class="p">),</span>
+    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;render&#39;</span><span class="p">,</span> <span class="s1">&#39;submit&#39;</span><span class="p">,</span> <span class="s1">&#39;assets&#39;</span><span class="p">,</span> <span class="s1">&#39;selectSRS&#39;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">model</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">model</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">add</span> <span class="o">?</span> <span class="s1">&#39;Add layer&#39;</span> <span class="o">:</span> <span class="s1">&#39;Edit layer&#39;</span><span class="p">;</span>
+
+        <span class="kd">var</span> <span class="nx">object</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="nx">object</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+        <span class="nx">object</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">);</span>
+        <span class="nx">object</span><span class="p">[</span><span class="s1">&#39;datasource_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;Datasource&#39;</span><span class="p">)</span>
+            <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;Datasource&#39;</span><span class="p">).</span><span class="nx">file</span>
+            <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+        <span class="nx">object</span><span class="p">[</span><span class="s1">&#39;srs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;srs&#39;</span><span class="p">);</span>
+        <span class="nx">object</span><span class="p">[</span><span class="s1">&#39;srs_name_&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">srsName</span><span class="p">()]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">content</span> <span class="o">=</span> <span class="nx">ich</span><span class="p">.</span><span class="nx">LayerPopupView</span><span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="nx">submit</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">datasource</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Datasource</span><span class="p">();</span>
+        <span class="kd">var</span> <span class="nx">success</span> <span class="o">=</span> <span class="nx">datasource</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span>
+            <span class="nx">id</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input#id&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+            <span class="nx">url</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input#file&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span>
+        <span class="p">},</span> <span class="p">{</span> <span class="nx">error</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">showError</span> <span class="p">});</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">loading</span><span class="p">(</span><span class="s1">&#39;Loading datasource&#39;</span><span class="p">);</span>
+            <span class="nx">datasource</span><span class="p">.</span><span class="nx">fetch</span><span class="p">({</span>
+                <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                    <span class="nx">that</span><span class="p">.</span><span class="nx">done</span><span class="p">();</span>
+                    <span class="kd">var</span> <span class="nx">success</span> <span class="o">=</span> <span class="nx">that</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span>
+                        <span class="p">{</span>
+                            <span class="s1">&#39;id&#39;</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input#id&#39;</span><span class="p">,</span> <span class="nx">that</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+                            <span class="s1">&#39;name&#39;</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input#id&#39;</span><span class="p">,</span> <span class="nx">that</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+                            <span class="s1">&#39;srs&#39;</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input#srs&#39;</span><span class="p">,</span> <span class="nx">that</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+                            <span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input#class&#39;</span><span class="p">,</span> <span class="nx">that</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+                            <span class="s1">&#39;Datasource&#39;</span><span class="o">:</span> <span class="p">{</span>
+                                <span class="s1">&#39;file&#39;</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input#file&#39;</span><span class="p">,</span> <span class="nx">that</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span>
+                            <span class="p">}</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s1">&#39;datasource&#39;</span><span class="o">:</span> <span class="nx">datasource</span><span class="p">,</span>
+                            <span class="s1">&#39;error&#39;</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">showError</span>
+                        <span class="p">}</span>
+                    <span class="p">);</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">that</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">add</span> <span class="o">&amp;&amp;</span> <span class="nx">that</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">that</span><span class="p">.</span><span class="nx">model</span><span class="p">);</span>
+                        <span class="nx">that</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+                    <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="nx">error</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">showError</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">assets</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="p">(</span><span class="k">new</span> <span class="nx">LibraryList</span><span class="p">()).</span><span class="nx">fetch</span><span class="p">({</span>
+            <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">collection</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">new</span> <span class="nx">LibraryListPopupView</span><span class="p">({</span>
+                    <span class="nx">collection</span><span class="o">:</span> <span class="nx">collection</span><span class="p">,</span>
+                    <span class="nx">target</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input#file&#39;</span><span class="p">)</span>
+                <span class="p">});</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">selectSRS</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;select#srs-name&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;custom&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.srs&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input#srs&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">SRS</span><span class="p">[</span><span class="nx">name</span><span class="p">]);</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.srs&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <h2>LayerDrawerView</h2>
+
+<p>Drawer view for inspecting a layer datasource. Renders only the first 1000
+cells of large datasources to not spam the DOM. A button allows for showing
+the rest.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">DatasourceView</span> <span class="o">=</span> <span class="nx">DrawerView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;drawer&#39;</span><span class="p">,</span>
+    <span class="nx">events</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+        <span class="s1">&#39;click .showall&#39;</span><span class="o">:</span> <span class="s1">&#39;deferredRender&#39;</span>
+    <span class="p">},</span> <span class="nx">DrawerView</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">events</span><span class="p">),</span>
+    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+        <span class="nx">options</span><span class="p">.</span><span class="nx">content</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+        <span class="nx">DrawerView</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+
+        <span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;deferredRender&#39;</span><span class="p">,</span> <span class="s1">&#39;loadFields&#39;</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;render&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">that</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">fetch</span><span class="p">({</span>
+                <span class="s1">&#39;success&#39;</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">loadFields</span><span class="p">,</span>
+                <span class="s1">&#39;error&#39;</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">loadFields</span>
+            <span class="p">});</span>
+        <span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">features</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">deferredFeatures</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="p">},</span>
+    <span class="nx">loadFields</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">object</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">fields</span><span class="o">:</span> <span class="p">[]</span> <span class="p">};</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">fieldId</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;fields&#39;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">field</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;fields&#39;</span><span class="p">)[</span><span class="nx">fieldId</span><span class="p">];</span>
+            <span class="nx">field</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">fieldId</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nx">type</span> <span class="o">==</span> <span class="s1">&#39;Number&#39;</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">field</span><span class="p">.</span><span class="nx">numeric</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="nx">field</span><span class="p">.</span><span class="nx">tooltip</span> <span class="o">=</span> <span class="nx">ich</span><span class="p">.</span><span class="nx">DatasourceToolTip</span><span class="p">(</span><span class="nx">field</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+            <span class="nx">object</span><span class="p">.</span><span class="nx">fields</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">field</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="kd">var</span> <span class="nx">max_cells</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">features</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;features&#39;</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">features</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">feature</span> <span class="o">=</span> <span class="nx">features</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+            <span class="kd">var</span> <span class="nx">featureArray</span> <span class="o">=</span> <span class="p">[];</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">object</span><span class="p">.</span><span class="nx">fields</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">field</span> <span class="o">=</span> <span class="nx">object</span><span class="p">.</span><span class="nx">fields</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">name</span><span class="p">;</span>
+                <span class="nx">featureArray</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+                    <span class="nx">value</span><span class="o">:</span> <span class="nx">feature</span><span class="p">[</span><span class="nx">field</span><span class="p">]</span> <span class="o">?</span> <span class="nx">feature</span><span class="p">[</span><span class="nx">field</span><span class="p">]</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                    <span class="nx">type</span><span class="o">:</span> <span class="nx">object</span><span class="p">.</span><span class="nx">fields</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">type</span>
+                <span class="p">});</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">object</span><span class="p">.</span><span class="nx">fields</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;=</span> <span class="nx">max_cells</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">features</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span> <span class="nx">values</span><span class="o">:</span> <span class="nx">featureArray</span> <span class="p">});</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">deferredFeatures</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span> <span class="nx">values</span><span class="o">:</span> <span class="nx">featureArray</span> <span class="p">});</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="nx">object</span><span class="p">.</span><span class="nx">rows</span> <span class="o">=</span> <span class="nx">ich</span><span class="p">.</span><span class="nx">DatasourceRowsView</span><span class="p">({</span><span class="nx">features</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">features</span><span class="p">},</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.drawer-content&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">ich</span><span class="p">.</span><span class="nx">DatasourceView</span><span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="kc">true</span><span class="p">));</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">deferredFeatures</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.drawer-content&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">ich</span><span class="p">.</span><span class="nx">DatasourceViewAllRowsButtonView</span><span class="p">({</span><span class="nx">deferredCount</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">deferredFeatures</span><span class="p">.</span><span class="nx">length</span><span class="p">}));</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">deferredRender</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.drawer-content .showall&#39;</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
+        <span class="kd">var</span> <span class="nx">rows</span> <span class="o">=</span> <span class="nx">ich</span><span class="p">.</span><span class="nx">DatasourceRowsView</span><span class="p">({</span><span class="nx">features</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">deferredFeatures</span><span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;table.features tbody&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">rows</span><span class="p">);</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
