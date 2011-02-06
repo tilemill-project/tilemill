@@ -1,29 +1,30 @@
-/**
- * Router controller: Reference page.
- */
+// ReferenceView
+// -------------
+// MSS syntax reference display in a drawer.
 var ReferenceView = DrawerView.extend({
     events: _.extend({
         'click .reference-links a': 'show'
     }, DrawerView.prototype.events),
     initialize: function (options) {
         _.bindAll(this, 'show');
-        var symbolizers = _.map(window.app.reference.toJSON().symbolizers, function(properties, symbolizer) {
-            return {
-                properties: _.map(properties, function(property, name) {
-                    return {
-                        property_name: name,
-                        css: property.css,
-                        type: _.isArray(property.type) ?
-                            property.type.join(', ') :
-                            property.type,
-                        default_value: property['default-value'],
-                        doc: property['doc'] || '',
-                        default_meaning: property['default-meaning'] || ''
-                    }; // TODO extend instead
-                }),
-                symbolizer: symbolizer
-            };
-        });
+        var symbolizers = _.map(
+            window.app.reference.toJSON().symbolizers,
+            function(properties, symbolizer) {
+                return {
+                    properties: _.map(
+                        properties,
+                        function(property, name) {
+                            return _.extend({
+                                type: _.isArray(property.type)
+                                    ? property.type.join(', ')
+                                    : property.type
+                            }, property);
+                        }
+                    ),
+                    symbolizer: symbolizer
+                };
+            }
+        );
         this.options = {
             title: 'Reference',
             content: ich.ReferenceView({ symbolizers: symbolizers }, true)
