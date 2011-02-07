@@ -7,7 +7,9 @@ var _ = require('underscore'),
     External = require('carto').External;
 
 module.exports = function(app, settings) {
-    // Route middleware for loading a datasource.
+    // Route middleware for loading a datasource. Currently has a hard limit
+    // on loading 10,000 features to keep a large datasource from busting up
+    // the server.
     function loadDatasource(req, res, next) {
         var url = req.param('id').replace('+', '-').replace('/', '_');
         url = (new Buffer(url, 'base64')).toString('utf-8');
@@ -32,7 +34,7 @@ module.exports = function(app, settings) {
                         ds_options: external.type.ds_options,
                         ds_type: external.type.ds_options.type,
                         fields: {},
-                        features: ds.features()
+                        features: ds.features(0, 10000)
                     }, ds.describe());
                     for (var fieldId in res.datasource.fields) {
                         res.datasource.fields[fieldId] = {
