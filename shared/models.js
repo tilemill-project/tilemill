@@ -74,7 +74,8 @@ var Reference = Backbone.Model.extend({
 
 // Datasource (read-only)
 // ----------------------
-// Model. Inspection metadata about a map layer.
+// Model. Inspection metadata about a map layer. Use `fetchFeatures()` to do
+// a datasource fetch that includes layer feature objects.
 var Datasource = Backbone.Model.extend({
     schema: {
         'type': 'object',
@@ -109,11 +110,17 @@ var Datasource = Backbone.Model.extend({
     },
     // @TODO either as a feature or a bug, object attributes are not set
     // automatically when passed to the constructor. We set it manually here.
-    initialize: function(attributes, options) {
+    initialize: function(attributes) {
         this.set({'fields': attributes.fields});
     },
     url: function() {
-        return 'api/Datasource/' + Base64.encodeURI(this.get('url'));
+        var url = 'api/Datasource/' + Base64.encodeURI(this.get('url'));
+        this.getFeatures && (url += '/features');
+        return url;
+    },
+    fetchFeatures: function(options) {
+        this.getFeatures = true;
+        this.fetch(options);
     }
 });
 

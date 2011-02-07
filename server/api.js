@@ -34,7 +34,9 @@ module.exports = function(app, settings) {
                         ds_options: external.type.ds_options,
                         ds_type: external.type.ds_options.type,
                         fields: {},
-                        features: ds.features(0, 10000)
+                        features: req.param('option') === 'features'
+                            ? ds.features(0, 10000)
+                            : []
                     }, ds.describe());
                     for (var fieldId in res.datasource.fields) {
                         res.datasource.fields[fieldId] = {
@@ -126,7 +128,7 @@ module.exports = function(app, settings) {
     // GET endpoint for datasource models. The datasource ID is its base64
     // encoded url. See `loadDatasource()` for use of `carto` and `mapnik` to
     // localize and analyze the datasource.
-    app.get('/api/Datasource/:id', loadDatasource, function(req, res, next) {
+    app.get('/api/Datasource/:id/:option?', loadDatasource, function(req, res, next) {
         res.send(res.datasource);
     });
 
