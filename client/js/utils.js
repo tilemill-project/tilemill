@@ -183,6 +183,7 @@ var DrawerView = Backbone.View.extend({
     remove: function() {
         $('.drawer-content', this.el).children().fadeOut('fast');
         $(this.el).animate( {left: '-100%'}, function() { $(this).remove() });
+        this.trigger('removed');
         return false;
     }
 });
