@@ -205,9 +205,12 @@ var ProjectView = Backbone.View.extend({
     reference: function() {
         if (this.referenceView) {
             this.referenceView.remove();
-            delete this.referenceView;
         } else {
             this.referenceView = new ReferenceView();
+            var that = this;
+            this.referenceView.bind('removed', function() {
+                delete that.referenceView;
+            });
         }
         return false;
     },
