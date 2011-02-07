@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>TileMill | Home</title>
-  <link rel='stylesheet' media='all' href='reset.css' />
-  <link rel='stylesheet' media='all' href='style.css' />
+  <title>TileMill | Code</title>
   <script type='text/javascript' src='jquery.js'></script>
   <script type='text/javascript' src='showdown.js'></script>
+  <!--Facebox (http://chriswanstrath.com/facebox/) -->
+  <link rel='stylesheet' media='all' href='facebox/src/facebox.css' />
+  <script type='text/javascript' src='facebox/src/facebox.js'></script>
+  <!-- TileMill -->
+  <link rel='stylesheet' media='all' href='reset.css' />
+  <link rel='stylesheet' media='all' href='style.css' />
   <script type='text/javascript' src='script.js'></script>
 </head>
 <body>
 <div class='banner'>
   <div class='header'>
-    <h1 class='logo'>TileMill</h1>
+    <a href='index.html' class='logo'>TileMill</a>
     <ul class='navigation clearfix'>
       <li><a href='index.html'>Home</a></li>
       <li><a href='tutorials.html'>Tutorials</a></li>
@@ -25,24 +29,20 @@
 <div class='md column-75'>
 # Code
 
-TileMill is built from open source projects with the following projects playing a key role:
+TileMill is an example of a fully javascript-based web application (both server/client side) that integrates with several external libraries including Mapnik and SQLite. It also takes advantage of several interesting APIs including `node-worker` for spawning separate processes and `backbone.js` on both the client and server. The TileMill source has been annotated using [docco](http://github.com/jashkenas/docco) for interested developers.
 
-- [Mapnik](http://www.mapnik.org)  
-  Map rendering.
+TileMill is released under a BSD license. Below are just some of the open source projects leveraged by TileMill:
 
-- [Backbone](http://github.com/documentcloud/backbone)  
-  MVC framework for structured AJAX applications.
+- [Mapnik](http://www.mapnik.org) provides map rendering.
+- [mess.js](http://github.com/developmentseed/mess.js) provides MSS-to-Mapnik XML map style compiling.
+- [tilelive.js](http://github.com/developmentseed/tilelive.js) provides high-speed tile-rendering.
+- [node.js](http://www.nodejs.org) provides evented server-side javascript.
+- [Express](http://github.com/visionmedia/express) provides a robust HTTP web server.
+- [Backbone](http://github.com/documentcloud/backbone) provides an MVC framework for client-server AJAX.
+- [OpenLayers](http://www.openlayers.org) provides a tile-based map UI.
+- [CodeMirror](http://www.codemirror.net) provides "in-browser code editing made bearable."
 
-- [Express](http://github.com/visionmedia/express)  
-  Sinatra-inspired node.js web server.
-
-- [mess.js](http://github.com/developmentseed/mess.js)  
-  MSS-to-Mapnik XML map style compiler.
-
-- [tilelive.js](http://github.com/developmentseed/tilelive.js)  
-  High-speed tile-rendering server.
-
-
+For a full list of projects see the [ndistro manifest](https://github.com/developmentseed/TileMill/blob/master/.ndistro) in the TileMill repository.
 </div>
 <div class='md column-25'>
 # Annotated source
