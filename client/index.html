@@ -422,33 +422,102 @@
         {{/symbolizers}}
       </ul>
       <div class='reference-section active' id='reference-section-intro'>
-        <h2>Introduction</h2>
-        <p>TileMill supports the <a href='https://github.com/mapnik/Cascadenik'>Cascadenik</a>
-        styling language. It should be familiar to <a href='http://www.w3schools.com/css/'>CSS</a>
-        users and easy to pick up for everyone else.</p>
-        <p>A simple Cascadenik style looks like</p>
-<pre>
-#world {
+        <h2>Selectors</h2>
+
+        <p>TileMill supports the <a href="https://github.com/mapbox/carto">carto</a> map styling language. It should be familiar to CSS users and easy to pick up for everyone else.</p>
+
+        <p>A simple carto style looks like</p>
+
+        <pre>#world {
   polygon-fill: #eee;
   line-color: #ccc;
   line-width: 0.5;
-}
-</pre>
-        <p>Which is the <em>selector</em> <code>#world</code>
-        - which makes this affect the layer with the id <code>world</code>,
-        and then three <em>declarations</em> which color the countries 
-        the color <code>#eee</code> and give them a grey line <code>0.5</code>
-        units wide.</p>
+}</pre>
 
-        <p>There are other selectors you can use to affect different parts of a map</p>
+        <p>Which is the <em>selector</em> <code>#world</code> - which makes this affect the layer with the id <code>world</code>, and then three <em>declarations</em> which color the countries the color <code>#eee</code> and give them a grey line <code>0.5</code> units wide.</p></p>
+
+        <p>There are other selectors you can use to affect different parts of a map:</p>
 
         <ul>
-            <li><code>* { }</code>: All layers
-            <li><code>.red { }</code>: Only layers with the class 'red'
+            <li><code>* { }</code> All layers
+            <li><code>.red { }</code> Only layers with the class &#8216;red&#8217;
             <li><code>.blue[zoom>8] { }</code> Only layers with the class blue, zoomed beyond 8
-            <li><code>#countries NAME { }</code> Country names, from a layer with id country an a 
-        property called NAME
+            <li><code>#countries[NAME='USA'] { }</code> All features in the layer named <code>countries</code> with <code>NAME</code> equal to <code>'USA'</code>
         </ul>
+
+        <p>The order of selectors does not matter as there is no hierarchical structure in maps. Separating selector parts with spaces is optional. The following selectors are thus equivalent:</p>
+
+        <pre>#world [NAME='USA'] .red [zoom &gt; 10]
+[zoom &gt; 10].red#world[NAME='USA']
+[NAME='USA'] [zoom &gt; 10] #world.red</pre>
+
+        <h2>Nested Styles</h2>
+
+        <p>TileMill allows you to arbitarily nest styles. All elements are added to create a combining selector. The order of elements in a selector is not of importance.</p>
+
+        <pre>/* Applies to all layers with .land class */
+.land {
+  line-color: #ccc;
+  line-width: 0.5;
+  polygon-fill: #eee;
+  /* Applies to #lakes.land */
+  #lakes {
+    polygon-fill: #000;
+  }
+}</pre>
+
+        <p>This can be a convenient way to group style changes by zoom level:</p>
+
+        <pre>[zoom &gt; 1] {
+  /* Applies to all layers at zoom &gt; 1 */
+  polygon-gamma: 0.3;
+  #world {
+    polygon-fill: #323;
+  }
+  #lakes {
+    polygon-fill: #144;
+  }
+}</pre>
+
+        <h2>Attachments</h2>
+
+        <p>By default, if you set a style rule, it overrides any previous style rules. However, sometimes you want to add multiple instances of a style, like in the case of a road border, country outline or for glow effects.</p>
+
+        <pre>#world {
+  ::outline {
+    line-color: #000;
+    line-width: 6;
+  }
+
+  line-color: #fff;
+  line-width: 3;
+}</pre>
+
+        <p>This style first renders a black line with width <code>6</code>, and on top of that, an additional white line with width <code>3</code>. You can use an arbitrary amount of attachments to draw the same feature multiple times. The order in which you define attachments matters, the earlier it is defined, the lower it is drawn. This means that you should define shadows first before defining the actual feature symbolizer.</p>
+
+        <p>When nesting attachments, they are concatenated together with a <code>/</code>:</p>
+
+        <pre>::outline {
+  ::shadow {
+    /* creates a symbolizer named "outline/shadow" */
+  }
+}</pre>
+
+        <h2>Variables &amp; Expressions</h2>
+
+        <p>You can define variables in stylesheets by prefixing an alphanumeric name with <code>@</code>, and use expressions to modify them. You can also apply operations to color names.</p>
+
+        <pre>@green: #2B4D2D;
+
+Map {
+  background-color: @green;
+}
+
+#world {
+  polygon-fill: @green + #222;
+  line-color: darken(red, 10%);
+}</pre>
+
       </div>
 
       {{#symbolizers}}
