@@ -23,7 +23,6 @@ module jaz303 tipsy v1.0.0a
 # note: if no tag 'master' works...
 module garycourt JSV
 module tmcw node-get
-module lucisferre node-xml2js
 module mapbox carto
 module mapbox tilelive.js
 # client-side

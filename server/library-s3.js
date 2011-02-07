@@ -5,10 +5,33 @@ var knox = require('knox'),
     url = require('url'),
     _ = require('underscore'),
     querystring = require('querystring'),
-    path = require('path'), 
-    xml2js = require('xml2js');
+    path = require('path');
 
 module.exports = function(app, options, callback) {
+    // Small wrapper around sax-js for convenience.
+    var parseXML = function(xml, callback) {
+        var sax = require('sax');
+        var parser = sax.parser(true);
+        var tree = [ {} ];
+
+        parser.onopentag = function(node) {
+            if (!(node.name in tree[0])) tree[0][node.name] = [];
+            tree[0][node.name].push(node.attributes);
+            tree.unshift(node.attributes);
+        };
+
+        parser.onclosetag = function() {
+            tree.shift();
+            if (tree.length === 1) callback(tree[0]);
+        };
+
+        parser.ontext = parser.oncdata = function(text) {
+            if (text.trim()) tree[0].text = (tree[0].text || '') + text;
+        };
+
+        parser.write(xml.toString());
+    };
+
     // Retrieve the contents of an S3 bucket, limiting to the formats accepted
     // by `filterformat()`. The number of items requested at a time is
     // *arbitrarily* twice the length of the actual requested items assuming
@@ -38,19 +61,19 @@ module.exports = function(app, options, callback) {
                 xml += chunk;
             });
             res.on('end', function() {
-                var parser = new xml2js.Parser();
-                parser.addListener('end', function(result) {
+                parseXML(xml, function(result) {
                     var truncated,
                         marker;
 
+                    result = result.ListBucketResult[0];
                     objects = objects.concat(_.filter(result.Contents, filterformat));
                     if (objects.length > options.limit) {
                         objects = objects.slice(0, options.limit);
                         truncated = true;
-                        marker = objects[objects.length - 1].Key.text;
+                        marker = objects[objects.length - 1].Key[0].text;
                     } else {
-                        truncated = result.IsTruncated && result.IsTruncated.text == 'true';
-                        marker = objects[objects.length - 1].Key.text;
+                        truncated = result.IsTruncated && result.IsTruncated[0].text == 'true';
+                        marker = objects[objects.length - 1].Key[0].text;
                     }
 
                     // There are more results to retrieve, query again.
@@ -66,7 +89,6 @@ module.exports = function(app, options, callback) {
                         });
                     }
                 });
-                parser.parseString(xml);
             });
         });
         req.end();
@@ -74,8 +96,8 @@ module.exports = function(app, options, callback) {
 
     // Filter an array of S3 objects where filenames match the regex.
     var filterformat = function(object) {
-        return (object.Size.text !== '0') &&
-        (object.Key.text.match(/(.zip|.geojson|.tiff?|.geotiff|.vrt|.kml)/i));
+        return (object.Size[0].text !== '0') &&
+        (object.Key[0].text.match(/(.zip|.geojson|.tiff?|.geotiff|.vrt|.kml)/i));
     };
 
     // Convert a list of S3 objects to asset models.
@@ -84,10 +106,10 @@ module.exports = function(app, options, callback) {
             url: url.format({
                 host: options.s3_bucket + '.s3.amazonaws.com',
                 protocol: 'http:',
-                pathname: object.Key.text
+                pathname: object.Key[0].text
             }),
-            bytes: (Math.ceil(parseInt(object.Size.text) / 1048576)) + ' MB',
-            id: path.basename(object.Key.text)
+            bytes: (Math.ceil(parseInt(object.Size[0].text) / 1048576)) + ' MB',
+            id: path.basename(object.Key[0].text)
         };
     };
 
