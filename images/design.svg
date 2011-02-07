@@ -1580,6 +1580,27 @@
        y1="15.544005"
        x2="12.527207"
        y2="-74.109352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4993-5"
+       id="linearGradient5009-3"
+       x1="125"
+       y1="300"
+       x2="125"
+       y2="265"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4993-5">
+      <stop
+         style="stop-color:#404040;stop-opacity:1;"
+         offset="0"
+         id="stop4995-1" />
+      <stop
+         style="stop-color:#000000;stop-opacity:1"
+         offset="1"
+         id="stop4997-7" />
+    </linearGradient>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -1589,10 +1610,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="253.03995"
-     inkscape:cy="864.08235"
+     inkscape:cx="13.820358"
+     inkscape:cy="827.53096"
      inkscape:document-units="px"
-     inkscape:current-layer="layer6"
+     inkscape:current-layer="layer3"
      showgrid="true"
      inkscape:snap-bbox="true"
      inkscape:snap-bbox-edge-midpoints="true"
@@ -2089,8 +2110,7 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="Logo"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <g
        transform="translate(0,-252.3622)"
        style="display:inline"
@@ -2280,6 +2300,26 @@
            d="m 98,572.3622 2,-2e-5 0,40.00001 z"
            style="color:#000000;fill:url(#linearGradient4984);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
       </g>
+    </g>
+    <g
+       transform="translate(80,-300)"
+       style="display:inline"
+       id="g4287"
+       inkscape:export-filename="/home/devseed/tm-pages/favicon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="274"
+         x="-80"
+         height="16"
+         width="16"
+         id="rect4282"
+         style="color:#000000;fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:2.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <path
+         style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         d="m -74.333334,275 -1,1 2.666668,2.66667 L -72,277.33333 -74.333334,275 z m -1.166666,1.16667 -0.5,0.5 2.833334,2.83333 0.5,-0.5 L -75.5,276.16667 z m 8,0 -2.833334,2.83333 0.5,0.5 2.833334,-2.83333 -0.5,-0.5 z m 0.666666,0.66666 L -69.5,279.5 l 1.333333,0.66667 2.333333,-2.33334 -1,-1 z m -4.666666,1.33334 -3.114584,3.11458 -0.21875,-0.11458 -2.333332,2.33333 1,1 1.270832,-1.27083 -0.04167,0.375 -1.0625,1.0625 0.5,0.5 0.427082,-0.42709 -0.427082,3.59375 C -77.166666,288.66669 -78.166666,290 -78.166666,290 l 13.333332,0 c 0,0 -1,-1.33331 -2.666666,-1.66667 l -0.333334,-2.83333 0.166668,-0.16667 -0.208334,-0.17708 -0.05208,-0.41667 0.427083,0.42709 0.5,-0.5 -1.0625,-1.0625 -0.270833,-2.27084 -3.166667,-3.16666 z M -72,282 l 1,0 0.333333,2 -1.666667,0 L -72,282 z"
+         id="path3003-4"
+         inkscape:connector-curvature="0" />
     </g>
   </g>
   <g
