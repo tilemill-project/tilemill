@@ -220,7 +220,7 @@ var LayerPopupView = PopupView.extend({
 var DatasourceView = DrawerView.extend({
     className: 'drawer',
     events: _.extend({
-        'click .showall': 'deferredRender'
+        'click .showall .button': 'deferredRender'
     }, DrawerView.prototype.events),
     initialize: function (options) {
         options.title = this.model.id;
@@ -230,6 +230,7 @@ var DatasourceView = DrawerView.extend({
         _.bindAll(this, 'deferredRender', 'loadFields');
         var that = this;
         this.bind('render', function() {
+            that.loading('Loading datasource');
             that.model.fetchFeatures({
                 'success': that.loadFields,
                 'error': that.loadFields
@@ -263,22 +264,21 @@ var DatasourceView = DrawerView.extend({
             }
             if (i * object.fields.length <= max_cells) {
                 this.features.push({ values: featureArray });
-            }
-            else {
+            } else {
                 this.deferredFeatures.push({ values: featureArray });
             }
         }
         object.rows = ich.DatasourceRowsView({features: this.features}, true);
+        object.more = this.deferredFeatures.length;
+
+        this.done();
         this.$('.drawer-content').html(ich.DatasourceView(object, true));
-        if (this.deferredFeatures.length) {
-            this.$('.drawer-content').append(ich.DatasourceViewAllRowsButtonView({deferredCount: this.deferredFeatures.length}));
-        }
         return this;
     },
     deferredRender: function() {
-        this.$('.drawer-content .showall').remove();
         var rows = ich.DatasourceRowsView({features: this.deferredFeatures});
         this.$('table.features tbody').append(rows);
+        this.$('.drawer-content .showall').remove();
         return false;
     }
 });
