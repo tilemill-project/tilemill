@@ -143,6 +143,15 @@ h2.slogan {
   -webkit-box-shadow:#eee 0px 2px 5px;
   }
 
+.screenshots .thumb {
+  display:block;
+  width:240px;
+  height:160px;
+  box-shadow:inset rgba(0,0,0,.2) 0px 1px 3px;
+  -moz-box-shadow:inset rgba(0,0,0,.2) 0px 1px 3px;
+  -webkit-box-shadow:inset rgba(0,0,0,.2) 0px 1px 3px;
+  }
+
 .screenshots label {
   display:block;
   font:bold 12px/20px Arial,Helvetica,sans-serif;

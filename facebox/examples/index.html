@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Facebox 1.2</title>
+  <link href="../src/facebox.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/example.css" media="screen" rel="stylesheet" type="text/css" />
+  <script src="../lib/jquery.js" type="text/javascript"></script>
+  <script src="../src/facebox.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    jQuery(document).ready(function($) {
+      $('a[rel*=facebox]').facebox({
+        loadingImage : '../src/loading.gif',
+        closeImage   : '../src/closelabel.png'
+      })
+    })
+  </script>
+</head>
+
+<body>
+  <div id="main">
+    <div id="shadow">
+      <div id="content">
+        <div id="logo">
+          <img src="images/logo.png"/>
+        </div>
+
+        <div class="example">
+          <h2>What is it?</h2>
+          <p>
+            Facebox is a jQuery-based, Facebook-style lightbox which can display images, divs, or entire remote pages.
+          </p>
+
+          <p>
+            It's simple to use and easy on the eyes.  Download the tarball, view the examples, then start enjoying the curves.
+          </p>
+
+        </div>
+
+        <div class="example">
+          <h2>Why another lightbox?</h2>
+          <p>
+            Because we wanted, nay, <em>needed</em> a Facebook-style lightbox on <a href="http://famspam.com">FamSpam</a>.
+          </p>
+        </div>
+
+        <div class="example">
+          <h2>Download</h2>
+
+          <p>Requires <a href="http://jquery.com">jQuery 1.2.1</a>.</p>
+          <p>
+            You'll need a loading image, close label, four corners, and solid border images in addition to the javascript and css files.  All are included
+            in the tarball.
+          </p>
+          <p>
+            <strong><a href="releases/facebox-1.2.tar.gz">Download Facebox v1.2</a></strong>
+          </p>
+
+          <p>
+            Want to live on the edge?  The code is kept in <strong><a href="http://github.com">GitHub</a></strong> at <a href="http://github.com/defunkt/facebox">http://github.com/defunkt/facebox</a>
+          </p>
+        </div>
+
+
+        <div class="example">
+          <h2>Help!</h2>
+
+          <p> Need help?  Join our <a href="http://groups.google.com/group/facebox/">Google Groups mailing list</a>.</p>
+        </div>
+
+        <div class="example">
+          <h2>Images</h2>
+
+          <p> <a href="images/stairs.jpg" rel="facebox">View 'images/stairs.jpg' in the Facebox</a> </p>
+
+          <div class="code">
+            <h3>The Code</h3>
+            <code>&lt;a href="images/stairs.jpg" rel="facebox"&gt;text&lt;/a&gt;</code>
+          </div>
+        </div>
+
+        <div class="example">
+          <h2>Divs</h2>
+
+          <p> <a href="#info" rel="facebox">View the 'info' div in the Facebox</a> </p>
+
+          <div class="code">
+            <h3>The Code</h3>
+            <code>&lt;a href="#info" rel="facebox"&gt;text&lt;/a&gt;</code>
+          </div>
+        </div>
+
+        <div class="example">
+          <h2>Ajaxes</h2>
+
+          <p> <a href="remote.html" rel="facebox">View 'remote.html' in the Facebox</a> </p>
+
+          <div class="code">
+            <h3>The Code</h3>
+            <code>&lt;a href="remote.html" rel="facebox"&gt;text&lt;/a&gt;</code>
+          </div>
+        </div>
+
+        <div class="example">
+          <h2>Load Dependencies</h2>
+
+          <p>Make sure jQuery is loaded before Facebox.</p>
+
+          <div class="code">
+            <code>
+              &lt;script src="jquery.js" type="text/javascript"&gt;&lt;/script&gt;<br/>
+              &lt;link href="/facebox/facebox.css" media="screen" rel="stylesheet" type="text/css"/&gt;<br/>
+              &lt;script src="/facebox/facebox.js" type="text/javascript"&gt;&lt;/script&gt;
+            </code>
+          </div>
+        </div>
+
+        <div class="example">
+          <h2>Attach It onLoad</h2>
+
+          <p>While calling <code>facebox()</code> on any anchor tag will do the trick, it's easier to give your Faceboxy links a <code>rel="facebox"</code> and hit them all onLoad.</p>
+
+          <div class="code">
+            <code>
+              jQuery(document).ready(function($) {<br/>
+                &nbsp;&nbsp;$('a[rel*=facebox]').facebox() <br/>
+              })
+            </code>
+          </div>
+        </div>
+
+        <div class="example">
+          <h2>Extra Classes</h2>
+          <p>
+            You can give the facebox container an extra class (to fine-tune the display of reusable remote pages)
+            with the <code>facebox[.class]</code> rel syntax.
+          </p>
+          <p>
+            Maybe your <i>Terms and Conditions</i> can be loaded standalone or via Facebox.  When loaded in Facebox,
+            you might want to tweak some styles -- like making the <code>h1</code> positioned absolutely?
+            We do this on FamSpam.
+          </p>
+          <p>
+            <a href="remote.html" rel="facebox[.bolder]">
+              View an an example which makes the <code>remote.html</code> page bigger and bolder using css.
+            </a>
+          </p>
+
+          <div class="code">
+            <h3>The Code</h3>
+            <code>&lt;a href="remote.html" rel="facebox[.bolder]"&gt;text&lt;/a&gt;</code>
+          </div>
+        </div>
+
+        <div class="example">
+          <h2>Controlling Facebox Programmatically</h2>
+          <p>
+            It's possible to attain a higher level control over Facebox by calling methods directly.
+            The following will open the Facebox and insert the passed string into it:
+          </p>
+
+          <div class="code">
+            <h3>Arbitrary Text</h3>
+            <code>
+				jQuery.facebox('something cool');<br/>
+            	jQuery.facebox('something cool', 'my-groovy-style');
+			</code>
+			<h3>Remote files</h3>
+            <code>
+				jQuery.facebox({ ajax: 'remote.html' });<br/>
+				jQuery.facebox({ ajax: 'remote.html' }, 'my-groovy-style');
+			</code>
+			<h3>Image</h3>
+            <code>
+			    jQuery.facebox({ image: 'images/stairs.jpg' });<br/>
+			    jQuery.facebox({ image: 'images/stairs.jpg' }, 'my-groovy-style');
+			</code>
+			<h3>A Page Element</h3>
+            <code>
+			    jQuery.facebox({ div: '#box' });<br/>
+			    jQuery.facebox({ div: '#box' }, 'my-groovy-style');
+			</code>
+          </div>
+
+          <p>
+            If you plan to fill the Facebox with the result of an Ajax call, you'll want the loading graphic
+            displayed whilst your asynchronus task runs.  This is the automatic behavior if the <code>facebox()</code>
+            method is passed a function.
+          </p>
+
+          <div class="code">
+            <h3>Loading Image Displayed</h3>
+            <code>
+              jQuery.facebox(function() { <br/>
+                &nbsp;&nbsp;jQuery.get('code.js', function(data) {<br/>
+                  &nbsp;&nbsp;&nbsp;&nbsp;jQuery.facebox('&lt;textarea&gt;' + data + '&lt;/textarea&gt;')<br/>
+                &nbsp;&nbsp;})<br/>
+              })
+            </code>
+          </div>
+        </div>
+
+        <div class="example">
+          <h2>Thanks <span class="amp">&amp;</span> Contact</h2>
+          <p>
+            Thanks to Facebook for the idea and style.  Thanks to Mindy Tchieu for her help in getting this working.
+          </p>
+          <p>
+            Comments, concerns, complaints, criticisms, confessions?  Join our <a href="http://groups.google.com/group/facebox/">Google Groups mailing list</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer">
+      <p class="right">
+        <a href="http://groups.google.com/group/facebox/">Google Groups mailing list</a>
+      </p>
+
+      <ul>
+        <li> Code &copy;2007/2008 Chris Wanstrath </li>
+        <li> Style &copy;2007 Facebook </li>
+        <li>MIT License</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="info" style="display:none;">
+    <p> Hey, I'm the 'info' div! </p>
+    <p> I look like this: </p>
+    <code>
+      &lt;div id="info" style="display:none;"&gt; <br/>
+        &nbsp;&nbsp;text<br/>
+      &lt;/div&gt;
+    </code>
+  </div>
+  <script src="http://static.getclicky.com/21321.js" type="text/javascript"></script>
+  <noscript><p><img alt="Clicky" src="http://in.getclicky.com/21321-db3.gif" /></p></noscript>
+</body>
+</html>
