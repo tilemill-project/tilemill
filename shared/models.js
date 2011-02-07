@@ -300,7 +300,7 @@ var LayerList = Backbone.Collection.extend({
 // Project
 // -------
 // Model. A single TileMill map project. Describes an MML JSON map object that
-// can be used by `mess.js` to render a map.
+// can be used by `carto` to render a map.
 var Project = Backbone.Model.extend({
     schema: {
         'type': 'object',
@@ -397,7 +397,7 @@ var Project = Backbone.Model.extend({
             return options.success(this, null);
         }
 
-        var mess = require('mess'),
+        var carto = require('carto'),
             mapnik = require('mapnik'),
             that = this,
             stylesheets = this.get('Stylesheet'),
@@ -415,7 +415,7 @@ var Project = Backbone.Model.extend({
         // Hard clone the model JSON before rendering as rendering will change
         // properties (e.g. localize a datasource URL to the filesystem).
         var data = JSON.parse(JSON.stringify(this.toJSON()));
-        new mess.Renderer(env)
+        new carto.Renderer(env)
             .render(data, function(err, output) {
             if (err) {
                 options.error(that, err);

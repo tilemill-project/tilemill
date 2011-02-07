@@ -3,8 +3,8 @@ var _ = require('underscore'),
     mapnik = require('mapnik'),
     models = require('models-server'),
     Step = require('step'),
-    reference = require('mess').tree.Reference.data;
-    External = require('mess').External;
+    reference = require('carto').tree.Reference.data;
+    External = require('carto').External;
 
 module.exports = function(app, settings) {
     // Route middleware for loading a datasource.
@@ -122,7 +122,7 @@ module.exports = function(app, settings) {
     // GET Datasource (Backbone model)
     // -------------------------------
     // GET endpoint for datasource models. The datasource ID is its base64
-    // encoded url. See `loadDatasource()` for use of `mess.js` and `mapnik` to
+    // encoded url. See `loadDatasource()` for use of `carto` and `mapnik` to
     // localize and analyze the datasource.
     app.get('/api/Datasource/:id', loadDatasource, function(req, res, next) {
         res.send(res.datasource);
