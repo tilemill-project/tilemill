@@ -230,7 +230,7 @@ var DatasourceView = DrawerView.extend({
         _.bindAll(this, 'deferredRender', 'loadFields');
         var that = this;
         this.bind('render', function() {
-            that.model.fetch({
+            that.model.fetchFeatures({
                 'success': that.loadFields,
                 'error': that.loadFields
             });
