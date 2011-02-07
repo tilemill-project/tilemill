@@ -24,8 +24,8 @@ module jaz303 tipsy v1.0.0a
 module garycourt JSV
 module tmcw node-get
 module lucisferre node-xml2js
-module developmentseed mess.js
-module developmentseed tilelive.js
+module mapbox mess.js
+module mapbox tilelive.js
 # client-side
 module douglascrockford JSON-js
 module cramforce js-base64
