@@ -6,6 +6,13 @@ var MapView = Backbone.View.extend({
     initialize: function() {
         _.bindAll(this, 'render', 'activate', 'controlZoom', 'reload',
             'fullscreen', 'minimize', 'maximize');
+
+        // OpenLayers seems to fiercely associate maps with DOM element IDs.
+        // Using a stable ID means that if it appears again (e.g. the project
+        // is closed and reopened) OpenLayers will retain its attachment, even
+        // to a freshly created DOM element. Workaround is to generate a
+        // "unique" `this.mapID` to ensure a fresh OL map each time.
+        this.mapID = +new Date;
         this.render();
         this.model.bind('save', this.reload);
         window.app.bind('ready', this.activate);
@@ -14,7 +21,7 @@ var MapView = Backbone.View.extend({
         'click a.map-fullscreen': 'fullscreen'
     },
     render: function() {
-        $(this.el).html(ich.MapView({ id: this.model.id }));
+        $(this.el).html(ich.MapView({ id: this.mapID }));
     },
     activate: function() {
         var options = {
@@ -46,7 +53,7 @@ var MapView = Backbone.View.extend({
         // @TODO: Store locally so the application is portable/usable offline?
         OpenLayers.ImgPath = 'images/openlayers_dark/';
 
-        this.map = new OpenLayers.Map('map-preview-' + this.model.id, options);
+        this.map = new OpenLayers.Map('map-preview-' + this.mapID, options);
         this.layer = new OpenLayers.Layer.TMS('Preview', window.app.baseURL(), {
             layername: window.app.safe64(
                 window.app.baseURL() + this.model.url()
