@@ -1395,6 +1395,28 @@ form .palette .ui-slider-range {
   }
 
 /**
+ * About ======================================================================
+ */
+ul.form > li.about {
+  background:#eee;
+  padding:20px 20px 19px;
+  text-align:center;
+  }
+
+.about a { font-weight:bold; }
+.about .description { line-height:15px; }
+
+.about .logo {
+  display:block;
+  width:190px;
+  height:50px;
+  margin:0px auto 10px;
+  text-indent:-9999px;
+  overflow:hidden;
+  background:url(../images/sprite.png) -20px -220px no-repeat;
+  }
+
+/**
  * @media max-device-width rules. Allows us to adjust the design on the basis
  * of the window size.
  */
