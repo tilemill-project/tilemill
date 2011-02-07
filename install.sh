@@ -114,7 +114,7 @@ if ! [ -d "files/project" ]; then
     echo "... fetching example projects"
     mkdir -p files/project
     cd files/project
-    $GET https://github.com/developmentseed/tilemill_examples/tarball/master | \
+    $GET https://github.com/mapbox/tilemill_examples/tarball/master | \
     tar -xz --strip 1
     cd "$RUN_DIR";
 else
