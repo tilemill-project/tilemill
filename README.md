@@ -8,8 +8,8 @@ Features
 --------
 - Access datasources on the local filesystem or through Amazon S3
 - Manage map layers with file-based datasources (shapefiles, rasters)
-- Edit `mess.js` stylesheets directly in the browser
-- Edit `mess.js` stylesheets with a custom editor like `vim` in *Minimal mode*
+- Edit `mss` stylesheets directly in the browser
+- Edit `mss` stylesheets with a custom editor like `vim` in *Minimal mode*
 - Preview map tiles instantly while editing stylesheets
 - Inspect datasource field values and data types
 - Export maps to PNG, PDF and MBTiles formats
