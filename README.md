@@ -1,67 +1,128 @@
 TileMill
 --------
-TileMill is a map style editor. It currently provides
+TileMill is a full-featured map design studio powered by open source
+technology.
 
-- management of layers with file-based datasources (shapefiles, rasters, etc.)
-  and stylesheets in a mess.js MML file
-- an interface for editing mess.js MSS files,
-- inspection of metadata in datasources including field data types and values,
-- export of maps to PNG, PDF and MBTiles formats.
+
+Features
+--------
+- Access datasources on the local filesystem or through Amazon S3
+- Manage map layers with file-based datasources (shapefiles, rasters)
+- Edit `mess.js` stylesheets directly in the browser
+- Edit `mess.js` stylesheets with a custom editor like `vim` in *Minimal mode*
+- Preview map tiles instantly while editing stylesheets
+- Inspect datasource field values and data types
+- Export maps to PNG, PDF and MBTiles formats
+
 
 Requirements
 ------------
-- **TileMill client**: A modern, standards compliant web browser.
-  - Tested: Chrome 6+
-  - Tested: Firefox 3+
-  - Tested: IE8+
+- *TileMill client*
+  - Tested: Chrome 6+, Firefox 3+, IE8+
   - May work: Opera 11
-- **TileMill server**
-  - ndistro >= 0.4.0 or latest version
-  - node 2.5
-  - Mapnik 2 [at least revision 2488](http://svn.mapnik.org/trunk)
-  - node-mapnik [latest master](https://github.com/mapnik/node-mapnik)
+- *TileMill server*
+  - Tested: Mac OS X 10.6, Ubuntu 10.10
+  - May work: Older versions, other POSIX-compliant systems
 
-Setup
------
 
-## Prerequisites
+Installation: Mac OS X 10.6
+---------------------------
+Install Xcode for Mac OS X:
 
-- make
-- Python 2.4 or better
-- libzip (deb packages: libzip-dev libzip1)
-- libsqlite3 (deb packages: libsqlite3-dev libsqlite3-0)
+- [Xcode](http://developer.apple.com/technologies/tools/xcode.html)
 
-## Building
+Install `mapnik` from OS X package:
 
-- Build and install Mapnik 2 (latest trunk)
-- Install [ndistro](https://github.com/visionmedia/ndistro)
+- [mapnik 2.0.0 02-04-2584](http://dbsgeo.com/tmp/mapnik_2.0.0_snow_intel_2011_02_04_2584.dmg)
 
-        cd /usr/local/bin && curl https://github.com/visionmedia/ndistro/raw/master/install | sh
+Install `ndistro`:
 
-- Build TileMill dependencies by running ndistro from the TileMill directory
+    cd /usr/local/bin
+    curl https://github.com/visionmedia/ndistro/raw/master/install | sh
 
-        cd TileMill
-        ndistro
+Install TileMill:
 
-## Configuration
+    git clone git@github.com:developmentseed/TileMill.git
+    cd TileMill
+    ndistro
 
-- Optional. Edit `settings.js` to change server settings including port, files
-  directories, and enabled asset providers.
-
-## Running
+Start TileMill:
 
     ./tilemill.js
 
-TileMill should now be running on http://localhost:8889/
+TileMill should now be accessible from a browser at `http://localhost:8889`.
 
-Authors
--------
-- Dmitri Gaskin (dmitrig01)
-- Young Hahn (yhahn)
-- Tom MacWright (tmcw)
-- Tristen Brown (tristen)
-- Will White (willwhite)
-- AJ Ashton (ajashton)
-- Konstantin Käfer (kkaefer)
-- Dane Springmeyer (springmeyer)
+
+Installation: Ubuntu 10.10
+--------------------------
+Install build requirements:
+
+    # Mapnik dependencies
+    sudo apt-get install -y g++ cpp \
+    libboost-filesystem1.42-dev \
+    libboost-iostreams1.42-dev libboost-program-options1.42-dev \
+    libboost-python1.42-dev libboost-regex1.42-dev \
+    libboost-system1.42-dev libboost-thread1.42-dev \
+    python-dev libxml2 libxml2-dev \
+    libfreetype6 libfreetype6-dev \
+    libjpeg62 libjpeg62-dev \
+    libltdl7 libltdl-dev \
+    libpng12-0 libpng12-dev \
+    libgeotiff-dev libtiff4 libtiff4-dev libtiffxx0c2 \
+    libcairo2 libcairo2-dev python-cairo python-cairo-dev \
+    libcairomm-1.0-1 libcairomm-1.0-dev \
+    ttf-unifont ttf-dejavu ttf-dejavu-core ttf-dejavu-extra \
+    subversion build-essential python-nose
+
+    # Mapnik plugin dependencies
+    sudo apt-get install libgdal1-dev python-gdal \
+    postgresql-8.4 postgresql-server-dev-8.4 postgresql-contrib-8.4 postgresql-8.4-postgis \
+    libsqlite3-0 libsqlite3-dev
+
+    # TileMill dependencies
+    sudo apt-get install libzip1 libzip-dev
+
+Install `mapnik` from source:
+
+    svn checkout http://svn.mapnik.org/trunk mapnik
+    cd mapnik
+    python scons/scons.py configure
+    python scons/scons.py
+    sudo python scons/scons.py install
+    sudo ldconfig
+
+Install `ndistro`:
+
+    cd /usr/local/bin
+    curl https://github.com/visionmedia/ndistro/raw/master/install | sh
+
+Install TileMill:
+
+    git clone git@github.com:developmentseed/TileMill.git
+    cd TileMill
+    ndistro
+
+Start TileMill:
+
+    ./tilemill.js
+
+TileMill should now be accessible from a browser at `http://localhost:8889`.
+
+
+Configuration
+-------------
+Optional. Edit `settings.js` to change server settings including port, files
+directories, and enabled asset providers.
+
+
+Contributors
+------------
+- [Dmitri Gaskin](http://github.com/dmitrig01)
+- [Young Hahn](http://github.com/yhahn)
+- [Tom MacWright](http://github.com/tmcw)
+- [Will White](http://github.com/willwhite)
+- [Tristen Brown](http://github.com/tristen)
+- [AJ Ashton](http://github.com/ajashton)
+- [Konstantin Kafer](http://github.com/kkaefer)
+- [Dane Springmeyer](http://github.com/springmeyer)
 
