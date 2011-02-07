@@ -35,7 +35,7 @@ module.exports = function(app, settings) {
                         ds_type: external.type.ds_options.type,
                         fields: {},
                         features: req.param('option') === 'features'
-                            ? ds.features(0, 10000)
+                            ? ds.features(0, 1000)
                             : []
                     }, ds.describe());
                     for (var fieldId in res.datasource.fields) {
