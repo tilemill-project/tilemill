@@ -88,9 +88,9 @@ pre {
   border-radius:3px;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
-  box-shadow:#eee 0px 1px 5px;
-  -moz-box-shadow:#eee 0px 1px 5px;
-  -webkit-box-shadow:#eee 0px 1px 5px;
+  box-shadow:inset #eee 0px 1px 5px;
+  -moz-box-shadow:inset #eee 0px 1px 5px;
+  -webkit-box-shadow:inset #eee 0px 1px 5px;
   }
 
 /**
@@ -137,7 +137,9 @@ h2.slogan {
   padding:9px;
   border:1px solid #eee;
   margin-right:10px;
-
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
   box-shadow:#eee 0px 2px 5px;
   -moz-box-shadow:#eee 0px 2px 5px;
   -webkit-box-shadow:#eee 0px 2px 5px;
@@ -224,4 +226,19 @@ a.fork {
   text-indent:-9999px;
   background:url(images/sprite.png) -280px -120px no-repeat;
   }
+
+/**
+ * Facebox ====================================================================
+ */
+#facebox .close{
+  top:6px;
+  right:6px;
+  padding:0px 0px 6px 6px;
+  background:#fff;
+  border-radius:0px 0px 0px 4px;
+  -moz-border-radius:0px 0px 0px 4px;
+  -webkit-border-radius:0px 0px 0px 4px;
+  }
+
+#facebox .close img { display:block; }
 
