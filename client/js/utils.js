@@ -125,7 +125,7 @@ var PopupView = Backbone.View.extend({
 var DropdownView = Backbone.View.extend({
     className: 'DropdownView',
     initialize: function() {
-        _.bindAll(this, 'render', 'showContent');
+        _.bindAll(this, 'render', 'showContent', 'hideContent');
         this.render();
     },
     render: function() {
@@ -164,7 +164,7 @@ var DrawerView = Backbone.View.extend({
         'click .close': 'remove'
     },
     initialize: function () {
-        _.bindAll(this, 'render');
+        _.bindAll(this, 'render', 'loading', 'done');
         this.render();
     },
     render: function () {
@@ -184,6 +184,13 @@ var DrawerView = Backbone.View.extend({
         $('.drawer-content', this.el).children().fadeOut('fast');
         $(this.el).animate( {left: '-100%'}, function() { $(this).remove() });
         return false;
+    },
+    loading: function(message) {
+        this.loadingView = new LoadingView({message: message});
+        this.$('.drawer-content').append(this.loadingView.el);
+    },
+    done: function() {
+        this.loadingView && this.loadingView.remove();
     }
 });
 
