@@ -191,7 +191,9 @@ var LibraryRowView = Backbone.View.extend({
                 });
                 that.list.done();
                 that.list.$('.main').html(view.el);
-                window.app.controller.saveLocation('library/' + path);
+                if (that.list instanceof LibraryListView) {
+                    window.app.controller.saveLocation('library/' + path);
+                }
             }
         });
         return false;
