@@ -839,7 +839,7 @@ ul.projects a:hover {
   top:0px;
   height:60%;
   border-bottom:1px solid #ccc;
-  background:#ddd url(../images/checker-bg.png) 0% 0% repeat;
+  background:#f8f8f8 url(../images/canvas.png) 0% 0% repeat;
   }
 
 #MapView .olMap {
