@@ -169,6 +169,45 @@ h2.slogan {
   border:0px;
   }
 
+.download {
+  margin-right:-20px;
+  float:right;
+  width:240px;
+  padding:9px;
+  border:1px solid #ddd;
+
+  background:#eee;
+  color:#333;
+  font:normal 13px/20px Arial,Helvetica,sans-serif;
+  text-shadow:#fff 0px 1px;
+
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  box-shadow:#eee 0px 2px 5px;
+  -moz-box-shadow:#eee 0px 2px 5px;
+  -webkit-box-shadow:#eee 0px 2px 5px;
+  }
+
+.download:hover { background:#fff; }
+
+.download * { display:block; }
+
+.download .file {
+  float:left;
+  width:40px;
+  height:40px;
+  margin-right:10px;
+  background:url(images/sprite.png) -400px -195px no-repeat;
+  }
+
+.download em { font-style:normal; }
+
+.download strong {
+  font-size:20px;
+  letter-spacing:-1px;
+  }
+
 /**
  * Wrapper ====================================================================
  */
@@ -192,8 +231,9 @@ h2.slogan {
 
 .navigation li,
 .navigation li a {
-  color:#fff;
+  color:#eee;
   font:bold 15px/50px Arial,Helvetica,sans-serif;
+  text-shadow:#000 0px 1px;
   text-decoration:none;
   float:left;
   }
@@ -203,7 +243,10 @@ h2.slogan {
   padding:0px 20px;
   }
 
-.navigation li a:hover { background-position:100% -65px; }
+.navigation li a:hover {
+  color:#fff;
+  background-position:100% -65px;
+  }
 
 .logo {
   display:block;
