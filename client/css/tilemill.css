@@ -176,7 +176,7 @@ h3 { font-size:13px; }
 .menu li a.title {
   position:relative;
   display:block;
-  padding:20px 10px 19px 60px;
+  padding:15px 10px 14px 60px;
   border-bottom:1px solid #ddd;
   font-size:16px;
   font-weight:bold;
@@ -186,7 +186,7 @@ h3 { font-size:13px; }
 .menu li a.title .file {
   position:absolute;
   left:10px;
-  top:10px;
+  top:5px;
   }
 
 .menu li a.title.active {
