@@ -1,4 +1,8 @@
-require.paths.unshift(__dirname + '/../lib/node', __dirname + '/../');
+require.paths.splice(0, require.paths.length);
+require.paths.unshift(
+    __dirname + '/../lib/node',
+    __dirname + '/../'
+);
 
 var settings = require('settings');
 settings.files = __dirname + '/files';

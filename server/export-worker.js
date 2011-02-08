@@ -7,6 +7,7 @@
 //   responsiveness of the main TileMill process
 //
 // See the `export.js` for how workers are created.
+require.paths.splice(0, require.paths.length);
 require.paths.unshift(
     __dirname + '/../lib/node',
     __dirname + '/../server',
