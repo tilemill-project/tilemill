@@ -270,8 +270,14 @@
 
     <script type='text/html' id='MapView'>
       <div id='map-preview-{{id}}'>
-        <a class='icon reverse map-fullscreen' href='#'>Fullscreen</a>
-        <div id='zoom-display'><h4>Zoom level ?</h4><div class='zoom-in'>+</div><div class='zoom-out'></div>
+        <div class='control' id='map-fullscreen'>
+          <a class='icon reverse map-fullscreen' href='#'>Fullscreen</a>
+        </div>
+        <div class='control' id='zoom-display'>
+          <label>Zoom <span class='zoom'></span></label>
+          <a href='#' class='icon reverse plus zoom-in'></a>
+          <a href='#' class='icon reverse minus zoom-out'></a>
+        </div>
       </div>
     </script>
 

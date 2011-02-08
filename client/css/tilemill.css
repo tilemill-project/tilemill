@@ -328,12 +328,14 @@ a.button:hover .icon.right {
 .icon.prev           { background-position:-140px 0px; }
 .icon.next           { background-position:-160px 0px; }
 .icon.add            { background-position:-180px 0px; }
+.icon.plus           { background-position:-180px 0px; }
 .icon.settings       { background-position:-280px 0px; }
 .icon.export         { background-position:-320px 0px; }
 .icon.reference      { background-position:-320px 0px;}
 .icon.dropdown       { background-position:-300px 0px; }
 .icon.options        { background-position:-260px 0px; }
 .icon.assets         { background-position:-340px 0px;}
+.icon.minus          { background-position:-380px 0px; }
 .icon.geometry-linestring { background-position:-200px 0px; }
 .icon.geometry-point      { background-position:-220px 0px; }
 .icon.geometry-polygon    { background-position:-240px 0px; }
@@ -352,17 +354,18 @@ a.button:hover .icon.right {
 .reverse.prev           { background-position:-140px -20px; }
 .reverse.next           { background-position:-160px -20px; }
 .reverse.add            { background-position:-180px -20px; }
+.reverse.plus           { background-position:-180px -20px; }
 .reverse.settings       { background-position:-280px -20px; }
 .reverse.export         { background-position:-320px -20px; }
 .reverse.reference      { background-position: -320px -20px;}
 .reverse.dropdown       { background-position:-300px -20px; }
 .reverse.options        { background-position:-260px -20px; }
 .reverse.assets         { background-position:-340px -20px;}
+.reverse.minus          { background-position:-380px -20px; }
 .reverse.geometry-linestring { background-position:-200px -20px; }
 .reverse.geometry-point      { background-position:-220px -20px; }
 .reverse.geometry-polygon    { background-position:-240px -20px; }
 .reverse.geometry-raster     { background-position:-360px -20px; }
-
 
 .file.png { background-position:0px -180px; }
 .file.pdf { background-position:-40px -180px; }
@@ -503,13 +506,13 @@ form .palette div { padding:5px 0px; }
 
 .palette {
   position:fixed;
-  right:5px;
-  top:55px;
+  right:10px;
+  top:60px;
   z-index:10;
 
   color:#999;
   width:160px;
-  background:url(../images/black90.png);
+  background:url(../images/palette.png);
   border-radius:5px;
   -moz-border-radius:5px;
   -webkit-border-radius:5px;
@@ -862,61 +865,32 @@ ul.projects a:hover {
   border:0px;
   }
 
-#MapView a.map-fullscreen,
-#MapView #zoom-display {
-  background-color:#222;
+#MapView .control {
+  background:url(../images/palette.png);
   height:20px;
   position:absolute;
   top:10px;
   z-index:1003;
-  }
-
-#MapView a.map-fullscreen { right:10px; }
-
-#MapView #zoom-display {
-  left:5px;
-  padding:0px 5px;
-  background-color:#222;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   }
 
-#MapView #zoom-display h4 {
+#MapView .reverse { background-color:transparent; }
+
+#MapView #map-fullscreen { right:10px; }
+#MapView #zoom-display { left:10px; }
+
+#zoom-display label {
   font-size:11px;
+  font-weight:bold;
   color:#eee;
   float:left;
+  padding:0px 5px;
   }
 
-#MapView #zoom-display .zoom-in,
-#MapView #zoom-display .zoom-out {
-  background:#222 url(../images/sprite.png) -5px -71px repeat-x;
-  cursor: pointer;
-  position: relative;
-  }
+#zoom-display .icon { float:left; }
+#zoom-display .icon:active { margin-top:1px; }
 
-#MapView #zoom-display .zoom-in:active,
-#MapView #zoom-display .zoom-out:active {
-  bottom: -1px;
-  }
-
-#MapView #zoom-display .zoom-in {
-  float:left;
-  width:10px;
-  height:10px;
-  margin:5px 5px 5px 10px;
-  text-indent:-9999px;
-  background-position:-5px -71px;
-  }
-
-#MapView #zoom-display .zoom-out {
-  float:left;
-  width:10px;
-  height:10px;
-  margin:5px 0 5px 0;
-  text-indent:-9999px;
-  background-position:-25px -71px;
-  }
-  
 #MapView .olHandlerBoxZoomBox {
   border:2px solid #000;
   position:absolute;
@@ -1104,7 +1078,7 @@ ul.projects a:hover {
 .DropdownView .dropdown-content {
   z-index:5000;
   display:none;
-  background:url(../images/black90.png);
+  background:url(../images/palette.png);
   position:absolute;
   padding: 5px 0px;
   left:5px;
@@ -1131,7 +1105,7 @@ ul.projects a:hover {
 
 .actions .DropdownView a.show.active,
 .actions .DropdownView a.show.active:hover {
-  background:url(../images/black90.png);
+  background:url(../images/palette.png);
   color:#fff;
   -webkit-border-radius:5px 5px 0px 0px;
   -moz-border-radius:5px 5px 0px 0px;

@@ -87,10 +87,12 @@ var MapView = Backbone.View.extend({
         $('#zoom-display .zoom-in').click($.proxy(function(e) {
             e.stopPropagation();
             this.map.zoomIn();
+            return false;
         }, this));
         $('#zoom-display .zoom-out').click($.proxy(function(e) {
             e.stopPropagation();
             this.map.zoomOut();
+            return false;
         }, this));
 
         return this;
@@ -123,7 +125,7 @@ var MapView = Backbone.View.extend({
         center = { lat: lonlat.lat, lon: lonlat.lon, zoom: zoom };
         this.model.set({ _center: center }, { silent: true });
 
-        $('#zoom-display h4').text('Zoom level ' + this.map.getZoom());
+        $('#zoom-display .zoom').text(this.map.getZoom());
     },
     reload: function() {
         if (this.map.layers && this.map.layers && this.map.layers[0]) {
