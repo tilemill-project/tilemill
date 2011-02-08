@@ -65,7 +65,10 @@ h6 { font-weight:normal; }
   padding-left:20px;
   }
 
-.md ol li { margin-left:20px; }
+.md ol li { 
+  list-style-type:decimal;
+  margin-left:20px; 
+}
 
 tt,
 pre,
