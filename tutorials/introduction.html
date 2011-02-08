@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TileMill | Introduction</title>
+  <script type='text/javascript' src='../jquery.js'></script>
+  <script type='text/javascript' src='../showdown.js'></script>
+  <!--Facebox (http://chriswanstrath.com/facebox/) -->
+  <link rel='stylesheet' media='all' href='../facebox/src/facebox.css' />
+  <script type='text/javascript' src='../facebox/src/facebox.js'></script>
+  <!-- TileMill -->
+  <link rel='shortcut icon' href='../images/favicon.ico' />
+  <link rel='stylesheet' media='all' href='../reset.css' />
+  <link rel='stylesheet' media='all' href='../style.css' />
+  <script type='text/javascript' src='../script.js'></script>
+</head>
+<body>
+<div class='banner'>
+  <div class='header'>
+    <a href='index.html' class='logo'>TileMill</a>
+    <ul class='navigation clearfix'>
+      <li><a href='../index.html'>Home</a></li>
+      <li><a href='../tutorials.html'>Tutorials</a></li>
+      <li><a href='../code.html'>Code</a></li>
+    </ul>
+  </div>
+</div>
+<a class='fork' href='http://github.com/developmentseed/TileMill'>Fork me on GitHub</a>
+<div class='md'>
+  
+Introduction
+============
+
+TileMill is a tool for cartographers to quickly and easily design maps
+for the web using custom data.  It is built on the powerful open-source 
+map rendering library [Mapnik][], the same software
+[OpenStreetMap][] and [MapQuest][] use to make some of their maps.
+TileMill is not intended to be a general-purpose cartography tool, but
+rather focuses on streamlining and simplifying a narrow set of use
+cases.
+
+[Mapnik]: http://mapnik.org/
+[OpenStreetMap]: http://openstreetmap.org/
+[MapQuest]: http://open.mapquest.com/
+
+For anyone coming from a GIS or cartography background, the biggest
+assumption TileMill makes is the final projection - TileMill maps are
+always projected to 'Web Mercator'. As the name suggests, this
+projection is popular with web mapping applications, thus maps created
+with TileMill can be displayed using the Google Maps API, OpenLayers,
+and a number of other projects.
+
+TileMill can also export directly to the SQLite-based [MBTiles][] file
+format. This format was designed to make traditional web maps available
+offline and is used by Maps on a Stick and the [MapBox iPad App][].
+
+[MBTiles]: http://mapbox.com/mbtiles
+[MapBox iPad App]: http://mapbox.com/ipad
+
+GIS Basics
+==========
+
+If you have never worked in GIS or cartography before, there a number of
+basics to go over before jumping into TileMill.
+
+GIS stands for Geographic Information System and refers to any system
+dealing with the recording, analysis, or display of data that is related
+to a location. TileMill is focused on the 'display' part of that
+definition, but does provide some tools for basic analysis. Cartography
+is the practice of making maps.
+
+## Map projections
+
+**TODO**
+
+## Zoom Levels
+
+Interactive, tiled maps are designed and rendered at a number of
+different scalesA zoom level is a predefined scale at which a map is
+rendered. OpenStreetMap, Google Maps, and most other online maps zoom
+levels are scaled such that the entire world fills a 256x256 pixel tile
+at zoom level 0, and doubles in width & height at each subsequent zoom
+level. 
+
+For example: at zoom level 6 you get a full view of a medium-sized
+country.  At zoom level 11 you're looking at a metropolitan-region-sized
+area. At Zoom level 16 you're down to a neighborhood scale.
+
+  </div>
+</body> </html>
+
