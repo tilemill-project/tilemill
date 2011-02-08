@@ -701,6 +701,7 @@ ul.projects a:hover {
   bottom:0px;
   width:50%;
   border-right:1px solid #ccc;
+  overflow:auto;
   }
 
 .minimal #ProjectView .sidebar { width:100%; }
