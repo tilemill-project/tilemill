@@ -2,9 +2,11 @@
 $(function() {
     // Convert any markdown sections to HTML.
     $('.md').each(function() {
-        var text = $(this).html();
-        text = (new Showdown.converter()).makeHtml(text);
-        $(this).html(text);
+        var html = $('<div></div>')
+            .html((new Showdown.converter()).makeHtml($(this).html()))
+            .attr('class', $(this).attr('class'))
+            .attr('id', $(this).attr('id'));
+        $(this).hide().after(html);
     });
 
     // Set facebox paths.
