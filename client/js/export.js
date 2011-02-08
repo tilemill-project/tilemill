@@ -130,6 +130,7 @@ var ExportView = Backbone.View.extend({
         $(this.el).html(ich.ExportView(this.options));
         window.app.el.append(this.el);
         this.options.map.maximize();
+        this.options.map.$('.map-fullscreen').hide();
 
         // Add crop control to map.
         this.boxDrawingLayer = new OpenLayers.Layer.Vector('Crop');
@@ -224,6 +225,7 @@ var ExportView = Backbone.View.extend({
         this.options.map.map.removeControl(this.boxDrawingControl);
         this.options.map.map.removeLayer(this.boxDrawingLayer);
         this.options.map.minimize();
+        this.options.map.$('.map-fullscreen').show();
         PopupView.prototype.close.call(this);
         window.app.controller.saveLocation('project/' + this.options.project.id);
         return false;
