@@ -12,17 +12,17 @@
             "name": "world",
             "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs",
             "Datasource": {
-                "file": "http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip",
+                "file": "http://tilemill-data.s3.amazonaws.com/example_data/admin-0-line-land.zip",
                 "type": "shape"
             }
         },
         {
-            "id": "glaciated",
-            "name": "glaciated",
+            "id": "parks",
+            "name": "parks",
             "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs",
             "class": "",
             "Datasource": {
-                "file": "http://tilemill-data.s3.amazonaws.com/natural-earth/10m_glaciated_areas_900913.zip",
+                "file": "http://tilemill-data.s3.amazonaws.com/example_data/us-parks-area.zip",
                 "type": "shape"
             }
         }

@@ -165,12 +165,12 @@ module.exports = {
     },
     'layer-load': function() {
         // Load layer
-        assert.response(app, {url: '/api/Datasource/aHR0cDovL3RpbGVtaWxsLWRhdGEuczMuYW1hem9uYXdzLmNvbS93b3JsZF9ib3JkZXJzX21lcmMuemlw'}, {
+        assert.response(app, {url: '/api/Datasource/aHR0cDovL3RpbGVtaWxsLWRhdGEuczMuYW1hem9uYXdzLmNvbS9leGFtcGxlX2RhdGEvYWRtaW4tMC1saW5lLWxhbmQuemlw/features'}, {
             status: 200
         }, function(res) {
             var data = JSON.parse(res.body);
-            assert.equal(data.fields.FIPS.type, 'String', 'Missing field metadata');
-            assert.equal(data.features.length, 245, 'Feature count mismatch');
+            assert.equal(data.fields.ScaleRank.type, 'Number', 'Missing field metadata');
+            assert.equal(data.features.length, 344, 'Feature count mismatch');
         });
     },
     'settings-create': function() {
@@ -240,6 +240,6 @@ module.exports = {
         }, function(res) {
             assert.equal(res.body, '{}');
         });
-    },
+    }
 };
 
