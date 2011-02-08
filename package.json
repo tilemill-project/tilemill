@@ -1,0 +1,38 @@
+{
+  "name"          : "TileMill",
+  "version"       : "0.0.2",
+  "main"          : "./tilemill.js",
+  "description"   : "An Integrated Map Design Environment",
+  "keywords"      : ["map", "client"],
+  "url"           : "http://github.com/developmentseed/TileMill",
+   "repositories" : [
+       {
+           "type" : "git",
+           "url"  : "git://github.com/developmentseed/TileMill.git"
+       }
+   ],
+  "author"        : "",
+  "contributors"  : [],
+  "licenses"      : ["BSD"],
+  "dependencies"  : {
+      "express"  : "= 1.0.0",
+      "knox"  : "= 0.0.2",
+      "backbone"  : "= 0.3.3",
+      "underscore"  : "= 1.0.3",
+      "step"        : "= 0.0.3",
+      "zipfile"     : "= 0.1.5",
+      // required for tests
+      "xml2js"      : "= 0.1.0",
+      // node-srs required by renderer.js ensureSRS()
+      "srs"      : "= 0.1.1",
+      "node-get" : "= 0.0.2",
+      "mapnik" : "= 0.2.6",
+      "carto" : "= 0.1.0",
+      "dirty" : "= 0.9.1",
+      "step"     : "= 0.0.3",
+      "expresso" : "= 0.7.2"
+  },
+  "bin"           : { },
+  "directories"  : { },
+  "engines"       : { "node": ">= 0.2.4" }
+}

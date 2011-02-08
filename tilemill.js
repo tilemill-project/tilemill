@@ -41,7 +41,7 @@
 // This file is the main Express server.
 require.paths.splice(0, require.paths.length);
 require.paths.unshift(
-    __dirname + '/lib/node',
+    __dirname + '/node_modules',
     __dirname + '/server',
     __dirname + '/shared',
     __dirname
