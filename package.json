@@ -15,7 +15,7 @@
   "contributors"  : [],
   "licenses"      : ["BSD"],
   "dependencies"  : {
-      "express"  : "= 1.0.0",
+      "express"  : "= 1.0.7",
       "knox"  : "= 0.0.2",
       "backbone"  : "= 0.3.3",
       "underscore"  : "= 1.0.3",
@@ -26,9 +26,13 @@
       // node-srs required by renderer.js ensureSRS()
       "srs"      : "= 0.1.1",
       "node-get" : "= 0.0.2",
+      "sqlite": "https://github.com/developmentseed/node-sqlite/tarball/master",
+      "worker": "https://github.com/willwhite/node-worker/tarball/master",
       "mapnik" : "= 0.2.6",
       "carto" : "= 0.1.0",
       "dirty" : "= 0.9.1",
+      "tilelive" : "= 1.0.5",
+      "jsv": "https://github.com/garycourt/JSV/tarball/master",
       "step"     : "= 0.0.3",
       "expresso" : "= 0.7.2"
   },

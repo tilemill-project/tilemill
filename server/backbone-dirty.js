@@ -2,10 +2,10 @@
 // context. Uses `node-dirty` for model persistence. Models must have a `type`
 // property defined allowing type based collections to be fetched from the
 // `node-dirty` database.
-var Backbone = require('../modules/backbone/backbone.js'),
+var Backbone = require('../node_modules/backbone/backbone.js'),
     settings = require('settings'),
     path = require('path'),
-    dirty = require('node-dirty')(path.join(settings.files, 'app.db')),
+    dirty = require('dirty')(path.join(settings.files, 'app.db')),
     loaded = false;
 
 Backbone.sync = function(method, model, success, error) {
