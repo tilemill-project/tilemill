@@ -1249,6 +1249,8 @@ ul.form > li a.assets {
   -webkit-border-radius:0px;
   }
 
+ul.form > li input#file { padding-right:20px; }
+
 ul.assets { padding:10px; }
 
 ul.assets li {
