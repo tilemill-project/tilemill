@@ -1,4 +1,4 @@
-#!./build/bin/node
+#!./bin/node
 // The TileMill application consists of:
 //
 //     +-----------------+

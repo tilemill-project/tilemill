@@ -1,5 +1,8 @@
-# module | github repo | tag | alias
+# require ds fork of ndistro
+# https://github.com/developmentseed/ndistro/raw/master/bin/ndistro
+node 0.2.6 source
 
+# module | github repo | tag | alias
 module senchalabs connect 0.3.0
 module visionmedia express 1.0.0
 module learnboost knox 0.0.2
@@ -27,15 +30,38 @@ module garycourt JSV
 module douglascrockford JSON-js
 module dankogai js-base64
 
-# addons
-# latest ndistro is able to download and build c++ addons,
-# but is quite buggy so we skip using it to build node-mapnik
-# see:
-#   https://github.com/visionmedia/ndistro/issues#issue/24
-#   https://github.com/visionmedia/ndistro/issues/issue/25
+# built modules
+module mapnik node-mapnik 0.2.6 mapnik
+module springmeyer node-srs 0.1.1 srs
+module springmeyer node-zipfile 0.1.5 zipfile
+module developmentseed node-sqlite 0.0.1 sqlite
 
-# once the issues are resolved above this will work
-#module mapnik node-mapnik master mapnik
+# download and install a resource
+resource() {
+  local path=$1
+  local url=$2
+  local type=$3
+  local file=`echo $url | grep -o "[a-zA-Z0-9_]*.$type"`
+  if ! [ -d $path ]; then
+    log "fetching $path"
+    mkdir -p $path
+    if test $type = 'zip'; then
+        $GET $url > $file && \
+        unzip -q -d $path $file && \
+        rm $file
+    elif test $type = 'tar'; then
+        cd $path
+        $GET $url | \
+        tar -xz --strip 1
+        cd $ROOT
+    fi
+  else
+    log "already fetched $path"
+  fi
+}
 
-# Build node and node-mapnik and install example data
-exec ./install.sh
+# resource | path | url | file type
+resource files/resources http://tilemill-data.s3.amazonaws.com/tilemill_resources.zip zip
+resource files/project https://github.com/mapbox/tilemill_examples/tarball/0.1.0 tar
+resource files/data http://tilemill-data.s3.amazonaws.com/example_data.zip zip
+

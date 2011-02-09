@@ -1,6 +1,7 @@
-build
 bin
 lib
+include
 modules
 files
-addons
+share
+src
