@@ -35,16 +35,10 @@ Install `Mapnik 2.0` from [OS X package](http://dbsgeo.com/downloads/#mapnik-2.0
 
 - [mapnik 2.0 ](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0.dmg)
 
-Install `ndistro`:
-
-    cd /usr/local/bin
-    curl https://github.com/visionmedia/ndistro/raw/master/install | sudo sh
-
 Install TileMill:
 
-    git clone git@github.com:developmentseed/TileMill.git
     cd TileMill
-    ndistro
+    ./ndistro
 
 Start TileMill:
 
@@ -91,16 +85,10 @@ Install `mapnik` from source:
     sudo python scons/scons.py install
     sudo ldconfig
 
-Install `ndistro`:
-
-    cd /usr/local/bin
-    curl https://github.com/visionmedia/ndistro/raw/master/install | sudo sh
-
 Install TileMill:
 
-    git clone git@github.com:developmentseed/TileMill.git
     cd TileMill
-    ndistro
+    ./ndistro
 
 Start TileMill:
 
