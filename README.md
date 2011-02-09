@@ -8,8 +8,8 @@ Features
 --------
 - Access datasources on the local filesystem or through Amazon S3
 - Manage map layers with file-based datasources (shapefiles, rasters)
-- Edit `mss` stylesheets directly in the browser
-- Edit `mss` stylesheets with a custom editor like `vim` in *Minimal mode*
+- Edit `carto` stylesheets directly in the browser
+- Edit `carto` stylesheets with a custom editor like `vim` in *Minimal mode*
 - Preview map tiles instantly while editing stylesheets
 - Inspect datasource field values and data types
 - Export maps to PNG, PDF and MBTiles formats
@@ -22,8 +22,8 @@ Requirements
   - May work: Opera 11
 - *TileMill server*
   - Tested: Mac OS X 10.6, Ubuntu 10.10
+  - At least 2GB memory
   - May work: Older versions, other POSIX-compliant systems
-
 
 Installation: Mac OS X 10.6
 ---------------------------
@@ -31,14 +31,14 @@ Install Xcode for Mac OS X:
 
 - [Xcode](http://developer.apple.com/technologies/tools/xcode.html)
 
-Install `mapnik` from OS X package:
+Install `Mapnik 2.0` from [OS X package](http://dbsgeo.com/downloads/#mapnik-2.0.0):
 
-- [mapnik 2.0.0 02-04-2584](http://dbsgeo.com/tmp/mapnik_2.0.0_snow_intel_2011_02_04_2584.dmg)
+- [mapnik 2.0 ](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0.dmg)
 
 Install `ndistro`:
 
     cd /usr/local/bin
-    curl https://github.com/visionmedia/ndistro/raw/master/install | sh
+    curl https://github.com/visionmedia/ndistro/raw/master/install | sudo sh
 
 Install TileMill:
 
@@ -94,7 +94,7 @@ Install `mapnik` from source:
 Install `ndistro`:
 
     cd /usr/local/bin
-    curl https://github.com/visionmedia/ndistro/raw/master/install | sh
+    curl https://github.com/visionmedia/ndistro/raw/master/install | sudo sh
 
 Install TileMill:
 
@@ -123,6 +123,5 @@ Contributors
 - [Will White](http://github.com/willwhite)
 - [Tristen Brown](http://github.com/tristen)
 - [AJ Ashton](http://github.com/ajashton)
-- [Konstantin Kafer](http://github.com/kkaefer)
+- [Konstantin Käfer](http://github.com/kkaefer)
 - [Dane Springmeyer](http://github.com/springmeyer)
-
