@@ -49,7 +49,15 @@ GIS stands for Geographic Information System and refers to any system dealing wi
 
 ## Map projections
 
-@TODO
+**Projections** refer to the method used for representing a three-dimensional object like the Earth on a two-dimensional surface like a sheet of paper or a computer screen. While TileMill maps are always projected as ‘Web Mercator’ you will come across data sources that use [many different projections](http://en.wikipedia.org/wiki/Map_projection).
+
+**Coordinate systems** provide ways of describing a specific location on the earth. For example, you can describe the location of Washington, DC with its latitude and longitude approximately `(38,-77)`. Another method of describing its location might be to provide the *number of meters to Washington, DC north and west from the Equator* - and some coordinate systems do exactly that.
+
+The **[proj4](http://trac.osgeo.org/proj/) SRS string** (spatial referencing system) combines these two concepts and provides a way to describe the projection and coordinate system of a datasource at once. For example, the [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) proj4 SRS looks like this:
+
+    +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs
+
+TileMill can generally autodetect the SRS of shapefile and other datasources. You may need to provide an SRS string for some datasources if TileMill cannot autodetect the value.
 
 ## Zoom levels
 
