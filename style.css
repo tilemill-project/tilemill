@@ -39,6 +39,8 @@ h6 { font-weight:normal; }
 .md ol,
 .md p { margin:20px 0px; }
 
+.md ul ul { margin:0px; }
+
 .md h1,
 .md h2,
 .md h3,
