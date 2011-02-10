@@ -37,7 +37,11 @@ h6 { font-weight:normal; }
 .md h6,
 .md ul,
 .md ol,
-.md p { margin:20px 0px; }
+.md p,
+.md img {
+  display:block;
+  margin:20px 0px;
+  }
 
 .md ul ul { margin:0px; }
 
@@ -96,6 +100,12 @@ pre {
   box-shadow:inset #eee 0px 1px 5px;
   -moz-box-shadow:inset #eee 0px 1px 5px;
   -webkit-box-shadow:inset #eee 0px 1px 5px;
+  }
+
+.md img {
+  box-shadow:#ddd 0px 2px 5px;
+  -moz-box-shadow:#ddd 0px 2px 5px;
+  -webkit-box-shadow:#ddd 0px 2px 5px;
   }
 
 /**
