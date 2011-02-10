@@ -1,7 +1,6 @@
 TileMill
 --------
-TileMill is a full-featured map design studio powered by open source
-technology.
+TileMill is a modern map design studio powered by open source technology.
 
 
 Features
@@ -24,6 +23,7 @@ Requirements
   - Tested: Mac OS X 10.6, Ubuntu 10.10
   - At least 2GB memory
   - May work: Older versions, other POSIX-compliant systems
+
 
 Installation: Mac OS X 10.6
 ---------------------------
