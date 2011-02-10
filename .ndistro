@@ -35,6 +35,7 @@ module mapnik node-mapnik 0.2.6 mapnik
 module springmeyer node-srs 0.1.1 srs
 module springmeyer node-zipfile 0.1.5 zipfile
 module developmentseed node-sqlite 0.0.1 sqlite
+module kkaefer node-compress master compress
 
 # download and install a resource
 resource() {
