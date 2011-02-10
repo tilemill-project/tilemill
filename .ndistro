@@ -63,6 +63,6 @@ resource() {
 
 # resource | path | url | file type
 resource files/resources http://tilemill-data.s3.amazonaws.com/tilemill_resources.zip zip
-resource files/project https://github.com/mapbox/tilemill_examples/tarball/0.1.0 tar
+resource files/project https://github.com/mapbox/tilemill_examples/tarball/0.1.1 tar
 resource files/data http://tilemill-data.s3.amazonaws.com/example_data.zip zip
 
