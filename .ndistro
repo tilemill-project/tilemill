@@ -14,7 +14,7 @@ module documentcloud underscore 1.1.4
 module coopernurse node-pool 1.0.4
 module willwhite node-worker 0.0.1
 module felixge node-dirty v0.9.1
-module mapbox tilelive.js 1.0.3
+module mapbox tilelive.js interaction
 module mapbox carto 0.1.0
 module tmcw node-get 0.0.3
 
@@ -34,7 +34,7 @@ module dankogai js-base64
 module mapnik node-mapnik 0.2.7 mapnik
 module springmeyer node-srs 0.1.1 srs
 module springmeyer node-zipfile 0.1.5 zipfile
-module developmentseed node-sqlite 0.0.1 sqlite
+module willwhite node-sqlite blobbuild-combined sqlite
 module kkaefer node-compress master compress
 
 # download and install a resource

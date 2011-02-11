@@ -117,7 +117,7 @@ FormatMBTiles.prototype.render = function(callback) {
                     RenderTask();
                 }
                 else {
-                    batch.finish();
+                    batch.finish(function() {});
                     that.update({
                         status: 'complete',
                         progress: 1,
