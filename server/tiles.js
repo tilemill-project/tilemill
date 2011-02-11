@@ -1,21 +1,36 @@
 // GET endpoint for TMS tile image requests. Uses `tilelive.js` Tile API.
 //
-// - `:mapfile_64` String, base64 encoded mapfile URL. This mapfile will
-//   determine the styles and data displayed on the map.
+// - `:id` String, project model id.
 // - `:z` Number, zoom level of the tile requested.
 // - `:x` Number, x coordinate of the tile requested.
 // - `:y` Number, y coordinate of the tile requested.
 // - `*` String, file format of the tile requested, e.g. `png`, `jpeg`.
 var _ = require('underscore'),
+    url = require('url'),
     path = require('path'),
-    Tile = require('tilelive').Tile;
+    Tile = require('tilelive').Tile,
+    models = require('models-server');
 
 module.exports = function(app, settings) {
-    app.get('/1.0.0/:mapfile_64/:z/:x/:y.*', function(req, res, next) {
+    // Route middleware. Load a project model.
+    var loadProject = function(req, res, next) {
+        var model = models.cache.get('Project', req.param('id'));
+        model.fetch({
+            success: function(model, resp) {
+                res.project = model;
+                next();
+            },
+            error: function(model, resp) {
+                next(new Error('Invalid model'));
+            }
+        });
+    };
+
+    app.get('/1.0.0/:id/:z/:x/:y.*', loadProject, function(req, res, next) {
         try {
             var options = {
                 scheme: 'tms',
-                mapfile: req.param('mapfile_64'),
+                mapfile: res.project.mapfile_64(req),
                 xyz: [req.param('x'), req.param('y'), req.param('z')],
                 format: req.params[0],
                 mapfile_dir: path.join(settings.mapfile_dir)

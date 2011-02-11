@@ -401,9 +401,7 @@ var ExportDropdownView = DropdownView.extend({
         } else {
             new this.FORMAT[format]({
                 model: new Export({
-                    mapfile: window.app.safe64(
-                        window.app.baseURL() + this.project.url()
-                    ),
+                    project: this.project.id,
                     format: format
                 }),
                 project: this.project,

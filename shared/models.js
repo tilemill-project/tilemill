@@ -395,6 +395,24 @@ var Project = Backbone.Model.extend({
     url: function() {
         return 'api/Project/' + this.id;
     },
+    // Generate a URL safe base64 encoded version of this model's URL. An
+    // optional Connect request object `req` can be provided to better
+    // determine the hostname and query parameters to be passed on.
+    mapfile_64: function(req) {
+        if (typeof require === 'undefined') return null;
+
+        var url = require('url');
+        var host = 'localhost:' + require('settings').port;
+        var query = {};
+        (req && req.headers && req.headers.host) && (host = req.headers.host);
+        (req && req.query) && (query = req.query);
+        return (new Buffer(url.format({
+            protocol: 'http:',
+            host: host,
+            pathname: this.url(),
+            query: req.query
+        }), 'utf-8')).toString('base64').replace('/', '_').replace('+', '-');
+    },
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent
     // with other Backbone methods.
@@ -455,6 +473,15 @@ var Export = Backbone.Model.extend({
                 'type': 'string',
                 'required': true
             },
+            'project': {
+                'type': 'string',
+                'required': true
+            },
+            'format': {
+                'type': 'string',
+                'required': true,
+                'enum': ['png', 'pdf', 'mbtiles']
+            },
             'status': {
                 'type': 'string',
                 'required': true,
@@ -510,6 +537,12 @@ var Export = Backbone.Model.extend({
             }
         }
         return '0 sec';
+    },
+    // Generate URL safe base64-encoded mapfile URL for the export's project.
+    mapfile_64: function(req) {
+        if (typeof require === 'undefined') return null;
+        var req = {query:{ 'updated': +new Date }};
+        return (new Project({ id: this.get('project') })).mapfile_64(req);
     }
 });
 

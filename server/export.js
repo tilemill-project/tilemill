@@ -67,7 +67,10 @@ Scanner.prototype.process = function(id, callback) {
                     this.worker.kill();
                     that.remove(model.worker);
                 });
-                model.worker.postMessage(model.toJSON());
+                model.worker.postMessage(_.extend(
+                    model.toJSON(),
+                    { mapfile: model.mapfile_64() }
+                ));
                 that.add(model.worker);
                 callback();
             // Export is a stale process (e.g. the server died or was shut

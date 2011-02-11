@@ -54,14 +54,13 @@ var MapView = Backbone.View.extend({
         OpenLayers.ImgPath = 'images/openlayers_dark/';
 
         this.map = new OpenLayers.Map('map-preview-' + this.mapID, options);
-        this.layer = new OpenLayers.Layer.TMS('Preview', window.app.baseURL(), {
-            layername: window.app.safe64(
-                window.app.baseURL() + this.model.url()
-            ),
+        this.layer = new OpenLayers.Layer.SignedTMS('Preview', window.app.baseURL(), {
+            layername: this.model.id,
             type: this.model.get('_format'),
             buffer: 0,
             transitionEffect: 'resize',
-            wrapDateLine: true
+            wrapDateLine: true,
+            signature: +new Date
         });
         this.map.addLayers([this.layer]);
 
@@ -130,11 +129,18 @@ var MapView = Backbone.View.extend({
     reload: function() {
         if (this.map.layers && this.map.layers && this.map.layers[0]) {
             this.map.layers[0].type = this.model.get('_format');
-            this.map.layers[0].layername = window.app.safe64(
-                window.app.baseURL() + this.model.url()
-            );
+            this.map.layers[0].signature = +new Date;
             this.map.layers[0].redraw();
         }
     }
 });
 
+// Extend OpenLayers.Layer.TMS to allow for a query-string signed URL based
+// on the last updated time of the project.
+OpenLayers.Layer.SignedTMS = OpenLayers.Class(OpenLayers.Layer.TMS, {
+    getURL: function (bounds) {
+        var url = OpenLayers.Layer.TMS.prototype.getURL.call(this, bounds);
+        (this.signature) && (url += '?updated=' + this.signature);
+        return url;
+    }
+});
