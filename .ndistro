@@ -31,7 +31,7 @@ module douglascrockford JSON-js
 module dankogai js-base64
 
 # built modules
-module mapnik node-mapnik 0.2.6 mapnik
+module mapnik node-mapnik 0.2.7 mapnik
 module springmeyer node-srs 0.1.1 srs
 module springmeyer node-zipfile 0.1.5 zipfile
 module developmentseed node-sqlite 0.0.1 sqlite
