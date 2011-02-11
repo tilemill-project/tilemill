@@ -29,6 +29,7 @@ module garycourt JSV
 module douglascrockford JSON-js
 module dankogai js-base64
 module mapbox tilelive.js
+module mapbox map-utils
 
 # built modules
 module mapnik node-mapnik 0.2.7 mapnik
