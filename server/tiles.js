@@ -9,7 +9,8 @@ var _ = require('underscore'),
     url = require('url'),
     path = require('path'),
     Tile = require('tilelive').Tile,
-    models = require('models-server');
+    models = require('models-server'),
+    compress = require('compress');
 
 module.exports = function(app, settings) {
     // Route middleware. Load a project model.
@@ -26,6 +27,56 @@ module.exports = function(app, settings) {
         });
     };
 
+    var inflate = function(buffer, callback) {
+        var gz = new compress.Gunzip();
+        var data = '';
+        gz.write(buffer, function(err, chunk) {
+            if (err) {
+                callback(err);
+                callback = undefined;
+            }
+            else data += chunk;
+        });
+        gz.close(function(err, chunk) {
+            if (err) {
+                if (callback) callback(err);
+            }
+            else data = callback(null, data + chunk);
+        });
+    };
+
+    app.get('/1.0.0/:id/:z/:x/:y.grid.json', loadProject, function(req, res, next) {
+        var interactivity = res.project.get('_interactivity');
+        if (!interactivity) return res.send('No grid data' , 400);
+
+        try {
+            var options = {
+                scheme: 'tms',
+                mapfile: res.project.mapfile_64(req),
+                xyz: [req.param('x'), req.param('y'), req.param('z')],
+                format: 'grid.json',
+                mapfile_dir: path.join(settings.mapfile_dir),
+                format_options: {
+                    layer: parseInt(interactivity.layer, 10),
+                    key_name: interactivity.key_name,
+                    res: res,
+                    req: req
+                }
+            };
+            var tile = new Tile(options);
+        } catch (err) {
+            res.send('Tile invalid: ' + err.message);
+        }
+        tile.render(function(err, data) {
+            if (typeof err === 'object' && err.length) {
+                err = _.pluck(err, 'message').join("\n");
+                res.send('Error rendering grid:\n' + err, 500);
+            } else if (err) {
+                res.send('Error rendering grid:\n' + err, 500);
+            }
+        });
+    });
+
     app.get('/1.0.0/:id/:z/:x/:y.*', loadProject, function(req, res, next) {
         try {
             var options = {
@@ -39,7 +90,6 @@ module.exports = function(app, settings) {
         } catch (err) {
             res.send('Tile invalid: ' + err.message);
         }
-
         tile.render(function(err, data) {
             if (!err) {
                 // Using `apply()` here allows the tile rendering function to

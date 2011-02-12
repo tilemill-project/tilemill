@@ -409,12 +409,12 @@ var Project = Backbone.Model.extend({
         var host = 'localhost:' + require('settings').port;
         var query = {};
         (req && req.headers && req.headers.host) && (host = req.headers.host);
-        (req && req.query) && (query = req.query);
+        (req && req.query && req.query.updated) && (query.updated = req.query.updated);
         return (new Buffer(url.format({
             protocol: 'http:',
             host: host,
             pathname: this.url(),
-            query: req.query
+            query: query
         }), 'utf-8')).toString('base64').replace('/', '_').replace('+', '-');
     },
     // Custom validation method that allows for asynchronous processing.
