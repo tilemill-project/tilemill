@@ -129,7 +129,7 @@ FormatMBTiles.prototype.render = function(callback) {
         },
         function(err) {
             var next = this;
-            var RenderTask = function(end) {
+            var RenderTask = function() {
                 process.nextTick(function() {
                     batch.renderChunk(function(err, rendered) {
                         if (!rendered) return next();
