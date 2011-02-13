@@ -339,7 +339,7 @@ var Project = Backbone.Model.extend({
                 'type': 'object'
             },
             '_interactivity': {
-                'type': 'object'
+                'type': ['object', 'boolean']
             }
         }
     },
