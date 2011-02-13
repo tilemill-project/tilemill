@@ -254,7 +254,7 @@ var ProjectPopupView = PopupView.extend({
         _.bindAll(this, 'submit', 'dependent');
         this.options.title = 'Project options';
         var that = this;
-        var interactivity = that.model.get('_interactivity');
+        var interactivity = that.model.get('_interactivity') || {};
         var object = {
             format: [
                 { id: 'png', name: 'png (24-bit)', selected: false },
@@ -277,7 +277,7 @@ var ProjectPopupView = PopupView.extend({
             object.interactivity_layer.push({
                 id: index,
                 name: layer.id,
-                selected: interactivity && (interactivity.layer == index)
+                selected: interactivity.layer == index
             });
         });
         this.options.content = ich.ProjectPopupView(object, true);
@@ -287,8 +287,10 @@ var ProjectPopupView = PopupView.extend({
         var attr = {
             _format: this.$('select#format').val(),
             _interactivity: {
-                layer: this.$('#interactivity_layer').val(),
-                key_name: this.$('#interactivity_key_name').val()
+                layer: parseInt(this.$('#interactivity_layer').val(), 10),
+                key_name: this.$('#interactivity_key_name').val(),
+                template_teaser: this.$('#interactivity_template_teaser').val(),
+                template_full: this.$('#interactivity_template_full').val()
             }
         };
         (this.$('#interactivity_layer').val() == -1) && (attr._interactivity = {});
@@ -317,12 +319,16 @@ var ProjectPopupView = PopupView.extend({
             });
             ds.fetch({
                 success: function() {
-                    var interactivity = that.model.get('_interactivity');
-                    var object = { fields: [] };
+                    var interactivity = that.model.get('_interactivity') || {};
+                    var object = {
+                        fields: [],
+                        template_teaser: interactivity.template_teaser,
+                        template_full: interactivity.template_full
+                    };
                     _.each(_.keys(ds.get('fields')), function(field) {
                         object.fields.push({
                             id: field,
-                            selected: (interactivity && interactivity.key_name === field)
+                            selected: (interactivity.key_name === field)
                         });
                     });
                     var fields = ich.ProjectPopupInteractivityView(object);

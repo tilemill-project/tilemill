@@ -213,23 +213,40 @@
               {{/interactivity_layer}}
             </select>
             <div class='description'>Layer from which interaction data should be generated.</div>
+            <div class='dependent hidden'></div>
           </li>
-          <li class='dependent hidden'></li>
           <li class='buttons'>
-              <input class='submit' type='submit' value='Save' />
+            <input class='submit' type='submit' value='Save' />
           </li>
         </ul>
       </form>
     </script>
 
     <script type='text/html' id='ProjectPopupInteractivityView'>
-      <label for='interactivity_key_name'>Key name</label>
-      <select id='interactivity_key_name'>
-        {{#fields}}
-          <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{id}}</option>
-        {{/fields}}
-      </select>
-      <div class='description'>Select the unique ID field to use for distinguishing features on this layer. Example: country ISO2 code.</div>
+      <ul class='form'>
+        <li>
+          <label for='interactivity_key_name'>Key name</label>
+          <select id='interactivity_key_name'>
+            {{#fields}}
+              <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{id}}</option>
+            {{/fields}}
+          </select>
+          <div class='description'>Unique ID field for features on this layer. Example: ISO2 code.</div>
+        </li>
+        <li>
+          <label>Formatter</label>
+          <label class='inline' for='interactivity_template_teaser'>Teaser</label>
+          <textarea rows='2' id='interactivity_template_teaser'>{{template_teaser}}</textarea>
+          <label class='inline' for='interactivity_template_full'>Full</label>
+          <textarea rows='2' id='interactivity_template_full'>{{template_full}}</textarea>
+          <div class='description'>
+            HTML markup for interaction data. Any of the following tokens will be replaced:
+            {{#fields}}
+              <code>[{{id}}]</code>
+            {{/fields}}
+          </div>
+        </li>
+      </ul>
     </script>
 
     <script type='text/html' id='LayerListView'>
