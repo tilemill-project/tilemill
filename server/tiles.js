@@ -9,8 +9,7 @@ var _ = require('underscore'),
     url = require('url'),
     path = require('path'),
     Tile = require('tilelive').Tile,
-    models = require('models-server'),
-    compress = require('compress');
+    models = require('models-server');
 
 module.exports = function(app, settings) {
     // Route middleware. Load a project model.
@@ -27,28 +26,15 @@ module.exports = function(app, settings) {
         });
     };
 
-    var inflate = function(buffer, callback) {
-        var gz = new compress.Gunzip();
-        var data = '';
-        gz.write(buffer, function(err, chunk) {
-            if (err) {
-                callback(err);
-                callback = undefined;
-            }
-            else data += chunk;
-        });
-        gz.close(function(err, chunk) {
-            if (err) {
-                if (callback) callback(err);
-            }
-            else data = callback(null, data + chunk);
-        });
-    };
-
+    // Unfinished interactivity grid endpoint.
+    // @TODO reimplement once node-mapnik supports async grid generation
+    // as well as inclusion of grid data (not just join key) in generated
+    // grids in tilelive.js.
     app.get('/1.0.0/:id/:z/:x/:y.grid.json', loadProject, function(req, res, next) {
-        var interactivity = res.project.get('_interactivity');
-        if (!interactivity) return res.send('No grid data' , 400);
+        // Kill switch. Remove once @TODO above is accomplished!
+        return res.send('No grid data' , 400);
 
+        var interactivity = res.project.get('_interactivity');
         try {
             var options = {
                 scheme: 'tms',

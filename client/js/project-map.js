@@ -72,10 +72,10 @@ var MapView = Backbone.View.extend({
         this.map.addControl(navigation);
         navigation.activate();
 
-        // Add interactivity
-        var interaction = new OpenLayers.Control.Interaction();
-        this.map.addControl(interaction);
-        interaction.activate();
+        // Interaction: currently disabled.
+        // var interaction = new OpenLayers.Control.Interaction();
+        // this.map.addControl(interaction);
+        // interaction.activate();
 
         this.controlZoom({element: this.map.div});
         this.map.events.register('moveend', this.map, this.controlZoom);
