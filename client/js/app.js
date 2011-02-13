@@ -35,7 +35,7 @@ var Router = Backbone.Controller.extend({
     },
     projectExport: function(id, next) {
         this.project(id, function() {
-            window.app.pageView.views.exportDropdown.jobs();
+            window.app.pageView.views.exportDropdown.exportList();
             next && next();
         });
     },
