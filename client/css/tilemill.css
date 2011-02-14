@@ -381,7 +381,8 @@ a.button:hover .icon.right {
  * Form elements ==============================================================
  */
 select,
-input.text {
+input.text,
+textarea {
   line-height:18px;
   height:20px;
   background:#f8f8f8;
@@ -394,6 +395,11 @@ input.text {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
+  }
+
+textarea {
+  height:auto;
+  resize:none;
   }
 
 a.button,
@@ -447,8 +453,32 @@ ul.form > li > label {
   text-align:right;
   }
 
-ul.form > li input.text { width:100%; }
+ul.form > li input.text,
+ul.form > li textarea { width:100%; }
 ul.form > li input.inline { width:auto; }
+
+ul.form ul.form > li {
+  padding:9px 10px 10px;
+  margin:0px -10px;
+  border-top:1px solid #ddd;
+  border-bottom:0px;
+  }
+
+ul.form ul.form > li > label {
+  left:-140px;
+  border:0px;
+  background:transparent;
+  }
+
+ul.form label.inline {
+  display:block;
+  position:static;
+  text-align:left;
+  width:auto;
+  border:0px;
+  padding:0px;
+  background:transparent;
+  }
 
 .buttons {
   text-align:right;

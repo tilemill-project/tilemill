@@ -15,13 +15,12 @@ require.paths.unshift(
     __dirname + '/../'
 );
 
-var worker = require('worker').worker,
+var _ = require('underscore')._,
+    worker = require('worker').worker,
     path = require('path'),
     fs = require('fs'),
     sys = require('sys'),
     settings = require('settings'),
-    Project = require('models-server').Project,
-    Export = require('models-server').Export,
     Step = require('step'),
     Tile = require('tilelive').Tile,
     TileBatch = require('tilelive').TileBatch;
@@ -104,57 +103,64 @@ var FormatMBTiles = function(worker, data) {
 sys.inherits(FormatMBTiles, Format);
 
 FormatMBTiles.prototype.render = function(callback) {
-    var batch;
     var that = this;
-    var RenderTask = function() {
-        process.nextTick(function() {
-            batch.renderChunk(function(err, rendered) {
-                if (rendered) {
-                    that.update({
-                        progress: batch.tiles_current / batch.tiles_total,
-                        updated: +new Date
-                    });
-                    RenderTask();
-                }
-                else {
-                    batch.finish(function() {});
-                    that.update({
-                        status: 'complete',
-                        progress: 1,
-                        updated: +new Date
-                    });
-                    callback();
-                }
-            });
-        });
-    }
+    var batch = new TileBatch({
+        filepath: path.join(settings.export_dir, that.data.filename),
+        batchsize: 100,
+        bbox: that.data.bbox.split(','),
+        format: that.data.tile_format,
+        interactivity: that.data.interactivity,
+        minzoom: that.data.minzoom,
+        maxzoom: that.data.maxzoom,
+        mapfile: that.data.mapfile,
+        mapfile_dir: path.join(settings.mapfile_dir),
+        metadata: {
+            name: that.data.metadata_name,
+            type: that.data.metadata_type,
+            description: that.data.metadata_description,
+            version: that.data.metadata_version,
+            formatter: that.data.metadata_formatter
+        }
+    });
 
     Step(
         function() {
-            batch = new TileBatch({
-                filepath: path.join(settings.export_dir, that.data.filename),
-                batchsize: 100,
-                bbox: that.data.bbox.split(','),
-                format: that.data.tile_format,
-                minzoom: that.data.minzoom,
-                maxzoom: that.data.maxzoom,
-                mapfile: that.data.mapfile,
-                mapfile_dir: path.join(settings.mapfile_dir),
-                metadata: {
-                    name: that.data.metadata_name,
-                    type: that.data.metadata_type,
-                    description: that.data.metadata_description,
-                    version: that.data.metadata_version
-                }
-            });
             batch.setup(this);
         },
         function(err) {
+            var next = this;
+            var RenderTask = function() {
+                process.nextTick(function() {
+                    batch.renderChunk(function(err, rendered) {
+                        if (!rendered) return next();
+
+                        that.update({
+                            progress: batch.tiles_current / batch.tiles_total,
+                            updated: +new Date()
+                        });
+                        RenderTask();
+                    });
+                });
+            };
             that.update({
                 status: 'processing',
                 updated: +new Date
             });
             RenderTask();
+        },
+        function() {
+            batch.fillGridData(this);
+        },
+        function() {
+            that.update({
+                status: 'complete',
+                progress: 1,
+                updated: +new Date()
+            });
+            batch.finish(this);
+        },
+        function() {
+            callback();
         }
     );
 }
