@@ -24,7 +24,7 @@ module headjs headjs v0.8
 module andyet ICanHaz.js v0.7
 module jaz303 tipsy v1.0.0a
 
-# #needs tag
+# needs tag
 module garycourt JSV
 module douglascrockford JSON-js
 module dankogai js-base64
@@ -32,11 +32,13 @@ module mapbox tilelive.js
 module mapbox map-utils
 
 # built modules
-module mapnik node-mapnik master mapnik
 module springmeyer node-srs 0.1.1 srs
 module springmeyer node-zipfile 0.1.5 zipfile
-module willwhite node-sqlite blobbuild-combined sqlite
+module developmentseed node-sqlite3 1.0.3 sqlite
+
+# needs tag
 module kkaefer node-compress master compress
+module mapnik node-mapnik master mapnik
 
 # download and install a resource
 resource() {
