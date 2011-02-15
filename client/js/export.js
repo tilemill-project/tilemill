@@ -313,7 +313,7 @@ var ExportPNGView = ExportImageView.extend({
 // itself.
 var ExportMBTilesView = ExportView.extend({
     initialize: function() {
-        _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
+        _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels', 'formatterJS');
         this.options.title = 'Export MBTiles';
         this.options.extension = 'mbtiles';
         ExportView.prototype.initialize.call(this);
@@ -326,10 +326,12 @@ var ExportMBTilesView = ExportView.extend({
             minzoom: 0,
             maxzoom: 8,
             tile_format: this.options.project.get('_format'),
+            interactivity: this.options.project.get('_interactivity'),
             metadata_name: this.options.project.get('id'),
             metadata_description: '',
             metadata_version: '1.0.0',
-            metadata_type: 'baselayer'
+            metadata_type: 'baselayer',
+            metadata_formatter: this.options.project.formatterJS()
         });
     },
     render: function() {
@@ -401,9 +403,7 @@ var ExportDropdownView = DropdownView.extend({
         } else {
             new this.FORMAT[format]({
                 model: new Export({
-                    mapfile: window.app.safe64(
-                        window.app.baseURL() + this.project.url()
-                    ),
+                    project: this.project.id,
                     format: format
                 }),
                 project: this.project,

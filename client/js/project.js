@@ -92,8 +92,9 @@ var ProjectRowView = Backbone.View.extend({
         var lat_rad = center.lat * Math.PI / 180;
         var x = parseInt((center.lon + 180.0) / 360.0 * Math.pow(2,z));
         var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2,z));
-        var layer = window.app.safe64(window.app.baseURL() + this.model.url());
-        return window.app.baseURL() + ['1.0.0', layer, z, x, y].join('/') + '.png';
+        return window.app.baseURL()
+            + ['1.0.0', this.model.id, z, x, y].join('/')
+            + '.png?updated=' +new Date;
     },
     render: function() {
         $(this.el).html(ich.ProjectRowView({
@@ -246,29 +247,102 @@ var ProjectView = Backbone.View.extend({
 // Form for editing project-specific settings.
 var ProjectPopupView = PopupView.extend({
     events: _.extend({
-        'click input.submit': 'submit'
+        'click input.submit': 'submit',
+        'change select#interactivity_layer': 'dependent'
     }, PopupView.prototype.events),
     initialize: function(options) {
-        _.bindAll(this, 'submit');
+        _.bindAll(this, 'submit', 'dependent');
         this.options.title = 'Project options';
-        this.options.content = ich.ProjectPopupView({
-            'format_png': this.model.get('_format') === 'png',
-            'format_png8': this.model.get('_format') === 'png8',
-            'format_jpeg80': this.model.get('_format') === 'jpeg80',
-            'format_jpeg85': this.model.get('_format') === 'jpeg85',
-            'format_jpeg90': this.model.get('_format') === 'jpeg90',
-            'format_jpeg95': this.model.get('_format') === 'jpeg95'
-        }, true);
+        var that = this;
+        var interactivity = that.model.get('_interactivity') || false;
+        var object = {
+            format: [
+                { id: 'png', name: 'png (24-bit)', selected: false },
+                { id: 'png8', name: 'png (8-bit)', selected: false },
+                { id: 'jpeg80', name: 'jpeg (80%)', selected: false },
+                { id: 'jpeg85', name: 'jpeg (85%)', selected: false },
+                { id: 'jpeg90', name: 'jpeg (90%)', selected: false },
+                { id: 'jpeg95', name: 'jpeg (95%)', selected: false }
+            ],
+            interactivity_layer: [{
+                id: -1,
+                name: '-- disabled --',
+                selected: !interactivity
+            }]
+        };
+        _.map(object.format, function(format) {
+            format.selected = (format.id === that.model.get('_format'));
+        });
+        _.each(this.model.get('Layer').models, function(layer, index) {
+            object.interactivity_layer.push({
+                id: index,
+                name: layer.id,
+                selected: interactivity && (interactivity.layer == index)
+            });
+        });
+        this.options.content = ich.ProjectPopupView(object, true);
         PopupView.prototype.initialize.call(this, options);
     },
     submit: function() {
-        var success = this.model.set(
-            { '_format': $('select#format', this.el).val() },
-            { 'error': this.showError }
-        );
+        var attr = {
+            _format: this.$('select#format').val(),
+            _interactivity: {
+                layer: parseInt(this.$('#interactivity_layer').val(), 10),
+                key_name: this.$('#interactivity_key_name').val(),
+                template_teaser: this.$('#interactivity_template_teaser').val(),
+                template_full: this.$('#interactivity_template_full').val()
+            }
+        };
+        (this.$('#interactivity_layer').val() == -1) && (attr._interactivity = false);
+
+        var success = this.model.set(attr, { 'error': this.showError });
         if (success) {
             this.model.view.saveProject();
             this.remove();
+        }
+        return false;
+    },
+    render: function() {
+        PopupView.prototype.render.call(this);
+        this.dependent();
+        return this;
+    },
+    dependent: function() {
+        var that = this;
+        var index = parseInt(this.$('#interactivity_layer').val(), 10);
+        var layer = this.model.get('Layer').at(index);
+        if (layer) {
+            this.loading('Loading datasource');
+            var ds = new Datasource({ 
+                id: layer.id,
+                url: layer.get('Datasource').file
+            });
+            ds.fetch({
+                success: function() {
+                    var interactivity = that.model.get('_interactivity') || false;
+                    var object = {
+                        fields: [],
+                        template_teaser: interactivity && interactivity.template_teaser || '',
+                        template_full: interactivity && interactivity.template_full || ''
+                    };
+                    _.each(_.keys(ds.get('fields')), function(field) {
+                        object.fields.push({
+                            id: field,
+                            selected: interactivity && (interactivity.key_name === field)
+                        });
+                    });
+                    var fields = ich.ProjectPopupInteractivityView(object);
+                    that.$('.dependent').html(fields).show();
+                    that.done();
+                },
+                error: function(err) {
+                    that.$('.dependent').empty().hide();
+                    that.done();
+                    that.showError(err);
+                }
+            });
+        } else {
+            this.$('.dependent').empty().hide();
         }
         return false;
     }

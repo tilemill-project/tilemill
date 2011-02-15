@@ -337,6 +337,9 @@ var Project = Backbone.Model.extend({
             },
             '_center': {
                 'type': 'object'
+            },
+            '_interactivity': {
+                'type': ['object', 'boolean']
             }
         }
     },
@@ -366,6 +369,7 @@ var Project = Backbone.Model.extend({
     defaults: {
         '_center': { lat:0, lon:0, zoom:2 },
         '_format': 'png',
+        '_interactivity': {},
         'srs': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 '
             + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
         'Stylesheet': [],
@@ -394,6 +398,24 @@ var Project = Backbone.Model.extend({
     },
     url: function() {
         return 'api/Project/' + this.id;
+    },
+    // Generate a URL safe base64 encoded version of this model's URL. An
+    // optional Connect request object `req` can be provided to better
+    // determine the hostname and query parameters to be passed on.
+    mapfile_64: function(req) {
+        if (typeof require === 'undefined') return null;
+
+        var url = require('url');
+        var host = 'localhost:' + require('settings').port;
+        var query = {};
+        (req && req.headers && req.headers.host) && (host = req.headers.host);
+        (req && req.query && req.query.updated) && (query.updated = req.query.updated);
+        return (new Buffer(url.format({
+            protocol: 'http:',
+            host: host,
+            pathname: this.url(),
+            query: query
+        }), 'utf-8')).toString('base64').replace('/', '_').replace('+', '-');
     },
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent
@@ -430,6 +452,25 @@ var Project = Backbone.Model.extend({
                 options.success(that, null);
             }
         });
+    },
+    // Interactivity: Convert teaser/full template markup into formatter js.
+    // Replaces tokens like `[NAME]` with string concatentations of `data.NAME`
+    // and removes line breaks.
+    // @TODO properly escape quotes, other possible #fail
+    formatterJS: function() {
+        if (_.isEmpty(this.get('_interactivity'))) return;
+
+        var full = this.get('_interactivity').template_full || '';
+        var teaser = this.get('_interactivity').template_teaser || '';
+        full = full.replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        teaser = teaser.replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        return "function(options, data) { "
+            + "if (options.format === 'full') { "
+            + "return '" + full + "'; "
+            + "} else { "
+            + "return '" + teaser + "'; "
+            + "} "
+            + "}";
     }
 });
 
@@ -454,6 +495,15 @@ var Export = Backbone.Model.extend({
             'id': {
                 'type': 'string',
                 'required': true
+            },
+            'project': {
+                'type': 'string',
+                'required': true
+            },
+            'format': {
+                'type': 'string',
+                'required': true,
+                'enum': ['png', 'pdf', 'mbtiles']
             },
             'status': {
                 'type': 'string',
@@ -510,6 +560,12 @@ var Export = Backbone.Model.extend({
             }
         }
         return '0 sec';
+    },
+    // Generate URL safe base64-encoded mapfile URL for the export's project.
+    mapfile_64: function(req) {
+        if (typeof require === 'undefined') return null;
+        var req = {query:{ 'updated': +new Date }};
+        return (new Project({ id: this.get('project') })).mapfile_64(req);
     }
 });
 

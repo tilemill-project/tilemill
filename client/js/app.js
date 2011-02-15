@@ -35,7 +35,7 @@ var Router = Backbone.Controller.extend({
     },
     projectExport: function(id, next) {
         this.project(id, function() {
-            window.app.pageView.views.exportDropdown.jobs();
+            window.app.pageView.views.exportDropdown.exportList();
             next && next();
         });
     },
@@ -97,13 +97,6 @@ var App = Backbone.View.extend({
         } else {
             return baseURL + args.join('/') + '/';
         }
-    },
-    // URL-safe base64 encode a string. Optionally add a datestamp based
-    // querystring.
-    safe64: function(url, signed) {
-        _.isUndefined(signed) && (signed = true);
-        signed && (url += '?' + ('' + (+new Date)).substring(0,10));
-        return Base64.encodeURI(url);
     },
     // Set the application page viweport to the provided view. Triggers a
     // `ready` event for any behaviors that expect DOM elements to be present

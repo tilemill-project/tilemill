@@ -1,21 +1,73 @@
 // GET endpoint for TMS tile image requests. Uses `tilelive.js` Tile API.
 //
-// - `:mapfile_64` String, base64 encoded mapfile URL. This mapfile will
-//   determine the styles and data displayed on the map.
+// - `:id` String, project model id.
 // - `:z` Number, zoom level of the tile requested.
 // - `:x` Number, x coordinate of the tile requested.
 // - `:y` Number, y coordinate of the tile requested.
 // - `*` String, file format of the tile requested, e.g. `png`, `jpeg`.
 var _ = require('underscore'),
+    url = require('url'),
     path = require('path'),
-    Tile = require('tilelive').Tile;
+    Tile = require('tilelive').Tile,
+    models = require('models-server');
 
 module.exports = function(app, settings) {
-    app.get('/1.0.0/:mapfile_64/:z/:x/:y.*', function(req, res, next) {
+    // Route middleware. Load a project model.
+    var loadProject = function(req, res, next) {
+        var model = models.cache.get('Project', req.param('id'));
+        model.fetch({
+            success: function(model, resp) {
+                res.project = model;
+                next();
+            },
+            error: function(model, resp) {
+                next(new Error('Invalid model'));
+            }
+        });
+    };
+
+    // Unfinished interactivity grid endpoint.
+    // @TODO reimplement once node-mapnik supports async grid generation
+    // as well as inclusion of grid data (not just join key) in generated
+    // grids in tilelive.js.
+    app.get('/1.0.0/:id/:z/:x/:y.grid.json', loadProject, function(req, res, next) {
+        // Kill switch. Remove once @TODO above is accomplished!
+        return res.send('No grid data' , 400);
+
+        var interactivity = res.project.get('_interactivity');
         try {
             var options = {
                 scheme: 'tms',
-                mapfile: req.param('mapfile_64'),
+                mapfile: res.project.mapfile_64(req),
+                xyz: [req.param('x'), req.param('y'), req.param('z')],
+                format: 'grid.json',
+                mapfile_dir: path.join(settings.mapfile_dir),
+                format_options: {
+                    layer: parseInt(interactivity.layer, 10),
+                    key_name: interactivity.key_name,
+                    res: res,
+                    req: req
+                }
+            };
+            var tile = new Tile(options);
+        } catch (err) {
+            res.send('Tile invalid: ' + err.message);
+        }
+        tile.render(function(err, data) {
+            if (typeof err === 'object' && err.length) {
+                err = _.pluck(err, 'message').join("\n");
+                res.send('Error rendering grid:\n' + err, 500);
+            } else if (err) {
+                res.send('Error rendering grid:\n' + err, 500);
+            }
+        });
+    });
+
+    app.get('/1.0.0/:id/:z/:x/:y.*', loadProject, function(req, res, next) {
+        try {
+            var options = {
+                scheme: 'tms',
+                mapfile: res.project.mapfile_64(req),
                 xyz: [req.param('x'), req.param('y'), req.param('z')],
                 format: req.params[0],
                 mapfile_dir: path.join(settings.mapfile_dir)
@@ -24,7 +76,6 @@ module.exports = function(app, settings) {
         } catch (err) {
             res.send('Tile invalid: ' + err.message);
         }
-
         tile.render(function(err, data) {
             if (!err) {
                 // Using `apply()` here allows the tile rendering function to

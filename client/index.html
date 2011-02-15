@@ -21,6 +21,12 @@
     <script type='text/javascript' src='openlayers_slim/OpenLayers.js'></script>
     <script type='text/javascript' src='tipsy/src/javascripts/jquery.tipsy.js'></script>
 
+    <!-- interaction js. currently disabled
+    <script type='text/javascript' src='map-utils/control/interaction.js'></script>
+    <script type='text/javascript' src='map-utils/control/grid_tooltip.js'></script>
+    <script type='text/javascript' src='map-utils/lib/jquery.jsonp-2.1.4.js'></script>
+    -->
+
     <!-- shared server/client side js -->
     <script type='text/javascript' src='underscore/underscore-min.js'></script>
     <script type='text/javascript' src='backbone/backbone-min.js'></script>
@@ -193,20 +199,54 @@
           <li>
             <label for='format'>Tile format</label>
             <select id='format'>
-              <option value='png' {{#format_png}}selected='selected'{{/format_png}}>png (24-bit)</option>
-              <option value='png8' {{#format_png8}}selected='selected'{{/format_png8}}>png (8-bit)</option>
-              <option value='jpeg80' {{#format_jpeg80}}selected='selected'{{/format_jpeg80}}>jpeg (80%)</option>
-              <option value='jpeg85' {{#format_jpeg85}}selected='selected'{{/format_jpeg85}}>jpeg (85%)</option>
-              <option value='jpeg90' {{#format_jpeg90}}selected='selected'{{/format_jpeg90}}>jpeg (90%)</option>
-              <option value='jpeg95' {{#format_jpeg95}}selected='selected'{{/format_jpeg95}}>jpeg (95%)</option>
+              {{#format}}
+                <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{name}}</option>
+              {{/format}}
             </select>
             <div class='description'>Tile image format/quality for this project.</div>
           </li>
+          <li>
+            <label for='interactivity_layer'>Interactivity</label>
+            <select id='interactivity_layer'>
+              {{#interactivity_layer}}
+                <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{name}}</option>
+              {{/interactivity_layer}}
+            </select>
+            <div class='description'>Layer from which interaction data should be generated.</div>
+            <div class='dependent hidden'></div>
+          </li>
           <li class='buttons'>
-              <input class='submit' type='submit' value='Save' />
+            <input class='submit' type='submit' value='Save' />
           </li>
         </ul>
       </form>
+    </script>
+
+    <script type='text/html' id='ProjectPopupInteractivityView'>
+      <ul class='form'>
+        <li>
+          <label for='interactivity_key_name'>Key name</label>
+          <select id='interactivity_key_name'>
+            {{#fields}}
+              <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{id}}</option>
+            {{/fields}}
+          </select>
+          <div class='description'>Unique ID field for features on this layer. Example: ISO2 code.</div>
+        </li>
+        <li>
+          <label>Formatter</label>
+          <label class='inline' for='interactivity_template_teaser'>Teaser</label>
+          <textarea rows='2' id='interactivity_template_teaser'>{{template_teaser}}</textarea>
+          <label class='inline' for='interactivity_template_full'>Full</label>
+          <textarea rows='2' id='interactivity_template_full'>{{template_full}}</textarea>
+          <div class='description'>
+            HTML markup for interaction data. Any of the following tokens will be replaced:
+            {{#fields}}
+              <code>[{{id}}]</code>
+            {{/fields}}
+          </div>
+        </li>
+      </ul>
     </script>
 
     <script type='text/html' id='LayerListView'>
