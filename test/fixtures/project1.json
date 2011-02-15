@@ -23,5 +23,6 @@
         "lat": 0,
         "lon": 0,
         "zoom": 2
-    }
+    },
+    "_interactivity": false
 }
