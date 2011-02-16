@@ -11,7 +11,7 @@ span.carto-variable           { color:#708; }
 span.carto-color-variable     { color:#B60049; }
 span.carto-unit               { color:#281; }
 span.carto-value              { color:#708; }
-span.carto-known-value        { color:#B60049; }
+span.carto-valid-value        { color:#B60049; }
 span.carto-selector           { color:#b64f90; }
 span.carto-identifier         { color:#999; }
 span.carto-valid-identifier   { color:#333; }

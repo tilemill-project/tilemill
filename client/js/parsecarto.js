@@ -1,5 +1,30 @@
 CodeMirror.defineMode("carto", function(config) {
   var indentUnit = config.indentUnit, type;
+
+  var valid_identifiers = (function(reference) {
+    var ids = {};
+    for (var i in reference.symbolizers) {
+      for (var j in reference.symbolizers[i]) {
+        ids[reference.symbolizers[i][j].css] = true;
+      }
+    }
+    return ids;
+  })(config.reference);
+
+  var valid_keywords = (function(reference) {
+    var ids = {};
+    for (var i in reference.symbolizers) {
+      for (var j in reference.symbolizers[i]) {
+        if (typeof reference.symbolizers[i][j].type == 'object') {
+          for (var k in reference.symbolizers[i][j].type) {
+            ids[reference.symbolizers[i][j].type[k]] = true;
+          }
+        }
+      }
+    }
+    return ids;
+  })(config.reference);
+
   function ret(style, tp) {type = tp; return style;}
 
   function tokenBase(stream, state) {
@@ -16,12 +41,12 @@ CodeMirror.defineMode("carto", function(config) {
       return state.tokenize(stream, state);
     }
     else if (ch == "#") {
-      stream.eatWhile(/\w/);
+      stream.eatWhile(/[\w\-]/);
       return ret("carto-selector", "hash");
     }
     else if (/\d/.test(ch)) {
       stream.eatWhile(/[\w.%]/);
-      return ret("css-unit", "unit");
+      return ret("carto-unit", "unit");
     }
     else if (/[,.+>*\/]/.test(ch)) {
       return ret(null, "select-op");
@@ -31,7 +56,9 @@ CodeMirror.defineMode("carto", function(config) {
     }
     else {
       stream.eatWhile(/[\w\\\-_]/);
-      return ret("carto-identifier", "identifier");
+      return valid_identifiers[stream.current()] ? 
+          ret("carto-valid-identifier", "identifier") :
+          ret("carto-identifier", "identifier");
     }
   }
 
@@ -72,9 +99,11 @@ CodeMirror.defineMode("carto", function(config) {
       var style = state.tokenize(stream, state);
 
       var context = state.stack[state.stack.length-1];
-      if (type == "hash" && context == "rule") style = "css-colorcode";
+      if (type == "hash" && context == "rule") style = "carto-colorcode";
       else if (style == "carto-identifier") {
-        if (context == "rule") style = "css-value";
+        if (context == "rule") style = valid_keywords[stream.current()] ?
+          "carto-valid-value" :
+          "carto-value";
         else if (!context || context == "@media{") style = "css-selector";
       }
 
