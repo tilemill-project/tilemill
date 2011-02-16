@@ -140,6 +140,7 @@ var StylesheetTabView = Backbone.View.extend({
             this.codemirror = CodeMirror.fromTextArea($('textarea', this.input).get(0), {
                 lineNumbers: true,
                 mode: 'carto',
+                reference: window.app.reference.toJSON(),
                 // TODO: unsupported in CM2
                 saveFunction: function() {
                     self.model.collection.parent.view.saveProject();
