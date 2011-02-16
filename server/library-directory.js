@@ -73,7 +73,9 @@ module.exports = function(app, options, callback) {
                         '/api/Library/'
                         + options.id
                         + '/files/'
-                        + querystring.escape(f.filename.replace(base_dir + '/', ''))
+                        // Ensure only one trailing slash
+                        + querystring.escape(f.filename.replace(
+                          base_dir.replace(/(\/)$/, '') + '/', ''))
                     )
                 }),
                 bytes: (Math.ceil(parseInt(f.stat.size) / 1048576)) + ' MB',
