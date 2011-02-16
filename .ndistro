@@ -18,13 +18,13 @@ module mapbox carto 0.1.0
 module tmcw node-get 0.0.3
 
 # client-side only
-module marijnh CodeMirror v0.93
 module developmentseed openlayers_slim v1.9
 module headjs headjs v0.8
 module andyet ICanHaz.js v0.7
 module jaz303 tipsy v1.0.0a
 
 # needs tag
+module marijnh CodeMirror2
 module garycourt JSV
 module douglascrockford JSON-js
 module dankogai js-base64

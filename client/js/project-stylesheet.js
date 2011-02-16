@@ -136,13 +136,34 @@ var StylesheetTabView = Backbone.View.extend({
         $(this.tools).addClass('active');
         this.list.activeTab = this;
         if (!this.codemirror) {
+            $('textarea', this.input).val(this.model.get('data'));
+            this.codemirror = CodeMirror.fromTextArea($('textarea', this.input).get(0), {
+                lineNumbers: true,
+                mode: 'carto',
+                // TODO: unsupported in CM2
+                saveFunction: function() {
+                    self.model.collection.parent.view.saveProject();
+                },
+                onCursorActivity: function() {
+                    self.model.set({'data': self.codemirror.getValue()});
+                },
+                onChange: function() {
+                    // Trigger event on the project
+                    self.model.collection.parent.trigger('codeMirrorChange');
+                    // TODO: onchange runs before this function is finished,
+                    // so self.codemirror is false.
+                    self.codemirror && self.model.set({'data': self.codemirror.getValue()});
+                },
+                initCallback: function(cm) {
+                    self.model.collection.parent.trigger('ready');
+                    $(cm.frame).attr('name', 'codemirror');
+                }
+            });
+            /*
             this.codemirror = CodeMirror.fromTextArea($('textarea', this.input).get(0), {
                 content: this.model.get('data'),
                 height: '100%',
                 lineNumbers: true,
-                stylesheet: 'css/code.css',
-                path: 'CodeMirror/js/',
-                parserfile: '../../js/parsemss.js',
                 parserConfig: window.app.reference.toJSON(),
                 saveFunction: function() {
                     self.model.collection.parent.view.saveProject();
@@ -160,6 +181,7 @@ var StylesheetTabView = Backbone.View.extend({
                     $(cm.frame).attr('name', 'codemirror');
                 }
             });
+            */
         }
     },
     del: function() {

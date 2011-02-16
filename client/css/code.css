@@ -1,22 +1,23 @@
-body {
+div.CodeMirror {
+  height:100%;
   background:transparent;
   color:#333;
-  padding:10px;
+  padding:0 5px;
   margin:0px;
   font:13px/20px monospace;
   }
 
-span.mss-variable           { color:#708; }
-span.mss-color-variable     { color:#B60049; }
-span.mss-unit               { color:#281; }
-span.mss-value              { color:#708; }
-span.mss-known-value        { color:#B60049; }
-span.mss-selector           { color:#b64f90; }
-span.mss-identifier         { color:#999; }
-span.mss-valid-identifier   { color:#333; }
-span.mss-important          { color:#03c; }
-span.mss-colorcode          { color:#048; }
-span.mss-punctuation        { color:#666; }
-span.mss-comment            { color:#999; }
-span.mss-string             { color:#8010a0; }
-span.mss-filter             { color:#66475B; }
+span.carto-variable           { color:#708; }
+span.carto-color-variable     { color:#B60049; }
+span.carto-unit               { color:#281; }
+span.carto-value              { color:#708; }
+span.carto-known-value        { color:#B60049; }
+span.carto-selector           { color:#b64f90; }
+span.carto-identifier         { color:#999; }
+span.carto-valid-identifier   { color:#333; }
+span.carto-important          { color:#03c; }
+span.carto-colorcode          { color:#048; }
+span.carto-punctuation        { color:#666; }
+span.carto-comment            { color:#999; }
+span.carto-string             { color:#8010a0; }
+span.carto-filter             { color:#66475B; }
