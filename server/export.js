@@ -115,8 +115,9 @@ module.exports = function(app, settings) {
 
     // Add Express route rule for serving export files for download.
     app.get('/export/download/*', function(req, res, next) {
-        res.sendfile(
+        res.download(
             path.join(settings.export_dir, req.params[0]),
+            req.params[0],
             function(err, path) {
                 return err && next(new Error('File not found.'));
             }
