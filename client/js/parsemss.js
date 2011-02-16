@@ -1,57 +1,67 @@
 // CodeMirror parser for MSS.
 if (!Array.isArray) {
     Array.isArray = function(obj) {
-        return Object.prototype.toString.call(obj) === "[object Array]" ||
+        return Object.prototype.toString.call(obj) === '[object Array]' ||
                (obj instanceof Array);
     };
 }
 
 var MSSParser = Editor.Parser = (function() {
   var tokenizeMSS = (function() {
+    function nextUntilUnescaped(source, end) {
+      var escaped = false;
+      while (!source.endOfLine()) {
+        var next = source.next();
+        if (next == end && !escaped)
+          return false;
+        escaped = !escaped && next == "\\";
+      }
+      return escaped;
+    };
     function normal(source, setState) {
       var ch = source.next();
-      if (ch == "@") {
+      if (ch == '@') {
         source.nextWhileMatches(/\w/);
         var word = source.get();
         return {
             style: (colors[word.replace('@', '')]) ?
-                "mss-color-variable" :
-                "mss-variable",
+                'mss-color-variable' :
+                'mss-variable',
             content: word
         };
-        return "mss-at";
+        return 'mss-at';
       }
-      else if (ch == "/" && source.equals("*")) {
+      else if (ch == '/' && source.equals('*')) {
         setState(inCComment);
         return null;
       }
-      else if (ch == "<" && source.equals("!")) {
-        setState(inSGMLComment);
-        return null;
+      else if (ch == '/' && source.equals('/')) {
+        nextUntilUnescaped(source, null);
+        return 'mss-comment';
       }
-      else if (ch == "=") {
-        return "mss-compare";
+      else if (ch == '=') {
+        return 'mss-compare';
       }
-      else if (source.equals("=") && (ch == "~" || ch == "|")) {
+      else if (source.equals('=') && (ch == '~' || ch == '|')) {
         source.next();
-        return "mss-compare";
+        return 'mss-compare';
       }
-      else if (ch == "\"" || ch == "'") {
+      else if (ch == '\"' || ch == "'") {
         setState(inString(ch));
         return null;
       }
-      else if (ch == "#") {
+      else if (ch == '#') {
         source.nextWhileMatches(/\w/);
-        return "mss-hash";
+        return 'mss-hash';
       }
-      else if (ch == "!") {
+      else if (ch == '!') {
         source.nextWhileMatches(/[ \t]/);
         source.nextWhileMatches(/\w/);
-        return "mss-important";
+        return 'mss-important';
       }
       else if (/\d/.test(ch)) {
         source.nextWhileMatches(/[\w.%]/);
-        return "mss-unit";
+        return 'mss-unit';
       }
       /*
       else if (ch == '[') {
@@ -60,22 +70,22 @@ var MSSParser = Editor.Parser = (function() {
       }
       */
       else if (/[,.+>*\/]/.test(ch)) {
-        return "mss-select-op";
+        return 'mss-select-op';
       }
       else if (/[;{}:\[\]]/.test(ch)) {
-        return "mss-punctuation";
+        return 'mss-punctuation';
       }
       else {
         source.nextWhileMatches(/[\w\\\-_]/);
         var word = source.get();
         if (identifiers[word]) {
           return {
-              style: "mss-valid-identifier",
+              style: 'mss-valid-identifier',
               content: word
           };
         } else {
           return {
-              style: "mss-identifier",
+              style: 'mss-identifier',
               content: word
           };
         }
@@ -86,26 +96,13 @@ var MSSParser = Editor.Parser = (function() {
       var maybeEnd = false;
       while (!source.endOfLine()) {
         var ch = source.next();
-        if (maybeEnd && ch == "/") {
+        if (maybeEnd && ch == '/') {
           setState(normal);
           break;
         }
-        maybeEnd = (ch == "*");
+        maybeEnd = (ch == '*');
       }
-      return "mss-comment";
-    }
-
-    function inSGMLComment(source, setState) {
-      var dashes = 0;
-      while (!source.endOfLine()) {
-        var ch = source.next();
-        if (dashes >= 2 && ch == ">") {
-          setState(normal);
-          break;
-        }
-        dashes = (ch == "-") ? dashes + 1 : 0;
-      }
-      return "mss-comment";
+      return 'mss-comment';
     }
 
     function inString(quote) {
@@ -115,11 +112,11 @@ var MSSParser = Editor.Parser = (function() {
           var ch = source.next();
           if (ch == quote && !escaped)
             break;
-          escaped = !escaped && ch == "\\";
+          escaped = !escaped && ch == '\\';
         }
         if (!escaped)
           setState(normal);
-        return "mss-string";
+        return 'mss-string';
       };
     }
 
@@ -145,33 +142,33 @@ var MSSParser = Editor.Parser = (function() {
     colors = this.mss_colors;
     values = this.mss_values;
     var tokens = tokenizeMSS(source);
-    var inBraces = false, inRule = false, inDecl = false;;
+    var inBraces = false, inRule = false, inDecl = false;
 
     var iter = {
       next: function() {
         var token = tokens.next(), style = token.style, content = token.content;
 
-        if (style == "mss-hash")
-          style = token.style =  inRule ? "mss-colorcode" : "mss-identifier";
-        if (style == "mss-identifier") {
-          if (inRule) token.style = (values[token.content]) ? "mss-known-value" : "mss-value";
-          else if (!inBraces && !inDecl) token.style = "mss-selector";
+        if (style == 'mss-hash')
+          style = token.style = inRule ? 'mss-colorcode' : 'mss-identifier';
+        if (style == 'mss-identifier') {
+          if (inRule) token.style = (values[token.content]) ? 'mss-known-value' : 'mss-value';
+          else if (!inBraces && !inDecl) token.style = 'mss-selector';
         }
 
-        if (content == "\n")
+        if (content == '\n')
           token.indentation = indentMSS(inBraces, inRule, basecolumn);
 
-        if (content == "{" && inDecl == "@media")
+        if (content == '{' && inDecl == '@media')
           inDecl = false;
-        else if (content == "{")
+        else if (content == '{')
           inBraces = true;
-        else if (content == "}")
+        else if (content == '}')
           inBraces = inRule = inDecl = false;
-        else if (content == ";")
+        else if (content == ';')
           inRule = inDecl = false;
-        else if (inBraces && style != "mss-comment" && style != "whitespace")
+        else if (inBraces && style != 'mss-comment' && style != 'whitespace')
           inRule = true;
-        else if (!inBraces && style == "mss-at")
+        else if (!inBraces && style == 'mss-at')
           inDecl = content;
 
         return token;
@@ -192,7 +189,7 @@ var MSSParser = Editor.Parser = (function() {
 
   return {
       make: parseMSS,
-      electricChars: "}",
+      electricChars: '}',
       configure: function(config) {
           this.mss_identifiers = (function() {
               var list = {};
