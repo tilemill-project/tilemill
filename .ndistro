@@ -33,7 +33,7 @@ module mapbox map-utils
 
 # built modules
 module springmeyer node-srs 0.1.1 srs
-module springmeyer node-zipfile 0.1.5 zipfile
+module springmeyer node-zipfile 0.1.6 zipfile
 module developmentseed node-sqlite3 1.0.3 sqlite
 
 # needs tag
