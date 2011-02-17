@@ -16,6 +16,7 @@ module willwhite node-worker 0.0.1
 module felixge node-dirty v0.9.1
 module mapbox carto 0.1.1
 module tmcw node-get 0.1.0
+module mapbox tilelive.js 1.0.4
 
 # client-side only
 module marijnh CodeMirror v0.93
@@ -28,7 +29,6 @@ module jaz303 tipsy v1.0.0a
 module garycourt JSV
 module douglascrockford JSON-js
 module dankogai js-base64
-module mapbox tilelive.js
 module mapbox map-utils
 
 # built modules
