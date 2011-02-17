@@ -141,15 +141,13 @@ var StylesheetTabView = Backbone.View.extend({
                 lineNumbers: true,
                 mode: 'carto',
                 reference: window.app.reference.toJSON(),
-                // TODO: unsupported in CM2
-                
                 onCursorActivity: function() {
                     self.model.set({'data': self.codemirror.getValue()});
                 },
                 onChange: function() {
                     // Trigger event on the project
                     self.model.collection.parent.trigger('codeMirrorChange');
-                    // TODO: onchange runs before this function is finished,
+                    // onchange runs before this function is finished,
                     // so self.codemirror is false.
                     self.codemirror && self.model.set({'data': self.codemirror.getValue()});
                 },
@@ -158,6 +156,7 @@ var StylesheetTabView = Backbone.View.extend({
                     $(cm.frame).attr('name', 'codemirror');
                 }
             });
+            // Handle ctrl-S
             $(this.codemirror.getInputField()).keydown(function(evt) {
                 if (evt.which == 83 && 
                     ((evt.ctrlKey || evt.metaKey) && !evt.altKey)) {
