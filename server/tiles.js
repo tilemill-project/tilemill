@@ -37,8 +37,7 @@ module.exports = function(app, settings) {
         var interactivity = res.project.get('_interactivity');
         try {
             var options = {
-                scheme: 'tms',
-                mapfile: res.project.mapfile_64(req),
+                datasource: res.project.absoluteUrl(req),
                 xyz: [req.param('x'), req.param('y'), req.param('z')],
                 format: 'grid.json',
                 mapfile_dir: path.join(settings.mapfile_dir),
@@ -66,8 +65,7 @@ module.exports = function(app, settings) {
     app.get('/1.0.0/:id/:z/:x/:y.*', loadProject, function(req, res, next) {
         try {
             var options = {
-                scheme: 'tms',
-                mapfile: res.project.mapfile_64(req),
+                datasource: res.project.absoluteUrl(req),
                 xyz: [req.param('x'), req.param('y'), req.param('z')],
                 format: req.params[0],
                 mapfile_dir: path.join(settings.mapfile_dir)

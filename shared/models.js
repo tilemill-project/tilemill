@@ -399,10 +399,8 @@ var Project = Backbone.Model.extend({
     url: function() {
         return 'api/Project/' + this.id;
     },
-    // Generate a URL safe base64 encoded version of this model's URL. An
-    // optional Connect request object `req` can be provided to better
-    // determine the hostname and query parameters to be passed on.
-    mapfile_64: function(req) {
+    // Generate a fully-qualified URL for this project.
+    absoluteUrl: function(req) {
         if (typeof require === 'undefined') return null;
 
         var url = require('url');
@@ -410,12 +408,12 @@ var Project = Backbone.Model.extend({
         var query = {};
         (req && req.headers && req.headers.host) && (host = req.headers.host);
         (req && req.query && req.query.updated) && (query.updated = req.query.updated);
-        return (new Buffer(url.format({
+        return url.format({
             protocol: 'http:',
             host: host,
             pathname: this.url(),
             query: query
-        }), 'utf-8')).toString('base64').replace('/', '_').replace('+', '-');
+        });
     },
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent
@@ -561,11 +559,12 @@ var Export = Backbone.Model.extend({
         }
         return '0 sec';
     },
-    // Generate URL safe base64-encoded mapfile URL for the export's project.
-    mapfile_64: function(req) {
+    // Generate an absolute URL with a timestamp for this project.
+    absoluteUrl: function(req) {
         if (typeof require === 'undefined') return null;
-        var req = {query:{ 'updated': +new Date }};
-        return (new Project({ id: this.get('project') })).mapfile_64(req);
+        // Add timestamp to request
+        var req = { query: { updated: +new Date } };
+        return (new Project({ id: this.get('project') })).absoluteUrl(req);
     }
 });
 
