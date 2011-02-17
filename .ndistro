@@ -14,8 +14,8 @@ module documentcloud underscore 1.1.4
 module coopernurse node-pool 1.0.4
 module willwhite node-worker 0.0.1
 module felixge node-dirty v0.9.1
-module mapbox carto 0.1.0
-module tmcw node-get 0.0.3
+module mapbox carto 0.1.1
+module tmcw node-get 0.1.0
 
 # client-side only
 module marijnh CodeMirror v0.93
