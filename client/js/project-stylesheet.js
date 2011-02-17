@@ -142,9 +142,7 @@ var StylesheetTabView = Backbone.View.extend({
                 mode: 'carto',
                 reference: window.app.reference.toJSON(),
                 // TODO: unsupported in CM2
-                saveFunction: function() {
-                    self.model.collection.parent.view.saveProject();
-                },
+                
                 onCursorActivity: function() {
                     self.model.set({'data': self.codemirror.getValue()});
                 },
@@ -160,29 +158,13 @@ var StylesheetTabView = Backbone.View.extend({
                     $(cm.frame).attr('name', 'codemirror');
                 }
             });
-            /*
-            this.codemirror = CodeMirror.fromTextArea($('textarea', this.input).get(0), {
-                content: this.model.get('data'),
-                height: '100%',
-                lineNumbers: true,
-                parserConfig: window.app.reference.toJSON(),
-                saveFunction: function() {
+            $(this.codemirror.getInputField()).keydown(function(evt) {
+                if (evt.which == 83 && 
+                    ((evt.ctrlKey || evt.metaKey) && !evt.altKey)) {
                     self.model.collection.parent.view.saveProject();
-                },
-                onCursorActivity: function() {
-                    self.model.set({'data': self.codemirror.getCode()});
-                },
-                onChange: function() {
-                    // Trigger event on the project
-                    self.model.collection.parent.trigger('codeMirrorChange');
-                    self.model.set({'data': self.codemirror.getCode()});
-                },
-                initCallback: function(cm) {
-                    self.model.collection.parent.trigger('ready');
-                    $(cm.frame).attr('name', 'codemirror');
+                    return false;
                 }
             });
-            */
         }
     },
     del: function() {
