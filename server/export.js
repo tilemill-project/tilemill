@@ -69,7 +69,7 @@ Scanner.prototype.process = function(id, callback) {
                 });
                 model.worker.postMessage(_.extend(
                     model.toJSON(),
-                    { mapfile: model.mapfile_64() }
+                    { datasource: model.absoluteUrl() }
                 ));
                 that.add(model.worker);
                 callback();

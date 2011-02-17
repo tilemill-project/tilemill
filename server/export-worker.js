@@ -112,7 +112,7 @@ FormatMBTiles.prototype.render = function(callback) {
         interactivity: that.data.interactivity,
         minzoom: that.data.minzoom,
         maxzoom: that.data.maxzoom,
-        mapfile: that.data.mapfile,
+        datasource: that.data.datasource,
         mapfile_dir: path.join(settings.mapfile_dir),
         metadata: {
             name: that.data.metadata_name,
