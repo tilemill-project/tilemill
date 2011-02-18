@@ -333,7 +333,7 @@ var Project = Backbone.Model.extend({
             },
             '_format': {
                 'type': 'string',
-                'enum': ['png', 'png24', 'jpeg80', 'jpeg85', 'jpeg90', 'jpeg95']
+                'enum': ['png', 'png24', 'png8', 'jpeg80', 'jpeg85', 'jpeg90', 'jpeg95']
             },
             '_center': {
                 'type': 'object'
