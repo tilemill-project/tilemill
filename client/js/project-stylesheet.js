@@ -136,28 +136,32 @@ var StylesheetTabView = Backbone.View.extend({
         $(this.tools).addClass('active');
         this.list.activeTab = this;
         if (!this.codemirror) {
+            $('textarea', this.input).val(this.model.get('data'));
             this.codemirror = CodeMirror.fromTextArea($('textarea', this.input).get(0), {
-                content: this.model.get('data'),
-                height: '100%',
                 lineNumbers: true,
-                stylesheet: 'css/code.css',
-                path: 'CodeMirror/js/',
-                parserfile: '../../js/parsemss.js',
-                parserConfig: window.app.reference.toJSON(),
-                saveFunction: function() {
-                    self.model.collection.parent.view.saveProject();
-                },
+                mode: 'carto',
+                reference: window.app.reference.toJSON(),
                 onCursorActivity: function() {
-                    self.model.set({'data': self.codemirror.getCode()});
+                    self.model.set({'data': self.codemirror.getValue()});
                 },
                 onChange: function() {
                     // Trigger event on the project
                     self.model.collection.parent.trigger('codeMirrorChange');
-                    self.model.set({'data': self.codemirror.getCode()});
+                    // onchange runs before this function is finished,
+                    // so self.codemirror is false.
+                    self.codemirror && self.model.set({'data': self.codemirror.getValue()});
                 },
                 initCallback: function(cm) {
                     self.model.collection.parent.trigger('ready');
                     $(cm.frame).attr('name', 'codemirror');
+                }
+            });
+            // Handle ctrl-S
+            $(this.codemirror.getInputField()).keydown(function(evt) {
+                if (evt.which == 83 && 
+                    ((evt.ctrlKey || evt.metaKey) && !evt.altKey)) {
+                    self.model.collection.parent.view.saveProject();
+                    return false;
                 }
             });
         }
