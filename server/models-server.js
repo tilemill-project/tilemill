@@ -2,12 +2,15 @@
 // Provides model-specific storage overrides.
 
 var _ = require('underscore'),
-    Backbone = require('backbone-dirty'),
+    Backbone = require('../modules/backbone/backbone.js'),
     settings = require('settings'),
     fs = require('fs'),
     Step = require('step'),
     path = require('path'),
     models = require('models');
+
+// Use backbone-dirty mixin.
+require('backbone-dirty')(Backbone, path.join(settings.files, 'app.db'));
 
 // Project
 // -------

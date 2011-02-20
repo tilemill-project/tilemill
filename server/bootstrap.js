@@ -32,6 +32,20 @@ module.exports = function(app, settings) {
         fs.mkdirSync(settings.export_dir, 0777);
     }
 
+    // @TODO: Better infrastructure for handling updates.
+
+    // Update 1: Migrate to new backbone-dirty key format.
+    try {
+        var db = fs.readFileSync(settings.files + '/app.db', 'utf8');
+        if (db && db.match(/{"key":"(export|library|settings):/g)) {
+            db = db.replace(/{"key":"export:/g, '{"key":"api/Export/');
+            db = db.replace(/{"key":"library:/g, '{"key":"api/Library/');
+            db = db.replace(/{"key":"settings:/g, '{"key":"api/Settings/');
+            fs.writeFileSync(settings.files + '/app.db', db);
+            console.log('Update 1: Migrate to new backbone-dirty key format.');
+        }
+    } catch (Exception) {}
+
     // Create a default library for the local data directory.
     var models = require('models-server');
     var data = new models.Library({

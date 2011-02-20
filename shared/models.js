@@ -4,7 +4,7 @@
 // This is obviously not ideal.
 if (typeof require !== 'undefined' && typeof window === 'undefined') {
     JSV = require('jsv').JSV;
-    Backbone = require('backbone-dirty');
+    Backbone = require('../modules/backbone/backbone.js'),
     _ = require('underscore')._;
 }
 
@@ -144,7 +144,6 @@ var Settings = Backbone.Model.extend({
             }
         }
     },
-    type: 'settings',
     url: function() {
         return 'api/Settings/' + this.id;
     }
@@ -365,7 +364,6 @@ var Project = Backbone.Model.extend({
             type: 'shape'
         }
     }],
-    type: 'project',
     defaults: {
         '_center': { lat:0, lon:0, zoom:2 },
         '_format': 'png',
@@ -512,7 +510,6 @@ var Export = Backbone.Model.extend({
             }
         }
     },
-    type: 'export',
     initialize: function() {
         this.isNew() && this.set({created: +new Date});
     },
@@ -744,7 +741,6 @@ var Library = Backbone.Model.extend({
             }
         }
     },
-    type: 'library',
     url: function() {
         return 'api/Library/' + this.id;
     },
