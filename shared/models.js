@@ -399,22 +399,6 @@ var Project = Backbone.Model.extend({
     url: function() {
         return 'api/Project/' + this.id;
     },
-    // Generate a fully-qualified URL for this project.
-    absoluteUrl: function(req) {
-        if (typeof require === 'undefined') return null;
-
-        var url = require('url');
-        var host = 'localhost:' + require('settings').port;
-        var query = {};
-        (req && req.headers && req.headers.host) && (host = req.headers.host);
-        (req && req.query && req.query.updated) && (query.updated = req.query.updated);
-        return url.format({
-            protocol: 'http:',
-            host: host,
-            pathname: this.url(),
-            query: query
-        });
-    },
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent
     // with other Backbone methods.
@@ -558,13 +542,6 @@ var Export = Backbone.Model.extend({
             }
         }
         return '0 sec';
-    },
-    // Generate an absolute URL with a timestamp for this project.
-    absoluteUrl: function(req) {
-        if (typeof require === 'undefined') return null;
-        // Add timestamp to request
-        var req = { query: { updated: +new Date } };
-        return (new Project({ id: this.get('project') })).absoluteUrl(req);
     }
 });
 

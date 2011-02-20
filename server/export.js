@@ -1,6 +1,7 @@
 // Loop for scanning and processing exports.
 var path = require('path'),
     ExportList = require('models-server').ExportList,
+    Project = require('models-server').Project,
     Step = require('step'),
     Worker = require('worker').Worker,
     models = require('models-server');
@@ -42,8 +43,18 @@ Scanner.prototype.scan = function() {
 Scanner.prototype.process = function(id, callback) {
     var that = this;
     var model = models.cache.get('Export', id);
-    model.fetch({
-        success: function() {
+    var project;
+    Step(
+        function() {
+            var next = this;
+            model.fetch({ success: next, error: next });
+        },
+        function() {
+            var next = this;
+            project = models.cache.get('Project', model.get('project'));
+            project.fetch({ success: next, error: next });
+        },
+        function() {
             // Export is waiting to be processed. Spawn a new worker if the
             // queue is not full. Otherwise, the worker will be spawned on
             // a subsequent scan once there is space.
@@ -69,7 +80,7 @@ Scanner.prototype.process = function(id, callback) {
                 });
                 model.worker.postMessage(_.extend(
                     model.toJSON(),
-                    { datasource: model.absoluteUrl() }
+                    { datasource: project.toJSON() }
                 ));
                 that.add(model.worker);
                 callback();
@@ -84,9 +95,8 @@ Scanner.prototype.process = function(id, callback) {
             } else {
                 callback();
             }
-        },
-        error: callback
-    });
+        }
+    );
 };
 
 // Helper function to determine whether the queue is full.
