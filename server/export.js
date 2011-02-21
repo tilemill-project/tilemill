@@ -1,10 +1,9 @@
 // Loop for scanning and processing exports.
 var path = require('path'),
-    ExportList = require('models-server').ExportList,
-    Project = require('models-server').Project,
+    ExportList = require('models').ExportList,
     Step = require('step'),
     Worker = require('worker').Worker,
-    models = require('models-server');
+    cache = require('models-cache');
 
 var Scanner = function(options) {
     _.bindAll(this, 'scan', 'process', 'add', 'remove', 'isFull');
@@ -42,7 +41,7 @@ Scanner.prototype.scan = function() {
 // Process an individual export based on its `status`.
 Scanner.prototype.process = function(id, callback) {
     var that = this;
-    var model = models.cache.get('Export', id);
+    var model = cache.get('Export', id);
     var project;
     Step(
         function() {
@@ -51,7 +50,7 @@ Scanner.prototype.process = function(id, callback) {
         },
         function() {
             var next = this;
-            project = models.cache.get('Project', model.get('project'));
+            project = cache.get('Project', model.get('project'));
             project.fetch({ success: next, error: next });
         },
         function() {

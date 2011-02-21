@@ -1,16 +1,12 @@
 // Server-side overrides for the Backbone models defined in `shared/models.js`.
 // Provides model-specific storage overrides.
-
-var _ = require('underscore'),
-    Backbone = require('../modules/backbone/backbone.js'),
+var _ = require('underscore')._,
+    Backbone = require('backbone'),
     settings = require('settings'),
     fs = require('fs'),
     Step = require('step'),
     path = require('path'),
     models = require('models');
-
-// Use backbone-dirty mixin.
-require('backbone-dirty')(Backbone, path.join(settings.files, 'app.db'));
 
 // Project
 // -------
@@ -304,41 +300,3 @@ models.Export.prototype.sync = function(method, model, success, error) {
         break;
     }
 };
-
-// Cache
-// -----
-// Provides a model instance cache for the server. Used to store and retrieve a
-// model instance in memory such that the same model is referenced in separate
-// requests as well as in other long-running processes.
-//
-// The main use-case in TileMill for this instance cache is triggering a model
-// `delete` event when a DELETE request is received. In the case of Exports,
-// this event is used to terminate and worker processes associated with the
-// Export model being deleted.
-var Cache = function() {
-    this.cache = {};
-};
-
-Cache.prototype.get = function(type, id) {
-    if (this.cache[type] && this.cache[type][id]) {
-        return this.cache[type][id];
-    }
-    this.cache[type] = this.cache[type] || {}
-    this.set(type, id, new models[type]({id: id}));
-    return this.cache[type][id];
-};
-
-Cache.prototype.set = function(type, id, model) {
-    this.cache[type] = this.cache[type] || {}
-    this.cache[type][id] = model;
-    return this.cache[type][id];
-};
-
-Cache.prototype.del = function(type, id) {
-    if (this.cache[type][id]) {
-        delete this.cache[type][id];
-    }
-};
-
-module.exports = _.extend({ cache: new Cache() }, models);
-

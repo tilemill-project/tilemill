@@ -3,9 +3,9 @@
 // globally defined Backbone and underscore leaving us with broken objects.
 // This is obviously not ideal.
 if (typeof require !== 'undefined' && typeof window === 'undefined') {
-    JSV = require('jsv').JSV;
-    Backbone = require('../modules/backbone/backbone.js'),
     _ = require('underscore')._;
+    Backbone = require('backbone');
+    JSV = require('jsv').JSV;
 }
 
 // JSON schema validation
@@ -770,19 +770,17 @@ var LibraryList = Backbone.Collection.extend({
     }
 });
 
-if (typeof module !== 'undefined') {
-    module.exports = {
-        Asset: Asset,
-        AssetList: AssetList,
-        AssetListS3: AssetListS3,
-        Library: Library,
-        LibraryList: LibraryList,
-        Project: Project,
-        ProjectList: ProjectList,
-        Export: Export,
-        ExportList: ExportList,
-        Datasource: Datasource,
-        Settings: Settings
-    };
-}
+(typeof module !== 'undefined') && (module.exports = {
+    Asset: Asset,
+    AssetList: AssetList,
+    AssetListS3: AssetListS3,
+    Library: Library,
+    LibraryList: LibraryList,
+    Project: Project,
+    ProjectList: ProjectList,
+    Export: Export,
+    ExportList: ExportList,
+    Datasource: Datasource,
+    Settings: Settings
+});
 

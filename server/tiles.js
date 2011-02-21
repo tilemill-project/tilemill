@@ -9,12 +9,12 @@ var _ = require('underscore'),
     url = require('url'),
     path = require('path'),
     Tile = require('tilelive').Tile,
-    models = require('models-server');
+    cache = require('models-cache');
 
 module.exports = function(app, settings) {
     // Route middleware. Load a project model.
     var loadProject = function(req, res, next) {
-        var model = models.cache.get('Project', req.param('id'));
+        var model = cache.get('Project', req.param('id'));
         model.fetch({
             success: function(model, resp) {
                 res.project = model;

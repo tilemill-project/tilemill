@@ -16,7 +16,7 @@ module willwhite node-worker 0.0.1
 module felixge node-dirty v0.9.1
 module mapbox carto 0.1.1
 module tmcw node-get 0.1.0
-module developmentseed backbone-dirty 0.0.1
+module developmentseed backbone-dirty 0.0.2
 
 # client-side only
 module developmentseed openlayers_slim v1.9
@@ -40,6 +40,10 @@ module developmentseed node-sqlite3 1.0.3 sqlite
 module kkaefer node-compress master compress
 module mapnik node-mapnik grid mapnik
 module mapbox tilelive.js grid
+
+# module layout workarounds
+cd $ROOT
+! test -f lib/node/backbone.js && ln -s ../../modules/backbone/backbone.js lib/node/backbone.js
 
 # download and install a resource
 resource() {
