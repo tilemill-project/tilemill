@@ -103,6 +103,26 @@ Optional. Edit `settings.js` to change server settings including port, files
 directories, and enabled asset providers.
 
 
+Development
+-----------
+TileMill development is moving fast and we intend to create tags as soon as we
+get to usable stopping points. If you are interested in keeping up with or
+helping with development:
+
+- replace your TileMill directory with a git clone of
+  `git@github.com:mapbox/tilemill.git`
+- bring your `files` directory with you -- it contains all projects, exports
+  and settings
+- install by running
+
+      ./ndistro
+
+- update, clean and rebuild by running
+
+      git pull
+      ./ndistro clean && ./ndistro
+
+
 Contributors
 ------------
 - [Dmitri Gaskin](http://github.com/dmitrig01)
