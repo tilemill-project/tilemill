@@ -48,7 +48,7 @@ var ProjectListView = Backbone.View.extend({
         }
         window.app.loading();
         var that = this;
-        var project = new Project;
+        var project = new Project();
         var success = project.set(
             { id: id },
             { error: this.showError }
