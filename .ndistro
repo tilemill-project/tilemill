@@ -15,7 +15,6 @@ module coopernurse node-pool 1.0.4
 module willwhite node-worker 0.0.1
 module felixge node-dirty v0.9.1
 module mapbox carto 0.1.1
-module tmcw node-get 0.1.0
 module developmentseed backbone-dirty 0.0.2
 
 # client-side only
