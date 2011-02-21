@@ -1,4 +1,4 @@
-CodeMirror.defineMode("carto", function(config, parserConfig) {
+CodeMirror.defineMode('carto', function(config, parserConfig) {
   var indentUnit = config.indentUnit, type;
 
   var valid_identifiers = (function(reference) {
@@ -7,6 +7,14 @@ CodeMirror.defineMode("carto", function(config, parserConfig) {
       for (var j in reference.symbolizers[i]) {
         ids[reference.symbolizers[i][j].css] = true;
       }
+    }
+    return ids;
+  })(parserConfig.reference);
+
+  var valid_colors = (function(reference) {
+    var ids = {};
+    for (var i in reference.colors) {
+      ids[i] = true;
     }
     return ids;
   })(parserConfig.reference);
@@ -29,49 +37,50 @@ CodeMirror.defineMode("carto", function(config, parserConfig) {
 
   function tokenBase(stream, state) {
     var ch = stream.next();
-    if (ch == "@") {stream.eatWhile(/\w/); return ret("carto-variable", stream.current());}
-    else if (ch == "/" && stream.eat("*")) {
+    if (ch == '@') {
+      stream.eatWhile(/\w/);
+      return ret('carto-variable', stream.current());
+    } else if (ch == '/' && stream.eat('*')) {
       state.tokenize = tokenCComment;
       return tokenCComment(stream, state);
-    }
-    else if (ch == "=") ret(null, "compare");
-    else if ((ch == "~" || ch == "|") && stream.eat("=")) return ret(null, "compare");
-    else if (ch == "\"" || ch == "'") {
+    } else if (ch == '/' && stream.eat('/')) {
+      while (stream.next() != null);
+      return ret("carto-comment", "comment");
+    } else if (ch == '=') {
+      ret(null, 'compare');
+    } else if ((ch == '~' || ch == '|') && stream.eat('=')) {
+      return ret(null, 'compare');
+    } else if (ch == '\"' || ch == "'") {
       state.tokenize = tokenString(ch);
       return state.tokenize(stream, state);
-    }
-    else if (ch == "#") {
+    } else if (ch == '#') {
       stream.eatWhile(/[\w\-]/);
-      return ret("carto-selector", "hash");
-    }
-    else if (/\d/.test(ch)) {
+      return ret('carto-selector', 'hash');
+    } else if (/\d/.test(ch)) {
       stream.eatWhile(/[\w.%]/);
-      return ret("carto-unit", "unit");
-    }
-    else if (/[,.+>*\/]/.test(ch)) {
-      return ret(null, "select-op");
-    }
-    else if (/[;{}:\[\]]/.test(ch)) {
+      return ret('carto-unit', 'unit');
+    } else if (/[,.+>*\/]/.test(ch)) {
+      return ret(null, 'select-op');
+    } else if (/[;{}:\[\]]/.test(ch)) {
       return ret(null, ch);
-    }
-    else {
+    } else {
       stream.eatWhile(/[\w\\\-_]/);
-      return valid_identifiers[stream.current()] ? 
-          ret("carto-valid-identifier", "identifier") :
-          ret("carto-identifier", "identifier");
+      return valid_identifiers[stream.current()] ?
+          ret('carto-valid-identifier', 'identifier') :
+          ret('carto-identifier', 'identifier');
     }
   }
 
   function tokenCComment(stream, state) {
     var maybeEnd = false, ch;
     while ((ch = stream.next()) != null) {
-      if (maybeEnd && ch == "/") {
+      if (maybeEnd && ch == '/') {
         state.tokenize = tokenBase;
         break;
       }
-      maybeEnd = (ch == "*");
+      maybeEnd = (ch == '*');
     }
-    return ret("carto-comment", "comment");
+    return ret('carto-comment', 'comment');
   }
 
   function tokenString(quote) {
@@ -80,10 +89,10 @@ CodeMirror.defineMode("carto", function(config, parserConfig) {
       while ((ch = stream.next()) != null) {
         if (ch == quote && !escaped)
           break;
-        escaped = !escaped && ch == "\\";
+        escaped = !escaped && ch == '\\';
       }
       if (!escaped) state.tokenize = tokenBase;
-      return ret("carto-string", "string");
+      return ret('carto-string', 'string');
     };
   }
 
@@ -98,34 +107,38 @@ CodeMirror.defineMode("carto", function(config, parserConfig) {
       if (stream.eatSpace()) return null;
       var style = state.tokenize(stream, state);
 
-      var context = state.stack[state.stack.length-1];
-      if (type == "hash" && context == "rule") style = "carto-colorcode";
-      else if (style == "carto-identifier") {
-        if (context == "rule") style = valid_keywords[stream.current()] ?
-          "carto-valid-value" :
-          "carto-value";
-        else if (!context || context == "@media{") style = "css-selector";
+      var context = state.stack[state.stack.length - 1];
+      if (type == 'hash' && context == 'rule') {
+          style = 'carto-colorcode';
+      } else if (style == 'carto-identifier') {
+        if (context == 'rule') {
+          style = (valid_keywords[stream.current()] || valid_colors[stream.current()]) ?
+            'carto-valid-value' :
+            'carto-value';
+        } else if (!context || context == '@media{') {
+          style = 'carto-selector';
+        }
       }
 
-      if (context == "rule" && /^[\{\};]$/.test(type))
+      if (context == 'rule' && /^[\{\};]$/.test(type))
         state.stack.pop();
-      if (type == "{") {
-        if (context == "@media") state.stack[state.stack.length-1] = "@media{";
-        else state.stack.push("{");
+      if (type == '{') {
+        if (context == '@media') state.stack[state.stack.length - 1] = '@media{';
+        else state.stack.push('{');
       }
-      else if (type == "}") state.stack.pop();
-      else if (type == "@media") state.stack.push("@media");
-      else if (context != "rule" && context != "@media" && type != "comment") state.stack.push("rule");
+      else if (type == '}') state.stack.pop();
+      else if (type == '@media') state.stack.push('@media');
+      else if (context != 'rule' && context != '@media' && type != 'comment') state.stack.push('rule');
       return style;
     },
 
     indent: function(state, textAfter) {
       var n = state.stack.length;
       if (/^\}/.test(textAfter))
-        n -= state.stack[state.stack.length-1] == "rule" ? 2 : 1;
+        n -= state.stack[state.stack.length - 1] == 'rule' ? 2 : 1;
       return state.baseIndent + n * indentUnit;
     }
   };
 });
 
-CodeMirror.defineMIME("text/carto", "carto");
+CodeMirror.defineMIME('text/carto', 'carto');
