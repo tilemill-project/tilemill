@@ -107,20 +107,28 @@ Development
 -----------
 TileMill development is moving fast and we intend to create tags as soon as we
 get to usable stopping points. If you are interested in keeping up with or
-helping with development:
+helping with development here are some steps to get setup:
 
-- replace your TileMill directory with a git clone of
-  `git@github.com:mapbox/tilemill.git`
-- bring your `files` directory with you -- it contains all projects, exports
-  and settings
-- install by running
+Replace your TileMill directory with a git clone:
 
-      ./ndistro
+    mv tilemill tilemill.old
+    git clone git@github.com:mapbox/tilemill.git
 
-- update, clean and rebuild by running
+Bring your `files` directory with you - it contains all projects, exports and
+settings:
 
-      git pull
-      ./ndistro clean && ./ndistro
+    cp -r tilemill.old/files tilemill
+
+Install TileMill as usual:
+
+    cd tilemill
+    ./ndistro
+
+To update your dev version, clean your copy and rebuild:
+
+    git pull
+    ./ndistro clean
+    ./ndistro
 
 
 Contributors
