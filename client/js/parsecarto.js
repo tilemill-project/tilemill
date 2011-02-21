@@ -1,4 +1,4 @@
-CodeMirror.defineMode("carto", function(config) {
+CodeMirror.defineMode("carto", function(config, parserConfig) {
   var indentUnit = config.indentUnit, type;
 
   var valid_identifiers = (function(reference) {
@@ -9,7 +9,7 @@ CodeMirror.defineMode("carto", function(config) {
       }
     }
     return ids;
-  })(config.reference);
+  })(parserConfig.reference);
 
   var valid_keywords = (function(reference) {
     var ids = {};
@@ -23,7 +23,7 @@ CodeMirror.defineMode("carto", function(config) {
       }
     }
     return ids;
-  })(config.reference);
+  })(parserConfig.reference);
 
   function ret(style, tp) {type = tp; return style;}
 
