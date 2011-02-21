@@ -19,7 +19,8 @@ var LayerListView = Backbone.View.extend({
             $('ul', this.el).sortable({
                 axis: 'y',
                 handle: 'div.handle',
-                containment: 'parent'
+                containment: 'parent',
+                tolerance: 'pointer'
             });
         }
         // Add row view for each layer.

@@ -19,7 +19,8 @@ var StylesheetListView = Backbone.View.extend({
             $(this.el).html(ich.StylesheetListView());
             $('.stylesheets', this.el).sortable({
                 axis: 'x',
-                containment: 'parent'
+                containment: 'parent',
+                tolerance: 'pointer'
             });
         }
 
