@@ -11,7 +11,7 @@ Features
 - Edit `carto` stylesheets with a custom editor like `vim` in *Minimal mode*
 - Preview map tiles instantly while editing stylesheets
 - Inspect datasource field values and data types
-- Export maps to PNG, PDF and MBTiles formats
+- Export maps to PNG, PDF and [MBTiles](http://www.mbtiles.org) formats
 
 
 Requirements
@@ -35,7 +35,7 @@ Install `Mapnik 2.0` from [OS X package](http://dbsgeo.com/downloads/#mapnik-2.0
 
 - [mapnik 2.0 ](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0.dmg)
 
-Install TileMill:
+Download and unpack TileMill. Build & install:
 
     cd TileMill
     ./ndistro
@@ -85,7 +85,7 @@ Install `mapnik` from source:
     sudo python scons/scons.py install
     sudo ldconfig
 
-Install TileMill:
+Download and unpack TileMill. Build & install:
 
     cd TileMill
     ./ndistro
