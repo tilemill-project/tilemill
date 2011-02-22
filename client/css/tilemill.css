@@ -986,7 +986,6 @@ ul.projects a:hover {
   padding-bottom:5px;
   }
 
-.syntax-error,
 #tabs a.hasError {
   color:#666;
   background:#fcf4a0;
@@ -1015,16 +1014,22 @@ ul.projects a:hover {
 #editor .editor.active { display:block; }
 #editor .editor iframe { padding:0px; }
 
-.CodeMirror-line-numbers {
-  background:#eee;
+.CodeMirror-gutter-text {
+  background:#f7f7f7;
   color:#555;
   margin:0px;
-  padding:10px 0px;
+  padding: .4em 0 .4em 0 !important;
   font:13px/20px monospace;
   text-align:right;
   }
 
-.CodeMirror-line-numbers div { padding:0px 10px; }
+.CodeMirror-gutter-text pre { padding: 0 0.3em 0 0.8em !important; }
+
+.syntax-error {
+  color:#666;
+  background:#fcf4a0 !important;
+  }
+
 
 /**
  * FontPicker =================================================================
