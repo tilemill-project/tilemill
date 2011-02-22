@@ -29,7 +29,7 @@ module marijnh CodeMirror2
 module garycourt JSV
 module douglascrockford JSON-js
 module dankogai js-base64
-module mapbox map-utils
+module mapbox wax
 
 # built modules
 module springmeyer node-srs 0.1.1 srs
