@@ -38,8 +38,8 @@ module developmentseed node-sqlite3 1.0.3 sqlite
 
 # needs tag
 module kkaefer node-compress master compress
-module mapnik node-mapnik grid mapnik
-module mapbox tilelive.js grid
+module mapnik node-mapnik master mapnik
+module mapbox tilelive.js master
 
 # module layout workarounds
 cd $ROOT
