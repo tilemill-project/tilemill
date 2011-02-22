@@ -277,7 +277,8 @@ h3 { font-size:13px; }
  * Icons ======================================================================
  */
 .file,
-.icon {
+.icon,
+.wax-tooltip .close {
   display:block;
   padding:0px;
   width:20px;
@@ -376,6 +377,8 @@ a.button:hover .icon.right {
 .file.directory { background-position:-40px -140px; }
 .file.s3 { background-position:-80px -140px; }
 .file.exports { background-position:-120px -140px; }
+
+.wax-tooltip .close { background-position:-80px -20px; }
 
 /**
  * Form elements ==============================================================
@@ -928,6 +931,27 @@ ul.projects a:hover {
   opacity:0.40;
   font-size:1px;
   filter:alpha(opacity=50);
+  }
+
+.wax-tooltip {
+  top:auto;
+  left:10px;
+  bottom:10px;
+
+  font-size:11px;
+  padding:5px 10px;
+  background:url(../images/palette.png);
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  }
+
+.wax-popup { padding-right:30px; }
+
+.wax-popup .close {
+  right:5px;
+  top:5px;
+  background-color:transparent;
   }
 
 /**
