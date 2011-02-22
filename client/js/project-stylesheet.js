@@ -97,7 +97,7 @@ var StylesheetListView = Backbone.View.extend({
     clearError: function() {
         // Clear out validation error markers. They will be re-drawn if this
         // save event encounters further errors.
-        this.$('div.CodeMirror-line-numbers div')
+        this.$('div.CodeMirror-gutter-text pre')
             .removeClass('syntax-error')
             .attr('title', '')
             .unbind('mouseenter mouseleave'); // Removes tipsy.
