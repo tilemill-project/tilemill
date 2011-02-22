@@ -77,7 +77,7 @@ var StylesheetListView = Backbone.View.extend({
                         function(s) { return s.id == error.filename; }
                     );
                     if (editor) {
-                        $('div.CodeMirror-line-numbers div:nth-child('
+                        $('div.CodeMirror-gutter-text pre:nth-child('
                             + error.line
                             + ')',
                             editor.view.codemirror.lineNumbers)
