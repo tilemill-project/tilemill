@@ -89,8 +89,8 @@ module.exports = function(app, settings) {
         });
     });
 
-    // Interaction formatter.json endpoint.
-    app.get('/1.0.0/:id/formatter.json', loadProject, function(req, res, next) {
+    // Interaction layer.json endpoint.
+    app.get('/1.0.0/:id/layer.json', loadProject, function(req, res, next) {
         if (!res.project.get('_interactivity')) {
             res.send('Formatter not found', 404);
         } else {
