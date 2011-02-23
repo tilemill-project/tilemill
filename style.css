@@ -181,9 +181,13 @@ h2.slogan {
   border:0px;
   }
 
-.download {
-  margin-right:-20px;
+.sidebar {
   float:right;
+  }
+
+.download {
+  margin: 0px -20px 10px 0px;
+  display:block;
   width:240px;
   padding:9px;
   border:1px solid #ddd;
@@ -199,6 +203,15 @@ h2.slogan {
   box-shadow:#eee 0px 2px 5px;
   -moz-box-shadow:#eee 0px 2px 5px;
   -webkit-box-shadow:#eee 0px 2px 5px;
+  }
+
+.twitter {
+  display:block;
+  text-align:center;
+  font:normal 13px/20px Arial,Helvetica,sans-serif;
+  text-shadow:#fff 0px 1px;
+  width:240px;
+  padding:0px 9px;
   }
 
 .download:hover { background:#fff; }
