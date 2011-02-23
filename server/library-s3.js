@@ -125,7 +125,7 @@ module.exports = function(app, options, callback) {
     // encoded by the client. The marker param is decoded here before being
     // passed through to S3.
     if (options.page && options.page != 0) {
-        opts.marker = options.page.replace('+', '-').replace('/', '_');
+        opts.marker = options.page.replace('-', '+').replace('_', '/');
         opts.marker = (new Buffer(opts.marker, 'base64')).toString('utf-8');
     }
 

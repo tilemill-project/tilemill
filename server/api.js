@@ -12,7 +12,7 @@ module.exports = function(app, settings) {
     // on loading 10,000 features to keep a large datasource from busting up
     // the server.
     function loadDatasource(req, res, next) {
-        var url = req.param('id').replace('+', '-').replace('/', '_');
+        var url = req.param('id').replace('-', '+').replace('_', '/');
         url = (new Buffer(url, 'base64')).toString('utf-8');
         var external = new External(settings, url);
         external.on('err', function(err) {
