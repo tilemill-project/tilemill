@@ -3,8 +3,9 @@
 node 0.2.6 source
 
 # module | github repo | tag | alias
-module senchalabs connect 0.3.0
-module visionmedia express 1.0.0
+module senchalabs connect 0.5.10
+module visionmedia express 1.0.7
+module visionmedia node-querystring 0.0.6 qs
 module learnboost knox 0.0.2
 module isaacs sax-js v0.1.1
 module creationix step v0.0.3
