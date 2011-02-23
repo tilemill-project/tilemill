@@ -67,7 +67,7 @@ module() {
   local dest="$ROOT/modules/$mod"
   local version_file=$dest/.ndistro_module_version
   local url="https://github.com/$user/$mod/tarball/$version"
-  local update_message="update with $ rm -fr modules/$mod && ndistro"
+  local update_message="update with $ rm -fr modules/$mod && ./ndistro"
   
   if test -d $dest; then
     if test -f $version_file; then
@@ -191,7 +191,7 @@ install_node() {
       log "building node-$version"
       $GET $url | tar -xz --strip 1 && \
       ./configure --prefix=$ROOT 1> /dev/null 2> /dev/null && \
-      make 1> /dev/null && \
+      make && \
       make install 1> /dev/null && \
       cd $ROOT
     else
