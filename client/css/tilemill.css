@@ -72,12 +72,19 @@ h3 { font-size:13px; }
 .header h1 { float:left; }
 
 .header h1 {
-  color:#fff;
-  text-shadow:#333 0px 1px 0px;
+  color:#f8f8f8;
+  text-shadow:#444 0px 1px 1px;
   margin-right:20px;
   }
 
-.header a {
+.header h1 a {
+  font-weight:bold;
+  color:#f8f8f8;
+  }
+
+.header h1 .next { margin:0px 5px; }
+
+.header .actions a {
   font-weight:bold;
   float:left;
   padding:0px 10px;
@@ -133,9 +140,10 @@ h3 { font-size:13px; }
   }
 
 .header .icon,
+.header .actions .icon,
 .header .file {
   padding:0px;
-  margin: 0px 10px 0px 0px;
+  margin:0px 10px 0px 0px;
   float:left;
   }
 
@@ -356,7 +364,7 @@ a.button:hover .icon.right {
 .reverse.next           { background-position:-160px -20px; }
 .reverse.add            { background-position:-180px -20px; }
 .reverse.plus           { background-position:-180px -20px; }
-.reverse.settings       { background-position:-280px -20px; }
+.reverse.home           { background-position:-280px -20px; }
 .reverse.export         { background-position:-320px -20px; }
 .reverse.reference      { background-position: -320px -20px;}
 .reverse.dropdown       { background-position:-300px -20px; }
@@ -367,6 +375,10 @@ a.button:hover .icon.right {
 .reverse.geometry-point      { background-position:-220px -20px; }
 .reverse.geometry-polygon    { background-position:-240px -20px; }
 .reverse.geometry-raster     { background-position:-360px -20px; }
+
+.icon.clear,
+.icon.clear:hover,
+.icon.clear:active { background-color:transparent; }
 
 .file.png { background-position:0px -180px; }
 .file.pdf { background-position:-40px -180px; }
@@ -1139,7 +1151,7 @@ ul.projects a:hover {
 .DropdownView .dropdown-content.expanded { display:block; }
   
 .actions .DropdownView a.show {
-  padding-right:40px;
+  padding-right:50px;
   position:relative;
   }
 

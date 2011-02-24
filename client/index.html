@@ -91,7 +91,9 @@
 
     <script type='text/html' id='LibraryListView'>
       <div id='header' class='header clearfix'>
-        <h1>TileMill</h1>
+        <h1 class='breadcrumb'>
+          <a class='home' href='#'><span class='icon reverse clear home'></span>TileMill</a>
+        </h1>
       </div>
       <div class='main'></div>
       <div class='sidebar'>
@@ -171,7 +173,9 @@
 
     <script type='text/html' id='ErrorView'>
       <div class='header clearfix'>
-        <h1>TileMill</h1>
+        <h1 class='breadcrumb'>
+          <a class='home' href='#'><span class='icon reverse clear home'></span>TileMill</a>
+        </h1>
       </div>
       <div class='error-page'>{{message}}</div>
     </script>
@@ -186,11 +190,14 @@
 
     <script type='text/html' id='ProjectView'>
       <div class='header clearfix'>
-        <h1>Editing {{id}}</h1>
+        <h1 class='breadcrumb'>
+          <a class='home' href='#'><span class='icon reverse clear home'></span>TileMill</a>
+          <span class='icon reverse clear next'></span>
+          <a href='#project/{{id}}'>{{id}}</a>
+        </h1>
         <div class='actions clearfix'>
           <a class='save disabled' href='#'>Saved</a>
           <a class='tipsy-e icon options' title='Project options' href='#'>Project options</a>
-          <a class='tipsy-e icon reverse close' title='Save &amp; close' href='#'>Save & close</a>
         </div>
       </div>
       <div class='main'></div>

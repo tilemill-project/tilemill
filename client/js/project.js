@@ -134,8 +134,7 @@ var ProjectView = Backbone.View.extend({
     id: 'ProjectView',
     events: {
         'click .header a.save': 'saveProject',
-        'click .header a.settings': 'settings',
-        'click .header a.close': 'close',
+        'click .header a.home': 'home',
         'click #tabs a.reference': 'reference',
         'click .header a.options': 'projectOptions'
     },
@@ -196,7 +195,7 @@ var ProjectView = Backbone.View.extend({
         $('.tipsy').remove();
         return false;
     },
-    close: function() {
+    home: function() {
         if (!$('.header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
             this.watcher && this.watcher.destroy();
             return true;
@@ -232,10 +231,6 @@ var ProjectView = Backbone.View.extend({
     changed: function() {
         $('.header a.save', this.el).removeClass('disabled').addClass('changed').html('Save');
     },
-    settings: function() {
-        new SettingsPopupView({ model: window.app.settings });
-        return false;
-    },
     projectOptions: function() {
         new ProjectPopupView({ model: this.model });
         return false;
@@ -252,7 +247,7 @@ var ProjectPopupView = PopupView.extend({
             id: 'ProjectSettingsForm',
             title: 'Settings',
             active: true,
-            content: new ProjectSettingsForm({ model: this.model })
+            content: new ProjectSettingsForm({ model: window.app.settings })
         });
         tabs.push({
             id: 'ProjectFormatForm',
