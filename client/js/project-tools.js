@@ -1,37 +1,35 @@
 // StylesheetTools
 // ---------------
 // View. Tools for inserting font and color values into a stylesheet.
-var StylesheetTools = Backbone.View.extend({
+var StylesheetTools = TabsView.extend({
     id: 'StylesheetTools',
     className: 'view',
     initialize: function(options) {
-        _.bindAll(this, 'render');
-        this.render();
-    },
-    render: function() {
-        var colors = new ColorSwatchListView({
-                collection: new ColorSwatchList(null, {
-                    project: this.options.project
-                }),
+        this.options.tabs = [];
+        this.options.tabs.push({
+            id: 'ColorSwatchListView',
+            title: 'Colors',
+            active: true,
+            content: new ColorSwatchListView({
+                collection: new ColorSwatchList(null, this.options),
                 project: this.options.project
-            }),
-            colorPicker = new ColorPicker({
-                model: this.options.project,
-                project: this.options.project
-            }),
-            fonts = new FontPicker({
+            })
+        });
+        this.options.tabs.push({
+            id: 'FontPicker',
+            title: 'Fonts',
+            active: false,
+            content: new FontPicker({
                 model: window.app.abilities,
                 project: this.options.project
-            });
-        $(this.el).html(ich.StylesheetTools);
-        $(this.el).append(fonts.el);
-        $(this.el).append(colors.el);
-        $(colors.el).append(colorPicker.el);
+            })
+        });
+        TabsView.prototype.initialize.call(this, options);
     },
-    events: {
+    events: _.extend({
         'click .show-fonts' : 'showFonts',
         'click .show-colors' : 'showColors'
-    },
+    }, TabsView.prototype.events),
     showFonts: function() {
         $('a.show-colors').removeClass('active').addClass('inactive');
         var self = $('a.show-fonts', this.el);
@@ -53,73 +51,6 @@ var StylesheetTools = Backbone.View.extend({
             $('#ColorSwatchListView', this.el).show();
         }
         return false;
-    }
-});
-
-// ColorPicker
-// -----------
-// View. ColorPicker widget.
-var ColorPicker = Backbone.View.extend({
-    id: 'ColorPicker',
-    initialize: function(options) {
-        _.bindAll(this, 'activate', 'pickerChange', 'pickerShow', 'pickerHide');
-        this.colorChanged = false;
-        this.project = options.project;
-        this.render();
-        window.app.bind('ready', this.activate);
-    },
-    render: function() {
-        $(this.el).html(ich.ColorPicker);
-    },
-    activate: function() {
-        var that = this,
-            visible = false;
-        this.colorpicker = $('a', this.el).ColorPicker({
-            eventName: 'toggle',
-            onChange: that.pickerChange,
-            onShow: that.pickerShow,
-            onHide: that.pickerHide
-        }).bind('click', function() {
-            if (!visible) {
-                $(this).trigger('toggle');
-                visible = true;
-            }
-            else {
-                visible = false;
-            }
-            return false;
-        });
-        $(document).bind('click', function() {
-            visible = false;
-        });
-    },
-    pickerChange: function(hsb, hex, rgb) {
-        this.colorChanged = hex;
-    },
-    pickerShow: function() {
-        var selection = this.project.view.stylesheets
-            .activeTab.codemirror.selection();
-        if (selection.match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
-            $(this.colorpicker).ColorPickerSetColor(
-                selection.substring(1, selection.length));
-        }
-        else if (selection.match(/[A-Fa-f0-9]{6}\b|[A-Fa-f0-9]{3}\b/g)) {
-            $(this.colorpicker).ColorPickerSetColor(selection);
-        }
-    },
-    pickerHide: function(hsb, hex, rgb) {
-        if (this.colorChanged) {
-            var mirror = this.project.view.stylesheets.activeTab.codemirror;
-            if (mirror.selection()
-                .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
-                mirror.replaceSelection('#' + this.colorChanged);
-            }
-            else if (mirror.selection()
-                .match(/^[A-Fa-f0-9]{6}\b|^[A-Fa-f0-9]{3}\b/g)) {
-                mirror.replaceSelection(this.colorChanged);
-            }
-            this.colorChanged = false;
-        }
     }
 });
 
@@ -241,13 +172,17 @@ var ColorSwatchListView = Backbone.View.extend({
     id: 'ColorSwatchListView',
     className: 'view',
     initialize: function(options) {
-        _.bindAll(this, 'render', 'createSwatchView');
+        _.bindAll(this, 'render', 'createSwatchView', 'activate', 'pickerChange', 'pickerShow', 'pickerHide');
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.del);
+        this.colorChanged = false;
         this.project = options.project;
-        $(this.el).html(ich.ColorSwatchListView());
+        this.render();
+        window.app.bind('ready', this.activate);
     },
     render: function() {
+        !this.$('.swatches').size() && $(this.el).html(ich.ColorSwatchListView());
+
         var that = this;
         var pointer = null;
         this.collection.each(function(swatch) {
@@ -258,8 +193,7 @@ var ColorSwatchListView = Backbone.View.extend({
                 });
                 if (!pointer) {
                     self.$('.swatches').prepend(swatch.view.el);
-                }
-                else {
+                } else {
                     $(pointer).after(swatch.view.el);
                 }
             }
@@ -268,6 +202,56 @@ var ColorSwatchListView = Backbone.View.extend({
     },
     del: function(swatch) {
         swatch.view.remove();
+    },
+    activate: function() {
+        var that = this,
+            visible = false;
+        this.colorpicker = $('a', this.el).ColorPicker({
+            eventName: 'toggle',
+            onChange: that.pickerChange,
+            onShow: that.pickerShow,
+            onHide: that.pickerHide
+        }).bind('click', function() {
+            if (!visible) {
+                $(this).trigger('toggle');
+                visible = true;
+            }
+            else {
+                visible = false;
+            }
+            return false;
+        });
+        $(document).bind('click', function() {
+            visible = false;
+        });
+    },
+    pickerChange: function(hsb, hex, rgb) {
+        this.colorChanged = hex;
+    },
+    pickerShow: function() {
+        var selection = this.project.view.stylesheets
+            .activeTab.codemirror.selection();
+        if (selection.match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
+            $(this.colorpicker).ColorPickerSetColor(
+                selection.substring(1, selection.length));
+        }
+        else if (selection.match(/[A-Fa-f0-9]{6}\b|[A-Fa-f0-9]{3}\b/g)) {
+            $(this.colorpicker).ColorPickerSetColor(selection);
+        }
+    },
+    pickerHide: function(hsb, hex, rgb) {
+        if (this.colorChanged) {
+            var mirror = this.project.view.stylesheets.activeTab.codemirror;
+            if (mirror.selection()
+                .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
+                mirror.replaceSelection('#' + this.colorChanged);
+            }
+            else if (mirror.selection()
+                .match(/^[A-Fa-f0-9]{6}\b|^[A-Fa-f0-9]{3}\b/g)) {
+                mirror.replaceSelection(this.colorChanged);
+            }
+            this.colorChanged = false;
+        }
     }
 });
 

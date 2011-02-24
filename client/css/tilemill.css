@@ -745,9 +745,9 @@ ul.projects a:hover {
 .minimal #ProjectView .main { display:none; }
 
 .column h2,
-.popup-header,
-.sidebar-header { background:url(../images/sprite.png) 0px -320px repeat-x;}
+.popup-header { background:url(../images/sprite.png) 0px -320px repeat-x;}
 
+.sidebar-header { background:#eee url(../images/sprite.png) 0px -490px repeat-x; }
 .sidebar-header h2 { float:left; margin-right: 8px;}
 .sidebar-header a { float:right; }
 
@@ -812,28 +812,45 @@ ul.projects a:hover {
   border-left:1px solid #ccc;
   }
 
-#StylesheetTools #FontPicker { display:none; }
-
-.sidebar-tabs {
-  height:40px;
+/**
+ * Tabs =======================================================================
+ */
+.tabs {
+  height:30px;
+  padding:10px 10px 0px;
   background:#eee url(../images/sprite.png) 0px -490px repeat-x;
   }
 
-.sidebar-tabs a {
+.tabs a.tab {
   float:left;
-  font-size:16px;
+  -moz-border-radius:3px 3px 0px 0px;
+  -webkit-border-radius:3px 3px 0px 0px;
+  background:#e4e4e4;
+  border-width:1px 1px 0px;
+  border-color:#ddd;
+  border-style:solid;
+  color:#999;
+  padding:4px 29px 4px 9px;
   font-weight:bold;
-  padding:10px 19px 9px 10px;
-  border-right:1px solid #ddd;
-  background:#fff url(../images/sprite.png) 0px -490px no-repeat;
+  position:relative;
+  cursor:pointer;
   }
 
-.sidebar-tabs a.active {
-  padding-bottom:10px;
-  background-position:0px -530px;
+.tabs a.active {
+  color:#333;
+  background:#f8f8f8;
+  border-color:#ccc;
+  padding-bottom:5px;
   }
 
-.sidebar-tabs a.inactive { color:#999; }
+.tabs a.hasError {
+  color:#666;
+  background:#fcf4a0;
+  border-color:#ddb;
+  }
+
+.panes > div { display:none; }
+.panes > div.active { display:block; }
 
 /**
  * ColorSwatches ==============================================================
@@ -962,11 +979,11 @@ ul.projects a:hover {
   top:0px;
   left:0px;
   right:0px;
-  height:30px;
-
-  padding:10px 70px 0px 10px;
+  height:40px;
   background:#eee url(../images/sprite.png) 0px -490px repeat-x;
   }
+
+#tabs .tabs { padding-right:70px; }
 
 #tabs a.add,
 #tabs a.reference {
@@ -977,22 +994,6 @@ ul.projects a:hover {
 #tabs a.reference { right:10px; }
 #tabs a.add { right:40px; }
 
-#tabs a.tab {
-  float:left;
-  -moz-border-radius:3px 3px 0px 0px;
-  -webkit-border-radius:3px 3px 0px 0px;
-  background:#e4e4e4;
-  border-width:1px 1px 0px;
-  border-color:#ddd;
-  border-style:solid;
-  color:#999;
-  padding:4px 29px 4px 9px;
-  font-size:11px;
-  font-weight:bold;
-  position:relative;
-  cursor:pointer;
-  }
-
 #tabs a.tab span.delete {
   background-color:transparent;
   display:none;
@@ -1002,19 +1003,6 @@ ul.projects a:hover {
   }
 
 #tabs a.tab:hover span.delete { display:block; }
-
-#tabs a.active {
-  color:#333;
-  background:#f8f8f8;
-  border-color:#ccc;
-  padding-bottom:5px;
-  }
-
-#tabs a.hasError {
-  color:#666;
-  background:#fcf4a0;
-  border-color:#ddb;
-  }
 
 #editor {
   overflow:auto;
@@ -1098,7 +1086,7 @@ ul.projects a:hover {
   left:50%;
   width: 500px;
   margin-left:-251px;
-  background-color:#fff;
+  background-color:#f8f8f8;
   border:1px solid #999;
   -moz-box-shadow:rgba(64,64,64,.25) 0px 0px 0px 5px;
   -webkit-box-shadow:rgba(64,64,64,.25) 0px 0px 0px 5px;
@@ -1434,7 +1422,6 @@ form .palette .ui-slider-range {
  * About ======================================================================
  */
 ul.form > li.about {
-  background:#eee;
   padding:20px 20px 19px;
   text-align:center;
   }

@@ -75,9 +75,7 @@ Status.prototype.stop = function() {
 // following properties on `initialize()`:
 //
 // - `this.options.title` title text of the popup
-// - `this.options.content` HTML string of the popup contents. Use
-//   the render as string second argument of `ich[template].()` to
-//   render a mustache template to a string.
+// - `this.options.content` HTML string of the popup contents or Backbone.View
 // - `this.options.className` an additional HTML class to attach to
 //   the popup div.
 var PopupView = Backbone.View.extend({
@@ -86,7 +84,14 @@ var PopupView = Backbone.View.extend({
         this.render();
     },
     render: function () {
-        $(this.el).html(ich.PopupView(this.options));
+        if (this.options.content instanceof Backbone.View) {
+            var view = this.options.content;
+            this.options.content = '';
+            $(this.el).html(ich.PopupView(this.options));
+            this.$('.popup-content').append(view.el);
+        } else {
+            $(this.el).html(ich.PopupView(this.options));
+        }
         $('.overlay').size() && this.$('.overlay').remove();
         var that = this;
         $('body').keyup(function(e) {
@@ -195,6 +200,60 @@ var DrawerView = Backbone.View.extend({
     }
 });
 
+// TabsView
+// ----------
+// View. List of tabs where each tab can toggle an element with the
+// corresponding #id.
+//
+// - `this.options.tabs` Array of tabs objects with `title` and `id`.
+var TabsView = Backbone.View.extend({
+    events: {
+        'click a.tab': 'activate'
+    },
+    initialize: function () {
+        _.bindAll(this, 'render', 'activate');
+        this.render();
+    },
+    render: function () {
+        $(this.el).html(ich.TabsView(this.options));
+        for (var i = 0; i < this.options.tabs.length; i++) {
+            var tab = this.options.tabs[i],
+                pane;
+            if (typeof tab.content === 'string') {
+                pane = $(tab.content);
+            } else if (tab.content instanceof Backbone.View) {
+                pane = $(tab.content.el);
+            }
+            tab.id && pane.attr('id', tab.id);
+            tab.active && pane.addClass('active');
+            this.$('.panes').append(pane);
+        }
+        return this;
+    },
+    activate: function(ev) {
+        var target,
+            id;
+        if (ev && ev.currentTarget) {
+            target = $(ev.currentTarget);
+        } else {
+            target = ev;
+        }
+        this.$('a.tab.active').removeClass('active');
+        this.$('.panes > .active').removeClass('active');
+        target.addClass('active');
+        $(target.attr('href')).addClass('active');
+        return false;
+    },
+    loading: function(message) {
+        this.loadingView = new LoadingView({message: message});
+        this.$('.panes').append(this.loadingView.el);
+    },
+    done: function() {
+        this.loadingView && this.loadingView.remove();
+    }
+});
+
+
 // LoadingView
 // -----------
 // Loading overlay. Populate `options.message` to show text giving the user
@@ -225,35 +284,6 @@ var ErrorView = Backbone.View.extend({
         $(this.el).html(ich.ErrorView(this.options));
         window.app.el.html(this.el);
         return this;
-    }
-});
-
-// SettingsPopupView
-// -----------------
-// App-wide settings form.
-var SettingsPopupView = PopupView.extend({
-    events: _.extend({
-        'click input.submit': 'submit'
-    }, PopupView.prototype.events),
-    initialize: function(params) {
-        _.bindAll(this, 'render', 'submit');
-        this.model = this.options.model;
-        this.options.title = 'TileMill settings';
-        this.options.content = ich.SettingsPopupView({
-            'minimal_mode': (this.model.get('mode') === 'minimal')
-        }, true);
-        this.render();
-    },
-    submit: function() {
-        var success = this.model.set(
-            { 'mode': $('select#mode', this.el).val() },
-            { 'error': this.showError }
-        );
-        if (success) {
-            this.model.save();
-            this.remove();
-        }
-        return false;
     }
 });
 

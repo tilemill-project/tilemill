@@ -15,9 +15,9 @@ var StylesheetListView = Backbone.View.extend({
     },
     render: function() {
         // Render the stylesheets wrapper if not present.
-        if ($(this.el).has('.stylesheets').length === 0) {
+        if ($(this.el).has('.tabs').length === 0) {
             $(this.el).html(ich.StylesheetListView());
-            $('.stylesheets', this.el).sortable({
+            this.$('.tabs').sortable({
                 axis: 'x',
                 containment: 'parent',
                 tolerance: 'pointer'
@@ -25,20 +25,19 @@ var StylesheetListView = Backbone.View.extend({
         }
 
         // Add a tab view for each stylesheet.
-        var self = this;
+        var that = this;
         this.collection.each(function(stylesheet) {
-            if (!stylesheet.view) {
-                stylesheet.view = new StylesheetTabView({
-                    model: stylesheet,
-                    list: self
-                });
-                $('.stylesheets', self.el).append(stylesheet.view.el);
-                self.activeTab = self.activeTab || stylesheet.view;
-            }
+            if (stylesheet.view) return;
+            stylesheet.view = new StylesheetTabView({
+                model: stylesheet,
+                list: that
+            });
+            that.$('.tabs').append(stylesheet.view.el);
+            that.activeTab = that.activeTab || stylesheet.view;
         });
 
         // Refresh `.sortable()` to recognize new stylesheets.
-        $('.stylesheets', this.el).sortable('refresh');
+        this.$('.tabs').sortable('refresh');
         return this;
     },
     activate: function() {
@@ -48,7 +47,7 @@ var StylesheetListView = Backbone.View.extend({
     },
     events: {
         'click .add': 'add',
-        'sortupdate .stylesheets': 'sortUpdate'
+        'sortupdate .tabs': 'sortUpdate'
     },
     add: function() {
         new StylesheetPopupView({
@@ -57,7 +56,7 @@ var StylesheetListView = Backbone.View.extend({
         return false;
     },
     sortUpdate: function(e, ui) {
-        var rows = this.$('.stylesheets .tab');
+        var rows = this.$('.tabs .tab');
         var newCollection = [];
         this.collection.each(function(model) {
             var index = $.inArray(model.view.el, rows);

@@ -246,15 +246,74 @@ var ProjectView = Backbone.View.extend({
 // ----------------
 // Form for editing project-specific settings.
 var ProjectPopupView = PopupView.extend({
-    events: _.extend({
-        'click input.submit': 'submit',
-        'change select#interactivity_layer': 'dependent'
-    }, PopupView.prototype.events),
     initialize: function(options) {
-        _.bindAll(this, 'submit', 'dependent');
+        var tabs = [];
+        tabs.push({
+            id: 'ProjectSettingsForm',
+            title: 'Settings',
+            active: true,
+            content: new ProjectSettingsForm({ model: this.model })
+        });
+        tabs.push({
+            id: 'ProjectFormatForm',
+            title: 'Format',
+            content: new ProjectFormatForm({ model: this.model })
+        });
+        tabs.push({
+            id: 'ProjectInteractivityForm',
+            title: 'Interactivity',
+            content: new ProjectInteractivityForm({ model: this.model })
+        });
+        this.options.content = new TabsView({ tabs: tabs });
         this.options.title = 'Project options';
+        PopupView.prototype.initialize.call(this, options);
+    }
+});
+
+
+// SettingsPopupView
+// -----------------
+// App-wide settings form.
+var ProjectSettingsForm = Backbone.View.extend({
+    events: {
+        'click input.submit': 'submit'
+    },
+    initialize: function(params) {
+        _.bindAll(this, 'render', 'submit');
+        this.render();
+    },
+    render: function() {
+        $(this.el).html(ich.ProjectSettingsForm({
+            'minimal_mode': (this.model.get('mode') === 'minimal')
+        }));
+        return this;
+    },
+    submit: function() {
+        var success = this.model.set(
+            { 'mode': $('select#mode', this.el).val() },
+            { 'error': this.showError }
+        );
+        success && this.model.save();
+        return false;
+    }
+});
+
+var ProjectFormatForm = Backbone.View.extend({
+    events: {
+        'click input.submit': 'submit'
+    },
+    initialize: function(options) {
+        _.bindAll(this, 'render', 'submit');
+        this.render();
+    },
+    submit: function() {
+        var attr = { _format: this.$('select#format').val() };
+        var success = this.model.set(attr, { 'error': this.showError });
+        success && this.model.view.saveProject();
+        return false;
+    },
+    render: function() {
         var that = this;
-        var interactivity = that.model.get('_interactivity') || false;
         var object = {
             format: [
                 { id: 'png', name: 'png (24-bit)', selected: false },
@@ -263,25 +322,24 @@ var ProjectPopupView = PopupView.extend({
                 { id: 'jpeg85', name: 'jpeg (85%)', selected: false },
                 { id: 'jpeg90', name: 'jpeg (90%)', selected: false },
                 { id: 'jpeg95', name: 'jpeg (95%)', selected: false }
-            ],
-            interactivity_layer: [{
-                id: -1,
-                name: '-- disabled --',
-                selected: !interactivity
-            }]
+            ]
         };
         _.map(object.format, function(format) {
             format.selected = (format.id === that.model.get('_format'));
         });
-        _.each(this.model.get('Layer').models, function(layer, index) {
-            object.interactivity_layer.push({
-                id: index,
-                name: layer.id,
-                selected: interactivity && (interactivity.layer == index)
-            });
-        });
-        this.options.content = ich.ProjectPopupView(object, true);
-        PopupView.prototype.initialize.call(this, options);
+        $(this.el).html(ich.ProjectFormatForm(object));
+        return this;
+    }
+});
+
+var ProjectInteractivityForm = Backbone.View.extend({
+    events: {
+        'click input.submit': 'submit',
+        'change select#interactivity_layer': 'dependent'
+    },
+    initialize: function(options) {
+        _.bindAll(this, 'submit', 'dependent');
+        this.render();
     },
     submit: function() {
         var attr = {
@@ -296,14 +354,27 @@ var ProjectPopupView = PopupView.extend({
         (this.$('#interactivity_layer').val() == -1) && (attr._interactivity = false);
 
         var success = this.model.set(attr, { 'error': this.showError });
-        if (success) {
-            this.model.view.saveProject();
-            this.remove();
-        }
+        success && this.model.view.saveProject();
         return false;
     },
     render: function() {
-        PopupView.prototype.render.call(this);
+        var that = this;
+        var interactivity = that.model.get('_interactivity') || false;
+        var object = {
+            interactivity_layer: [{
+                id: -1,
+                name: '-- disabled --',
+                selected: !interactivity
+            }]
+        };
+        _.each(this.model.get('Layer').models, function(layer, index) {
+            object.interactivity_layer.push({
+                id: index,
+                name: layer.id,
+                selected: interactivity && (interactivity.layer == index)
+            });
+        });
+        $(this.el).html(ich.ProjectInteractivityForm(object));
         this.dependent();
         return this;
     },
@@ -345,6 +416,13 @@ var ProjectPopupView = PopupView.extend({
             this.$('.dependent').empty().hide();
         }
         return false;
+    },
+    loading: function(message) {
+        this.loadingView = new LoadingView({message: message});
+        $(this.el).append(this.loadingView.el);
+    },
+    done: function() {
+        this.loadingView && this.loadingView.remove();
     }
 });
 

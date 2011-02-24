@@ -91,7 +91,6 @@
 
     <script type='text/html' id='LibraryListView'>
       <div id='header' class='header clearfix'>
-        <a class='icon reverse settings' href='#'>Settings</a>
         <h1>TileMill</h1>
       </div>
       <div class='main'></div>
@@ -187,7 +186,6 @@
 
     <script type='text/html' id='ProjectView'>
       <div class='header clearfix'>
-        <a class='icon reverse settings' href='#'>Settings</a>
         <h1>Editing {{id}}</h1>
         <div class='actions clearfix'>
           <a class='save disabled' href='#'>Saved</a>
@@ -199,7 +197,32 @@
       <div class='sidebar'></div>
     </script>
 
-    <script type='text/html' id='ProjectPopupView'>
+    <script type='text/html' id='ProjectSettingsForm'>
+      <form>
+        <ul class='form'>
+          <li class='about'>
+            <a class='logo' href='http://www.tilemill.com'>TileMill</a>
+            <div class='description'>
+              A product of <a href='http://www.mapbox.com'>MapBox</a><br/>
+              Made by <a href='http://www.developmentseed.org'>Development Seed</a>
+            </div>
+          </li>
+          <li>
+            <label for='mode'>Editing mode</label>
+            <select id='mode'>
+              <option value='normal' {{^minimal_mode}}selected='selected'{{/minimal_mode}}>Normal</option>
+              <option value='minimal' {{#minimal_mode}}selected='selected'{{/minimal_mode}}>Minimal</option>
+            </select>
+            <div class='description'>To edit projects with an external editor use <em>minimal mode</em>.</div>
+          </li>
+          <li class='buttons'>
+            <input class='submit' type='submit' value='Save' />
+          </li>
+        </ul>
+      </form>
+    </script>
+
+    <script type='text/html' id='ProjectFormatForm'>
       <form>
         <ul class='form'>
           <li>
@@ -211,6 +234,16 @@
             </select>
             <div class='description'>Tile image format/quality for this project.</div>
           </li>
+          <li class='buttons'>
+            <input class='submit' type='submit' value='Save' />
+          </li>
+        </ul>
+      </form>
+    </script>
+
+    <script type='text/html' id='ProjectInteractivityForm'>
+      <form>
+        <ul class='form'>
           <li>
             <label for='interactivity_layer'>Interactivity</label>
             <select id='interactivity_layer'>
@@ -329,7 +362,7 @@
 
     <script type='text/html' id='StylesheetListView'>
       <div id='tabs'>
-        <div class='stylesheets clearfix'></div>
+        <div class='tabs clearfix'></div>
         <a title='Add stylesheet' class='tipsy-e icon reverse add' href='#'>Add stylesheet</a>
         <a title='Stylesheet reference guide' class='tipsy-e icon reverse reference' href='#'>Reference</a>
       </div>
@@ -345,11 +378,13 @@
       <div class='editor'><textarea></textarea></div>
     </script>
 
-    <script type='text/html' id='StylesheetTools'>
-      <div class='sidebar-header sidebar-tabs clearfix'>
-        <a href='#' class='show-colors tab first active'>Colors</a>
-        <a href='#' class='show-fonts tab last inactive'>Fonts</a>
+    <script type='text/html' id='TabsView'>
+      <div class='tabs clearfix'>
+        {{#tabs}}
+          <a href='#{{id}}' class='tab {{#active}}active{{/active}}'>{{title}}</a>
+        {{/tabs}}
       </div>
+      <div class='panes clearfix'></div>
     </script>
 
     <script type='text/html' id='FontPicker'>
@@ -361,14 +396,13 @@
 
     <script type='text/html' id='ColorSwatchListView'>
       <div class='swatches clearfix pane'></div>
+      <div id='ColorPicker'>
+        <a class='tipsy-e icon color-picker' title="Color picker" href='#color-picker'>Color picker</a>
+      </div>
     </script>
 
     <script type='text/html' id='ColorSwatchView'>
       <a href='#' class='swatch' style='background-color: {{color}}' title='{{color}}'></a>
-    </script>
-
-    <script type='text/html' id='ColorPicker'>
-      <a class='tipsy-e icon color-picker' title="Color picker" href='#color-picker'>Color picker</a>
     </script>
 
     <script type='text/html' id='DrawerView'>
@@ -730,31 +764,6 @@ Map {
             <option value='overlay' {{^metadata_type_baselayer}}selected='selected'{{/metadata_type_baselayer}}>Overlay</option>
         </select>
       </div>
-    </script>
-
-    <script type='text/html' id='SettingsPopupView'>
-      <form>
-        <ul class='form'>
-          <li class='about'>
-            <a class='logo' href='http://www.tilemill.com'>TileMill</a>
-            <div class='description'>
-              A product of <a href='http://www.mapbox.com'>MapBox</a><br/>
-              Made by <a href='http://www.developmentseed.org'>Development Seed</a>
-            </div>
-          </li>
-          <li>
-            <label for='mode'>Editing mode</label>
-            <select id='mode'>
-              <option value='normal' {{^minimal_mode}}selected='selected'{{/minimal_mode}}>Normal</option>
-              <option value='minimal' {{#minimal_mode}}selected='selected'{{/minimal_mode}}>Minimal</option>
-            </select>
-            <div class='description'>To edit projects with an external editor use <em>minimal mode</em>.</div>
-          </li>
-          <li class='buttons'>
-            <input class='submit' type='submit' value='Save' />
-          </li>
-        </ul>
-      </form>
     </script>
 
   <body>
