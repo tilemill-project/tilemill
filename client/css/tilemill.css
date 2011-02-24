@@ -353,7 +353,7 @@ a.button:hover .icon.right {
 .icon.export         { background-position:-320px 0px; }
 .icon.reference      { background-position:-320px 0px;}
 .icon.dropdown       { background-position:-300px 0px; }
-.icon.options        { background-position:-260px 0px; }
+.icon.settings       { background-position:-260px 0px; }
 .icon.assets         { background-position:-340px 0px;}
 .icon.minus          { background-position:-380px 0px; }
 .icon.geometry-linestring { background-position:-200px 0px; }
@@ -379,7 +379,7 @@ a.button:hover .icon.right {
 .reverse.export         { background-position:-320px -20px; }
 .reverse.reference      { background-position: -320px -20px;}
 .reverse.dropdown       { background-position:-300px -20px; }
-.reverse.options        { background-position:-260px -20px; }
+.reverse.settings       { background-position:-260px -20px; }
 .reverse.assets         { background-position:-340px -20px;}
 .reverse.minus          { background-position:-380px -20px; }
 .reverse.geometry-linestring { background-position:-200px -20px; }

@@ -136,7 +136,7 @@ var ProjectView = Backbone.View.extend({
         'click .header a.save': 'saveProject',
         'click .header a.home': 'home',
         'click #tabs a.reference': 'reference',
-        'click .header a.options': 'projectOptions'
+        'click .header a.settings': 'settings'
     },
     initialize: function() {
         _.bindAll(this, 'render', 'saveProject',
@@ -231,7 +231,7 @@ var ProjectView = Backbone.View.extend({
     changed: function() {
         $('.header a.save', this.el).removeClass('disabled').addClass('changed').html('Save');
     },
-    projectOptions: function() {
+    settings: function() {
         new ProjectPopupView({ model: this.model });
         return false;
     }
@@ -245,13 +245,13 @@ var ProjectPopupView = PopupView.extend({
         var tabs = [];
         tabs.push({
             id: 'ProjectSettingsForm',
-            title: 'Settings',
+            title: 'Application',
             active: true,
             content: new ProjectSettingsForm({ model: window.app.settings })
         });
         tabs.push({
             id: 'ProjectFormatForm',
-            title: 'Format',
+            title: 'Project',
             content: new ProjectFormatForm({ model: this.model })
         });
         tabs.push({
@@ -265,7 +265,7 @@ var ProjectPopupView = PopupView.extend({
             content: new ProjectLegendForm({ model: this.model })
         });
         this.options.content = new TabsView({ tabs: tabs });
-        this.options.title = 'Project options';
+        this.options.title = 'Settings';
         PopupView.prototype.initialize.call(this, options);
     }
 });
