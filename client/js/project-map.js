@@ -5,7 +5,7 @@ var MapView = Backbone.View.extend({
     id: 'MapView',
     initialize: function() {
         _.bindAll(this, 'render', 'activate', 'controlZoom', 'reload',
-            'fullscreen', 'minimize', 'maximize');
+            'legend', 'fullscreen', 'minimize', 'maximize');
 
         // OpenLayers seems to fiercely associate maps with DOM element IDs.
         // Using a stable ID means that if it appears again (e.g. the project
@@ -18,7 +18,8 @@ var MapView = Backbone.View.extend({
         window.app.bind('ready', this.activate);
     },
     events: {
-        'click a.map-fullscreen': 'fullscreen'
+        'click a.map-fullscreen': 'fullscreen',
+        'click a.map-legend': 'legend'
     },
     render: function() {
         $(this.el).html(ich.MapView({ id: this.mapID }));
@@ -36,7 +37,11 @@ var MapView = Backbone.View.extend({
                 20037500,
                 20037500
             ),
-            controls: []
+            controls: [
+                new OpenLayers.Control.Navigation({ zoomWheelEnabled: true }),
+                new wax.ol.Interaction(),
+                new wax.ol.Legend()
+            ]
         };
 
         // Retrieve stored centerpoint from model and convert to map units.
@@ -67,33 +72,23 @@ var MapView = Backbone.View.extend({
         // Set the map's initial center point
         this.map.setCenter(new OpenLayers.LonLat(center.lon, center.lat), center.zoom);
 
-        // Add custom controls
-        var navigation = new OpenLayers.Control.Navigation({ zoomWheelEnabled: true });
-        this.map.addControl(navigation);
-        navigation.activate();
-
-        // Interaction: currently disabled.
-        var interaction = new wax.ol.Interaction();
-        this.map.addControl(interaction);
-        interaction.activate();
-
         this.controlZoom({element: this.map.div});
         this.map.events.register('moveend', this.map, this.controlZoom);
         this.map.events.register('zoomend', this.map, this.controlZoom);
 
         // Stop event propagation to the OL map.
-        $('#zoom-display div, a.map-fullscreen').mousedown(function(e) {
+        this.$('.control a').mousedown(function(e) {
             e.stopPropagation();
         });
-        $('#zoom-display div, a.map-fullscreen').mouseup(function(e) {
+        this.$('.control a').mouseup(function(e) {
             e.stopPropagation();
         });
-        $('#zoom-display .zoom-in').click($.proxy(function(e) {
+        this.$('a.zoom-in').click($.proxy(function(e) {
             e.stopPropagation();
             this.map.zoomIn();
             return false;
         }, this));
-        $('#zoom-display .zoom-out').click($.proxy(function(e) {
+        this.$('a.zoom-out').click($.proxy(function(e) {
             e.stopPropagation();
             this.map.zoomOut();
             return false;
@@ -101,17 +96,25 @@ var MapView = Backbone.View.extend({
 
         return this;
     },
+    legend: function() {
+        this.$('a.map-legend').toggleClass('active');
+        $(this.el).toggleClass('legend');
+        return false;
+    },
     fullscreen: function() {
+        this.$('a.map-fullscreen').toggleClass('active');
         $(this.el).toggleClass('fullscreen');
         this.map.updateSize();
         return false;
     },
     maximize: function() {
+        this.$('a.map-fullscreen').addClass('active');
         $(this.el).addClass('fullscreen');
         this.map.updateSize();
         return false;
     },
     minimize: function() {
+        this.$('a.map-fullscreen').removeClass('active');
         $(this.el).removeClass('fullscreen');
         this.map.updateSize();
         return false;
@@ -129,13 +132,17 @@ var MapView = Backbone.View.extend({
         center = { lat: lonlat.lat, lon: lonlat.lon, zoom: zoom };
         this.model.set({ _center: center }, { silent: true });
 
-        $('#zoom-display .zoom').text(this.map.getZoom());
+        this.$('.zoom-display .zoom').text(this.map.getZoom());
     },
     reload: function() {
         if (this.map.layers && this.map.layers && this.map.layers[0]) {
             this.map.layers[0].type = this.model.get('_format');
             this.map.layers[0].signature = +new Date;
             this.map.layers[0].redraw();
+            this.map.events.triggerEvent('changelayer', {
+                layer: this.map.layers[0],
+                property: 'visibility'
+            });
         }
     }
 });

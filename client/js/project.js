@@ -259,6 +259,11 @@ var ProjectPopupView = PopupView.extend({
             title: 'Interactivity',
             content: new ProjectInteractivityForm({ model: this.model })
         });
+        tabs.push({
+            id: 'ProjectLegendForm',
+            title: 'Legend',
+            content: new ProjectLegendForm({ model: this.model })
+        });
         this.options.content = new TabsView({ tabs: tabs });
         this.options.title = 'Project options';
         PopupView.prototype.initialize.call(this, options);
@@ -327,6 +332,28 @@ var ProjectFormatForm = Backbone.View.extend({
     }
 });
 
+var ProjectLegendForm = Backbone.View.extend({
+    events: {
+        'click input.submit': 'submit'
+    },
+    initialize: function(options) {
+        _.bindAll(this, 'render', 'submit');
+        this.render();
+    },
+    submit: function() {
+        var attr = { _legend: this.$('#legend').val() };
+        var success = this.model.set(attr, { 'error': this.showError });
+        success && this.model.view.saveProject();
+        return false;
+    },
+    render: function() {
+        $(this.el).html(ich.ProjectLegendForm({
+            legend: this.model.get('_legend')
+        }));
+        return this;
+    }
+});
+
 var ProjectInteractivityForm = Backbone.View.extend({
     events: {
         'click input.submit': 'submit',
@@ -338,7 +365,6 @@ var ProjectInteractivityForm = Backbone.View.extend({
     },
     submit: function() {
         var attr = {
-            _format: this.$('select#format').val(),
             _interactivity: {
                 layer: parseInt(this.$('#interactivity_layer').val(), 10),
                 key_name: this.$('#interactivity_key_name').val(),

@@ -94,7 +94,10 @@ module.exports = function(app, settings) {
         if (!res.project.get('_interactivity')) {
             res.send('Formatter not found', 404);
         } else {
-            var json = { formatter: res.project.formatterJS() };
+            var json = {
+                formatter: res.project.formatterJS(),
+                legend: res.project.get('_legend')
+            };
             res.send(json);
         }
     });

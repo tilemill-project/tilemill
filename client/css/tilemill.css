@@ -345,11 +345,11 @@ a.button:hover .icon.right {
 .icon.close          { background-position:-80px 0px; }
 .icon.values         { background-position:-100px 0px; }
 .icon.map-fullscreen { background-position:-120px 0px; }
+.icon.map-legend     { background-position:-280px 0px; }
 .icon.prev           { background-position:-140px 0px; }
 .icon.next           { background-position:-160px 0px; }
 .icon.add            { background-position:-180px 0px; }
 .icon.plus           { background-position:-180px 0px; }
-.icon.settings       { background-position:-280px 0px; }
 .icon.export         { background-position:-320px 0px; }
 .icon.reference      { background-position:-320px 0px;}
 .icon.dropdown       { background-position:-300px 0px; }
@@ -371,11 +371,11 @@ a.button:hover .icon.right {
 .reverse.close          { background-position:-80px -20px; }
 .reverse.values         { background-position:-100px -20px; }
 .reverse.map-fullscreen { background-position:-120px -20px; }
+.reverse.map-legend     { background-position:-280px -20px; }
 .reverse.prev           { background-position:-140px -20px; }
 .reverse.next           { background-position:-160px -20px; }
 .reverse.add            { background-position:-180px -20px; }
 .reverse.plus           { background-position:-180px -20px; }
-.reverse.home           { background-position:-280px -20px; }
 .reverse.export         { background-position:-320px -20px; }
 .reverse.reference      { background-position: -320px -20px;}
 .reverse.dropdown       { background-position:-300px -20px; }
@@ -923,9 +923,6 @@ ul.projects a:hover {
   bottom:0px;
   }
 
-#MapView div.olControlPanZoomBar { top:20px !important; }
-#MapView div.olControlPanZoom { top:20px !important; }
-
 #MapView.fullscreen {
   position:fixed;
   top:50px;
@@ -938,52 +935,87 @@ ul.projects a:hover {
   border:0px;
   }
 
+#MapView .olHandlerBoxZoomBox {
+  position:absolute;
+  background:url(../images/palette.png);
+  opacity:1;
+  border:0px;
+  font-size:1px;
+  }
+
 #MapView .control {
   background:url(../images/palette.png);
   height:20px;
+  padding:5px;
   position:absolute;
-  top:10px;
+  bottom:0px;
+  right:0px;
+  left:0px;
   z-index:1003;
-  -moz-border-radius:3px;
-  -webkit-border-radius:3px;
   }
 
 #MapView .reverse { background-color:transparent; }
 
-#MapView #map-fullscreen { right:10px; }
-#MapView #zoom-display { left:10px; }
+#MapView .control > a,
+#MapView .control > span { position:absolute; }
 
-#zoom-display label {
+#MapView .control a.active,
+#MapView .control a:hover {
+  background-color:#111;
+  box-shadow:#666 0px 0px 3px 1px;
+  -moz-box-shadow:#666 0px 0px 3px 1px;
+  -webkit-box-shadow:#666 0px 0px 3px 1px;
+  }
+
+#MapView .control a:active { margin-top:1px; }
+
+#MapView .zoom-display { left:10px; }
+#MapView .map-legend { right:31px; }
+#MapView .map-fullscreen { right:10px; }
+
+#MapView .wax-legends { display:none; }
+#MapView.legend .wax-legends { display:block; }
+
+.zoom-display label {
   font-size:11px;
   font-weight:bold;
   color:#eee;
   float:left;
-  padding:0px 5px;
+  padding:0px 10px 0px 0px;
   }
 
-#zoom-display .icon { float:left; }
-#zoom-display .icon:active { margin-top:1px; }
+.zoom-display .icon { float:left; }
 
-#MapView .olHandlerBoxZoomBox {
-  border:2px solid #000;
-  position:absolute;
-  background-color:#fff;
-  opacity:0.40;
-  font-size:1px;
-  filter:alpha(opacity=50);
-  }
-
-.wax-tooltip {
-  top:auto;
-  left:10px;
-  bottom:10px;
+/**
+ * Wax tooltips, legends ======================================================
+ */
+.wax-tooltip,
+.wax-legends .wax-legend {
+  left:0px;
+  top:0px;
 
   font-size:11px;
   padding:5px 10px;
   background:url(../images/palette.png);
-  border-radius:3px;
-  -moz-border-radius:3px;
-  -webkit-border-radius:3px;
+  border-radius:0px 0px 3px 0px;
+  -moz-border-radius:0px 0px 3px 0px;
+  -webkit-border-radius:0px 0px 3px 0px;
+  }
+
+.wax-tooltip a,
+.wax-legends .wax-legend a { color:#8cf; }
+
+.wax-legends {
+  bottom:auto;
+  left:auto;
+  top:0px;
+  right:0px;
+  }
+
+.wax-legends .wax-legend {
+  border-radius:0px 0px 0px 3px;
+  -moz-border-radius:0px 0px 0px 3px;
+  -webkit-border-radius:0px 0px 0px 3px;
   }
 
 .wax-popup { padding-right:30px; }

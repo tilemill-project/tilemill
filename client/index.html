@@ -31,7 +31,9 @@
     <script type='text/javascript' src='wax/lib/jquery.jsonp-2.1.4.js'></script>
     <script type='text/javascript' src='wax/control/lib/gridutil.js'></script>
     <script type='text/javascript' src='wax/control/lib/tooltip.js'></script>
+    <script type='text/javascript' src='wax/control/lib/legend.js'></script>
     <script type='text/javascript' src='wax/control/ol/interaction.js'></script>
+    <script type='text/javascript' src='wax/control/ol/legend.js'></script>
 
     <!-- shared server/client side js -->
     <script type='text/javascript' src='underscore/underscore-min.js'></script>
@@ -248,6 +250,21 @@
       </form>
     </script>
 
+    <script type='text/html' id='ProjectLegendForm'>
+      <form>
+        <ul class='form'>
+          <li>
+            <label for='format'>Map legend</label>
+            <textarea rows='10' id='legend'>{{{legend}}}</textarea>
+            <div class='description'>Map legend for clients that support MBTiles interactivity.</div>
+          </li>
+          <li class='buttons'>
+            <input class='submit' type='submit' value='Save' />
+          </li>
+        </ul>
+      </form>
+    </script>
+
     <script type='text/html' id='ProjectInteractivityForm'>
       <form>
         <ul class='form'>
@@ -356,13 +373,14 @@
 
     <script type='text/html' id='MapView'>
       <div id='map-preview-{{id}}'>
-        <div class='control' id='map-fullscreen'>
+        <div class='control'>
           <a class='icon reverse map-fullscreen' href='#'>Fullscreen</a>
-        </div>
-        <div class='control' id='zoom-display'>
-          <label>Zoom <span class='zoom'></span></label>
-          <a href='#' class='icon reverse plus zoom-in'></a>
-          <a href='#' class='icon reverse minus zoom-out'></a>
+          <a class='icon reverse map-legend' href='#'></a>
+          <span class='zoom-display'>
+            <label>Zoom <span class='zoom'></span></label>
+            <a href='#' class='icon reverse plus zoom-in'></a>
+            <a href='#' class='icon reverse minus zoom-out'></a>
+          </span>
         </div>
       </div>
     </script>
