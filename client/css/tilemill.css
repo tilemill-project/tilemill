@@ -10,8 +10,8 @@ a {
 
 a:hover { color:#333; }
 
-h1 { font-size:20px; }
-h2 { font-size:16px; }
+h1 { font-size:18px; }
+h2 { font-size:15px; }
 h3 { font-size:13px; }
 
 .overlay {
@@ -37,7 +37,7 @@ h3 { font-size:13px; }
   background:url(../images/swirly.gif) 50% 0% no-repeat;
   color:#666;
   font-weight:bold;
-  font-size:16px;
+  font-size:15px;
   }
 
 .error-page {
@@ -73,7 +73,7 @@ h3 { font-size:13px; }
 
 .header h1 {
   color:#f8f8f8;
-  text-shadow:#444 0px 1px 1px;
+  text-shadow:#333 0px 1px 0px;
   margin-right:20px;
   }
 
@@ -82,7 +82,17 @@ h3 { font-size:13px; }
   color:#f8f8f8;
   }
 
-.header h1 .next { margin:0px 5px; }
+.header h1 .logo {
+  float:left;
+  background-color:transparent;
+  background-position:-20px -270px;
+  margin-right:5px;
+  }
+
+.header h1 .separator {
+  background-position:-40px -270px;
+  margin:0px 5px;
+  }
 
 .header .actions a {
   font-weight:bold;
@@ -186,7 +196,7 @@ h3 { font-size:13px; }
   display:block;
   padding:15px 10px 14px 60px;
   border-bottom:1px solid #ddd;
-  font-size:16px;
+  font-size:15px;
   font-weight:bold;
   color:#666;
   }
@@ -286,6 +296,7 @@ h3 { font-size:13px; }
  */
 .file,
 .icon,
+.logo,
 .wax-tooltip .close {
   display:block;
   padding:0px;
@@ -693,7 +704,7 @@ ul.projects a {
   max-width:240px;
 
   font-weight:bold;
-  font-size:16px;
+  font-size:15px;
   text-shadow:#eee 0px 1px 0px;
   background:#ddd;
   box-shadow:#999 0px 1px 3px;
