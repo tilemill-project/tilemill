@@ -30,17 +30,17 @@ module marijnh CodeMirror2
 module garycourt JSV
 module douglascrockford JSON-js
 module dankogai js-base64
-module mapbox wax 1.0.0
 
 # built modules
 module springmeyer node-srs 0.1.1 srs
 module springmeyer node-zipfile 0.1.6 zipfile
-module developmentseed node-sqlite3 2.0.3 sqlite3
+module developmentseed node-sqlite3 2.0.5 sqlite3
 module kkaefer node-compress v0.1.10-a compress
 module mapnik node-mapnik 0.2.9 mapnik
 
 # needs tag
 module mapbox tilelive.js master
+module mapbox wax master
 
 # module layout workarounds
 cd $ROOT
