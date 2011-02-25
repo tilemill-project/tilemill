@@ -147,15 +147,9 @@ var StylesheetTabView = Backbone.View.extend({
                     self.model.set({'data': self.codemirror.getValue()});
                 },
                 onChange: function() {
-                    // Trigger event on the project
-                    self.model.collection.parent.trigger('codeMirrorChange');
                     // onchange runs before this function is finished,
                     // so self.codemirror is false.
                     self.codemirror && self.model.set({'data': self.codemirror.getValue()});
-                },
-                initCallback: function(cm) {
-                    self.model.collection.parent.trigger('ready');
-                    $(cm.frame).attr('name', 'codemirror');
                 }
             });
             // Handle ctrl-S
@@ -166,6 +160,8 @@ var StylesheetTabView = Backbone.View.extend({
                     return false;
                 }
             });
+            // Trigger ready event
+            this.model.collection.parent.trigger('ready');
         }
     },
     del: function() {

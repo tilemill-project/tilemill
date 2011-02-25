@@ -124,8 +124,8 @@ var ColorSwatchList = Backbone.Collection.extend({
     initialize: function(models, options) {
         _.bindAll(this, 'reload');
         this.project = options.project;
-        this.project.bind('codeMirrorChange', this.reload);
         this.project.bind('ready', this.reload);
+        this.project.bind('change:Stylesheet', this.reload);
     },
     reload: function() {
         // Find all color-like strings in all of the stylesheets
@@ -206,7 +206,7 @@ var ColorSwatchListView = Backbone.View.extend({
     activate: function() {
         var that = this,
             visible = false;
-        this.colorpicker = $('a', this.el).ColorPicker({
+        this.colorpicker = this.$('a.color-picker').ColorPicker({
             eventName: 'toggle',
             onChange: that.pickerChange,
             onShow: that.pickerShow,
@@ -215,8 +215,7 @@ var ColorSwatchListView = Backbone.View.extend({
             if (!visible) {
                 $(this).trigger('toggle');
                 visible = true;
-            }
-            else {
+            } else {
                 visible = false;
             }
             return false;
@@ -229,8 +228,7 @@ var ColorSwatchListView = Backbone.View.extend({
         this.colorChanged = hex;
     },
     pickerShow: function() {
-        var selection = this.project.view.stylesheets
-            .activeTab.codemirror.selection();
+        var selection = this.project.view.stylesheets.activeTab.codemirror.getSelection();
         if (selection.match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
             $(this.colorpicker).ColorPickerSetColor(
                 selection.substring(1, selection.length));
@@ -273,12 +271,11 @@ var ColorSwatchView = Backbone.View.extend({
     },
     insertHex: function() {
         var mirror = this.project.view.stylesheets.activeTab.codemirror;
-        var pos = mirror.cursorPosition();
+        var pos = mirror.getCursor();
         var hex = this.model.get('hex');
-        if (mirror.lineContent(pos.line).charAt(pos.character - 1) == '#') {
+        if (mirror.getLine(pos.line).charAt(pos.ch - 1) === '#') {
             mirror.replaceSelection(hex.slice(1));
-        }
-        else {
+        } else {
             mirror.replaceSelection(hex);
         }
         $(mirror).focus();
