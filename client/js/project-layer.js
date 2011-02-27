@@ -138,8 +138,8 @@ var LayerPopupView = PopupView.extend({
         'click a.assets': 'assets',
         'change select#srs-name': 'selectSRS'
     }, PopupView.prototype.events),
-    initialize: function(params) {
-        _.bindAll(this, 'render', 'submit', 'assets', 'selectSRS');
+    initialize: function(options) {
+        _.bindAll(this, 'submit', 'assets', 'selectSRS');
         this.model = this.options.model;
         this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
 
@@ -152,7 +152,7 @@ var LayerPopupView = PopupView.extend({
         object['srs'] = this.model.get('srs');
         object['srs_name_' + this.model.srsName()] = true;
         this.options.content = ich.LayerPopupView(object, true);
-        this.render();
+        PopupView.prototype.initialize.call(this, options);
     },
     submit: function() {
         var that = this;

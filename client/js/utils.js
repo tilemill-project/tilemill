@@ -79,8 +79,11 @@ Status.prototype.stop = function() {
 // - `this.options.className` an additional HTML class to attach to
 //   the popup div.
 var PopupView = Backbone.View.extend({
+    events: {
+        'click .close': 'close'
+    },
     initialize: function () {
-        _.bindAll(this, 'render');
+        _.bindAll(this, 'render', 'done', 'loading', 'close', 'showError');
         this.render();
     },
     render: function () {
@@ -112,10 +115,8 @@ var PopupView = Backbone.View.extend({
         window.app.activePopup = false;
         return false;
     },
-    events: {
-        'click .close': 'close'
-    },
     showError: function(model, error) {
+        this.done();
         window.app.message('Error', error);
     }
 });
