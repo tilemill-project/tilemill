@@ -28,7 +28,7 @@ module.exports = function(app, settings) {
                         file: file
                     }, external.type.ds_options));
                 } catch (e) {
-                    return next('The datasource could not be loaded.');
+                    return next('Datasource could not be loaded.');
                 }
                 if (external.type.ds_options.type !== 'gdal') {
                     res.datasource = _.extend({
