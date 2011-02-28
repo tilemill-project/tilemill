@@ -270,9 +270,11 @@ var ColorSwatchView = Backbone.View.extend({
        return this;
     },
     insertHex: function() {
-        var mirror = this.project.view.stylesheets.activeTab.codemirror;
-        var pos = mirror.getCursor();
-        var hex = this.model.get('hex');
+        if (window.app.settings.get('mode') === 'minimal') return false;
+
+        var mirror = this.project.view.stylesheets.activeTab.codemirror,
+            pos = mirror.getCursor();
+            hex = this.model.get('hex');
         if (mirror.getLine(pos.line).charAt(pos.ch - 1) === '#') {
             mirror.replaceSelection(hex.slice(1));
         } else {
@@ -294,10 +296,7 @@ var FontPicker = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this, 'render', 'insertFont');
         this.project = options.project;
-        this.model.fetch({
-            success: this.render,
-            error: this.render
-        });
+        this.render();
     },
     render: function() {
         $(this.el).html(ich.FontPicker({
@@ -339,6 +338,8 @@ var FontPicker = Backbone.View.extend({
         .blur();
     },
     insertFont: function(ev) {
+        if (window.app.settings.get('mode') === 'minimal') return false;
+
         var mirror = this.project.view.stylesheets.activeTab.codemirror,
             value = this.$(ev.target).text();
         mirror.replaceSelection('"' + value + '"');
