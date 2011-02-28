@@ -18,6 +18,7 @@ module felixge node-dirty v0.9.1
 module tmcw node-get 0.1.0
 module developmentseed backbone-dirty 0.0.3
 module mapbox tilelive.js 2.0.0
+module mapbox carto 0.1.2
 
 # client-side only
 module developmentseed openlayers_slim v1.9
@@ -25,13 +26,12 @@ module headjs headjs v0.8
 module andyet ICanHaz.js v0.7
 module jaz303 tipsy v1.0.0a
 module mapbox wax 1.0.1
+module marijnh CodeMirror2 beta2
 
 # needs tag
-module marijnh CodeMirror2
 module garycourt JSV
 module douglascrockford JSON-js
 module dankogai js-base64
-module mapbox carto master
 
 # built modules
 module springmeyer node-srs 0.1.1 srs
