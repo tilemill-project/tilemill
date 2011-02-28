@@ -8,12 +8,11 @@
 <body>
 <table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
 <tr><td><b>Test Suite</b></td></tr>
-<tr><td><a href="AboutBoxTestCase">AboutBoxTestCase</a></td></tr>
-<tr><td><a href="ProjectCreationTestCase">ProjectCreationTestCase</a></td></tr>
 <tr><td><a href="LayersTestCase">LayersTestCase</a></td></tr>
 <tr><td><a href="StyleSheetCreationTestCase">StyleSheetCreationTestCase</a></td></tr>
 <tr><td><a href="ToolsTestCase">ToolsTestCase</a></td></tr>
 <tr><td><a href="ProjectRemovalTestCase">ProjectRemovalTestCase</a></td></tr>
+<tr><td><a href="CreateProjectTestCase">CreateProjectTestCase</a></td></tr>
 </tbody></table>
 </body>
 </html>
