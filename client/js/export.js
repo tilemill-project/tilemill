@@ -403,6 +403,9 @@ var ExportDropdownView = DropdownView.extend({
         if (!this.FORMAT[format]) {
             window.app.message('Error', 'Unsupported export format.', 'error');
         } else {
+            // Close all drawers. This is quite a hack, but better than the
+            // other options atm...
+            $('.drawer a.close').click();
             new this.FORMAT[format]({
                 model: new Export({
                     project: this.project.id,
