@@ -17,12 +17,14 @@ module willwhite node-worker 0.0.1
 module felixge node-dirty v0.9.1
 module tmcw node-get 0.1.0
 module developmentseed backbone-dirty 0.0.3
+module mapbox tilelive.js 2.0.0
 
 # client-side only
 module developmentseed openlayers_slim v1.9
 module headjs headjs v0.8
 module andyet ICanHaz.js v0.7
 module jaz303 tipsy v1.0.0a
+module mapbox wax 1.0.1
 
 # needs tag
 module marijnh CodeMirror2
@@ -37,10 +39,6 @@ module springmeyer node-zipfile 0.1.6 zipfile
 module developmentseed node-sqlite3 2.0.5 sqlite3
 module kkaefer node-compress v0.1.10-a compress
 module mapnik node-mapnik 0.2.10 mapnik
-
-# needs tag
-module mapbox tilelive.js master
-module mapbox wax master
 
 # module layout workarounds
 cd $ROOT
