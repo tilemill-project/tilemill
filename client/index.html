@@ -533,7 +533,7 @@
 
         <p>A simple carto style looks like</p>
 
-        <pre>#world {
+        <pre class='carto-snippet'>#world {
   polygon-fill: #eee;
   line-color: #ccc;
   line-width: 0.5;
@@ -552,7 +552,7 @@
 
         <p>The order of selectors does not matter as there is no hierarchical structure in maps. Separating selector parts with spaces is optional. The following selectors are thus equivalent:</p>
 
-        <pre>#world [NAME='USA'] .red [zoom &gt; 10]
+        <pre class='carto-snippet'>#world [NAME='USA'] .red [zoom &gt; 10]
 [zoom &gt; 10].red#world[NAME='USA']
 [NAME='USA'] [zoom &gt; 10] #world.red</pre>
 
@@ -560,7 +560,7 @@
 
         <p>TileMill allows you to arbitarily nest styles. All elements are added to create a combining selector. The order of elements in a selector is not of importance.</p>
 
-        <pre>/* Applies to all layers with .land class */
+        <pre class='carto-snippet'>/* Applies to all layers with .land class */
 .land {
   line-color: #ccc;
   line-width: 0.5;
@@ -573,7 +573,7 @@
 
         <p>This can be a convenient way to group style changes by zoom level:</p>
 
-        <pre>[zoom &gt; 1] {
+        <pre class='carto-snippet'>[zoom &gt; 1] {
   /* Applies to all layers at zoom &gt; 1 */
   polygon-gamma: 0.3;
   #world {
@@ -588,7 +588,7 @@
 
         <p>By default, if you set a style rule, it overrides any previous style rules. However, sometimes you want to add multiple instances of a style, like in the case of a road border, country outline or for glow effects.</p>
 
-        <pre>#world {
+        <pre class='carto-snippet'>#world {
   ::outline {
     line-color: #000;
     line-width: 6;
@@ -602,7 +602,7 @@
 
         <p>When nesting attachments, they are concatenated together with a <code>/</code>:</p>
 
-        <pre>::outline {
+        <pre class='carto-snippet'>::outline {
   ::shadow {
     /* creates a symbolizer named "outline/shadow" */
   }
@@ -612,7 +612,7 @@
 
         <p>You can define variables in stylesheets by prefixing an alphanumeric name with <code>@</code>, and use expressions to modify them. You can also apply operations to color names.</p>
 
-        <pre>@green: #2B4D2D;
+        <pre class='carto-snippet'>@green: #2B4D2D;
 
 Map {
   background-color: @green;

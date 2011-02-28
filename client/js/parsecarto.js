@@ -1,5 +1,6 @@
 CodeMirror.defineMode('carto', function(config, parserConfig) {
   var indentUnit = config.indentUnit, type;
+  if (!parserConfig.reference) throw "Reference required.";
 
   var valid_identifiers = (function(reference) {
     var ids = {};
