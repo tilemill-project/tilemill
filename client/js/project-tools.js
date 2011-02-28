@@ -240,11 +240,11 @@ var ColorSwatchListView = Backbone.View.extend({
     pickerHide: function(hsb, hex, rgb) {
         if (this.colorChanged) {
             var mirror = this.project.view.stylesheets.activeTab.codemirror;
-            if (mirror.selection()
+            if (mirror.getSelection()
                 .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g)) {
                 mirror.replaceSelection('#' + this.colorChanged);
             }
-            else if (mirror.selection()
+            else if (mirror.getSelection()
                 .match(/^[A-Fa-f0-9]{6}\b|^[A-Fa-f0-9]{3}\b/g)) {
                 mirror.replaceSelection(this.colorChanged);
             }
