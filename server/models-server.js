@@ -18,6 +18,11 @@ models.Project.prototype.sync = function(method, model, success, error) {
     switch (method) {
     case 'read':
         if (model.id) {
+            // Loading a project model is not trivial in cost like backbone
+            // dirty models. We set a flag to indicate that this project has
+            // been fetched for any callers who might want to reduce the
+            // number of fetch calls made if possible.
+            model._fetched = true;
             loadProject(model, function(err, model) {
                 return err ? error(err) : success(model);
             });

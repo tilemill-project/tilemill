@@ -8,16 +8,19 @@ var _ = require('underscore'),
 module.exports = function(app, settings) {
     // Route middleware. Load a project model.
     var loadProject = function(req, res, next) {
-        var model = cache.get('Project', req.param('id'));
-        model.fetch({
-            success: function(model, resp) {
-                res.project = model;
-                next();
-            },
-            error: function(model, resp) {
-                next(new Error('Invalid model'));
-            }
-        });
+        res.project = cache.get('Project', req.param('id'));
+        if (res.project._fetched) {
+            return next();
+        } else {
+            res.project.fetch({
+                success: function(model, resp) {
+                    next();
+                },
+                error: function(model, resp) {
+                    next(new Error('Invalid model'));
+                }
+            });
+        }
     };
 
     // GET endpoint for TMS tile image requests. Uses `tilelive.js` Tile API.
