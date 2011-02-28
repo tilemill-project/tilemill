@@ -765,7 +765,10 @@ ul.projects a:hover {
 
 .minimal #ProjectView .sidebar { width:100%; }
 .minimal #ProjectView a.save,
-.minimal #ProjectView .main { display:none; }
+.minimal #ProjectView .view,
+.minimal .tab-ProjectFormatForm,
+.minimal .tab-ProjectInteractivityForm,
+.minimal .tab-ProjectLegendForm { display:none; }
 
 .column h2,
 .popup-header { background:url(../images/sprite.png) 0px -320px repeat-x;}
@@ -923,13 +926,13 @@ ul.projects a:hover {
   bottom:0px;
   }
 
+body.minimal #MapView,
 #MapView.fullscreen {
   position:fixed;
   top:50px;
   left:0px;
   right:0px;
   bottom:0px;
-  z-index:5;
   width:auto;
   height:auto;
   border:0px;
@@ -1038,16 +1041,13 @@ ul.projects a:hover {
   background:#eee url(../images/sprite.png) 0px -490px repeat-x;
   }
 
-#tabs .tabs { padding-right:70px; }
+#tabs .tabs { padding-right:40px; }
 
-#tabs a.add,
-#tabs a.reference {
+#tabs a.add {
   position:absolute;
   top:10px;
+  right:10px;
   }
-
-#tabs a.reference { right:10px; }
-#tabs a.add { right:40px; }
 
 #tabs a.tab span.delete {
   background-color:transparent;

@@ -195,6 +195,7 @@
         <div class='actions clearfix'>
           <a class='save disabled' href='#'>Saved</a>
           <a class='tipsy-e icon settings' title='Settings' href='#'>Settings</a>
+          <a class='tipsy-e icon reference' title='Carto reference' href='#'>Reference</a>
         </div>
       </div>
       <div class='main'></div>
@@ -384,7 +385,6 @@
       <div id='tabs'>
         <div class='tabs clearfix'></div>
         <a title='Add stylesheet' class='tipsy-e icon reverse add' href='#'>Add stylesheet</a>
-        <a title='Stylesheet reference guide' class='tipsy-e icon reverse reference' href='#'>Reference</a>
       </div>
       <div id='editor' class='view'></div>
     </script>
@@ -401,7 +401,7 @@
     <script type='text/html' id='TabsView'>
       <div class='tabs clearfix'>
         {{#tabs}}
-          <a href='#{{id}}' class='tab {{#active}}active{{/active}}'>{{title}}</a>
+          <a href='#{{id}}' class='tab tab-{{id}} {{#active}}active{{/active}}'>{{title}}</a>
         {{/tabs}}
       </div>
       <div class='panes clearfix'></div>

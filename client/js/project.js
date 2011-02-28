@@ -135,7 +135,7 @@ var ProjectView = Backbone.View.extend({
     events: {
         'click .header a.save': 'saveProject',
         'click .header a.home': 'home',
-        'click #tabs a.reference': 'reference',
+        'click .header a.reference': 'reference',
         'click .header a.settings': 'settings'
     },
     initialize: function() {
@@ -168,9 +168,9 @@ var ProjectView = Backbone.View.extend({
             project: this.model,
             map: this.views.map
         });
-        this.$('.sidebar').append(this.views.map.el);
         this.$('.sidebar').append(this.views.layers.el);
         this.$('.sidebar').append(this.views.tools.el);
+        this.$('.sidebar').append(this.views.map.el);
         this.$('.main').append(this.views.stylesheets.el);
         this.$('.header .actions a.save').after(this.views.exportDropdown.el);
         this.setMinimal(); // set minimal/normal mode
