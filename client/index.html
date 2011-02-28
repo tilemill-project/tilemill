@@ -608,6 +608,28 @@
   }
 }</pre>
 
+        <h2>Values</h2>
+        <p>Different properties in carto accept different types of values - colors, dimensions, and more.</p>
+
+        <h4>Colors</h4>
+        <pre class='carto-snippet'>#line {
+    line-color: #ff0;
+    line-color: #ffff00;
+    line-color: rgb(255, 255, 0);
+    line-color: rgba(255, 255, 0, 1);
+    line-color: yellow;
+}</pre>
+
+        <h4>Dimensions</h4>
+        <p>Dimensions in carto are always pixels; no <code>px</code> suffix is needed. Pixel dimensions are noted in the reference as <code>float</code> values.</p>
+
+        <pre class='carto-snippet'>line-width: 5; // 5px</pre>
+
+        <h4>Keywords</h4>
+        <p>Some properties accept keyword arguments, which should be entered literally</p>
+
+        <pre class='carto-snippet'>raster-mode: normal;</pre>
+
         <h2>Variables &amp; Expressions</h2>
 
         <p>You can define variables in stylesheets by prefixing an alphanumeric name with <code>@</code>, and use expressions to modify them. You can also apply operations to color names.</p>
