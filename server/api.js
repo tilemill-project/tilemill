@@ -219,9 +219,8 @@ module.exports = function(app, settings) {
             .digest('hex')
             .substring(0,6);
         var model = cache.get(req.param('model'), id);
-        model.set(req.body);
         if (req.param('model') === 'Project') {
-            model.validateAsync({
+            model.validateAsync(req.body, {
                 success: function(model) {
                     model.save(req.body, {
                         success: function(model, resp) { res.send(model.toJSON()) },
@@ -245,9 +244,8 @@ module.exports = function(app, settings) {
     // PUT endpoint for all Backbone models.
     app.put('/api/:model/:id', validateModel, function(req, res, next) {
         var model = cache.get(req.param('model'), req.param('id'));
-        model.set(req.body);
         if (req.param('model') === 'Project') {
-            model.validateAsync({
+            model.validateAsync(req.body, {
                 success: function(model) {
                     model.save(req.body, {
                         success: function(model, resp) { res.send(model.toJSON()) },

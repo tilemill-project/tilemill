@@ -400,7 +400,7 @@ var Project = Backbone.Model.extend({
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent
     // with other Backbone methods.
-    validateAsync: function(options) {
+    validateAsync: function(attributes, options) {
         // If client-side, pass-through.
         if (typeof require === 'undefined') {
             return options.success(this, null);
@@ -423,7 +423,7 @@ var Project = Backbone.Model.extend({
 
         // Hard clone the model JSON before rendering as rendering will change
         // properties (e.g. localize a datasource URL to the filesystem).
-        var data = JSON.parse(JSON.stringify(this.toJSON()));
+        var data = JSON.parse(JSON.stringify(attributes));
         new carto.Renderer(env)
             .render(data, function(err, output) {
             if (err) {
