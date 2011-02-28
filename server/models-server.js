@@ -52,22 +52,31 @@ function loadProject(model, callback) {
     var object;
     Step(
         function() {
+            fs.stat(
+                path.join(modelPath, model.id) + '.mml',
+                this.parallel()
+            );
             fs.readFile(
                 path.join(modelPath, model.id) + '.mml',
                 'utf-8',
-                this
+                this.parallel()
             );
         },
-        function(err, data) {
+        function(err, stat, data) {
             if (err || !data) throw new Error('Error reading model file.');
 
             // Set the object ID explicitly for multiple-load scenarios where
             // model parse()/set() is bypassed.
             object = JSON.parse(data);
             object.id = model.id;
+            object._updated = + stat.mtime;
             if (object.Stylesheet && object.Stylesheet.length > 0) {
                 var group = this.group();
                 _.each(object.Stylesheet, function(filename, index) {
+                    fs.stat(
+                        path.join(modelPath, filename),
+                        group()
+                    );
                     fs.readFile(
                         path.join(modelPath, filename),
                         'utf-8',
@@ -78,9 +87,24 @@ function loadProject(model, callback) {
                 this();
             }
         },
-        function(err, files) {
+        function(err, data) {
             if (err) return callback(err);
 
+            // Retrive the most current modified time from all stylesheets and
+            // set to project modified time if more current than project mml.
+            var mtime = _(data).chain()
+                .pluck('mtime')
+                .filter(_.isDate)
+                .map(function(date) { return + date })
+                .max()
+                .value();
+            (mtime > object._updated) && (object._updated = mtime);
+            object._updated = parseInt(object._updated);
+
+            // Unpack content of loaded Stylesheets into project object.
+            var files = _(data).chain()
+                .filter(_.isString)
+                .value();
             if (object.Stylesheet && files) {
                 object.Stylesheet = _.reduce(
                     object.Stylesheet,
@@ -242,9 +266,8 @@ function saveProject(model, callback) {
             // based on writing separate stylesheets.
             var data = JSON.parse(JSON.stringify(model.toJSON()));
             var files = [];
-            if (data.id) {
-                delete data.id;
-            }
+            if (data.id) delete data.id;
+            if (data._updated) delete data._updated;
             if (data.Stylesheet) {
                 _.each(data.Stylesheet, function(stylesheet, key) {
                     if (stylesheet.id) {
@@ -271,7 +294,10 @@ function saveProject(model, callback) {
             }
         },
         function() {
-            callback(null, model);
+            fs.stat(path.join(modelPath, model.id + '.mml'), this);
+        },
+        function(err, stat) {
+            callback(null, {_updated: + stat.mtime});
         }
     );
 }

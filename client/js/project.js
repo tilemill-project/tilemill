@@ -94,7 +94,7 @@ var ProjectRowView = Backbone.View.extend({
         var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2,z));
         return window.app.baseURL()
             + ['1.0.0', this.model.id, z, x, y].join('/')
-            + '.png?updated=' +new Date;
+            + '.png?updated=' + this.model.get('_updated');
     },
     render: function() {
         $(this.el).html(ich.ProjectRowView({
@@ -232,8 +232,7 @@ var ProjectView = Backbone.View.extend({
             this.watcher = new Watcher(this.model, function() {
                 that.model.trigger('save');
             });
-        }
-        else if (this.watcher) {
+        } else if (this.watcher) {
             $('body').removeClass('minimal');
             this.watcher.destroy();
         }

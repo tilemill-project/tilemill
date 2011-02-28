@@ -65,7 +65,7 @@ var MapView = Backbone.View.extend({
             buffer: 0,
             transitionEffect: 'resize',
             wrapDateLine: true,
-            signature: +new Date
+            signature: this.model.get('_updated')
         });
         this.map.addLayers([this.layer]);
 
@@ -137,7 +137,7 @@ var MapView = Backbone.View.extend({
     reload: function() {
         if (this.map.layers && this.map.layers && this.map.layers[0]) {
             this.map.layers[0].type = this.model.get('_format');
-            this.map.layers[0].signature = +new Date;
+            this.map.layers[0].signature = this.model.get('_updated');
             this.map.layers[0].redraw();
             this.map.events.triggerEvent('changelayer', {
                 layer: this.map.layers[0],
