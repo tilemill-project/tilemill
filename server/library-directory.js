@@ -94,7 +94,7 @@ module.exports = function(app, options, callback) {
     // Generate the AssetList payload object.
     lsR(options.directory_path, function(err, files) {
         var assets = toAssets(
-            lsFilter(files, /(.zip|.json|.geojson|.shp|.vrt|.tiff?)/i),
+            lsFilter(files, /\.(zip|json|geojson|vrt|tiff?)$/i),
             options.directory_path,
             require('settings').port
         );
