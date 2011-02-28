@@ -294,3 +294,19 @@ var ErrorView = Backbone.View.extend({
     }
 });
 
+// Very basic utility for highlighting code snippets on a page
+// with the carto highlighter.
+var ReferenceSnippets = function() {
+    $('pre.carto-snippet').each(function(i, elem) {
+        CodeMirror(function(elt) {
+            $(elem).replaceWith(elt);
+        }, {
+            readOnly: true,
+            mode: {
+                name: 'carto',
+                reference: window.app.reference.toJSON()
+            },
+            value: $(elem).text()
+        });
+    });
+};

@@ -1315,7 +1315,7 @@ table.features .Number { text-align:right; }
 
 .reference-section p { margin:0px 0px 20px; }
 
-.reference-section pre,
+.reference-section .CodeMirror,
 .reference-section code {
   background-color:#f8f8f8;
   border:1px solid #fff;
@@ -1323,7 +1323,7 @@ table.features .Number { text-align:right; }
   padding:0px 2px;
   }
 
-.reference-section pre {
+.reference-section .CodeMirror {
   padding:9px;
   margin:0px 0px 20px;
   }
