@@ -8,21 +8,27 @@
 // - `interval` interval to polling the server (in milliseconds)
 var Watcher = function(model, callback, interval) {
     _.bindAll(this, 'fetch', 'destroy');
-    var model = model;
+    var that = this;
     this.model = model;
-    this.model.bind('change', this.fetch);
     this.callback = callback;
     this.interval = interval || 1000;
     this.current = JSON.stringify(this.model);
-    this.watcher = setInterval(function() { model.fetch(); }, this.interval);
+    this.watcher = setInterval(this.fetch, this.interval);
 };
 
 Watcher.prototype.fetch = function() {
-    var state = JSON.stringify(this.model);
-    if (this.current !== state) {
-        this.current = state;
-        this.callback && this.callback();
-    }
+    var that = this;
+    this.model.fetch({
+        silent:true,
+        success: function() {
+            var state = JSON.stringify(that.model);
+            if (that.current !== state) {
+                that.current = state;
+                that.callback && that.callback();
+            }
+        },
+        error: function() {}
+    });
 };
 
 Watcher.prototype.destroy = function() {

@@ -339,6 +339,9 @@ var Project = Backbone.Model.extend({
             },
             '_interactivity': {
                 'type': ['object', 'boolean']
+            },
+            '_updated': {
+                'type': 'integer'
             }
         }
     },
@@ -385,14 +388,16 @@ var Project = Backbone.Model.extend({
     },
     // Instantiate StylesheetList and LayerList collections from JSON lists
     // of plain JSON objects.
-    parse: function(response) {
-        var self = this;
-        response.Stylesheet = new StylesheetList(response.Stylesheet ?
-                response.Stylesheet :
-                [], { parent: this });
-        response.Layer = new LayerList(response.Layer ?
-                response.Layer : [], { parent: this });
-        return response;
+    parse: function(resp) {
+        resp.Stylesheet && (resp.Stylesheet = new StylesheetList(
+            resp.Stylesheet,
+            {parent: this}
+        ));
+        resp.Layer && (resp.Layer = new LayerList(
+            resp.Layer,
+            {parent: this}
+        ));
+        return resp;
     },
     url: function() {
         return 'api/Project/' + this.id;
