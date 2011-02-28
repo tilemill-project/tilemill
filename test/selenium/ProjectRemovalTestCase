@@ -13,7 +13,7 @@
 </thead><tbody>
 <tr>
 	<td>click</td>
-	<td>link=Back home</td>
+	<td>link=TileMill</td>
 	<td></td>
 </tr>
 <tr>
@@ -22,18 +22,38 @@
 	<td></td>
 </tr>
 <tr>
-	<td>waitForElementPresent</td>
-	<td>//div[@class='main']//ul/li/a/span[2]</td>
+	<td>verifyTextPresent</td>
+	<td>Delete</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>//div[@class='main']//ul/li/a/span[2]</td>
+	<td>//div[@id='ProjectListView']/ul/li/a[@href='#project/selenium_demo']/span[@class='icon delete']</td>
 	<td></td>
 </tr>
 <tr>
 	<td>assertConfirmation</td>
 	<td>Are you sure you want to delete this project?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextNotPresent</td>
+	<td>selenium_demo</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='ProjectListView']/ul/li/a[@href='#project/selenium_otherdemo']/span[@class='icon delete']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertConfirmation</td>
+	<td>Are you sure you want to delete this project?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextNotPresent</td>
+	<td>selenium_otherdemo</td>
 	<td></td>
 </tr>
 </tbody></table>
