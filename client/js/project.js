@@ -134,17 +134,18 @@ var ProjectView = Backbone.View.extend({
     id: 'ProjectView',
     events: {
         'click .header a.save': 'saveProject',
-        'click .header a.home': 'home',
+        'click .header a.home': 'confirm',
         'click .header a.reference': 'reference',
         'click .header a.settings': 'settings'
     },
     initialize: function() {
-        _.bindAll(this, 'render', 'saveProject',
-            'home', 'minimal', 'changed', 'reference', 'setMinimal');
+        _.bindAll(this, 'render', 'saveProject', 'confirm',  'unload',
+            'reference', 'setChanged', 'setMinimal', 'settings');
         window.app.settings.bind('change', this.setMinimal);
         this.views = {};
+        this.changed = false;
         this.model.view = this;
-        this.model.bind('change', this.changed);
+        this.model.bind('change', this.setChanged);
         this.render();
     },
     render: function() {
@@ -174,6 +175,7 @@ var ProjectView = Backbone.View.extend({
         this.$('.main').append(this.views.stylesheets.el);
         this.$('.header .actions a.save').after(this.views.exportDropdown.el);
         this.setMinimal(); // set minimal/normal mode
+        $(window).bind('beforeunload', this.unload);
         return this;
     },
     saveProject: function() {
@@ -182,7 +184,11 @@ var ProjectView = Backbone.View.extend({
         this.model.save(this.model, {
             success: function() {
                 that.model.trigger('save');
-                $('.header a.save', self.el).removeClass('changed').addClass('disabled').html('Saved');
+                that.changed = false;
+                that.$('.header a.save')
+                    .removeClass('changed')
+                    .addClass('disabled')
+                    .html('Saved');
             },
             error: function(err, data) {
                 if (typeof data === 'string') {
@@ -195,8 +201,13 @@ var ProjectView = Backbone.View.extend({
         $('.tipsy').remove();
         return false;
     },
-    home: function() {
-        if (!$('.header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
+    unload: function() {
+        if (this.changed) {
+            return 'You have unsaved changes. Are you sure you want to close this project?';
+        }
+    },
+    confirm: function() {
+        if (!this.$('.header a.save').is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
             this.watcher && this.watcher.destroy();
             return true;
         }
@@ -228,8 +239,12 @@ var ProjectView = Backbone.View.extend({
         }
         return false;
     },
-    changed: function() {
-        $('.header a.save', this.el).removeClass('disabled').addClass('changed').html('Save');
+    setChanged: function() {
+        this.changed = true;
+        this.$('.header a.save')
+            .removeClass('disabled')
+            .addClass('changed')
+            .html('Save');
     },
     settings: function() {
         new ProjectPopupView({ model: this.model });
