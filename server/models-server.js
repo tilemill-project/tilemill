@@ -49,48 +49,56 @@ models.Project.prototype.sync = function(method, model, success, error) {
 // Load a single project model.
 function loadProject(model, callback) {
     var modelPath = path.join(settings.files, 'project', model.id);
-    fs.readFile(path.join(modelPath, model.id) + '.mml', 'utf-8',
-    function(err, data) {
-        if (err || !data) {
-            return callback('Error reading model file.');
-        }
-        var object = JSON.parse(data);
-        // Set the object ID explicitly for multiple-load scenarios where
-        // model parse()/set() is bypassed.
-        object.id = model.id;
-        if (object.Stylesheet && object.Stylesheet.length > 0) {
-            Step(
-                function() {
-                    var group = this.group();
-                    _.each(object.Stylesheet, function(filename, index) {
-                        fs.readFile(
-                            path.join(modelPath, filename),
-                            'utf-8',
-                            group()
-                        );
-                    });
-                },
-                function(err, files) {
-                    object.Stylesheet = _.reduce(
-                        object.Stylesheet,
-                        function(memo, filename, index) {
-                            if (typeof files[index] !== 'undefined') {
-                                memo.push({
-                                    id: filename,
-                                    data: files[index]
-                                });
-                            }
-                            return memo;
-                        },
-                        []
-                    );
-                    return callback(null, object);
-                }
+    var object;
+    Step(
+        function() {
+            fs.readFile(
+                path.join(modelPath, model.id) + '.mml',
+                'utf-8',
+                this
             );
-        } else {
-            return callback(null, object);
+        },
+        function(err, data) {
+            if (err || !data) throw new Error('Error reading model file.');
+
+            // Set the object ID explicitly for multiple-load scenarios where
+            // model parse()/set() is bypassed.
+            object = JSON.parse(data);
+            object.id = model.id;
+            if (object.Stylesheet && object.Stylesheet.length > 0) {
+                var group = this.group();
+                _.each(object.Stylesheet, function(filename, index) {
+                    fs.readFile(
+                        path.join(modelPath, filename),
+                        'utf-8',
+                        group()
+                    );
+                });
+            } else {
+                this();
+            }
+        },
+        function(err, files) {
+            if (err) return callback(err);
+
+            if (object.Stylesheet && files) {
+                object.Stylesheet = _.reduce(
+                    object.Stylesheet,
+                    function(memo, filename, index) {
+                        if (files[index]) {
+                            memo.push({
+                                id: filename,
+                                data: files[index]
+                            });
+                        }
+                        return memo;
+                    },
+                    []
+                );
+            }
+            return callback(err, object);
         }
-    });
+    );
 };
 
 // Load all projects into an array.
