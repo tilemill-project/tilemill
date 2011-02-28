@@ -1,7 +1,4 @@
 var _ = require('underscore'),
-    url = require('url'),
-    path = require('path'),
-    Step = require('step'),
     Tile = require('tilelive').Tile,
     cache = require('models-cache');
 
