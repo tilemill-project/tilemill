@@ -139,6 +139,7 @@ var StylesheetTabView = Backbone.View.extend({
             $('textarea', this.input).val(this.model.get('data'));
             this.codemirror = CodeMirror.fromTextArea($('textarea', this.input).get(0), {
                 lineNumbers: true,
+                tabMode: 'shift',
                 mode: {
                     name: 'carto',
                     reference: window.app.reference.toJSON()

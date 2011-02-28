@@ -223,7 +223,7 @@ module.exports = function(app, settings) {
             model.validateAsync(req.body, {
                 success: function(model) {
                     model.save(req.body, {
-                        success: function(model, resp) { res.send(model.toJSON()) },
+                        success: function(model, resp) { res.send(resp); },
                         error: function(model, resp) { res.send(resp, 500); }
                     });
                 },
@@ -233,7 +233,7 @@ module.exports = function(app, settings) {
             });
         } else {
             model.save(req.body, {
-                success: function(model, resp) { res.send(model.toJSON()) },
+                success: function(model, resp) { res.send(resp); },
                 error: function(model, resp) { res.send(resp, 500); }
             });
         }
@@ -248,7 +248,7 @@ module.exports = function(app, settings) {
             model.validateAsync(req.body, {
                 success: function(model) {
                     model.save(req.body, {
-                        success: function(model, resp) { res.send(model.toJSON()) },
+                        success: function(model, resp) { res.send(resp); },
                         error: function(model, resp) { res.send(resp, 500); }
                     });
                 },
@@ -259,7 +259,7 @@ module.exports = function(app, settings) {
         }
         else {
             model.save(req.body, {
-                success: function(model, resp) { res.send(model.toJSON()) },
+                success: function(model, resp) { res.send(resp); },
                 error: function(model, resp) { res.send(resp, 500); }
             });
         }

@@ -52,7 +52,7 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(project1));
+            assert.deepEqual(_.keys(JSON.parse(res.body)), ['_updated']);
         });
     },
     'project-test': function() {
@@ -66,7 +66,10 @@ module.exports = {
             var projects = JSON.parse(res.body);
             for (var i = 0; i < projects.length; i++) {
                 if (projects[i].id === 'Test') {
-                    assert.deepEqual(projects[i], JSON.parse(project1));
+                    assert.deepEqual(
+                        _(projects[i]).extend({_updated: 0}),
+                        _(JSON.parse(project1)).extend({_updated: 0})
+                    );
                 }
             }
         });
@@ -77,7 +80,10 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(project1));
+            assert.deepEqual(
+                _(JSON.parse(res.body)).extend({_updated: 0}),
+                _(JSON.parse(project1)).extend({_updated: 0})
+            );
         });
         // Validation: Name must contain specified characters.
         var invalid = _.extend(JSON.parse(project1), {
@@ -153,7 +159,7 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(project2));
+            assert.deepEqual(_.keys(JSON.parse(res.body)), ['_updated']);
         });
     },
     'project-delete': function() {
@@ -189,7 +195,7 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(settings1));
+            assert.deepEqual(res.body, '{}');
         });
     },
     'settings-test': function() {
@@ -231,7 +237,7 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(settings2));
+            assert.deepEqual(res.body, '{}');
         });
     },
     'settings-delete': function() {
