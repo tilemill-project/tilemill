@@ -27,7 +27,7 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(project1));
+            assert.deepEqual(_.keys(JSON.parse(res.body)), ['_updated']);
         });
     },
     'export-create': function() {
@@ -40,7 +40,7 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(exportjob1));
+            assert.deepEqual(res.body, '{}');
         });
     },
     'export-test': function() {
