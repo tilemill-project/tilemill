@@ -42,7 +42,7 @@ module.exports = function(app, settings) {
             db = db.replace(/{"key":"library:/g, '{"key":"api/Library/');
             db = db.replace(/{"key":"settings:/g, '{"key":"api/Settings/');
             fs.writeFileSync(settings.files + '/app.db', db);
-            console.log('Update 1: Migrate to new backbone-dirty key format.');
+            console.log('Update: Migrated to new backbone-dirty key format.');
         }
     } catch (Exception) {}
 
