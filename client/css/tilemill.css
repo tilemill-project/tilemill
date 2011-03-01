@@ -884,15 +884,22 @@ ul.projects a:hover {
  */
 #ColorSwatchListView { padding-right:30px; }
   
-#ColorSwatchListView .swatch {
-  -moz-box-shadow:#ccc 0px 1px 2px;
-  -webkit-box-shadow:#ccc 0px 1px 2px;
-  background:url(../images/sprite.png) 0px -220px no-repeat;
+#ColorSwatchListView .swatch-backdrop {
+  background:url(../images/sprite.png) -20px -290px no-repeat;
   float:left;
   margin:0px 5px 5px 0px;
   width:20px;
   height:20px;
   position:relative;
+  }
+
+#ColorSwatchListView .swatch {
+  -moz-box-shadow:#ccc 0px 1px 2px;
+  -webkit-box-shadow:#ccc 0px 1px 2px;
+  background:url(../images/sprite.png) 0px -220px no-repeat;
+  display:block;
+  width:20px;
+  height:20px;
   }
 
 #ColorPicker {

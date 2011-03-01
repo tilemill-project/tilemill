@@ -58,16 +58,17 @@ var StylesheetTools = TabsView.extend({
 // -----------
 // Model. A single color swatch.
 var ColorSwatch = Backbone.Model.extend({
-    initialize: function() {
+    initialize: function(params) {
+        var rgb = this.unpack(params.color);
         this.set({
-            hsl: this.RGBToHSL(this.unpack(this.get('hex')))
+            color: this.pack(rgb),
+            hsl: this.RGBToHSL(rgb)
         });
     },
     // Compare this color to another color, normalizing the formatting
     // of each to avoid duplicates.
     eq: function(other) {
-        return this.pack(this.unpack(other)) ==
-            this.pack(this.unpack(this.get('hex')));
+        return this.pack(this.unpack(other)) == this.get('color');
     },
     // # From farbtastic.
     RGBToHSL: function(rgb) {
@@ -92,26 +93,37 @@ var ColorSwatch = Backbone.Model.extend({
     dec2hex: function(x) {
         return (x < 16 ? '0' : '') + x.toString(16);
     },
-    // Given a [r, g, b] array, return a CSS-formatted
+    // Given a [r, g, b, a?] array, return a CSS-formatted
     // color string.
     pack: function(rgb) {
         var r = Math.round(rgb[0] * 255);
         var g = Math.round(rgb[1] * 255);
         var b = Math.round(rgb[2] * 255);
-        return '#' + this.dec2hex(r) + this.dec2hex(g) + this.dec2hex(b);
+        if (rgb.length <= 3 || rgb[3] === 1) {
+            return '#' + this.dec2hex(r) + this.dec2hex(g) + this.dec2hex(b);
+        } else {
+            return 'rgba('+ r +','+ g +','+ b +','+ rgb[3] +')';
+        }
     },
     unpack: function(color) {
-        if (color.length == 7) {
+        if (color[0] === '#' && color.length == 7) {
             function x(i) {
                 return parseInt(color.substring(i, i + 2), 16) / 255;
             }
             return [x(1), x(3), x(5)];
         }
-        else if (color.length == 4) {
+        else if (color[0] === '#' && color.length == 4) {
             function x(i) {
                 return parseInt(color.substring(i, i + 1), 16) / 15;
             }
             return [x(1), x(2), x(3)];
+        }
+        else {
+            return _.map(color.match(/^rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*((?:0?\.)?\d+))?\s*\)$/).slice(1),
+                function(c, i) {
+                    if (i < 3) return Math.min(255, parseInt(c, 10)) / 255;
+                    else return c ? Math.min(1, +c) : 1;
+                });
         }
     }
 });
@@ -131,19 +143,19 @@ var ColorSwatchList = Backbone.Collection.extend({
         // Find all color-like strings in all of the stylesheets
         // available from this project.
         var matches = this.project.get('Stylesheet').pluck('data')
-            .join('\n').match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b/g) || [];
+            .join('\n').match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || [];
 
         // Eliminate obvious duplicate colors.
         matches = _.uniq(matches);
 
-        var hexMap = {};
-        this.each(function(swatch) { hexMap[swatch.get('hex')] = swatch; });
+        var colorMap = {};
+        this.each(function(swatch) { colorMap[swatch.get('color')] = swatch; });
 
         // Get list of models to remove.
-        var remove = _.without.apply(this, [this.pluck('hex')].concat(matches));
+        var remove = _.without.apply(this, [this.pluck('color')].concat(matches));
         var that = this;
-        _.each(remove, function(hex) {
-            that.remove(hexMap[hex]);
+        _.each(remove, function(color) {
+            that.remove(colorMap[color]);
         });
 
         // Add all of the matches that aren't already in this
@@ -153,7 +165,7 @@ var ColorSwatchList = Backbone.Collection.extend({
             if (!this.find(function(color) {
                 return color.eq(matches[i]);
             })) {
-                this.add(new ColorSwatch({hex: matches[i]}));
+                this.add(new ColorSwatch({ color: matches[i] }));
             }
         }
         // Trigger the deferred add event
@@ -258,27 +270,27 @@ var ColorSwatchListView = Backbone.View.extend({
 // View. Single color swatch.
 var ColorSwatchView = Backbone.View.extend({
     events: {
-        'click': 'insertHex'
+        'click': 'insertColor'
     },
     initialize: function(options) {
-        _.bindAll(this, 'render', 'insertHex');
+        _.bindAll(this, 'render', 'insertColor');
         this.project = options.project;
         this.render();
     },
     render: function() {
-       $(this.el).html(ich.ColorSwatchView({color: this.model.get('hex')}));
+       $(this.el).html(ich.ColorSwatchView({ color: this.model.get('color') }));
        return this;
     },
-    insertHex: function() {
+    insertColor: function() {
         if (window.app.settings.get('mode') === 'minimal') return false;
 
         var mirror = this.project.view.stylesheets.activeTab.codemirror,
             pos = mirror.getCursor();
-            hex = this.model.get('hex');
-        if (mirror.getLine(pos.line).charAt(pos.ch - 1) === '#') {
-            mirror.replaceSelection(hex.slice(1));
+            color = this.model.get('color');
+        if (mirror.getLine(pos.line).charAt(pos.ch - 1) === '#' && color[0] === '#') {
+            mirror.replaceSelection(color.slice(1));
         } else {
-            mirror.replaceSelection(hex);
+            mirror.replaceSelection(color);
         }
         $(mirror).focus();
         return false;
