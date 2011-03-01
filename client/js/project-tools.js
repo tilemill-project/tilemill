@@ -125,7 +125,7 @@ var ColorSwatchList = Backbone.Collection.extend({
         _.bindAll(this, 'reload');
         this.project = options.project;
         this.project.bind('ready', this.reload);
-        this.project.bind('change:Stylesheet', this.reload);
+        this.project.bind('save', this.reload);
     },
     reload: function() {
         // Find all color-like strings in all of the stylesheets
