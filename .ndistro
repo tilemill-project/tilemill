@@ -25,7 +25,7 @@ module developmentseed openlayers_slim v1.9
 module headjs headjs v0.8
 module andyet ICanHaz.js v0.7
 module jaz303 tipsy v1.0.0a
-module mapbox wax 1.0.1
+module mapbox wax 1.0.2
 module marijnh CodeMirror2 beta2
 
 # needs tag
@@ -36,8 +36,8 @@ module dankogai js-base64
 # built modules
 module springmeyer node-srs 0.1.1 srs
 module springmeyer node-zipfile 0.1.6 zipfile
-module developmentseed node-sqlite3 2.0.5 sqlite3
-module kkaefer node-compress v0.1.10-a compress
+module developmentseed node-sqlite3 2.0.7 sqlite3
+module kkaefer node-compress v0.1.10-b compress
 module mapnik node-mapnik 0.2.10 mapnik
 
 # module layout workarounds
