@@ -25,7 +25,7 @@ module developmentseed openlayers_slim v1.9
 module headjs headjs v0.8
 module andyet ICanHaz.js v0.7
 module jaz303 tipsy v1.0.0a
-module mapbox wax 1.0.1
+module mapbox wax 1.0.2
 module marijnh CodeMirror2 beta2
 
 # needs tag
