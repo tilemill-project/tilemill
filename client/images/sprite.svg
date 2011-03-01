@@ -7733,5 +7733,62 @@
        d="m 287,-146 c -1.108,0 -2,0.892 -2,2 l 0,8 c 0,1.108 0.892,2 2,2 l 6,0 c 1.108,0 2,-0.892 2,-2 l 0,-8 c 0,-1.108 -0.892,-2 -2,-2 l -6,0 z m 0.5,2 5,0 c 0.277,0 0.5,0.223 0.5,0.5 0,0.277 -0.223,0.5 -0.5,0.5 l -5,0 c -0.277,0 -0.5,-0.223 -0.5,-0.5 0,-0.277 0.223,-0.5 0.5,-0.5 z m 0,3 c 0.277,0 0.5,0.223 0.5,0.5 0,0.277 -0.223,0.5 -0.5,0.5 -0.277,0 -0.5,-0.223 -0.5,-0.5 0,-0.277 0.223,-0.5 0.5,-0.5 z m 2,0 3,0 c 0.277,0 0.5,0.223 0.5,0.5 0,0.277 -0.223,0.5 -0.5,0.5 l -3,0 c -0.277,0 -0.5,-0.223 -0.5,-0.5 0,-0.277 0.223,-0.5 0.5,-0.5 z m -2,2 c 0.277,0 0.5,0.223 0.5,0.5 0,0.277 -0.223,0.5 -0.5,0.5 -0.277,0 -0.5,-0.223 -0.5,-0.5 0,-0.277 0.223,-0.5 0.5,-0.5 z m 2,0 3,0 c 0.277,0 0.5,0.223 0.5,0.5 0,0.277 -0.223,0.5 -0.5,0.5 l -3,0 c -0.277,0 -0.5,-0.223 -0.5,-0.5 0,-0.277 0.223,-0.5 0.5,-0.5 z m -2,2 c 0.277,0 0.5,0.223 0.5,0.5 0,0.277 -0.223,0.5 -0.5,0.5 -0.277,0 -0.5,-0.223 -0.5,-0.5 0,-0.277 0.223,-0.5 0.5,-0.5 z m 2,0 3,0 c 0.277,0 0.5,0.223 0.5,0.5 0,0.277 -0.223,0.5 -0.5,0.5 l -3,0 c -0.277,0 -0.5,-0.223 -0.5,-0.5 0,-0.277 0.223,-0.5 0.5,-0.5 z"
        style="color:#000000;fill:url(#linearGradient4748);fill-opacity:1.0;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        inkscape:connector-curvature="0" />
+    <rect
+       style="fill:#000000;fill-opacity:0.1254902;stroke:none"
+       id="rect3962"
+       width="5"
+       height="5"
+       x="20"
+       y="290"
+       transform="translate(0,-170)" />
+    <rect
+       y="120"
+       x="30"
+       height="5"
+       width="5"
+       id="rect3964"
+       style="fill:#000000;fill-opacity:0.1254902;stroke:none" />
+    <rect
+       style="fill:#000000;fill-opacity:0.1254902;stroke:none"
+       id="rect3966"
+       width="5"
+       height="5"
+       x="25"
+       y="125" />
+    <rect
+       y="125"
+       x="35"
+       height="5"
+       width="5"
+       id="rect3968"
+       style="fill:#000000;fill-opacity:0.1254902;stroke:none" />
+    <rect
+       y="130"
+       x="20"
+       height="5"
+       width="5"
+       id="rect3970"
+       style="fill:#000000;fill-opacity:0.1254902;stroke:none" />
+    <rect
+       style="fill:#000000;fill-opacity:0.1254902;stroke:none"
+       id="rect3972"
+       width="5"
+       height="5"
+       x="30"
+       y="130" />
+    <rect
+       y="135"
+       x="25"
+       height="5"
+       width="5"
+       id="rect3974"
+       style="fill:#000000;fill-opacity:0.1254902;stroke:none" />
+    <rect
+       style="fill:#000000;fill-opacity:0.1254902;stroke:none"
+       id="rect3976"
+       width="5"
+       height="5"
+       x="35"
+       y="135" />
   </g>
 </svg>
