@@ -6510,6 +6510,96 @@
        y1="-166"
        x2="285"
        y2="-154" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4993"
+       id="linearGradient12726"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-70.3,-431.9622)"
+       x1="173.05602"
+       y1="545.36218"
+       x2="173.05602"
+       y2="536.57819" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4993"
+       id="linearGradient12728"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-70.3,-431.9622)"
+       x1="173.05602"
+       y1="545.36218"
+       x2="173.05602"
+       y2="536.57819" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4993"
+       id="linearGradient12730"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-70.3,-431.9622)"
+       x1="173.05602"
+       y1="545.36218"
+       x2="173.05602"
+       y2="536.57819" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4993"
+       id="linearGradient12732"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-70.3,-431.9622)"
+       x1="173.05602"
+       y1="545.36218"
+       x2="173.05602"
+       y2="536.57819" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4993"
+       id="linearGradient12734"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-70.3,-431.9622)"
+       x1="173.05602"
+       y1="545.36218"
+       x2="173.05602"
+       y2="536.57819" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4993"
+       id="linearGradient12736"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-70.3,-431.9622)"
+       x1="173.05602"
+       y1="545.36218"
+       x2="173.05602"
+       y2="536.57819" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4993"
+       id="linearGradient12738"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-70.3,-431.9622)"
+       x1="173.05602"
+       y1="545.36218"
+       x2="173.05602"
+       y2="536.57819" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4993"
+       id="linearGradient12740"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-70.3,-431.9622)"
+       x1="173.05602"
+       y1="545.36218"
+       x2="173.05602"
+       y2="536.57819" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4993"
+       id="linearGradient12743"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-105,-211)"
+       x1="125"
+       y1="300"
+       x2="125"
+       y2="265" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -6522,8 +6612,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="109.11031"
-     inkscape:cy="315.90943"
+     inkscape:cx="169.04896"
+     inkscape:cy="304.6171"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -7630,68 +7720,97 @@
          y="-160" />
     </g>
     <g
-       id="g6363"
-       transform="translate(-34.7,-31.4)">
-      <text
-         sodipodi:linespacing="100%"
-         id="text3299"
-         y="122.58401"
-         x="102.56401"
-         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:100%;letter-spacing:8.19672108px;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:PetitaBold;-inkscape-font-specification:PetitaBold Medium"
-         xml:space="preserve"><tspan
-           style="font-size:24px;font-weight:500;letter-spacing:6px;fill:#ffffff;fill-opacity:1;-inkscape-font-specification:PetitaBold Medium"
-           id="tspan3301"
-           y="122.58401"
-           x="102.56401"
-           sodipodi:role="line">TILEMILL</tspan></text>
-      <g
-         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:100%;letter-spacing:8.19672108px;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:url(#linearGradient6372);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:PetitaBold;-inkscape-font-specification:PetitaBold Medium"
-         id="text3303">
-        <path
-           d="m 117.51601,104.61601 0,2.256 -6.144,0 0,15.312 -2.472,0 0,-15.312 -6.144,0 0,-2.256 14.76,0"
-           style="letter-spacing:6px;marker:none;-inkscape-font-specification:PetitaBold Medium"
-           id="path3949" />
-        <path
-           d="m 127.66464,104.61601 0,17.568 -2.448,0 0,-17.568 2.448,0"
-           style="letter-spacing:6px;marker:none;-inkscape-font-specification:PetitaBold Medium"
-           id="path3951" />
-        <path
-           d="m 146.89539,119.92801 0,2.256 -10.56,0 0,-17.568 2.472,0 0,15.312 8.088,0"
-           style="letter-spacing:6px;marker:none;-inkscape-font-specification:PetitaBold Medium"
-           id="path3953" />
-        <path
-           d="m 164.68839,119.92801 0,2.256 -10.344,0 0,-17.568 10.176,0 0,2.256 -7.704,0 0,5.352 7.488,0 0,2.256 -7.488,0 0,5.448 7.872,0"
-           style="letter-spacing:6px;marker:none;-inkscape-font-specification:PetitaBold Medium"
-           id="path3955" />
-        <path
-           d="m 189.26889,104.61601 0,17.568 -2.472,0 0,-13.464 -5.616,6.96 -5.64,-6.96 0,13.464 -2.472,0 0,-17.568 2.16,0 5.952,7.272 5.928,-7.272 2.16,0"
-           style="letter-spacing:6px;marker:none;-inkscape-font-specification:PetitaBold Medium"
-           id="path3957" />
-        <path
-           d="m 200.32089,104.61601 0,17.568 -2.448,0 0,-17.568 2.448,0"
-           style="letter-spacing:6px;marker:none;-inkscape-font-specification:PetitaBold Medium"
-           id="path3959" />
-        <path
-           d="m 219.55164,119.92801 0,2.256 -10.56,0 0,-17.568 2.472,0 0,15.312 8.088,0"
-           style="letter-spacing:6px;marker:none;-inkscape-font-specification:PetitaBold Medium"
-           id="path3961" />
-        <path
-           d="m 237.17664,119.92801 0,2.256 -10.56,0 0,-17.568 2.472,0 0,15.312 8.088,0"
-           style="letter-spacing:6px;marker:none;-inkscape-font-specification:PetitaBold Medium"
-           id="path3963" />
-      </g>
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:100%;letter-spacing:8.19672108px;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:PetitaBold;-inkscape-font-specification:PetitaBold Medium"
+       id="text3299">
       <path
-         style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         d="M 74.7,95.900005 65.2,105.4 l -2.5,21 c -5,1.00007 -8,5 -8,5 l 40,0 c 0,0 -3,-3.99993 -8,-5 l -2.5,-21 z M 73.2,107.4 l 3,0 1,6 -5,0 z"
-         id="path3309"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="ccccccccccccc" />
+         d="m 82.816014,74.216006 0,2.256 -6.144,0 0,15.312 -2.472,0 0,-15.312 -6.144,0 0,-2.256 14.76,0"
+         style="letter-spacing:6px;fill:#ffffff;marker:none;-inkscape-font-specification:PetitaBold Medium"
+         id="path12758" />
       <path
-         style="color:#000000;fill:url(#linearGradient6374);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         d="m 66.2,85.400005 -3,3 8,8 2,-4 -7,-7 z m -3.5,3.5 -1.5,1.5 8.5,8.5 1.5,-1.5 -8.5,-8.5 z m 24,0 -8.5,8.5 1.5,1.5 8.5,-8.5 -1.5,-1.5 z m 2,2 -8,8 4,1.999995 7,-6.999995 -3,-3 z m -14,4 -9.34375,9.343745 L 64.7,103.9 l -7,7 3,3 3.8125,-3.8125 -0.125,1.125 -3.1875,3.1875 1.5,1.5 1.28125,-1.28125 L 62.7,125.4 c -5,1.00007 -8,5 -8,5 l 40,0 c 0,0 -3,-3.99993 -8,-5 l -1,-8.5 0.5,-0.5 -0.625,-0.53125 -0.15625,-1.25 L 86.7,115.9 88.2,114.4 85.0125,111.2125 84.2,104.4 74.7,94.900005 z M 73.2,106.4 l 3,0 1,6 -5,0 1,-6 z"
-         id="path3321"
-         inkscape:connector-curvature="0" />
+         d="m 92.964639,74.216006 0,17.568 -2.448,0 0,-17.568 2.448,0"
+         style="letter-spacing:6px;fill:#ffffff;marker:none;-inkscape-font-specification:PetitaBold Medium"
+         id="path12760" />
+      <path
+         d="m 112.19539,89.528006 0,2.256 -10.56,0 0,-17.568 2.472,0 0,15.312 8.088,0"
+         style="letter-spacing:6px;fill:#ffffff;marker:none;-inkscape-font-specification:PetitaBold Medium"
+         id="path12762" />
+      <path
+         d="m 129.98839,89.528006 0,2.256 -10.344,0 0,-17.568 10.176,0 0,2.256 -7.704,0 0,5.352 7.488,0 0,2.256 -7.488,0 0,5.448 7.872,0"
+         style="letter-spacing:6px;fill:#ffffff;marker:none;-inkscape-font-specification:PetitaBold Medium"
+         id="path12764" />
+      <path
+         d="m 154.56889,74.216006 0,17.568 -2.472,0 0,-13.464 -5.616,6.96 -5.64,-6.96 0,13.464 -2.472,0 0,-17.568 2.16,0 5.952,7.272 5.928,-7.272 2.16,0"
+         style="letter-spacing:6px;fill:#ffffff;marker:none;-inkscape-font-specification:PetitaBold Medium"
+         id="path12766" />
+      <path
+         d="m 165.62089,74.216006 0,17.568 -2.448,0 0,-17.568 2.448,0"
+         style="letter-spacing:6px;fill:#ffffff;marker:none;-inkscape-font-specification:PetitaBold Medium"
+         id="path12768" />
+      <path
+         d="m 184.85164,89.528006 0,2.256 -10.56,0 0,-17.568 2.472,0 0,15.312 8.088,0"
+         style="letter-spacing:6px;fill:#ffffff;marker:none;-inkscape-font-specification:PetitaBold Medium"
+         id="path12770" />
+      <path
+         d="m 202.47664,89.528006 0,2.256 -10.56,0 0,-17.568 2.472,0 0,15.312 8.088,0"
+         style="letter-spacing:6px;fill:#ffffff;marker:none;-inkscape-font-specification:PetitaBold Medium"
+         id="path12772" />
     </g>
+    <g
+       id="text3303"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:100%;letter-spacing:8.19672108px;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:url(#linearGradient6372);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:PetitaBold;-inkscape-font-specification:PetitaBold Medium"
+       transform="translate(-34.7,-31.4)">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3949"
+         style="letter-spacing:6px;fill:url(#linearGradient12726);marker:none;-inkscape-font-specification:PetitaBold Medium"
+         d="m 117.51601,104.61601 0,2.256 -6.144,0 0,15.312 -2.472,0 0,-15.312 -6.144,0 0,-2.256 14.76,0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3951"
+         style="letter-spacing:6px;fill:url(#linearGradient12728);marker:none;-inkscape-font-specification:PetitaBold Medium"
+         d="m 127.66464,104.61601 0,17.568 -2.448,0 0,-17.568 2.448,0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3953"
+         style="letter-spacing:6px;fill:url(#linearGradient12730);marker:none;-inkscape-font-specification:PetitaBold Medium"
+         d="m 146.89539,119.92801 0,2.256 -10.56,0 0,-17.568 2.472,0 0,15.312 8.088,0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3955"
+         style="letter-spacing:6px;fill:url(#linearGradient12732);marker:none;-inkscape-font-specification:PetitaBold Medium"
+         d="m 164.68839,119.92801 0,2.256 -10.344,0 0,-17.568 10.176,0 0,2.256 -7.704,0 0,5.352 7.488,0 0,2.256 -7.488,0 0,5.448 7.872,0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3957"
+         style="letter-spacing:6px;fill:url(#linearGradient12734);marker:none;-inkscape-font-specification:PetitaBold Medium"
+         d="m 189.26889,104.61601 0,17.568 -2.472,0 0,-13.464 -5.616,6.96 -5.64,-6.96 0,13.464 -2.472,0 0,-17.568 2.16,0 5.952,7.272 5.928,-7.272 2.16,0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3959"
+         style="letter-spacing:6px;fill:url(#linearGradient12736);marker:none;-inkscape-font-specification:PetitaBold Medium"
+         d="m 200.32089,104.61601 0,17.568 -2.448,0 0,-17.568 2.448,0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3961"
+         style="letter-spacing:6px;fill:url(#linearGradient12738);marker:none;-inkscape-font-specification:PetitaBold Medium"
+         d="m 219.55164,119.92801 0,2.256 -10.56,0 0,-17.568 2.472,0 0,15.312 8.088,0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3963"
+         style="letter-spacing:6px;fill:url(#linearGradient12740);marker:none;-inkscape-font-specification:PetitaBold Medium"
+         d="m 237.17664,119.92801 0,2.256 -10.56,0 0,-17.568 2.472,0 0,15.312 8.088,0" />
+    </g>
+    <path
+       sodipodi:nodetypes="ccccccccccccc"
+       inkscape:connector-curvature="0"
+       id="path3309"
+       d="M 40,64.500005 30.5,74 28,95 c -5,1.00007 -8,5 -8,5 l 40,0 c 0,0 -3,-3.99993 -8,-5 L 49.5,74 z M 38.5,76 l 3,0 1,6 -5,0 z"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3321"
+       d="m 31.5,54.000005 -3,3 8,8 2,-4 -7,-7 z m -3.5,3.5 -1.5,1.5 8.5,8.5 1.5,-1.5 -8.5,-8.5 z m 24,0 -8.5,8.5 1.5,1.5 8.5,-8.5 -1.5,-1.5 z m 2,2 -8,8 4,1.999995 7,-6.999995 -3,-3 z m -14,4 L 30.65625,72.84375 30,72.5 l -7,7 3,3 3.8125,-3.8125 -0.125,1.125 L 26.5,83 28,84.5 29.28125,83.21875 28,94 c -5,1.00007 -8,5 -8,5 l 40,0 c 0,0 -3,-3.99993 -8,-5 L 51,85.5 51.5,85 50.875,84.46875 50.71875,83.21875 52,84.5 53.5,83 50.3125,79.8125 49.5,73 40,63.500005 z M 38.5,75 l 3,0 1,6 -5,0 1,-6 z"
+       style="color:#000000;fill:url(#linearGradient12743);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccc"
