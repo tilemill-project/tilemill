@@ -27,7 +27,7 @@ module.exports = function(app, settings) {
     // - `:x` Number, x coordinate of the tile requested.
     // - `:y` Number, y coordinate of the tile requested.
     // - `*` String, file format of the tile requested, e.g. `png`, `jpeg`.
-    app.get('/1.0.0/:id/:z/:x/:y.(png|png8|jpeg|jpeg[\+d])', loadProject, function(req, res, next) {
+    app.get('/1.0.0/:id/:z/:x/:y.(png8|png|jpeg[\\d]+|jpeg)', loadProject, function(req, res, next) {
         try {
             var options = {
                 datasource: res.project.toJSON(),
