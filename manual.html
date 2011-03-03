@@ -196,9 +196,15 @@ Keyhole Markup Language, or KML, is a standard geospatial data format that was o
 
 GeoTIFF is a popular format for storing geospatial raster imagery such as satellite photography, remote sensing imagery, and digital elevation models.
 
-Since Mapnik is currently unable to reproject raster data sources, to load them in TileMill you must ensure they are in Web Mercator projection. This can be done using the `gdalwarp` tool. For example, to repro
+Since Mapnik is currently unable to reproject raster data sources, to load them in TileMill you must ensure they are in Web Mercator projection. This can be done using the `gdalwarp` tool. For example, to reproject a Natural Earth world geotiff from its native WGS84, you would use a command such as
 
-    gdalwarp -s_srs 
+    gdalwarp -s_srs EPSG:4326 -t_srs "+proj=merc +a=6378137 +b=6378137 \
+      +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null \
+      +wktext +no_defs" -r cubic \
+      -te -20037508.34 -20037508.34 20037508.34 20037508.34 \
+      input_file.tif output_file.tif
+
+<!-- TODO: explain the options -->
 
 # The styling language
 
