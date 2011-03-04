@@ -18,7 +18,7 @@ GET=
 GET_CMD=
 
 # wget support
-which wget > /dev/null && GET="wget -q -O-" && GET_CMD="wget"
+which wget > /dev/null && GET="wget -q --no-check-certificate -O-" && GET_CMD="wget"
 
 # curl support
 which curl > /dev/null && GET="curl -# -L" && GET_CMD="curl"
