@@ -67,7 +67,8 @@ module.exports = function(app, settings) {
                 format_options: {
                     layer: parseInt(interactivity.layer, 10),
                     key_name: interactivity.key_name,
-                    data: true
+                    data: true,
+                    fields: res.project.formatterFields()
                 }
             };
             var tile = new Tile(options);

@@ -17,7 +17,6 @@ module willwhite node-worker 0.0.1
 module felixge node-dirty v0.9.1
 module tmcw node-get 0.1.0
 module developmentseed backbone-dirty 0.0.3
-module mapbox tilelive.js 2.0.0
 module mapbox carto 0.1.2
 
 # client-side only
@@ -38,7 +37,10 @@ module springmeyer node-srs 0.1.1 srs
 module springmeyer node-zipfile 0.1.6 zipfile
 module developmentseed node-sqlite3 2.0.7 sqlite3
 module kkaefer node-compress v0.1.10-b compress
-module mapnik node-mapnik 0.2.11 mapnik
+
+# dev work on interaction
+module mapbox tilelive.js master
+module mapnik node-mapnik master mapnik
 
 # module layout workarounds
 cd $ROOT

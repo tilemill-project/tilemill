@@ -456,6 +456,21 @@ var Project = Backbone.Model.extend({
             + "return '" + teaser + "'; "
             + "} "
             + "}";
+    },
+    // Interactivity: Retrieve array of field names to be included in
+    // interactive tiles by parsing `[field]` tokens.
+    formatterFields: function() {
+        if (_.isEmpty(this.get('_interactivity'))) return;
+        var fields = [];
+        var full = this.get('_interactivity').template_full || '';
+        var teaser = this.get('_interactivity').template_teaser || '';
+        fields = fields
+                    .concat(full.match(/\[([\w\d]+)\]/g))
+                    .concat(teaser.match(/\[([\w\d]+)\]/g));
+        fields = _.uniq(_.map(fields, function(field) {
+            return field.replace(/[\[|\]]/g, '');
+        }));
+        return fields;
     }
 });
 
