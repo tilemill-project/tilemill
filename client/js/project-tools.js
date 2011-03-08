@@ -107,13 +107,13 @@ var ColorSwatch = Backbone.Model.extend({
     },
     unpack: function(color) {
         if (color[0] === '#' && color.length == 7) {
-            function x(i) {
+            var x = function(i) {
                 return parseInt(color.substring(i, i + 2), 16) / 255;
             }
             return [x(1), x(3), x(5)];
         }
         else if (color[0] === '#' && color.length == 4) {
-            function x(i) {
+            var x = function(i) {
                 return parseInt(color.substring(i, i + 1), 16) / 15;
             }
             return [x(1), x(2), x(3)];
