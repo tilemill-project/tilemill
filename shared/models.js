@@ -467,9 +467,11 @@ var Project = Backbone.Model.extend({
         fields = fields
                     .concat(full.match(/\[([\w\d]+)\]/g))
                     .concat(teaser.match(/\[([\w\d]+)\]/g));
-        fields = _.uniq(_.map(fields, function(field) {
-            return field.replace(/[\[|\]]/g, '');
-        }));
+        fields = _(fields).chain()
+            .filter(_.isString)
+            .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
+            .uniq()
+            .value();
         return fields;
     }
 });
