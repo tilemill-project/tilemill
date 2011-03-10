@@ -544,7 +544,7 @@ var Export = Backbone.Model.extend({
     },
     // Generate a download URL for an Export.
     downloadURL: function() {
-        return (this.get('status') === 'complete') && '/export/download/' + this.get('filename');
+        return (this.get('status') === 'complete') && 'export/download/' + this.get('filename');
     },
     // Get the duration of the current export job.
     time: function() {
