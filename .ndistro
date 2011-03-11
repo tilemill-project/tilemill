@@ -40,7 +40,7 @@ module kkaefer node-zlib master zlib
 
 # dev work on interaction
 module mapbox tilelive.js master
-#module mapnik node-mapnik master mapnik
+module mapnik node-mapnik master mapnik
 
 # module layout workarounds
 cd $ROOT
