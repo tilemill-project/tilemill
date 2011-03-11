@@ -36,11 +36,11 @@ module dankogai js-base64
 module springmeyer node-srs 0.1.1 srs
 module springmeyer node-zipfile 0.1.6 zipfile
 module developmentseed node-sqlite3 2.0.7 sqlite3
-module kkaefer node-compress v0.1.10-b compress
+module kkaefer node-zlib master zlib
 
 # dev work on interaction
 module mapbox tilelive.js master
-module mapnik node-mapnik master mapnik
+#module mapnik node-mapnik master mapnik
 
 # module layout workarounds
 cd $ROOT
