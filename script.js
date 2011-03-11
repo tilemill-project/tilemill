@@ -18,5 +18,6 @@ $(function() {
     $.facebox.settings.loadingImage = 'facebox/src/loading.gif'
 
     $('.screenshots a').facebox();
+    $('a.video').facebox();
 });
 

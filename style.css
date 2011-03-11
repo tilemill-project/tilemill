@@ -233,6 +233,38 @@ h2.slogan {
   letter-spacing:-1px;
   }
 
+#video {
+  display:none;
+  }
+
+.video {
+  margin: 0px -20px 10px 0px;
+  display:block;
+  width:240px;
+  padding:9px;
+  border:1px solid #ddd;
+
+  background:#eee;
+  color:#333;
+  font:normal 13px/20px Arial,Helvetica,sans-serif;
+  text-shadow:#fff 0px 1px;
+
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  box-shadow:#eee 0px 2px 5px;
+  -moz-box-shadow:#eee 0px 2px 5px;
+  -webkit-box-shadow:#eee 0px 2px 5px;
+  }
+
+.video .icon {
+  float:left;
+  width:25px;
+  height:25px;
+  margin:0px 10px 0px 5px;
+  background:url(images/sprite.png) -435px -205px no-repeat;
+  }
+
 /**
  * Wrapper ====================================================================
  */
