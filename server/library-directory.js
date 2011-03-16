@@ -67,10 +67,8 @@ module.exports = function(app, options, callback) {
         return _.map(files, function(f) {
             return {
                 url: url.format({
-                    host: 'localhost:' + port,
-                    protocol: 'http:',
                     pathname: path.join(
-                        '/api/Library/'
+                        'api/Library/'
                         + options.id
                         + '/files/'
                         // Ensure only one trailing slash
