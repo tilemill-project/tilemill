@@ -160,7 +160,7 @@ Install `mapnik` from source:
 
     svn checkout http://svn.mapnik.org/trunk mapnik
     cd mapnik
-    python scons/scons.py configure
+    python scons/scons.py configure INPUT_PLUGINS=shape,ogr,gdal
     python scons/scons.py
     sudo python scons/scons.py install
     sudo ldconfig
