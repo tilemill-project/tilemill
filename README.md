@@ -78,7 +78,7 @@ Install build requirements:
 
 Install `mapnik` from source:
 
-    svn checkout http://svn.mapnik.org/trunk mapnik
+    svn checkout -r 2638 http://svn.mapnik.org/trunk mapnik
     cd mapnik
     python scons/scons.py configure
     python scons/scons.py
