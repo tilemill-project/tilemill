@@ -316,7 +316,7 @@ var FontPicker = Backbone.View.extend({
         }));
 
         var input = $('input', this.el),
-            list = $('ul.fonts-list'),
+            list = $('ul.fonts-list', this.el),
             formTitle = input.attr('title');
 
         // Returns a case-insensitive contains()
@@ -324,8 +324,12 @@ var FontPicker = Backbone.View.extend({
             return (a.textContent || a.innerText || '').toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
         };
 
+        input.keyup(function() {
+            input.trigger('change');
+        });
         input.change(function() {
             var filter = $(this).val();
+
             if (filter) {
                 list.find('li:not(:Contains(' + filter + '))').fadeOut('fast');
                 list.find('li:Contains(' + filter + ')').show();
@@ -333,9 +337,6 @@ var FontPicker = Backbone.View.extend({
                 list.find('li').show();
             }
             return false;
-        })
-        .keyup(function() {
-            input.change();
         });
 
         input
