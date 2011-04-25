@@ -2,6 +2,8 @@
 # https://github.com/developmentseed/ndistro/raw/master/bin/ndistro
 node 0.2.6 source
 
+set -e
+
 # module | github repo | tag | alias
 module senchalabs connect 0.5.10
 module visionmedia express 1.0.7
