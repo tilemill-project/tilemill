@@ -19,7 +19,7 @@ module willwhite node-worker 0.0.1
 module felixge node-dirty v0.9.1
 module tmcw node-get 0.1.0
 module developmentseed backbone-dirty 0.0.3
-module mapbox carto 0.1.3
+module mapbox carto master
 
 # client-side only
 module developmentseed openlayers_slim v1.9
