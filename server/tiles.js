@@ -66,7 +66,7 @@ module.exports = function(app, settings) {
                 mapfile_dir: settings.mapfile_dir,
                 format_options: {
                     layer: parseInt(interactivity.layer, 10),
-                    key_name: interactivity.key_name,
+                    key: interactivity.key_name,
                     data: true,
                     fields: res.project.formatterFields()
                 }
