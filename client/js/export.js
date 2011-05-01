@@ -179,6 +179,8 @@ var ExportView = Backbone.View.extend({
                 new OpenLayers.Projection('EPSG:900913')
             );
             data.bbox = [ nw.x, se.y, se.x, nw.y ].join(',');
+        } else if (key === 'width' || key === 'height') {
+            data[$(event.target).attr('id')] = parseFloat($(event.target).val());
         } else {
             data[$(event.target).attr('id')] = $(event.target).val();
         }
@@ -205,8 +207,7 @@ var ExportView = Backbone.View.extend({
                 that.$('#bbox-e').val(se.x);
                 that.$('#bbox-n').val(nw.y);
                 that.boxDrawingControl.drawFeature(bbox, true);
-            }
-            else {
+            } else {
                 that.$('#' + key).val(value);
             }
         });
