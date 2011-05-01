@@ -51,7 +51,10 @@ Scanner.prototype.process = function(id, callback) {
         function() {
             var next = this;
             project = cache.get('Project', model.get('project'));
-            project.fetch({ success: next, error: next });
+            project.fetch({
+              success: next,
+              error: next
+            });
         },
         function() {
             // Export is waiting to be processed. Spawn a new worker if the
@@ -62,10 +65,11 @@ Scanner.prototype.process = function(id, callback) {
 
                 model.worker = new Worker(
                     path.join(__dirname, 'export-worker.js'),
-                    null,
-                    { nodePath: path.join(__dirname, '..', 'bin', 'node') }
+                    null, {
+                      nodePath: path.join(__dirname, '..', 'bin', 'node')
+                    }
                 );
-                model.worker.on('message', function (data) {
+                model.worker.on('message', function(data) {
                     if (data.event === 'complete') {
                         this.terminate();
                         that.remove(model.worker);
@@ -78,8 +82,9 @@ Scanner.prototype.process = function(id, callback) {
                     that.remove(model.worker);
                 });
                 model.worker.postMessage(_.extend(
-                    model.toJSON(),
-                    { datasource: project.toJSON() }
+                    model.toJSON(), {
+                        datasource: project.toJSON()
+                    }
                 ));
                 that.add(model.worker);
                 callback();
@@ -132,5 +137,5 @@ module.exports = function(app, settings) {
             }
         );
     });
-}
+};
 

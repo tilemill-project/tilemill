@@ -25,7 +25,7 @@ var _ = require('underscore')._,
     Tile = require('tilelive').Tile,
     TileBatch = require('tilelive').TileBatch;
 
-worker.onmessage = function (data) {
+worker.onmessage = function(data) {
     var Format = {
         'png': FormatPNG,
         'pdf': FormatPDF,
@@ -51,17 +51,17 @@ var Format = function(worker, data) {
             that.complete(this);
         }
     );
-}
+};
 
 // Tell the parent process to update the provided `attributes` of Export model.
 Format.prototype.update = function(attributes) {
     this.worker.postMessage({ event: 'update', attributes: attributes });
-}
+};
 
 // Tell the parent process that the export task is complete.
 Format.prototype.complete = function() {
     this.worker.postMessage({ event: 'complete' });
-}
+};
 
 // Setup tasks before processing begins. Ensures that the target export
 // filename does not conflict with an existing file by appending a short hash
@@ -79,7 +79,7 @@ Format.prototype.setup = function(callback) {
                     .createHash('md5')
                     .update(+new Date)
                     .digest('hex')
-                    .substring(0,6);
+                    .substring(0, 6);
                 that.data.filename = that.data.filename.replace(extension, '') + '_' + hash + extension;
             }
             that.update({
@@ -90,7 +90,7 @@ Format.prototype.setup = function(callback) {
             callback();
         }
     );
-}
+};
 
 // MBTiles format
 // --------------
@@ -99,7 +99,7 @@ Format.prototype.setup = function(callback) {
 // each batch.
 var FormatMBTiles = function(worker, data) {
     Format.call(this, worker, data);
-}
+};
 sys.inherits(FormatMBTiles, Format);
 
 FormatMBTiles.prototype.render = function(callback) {
@@ -163,7 +163,7 @@ FormatMBTiles.prototype.render = function(callback) {
             callback();
         }
     );
-}
+};
 
 // Image format
 // ------------
@@ -173,7 +173,7 @@ FormatMBTiles.prototype.render = function(callback) {
 // - `this.format` String image format, e.g. `png`.
 var FormatImage = function(worker, data) {
     Format.call(this, worker, data);
-}
+};
 sys.inherits(FormatImage, Format);
 
 FormatImage.prototype.render = function(callback) {
@@ -200,7 +200,7 @@ FormatImage.prototype.render = function(callback) {
         },
         function(err, data) {
             if (!err) {
-                fs.writeFile( path.join(settings.export_dir, that.data.filename), data[0], 'binary', function(err) {
+                fs.writeFile(path.join(settings.export_dir, that.data.filename), data[0], 'binary', function(err) {
                     that.update({
                         status: err ? 'error' : 'complete',
                         error: err ? 'Error saving image: ' + err.message : '',
@@ -219,19 +219,18 @@ FormatImage.prototype.render = function(callback) {
             }
         }
     );
-}
+};
 
 // PDF export format class.
 var FormatPDF = function(worker, data) {
     this.format = 'pdf';
     FormatImage.call(this, worker, data);
-}
+};
 sys.inherits(FormatPDF, FormatImage);
 
 // PNG export format class.
 var FormatPNG = function(worker, data) {
     this.format = 'png';
     FormatImage.call(this, worker, data);
-}
+};
 sys.inherits(FormatPNG, FormatImage);
-
