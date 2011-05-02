@@ -124,7 +124,6 @@ var MapView = Backbone.View.extend({
     maximize: function() {
         this.$('a.map-fullscreen').addClass('active');
         $(this.el).addClass('fullscreen');
-        this.map.updateSize();
         return false;
     },
     minimize: function() {
