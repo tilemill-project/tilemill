@@ -46,7 +46,7 @@ var MapView = Backbone.View.extend({
 
         // Retrieve stored centerpoint from model and convert to map units.
         var center = this.model.get('_center');
-        var lonlat = new OpenLayers.LonLat(center.lon, center.lat)
+        var lonlat = new OpenLayers.LonLat(center.lon, center.lat);
         lonlat.transform(
             new OpenLayers.Projection('EPSG:4326'),
             new OpenLayers.Projection('EPSG:900913')
@@ -127,7 +127,7 @@ var MapView = Backbone.View.extend({
         var lonlat = new OpenLayers.LonLat(center.lon, center.lat);
         lonlat.transform(
             this.map.projection,
-            new OpenLayers.Projection("EPSG:4326")
+            new OpenLayers.Projection('EPSG:4326')
         );
         center = { lat: lonlat.lat, lon: lonlat.lon, zoom: zoom };
         this.model.set({ _center: center }, { silent: true });
@@ -150,7 +150,7 @@ var MapView = Backbone.View.extend({
 // Extend OpenLayers.Layer.TMS to allow for a query-string signed URL based
 // on the last updated time of the project.
 OpenLayers.Layer.SignedTMS = OpenLayers.Class(OpenLayers.Layer.TMS, {
-    getURL: function (bounds) {
+    getURL: function(bounds) {
         var url = OpenLayers.Layer.TMS.prototype.getURL.call(this, bounds);
         (this.signature) && (url += '?updated=' + this.signature);
         return url;
