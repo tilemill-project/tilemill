@@ -27,7 +27,7 @@ module headjs headjs v0.8
 module andyet ICanHaz.js v0.7
 module jaz303 tipsy v1.0.0a
 module mapbox wax 1.0.2
-module marijnh CodeMirror2 beta2
+module marijnh CodeMirror2 v2.0
 
 # needs tag
 module garycourt JSV
