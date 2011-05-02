@@ -447,14 +447,23 @@ var Project = Backbone.Model.extend({
 
         var full = this.get('_interactivity').template_full || '';
         var teaser = this.get('_interactivity').template_teaser || '';
+        var location = this.get('_interactivity').template_location || '';
         full = full.replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
         teaser = teaser.replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        location = location.replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
         return "function(options, data) { "
-            + "if (options.format === 'full') { "
-            + "return '" + full + "'; "
-            + "} else { "
-            + "return '" + teaser + "'; "
-            + "} "
+            + "  switch (options.format) {"
+            + "    case 'full': "
+            + "      return '" + full + "'; "
+            + "      break; "
+            + "    case 'location': "
+            + "      return '" + location + "'; "
+            + "      break; "
+            + "    case 'teaser': "
+            + "    default: "
+            + "      return '" + teaser + "'; "
+            + "      break; "
+            + "  }"
             + "}";
     },
     // Interactivity: Retrieve array of field names to be included in

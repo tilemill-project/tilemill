@@ -90,8 +90,12 @@ var ProjectRowView = Backbone.View.extend({
         center.lat = -1 * center.lat; // TMS is flipped from OSM calc below.
         var z = center.zoom;
         var lat_rad = center.lat * Math.PI / 180;
-        var x = parseInt((center.lon + 180.0) / 360.0 * Math.pow(2,z));
-        var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2,z));
+        var x = parseInt((center.lon + 180.0) / 360.0 * Math.pow(2, z));
+        var y = parseInt(
+            (1.0 -
+                Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) /
+                Math.PI) /
+                2.0 * Math.pow(2, z));
         return window.app.baseURL()
             + ['1.0.0', this.model.id, z, x, y].join('/')
             + '.png?updated=' + this.model.get('_updated');
@@ -139,7 +143,7 @@ var ProjectView = Backbone.View.extend({
         'click .header a.settings': 'settings'
     },
     initialize: function() {
-        _.bindAll(this, 'render', 'saveProject', 'confirm',  'unload',
+        _.bindAll(this, 'render', 'saveProject', 'confirm', 'unload',
             'reference', 'setChanged', 'setMinimal', 'settings');
         window.app.settings.bind('change', this.setMinimal);
         this.views = {};
@@ -207,7 +211,8 @@ var ProjectView = Backbone.View.extend({
         }
     },
     confirm: function() {
-        if (!this.$('.header a.save').is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
+        if (!this.$('.header a.save').is('.changed') ||
+            confirm('You have unsaved changes. Are you sure you want to close this project?')) {
             this.watcher && this.watcher.destroy();
             return true;
         }
@@ -380,7 +385,7 @@ var ProjectInteractivityForm = Backbone.View.extend({
     submit: function() {
         var attr = {
             _interactivity: {
-                layer: parseInt(this.$('#interactivity_layer').val(), 10),
+                layer: this.$('#interactivity_layer').val(),
                 key_name: this.$('#interactivity_key_name').val(),
                 template_teaser: this.$('#interactivity_template_teaser').val(),
                 template_full: this.$('#interactivity_template_full').val()
@@ -404,7 +409,7 @@ var ProjectInteractivityForm = Backbone.View.extend({
         };
         _.each(this.model.get('Layer').models, function(layer, index) {
             object.interactivity_layer.push({
-                id: index,
+                id: layer.id,
                 name: layer.id,
                 selected: interactivity && (interactivity.layer == index)
             });
@@ -415,11 +420,11 @@ var ProjectInteractivityForm = Backbone.View.extend({
     },
     dependent: function() {
         var that = this;
-        var index = parseInt(this.$('#interactivity_layer').val(), 10);
-        var layer = this.model.get('Layer').at(index);
+        var index = this.$('#interactivity_layer').val();
+        var layer = this.model.get('Layer').get(index);
         if (layer) {
             this.loading('Loading datasource');
-            var ds = new Datasource({ 
+            var ds = new Datasource({
                 id: layer.id,
                 url: layer.get('Datasource').file
             });
@@ -429,7 +434,8 @@ var ProjectInteractivityForm = Backbone.View.extend({
                     var object = {
                         fields: [],
                         template_teaser: interactivity && interactivity.template_teaser || '',
-                        template_full: interactivity && interactivity.template_full || ''
+                        template_full: interactivity && interactivity.template_full || '',
+                        template_location: interactivity && interactivity.template_location || ''
                     };
                     _.each(_.keys(ds.get('fields')), function(field) {
                         object.fields.push({

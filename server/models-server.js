@@ -281,7 +281,7 @@ function saveProject(model, callback) {
             }
             files.push({
                 filename: model.id + '.mml',
-                data: JSON.stringify(data)
+                data: JSON.stringify(data, null, 2)
             });
 
             var group = this.group();

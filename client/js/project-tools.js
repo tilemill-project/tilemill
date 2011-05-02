@@ -102,7 +102,7 @@ var ColorSwatch = Backbone.Model.extend({
         if (rgb.length <= 3 || rgb[3] === 1) {
             return '#' + this.dec2hex(r) + this.dec2hex(g) + this.dec2hex(b);
         } else {
-            return 'rgba('+ r +','+ g +','+ b +','+ rgb[3] +')';
+            return 'rgba(' + r + ',' + g + ',' + b + ',' + rgb[3] + ')';
         }
     },
     unpack: function(color) {

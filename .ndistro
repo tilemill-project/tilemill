@@ -8,7 +8,8 @@ set -e
 module senchalabs connect 0.5.10
 module visionmedia express 1.0.7
 module visionmedia node-querystring 0.0.6 qs
-module learnboost knox 0.0.2
+# Needs tag
+module learnboost knox master
 module isaacs sax-js v0.1.1
 module creationix step v0.0.3
 module visionmedia expresso 0.7.2
@@ -27,7 +28,7 @@ module headjs headjs v0.8
 module andyet ICanHaz.js v0.7
 module jaz303 tipsy v1.0.0a
 module mapbox wax master
-module marijnh CodeMirror2 beta2
+module marijnh CodeMirror2 v2.0
 module stamen modestmaps-js master
 
 # needs tag

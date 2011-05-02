@@ -155,7 +155,7 @@ var StylesheetTabView = Backbone.View.extend({
             });
             // Handle ctrl-S
             $(this.codemirror.getInputField()).keydown(function(evt) {
-                if (evt.which == 83 && 
+                if (evt.which == 83 &&
                     ((evt.ctrlKey || evt.metaKey) && !evt.altKey)) {
                     self.model.collection.parent.view.saveProject();
                     return false;

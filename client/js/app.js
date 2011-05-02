@@ -148,8 +148,8 @@ $(function() {
 
    // Use `jquery.tipsy` for displaying tooltips.
    $('a').tipsy({
-        live:true,
-        html:true,
+        live: true,
+        html: true,
         gravity: function() {
             if ($(this).is('.tipsy-w')) { return 'w'; }
             if ($(this).is('.tipsy-e')) { return 'e'; }

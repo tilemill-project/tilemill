@@ -37,11 +37,32 @@ var MapView = Backbone.View.extend({
             .fullscreen();
 
         var center = this.model.get('_center');
-        this.map.setCenterZoom(
-            new com.modestmaps.Location(center.lat, center.lon),
-            center.zoom);
-        this.map.addCallback('zoomed', this.controlZoom);
-        this.map.addCallback('panned', this.controlZoom);
+        var lonlat = new OpenLayers.LonLat(center.lon, center.lat);
+        lonlat.transform(
+            new OpenLayers.Projection('EPSG:4326'),
+            new OpenLayers.Projection('EPSG:900913')
+        );
+        center.lat = lonlat.lat;
+        center.lon = lonlat.lon;
+
+        // Nav control images.
+        // @TODO: Store locally so the application is portable/usable offline?
+        OpenLayers.ImgPath = 'images/openlayers_dark/';
+
+        this.map = new OpenLayers.Map('map-preview-' + this.mapID, options);
+        this.layer = new OpenLayers.Layer.SignedTMS('Preview', window.app.baseURL(), {
+            layername: this.model.id,
+            type: this.model.get('_format'),
+            buffer: 0,
+            transitionEffect: 'resize',
+            wrapDateLine: true,
+            signature: this.model.get('_updated')
+        });
+        this.map.addLayers([this.layer]);
+
+        // Set the map's initial center point
+        this.map.setCenter(new OpenLayers.LonLat(center.lon, center.lat), center.zoom);
+
         this.controlZoom({element: this.map.div});
     },
     legend: function() {
@@ -72,7 +93,7 @@ var MapView = Backbone.View.extend({
 // Extend OpenLayers.Layer.TMS to allow for a query-string signed URL based
 // on the last updated time of the project.
 OpenLayers.Layer.SignedTMS = OpenLayers.Class(OpenLayers.Layer.TMS, {
-    getURL: function (bounds) {
+    getURL: function(bounds) {
         var url = OpenLayers.Layer.TMS.prototype.getURL.call(this, bounds);
         (this.signature) && (url += '?updated=' + this.signature);
         return url;
