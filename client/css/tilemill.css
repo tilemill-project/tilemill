@@ -298,7 +298,10 @@ h3 { font-size:13px; }
 .file,
 .icon,
 .logo,
-.wax-tooltip .close {
+.wax-tooltip .close,
+a.wax-fullscreen,
+a.zoomin,
+a.zoomout {
   display:block;
   padding:0px;
   width:20px;
@@ -345,7 +348,6 @@ a.button:hover .icon.right {
 .icon.color-picker   { background-position:-40px 0px; }
 .icon.close          { background-position:-80px 0px; }
 .icon.values         { background-position:-100px 0px; }
-.icon.map-fullscreen { background-position:-120px 0px; }
 .icon.map-legend     { background-position:-280px 0px; }
 .icon.prev           { background-position:-140px 0px; }
 .icon.next           { background-position:-160px 0px; }
@@ -371,7 +373,6 @@ a.button:hover .icon.right {
 .reverse.color-picker   { background-position:-40px -20px; }
 .reverse.close          { background-position:-80px -20px; }
 .reverse.values         { background-position:-100px -20px; }
-.reverse.map-fullscreen { background-position:-120px -20px; }
 .reverse.map-legend     { background-position:-280px -20px; }
 .reverse.prev           { background-position:-140px -20px; }
 .reverse.next           { background-position:-160px -20px; }
@@ -387,6 +388,46 @@ a.button:hover .icon.right {
 .reverse.geometry-point      { background-position:-220px -20px; }
 .reverse.geometry-polygon    { background-position:-240px -20px; }
 .reverse.geometry-raster     { background-position:-360px -20px; }
+
+/* Wax Buttons */
+a.wax-fullscreen,
+a.zoomin,
+a.zoomout {
+  background-color:transparent;
+  bottom:5px;
+  top:auto;
+  left:auto;
+  }
+
+a.wax-fullscreen {
+  background-position:-120px -20px;
+  right:10px;
+  }
+
+a.zoomin {
+  background-position:-180px -20px;
+  left:60px;
+  }
+
+a.zoomout {
+  background-position:-380px -20px;
+  left:80px;
+  }
+
+a.wax-fullscreen:hover,
+a.zoomin:hover,
+a.zoomout:hover {
+  background-color:#111;
+  box-shadow:#666 0px 0px 3px 1px;
+  -moz-box-shadow:#666 0px 0px 3px 1px;
+  -webkit-box-shadow:#666 0px 0px 3px 1px;
+  }
+
+a.wax-fullscreen:active,
+a.zoomin:active,
+a.zoomout:active {
+  background-color:#444;
+  }
 
 .icon.clear,
 .icon.clear:hover,
@@ -954,6 +995,11 @@ body.minimal #MapView,
   font-size:1px;
   }
 
+#MapView .map-preview {
+  width:100%;
+  height:100%;
+  }
+
 #MapView .control {
   background:url(../images/palette.png);
   height:20px;
@@ -982,7 +1028,6 @@ body.minimal #MapView,
 
 #MapView .zoom-display { left:10px; }
 #MapView .map-legend { right:31px; }
-#MapView .map-fullscreen { right:10px; }
 
 #MapView .wax-legends { display:none; }
 #MapView.legend .wax-legends { display:block; }
@@ -994,8 +1039,6 @@ body.minimal #MapView,
   float:left;
   padding:0px 10px 0px 0px;
   }
-
-.zoom-display .icon { float:left; }
 
 /**
  * Wax tooltips, legends ======================================================

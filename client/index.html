@@ -26,6 +26,8 @@
     <script type='text/javascript' src='ICanHaz.js/ICanHaz.min.js'></script>
     <script type='text/javascript' src='openlayers_slim/OpenLayers.js'></script>
     <script type='text/javascript' src='tipsy/src/javascripts/jquery.tipsy.js'></script>
+    <script type='text/javascript' src='modestmaps-js/modestmaps.js'></script>
+    <script type='text/javascript' src='wax/build/wax.mm.min.js'></script>
 
     <!-- interaction -->
     <script type='text/javascript' src='wax/build/wax.ol.min.js'></script>
@@ -368,14 +370,11 @@
     </script>
 
     <script type='text/html' id='MapView'>
-      <div id='map-preview-{{id}}'>
+      <div id='map-preview-{{id}}' class='map-preview'>
         <div class='control'>
-          <a class='icon reverse map-fullscreen' href='#'>Fullscreen</a>
           <a class='icon reverse map-legend' href='#'></a>
           <span class='zoom-display'>
             <label>Zoom <span class='zoom'></span></label>
-            <a href='#' class='icon reverse plus zoom-in'></a>
-            <a href='#' class='icon reverse minus zoom-out'></a>
           </span>
         </div>
       </div>

@@ -25,6 +25,26 @@ var MapView = Backbone.View.extend({
         $(this.el).html(ich.MapView({ id: this.mapID }));
     },
     activate: function() {
+        window.app.unbind('ready', this.activate);
+        var mm = com.modestmaps;
+        this.map = new mm.Map('map-preview-' + this.mapID,
+            new com.modestmaps.WaxProvider({
+                baseUrl: window.app.baseURL(),
+                layerName: this.model.id}))
+            .interaction()
+            .legend()
+            .zoomer()
+            .fullscreen();
+
+        var center = this.model.get('_center');
+        this.map.setCenterZoom(
+            new com.modestmaps.Location(center.lat, center.lon),
+            center.zoom);
+        this.map.addCallback('zoomed', this.controlZoom);
+        this.map.addCallback('panned', this.controlZoom);
+        this.controlZoom({element: this.map.div});
+    },
+    activate2: function() {
         var options = {
             projection: new OpenLayers.Projection('EPSG:900913'),
             displayProjection: new OpenLayers.Projection('EPSG:4326'),
@@ -101,12 +121,6 @@ var MapView = Backbone.View.extend({
         $(this.el).toggleClass('legend');
         return false;
     },
-    fullscreen: function() {
-        this.$('a.map-fullscreen').toggleClass('active');
-        $(this.el).toggleClass('fullscreen');
-        this.map.updateSize();
-        return false;
-    },
     maximize: function() {
         this.$('a.map-fullscreen').addClass('active');
         $(this.el).addClass('fullscreen');
@@ -121,17 +135,9 @@ var MapView = Backbone.View.extend({
     },
     controlZoom: function(e) {
         // Set the model center whenever the map is moved.
-        // Retrieve centerpoint from map and convert to lonlat units.
         var center = this.map.getCenter();
-        var zoom = this.map.getZoom();
-        var lonlat = new OpenLayers.LonLat(center.lon, center.lat);
-        lonlat.transform(
-            this.map.projection,
-            new OpenLayers.Projection("EPSG:4326")
-        );
-        center = { lat: lonlat.lat, lon: lonlat.lon, zoom: zoom };
+        center = { lat: center.lat, lon: center.lon, zoom: this.map.getZoom() };
         this.model.set({ _center: center }, { silent: true });
-
         this.$('.zoom-display .zoom').text(this.map.getZoom());
     },
     reload: function() {
