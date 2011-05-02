@@ -46,7 +46,7 @@ module.exports = function(app, settings) {
                 data[1] = _.extend(settings.header_defaults, data[1]);
                 res.send.apply(res, data);
             } else if (typeof err === 'object' && err.length) {
-                err = _.pluck(err, 'message').join("\n");
+                err = _.pluck(err, 'message').join('\n');
                 res.send('Error rendering image:\n' + err, 500);
             } else {
                 res.send('Error rendering image:\n' + err, 500);
@@ -65,7 +65,7 @@ module.exports = function(app, settings) {
                 format: 'grid.json',
                 mapfile_dir: settings.mapfile_dir,
                 format_options: {
-                    layer: parseInt(interactivity.layer, 10),
+                    layer: interactivity.layer,
                     key_name: interactivity.key_name,
                     data: true,
                     fields: res.project.formatterFields()
