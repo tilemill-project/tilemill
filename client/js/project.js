@@ -434,7 +434,8 @@ var ProjectInteractivityForm = Backbone.View.extend({
                     var object = {
                         fields: [],
                         template_teaser: interactivity && interactivity.template_teaser || '',
-                        template_full: interactivity && interactivity.template_full || ''
+                        template_full: interactivity && interactivity.template_full || '',
+                        template_location: interactivity && interactivity.template_location || ''
                     };
                     _.each(_.keys(ds.get('fields')), function(field) {
                         object.fields.push({
