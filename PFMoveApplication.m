@@ -16,6 +16,7 @@
 //
 
 #import "PFMoveApplication.h"
+#import "NSString+SymlinksAndAliases.h"
 #import <Security/Security.h>
 
 // Strings
@@ -268,13 +269,13 @@ static NSString *PreferredInstallLocation(BOOL *isUserDirectory) {
 
 		if ([fm fileExistsAtPath:userApplicationsDir isDirectory:&isDirectory] && isDirectory) {
 			if (isUserDirectory) *isUserDirectory = YES;
-			return userApplicationsDir;
+			return [userApplicationsDir stringByResolvingSymlinksAndAliases];
 		}
 	}
 
 	// No user Applications directory. Return the machine local Applications directory
 	if (isUserDirectory) *isUserDirectory = NO;
-	return [NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSLocalDomainMask, YES) lastObject];
+	return [[NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSLocalDomainMask, YES) lastObject] stringByResolvingSymlinksAndAliases];
 }
 
 static BOOL IsInApplicationsFolder(NSString *path) {

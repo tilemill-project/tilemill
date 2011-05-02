@@ -7,6 +7,9 @@ A sample project that demonstrates how to move a running Mac OS X application to
 Version History
 ---------------
 
+* 1.6
+	- Resolve any aliases when finding the Applications directory
+
 * 1.5.2
 	- Cleaned up the code a bit. Almost functionally equivalent to 1.5.1.
 
@@ -39,7 +42,7 @@ Version History
 
 Requirements
 ------------
-Builds and runs on Mac OS X 10.4 or higher
+Builds and runs on Mac OS X 10.4 or higher.
 
 
 Code Contributors:
@@ -50,7 +53,7 @@ Code Contributors:
 * Kevin LaCoste
 * Rasmus Andersson
 * Timothy J. Wood
-
+* Matt Gallagher (NSString+SymlinksAndAliases)
 
 Translators:
 ------------
