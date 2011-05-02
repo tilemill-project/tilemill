@@ -123,24 +123,14 @@ var ExportView = Backbone.View.extend({
         this.map = this.options.map.map;
         this.render();
         this.model.bind('change', this.updateUI);
-        this.model.set({ bbox: this.map.getExtent().toArray().join(',') });
+        this.model.set({ bbox: this.map.getExtent() });
         window.app.controller.saveLocation('project/' + this.options.project.id + '/export/' + this.options.format);
     },
     render: function() {
         $(this.el).html(ich.ExportView(this.options));
         window.app.el.append(this.el);
-        this.options.map.maximize();
+        this.options.map.$('.wax-fullscreen').click().hide();
         this.options.map.$('.map-legend').hide();
-        this.options.map.$('.map-fullscreen').hide();
-
-        // Add crop control to map.
-        this.boxDrawingLayer = new OpenLayers.Layer.Vector('Crop');
-        this.boxDrawingControl = new ExportCropControl(this.boxDrawingLayer, {
-            featureAdded: this.boundingBoxAdded
-        });
-        this.map.addLayer(this.boxDrawingLayer);
-        this.map.addControl(this.boxDrawingControl);
-        this.boxDrawingControl.activate();
         return this;
     },
     // OpenLayers ExportCropControl callback. Sets the bounding box of the
@@ -191,22 +181,11 @@ var ExportView = Backbone.View.extend({
         var that = this;
         _.each(model.changedAttributes(), function(value, key) {
             if (key === 'bbox') {
-                var bbox = value.split(',');
-                var nw = OpenLayers.Projection.transform(
-                    { x: bbox[0], y: bbox[3] },
-                    new OpenLayers.Projection('EPSG:900913'),
-                    new OpenLayers.Projection('EPSG:4326')
-                );
-                var se = OpenLayers.Projection.transform(
-                    { x: bbox[2], y: bbox[1] },
-                    new OpenLayers.Projection('EPSG:900913'),
-                    new OpenLayers.Projection('EPSG:4326')
-                );
-                that.$('#bbox-w').val(nw.x);
-                that.$('#bbox-s').val(se.y);
-                that.$('#bbox-e').val(se.x);
-                that.$('#bbox-n').val(nw.y);
-                that.boxDrawingControl.drawFeature(bbox, true);
+                that.$('#bbox-w').val(value[0].lon);
+                that.$('#bbox-s').val(value[1].lat);
+                that.$('#bbox-e').val(value[1].lon);
+                that.$('#bbox-n').val(value[0].lat);
+                // that.boxDrawingControl.drawFeature(bbox, true);
             } else {
                 that.$('#' + key).val(value);
             }
@@ -223,12 +202,8 @@ var ExportView = Backbone.View.extend({
         return false;
     },
     close: function() {
-        this.boxDrawingControl.deactivate();
-        this.options.map.map.removeControl(this.boxDrawingControl);
-        this.options.map.map.removeLayer(this.boxDrawingLayer);
-        this.options.map.minimize();
+        this.options.map.$('.wax-fullscreen').click().show();
         this.options.map.$('.map-legend').show();
-        this.options.map.$('.map-fullscreen').show();
         PopupView.prototype.close.call(this);
         window.app.controller.saveLocation('project/' + this.options.project.id);
         return false;
@@ -430,115 +405,3 @@ var ExportDropdownView = DropdownView.extend({
         return false;
     }
 });
-
-// ExportCropControl
-// -----------------
-// Custom OpenLayers control for generating a masked crop box over the map.
-// Assumes 900913 projection for extent of masked area.
-var ExportCropControl = OpenLayers.Class(OpenLayers.Control, {
-    CLASS_NAME: 'ExportCropControl',
-    EVENT_TYPES: ['featureadded'],
-
-    layer: null,
-    canvas: null,
-    feature: null,
-    callbacks: null,
-    multi: false,
-    featureAdded: function() {},
-    handlerOptions: null,
-
-    initialize: function(layer, options) {
-        // concatenate events specific to vector with those from the base
-        this.EVENT_TYPES =
-            OpenLayers.Control.DrawFeature.prototype.EVENT_TYPES.concat(
-            OpenLayers.Control.prototype.EVENT_TYPES
-        );
-        OpenLayers.Control.prototype.initialize.apply(this, [options]);
-        this.callbacks = OpenLayers.Util.extend(
-            { done: this.drawFeature },
-            this.callbacks
-        );
-        this.layer = layer;
-
-        // Set handler style and options.
-        this.handlerOptions = this.handlerOptions || {
-            'keyMask': OpenLayers.Handler.MOD_SHIFT,
-            'sides': 4,
-            'irregular': true
-        };
-        var style = OpenLayers.Util.extend(OpenLayers.Feature.Vector.style['default'], {
-            fillColor: '#000',
-            fillOpacity: 0.5,
-            strokeWidth: 0
-        });
-        this.handlerOptions.layerOptions = OpenLayers.Util.applyDefaults(
-            this.handlerOptions.layerOptions,
-            {styleMap: new OpenLayers.StyleMap({"default": style})}
-        );
-        this.handler = new OpenLayers.Handler.RegularPolygon(this, this.callbacks, this.handlerOptions);
-
-        // Draw initial handler.
-        var bounds = options.bounds || [-10000000, -10000000, 10000000, 10000000];
-        this.canvas = new OpenLayers.Geometry.LinearRing([
-            new OpenLayers.Geometry.Point(-20037500, 20037500),
-            new OpenLayers.Geometry.Point(20037500, 20037500),
-            new OpenLayers.Geometry.Point(20037500, -20037500),
-            new OpenLayers.Geometry.Point(-20037500, -20037500)
-        ]);
-        this.feature = new OpenLayers.Feature.Vector(
-            new OpenLayers.Geometry.Polygon([
-                this.canvas,
-                new OpenLayers.Geometry.LinearRing([
-                    new OpenLayers.Geometry.Point(bounds[0], bounds[3]),
-                    new OpenLayers.Geometry.Point(bounds[2], bounds[3]),
-                    new OpenLayers.Geometry.Point(bounds[2], bounds[1]),
-                    new OpenLayers.Geometry.Point(bounds[0], bounds[1])
-                ])
-            ])
-        );
-        this.feature.state = OpenLayers.State.INSERT;
-        layer.addFeatures([this.feature]);
-    },
-
-    drawFeature: function(geometry, quiet) {
-        var feature;
-        if (geometry.components) {
-            feature = new OpenLayers.Feature.Vector(
-                new OpenLayers.Geometry.Polygon([
-                    this.canvas,
-                    geometry.components.pop()
-                ])
-            );
-        // Allow a straight bbox to be passed in.
-        } else if (geometry.length === 4) {
-            feature = new OpenLayers.Feature.Vector(
-                new OpenLayers.Geometry.Polygon([
-                    this.canvas,
-                    new OpenLayers.Geometry.LinearRing([
-                        new OpenLayers.Geometry.Point(geometry[0], geometry[3]),
-                        new OpenLayers.Geometry.Point(geometry[2], geometry[3]),
-                        new OpenLayers.Geometry.Point(geometry[2], geometry[1]),
-                        new OpenLayers.Geometry.Point(geometry[0], geometry[1])
-                    ])
-                ])
-            );
-        }
-
-        var proceed = this.layer.events.triggerEvent(
-            "sketchcomplete", {feature: feature}
-        );
-        if(proceed !== false) {
-            feature.state = OpenLayers.State.INSERT;
-
-            // Replace this.feature with the new feature.
-            this.feature.destroy();
-            this.feature = feature;
-            this.layer.addFeatures([feature]);
-            if (!quiet) {
-                this.featureAdded(feature);
-                this.events.triggerEvent("featureadded", { feature : feature });
-            }
-        }
-    }
-});
-

@@ -394,9 +394,9 @@ a.wax-fullscreen,
 a.zoomin,
 a.zoomout {
   background-color:transparent;
+  position:absolute;
   bottom:5px;
-  top:auto;
-  left:auto;
+  z-index:9999;
   }
 
 a.wax-fullscreen {
@@ -964,19 +964,19 @@ ul.projects a:hover {
   top:0px;
   height:60%;
   border-bottom:1px solid #ccc;
-  background:#f8f8f8 url(../images/canvas.png) 0% 0% repeat;
   }
 
-#MapView .olMap {
+#MapView .map-preview {
   position:absolute;
   left:0px;
   right:0px;
   top:0px;
   bottom:0px;
+  background:#f8f8f8 url(../images/canvas.png) 0% 0% repeat;
   }
 
 body.minimal #MapView,
-#MapView.fullscreen {
+#MapView .map-preview.wax-fullscreen-map {
   position:fixed;
   top:50px;
   left:0px;
@@ -985,6 +985,7 @@ body.minimal #MapView,
   width:auto;
   height:auto;
   border:0px;
+  z-index:5;
   }
 
 #MapView .olHandlerBoxZoomBox {
@@ -1461,6 +1462,7 @@ body .tipsy { font-size:11px; }
   top:50px;
   bottom:0px;
   right:auto;
+  z-index:2000;
   }
 
 .minimal .drawer {
