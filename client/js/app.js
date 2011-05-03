@@ -100,7 +100,7 @@ var App = Backbone.View.extend({
     },
     // Set the application page viweport to the provided view. Triggers a
     // `ready` event for any behaviors that expect DOM elements to be present
-    // in the document before attaching/initing (e.g. CodeMirror, OpenLayers).
+    // in the document before attaching/initing (e.g. CodeMirror, Modest Maps).
     page: function(view, title) {
         title && (document.title = title);
         $('.tipsy').remove();

@@ -123,6 +123,7 @@ var ExportView = Backbone.View.extend({
         this.map = this.options.map.map;
         this.render();
         this.model.bind('change', this.updateUI);
+        // TODO: bbox should be represented in model as a string.
         this.model.set({ bbox: this.map.getExtent() });
         window.app.controller.saveLocation('project/' + this.options.project.id + '/export/' + this.options.format);
     },
@@ -133,7 +134,7 @@ var ExportView = Backbone.View.extend({
         this.options.map.$('.map-legend').hide();
         return this;
     },
-    // OpenLayers ExportCropControl callback. Sets the bounding box of the
+    // ExportCropControl callback. Sets the bounding box of the
     // model when a user drags a crop box over the map.
     boundingBoxAdded: function(box) {
         this.model.set({
@@ -144,7 +145,7 @@ var ExportView = Backbone.View.extend({
     // Resets the bounding box of the model to the maximum layer extents.
     boundingBoxReset: function() {
         this.model.set({
-            bbox: [-20037500, -20037500, 20037500, 20037500].join(',')
+            bbox: [-180, -90, 180, 90].join(',')
         });
         return false;
     },
@@ -152,23 +153,17 @@ var ExportView = Backbone.View.extend({
     updateModel: function(event) {
         var data = {};
         if ($(event.target).is('.bbox')) {
-            var bbox = [
-                parseFloat(this.$('#bbox-w').val()),
-                parseFloat(this.$('#bbox-s').val()),
-                parseFloat(this.$('#bbox-e').val()),
-                parseFloat(this.$('#bbox-n').val())
+            // TODO: bbox should be represented in model as a string.
+            data.bbox = [
+                {
+                    lat: parseFloat(this.$('#bbox-n').val()),
+                    lon: parseFloat(this.$('#bbox-w').val())
+                },
+                {
+                    lat: parseFloat(this.$('#bbox-s').val()),
+                    lon: parseFloat(this.$('#bbox-e').val())
+                }
             ];
-            var nw = OpenLayers.Projection.transform(
-                { x: bbox[0], y: bbox[3] },
-                new OpenLayers.Projection('EPSG:4326'),
-                new OpenLayers.Projection('EPSG:900913')
-            );
-            var se = OpenLayers.Projection.transform(
-                { x: bbox[2], y: bbox[1] },
-                new OpenLayers.Projection('EPSG:4326'),
-                new OpenLayers.Projection('EPSG:900913')
-            );
-            data.bbox = [ nw.x, se.y, se.x, nw.y ].join(',');
         } else if (key === 'width' || key === 'height') {
             data[$(event.target).attr('id')] = parseFloat($(event.target).val());
         } else {
@@ -181,10 +176,12 @@ var ExportView = Backbone.View.extend({
         var that = this;
         _.each(model.changedAttributes(), function(value, key) {
             if (key === 'bbox') {
+                // TODO: bbox should be represented in model as a string.
                 that.$('#bbox-w').val(value[0].lon);
                 that.$('#bbox-s').val(value[1].lat);
                 that.$('#bbox-e').val(value[1].lon);
                 that.$('#bbox-n').val(value[0].lat);
+                // TODO: Update control
                 // that.boxDrawingControl.drawFeature(bbox, true);
             } else {
                 that.$('#' + key).val(value);

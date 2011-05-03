@@ -23,7 +23,6 @@ module developmentseed backbone-dirty 0.0.3
 module mapbox carto master
 
 # client-side only
-module developmentseed openlayers_slim v1.9
 module headjs headjs v0.8
 module andyet ICanHaz.js v0.7
 module jaz303 tipsy v1.0.0a
