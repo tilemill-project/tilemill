@@ -153,6 +153,7 @@ var ExportView = Backbone.View.extend({
     // Update the export model from form fields.
     updateModel: function(event) {
         var data = {};
+        var key = $(event.target).attr('id');
         if ($(event.target).is('.bbox')) {
             // TODO: bbox should be represented in model as a string.
             data.bbox = [

@@ -92,7 +92,7 @@ module.exports = function(app, settings) {
 
     // Interaction layer.json endpoint.
     app.get('/1.0.0/:id/layer.json', loadProject, function(req, res, next) {
-        if (!res.project.get('_interactivity')) {
+        if (!res.project.get('_interactivity') && !res.project.get('_legend')) {
             res.send('Formatter not found', 404);
         } else {
             var json = {
