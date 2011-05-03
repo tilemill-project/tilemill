@@ -1,18 +1,12 @@
 // MapView
 // -------
-// OpenLayers map preview for a project.
+// Map preview for a project.
 var MapView = Backbone.View.extend({
     id: 'MapView',
     initialize: function() {
         _.bindAll(this, 'render', 'activate', 'controlZoom', 'reload',
             'legend', 'fullscreen', 'minimize', 'maximize');
 
-        // OpenLayers seems to fiercely associate maps with DOM element IDs.
-        // Using a stable ID means that if it appears again (e.g. the project
-        // is closed and reopened) OpenLayers will retain its attachment, even
-        // to a freshly created DOM element. Workaround is to generate a
-        // "unique" `this.mapID` to ensure a fresh OL map each time.
-        this.mapID = +new Date;
         this.render();
         this.model.bind('save', this.reload);
         window.app.bind('ready', this.activate);
@@ -22,12 +16,12 @@ var MapView = Backbone.View.extend({
         'click a.map-legend': 'legend'
     },
     render: function() {
-        $(this.el).html(ich.MapView({ id: this.mapID }));
+        $(this.el).html(ich.MapView());
     },
     activate: function() {
         window.app.unbind('ready', this.activate);
         var mm = com.modestmaps;
-        this.map = new mm.Map('map-preview-' + this.mapID,
+        this.map = new mm.Map('map-preview',
             new com.modestmaps.SignedProvider({
                 baseUrl: window.app.baseURL(),
                 filetype: '.' + this.model.get('_format'),
