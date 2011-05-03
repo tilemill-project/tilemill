@@ -407,11 +407,11 @@ var ProjectInteractivityForm = Backbone.View.extend({
                 selected: !interactivity
             }]
         };
-        _.each(this.model.get('Layer').models, function(layer, index) {
+        _.each(this.model.get('Layer').models, function(layer) {
             object.interactivity_layer.push({
                 id: layer.id,
                 name: layer.id,
-                selected: interactivity && (interactivity.layer == index)
+                selected: interactivity && (interactivity.layer == layer.id)
             });
         });
         $(this.el).html(ich.ProjectInteractivityForm(object));
