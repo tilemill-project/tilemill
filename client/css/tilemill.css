@@ -1046,6 +1046,7 @@ body.minimal #MapView,
  */
 .wax-tooltip,
 .wax-legends .wax-legend {
+  position:absolute;
   left:0px;
   top:0px;
 
@@ -1055,6 +1056,11 @@ body.minimal #MapView,
   border-radius:0px 0px 3px 0px;
   -moz-border-radius:0px 0px 3px 0px;
   -webkit-border-radius:0px 0px 3px 0px;
+  }
+
+.wax-tooltip {
+  color:#fff;
+  max-width:300px;
   }
 
 .wax-tooltip a,
@@ -1076,6 +1082,7 @@ body.minimal #MapView,
 .wax-popup { padding-right:30px; }
 
 .wax-popup .close {
+  position:absolute;
   right:5px;
   top:5px;
   background-color:transparent;
