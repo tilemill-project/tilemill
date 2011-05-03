@@ -1056,17 +1056,17 @@ body.minimal #MapView,
   border-radius:0px 0px 3px 0px;
   -moz-border-radius:0px 0px 3px 0px;
   -webkit-border-radius:0px 0px 3px 0px;
+  color:#fff;
   }
 
 .wax-tooltip {
-  color:#fff;
   max-width:300px;
   }
 
 .wax-tooltip a,
 .wax-legends .wax-legend a { color:#8cf; }
 
-.wax-legends {
+.wax-legends .wax-legend {
   bottom:auto;
   left:auto;
   top:0px;
