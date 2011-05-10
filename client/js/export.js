@@ -130,7 +130,8 @@ var ExportView = Backbone.View.extend({
     render: function() {
         $(this.el).html(ich.ExportView(this.options));
         window.app.el.append(this.el);
-        this.options.map.$('.wax-fullscreen').click().hide();
+        this.options.map.map.maximize();
+        this.options.map.$('.wax-fullscreen').hide();
         this.options.map.$('.map-legend').hide();
         return this;
     },
@@ -200,7 +201,8 @@ var ExportView = Backbone.View.extend({
         return false;
     },
     close: function() {
-        this.options.map.$('.wax-fullscreen').click().show();
+        this.options.map.map.minimize();
+        this.options.map.$('.wax-fullscreen').show();
         this.options.map.$('.map-legend').show();
         PopupView.prototype.close.call(this);
         window.app.controller.saveLocation('project/' + this.options.project.id);
