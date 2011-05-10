@@ -440,18 +440,18 @@ var Project = Backbone.Model.extend({
     },
     // Interactivity: Convert teaser/full template markup into formatter js.
     // Replaces tokens like `[NAME]` with string concatentations of `data.NAME`
-    // removes line breaks and replaces single quotes in markup with double
-    // quotes.
-    // @TODO properly handle other possible #fail
+    // removes line breaks and escapes single quotes.
+    // @TODO properly handle other possible #fail. Maybe use underscore
+    // templating?
     formatterJS: function() {
         if (_.isEmpty(this.get('_interactivity'))) return;
 
         var full = this.get('_interactivity').template_full || '';
         var teaser = this.get('_interactivity').template_teaser || '';
         var location = this.get('_interactivity').template_location || '';
-        full = full.replace(/\'/g, '"').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
-        teaser = teaser.replace(/\'/g, '"').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
-        location = location.replace(/\'/g, '"').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        full = full.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        teaser = teaser.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        location = location.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
         return "function(options, data) { "
             + "  switch (options.format) {"
             + "    case 'full': "
