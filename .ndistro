@@ -42,7 +42,7 @@ module developmentseed node-sqlite3 2.0.10 sqlite3
 module kkaefer node-zlib master zlib
 
 # dev work on interaction
-module mapbox tilelive.js master
+module mapbox tilelive.js 2.0.3
 module mapnik node-mapnik 0.3.1 mapnik
 
 # module layout workarounds
