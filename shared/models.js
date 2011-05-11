@@ -243,7 +243,7 @@ var Layer = Backbone.Model.extend({
     },
     // Constant. Hash of simple names to known SRS strings.
     SRS: {
-        '900913': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+        '900913': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over',
         'WGS84': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
     },
     // Get the name of a model's SRS string if known, otherwise reteurn
@@ -360,7 +360,7 @@ var Project = Backbone.Model.extend({
         id: 'world',
         name: 'world',
         srs: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 '
-        + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+        + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over',
         geometry: 'polygon',
         Datasource: {
             file: 'http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip',
@@ -372,7 +372,7 @@ var Project = Backbone.Model.extend({
         '_format': 'png',
         '_interactivity': false,
         'srs': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 '
-            + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+            + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over',
         'Stylesheet': [],
         'Layer': []
     },
@@ -440,17 +440,18 @@ var Project = Backbone.Model.extend({
     },
     // Interactivity: Convert teaser/full template markup into formatter js.
     // Replaces tokens like `[NAME]` with string concatentations of `data.NAME`
-    // and removes line breaks.
-    // @TODO properly escape quotes, other possible #fail
+    // removes line breaks and escapes single quotes.
+    // @TODO properly handle other possible #fail. Maybe use underscore
+    // templating?
     formatterJS: function() {
         if (_.isEmpty(this.get('_interactivity'))) return;
 
         var full = this.get('_interactivity').template_full || '';
         var teaser = this.get('_interactivity').template_teaser || '';
         var location = this.get('_interactivity').template_location || '';
-        full = full.replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
-        teaser = teaser.replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
-        location = location.replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        full = full.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        teaser = teaser.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        location = location.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
         return "function(options, data) { "
             + "  switch (options.format) {"
             + "    case 'full': "
@@ -474,8 +475,8 @@ var Project = Backbone.Model.extend({
         var full = this.get('_interactivity').template_full || '';
         var teaser = this.get('_interactivity').template_teaser || '';
         fields = fields
-                    .concat(full.match(/\[([\w\d]+)\]/g))
-                    .concat(teaser.match(/\[([\w\d]+)\]/g));
+            .concat(full.match(/\[([\w\d]+)\]/g))
+            .concat(teaser.match(/\[([\w\d]+)\]/g));
         fields = _(fields).chain()
             .filter(_.isString)
             .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
