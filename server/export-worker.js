@@ -114,6 +114,7 @@ FormatMBTiles.prototype.render = function(callback) {
         maxzoom: that.data.maxzoom,
         datasource: that.data.datasource,
         mapfile_dir: path.join(settings.mapfile_dir),
+        srs: 'WSG84',
         metadata: {
             name: that.data.metadata_name,
             type: that.data.metadata_type,

@@ -123,30 +123,35 @@ var ExportView = Backbone.View.extend({
         this.map = this.options.map.map;
         this.render();
         this.model.bind('change', this.updateUI);
-        // TODO: bbox should be represented in model as a string.
-        this.model.set({ bbox: this.map.getExtent() });
+        this.boundingBoxAdded(this.map.getExtent());
         window.app.controller.saveLocation('project/' + this.options.project.id + '/export/' + this.options.format);
     },
     render: function() {
         $(this.el).html(ich.ExportView(this.options));
         window.app.el.append(this.el);
-        this.options.map.map.maximize();
+        this.map.maximize();
         this.options.map.$('.wax-fullscreen').hide();
         this.options.map.$('.map-legend').hide();
+
+        // Add crop control to map.
+        this.map.boxselector(this.boundingBoxAdded);
         return this;
     },
     // ExportCropControl callback. Sets the bounding box of the
     // model when a user drags a crop box over the map.
     boundingBoxAdded: function(box) {
         this.model.set({
-            bbox: box.geometry.components[1].getBounds().toArray().join(',')
+            bbox: [box[0].lon,
+                   box[1].lat,
+                   box[1].lon,
+                   box[0].lat].join(',')
         });
         return false;
     },
     // Resets the bounding box of the model to the maximum layer extents.
     boundingBoxReset: function() {
         this.model.set({
-            bbox: [-180, -90, 180, 90].join(',')
+            bbox: [-179.99992508051, -85.051122316742, 179.99992508051, 85.051122316742].join(',')
         });
         return false;
     },
@@ -178,13 +183,15 @@ var ExportView = Backbone.View.extend({
         var that = this;
         _.each(model.changedAttributes(), function(value, key) {
             if (key === 'bbox') {
-                // TODO: bbox should be represented in model as a string.
-                that.$('#bbox-w').val(value[0].lon);
-                that.$('#bbox-s').val(value[1].lat);
-                that.$('#bbox-e').val(value[1].lon);
-                that.$('#bbox-n').val(value[0].lat);
-                // TODO: Update control
-                // that.boxDrawingControl.drawFeature(bbox, true);
+                var bbox = value.split(',');
+                that.$('#bbox-w').val(bbox[0]);
+                that.$('#bbox-s').val(bbox[1]);
+                that.$('#bbox-e').val(bbox[2]);
+                that.$('#bbox-n').val(bbox[3]);
+                // Update control
+                var mm = com.modestmaps;
+                that.map.boxselector.box = [new mm.Location(bbox[1], bbox[2]), new mm.Location(bbox[3], bbox[0])];
+                that.map.draw();
             } else {
                 that.$('#' + key).val(value);
             }
@@ -220,14 +227,13 @@ var ExportView = Backbone.View.extend({
 var ExportImageView = ExportView.extend({
     initialize: function() {
         ExportView.prototype.initialize.call(this);
-        var size = this.map.getSize();
         this.model.set({
             filename: this.options.project.get('id')
                 + '.'
                 + this.options.extension,
-            width: size.w,
-            height: size.h,
-            aspect: size.w / size.h
+            width: this.map.dimensions.x,
+            height: this.map.dimensions.y,
+            aspect: this.map.dimensions.x / this.map.dimensions.y
         });
         this.model.bind('change:width', this.updateDimensions);
         this.model.bind('change:height', this.updateDimensions);
