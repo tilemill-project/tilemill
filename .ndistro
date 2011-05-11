@@ -15,7 +15,7 @@ module creationix step v0.0.3
 module visionmedia expresso 0.7.2
 module documentcloud backbone 0.3.3
 module documentcloud underscore 1.1.4
-module coopernurse node-pool 1.0.4
+module tmcw node-pool error_parameter
 module willwhite node-worker 0.0.1
 module felixge node-dirty v0.9.1
 module tmcw node-get 0.2.0 get
@@ -42,7 +42,7 @@ module developmentseed node-sqlite3 2.0.10 sqlite3
 module kkaefer node-zlib master zlib
 
 # dev work on interaction
-module mapbox tilelive.js 2.0.3
+module mapbox tilelive.js master
 module mapnik node-mapnik 0.3.1 mapnik
 
 # module layout workarounds
