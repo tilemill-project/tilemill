@@ -160,17 +160,12 @@ var ExportView = Backbone.View.extend({
         var data = {};
         var key = $(event.target).attr('id');
         if ($(event.target).is('.bbox')) {
-            // TODO: bbox should be represented in model as a string.
             data.bbox = [
-                {
-                    lat: parseFloat(this.$('#bbox-n').val()),
-                    lon: parseFloat(this.$('#bbox-w').val())
-                },
-                {
-                    lat: parseFloat(this.$('#bbox-s').val()),
-                    lon: parseFloat(this.$('#bbox-e').val())
-                }
-            ];
+                parseFloat(this.$('#bbox-w').val()),
+                parseFloat(this.$('#bbox-s').val()),
+                parseFloat(this.$('#bbox-e').val()),
+                parseFloat(this.$('#bbox-n').val())]
+            .join(',');
         } else if (key === 'width' || key === 'height') {
             data[$(event.target).attr('id')] = parseFloat($(event.target).val());
         } else {
@@ -184,6 +179,15 @@ var ExportView = Backbone.View.extend({
         _.each(model.changedAttributes(), function(value, key) {
             if (key === 'bbox') {
                 var bbox = value.split(',');
+                var bboxMax = [-179.99992508051, -85.051122316742, 179.99992508051, 85.051122316742];
+                var bbox = _.map(value.split(','), function(bound, index) {
+                    if (index == 0 || index == 1) {
+                        return Math.max(bound, bboxMax[index]);
+                    } else {
+                        return Math.min(bound, bboxMax[index]);
+                    }
+                    return bound;
+                });
                 that.$('#bbox-w').val(bbox[0]);
                 that.$('#bbox-s').val(bbox[1]);
                 that.$('#bbox-e').val(bbox[2]);
@@ -208,6 +212,7 @@ var ExportView = Backbone.View.extend({
         return false;
     },
     close: function() {
+        this.map.boxselector.remove();
         this.options.map.map.minimize();
         this.options.map.$('.wax-fullscreen').show();
         this.options.map.$('.map-legend').show();
