@@ -606,7 +606,7 @@ form .palette div { padding:5px 0px; }
   position:fixed;
   right:10px;
   top:60px;
-  z-index:10;
+  z-index:20;
 
   color:#999;
   width:160px;
@@ -985,7 +985,7 @@ body.minimal #MapView,
   width:auto !important;
   height:auto !important;
   border:0px;
-  z-index:5;
+  z-index:15;
   }
 
 #MapView .olHandlerBoxZoomBox {
