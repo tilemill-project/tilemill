@@ -31,9 +31,9 @@ Install Xcode for Mac OS X:
 
 - [Xcode](http://developer.apple.com/technologies/tools/xcode.html)
 
-Install `Mapnik 2.0` from [OS X package](http://dbsgeo.com/downloads/#mapnik-2.0.0):
+Install the latest `Mapnik 2.0` build from [OS X package](http://dbsgeo.com/downloads/#mapnik-2.0.0):
 
-- [mapnik 2.0 ](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0.dmg)
+- [mapnik 2.0 ](http://dbsgeo.com/tmp/mapnik_2.0.0_snow_intel_2011_05_10_2888.dmg)
 
 Download and unpack TileMill. Build & install:
 
