@@ -388,7 +388,8 @@ var ProjectInteractivityForm = Backbone.View.extend({
                 layer: this.$('#interactivity_layer').val(),
                 key_name: this.$('#interactivity_key_name').val(),
                 template_teaser: this.$('#interactivity_template_teaser').val(),
-                template_full: this.$('#interactivity_template_full').val()
+                template_full: this.$('#interactivity_template_full').val(),
+                template_location: this.$('#interactivity_template_location').val()
             }
         };
         (this.$('#interactivity_layer').val() == -1) && (attr._interactivity = false);
