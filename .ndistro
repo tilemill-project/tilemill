@@ -9,7 +9,7 @@ module senchalabs connect 0.5.10
 module visionmedia express 1.0.7
 module visionmedia node-querystring 0.0.6 qs
 # Needs tag
-module learnboost knox master
+module learnboost knox ed96a563fa27ea698bdabd669738cf391b74807e
 module isaacs sax-js v0.1.1
 module creationix step v0.0.3
 module visionmedia expresso 0.7.2
@@ -39,7 +39,7 @@ module dankogai js-base64
 module springmeyer node-srs 0.1.2 srs
 module springmeyer node-zipfile 0.1.8 zipfile
 module developmentseed node-sqlite3 2.0.10 sqlite3
-module kkaefer node-zlib master zlib
+module kkaefer node-zlib 1.0.4 zlib
 
 # dev work on interaction
 module mapbox tilelive.js master
