@@ -119,9 +119,11 @@ var ExportView = Backbone.View.extend({
         'change select': 'updateModel'
     }, PopupView.prototype.events),
     initialize: function() {
-        _.bindAll(this, 'boundingBoxAdded', 'boundingBoxReset', 'updateModel', 'updateUI');
+        _.bindAll(this, 'boundingBoxAdded', 'boundingBoxReset', 'updateModel', 'updateUI', 'bboxClamp', 'calcAspect');
         this.map = this.options.map.map;
         this.render();
+        this.model.bind('change:bbox', this.bboxClamp);
+        this.model.bind('change:bbox', this.calcAspect);
         this.model.bind('change', this.updateUI);
         this.boundingBoxAdded(this.map.getExtent());
         window.app.controller.saveLocation('project/' + this.options.project.id + '/export/' + this.options.format);
@@ -173,21 +175,36 @@ var ExportView = Backbone.View.extend({
         }
         this.model.set(data);
     },
+    bboxClamp: function(model) {
+        var bboxMax = [-179.99992508051, -85.051122316742, 179.99992508051, 85.051122316742];
+        var bbox = _.map(model.get('bbox').split(','), function(bound, index) {
+            if (index <= 1) {
+                return Math.max(bound, bboxMax[index]);
+            } else {
+                return Math.min(bound, bboxMax[index]);
+            }
+            return bound;
+        });
+        model.set({bbox: bbox.join(',')});
+    },
+    calcAspect: function(model) {
+        // Determine the aspect ration of the final bbox.
+        var bbox = model.get('bbox').split(',');
+        var points = [
+            this.map.locationPoint(new com.modestmaps.Location(bbox[3], bbox[0])),
+            this.map.locationPoint(new com.modestmaps.Location(bbox[1], bbox[2]))
+        ];
+        model.set({
+            aspect: (Math.round(points[1].x) - Math.round(points[0].x)) /
+            (Math.round(points[1].y) - Math.round(points[0].y))
+        });
+    },
     // Update form field values when model values change.
     updateUI: function(model) {
         var that = this;
         _.each(model.changedAttributes(), function(value, key) {
             if (key === 'bbox') {
                 var bbox = value.split(',');
-                var bboxMax = [-179.99992508051, -85.051122316742, 179.99992508051, 85.051122316742];
-                var bbox = _.map(value.split(','), function(bound, index) {
-                    if (index == 0 || index == 1) {
-                        return Math.max(bound, bboxMax[index]);
-                    } else {
-                        return Math.min(bound, bboxMax[index]);
-                    }
-                    return bound;
-                });
                 that.$('#bbox-w').val(bbox[0]);
                 that.$('#bbox-s').val(bbox[1]);
                 that.$('#bbox-e').val(bbox[2]);
@@ -248,11 +265,6 @@ var ExportImageView = ExportView.extend({
         ExportView.prototype.render.call(this);
         this.$('.palette').append(ich.ExportImageView(this.options));
         return this;
-    },
-    boundingBoxAdded: function(box) {
-        var bounds = box.geometry.components[1].getBounds();
-        this.model.set({aspect: bounds.getWidth() / bounds.getHeight()});
-        ExportView.prototype.boundingBoxAdded.call(this, box);
     },
     // Update the image width or height based on the bounding box aspect ratio
     // when the user changes one of the w/h/bbox values.
