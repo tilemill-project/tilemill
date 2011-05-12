@@ -28,7 +28,7 @@ module andyet ICanHaz.js v0.7
 module jaz303 tipsy v1.0.0a
 module mapbox wax master
 module marijnh CodeMirror2 v2.0
-module stamen modestmaps-js master
+module stamen modestmaps-js 0.16.1
 
 # needs tag
 module garycourt JSV
