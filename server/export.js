@@ -50,11 +50,15 @@ Scanner.prototype.process = function(id, callback) {
         },
         function() {
             var next = this;
-            project = cache.get('Project', model.get('project'));
-            project.fetch({
-              success: next,
-              error: next
-            });
+            if (model.get('status') === 'waiting') {
+                project = cache.get('Project', model.get('project'));
+                project.fetch({
+                  success: next,
+                  error: next
+                });
+            } else {
+                callback();
+            }
         },
         function() {
             // Export is waiting to be processed. Spawn a new worker if the
