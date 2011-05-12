@@ -25,6 +25,16 @@ Requirements
   - May work: Older versions, other POSIX-compliant systems
 
 
+Support
+-------
+
+[Report bugs on GitHub][1] or get support at [support.mapbox.com][2]. Join us
+in the #mapbox IRC channel on irc.freenode.net.
+
+[1]:https://github.com/mapbox/tilemill/issues
+[2]:http://support.mapbox.com/kb/tilemill/where-can-i-get-help-with-tilemill
+
+
 Installation: Mac OS X 10.6
 ---------------------------
 Install Xcode for Mac OS X:
