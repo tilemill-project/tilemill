@@ -120,6 +120,51 @@ function loadProject(model, callback) {
                     []
                 );
             }
+            this(err, object);
+        },
+        function(err, object) {
+            if (err) return callback(err);
+
+            // Determine if an SRS string should be migrated.
+            var migrateMercatorSRS = function(srs) {
+                var migrationCandidate = [
+                    '+a=6378137',
+                    '+b=6378137',
+                    '+k=1.0',
+                    '+lat_ts=0.0',
+                    '+lon_0=0.0',
+                    '+nadgrids=@null',
+                    '+proj=merc',
+                    '+units=m',
+                    '+x_0=0.0',
+                    '+y_0=0'];
+
+                // Sort all proj arguments with equals signs (=) into an array.
+                var components = _(srs.split(' ')).chain()
+                    .select(function(component) {
+                        if (component.indexOf('=') !== -1) {
+                            return true;
+                        }
+                        return false;
+                    })
+                    .sortBy(function(component) { return component });
+
+                return _.isEqual(components, migrationCandidate);
+            }
+
+            // Migrate legacy srs strings for 900913.
+            var newSRS = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
+            // Project
+            if (migrateMercatorSRS(object.srs)) {
+                object.srs = newSRS;
+            }
+            // Layers
+            _.each(object.Layer, function(layer) {
+                if (migrateMercatorSRS(layer.srs)) {
+                    layer.srs = newSRS;
+                }
+            });
+
             return callback(err, object);
         }
     );

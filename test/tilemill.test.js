@@ -147,6 +147,33 @@ module.exports = {
             status: 500
         });
     },
+    'projection-migration': function() {
+        // Update project to use legacy projection string to test that TileMill updates it properly.
+        var legacyProject = JSON.parse(project1);
+        legacyProject.srs = legacyProject.Layer[0].srs = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs';
+        assert.response(app, {
+            url: '/api/Project/Test',
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            data: JSON.stringify(legacyProject)
+        }, {
+            status: 200
+        });
+        // Project SRS strings should be fixed upon loading.
+        assert.response(app, {
+            url: '/api/Project/Test',
+            method: 'GET',
+        }, {
+            status: 200
+        }, function(res) {
+            var project = JSON.parse(res.body);
+            assert.equal('+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over', project.srs);
+            assert.equal('+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over', project.Layer[0].srs);
+        });
+    },
+
     'project-update': function() {
         // Update project
         assert.response(app, {
