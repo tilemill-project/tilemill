@@ -396,7 +396,7 @@ a.zoomout {
   background-color:transparent;
   position:absolute;
   bottom:5px;
-  z-index:9999;
+  z-index:4999;
   }
 
 a.wax-fullscreen {
