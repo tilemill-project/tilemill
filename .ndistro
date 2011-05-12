@@ -36,7 +36,7 @@ module douglascrockford JSON-js
 module dankogai js-base64
 
 # built modules
-module springmeyer node-srs 0.1.2 srs
+module springmeyer node-srs master srs
 module springmeyer node-zipfile 0.1.8 zipfile
 module developmentseed node-sqlite3 2.0.10 sqlite3
 module kkaefer node-zlib 1.0.4 zlib
