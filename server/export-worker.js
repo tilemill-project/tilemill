@@ -185,7 +185,8 @@ FormatImage.prototype.render = function(callback) {
                 scheme: 'tile',
                 format: that.format,
                 mapfile_dir: path.join(settings.mapfile_dir),
-                bbox: that.data.bbox.split(',')
+                bbox: that.data.bbox.split(','),
+                srs: 'WSG84'
             });
             try {
                 var tile = new Tile(options);
