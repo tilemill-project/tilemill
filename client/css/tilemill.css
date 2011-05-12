@@ -1469,7 +1469,7 @@ body .tipsy { font-size:11px; }
   top:50px;
   bottom:0px;
   right:auto;
-  z-index:2000;
+  z-index:4999;
   }
 
 .minimal .drawer {
