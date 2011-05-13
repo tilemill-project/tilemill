@@ -37,17 +37,25 @@ in the #mapbox IRC channel on irc.freenode.net.
 
 Installation: Mac OS X 10.6
 ---------------------------
-Install Xcode for Mac OS X:
+Install [Xcode][xcode] for Mac OS X. Version 3 or 4 will work.
 
-- [Xcode](http://developer.apple.com/technologies/tools/xcode.html)
+- [Download Xcode 3](https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20792)
+- [Download Xcode 4](http://developer.apple.com/xcode/) (Apple charges a fee for this download)
 
-Install the latest `Mapnik 2.0` build from [OS X package](http://dbsgeo.com/downloads/#mapnik-2.0.0):
+[xcode]:http://developer.apple.com/technologies/tools/xcode.html
 
-- [mapnik 2.0 ](http://dbsgeo.com/tmp/mapnik_2.0.0_snow_intel_2011_05_10_2888.dmg)
+Install the latest `Mapnik 2.0` build:
 
-Download and unpack TileMill. Build & install:
+- [Download mapnik 2.0](http://dbsgeo.com/tmp/mapnik_2.0.0_snow_intel_2011_05_10_2888.dmg)
 
-    cd TileMill
+[Download TileMill](https://github.com/mapbox/tilemill/downloads) and unpack the archive.
+
+Open Terminal and change to unpacked directory:
+
+    cd mapbox-tilemill
+
+Build & install:
+
     ./ndistro
 
 Start TileMill:
@@ -105,6 +113,16 @@ Start TileMill:
     ./tilemill.js
 
 TileMill should now be accessible from a browser at `http://localhost:8889`.
+
+
+Upgrading
+---------
+Refer to CHANGELOG.md for information about the new version. This file will
+indicate if a Mapnik upgrade is required. To upgrade TileMill, use the
+installation instructions to install the new version TileMill in a separate
+directory. Once the new installation is complete, manually copy the `files/`
+directory and the `settings.js` file from the old installation to the new
+installation. This will migrate your projects, settings, and data.
 
 
 Configuration
