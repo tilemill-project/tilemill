@@ -33,7 +33,7 @@ module marijnh CodeMirror2 v2.0
 module stamen modestmaps-js 0.16.1
 
 # built modules
-module springmeyer node-srs 0.2.1 srs
+module springmeyer node-srs 0.2.2 srs
 module springmeyer node-zipfile 0.1.8 zipfile
 module developmentseed node-sqlite3 2.0.10 sqlite3
 module kkaefer node-zlib 1.0.4 zlib
