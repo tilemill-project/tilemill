@@ -31,7 +31,15 @@ worker.onmessage = function(data) {
         'pdf': FormatPDF,
         'mbtiles': FormatMBTiles
     }[data.format];
-    new Format(this, data);
+    if (Format) {
+        new Format(this, data);
+    } else {
+        this.postMessage({ event: 'update', attributes: {
+            status: 'error',
+            error: 'Invalid format.',
+            updated: +new Date
+        } });
+    }
 };
 
 // Generic export format class.
