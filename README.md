@@ -20,7 +20,7 @@ Requirements
   - Tested: Chrome 6+, Firefox 3+, IE8+
   - May work: Opera 11
 - *TileMill server*
-  - Tested: Mac OS X 10.6, Ubuntu 10.10
+  - Tested: Mac OS X 10.6, Ubuntu 10.10, Centos 5.5 
   - At least 2GB memory
   - May work: Older versions, other POSIX-compliant systems
 
