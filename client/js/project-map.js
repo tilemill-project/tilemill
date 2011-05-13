@@ -31,6 +31,7 @@ var MapView = Backbone.View.extend({
             .interaction()
             .legend()
             .zoomer()
+            .zoombox()
             .fullscreen();
 
         var center = this.model.get('_center');

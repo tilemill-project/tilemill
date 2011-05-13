@@ -136,6 +136,7 @@ var ExportView = Backbone.View.extend({
         this.options.map.$('.map-legend').hide();
 
         // Add crop control to map.
+        this.map.zoombox.remove();
         this.map.boxselector(this.boundingBoxAdded);
         return this;
     },
@@ -230,6 +231,7 @@ var ExportView = Backbone.View.extend({
     },
     close: function() {
         this.map.boxselector.remove();
+        this.map.zoombox();
         this.options.map.map.minimize();
         this.options.map.$('.wax-fullscreen').show();
         this.options.map.$('.map-legend').show();

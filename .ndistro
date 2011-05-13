@@ -28,7 +28,7 @@ module dankogai js-base64 b1d15613be6651917ef5761e0bc29c7c07aabd90
 module headjs headjs v0.8
 module andyet ICanHaz.js v0.7
 module jaz303 tipsy v1.0.0a
-module mapbox wax 1.4.1
+module mapbox wax 1.4.2
 module marijnh CodeMirror2 v2.0
 module stamen modestmaps-js 0.16.1
 
