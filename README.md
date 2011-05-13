@@ -46,7 +46,7 @@ Install [Xcode][xcode] for Mac OS X. Version 3 or 4 will work.
 
 Install the latest `Mapnik 2.0` build:
 
-- [Download mapnik 2.0](http://dbsgeo.com/tmp/mapnik_2.0.0_snow_intel_2011_05_10_2888.dmg)
+- [Download mapnik 2.0](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r2898.dmg)
 
 [Download TileMill](https://github.com/mapbox/tilemill/downloads) and unpack the archive.
 
@@ -72,7 +72,7 @@ Install build requirements:
     # Mapnik dependencies
     sudo apt-get install -y g++ cpp \
     libboost-filesystem1.42-dev \
-    libboost-iostreams1.42-dev libboost-program-options1.42-dev \
+    libboost-program-options1.42-dev \
     libboost-python1.42-dev libboost-regex1.42-dev \
     libboost-system1.42-dev libboost-thread1.42-dev \
     python-dev libxml2 libxml2-dev \
@@ -92,16 +92,15 @@ Install build requirements:
     libsqlite3-0 libsqlite3-dev
 
     # TileMill dependencies
-    sudo apt-get install libzip1 libzip-dev curl
+    sudo apt-get install curl
 
 Install `mapnik` from source:
 
-    svn checkout -r 2638 http://svn.mapnik.org/trunk mapnik
-    cd mapnik
+    svn checkout -r 2898 http://svn.mapnik.org/trunk mapnik2
+    cd mapnik2
     python scons/scons.py configure
     python scons/scons.py
     sudo python scons/scons.py install
-    sudo ldconfig
 
 Download and unpack TileMill. Build & install:
 
