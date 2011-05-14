@@ -63,9 +63,11 @@ module.exports = function(app, settings) {
         },
         function() {
             if (!data.get('directory_path')) {
-                data.save({
-                    'directory_path': path.join(__dirname, '..', 'files', 'data')
-                });
+                // TODO: This appears to have relied on shared require's, which
+                // no longer work with npm. Reimplment after bones refactor.
+                // data.save({
+                //     'directory_path': path.join(__dirname, '..', 'files', 'data')
+                // });
             }
         }
     );
