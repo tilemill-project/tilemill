@@ -1,4 +1,5 @@
-#!./bin/node
+#!/usr/bin/env node
+process.title = 'tilemill';
 // The TileMill application consists of:
 //
 //     +-----------------+
@@ -52,11 +53,10 @@ var express = require('express'),
 
 var app = module.exports = express.createServer();
 
-app.use(express.bodyDecoder());
-app.use(express.staticProvider('client'));
-app.use(express.staticProvider('shared'));
-app.use(express.staticProvider('modules'));
-app.enable('jsonp callback');
+app.use(express.bodyParser());
+app.use(express.static('client'));
+app.use(express.static('shared'));
+app.use(express.static('modules'));
 
 require('bootstrap')(app, settings);
 require('api')(app, settings);
