@@ -15,24 +15,31 @@ require.paths.unshift(
     __dirname + '/../'
 );
 
-var worker = require('worker').worker,
+var _ = require('underscore')._,
+    worker = require('worker').worker,
     path = require('path'),
     fs = require('fs'),
     sys = require('sys'),
     settings = require('settings'),
-    Project = require('models-server').Project,
-    Export = require('models-server').Export,
     Step = require('step'),
     Tile = require('tilelive').Tile,
     TileBatch = require('tilelive').TileBatch;
 
-worker.onmessage = function (data) {
+worker.onmessage = function(data) {
     var Format = {
         'png': FormatPNG,
         'pdf': FormatPDF,
         'mbtiles': FormatMBTiles
     }[data.format];
-    new Format(this, data);
+    if (Format) {
+        new Format(this, data);
+    } else {
+        this.postMessage({ event: 'update', attributes: {
+            status: 'error',
+            error: 'Invalid format.',
+            updated: +new Date
+        } });
+    }
 };
 
 // Generic export format class.
@@ -52,17 +59,17 @@ var Format = function(worker, data) {
             that.complete(this);
         }
     );
-}
+};
 
 // Tell the parent process to update the provided `attributes` of Export model.
 Format.prototype.update = function(attributes) {
     this.worker.postMessage({ event: 'update', attributes: attributes });
-}
+};
 
 // Tell the parent process that the export task is complete.
 Format.prototype.complete = function() {
     this.worker.postMessage({ event: 'complete' });
-}
+};
 
 // Setup tasks before processing begins. Ensures that the target export
 // filename does not conflict with an existing file by appending a short hash
@@ -80,7 +87,7 @@ Format.prototype.setup = function(callback) {
                     .createHash('md5')
                     .update(+new Date)
                     .digest('hex')
-                    .substring(0,6);
+                    .substring(0, 6);
                 that.data.filename = that.data.filename.replace(extension, '') + '_' + hash + extension;
             }
             that.update({
@@ -91,7 +98,7 @@ Format.prototype.setup = function(callback) {
             callback();
         }
     );
-}
+};
 
 // MBTiles format
 // --------------
@@ -100,64 +107,72 @@ Format.prototype.setup = function(callback) {
 // each batch.
 var FormatMBTiles = function(worker, data) {
     Format.call(this, worker, data);
-}
+};
 sys.inherits(FormatMBTiles, Format);
 
 FormatMBTiles.prototype.render = function(callback) {
-    var batch;
     var that = this;
-    var RenderTask = function() {
-        process.nextTick(function() {
-            batch.renderChunk(function(err, rendered) {
-                if (rendered) {
-                    that.update({
-                        progress: batch.tiles_current / batch.tiles_total,
-                        updated: +new Date
-                    });
-                    RenderTask();
-                }
-                else {
-                    batch.finish();
-                    that.update({
-                        status: 'complete',
-                        progress: 1,
-                        updated: +new Date
-                    });
-                    callback();
-                }
-            });
-        });
-    }
+    var batch = new TileBatch({
+        filepath: path.join(settings.export_dir, that.data.filename),
+        batchsize: 100,
+        bbox: that.data.bbox.split(','),
+        format: that.data.tile_format,
+        interactivity: that.data.interactivity,
+        minzoom: that.data.minzoom,
+        maxzoom: that.data.maxzoom,
+        datasource: that.data.datasource,
+        mapfile_dir: path.join(settings.mapfile_dir),
+        srs: 'WSG84',
+        metadata: {
+            name: that.data.metadata_name,
+            type: that.data.metadata_type,
+            description: that.data.metadata_description,
+            version: that.data.metadata_version,
+            formatter: that.data.metadata_formatter
+        }
+    });
 
     Step(
         function() {
-            batch = new TileBatch({
-                filepath: path.join(settings.export_dir, that.data.filename),
-                batchsize: 100,
-                bbox: that.data.bbox.split(','),
-                format: that.data.tile_format,
-                minzoom: that.data.minzoom,
-                maxzoom: that.data.maxzoom,
-                mapfile: that.data.mapfile,
-                mapfile_dir: path.join(settings.mapfile_dir),
-                metadata: {
-                    name: that.data.metadata_name,
-                    type: that.data.metadata_type,
-                    description: that.data.metadata_description,
-                    version: that.data.metadata_version
-                }
-            });
             batch.setup(this);
         },
         function(err) {
+            var next = this;
+            var RenderTask = function() {
+                process.nextTick(function() {
+                    batch.renderChunk(function(err, rendered) {
+                        if (!rendered) return next();
+
+                        that.update({
+                            progress: batch.tiles_current / batch.tiles_total,
+                            updated: +new Date()
+                        });
+                        RenderTask();
+                    });
+                });
+            };
             that.update({
                 status: 'processing',
                 updated: +new Date
             });
             RenderTask();
+        },
+        function() {
+            batch.fillGridData(this);
+        },
+        function() {
+            that.update({
+                status: 'complete',
+                progress: 1,
+                updated: +new Date()
+            });
+            batch.finish(this);
+        },
+        function() {
+            callback();
         }
     );
-}
+};
 
 // Image format
 // ------------
@@ -167,7 +182,7 @@ FormatMBTiles.prototype.render = function(callback) {
 // - `this.format` String image format, e.g. `png`.
 var FormatImage = function(worker, data) {
     Format.call(this, worker, data);
-}
+};
 sys.inherits(FormatImage, Format);
 
 FormatImage.prototype.render = function(callback) {
@@ -178,7 +193,8 @@ FormatImage.prototype.render = function(callback) {
                 scheme: 'tile',
                 format: that.format,
                 mapfile_dir: path.join(settings.mapfile_dir),
-                bbox: that.data.bbox.split(',')
+                bbox: that.data.bbox.split(','),
+                srs: 'WSG84'
             });
             try {
                 var tile = new Tile(options);
@@ -194,7 +210,7 @@ FormatImage.prototype.render = function(callback) {
         },
         function(err, data) {
             if (!err) {
-                fs.writeFile( path.join(settings.export_dir, that.data.filename), data[0], 'binary', function(err) {
+                fs.writeFile(path.join(settings.export_dir, that.data.filename), data[0], 'binary', function(err) {
                     that.update({
                         status: err ? 'error' : 'complete',
                         error: err ? 'Error saving image: ' + err.message : '',
@@ -213,19 +229,18 @@ FormatImage.prototype.render = function(callback) {
             }
         }
     );
-}
+};
 
 // PDF export format class.
 var FormatPDF = function(worker, data) {
     this.format = 'pdf';
     FormatImage.call(this, worker, data);
-}
+};
 sys.inherits(FormatPDF, FormatImage);
 
 // PNG export format class.
 var FormatPNG = function(worker, data) {
     this.format = 'png';
     FormatImage.call(this, worker, data);
-}
+};
 sys.inherits(FormatPNG, FormatImage);
-

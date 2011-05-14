@@ -48,7 +48,7 @@ var ProjectListView = Backbone.View.extend({
         }
         window.app.loading();
         var that = this;
-        var project = new Project;
+        var project = new Project();
         var success = project.set(
             { id: id },
             { error: this.showError }
@@ -90,10 +90,15 @@ var ProjectRowView = Backbone.View.extend({
         center.lat = -1 * center.lat; // TMS is flipped from OSM calc below.
         var z = center.zoom;
         var lat_rad = center.lat * Math.PI / 180;
-        var x = parseInt((center.lon + 180.0) / 360.0 * Math.pow(2,z));
-        var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2,z));
-        var layer = window.app.safe64(window.app.baseURL() + this.model.url());
-        return window.app.baseURL() + ['1.0.0', layer, z, x, y].join('/') + '.png';
+        var x = parseInt((center.lon + 180.0) / 360.0 * Math.pow(2, z));
+        var y = parseInt(
+            (1.0 -
+                Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) /
+                Math.PI) /
+                2.0 * Math.pow(2, z));
+        return window.app.baseURL()
+            + ['1.0.0', this.model.id, z, x, y].join('/')
+            + '.png?updated=' + this.model.get('_updated');
     },
     render: function() {
         $(this.el).html(ich.ProjectRowView({
@@ -133,18 +138,18 @@ var ProjectView = Backbone.View.extend({
     id: 'ProjectView',
     events: {
         'click .header a.save': 'saveProject',
-        'click .header a.settings': 'settings',
-        'click .header a.close': 'close',
-        'click #tabs a.reference': 'reference',
-        'click .header a.options': 'projectOptions'
+        'click .header a.home': 'confirm',
+        'click .header a.reference': 'reference',
+        'click .header a.settings': 'settings'
     },
     initialize: function() {
-        _.bindAll(this, 'render', 'saveProject',
-            'home', 'minimal', 'changed', 'reference', 'setMinimal');
+        _.bindAll(this, 'render', 'saveProject', 'confirm', 'unload',
+            'reference', 'setChanged', 'setMinimal', 'settings');
         window.app.settings.bind('change', this.setMinimal);
         this.views = {};
+        this.changed = false;
         this.model.view = this;
-        this.model.bind('change', this.changed);
+        this.model.bind('change', this.setChanged);
         this.render();
     },
     render: function() {
@@ -168,12 +173,13 @@ var ProjectView = Backbone.View.extend({
             project: this.model,
             map: this.views.map
         });
-        this.$('.sidebar').append(this.views.map.el);
         this.$('.sidebar').append(this.views.layers.el);
         this.$('.sidebar').append(this.views.tools.el);
+        this.$('.sidebar').append(this.views.map.el);
         this.$('.main').append(this.views.stylesheets.el);
         this.$('.header .actions a.save').after(this.views.exportDropdown.el);
         this.setMinimal(); // set minimal/normal mode
+        $(window).bind('beforeunload', this.unload);
         return this;
     },
     saveProject: function() {
@@ -182,7 +188,11 @@ var ProjectView = Backbone.View.extend({
         this.model.save(this.model, {
             success: function() {
                 that.model.trigger('save');
-                $('.header a.save', self.el).removeClass('changed').addClass('disabled').html('Saved');
+                that.changed = false;
+                that.$('.header a.save')
+                    .removeClass('changed')
+                    .addClass('disabled')
+                    .html('Saved');
             },
             error: function(err, data) {
                 if (typeof data === 'string') {
@@ -195,8 +205,14 @@ var ProjectView = Backbone.View.extend({
         $('.tipsy').remove();
         return false;
     },
-    close: function() {
-        if (!$('.header a.save', this.el).is('.changed') || confirm('You have unsaved changes. Are you sure you want to close this project?')) {
+    unload: function() {
+        if (this.changed) {
+            return 'You have unsaved changes. Are you sure you want to close this project?';
+        }
+    },
+    confirm: function() {
+        if (!this.$('.header a.save').is('.changed') ||
+            confirm('You have unsaved changes. Are you sure you want to close this project?')) {
             this.watcher && this.watcher.destroy();
             return true;
         }
@@ -221,21 +237,20 @@ var ProjectView = Backbone.View.extend({
             this.watcher = new Watcher(this.model, function() {
                 that.model.trigger('save');
             });
-        }
-        else if (this.watcher) {
+        } else if (this.watcher) {
             $('body').removeClass('minimal');
             this.watcher.destroy();
         }
         return false;
     },
-    changed: function() {
-        $('.header a.save', this.el).removeClass('disabled').addClass('changed').html('Save');
+    setChanged: function() {
+        this.changed = true;
+        this.$('.header a.save')
+            .removeClass('disabled')
+            .addClass('changed')
+            .html('Save');
     },
     settings: function() {
-        new SettingsPopupView({ model: window.app.settings });
-        return false;
-    },
-    projectOptions: function() {
         new ProjectPopupView({ model: this.model });
         return false;
     }
@@ -245,32 +260,211 @@ var ProjectView = Backbone.View.extend({
 // ----------------
 // Form for editing project-specific settings.
 var ProjectPopupView = PopupView.extend({
-    events: _.extend({
-        'click input.submit': 'submit'
-    }, PopupView.prototype.events),
     initialize: function(options) {
-        _.bindAll(this, 'submit');
-        this.options.title = 'Project options';
-        this.options.content = ich.ProjectPopupView({
-            'format_png': this.model.get('_format') === 'png',
-            'format_png8': this.model.get('_format') === 'png8',
-            'format_jpeg80': this.model.get('_format') === 'jpeg80',
-            'format_jpeg85': this.model.get('_format') === 'jpeg85',
-            'format_jpeg90': this.model.get('_format') === 'jpeg90',
-            'format_jpeg95': this.model.get('_format') === 'jpeg95'
-        }, true);
+        var tabs = [];
+        tabs.push({
+            id: 'ProjectSettingsForm',
+            title: 'Application',
+            active: true,
+            content: new ProjectSettingsForm({ model: window.app.settings })
+        });
+        tabs.push({
+            id: 'ProjectFormatForm',
+            title: 'Project',
+            content: new ProjectFormatForm({ model: this.model })
+        });
+        tabs.push({
+            id: 'ProjectInteractivityForm',
+            title: 'Interactivity',
+            content: new ProjectInteractivityForm({ model: this.model })
+        });
+        tabs.push({
+            id: 'ProjectLegendForm',
+            title: 'Legend',
+            content: new ProjectLegendForm({ model: this.model })
+        });
+        this.options.content = new TabsView({ tabs: tabs });
+        this.options.title = 'Settings';
         PopupView.prototype.initialize.call(this, options);
+    }
+});
+
+
+// SettingsPopupView
+// -----------------
+// App-wide settings form.
+var ProjectSettingsForm = Backbone.View.extend({
+    events: {
+        'click input.submit': 'submit'
+    },
+    initialize: function(params) {
+        _.bindAll(this, 'render', 'submit');
+        this.render();
+    },
+    render: function() {
+        $(this.el).html(ich.ProjectSettingsForm({
+            'minimal_mode': (this.model.get('mode') === 'minimal')
+        }));
+        return this;
     },
     submit: function() {
         var success = this.model.set(
-            { '_format': $('select#format', this.el).val() },
+            { 'mode': $('select#mode', this.el).val() },
             { 'error': this.showError }
         );
-        if (success) {
-            this.model.view.saveProject();
-            this.remove();
+        success && this.model.save();
+        return false;
+    }
+});
+
+var ProjectFormatForm = Backbone.View.extend({
+    events: {
+        'click input.submit': 'submit'
+    },
+    initialize: function(options) {
+        _.bindAll(this, 'render', 'submit');
+        this.render();
+    },
+    submit: function() {
+        var attr = { _format: this.$('select#format').val() };
+        var success = this.model.set(attr, { 'error': this.showError });
+        success && this.model.view.saveProject();
+        return false;
+    },
+    render: function() {
+        var that = this;
+        var object = {
+            format: [
+                { id: 'png', name: 'png (24-bit)', selected: false },
+                { id: 'png8', name: 'png (8-bit)', selected: false },
+                { id: 'jpeg80', name: 'jpeg (80%)', selected: false },
+                { id: 'jpeg85', name: 'jpeg (85%)', selected: false },
+                { id: 'jpeg90', name: 'jpeg (90%)', selected: false },
+                { id: 'jpeg95', name: 'jpeg (95%)', selected: false }
+            ]
+        };
+        _.map(object.format, function(format) {
+            format.selected = (format.id === that.model.get('_format'));
+        });
+        $(this.el).html(ich.ProjectFormatForm(object));
+        return this;
+    }
+});
+
+var ProjectLegendForm = Backbone.View.extend({
+    events: {
+        'click input.submit': 'submit'
+    },
+    initialize: function(options) {
+        _.bindAll(this, 'render', 'submit');
+        this.render();
+    },
+    submit: function() {
+        var attr = { _legend: this.$('#legend').val() };
+        var success = this.model.set(attr, { 'error': this.showError });
+        success && this.model.view.saveProject();
+        return false;
+    },
+    render: function() {
+        $(this.el).html(ich.ProjectLegendForm({
+            legend: this.model.get('_legend')
+        }));
+        return this;
+    }
+});
+
+var ProjectInteractivityForm = Backbone.View.extend({
+    events: {
+        'click input.submit': 'submit',
+        'change select#interactivity_layer': 'dependent'
+    },
+    initialize: function(options) {
+        _.bindAll(this, 'submit', 'dependent');
+        this.render();
+    },
+    submit: function() {
+        var attr = {
+            _interactivity: {
+                layer: this.$('#interactivity_layer').val(),
+                key_name: this.$('#interactivity_key_name').val(),
+                template_teaser: this.$('#interactivity_template_teaser').val(),
+                template_full: this.$('#interactivity_template_full').val(),
+                template_location: this.$('#interactivity_template_location').val()
+            }
+        };
+        (this.$('#interactivity_layer').val() == -1) && (attr._interactivity = false);
+
+        var success = this.model.set(attr, { 'error': this.showError });
+        success && this.model.view.saveProject();
+        return false;
+    },
+    render: function() {
+        var that = this;
+        var interactivity = that.model.get('_interactivity') || false;
+        var object = {
+            interactivity_layer: [{
+                id: -1,
+                name: '-- disabled --',
+                selected: !interactivity
+            }]
+        };
+        _.each(this.model.get('Layer').models, function(layer) {
+            object.interactivity_layer.push({
+                id: layer.id,
+                name: layer.id,
+                selected: interactivity && (interactivity.layer == layer.id)
+            });
+        });
+        $(this.el).html(ich.ProjectInteractivityForm(object));
+        this.dependent();
+        return this;
+    },
+    dependent: function() {
+        var that = this;
+        var index = this.$('#interactivity_layer').val();
+        var layer = this.model.get('Layer').get(index);
+        if (layer) {
+            this.loading('Loading datasource');
+            var ds = new Datasource({
+                id: layer.id,
+                url: layer.get('Datasource').file
+            });
+            ds.fetch({
+                success: function() {
+                    var interactivity = that.model.get('_interactivity') || false;
+                    var object = {
+                        fields: [],
+                        template_teaser: interactivity && interactivity.template_teaser || '',
+                        template_full: interactivity && interactivity.template_full || '',
+                        template_location: interactivity && interactivity.template_location || ''
+                    };
+                    _.each(_.keys(ds.get('fields')), function(field) {
+                        object.fields.push({
+                            id: field,
+                            selected: interactivity && (interactivity.key_name === field)
+                        });
+                    });
+                    var fields = ich.ProjectPopupInteractivityView(object);
+                    that.$('.dependent').html(fields).show();
+                    that.done();
+                },
+                error: function(err) {
+                    that.$('.dependent').empty().hide();
+                    that.done();
+                    that.showError(err);
+                }
+            });
+        } else {
+            this.$('.dependent').empty().hide();
         }
         return false;
+    },
+    loading: function(message) {
+        this.loadingView = new LoadingView({message: message});
+        $(this.el).append(this.loadingView.el);
+    },
+    done: function() {
+        this.loadingView && this.loadingView.remove();
     }
 });
 

@@ -1,138 +1,107 @@
 // MapView
 // -------
-// OpenLayers map preview for a project.
+// Map preview for a project.
 var MapView = Backbone.View.extend({
     id: 'MapView',
     initialize: function() {
         _.bindAll(this, 'render', 'activate', 'controlZoom', 'reload',
-            'fullscreen', 'minimize', 'maximize');
+            'legend', 'fullscreen', 'minimize', 'maximize');
 
-        // OpenLayers seems to fiercely associate maps with DOM element IDs.
-        // Using a stable ID means that if it appears again (e.g. the project
-        // is closed and reopened) OpenLayers will retain its attachment, even
-        // to a freshly created DOM element. Workaround is to generate a
-        // "unique" `this.mapID` to ensure a fresh OL map each time.
-        this.mapID = +new Date;
         this.render();
         this.model.bind('save', this.reload);
         window.app.bind('ready', this.activate);
     },
     events: {
-        'click a.map-fullscreen': 'fullscreen'
+        'click a.map-fullscreen': 'fullscreen',
+        'click a.map-legend': 'legend'
     },
     render: function() {
-        $(this.el).html(ich.MapView({ id: this.mapID }));
+        $(this.el).html(ich.MapView());
     },
     activate: function() {
-        var options = {
-            projection: new OpenLayers.Projection('EPSG:900913'),
-            displayProjection: new OpenLayers.Projection('EPSG:4326'),
-            units: 'm',
-            numZoomLevels: 23,
-            maxResolution: 156543.0339,
-            maxExtent: new OpenLayers.Bounds(
-                -20037500,
-                -20037500,
-                20037500,
-                20037500
-            ),
-            controls: []
-        };
+        window.app.unbind('ready', this.activate);
+        var mm = com.modestmaps;
+        this.map = new mm.Map('map-preview',
+            new com.modestmaps.SignedProvider({
+                baseUrl: window.app.baseURL(),
+                filetype: '.' + this.model.get('_format'),
+                zoomRange: [0, 22],
+                signature: this.model.get('_updated'),
+                layerName: this.model.id}))
+            .interaction()
+            .legend()
+            .zoomer()
+            .zoombox()
+            .fullscreen();
 
-        // Retrieve stored centerpoint from model and convert to map units.
         var center = this.model.get('_center');
-        var lonlat = new OpenLayers.LonLat(center.lon, center.lat)
-        lonlat.transform(
-            new OpenLayers.Projection('EPSG:4326'),
-            new OpenLayers.Projection('EPSG:900913')
-        );
-        center.lat = lonlat.lat;
-        center.lon = lonlat.lon;
-
-        // Nav control images.
-        // @TODO: Store locally so the application is portable/usable offline?
-        OpenLayers.ImgPath = 'images/openlayers_dark/';
-
-        this.map = new OpenLayers.Map('map-preview-' + this.mapID, options);
-        this.layer = new OpenLayers.Layer.TMS('Preview', window.app.baseURL(), {
-            layername: window.app.safe64(
-                window.app.baseURL() + this.model.url()
-            ),
-            type: this.model.get('_format'),
-            buffer: 0,
-            transitionEffect: 'resize',
-            wrapDateLine: true
-        });
-        this.map.addLayers([this.layer]);
-
-        // Set the map's initial center point
-        this.map.setCenter(new OpenLayers.LonLat(center.lon, center.lat), center.zoom);
-
-        // Add custom controls
-        var navigation = new OpenLayers.Control.Navigation({ zoomWheelEnabled: true });
-        this.map.addControl(navigation);
-        navigation.activate();
-
+        this.map.setCenterZoom(
+            new com.modestmaps.Location(center.lat, center.lon),
+            center.zoom);
+        this.map.addCallback('zoomed', this.controlZoom);
+        this.map.addCallback('panned', this.controlZoom);
         this.controlZoom({element: this.map.div});
-        this.map.events.register('moveend', this.map, this.controlZoom);
-        this.map.events.register('zoomend', this.map, this.controlZoom);
-
-        // Stop event propagation to the OL map.
-        $('#zoom-display div, a.map-fullscreen').mousedown(function(e) {
-            e.stopPropagation();
-        });
-        $('#zoom-display div, a.map-fullscreen').mouseup(function(e) {
-            e.stopPropagation();
-        });
-        $('#zoom-display .zoom-in').click($.proxy(function(e) {
-            e.stopPropagation();
-            this.map.zoomIn();
-        }, this));
-        $('#zoom-display .zoom-out').click($.proxy(function(e) {
-            e.stopPropagation();
-            this.map.zoomOut();
-        }, this));
-
-        return this;
     },
-    fullscreen: function() {
-        $(this.el).toggleClass('fullscreen');
-        this.map.updateSize();
-        return false;
-    },
-    maximize: function() {
-        $(this.el).addClass('fullscreen');
-        this.map.updateSize();
-        return false;
-    },
-    minimize: function() {
-        $(this.el).removeClass('fullscreen');
-        this.map.updateSize();
+    legend: function() {
+        this.$('a.map-legend').toggleClass('active');
+        $(this.el).toggleClass('legend');
         return false;
     },
     controlZoom: function(e) {
         // Set the model center whenever the map is moved.
-        // Retrieve centerpoint from map and convert to lonlat units.
         var center = this.map.getCenter();
-        var zoom = this.map.getZoom();
-        var lonlat = new OpenLayers.LonLat(center.lon, center.lat);
-        lonlat.transform(
-            this.map.projection,
-            new OpenLayers.Projection("EPSG:4326")
-        );
-        center = { lat: lonlat.lat, lon: lonlat.lon, zoom: zoom };
+        center = { lat: center.lat, lon: center.lon, zoom: this.map.getZoom() };
         this.model.set({ _center: center }, { silent: true });
-
-        $('#zoom-display h4').text('Zoom level ' + this.map.getZoom());
+        this.$('.zoom-display .zoom').text(this.map.getZoom());
     },
     reload: function() {
-        if (this.map.layers && this.map.layers && this.map.layers[0]) {
-            this.map.layers[0].type = this.model.get('_format');
-            this.map.layers[0].layername = window.app.safe64(
-                window.app.baseURL() + this.model.url()
-            );
-            this.map.layers[0].redraw();
+        if (this.map) {
+            this.map.provider.filetype = '.' + this.model.get('_format');
+            this.map.provider.signature = this.model.get('_updated');
+            this.map.setProvider(this.map.provider);
         }
     }
 });
 
+// Extend Modest Maps WaxProvider to allow for a query-string signed URL based
+// on the last updated time of the project.
+if (!com) {
+    var com = { };
+    if (!com.modestmaps) {
+        com.modestmaps = { };
+    }
+}
+
+com.modestmaps.SignedProvider = function(options) {
+    this.layerName = options.layerName;
+    this.baseUrls = (typeof(options.baseUrl) == 'string') ?
+            [options.baseUrl] : options.baseUrl;
+    this.n_urls = this.baseUrls.length;
+    this.filetype = options.filetype || '.png';
+    this.zoomRange = options.zoomRange || [0, 18];
+    this.signature = options.signature || null;
+};
+
+com.modestmaps.SignedProvider.prototype = {
+    getTileUrl: function(coord) {
+        var server;
+        coord = this.sourceCoordinate(coord);
+        if (!coord) {
+            return null;
+        }
+
+        var worldSize = Math.pow(2, coord.zoom);
+        coord.row = Math.pow(2, coord.zoom) - coord.row - 1;
+        if (this.n_urls === 1) {
+            server = this.baseUrls[0];
+        } else {
+            server = this.baseUrls[parseInt(worldSize * coord.row + coord.column, 10) % this.n_urls];
+        }
+        var imgPath = ['1.0.0', this.layerName, coord.zoom, coord.column, coord.row].join('/');
+        var url = server + imgPath + this.filetype;
+        (this.signature) && (url += '?updated=' + this.signature);
+        return url;
+    }
+};
+
+com.modestmaps.extend(com.modestmaps.SignedProvider, com.modestmaps.WaxProvider);

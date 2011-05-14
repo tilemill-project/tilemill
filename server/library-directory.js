@@ -73,7 +73,9 @@ module.exports = function(app, options, callback) {
                         '/api/Library/'
                         + options.id
                         + '/files/'
-                        + querystring.escape(f.filename.replace(base_dir + '/', ''))
+                        // Ensure only one trailing slash
+                        + querystring.escape(f.filename.replace(
+                          base_dir.replace(/(\/)$/, '') + '/', ''))
                     )
                 }),
                 bytes: (Math.ceil(parseInt(f.stat.size) / 1048576)) + ' MB',
@@ -92,7 +94,7 @@ module.exports = function(app, options, callback) {
     // Generate the AssetList payload object.
     lsR(options.directory_path, function(err, files) {
         var assets = toAssets(
-            lsFilter(files, /(.zip|.json|.geojson|.shp|.vrt|.tiff?)/i),
+            lsFilter(files, /\.(zip|json|geojson|vrt|kml|tiff?)$/i),
             options.directory_path,
             require('settings').port
         );

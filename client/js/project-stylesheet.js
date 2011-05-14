@@ -15,29 +15,29 @@ var StylesheetListView = Backbone.View.extend({
     },
     render: function() {
         // Render the stylesheets wrapper if not present.
-        if ($(this.el).has('.stylesheets').length === 0) {
+        if ($(this.el).has('.tabs').length === 0) {
             $(this.el).html(ich.StylesheetListView());
-            $('.stylesheets', this.el).sortable({
+            this.$('.tabs').sortable({
                 axis: 'x',
-                containment: 'parent'
+                containment: 'parent',
+                tolerance: 'pointer'
             });
         }
 
         // Add a tab view for each stylesheet.
-        var self = this;
+        var that = this;
         this.collection.each(function(stylesheet) {
-            if (!stylesheet.view) {
-                stylesheet.view = new StylesheetTabView({
-                    model: stylesheet,
-                    list: self
-                });
-                $('.stylesheets', self.el).append(stylesheet.view.el);
-                self.activeTab = self.activeTab || stylesheet.view;
-            }
+            if (stylesheet.view) return;
+            stylesheet.view = new StylesheetTabView({
+                model: stylesheet,
+                list: that
+            });
+            that.$('.tabs').append(stylesheet.view.el);
+            that.activeTab = that.activeTab || stylesheet.view;
         });
 
         // Refresh `.sortable()` to recognize new stylesheets.
-        $('.stylesheets', this.el).sortable('refresh');
+        this.$('.tabs').sortable('refresh');
         return this;
     },
     activate: function() {
@@ -47,7 +47,7 @@ var StylesheetListView = Backbone.View.extend({
     },
     events: {
         'click .add': 'add',
-        'sortupdate .stylesheets': 'sortUpdate'
+        'sortupdate .tabs': 'sortUpdate'
     },
     add: function() {
         new StylesheetPopupView({
@@ -56,7 +56,7 @@ var StylesheetListView = Backbone.View.extend({
         return false;
     },
     sortUpdate: function(e, ui) {
-        var rows = this.$('.stylesheets .tab');
+        var rows = this.$('.tabs .tab');
         var newCollection = [];
         this.collection.each(function(model) {
             var index = $.inArray(model.view.el, rows);
@@ -76,7 +76,7 @@ var StylesheetListView = Backbone.View.extend({
                         function(s) { return s.id == error.filename; }
                     );
                     if (editor) {
-                        $('div.CodeMirror-line-numbers div:nth-child('
+                        $('div.CodeMirror-gutter-text pre:nth-child('
                             + error.line
                             + ')',
                             editor.view.codemirror.lineNumbers)
@@ -96,7 +96,7 @@ var StylesheetListView = Backbone.View.extend({
     clearError: function() {
         // Clear out validation error markers. They will be re-drawn if this
         // save event encounters further errors.
-        this.$('div.CodeMirror-line-numbers div')
+        this.$('div.CodeMirror-gutter-text pre')
             .removeClass('syntax-error')
             .attr('title', '')
             .unbind('mouseenter mouseleave'); // Removes tipsy.
@@ -136,30 +136,33 @@ var StylesheetTabView = Backbone.View.extend({
         $(this.tools).addClass('active');
         this.list.activeTab = this;
         if (!this.codemirror) {
+            $('textarea', this.input).val(this.model.get('data'));
             this.codemirror = CodeMirror.fromTextArea($('textarea', this.input).get(0), {
-                content: this.model.get('data'),
-                height: '100%',
                 lineNumbers: true,
-                stylesheet: 'css/code.css',
-                path: 'CodeMirror/js/',
-                parserfile: '../../js/parsemss.js',
-                parserConfig: window.app.reference.toJSON(),
-                saveFunction: function() {
-                    self.model.collection.parent.view.saveProject();
+                tabMode: 'shift',
+                mode: {
+                    name: 'carto',
+                    reference: window.app.reference.toJSON()
                 },
                 onCursorActivity: function() {
-                    self.model.set({'data': self.codemirror.getCode()});
+                    self.model.set({'data': self.codemirror.getValue()});
                 },
                 onChange: function() {
-                    // Trigger event on the project
-                    self.model.collection.parent.trigger('codeMirrorChange');
-                    self.model.set({'data': self.codemirror.getCode()});
-                },
-                initCallback: function(cm) {
-                    self.model.collection.parent.trigger('ready');
-                    $(cm.frame).attr('name', 'codemirror');
+                    // onchange runs before this function is finished,
+                    // so self.codemirror is false.
+                    self.codemirror && self.model.set({'data': self.codemirror.getValue()});
                 }
             });
+            // Handle ctrl-S
+            $(this.codemirror.getInputField()).keydown(function(evt) {
+                if (evt.which == 83 &&
+                    ((evt.ctrlKey || evt.metaKey) && !evt.altKey)) {
+                    self.model.collection.parent.view.saveProject();
+                    return false;
+                }
+            });
+            // Trigger ready event
+            this.model.collection.parent.trigger('ready');
         }
     },
     del: function() {

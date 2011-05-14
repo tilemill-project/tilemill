@@ -1,9 +1,9 @@
 // Loop for scanning and processing exports.
 var path = require('path'),
-    ExportList = require('models-server').ExportList,
+    ExportList = require('models').ExportList,
     Step = require('step'),
     Worker = require('worker').Worker,
-    models = require('models-server');
+    cache = require('models-cache');
 
 var Scanner = function(options) {
     _.bindAll(this, 'scan', 'process', 'add', 'remove', 'isFull');
@@ -41,9 +41,26 @@ Scanner.prototype.scan = function() {
 // Process an individual export based on its `status`.
 Scanner.prototype.process = function(id, callback) {
     var that = this;
-    var model = models.cache.get('Export', id);
-    model.fetch({
-        success: function() {
+    var model = cache.get('Export', id);
+    var project;
+    Step(
+        function() {
+            var next = this;
+            model.fetch({ success: next, error: next });
+        },
+        function() {
+            var next = this;
+            if (model.get('status') === 'waiting') {
+                project = cache.get('Project', model.get('project'));
+                project.fetch({
+                  success: next,
+                  error: next
+                });
+            } else {
+                callback();
+            }
+        },
+        function() {
             // Export is waiting to be processed. Spawn a new worker if the
             // queue is not full. Otherwise, the worker will be spawned on
             // a subsequent scan once there is space.
@@ -52,10 +69,11 @@ Scanner.prototype.process = function(id, callback) {
 
                 model.worker = new Worker(
                     path.join(__dirname, 'export-worker.js'),
-                    null,
-                    { nodePath: path.join(__dirname, '..', 'bin', 'node') }
+                    null, {
+                      nodePath: path.join(__dirname, '..', 'bin', 'node')
+                    }
                 );
-                model.worker.on('message', function (data) {
+                model.worker.on('message', function(data) {
                     if (data.event === 'complete') {
                         this.terminate();
                         that.remove(model.worker);
@@ -67,7 +85,11 @@ Scanner.prototype.process = function(id, callback) {
                     this.worker.kill();
                     that.remove(model.worker);
                 });
-                model.worker.postMessage(model.toJSON());
+                model.worker.postMessage(_.extend(
+                    model.toJSON(), {
+                        datasource: project.toJSON()
+                    }
+                ));
                 that.add(model.worker);
                 callback();
             // Export is a stale process (e.g. the server died or was shut
@@ -81,9 +103,8 @@ Scanner.prototype.process = function(id, callback) {
             } else {
                 callback();
             }
-        },
-        error: callback
-    });
+        }
+    );
 };
 
 // Helper function to determine whether the queue is full.
@@ -112,12 +133,13 @@ module.exports = function(app, settings) {
 
     // Add Express route rule for serving export files for download.
     app.get('/export/download/*', function(req, res, next) {
-        res.sendfile(
+        res.download(
             path.join(settings.export_dir, req.params[0]),
+            req.params[0],
             function(err, path) {
                 return err && next(new Error('File not found.'));
             }
         );
     });
-}
+};
 

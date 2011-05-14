@@ -4,10 +4,14 @@
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
     <title>TileMill</title>
     <link rel='shortcut icon' href='images/favicon.ico' type='image/x-icon' />
+
+    <link rel='stylesheet' href='js/libraries/colorpicker/css/colorpicker.css' type='text/css'/>
+    <link rel='stylesheet' href='tipsy/src/stylesheets/tipsy.css' type='text/css'/>
+    <link rel='stylesheet' href='CodeMirror2/lib/codemirror.css' type='text/css'/>
+
     <link rel='stylesheet' href='css/reset.css' type='text/css'/>
     <link rel='stylesheet' href='css/tilemill.css' type='text/css'/>
-    <link rel='stylesheet' href='tipsy/src/stylesheets/tipsy.css' type='text/css'/>
-    <link rel='stylesheet' href='js/libraries/colorpicker/css/colorpicker.css' type='text/css'/>
+    <link rel='stylesheet' href='css/code.css' type='text/css'/>
 
     <script type='text/javascript' src='js/libraries/jquery.js'></script>
     <script type='text/javascript' src='js/libraries/jquery-ui.js'></script>
@@ -16,10 +20,12 @@
     <!-- ndistro-sourced client side js-->
     <script type='text/javascript' src='JSON-js/json2.js'></script>
     <script type='text/javascript' src='js-base64/base64.js'></script>
-    <script type='text/javascript' src='CodeMirror/js/codemirror.js'></script>
+    <script type='text/javascript' src='CodeMirror2/lib/codemirror.js'></script>
+    <script type='text/javascript' src='js/parsecarto.js'></script>
     <script type='text/javascript' src='ICanHaz.js/ICanHaz.min.js'></script>
-    <script type='text/javascript' src='openlayers_slim/OpenLayers.js'></script>
     <script type='text/javascript' src='tipsy/src/javascripts/jquery.tipsy.js'></script>
+    <script type='text/javascript' src='modestmaps-js/modestmaps.js'></script>
+    <script type='text/javascript' src='wax/build/wax.mm.min.js'></script>
 
     <!-- shared server/client side js -->
     <script type='text/javascript' src='underscore/underscore-min.js'></script>
@@ -53,7 +59,6 @@
         'js-base64/base64.js',
         'CodeMirror/js/codemirror.js',
         'ICanHaz.js/ICanHaz.min.js',
-        'openlayers_slim/OpenLayers.js',
         'tipsy/src/javascripts/jquery.tipsy.js',
 
         'underscore/underscore-min.js',
@@ -79,8 +84,9 @@
 
     <script type='text/html' id='LibraryListView'>
       <div id='header' class='header clearfix'>
-        <a class='icon reverse settings' href='#'>Settings</a>
-        <h1>TileMill</h1>
+        <h1 class='breadcrumb'>
+          <a class='home' href='#'><span class='logo'></span>TileMill</a>
+        </h1>
       </div>
       <div class='main'></div>
       <div class='sidebar'>
@@ -160,7 +166,9 @@
 
     <script type='text/html' id='ErrorView'>
       <div class='header clearfix'>
-        <h1>TileMill</h1>
+        <h1 class='breadcrumb'>
+          <a class='home' href='#'><span class='logo'></span>TileMill</a>
+        </h1>
       </div>
       <div class='error-page'>{{message}}</div>
     </script>
@@ -175,38 +183,128 @@
 
     <script type='text/html' id='ProjectView'>
       <div class='header clearfix'>
-        <a class='icon reverse settings' href='#'>Settings</a>
-        <h1>Editing {{id}}</h1>
+        <h1 class='breadcrumb'>
+          <a class='home' href='#'><span class='logo'></span>TileMill</a>
+          <span class='icon reverse clear separator'></span>
+          <a href='#project/{{id}}'>{{id}}</a>
+        </h1>
         <div class='actions clearfix'>
           <a class='save disabled' href='#'>Saved</a>
-          <a class='tipsy-e icon options' title='Project options' href='#'>Project options</a>
-          <a class='tipsy-e icon reverse close' title='Back home' href='#'>Back home</a>
+          <a class='tipsy-e icon settings' title='Settings' href='#'>Settings</a>
+          <a class='tipsy-e icon reference' title='Carto reference' href='#'>Reference</a>
         </div>
       </div>
       <div class='main'></div>
       <div class='sidebar'></div>
     </script>
 
-    <script type='text/html' id='ProjectPopupView'>
+    <script type='text/html' id='ProjectSettingsForm'>
+      <form>
+        <ul class='form'>
+          <li class='about'>
+            <a class='logo' href='http://www.tilemill.com'>TileMill</a>
+            <div class='description'>
+              A product of <a href='http://www.mapbox.com'>MapBox</a><br/>
+              Made by <a href='http://www.developmentseed.org'>Development Seed</a>
+            </div>
+          </li>
+          <li>
+            <label for='mode'>Editing mode</label>
+            <select id='mode'>
+              <option value='normal' {{^minimal_mode}}selected='selected'{{/minimal_mode}}>Normal</option>
+              <option value='minimal' {{#minimal_mode}}selected='selected'{{/minimal_mode}}>Minimal</option>
+            </select>
+            <div class='description'>To edit projects with an external editor use <em>minimal mode</em>.</div>
+          </li>
+          <li class='buttons'>
+            <input class='submit' type='submit' value='Save' />
+          </li>
+        </ul>
+      </form>
+    </script>
+
+    <script type='text/html' id='ProjectFormatForm'>
       <form>
         <ul class='form'>
           <li>
             <label for='format'>Tile format</label>
             <select id='format'>
-              <option value='png' {{#format_png}}selected='selected'{{/format_png}}>png (24-bit)</option>
-              <option value='png8' {{#format_png8}}selected='selected'{{/format_png8}}>png (8-bit)</option>
-              <option value='jpeg80' {{#format_jpeg80}}selected='selected'{{/format_jpeg80}}>jpeg (80%)</option>
-              <option value='jpeg85' {{#format_jpeg85}}selected='selected'{{/format_jpeg85}}>jpeg (85%)</option>
-              <option value='jpeg90' {{#format_jpeg90}}selected='selected'{{/format_jpeg90}}>jpeg (90%)</option>
-              <option value='jpeg95' {{#format_jpeg95}}selected='selected'{{/format_jpeg95}}>jpeg (95%)</option>
+              {{#format}}
+                <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{name}}</option>
+              {{/format}}
             </select>
             <div class='description'>Tile image format/quality for this project.</div>
           </li>
           <li class='buttons'>
-              <input class='submit' type='submit' value='Save' />
+            <input class='submit' type='submit' value='Save' />
           </li>
         </ul>
       </form>
+    </script>
+
+    <script type='text/html' id='ProjectLegendForm'>
+      <form>
+        <ul class='form'>
+          <li>
+            <label for='format'>Map legend</label>
+            <textarea rows='10' id='legend'>{{{legend}}}</textarea>
+            <div class='description'>Map legend for clients that support MBTiles interactivity.</div>
+          </li>
+          <li class='buttons'>
+            <input class='submit' type='submit' value='Save' />
+          </li>
+        </ul>
+      </form>
+    </script>
+
+    <script type='text/html' id='ProjectInteractivityForm'>
+      <form>
+        <ul class='form'>
+          <li>
+            <label for='interactivity_layer'>Interactivity</label>
+            <select id='interactivity_layer'>
+              {{#interactivity_layer}}
+                <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{name}}</option>
+              {{/interactivity_layer}}
+            </select>
+            <div class='description'>Layer from which interaction data should be generated.</div>
+            <div class='dependent hidden'></div>
+          </li>
+          <li class='buttons'>
+            <input class='submit' type='submit' value='Save' />
+          </li>
+        </ul>
+      </form>
+    </script>
+
+    <script type='text/html' id='ProjectPopupInteractivityView'>
+      <ul class='form'>
+        <li>
+          <label for='interactivity_key_name'>Key name</label>
+          <select id='interactivity_key_name'>
+            {{#fields}}
+              <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{id}}</option>
+            {{/fields}}
+          </select>
+          <div class='description'>Unique ID field for features on this layer. Example: ISO2 code.</div>
+        </li>
+        <li>
+          <label>Formatter</label>
+          <label class='inline' for='interactivity_template_teaser'>Teaser</label>
+          <textarea rows='2' id='interactivity_template_teaser'>{{template_teaser}}</textarea>
+          <label class='inline' for='interactivity_template_full'>Full</label>
+          <textarea rows='2' id='interactivity_template_full'>{{template_full}}</textarea>
+          <label class='inline' for='interactivity_template_location'>Location</label>
+          <textarea rows='1' id='interactivity_template_location'>{{template_location}}</textarea>
+          <div class='description'>A web address that interaction clients can optionally navigate to on click</div>
+          <div class='description'>
+            HTML markup for interaction data. Any of the following tokens will be replaced:
+            {{#fields}}
+              <code>[{{id}}]</code>
+            {{/fields}}
+          </div>
+        </li>
+      </ul>
     </script>
 
     <script type='text/html' id='LayerListView'>
@@ -269,17 +367,20 @@
     </script>
 
     <script type='text/html' id='MapView'>
-      <div id='map-preview-{{id}}'>
-        <a class='icon reverse map-fullscreen' href='#'>Fullscreen</a>
-        <div id='zoom-display'><h4>Zoom level ?</h4><div class='zoom-in'>+</div><div class='zoom-out'></div>
+      <div id='map-preview' class='map-preview'>
+        <div class='control'>
+          <a class='icon reverse map-legend' href='#'></a>
+          <span class='zoom-display'>
+            <label>Zoom <span class='zoom'></span></label>
+          </span>
+        </div>
       </div>
     </script>
 
     <script type='text/html' id='StylesheetListView'>
       <div id='tabs'>
-        <div class='stylesheets clearfix'></div>
+        <div class='tabs clearfix'></div>
         <a title='Add stylesheet' class='tipsy-e icon reverse add' href='#'>Add stylesheet</a>
-        <a title='Stylesheet reference guide' class='tipsy-e icon reverse reference' href='#'>Reference</a>
       </div>
       <div id='editor' class='view'></div>
     </script>
@@ -293,11 +394,13 @@
       <div class='editor'><textarea></textarea></div>
     </script>
 
-    <script type='text/html' id='StylesheetTools'>
-      <div class='sidebar-header sidebar-tabs clearfix'>
-        <a href='#' class='show-colors tab first active'>Colors</a>
-        <a href='#' class='show-fonts tab last inactive'>Fonts</a>
+    <script type='text/html' id='TabsView'>
+      <div class='tabs clearfix'>
+        {{#tabs}}
+          <a href='#{{id}}' class='tab tab-{{id}} {{#active}}active{{/active}}'>{{title}}</a>
+        {{/tabs}}
       </div>
+      <div class='panes clearfix'></div>
     </script>
 
     <script type='text/html' id='FontPicker'>
@@ -309,14 +412,15 @@
 
     <script type='text/html' id='ColorSwatchListView'>
       <div class='swatches clearfix pane'></div>
+      <div id='ColorPicker'>
+        <a class='tipsy-e icon color-picker' title="Color picker" href='#color-picker'>Color picker</a>
+      </div>
     </script>
 
     <script type='text/html' id='ColorSwatchView'>
-      <a href='#' class='swatch' style='background-color: {{color}}' title='{{color}}'></a>
-    </script>
-
-    <script type='text/html' id='ColorPicker'>
-      <a class='tipsy-e icon color-picker' title="Color picker" href='#color-picker'>Color picker</a>
+      <div class='swatch-backdrop'>
+        <a href='#' class='swatch' style='background-color: {{color}}' title='{{color}}'></a>
+      </div>
     </script>
 
     <script type='text/html' id='DrawerView'>
@@ -423,11 +527,11 @@
       <div class='reference-section active' id='reference-section-intro'>
         <h2>Selectors</h2>
 
-        <p>TileMill supports the <a href="https://github.com/mapbox/carto">carto</a> map styling language. It should be familiar to CSS users and easy to pick up for everyone else.</p>
+        <p><a href='http://www.tilemill.com'>TileMill</a> supports the <a href="https://github.com/mapbox/carto">carto</a> map styling language. It should be familiar to CSS users and easy to pick up for everyone else.</p>
 
         <p>A simple carto style looks like</p>
 
-        <pre>#world {
+        <pre class='carto-snippet'>#world {
   polygon-fill: #eee;
   line-color: #ccc;
   line-width: 0.5;
@@ -446,7 +550,7 @@
 
         <p>The order of selectors does not matter as there is no hierarchical structure in maps. Separating selector parts with spaces is optional. The following selectors are thus equivalent:</p>
 
-        <pre>#world [NAME='USA'] .red [zoom &gt; 10]
+        <pre class='carto-snippet'>#world [NAME='USA'] .red [zoom &gt; 10]
 [zoom &gt; 10].red#world[NAME='USA']
 [NAME='USA'] [zoom &gt; 10] #world.red</pre>
 
@@ -454,7 +558,7 @@
 
         <p>TileMill allows you to arbitarily nest styles. All elements are added to create a combining selector. The order of elements in a selector is not of importance.</p>
 
-        <pre>/* Applies to all layers with .land class */
+        <pre class='carto-snippet'>/* Applies to all layers with .land class */
 .land {
   line-color: #ccc;
   line-width: 0.5;
@@ -467,7 +571,7 @@
 
         <p>This can be a convenient way to group style changes by zoom level:</p>
 
-        <pre>[zoom &gt; 1] {
+        <pre class='carto-snippet'>[zoom &gt; 1] {
   /* Applies to all layers at zoom &gt; 1 */
   polygon-gamma: 0.3;
   #world {
@@ -482,7 +586,7 @@
 
         <p>By default, if you set a style rule, it overrides any previous style rules. However, sometimes you want to add multiple instances of a style, like in the case of a road border, country outline or for glow effects.</p>
 
-        <pre>#world {
+        <pre class='carto-snippet'>#world {
   ::outline {
     line-color: #000;
     line-width: 6;
@@ -496,17 +600,39 @@
 
         <p>When nesting attachments, they are concatenated together with a <code>/</code>:</p>
 
-        <pre>::outline {
+        <pre class='carto-snippet'>::outline {
   ::shadow {
     /* creates a symbolizer named "outline/shadow" */
   }
 }</pre>
 
+        <h2>Values</h2>
+        <p>Different properties in carto accept different types of values - colors, dimensions, and more.</p>
+
+        <h4>Colors</h4>
+        <pre class='carto-snippet'>#line {
+    line-color: #ff0;
+    line-color: #ffff00;
+    line-color: rgb(255, 255, 0);
+    line-color: rgba(255, 255, 0, 1);
+    line-color: yellow;
+}</pre>
+
+        <h4>Dimensions</h4>
+        <p>Dimensions in carto are always pixels; no <code>px</code> suffix is needed. Pixel dimensions are noted in the reference as <code>float</code> values.</p>
+
+        <pre class='carto-snippet'>line-width: 5; // 5px</pre>
+
+        <h4>Keywords</h4>
+        <p>Some properties accept keyword arguments, which should be entered literally</p>
+
+        <pre class='carto-snippet'>raster-mode: normal;</pre>
+
         <h2>Variables &amp; Expressions</h2>
 
         <p>You can define variables in stylesheets by prefixing an alphanumeric name with <code>@</code>, and use expressions to modify them. You can also apply operations to color names.</p>
 
-        <pre>@green: #2B4D2D;
+        <pre class='carto-snippet'>@green: #2B4D2D;
 
 Map {
   background-color: @green;
@@ -618,7 +744,7 @@ Map {
             <label class='inline' for='filename'>Filename</label>
             <input type='text' class='inline text' id='filename'/>
             <input class='submit' type='submit' value='Export' />
-            <a class='icon reverse close' href='#'>Back home</a>
+            <a class='icon reverse close' href='#'>Close</a>
           </div>
         </div>
         <div class='palette pane clearfix'>
@@ -678,31 +804,6 @@ Map {
             <option value='overlay' {{^metadata_type_baselayer}}selected='selected'{{/metadata_type_baselayer}}>Overlay</option>
         </select>
       </div>
-    </script>
-
-    <script type='text/html' id='SettingsPopupView'>
-      <form>
-        <ul class='form'>
-          <li class='about'>
-            <a class='logo' href='http://mapbox.github.com/tilemill'>TileMill</a>
-            <div class='description'>
-              A product of <a href='http://www.mapbox.com'>MapBox</a><br/>
-              Made by <a href='http://www.developmentseed.org'>Development Seed</a>
-            </div>
-          </li>
-          <li>
-            <label for='mode'>Editing mode</label>
-            <select id='mode'>
-              <option value='normal' {{^minimal_mode}}selected='selected'{{/minimal_mode}}>Normal</option>
-              <option value='minimal' {{#minimal_mode}}selected='selected'{{/minimal_mode}}>Minimal</option>
-            </select>
-            <div class='description'>To edit projects with an external editor use <em>minimal mode</em>.</div>
-          </li>
-          <li class='buttons'>
-            <input class='submit' type='submit' value='Save' />
-          </li>
-        </ul>
-      </form>
     </script>
 
   <body>

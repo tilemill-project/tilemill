@@ -19,7 +19,8 @@ var LayerListView = Backbone.View.extend({
             $('ul', this.el).sortable({
                 axis: 'y',
                 handle: 'div.handle',
-                containment: 'parent'
+                containment: 'parent',
+                tolerance: 'pointer'
             });
         }
         // Add row view for each layer.
@@ -68,14 +69,14 @@ var LayerListView = Backbone.View.extend({
 var LayerRowView = Backbone.View.extend({
     tagName: 'li',
     className: 'clearfix',
-    initialize: function (options) {
+    initialize: function(options) {
         _.bindAll(this, 'render', 'edit', 'inspect', 'del');
         this.model.bind('change', this.render);
         this.project = options.project;
         this.list = options.list;
         this.render();
     },
-    render: function () {
+    render: function() {
         var name = [];
         name.push('#' + this.model.get('id'));
         if (this.model.get('class')) {
@@ -103,7 +104,7 @@ var LayerRowView = Backbone.View.extend({
     },
     inspect: function() {
         new DatasourceView({
-            model: new Datasource({ 
+            model: new Datasource({
                 id: this.model.id,
                 url: this.model.get('Datasource').file
             })
@@ -137,8 +138,8 @@ var LayerPopupView = PopupView.extend({
         'click a.assets': 'assets',
         'change select#srs-name': 'selectSRS'
     }, PopupView.prototype.events),
-    initialize: function(params) {
-        _.bindAll(this, 'render', 'submit', 'assets', 'selectSRS');
+    initialize: function(options) {
+        _.bindAll(this, 'submit', 'assets', 'selectSRS');
         this.model = this.options.model;
         this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
 
@@ -151,7 +152,7 @@ var LayerPopupView = PopupView.extend({
         object['srs'] = this.model.get('srs');
         object['srs_name_' + this.model.srsName()] = true;
         this.options.content = ich.LayerPopupView(object, true);
-        this.render();
+        PopupView.prototype.initialize.call(this, options);
     },
     submit: function() {
         var that = this;
@@ -222,7 +223,7 @@ var DatasourceView = DrawerView.extend({
     events: _.extend({
         'click .showall .button': 'deferredRender'
     }, DrawerView.prototype.events),
-    initialize: function (options) {
+    initialize: function(options) {
         options.title = this.model.id;
         options.content = '';
         DrawerView.prototype.initialize.call(this, options);
@@ -239,7 +240,7 @@ var DatasourceView = DrawerView.extend({
         this.features = [];
         this.deferredFeatures = [];
     },
-    loadFields: function () {
+    loadFields: function() {
         var object = { fields: [] };
         for (var fieldId in this.model.get('fields')) {
             var field = this.model.get('fields')[fieldId];

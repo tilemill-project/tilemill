@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://localhost:8889/" />
-<title>ProjectCreationTestCase</title>
+<title>CreateProjectTestCase</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">ProjectCreationTestCase</td></tr>
+<tr><td rowspan="1" colspan="3">CreateProjectTestCase</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -17,9 +17,14 @@
 	<td></td>
 </tr>
 <tr>
+	<td>verifyTextPresent</td>
+	<td>New project</td>
+	<td></td>
+</tr>
+<tr>
 	<td>type</td>
 	<td>//input[@type='text']</td>
-	<td>Testing</td>
+	<td>selenium_demo</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -27,9 +32,19 @@
 	<td></td>
 </tr>
 <tr>
+	<td>verifyTextPresent</td>
+	<td>selenium_demo</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>New project</td>
+	<td></td>
+</tr>
+<tr>
 	<td>type</td>
 	<td>//input[@type='text']</td>
-	<td>Testing 2</td>
+	<td>selenium_otherdemo</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -37,48 +52,28 @@
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>link=Close</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>//input[@type='text']</td>
-	<td>Testing2</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//input[@value='Add']</td>
+	<td>verifyTextPresent</td>
+	<td>selenium_otherdemo</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>//div[@class='main']//ul/li[2]/a/span[2]</td>
+	<td>//div[@id='ProjectListView']/ul/li/a[@href='#project/selenium_demo']</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertConfirmation</td>
-	<td>Are you sure you want to delete this project?</td>
+	<td>verifyTextPresent</td>
+	<td>background-color: #fff;</td>
 	<td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>//input[@type='text']</td>
-	<td>Testing</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//input[@value='Add']</td>
+	<td>verifyTextPresent</td>
+	<td>style.mss</td>
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>link=Close</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//div[@class='main']//ul/li/a</td>
+	<td>verifyTextPresent</td>
+	<td>selenium_demo</td>
 	<td></td>
 </tr>
 </tbody></table>

@@ -12,38 +12,13 @@
 <tr><td rowspan="1" colspan="3">StyleSheetCreationTestCase</td></tr>
 </thead><tbody>
 <tr>
-	<td>selectFrame</td>
-	<td>codemirror</td>
+	<td>verifyTextPresent</td>
+	<td>style.mss</td>
 	<td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>//body</td>
-	<td>#world {&nbsp;&nbsp;&nbsp;polygon-fill: #eee;&nbsp;&nbsp;&nbsp;line-color: #ccc;&nbsp;&nbsp;&nbsp;line-width: 0.5; }&nbsp;&nbsp;.label {&nbsp;&nbsp;&nbsp;text-name: &quot;[NAME_ENGLI]&quot;;&nbsp;&nbsp;&nbsp;text-face-name: &quot;DejaVu Sans Condensed&quot;; }</td>
-</tr>
-<tr>
-	<td>selectFrame</td>
-	<td>relative=parent</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=Save</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=Back home</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//div[@class='main']//ul/li/a</td>
-	<td></td>
-</tr>
-<tr>
-	<td>captureEntirePageScreenshot</td>
-	<td>/tmp/tilemill.png</td>
+	<td>assertElementPresent</td>
+	<td>//div[@id='editor']/div/div</td>
 	<td></td>
 </tr>
 <tr>
@@ -54,7 +29,7 @@
 <tr>
 	<td>type</td>
 	<td>stylesheet-name</td>
-	<td>test.mss</td>
+	<td>demo.mss</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -62,8 +37,78 @@
 	<td></td>
 </tr>
 <tr>
+	<td>verifyTextPresent</td>
+	<td>demo.mss</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>//div[@id='tabs']/div/a[span=&quot;demo.mss&quot;]/span</td>
+	<td>10, 10</td>
+</tr>
+<tr>
+	<td>assertVisible</td>
+	<td>//div[@id='editor']/div[2]/div</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//div[@id='editor']/div[2]/div/div/div/div[2]/textarea</td>
+	<td>#world {<br />&nbsp;&nbsp;&nbsp;polygon-fill: #eee;<br />&nbsp;&nbsp;&nbsp;line-color: #ccc;<br />&nbsp;&nbsp;&nbsp;line-width: 0.5;<br />}<br /><br />.label {<br />&nbsp;&nbsp;&nbsp;text-name: &quot;[NAME_ENGLI]&quot;;<br />&nbsp;&nbsp;&nbsp;text-face-name: &quot;DejaVu Sans Condensed&quot;;<br />}<br /></td>
+</tr>
+<tr>
 	<td>click</td>
-	<td>//div[@id='tabs']/div/a[2]/span[1]</td>
+	<td>link=Save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Add stylesheet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>stylesheet-name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>stylesheet-name</td>
+	<td>water.mss</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@value='Add stylesheet']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>water.mss</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>//div[@id='tabs']/div/a[3]/span[1]</td>
+	<td>10, 10</td>
+</tr>
+<tr>
+	<td>mouseDown</td>
+	<td>//div[@id='tabs']/div/a[span=&quot;water.mss&quot;]/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertVisible</td>
+	<td>//div[@id='editor']/div[3]/div</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//div[@id='editor']/div[3]/div/div/div/div[2]/textarea</td>
+	<td>Map { background-color:blue; }</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Save</td>
 	<td></td>
 </tr>
 </tbody></table>

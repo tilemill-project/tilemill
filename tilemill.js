@@ -1,4 +1,4 @@
-#!./build/bin/node
+#!./bin/node
 // The TileMill application consists of:
 //
 //     +-----------------+
@@ -56,6 +56,7 @@ app.use(express.bodyDecoder());
 app.use(express.staticProvider('client'));
 app.use(express.staticProvider('shared'));
 app.use(express.staticProvider('modules'));
+app.enable('jsonp callback');
 
 require('bootstrap')(app, settings);
 require('api')(app, settings);

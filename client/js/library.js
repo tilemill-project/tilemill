@@ -5,7 +5,6 @@
 var LibraryListView = Backbone.View.extend({
     id: 'LibraryListView',
     events: {
-        'click .header a.settings': 'settings',
         'click a.add': 'add'
     },
     initialize: function () {
@@ -60,13 +59,11 @@ var LibraryListView = Backbone.View.extend({
         });
         return this;
     },
-    settings: function() {
-        new SettingsPopupView({ model: window.app.settings });
-        return false;
-    },
     add: function() {
         new LibraryPopupView({
-            model: new Library(),
+            model: new Library({
+                id: '' + (+new Date())
+            }),
             collection: this.collection,
             add: true
         });

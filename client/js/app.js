@@ -16,7 +16,7 @@ var Router = Backbone.Controller.extend({
                     collection: collection,
                     active: id
                 });
-                window.app.page(view);
+                window.app.page(view, 'TileMill');
                 next && next();
             },
             error: that.error
@@ -27,7 +27,7 @@ var Router = Backbone.Controller.extend({
         (new Project({ id: id })).fetch({
             success: function(model) {
                 var view = new ProjectView({ model: model });
-                window.app.page(view);
+                window.app.page(view, 'TileMill > ' + model.id);
                 next && next();
             },
             error: that.error
@@ -35,7 +35,7 @@ var Router = Backbone.Controller.extend({
     },
     projectExport: function(id, next) {
         this.project(id, function() {
-            window.app.pageView.views.exportDropdown.jobs();
+            window.app.pageView.views.exportDropdown.exportList();
             next && next();
         });
     },
@@ -47,7 +47,7 @@ var Router = Backbone.Controller.extend({
     },
     error: function() {
         var view = new ErrorView({ message: 'Page not found' });
-        window.app.page(view);
+        window.app.page(view, 'TileMill >  404');
     }
 });
 
@@ -98,17 +98,11 @@ var App = Backbone.View.extend({
             return baseURL + args.join('/') + '/';
         }
     },
-    // URL-safe base64 encode a string. Optionally add a datestamp based
-    // querystring.
-    safe64: function(url, signed) {
-        _.isUndefined(signed) && (signed = true);
-        signed && (url += '?' + ('' + (+new Date)).substring(0,10));
-        return Base64.encodeURI(url);
-    },
     // Set the application page viweport to the provided view. Triggers a
     // `ready` event for any behaviors that expect DOM elements to be present
-    // in the document before attaching/initing (e.g. CodeMirror, OpenLayers).
-    page: function(view) {
+    // in the document before attaching/initing (e.g. CodeMirror, Modest Maps).
+    page: function(view, title) {
+        title && (document.title = title);
         $('.tipsy').remove();
         $(this.el).html(view.el);
         this.pageView = view;
@@ -154,8 +148,8 @@ $(function() {
 
    // Use `jquery.tipsy` for displaying tooltips.
    $('a').tipsy({
-        live:true,
-        html:true,
+        live: true,
+        html: true,
         gravity: function() {
             if ($(this).is('.tipsy-w')) { return 'w'; }
             if ($(this).is('.tipsy-e')) { return 'e'; }

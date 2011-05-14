@@ -12,8 +12,43 @@
 <tr><td rowspan="1" colspan="3">ToolsTestCase</td></tr>
 </thead><tbody>
 <tr>
+	<td>verifyTextPresent</td>
+	<td>Colors</td>
+	<td></td>
+</tr>
+<tr>
 	<td>click</td>
-	<td>link=Color picker</td>
+	<td>link=Colors</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Color picker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='ColorSwatchListView']/div[1]/div[1]/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='ColorSwatchListView']/div[1]/div[2]/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='ColorSwatchListView']/div[1]/div[1]/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='editor']/div[3]/div/div/div/div[3]/div/div/pre/span[4]</td>
+	<td>#ccc</td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=Fonts</td>
 	<td></td>
 </tr>
 <tr>
@@ -21,24 +56,21 @@
 	<td>link=Fonts</td>
 	<td></td>
 </tr>
-<!--
-@TODO: update font selector test.
-<tr>
-	<td>select</td>
-	<td>//div[@id='toolbar']/div[1]/select</td>
-	<td>label=DejaVu Sans Mono Bold Oblique</td>
-</tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>DejaVu Sans Mono Bold Oblique</td>
+	<td>DejaVu Sans Book</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>//div[@id='color-swatches']/div[2]/div[2]/a</td>
+	<td>//div[@id='FontPicker']/ul/li[.=&quot;DejaVu Sans Book&quot;]</td>
 	<td></td>
 </tr>
--->
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='editor']/div[3]/div/div/div/div[3]/div/div/pre/span[4]</td>
+	<td>&quot;DejaVu Sans Book&quot;</td>
+</tr>
 </tbody></table>
 </body>
 </html>

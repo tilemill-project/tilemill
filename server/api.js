@@ -1,7 +1,8 @@
 // REST endpoints for Backbone models and collections.
 var _ = require('underscore'),
     mapnik = require('mapnik'),
-    models = require('models-server'),
+    models = require('models'),
+    cache = require('models-cache'),
     Step = require('step'),
     reference = require('carto').tree.Reference.data;
     External = require('carto').External;
@@ -11,7 +12,7 @@ module.exports = function(app, settings) {
     // on loading 10,000 features to keep a large datasource from busting up
     // the server.
     function loadDatasource(req, res, next) {
-        var url = req.param('id').replace('+', '-').replace('/', '_');
+        var url = req.param('id').replace('-', '+').replace('_', '/');
         url = (new Buffer(url, 'base64')).toString('utf-8');
         var external = new External(settings, url);
         external.on('err', function(err) {
@@ -27,7 +28,7 @@ module.exports = function(app, settings) {
                         file: file
                     }, external.type.ds_options));
                 } catch (e) {
-                    return next('The datasource could not be loaded.');
+                    return next('Datasource could not be loaded.');
                 }
                 if (external.type.ds_options.type !== 'gdal') {
                     res.datasource = _.extend({
@@ -138,7 +139,7 @@ module.exports = function(app, settings) {
     // `type` to determine which library plugin should be used for generating
     // the list of assets.
     app.get('/api/Library/:id/assets/:page?', function(req, res) {
-        var model = models.cache.get('Library', req.param('id'));
+        var model = cache.get('Library', req.param('id'));
         model.fetch({
             success: function(model, resp) {
                 var options = _.extend({
@@ -165,7 +166,7 @@ module.exports = function(app, settings) {
     // `library-directory.js`.
     app.get('/api/Library/:id/files/*', function(req, res, next) {
         var path = require('path');
-        var model = models.cache.get('Library', req.param('id'));
+        var model = cache.get('Library', req.param('id'));
         model.fetch({
             success: function(model, resp) {
                 if (model.get('type') === 'directory') {
@@ -201,7 +202,7 @@ module.exports = function(app, settings) {
     // ---------------
     // GET endpoint for all Backbone models.
     app.get('/api/:model/:id', validateModel, function(req, res, next) {
-        var model = models.cache.get(req.param('model'), req.param('id'));
+        var model = cache.get(req.param('model'), req.param('id'));
         model.fetch({
             success: function(model, resp) { res.send(model.toJSON()) },
             error: function(model, resp) { res.send(resp, 500); }
@@ -217,13 +218,12 @@ module.exports = function(app, settings) {
             .update(+new Date)
             .digest('hex')
             .substring(0,6);
-        var model = models.cache.get(req.param('model'), id);
-        model.set(req.body);
+        var model = cache.get(req.param('model'), id);
         if (req.param('model') === 'Project') {
-            model.validateAsync({
+            model.validateAsync(req.body, {
                 success: function(model) {
                     model.save(req.body, {
-                        success: function(model, resp) { res.send(model.toJSON()) },
+                        success: function(model, resp) { res.send(resp); },
                         error: function(model, resp) { res.send(resp, 500); }
                     });
                 },
@@ -233,7 +233,7 @@ module.exports = function(app, settings) {
             });
         } else {
             model.save(req.body, {
-                success: function(model, resp) { res.send(model.toJSON()) },
+                success: function(model, resp) { res.send(resp); },
                 error: function(model, resp) { res.send(resp, 500); }
             });
         }
@@ -243,13 +243,12 @@ module.exports = function(app, settings) {
     // ---------------
     // PUT endpoint for all Backbone models.
     app.put('/api/:model/:id', validateModel, function(req, res, next) {
-        var model = models.cache.get(req.param('model'), req.param('id'));
-        model.set(req.body);
+        var model = cache.get(req.param('model'), req.param('id'));
         if (req.param('model') === 'Project') {
-            model.validateAsync({
+            model.validateAsync(req.body, {
                 success: function(model) {
                     model.save(req.body, {
-                        success: function(model, resp) { res.send(model.toJSON()) },
+                        success: function(model, resp) { res.send(resp); },
                         error: function(model, resp) { res.send(resp, 500); }
                     });
                 },
@@ -260,7 +259,7 @@ module.exports = function(app, settings) {
         }
         else {
             model.save(req.body, {
-                success: function(model, resp) { res.send(model.toJSON()) },
+                success: function(model, resp) { res.send(resp); },
                 error: function(model, resp) { res.send(resp, 500); }
             });
         }
@@ -270,13 +269,13 @@ module.exports = function(app, settings) {
     // ------------------
     // DELETE endpoint for all Backbone models.
     app.del('/api/:model/:id', validateModel, function(req, res, next) {
-        var model = models.cache.get(req.param('model'), req.param('id'));
+        var model = cache.get(req.param('model'), req.param('id'));
         model.trigger('delete');
         model.destroy({
             success: function(model, resp) { res.send({}) },
             error: function(model, resp) { res.send(resp, 500); }
         });
-        models.cache.del(req.param('model'), req.param('id'));
+        cache.del(req.param('model'), req.param('id'));
     });
 
     // Generic error handler.

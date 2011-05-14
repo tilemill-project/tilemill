@@ -119,68 +119,86 @@ var ExportView = Backbone.View.extend({
         'change select': 'updateModel'
     }, PopupView.prototype.events),
     initialize: function() {
-        _.bindAll(this, 'boundingBoxAdded', 'boundingBoxReset', 'updateModel', 'updateUI');
+        _.bindAll(this, 'boundingBoxAdded', 'boundingBoxReset', 'updateModel', 'updateUI', 'bboxClamp', 'calcAspect');
         this.map = this.options.map.map;
         this.render();
+        this.model.bind('change:bbox', this.bboxClamp);
+        this.model.bind('change:bbox', this.calcAspect);
         this.model.bind('change', this.updateUI);
-        this.model.set({ bbox: this.map.getExtent().toArray().join(',') });
+        this.boundingBoxAdded(this.map.getExtent());
         window.app.controller.saveLocation('project/' + this.options.project.id + '/export/' + this.options.format);
     },
     render: function() {
         $(this.el).html(ich.ExportView(this.options));
         window.app.el.append(this.el);
-        this.options.map.maximize();
+        this.map.maximize();
+        this.options.map.$('.wax-fullscreen').hide();
+        this.options.map.$('.map-legend').hide();
 
         // Add crop control to map.
-        this.boxDrawingLayer = new OpenLayers.Layer.Vector('Crop');
-        this.boxDrawingControl = new ExportCropControl(this.boxDrawingLayer, {
-            featureAdded: this.boundingBoxAdded
-        });
-        this.map.addLayer(this.boxDrawingLayer);
-        this.map.addControl(this.boxDrawingControl);
-        this.boxDrawingControl.activate();
+        this.map.zoombox.remove();
+        this.map.boxselector(this.boundingBoxAdded);
         return this;
     },
-    // OpenLayers ExportCropControl callback. Sets the bounding box of the
+    // ExportCropControl callback. Sets the bounding box of the
     // model when a user drags a crop box over the map.
     boundingBoxAdded: function(box) {
         this.model.set({
-            bbox: box.geometry.components[1].getBounds().toArray().join(',')
+            bbox: [box[0].lon,
+                   box[1].lat,
+                   box[1].lon,
+                   box[0].lat].join(',')
         });
         return false;
     },
     // Resets the bounding box of the model to the maximum layer extents.
     boundingBoxReset: function() {
         this.model.set({
-            bbox: [-20037500, -20037500, 20037500, 20037500].join(',')
+            bbox: [-179.99992508051, -85.051122316742, 179.99992508051, 85.051122316742].join(',')
         });
         return false;
     },
     // Update the export model from form fields.
     updateModel: function(event) {
         var data = {};
+        var key = $(event.target).attr('id');
         if ($(event.target).is('.bbox')) {
-            var bbox = [
+            data.bbox = [
                 parseFloat(this.$('#bbox-w').val()),
                 parseFloat(this.$('#bbox-s').val()),
                 parseFloat(this.$('#bbox-e').val()),
-                parseFloat(this.$('#bbox-n').val())
-            ];
-            var nw = OpenLayers.Projection.transform(
-                { x: bbox[0], y: bbox[3] },
-                new OpenLayers.Projection('EPSG:4326'),
-                new OpenLayers.Projection('EPSG:900913')
-            );
-            var se = OpenLayers.Projection.transform(
-                { x: bbox[2], y: bbox[1] },
-                new OpenLayers.Projection('EPSG:4326'),
-                new OpenLayers.Projection('EPSG:900913')
-            );
-            data.bbox = [ nw.x, se.y, se.x, nw.y ].join(',');
+                parseFloat(this.$('#bbox-n').val())]
+            .join(',');
+        } else if (key === 'width' || key === 'height') {
+            data[$(event.target).attr('id')] = parseFloat($(event.target).val());
         } else {
             data[$(event.target).attr('id')] = $(event.target).val();
         }
         this.model.set(data);
+    },
+    bboxClamp: function(model) {
+        var bboxMax = [-179.99992508051, -85.051122316742, 179.99992508051, 85.051122316742];
+        var bbox = _.map(model.get('bbox').split(','), function(bound, index) {
+            if (index <= 1) {
+                return Math.max(bound, bboxMax[index]);
+            } else {
+                return Math.min(bound, bboxMax[index]);
+            }
+            return bound;
+        });
+        model.set({bbox: bbox.join(',')});
+    },
+    calcAspect: function(model) {
+        // Determine the aspect ration of the final bbox.
+        var bbox = model.get('bbox').split(',');
+        var points = [
+            this.map.locationPoint(new com.modestmaps.Location(bbox[3], bbox[0])),
+            this.map.locationPoint(new com.modestmaps.Location(bbox[1], bbox[2]))
+        ];
+        model.set({
+            aspect: (Math.round(points[1].x) - Math.round(points[0].x)) /
+            (Math.round(points[1].y) - Math.round(points[0].y))
+        });
     },
     // Update form field values when model values change.
     updateUI: function(model) {
@@ -188,23 +206,15 @@ var ExportView = Backbone.View.extend({
         _.each(model.changedAttributes(), function(value, key) {
             if (key === 'bbox') {
                 var bbox = value.split(',');
-                var nw = OpenLayers.Projection.transform(
-                    { x: bbox[0], y: bbox[3] },
-                    new OpenLayers.Projection('EPSG:900913'),
-                    new OpenLayers.Projection('EPSG:4326')
-                );
-                var se = OpenLayers.Projection.transform(
-                    { x: bbox[2], y: bbox[1] },
-                    new OpenLayers.Projection('EPSG:900913'),
-                    new OpenLayers.Projection('EPSG:4326')
-                );
-                that.$('#bbox-w').val(nw.x);
-                that.$('#bbox-s').val(se.y);
-                that.$('#bbox-e').val(se.x);
-                that.$('#bbox-n').val(nw.y);
-                that.boxDrawingControl.drawFeature(bbox, true);
-            }
-            else {
+                that.$('#bbox-w').val(bbox[0]);
+                that.$('#bbox-s').val(bbox[1]);
+                that.$('#bbox-e').val(bbox[2]);
+                that.$('#bbox-n').val(bbox[3]);
+                // Update control
+                var mm = com.modestmaps;
+                that.map.boxselector.box = [new mm.Location(bbox[1], bbox[2]), new mm.Location(bbox[3], bbox[0])];
+                that.map.draw();
+            } else {
                 that.$('#' + key).val(value);
             }
         });
@@ -220,10 +230,11 @@ var ExportView = Backbone.View.extend({
         return false;
     },
     close: function() {
-        this.boxDrawingControl.deactivate();
-        this.options.map.map.removeControl(this.boxDrawingControl);
-        this.options.map.map.removeLayer(this.boxDrawingLayer);
-        this.options.map.minimize();
+        this.map.boxselector.remove();
+        this.map.zoombox();
+        this.options.map.map.minimize();
+        this.options.map.$('.wax-fullscreen').show();
+        this.options.map.$('.map-legend').show();
         PopupView.prototype.close.call(this);
         window.app.controller.saveLocation('project/' + this.options.project.id);
         return false;
@@ -240,14 +251,13 @@ var ExportView = Backbone.View.extend({
 var ExportImageView = ExportView.extend({
     initialize: function() {
         ExportView.prototype.initialize.call(this);
-        var size = this.map.getSize();
         this.model.set({
             filename: this.options.project.get('id')
                 + '.'
                 + this.options.extension,
-            width: size.w,
-            height: size.h,
-            aspect: size.w / size.h
+            width: this.map.dimensions.x,
+            height: this.map.dimensions.y,
+            aspect: this.map.dimensions.x / this.map.dimensions.y
         });
         this.model.bind('change:width', this.updateDimensions);
         this.model.bind('change:height', this.updateDimensions);
@@ -257,11 +267,6 @@ var ExportImageView = ExportView.extend({
         ExportView.prototype.render.call(this);
         this.$('.palette').append(ich.ExportImageView(this.options));
         return this;
-    },
-    boundingBoxAdded: function(box) {
-        var bounds = box.geometry.components[1].getBounds();
-        this.model.set({aspect: bounds.getWidth() / bounds.getHeight()});
-        ExportView.prototype.boundingBoxAdded.call(this, box);
     },
     // Update the image width or height based on the bounding box aspect ratio
     // when the user changes one of the w/h/bbox values.
@@ -311,7 +316,7 @@ var ExportPNGView = ExportImageView.extend({
 // itself.
 var ExportMBTilesView = ExportView.extend({
     initialize: function() {
-        _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels');
+        _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels', 'formatterJS');
         this.options.title = 'Export MBTiles';
         this.options.extension = 'mbtiles';
         ExportView.prototype.initialize.call(this);
@@ -324,10 +329,12 @@ var ExportMBTilesView = ExportView.extend({
             minzoom: 0,
             maxzoom: 8,
             tile_format: this.options.project.get('_format'),
+            interactivity: this.options.project.get('_interactivity'),
             metadata_name: this.options.project.get('id'),
             metadata_description: '',
             metadata_version: '1.0.0',
-            metadata_type: 'baselayer'
+            metadata_type: 'baselayer',
+            metadata_formatter: this.options.project.formatterJS()
         });
     },
     render: function() {
@@ -397,11 +404,12 @@ var ExportDropdownView = DropdownView.extend({
         if (!this.FORMAT[format]) {
             window.app.message('Error', 'Unsupported export format.', 'error');
         } else {
+            // Close all drawers. This is quite a hack, but better than the
+            // other options atm...
+            $('.drawer a.close').click();
             new this.FORMAT[format]({
                 model: new Export({
-                    mapfile: window.app.safe64(
-                        window.app.baseURL() + this.project.url()
-                    ),
+                    project: this.project.id,
                     format: format
                 }),
                 project: this.project,
@@ -422,115 +430,3 @@ var ExportDropdownView = DropdownView.extend({
         return false;
     }
 });
-
-// ExportCropControl
-// -----------------
-// Custom OpenLayers control for generating a masked crop box over the map.
-// Assumes 900913 projection for extent of masked area.
-var ExportCropControl = OpenLayers.Class(OpenLayers.Control, {
-    CLASS_NAME: 'ExportCropControl',
-    EVENT_TYPES: ['featureadded'],
-
-    layer: null,
-    canvas: null,
-    feature: null,
-    callbacks: null,
-    multi: false,
-    featureAdded: function() {},
-    handlerOptions: null,
-
-    initialize: function(layer, options) {
-        // concatenate events specific to vector with those from the base
-        this.EVENT_TYPES =
-            OpenLayers.Control.DrawFeature.prototype.EVENT_TYPES.concat(
-            OpenLayers.Control.prototype.EVENT_TYPES
-        );
-        OpenLayers.Control.prototype.initialize.apply(this, [options]);
-        this.callbacks = OpenLayers.Util.extend(
-            { done: this.drawFeature },
-            this.callbacks
-        );
-        this.layer = layer;
-
-        // Set handler style and options.
-        this.handlerOptions = this.handlerOptions || {
-            'keyMask': OpenLayers.Handler.MOD_SHIFT,
-            'sides': 4,
-            'irregular': true
-        };
-        var style = OpenLayers.Util.extend(OpenLayers.Feature.Vector.style['default'], {
-            fillColor: '#000',
-            fillOpacity: 0.5,
-            strokeWidth: 0
-        });
-        this.handlerOptions.layerOptions = OpenLayers.Util.applyDefaults(
-            this.handlerOptions.layerOptions,
-            {styleMap: new OpenLayers.StyleMap({"default": style})}
-        );
-        this.handler = new OpenLayers.Handler.RegularPolygon(this, this.callbacks, this.handlerOptions);
-
-        // Draw initial handler.
-        var bounds = options.bounds || [-10000000, -10000000, 10000000, 10000000];
-        this.canvas = new OpenLayers.Geometry.LinearRing([
-            new OpenLayers.Geometry.Point(-20037500, 20037500),
-            new OpenLayers.Geometry.Point(20037500, 20037500),
-            new OpenLayers.Geometry.Point(20037500, -20037500),
-            new OpenLayers.Geometry.Point(-20037500, -20037500)
-        ]);
-        this.feature = new OpenLayers.Feature.Vector(
-            new OpenLayers.Geometry.Polygon([
-                this.canvas,
-                new OpenLayers.Geometry.LinearRing([
-                    new OpenLayers.Geometry.Point(bounds[0], bounds[3]),
-                    new OpenLayers.Geometry.Point(bounds[2], bounds[3]),
-                    new OpenLayers.Geometry.Point(bounds[2], bounds[1]),
-                    new OpenLayers.Geometry.Point(bounds[0], bounds[1])
-                ])
-            ])
-        );
-        this.feature.state = OpenLayers.State.INSERT;
-        layer.addFeatures([this.feature]);
-    },
-
-    drawFeature: function(geometry, quiet) {
-        var feature;
-        if (geometry.components) {
-            feature = new OpenLayers.Feature.Vector(
-                new OpenLayers.Geometry.Polygon([
-                    this.canvas,
-                    geometry.components.pop()
-                ])
-            );
-        // Allow a straight bbox to be passed in.
-        } else if (geometry.length === 4) {
-            feature = new OpenLayers.Feature.Vector(
-                new OpenLayers.Geometry.Polygon([
-                    this.canvas,
-                    new OpenLayers.Geometry.LinearRing([
-                        new OpenLayers.Geometry.Point(geometry[0], geometry[3]),
-                        new OpenLayers.Geometry.Point(geometry[2], geometry[3]),
-                        new OpenLayers.Geometry.Point(geometry[2], geometry[1]),
-                        new OpenLayers.Geometry.Point(geometry[0], geometry[1])
-                    ])
-                ])
-            );
-        }
-
-        var proceed = this.layer.events.triggerEvent(
-            "sketchcomplete", {feature: feature}
-        );
-        if(proceed !== false) {
-            feature.state = OpenLayers.State.INSERT;
-
-            // Replace this.feature with the new feature.
-            this.feature.destroy();
-            this.feature = feature;
-            this.layer.addFeatures([feature]);
-            if (!quiet) {
-                this.featureAdded(feature);
-                this.events.triggerEvent("featureadded", { feature : feature });
-            }
-        }
-    }
-});
-

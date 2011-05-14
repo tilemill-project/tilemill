@@ -3,9 +3,9 @@
 // globally defined Backbone and underscore leaving us with broken objects.
 // This is obviously not ideal.
 if (typeof require !== 'undefined' && typeof window === 'undefined') {
-    JSV = require('jsv').JSV;
-    Backbone = require('backbone-dirty');
     _ = require('underscore')._;
+    Backbone = require('backbone');
+    JSV = require('jsv').JSV;
 }
 
 // JSON schema validation
@@ -144,7 +144,6 @@ var Settings = Backbone.Model.extend({
             }
         }
     },
-    type: 'settings',
     url: function() {
         return 'api/Settings/' + this.id;
     }
@@ -244,7 +243,8 @@ var Layer = Backbone.Model.extend({
     },
     // Constant. Hash of simple names to known SRS strings.
     SRS: {
-        '900913': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+        // note: 900913 should be the same as EPSG 3857
+        '900913': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over',
         'WGS84': '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
     },
     // Get the name of a model's SRS string if known, otherwise reteurn
@@ -333,10 +333,16 @@ var Project = Backbone.Model.extend({
             },
             '_format': {
                 'type': 'string',
-                'enum': ['png', 'png24', 'jpeg80', 'jpeg85', 'jpeg90', 'jpeg95']
+                'enum': ['png', 'png24', 'png8', 'jpeg80', 'jpeg85', 'jpeg90', 'jpeg95']
             },
             '_center': {
                 'type': 'object'
+            },
+            '_interactivity': {
+                'type': ['object', 'boolean']
+            },
+            '_updated': {
+                'type': 'integer'
             }
         }
     },
@@ -346,28 +352,28 @@ var Project = Backbone.Model.extend({
             + '  background-color: #fff;\n'
             + '}\n\n'
             + '#world {\n'
+            + '  polygon-fill: #eee;\n'
             + '  line-color: #ccc;\n'
             + '  line-width: 0.5;\n'
-            + '  polygon-fill: #eee;\n'
             + '}'
     }],
     LAYER_DEFAULT: [{
         id: 'world',
         name: 'world',
         srs: '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 '
-        + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+        + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over',
         geometry: 'polygon',
         Datasource: {
             file: 'http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip',
             type: 'shape'
         }
     }],
-    type: 'project',
     defaults: {
         '_center': { lat:0, lon:0, zoom:2 },
         '_format': 'png',
+        '_interactivity': false,
         'srs': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 '
-            + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs',
+            + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over',
         'Stylesheet': [],
         'Layer': []
     },
@@ -383,14 +389,16 @@ var Project = Backbone.Model.extend({
     },
     // Instantiate StylesheetList and LayerList collections from JSON lists
     // of plain JSON objects.
-    parse: function(response) {
-        var self = this;
-        response.Stylesheet = new StylesheetList(response.Stylesheet ?
-                response.Stylesheet :
-                [], { parent: this });
-        response.Layer = new LayerList(response.Layer ?
-                response.Layer : [], { parent: this });
-        return response;
+    parse: function(resp) {
+        resp.Stylesheet && (resp.Stylesheet = new StylesheetList(
+            resp.Stylesheet,
+            {parent: this}
+        ));
+        resp.Layer && (resp.Layer = new LayerList(
+            resp.Layer,
+            {parent: this}
+        ));
+        return resp;
     },
     url: function() {
         return 'api/Project/' + this.id;
@@ -398,7 +406,7 @@ var Project = Backbone.Model.extend({
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent
     // with other Backbone methods.
-    validateAsync: function(options) {
+    validateAsync: function(attributes, options) {
         // If client-side, pass-through.
         if (typeof require === 'undefined') {
             return options.success(this, null);
@@ -421,7 +429,7 @@ var Project = Backbone.Model.extend({
 
         // Hard clone the model JSON before rendering as rendering will change
         // properties (e.g. localize a datasource URL to the filesystem).
-        var data = JSON.parse(JSON.stringify(this.toJSON()));
+        var data = JSON.parse(JSON.stringify(attributes));
         new carto.Renderer(env)
             .render(data, function(err, output) {
             if (err) {
@@ -430,6 +438,52 @@ var Project = Backbone.Model.extend({
                 options.success(that, null);
             }
         });
+    },
+    // Interactivity: Convert teaser/full template markup into formatter js.
+    // Replaces tokens like `[NAME]` with string concatentations of `data.NAME`
+    // removes line breaks and escapes single quotes.
+    // @TODO properly handle other possible #fail. Maybe use underscore
+    // templating?
+    formatterJS: function() {
+        if (_.isEmpty(this.get('_interactivity'))) return;
+
+        var full = this.get('_interactivity').template_full || '';
+        var teaser = this.get('_interactivity').template_teaser || '';
+        var location = this.get('_interactivity').template_location || '';
+        full = full.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        teaser = teaser.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        location = location.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        return "function(options, data) { "
+            + "  switch (options.format) {"
+            + "    case 'full': "
+            + "      return '" + full + "'; "
+            + "      break; "
+            + "    case 'location': "
+            + "      return '" + location + "'; "
+            + "      break; "
+            + "    case 'teaser': "
+            + "    default: "
+            + "      return '" + teaser + "'; "
+            + "      break; "
+            + "  }"
+            + "}";
+    },
+    // Interactivity: Retrieve array of field names to be included in
+    // interactive tiles by parsing `[field]` tokens.
+    formatterFields: function() {
+        if (_.isEmpty(this.get('_interactivity'))) return;
+        var fields = [];
+        var full = this.get('_interactivity').template_full || '';
+        var teaser = this.get('_interactivity').template_teaser || '';
+        fields = fields
+            .concat(full.match(/\[([\w\d]+)\]/g))
+            .concat(teaser.match(/\[([\w\d]+)\]/g));
+        fields = _(fields).chain()
+            .filter(_.isString)
+            .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
+            .uniq()
+            .value();
+        return fields;
     }
 });
 
@@ -454,6 +508,15 @@ var Export = Backbone.Model.extend({
             'id': {
                 'type': 'string',
                 'required': true
+            },
+            'project': {
+                'type': 'string',
+                'required': true
+            },
+            'format': {
+                'type': 'string',
+                'required': true,
+                'enum': ['png', 'pdf', 'mbtiles']
             },
             'status': {
                 'type': 'string',
@@ -480,7 +543,6 @@ var Export = Backbone.Model.extend({
             }
         }
     },
-    type: 'export',
     initialize: function() {
         this.isNew() && this.set({created: +new Date});
     },
@@ -493,7 +555,7 @@ var Export = Backbone.Model.extend({
     },
     // Generate a download URL for an Export.
     downloadURL: function() {
-        return (this.get('status') === 'complete') && '/export/download/' + this.get('filename');
+        return (this.get('status') === 'complete') && 'export/download/' + this.get('filename');
     },
     // Get the duration of the current export job.
     time: function() {
@@ -712,7 +774,6 @@ var Library = Backbone.Model.extend({
             }
         }
     },
-    type: 'library',
     url: function() {
         return 'api/Library/' + this.id;
     },
@@ -742,19 +803,17 @@ var LibraryList = Backbone.Collection.extend({
     }
 });
 
-if (typeof module !== 'undefined') {
-    module.exports = {
-        Asset: Asset,
-        AssetList: AssetList,
-        AssetListS3: AssetListS3,
-        Library: Library,
-        LibraryList: LibraryList,
-        Project: Project,
-        ProjectList: ProjectList,
-        Export: Export,
-        ExportList: ExportList,
-        Datasource: Datasource,
-        Settings: Settings
-    };
-}
+(typeof module !== 'undefined') && (module.exports = {
+    Asset: Asset,
+    AssetList: AssetList,
+    AssetListS3: AssetListS3,
+    Library: Library,
+    LibraryList: LibraryList,
+    Project: Project,
+    ProjectList: ProjectList,
+    Export: Export,
+    ExportList: ExportList,
+    Datasource: Datasource,
+    Settings: Settings
+});
 

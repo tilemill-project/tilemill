@@ -52,7 +52,7 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(project1));
+            assert.deepEqual(_.keys(JSON.parse(res.body)), ['_updated']);
         });
     },
     'project-test': function() {
@@ -66,7 +66,10 @@ module.exports = {
             var projects = JSON.parse(res.body);
             for (var i = 0; i < projects.length; i++) {
                 if (projects[i].id === 'Test') {
-                    assert.deepEqual(projects[i], JSON.parse(project1));
+                    assert.deepEqual(
+                        _(projects[i]).extend({_updated: 0}),
+                        _(JSON.parse(project1)).extend({_updated: 0})
+                    );
                 }
             }
         });
@@ -77,7 +80,10 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(project1));
+            assert.deepEqual(
+                _(JSON.parse(res.body)).extend({_updated: 0}),
+                _(JSON.parse(project1)).extend({_updated: 0})
+            );
         });
         // Validation: Name must contain specified characters.
         var invalid = _.extend(JSON.parse(project1), {
@@ -117,7 +123,7 @@ module.exports = {
     'project-tiles': function() {
         // Test a few project tiles
         assert.response(app, {
-            url: '/1.0.0/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_NTZiYTY5/0/0/0.png',
+            url: '/1.0.0/Test/0/0/0.png',
             method: 'GET'
         }, {
             status: 200
@@ -125,7 +131,7 @@ module.exports = {
             assert.ok(res.body.length > 5000, 'Tile is unexpectedly small.');
         });
         assert.response(app, {
-            url: '/1.0.0/aHR0cDovL2xvY2FsaG9zdDo4ODg5L2FwaS9Qcm9qZWN0L1Rlc3Q_NTZiYTY5/2/2/1.png',
+            url: '/1.0.0/Test/2/2/1.png',
             method: 'GET'
         }, {
             status: 200
@@ -141,6 +147,33 @@ module.exports = {
             status: 500
         });
     },
+    'projection-migration': function() {
+        // Update project to use legacy projection string to test that TileMill updates it properly.
+        var legacyProject = JSON.parse(project1);
+        legacyProject.srs = legacyProject.Layer[0].srs = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs';
+        assert.response(app, {
+            url: '/api/Project/Test',
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            data: JSON.stringify(legacyProject)
+        }, {
+            status: 200
+        });
+        // Project SRS strings should be fixed upon loading.
+        assert.response(app, {
+            url: '/api/Project/Test',
+            method: 'GET',
+        }, {
+            status: 200
+        }, function(res) {
+            var project = JSON.parse(res.body);
+            assert.equal('+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over', project.srs);
+            assert.equal('+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over', project.Layer[0].srs);
+        });
+    },
+
     'project-update': function() {
         // Update project
         assert.response(app, {
@@ -153,7 +186,7 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(project2));
+            assert.deepEqual(_.keys(JSON.parse(res.body)), ['_updated']);
         });
     },
     'project-delete': function() {
@@ -189,7 +222,7 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(settings1));
+            assert.deepEqual(res.body, '{}');
         });
     },
     'settings-test': function() {
@@ -231,7 +264,7 @@ module.exports = {
         }, {
             status: 200
         }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(settings2));
+            assert.deepEqual(res.body, '{}');
         });
     },
     'settings-delete': function() {

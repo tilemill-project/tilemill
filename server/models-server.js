@@ -1,8 +1,7 @@
 // Server-side overrides for the Backbone models defined in `shared/models.js`.
 // Provides model-specific storage overrides.
-
-var _ = require('underscore'),
-    Backbone = require('backbone-dirty'),
+var _ = require('underscore')._,
+    Backbone = require('backbone'),
     settings = require('settings'),
     fs = require('fs'),
     Step = require('step'),
@@ -19,6 +18,11 @@ models.Project.prototype.sync = function(method, model, success, error) {
     switch (method) {
     case 'read':
         if (model.id) {
+            // Loading a project model is not trivial in cost like backbone
+            // dirty models. We set a flag to indicate that this project has
+            // been fetched for any callers who might want to reduce the
+            // number of fetch calls made if possible.
+            model._fetched = true;
             loadProject(model, function(err, model) {
                 return err ? error(err) : success(model);
             });
@@ -45,48 +49,125 @@ models.Project.prototype.sync = function(method, model, success, error) {
 // Load a single project model.
 function loadProject(model, callback) {
     var modelPath = path.join(settings.files, 'project', model.id);
-    fs.readFile(path.join(modelPath, model.id) + '.mml', 'utf-8',
-    function(err, data) {
-        if (err || !data) {
-            return callback('Error reading model file.');
-        }
-        var object = JSON.parse(data);
-        // Set the object ID explicitly for multiple-load scenarios where
-        // model parse()/set() is bypassed.
-        object.id = model.id;
-        if (object.Stylesheet && object.Stylesheet.length > 0) {
-            Step(
-                function() {
-                    var group = this.group();
-                    _.each(object.Stylesheet, function(filename, index) {
-                        fs.readFile(
-                            path.join(modelPath, filename),
-                            'utf-8',
-                            group()
-                        );
-                    });
-                },
-                function(err, files) {
-                    object.Stylesheet = _.reduce(
-                        object.Stylesheet,
-                        function(memo, filename, index) {
-                            if (typeof files[index] !== 'undefined') {
-                                memo.push({
-                                    id: filename,
-                                    data: files[index]
-                                });
-                            }
-                            return memo;
-                        },
-                        []
-                    );
-                    return callback(null, object);
-                }
+    var object;
+    Step(
+        function() {
+            fs.stat(
+                path.join(modelPath, model.id) + '.mml',
+                this.parallel()
             );
-        } else {
-            return callback(null, object);
+            fs.readFile(
+                path.join(modelPath, model.id) + '.mml',
+                'utf-8',
+                this.parallel()
+            );
+        },
+        function(err, stat, data) {
+            if (err || !data) throw new Error('Error reading model file.');
+
+            // Set the object ID explicitly for multiple-load scenarios where
+            // model parse()/set() is bypassed.
+            object = JSON.parse(data);
+            object.id = model.id;
+            object._updated = + stat.mtime;
+            if (object.Stylesheet && object.Stylesheet.length > 0) {
+                var group = this.group();
+                _.each(object.Stylesheet, function(filename, index) {
+                    fs.stat(
+                        path.join(modelPath, filename),
+                        group()
+                    );
+                    fs.readFile(
+                        path.join(modelPath, filename),
+                        'utf-8',
+                        group()
+                    );
+                });
+            } else {
+                this();
+            }
+        },
+        function(err, data) {
+            if (err) return callback(err);
+
+            // Retrive the most current modified time from all stylesheets and
+            // set to project modified time if more current than project mml.
+            var mtime = _(data).chain()
+                .pluck('mtime')
+                .filter(_.isDate)
+                .map(function(date) { return + date })
+                .max()
+                .value();
+            (mtime > object._updated) && (object._updated = mtime);
+            object._updated = parseInt(object._updated);
+
+            // Unpack content of loaded Stylesheets into project object.
+            var files = _(data).chain()
+                .filter(_.isString)
+                .value();
+            if (object.Stylesheet && files) {
+                object.Stylesheet = _.reduce(
+                    object.Stylesheet,
+                    function(memo, filename, index) {
+                        if (files[index]) {
+                            memo.push({
+                                id: filename,
+                                data: files[index]
+                            });
+                        }
+                        return memo;
+                    },
+                    []
+                );
+            }
+            this(err, object);
+        },
+        function(err, object) {
+            if (err) return callback(err);
+
+            // Determine if an SRS string should be migrated.
+            var migrateMercatorSRS = function(srs) {
+                var migrationCandidate = [
+                    '+a=6378137',
+                    '+b=6378137',
+                    '+k=1.0',
+                    '+lat_ts=0.0',
+                    '+lon_0=0.0',
+                    '+nadgrids=@null',
+                    '+proj=merc',
+                    '+units=m',
+                    '+x_0=0.0',
+                    '+y_0=0'];
+
+                // Sort all proj arguments with equals signs (=) into an array.
+                var components = _(srs.split(' ')).chain()
+                    .select(function(component) {
+                        if (component.indexOf('=') !== -1) {
+                            return true;
+                        }
+                        return false;
+                    })
+                    .sortBy(function(component) { return component });
+
+                return _.isEqual(components, migrationCandidate);
+            }
+
+            // Migrate legacy srs strings for 900913.
+            var newSRS = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
+            // Project
+            if (migrateMercatorSRS(object.srs)) {
+                object.srs = newSRS;
+            }
+            // Layers
+            _.each(object.Layer, function(layer) {
+                if (migrateMercatorSRS(layer.srs)) {
+                    layer.srs = newSRS;
+                }
+            });
+
+            return callback(err, object);
         }
-    });
+    );
 };
 
 // Load all projects into an array.
@@ -230,9 +311,8 @@ function saveProject(model, callback) {
             // based on writing separate stylesheets.
             var data = JSON.parse(JSON.stringify(model.toJSON()));
             var files = [];
-            if (data.id) {
-                delete data.id;
-            }
+            if (data.id) delete data.id;
+            if (data._updated) delete data._updated;
             if (data.Stylesheet) {
                 _.each(data.Stylesheet, function(stylesheet, key) {
                     if (stylesheet.id) {
@@ -246,7 +326,7 @@ function saveProject(model, callback) {
             }
             files.push({
                 filename: model.id + '.mml',
-                data: JSON.stringify(data)
+                data: JSON.stringify(data, null, 2)
             });
 
             var group = this.group();
@@ -259,7 +339,10 @@ function saveProject(model, callback) {
             }
         },
         function() {
-            callback(null, model);
+            fs.stat(path.join(modelPath, model.id + '.mml'), this);
+        },
+        function(err, stat) {
+            callback(null, {_updated: + stat.mtime});
         }
     );
 }
@@ -301,41 +384,3 @@ models.Export.prototype.sync = function(method, model, success, error) {
         break;
     }
 };
-
-// Cache
-// -----
-// Provides a model instance cache for the server. Used to store and retrieve a
-// model instance in memory such that the same model is referenced in separate
-// requests as well as in other long-running processes.
-//
-// The main use-case in TileMill for this instance cache is triggering a model
-// `delete` event when a DELETE request is received. In the case of Exports,
-// this event is used to terminate and worker processes associated with the
-// Export model being deleted.
-var Cache = function() {
-    this.cache = {};
-};
-
-Cache.prototype.get = function(type, id) {
-    if (this.cache[type] && this.cache[type][id]) {
-        return this.cache[type][id];
-    }
-    this.cache[type] = this.cache[type] || {}
-    this.set(type, id, new models[type]({id: id}));
-    return this.cache[type][id];
-};
-
-Cache.prototype.set = function(type, id, model) {
-    this.cache[type] = this.cache[type] || {}
-    this.cache[type][id] = model;
-    return this.cache[type][id];
-};
-
-Cache.prototype.del = function(type, id) {
-    if (this.cache[type][id]) {
-        delete this.cache[type][id];
-    }
-};
-
-module.exports = _.extend({ cache: new Cache() }, models);
-
