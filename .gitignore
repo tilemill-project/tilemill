@@ -1,7 +1,2 @@
-bin
-lib
-include
-modules
 files
-share
-src
+node_modules
