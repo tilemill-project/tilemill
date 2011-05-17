@@ -453,7 +453,7 @@
       </ul>
     </script>
 
-    <script type='text/html' id='LayerPopupView'>
+    <script type='text/html' id='FileLayerForm'>
       <form>
         <ul class='form'>
           <li>
@@ -474,6 +474,62 @@
             <label for='srs-name'>SRS</label>
             <select id='srs-name'>
               <option value='' {{#srs_name_autodetect}}selected='selected'{{/srs_name_autodetect}}>Autodetect</option>
+              <option value='900913' {{#srs_name_900913}}selected='selected'{{/srs_name_900913}}>900913</option>
+              <option value='WGS84' {{#srs_name_WGS84}}selected='selected'{{/srs_name_WGS84}}>WGS84</option>
+              <option value='custom' {{#srs_name_custom}}selected='selected'{{/srs_name_custom}}>Add custom</option>
+            </select>
+          </li>
+          <li class='srs {{^srs_name_custom}}hidden{{/srs_name_custom}}'>
+            <label for='srs'>Custom</label>
+            <input type='text' class='text' id='srs' value='{{srs}}'/>
+          </li>
+          <li class='buttons'>
+              <input class='submit' type='submit' value='Save' />
+          </li>
+        </ul>
+      </form>
+    </script>
+
+    <script type='text/html' id='PostgisLayerForm'>
+      <form>
+        <input type='hidden' id='geometry_field' value='{{geometry_field}}'>
+        <input type='hidden' id='estimate_extent' value='{{estimate_extent}}'>
+        <ul class='form'>
+          <li>
+            <label for='id'><span class='required' title='This field is required'>*</span> ID</label>
+            <input type='text' class='text' id='id' value='{{id}}' />
+          </li>
+          <li>
+            <label for='class'>Class</label>
+            <input type='text' class='text' id='class' value='{{class}}'/>
+          </li>
+          <li>
+            <label for='host'><span class='required' title='This field is required'>*</span> Hostname</label>
+            <input type='text' class='text' id='host' value='{{host}}' />
+          </li>
+          <li>
+            <label for='port'><span class='required' title='This field is required'>*</span> Port</label>
+            <input type='text' class='text' id='port' value='{{port}}' />
+          </li>
+          <li>
+            <label for='dbname'><span class='required' title='This field is required'>*</span> Database</label>
+            <input type='text' class='text' id='dbname' value='{{dbname}}' />
+          </li>
+          <li>
+            <label for='user'>Username</label>
+            <input type='text' class='text' id='user' value='{{user}}' />
+          </li>
+          <li>
+            <label for='password'>Password</label>
+            <input type='password' class='text' id='password' value='{{password}}' />
+          </li>
+          <li>
+            <label for='table'><span class='required' title='This field is required'>*</span> Table</label>
+            <input type='text' class='text' id='table' value='{{table}}' />
+          </li>
+          <li>
+            <label for='srs-name'>SRS</label>
+            <select id='srs-name'>
               <option value='900913' {{#srs_name_900913}}selected='selected'{{/srs_name_900913}}>900913</option>
               <option value='WGS84' {{#srs_name_WGS84}}selected='selected'{{/srs_name_WGS84}}>WGS84</option>
               <option value='custom' {{#srs_name_custom}}selected='selected'{{/srs_name_custom}}>Add custom</option>

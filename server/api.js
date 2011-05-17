@@ -12,66 +12,109 @@ module.exports = function(app, settings) {
     // on loading 10,000 features to keep a large datasource from busting up
     // the server.
     function loadDatasource(req, res, next) {
-        var url = req.query.url;
-        var external = new External(settings, url);
-        external.on('err', function(err) {
-            return next('Datasource could not be loaded. Error: ' + err.message);
-        });
-        external.on('complete', function(external) {
-            external.findDataFile(function(err, file) {
-                if (err || !file) {
-                    return next(new Error('Datasource could not be loaded.'));
-                }
-                try {
-                    var ds = new mapnik.Datasource(_.extend({
-                        file: file
-                    }, external.type.ds_options));
-                } catch (e) {
-                    return next('Datasource could not be loaded.');
-                }
-                if (external.type.ds_options.type !== 'gdal') {
-                    res.datasource = _.extend({
-                        ds_options: external.type.ds_options,
-                        ds_type: external.type.ds_options.type,
-                        fields: {},
-                        features: req.param('option') === 'features'
-                            ? ds.features(0, 1000)
-                            : []
-                    }, ds.describe());
-                    for (var fieldId in res.datasource.fields) {
-                        res.datasource.fields[fieldId] = {
-                            type: res.datasource.fields[fieldId]
-                        };
-                        var field = res.datasource.fields[fieldId];
-                        var values = _.pluck(res.datasource.features, fieldId);
-                        if (values.length) {
-                            if (field.type == 'Number') {
-                                field.min = Math.min.apply(Math, values);
-                                field.max = Math.max.apply(Math, values);
-                            }
-                            else if (res.datasource.fields[fieldId].type == 'String') {
-                                field.min = _.min(values,
-                                    function(value) { return value.length; }).length;
-                                field.max = _.max(values,
-                                    function(value) { return value.length; }).length;
-                            }
-                        } else {
-                            field.max = 0;
-                            field.min = 0;
-                        }
+        if (!req.query) {
+            return res.send('Bad request.', 400);
+        }
+        if (req.query.ds_type == 'postgis') {
+            var options = req.query;
+            options.type = 'postgis';
+            try {
+                var ds = new mapnik.Datasource(options);
+            } catch (e) {
+                return next('Datasource could not be loaded.');
+            }
+            res.datasource = _.extend({
+                ds_type: options.type,
+                fields: {},
+                features: req.param('option') === 'features'
+                    ? ds.features(0, 1000)
+                    : []
+            }, ds.describe());
+            for (var fieldId in res.datasource.fields) {
+                res.datasource.fields[fieldId] = {
+                    type: res.datasource.fields[fieldId]
+                };
+                var field = res.datasource.fields[fieldId];
+                var values = _.pluck(res.datasource.features, fieldId);
+                if (values.length) {
+                    if (field.type == 'Number') {
+                        field.min = Math.min.apply(Math, values);
+                        field.max = Math.max.apply(Math, values);
+                    }
+                    else if (res.datasource.fields[fieldId].type == 'String') {
+                        field.min = _.min(values,
+                            function(value) { return value.length; }).length;
+                        field.max = _.max(values,
+                            function(value) { return value.length; }).length;
                     }
                 } else {
-                    res.datasource = {
-                        ds_options: external.type.ds_options,
-                        ds_type: external.type.ds_options.type,
-                        geometry_type: 'raster',
-                        fields: {},
-                        features: []
-                    };
+                    field.max = 0;
+                    field.min = 0;
                 }
-                next();
+            }
+            return next();
+        } else {
+            var url = req.query.url;
+            var external = new External(settings, url);
+            external.on('err', function(err) {
+                return next('Datasource could not be loaded. Error: ' + err.message);
             });
-        });
+            external.on('complete', function(external) {
+                external.findDataFile(function(err, file) {
+                    if (err || !file) {
+                        return next(new Error('Datasource could not be loaded.'));
+                    }
+                    try {
+                        var ds = new mapnik.Datasource(_.extend({
+                            file: file
+                        }, external.type.ds_options));
+                    } catch (e) {
+                        return next('Datasource could not be loaded.');
+                    }
+                    if (external.type.ds_options.type !== 'gdal') {
+                        res.datasource = _.extend({
+                            ds_options: external.type.ds_options,
+                            ds_type: external.type.ds_options.type,
+                            fields: {},
+                            features: req.param('option') === 'features'
+                                ? ds.features(0, 1000)
+                                : []
+                        }, ds.describe());
+                        for (var fieldId in res.datasource.fields) {
+                            res.datasource.fields[fieldId] = {
+                                type: res.datasource.fields[fieldId]
+                            };
+                            var field = res.datasource.fields[fieldId];
+                            var values = _.pluck(res.datasource.features, fieldId);
+                            if (values.length) {
+                                if (field.type == 'Number') {
+                                    field.min = Math.min.apply(Math, values);
+                                    field.max = Math.max.apply(Math, values);
+                                }
+                                else if (res.datasource.fields[fieldId].type == 'String') {
+                                    field.min = _.min(values,
+                                        function(value) { return value.length; }).length;
+                                    field.max = _.max(values,
+                                        function(value) { return value.length; }).length;
+                                }
+                            } else {
+                                field.max = 0;
+                                field.min = 0;
+                            }
+                        }
+                    } else {
+                        res.datasource = {
+                            ds_options: external.type.ds_options,
+                            ds_type: external.type.ds_options.type,
+                            geometry_type: 'raster',
+                            fields: {},
+                            features: []
+                        };
+                    }
+                    next();
+                });
+            });
+        }
     }
 
     // Route middleware for validating a model.
