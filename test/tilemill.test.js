@@ -202,7 +202,7 @@ module.exports = {
     },
     'layer-load': function() {
         // Load layer
-        assert.response(app, {url: '/api/Datasource/aHR0cDovL3RpbGVtaWxsLWRhdGEuczMuYW1hem9uYXdzLmNvbS9leGFtcGxlX2RhdGEvYWRtaW4tMC1saW5lLWxhbmQuemlw/features'}, {
+        assert.response(app, {url: '/api/Datasource/features?id=world&url=http%3A%2F%2Ftilemill-data.s3.amazonaws.com%2Fexample_data%2Fadmin-0-line-land.zip'}, {
             status: 200
         }, function(res) {
             var data = JSON.parse(res.body);

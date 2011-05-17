@@ -114,8 +114,11 @@ var Datasource = Backbone.Model.extend({
         this.set({'fields': attributes.fields});
     },
     url: function() {
-        var url = 'api/Datasource/' + Base64.encodeURI(this.get('url'));
+        var url = 'api/Datasource';
         this.getFeatures && (url += '/features');
+        if (typeof module === 'undefined') {
+            url += '?' + $.param(this.attributes);
+        }
         return url;
     },
     fetchFeatures: function(options) {
