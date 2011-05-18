@@ -21,7 +21,7 @@ module.exports = function(app, settings) {
             try {
                 var ds = new mapnik.Datasource(options);
             } catch (e) {
-                return next('Datasource could not be loaded.');
+                return next('Datasource could not be loaded.' + e.message);
             }
             res.datasource = _.extend({
                 ds_type: options.type,
