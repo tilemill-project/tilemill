@@ -152,12 +152,14 @@ var LayerPopupView = PopupView.extend({
             active: type != 'postgis',
             content: new FileLayerForm({ model: this.model, collection: this.collection, popup: this })
         });
-        tabs.push({
-            id: 'PostgisLayerForm',
-            title: 'PostGIS',
-            active: type == 'postgis',
-            content: new PostgisLayerForm({ model: this.model, collection: this.collection, popup: this })
-        });
+        if (window.app.abilities.get('datasources').indexOf('postgis') !== -1) {
+            tabs.push({
+                id: 'PostgisLayerForm',
+                title: 'PostGIS',
+                active: type == 'postgis',
+                content: new PostgisLayerForm({ model: this.model, collection: this.collection, popup: this })
+            });
+        }
         this.options.content = new TabsView({ tabs: tabs });
         PopupView.prototype.initialize.call(this, options);
     }
