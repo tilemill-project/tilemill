@@ -258,6 +258,9 @@ var PostgisLayerForm = Backbone.View.extend({
         var object = {};
         object['id'] = this.model.id;
         object['class'] = this.model.get('class');
+        if (typeof this.model.get('srs') == 'undefined') {
+            this.model.set({srs: this.model.SRS['900913']});
+        }
         object['srs'] = this.model.get('srs');
         object['srs_name_' + this.model.srsName()] = true;
         var datasource = this.model.get('Datasource') || {};
