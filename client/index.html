@@ -524,8 +524,9 @@
             <input type='password' class='text' id='password' value='{{password}}' />
           </li>
           <li>
-            <label for='table'><span class='required' title='This field is required'>*</span> Table</label>
-            <input type='text' class='text' id='table' value='{{table}}' />
+            <label for='table'><span class='required' title='This field is required'>*</span> Query</label>
+            <code class="sql">SELECT * FROM </code>
+            <textarea class='text' id='table' >{{table}}</textarea>
           </li>
           <li>
             <label for='srs-name'>SRS</label>

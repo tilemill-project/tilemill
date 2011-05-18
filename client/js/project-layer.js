@@ -286,7 +286,7 @@ var PostgisLayerForm = Backbone.View.extend({
             username: $('input#username', this.el).val(),
             password: $('input#password', this.el).val(),
             dbname: $('input#dbname', this.el).val(),
-            table: $('input#table', this.el).val(),
+            table: $('textarea#table', this.el).val(),
             geometry_field: $('input#geometry_field', this.el).val(),
             estimate_extent: $('input#estimate_extent', this.el).val()
         }, { error: that.options.popup.showError });
@@ -308,7 +308,7 @@ var PostgisLayerForm = Backbone.View.extend({
                                 username: $('input#username', this.el).val(),
                                 password: $('input#password', this.el).val(),
                                 dbname: $('input#dbname', this.el).val(),
-                                table: $('input#table', this.el).val(),
+                                table: $('textarea#table', this.el).val(),
                                 geometry_field: $('input#geometry_field', this.el).val(),
                                 estimate_extent: $('input#estimate_extent', this.el).val(),
                                 type: 'postgis'

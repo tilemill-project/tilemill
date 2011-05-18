@@ -156,8 +156,8 @@ var PostgisDatasource = Datasource.extend({
                 'type': 'string',
                 'required': true,
                 'minLength': 1,
-                'title': 'Table',
-                'description': 'Invalid PostGIS table.'
+                'title': 'Query',
+                'description': 'Invalid PostGIS query.'
             },
             'fields': {
                 'type': 'object'
