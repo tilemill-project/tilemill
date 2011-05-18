@@ -268,7 +268,6 @@ var PostgisLayerForm = Backbone.View.extend({
         object['password'] = datasource.password || '';
         object['dbname'] = datasource.dbname || '';
         object['table'] = datasource.table || '';
-        object['geometry_field'] = 'the_geom';
         object['estimate_extent'] = 'true';
         $(this.el).html(ich.PostgisLayerForm(object, true));
     },

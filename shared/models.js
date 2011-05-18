@@ -145,20 +145,6 @@ var PostgisDatasource = Datasource.extend({
             'id': {
                 'type': 'string',
             },
-            'host': {
-                'type': 'string',
-                'required': true,
-                'minLength': 1,
-                'title': 'Hostname',
-                'description': 'Invalid PostGIS hostname.'
-            },
-            'port': {
-                'type': 'string',
-                'required': true,
-                'minLength': 1,
-                'title': 'Hostname',
-                'description': 'Invalid PostGIS port.'
-            },
             'dbname': {
                 'type': 'string',
                 'required': true,
