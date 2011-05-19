@@ -1,7 +1,7 @@
 // Plugin for using an Amazon S3 bucket as a Library. Generates the payload for
 // an AssetListS3 REST endpoint consisting of asset models as well as the S3
 // specific `marker`.
-var knox = require('knox'),
+var http = require('http'),
     url = require('url'),
     _ = require('underscore'),
     querystring = require('querystring'),
@@ -53,7 +53,8 @@ module.exports = function(app, options, callback) {
         options.prefix && (params.prefix = options.prefix);
         options.marker && (params.marker = options.marker);
 
-        var req = client.get('?' + querystring.stringify(params));
+        var req = client.request('GET', '/?' + querystring.stringify(params),
+            {host: client.host});
         req.on('response', function(res) {
             var xml = '';
             res.setEncoding('utf8');
@@ -113,11 +114,7 @@ module.exports = function(app, options, callback) {
         };
     };
 
-    var client = knox.createClient({
-        bucket: options.s3_bucket,
-        key: options.s3_key,
-        secret: options.s3_secret
-    });
+    var client = http.createClient(80, options.s3_bucket + '.s3.amazonaws.com');
 
     var opts = { limit: options.limit };
 

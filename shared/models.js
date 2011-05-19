@@ -738,16 +738,6 @@ var Library = Backbone.Model.extend({
                 'required': true,
                 'minLength': 1
             },
-            's3_key': {
-                'type': 'string',
-                'required': true,
-                'minLength': 1
-            },
-            's3_secret': {
-                'type': 'string',
-                'required': true,
-                'minLength': 1
-            },
             'directory_path': {
                 'type': 'string',
                 'required': true,
