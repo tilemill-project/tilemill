@@ -425,10 +425,15 @@ var ProjectInteractivityForm = Backbone.View.extend({
         var layer = this.model.get('Layer').get(index);
         if (layer) {
             this.loading('Loading datasource');
-            var ds = new Datasource({
-                id: layer.id,
-                url: layer.get('Datasource').file
-            });
+            if (layer.get('Datasource').type === 'postgis') {
+                var options = _.extend({ds_type: 'postgis'}, layer.get('Datasource'));
+                var ds = new PostgisDatasource(options);
+            } else {
+                var ds = new FileDatasource({
+                    id: layer.id,
+                    url: layer.get('Datasource').file
+                });
+            }
             ds.fetch({
                 success: function() {
                     var interactivity = that.model.get('_interactivity') || false;
