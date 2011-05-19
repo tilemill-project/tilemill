@@ -15,6 +15,32 @@ module.exports = function(app, settings) {
         if (!req.query) {
             return res.send('Bad request.', 400);
         }
+
+        var datasourceStats = function(datasource) {
+            for (var fieldId in datasource.fields) {
+                datasource.fields[fieldId] = {
+                    type: datasource.fields[fieldId]
+                };
+                var field = datasource.fields[fieldId];
+                var values = _.pluck(datasource.features, fieldId);
+                if (values.length) {
+                    if (field.type == 'Number') {
+                        field.min = Math.min.apply(Math, values);
+                        field.max = Math.max.apply(Math, values);
+                    }
+                    else if (datasource.fields[fieldId].type == 'String') {
+                        field.min = _.min(values,
+                            function(value) { return value.length; }).length;
+                        field.max = _.max(values,
+                            function(value) { return value.length; }).length;
+                    }
+                } else {
+                    field.max = 0;
+                    field.min = 0;
+                }
+            }
+        }
+
         if (req.query.ds_type == 'postgis') {
             var options = req.query;
             options.type = 'postgis';
@@ -30,30 +56,10 @@ module.exports = function(app, settings) {
                     ? ds.features(0, 1000)
                     : []
             }, ds.describe());
-            for (var fieldId in res.datasource.fields) {
-                res.datasource.fields[fieldId] = {
-                    type: res.datasource.fields[fieldId]
-                };
-                var field = res.datasource.fields[fieldId];
-                var values = _.pluck(res.datasource.features, fieldId);
-                if (values.length) {
-                    if (field.type == 'Number') {
-                        field.min = Math.min.apply(Math, values);
-                        field.max = Math.max.apply(Math, values);
-                    }
-                    else if (res.datasource.fields[fieldId].type == 'String') {
-                        field.min = _.min(values,
-                            function(value) { return value.length; }).length;
-                        field.max = _.max(values,
-                            function(value) { return value.length; }).length;
-                    }
-                } else {
-                    field.max = 0;
-                    field.min = 0;
-                }
-            }
+            datasourceStats(res.datasource);
             return next();
         } else {
+            // File based datasources need to be downloaded through External().
             var url = req.query.url;
             var external = new External(settings, url);
             external.on('err', function(err) {
@@ -80,28 +86,7 @@ module.exports = function(app, settings) {
                                 ? ds.features(0, 1000)
                                 : []
                         }, ds.describe());
-                        for (var fieldId in res.datasource.fields) {
-                            res.datasource.fields[fieldId] = {
-                                type: res.datasource.fields[fieldId]
-                            };
-                            var field = res.datasource.fields[fieldId];
-                            var values = _.pluck(res.datasource.features, fieldId);
-                            if (values.length) {
-                                if (field.type == 'Number') {
-                                    field.min = Math.min.apply(Math, values);
-                                    field.max = Math.max.apply(Math, values);
-                                }
-                                else if (res.datasource.fields[fieldId].type == 'String') {
-                                    field.min = _.min(values,
-                                        function(value) { return value.length; }).length;
-                                    field.max = _.max(values,
-                                        function(value) { return value.length; }).length;
-                                }
-                            } else {
-                                field.max = 0;
-                                field.min = 0;
-                            }
-                        }
+                        datasourceStats(res.datasource);
                     } else {
                         res.datasource = {
                             ds_options: external.type.ds_options,
