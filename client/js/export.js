@@ -316,7 +316,6 @@ var ExportPNGView = ExportImageView.extend({
 // itself.
 var ExportMBTilesView = ExportView.extend({
     initialize: function() {
-        _.bindAll(this, 'changeZoomLevels', 'updateZoomLabels', 'formatterJS');
         this.options.title = 'Export MBTiles';
         this.options.extension = 'mbtiles';
         ExportView.prototype.initialize.call(this);
