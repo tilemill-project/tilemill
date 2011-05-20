@@ -1587,3 +1587,6 @@ ul.form > li.about {
   top:0;
   left:0;
   }
+
+#PostgisLayerForm .sql { font-size:10px; }
+#PostgisLayerForm textarea { height:100px; }

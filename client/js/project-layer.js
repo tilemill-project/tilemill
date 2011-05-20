@@ -103,11 +103,17 @@ var LayerRowView = Backbone.View.extend({
         return false;
     },
     inspect: function() {
-        new DatasourceView({
-            model: new Datasource({
+        if (this.model.get('Datasource').type === 'postgis') {
+            var options = _.extend({ds_type: 'postgis'}, this.model.get('Datasource'));
+            var datasource = new PostgisDatasource(options);
+        } else {
+            var datasource = new FileDatasource({
                 id: this.model.id,
                 url: this.model.get('Datasource').file
-            })
+            });
+        }
+        new DatasourceView({
+            model: datasource
         });
         return false;
     },
@@ -133,15 +139,43 @@ var LayerRowView = Backbone.View.extend({
 // --------------
 // Form for adding or editing a layer.
 var LayerPopupView = PopupView.extend({
-    events: _.extend({
-        'click input.submit': 'submit',
-        'click a.assets': 'assets',
-        'change select#srs-name': 'selectSRS'
-    }, PopupView.prototype.events),
     initialize: function(options) {
         _.bindAll(this, 'submit', 'assets', 'selectSRS');
         this.model = this.options.model;
         this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
+        var type = this.model.get('Datasource')
+            && this.model.get('Datasource').type == 'postgis' ? 'postgis' : 'file';
+        var tabs = [];
+        tabs.push({
+            id: 'FileLayerForm',
+            title: 'File',
+            active: type != 'postgis',
+            content: new FileLayerForm({ model: this.model, collection: this.collection, popup: this })
+        });
+        if (window.app.abilities.get('datasources').indexOf('postgis') !== -1) {
+            tabs.push({
+                id: 'PostgisLayerForm',
+                title: 'PostGIS',
+                active: type == 'postgis',
+                content: new PostgisLayerForm({ model: this.model, collection: this.collection, popup: this })
+            });
+        }
+        this.options.content = new TabsView({ tabs: tabs });
+        PopupView.prototype.initialize.call(this, options);
+    }
+});
+
+// FileLayerForm
+// -------------
+var FileLayerForm = Backbone.View.extend({
+    events: {
+        'click input.submit': 'submit',
+        'click a.assets': 'assets',
+        'change select#srs-name': 'selectSRS'
+    },
+    initialize: function(options) {
+        _.bindAll(this, 'submit', 'assets', 'selectSRS');
+        this.model = this.options.model;
 
         var object = {};
         object['id'] = this.model.id;
@@ -151,21 +185,20 @@ var LayerPopupView = PopupView.extend({
             : '';
         object['srs'] = this.model.get('srs');
         object['srs_name_' + this.model.srsName()] = true;
-        this.options.content = ich.LayerPopupView(object, true);
-        PopupView.prototype.initialize.call(this, options);
+        $(this.el).html(ich.FileLayerForm(object, true));
     },
     submit: function() {
         var that = this;
-        var datasource = new Datasource();
+        var datasource = new FileDatasource();
         var success = datasource.set({
             id: $('input#id', this.el).val(),
             url: $('input#file', this.el).val()
-        }, { error: that.showError });
+        }, { error: that.options.popup.showError });
         if (success) {
-            this.loading('Loading datasource');
+            this.options.popup.loading('Loading datasource');
             datasource.fetch({
                 success: function() {
-                    that.done();
+                    that.options.popup.done();
                     var success = that.model.set(
                         {
                             'id': $('input#id', that.el).val(),
@@ -182,11 +215,12 @@ var LayerPopupView = PopupView.extend({
                         }
                     );
                     if (success) {
-                        that.options.add && that.collection.add(that.model);
+                        that.options.popup.options.add && that.collection.add(that.model);
+                        that.options.popup.remove();
                         that.remove();
                     }
                 },
-                error: that.showError
+                error: that.options.popup.showError
             });
         }
         return false;
@@ -212,6 +246,111 @@ var LayerPopupView = PopupView.extend({
         }
     }
 });
+
+// PostgisLayerForm
+// ----------------
+var PostgisLayerForm = Backbone.View.extend({
+    events: {
+        'click input.submit': 'submit',
+        'change select#srs-name': 'selectSRS'
+    },
+    initialize: function(options) {
+        _.bindAll(this, 'submit', 'selectSRS');
+        this.model = this.options.model;
+
+        if (!this.model.get('Datasource')) {
+            this.model.set({Datasource: {
+                host: 'localhost',
+                port: '5432'
+            }});
+        }
+
+        var object = {};
+        object['id'] = this.model.id;
+        object['class'] = this.model.get('class');
+        if (typeof this.model.get('srs') == 'undefined') {
+            this.model.set({srs: this.model.SRS['900913']});
+        }
+        object['srs'] = this.model.get('srs');
+        object['srs_name_' + this.model.srsName()] = true;
+        var datasource = this.model.get('Datasource');
+        object['host'] = datasource.host;
+        object['port'] = datasource.port;
+        object['database'] = datasource.database;
+        object['username'] = datasource.username;
+        object['password'] = datasource.password;
+        object['dbname'] = datasource.dbname;
+        object['table'] = datasource.table;
+        object['extent'] = datasource.extent;
+        $(this.el).html(ich.PostgisLayerForm(object, true));
+    },
+    submit: function() {
+        var that = this;
+        var datasource = new PostgisDatasource();
+        var success = datasource.set({
+            id: $('input#id', this.el).val(),
+            ds_type: 'postgis',
+            host: $('input#host', this.el).val(),
+            port: $('input#port', this.el).val(),
+            database: $('input#database', this.el).val(),
+            username: $('input#username', this.el).val(),
+            password: $('input#password', this.el).val(),
+            dbname: $('input#dbname', this.el).val(),
+            table: $('textarea#table', this.el).val(),
+            geometry_field: $('input#geometry_field', this.el).val(),
+            extent: $('input#extent', this.el).val()
+        }, { error: that.options.popup.showError });
+        if (success) {
+            this.options.popup.loading('Loading datasource');
+            datasource.fetch({
+                success: function() {
+                    that.options.popup.done();
+                    var success = that.model.set(
+                        {
+                            'id': $('input#id', that.el).val(),
+                            'name': $('input#id', that.el).val(),
+                            'srs': $('input#srs', that.el).val(),
+                            'class': $('input#class', that.el).val(),
+                            'Datasource': {
+                                host: $('input#host', this.el).val(),
+                                port: $('input#port', this.el).val(),
+                                database: $('input#database', this.el).val(),
+                                username: $('input#username', this.el).val(),
+                                password: $('input#password', this.el).val(),
+                                dbname: $('input#dbname', this.el).val(),
+                                table: $('textarea#table', this.el).val(),
+                                geometry_field: $('input#geometry_field', this.el).val(),
+                                extent: $('input#extent', this.el).val(),
+                                type: 'postgis'
+                            }
+                        },
+                        {
+                            'datasource': datasource,
+                            'error': that.showError
+                        }
+                    );
+                    if (success) {
+                        that.options.popup.options.add && that.collection.add(that.model);
+                        that.options.popup.remove();
+                        that.remove();
+                    }
+                },
+                error: that.options.popup.showError
+            });
+        }
+        return false;
+    },
+    selectSRS: function() {
+        var name = $('select#srs-name', this.el).val();
+        if (name === 'custom') {
+            $('.srs', this.el).show();
+        } else {
+            $('input#srs', this.el).val(this.model.SRS[name]);
+            $('.srs', this.el).hide();
+        }
+    }
+});
+
 
 // LayerDrawerView
 // ---------------
