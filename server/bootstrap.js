@@ -47,7 +47,9 @@ module.exports = function(app, settings) {
     } catch (Exception) {}
 
     // Apply server-side mixins/overrides.
-    require('backbone-dirty')(settings.files + '/app.db');
+    var Backbone = require('backbone');
+    var sync = require('backbone-dirty')(settings.files + '/app.db').sync;
+    Backbone.sync = sync;
     require('models-server');
 
     // Create a default library for the local data directory.
