@@ -74,6 +74,9 @@ var scripts = [
 ];
 app.get('/vendor.js', mirror.assets(scripts));
 
+var stylesheets = ['./build/vendor.css'];
+app.get('/vendor.css', mirror.assets(stylesheets));
+
 require('bootstrap')(app, settings);
 require('api')(app, settings);
 require('tiles')(app, settings);
