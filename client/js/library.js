@@ -8,7 +8,7 @@ var LibraryListView = Backbone.View.extend({
         'click a.add': 'add'
     },
     initialize: function () {
-        _.bindAll(this, 'render', 'settings', 'add', 'loading', 'done');
+        _.bindAll(this, 'render', 'add', 'loading', 'done');
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
         this.render();

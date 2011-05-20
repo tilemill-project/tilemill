@@ -4,7 +4,7 @@
 var ProjectListView = Backbone.View.extend({
     id: 'ProjectListView',
     initialize: function() {
-        _.bindAll(this, 'render', 'add', 'update');
+        _.bindAll(this, 'render', 'add');
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
         this.render();
