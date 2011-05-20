@@ -12,8 +12,7 @@ module.exports = function(app, settings) {
     // on loading 10,000 features to keep a large datasource from busting up
     // the server.
     function loadDatasource(req, res, next) {
-        var url = req.param('id').replace('-', '+').replace('_', '/');
-        url = (new Buffer(url, 'base64')).toString('utf-8');
+        var url = req.query.url;
         var external = new External(settings, url);
         external.on('err', function(err) {
             return next('Datasource could not be loaded. Error: ' + err.message);
@@ -129,7 +128,7 @@ module.exports = function(app, settings) {
     // GET endpoint for datasource models. The datasource ID is its base64
     // encoded url. See `loadDatasource()` for use of `carto` and `mapnik` to
     // localize and analyze the datasource.
-    app.get('/api/Datasource/:id/:option?', loadDatasource, function(req, res, next) {
+    app.get('/api/Datasource/:option?', loadDatasource, function(req, res, next) {
         res.send(res.datasource);
     });
 

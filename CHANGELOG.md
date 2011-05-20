@@ -1,3 +1,7 @@
+0.2.1
+-----
+- Fix bug with S3 bucket listing.
+
 0.2.0
 -----
 Upgrading requires an upgraded version of Mapnik. See the installation section

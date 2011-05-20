@@ -276,7 +276,7 @@ var ProjectPopupView = PopupView.extend({
         tabs.push({
             id: 'ProjectInteractivityForm',
             title: 'Interactivity',
-            content: new ProjectInteractivityForm({ model: this.model })
+            content: new ProjectInteractivityForm({ model: this.model, popup: this })
         });
         tabs.push({
             id: 'ProjectLegendForm',
@@ -448,10 +448,10 @@ var ProjectInteractivityForm = Backbone.View.extend({
                     that.$('.dependent').html(fields).show();
                     that.done();
                 },
-                error: function(err) {
+                error: function(model, response) {
                     that.$('.dependent').empty().hide();
                     that.done();
-                    that.showError(err);
+                    that.options.popup.showError(model, response.responseText);
                 }
             });
         } else {
