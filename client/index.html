@@ -485,7 +485,6 @@
     <script type='text/html' id='PostgisLayerForm'>
       <form>
         <input type='hidden' id='geometry_field' value='{{geometry_field}}'>
-        <input type='hidden' id='estimate_extent' value='{{estimate_extent}}'>
         <ul class='form'>
           <li>
             <label for='id'><span class='required' title='This field is required'>*</span> ID</label>
@@ -514,6 +513,10 @@
           <li>
             <label for='password'>Password</label>
             <input type='password' class='text' id='password' value='{{password}}' />
+          </li>
+          <li>
+            <label for='extent'>Extent</label>
+            <input type='text' class='text' id='extent' value='{{extent}}' />
           </li>
           <li>
             <label for='table'><span class='required' title='This field is required'>*</span> Query</label>

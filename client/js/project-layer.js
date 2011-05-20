@@ -273,7 +273,7 @@ var PostgisLayerForm = Backbone.View.extend({
         object['password'] = datasource.password || '';
         object['dbname'] = datasource.dbname || '';
         object['table'] = datasource.table || '';
-        object['estimate_extent'] = 'true';
+        object['extent'] = datasource.extent || '';
         $(this.el).html(ich.PostgisLayerForm(object, true));
     },
     submit: function() {
@@ -290,7 +290,7 @@ var PostgisLayerForm = Backbone.View.extend({
             dbname: $('input#dbname', this.el).val(),
             table: $('textarea#table', this.el).val(),
             geometry_field: $('input#geometry_field', this.el).val(),
-            estimate_extent: $('input#estimate_extent', this.el).val()
+            extent: $('input#extent', this.el).val()
         }, { error: that.options.popup.showError });
         if (success) {
             this.options.popup.loading('Loading datasource');
@@ -312,7 +312,7 @@ var PostgisLayerForm = Backbone.View.extend({
                                 dbname: $('input#dbname', this.el).val(),
                                 table: $('textarea#table', this.el).val(),
                                 geometry_field: $('input#geometry_field', this.el).val(),
-                                estimate_extent: $('input#estimate_extent', this.el).val(),
+                                extent: $('input#extent', this.el).val(),
                                 type: 'postgis'
                             }
                         },
