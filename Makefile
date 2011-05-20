@@ -20,19 +20,25 @@ build_setup:
 
 build: build_setup build/vendor.js build/vendor.css
 
-install:
+files/resources:
 	wget -q --no-check-certificate http://tilemill-data.s3.amazonaws.com/tilemill_resources.zip -O files/tilemill_resources.zip
 	unzip -q -d files/resources files/tilemill_resources.zip
 	rm files/tilemill_resources.zip
+
+files/data:
 	wget -q --no-check-certificate http://tilemill-data.s3.amazonaws.com/example_data.zip -O files/example_data.zip
 	unzip -q -d files/data files/example_data.zip
 	rm files/example_data.zip
+
+files/project:
 	mkdir -p files/project
 	wget -q --no-check-certificate https://github.com/mapbox/tilemill_examples/tarball/0.4.0 -O files/examples.tar
 	tar --strip=1 --directory=files/project -xzvf files/examples.tar
 	rm files/examples.tar
 
+files: files/resources files/data files/project
+
 clean:
 	rm -rf build
 
-.PHONY: ext clean install
+.PHONY: ext clean files
