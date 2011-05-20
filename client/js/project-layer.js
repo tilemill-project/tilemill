@@ -268,12 +268,12 @@ var PostgisLayerForm = Backbone.View.extend({
         var datasource = this.model.get('Datasource') || {};
         object['host'] = datasource.host || 'localhost';
         object['port'] = datasource.port || '5432';
-        object['database'] = datasource.database || '';
-        object['username'] = datasource.username || '';
-        object['password'] = datasource.password || '';
-        object['dbname'] = datasource.dbname || '';
-        object['table'] = datasource.table || '';
-        object['extent'] = datasource.extent || '';
+        object['database'] = datasource.database;
+        object['username'] = datasource.username;
+        object['password'] = datasource.password;
+        object['dbname'] = datasource.dbname;
+        object['table'] = datasource.table;
+        object['extent'] = datasource.extent;
         $(this.el).html(ich.PostgisLayerForm(object, true));
     },
     submit: function() {
