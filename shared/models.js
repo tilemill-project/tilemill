@@ -5,7 +5,7 @@
 if (typeof require !== 'undefined' && typeof window === 'undefined') {
     _ = require('underscore')._;
     Backbone = require('backbone');
-    JSV = require('jsv').JSV;
+    JSV = require('JSV').JSV;
 }
 
 // JSON schema validation
