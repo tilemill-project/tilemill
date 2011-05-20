@@ -547,7 +547,12 @@ var Export = Backbone.Model.extend({
         }
     },
     initialize: function() {
-        this.isNew() && this.set({created: +new Date});
+        if (this.isNew()){
+            this.set({
+                created: +new Date,
+                id: (+new Date) + ''
+            }, {silent: true});
+        }
     },
     url: function() {
         return 'api/Export/' + this.id;
@@ -774,6 +779,9 @@ var Library = Backbone.Model.extend({
         type: 'directory'
     },
     initialize: function(options) {
+        if (this.isNew()){
+            this.set({id: (+new Date) + ''}, {silent: true});
+        }
         switch (this.get('type')) {
         case 's3':
             this.assets = new AssetListS3({ library: this });

@@ -61,9 +61,7 @@ var LibraryListView = Backbone.View.extend({
     },
     add: function() {
         new LibraryPopupView({
-            model: new Library({
-                id: '' + (+new Date())
-            }),
+            model: new Library(),
             collection: this.collection,
             add: true
         });
