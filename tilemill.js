@@ -49,6 +49,7 @@ require.paths.unshift(
 );
 
 var express = require('express'),
+    mirror = require('mirror'),
     settings = require('settings');
 
 var app = module.exports = express.createServer();
@@ -56,7 +57,22 @@ var app = module.exports = express.createServer();
 app.use(express.bodyParser());
 app.use(express.static('client'));
 app.use(express.static('shared'));
-app.use(express.static('modules'));
+
+var scripts = [
+    './client/js/libraries/jquery.js',
+    './client/js/libraries/jquery-ui.js',
+    './client/js/libraries/colorpicker/js/colorpicker.js',
+    './build/vendor.js',
+    './client/js/parsecarto.js',
+    require.resolve('wax/build/wax.mm.min.js'),
+    require.resolve('underscore/underscore.js'),
+    require.resolve('backbone/backbone.js'),
+    require.resolve('JSV/lib/uri/uri.js'),
+    require.resolve('JSV/lib/jsv.js'),
+    require.resolve('JSV/lib/json-schema-draft-03.js'),
+    './shared/models.js'
+];
+app.get('/vendor.js', mirror.assets(scripts));
 
 require('bootstrap')(app, settings);
 require('api')(app, settings);
