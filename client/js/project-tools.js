@@ -184,7 +184,7 @@ var ColorSwatchListView = Backbone.View.extend({
     id: 'ColorSwatchListView',
     className: 'view',
     initialize: function(options) {
-        _.bindAll(this, 'render', 'createSwatchView', 'activate', 'pickerChange', 'pickerShow', 'pickerHide');
+        _.bindAll(this, 'render', 'activate', 'pickerChange', 'pickerShow', 'pickerHide');
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.del);
         this.colorChanged = false;

@@ -4,15 +4,13 @@
 var MapView = Backbone.View.extend({
     id: 'MapView',
     initialize: function() {
-        _.bindAll(this, 'render', 'activate', 'controlZoom', 'reload',
-            'legend', 'fullscreen', 'minimize', 'maximize');
+        _.bindAll(this, 'render', 'activate', 'controlZoom', 'reload', 'legend');
 
         this.render();
         this.model.bind('save', this.reload);
         window.app.bind('ready', this.activate);
     },
     events: {
-        'click a.map-fullscreen': 'fullscreen',
         'click a.map-legend': 'legend'
     },
     render: function() {

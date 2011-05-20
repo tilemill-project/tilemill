@@ -111,7 +111,7 @@ var StylesheetTabView = Backbone.View.extend({
     tagName: 'a',
     className: 'tab',
     initialize: function(params) {
-        _.bindAll(this, 'render', 'update', 'del', 'activate', 'remove');
+        _.bindAll(this, 'render', 'del', 'activate', 'remove');
         this.list = params.list;
         this.input = $(ich.StylesheetTabEditor());
         this.codemirror = false;
