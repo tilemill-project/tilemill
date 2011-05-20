@@ -69,9 +69,7 @@ Scanner.prototype.process = function(id, callback) {
 
                 model.worker = new Worker(
                     path.join(__dirname, 'export-worker.js'),
-                    null, {
-                      nodePath: path.join(__dirname, '..', 'bin', 'node')
-                    }
+                    null
                 );
                 model.worker.on('message', function(data) {
                     if (data.event === 'complete') {
