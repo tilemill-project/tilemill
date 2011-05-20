@@ -27,10 +27,12 @@
         "express": "2.2.x",
         "jsv": "https://github.com/garycourt/JSV/tarball/master",
         "mapnik": "0.3.x",
+        "mbtiles": "0.0.x",
         "mirror": "0.2.x",
         "sax": "0.1.x",
         "step": "0.0.x",
-        "tilelive": "2.0.x",
+        "tilelive": "3.0.x",
+        "tilelive-mapnik": "0.0.x",
         "underscore": "1.1.x",
         "wax": "1.4.x",
         "worker": "https://github.com/willwhite/node-worker/tarball/master"

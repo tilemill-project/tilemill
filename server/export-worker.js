@@ -7,240 +7,126 @@
 //   responsiveness of the main TileMill process
 //
 // See the `export.js` for how workers are created.
-require.paths.splice(0, require.paths.length);
-require.paths.unshift(
-    __dirname + '/../lib/node',
-    __dirname + '/../server',
-    __dirname + '/../shared',
-    __dirname + '/../'
-);
-
-var _ = require('underscore')._,
+var _ = require('underscore'),
     worker = require('worker').worker,
     path = require('path'),
     fs = require('fs'),
-    sys = require('sys'),
-    settings = require('settings'),
-    Step = require('step'),
-    Tile = require('tilelive').Tile,
-    TileBatch = require('tilelive').TileBatch;
+    settings = require('../settings');
 
 worker.onmessage = function(data) {
-    var Format = {
-        'png': FormatPNG,
-        'pdf': FormatPDF,
-        'mbtiles': FormatMBTiles
-    }[data.format];
-    if (Format) {
-        new Format(this, data);
-    } else {
-        this.postMessage({ event: 'update', attributes: {
+    var formats = {
+        png: renderImage,
+        pdf: renderImage,
+        mbtiles: renderMBTiles
+    };
+    if (!formats[data.format]) {
+        worker.postMessage({event:'update', attributes: {
             status: 'error',
             error: 'Invalid format.',
-            updated: +new Date
-        } });
+            updated: +new Date()
+        }});
+        worker.postMessage({event:'complete'});
+        return;
     }
+
+    // Rename the output filepath using a random hash if file already exists.
+    data.filepath = path.join(settings.export_dir, data.filename);
+    if (path.existsSync(data.filepath)) {
+        var hash = require('crypto')
+            .createHash('md5')
+            .update(+new Date + '')
+            .digest('hex')
+            .substring(0, 6);
+        var extension = path.extname(data.filename);
+        data.filename = data.filename.replace(
+            extension,
+            '_' + hash + extension
+        );
+        data.filepath = data.filepath.replace(
+            extension,
+            '_' + hash + extension
+        );
+    }
+    worker.postMessage({event:'update', attributes: {
+        status: 'processing',
+        updated: +new Date,
+        filename: data.filename
+    }});
+    formats[data.format](data, function(err) {
+        err && worker.postMessage({event:'update', attributes: {
+            status: 'error',
+            error: err.toString(),
+            updated: +new Date()
+        }});
+        worker.postMessage({event:'complete'});
+    });
 };
 
-// Generic export format class.
-var Format = function(worker, data) {
-    _.bindAll(this, 'update', 'complete', 'setup', 'render');
-    var that = this;
-    this.worker = worker;
-    this.data = data;
-    Step(
-        function() {
-            that.setup(this);
-        },
-        function() {
-            that.render(this);
-        },
-        function() {
-            that.complete(this);
-        }
-    );
-};
-
-// Tell the parent process to update the provided `attributes` of Export model.
-Format.prototype.update = function(attributes) {
-    this.worker.postMessage({ event: 'update', attributes: attributes });
-};
-
-// Tell the parent process that the export task is complete.
-Format.prototype.complete = function() {
-    this.worker.postMessage({ event: 'complete' });
-};
-
-// Setup tasks before processing begins. Ensures that the target export
-// filename does not conflict with an existing file by appending a short hash
-// if necessary.
-Format.prototype.setup = function(callback) {
-    var that = this;
-    Step(
-        function() {
-            path.exists(path.join(settings.export_dir, that.data.filename), this);
-        },
-        function(exists) {
-            if (exists) {
-                var extension = path.extname(that.data.filename);
-                var hash = require('crypto')
-                    .createHash('md5')
-                    .update(+new Date)
-                    .digest('hex')
-                    .substring(0, 6);
-                that.data.filename = that.data.filename.replace(extension, '') + '_' + hash + extension;
-            }
-            that.update({
-                status: 'processing',
-                updated: +new Date,
-                filename: that.data.filename
-            });
-            callback();
-        }
-    );
-};
-
-// MBTiles format
-// --------------
-// Exports a map into an MBTiles sqlite database. Renders and inserts tiles in
-// batches of 100 images and updates the parent process on its progress after
-// each batch.
-var FormatMBTiles = function(worker, data) {
-    Format.call(this, worker, data);
-};
-sys.inherits(FormatMBTiles, Format);
-
-FormatMBTiles.prototype.render = function(callback) {
-    var that = this;
-    var batch = new TileBatch({
-        filepath: path.join(settings.export_dir, that.data.filename),
-        batchsize: 100,
-        bbox: that.data.bbox.split(','),
-        format: that.data.tile_format,
-        interactivity: that.data.interactivity,
-        minzoom: that.data.minzoom,
-        maxzoom: that.data.maxzoom,
-        datasource: that.data.datasource,
+var renderImage = function(data, callback) {
+    var sm = new (require('tilelive').SphericalMercator);
+    var map = new (require('tilelive-mapnik').Map)(data.datasource, data);
+    _(data).extend({
         mapfile_dir: path.join(settings.mapfile_dir),
-        srs: 'WSG84',
+        bbox: sm.convert(data.bbox.split(','), '900913')
+    });
+
+    map.initialize(function(err) {
+        if (err) return callback(err);
+        map.render(data, function(err, render) {
+            if (err) return callback(err);
+            fs.writeFileSync(data.filepath, render[0], 'binary');
+            worker.postMessage({event:'update', attributes: {
+                status: 'complete',
+                progress: 1,
+                updated: +new Date
+            }});
+            callback();
+        }.bind(this));
+    }.bind(this));
+};
+
+var renderMBTiles = function(data, callback) {
+    var batch = new (require('tilelive').Batch)({
+        renderer: require('tilelive-mapnik'),
+        storage: require('mbtiles'),
+        filepath: data.filepath,
+        bbox: data.bbox.split(','),
+        format: data.tile_format,
+        // @TODO: probably should be at `serve` key.
+        // interactivity: that.data.interactivity,
+        minzoom: data.minzoom,
+        maxzoom: data.maxzoom,
+        datasource: data.datasource,
         metadata: {
-            name: that.data.metadata_name,
-            type: that.data.metadata_type,
-            description: that.data.metadata_description,
-            version: that.data.metadata_version,
-            formatter: that.data.metadata_formatter
+            name: data.metadata_name,
+            type: data.metadata_type,
+            description: data.metadata_description,
+            version: data.metadata_version,
+            formatter: data.metadata_formatter
         }
     });
 
-    Step(
-        function() {
-            batch.setup(this);
-        },
-        function(err) {
-            var next = this;
-            var RenderTask = function() {
-                process.nextTick(function() {
-                    batch.renderChunk(function(err, rendered) {
-                        if (!rendered) return next();
+    batch.on('write', function(batch) {
+        worker.postMessage({event:'update', attributes: {
+            status: 'processing',
+            progress: batch.tilesCurrent / batch.tilesTotal,
+            updated: +new Date()
+        }});
+    }.bind(this));
 
-                        that.update({
-                            progress: batch.tiles_current / batch.tiles_total,
-                            updated: +new Date()
-                        });
-                        RenderTask();
-                    });
-                });
-            };
-            that.update({
-                status: 'processing',
-                updated: +new Date
-            });
-            RenderTask();
-        },
-        function() {
-            batch.fillGridData(this);
-        },
-        function() {
-            that.update({
-                status: 'complete',
-                progress: 1,
-                updated: +new Date()
-            });
-            batch.finish(this);
-        },
-        function() {
-            callback();
-        }
-    );
+    batch.on('end', function(batch) {
+        worker.postMessage({event:'update', attributes: {
+            status: 'complete',
+            progress: 1,
+            updated: +new Date()
+        }});
+        callback();
+    }.bind(this));
+
+    batch.on('error', function(batch, err) {
+        callback(err);
+    }.bind(this));
+
+    batch.execute();
 };
 
-// Image format
-// ------------
-// Abstract image class. Exports a map into a single image file. Extenders of
-// this class should set:
-//
-// - `this.format` String image format, e.g. `png`.
-var FormatImage = function(worker, data) {
-    Format.call(this, worker, data);
-};
-sys.inherits(FormatImage, Format);
-
-FormatImage.prototype.render = function(callback) {
-    var that = this;
-    Step(
-        function() {
-            var options = _.extend({}, that.data, {
-                scheme: 'tile',
-                format: that.format,
-                mapfile_dir: path.join(settings.mapfile_dir),
-                bbox: that.data.bbox.split(','),
-                srs: 'WSG84'
-            });
-            try {
-                var tile = new Tile(options);
-                tile.render(this);
-            } catch (err) {
-                that.update({
-                    status: 'error',
-                    error: 'Tile invalid: ' + err.message,
-                    updated: +new Date
-                });
-                this();
-            }
-        },
-        function(err, data) {
-            if (!err) {
-                fs.writeFile(path.join(settings.export_dir, that.data.filename), data[0], 'binary', function(err) {
-                    that.update({
-                        status: err ? 'error' : 'complete',
-                        error: err ? 'Error saving image: ' + err.message : '',
-                        progress: err ? 0 : 1,
-                        updated: +new Date
-                    });
-                    callback();
-                });
-            } else {
-                that.update({
-                    status: 'error',
-                    error: 'Error rendering image: ' + err.message,
-                    updated: +new Date
-                });
-                callback();
-            }
-        }
-    );
-};
-
-// PDF export format class.
-var FormatPDF = function(worker, data) {
-    this.format = 'pdf';
-    FormatImage.call(this, worker, data);
-};
-sys.inherits(FormatPDF, FormatImage);
-
-// PNG export format class.
-var FormatPNG = function(worker, data) {
-    this.format = 'png';
-    FormatImage.call(this, worker, data);
-};
-sys.inherits(FormatPNG, FormatImage);

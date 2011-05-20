@@ -1,8 +1,10 @@
 var _ = require('underscore'),
-    Tile = require('tilelive').Tile,
+    tilelive = new (require('tilelive').Server)(require('tilelive-mapnik')),
     cache = require('models-cache');
 
 module.exports = function(app, settings) {
+    app.enable('jsonp callback');
+
     // Route middleware. Load a project model.
     var loadProject = function(req, res, next) {
         res.project = cache.get('Project', req.param('id'));
@@ -27,19 +29,15 @@ module.exports = function(app, settings) {
     // - `:x` Number, x coordinate of the tile requested.
     // - `:y` Number, y coordinate of the tile requested.
     // - `*` String, file format of the tile requested, e.g. `png`, `jpeg`.
-    app.get('/1.0.0/:id/:z/:x/:y.(png8|png|jpeg[\\d]+|jpeg)', loadProject, function(req, res, next) {
-        try {
-            var options = {
-                datasource: res.project.toJSON(),
-                xyz: [req.param('x'), req.param('y'), req.param('z')],
-                format: req.params[0],
-                mapfile_dir: settings.mapfile_dir
-            };
-            var tile = new Tile(options);
-        } catch (err) {
-            res.send('Tile invalid: ' + err.message);
+    app.get('/1.0.0/:id/:z/:x/:y.(png8|png|jpeg[\\d]+|jpeg|grid.json)', loadProject, function(req, res, next) {
+        req.params.datasource = res.project.toJSON();
+        req.params.format = req.params[0];
+        if (req.params.format === 'grid.json') {
+            var interactivity = res.project.get('_interactivity');
+            req.params.layer = interactivity.layer;
+            req.params.fields = res.project.formatterFields();
         }
-        tile.render(function(err, data) {
+        tilelive.serve(req.params, function(err, data) {
             if (!err) {
                 // Using `apply()` here allows the tile rendering function to
                 // send custom headers without access to the request object.
@@ -47,45 +45,9 @@ module.exports = function(app, settings) {
                 res.send.apply(res, data);
             } else if (typeof err === 'object' && err.length) {
                 err = _.pluck(err, 'message').join('\n');
-                res.send('Error rendering image:\n' + err, 500);
+                res.send('Error:\n' + err, 500);
             } else {
-                res.send('Error rendering image:\n' + err, 500);
-            }
-        });
-    });
-
-    // Interaction grid.json endpoint.
-    app.get('/1.0.0/:id/:z/:x/:y.grid.json', loadProject, function(req, res, next) {
-        req.query.callback = req.query.callback || 'grid';
-        var interactivity = res.project.get('_interactivity');
-        try {
-            var options = {
-                datasource: res.project.toJSON(),
-                xyz: [req.param('x'), req.param('y'), req.param('z')],
-                format: 'grid.json',
-                mapfile_dir: settings.mapfile_dir,
-                format_options: {
-                    layer: interactivity.layer,
-                    key_name: interactivity.key_name,
-                    data: true,
-                    fields: res.project.formatterFields()
-                }
-            };
-            var tile = new Tile(options);
-        } catch (err) {
-            res.send('Tile invalid: ' + err.message);
-        }
-        tile.render(function(err, grid) {
-            if (err) {
-                res.send(err.toString(), 500);
-            } else if (!grid[0]) {
-                res.send('Grid not found', 404);
-            } else {
-                var grid = grid[0].toString();
-                res.send(
-                    req.query.callback + '(' + grid + ');',
-                    {'Content-Type': 'text/javascript; charset=utf-8'}
-                );
+                res.send('Error:\n' + err, 500);
             }
         });
     });
