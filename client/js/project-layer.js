@@ -257,6 +257,14 @@ var PostgisLayerForm = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this, 'submit', 'selectSRS');
         this.model = this.options.model;
+
+        if (!this.model.get('Datasource')) {
+            this.model.set({Datasource: {
+                host: 'localhost',
+                port: '5432'
+            }});
+        }
+
         var object = {};
         object['id'] = this.model.id;
         object['class'] = this.model.get('class');
@@ -265,9 +273,9 @@ var PostgisLayerForm = Backbone.View.extend({
         }
         object['srs'] = this.model.get('srs');
         object['srs_name_' + this.model.srsName()] = true;
-        var datasource = this.model.get('Datasource') || {};
-        object['host'] = datasource.host || 'localhost';
-        object['port'] = datasource.port || '5432';
+        var datasource = this.model.get('Datasource');
+        object['host'] = datasource.host;
+        object['port'] = datasource.port;
         object['database'] = datasource.database;
         object['username'] = datasource.username;
         object['password'] = datasource.password;
