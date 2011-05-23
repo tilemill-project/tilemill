@@ -140,7 +140,6 @@ var LayerRowView = Backbone.View.extend({
 // Form for adding or editing a layer.
 var LayerPopupView = PopupView.extend({
     initialize: function(options) {
-        _.bindAll(this, 'submit', 'assets', 'selectSRS');
         this.model = this.options.model;
         this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
         var type = this.model.get('Datasource')
