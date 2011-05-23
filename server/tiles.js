@@ -58,36 +58,40 @@ module.exports = function(app, settings) {
     app.get('/1.0.0/:id/:z/:x/:y.grid.json', loadProject, function(req, res, next) {
         req.query.callback = req.query.callback || 'grid';
         var interactivity = res.project.get('_interactivity');
-        try {
-            var options = {
-                datasource: res.project.toJSON(),
-                xyz: [req.param('x'), req.param('y'), req.param('z')],
-                format: 'grid.json',
-                mapfile_dir: settings.mapfile_dir,
-                format_options: {
-                    layer: interactivity.layer,
-                    key_name: interactivity.key_name,
-                    data: true,
-                    fields: res.project.formatterFields()
-                }
-            };
-            var tile = new Tile(options);
-        } catch (err) {
-            res.send('Tile invalid: ' + err.message);
-        }
-        tile.render(function(err, grid) {
-            if (err) {
-                res.send(err.toString(), 500);
-            } else if (!grid[0]) {
-                res.send('Grid not found', 404);
-            } else {
-                var grid = grid[0].toString();
-                res.send(
-                    req.query.callback + '(' + grid + ');',
-                    {'Content-Type': 'text/javascript; charset=utf-8'}
-                );
+        if (!interactivity) {
+            res.send('Grid not found: layer does not have interactivity enabled', 404);
+        } else {
+            try {
+                var options = {
+                    datasource: res.project.toJSON(),
+                    xyz: [req.param('x'), req.param('y'), req.param('z')],
+                    format: 'grid.json',
+                    mapfile_dir: settings.mapfile_dir,
+                    format_options: {
+                        layer: interactivity.layer,
+                        key_name: interactivity.key_name,
+                        data: true,
+                        fields: res.project.formatterFields()
+                    }
+                };
+                var tile = new Tile(options);
+            } catch (err) {
+                res.send('Tile invalid: ' + err.message);
             }
-        });
+            tile.render(function(err, grid) {
+                if (err) {
+                    res.send(err.toString(), 500);
+                } else if (!grid[0]) {
+                    res.send('Grid not found', 404);
+                } else {
+                    var grid = grid[0].toString();
+                    res.send(
+                        req.query.callback + '(' + grid + ');',
+                        {'Content-Type': 'text/javascript; charset=utf-8'}
+                    );
+                }
+            });
+        }
     });
 
     // Interaction layer.json endpoint.
