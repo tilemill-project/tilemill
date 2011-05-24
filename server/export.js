@@ -57,7 +57,7 @@ Scanner.prototype.process = function(id, callback) {
                   error: next
                 });
             } else {
-                callback();
+                next();
             }
         },
         function() {
