@@ -18,7 +18,7 @@ module willwhite node-worker 0.0.1
 module felixge node-dirty v0.9.1
 module tmcw node-get 0.2.0 get
 module developmentseed backbone-dirty 0.0.3
-module mapbox carto 0.1.9
+module mapbox carto 9c811d869f5f93d28e59c8790bdc010e59570a7a
 module garycourt JSV e05e2595cb9e11251e5231a1f384043443532bd6
 module douglascrockford JSON-js 8e0b15cb492f63067a88ad786e4d5fc0fa89a241
 module dankogai js-base64 b1d15613be6651917ef5761e0bc29c7c07aabd90

@@ -1,6 +1,7 @@
 0.3.0
 -----
 - Basic PostGIS layer support
+- New opacity features in Carto
 - Fix bug that prevent rendering non-interactive tilesets in some cases
 
 
