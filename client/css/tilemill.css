@@ -523,7 +523,10 @@ ul.form > li > label {
 
 ul.form > li input.text,
 ul.form > li textarea { width:100%; }
-ul.form > li input.inline { width:auto; }
+ul.form > li input.inline {
+  width:auto;
+  margin-right:10px;
+  }
 
 ul.form ul.form > li {
   padding:9px 10px 10px;
@@ -539,10 +542,10 @@ ul.form ul.form > li > label {
   }
 
 ul.form label.inline {
-  display:block;
+  display:inline-block;
   position:static;
   text-align:left;
-  width:auto;
+  width:70px;
   border:0px;
   padding:0px;
   background:transparent;
