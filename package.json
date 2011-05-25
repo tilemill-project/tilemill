@@ -23,9 +23,9 @@
     "dependencies": {
         "backbone": "= 0.3.3",
         "backbone-dirty": "1.1.x",
-        "carto": "https://github.com/mapbox/carto/tarball/master",
+        "carto": "0.1.x",
         "express": "2.2.x",
-        "jsv": "https://github.com/garycourt/JSV/tarball/master",
+        "JSV": "3.5.x",
         "mapnik": "0.3.x",
         "mbtiles": "0.0.x",
         "mirror": "0.2.x",
