@@ -1,4 +1,5 @@
 var _ = require('underscore'),
+    path = require('path'),
     tilelive = new (require('tilelive').Server)(require('tilelive-mapnik')),
     cache = require('models-cache');
 
@@ -30,7 +31,12 @@ module.exports = function(app, settings) {
     // - `:y` Number, y coordinate of the tile requested.
     // - `*` String, file format of the tile requested, e.g. `png`, `jpeg`.
     app.get('/1.0.0/:id/:z/:x/:y.(png8|png|jpeg[\\d]+|jpeg|grid.json)', loadProject, function(req, res, next) {
-        req.params.datasource = res.project.toJSON();
+        req.params.datasource = path.join(
+            settings.files,
+            'project',
+            res.project.id,
+            res.project.id + '.mml'
+        );
         req.params.format = req.params[0];
         if (req.params.format === 'grid.json') {
             var interactivity = res.project.get('_interactivity');
@@ -43,11 +49,8 @@ module.exports = function(app, settings) {
                 // send custom headers without access to the request object.
                 data[1] = _.extend(settings.header_defaults, data[1]);
                 res.send.apply(res, data);
-            } else if (typeof err === 'object' && err.length) {
-                err = _.pluck(err, 'message').join('\n');
-                res.send('Error:\n' + err, 500);
             } else {
-                res.send('Error:\n' + err, 500);
+                res.send('Error:\n' + err.toString(), 500);
             }
         });
     });

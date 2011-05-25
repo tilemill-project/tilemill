@@ -287,26 +287,32 @@ function saveProject(model, callback) {
         },
         function(err, files) {
             // Remove any stale files in the project directory.
+            if (err) throw err;
             var group = this.group();
             var stylesheets = model.get('Stylesheet') || [];
-            var stale = _.select(files, function(filename) {
-                if (filename === (model.id + '.mml')) {
+            var stale = _(files).select(function(filename) {
+                if (filename[0] === '.') {
                     return false;
-                } else if (_.pluck(stylesheets, 'id').indexOf(filename) !== -1) {
+                } else if (filename === (model.id + '.mml')) {
+                    return false;
+                } else if (_(stylesheets).pluck('id').indexOf(filename) !== -1) {
                     return false;
                 }
                 return true;
             });
-            if (stale.length) {
-                for (var i = 0; i < stale.length; i++) {
-                    fs.unlink(path.join(modelPath, stale[i]), group());
-                }
+            for (var i = 0; i < stale.length; i++) {
+                var next = group();
+                var filepath = path.join(modelPath, stale[i]);
+                fs.stat(filepath, function(err, stat) {
+                    if (err) return next(err);
+                    if (stat.isFile()) return fs.unlink(filepath, next);
+                    return next();
+                });
             }
-            else {
-                group()();
-            }
+            group()();
         },
-        function() {
+        function(err) {
+            if (err) throw err;
             // Hard clone the model JSON before doing adjustments to the data
             // based on writing separate stylesheets.
             var data = JSON.parse(JSON.stringify(model.toJSON()));
@@ -342,7 +348,9 @@ function saveProject(model, callback) {
             fs.stat(path.join(modelPath, model.id + '.mml'), this);
         },
         function(err, stat) {
-            callback(null, {_updated: + stat.mtime});
+            var attr = {};
+            stat && (attr._updated = Date.parse(stat.mtime));
+            callback(null, attr);
         }
     );
 }
