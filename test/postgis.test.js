@@ -20,7 +20,7 @@ var project3 = fs.readFileSync('./test/fixtures/project3.json', 'utf8');
 module.exports = {
     'layer-load': function() {
         // Load layer
-        assert.response(app, {url: '/api/Datasource/?ds_type=postgis&host=localhost&port=5432&password=&dbname=tilemill_test&table=admin_0_line_land&geometry_field=the_geom&extent=-15312095,-6980576.5,15693558,11093272&type=postgis'}, {
+        assert.response(app, {url: '/api/Datasource/?ds_type=postgis&dbname=tilemill_test&table=admin_0_line_land&extent=-15312095,-6980576.5,15693558,11093272&type=postgis'}, {
             status: 200
         }, function(res) {
             var data = JSON.parse(res.body);
@@ -29,7 +29,7 @@ module.exports = {
         });
     },
     'layer-inspect': function() {
-        assert.response(app, {url: '/api/Datasource/features?ds_type=postgis&host=localhost&port=5432&password=&dbname=tilemill_test&table=admin_0_line_land&geometry_field=the_geom&extent=-15312095,-6980576.5,15693558,11093272&type=postgis'}, {
+        assert.response(app, {url: '/api/Datasource/features?ds_type=postgis&dbname=tilemill_test&table=admin_0_line_land&extent=-15312095,-6980576.5,15693558,11093272&type=postgis'}, {
             status: 200
         }, function(res) {
             var data = JSON.parse(res.body);
