@@ -13,7 +13,7 @@ module creationix step v0.0.3
 module visionmedia expresso 0.7.2
 module documentcloud backbone 0.3.3
 module documentcloud underscore 1.1.4
-module tmcw node-pool 2.0.0a
+module coopernurse node-pool 77ee3d779064e48bee45c61df513fa84b80d1781
 module willwhite node-worker 0.0.1
 module felixge node-dirty v0.9.1
 module tmcw node-get 0.2.0 get
