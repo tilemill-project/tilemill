@@ -9,6 +9,6 @@ psql -d tilemill_test -c "GRANT ALL ON geography_columns TO PUBLIC;"
 psql -d tilemill_test -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
 psql -d tilemill_test -f test/fixtures/admin_0_line_land.sql
 
-NODE_ENV=test PATH=bin node bin/expresso test/postgis.test.js
+NODE_ENV=test node bin/expresso test/postgis.test.js
 
 psql -d postgres -c "DROP DATABASE tilemill_test;"
