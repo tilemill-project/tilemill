@@ -32,7 +32,7 @@ files/data:
 
 files/project:
 	mkdir -p files/project
-	wget -q --no-check-certificate https://github.com/mapbox/tilemill_examples/tarball/0.4.0 -O files/examples.tar
+	wget -q --no-check-certificate https://github.com/mapbox/tilemill_examples/tarball/0.4.1 -O files/examples.tar
 	tar --strip=1 --directory=files/project -xzvf files/examples.tar
 	rm files/examples.tar
 
