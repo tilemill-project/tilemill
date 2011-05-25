@@ -80,7 +80,6 @@ app.get('/vendor.css', mirror.assets(stylesheets));
 require('bootstrap')(app, settings);
 require('api')(app, settings);
 require('tiles')(app, settings);
-require('export')(app, settings);
 
 if (app.settings.env !== 'test') {
     app.listen(settings.port);

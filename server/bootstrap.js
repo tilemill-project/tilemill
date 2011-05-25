@@ -71,5 +71,11 @@ module.exports = function(app, settings) {
             }
         }
     );
+    // Process any waiting exports.
+    (new models.ExportList).fetch({success: function(collection) {
+        collection.each(function(model) {
+            model.get('status') === 'waiting' && model.process();
+        });
+    }});
 }
 

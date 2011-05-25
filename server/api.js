@@ -3,6 +3,7 @@ var _ = require('underscore'),
     mapnik = require('mapnik'),
     models = require('models'),
     cache = require('models-cache'),
+    path = require('path'),
     Step = require('step'),
     reference = require('carto').tree.Reference.data;
     External = require('carto').External;
@@ -309,6 +310,17 @@ module.exports = function(app, settings) {
     app.error(function(err, req, res){
         err.message && (err = err.message);
         res.send(err, 500);
+    });
+
+    // Add Express route rule for serving export files for download.
+    app.get('/export/download/*', function(req, res, next) {
+        res.download(
+            path.join(settings.export_dir, req.params[0]),
+            req.params[0],
+            function(err, path) {
+                return err && next(new Error('File not found.'));
+            }
+        );
     });
 };
 
