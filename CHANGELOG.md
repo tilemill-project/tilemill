@@ -1,3 +1,8 @@
+0.3.1
+-----
+- Bugfixes for PostGIS layer support
+
+
 0.3.0
 -----
 - Basic PostGIS layer support
