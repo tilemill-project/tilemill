@@ -258,10 +258,7 @@ var PostgisLayerForm = Backbone.View.extend({
         this.model = this.options.model;
 
         if (!this.model.get('Datasource')) {
-            this.model.set({Datasource: {
-                host: 'localhost',
-                port: '5432'
-            }});
+            this.model.set({Datasource: {}});
         }
 
         var object = {};
@@ -281,6 +278,7 @@ var PostgisLayerForm = Backbone.View.extend({
         object['dbname'] = datasource.dbname;
         object['table'] = datasource.table;
         object['extent'] = datasource.extent;
+        object['geometry_field'] = datasource.geometry_field;
         $(this.el).html(ich.PostgisLayerForm(object, true));
     },
     submit: function() {

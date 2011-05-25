@@ -1,6 +1,14 @@
+0.3.0
+-----
+- Basic PostGIS layer support
+- New opacity features in Carto
+- Fix bug that prevent rendering non-interactive tilesets in some cases
+
+
 0.2.1
 -----
-- Fix bug with S3 bucket listing.
+- Fix bug with S3 bucket listing
+
 
 0.2.0
 -----
