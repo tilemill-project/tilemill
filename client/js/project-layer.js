@@ -259,10 +259,7 @@ var PostgisLayerForm = Backbone.View.extend({
         this.model = this.options.model;
 
         if (!this.model.get('Datasource')) {
-            this.model.set({Datasource: {
-                host: 'localhost',
-                port: '5432'
-            }});
+            this.model.set({Datasource: {}});
         }
 
         var object = {};
