@@ -22,8 +22,8 @@
     "licenses": [{ "type": "BSD" }],
     "dependencies": {
         "backbone": "= 0.3.3",
-        "backbone-dirty": "https://github.com/developmentseed/backbone-dirty/tarball/master",
-        "carto": "0.1.x",
+        "backbone-dirty": "1.1.x",
+        "carto": "https://github.com/mapbox/carto/tarball/master",
         "express": "2.2.x",
         "jsv": "https://github.com/garycourt/JSV/tarball/master",
         "mapnik": "0.3.x",
@@ -35,7 +35,7 @@
         "tilelive-mapnik": "0.0.x",
         "underscore": "1.1.x",
         "wax": "1.4.x",
-        "worker": "https://github.com/willwhite/node-worker/tarball/master"
+        "worker": "0.2.x"
     },
     "devDependencies": {
         "expresso" : "0.7.x",
