@@ -60,17 +60,32 @@ function read(filepath, callback) {
 };
 
 // Returns an array of stat objects with additional `basename` property.
+// If the file is a directory, looks for a `.origin` file and adds an
+// `.origin` property.
 function readdir(filepath, callback) {
     fs.readdir(filepath, function(err, files) {
         if (err) return callback(err);
         if (!files.length) return callback(null, []);
         var stats = [];
-        _(files).each(function(file) {
+        var s = function(file, attr) {
+            attr = attr || {};
             fs.stat(path.join(filepath, file), function(err, stat) {
                 if (err) return callback(err);
-                stat.basename = file;
+                _(stat).extend(attr);
                 stats.push(stat);
                 stats.length === files.length && callback(null, stats);
+            });
+        };
+        _(files).each(function(file) {
+            var origin = path.join(filepath, file, '.origin');
+            path.exists(origin, function(exists) {
+                if (exists) {
+                    fs.readFile(origin, 'utf8', function(err, uri) {
+                        s(file, {basename: file, origin: uri});
+                    });
+                } else {
+                    s(file, {basename: file});
+                }
             });
         });
     });
@@ -249,18 +264,28 @@ function saveProject(model, callback) {
         if (err) throw err;
 
         // Remove any stale files in the project directory.
+        var layers = _(model.get('Layer')).pluck('name');
         var stylesheets = _(model.get('Stylesheet')).pluck('id') || [];
         var group = this.group();
         _(files).chain()
             .select(function(file) {
-                if (!file.isFile()) return false;
+                // - Directory does not match a layer name. Valid.
+                // - Directory name and origin match a layer. Valid.
+                // - Directory name matches but origin does not. Stale or
+                //   broken cache. Cleanup.
+                if (file.isDirectory()) {
+                    var index = layers.indexOf(file.basename);
+                    var l = model.get('Layer')[index];
+                    if (index === -1) return false;
+                    if (l.Datasource.file === file.origin) return false;
+                }
                 if (file.basename[0] === '.') return false;
                 if (file.basename === model.id + '.mml') return false;
                 if (_(stylesheets).include(file.basename)) return false;
                 return true;
             })
             .each(function(file) {
-                fs.unlink(path.join(modelPath, file.basename), group());
+                rm(path.join(modelPath, file.basename), group());
             });
         group()();
     },
