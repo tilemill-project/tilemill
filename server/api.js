@@ -193,7 +193,6 @@ module.exports = function(app, settings) {
     // GET endpoint for file downloads for the Directory library. See
     // `library-directory.js`.
     app.get('/api/Library/:id/files/*', function(req, res, next) {
-        var path = require('path');
         var model = cache.get('Library', req.param('id'));
         model.fetch({
             success: function(model, resp) {
