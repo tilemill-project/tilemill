@@ -12,9 +12,9 @@ module.exports = function(app, settings) {
     // on loading 10,000 features to keep a large datasource from busting up
     // the server.
     function loadDatasource(req, res, next) {
-        if (!req.query) {
-            return res.send('Bad request.', 400);
-        }
+        if (!req.query) return next(new Error('query is required.'));
+        if (!req.query.id) return next(new Error('query.id is required.'));
+        if (!req.query.project) return next(new Error('query.project is required.'));
 
         var datasourceStats = function(datasource) {
             for (var fieldId in datasource.fields) {
@@ -60,22 +60,21 @@ module.exports = function(app, settings) {
             return next();
         } else {
             // File based datasources need to be downloaded through External().
-            var url = req.query.url;
-            var external = new External(settings, url);
-            external.on('err', function(err) {
-                return next(new Error('Datasource could not be loaded. Error: ' + err.message));
-            });
+            var external = new External({
+                alias: true,
+                data_dir: path.join(settings.files, 'project', req.query.project),
+                local_data_dir: path.join(settings.files, 'project', req.query.project)
+            }, req.query.url, req.query.id);
+            external.on('err', next);
             external.on('complete', function(external) {
                 external.findDataFile(function(err, file) {
-                    if (err || !file) {
-                        return next(new Error('Datasource could not be loaded.'));
-                    }
+                    if (err || !file) return next(err);
                     try {
                         var ds = new mapnik.Datasource(_.extend({
                             file: file
                         }, external.type.ds_options));
-                    } catch (e) {
-                        return next('Datasource could not be loaded.');
+                    } catch (err) {
+                        return next(err);
                     }
                     if (external.type.ds_options.type !== 'gdal') {
                         res.datasource = _.extend({

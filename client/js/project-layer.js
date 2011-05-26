@@ -45,6 +45,7 @@ var LayerListView = Backbone.View.extend({
     },
     add: function() {
         new LayerPopupView({
+            project: this.project,
             collection: this.collection,
             model: new Layer,
             add: true
@@ -96,6 +97,7 @@ var LayerRowView = Backbone.View.extend({
     },
     edit: function() {
         new LayerPopupView({
+            project: this.project,
             collection: this.collection,
             model: this.model,
             add: false
@@ -104,17 +106,18 @@ var LayerRowView = Backbone.View.extend({
     },
     inspect: function() {
         if (this.model.get('Datasource').type === 'postgis') {
-            var options = _.extend({ds_type: 'postgis'}, this.model.get('Datasource'));
-            var datasource = new PostgisDatasource(options);
+            var datasource = new PostgisDatasource(_({
+                ds_type: 'postgis',
+                project: this.project.id,
+            }).extend(this.model.get('Datasource')));
         } else {
             var datasource = new FileDatasource({
                 id: this.model.id,
+                project: this.project.id,
                 url: this.model.get('Datasource').file
             });
         }
-        new DatasourceView({
-            model: datasource
-        });
+        new DatasourceView({ model: datasource });
         return false;
     },
     del: function() {
@@ -141,6 +144,7 @@ var LayerRowView = Backbone.View.extend({
 var LayerPopupView = PopupView.extend({
     initialize: function(options) {
         this.model = this.options.model;
+        this.project = this.options.project;
         this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
         var type = this.model.get('Datasource')
             && this.model.get('Datasource').type == 'postgis' ? 'postgis' : 'file';
@@ -149,16 +153,24 @@ var LayerPopupView = PopupView.extend({
             id: 'FileLayerForm',
             title: 'File',
             active: type != 'postgis',
-            content: new FileLayerForm({ model: this.model, collection: this.collection, popup: this })
+            content: new FileLayerForm({
+                project: this.project,
+                model: this.model,
+                collection: this.collection,
+                popup: this
+            })
         });
-        if (window.app.abilities.get('datasources').indexOf('postgis') !== -1) {
-            tabs.push({
-                id: 'PostgisLayerForm',
-                title: 'PostGIS',
-                active: type == 'postgis',
-                content: new PostgisLayerForm({ model: this.model, collection: this.collection, popup: this })
-            });
-        }
+        _(window.app.abilities.get('datasources')).include('postgis') && tabs.push({
+            id: 'PostgisLayerForm',
+            title: 'PostGIS',
+            active: type == 'postgis',
+            content: new PostgisLayerForm({
+                project: this.project,
+                model: this.model,
+                collection: this.collection,
+                popup: this
+            })
+        });
         this.options.content = new TabsView({ tabs: tabs });
         PopupView.prototype.initialize.call(this, options);
     }
@@ -175,6 +187,7 @@ var FileLayerForm = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this, 'submit', 'assets', 'selectSRS');
         this.model = this.options.model;
+        this.project = this.options.project;
 
         var object = {};
         object['id'] = this.model.id;
@@ -191,6 +204,7 @@ var FileLayerForm = Backbone.View.extend({
         var datasource = new FileDatasource();
         var success = datasource.set({
             id: $('input#id', this.el).val(),
+            project: this.project.id,
             url: $('input#file', this.el).val()
         }, { error: that.options.popup.showError });
         if (success) {
@@ -256,6 +270,7 @@ var PostgisLayerForm = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this, 'submit', 'selectSRS');
         this.model = this.options.model;
+        this.project = this.options.project;
 
         if (!this.model.get('Datasource')) {
             this.model.set({Datasource: {}});
@@ -286,6 +301,7 @@ var PostgisLayerForm = Backbone.View.extend({
         var datasource = new PostgisDatasource();
         var success = datasource.set({
             id: $('input#id', this.el).val(),
+            project: this.project.id,
             ds_type: 'postgis',
             host: $('input#host', this.el).val(),
             port: $('input#port', this.el).val(),

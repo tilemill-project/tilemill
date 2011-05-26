@@ -107,6 +107,11 @@ var FileDatasource = Datasource.extend({
             'id': {
                 'type': 'string',
             },
+            'project': {
+                'required': true,
+                'type': 'string',
+                'description': 'Project to which this datasource belongs.'
+            },
             'url': {
                 'type': 'string',
                 'required': true,
@@ -144,6 +149,11 @@ var PostgisDatasource = Datasource.extend({
         'properties': {
             'id': {
                 'type': 'string',
+            },
+            'project': {
+                'required': true,
+                'type': 'string',
+                'description': 'Project to which this datasource belongs.'
             },
             'dbname': {
                 'type': 'string',

@@ -426,10 +426,13 @@ var ProjectInteractivityForm = Backbone.View.extend({
         if (layer) {
             this.loading('Loading datasource');
             if (layer.get('Datasource').type === 'postgis') {
-                var options = _.extend({ds_type: 'postgis'}, layer.get('Datasource'));
-                var ds = new PostgisDatasource(options);
+                var ds = new PostgisDatasource(_({
+                    project: this.id,
+                    ds_type: 'postgis',
+                }).extend(layer.get('Datasource')));
             } else {
                 var ds = new FileDatasource({
+                    project: this.id,
                     id: layer.id,
                     url: layer.get('Datasource').file
                 });
