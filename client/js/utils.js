@@ -122,6 +122,10 @@ var PopupView = Backbone.View.extend({
         return false;
     },
     showError: function(model, error) {
+        try {
+            var resp = JSON.parse(error.responseText);
+            error = resp.message;
+        } catch(e) {}
         this.done();
         window.app.message('Error', error);
     }
