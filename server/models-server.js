@@ -60,6 +60,7 @@ function read(filepath, callback) {
 function readdir(filepath, callback) {
     fs.readdir(filepath, function(err, files) {
         if (err) return callback(err);
+        if (!files.length) return callback(null, []);
         var stats = [];
         _(files).each(function(file) {
             fs.stat(path.join(filepath, file), function(err, stat) {
