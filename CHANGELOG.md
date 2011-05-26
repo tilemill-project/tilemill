@@ -1,3 +1,12 @@
+0.3.2
+-----
+- Fix broken references to PostGIS user field.
+
+0.3.1
+-----
+- Bugfixes for PostGIS layer support
+
+
 0.3.0
 -----
 - Basic PostGIS layer support

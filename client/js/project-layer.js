@@ -259,10 +259,7 @@ var PostgisLayerForm = Backbone.View.extend({
         this.model = this.options.model;
 
         if (!this.model.get('Datasource')) {
-            this.model.set({Datasource: {
-                host: 'localhost',
-                port: '5432'
-            }});
+            this.model.set({Datasource: {}});
         }
 
         var object = {};
@@ -277,11 +274,12 @@ var PostgisLayerForm = Backbone.View.extend({
         object['host'] = datasource.host;
         object['port'] = datasource.port;
         object['database'] = datasource.database;
-        object['username'] = datasource.username;
+        object['user'] = datasource.user;
         object['password'] = datasource.password;
         object['dbname'] = datasource.dbname;
         object['table'] = datasource.table;
         object['extent'] = datasource.extent;
+        object['geometry_field'] = datasource.geometry_field;
         $(this.el).html(ich.PostgisLayerForm(object, true));
     },
     submit: function() {
@@ -293,7 +291,7 @@ var PostgisLayerForm = Backbone.View.extend({
             host: $('input#host', this.el).val(),
             port: $('input#port', this.el).val(),
             database: $('input#database', this.el).val(),
-            username: $('input#username', this.el).val(),
+            user: $('input#user', this.el).val(),
             password: $('input#password', this.el).val(),
             dbname: $('input#dbname', this.el).val(),
             table: $('textarea#table', this.el).val(),
@@ -315,7 +313,7 @@ var PostgisLayerForm = Backbone.View.extend({
                                 host: $('input#host', this.el).val(),
                                 port: $('input#port', this.el).val(),
                                 database: $('input#database', this.el).val(),
-                                username: $('input#username', this.el).val(),
+                                user: $('input#user', this.el).val(),
                                 password: $('input#password', this.el).val(),
                                 dbname: $('input#dbname', this.el).val(),
                                 table: $('textarea#table', this.el).val(),
