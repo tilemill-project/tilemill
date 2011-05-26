@@ -8,7 +8,10 @@ var _ = require('underscore')._,
     Pool = require('generic-pool').Pool,
     Worker = require('worker').Worker,
     path = require('path'),
-    models = require('models');
+    models = require('models'),
+    constants = (!process.EEXIST >= 1) ?
+        require('constants') :
+        { EEXIST: process.EEXIST };
 
 // Project
 // -------
@@ -85,7 +88,7 @@ function mkdirp(p, mode, f) {
     path.exists(p, function(exists) {
         if (exists) return cb(null);
         mkdirp(ps.slice(0, -1).join('/'), mode, function(err) {
-            if (err && err.errno != process.EEXIST) return cb(err);
+            if (err && err.errno != constants.EEXIST) return cb(err);
             fs.mkdir(p, mode, cb);
         });
     });
