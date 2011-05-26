@@ -302,10 +302,26 @@ module.exports = function(app, settings) {
         });
     });
 
-    // Generic error handler.
-    app.error(function(err, req, res){
-        err.message && (err = err.message);
-        res.send(err, 500);
+    // // Generic error handler.
+    app.error(function (err, req, res, next) {
+        var env = process.env.NODE_ENV || 'development';
+        if (!err.status) err.status = 500;
+
+        if ((req.headers.accept + '' || '').indexOf('json') >= 0) {
+            res.writeHead(err.status, { 'Content-Type': 'application/json' });
+            if (env === 'development') {
+                res.end(JSON.stringify(err));
+            } else {
+                res.end(JSON.stringify({ message: err.message }));
+            }
+        } else {
+            res.writeHead(err.status, { 'Content-Type': 'text/plain' });
+            if (env === 'development') {
+                res.end(err.stack);
+            } else {
+                res.end(err.message);
+            }
+        }
     });
 
     // Add Express route rule for serving export files for download.
