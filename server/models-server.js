@@ -271,12 +271,15 @@ function saveProject(model, callback) {
             .select(function(file) {
                 // - Directory does not match a layer name. Valid.
                 // - Directory name and origin match a layer. Valid.
+                // - Directory name matches and uri is a relative path. Valid.
                 // - Directory name matches but origin does not. Stale or
                 //   broken cache. Cleanup.
                 if (file.isDirectory()) {
                     var index = layers.indexOf(file.basename);
                     var l = model.get('Layer')[index];
                     if (index === -1) return false;
+                    if (l.Datasource.file.search('http') !== 0 &&
+                        l.Datasource.file[0] !== '/') return false;
                     if (l.Datasource.file === file.origin) return false;
                 }
                 if (file.basename[0] === '.') return false;
