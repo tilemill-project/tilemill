@@ -45,6 +45,9 @@ module.exports = function(app, settings) {
             var options = req.query;
             options.type = 'postgis';
             try {
+                if (req.param('option') !== 'features') {
+                    options.row_limit = 1;
+                }
                 var ds = new mapnik.Datasource(options);
             } catch (e) {
                 return next('Datasource could not be loaded.' + e.message);
