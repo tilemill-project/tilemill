@@ -1,26 +1,22 @@
 var _ = require('underscore'),
     path = require('path'),
-    tilelive = new (require('tilelive').Server)(require('tilelive-mapnik')),
-    cache = require('models-cache');
+    Project = require('../shared/models').Project,
+    tilelive = new (require('tilelive').Server)(require('tilelive-mapnik'));
 
 module.exports = function(app, settings) {
     app.enable('jsonp callback');
 
     // Route middleware. Load a project model.
     var loadProject = function(req, res, next) {
-        res.project = cache.get('Project', req.param('id'));
-        if (res.project._fetched) {
-            return next();
-        } else {
-            res.project.fetch({
-                success: function(model, resp) {
-                    next();
-                },
-                error: function(model, resp) {
-                    next(new Error('Invalid model'));
-                }
-            });
-        }
+        res.project = new Project({id: req.param('id')});
+        res.project.fetch({
+            success: function(model, resp) {
+                next();
+            },
+            error: function(model, resp) {
+                next(new Error('Invalid model'));
+            }
+        });
     };
 
     // GET endpoint for TMS tile image requests. Uses `tilelive.js` Tile API.
