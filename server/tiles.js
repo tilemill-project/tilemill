@@ -46,7 +46,7 @@ module.exports = function(app, settings) {
                 data[1] = _.extend(settings.header_defaults, data[1]);
                 res.send.apply(res, data);
             } else {
-                res.send('Error:\n' + err.toString(), 500);
+                next(err);
             }
         });
     });

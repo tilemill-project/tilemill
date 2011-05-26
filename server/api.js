@@ -47,7 +47,7 @@ module.exports = function(app, settings) {
             try {
                 var ds = new mapnik.Datasource(options);
             } catch (e) {
-                return next('Datasource could not be loaded.' + e.message);
+                return next(new Error('Datasource could not be loaded.' + e.message));
             }
             res.datasource = _.extend({
                 ds_type: options.type,
@@ -63,7 +63,7 @@ module.exports = function(app, settings) {
             var url = req.query.url;
             var external = new External(settings, url);
             external.on('err', function(err) {
-                return next('Datasource could not be loaded. Error: ' + err.message);
+                return next(new Error('Datasource could not be loaded. Error: ' + err.message));
             });
             external.on('complete', function(external) {
                 external.findDataFile(function(err, file) {
