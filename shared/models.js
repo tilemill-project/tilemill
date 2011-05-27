@@ -477,8 +477,8 @@ var Project = Backbone.Model.extend({
             return options.success(this, null);
         }
 
-        var carto = require('carto'),
-            mapnik = require('mapnik'),
+        var carto = require('tilelive-mapnik/node_modules/carto'),
+            mapnik = require('tilelive-mapnik/node_modules/mapnik'),
             that = this,
             stylesheets = this.get('Stylesheet'),
             env = {

@@ -278,6 +278,7 @@ function saveProject(model, callback) {
                     var index = layers.indexOf(file.basename);
                     var l = model.get('Layer')[index];
                     if (index === -1) return false;
+                    if (!l.Datasource.file) return false;
                     if (l.Datasource.file.search('http') !== 0 &&
                         l.Datasource.file[0] !== '/') return false;
                     if (l.Datasource.file === file.origin) return false;

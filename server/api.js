@@ -22,9 +22,11 @@ module.exports = function(app, settings) {
             Stylesheet: [{id:'layer',data:''}],
             Layer: [{
                 name: req.query.id,
-                Datasource: { file: req.query.url },
-                srs: SRS,
-                type: req.query.ds_type
+                Datasource: _({
+                    file: req.query.url,
+                    type: req.query.ds_type
+                }).extend(req.query),
+                srs: SRS
             }]
         };
         var env = {
