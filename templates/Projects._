@@ -1,0 +1,21 @@
+<div class='projects'>
+  <form>
+    <h1><%= length %> projects</h1>
+    <input class='text' type='text' />
+    <input class='submit' type='submit' value='+ Add' />
+  </form>
+  <ul>
+    <% _(models).each(function(model) { %>
+    <li>
+      <a class='thumb' href='/#!/project/<%= model.id %>'>
+        <span class='thumb-layer fill' style='background-image: url(<%= model.thumb() %>)'></span>
+        <span class='thumb-name fill-s'>
+          <%= model.id %>
+          <span id='<%= model.id %>' class='icon delete'>Delete</span>
+        </span>
+      </a>
+    </li>
+    <% }); %>
+  </ul>
+</div>
+

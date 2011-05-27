@@ -1,14 +1,14 @@
 servers['Route'].augment({
-    client: {
+    assets: {
         styles: [
             require.resolve('../build/vendor.css'),
-            require.resolve('../client/css/reset.css'),
-            require.resolve('../client/css/tilemill.css'),
-            require.resolve('../client/css/code.css')
+            require.resolve('../assets/css/reset.css'),
+            require.resolve('../assets/css/style.css'),
+            require.resolve('../assets/css/code.css')
         ],
         scripts: [
-            require.resolve('../client/js/libraries/jquery-ui.js'),
-            require.resolve('../client/js/libraries/colorpicker/js/colorpicker.js'),
+            // require.resolve('../assets/js/libraries/jquery-ui.js'),
+            // require.resolve('../assets/js/libraries/colorpicker/js/colorpicker.js'),
             require.resolve('../build/vendor.js'),
             require.resolve('wax/build/wax.mm.min.js'),
             require.resolve('JSV/lib/uri/uri.js'),
@@ -16,11 +16,11 @@ servers['Route'].augment({
             require.resolve('JSV/lib/json-schema-draft-03.js')
         ]
     },
-    initializeclient: function(parent, app) {
+    initializeAssets: function(parent, app) {
         parent.call(this, app);
-        this.get('/client/tilemill/css/vendor.css',
-            mirror.client(this.client.styles, { type: '.css' }));
-        this.get('/client/tilemill/js/vendor.js',
-            mirror.client(this.client.scripts, { type: '.js' }));
+        this.get('/assets/tilemill/css/vendor.css',
+            mirror.assets(this.assets.styles, { type: '.css' }));
+        this.get('/assets/tilemill/js/vendor.js',
+            mirror.assets(this.assets.scripts, { type: '.js' }));
     }
 });
