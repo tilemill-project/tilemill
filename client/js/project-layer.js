@@ -219,7 +219,8 @@ var FileLayerForm = Backbone.View.extend({
                             'srs': $('input#srs', that.el).val(),
                             'class': $('input#class', that.el).val(),
                             'Datasource': {
-                                'file': $('input#file', that.el).val()
+                                'file': $('input#file', that.el).val(),
+                                'geometry': datasource.get('geometry')
                             }
                         },
                         {

@@ -1,11 +1,11 @@
 // REST endpoints for Backbone models and collections.
 var _ = require('underscore'),
-    mapnik = require('mapnik'),
+    Map = require('tilelive-mapnik').Map,
     models = require('models'),
     path = require('path'),
     Step = require('step'),
-    reference = require('carto').tree.Reference.data;
-    External = require('carto').External;
+    mapnik = require('tilelive-mapnik/node_modules/mapnik'),
+    reference = require('tilelive-mapnik/node_modules/carto').tree.Reference.data;
 
 module.exports = function(app, settings) {
     // Route middleware for loading a datasource. Currently has a hard limit
@@ -16,89 +16,55 @@ module.exports = function(app, settings) {
         if (!req.query.id) return next(new Error('query.id is required.'));
         if (!req.query.project) return next(new Error('query.project is required.'));
 
-        var datasourceStats = function(datasource) {
-            for (var fieldId in datasource.fields) {
-                datasource.fields[fieldId] = {
-                    type: datasource.fields[fieldId]
-                };
-                var field = datasource.fields[fieldId];
-                var values = _.pluck(datasource.features, fieldId);
-                if (values.length) {
-                    if (field.type == 'Number') {
-                        field.min = Math.min.apply(Math, values);
-                        field.max = Math.max.apply(Math, values);
-                    }
-                    else if (datasource.fields[fieldId].type == 'String') {
-                        field.min = _.min(values,
-                            function(value) { return value.length; }).length;
-                        field.max = _.max(values,
-                            function(value) { return value.length; }).length;
-                    }
-                } else {
-                    field.max = 0;
-                    field.min = 0;
-                }
-            }
-        }
-
-        if (req.query.ds_type == 'postgis') {
-            var options = req.query;
-            options.type = 'postgis';
-            try {
-                var ds = new mapnik.Datasource(options);
-            } catch (e) {
-                return next(new Error('Datasource could not be loaded.' + e.message));
-            }
-            res.datasource = _.extend({
-                ds_type: options.type,
-                fields: {},
+        var SRS = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
+        var mml = {
+            srs: SRS,
+            Stylesheet: [{id:'layer',data:''}],
+            Layer: [{
+                name: req.query.id,
+                Datasource: { file: req.query.url },
+                srs: SRS,
+                type: req.query.ds_type
+            }]
+        };
+        var env = {
+            data_dir: path.join(settings.files, 'project', req.query.project),
+            local_data_dir: path.join(settings.files, 'project', req.query.project)
+        };
+        var map = new Map(mml, env);
+        map.initialize(function(err) {
+            if (err) return next(err);
+            var ds = map.mapnik.describe_data()[req.query.id];
+            res.datasource = {
+                id: req.query.id,
+                project: req.query.project,
+                url: req.query.url,
+                fields: ds.fields,
                 features: req.param('option') === 'features'
-                    ? ds.features(0, 1000)
-                    : []
-            }, ds.describe());
-            datasourceStats(res.datasource);
-            return next();
-        } else {
-            // File based datasources need to be downloaded through External().
-            var external = new External({
-                alias: true,
-                data_dir: path.join(settings.files, 'project', req.query.project),
-                local_data_dir: path.join(settings.files, 'project', req.query.project)
-            }, req.query.url, req.query.id);
-            external.on('err', next);
-            external.on('complete', function(external) {
-                external.findDataFile(function(err, file) {
-                    if (err || !file) return next(err);
-                    try {
-                        var ds = new mapnik.Datasource(_.extend({
-                            file: file
-                        }, external.type.ds_options));
-                    } catch (err) {
-                        return next(err);
-                    }
-                    if (external.type.ds_options.type !== 'gdal') {
-                        res.datasource = _.extend({
-                            ds_options: external.type.ds_options,
-                            ds_type: external.type.ds_options.type,
-                            fields: {},
-                            features: req.param('option') === 'features'
-                                ? ds.features(0, 1000)
-                                : []
-                        }, ds.describe());
-                        datasourceStats(res.datasource);
-                    } else {
-                        res.datasource = {
-                            ds_options: external.type.ds_options,
-                            ds_type: external.type.ds_options.type,
-                            geometry_type: 'raster',
-                            fields: {},
-                            features: []
-                        };
-                    }
-                    next();
-                });
-            });
-        }
+                    ? map.mapnik.features(0, 1000)
+                    : [],
+                type: ds.type,
+                geometry_type: ds.type === 'raster'
+                    ? 'raster'
+                    : ds.geometry_type
+            };
+
+            // Process fields and calculate min/max values.
+            for (var f in res.datasource.fields) {
+                res.datasource.fields[f] = {
+                    type: res.datasource.fields[f],
+                    max: _(res.datasource.features).chain().pluck(f)
+                        .max(function(v) {
+                            return _(v).isString() ? v.length : v;
+                        }).value(),
+                    min: _(res.datasource.features).chain().pluck(f)
+                        .min(function(v) {
+                            return _(v).isString() ? v.length : v;
+                        }).value()
+                };
+            }
+            next();
+        });
     }
 
     // Route middleware for validating a model.

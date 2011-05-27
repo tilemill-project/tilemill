@@ -23,11 +23,9 @@
     "dependencies": {
         "backbone": "= 0.3.3",
         "backbone-dirty": "1.1.x",
-        "carto": "0.1.x",
         "express": "2.2.x",
         "generic-pool": "1.0.x",
         "JSV": "3.5.x",
-        "mapnik": "0.3.x",
         "mbtiles": "0.0.x",
         "mirror": "0.2.x",
         "sax": "0.1.x",
