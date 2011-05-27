@@ -108,6 +108,7 @@ var LayerRowView = Backbone.View.extend({
         if (this.model.get('Datasource').type === 'postgis') {
             var datasource = new PostgisDatasource(_({
                 ds_type: 'postgis',
+                id: this.model.id,
                 project: this.project.id,
             }).extend(this.model.get('Datasource')));
         } else {
