@@ -92,7 +92,7 @@ Install build requirements:
     libsqlite3-0 libsqlite3-dev
 
     # TileMill dependencies
-    sudo apt-get install curl
+    sudo apt-get install curl unzip
 
 Install `mapnik` from source:
 
