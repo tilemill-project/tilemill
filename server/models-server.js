@@ -383,22 +383,24 @@ models.Export.prototype.sync = function(method, model, success, error) {
 
 models.Export.prototype.process = function() {
     var model = this;
-    var project = new models.Project({id: this.get('project')});
-    project.fetch({success: function(project, resp) {
-        pool.acquire(function(err, worker) {
-            if (err) return callback(err);
-            workers[model.id] = worker;
-            worker.on('message', function(data) {
-                if (data.event === 'complete') {
-                    worker.removeAllListeners('message');
-                    pool.release(worker);
-                } else if (data.event === 'update') {
-                    model.save(data.attributes);
-                }
-            });
-            worker.postMessage(
-                _(model.toJSON()).extend({datasource: project.toJSON()})
-            );
+    pool.acquire(function(err, worker) {
+        if (err) return callback(err);
+        workers[model.id] = worker;
+        worker.on('message', function(data) {
+            if (data.event === 'complete') {
+                worker.removeAllListeners('message');
+                pool.release(worker);
+            } else if (data.event === 'update') {
+                model.save(data.attributes);
+            }
         });
-    }});
+        worker.postMessage(_(model.toJSON()).extend({
+            datasource: path.join(
+                settings.files,
+                'project',
+                model.get('project'),
+                model.get('project') + '.mml'
+            )
+        }));
+    });
 };
