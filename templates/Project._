@@ -1,0 +1,62 @@
+<div class='project'>
+  <div class='editor fill-e'>
+    <div class='header'>
+      <div class='breadcrumb'>
+        <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
+        <a href='/#!/project/<%= id %>'><%= id %></a>
+      </div>
+      <div class='actions'>
+        <a class='button' href='#save'>Save</a>
+        <span class='button dropdown' href='#export'>
+          <span class='icon reverse right dropdown'></span>
+          Export
+          <span class='menu'>
+            <a href='#png'>PNG</a>
+            <a href='#pdf'>PDF</a>
+            <a href='#mbtiles'>MBTiles</a>
+          </span>
+        </span>
+        <a class='button' href='#settings'>
+          <span class='icon reverse settings'>Settings</span>
+        </a>
+      </div>
+    </div>
+    <div class='code fill-s'>
+    <!--
+    <% get('Stylesheet').each(function(model) { %>
+      <textarea><%= model.get('data') %></textarea>
+    <% }); %>
+    -->
+    </div>
+    <ul class='tabs clearfix'>
+    <% get('Stylesheet').each(function(model, index) { %>
+      <li class='<%= !index ? 'active' : '' %>'>
+        <label><%= model.id %></label>
+      </li>
+    <% }); %>
+    </ul>
+    <a class='add button'><span class='icon reverse plus'>Add stylesheet</span></a>
+    <div class='palette fill-s'></div>
+  </div>
+  <div class='map fill-w' id='map'></div>
+  <div class='layers'>
+    <a class='add button'><span class='icon reverse plus'>Add layer</span></a>
+    <ul>
+    <% get('Layer').each(function(model) { %>
+      <li>
+        <span class='handle fill-w'>
+          <a title='<%= model.get('geometry') %>' class='icon geometry geometry-<%= model.get('geometry') %>'></a>
+        </span>
+        <label><%= model.id %></label>
+        <span class='actions fill-e'>
+          <% if (model.get('geometry') !== 'raster') { %>
+            <a title='Inspect layer values' class='icon inspect' href='#'>Inspect</a>
+          <% } %>
+          <a title='Edit layer' class='icon edit' href='#'>Edit</a>
+          <a title='Delete layer' class='icon delete' href='#'>Delete</a>
+        </span>
+      </li>
+    <% }); %>
+    </ul>
+  </div>
+</div>

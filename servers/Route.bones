@@ -13,7 +13,8 @@ servers['Route'].augment({
             require.resolve('wax/build/wax.mm.min.js'),
             require.resolve('JSV/lib/uri/uri.js'),
             require.resolve('JSV/lib/jsv.js'),
-            require.resolve('JSV/lib/json-schema-draft-03.js')
+            require.resolve('JSV/lib/json-schema-draft-03.js'),
+            require.resolve('../assets/js/mm.signed.js')
         ]
     },
     initializeAssets: function(parent, app) {

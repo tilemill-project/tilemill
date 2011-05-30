@@ -1,6 +1,8 @@
 <div class='projects'>
-  <form>
-    <h1><%= length %> projects</h1>
+  <form class='header'>
+    <div class='breadcrumb'>
+      <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
+    </div>
     <input class='text' type='text' />
     <input class='submit' type='submit' value='+ Add' />
   </form>
