@@ -1,14 +1,17 @@
 <div class='projects'>
-  <form class='header'>
+  <div class='bleed'><div class='header'>
     <div class='breadcrumb'>
       <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
     </div>
-    <input class='text' type='text' />
-    <input class='submit' type='submit' value='+ Add' />
-  </form>
+    <div class='actions'>
+      <form>
+      <input class='text' type='text' />
+      <input class='submit' type='submit' value='+ Add' />
+      </form>
+    </div>
+  </div></div>
   <ul>
-    <% _(models).each(function(model) { %>
-    <li>
+    <% _(models).each(function(model) { %><li>
       <a class='thumb' href='/#!/project/<%= model.id %>'>
         <span class='thumb-layer fill' style='background-image: url(<%= model.thumb() %>)'></span>
         <span class='thumb-name fill-s'>
@@ -16,8 +19,7 @@
           <span id='<%= model.id %>' class='icon delete'>Delete</span>
         </span>
       </a>
-    </li>
-    <% }); %>
+    </li><% }); %>
   </ul>
 </div>
 

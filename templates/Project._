@@ -1,33 +1,76 @@
 <div class='project'>
-  <div class='editor fill-e'>
-    <div class='header'>
-      <div class='breadcrumb'>
-        <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
-        <a href='/#!/project/<%= id %>'><%= id %></a>
-      </div>
-      <div class='actions'>
-        <a class='button' href='#save'>Save</a>
-        <span class='button dropdown' href='#export'>
-          <span class='icon reverse right dropdown'></span>
-          Export
-          <span class='menu'>
-            <a href='#png'>PNG</a>
-            <a href='#pdf'>PDF</a>
-            <a href='#mbtiles'>MBTiles</a>
-          </span>
-        </span>
-        <a class='button' href='#settings'>
-          <span class='icon reverse settings'>Settings</span>
-        </a>
-      </div>
+  <div class='bleed'><div class='header'>
+    <div class='breadcrumb'>
+      <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
+      <a href='/#!/project/<%= id %>'><%= id %></a>
     </div>
+    <div class='actions'>
+      <a class='button' href='#save'>Save</a>
+      <span class='button dropdown' href='#export'>
+        <span class='icon reverse right dropdown'></span>
+        Export
+        <span class='menu'>
+          <a href='#png'>PNG</a>
+          <a href='#pdf'>PDF</a>
+          <a href='#mbtiles'>MBTiles</a>
+        </span>
+      </span>
+      <a class='button' href='#settings'>
+        <span class='icon reverse settings'>Settings</span>
+      </a>
+    </div>
+  </div></div>
+  <div class='editor fill-e'>
     <div class='code fill-s'>
+      <div class='dummy'></div>
     <!--
     <% get('Stylesheet').each(function(model) { %>
       <textarea><%= model.get('data') %></textarea>
     <% }); %>
     -->
     </div>
+
+    <div class='palette clearfix'>
+      <div class='colors'>
+        <a class='button' href='#colorpicker'><span class='icon reverse color-picker'>Colorpicker</span></a>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+        <span class='swatch'><span class='color'></span></span>
+
+      </div>
+      <div class='ref'>
+        <a class='button' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>
+        <a class='button' href='#carto'><span class='icon reverse reference'>Carto</span></a>
+      </div>
+    </div>
+
     <ul class='tabs clearfix'>
     <% get('Stylesheet').each(function(model, index) { %>
       <li class='<%= !index ? 'active' : '' %>'>
@@ -36,7 +79,6 @@
     <% }); %>
     </ul>
     <a class='add button'><span class='icon reverse plus'>Add stylesheet</span></a>
-    <div class='palette fill-s'></div>
   </div>
   <div class='map fill-w' id='map'></div>
   <div class='layers'>
