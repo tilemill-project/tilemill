@@ -396,7 +396,7 @@ var DatasourceView = DrawerView.extend({
             for (var j = 0; j < object.fields.length; j++) {
                 var field = object.fields[j].name;
                 featureArray.push({
-                    value: feature[field] ? feature[field] : '',
+                    value: feature[field] != undefined ? feature[field] : '',
                     type: object.fields[j].type
                 });
             }
