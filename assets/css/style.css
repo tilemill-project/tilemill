@@ -9,6 +9,7 @@ textarea,
 body { font-family:Droid,'Lucida Grande',sans-serif; }
 
 body {
+  padding:50px 0px 0px;
   background:#f0f8fa;
   color:#222;
   }
@@ -46,16 +47,18 @@ a {
   text-decoration:none;
   }
 
+/**
+ * Header
+ */
 .bleed {
   position:fixed;
   left:0px;
   right:0px;
   top:0px;
-
-  position:relative;
+  z-index:1;
   height:32px;
   padding:9px 0px;
-  background:#ddeef4 url(../images/sprite.png) 0px -460px repeat-x;
+  background:#ddeef4 url(../images/sprite.png) 0px 0px repeat-x;
   }
 
 .header {
@@ -64,7 +67,7 @@ a {
   border:1px solid #b0dce8;
   border-radius:5px;
   margin:0px auto;
-  background:#fff url(../images/sprite.png) 0px -510px repeat-x;
+  background:#fff url(../images/sprite.png) 0px -50px repeat-x;
   box-shadow:inset rgba(0,0,0,.1) 0px 1px 2px;
   }
 
@@ -77,7 +80,7 @@ a {
   float:left;
   font-weight:bold;
   padding:5px 20px 5px 10px;
-  background:url(../images/sprite.png) 100% -540px no-repeat;
+  background:url(../images/sprite.png) 100% -80px no-repeat;
   height:20px;
   }
 
@@ -89,7 +92,7 @@ a {
   top:0px;
   width:30px;
   height:30px;
-  background:url(../images/sprite.png) 0px -110px no-repeat;
+  background:url(../images/sprite.png) 0px -150px no-repeat;
   }
 
 .header .actions {
@@ -295,19 +298,19 @@ li:hover .actions { display:block; }
 .map .zoomout:active { background-color:rgba(32,32,32,.9); }
 
 .map .zoomin {
-  background-position:0px -60px;
+  background-position:0px -240px;
   border-radius:5px 0px 0px 5px;
   right:90px;
   }
 
 .map .zoomout {
   border-left:1px solid #444;
-  background-position:-30px -60px;
+  background-position:-30px -240px;
   border-radius:0px 5px 5px 0px;
   right:60px;
   }
 
-.wax-fullscreen { background-position:-60px -60px; }
+.wax-fullscreen { background-position:-60px -240px; }
 
 .palette {
   position:relative;
@@ -330,7 +333,7 @@ li:hover .actions { display:block; }
   }
 
 .swatch {
-  background:url(../images/sprite.png) -20px -40px no-repeat;
+  background:url(../images/sprite.png) -20px -220px no-repeat;
   width:20px;
   height:20px;
   display:inline-block;
@@ -338,7 +341,7 @@ li:hover .actions { display:block; }
   }
 
 .swatch .color {
-  background:#fff url(../images/sprite.png) 0px -40px no-repeat;
+  background:#fff url(../images/sprite.png) 0px -220px no-repeat;
   display:block;
   width:20px;
   height:20px;
@@ -394,22 +397,13 @@ li:hover .actions { display:block; }
 /**
  * Icons
  */
-.file,
-.icon,
-.wax-tooltip .close {
+.icon {
   display:block;
   padding:0px;
   width:20px;
   height:20px;
   text-indent:-9999px;
   background:transparent url(../images/sprite.png) 20px 20px no-repeat;
-  }
-
-.file {
-  background-color:transparent;
-  background-position:-360px -180px;
-  width:40px;
-  height:40px;
   }
 
 a:hover .icon,
@@ -429,52 +423,52 @@ li:hover .icon { display:block; }
   margin:-1px -10px -1px 0px;
   }
 
-.icon.edit           { background-position:0px 0px; }
-.icon.inspect        { background-position:-20px 0px; }
-.icon.delete         { background-position:-60px 0px; }
-.icon.color-picker   { background-position:-40px 0px; }
-.icon.close          { background-position:-80px 0px; }
-.icon.fonts          { background-position:-100px 0px; }
-.icon.map-legend     { background-position:-280px 0px; }
-.icon.prev           { background-position:-140px 0px; }
-.icon.next           { background-position:-160px 0px; }
-.icon.add            { background-position:-180px 0px; }
-.icon.plus           { background-position:-180px 0px; }
-.icon.export         { background-position:-320px 0px; }
-.icon.reference      { background-position:-320px 0px;}
-.icon.dropdown       { background-position:-300px 0px; }
-.icon.settings       { background-position:-260px 0px; }
-.icon.assets         { background-position:-340px 0px;}
-.icon.minus          { background-position:-380px 0px; }
-.icon.geometry-linestring { background-position:-200px 0px; }
-.icon.geometry-point      { background-position:-220px 0px; }
-.icon.geometry-polygon    { background-position:-240px 0px; }
-.icon.geometry-raster     { background-position:-360px 0px; }
+.icon.edit           { background-position:0px -180px; }
+.icon.inspect        { background-position:-20px -180px; }
+.icon.delete         { background-position:-60px -180px; }
+.icon.color-picker   { background-position:-40px -180px; }
+.icon.close          { background-position:-80px -180px; }
+.icon.fonts          { background-position:-100px -180px; }
+.icon.map-legend     { background-position:-280px -180px; }
+.icon.prev           { background-position:-140px -180px; }
+.icon.next           { background-position:-160px -180px; }
+.icon.add            { background-position:-180px -180px; }
+.icon.plus           { background-position:-180px -180px; }
+.icon.export         { background-position:-320px -180px; }
+.icon.reference      { background-position:-320px -180px;}
+.icon.dropdown       { background-position:-300px -180px; }
+.icon.settings       { background-position:-260px -180px; }
+.icon.assets         { background-position:-340px -180px;}
+.icon.minus          { background-position:-380px -180px; }
+.icon.geometry-linestring { background-position:-200px -180px; }
+.icon.geometry-point      { background-position:-220px -180px; }
+.icon.geometry-polygon    { background-position:-240px -180px; }
+.icon.geometry-raster     { background-position:-360px -180px; }
 
 .reverse { background-color:#888; }
 .reverse:hover { background-color:#666; }
 .reverse:active { background-color:#444; }
-.reverse.edit           { background-position:0px -20px; }
-.reverse.inspect        { background-position:-20px -20px; }
-.reverse.delete         { background-position:-60px -20px; }
-.reverse.color-picker   { background-position:-40px -20px; }
-.reverse.close          { background-position:-80px -20px; }
-.reverse.fonts          { background-position:-100px -20px; }
-.reverse.map-legend     { background-position:-280px -20px; }
-.reverse.prev           { background-position:-140px -20px; }
-.reverse.next           { background-position:-160px -20px; }
-.reverse.add            { background-position:-180px -20px; }
-.reverse.plus           { background-position:-180px -20px; }
-.reverse.export         { background-position:-320px -20px; }
-.reverse.reference      { background-position: -320px -20px;}
-.reverse.dropdown       { background-position:-300px -20px; }
-.reverse.settings       { background-position:-260px -20px; }
-.reverse.assets         { background-position:-340px -20px;}
-.reverse.minus          { background-position:-380px -20px; }
-.reverse.geometry-linestring { background-position:-200px -20px; }
-.reverse.geometry-point      { background-position:-220px -20px; }
-.reverse.geometry-polygon    { background-position:-240px -20px; }
-.reverse.geometry-raster     { background-position:-360px -20px; }
+.reverse.edit           { background-position:0px -200px; }
+.reverse.inspect        { background-position:-20px -200px; }
+.reverse.delete         { background-position:-60px -200px; }
+.reverse.color-picker   { background-position:-40px -200px; }
+.reverse.close          { background-position:-80px -200px; }
+.reverse.fonts          { background-position:-100px -200px; }
+.reverse.map-legend     { background-position:-280px -200px; }
+.reverse.prev           { background-position:-140px -200px; }
+.reverse.next           { background-position:-160px -200px; }
+.reverse.add            { background-position:-180px -200px; }
+.reverse.plus           { background-position:-180px -200px; }
+.reverse.export         { background-position:-320px -200px; }
+.reverse.reference      { background-position: -320px -200px;}
+.reverse.dropdown       { background-position:-300px -200px; }
+.reverse.settings       { background-position:-260px -200px; }
+.reverse.assets         { background-position:-340px -200px;}
+.reverse.minus          { background-position:-380px -200px; }
+.reverse.geometry-linestring { background-position:-200px -200px; }
+.reverse.geometry-point      { background-position:-220px -200px; }
+.reverse.geometry-polygon    { background-position:-240px -200px; }
+.reverse.geometry-raster     { background-position:-360px -200px; }
 
 /**
  * Form elements
@@ -509,7 +503,7 @@ input.submit {
   height:20px;
   cursor:pointer;
   padding:0px 10px;
-  background:#74bccc url(../images/sprite.png) 0px -440px no-repeat;
+  background:#74bccc url(../images/sprite.png) 0px -130px no-repeat;
   color:#fff;
   border-radius:3px;
   box-sizing:border-box;
@@ -524,68 +518,7 @@ input.submit:hover { background-color:#8cd; }
 input.submit:active {
   background-color:#888;
   border-color:#666;
-  background-position:0px -420px;
+  background-position:0px -110px;
   box-shadow:inset #999 0px -1px 0px;
-  }
-
-form { position:relative; }
-form label { font-weight:bold; }
-form .description { font-size:11px; }
-form .required { color: #f30; }
-
-ul.form > li {
-  position:relative;
-  padding:10px 10px 9px 150px;
-  border-bottom:1px solid #ddd;
-  }
-
-ul.form > li > label {
-  display:block;
-  position:absolute;
-  left:0px;
-  top:0px;
-  bottom:0px;
-
-  border-right:1px solid #eee;
-  padding:10px 9px 9px 10px;
-  background:#f4f4f4;
-  width:120px;
-  text-align:right;
-  }
-
-ul.form > li input.text,
-ul.form > li textarea { width:100%; }
-ul.form > li input.inline {
-  width:auto;
-  margin-right:10px;
-  }
-
-ul.form ul.form > li {
-  padding:9px 10px 10px;
-  margin:0px -10px;
-  border-top:1px solid #ddd;
-  border-bottom:0px;
-  }
-
-ul.form ul.form > li > label {
-  left:-140px;
-  border:0px;
-  background:transparent;
-  }
-
-ul.form label.inline {
-  display:inline-block;
-  position:static;
-  text-align:left;
-  width:70px;
-  border:0px;
-  padding:0px;
-  background:transparent;
-  }
-
-.buttons {
-  text-align:right;
-  border:0px;
-  padding:10px;
   }
 
