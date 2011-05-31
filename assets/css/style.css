@@ -507,9 +507,8 @@ input.submit {
   color:#fff;
   border-radius:3px;
   box-sizing:border-box;
+  display:inline-block;
   }
-
-.button { display:inline-block; }
 
 .button:hover,
 input.submit:hover { background-color:#8cd; }
