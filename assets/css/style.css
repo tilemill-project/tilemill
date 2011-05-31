@@ -104,16 +104,21 @@ a {
 
 .header .actions > * {
   float:left;
-  margin-right:2px;
+  border-radius:0px;
+  border-right-width:0px;
+  }
+
+.header .actions > *:first-child { border-radius:3px 0px 0px 3px; }
+
+.header .actions > *:last-child {
+  border-right-width:1px;
+  border-radius:0px 3px 3px 0px;
   }
 
 .button.dropdown {
   width:80px;
   position:relative;
   }
-
-.button.dropdown:active,
-.button.dropdown.active { border-radius:3px 3px 0px 0px; }
 
 .dropdown .menu {
   display:none;
