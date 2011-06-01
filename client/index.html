@@ -571,6 +571,7 @@
     <script type='text/html' id='ReferenceView'>
       <ul class='reference-links clearfix'>
         <li><a class='active' href='#reference-section-intro'>intro</a></li>
+        <li><a href='#reference-section-functions'>color functions</a></li>
         {{#symbolizers}}
           <li><a href='#reference-section-{{symbolizer}}'>{{symbolizer}}</a></li>
         {{/symbolizers}}
@@ -693,6 +694,34 @@ Map {
   polygon-fill: @green + #222;
   line-color: darken(red, 10%);
 }</pre>
+
+      </div>
+
+      <div class='reference-section' id='reference-section-functions'>
+
+        <h2>Color Functions</h2>
+
+        <p>Carto supports a number of color functions for easily creating color variants from a base color. The functions can be applied to named, hexadecimal, rbg, or rgba color values, but the real power comes from assigning a color to a variable and applying to function to the variable.</p>
+
+        <p>To lighten or darken a color by a certain percentage:</p>
+
+<pre class='carto-snippet'>lighten(@color, 10%);
+darken(@color, 10%);</pre>
+
+        <p>To increase or decrease the saturation (color intensity) of a color a certain percentage:</p>
+
+<pre class='carto-snippet'>saturate(@color, 10%);
+desaturate(@color, 10%);</pre>
+
+        <p>To change the opacity of a color a certain percentage:</p>
+
+<pre class='carto-snippet'>fadein(@color, 10%);
+fadeout(@color, 10%);</pre>
+
+        <p>To rotate the hue of the color around the spectrum a number of degrees:</p>
+
+<pre class='carto-snippet'>spin(@color, 10);
+spin(@color, -10);</pre>
 
       </div>
 
