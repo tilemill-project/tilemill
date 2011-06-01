@@ -61,6 +61,7 @@ var ColorSwatch = Backbone.Model.extend({
     initialize: function(params) {
         var rgb = this.unpack(params.color);
         this.set({
+            alias: params.alias,
             color: this.pack(rgb),
             hsl: this.RGBToHSL(rgb)
         });
@@ -140,36 +141,41 @@ var ColorSwatchList = Backbone.Collection.extend({
         this.project.bind('save', this.reload);
     },
     reload: function() {
-        // Find all color-like strings in all of the stylesheets
-        // available from this project.
-        var matches = this.project.get('Stylesheet').pluck('data')
-            .join('\n').match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || [];
+       var colors  = {},
+           // Find all color-like strings, including aliased colors, in all of the stylesheets
+           // available from this project.
+           matches = this.project.get('Stylesheet').pluck('data')
+            .join('\n').match(/((@[a-zA-Z0-9]+):)?\s*(\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\)))/g) || [];
+               
+      _.each(matches, function(match) { 
+          match = $.trim(match)
+          if (match.indexOf(':') != -1) {
+              var data = match.split(':')
+              colors[$.trim(data[0])] = $.trim(data[1]);
+          } else {  colors[match] = match; }
+       });
+       
+       var colorMap = {};
+       this.each(function(swatch) { 
+           colorMap[swatch.get('color')] = swatch; 
+       });
+               
+       // Get list of models to remove.        
+       _.each(this.pluck('color').concat(_.values(matches)), function(color) {
+           if(colorMap[color] != null) 
+            this.remove(colorMap[color]) 
+       }, this);
 
-        // Eliminate obvious duplicate colors.
-        matches = _.uniq(matches);
-
-        var colorMap = {};
-        this.each(function(swatch) { colorMap[swatch.get('color')] = swatch; });
-
-        // Get list of models to remove.
-        var remove = _.without.apply(this, [this.pluck('color')].concat(matches));
-        var that = this;
-        _.each(remove, function(color) {
-            that.remove(colorMap[color]);
-        });
-
-        // Add all of the matches that aren't already in this
-        // collection to this collection, making sure that there aren't
-        // any differently-formatted (#f00 vs #FF0000) duplicates
-        for (var i = 0; i < matches.length; i++) {
-            if (!this.find(function(color) {
-                return color.eq(matches[i]);
-            })) {
-                this.add(new ColorSwatch({ color: matches[i] }));
-            }
-        }
-        // Trigger the deferred add event
-        this.trigger('add');
+       // Add all of the matches that aren't already in this
+       // collection to this collection, making sure that there aren't
+       // any differently-formatted (#f00 vs #FF0000) duplicates
+       _.each(colors, function(v, k) {
+           if (!this.find(function(color) { return color.eq(v) }))
+            this.add(new ColorSwatch({ color: v, alias: k}))
+       }, this);
+       
+       // Trigger the deferred add event
+       this.trigger('add');
     },
     // Sort swatches by lightness.
     comparator: function(swatch) {
@@ -278,19 +284,21 @@ var ColorSwatchView = Backbone.View.extend({
         this.render();
     },
     render: function() {
-       $(this.el).html(ich.ColorSwatchView({ color: this.model.get('color') }));
-       return this;
+        $(this.el).html(ich.ColorSwatchView({ color: this.model.get('color'), alias: this.model.get('alias') }));
+        return this;
     },
     insertColor: function() {
         if (window.app.settings.get('mode') === 'minimal') return false;
 
         var mirror = this.project.view.stylesheets.activeTab.codemirror,
-            pos = mirror.getCursor();
-            color = this.model.get('color');
-        if (mirror.getLine(pos.line).charAt(pos.ch - 1) === '#' && color[0] === '#') {
-            mirror.replaceSelection(color.slice(1));
+            pos    = mirror.getCursor();
+            color  = this.model.get('alias'),
+            cstart = mirror.getLine(pos.line).charAt(pos.ch - 1);
+        
+        if ((cstart === '#' && color[0] === '#') || (cstart === '@' && color[0] === '@')) {
+          mirror.replaceSelection(color.slice(1));
         } else {
-            mirror.replaceSelection(color);
+          mirror.replaceSelection(color);
         }
         $(mirror).focus();
         return false;
