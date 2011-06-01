@@ -145,7 +145,7 @@ var ColorSwatchList = Backbone.Collection.extend({
            // Find all color-like strings, including aliased colors, in all of the stylesheets
            // available from this project.
            matches = this.project.get('Stylesheet').pluck('data')
-            .join('\n').match(/((@[a-zA-Z0-9]+):)?\s*(\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\)))/g) || [];
+            .join('\n').match(/((@[a-zA-Z0-9_-]+):)?\s*(\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\)))/g) || [];
                
       _.each(matches, function(match) { 
           match = $.trim(match)
