@@ -1365,13 +1365,36 @@ table th {
   }
 
 table th.header { cursor:pointer; }
+table.features { border-bottom: 2px solid #ccc; }
+table.features th {
+  border-bottom: 1px solid #e1e1e1;
+  padding: 0 10px;
+  background: #fff -webkit-gradient(linear, left top, left bottom, from(rgba(250,250,250, 1)), to(rgba(240,240,240,1)));
+  background: #fff -moz-linear-gradient(top, rgba(200,200,200,1), rgba(250,250,250, 1));
+}
+
+table.features td.Number {
+  color: #281;
+}
 
 table.features td,
 table.features th {
-  padding:0px 10px;
   border-right:1px solid #ddd;
   font-size:11px;
-  }
+  white-space: nowrap;
+  max-width: 150px;
+  text-overflow: ellipsis;
+}
+
+table.features td {
+  border-bottom: 1px solid #eee;
+  padding:5px 10px;
+}
+
+table.features tr td:last-child,
+table.features tr th:last-child {
+  border-right: none;
+}
 
 table.features .Number { text-align:right; }
 
