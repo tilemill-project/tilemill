@@ -171,7 +171,7 @@ Stylesheets can be re-ordered by clicking and dragging their tabs within the tab
 
 # Adding layers
 
-Layers are how sets of data are added to a map in TileMill. Each  layer references a single shapefile, geoJSON file, KML file, geoTIFF, or (soon) PostGIS database query. Multiple layers are combined over top of each other to create the final map - if you are familiar with layers in Photoshop or other graphics software the concept is very similar. TileMill currently supports creating maps with four data formats.
+Layers are how sets of data are added to a map in TileMill. Each  layer references a single shapefile, geoJSON file, KML file, geoTIFF, or PostGIS database query. Multiple layers are combined over top of each other to create the final map - if you are familiar with layers in Photoshop or other graphics software the concept is very similar. TileMill currently supports creating maps with four data formats.
 
 ### ESRI Shapefile
 Usually referred to simply as ‘shapefile’, this is de facto standard file format for portable GIS data storage and is supported by most GIS software applications. The tricky part is that a single 'shapefile' is actually a collection of at least three files (possibly more). The required components are:
@@ -203,6 +203,10 @@ Since Mapnik is currently unable to reproject raster data sources, to load them 
       +wktext +no_defs" -r cubic \
       -te -20037508.34 -20037508.34 20037508.34 20037508.34 \
       input_file.tif output_file.tif
+
+### PostGIS
+
+[PostGIS](http://postgis.refractions.net/) is an extension for PostgreSQL that allows you to store geographical objects in a database. It provides special functions and indexes for querying and manipulating spatial data and can be used as a powerful storage/analysis tool. From TileMill you can connect to a PostGIS supported database and run queries from the application directly. See the PostGIS tab from the Add layer console.
 
 <!-- TODO: explain the options -->
 
@@ -307,14 +311,16 @@ Using combinations of different dasharrays and/or pattern images, a wide variety
 
 ### Global
 
-1. [Cloudmade OpenStreetMap Downloads](http://downloads.cloudmade.com/)
-2. [GADM Global Administrative Areas](http://gadm.org/)
-3. [Natural Earth](http://www.naturalearthdata.com/) (much of this data is included in TileMill)
-4. [SRTM Digital Elevation from CGIAR](http://srtm.csi.cgiar.org/)
+- [Cloudmade OpenStreetMap Downloads](http://downloads.cloudmade.com/)
+- [GADM Global Administrative Areas](http://gadm.org/)
+- [Natural Earth](http://www.naturalearthdata.com/) (much of this data is included in TileMill)
+- [SRTM Digital Elevation from CGIAR](http://srtm.csi.cgiar.org/)
 
 ### National
-1. [US Census Bureau TIGER/Line Shapefiles](http://www.census.gov/geo/www/tiger/tgrshp2009/tgrshp2009.html)
-2. [Natural Resources Canada GeoGratis](http://www.geogratis.cgdi.gc.ca/)
+- [US Census Bureau TIGER/Line Shapefiles](http://www.census.gov/geo/www/tiger/tgrshp2009/tgrshp2009.html)
+- [US National Weather Service GeoData](http://www.nws.noaa.gov/geodata/)
+- [Natural Resources Canada GeoGratis](http://www.geogratis.cgdi.gc.ca/)
+- [Government of Canada Open Data Portal](http://www.data.gc.ca/default.asp?lang=En)
 
 ### Regional & Local
 
