@@ -1,5 +1,5 @@
 //
-//  PFMoveApplication.m, version 1.6
+//  PFMoveApplication.m, version 1.6.1
 //  LetsMove
 //
 //  Created by Andy Kim at Potion Factory LLC on 9/17/09
@@ -169,7 +169,7 @@ void PFMoveToApplicationsFolderIfNecessary() {
 					// Give the running app focus and terminate myself
 					NSLog(@"INFO -- Switching to an already running version");
 					[[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open" arguments:[NSArray arrayWithObject:destinationPath]] waitUntilExit];
-					[NSApp terminate:nil];
+					exit(0);
 				}
 				else {
 					if (!Trash([applicationsDirectory stringByAppendingPathComponent:bundleName]))
@@ -223,7 +223,7 @@ void PFMoveToApplicationsFolderIfNecessary() {
 			[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", script, nil]];
 		}
 
-		[NSApp terminate:nil];
+		exit(0);
 	}
 	else {
 		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
