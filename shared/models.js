@@ -505,9 +505,9 @@ var Project = Backbone.Model.extend({
         var full = this.get('_interactivity').template_full || '';
         var teaser = this.get('_interactivity').template_teaser || '';
         var location = this.get('_interactivity').template_location || '';
-        full = full.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
-        teaser = teaser.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
-        location = location.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
+        full = full.replace(/\'/g, '\\\'').replace(/\[([\w\d\s]+)\]/g, "' + data[\"$1\"] + '").replace(/\n/g, ' ');
+        teaser = teaser.replace(/\'/g, '\\\'').replace(/\[([\w\d\s]+)\]/g, "' + data[\"$1\"] + '").replace(/\n/g, ' ');
+        location = location.replace(/\'/g, '\\\'').replace(/\[([\w\d\s]+)\]/g, "' + data[\"$1\"] + '").replace(/\n/g, ' ');
         return "function(options, data) { "
             + "  switch (options.format) {"
             + "    case 'full': "
@@ -531,8 +531,8 @@ var Project = Backbone.Model.extend({
         var full = this.get('_interactivity').template_full || '';
         var teaser = this.get('_interactivity').template_teaser || '';
         fields = fields
-            .concat(full.match(/\[([\w\d]+)\]/g))
-            .concat(teaser.match(/\[([\w\d]+)\]/g));
+            .concat(full.match(/\[([\w\d\s]+)\]/g))
+            .concat(teaser.match(/\[([\w\d\s]+)\]/g));
         fields = _(fields).chain()
             .filter(_.isString)
             .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
