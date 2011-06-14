@@ -45,7 +45,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
       state.tokenize = tokenCComment;
       return tokenCComment(stream, state);
     } else if (ch == '/' && stream.eat('/')) {
-      while (stream.next() !== null)
+      while (stream.next() !== undefined)
       return ret("carto-comment", "comment");
     } else if (ch == '=') {
       ret(null, 'compare');
@@ -74,7 +74,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
 
   function tokenCComment(stream, state) {
     var maybeEnd = false, ch;
-    while ((ch = stream.next()) !== null) {
+    while ((ch = stream.next()) !== undefined) {
       if (maybeEnd && ch == '/') {
         state.tokenize = tokenBase;
         break;
@@ -128,9 +128,9 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
       if (type == '{') {
         state.stack.push('{');
       } else if (type == '}') {
-          state.stack.pop();
+        state.stack.pop();
       } else if (context == '{' && type != 'comment') {
-          state.stack.push('rule');
+        state.stack.push('rule');
       }
 
       return style;
