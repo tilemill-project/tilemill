@@ -34,7 +34,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
     return ids;
   })(parserConfig.reference);
 
-  function ret(style, tp) {type = tp; return style;}
+  function ret(style, tp) { type = tp; return style; }
 
   function tokenBase(stream, state) {
     var ch = stream.next();
@@ -45,7 +45,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
       state.tokenize = tokenCComment;
       return tokenCComment(stream, state);
     } else if (ch == '/' && stream.eat('/')) {
-      while (stream.next() != null);
+      while (stream.next() !== null)
       return ret("carto-comment", "comment");
     } else if (ch == '=') {
       ret(null, 'compare');
@@ -74,7 +74,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
 
   function tokenCComment(stream, state) {
     var maybeEnd = false, ch;
-    while ((ch = stream.next()) != null) {
+    while ((ch = stream.next()) !== null) {
       if (maybeEnd && ch == '/') {
         state.tokenize = tokenBase;
         break;
@@ -87,7 +87,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
   function tokenString(quote) {
     return function(stream, state) {
       var escaped = false, ch;
-      while ((ch = stream.next()) != null) {
+      while ((ch = stream.next()) !== null) {
         if (ch == quote && !escaped)
           break;
         escaped = !escaped && ch == '\\';
@@ -116,20 +116,23 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
           style = (valid_keywords[stream.current()] || valid_colors[stream.current()]) ?
             'carto-valid-value' :
             'carto-value';
-        } else if (!context || context == '@media{') {
+        } else if (!context) {
           style = 'carto-selector';
         }
       }
 
-      if (context == 'rule' && /^[\{\};]$/.test(type))
+      if (context == 'rule' && /^[\{\};]$/.test(type)) {
         state.stack.pop();
-      if (type == '{') {
-        if (context == '@media') state.stack[state.stack.length - 1] = '@media{';
-        else state.stack.push('{');
       }
-      else if (type == '}') state.stack.pop();
-      else if (type == '@media') state.stack.push('@media');
-      else if (context != 'rule' && context != '@media' && type != 'comment') state.stack.push('rule');
+
+      if (type == '{') {
+        state.stack.push('{');
+      } else if (type == '}') {
+          state.stack.pop();
+      } else if (context == '{' && type != 'comment') {
+          state.stack.push('rule');
+      }
+
       return style;
     },
 
