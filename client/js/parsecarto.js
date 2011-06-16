@@ -87,7 +87,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
   function tokenString(quote) {
     return function(stream, state) {
       var escaped = false, ch;
-      while ((ch = stream.next()) !== null) {
+      while ((ch = stream.next()) !== undefined) {
         if (ch == quote && !escaped)
           break;
         escaped = !escaped && ch == '\\';
