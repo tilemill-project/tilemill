@@ -128,7 +128,8 @@ FormatMBTiles.prototype.render = function(callback) {
             type: that.data.metadata_type,
             description: that.data.metadata_description,
             version: that.data.metadata_version,
-            formatter: that.data.metadata_formatter
+            formatter: that.data.metadata_formatter,
+            legend: that.data.metadata_legend
         }
     });
 

@@ -334,7 +334,8 @@ var ExportMBTilesView = ExportView.extend({
             metadata_description: '',
             metadata_version: '1.0.0',
             metadata_type: 'baselayer',
-            metadata_formatter: this.options.project.formatterJS()
+            metadata_formatter: this.options.project.formatterJS(),
+            metadata_legend: this.options.project.get('_legend')
         });
     },
     render: function() {
