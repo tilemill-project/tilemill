@@ -1,6 +1,18 @@
+0.3.3
+-----
+- Limits for faster PostGIS layer saving
+- Documentation adjustments
+- Fix bug with zero values
+- Documentation for color functions
+- Visual improvements to feature table
+- Fixes to carto parsing in code window
+- Add support for exporting legends to MBTiles
+
+
 0.3.2
 -----
 - Fix broken references to PostGIS user field.
+
 
 0.3.1
 -----
