@@ -39,6 +39,7 @@ var MapView = Backbone.View.extend({
             new com.modestmaps.Location(center.lat, center.lon),
             center.zoom);
         this.map.addCallback('zoomed', this.controlZoom);
+        this.map.addCallback('extentset', this.controlZoom);
         this.map.addCallback('panned', this.controlZoom);
         this.controlZoom({element: this.map.div});
     },
