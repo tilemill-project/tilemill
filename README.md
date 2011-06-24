@@ -103,9 +103,14 @@ Install `mapnik` from source:
     python scons/scons.py
     sudo python scons/scons.py install
 
-Download and unpack TileMill. Build & install:
+[Download TileMill](https://github.com/mapbox/tilemill/downloads) and unpack the archive.
 
-    cd TileMill
+Open Terminal and change to unpacked directory:
+
+    cd mapbox-tilemill
+
+Build & install:
+
     ./ndistro
 
 Start TileMill:
