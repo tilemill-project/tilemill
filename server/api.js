@@ -65,6 +65,7 @@ module.exports = function(app, settings) {
         } else {
             // File based datasources need to be downloaded through External().
             var url = req.query.url;
+            var encoding = req.query.encoding;
             var external = new External(settings, url);
             external.on('err', function(err) {
                 return next('Datasource could not be loaded. Error: ' + err.message);
@@ -76,7 +77,8 @@ module.exports = function(app, settings) {
                     }
                     try {
                         var ds = new mapnik.Datasource(_.extend({
-                            file: file
+                            file: file,
+                            encoding: encoding || 'utf-8'
                         }, external.type.ds_options));
                     } catch (e) {
                         return next('Datasource could not be loaded.');

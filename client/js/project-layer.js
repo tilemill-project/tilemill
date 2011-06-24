@@ -109,7 +109,8 @@ var LayerRowView = Backbone.View.extend({
         } else {
             var datasource = new FileDatasource({
                 id: this.model.id,
-                url: this.model.get('Datasource').file
+                url: this.model.get('Datasource').file,
+                encoding: this.model.get('Datasource').encoding
             });
         }
         new DatasourceView({
@@ -142,7 +143,7 @@ var LayerPopupView = PopupView.extend({
     initialize: function(options) {
         _.bindAll(this, 'submit', 'assets', 'selectSRS');
         this.model = this.options.model;
-        this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
+this.options.title = this.options.add ? 'Add layer' : 'Edit layer';
         var type = this.model.get('Datasource')
             && this.model.get('Datasource').type == 'postgis' ? 'postgis' : 'file';
         var tabs = [];
@@ -183,6 +184,9 @@ var FileLayerForm = Backbone.View.extend({
         object['datasource_file'] = this.model.get('Datasource')
             ? this.model.get('Datasource').file
             : '';
+        object['encoding'] = this.model.get('Datasource')
+            ? this.model.get('Datasource').encoding
+            : '';
         object['srs'] = this.model.get('srs');
         object['srs_name_' + this.model.srsName()] = true;
         $(this.el).html(ich.FileLayerForm(object, true));
@@ -206,7 +210,8 @@ var FileLayerForm = Backbone.View.extend({
                             'srs': $('input#srs', that.el).val(),
                             'class': $('input#class', that.el).val(),
                             'Datasource': {
-                                'file': $('input#file', that.el).val()
+                                'file': $('input#file', that.el).val(),
+                                'encoding': $('input#encoding', that.el).val()
                             }
                         },
                         {

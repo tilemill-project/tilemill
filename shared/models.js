@@ -126,6 +126,9 @@ var FileDatasource = Datasource.extend({
             'ds_type': {
                 'type': 'string'
             },
+            'encoding': {
+                'type': 'string'
+            },
             'geometry_type': {
                 'type': 'string',
                 'enum': ['polygon', 'point', 'linestring', 'raster', 'unknown']
