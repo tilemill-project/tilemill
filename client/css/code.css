@@ -7,17 +7,23 @@ div.CodeMirror {
   font:13px/20px monospace;
   }
 
-span.carto-variable           { color:#708; }
-span.carto-color-variable     { color:#B60049; }
-span.carto-unit               { color:#281; }
-span.carto-value              { color:#708; }
-span.carto-valid-value        { color:#B60049; }
-span.carto-selector           { color:#b64f90; }
-span.carto-identifier         { color:#999; }
-span.carto-valid-identifier   { color:#333; }
-span.carto-important          { color:#03c; }
-span.carto-colorcode          { color:#048; }
-span.carto-punctuation        { color:#666; }
-span.carto-comment            { color:#999; }
-span.carto-string             { color:#8010a0; }
-span.carto-filter             { color:#66475B; }
+
+div.CodeMirror-scroll {
+  overflow: auto;
+  height: 100%;
+}
+
+span.cm-carto-variable           { color:#708; }
+span.cm-carto-color-variable     { color:#B60049; }
+span.cm-carto-unit               { color:#281; }
+span.cm-carto-value              { color:#708; }
+span.cm-carto-valid-value        { color:#B60049; }
+span.cm-carto-selector           { color:#b64f90; }
+span.cm-carto-identifier         { color:#999; }
+span.cm-carto-valid-identifier   { color:#333; }
+span.cm-carto-important          { color:#03c; }
+span.cm-carto-colorcode          { color:#048; }
+span.cm-carto-punctuation        { color:#666; }
+span.cm-carto-comment            { color:#999; }
+span.cm-carto-string             { color:#8010a0; }
+span.cm-carto-filter             { color:#66475B; }
