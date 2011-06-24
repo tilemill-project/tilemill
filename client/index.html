@@ -57,7 +57,7 @@
 
         'JSON-js/json2.js',
         'js-base64/base64.js',
-        'CodeMirror/js/codemirror.js',
+        'CodeMirror/lib/codemirror.js',
         'ICanHaz.js/ICanHaz.min.js',
         'tipsy/src/javascripts/jquery.tipsy.js',
 
@@ -461,6 +461,10 @@
             <input type='text' class='text' id='file' value='{{datasource_file}}' />
             <a href='#' class='icon reverse assets' title='See available assets'>[+]</a>
             <div class='container assets hidden'></div>
+          </li>
+          <li>
+            <label for='encoding'>Encoding</label>
+            <input type='text' class='text' id='encoding' value='{{encoding}}'/>
           </li>
           <li>
             <label for='srs-name'>SRS</label>
