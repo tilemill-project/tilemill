@@ -190,7 +190,7 @@ install_node() {
       cd $SRC/node-$version && \
       log "building node-$version"
       $GET $url | tar -xz --strip 1 && \
-      ./configure --prefix=$ROOT 1> /dev/null 2> /dev/null && \
+      ./configure --prefix=$ROOT && \
       make && \
       make install 1> /dev/null && \
       cd $ROOT
