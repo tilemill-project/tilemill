@@ -62,7 +62,7 @@ Start TileMill:
 
     ./tilemill.js
 
-TileMill should now be accessible from a browser at `http://localhost:8889`.
+TileMill should now be accessible from a browser at [http://localhost:8889](http://localhost:8889).
 
 
 Installation: Ubuntu 10.10
@@ -117,7 +117,7 @@ Start TileMill:
 
     ./tilemill.js
 
-TileMill should now be accessible from a browser at `http://localhost:8889`.
+TileMill should now be accessible from a browser at [http://localhost:8889](http://localhost:8889).
 
 
 Upgrading
