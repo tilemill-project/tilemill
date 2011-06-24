@@ -4,6 +4,7 @@ var _ = require('underscore'),
     models = require('models'),
     cache = require('models-cache'),
     Step = require('step'),
+    querystring = require('querystring'),
     reference = require('carto').tree.Reference.data;
     External = require('carto').External;
 
@@ -202,7 +203,7 @@ module.exports = function(app, settings) {
                 if (model.get('type') === 'directory') {
                     // @TODO: make path secure!
                     res.sendfile(
-                        path.join(model.get('directory_path'), req.params[0]),
+                        path.join(model.get('directory_path'), querystring.unescape(req.params[0])),
                         function(err, path) {
                             return err && next(err);
                         }
