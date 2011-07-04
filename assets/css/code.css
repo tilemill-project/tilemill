@@ -1,8 +1,8 @@
 div.CodeMirror {
   height:100%;
-  background:transparent;
-  color:#333;
-  padding:0;
+  background:#fff;
+  color:#222;
+  padding:0px;
   margin:0px;
   font:13px/20px monospace;
   }

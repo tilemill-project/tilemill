@@ -43,9 +43,9 @@
 
     <ul class='tabs clearfix'>
     <% get('Stylesheet').each(function(model, index) { %>
-      <li class='<%= !index ? 'active' : '' %>'>
-        <label><%= model.id %></label>
-      </li>
+      <li><a class='<%= !index ? 'active' : '' %>' href='#<%= model.id %>'>
+        <%= model.id %>
+      </a></li>
     <% }); %>
     </ul>
     <a class='add button'><span class='icon reverse plus'>Add stylesheet</span></a>

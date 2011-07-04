@@ -326,10 +326,11 @@ li:hover .actions { display:block; }
   height:30px;
   }
 
-.tabs li {
-  font-weight:bold;
-  float:left;
+.tabs li { float:left; }
 
+.tabs li a {
+  position:relative;
+  float:left;
   border:1px solid #ccc;
   border-bottom:0px;
   border-radius:3px 3px 0px 0px;
@@ -341,7 +342,7 @@ li:hover .actions { display:block; }
   color:#888;
   }
 
-.tabs li.active {
+.tabs li a.active {
   background:#fff;
   color:#222;
   z-index:1;
@@ -371,8 +372,12 @@ li:hover .actions { display:block; }
   height:auto!important;
   }
 
-.CodeMirror { display:none; }
-.CodeMirror.active { display:block; }
+.CodeMirror {
+  background:#fff;
+  z-index:-1;
+  }
+
+.CodeMirror.active { z-index:1; }
 
 /**
  * Icons

@@ -1,11 +1,12 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'click a.map-legend': 'mapLegend'
+    'click a.map-legend': 'mapLegend',
+    'click .tabs a': 'codeTab'
 };
 
 view.prototype.initialize = function() {
-    _(this).bindAll('render', 'reload', 'mapZoom');
+    _(this).bindAll('render', 'reload', 'mapZoom', 'codeTab');
     this.render();
 };
 
@@ -63,6 +64,15 @@ view.prototype.render = function() {
     }).bind(this)();
 
     return this;
+};
+
+view.prototype.codeTab = function(e) {
+    var id = $(e.currentTarget).attr('href').split('#').pop();
+    var model = this.model.get('Stylesheet').get(id);
+    $(model.codemirror.getWrapperElement()).addClass('active').siblings().removeClass('active');
+    this.$('.tabs li a').removeClass('active');
+    $(e.currentTarget).addClass('active');
+    return false;
 };
 
 view.prototype.mapZoom = function(e) {
