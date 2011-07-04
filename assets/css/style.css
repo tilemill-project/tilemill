@@ -58,13 +58,13 @@ a {
   z-index:1;
   height:32px;
   padding:9px 0px;
-  background:#ddeef4 url(../images/sprite.png) 0px 0px repeat-x;
+  background:#aaa url(../images/sprite.png) 0px 0px repeat-x;
   }
 
 .header {
   width:600px;
   height:30px;
-  border:1px solid #b0dce8;
+  border:1px solid #888;
   border-radius:5px;
   margin:0px auto;
   background:#fff url(../images/sprite.png) 0px -50px repeat-x;
@@ -229,27 +229,23 @@ a {
   transition:left: .25s;
   -moz-transition:left .25s;
   -webkit-transition:left .25s;
-  }
-
-.project .wax-fullscreen-map + .layers { left:-400px; }
-
-.project .layers .button {
-  float:left;
-  clear:left;
-  margin:10px;
-  }
-
-.project .layers li {
-  float:left;
-  clear:left;
-  padding:3px 20px 3px;
-  margin:0px 0px 2px;
-  font-weight:bold;
   border:1px solid #ccc;
   border-left:0px;
   border-radius:0px 3px 3px 0px;
   box-shadow:rgba(0,0,0,.1) 0px 1px 3px;
   background:rgba(255,255,255,.9);
+  }
+
+.project .wax-fullscreen-map + .layers { left:-400px; }
+
+.project .layers .button {
+  margin:5px 10px;
+  }
+
+.project .layers li {
+  border-top:1px solid #eee;
+  padding:2px 20px 2px;
+  font-weight:bold;
   }
 
 .project .layers li { padding:3px 70px 3px 30px; }
@@ -277,45 +273,6 @@ li .actions {
 li .handle .icon,
 li .actions .icon { float:left; }
 li:hover .actions { display:block; }
-
-/**
- * Map controls
- */
-.wax-fullscreen,
-.map .zoomin,
-.map .zoomout {
-  position:absolute;
-  right:20px;
-  bottom:20px;
-  z-index:10;
-  width:30px !important;
-  height:30px !important;
-  display:block;
-  text-indent:-9999px;
-  overflow:hidden;
-  background:rgba(64,64,64,.9) url(../images/sprite.png) 30px 30px no-repeat;
-  border-radius:5px;
-  box-shadow:rgba(0,0,0,.1) 0px 1px 2px;
-  }
-
-.wax-fullscreen:active,
-.map .zoomin:active,
-.map .zoomout:active { background-color:rgba(32,32,32,.9); }
-
-.map .zoomin {
-  background-position:0px -240px;
-  border-radius:5px 0px 0px 5px;
-  right:90px;
-  }
-
-.map .zoomout {
-  border-left:1px solid #444;
-  background-position:-30px -240px;
-  border-radius:0px 5px 5px 0px;
-  right:60px;
-  }
-
-.wax-fullscreen { background-position:-60px -240px; }
 
 .palette {
   position:relative;
