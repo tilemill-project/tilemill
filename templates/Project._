@@ -21,14 +21,7 @@
     </div>
   </div></div>
   <div class='editor fill-e'>
-    <div class='code fill-s'>
-      <div class='dummy'></div>
-    <!--
-    <% get('Stylesheet').each(function(model) { %>
-      <textarea><%= model.get('data') %></textarea>
-    <% }); %>
-    -->
-    </div>
+    <div class='code fill-s'></div>
 
     <div class='palette clearfix'>
       <div class='colors'>

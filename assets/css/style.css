@@ -350,7 +350,7 @@ li:hover .actions { display:block; }
 .tabs + a.add { margin:10px 10px 0px; }
 
 .code {
-  overflow:auto;
+  overflow:hidden;
   top:79px;
   z-index:1;
   background:#fff;
@@ -358,7 +358,21 @@ li:hover .actions { display:block; }
   box-shadow:rgba(0,0,0,.1) 0px 0px 3px;
   }
 
-.dummy { height:1200px; }
+/**
+ * CodeMirror
+ */
+.CodeMirror,
+.CodeMirror-scroll {
+  position:absolute;
+  top:0px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  height:auto!important;
+  }
+
+.CodeMirror { display:none; }
+.CodeMirror.active { display:block; }
 
 /**
  * Icons
