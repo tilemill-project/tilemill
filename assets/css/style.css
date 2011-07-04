@@ -10,7 +10,7 @@ body { font-family:Droid,'Lucida Grande',sans-serif; }
 
 body {
   padding:50px 0px 0px;
-  background:#f0f8fa;
+  background:#eee;
   color:#222;
   }
 
@@ -252,6 +252,7 @@ a {
   }
 
 .project .layers li .icon { background-color:transparent; }
+.project .layers li .punc { color:#999; }
 
 .project .layers li {
   min-width:60px;
@@ -262,13 +263,14 @@ li { position:relative; }
 
 li .handle {
   width:20px;
-  padding:3px;
+  padding:2px;
+  cursor:move;
   }
 
 li .actions {
   display:none;
   width:60px;
-  padding:3px;
+  padding:2px;
   }
 
 li .handle .icon,
@@ -279,20 +281,21 @@ li:hover .actions { display:block; }
   position:relative;
   height:20px;
   overflow:hidden;
-  margin:20px;
+  padding:10px 20px 9px;
+  border-bottom:1px solid #ddd;
   }
 
 .palette .colors {
   position:absolute;
-  left:0px;
-  top:0px;
+  left:10px;
+  top:10px;
   right:80px;
   }
 
 .palette .ref {
   position:absolute;
-  right:0px;
-  top:0px;
+  right:10px;
+  top:10px;
   }
 
 .swatch {
@@ -319,7 +322,7 @@ li:hover .actions { display:block; }
   position:relative;
   overflow:hidden;
   margin:0px;
-  padding:0px 0px 0px 20px;
+  padding:10px 0px 0px 10px;
   height:30px;
   }
 
@@ -344,11 +347,11 @@ li:hover .actions { display:block; }
   z-index:1;
   }
 
-.tabs + a.add { margin:0px 10px 0px; }
+.tabs + a.add { margin:10px 10px 0px; }
 
 .code {
   overflow:auto;
-  top:89px;
+  top:79px;
   z-index:1;
   background:#fff;
   border-top:1px solid #ccc;
