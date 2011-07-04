@@ -238,17 +238,18 @@ a {
 
 .project .wax-fullscreen-map + .layers { left:-400px; }
 
-.project .layers .button {
-  margin:5px 10px;
+.project .layers .button { margin:5px 10px; }
+
+.project .layers ul {
+  max-height:200px;
+  overflow:auto;
   }
 
 .project .layers li {
   border-top:1px solid #eee;
-  padding:2px 20px 2px;
+  padding:2px 70px 2px 30px;
   font-weight:bold;
   }
-
-.project .layers li { padding:3px 70px 3px 30px; }
 
 .project .layers li .icon { background-color:transparent; }
 
@@ -482,4 +483,25 @@ input.submit:active {
   background-position:0px -110px;
   box-shadow:inset #999 0px -1px 0px;
   }
+
+
+/* Special sauce */
+ul::-webkit-scrollbar,
+div::-webkit-scrollbar {
+  height:8px;
+  width:8px;
+  background:#f8f8f8;
+  border-radius:4px;
+  }
+
+ul::-webkit-scrollbar-thumb,
+div::-webkit-scrollbar-thumb {
+  border-radius:4px;
+  background:#ccc;
+  }
+
+ul::-webkit-scrollbar-thumb:vertical,
+div::-webkit-scrollbar-thumb:vertical { height:25px; }
+ul::-webkit-scrollbar-thumb:horizontal,
+div::-webkit-scrollbar-thumb:horizontal { width:25px; }
 
