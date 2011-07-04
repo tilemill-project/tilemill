@@ -1,9 +1,9 @@
 // Extend Modest Maps WaxProvider to allow for a query-string signed URL based
 // on the last updated time of the project.
-var com = com || {};
-com.modestmaps = com.modestmaps || {};
+var wax = wax || {};
+wax.mm = wax.mm || {};
 
-com.modestmaps.SignedProvider = function(options) {
+wax.mm.signedProvider = function(options) {
     this.layerName = options.layerName;
     this.baseUrls = (typeof(options.baseUrl) == 'string') ?
             [options.baseUrl] : options.baseUrl;
@@ -13,7 +13,7 @@ com.modestmaps.SignedProvider = function(options) {
     this.signature = options.signature || null;
 };
 
-com.modestmaps.SignedProvider.prototype = {
+wax.mm.signedProvider.prototype = {
     getTileUrl: function(coord) {
         var server;
         coord = this.sourceCoordinate(coord);
@@ -35,4 +35,4 @@ com.modestmaps.SignedProvider.prototype = {
     }
 };
 
-com.modestmaps.extend(com.modestmaps.SignedProvider, com.modestmaps.WaxProvider);
+com.modestmaps.extend(wax.mm.signedProvider, wax.mm.provider);

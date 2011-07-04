@@ -20,17 +20,19 @@ view.prototype.render = function() {
 
 view.prototype.mapInit = function() {
     this.map = new com.modestmaps.Map('map',
-        new com.modestmaps.SignedProvider({
+        new wax.mm.signedProvider({
             baseUrl: '/',
             filetype: '.' + this.model.get('_format'),
             zoomRange: [0, 22],
             signature: this.model.get('_updated'),
-            layerName: this.model.id}))
-        .interaction()
-        .legend()
-        .zoomer()
-        .zoombox()
-        .fullscreen();
+            layerName: this.model.id}));
+
+    wax.mm.interaction(this.map);
+    wax.mm.legend(this.map);
+    wax.mm.zoomer(this.map);
+    wax.mm.zoombox(this.map);
+    wax.mm.fullscreen(this.map);
+
     var center = this.model.get('_center');
     this.map.setCenterZoom(
         new com.modestmaps.Location(center.lat, center.lon),
