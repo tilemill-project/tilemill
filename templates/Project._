@@ -53,7 +53,7 @@
         <span class='handle fill-w'>
           <a title='<%= model.get('geometry') %>' class='icon geometry geometry-<%= model.get('geometry') %>'></a>
         </span>
-        <label><span class='punc'>#</span><%= model.id %><% if (model.get('class')) { %><span class='punc'>.</span><%= model.get('class') %><% } %></label>
+        <label><%= ["<span class='punc'>#</span>" + model.id].concat((model.get('class') || '').split(' ')).join("<span class='punc'>.</span>") %></label>
         <span class='actions fill-e'>
           <% if (model.get('geometry') !== 'raster') { %>
             <a title='Inspect layer values' class='icon inspect' href='#'>Inspect</a>
