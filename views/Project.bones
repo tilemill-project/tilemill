@@ -76,18 +76,16 @@ view.prototype.codeTab = function(e) {
     return false;
 };
 
+// Set the model center whenever the map is moved.
 view.prototype.mapZoom = function(e) {
-    // Set the model center whenever the map is moved.
     var center = this.map.getCenter();
     center = { lat: center.lat, lon: center.lon, zoom: this.map.getZoom() };
     this.model.set({ _center: center }, { silent: true });
-
-    // @TODO.
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };
 
+// @TODO.
 view.prototype.mapLegend = function() {
-    // @TODO.
     this.$('a.map-legend').toggleClass('active');
     $(this.el).toggleClass('legend');
     return false;
@@ -100,12 +98,10 @@ view.prototype.attach = function() {
         this.map.setProvider(this.map.provider);
     }).bind(this)();
 
+    // Rescan stylesheets for colors, dedupe, sort by luminosity
+    // and render swatches for each one.
     _(function swatches() {
-        // Clear out existing swatches.
         this.$('.colors span.swatch').remove();
-
-        // Rescan stylesheets for colors, dedupe, sort by luminosity
-        // and render swatches for each one.
         _(this.model.get('Stylesheet').pluck('data').join('\n')
             .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || []
         ).chain()

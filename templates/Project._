@@ -42,7 +42,9 @@
     </ul>
     <a class='add button'><span class='icon reverse plus'>Add stylesheet</span></a>
   </div>
-  <div class='map fill-w' id='map'></div>
+  <div class='map fill-w' id='map'>
+    <div class='zoom-display'>Zoom <span class='zoom'></span></div>
+  </div>
   <div class='layers'>
     <a class='add button'><span class='icon reverse plus'></span> Add layer</a>
     <ul>
