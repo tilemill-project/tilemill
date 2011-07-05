@@ -146,9 +146,7 @@ a {
 /**
  * Projects
  */
-.projects form {
-  text-align:right;
-  }
+.projects form { text-align:right; }
 
 .projects ul {
   margin:20px;
@@ -202,16 +200,49 @@ a {
  * Project
  */
 .project .map {
-  border-right:1px solid #ccc;
-  background:#fff url(../images/bg.png) 100% 0%;
   z-index:1;
+  background:#fff url(../images/bg.png) 100% 0%;
+  border-right:1px solid #ccc;
   transition:width .25s;
   -moz-transition:width .25s;
   -webkit-transition:width .25s;
   }
 
+.project .drawer {
+  top:50px;
+  left:-50%;
+  z-index:1;
+  background:#fff;
+  overflow:hidden;
+  transition:left .25s;
+  -moz-transition:left .25s;
+  -webkit-transition:left .25s;
+  }
+
+.project.drawer .drawer { left:0%; }
+
+.project .drawer h2.title {
+  height:20px;
+  white-space:nowrap;
+  padding:10px 10px 9px;
+  border-bottom:1px solid #eee;
+  }
+
+.project .drawer a.close {
+  position:absolute;
+  top:10px;
+  right:10px;
+  }
+
+.project .drawer .content {
+  top:40px;
+  padding:10px;
+  overflow:auto;
+  }
+
 .project .map,
-.project .editor {
+.project .editor,
+.project .drawer {
   top:50px;
   width:50% !important;
   }
@@ -369,8 +400,8 @@ li:hover .actions { display:block; }
 /**
  * CodeMirror
  */
-.CodeMirror,
-.CodeMirror-scroll {
+.editor .CodeMirror,
+.editor .CodeMirror-scroll {
   position:absolute;
   top:0px;
   left:0px;
@@ -379,12 +410,12 @@ li:hover .actions { display:block; }
   height:auto!important;
   }
 
-.CodeMirror {
+.editor .CodeMirror {
   background:#fff;
   z-index:-1;
   }
 
-.CodeMirror.active { z-index:1; }
+.editor .CodeMirror.active { z-index:1; }
 
 /**
  * Icons
@@ -506,6 +537,7 @@ input.submit {
 input.submit:hover { background-color:#8cd; }
 
 .button:active,
+.button.activeDrawer,
 input.submit:active {
   background-color:#888;
   border-color:#666;
@@ -533,4 +565,86 @@ ul::-webkit-scrollbar-thumb:vertical,
 div::-webkit-scrollbar-thumb:vertical { height:25px; }
 ul::-webkit-scrollbar-thumb:horizontal,
 div::-webkit-scrollbar-thumb:horizontal { width:25px; }
+
+/**
+ * Manual
+ */
+.manual {}
+
+.manual .links {
+  padding:10px 0px;
+  width:120px;
+  }
+
+.manual .links a {
+  color:#666;
+  padding:0px 10px;
+  display:block;
+  border-radius:0px 3px 3px 0px;
+  -moz-border-radius:0px 3px 3px 0px;
+  -webkit-border-radius:0px 3px 3px 0px;
+  }
+
+.manual .links a.active {
+  background:#fe8;
+  color:#222;
+  }
+
+.manual .page {
+  left:120px;
+  overflow:auto;
+  padding:10px;
+  }
+
+.manual .section { display:none; }
+.manual .section.active { display:block; }
+
+.manual h1,
+.manual h2,
+.manual h3,
+.manual h4,
+.manual h5,
+.manual h6 {
+  font-size:18px;
+  margin:0px 0px 20px;
+  }
+
+.prose ul,
+.prose .CodeMirror,
+.prose p { margin:0px 0px 20px; }
+
+.prose ul li {
+  margin-left:20px;
+  list-style:square;
+  }
+
+.prose .CodeMirror-scroll { height:auto; }
+.prose .CodeMirror-lines { padding:0px 0px 0px 20px; }
+
+table { width:100%; }
+table th { text-align:left; }
+table thead th {
+  font-size:11px;
+  color:#999;
+  }
+
+table td,
+table th {
+  border-collapse:collapse;
+  padding:0px 20px 0px 0px;
+  width: 25%;
+  overflow:hidden;
+  }
+
+table th.header { cursor:pointer; }
+
+.reference-default-meaning {
+  font-size:11px;
+  color:#999;
+  }
+
+table tr:hover { background-color:#fe8; }
+
+table a { color:#666; }
+table a.reference-doc-available { color:#333; }
 

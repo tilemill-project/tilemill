@@ -1,13 +1,15 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'click a.map-legend': 'mapLegend',
     'click .tabs a': 'codeTab',
-    'click .actions a[href=#save]': 'save'
+    'click .actions a[href=#save]': 'save',
+    'click .drawer a[href=#close]': 'drawerClose',
+    'click a[href=#fonts]': 'drawerFonts',
+    'click a[href=#carto]': 'drawerCarto'
 };
 
 view.prototype.initialize = function() {
-    _(this).bindAll('render', 'attach', 'save', 'mapZoom', 'codeTab');
+    _(this).bindAll('render', 'attach', 'save', 'mapZoom', 'codeTab', 'drawerClose', 'drawerFonts', 'drawerCarto');
     this.render().trigger('attach');
 };
 
@@ -138,3 +140,34 @@ view.prototype.save = function() {
     });
     return false;
 };
+
+view.prototype.drawerFonts = function(ev) {
+    if ($(ev.currentTarget).is('.activeDrawer'))
+        return this.drawerClose();
+
+    this.drawerClose();
+    $(ev.currentTarget).addClass('activeDrawer');
+    this.$('.project').addClass('drawer');
+    this.$('.drawer h2.title').text('Fonts');
+    new views.Fonts({ el: this.$('.drawer .content') });
+    return false;
+};
+
+view.prototype.drawerCarto = function(ev) {
+    if ($(ev.currentTarget).is('.activeDrawer'))
+        return this.drawerClose();
+
+    this.drawerClose();
+    $(ev.currentTarget).addClass('activeDrawer');
+    this.$('.project').addClass('drawer');
+    this.$('.drawer h2.title').text('Carto reference');
+    new views.Reference({ el: this.$('.drawer .content') });
+    return false;
+};
+
+view.prototype.drawerClose = function(ev) {
+    this.$('.activeDrawer').removeClass('activeDrawer');
+    this.$('.project').removeClass('drawer');
+    return false;
+};
+
