@@ -7,8 +7,8 @@ view.prototype.events = {
 };
 
 view.prototype.initialize = function() {
-    _(this).bindAll('render', 'reload', 'save', 'mapZoom', 'codeTab');
-    this.render();
+    _(this).bindAll('render', 'attach', 'save', 'mapZoom', 'codeTab');
+    this.render().trigger('attach');
 };
 
 view.prototype.render = function() {
@@ -81,27 +81,60 @@ view.prototype.mapZoom = function(e) {
     var center = this.map.getCenter();
     center = { lat: center.lat, lon: center.lon, zoom: this.map.getZoom() };
     this.model.set({ _center: center }, { silent: true });
+
+    // @TODO.
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };
 
 view.prototype.mapLegend = function() {
+    // @TODO.
     this.$('a.map-legend').toggleClass('active');
     $(this.el).toggleClass('legend');
     return false;
 };
 
-view.prototype.reload = function() {
-    if (this.map) {
+view.prototype.attach = function() {
+    _(function map() {
         this.map.provider.filetype = '.' + this.model.get('_format');
         this.map.provider.signature = this.model.get('_updated');
         this.map.setProvider(this.map.provider);
-    }
+    }).bind(this)();
+
+    _(function swatches() {
+        // Clear out existing swatches.
+        this.$('.colors span.swatch').remove();
+
+        // Rescan stylesheets for colors, dedupe, sort by luminosity
+        // and render swatches for each one.
+        _(this.model.get('Stylesheet').pluck('data').join('\n')
+            .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || []
+        ).chain()
+            .uniq(true)
+            .sortBy(function(c) {
+                var x = function(i, size) {
+                    return parseInt(c.substr(i, size), 16)
+                        / (Math.pow(16, size) - 1);
+                };
+                if (c[0] === '#' && c.length == 7) {
+                    return x(1, 2) + x(3, 2) + x(5, 2);
+                } else if (c[0] === '#' && c.length == 4) {
+                    return x(1, 1) + x(2, 1) + x(3, 1);
+                } else {
+                    var matches = c.match(/\d+/g);
+                    return matches[0]/255 + matches[1]/255 + matches[2]/255;
+                }
+            })
+            .each(_(function(color) {
+                var swatch = _('<span class="swatch"><span  style="background-color:<%= color %>" class="color"></span></span>').template({color:color})
+                this.$('.colors').append(swatch);
+            }).bind(this));
+    }).bind(this)();
 };
 
 view.prototype.save = function() {
     this.model.save(this.model.attributes, {
         success: _(function(model, resp) {
-            this.reload();
+            this.attach();
         }).bind(this),
         error: function(model, resp) {
             console.log(resp);

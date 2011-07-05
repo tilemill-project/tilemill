@@ -18,7 +18,7 @@
    version="1.0"
    sodipodi:docname="sprite.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/home/devseed/pro/node_modules/tilestream/assets/images/sprite.png"
+   inkscape:export-filename="/home/devseed/tilemill/assets/images/sprite.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -168,7 +168,7 @@
        inkscape:collect="always"
        id="linearGradient3212">
       <stop
-         style="stop-color:#000000;stop-opacity:0.0627451"
+         style="stop-color:#000000;stop-opacity:0.25098041"
          offset="0"
          id="stop3214" />
       <stop
@@ -5989,11 +5989,11 @@
        xlink:href="#linearGradient3212"
        id="linearGradient6330"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.9,0,0,0.9,1,-147)"
-       x1="20"
-       y1="240"
+       gradientTransform="translate(0,-170)"
+       x1="10"
+       y1="220"
        x2="10"
-       y2="230" />
+       y2="225" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient11210"
@@ -6098,9 +6098,9 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="31.199549"
-     inkscape:cy="27.174988"
+     inkscape:zoom="22.737368"
+     inkscape:cx="6.4656046"
+     inkscape:cy="176.75025"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -6230,18 +6230,12 @@
        id="g6326"
        transform="translate(0,170)">
       <rect
-         y="51"
-         x="1"
-         height="18"
-         width="18"
+         y="50"
+         x="4.4408921e-16"
+         height="20"
+         width="20"
          id="rect2440"
          style="fill:url(#linearGradient6330);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-      <path
-         sodipodi:nodetypes="cccccccccc"
-         inkscape:connector-curvature="0"
-         id="rect3100"
-         d="m 0,50 0,20 20,0 0,-20 z m 1,1 18,0 0,18 -18,0 z"
-         style="color:#000000;fill:#000000;fill-opacity:0.1254902;fill-rule:nonzero;stroke:none;stroke-width:1.62999189;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
     <path
        id="path2461-7"
@@ -7233,5 +7227,9 @@
            sodipodi:nodetypes="cccccc" />
       </g>
     </g>
+    <path
+       style="color:#000000;fill:#000000;fill-opacity:0.1254902;fill-rule:nonzero;stroke:none;stroke-width:3;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 0 220 L 0 221 L 19 221 L 19 239 L 0 239 L 0 240 L 19 240 L 20 240 L 20 239 L 20 221 L 20 220 L 19 220 L 0 220 z "
+       id="rect3915" />
   </g>
 </svg>

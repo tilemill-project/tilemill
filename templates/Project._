@@ -26,14 +26,6 @@
     <div class='palette clearfix'>
       <div class='colors'>
         <a class='button' href='#colorpicker'><span class='icon reverse color-picker'>Colorpicker</span></a>
-        <span class='swatch'><span class='color'></span></span>
-        <span class='swatch'><span class='color'></span></span>
-        <span class='swatch'><span class='color'></span></span>
-        <span class='swatch'><span class='color'></span></span>
-        <span class='swatch'><span class='color'></span></span>
-        <span class='swatch'><span class='color'></span></span>
-        <span class='swatch'><span class='color'></span></span>
-        <span class='swatch'><span class='color'></span></span>
       </div>
       <div class='ref'>
         <a class='button' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>
