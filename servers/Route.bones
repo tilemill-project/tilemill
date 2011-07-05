@@ -1,3 +1,5 @@
+var reference = require('tilelive-mapnik/node_modules/carto').tree.Reference.data;
+
 servers['Route'].augment({
     assets: {
         styles: [
@@ -16,7 +18,8 @@ servers['Route'].augment({
             require.resolve('JSV/lib/uri/uri.js'),
             require.resolve('JSV/lib/jsv.js'),
             require.resolve('JSV/lib/json-schema-draft-03.js'),
-            require.resolve('../assets/js/mm.signed.js')
+            require.resolve('../assets/js/mm.signed.js'),
+            require.resolve('../assets/js/codemirror.carto.js'),
         ]
     },
     initializeAssets: function(parent, app) {
@@ -25,5 +28,11 @@ servers['Route'].augment({
             mirror.assets(this.assets.styles, { type: '.css' }));
         this.get('/assets/tilemill/js/vendor.js',
             mirror.assets(this.assets.scripts, { type: '.js' }));
+        this.get('/assets/tilemill/js/reference.js', this.reference);
     }
 });
+
+servers['Route'].prototype.reference = function(req, res, next) {
+    var js = 'var cartoReference = ' + JSON.stringify(reference) + ';';
+    res.send(js, {'Content-type': 'text/javascript'});
+};

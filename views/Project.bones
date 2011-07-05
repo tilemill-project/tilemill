@@ -2,11 +2,12 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click a.map-legend': 'mapLegend',
-    'click .tabs a': 'codeTab'
+    'click .tabs a': 'codeTab',
+    'click .actions a[href=#save]': 'save'
 };
 
 view.prototype.initialize = function() {
-    _(this).bindAll('render', 'reload', 'mapZoom', 'codeTab');
+    _(this).bindAll('render', 'reload', 'save', 'mapZoom', 'codeTab');
     this.render();
 };
 
@@ -46,18 +47,18 @@ view.prototype.render = function() {
                 value: model.get('data'),
                 lineNumbers: true,
                 tabMode: 'shift',
-//                mode: {
-//                    name: 'carto',
-//                    reference: window.app.reference.toJSON()
-//                },
-//                onCursorActivity: function() {
-//                    self.model.set({'data': self.codemirror.getValue()});
-//                },
-//                onChange: function() {
-//                    // onchange runs before this function is finished,
-//                    // so self.codemirror is false.
-//                    self.codemirror && self.model.set({'data': self.codemirror.getValue()});
-//                }
+                mode: {
+                    name: 'carto',
+                    reference: window.cartoReference
+                },
+                onCursorActivity: function() {
+                    model.set({'data': model.codemirror.getValue()});
+                },
+                onChange: function() {
+                    // onchange runs before this function is finished,
+                    // so self.codemirror is false.
+                    model.codemirror && model.set({'data': model.codemirror.getValue()});
+                }
             });
             if (index === 0) $(model.codemirror.getWrapperElement()).addClass('active');
         }).bind(this));
@@ -97,3 +98,14 @@ view.prototype.reload = function() {
     }
 };
 
+view.prototype.save = function() {
+    this.model.save(this.model.attributes, {
+        success: _(function(model, resp) {
+            this.reload();
+        }).bind(this),
+        error: function(model, resp) {
+            console.log(resp);
+        }
+    });
+    return false;
+};
