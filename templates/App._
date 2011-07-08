@@ -17,11 +17,7 @@
   <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
   <div class='content fill-s'></div>
 </div>
-<div id='message'>
-  <a href='#close' class='close'><span class='icon reverse close'>Close</span></a>
-  <div class='content'></div>
-  <div class='bug'>Is this a bug? <a target='_blank' href='https://github.com/mapbox/tilemill/issues'>Report it on github</a>.
-</div>
+<div id='modal'></div>
 
 </body>
 </html>

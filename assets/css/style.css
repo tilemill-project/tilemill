@@ -77,14 +77,14 @@ a {
 /**
  * Pagewide modal messages
  */
-#message {
+#modal {
   position:absolute;
   left:50%;
   top:50%;
-  background:rgba(0,0,0,.5);
+  background:rgba(48,48,48,.9);
   color:#ccc;
   width:480px;
-  margin:-120px 0px 0px -260px;
+  margin:-120px 0px 0px -240px;
   z-index:-1;
   border-radius:5px;
   opacity:0;
@@ -95,31 +95,33 @@ a {
   -webkit-transition:opacity .25s, z-index .25s;
   }
 
-#message.active {
+#modal.active {
   z-index:102;
   opacity:1;
   }
 
-#message a { color:#fff; }
+#modal a { color:#fff; }
 
-#message a.close {
+#modal a.close {
   top:10px;
   right:10px;
   position:absolute;
   }
 
-#message .content {
+#modal .content {
   padding:20px;
   font-size:20px;
   color:#fff;
-  text-shadow:#fff 0px 0px 10px;
   }
 
-#message .bug {
+#modal .bug,
+#modal .buttons {
   border-top:1px solid #666;
   padding:4px 10px 5px;
   text-align:right;
   }
+
+#modal .buttons { text-align:center; }
 
 /**
  * Sliding panes
@@ -594,7 +596,7 @@ li:hover .icon { display:block; }
  * Form elements
  */
 select,
-input.text,
+input[type=text],
 textarea {
   line-height:18px;
   height:20px;
@@ -616,7 +618,8 @@ textarea {
   }
 
 .button,
-input.submit {
+input[type=button],
+input[type=submit] {
   font-size:11px;
   border:1px solid #5ab;
   line-height:20px;
@@ -631,11 +634,13 @@ input.submit {
   }
 
 .button:hover,
-input.submit:hover { background-color:#8cd; }
+input[type=button]:hover,
+input[type=submit]:hover { background-color:#8cd; }
 
 .button:active,
 .button.active,
-input.submit:active {
+input[type=button]:active,
+input[type=submit]:active {
   background-color:#888;
   border-color:#666;
   background-position:0px -110px;

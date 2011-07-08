@@ -5,11 +5,27 @@ view.prototype.events = {
     'click .actions a[href=#save]': 'save',
     'click a[href=#fonts]': 'fonts',
     'click a[href=#carto]': 'carto',
-    'click a[href=#settings]': 'settings'
+    'click a[href=#settings]': 'settings',
+    'click .layers a.add': 'layerAdd',
+    'click .layers a.edit': 'layerEdit',
+    'click .layers a.inspect': 'layerInspect',
+    'click .layers a.delete': 'layerDelete',
+    'keydown': 'keydown'
 };
 
 view.prototype.initialize = function() {
-    _(this).bindAll('render', 'attach', 'save', 'mapZoom', 'codeTab', 'fonts', 'carto');
+    _(this).bindAll(
+        'render',
+        'attach',
+        'save',
+        'mapZoom',
+        'codeTab',
+        'keydown',
+        'layerAdd',
+        'layerInspect',
+        'layerEdit',
+        'layerDelete'
+    );
     this.render().trigger('attach');
 };
 
@@ -151,5 +167,33 @@ view.prototype.carto = function(ev) {
 
 view.prototype.settings = function(ev) {
     new views.Settings({ el: $('#drawer') });
+};
+
+view.prototype.keydown = function(ev) {
+    // ctrl+S
+    if (ev.which == 83 &&
+        ((ev.ctrlKey || ev.metaKey) && !ev.altKey)) {
+        this.save();
+        return false;
+    }
+};
+
+view.prototype.layerAdd = function(ev) {
+};
+
+view.prototype.layerEdit = function(ev) {
+};
+
+view.prototype.layerDelete = function(ev) {
+    var id = $(ev.currentTarget).attr('href').split('#').pop();
+    new views.Modal({
+        content: _('Are you sure you want to delete layer "<%=id%>"?').template({id:id}),
+        callback: function(confirm) {
+        }
+    });
+    return false;
+};
+
+view.prototype.layerInspect = function(ev) {
 };
 

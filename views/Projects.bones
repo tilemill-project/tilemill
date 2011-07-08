@@ -4,7 +4,7 @@ view = Backbone.View.extend({
         'click .delete': 'del'
     },
     initialize: function() {
-        _.bindAll(this, 'render', 'add', 'del', 'error');
+        _(this).bindAll('render', 'add', 'del');
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
         this.render();
@@ -40,24 +40,19 @@ view = Backbone.View.extend({
     del: function(ev) {
         var id = $(ev.currentTarget).attr('id');
         var model = this.collection.get(id);
-        var message = 'Are you sure you want to delete ' + id + '?';
-        $(this.el).addClass('loading');
-        if (model && confirm(message)) {
-            model.destroy({
-                success: function() {
-                    $(this.el).removeClass('loading');
-                    this.collection.remove(model);
-                }.bind(this),
-                error: function(model, err) {
-                    $(this.el).removeClass('loading');
-                    this.error(err);
-                }.bind(this)
-            });
-        } else {
-            $(this.el).removeClass('loading');
-        }
+        new views.Modal({
+            content: _('Are you sure you want to delete "<%=id%>?"').template({id:id}),
+            callback: _(function(confirm) {
+                confirm && model.destroy({
+                    success: function() {
+                        this.collection.remove(model);
+                    }.bind(this),
+                    error: function(model, err) {
+                        new views.Modal(err);
+                    }.bind(this)
+                });
+            }).bind(this)
+        });
         return false;
-    },
-    error: function(err) {
     }
 });

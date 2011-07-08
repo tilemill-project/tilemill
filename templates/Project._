@@ -46,7 +46,7 @@
     <div class='zoom-display'>Zoom <span class='zoom'></span></div>
   </div>
   <div class='layers'>
-    <a class='popup add button'><span class='icon reverse plus'></span> Add layer</a>
+    <a href='#add' class='popup add button'><span class='icon reverse plus'></span> Add layer</a>
     <ul>
     <% get('Layer').each(function(model) { %>
       <li>
@@ -56,10 +56,10 @@
         <label><%= ["<span class='punc'>#</span>" + model.id].concat((model.get('class') || '').split(' ')).join("<span class='punc'>.</span>") %></label>
         <span class='actions fill-e'>
           <% if (model.get('geometry') !== 'raster') { %>
-            <a title='Inspect layer values' class='icon inspect' href='#'>Inspect</a>
+            <a title='Features (<%= model.id %>)' class='icon inspect drawer' href='#<%= model.id %>'>Features (<%= model.id %>)</a>
           <% } %>
-          <a title='Edit layer' class='icon edit' href='#'>Edit</a>
-          <a title='Delete layer' class='icon delete' href='#'>Delete</a>
+          <a title='Edit <%= model.id %>' class='icon edit popup' href='#<%= model.id %>'>Edit <%= model.id %></a>
+          <a title='Delete <%= model.id %>' class='icon delete' href='#<%= model.id %>'>Delete <%= model.id %></a>
         </span>
       </li>
     <% }); %>
