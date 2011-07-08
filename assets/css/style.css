@@ -110,18 +110,37 @@ a {
 
 #modal .content {
   padding:20px;
-  font-size:20px;
+  font-size:16px;
   color:#fff;
   }
 
-#modal .bug,
-#modal .buttons {
+#modal .bug {
   border-top:1px solid #666;
   padding:4px 10px 5px;
   text-align:right;
   }
 
-#modal .buttons { text-align:center; }
+#modal .buttons {
+  border-top:1px solid #666;
+  padding:9px 10px 10px;
+  text-align:center;
+  }
+
+#modal .buttons input {
+  background:#222;
+  border-color:#666;
+  line-height:30px;
+  height:30px;
+  margin:0px 5px;
+  width:80px;
+  text-align:center;
+  font-size:16px;
+  }
+
+#modal .buttons input:active {
+  box-shadow:inset #666 0px 0px 5px;
+  background:#444;
+  }
 
 /**
  * Sliding panes
