@@ -28,8 +28,8 @@
         <a class='button' href='#colorpicker'><span class='icon reverse color-picker'>Colorpicker</span></a>
       </div>
       <div class='ref'>
-        <a class='button' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>
-        <a class='button' href='#carto'><span class='icon reverse reference'>Carto</span></a>
+        <a class='drawer button' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>
+        <a class='drawer button' href='#carto'><span class='icon reverse reference'>Carto</span></a>
       </div>
     </div>
 
@@ -40,13 +40,13 @@
       </a></li>
     <% }); %>
     </ul>
-    <a class='add button'><span class='icon reverse plus'>Add stylesheet</span></a>
+    <a class='popup add button'><span class='icon reverse plus'>Add stylesheet</span></a>
   </div>
   <div class='map fill-w' id='map'>
     <div class='zoom-display'>Zoom <span class='zoom'></span></div>
   </div>
   <div class='layers'>
-    <a class='add button'><span class='icon reverse plus'></span> Add layer</a>
+    <a class='popup add button'><span class='icon reverse plus'></span> Add layer</a>
     <ul>
     <% get('Layer').each(function(model) { %>
       <li>
@@ -64,10 +64,5 @@
       </li>
     <% }); %>
     </ul>
-  </div>
-  <div class='drawer fill-w'>
-    <h2 class='title'></h2>
-    <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
-    <div class='content fill-s'></div>
   </div>
 </div>

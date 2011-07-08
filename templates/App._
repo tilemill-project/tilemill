@@ -9,5 +9,23 @@
     <script src='/assets/tilemill/js/reference.js' type='text/javascript'></script>
     <script type='text/javascript'>$(Bones.start);</script>
 </head>
-<body><div id='app'></div></body>
+<body>
+
+<div id='page'></div>
+<div id='drawer' class='pane fill-w'>
+  <h2 class='title'></h2>
+  <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
+  <div class='content fill-s'></div>
+</div>
+<div id='popup' class='pane'>
+  <h2 class='title'></h2>
+  <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
+  <div class='content fill-s'></div>
+</div>
+<div id='message'>
+  <a href='#close' class='close'><span class='icon reverse close'>Close</span></a>
+  <div class='content'></div>
+</div>
+
+</body>
 </html>
