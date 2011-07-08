@@ -15,7 +15,7 @@
           <a href='#mbtiles'>MBTiles</a>
         </span>
       </span>
-      <a class='button' href='#settings'>
+      <a class='drawer button' href='#settings'>
         <span class='icon reverse settings'>Settings</span>
       </a>
     </div>

@@ -4,7 +4,8 @@ view.prototype.events = {
     'click .tabs a': 'codeTab',
     'click .actions a[href=#save]': 'save',
     'click a[href=#fonts]': 'fonts',
-    'click a[href=#carto]': 'carto'
+    'click a[href=#carto]': 'carto',
+    'click a[href=#settings]': 'settings'
 };
 
 view.prototype.initialize = function() {
@@ -146,5 +147,9 @@ view.prototype.fonts = function(ev) {
 
 view.prototype.carto = function(ev) {
     new views.Reference({ el: $('#drawer') });
+};
+
+view.prototype.settings = function(ev) {
+    new views.Settings({ el: $('#drawer') });
 };
 

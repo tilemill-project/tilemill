@@ -14,6 +14,34 @@ body {
   color:#222;
   }
 
+.overlay:before,
+.loading:before,
+.fill,
+.fill-s,
+.fill-n,
+.fill-w,
+.fill-e {
+  position:absolute;
+  left:0px;
+  top:0px;
+  bottom:0px;
+  right:0px;
+  display:block;
+  }
+
+.fill-s { top:auto; }
+.fill-n { bottom:auto; }
+.fill-w { right:auto; }
+.fill-e { left:auto; }
+
+a {
+  color:#222;
+  text-decoration:none;
+  }
+
+/**
+ * Generic loading, overlay classes
+ */
 .overlay,
 .loading { overflow:hidden; }
 
@@ -46,29 +74,110 @@ body {
   text-shadow:#fff 0px 0px 10px;
   }
 
-.overlay:before,
-.loading:before,
-.fill,
-.fill-s,
-.fill-n,
-.fill-w,
-.fill-e {
+/**
+ * Pagewide modal messages
+ */
+#message {
   position:absolute;
-  left:0px;
-  top:0px;
-  bottom:0px;
-  right:0px;
-  display:block;
+  left:50%;
+  top:50%;
+  background:rgba(0,0,0,.5);
+  color:#ccc;
+  width:480px;
+  margin:-120px 0px 0px -260px;
+  z-index:-1;
+  border-radius:5px;
+  opacity:0;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  transition:opacity .25s, z-index .25s;
+  -moz-transition:opacity .25s, z-index .25s;
+  -webkit-transition:opacity .25s, z-index .25s;
   }
 
-.fill-s { top:auto; }
-.fill-n { bottom:auto; }
-.fill-w { right:auto; }
-.fill-e { left:auto; }
+#message.active {
+  z-index:102;
+  opacity:1;
+  }
 
-a {
-  color:#222;
-  text-decoration:none;
+#message a { color:#fff; }
+
+#message a.close {
+  top:10px;
+  right:10px;
+  position:absolute;
+  }
+
+#message .content {
+  padding:20px;
+  font-size:20px;
+  color:#fff;
+  text-shadow:#fff 0px 0px 10px;
+  }
+
+#message .bug {
+  border-top:1px solid #666;
+  padding:4px 10px 5px;
+  text-align:right;
+  }
+
+/**
+ * Sliding panes
+ */
+#popup {
+  position:fixed;
+  bottom:-100%;
+  left:50%;
+  margin-left:-361px;
+  width:720px;
+  height:90%;
+  z-index:101;
+  border:1px solid #666;
+  border-bottom:0px;
+  border-radius:5px 5px 0px 0px;
+  -moz-border-radius:5px 5px 0px 0px;
+  -webkit-border-radius:5px 5px 0px 0px;
+  transition:bottom .25s;
+  -moz-transition:bottom .25s;
+  -webkit-transition:bottom .25s;
+  }
+
+#popup.active { bottom:0%; }
+
+#drawer {
+  top:50px;
+  left:-50%;
+  z-index:1;
+  background:#fff;
+  overflow:hidden;
+  width:50% !important;
+  transition:left .25s;
+  -moz-transition:left .25s;
+  -webkit-transition:left .25s;
+  }
+
+#drawer.active { left:0%; }
+
+.pane { background:#fff; }
+
+.pane > h2.title {
+  height:20px;
+  font-size:20px;
+  white-space:nowrap;
+  padding:10px 10px 9px;
+  border-bottom:1px solid #eee;
+  }
+
+.pane > a.close {
+  position:absolute;
+  top:10px;
+  right:10px;
+  }
+
+.pane > .content {
+  top:40px;
+  padding:10px;
+  overflow:auto;
   }
 
 /**
@@ -218,65 +327,6 @@ a {
   position:absolute;
   right:5px;
   top:5px;
-  }
-
-/**
- * Sliding panes
- */
-#popup {
-  position:fixed;
-  bottom:-100%;
-  left:50%;
-  margin-left:-361px;
-  width:720px;
-  height:90%;
-  z-index:101;
-  border:1px solid #666;
-  border-bottom:0px;
-  border-radius:5px 5px 0px 0px;
-  -moz-border-radius:5px 5px 0px 0px;
-  -webkit-border-radius:5px 5px 0px 0px;
-  transition:bottom .25s;
-  -moz-transition:bottom .25s;
-  -webkit-transition:bottom .25s;
-  }
-
-#popup.active { bottom:0%; }
-
-#drawer {
-  top:50px;
-  left:-50%;
-  z-index:1;
-  background:#fff;
-  overflow:hidden;
-  width:50% !important;
-  transition:left .25s;
-  -moz-transition:left .25s;
-  -webkit-transition:left .25s;
-  }
-
-#drawer.active { left:0%; }
-
-.pane { background:#fff; }
-
-.pane > h2.title {
-  height:20px;
-  font-size:20px;
-  white-space:nowrap;
-  padding:10px 10px 9px;
-  border-bottom:1px solid #eee;
-  }
-
-.pane > a.close {
-  position:absolute;
-  top:10px;
-  right:10px;
-  }
-
-.pane > .content {
-  top:40px;
-  padding:10px;
-  overflow:auto;
   }
 
 /**
@@ -518,9 +568,6 @@ li:hover .icon { display:block; }
 .icon.geometry-polygon    { background-position:-240px -180px; }
 .icon.geometry-raster     { background-position:-360px -180px; }
 
-.reverse { background-color:#888; }
-.reverse:hover { background-color:#666; }
-.reverse:active { background-color:#444; }
 .reverse.edit           { background-position:0px -200px; }
 .reverse.inspect        { background-position:-20px -200px; }
 .reverse.delete         { background-position:-60px -200px; }
@@ -587,7 +634,7 @@ input.submit {
 input.submit:hover { background-color:#8cd; }
 
 .button:active,
-.button.activeDrawer,
+.button.active,
 input.submit:active {
   background-color:#888;
   border-color:#666;
