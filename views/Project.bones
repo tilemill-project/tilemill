@@ -51,7 +51,7 @@ view.prototype.render = function() {
                 tabMode: 'shift',
                 mode: {
                     name: 'carto',
-                    reference: window.cartoReference
+                    reference: window.abilities.carto
                 },
                 onCursorActivity: function() {
                     model.set({'data': model.codemirror.getValue()});

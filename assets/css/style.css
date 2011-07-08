@@ -642,7 +642,6 @@ input.submit:active {
   box-shadow:inset #999 0px -1px 0px;
   }
 
-
 /* Special sauce */
 ul::-webkit-scrollbar,
 div::-webkit-scrollbar {
@@ -669,6 +668,7 @@ div::-webkit-scrollbar-thumb:horizontal { width:25px; }
 .manual {}
 
 .manual .links {
+  background:#f8f8f8;
   padding:10px 0px;
   width:120px;
   }
@@ -677,9 +677,6 @@ div::-webkit-scrollbar-thumb:horizontal { width:25px; }
   color:#666;
   padding:0px 10px;
   display:block;
-  border-radius:0px 3px 3px 0px;
-  -moz-border-radius:0px 3px 3px 0px;
-  -webkit-border-radius:0px 3px 3px 0px;
   }
 
 .manual .links a.active {
@@ -744,4 +741,43 @@ table tr:hover { background-color:#fe8; }
 
 table a { color:#666; }
 table a.reference-doc-available { color:#333; }
+
+/**
+ * Font reference
+ */
+.fonts {
+  position:relative;
+  padding-top:30px;
+  }
+
+.fonts .links {
+  padding:5px 10px;
+  background:#f8f8f8;
+  height:20px;
+  overflow:hidden;
+  }
+
+.fonts .links a,
+.fonts .links span {
+  float:left;
+  width:20px;
+  text-align:center;
+  }
+
+.fonts .links a.all { width:40px; }
+
+.fonts .links a.active {
+  margin:-5px 0px;
+  padding:5px 0px;
+  background:#fe8;
+  color:#222;
+  }
+
+.fonts .links span { color:#ccc; }
+
+.fonts .font {
+  display:block;
+  padding:5px 5px 4px;
+  border-bottom:1px solid #eee;
+  }
 

@@ -6,17 +6,12 @@
     <link rel='stylesheet' href='/assets/tilemill/css/vendor.css' type='text/css'/>
     <script src='/assets/bones/all.js' type='text/javascript'></script>
     <script src='/assets/tilemill/js/vendor.js' type='text/javascript'></script>
-    <script src='/assets/tilemill/js/reference.js' type='text/javascript'></script>
+    <script src='/assets/tilemill/js/abilities.js' type='text/javascript'></script>
     <script type='text/javascript'>$(Bones.start);</script>
 </head>
 <body>
 
 <div id='page'></div>
-<div id='drawer' class='pane fill-w'>
-  <h2 class='title'></h2>
-  <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
-  <div class='content fill-s'></div>
-</div>
 <div id='popup' class='pane'>
   <h2 class='title'></h2>
   <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
