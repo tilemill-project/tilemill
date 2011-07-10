@@ -15,24 +15,20 @@ view = Backbone.View.extend({
     },
     add: function() {
         var id = this.$('input.text').val();
-        var model = new this.collection.model();
-        $(this.el).addClass('loading');
-        if (this.collection.get(id)) {
+        var model = new models.Project({}, {collection:this.collection});
+        var error = _(function(model, err) {
             $(this.el).removeClass('loading');
-            this.error(new Error('Project names must be unique.'));
-            this.$('input.text').val('');
-        } else if (model.set({id:id}, {error: this.error})) {
+            new views.Modal(err);
+        }).bind(this);
+        $(this.el).addClass('loading');
+        if (model.set({id:id}, {error:error})) {
             model.setDefaults();
             model.save(model, {
-                success: function() {
+                success: _(function() {
                     $(this.el).removeClass('loading');
                     this.collection.add(model);
-                    // window.app.done();
-                }.bind(this),
-                error: function(model, err) {
-                    $(this.el).removeClass('loading');
-                    this.error(err);
-                }.bind(this)
+                }).bind(this),
+                error: error
             });
         }
         return false;

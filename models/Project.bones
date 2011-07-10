@@ -79,7 +79,7 @@ model = Backbone.Model.extend({
         var template = {};
         !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT);
         !this.get('Layer').length && (template.Layer = this.LAYER_DEFAULT);
-        this.set(template, { silent: true });
+        this.set(this.parse(template), { silent: true });
     },
     // Instantiate collections from arrays.
     parse: function(resp) {
@@ -95,6 +95,15 @@ model = Backbone.Model.extend({
     },
     url: function() {
         return 'api/Project/' + this.id;
+    },
+    // Adds id uniqueness checking to validate.
+    validate: function(attr) {
+        if (attr.id &&
+            this.collection &&
+            this.collection.get(attr.id) &&
+            this.collection.get(attr.id) !== this)
+                return new Error(_('Project "<%=id%>" already exists.').template(attr));
+        return this.validateAttributes(attr);
     },
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent
@@ -192,6 +201,6 @@ model = Backbone.Model.extend({
                 Math.PI) /
                 2.0 * Math.pow(2, z));
         return '/' + ['1.0.0', this.id, z, x, y].join('/') + '.png?updated=' + this.get('_updated');
-    },
+    }
 });
 

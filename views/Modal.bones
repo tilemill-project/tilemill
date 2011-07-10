@@ -12,8 +12,18 @@ view.prototype._ensureElement = function() {
 };
 
 view.prototype.initialize = function(options) {
-    if (typeof options === 'string' || options instanceof Error)
+    // Attempt to handle jqXHR objects.
+    if (options.responseText) {
+        try {
+            options = { content: JSON.parse(options.responseText).message };
+        } catch(e) {
+            options = { content: options.responseText };
+        }
+    } else if (typeof options === 'string') {
+        options = { content: options };
+    } else if (options instanceof Error) {
         options = { content: options.toString() };
+    }
 
     options = options || {};
     options.content = options.content || {};
