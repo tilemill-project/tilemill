@@ -1,9 +1,5 @@
 view = Backbone.View.extend();
 
-view.prototype.events = {
-    'click .links a': 'show'
-};
-
 view.prototype.initialize = function(options) {
     this.render();
 };
@@ -25,12 +21,3 @@ view.prototype.render = function() {
     return this;
 };
 
-view.prototype.show = function(ev) {
-    var link = $(ev.currentTarget);
-    var section = link.attr('href').split('#').pop();
-    this.$('.links a.active').removeClass('active');
-    this.$('.section.active').removeClass('active');
-    link.addClass('active');
-    this.$('#' + section).addClass('active');
-    return false;
-};

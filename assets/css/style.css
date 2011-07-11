@@ -531,6 +531,9 @@ li:hover .actions { display:block; }
   background:#aaa url(../images/sprite.png) 0px 10px repeat-x;
   }
 
+.dock form { display:none; }
+.dock form.active { display:block; }
+
 /**
  * CodeMirror
  */
@@ -757,14 +760,14 @@ div::-webkit-scrollbar-thumb:horizontal { width:25px; }
  */
 .manual {}
 
-.manual .links {
+.manual .toggler {
   font-size:11px;
   width:119px;
   background:#eee;
   border-right:1px solid #ddd;
   }
 
-.manual .links a {
+.manual .toggler a {
   display:block;
   width:100px;
   padding:5px 9px 4px 10px;
@@ -772,7 +775,7 @@ div::-webkit-scrollbar-thumb:horizontal { width:25px; }
   border-bottom:1px solid #ddd;
   }
 
-.manual .links a.active {
+.manual .toggler a.active {
   border-color:#aaa;
   background:#999 url(../images/sprite.png) 0px -20px repeat-x;
   color:#fff;
@@ -841,7 +844,7 @@ table a.reference-doc-available { color:#333; }
  */
 .fonts { padding-top:30px; }
 
-.fonts .links {
+.fonts .toggler {
   font-size:11px;
   padding:0px;
   background:#eee;
@@ -850,26 +853,29 @@ table a.reference-doc-available { color:#333; }
   overflow:hidden;
   }
 
-.fonts .links a,
-.fonts .links span {
+.fonts .toggler a,
+.fonts .toggler span {
   float:left;
   width:20px;
   padding:5px 0px 4px;
   text-align:center;
   }
 
-.fonts .links a.all { width:40px; }
+.fonts .toggler span { color:#ccc; }
 
-.fonts .links a.active {
+.fonts .toggler a.all { width:40px; }
+
+.fonts .toggler a.active {
   background:#999 url(../images/sprite.png) 0px -20px repeat-x;
   color:#fff;
   }
 
-.fonts .links span { color:#ccc; }
-
 .fonts .font {
-  display:block;
+  display:none;
   padding:5px 5px 4px;
   border-bottom:1px solid #eee;
   }
+
+.fonts .font.active { display:block; }
+
 

@@ -5,7 +5,8 @@ view.prototype.events = {
     'click #popup input.cancel': 'popupClose',
     'click a.popup': 'popupOpen',
     'click #drawer a[href=#close]': 'drawerClose',
-    'click a.drawer': 'drawerOpen'
+    'click a.drawer': 'drawerOpen',
+    'click .toggler a': 'toggler'
 };
 
 view.prototype.initialize = function() {
@@ -48,3 +49,15 @@ view.prototype.drawerClose = function(ev) {
     return false;
 };
 
+view.prototype.toggler = function(ev) {
+    var link = $(ev.currentTarget);
+    var parent = link.parents('.toggler');
+    var target = link.attr('href').split('#').pop();
+
+    this.$('a', parent).removeClass('active');
+    this.$('.' + target).siblings('.active').removeClass('active');
+
+    link.addClass('active');
+    this.$('.' + target).addClass('active');
+    return false;
+};

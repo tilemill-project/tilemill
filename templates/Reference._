@@ -1,11 +1,11 @@
 <div class='manual'>
 
-<ul class='links fill-w'>
-  <li><a class='active' href='#section-intro'>intro</a></li>
+<div class='toggler fill-w'>
+  <a class='active' href='#section-intro'>intro</a>
   <% _(symbolizers).chain().keys().each(function(name) { %>
-  <li><a href='#section-<%= name %>'><%= name %></a></li>
+  <a href='#section-<%= name %>'><%= name %></a>
   <% }); %>
-</ul>
+</div>
 
 <div class='page prose fill-e'>
 
@@ -139,7 +139,7 @@ Map {
 </div>
 
 <% _(symbolizers).each(function(symbolizer, name) { %>
-<div class='section' id='section-<%= name %>'>
+<div class='section section-<%= name %>'>
   <h2><%= name %></h2>
   <table class='reference'>
     <thead>

@@ -1,9 +1,9 @@
 <div class='dock fill'>
-  <div class='icons fill-w'>
-    <a class='active' href='#file'><span class='icon'></span>File</a>
-    <a href='#postgis'><span class='icon'></span>PostGIS</a>
+  <div class='toggler icons fill-w'>
+    <a class='active' href='#layerFile'><span class='icon'></span>File</a>
+    <a href='#layerPostGIS'><span class='icon'></span>PostGIS</a>
   </div>
-  <form>
+  <form class='layerFile active'>
   <ul class='form'>
     <li class='help'>
       <h2>Identifiers</h2>
@@ -51,6 +51,14 @@
     <li class='buttons'>
       <input type='submit' value='Save' />
       <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul>
+  </form>
+
+  <form class='layerPostGIS'>
+  <ul class='form'>
+    <li class='help'>
+      @TODO
     </li>
   </ul>
   </form>

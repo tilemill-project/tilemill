@@ -1,10 +1,10 @@
 <div class='fonts'>
 
-<div class='links fill-n'>
-  <a class='active all' href='#0'>All</a>
+<div class='toggler fill-n'>
+  <a class='active all' href='#group-0'>All</a>
   <% _(65).chain().range(91).each(function(code) { %>
     <% if (groups[code]) { %>
-      <a href='#<%= code %>'><%= String.fromCharCode(code) %></a>
+      <a href='#group-<%= code %>'><%= String.fromCharCode(code) %></a>
     <% } else { %>
       <span><%= String.fromCharCode(code) %></span>
     <% } %>
@@ -12,6 +12,6 @@
 </div>
 
 <% _(fonts).each(function(f) { %>
-<a href='#insert' class='font group-0 group-<%= f.group %>'><%= f.name %></a>
+<a href='#insert' class='font active group-0 group-<%= f.group %>'><%= f.name %></a>
 <% }); %>
 </div>

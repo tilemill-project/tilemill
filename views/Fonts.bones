@@ -1,12 +1,11 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'click .links a': 'filter',
     'click a.font': 'insert'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('filter', 'insert');
+    _(this).bindAll('insert');
     this.render();
 };
 
@@ -24,16 +23,6 @@ view.prototype.render = function() {
         groups: groups
     }));
     return this;
-};
-
-view.prototype.filter = function(ev) {
-    var target = $(ev.currentTarget);
-    var group = target.attr('href').split('#').pop();
-    this.$('.links a.active').removeClass('active');
-    this.$('.fonts .font').hide();
-    this.$('.fonts .group-' + group).show();
-    target.addClass('active');
-    return false;
 };
 
 view.prototype.insert = function(ev) {
