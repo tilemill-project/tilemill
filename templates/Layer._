@@ -1,52 +1,58 @@
-<form>
-<ul class='form fill'>
-  <li>
-    <h2>Identifiers</h2>
-    <p>Enter an id and one or more optional classes that can be used in Carto stylesheets to select this layer.</p>
-  </li>
-  <li>
-    <label for='id'><span class='required' title='This field is required'>*</span> ID</label>
-    <input type='text' id='id' value='<%= get('id') %>' />
-  </li>
-  <li>
-    <label for='class'>Class</label>
-    <input type='text' id='class' value='<%= get('class') %>'/>
-  </li>
-  <li class='helper'>
-    <h2>Datasource &amp; Projection</h2>
-    <p>Choose the datasource for this layer. TileMill can often autodetect the projection of datasources. Enter the projection SRS manually otherwise.</p>
-  </li>
-  <li>
-    <label for='file'><span class='required' title='This field is required'>*</span> Datasource</label>
-    <input type='text' id='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' />
-    <a href='#' class='icon reverse assets' title='See available assets'>[+]</a>
-    <div class='container assets hidden'></div>
-  </li>
-  <li>
-    <label for='srs-name'>SRS</label>
-    <select id='srs-name'>
-      <option value=''       <% if (srsName() === 'autodetect') { %>selected='selected'<% } %>>
-        Autodetect
-      </option>
-      <option value='900913' <% if (srsName() === '900913') { %>selected='selected'<% } %>>
-        900913
-      </option>
-      <option value='WGS84'  <% if (srsName() === 'WGS84') { %>selected='selected'<% } %>>
-        WGS84
-      </option>
-      <option value='custom' <% if (srsName() === 'custom') { %>selected='selected'<% } %>>
-        Add custom
-      </option>
-    </select>
-  </li>
-  <li class='srs <% if (srsName() === 'custom') { %>hidden<% } %>'>
-    <label for='srs'>Custom</label>
-    <input type='text' id='srs' value='<%= get('srs') %>'/>
-  </li>
-  <li class='buttons fill-e'>
-    <input type='submit' value='Save' />
-    <input type='button' value='Cancel' class='cancel' />
-  </li>
-</ul>
-</form>
+<div class='dock fill'>
+  <div class='icons fill-w'>
+    <a class='active' href='#file'><span class='icon'></span>File</a>
+    <a href='#postgis'><span class='icon'></span>PostGIS</a>
+  </div>
+  <form>
+  <ul class='form'>
+    <li class='help'>
+      <h2>Identifiers</h2>
+      <p>Enter an id and one or more optional classes that can be used in Carto stylesheets to select this layer.</p>
+    </li>
+    <li>
+      <label for='id'><span class='required' title='This field is required'>*</span> ID</label>
+      <input type='text' id='id' value='<%= get('id') %>' />
+    </li>
+    <li>
+      <label for='class'>Class</label>
+      <input type='text' id='class' value='<%= get('class') %>'/>
+    </li>
+    <li class='help'>
+      <h2>Datasource &amp; Projection</h2>
+      <p>Choose the datasource for this layer. TileMill can often autodetect the projection of datasources. Enter the projection SRS manually otherwise.</p>
+    </li>
+    <li>
+      <label for='file'><span class='required' title='This field is required'>*</span> Datasource</label>
+      <input type='text' id='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' />
+      <a href='#' class='icon reverse assets' title='See available assets'>[+]</a>
+      <div class='container assets hidden'></div>
+    </li>
+    <li>
+      <label for='srs-name'>SRS</label>
+      <select id='srs-name'>
+        <option value=''       <% if (srsName() === 'autodetect') { %>selected='selected'<% } %>>
+          Autodetect
+        </option>
+        <option value='900913' <% if (srsName() === '900913') { %>selected='selected'<% } %>>
+          900913
+        </option>
+        <option value='WGS84'  <% if (srsName() === 'WGS84') { %>selected='selected'<% } %>>
+          WGS84
+        </option>
+        <option value='custom' <% if (srsName() === 'custom') { %>selected='selected'<% } %>>
+          Add custom
+        </option>
+      </select>
+    </li>
+    <li class='srs <% if (srsName() === 'custom') { %>hidden<% } %>'>
+      <label for='srs'>Custom</label>
+      <input type='text' id='srs' value='<%= get('srs') %>'/>
+    </li>
+    <li class='buttons'>
+      <input type='submit' value='Save' />
+      <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul>
+  </form>
+</div>
 

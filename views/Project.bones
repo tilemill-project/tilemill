@@ -10,6 +10,7 @@ view.prototype.events = {
     'click .layers a.edit': 'layerEdit',
     'click .layers a.inspect': 'layerInspect',
     'click .layers a.delete': 'layerDelete',
+    'click .editor a.add': 'stylesheetAdd',
     'keydown': 'keydown'
 };
 
@@ -24,7 +25,8 @@ view.prototype.initialize = function() {
         'layerAdd',
         'layerInspect',
         'layerEdit',
-        'layerDelete'
+        'layerDelete',
+        'stylesheetAdd'
     );
     this.render().trigger('attach');
 };
@@ -204,5 +206,12 @@ view.prototype.layerDelete = function(ev) {
 };
 
 view.prototype.layerInspect = function(ev) {
+};
+
+view.prototype.stylesheetAdd = function(ev) {
+    new views.Stylesheet({
+        el: $('#popup'),
+        model: new models.Stylesheet({collection: this.model.get('Stylesheet')})
+    });
 };
 

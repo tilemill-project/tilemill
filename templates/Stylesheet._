@@ -1,0 +1,16 @@
+<form>
+<ul class='form fill'>
+  <li class='help'>
+    <h2>Stylesheet</h2>
+    <p>Enter the filename of this stylesheet.</p>
+  </li>
+  <li>
+    <label for='id'><span class='required' title='This field is required'>*</span> Filename</label>
+    <input type='text' id='id' value='' />
+  </li>
+  <li class='buttons'>
+    <input type='submit' value='Save' />
+    <input type='button' value='Cancel' class='cancel' />
+  </li>
+</ul>
+</form>

@@ -8,7 +8,7 @@ view.prototype.initialize = function(options) {
 };
 
 view.prototype.render = function() {
-    this.$('.content').html(templates.Settings(this.model));
+    this.$('.content').html(templates.Stylesheet({}));
     return this;
 };
 

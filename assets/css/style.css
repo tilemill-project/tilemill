@@ -503,7 +503,38 @@ li:hover .actions { display:block; }
 
 .tabs + a.add { margin:10px 10px 0px; }
 
-.code {
+/**
+ * "Dock"-style tabs
+ */
+.dock { padding-left:60px; }
+
+.dock .icons {
+  width:59px;
+  border-right:1px solid #ddd;
+  background:#eee;
+  }
+
+.dock .icons a {
+  display:block;
+  font-size:11px;
+  text-align:center;
+  width:40px;
+  height:40px;
+  border-bottom:1px solid #ddd;
+  border-right:1px solid #ddd;
+  padding:10px 9px 9px 10px;
+  }
+
+.dock .icons a.active {
+  color:#fff;
+  border-color:#999;
+  background:#aaa url(../images/sprite.png) 0px 10px repeat-x;
+  }
+
+/**
+ * CodeMirror
+ */
+.editor .code {
   overflow:hidden;
   top:79px;
   z-index:1;
@@ -512,9 +543,6 @@ li:hover .actions { display:block; }
   box-shadow:rgba(0,0,0,.1) 0px 0px 3px;
   }
 
-/**
- * CodeMirror
- */
 .editor .CodeMirror,
 .editor .CodeMirror-scroll {
   position:absolute;
@@ -661,7 +689,14 @@ input[type=submit]:active {
   }
 
 ul.form h2 { font-size:16px; }
-ul.form li { padding:10px; }
+
+ul.form li {
+  padding:10px 10px 9px;
+  border-bottom:1px solid #eee;
+  }
+
+ul.form li.help { border-color:#fff; }
+
 ul.form li label {
   display:inline-block;
   width:110px;
@@ -669,36 +704,28 @@ ul.form li label {
   text-align:right;
   }
 
-#popup ul.form { padding-right:200px; }
-
-#popup ul.form .buttons {
-  position:absolute;
-  width:140px;
-  border-left:1px solid #eee;
-  background:#f8f8f8;
-  }
-
-#popup ul.form .buttons input {
-  display:block;
+ul.form .buttons { text-align:center; }
+ul.form .buttons input {
+  display:inline-block;
   background:#74bccc;
   line-height:30px;
   height:30px;
-  margin:0px 0px 5px;
-  width:140px;
+  margin:0px 5px;
+  min-width:100px;
   text-align:center;
   font-size:16px;
   box-shadow:inset #8cd 0px 1px 0px;
   }
 
-#popup ul.form .buttons input.cancel {
+ul.form .buttons input.cancel {
   background:#fff;
   color:#999;
   box-shadow:inset #eee 0px -1px 0px;
   border-color:#ccc;
   }
 
-#popup ul.form .buttons input.cancel:active,
-#popup ul.form .buttons input:active {
+ul.form .buttons input.cancel:active,
+ul.form .buttons input:active {
   color:#fff;
   border-color:#666;
   background:#888;
@@ -731,20 +758,24 @@ div::-webkit-scrollbar-thumb:horizontal { width:25px; }
 .manual {}
 
 .manual .links {
-  background:#f8f8f8;
-  padding:10px 0px;
-  width:120px;
+  font-size:11px;
+  width:119px;
+  background:#eee;
+  border-right:1px solid #ddd;
   }
 
 .manual .links a {
-  color:#666;
-  padding:0px 10px;
   display:block;
+  width:100px;
+  padding:5px 9px 4px 10px;
+  border-right:1px solid #ddd;
+  border-bottom:1px solid #ddd;
   }
 
 .manual .links a.active {
-  background:#fe8;
-  color:#222;
+  border-color:#aaa;
+  background:#999 url(../images/sprite.png) 0px -20px repeat-x;
+  color:#fff;
   }
 
 .manual .page {
@@ -811,9 +842,11 @@ table a.reference-doc-available { color:#333; }
 .fonts { padding-top:30px; }
 
 .fonts .links {
-  padding:5px 10px;
-  background:#f8f8f8;
-  height:20px;
+  font-size:11px;
+  padding:0px;
+  background:#eee;
+  border-bottom:1px solid #ddd;
+  height:29px;
   overflow:hidden;
   }
 
@@ -821,16 +854,15 @@ table a.reference-doc-available { color:#333; }
 .fonts .links span {
   float:left;
   width:20px;
+  padding:5px 0px 4px;
   text-align:center;
   }
 
 .fonts .links a.all { width:40px; }
 
 .fonts .links a.active {
-  margin:-5px 0px;
-  padding:5px 0px;
-  background:#fe8;
-  color:#222;
+  background:#999 url(../images/sprite.png) 0px -20px repeat-x;
+  color:#fff;
   }
 
 .fonts .links span { color:#ccc; }

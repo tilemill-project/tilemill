@@ -8,7 +8,6 @@ view.prototype.initialize = function(options) {
 };
 
 view.prototype.render = function() {
-    console.log(this.model);
     this.$('.content').html(templates.Layer(this.model));
     return this;
 };
