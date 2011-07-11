@@ -1,8 +1,17 @@
 <div class='dock fill'>
-  <div class='icons fill-w'>
-    <a class='active' href='#project'><span class='icon'></span>Project</a>
-    <a href='#tooltips'><span class='icon'></span>Tooltips</a>
-    <a href='#legend'><span class='icon'></span>Legend</a>
+  <div class='toggler icons fill-w'>
+    <a class='active' href='#settingsProject'><span class='icon'></span>Project</a>
+    <a href='#settingsTooltips'><span class='icon'></span>Tooltips</a>
+    <a href='#settingsLegend'><span class='icon'></span>Legend</a>
   </div>
+  <form class='settingsProject active'>
+    @TODO settingsProject
+  </form>
+  <form class='settingsTooltips'>
+    @TODO settingsTooltips
+  </form>
+  <form class='settingsLegend'>
+    @TODO settingsLegend
+  </form>
 </div>
 

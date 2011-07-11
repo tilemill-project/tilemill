@@ -5,10 +5,6 @@
   </div>
   <form class='layerFile active'>
   <ul class='form'>
-    <li class='help'>
-      <h2>Identifiers</h2>
-      <p>Enter an id and one or more optional classes that can be used in Carto stylesheets to select this layer.</p>
-    </li>
     <li>
       <label for='id'><span class='required' title='This field is required'>*</span> ID</label>
       <input type='text' id='id' value='<%= get('id') %>' />
@@ -16,10 +12,6 @@
     <li>
       <label for='class'>Class</label>
       <input type='text' id='class' value='<%= get('class') %>'/>
-    </li>
-    <li class='help'>
-      <h2>Datasource &amp; Projection</h2>
-      <p>Choose the datasource for this layer. TileMill can often autodetect the projection of datasources. Enter the projection SRS manually otherwise.</p>
     </li>
     <li>
       <label for='file'><span class='required' title='This field is required'>*</span> Datasource</label>
