@@ -660,6 +660,51 @@ input[type=submit]:active {
   box-shadow:inset #999 0px -1px 0px;
   }
 
+ul.form h2 { font-size:16px; }
+ul.form li { padding:10px; }
+ul.form li label {
+  display:inline-block;
+  width:110px;
+  padding:0px 10px 0px 0px;
+  text-align:right;
+  }
+
+#popup ul.form { padding-right:200px; }
+
+#popup ul.form .buttons {
+  position:absolute;
+  width:140px;
+  border-left:1px solid #eee;
+  background:#f8f8f8;
+  }
+
+#popup ul.form .buttons input {
+  display:block;
+  background:#74bccc;
+  line-height:30px;
+  height:30px;
+  margin:0px 0px 5px;
+  width:140px;
+  text-align:center;
+  font-size:16px;
+  box-shadow:inset #8cd 0px 1px 0px;
+  }
+
+#popup ul.form .buttons input.cancel {
+  background:#fff;
+  color:#999;
+  box-shadow:inset #eee 0px -1px 0px;
+  border-color:#ccc;
+  }
+
+#popup ul.form .buttons input.cancel:active,
+#popup ul.form .buttons input:active {
+  color:#fff;
+  border-color:#666;
+  background:#888;
+  box-shadow:inset #999 0px -1px 0px;
+  }
+
 /* Special sauce */
 ul::-webkit-scrollbar,
 div::-webkit-scrollbar {

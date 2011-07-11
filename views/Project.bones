@@ -179,9 +179,18 @@ view.prototype.keydown = function(ev) {
 };
 
 view.prototype.layerAdd = function(ev) {
+    new views.Layer({
+        el: $('#popup'),
+        model: new models.Layer({collection: this.model.get('Layer')})
+    });
 };
 
 view.prototype.layerEdit = function(ev) {
+    var id = $(ev.currentTarget).attr('href').split('#').pop();
+    new views.Layer({
+        el: $('#popup'),
+        model: this.model.get('Layer').get(id)
+    });
 };
 
 view.prototype.layerDelete = function(ev) {
