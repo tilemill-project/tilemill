@@ -224,6 +224,26 @@ view.prototype.layerDelete = function(ev) {
 };
 
 view.prototype.layerInspect = function(ev) {
+    var id = $(ev.currentTarget).attr('href').split('#').pop();
+    var layer = this.model.get('Layer').get(id);
+    var model = new models.Datasource(_.extend(
+        {
+            id: layer.get('id'),
+            project: this.model.get('id')
+        },
+        layer.get('Datasource')
+    ));
+    model.fetchFeatures({
+        success: function(model) {
+            new views.DatasourceInfo({
+                el: $('#drawer'),
+                model: model
+            });
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
 };
 
 view.prototype.stylesheetAdd = function(ev) {

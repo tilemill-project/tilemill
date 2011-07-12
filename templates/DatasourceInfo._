@@ -1,0 +1,18 @@
+<table class='features'>
+  <thead>
+    <tr>
+      <% _(fields).each(function (field, name) { %>
+        <th><a title='<%= field.type %>>'><%= name %></a></th>
+      <% }); %>
+    </tr>
+  </thead>
+  <tbody>
+    <% _(features).each(function (feature) { %>
+      <tr>
+        <% _(feature).each(function (value) { %>
+          <td><%= value %></th>
+        <% }); %>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
