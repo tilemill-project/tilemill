@@ -197,9 +197,11 @@ view.prototype.keydown = function(ev) {
 };
 
 view.prototype.layerAdd = function(ev) {
+    var model = new models.Layer({collection: this.model.get('Layer')})
+    model.bind('add', this.makeLayer);
     new views.Layer({
         el: $('#popup'),
-        model: new models.Layer({collection: this.model.get('Layer')})
+        model: model
     });
 };
 

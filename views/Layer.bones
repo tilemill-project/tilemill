@@ -27,8 +27,8 @@ view.prototype.saveFile = function() {
     };
     var options = { error: function(m, e) { new views.Modal(e); } };
     if (this.model.set(attr, options)) {
-        if (!this.model.collection.include(this.model))
-            this.model.collection.add(this.model);
+        if (!this.model.get('collection').include(this.model))
+            this.model.get('collection').add(this.model);
         this.$('.close').click();
     }
     return false;
