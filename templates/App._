@@ -12,12 +12,12 @@
 <body>
 
 <div id='page'></div>
+<div id='modal'></div>
 <div id='popup' class='pane'>
   <h2 class='title'></h2>
   <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
   <div class='content fill-s'></div>
 </div>
-<div id='modal'></div>
 
 </body>
 </html>

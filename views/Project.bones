@@ -1,7 +1,6 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'click .tabs a': 'codeTab',
     'click .actions a[href=#save]': 'save',
     'click a[href=#fonts]': 'fonts',
     'click a[href=#carto]': 'carto',
@@ -11,6 +10,7 @@ view.prototype.events = {
     'click .layers a.inspect': 'layerInspect',
     'click .layers a.delete': 'layerDelete',
     'click .editor a.add': 'stylesheetAdd',
+    'click .editor a.delete': 'stylesheetDelete',
     'keydown': 'keydown'
 };
 
@@ -20,13 +20,15 @@ view.prototype.initialize = function() {
         'attach',
         'save',
         'mapZoom',
-        'codeTab',
         'keydown',
         'layerAdd',
         'layerInspect',
         'layerEdit',
         'layerDelete',
-        'stylesheetAdd'
+        'makeLayer',
+        'makeStylesheet',
+        'stylesheetAdd',
+        'stylesheetDelete'
     );
     this.render().trigger('attach');
 };
@@ -59,41 +61,55 @@ view.prototype.render = function() {
         this.mapZoom({element: this.map.div});
     }).bind(this)();
 
-    _(function codeInit() {
-        if (!CodeMirror) throw new Error('CodeMirror not found.');
-        var codeEl = this.$('.code').get(0);
-        this.model.get('Stylesheet').each(_(function(model, index) {
-            model.codemirror = CodeMirror(codeEl, {
-                value: model.get('data'),
-                lineNumbers: true,
-                tabMode: 'shift',
-                mode: {
-                    name: 'carto',
-                    reference: window.abilities.carto
-                },
-                onCursorActivity: function() {
-                    model.set({'data': model.codemirror.getValue()});
-                },
-                onChange: function() {
-                    // onchange runs before this function is finished,
-                    // so self.codemirror is false.
-                    model.codemirror && model.set({'data': model.codemirror.getValue()});
-                }
-            });
-            if (index === 0) $(model.codemirror.getWrapperElement()).addClass('active');
-        }).bind(this));
+    _(function stylesheetInit() {
+        this.model.get('Stylesheet').each(this.makeStylesheet);
+    }).bind(this)();
+
+    _(function layerInit() {
+        this.model.get('Layer').each(this.makeLayer);
     }).bind(this)();
 
     return this;
 };
 
-view.prototype.codeTab = function(e) {
-    var id = $(e.currentTarget).attr('href').split('#').pop();
-    var model = this.model.get('Stylesheet').get(id);
-    $(model.codemirror.getWrapperElement()).addClass('active').siblings().removeClass('active');
-    this.$('.tabs li a').removeClass('active');
-    $(e.currentTarget).addClass('active');
-    return false;
+view.prototype.makeLayer = function(model) {
+    model.el = $(templates.ProjectLayer(model));
+    this.$('.layers ul').append(model.el);
+};
+
+view.prototype.makeStylesheet = function(model) {
+    if (!CodeMirror) throw new Error('CodeMirror not found.');
+    var codeEl = this.$('.code').get(0);
+    var id = 'stylesheet-' + model.id.replace(/[\.]/g, '-');
+    model.el = $(templates.ProjectStylesheet(model));
+    model.codemirror = CodeMirror(codeEl, {
+        value: model.get('data'),
+        lineNumbers: true,
+        tabMode: 'shift',
+        mode: {
+            name: 'carto',
+            reference: window.abilities.carto
+        },
+        onCursorActivity: function() {
+            model.set({'data': model.codemirror.getValue()});
+        },
+        onChange: function() {
+            // onchange runs before this function is finished,
+            // so self.codemirror is false.
+            model.codemirror && model.set({'data': model.codemirror.getValue()});
+        }
+    });
+    $(model.codemirror.getWrapperElement())
+        .addClass(id)
+        .addClass(model.collection.indexOf(model) === 0 ? 'active' : '');
+    this.$('.editor ul').append(model.el);
+
+    // Bind to the 'remove' event to teardown.
+    model.bind('remove', _(function(model) {
+        model.el.remove();
+        $(model.codemirror.getWrapperElement()).remove();
+        this.$('.tabs a.tab:last').click();
+    }).bind(this));
 };
 
 // Set the model center whenever the map is moved.
@@ -141,7 +157,7 @@ view.prototype.attach = function() {
                 }
             })
             .each(_(function(color) {
-                var swatch = _('<span class="swatch"><span  style="background-color:<%= color %>" class="color"></span></span>').template({color:color})
+                var swatch = templates.ProjectSwatch({color:color});
                 this.$('.colors').append(swatch);
             }).bind(this));
     }).bind(this)();
@@ -198,9 +214,11 @@ view.prototype.layerEdit = function(ev) {
 view.prototype.layerDelete = function(ev) {
     var id = $(ev.currentTarget).attr('href').split('#').pop();
     new views.Modal({
-        content: _('Are you sure you want to delete layer "<%=id%>"?').template({id:id}),
-        callback: function(confirm) {
-        }
+        content: 'Are you sure you want to delete layer "'+ id +'"?',
+        callback: _(function() {
+            var model = this.model.get('Layer').get(id);
+            model.el.remove();
+        }).bind(this)
     });
     return false;
 };
@@ -209,9 +227,21 @@ view.prototype.layerInspect = function(ev) {
 };
 
 view.prototype.stylesheetAdd = function(ev) {
-    new views.Stylesheet({
-        el: $('#popup'),
-        model: new models.Stylesheet({collection: this.model.get('Stylesheet')})
+    var model = new models.Stylesheet({}, {
+        collection: this.model.get('Stylesheet')
+    });
+    model.bind('add', this.makeStylesheet);
+    new views.Stylesheet({el:$('#popup'), model:model});
+};
+
+view.prototype.stylesheetDelete = function(ev) {
+    var id = $(ev.currentTarget).attr('href').split('#').pop();
+    new views.Modal({
+        content: 'Are you sure you want to delete stylesheet "' + id + '"?',
+        callback: _(function() {
+            var model = this.model.get('Stylesheet').get(id);
+            this.model.get('Stylesheet').remove(model);
+        }).bind(this)
     });
 };
 

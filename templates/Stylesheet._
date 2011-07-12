@@ -2,7 +2,7 @@
 <ul class='form fill'>
   <li>
     <label for='id'><span class='required' title='This field is required'>*</span> Filename</label>
-    <input type='text' id='id' value='' />
+    <input type='text' name='id' value='' />
   </li>
   <li class='buttons'>
     <input type='submit' value='Save' />

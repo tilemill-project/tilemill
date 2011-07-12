@@ -38,8 +38,8 @@ view = Backbone.View.extend({
         var model = this.collection.get(id);
         new views.Modal({
             content: _('Are you sure you want to delete "<%=id%>?"').template({id:id}),
-            callback: _(function(confirm) {
-                confirm && model.destroy({
+            callback: _(function() {
+                model.destroy({
                     success: function() {
                         this.collection.remove(model);
                     }.bind(this),

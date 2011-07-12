@@ -33,13 +33,7 @@
       </div>
     </div>
 
-    <ul class='tabs clearfix'>
-    <% get('Stylesheet').each(function(model, index) { %>
-      <li><a class='<%= !index ? 'active' : '' %>' href='#<%= model.id %>'>
-        <%= model.id %>
-      </a></li>
-    <% }); %>
-    </ul>
+    <ul class='tabs toggler clearfix'></ul>
     <a class='popup add button'><span class='icon reverse plus'>Add stylesheet</span></a>
   </div>
   <div class='map fill-w' id='map'>
@@ -47,23 +41,7 @@
   </div>
   <div class='layers'>
     <a href='#add' class='popup add button'><span class='icon reverse plus'></span> Add layer</a>
-    <ul>
-    <% get('Layer').each(function(model) { %>
-      <li>
-        <span class='handle fill-w'>
-          <a title='<%= model.get('geometry') %>' class='icon geometry geometry-<%= model.get('geometry') %>'></a>
-        </span>
-        <label><%= ["<span class='punc'>#</span>" + model.id].concat((model.get('class') || '').split(' ')).join("<span class='punc'>.</span>") %></label>
-        <span class='actions fill-e'>
-          <% if (model.get('geometry') !== 'raster') { %>
-            <a title='Features (<%= model.id %>)' class='icon inspect drawer' href='#<%= model.id %>'>Features (<%= model.id %>)</a>
-          <% } %>
-          <a title='Edit <%= model.id %>' class='icon edit popup' href='#<%= model.id %>'>Edit <%= model.id %></a>
-          <a title='Delete <%= model.id %>' class='icon delete' href='#<%= model.id %>'>Delete <%= model.id %></a>
-        </span>
-      </li>
-    <% }); %>
-    </ul>
+    <ul></ul>
   </div>
   <div id='drawer' class='pane fill-w'>
     <h2 class='title'></h2>

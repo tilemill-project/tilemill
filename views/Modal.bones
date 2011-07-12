@@ -40,18 +40,17 @@ view.prototype.render = function() {
 };
 
 view.prototype.close = function() {
-    $('body').removeClass('overlay');
+    if (!$('#popup.active').size()) $('body').removeClass('overlay');
     $(this.el).removeClass('active');
     return false;
 };
 
 view.prototype.ok = function() {
-    this.options.callback(true);
+    this.options.callback();
     return this.close();
 };
 
 view.prototype.cancel = function() {
-    this.options.callback(false);
     return this.close();
 };
 

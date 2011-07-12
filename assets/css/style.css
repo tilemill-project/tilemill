@@ -158,6 +158,10 @@ a {
   }
 
 #popup.active { bottom:0%; }
+#modal.active + #popup {
+  z-index:99;
+  border-color:#ccc;
+  }
 
 #drawer {
   top:50px;
@@ -479,9 +483,12 @@ li:hover .actions { display:block; }
   height:30px;
   }
 
-.tabs li { float:left; }
+.tabs li {
+  position:relative;
+  float:left;
+  }
 
-.tabs li a {
+.tabs li a.tab {
   position:relative;
   float:left;
   border:1px solid #ccc;
@@ -495,13 +502,23 @@ li:hover .actions { display:block; }
   color:#888;
   }
 
-.tabs li a.active {
+.tabs li a.tab.active {
   background:#fff;
   color:#222;
   z-index:1;
   }
 
 .tabs + a.add { margin:10px 10px 0px; }
+
+.tabs li a.delete {
+  display:none;
+  position:absolute;
+  right:5px;
+  top:4px;
+  z-index:1;
+  }
+
+.tabs li:hover a.delete { display:block; }
 
 /**
  * "Dock"-style tabs
