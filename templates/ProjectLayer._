@@ -1,0 +1,13 @@
+<li>
+  <span class='handle fill-w'>
+    <a title='<%= get('geometry') %>' class='icon geometry geometry-<%= get('geometry') %>'></a>
+  </span>
+  <label><%= ["<span class='punc'>#</span>" + id].concat((get('class') || '').split(' ')).join("<span class='punc'>.</span>") %></label>
+  <span class='actions fill-e'>
+    <% if (get('geometry') !== 'raster') { %>
+      <a title='Features (<%= id %>)' class='icon inspect drawer' href='#<%= id %>'>Features (<%= id %>)</a>
+    <% } %>
+    <a title='Edit <%= id %>' class='icon edit popup' href='#<%= id %>'>Edit <%= id %></a>
+    <a title='Delete <%= id %>' class='icon delete' href='#<%= id %>'>Delete <%= id %></a>
+  </span>
+</li>
