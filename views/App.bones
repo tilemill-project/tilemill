@@ -61,7 +61,7 @@ view.prototype.toggler = function(ev) {
     var parent = link.parents('.toggler');
     var target = link.attr('href').split('#').pop();
 
-    this.$('a', parent).removeClass('active');
+    $('a', parent).removeClass('active');
     this.$('.' + target).siblings('.active').removeClass('active');
 
     link.addClass('active');
