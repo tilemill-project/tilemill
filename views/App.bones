@@ -6,11 +6,18 @@ view.prototype.events = {
     'click a.popup': 'popupOpen',
     'click #drawer a[href=#close]': 'drawerClose',
     'click a.drawer': 'drawerOpen',
-    'click .toggler a': 'toggler'
+    'click .toggler a': 'toggler',
+    'keydown': 'keydown'
 };
 
 view.prototype.initialize = function() {
-    _(this).bindAll('popupOpen', 'popupClose', 'drawerOpen', 'drawerClose');
+    _(this).bindAll(
+        'popupOpen',
+        'popupClose',
+        'drawerOpen',
+        'drawerClose',
+        'toggler'
+    );
 };
 
 view.prototype.popupOpen = function(ev) {
@@ -61,3 +68,22 @@ view.prototype.toggler = function(ev) {
     this.$('.' + target).addClass('active');
     return false;
 };
+
+view.prototype.keydown = function(ev) {
+    // Keypress: escape
+    if (ev.which == 27 && (!ev.ctrlKey && !ev.metaKey && !ev.altKey)) {
+        // @TODO for some reason a function bound from the Modal view
+        // to a keydown event is not fired. Probably related to
+        // event delegation/bubbling?
+        if (this.$('#modal.active').size()) {
+            if (!$('#popup.active').size()) $('body').removeClass('overlay');
+            this.$('#modal.active').removeClass('active');
+        } else if (this.$('#popup.active').size()) {
+            this.popupClose();
+        } else if (this.$('#drawer.active').size()) {
+            this.drawerClose();
+        }
+        return false;
+    }
+};
+

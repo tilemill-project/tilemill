@@ -711,9 +711,12 @@ input[type=submit]:active {
 ul.form h2 { font-size:16px; }
 
 ul.form li {
-  padding:10px 10px 9px;
-  border-bottom:1px solid #eee;
+  position:relative;
+  padding-left:120px;
+  margin:20px;
   }
+
+ul.form li.buttons { padding:0px; }
 
 ul.form li .inline {
   vertical-align:top;
@@ -721,9 +724,11 @@ ul.form li .inline {
   }
 
 ul.form li label {
-  display:inline-block;
-  width:110px;
-  padding:0px 10px 0px 0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:115px;
+  padding:0px 5px 0px 0px;
   text-align:right;
   }
 

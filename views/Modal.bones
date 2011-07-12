@@ -3,7 +3,7 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'click a[href=#close]': 'close',
     'click input.ok': 'ok',
-    'click input.cancel': 'cancel'
+    'click input.cancel': 'close'
 };
 
 // Override _ensureElement.
@@ -12,6 +12,8 @@ view.prototype._ensureElement = function() {
 };
 
 view.prototype.initialize = function(options) {
+    _(this).bindAll('render', 'ok', 'close');
+
     // Attempt to handle jqXHR objects.
     if (options.responseText) {
         try {
@@ -47,10 +49,6 @@ view.prototype.close = function() {
 
 view.prototype.ok = function() {
     this.options.callback();
-    return this.close();
-};
-
-view.prototype.cancel = function() {
     return this.close();
 };
 

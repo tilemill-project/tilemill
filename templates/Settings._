@@ -4,14 +4,102 @@
     <a href='#settingsTooltips'><span class='icon'></span>Tooltips</a>
     <a href='#settingsLegend'><span class='icon'></span>Legend</a>
   </div>
-  <form class='settingsProject active'>
-    @TODO settingsProject
-  </form>
-  <form class='settingsTooltips'>
-    @TODO settingsTooltips
-  </form>
-  <form class='settingsLegend'>
-    @TODO settingsLegend
-  </form>
+  <form class='settingsProject active'><ul class='form'>
+    <li>
+      <label for='name'>Name</label>
+      <input type='text' name='name' />
+    </li>
+    <li>
+      <label for='description'>Description</label>
+      <input type='text' name='description' />
+    </li>
+    <li>
+      <label for='attribution'>Attribution</label>
+      <input type='text' name='attribution' />
+    </li>
+    <li>
+      <label for='version'>Version</label>
+      <input type='text' name='version' />
+    </li>
+    <li>
+      <label for='format'>Image format</label>
+      <select name='format'>
+        <option value='png' selected='selected'>png (24-bit)</option>
+        <option value='png8'>png (8-bit)</option>
+        <option value='jpeg80'>jpeg (80%)</option>
+        <option value='jpeg85'>jpeg (85%)</option>
+        <option value='jpeg90'>jpeg (90%)</option>
+        <option value='jpeg95'>jpeg (95%)</option>
+      </select>
+    </li>
+    <li>
+      <label for='minzoom'>Zoom range</label>
+      @TODO: minzoom - maxzoom slider
+    </li>
+    <li>
+      <label for='bounds'>Bounds</label>
+      @TODO: [w, s, e, n]
+    </li>
+    <li>
+      <label for='center'>Center</label>
+      @TODO: [lon, lat, zoom]
+    </li>
+    <li class='buttons'>
+      <input type='submit' value='Save' />
+      <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul></form>
+  <form class='settingsTooltips'><ul class='form'>
+    <li>
+      <label for='interactivity_layer'>Interactivity</label>
+      <select id='interactivity_layer'>
+        {{#interactivity_layer}}
+          <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{name}}</option>
+        {{/interactivity_layer}}
+      </select>
+      <div class='description'>Layer from which interaction data should be generated.</div>
+      <div class='dependent hidden'></div>
+    </li>
+    <li>
+      <label for='interactivity_key_name'>Key name</label>
+      <select id='interactivity_key_name'>
+        {{#fields}}
+          <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{id}}</option>
+        {{/fields}}
+      </select>
+      <div class='description'>Unique ID field for features on this layer. Example: ISO2 code.</div>
+    </li>
+    <li>
+      <label>Formatter</label>
+      <label class='inline' for='interactivity_template_teaser'>Teaser</label>
+      <textarea rows='2' id='interactivity_template_teaser'>{{template_teaser}}</textarea>
+      <label class='inline' for='interactivity_template_full'>Full</label>
+      <textarea rows='2' id='interactivity_template_full'>{{template_full}}</textarea>
+      <label class='inline' for='interactivity_template_location'>Location</label>
+      <textarea rows='1' id='interactivity_template_location'>{{template_location}}</textarea>
+      <div class='description'>A web address that interaction clients can optionally navigate to on click</div>
+      <div class='description'>
+        HTML markup for interaction data. Any of the following tokens will be replaced:
+        {{#fields}}
+          <code>[{{id}}]</code>
+        {{/fields}}
+      </div>
+    </li>
+    <li class='buttons'>
+      <input type='submit' value='Save' />
+      <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul></form>
+  <form class='settingsLegend'><ul class='form'>
+    <li>
+      <label for='format'>Map legend</label>
+      <div class='description'>Map legend for clients that support MBTiles interactivity.</div>
+      <textarea rows='10' id='legend'>{{{legend}}}</textarea>
+    </li>
+    <li class='buttons'>
+      <input type='submit' value='Save' />
+      <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul></form>
 </div>
 
