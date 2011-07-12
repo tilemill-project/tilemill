@@ -7,12 +7,9 @@
     </tr>
   </thead>
   <tbody>
-    <% _(features).each(function (feature) { %>
-      <tr>
-        <% _(feature).each(function (value) { %>
-          <td><%= value %></th>
-        <% }); %>
-      </tr>
-    <% }); %>
+    <%= this['DatasourceInfoRows'](obj) %>
   </tbody>
 </table>
+<% if (more) { %>
+<a class='showall button' href='#'>Show all</a>
+<% } %>

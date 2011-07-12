@@ -1,0 +1,7 @@
+<% _(features).each(function (feature) { %>
+  <tr>
+    <% _(feature).each(function (value) { %>
+      <td><%= value %></th>
+    <% }); %>
+  </tr>
+<% }); %>

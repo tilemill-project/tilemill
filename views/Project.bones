@@ -224,6 +224,7 @@ view.prototype.layerDelete = function(ev) {
 };
 
 view.prototype.layerInspect = function(ev) {
+    $('#drawer').addClass('loading');
     var id = $(ev.currentTarget).attr('href').split('#').pop();
     var layer = this.model.get('Layer').get(id);
     var model = new models.Datasource(_.extend(
@@ -241,6 +242,7 @@ view.prototype.layerInspect = function(ev) {
             });
         },
         error: function(err) {
+            // TODO
             console.log(err);
         }
     });
