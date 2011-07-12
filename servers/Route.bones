@@ -1,15 +1,3 @@
-var mapnik = require('tilelive-mapnik/node_modules/mapnik');
-var abilities = {
-    carto: require('tilelive-mapnik/node_modules/carto').tree.Reference.data,
-    fonts: mapnik.fonts(),
-    datasources: mapnik.datasources(),
-    exports: {
-        mbtiles: true,
-        png: true,
-        pdf: mapnik.supports.cairo
-    }
-};
-
 servers['Route'].augment({
     assets: {
         styles: [
@@ -38,11 +26,6 @@ servers['Route'].augment({
             mirror.assets(this.assets.styles, { type: '.css' }));
         this.get('/assets/tilemill/js/vendor.js',
             mirror.assets(this.assets.scripts, { type: '.js' }));
-        this.get('/assets/tilemill/js/abilities.js', this.abilities);
     }
 });
 
-servers['Route'].prototype.abilities = function(req, res, next) {
-    var js = 'var abilities = ' + JSON.stringify(abilities) + ';';
-    res.send(js, {'Content-type': 'text/javascript'});
-};
