@@ -715,6 +715,11 @@ ul.form li {
   border-bottom:1px solid #eee;
   }
 
+ul.form li .inline {
+  vertical-align:top;
+  display:inline-block;
+  }
+
 ul.form li label {
   display:inline-block;
   width:110px;

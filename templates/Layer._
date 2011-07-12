@@ -3,25 +3,24 @@
     <a class='active' href='#layerFile'><span class='icon'></span>File</a>
     <a href='#layerPostGIS'><span class='icon'></span>PostGIS</a>
   </div>
-  <form class='layerFile active'>
-  <ul class='form'>
+  <form class='layerFile active'><ul class='form'>
     <li>
       <label for='id'><span class='required' title='This field is required'>*</span> ID</label>
-      <input type='text' id='id' value='<%= get('id') %>' />
+      <input type='text' name='id' value='<%=get('id')%>' />
     </li>
     <li>
       <label for='class'>Class</label>
-      <input type='text' id='class' value='<%= get('class') %>'/>
+      <input type='text' name='class' value='<%=get('class')%>'/>
     </li>
     <li>
       <label for='file'><span class='required' title='This field is required'>*</span> Datasource</label>
-      <input type='text' id='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' />
+      <input type='text' name='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' />
       <a href='#' class='icon reverse assets' title='See available assets'>[+]</a>
       <div class='container assets hidden'></div>
     </li>
     <li>
       <label for='srs-name'>SRS</label>
-      <select id='srs-name'>
+      <select name='srs-name'>
         <option value=''       <% if (srsName() === 'autodetect') { %>selected='selected'<% } %>>
           Autodetect
         </option>
@@ -35,24 +34,66 @@
           Add custom
         </option>
       </select>
-    </li>
-    <li class='srs <% if (srsName() === 'custom') { %>hidden<% } %>'>
-      <label for='srs'>Custom</label>
-      <input type='text' id='srs' value='<%= get('srs') %>'/>
+      <span class='srs <% if (srsName() === 'custom') { %>hidden<% } %>'>
+        <input type='text' name='srs' value='<%=get('srs')%>'/>
+      </span>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
       <input type='button' value='Cancel' class='cancel' />
     </li>
-  </ul>
-  </form>
+  </ul></form>
 
-  <form class='layerPostGIS'>
-  <ul class='form'>
-    <li class='help'>
-      @TODO
+  <form class='layerPostGIS'><ul class='form'>
+    <li>
+      <label for='id'><span class='required' title='This field is required'>*</span> ID</label>
+      <input type='text' name='id' value='<%=get('id')%>' />
     </li>
-  </ul>
-  </form>
+    <li>
+      <label for='class'>Class</label>
+      <input type='text' name='class' value='<%=get('class')%>'/>
+    </li>
+    <li>
+      <label for='dbname'><span class='required' title='This field is required'>*</span> Database</label>
+      <input type='text' placeholder='pgsql://user:password@hostname:5432/database' name='dbname' value='<%=get('dbname')%>' />
+    </li>
+    <li>
+      <label for='table'><span class='required' title='This field is required'>*</span> Query</label>
+      <div class='inline'>
+        <pre>SELECT * FROM </pre>
+        <textarea  name='table' ><%=get('table')%></textarea>
+      </div>
+    </li>
+    <li>
+      <label for='extent'>Extent</label>
+      <input type='text'  name='extent' value='<%=get('extent')%>' />
+    </li>
+    <li>
+      <label for='extent'>Geometry Field</label>
+      <input type='text'  name='geometry_field' value='<%=get('geometry_field')%>' />
+    </li>
+    <li>
+      <label for='srs-name'>SRS</label>
+      <select name='srs-name'>
+        <option value='900913' <% if (srsName() === '900913') { %>selected='selected'<% } %>>
+          900913
+        </option>
+        <option value='WGS84'  <% if (srsName() === 'WGS84') { %>selected='selected'<% } %>>
+          WGS84
+        </option>
+        <option value='custom' <% if (srsName() === 'custom') { %>selected='selected'<% } %>>
+          Add custom
+        </option>
+      </select>
+      <span class='srs <% if (srsName() === 'custom') { %>hidden<% } %>'>
+        <input type='text' name='srs' value='<%=get('srs')%>'/>
+      </span>
+    </li>
+    <li class='buttons'>
+      <input type='submit' value='Save' />
+      <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul></form>
+
 </div>
 
