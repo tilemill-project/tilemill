@@ -44,6 +44,10 @@ view.prototype.saveFile = function() {
                     this.$('.close').click();
                 }
                 $(this.el).removeClass('loading');
+            }).bind(this),
+            error: _(function(m, e) {
+                new views.Modal(e);
+                $(this.el).removeClass('loading');
             }).bind(this)
         });
     }
