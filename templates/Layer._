@@ -4,19 +4,25 @@
     <a href='#layerPostGIS'><span class='icon postgis'></span>PostGIS</a>
   </div>
   <form class='layerFile active'><ul class='form'>
+    <li class='text'>
+      <h2>File</h2>
+      <div class='description'>Use a URL or filepath to a shape, kml, geotiff or geojson file for this layer.</div>
+    </li>
     <li>
-      <label for='id'><span class='required' title='This field is required'>*</span> ID</label>
-      <input type='text' name='id' value='<%=get('id')%>' />
+      <label for='id'><span class='required'>*</span> ID</label>
+      <input type='text' name='id' value='<%=get('id')%>' size='20'/>
+      <span class='description'>select in Carto <code>#id</code></span>
     </li>
     <li>
       <label for='class'>Class</label>
-      <input type='text' name='class' value='<%=get('class')%>'/>
+      <input type='text' name='class' value='<%=get('class')%>' size='20'/>
+      <span class='description'>select in Carto <code>.class</code></span>
     </li>
-    <li>
-      <label for='file'><span class='required' title='This field is required'>*</span> Datasource</label>
-      <input type='text' name='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' />
-      <a href='#' class='icon reverse assets' title='See available assets'>[+]</a>
-      <div class='container assets hidden'></div>
+    <li class='toggler'>
+      <label for='file'><span class='required'>*</span> Datasource</label>
+      <input type='text' name='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' size='60'/>
+      <a href='#fileBrowser' class='button'>Browse</a>
+      <div class='fileBrowser browser'></div>
     </li>
     <li>
       <label for='srs-name'>SRS</label>
@@ -34,9 +40,8 @@
           Add custom
         </option>
       </select>
-      <span class='srs <% if (srsName() === 'custom') { %>hidden<% } %>'>
-        <input type='text' name='srs' value='<%=get('srs')%>'/>
-      </span>
+      <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='Autodetect' />
+      <div class='description'>SRS projection string for this datasource. TileMill can often autodetect this value.</div>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
@@ -45,32 +50,42 @@
   </ul></form>
 
   <form class='layerPostGIS'><ul class='form'>
+    <li class='text'>
+      <h2>PostGIS</h2>
+      <div class='description'>Use a table or SQL query against a PostGIS database for this layer.</div>
+    </li>
     <li>
-      <label for='id'><span class='required' title='This field is required'>*</span> ID</label>
-      <input type='text' name='id' value='<%=get('id')%>' />
+      <label for='id'><span class='required'>*</span> ID</label>
+      <input type='text' name='id' value='<%=get('id')%>' size='20'/>
+      <span class='description'>select in Carto <code>#id</code></span>
     </li>
     <li>
       <label for='class'>Class</label>
-      <input type='text' name='class' value='<%=get('class')%>'/>
+      <input type='text' name='class' value='<%=get('class')%>' size='20'/>
+      <span class='description'>select in Carto <code>.class</code></span>
     </li>
     <li>
-      <label for='dbname'><span class='required' title='This field is required'>*</span> Database</label>
-      <input type='text' placeholder='pgsql://user:password@hostname:5432/database' name='dbname' value='<%=get('dbname')%>' />
+      <label for='dbname'><span class='required'>*</span> Database</label>
+      <input type='text' placeholder='pgsql://user:password@hostname:5432/database' name='dbname' value='<%=get('dbname')%>' size='60' />
+      <a href='#dbBrowser' class='button'>Browse</a>
+      <div class='dbBrowser browser'></div>
     </li>
     <li>
       <label for='table'><span class='required' title='This field is required'>*</span> Query</label>
       <div class='inline'>
         <pre>SELECT * FROM </pre>
-        <textarea  name='table' ><%=get('table')%></textarea>
+        <textarea name='table' cols='60' rows='4'><%=get('table')%></textarea>
       </div>
     </li>
     <li>
       <label for='extent'>Extent</label>
-      <input type='text'  name='extent' value='<%=get('extent')%>' />
+      <input type='text' name='extent' value='<%=get('extent')%>' />
+      <span class='description'>limit the query by this bounding box</span>
     </li>
     <li>
       <label for='extent'>Geometry Field</label>
-      <input type='text'  name='geometry_field' value='<%=get('geometry_field')%>' />
+      <input type='text' name='geometry_field' value='<%=get('geometry_field')%>' />
+      <span class='description'>SQL field containing feature geometry</span>
     </li>
     <li>
       <label for='srs-name'>SRS</label>
@@ -85,9 +100,8 @@
           Add custom
         </option>
       </select>
-      <span class='srs <% if (srsName() === 'custom') { %>hidden<% } %>'>
-        <input type='text' name='srs' value='<%=get('srs')%>'/>
-      </span>
+      <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='Autodetect' />
+      <div class='description'>SRS projection string for this datasource. TileMill can often autodetect this value.</div>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />

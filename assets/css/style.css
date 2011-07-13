@@ -729,11 +729,17 @@ ul.form h2 { font-size:16px; }
 
 ul.form li {
   position:relative;
-  padding-left:120px;
-  margin:20px;
+  padding:10px 20px 9px 120px;
+  border-bottom:1px solid #eee;
   }
 
-ul.form li.buttons { padding:0px; }
+ul.form li.text,
+ul.form li.buttons { padding-left:20px; }
+
+ul.form li:hover {
+  background-color:#f0f8fa;
+  border-color:#e0e8ea;
+  }
 
 ul.form li .inline {
   vertical-align:top;
@@ -744,8 +750,8 @@ ul.form li label {
   position:absolute;
   left:0px;
   top:0px;
-  width:115px;
-  padding:0px 5px 0px 0px;
+  width:105px;
+  padding:10px 5px 10px 10px;
   text-align:right;
   }
 
@@ -776,6 +782,11 @@ ul.form .buttons input:active {
   background:#888;
   box-shadow:inset #999 0px -1px 0px;
   }
+
+ul.form .required { color:#c30; }
+ul.form .description { color:#999; }
+ul.form input + span.description { margin-left:10px; }
+ul.form input + div.description { margin-top:10px; }
 
 /* Special sauce */
 ul::-webkit-scrollbar,
