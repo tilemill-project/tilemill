@@ -46,7 +46,7 @@ Install [Xcode][xcode] for Mac OS X. Version 3 or 4 will work.
 
 Install the latest `Mapnik 2.0` build:
 
-- [Download mapnik 2.0](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r2898.dmg)
+- [Download mapnik 2.0](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r3030.dmg)
 
 [Download TileMill](https://github.com/mapbox/tilemill/downloads) and unpack the archive.
 
