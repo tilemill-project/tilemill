@@ -75,6 +75,11 @@ view.prototype.render = function() {
 view.prototype.makeLayer = function(model) {
     model.el = $(templates.ProjectLayer(model));
     this.$('.layers ul').append(model.el);
+
+    // Bind to the 'remove' event to teardown.
+    model.bind('remove', _(function(model) {
+        model.el.remove();
+    }).bind(this));
 };
 
 view.prototype.makeStylesheet = function(model) {
@@ -221,7 +226,7 @@ view.prototype.layerDelete = function(ev) {
         content: 'Are you sure you want to delete layer "'+ id +'"?',
         callback: _(function() {
             var model = this.model.get('Layer').get(id);
-            model.el.remove();
+            this.model.get('Layer').remove(model);
         }).bind(this)
     });
     return false;
