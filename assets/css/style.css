@@ -268,7 +268,7 @@ a {
   }
 
 .button.dropdown {
-  width:80px;
+  width:100px;
   position:relative;
   }
 
@@ -277,7 +277,7 @@ a {
   position:absolute;
   top:17px;
   left:-1px;
-  width:78px;
+  width:98px;
   padding:3px 0px 0px;
   z-index:2;
   background-color:#7c7c7c;
@@ -607,6 +607,9 @@ li:hover .icon { display:block; }
   background-color:transparent;
   }
 
+.button .icon.labeled,
+.button:hover .icon.labeled { margin-right:5px; }
+
 .button .icon.right,
 .button:hover .icon.right {
   float:right;
@@ -624,7 +627,7 @@ li:hover .icon { display:block; }
 .icon.next           { background-position:-160px -180px; }
 .icon.add            { background-position:-180px -180px; }
 .icon.plus           { background-position:-180px -180px; }
-.icon.export         { background-position:-320px -180px; }
+.icon.export         { background-position:-420px -180px; }
 .icon.reference      { background-position:-320px -180px;}
 .icon.dropdown       { background-position:-300px -180px; }
 .icon.settings       { background-position:-260px -180px; }
@@ -649,7 +652,7 @@ li:hover .icon { display:block; }
 .reverse.next           { background-position:-160px -200px; }
 .reverse.add            { background-position:-180px -200px; }
 .reverse.plus           { background-position:-180px -200px; }
-.reverse.export         { background-position:-320px -200px; }
+.reverse.export         { background-position:-420px -200px; }
 .reverse.reference      { background-position: -320px -200px;}
 .reverse.dropdown       { background-position:-300px -200px; }
 .reverse.settings       { background-position:-260px -200px; }

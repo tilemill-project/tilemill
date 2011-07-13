@@ -5,14 +5,16 @@
       <a href='/#!/project/<%= id %>'><%= id %></a>
     </div>
     <div class='actions'>
-      <a class='button' href='#save'>Save</a>
+      <a class='button' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
       <span class='button dropdown' href='#export'>
-        <span class='icon reverse right dropdown'></span>
+        <span class='icon reverse labeled export'></span>
         Export
+        <span class='icon reverse right dropdown'></span>
         <span class='menu'>
           <a href='#png'>PNG</a>
           <a href='#pdf'>PDF</a>
           <a href='#mbtiles'>MBTiles</a>
+          <a href='#exports'>View exports</a>
         </span>
       </span>
       <a class='popup button' href='#settings'>
@@ -40,7 +42,7 @@
     <div class='zoom-display'>Zoom <span class='zoom'></span></div>
   </div>
   <div class='layers'>
-    <a href='#add' class='popup add button'><span class='icon reverse plus'></span> Add layer</a>
+    <a href='#add' class='popup add button'><span class='icon reverse plus labeled'></span> Add layer</a>
     <ul></ul>
   </div>
   <div id='drawer' class='pane fill-w'>
