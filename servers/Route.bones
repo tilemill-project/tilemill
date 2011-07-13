@@ -8,8 +8,8 @@ servers['Route'].augment({
             require.resolve('../assets/css/code.css')
         ],
         scripts: [
-            // require.resolve('../assets/js/libraries/jquery-ui.js'),
             // require.resolve('../assets/js/libraries/colorpicker/js/colorpicker.js'),
+            require.resolve('../assets/js/jquery.ui.js'),
             require.resolve('../build/vendor.js'),
             require.resolve('wax/ext/modestmaps.min.js'),
             require.resolve('wax/dist/wax.mm.min.js'),

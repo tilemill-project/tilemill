@@ -268,7 +268,7 @@ a {
   }
 
 .button.dropdown {
-  width:80px;
+  width:100px;
   position:relative;
   }
 
@@ -277,7 +277,7 @@ a {
   position:absolute;
   top:17px;
   left:-1px;
-  width:78px;
+  width:98px;
   padding:3px 0px 0px;
   z-index:2;
   background-color:#7c7c7c;
@@ -294,6 +294,8 @@ a {
   padding:0px 10px;
   color:#fff;
   }
+
+.dropdown .menu a.divider { border-top:1px solid #666; }
 
 .dropdown .menu a:hover { background-color:#666; }
 
@@ -368,11 +370,6 @@ a {
   width:50% !important;
   }
 
-.project .wax-fullscreen-map {
-  border-right:0px !important;
-  width:100% !important;
-  }
-
 .project .layers {
   position:absolute;
   left:0px;
@@ -387,8 +384,6 @@ a {
   box-shadow:rgba(0,0,0,.1) 0px 1px 3px;
   background:rgba(255,255,255,.9);
   }
-
-.project .wax-fullscreen-map + .layers { left:-400px; }
 
 .project .layers .button { margin:5px 10px; }
 
@@ -411,6 +406,54 @@ a {
   max-width:240px;
   }
 
+/**
+ * Map fullscreen and project exporting mode.
+ */
+.project.exporting .map,
+.project .wax-fullscreen-map {
+  border-right:0px !important;
+  width:100% !important;
+  }
+
+.project.exporting .layers,
+.project .wax-fullscreen-map + .layers { left:-400px; }
+
+.project.exporting .header .actions { display:none; }
+
+.project.exporting #export { right:0px; }
+.project.exporting #drawer.active { left:-50%; }
+
+#export {
+  position:absolute;
+  top:60px;
+  right:-360px;
+  z-index:1;
+  background:#fff;
+  overflow:hidden;
+  border:1px solid #ccc;
+  border-right:0px;
+  width:359px;
+  transition:right .25s;
+  -moz-transition:right .25s;
+  -webkit-transition:right .25s;
+  border-radius:5px 0px 0px 5px;
+  -moz-border-radius:5px 0px 0px 5px;
+  -webkit-border-radius:5px 0px 0px 5px;
+  }
+
+#export .content { padding:0px; }
+
+.project.exporting .wax-fullscreen { display:none; }
+.project.exporting .zoom-display { width:59px; }
+.project.exporting .zoomin {
+  border-radius:0px 3px 3px 0px;
+  -moz-border-radius:0px 3px 3px 0px;
+  -webkit-border-radius:0px 3px 3px 0px;
+  }
+
+/**
+ * Layers
+ */
 li { position:relative; }
 
 li .handle {
@@ -607,6 +650,9 @@ li:hover .icon { display:block; }
   background-color:transparent;
   }
 
+.button .icon.labeled,
+.button:hover .icon.labeled { margin-right:5px; }
+
 .button .icon.right,
 .button:hover .icon.right {
   float:right;
@@ -624,7 +670,7 @@ li:hover .icon { display:block; }
 .icon.next           { background-position:-160px -180px; }
 .icon.add            { background-position:-180px -180px; }
 .icon.plus           { background-position:-180px -180px; }
-.icon.export         { background-position:-320px -180px; }
+.icon.export         { background-position:-420px -180px; }
 .icon.reference      { background-position:-320px -180px;}
 .icon.dropdown       { background-position:-300px -180px; }
 .icon.settings       { background-position:-260px -180px; }
@@ -649,7 +695,7 @@ li:hover .icon { display:block; }
 .reverse.next           { background-position:-160px -200px; }
 .reverse.add            { background-position:-180px -200px; }
 .reverse.plus           { background-position:-180px -200px; }
-.reverse.export         { background-position:-320px -200px; }
+.reverse.export         { background-position:-420px -200px; }
 .reverse.reference      { background-position: -320px -200px;}
 .reverse.dropdown       { background-position:-300px -200px; }
 .reverse.settings       { background-position:-260px -200px; }

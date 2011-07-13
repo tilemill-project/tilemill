@@ -6,6 +6,7 @@ view.prototype.events = {
     'click a.popup': 'popupOpen',
     'click #drawer a[href=#close]': 'drawerClose',
     'click a.drawer': 'drawerOpen',
+    'click .button.dropdown a': 'dropdown',
     'click .button.dropdown': 'dropdown',
     'click .toggler a': 'toggler',
     'keydown': 'keydown'
@@ -91,6 +92,8 @@ view.prototype.keydown = function(ev) {
 };
 
 view.prototype.dropdown = function(ev) {
-    $(ev.currentTarget).toggleClass('active');
+    var target = $(ev.currentTarget);
+    if (!target.is('.dropdown')) target = target.parents('.button.dropdown');
+    target.toggleClass('active');
     return false;
 };
