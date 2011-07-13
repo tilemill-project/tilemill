@@ -18,7 +18,7 @@ view.prototype.render = function() {
 view.prototype.saveFile = function() {
     var attr = {
         'id':    this.$('input[name=id]').val(),
-        'name':  this.$('input[name=name]').val(),
+        'name':  this.$('input[name=id]').val(),
         'srs':   this.$('input[name=srs]').val(),
         'class': this.$('input[name=class]').val(),
         'Datasource': {
@@ -37,7 +37,7 @@ view.prototype.saveFile = function() {
 view.prototype.savePostGIS = function() {
     var attr = {
         'id':    this.$('input[name=id]').val(),
-        'name':  this.$('input[name=name]').val(),
+        'name':  this.$('input[name=id]').val(),
         'srs':   this.$('input[name=srs]').val(),
         'class': this.$('input[name=class]').val(),
         'Datasource': {
