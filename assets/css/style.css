@@ -295,6 +295,8 @@ a {
   color:#fff;
   }
 
+.dropdown .menu a.divider { border-top:1px solid #666; }
+
 .dropdown .menu a:hover { background-color:#666; }
 
 /**
@@ -368,11 +370,6 @@ a {
   width:50% !important;
   }
 
-.project .wax-fullscreen-map {
-  border-right:0px !important;
-  width:100% !important;
-  }
-
 .project .layers {
   position:absolute;
   left:0px;
@@ -387,8 +384,6 @@ a {
   box-shadow:rgba(0,0,0,.1) 0px 1px 3px;
   background:rgba(255,255,255,.9);
   }
-
-.project .wax-fullscreen-map + .layers { left:-400px; }
 
 .project .layers .button { margin:5px 10px; }
 
@@ -411,6 +406,54 @@ a {
   max-width:240px;
   }
 
+/**
+ * Map fullscreen and project exporting mode.
+ */
+.project.exporting .map,
+.project .wax-fullscreen-map {
+  border-right:0px !important;
+  width:100% !important;
+  }
+
+.project.exporting .layers,
+.project .wax-fullscreen-map + .layers { left:-400px; }
+
+.project.exporting .header .actions { display:none; }
+
+.project.exporting #export { right:0px; }
+.project.exporting #drawer.active { left:-50%; }
+
+#export {
+  position:absolute;
+  top:60px;
+  right:-360px;
+  z-index:1;
+  background:#fff;
+  overflow:hidden;
+  border:1px solid #ccc;
+  border-right:0px;
+  width:359px;
+  transition:right .25s;
+  -moz-transition:right .25s;
+  -webkit-transition:right .25s;
+  border-radius:5px 0px 0px 5px;
+  -moz-border-radius:5px 0px 0px 5px;
+  -webkit-border-radius:5px 0px 0px 5px;
+  }
+
+#export .content { padding:0px; }
+
+.project.exporting .wax-fullscreen { display:none; }
+.project.exporting .zoom-display { width:59px; }
+.project.exporting .zoomin {
+  border-radius:0px 3px 3px 0px;
+  -moz-border-radius:0px 3px 3px 0px;
+  -webkit-border-radius:0px 3px 3px 0px;
+  }
+
+/**
+ * Layers
+ */
 li { position:relative; }
 
 li .handle {

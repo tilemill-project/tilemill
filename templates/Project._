@@ -1,4 +1,5 @@
 <div class='project'>
+
   <div class='bleed'><div class='header'>
     <div class='breadcrumb'>
       <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
@@ -11,10 +12,10 @@
         Export
         <span class='icon reverse right dropdown'></span>
         <span class='menu'>
-          <a href='#png'>PNG</a>
-          <a href='#pdf'>PDF</a>
-          <a href='#mbtiles'>MBTiles</a>
-          <a href='#exports'>View exports</a>
+          <a href='#export-png' title='Export PNG'>PNG</a>
+          <a href='#export-pdf' title='Export PDF'>PDF</a>
+          <a href='#export-mbtiles' title='Export MBTiles'>MBTiles</a>
+          <a class='divider drawer' href='#exports'>View exports</a>
         </span>
       </span>
       <a class='popup button' href='#settings'>
@@ -22,9 +23,9 @@
       </a>
     </div>
   </div></div>
+
   <div class='editor fill-e'>
     <div class='code fill-s'></div>
-
     <div class='palette clearfix'>
       <div class='colors'>
         <a class='button' href='#colorpicker'><span class='icon reverse color-picker'>Colorpicker</span></a>
@@ -34,20 +35,28 @@
         <a class='drawer button' href='#carto'><span class='icon reverse reference'>Carto</span></a>
       </div>
     </div>
-
     <ul class='tabs toggler clearfix'></ul>
     <a class='popup add button'><span class='icon reverse plus'>Add stylesheet</span></a>
   </div>
+
   <div class='map fill-w' id='map'>
     <div class='zoom-display'>Zoom <span class='zoom'></span></div>
   </div>
+
   <div class='layers'>
     <a href='#add' class='popup add button'><span class='icon reverse plus labeled'></span> Add layer</a>
     <ul></ul>
   </div>
+
   <div id='drawer' class='pane fill-w'>
     <h2 class='title'></h2>
     <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
     <div class='content fill-s'></div>
   </div>
+
+  <div id='export' class='pane'>
+    <h2 class='title'></h2>
+    <div class='content'></div>
+  </div>
+
 </div>

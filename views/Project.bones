@@ -2,6 +2,11 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click .actions a[href=#save]': 'save',
+    'click .actions a[href=#export-pdf]': 'exportAdd',
+    'click .actions a[href=#export-png]': 'exportAdd',
+    'click .actions a[href=#export-mbtiles]': 'exportAdd',
+    'click .actions a[href=#exports]': 'exportList',
+    'click #export input.cancel': 'exportCancel',
     'click a[href=#fonts]': 'fonts',
     'click a[href=#carto]': 'carto',
     'click a[href=#settings]': 'settings',
@@ -28,7 +33,10 @@ view.prototype.initialize = function() {
         'makeLayer',
         'makeStylesheet',
         'stylesheetAdd',
-        'stylesheetDelete'
+        'stylesheetDelete',
+        'exportAdd',
+        'exportList',
+        'exportCancel'
     );
     this.render().trigger('attach');
 };
@@ -273,6 +281,41 @@ view.prototype.stylesheetDelete = function(ev) {
             var model = this.model.get('Stylesheet').get(id);
             this.model.get('Stylesheet').remove(model);
         }).bind(this)
+    });
+};
+
+view.prototype.exportAdd = function(ev) {
+    var target = $(ev.currentTarget);
+    var type = target.attr('href').split('#export-').pop();
+    this.$('.project').addClass('exporting');
+    this.$('#export > .title').text(target.attr('title'));
+    new views.Export({
+        el: $('#export'),
+        type: type,
+        model: this.model
+    });
+};
+
+view.prototype.exportCancel = function(ev) {
+    this.$('.project').removeClass('exporting');
+    return false;
+};
+
+view.prototype.exportList = function(ev) {
+    $('#drawer').addClass('loading');
+    var collection = new models.Exports();
+    collection.fetch({
+        success: function() {
+            $('#drawer').removeClass('loading');
+            new views.Exports({
+                collection: collection,
+                el: $('#drawer')
+            });
+        },
+        error: function(m, e) {
+            $('#drawer').removeClass('loading');
+            new views.Modal(e);
+        }
     });
 };
 
