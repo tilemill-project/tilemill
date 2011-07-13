@@ -424,7 +424,7 @@ a {
 .project.exporting #drawer.active { left:-50%; }
 
 #export {
-  position:absolute;
+  position:fixed;
   top:60px;
   right:-360px;
   z-index:1;
