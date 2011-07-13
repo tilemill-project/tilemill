@@ -189,7 +189,7 @@ view.prototype.carto = function(ev) {
 };
 
 view.prototype.settings = function(ev) {
-    new views.Settings({ el: $('#popup') });
+    new views.Settings({ el: $('#popup'), model: this.model });
 };
 
 view.prototype.keydown = function(ev) {
