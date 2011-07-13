@@ -426,13 +426,13 @@ a {
 #export {
   position:fixed;
   top:60px;
-  right:-360px;
+  right:-320px;
   z-index:1;
   background:#fff;
   overflow:hidden;
   border:1px solid #ccc;
   border-right:0px;
-  width:359px;
+  width:319px;
   transition:right .25s;
   -moz-transition:right .25s;
   -webkit-transition:right .25s;
@@ -450,6 +450,54 @@ a {
   -moz-border-radius:0px 3px 3px 0px;
   -webkit-border-radius:0px 3px 3px 0px;
   }
+
+#export .key {
+  padding:2px 8px;
+  background:#f8f8f8;
+  border-color:#eee #ccc #ccc;
+  border-style:solid;
+  border-width:2px 2px 4px;
+  border-radius:2px;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
+  }
+
+.bboxForm {
+  margin:10px 0px;
+  background:#eee;
+  border:1px solid #ddd;
+  height:78px;
+  position:relative;
+  box-shadow:inset #ddd 0px 1px 3px;
+  -moz-box-shadow:inset #ddd 0px 1px 3px;
+  -webkit-box-shadow:inset #ddd 0px 1px 3px;
+  }
+
+.bboxForm input[type=text] {
+  position:absolute;
+  width:60px;
+  border:0px;
+  background:#ddd;
+  box-shadow:none;
+  text-align:center;
+  }
+
+.bboxForm .n,
+.bboxForm .s {
+  left:50%;
+  margin-left:-30px;
+  }
+
+.bboxForm .w,
+.bboxForm .e {
+  top:50%;
+  margin-top:-10px;
+  }
+
+.bboxForm .n { top:0%; }
+.bboxForm .s { bottom:0%; }
+.bboxForm .w { left:0%; }
+.bboxForm .e { right:0%; }
 
 /**
  * Layers

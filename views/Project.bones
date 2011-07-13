@@ -54,11 +54,17 @@ view.prototype.render = function() {
                 signature: this.model.get('_updated'),
                 layerName: this.model.id}));
 
-        wax.mm.interaction(this.map);
-        wax.mm.legend(this.map);
-        wax.mm.zoomer(this.map);
-        wax.mm.zoombox(this.map);
-        wax.mm.fullscreen(this.map);
+        // Add references to all controls onto the map object.
+        // Allows controls to be removed later on. @TODO need
+        // wax 3.x and updates to controls to return references
+        // to themselves.
+        this.map.controls = {
+            interaction: wax.mm.interaction(this.map),
+            legend: wax.mm.legend(this.map),
+            zoomer: wax.mm.zoomer(this.map),
+            zoombox: wax.mm.zoombox(this.map),
+            fullscreen: wax.mm.fullscreen(this.map)
+        };
 
         var center = this.model.get('_center');
         this.map.setCenterZoom(
@@ -290,15 +296,18 @@ view.prototype.exportAdd = function(ev) {
     var type = target.attr('href').split('#export-').pop();
     this.$('.project').addClass('exporting');
     this.$('#export > .title').text(target.attr('title'));
-    new views.Export({
+    this.exportView = new views.Export({
         el: $('#export'),
         type: type,
-        model: this.model
+        model: this.model,
+        map: this.map
     });
 };
 
 view.prototype.exportCancel = function(ev) {
     this.$('.project').removeClass('exporting');
+    this.exportView.remove();
+    delete this.exportView;
     return false;
 };
 
