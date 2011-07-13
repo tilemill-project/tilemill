@@ -16,20 +16,36 @@ view.prototype.render = function() {
 };
 
 view.prototype.saveFile = function() {
+    var datasource = new models.Datasource();
     var attr = {
-        'id':    this.$('input[name=id]').val(),
-        'name':  this.$('input[name=id]').val(),
-        'srs':   this.$('input[name=srs]').val(),
-        'class': this.$('input[name=class]').val(),
-        'Datasource': {
-            'file': this.$('input[name=file]').val()
-        }
-    };
+            id: this.$('input[name=id]').val(),
+            project: this.model.collection.parent.get('id'),
+            file: this.$('input[name=file]').val()
+    }
     var options = { error: function(m, e) { new views.Modal(e); } };
-    if (this.model.set(attr, options)) {
-        if (!this.model.collection.include(this.model))
-            this.model.collection.add(this.model);
-        this.$('.close').click();
+    if (datasource.set(attr, options)) {
+        $(this.el).addClass('loading');
+        datasource.fetch({
+            success: _(function() {
+                var attr = {
+                    'id':    this.$('input[name=id]').val(),
+                    'name':  this.$('input[name=id]').val(),
+                    'srs':   this.$('input[name=srs]').val(),
+                    'class': this.$('input[name=class]').val(),
+                    'geometry': datasource.get('geometry_type'),
+                    'Datasource': {
+                        'file': this.$('input[name=file]').val()
+                    }
+                };
+                var options = { error: function(m, e) { new views.Modal(e); } };
+                if (this.model.set(attr, options)) {
+                    if (!this.model.collection.include(this.model))
+                        this.model.collection.add(this.model);
+                    this.$('.close').click();
+                }
+                $(this.el).removeClass('loading');
+            }).bind(this)
+        });
     }
     return false;
 };
