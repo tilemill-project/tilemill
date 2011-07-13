@@ -2,7 +2,7 @@
   <span class='handle fill-w'>
     <a title='<%= get('geometry') %>' class='icon geometry geometry-<%= get('geometry') %>'></a>
   </span>
-  <label><%= ["<span class='punc'>#</span>" + id].concat((get('class') || '').split(' ')).join("<span class='punc'>.</span>") %></label>
+  <label><%= ["<span class='punc'>#</span>" + id].concat(get('class') && get('class').split(' ') || []).join("<span class='punc'>.</span>") %></label>
   <span class='actions fill-e'>
     <% if (get('geometry') !== 'raster') { %>
       <a title='Features (<%= id %>)' class='icon inspect drawer' href='#<%= id %>'>Features (<%= id %>)</a>
