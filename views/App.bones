@@ -6,6 +6,7 @@ view.prototype.events = {
     'click a.popup': 'popupOpen',
     'click #drawer a[href=#close]': 'drawerClose',
     'click a.drawer': 'drawerOpen',
+    'click .button.dropdown': 'dropdown',
     'click .toggler a': 'toggler',
     'keydown': 'keydown'
 };
@@ -16,7 +17,9 @@ view.prototype.initialize = function() {
         'popupClose',
         'drawerOpen',
         'drawerClose',
-        'toggler'
+        'toggler',
+        'keydown',
+        'dropdown'
     );
 };
 
@@ -87,3 +90,7 @@ view.prototype.keydown = function(ev) {
     }
 };
 
+view.prototype.dropdown = function(ev) {
+    $(ev.currentTarget).toggleClass('active');
+    return false;
+};

@@ -295,6 +295,8 @@ a {
   color:#fff;
   }
 
+.dropdown .menu a:hover { background-color:#666; }
+
 /**
  * Projects
  */
@@ -531,6 +533,8 @@ li:hover .actions { display:block; }
   background:#eee;
   }
 
+.dock .icons .icon { margin:0px auto; }
+
 .dock .icons a {
   display:block;
   font-size:11px;
@@ -615,7 +619,7 @@ li:hover .icon { display:block; }
 .icon.color-picker   { background-position:-40px -180px; }
 .icon.close          { background-position:-80px -180px; }
 .icon.fonts          { background-position:-100px -180px; }
-.icon.map-legend     { background-position:-280px -180px; }
+.icon.legend         { background-position:-280px -180px; }
 .icon.prev           { background-position:-140px -180px; }
 .icon.next           { background-position:-160px -180px; }
 .icon.add            { background-position:-180px -180px; }
@@ -630,6 +634,9 @@ li:hover .icon { display:block; }
 .icon.geometry-point      { background-position:-220px -180px; }
 .icon.geometry-polygon    { background-position:-240px -180px; }
 .icon.geometry-raster     { background-position:-360px -180px; }
+.icon.file              { background-position:-540px -180px; }
+.icon.postgis           { background-position:-560px -180px; }
+.icon.tooltip           { background-position:-580px -180px; }
 
 .reverse.edit           { background-position:0px -200px; }
 .reverse.inspect        { background-position:-20px -200px; }
@@ -637,7 +644,7 @@ li:hover .icon { display:block; }
 .reverse.color-picker   { background-position:-40px -200px; }
 .reverse.close          { background-position:-80px -200px; }
 .reverse.fonts          { background-position:-100px -200px; }
-.reverse.map-legend     { background-position:-280px -200px; }
+.reverse.legend         { background-position:-280px -200px; }
 .reverse.prev           { background-position:-140px -200px; }
 .reverse.next           { background-position:-160px -200px; }
 .reverse.add            { background-position:-180px -200px; }
@@ -652,6 +659,16 @@ li:hover .icon { display:block; }
 .reverse.geometry-point      { background-position:-220px -200px; }
 .reverse.geometry-polygon    { background-position:-240px -200px; }
 .reverse.geometry-raster     { background-position:-360px -200px; }
+.reverse.file           { background-position:-540px -200px; }
+.reverse.postgis        { background-position:-560px -200px; }
+.reverse.tooltip        { background-position:-580px -200px; }
+
+/* Dock-icon specific reverse styles */
+.dock .active .icon.legend   { background-position:-280px -200px; }
+.dock .active .icon.settings { background-position:-260px -200px; }
+.dock .active .icon.file     { background-position:-540px -200px;}
+.dock .active .icon.postgis  { background-position:-560px -200px;}
+.dock .active .icon.tooltip  { background-position:-580px -200px;}
 
 /**
  * Form elements

@@ -1,7 +1,7 @@
 <div class='dock fill'>
   <div class='toggler icons fill-w'>
-    <a class='active' href='#layerFile'><span class='icon'></span>File</a>
-    <a href='#layerPostGIS'><span class='icon'></span>PostGIS</a>
+    <a class='active' href='#layerFile'><span class='icon file'></span>File</a>
+    <a href='#layerPostGIS'><span class='icon postgis'></span>PostGIS</a>
   </div>
   <form class='layerFile active'><ul class='form'>
     <li>
