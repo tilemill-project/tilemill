@@ -233,6 +233,7 @@ view.prototype.layerDelete = function(ev) {
 };
 
 view.prototype.layerInspect = function(ev) {
+    $('#drawer .content').empty();
     $('#drawer').addClass('loading');
     var id = $(ev.currentTarget).attr('href').split('#').pop();
     var layer = this.model.get('Layer').get(id);
