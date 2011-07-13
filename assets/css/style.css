@@ -785,8 +785,11 @@ ul.form .buttons input:active {
 
 ul.form .required { color:#c30; }
 ul.form .description { color:#999; }
+ul.form select + span.description,
 ul.form input + span.description { margin-left:10px; }
+ul.form select + span.description,
 ul.form input + div.description { margin-top:10px; }
+ul.form select { width:120px; }
 
 /* Special sauce */
 ul::-webkit-scrollbar,

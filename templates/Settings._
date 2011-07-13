@@ -5,21 +5,25 @@
     <a href='#settingsLegend'><span class='icon legend'></span>Legend</a>
   </div>
   <form class='settingsProject active'><ul class='form'>
+    <li class='text'>
+      <h2>Project information</h2>
+      <div class='description'>Adjust metadata for this project.</div>
+    </li>
     <li>
       <label for='name'>Name</label>
-      <input type='text' name='name' />
+      <input type='text' name='name' size='40' />
     </li>
     <li>
       <label for='description'>Description</label>
-      <input type='text' name='description' />
+      <input type='text' name='description' size='60' />
     </li>
     <li>
       <label for='attribution'>Attribution</label>
-      <input type='text' name='attribution' />
+      <input type='text' name='attribution' size='60' />
     </li>
     <li>
       <label for='version'>Version</label>
-      <input type='text' name='version' />
+      <input type='text' name='version' size='10' />
     </li>
     <li>
       <label for='format'>Image format</label>
@@ -50,15 +54,18 @@
     </li>
   </ul></form>
   <form class='settingsTooltips'><ul class='form'>
+    <li class='text'>
+      <h2>Tooltips</h2>
+      <div class='description'>Adjust interaction settings for this project.</div>
+    </li>
     <li>
-      <label for='interactivity_layer'>Interactivity</label>
+      <label for='interactivity_layer'>Layer</label>
       <select id='interactivity_layer'>
         {{#interactivity_layer}}
           <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{name}}</option>
         {{/interactivity_layer}}
       </select>
-      <div class='description'>Layer from which interaction data should be generated.</div>
-      <div class='dependent hidden'></div>
+      <span class='description'>Layer to use for interaction data</span>
     </li>
     <li>
       <label for='interactivity_key_name'>Key name</label>
@@ -67,17 +74,22 @@
           <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{id}}</option>
         {{/fields}}
       </select>
-      <div class='description'>Unique ID field for features on this layer. Example: ISO2 code.</div>
+      <span class='description'>Field containing unique IDs for features on this layer</span>
     </li>
     <li>
-      <label>Formatter</label>
-      <label class='inline' for='interactivity_template_teaser'>Teaser</label>
-      <textarea rows='2' id='interactivity_template_teaser'>{{template_teaser}}</textarea>
-      <label class='inline' for='interactivity_template_full'>Full</label>
-      <textarea rows='2' id='interactivity_template_full'>{{template_full}}</textarea>
+      <label for='interactivity_template_teaser'>Teaser</label>
+      <textarea cols='60' rows='2' id='interactivity_template_teaser'>{{template_teaser}}</textarea>
+    </li>
+    <li>
+      <label for='interactivity_template_full'>Full</label>
+      <textarea cols='60' rows='2' id='interactivity_template_full'>{{template_full}}</textarea>
+    </li>
+    <li>
       <label class='inline' for='interactivity_template_location'>Location</label>
-      <textarea rows='1' id='interactivity_template_location'>{{template_location}}</textarea>
+      <input type='text' size='60' id='interactivity_template_location' value='' />
       <div class='description'>A web address that interaction clients can optionally navigate to on click</div>
+    </li>
+    <li>
       <div class='description'>
         HTML markup for interaction data. Any of the following tokens will be replaced:
         {{#fields}}
@@ -91,10 +103,14 @@
     </li>
   </ul></form>
   <form class='settingsLegend'><ul class='form'>
+    <li class='text'>
+      <h2>Legend</h2>
+      <div class='description'>A legend to display on the map.</div>
+    </li>
     <li>
-      <label for='format'>Map legend</label>
-      <div class='description'>Map legend for clients that support MBTiles interactivity.</div>
-      <textarea rows='10' id='legend'>{{{legend}}}</textarea>
+      <label for='legend'>Legend</label>
+      <textarea cols='60' rows='10' id='legend'>{{{legend}}}</textarea>
+      <div class='description'>Enter text or HTML content.</div>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />

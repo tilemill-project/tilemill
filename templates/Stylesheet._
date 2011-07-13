@@ -1,8 +1,11 @@
 <form>
 <ul class='form fill'>
+    <li class='text'>
+      <div class='description'>Add a new Carto stylesheet. Stylesheets are applied to the project in the order they appear.</div>
+    </li>
   <li>
-    <label for='id'><span class='required' title='This field is required'>*</span> Filename</label>
-    <input type='text' name='id' value='' />
+    <label for='id'><span class='required'>*</span> Filename</label>
+    <input type='text' name='id' value='' size='40' />
   </li>
   <li class='buttons'>
     <input type='submit' value='Save' />
