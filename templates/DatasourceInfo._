@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <% _(fields).each(function (field, name) { %>
-        <th><a title='<%= field.type %>>'><%= name %></a></th>
+        <th><a title='<%= field.type %>'><%= name %></a></th>
       <% }); %>
     </tr>
   </thead>
