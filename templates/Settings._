@@ -7,33 +7,33 @@
   <form class='settingsProject active'><ul class='form'>
     <li class='text'>
       <h2>Project information</h2>
-      <div class='description'>Adjust metadata for this project.</div>
+      <div class='description'>Adjust metadata for this </div>
     </li>
     <li>
       <label for='name'>Name</label>
-      <input type='text' name='name' size='40' value='<%= project.get('_name') %>' />
+      <input type='text' name='name' size='40' value='<%= get('name') %>' />
     </li>
     <li>
       <label for='description'>Description</label>
-      <input type='text' name='description' size='60' value='<%= project.get('_description') %>' />
+      <input type='text' name='description' size='60' value='<%= get('description') %>' />
     </li>
     <li>
       <label for='attribution'>Attribution</label>
-      <input type='text' name='attribution' size='60' value='<%= project.get('_attribution') %>' />
+      <input type='text' name='attribution' size='60' value='<%= get('attribution') %>' />
     </li>
     <li>
       <label for='version'>Version</label>
-      <input type='text' name='version' size='10' value='<%= project.get('_version') %>' />
+      <input type='text' name='version' size='10' value='<%= get('version') %>' />
     </li>
     <li>
       <label for='format'>Image format</label>
       <select name='format'>
-        <option value='png'<% if (project.get('_format') == 'png') { %> selected='selected' <% } %>>png (24-bit)</option>
-        <option value='png8'<% if (project.get('_format') == 'png8') { %> selected='selected' <% } %>>png (8-bit)</option>
-        <option value='jpeg80'<% if (project.get('_format') == 'jpeg80') { %> selected='selected' <% } %>>jpeg (80%)</option>
-        <option value='jpeg85'<% if (project.get('_format') == 'jpeg85') { %> selected='selected' <% } %>>jpeg (85%)</option>
-        <option value='jpeg90'<% if (project.get('_format') == 'jpeg90') { %> selected='selected' <% } %>>jpeg (90%)</option>
-        <option value='jpeg95'<% if (project.get('_format') == 'jpeg95') { %> selected='selected' <% } %>>jpeg (95%)</option>
+        <option value='png'<% if (get('format') == 'png') { %> selected='selected' <% } %>>png (24-bit)</option>
+        <option value='png8'<% if (get('format') == 'png8') { %> selected='selected' <% } %>>png (8-bit)</option>
+        <option value='jpeg80'<% if (get('format') == 'jpeg80') { %> selected='selected' <% } %>>jpeg (80%)</option>
+        <option value='jpeg85'<% if (get('format') == 'jpeg85') { %> selected='selected' <% } %>>jpeg (85%)</option>
+        <option value='jpeg90'<% if (get('format') == 'jpeg90') { %> selected='selected' <% } %>>jpeg (90%)</option>
+        <option value='jpeg95'<% if (get('format') == 'jpeg95') { %> selected='selected' <% } %>>jpeg (95%)</option>
       </select>
     </li>
     <li>
@@ -53,50 +53,47 @@
       <input type='button' value='Cancel' class='cancel' />
     </li>
   </ul></form>
-  <form class='settingsTooltips'><ul class='form'>
+  <form class='settingsTooltips interactivity'><ul class='form'>
     <li class='text'>
       <h2>Tooltips</h2>
-      <div class='description'>Adjust interaction settings for this project.</div>
+      <div class='description'>Adjust interaction settings for this </div>
     </li>
     <li>
-      <label for='interactivity-layer'>Layer</label>
-      <select id='interactivity-layer'>
+      <label>Layer</label>
+      <select name='layer'>
         <option value=''>-- disabled --</option>
-        <% project.get('Layer').each(function(layer) { %>
-          <option value='<%= layer.get('id') %>'><%= layer.get('id') %></option>
+        <% get('Layer').each(function(layer) { %>
+          <option <% if ((get('interactivity') || {}).layer === layer.get('id')) { %>selected='selected'<% } %> value='<%= layer.get('id') %>'><%= layer.get('id') %></option>
         <% }); %>
       </select>
       <span class='description'>Layer to use for interaction data</span>
     </li>
-    <li>
-      <label for='interactivity-key-name'>Key name</label>
-      <select id='interactivity-key-name'>
-        {{#fields}}
-          <option value='{{id}}' {{#selected}}selected='selected'{{/selected}}>{{id}}</option>
-        {{/fields}}
-      </select>
+    <li class='dependent'>
+      <label>Key name</label>
+      <select name='key_name'></select>
       <span class='description'>Field containing unique IDs for features on this layer</span>
     </li>
-    <li>
-      <label for='interactivity-template-teaser'>Teaser</label>
-      <textarea cols='60' rows='2' id='interactivity-template-teaser'></textarea>
-    </li>
-    <li>
-      <label for='interactivity-template-full'>Full</label>
-      <textarea cols='60' rows='2' id='interactivity-template-full'></textarea>
-    </li>
-    <li>
-      <label class='inline' for='interactivity-template-location'>Location</label>
-      <input type='text' size='60' id='interactivity-template-location' value='' />
-      <div class='description'>A web address that interaction clients can optionally navigate to on click</div>
-    </li>
-    <li>
+    <li class='dependent'>
+      <label>Fields</label>
       <div class='description'>
-        HTML markup for interaction data. Any of the following tokens will be replaced:
-        {{#fields}}
-          <code>[{{id}}]</code>
-        {{/fields}}
+        These tokens will be replaced by data in the templates below:
+        <div class='tokens'></div>
       </div>
+    </li>
+    <li class='dependent'>
+      <label>Location</label>
+      <input type='text' size='60' name='template_location' value='<%= (get('interactivity') || {}).template_location %>' placeholder='http://www.example.com' />
+      <div class='description'>URL that clients can optionally navigate to on click.</div>
+    </li>
+    <li class='dependent'>
+      <label>Teaser</label>
+      <textarea cols='60' rows='2' name='template_teaser'><%= (get('interactivity') || {}).template_teaser %></textarea>
+      <div class='description'>HTML markup for teaser tooltips.</div>
+    </li>
+    <li class='dependent'>
+      <label>Full</label>
+      <textarea cols='60' rows='2' name='template_full'><%= (get('interactivity') || {}).template_full %></textarea>
+      <div class='description'>HTML markup for full tooltips.</div>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
@@ -109,8 +106,8 @@
       <div class='description'>A legend to display on the map.</div>
     </li>
     <li>
-      <label for='legend'>Legend</label>
-      <textarea cols='60' rows='10' name='legend'><%= project.get('_legend') %></textarea>
+      <label>Legend</label>
+      <textarea cols='60' rows='10' name='legend'><%= get('legend') %></textarea>
       <div class='description'>Enter text or HTML content.</div>
     </li>
     <li class='buttons'>

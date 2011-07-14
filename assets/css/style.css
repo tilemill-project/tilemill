@@ -41,6 +41,7 @@ a {
 
 .required { color:#c30; }
 .description { color:#999; }
+.dependent {display:none; }
 
 /**
  * Generic loading, overlay classes

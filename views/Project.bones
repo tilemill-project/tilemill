@@ -38,7 +38,8 @@ view.prototype.initialize = function() {
         'exportList',
         'exportCancel'
     );
-    this.render().trigger('attach');
+    this.model.bind('save', this.attach);
+    this.render().attach();
 };
 
 view.prototype.render = function() {
@@ -148,6 +149,10 @@ view.prototype.attach = function() {
     _(function map() {
         this.map.provider.options.tiles = this.model.get('tiles');
         this.map.setProvider(this.map.provider);
+
+        // @TODO Currently interaction formatter/data is cached
+        // deep in Wax making it difficult to update without simply
+        // creating a new map. Likely requires an upstream fix.
     }).bind(this)();
 
     // Rescan stylesheets for colors, dedupe, sort by luminosity
@@ -181,12 +186,8 @@ view.prototype.attach = function() {
 
 view.prototype.save = function() {
     this.model.save(this.model.attributes, {
-        success: _(function(model, resp) {
-            this.attach();
-        }).bind(this),
-        error: function(model, resp) {
-            console.log(resp);
-        }
+        success: function(model) { model.trigger('save'); },
+        error: function(model, err) { new views.Modal(err); }
     });
     return false;
 };
