@@ -251,23 +251,21 @@ view.prototype.layerInspect = function(ev) {
     $('#drawer').addClass('loading');
     var id = $(ev.currentTarget).attr('href').split('#').pop();
     var layer = this.model.get('Layer').get(id);
-    var model = new models.Datasource(_.extend(
-        {
-            id: layer.get('id'),
-            project: this.model.get('id')
-        },
-        layer.get('Datasource')
-    ));
+    var model = new models.Datasource(_(layer.get('Datasource')).extend({
+        id: layer.get('id'),
+        project: this.model.get('id')
+    }));
     model.fetchFeatures({
         success: function(model) {
+            $('#drawer').removeClass('loading');
             new views.DatasourceInfo({
                 el: $('#drawer'),
                 model: model
             });
         },
-        error: function(err) {
-            // TODO
-            console.log(err);
+        error: function(model, err) {
+            $('#drawer').removeClass('loading');
+            new views.Modal(err);
         }
     });
 };
