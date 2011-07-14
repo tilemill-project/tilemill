@@ -47,11 +47,7 @@ view.prototype.render = function() {
     _(function mapInit () {
         if (!com.modestmaps) throw new Error('ModestMaps not found.');
         this.map = new com.modestmaps.Map('map',
-            new wax.mm.connector({
-                tilejson: '1.0.0',
-                scheme: 'tms',
-                tiles: ['/1.0.0/' + this.model.id + '/{z}/{x}/{y}.' + this.model.get('_format') + '?' + this.model.get('_updated')]
-            }));
+            new wax.mm.connector(this.model.attributes));
 
         // Add references to all controls onto the map object.
         // Allows controls to be removed later on. @TODO need
@@ -67,10 +63,11 @@ view.prototype.render = function() {
             fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
         };
 
-        var center = this.model.get('_center');
-        this.map.setCenterZoom(
-            new com.modestmaps.Location(center.lat, center.lon),
-            center.zoom);
+        var center = this.model.get('center');
+        this.map.setCenterZoom(new com.modestmaps.Location(
+            center[1],
+            center[0]),
+            center[2]);
         this.map.addCallback('zoomed', this.mapZoom);
         this.map.addCallback('panned', this.mapZoom);
         this.mapZoom({element: this.map.div});
@@ -135,8 +132,8 @@ view.prototype.makeStylesheet = function(model) {
 // Set the model center whenever the map is moved.
 view.prototype.mapZoom = function(e) {
     var center = this.map.getCenter();
-    center = { lat: center.lat, lon: center.lon, zoom: this.map.getZoom() };
-    this.model.set({ _center: center }, { silent: true });
+    center = [center.lon, center.lat, this.map.getZoom()];
+    this.model.set({center:center}, {silent:true});
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };
 
@@ -149,7 +146,7 @@ view.prototype.mapLegend = function() {
 
 view.prototype.attach = function() {
     _(function map() {
-        this.map.provider.options.tiles = ['/1.0.0/' + this.model.id + '/{z}/{x}/{y}.' + this.model.get('_format') + '?' + this.model.get('_updated')];
+        this.map.provider.options.tiles = this.model.get('tiles');
         this.map.setProvider(this.map.provider);
     }).bind(this)();
 
