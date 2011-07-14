@@ -166,7 +166,7 @@ a {
 #drawer {
   top:50px;
   left:-50%;
-  z-index:1;
+  z-index:10;
   background:#fff;
   overflow:hidden;
   width:50% !important;
@@ -207,7 +207,7 @@ a {
   left:0px;
   right:0px;
   top:0px;
-  z-index:1;
+  z-index:10;
   height:32px;
   padding:9px 0px;
   background:#aaa url(../images/sprite.png) 0px 0px repeat-x;
@@ -279,7 +279,6 @@ a {
   left:-1px;
   width:98px;
   padding:3px 0px 0px;
-  z-index:2;
   background-color:#7c7c7c;
   border:1px solid #666;
   border-top:0px;
@@ -356,12 +355,8 @@ a {
  * Project
  */
 .project .map {
-  z-index:1;
   background:#fff url(../images/bg.png) 100% 0%;
   border-right:1px solid #ccc;
-  transition:width .25s;
-  -moz-transition:width .25s;
-  -webkit-transition:width .25s;
   }
 
 .project .map,
@@ -374,10 +369,6 @@ a {
   position:absolute;
   left:0px;
   bottom:20px;
-  z-index:1;
-  transition:left: .25s;
-  -moz-transition:left .25s;
-  -webkit-transition:left .25s;
   border:1px solid #ccc;
   border-left:0px;
   border-radius:0px 3px 3px 0px;
@@ -411,12 +402,10 @@ a {
  */
 .project.exporting .map,
 .project .wax-fullscreen-map {
+  z-index:2;
   border-right:0px !important;
   width:100% !important;
   }
-
-.project.exporting .layers,
-.project .wax-fullscreen-map + .layers { left:-400px; }
 
 .project.exporting .header .actions { display:none; }
 
@@ -427,7 +416,7 @@ a {
   position:fixed;
   top:60px;
   right:-320px;
-  z-index:1;
+  z-index:2;
   background:#fff;
   overflow:hidden;
   border:1px solid #ccc;
@@ -652,7 +641,6 @@ li:hover .actions { display:block; }
 .editor .code {
   overflow:hidden;
   top:79px;
-  z-index:1;
   background:#fff;
   border-top:1px solid #ccc;
   box-shadow:rgba(0,0,0,.1) 0px 0px 3px;
@@ -673,7 +661,7 @@ li:hover .actions { display:block; }
   z-index:-1;
   }
 
-.editor .CodeMirror.active { z-index:1; }
+.editor .CodeMirror.active { z-index:0; }
 
 /**
  * Icons

@@ -31,7 +31,7 @@
         "tilelive": "3.0.x",
         "tilelive-mapnik": "0.0.x",
         "underscore": "1.1.x",
-        "wax": "2.1.x",
+        "wax": "3.0.x",
         "worker": "0.2.x"
     },
     "devDependencies": {

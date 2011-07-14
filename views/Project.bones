@@ -47,23 +47,24 @@ view.prototype.render = function() {
     _(function mapInit () {
         if (!com.modestmaps) throw new Error('ModestMaps not found.');
         this.map = new com.modestmaps.Map('map',
-            new wax.mm.signedProvider({
-                baseUrl: '/',
-                filetype: '.' + this.model.get('_format'),
-                zoomRange: [0, 22],
-                signature: this.model.get('_updated'),
-                layerName: this.model.id}));
+            new wax.mm.connector({
+                tilejson: '1.0.0',
+                scheme: 'tms',
+                tiles: ['/1.0.0/' + this.model.id + '/{z}/{x}/{y}.' + this.model.get('_format') + '?' + this.model.get('_updated')]
+            }));
 
         // Add references to all controls onto the map object.
         // Allows controls to be removed later on. @TODO need
         // wax 3.x and updates to controls to return references
         // to themselves.
         this.map.controls = {
-            interaction: wax.mm.interaction(this.map),
-            legend: wax.mm.legend(this.map),
-            zoomer: wax.mm.zoomer(this.map),
+            // @TODO wax 3.x.
+            // interaction, legend require TileJSON attributes from the model.
+            interaction: wax.mm.interaction(this.map, this.model.attributes),
+            legend: wax.mm.legend(this.map, this.model.attributes),
             zoombox: wax.mm.zoombox(this.map),
-            fullscreen: wax.mm.fullscreen(this.map)
+            zoomer: wax.mm.zoomer(this.map).appendTo(this.map.parent),
+            fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
         };
 
         var center = this.model.get('_center');
@@ -148,8 +149,7 @@ view.prototype.mapLegend = function() {
 
 view.prototype.attach = function() {
     _(function map() {
-        this.map.provider.filetype = '.' + this.model.get('_format');
-        this.map.provider.signature = this.model.get('_updated');
+        this.map.provider.options.tiles = ['/1.0.0/' + this.model.id + '/{z}/{x}/{y}.' + this.model.get('_format') + '?' + this.model.get('_updated')];
         this.map.setProvider(this.map.provider);
     }).bind(this)();
 
@@ -294,6 +294,8 @@ view.prototype.stylesheetDelete = function(ev) {
 view.prototype.exportAdd = function(ev) {
     var target = $(ev.currentTarget);
     var type = target.attr('href').split('#export-').pop();
+
+    this.map.controls.fullscreen.full();
     this.$('.project').addClass('exporting');
     this.$('#export > .title').text(target.attr('title'));
     this.exportView = new views.Export({
@@ -305,9 +307,9 @@ view.prototype.exportAdd = function(ev) {
 };
 
 view.prototype.exportCancel = function(ev) {
-    this.$('.project').removeClass('exporting');
     this.exportView.remove();
-    delete this.exportView;
+    this.$('.project').removeClass('exporting');
+    this.map.controls.fullscreen.original();
     return false;
 };
 

@@ -16,7 +16,6 @@ servers['Route'].augment({
             require.resolve('JSV/lib/uri/uri.js'),
             require.resolve('JSV/lib/jsv.js'),
             require.resolve('JSV/lib/json-schema-draft-03.js'),
-            require.resolve('../assets/js/mm.signed.js'),
             require.resolve('../assets/js/codemirror.carto.js'),
         ]
     },
