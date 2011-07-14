@@ -24,6 +24,7 @@ view.prototype.render = function() {
 view.prototype.showAll = function() {
     this.$('a.showall').hide();
     this.$('.content table tbody').append(templates.DatasourceInfoRows({
+        fields: this.model.get('fields'),
         features: _(this.model.get('features')).rest(this.featureLimit)
     }))
     return false;

@@ -1,7 +1,7 @@
 <% _(features).each(function (feature) { %>
-  <tr>
-    <% _(feature).each(function (value) { %>
-      <td><%= value %></th>
-    <% }); %>
-  </tr>
+<tr>
+  <% _(feature).each(function (value, key) { %>
+  <td class='<%=fields[key] && fields[key].type%>'><%= value %></th>
+  <% }); %>
+</tr>
 <% }); %>

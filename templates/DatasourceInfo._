@@ -1,4 +1,5 @@
-<table class='features'>
+<div class='features fill'>
+<table>
   <thead>
     <tr>
       <% _(fields).each(function (field, name) { %>
@@ -11,5 +12,6 @@
   </tbody>
 </table>
 <% if (more) { %>
-<a class='showall button' href='#'>Show all</a>
+<div class='buttons'><a class='showall button' href='#'><span class='icon reverse plus labeled'></span> Show all</a></div>
 <% } %>
+</div>
