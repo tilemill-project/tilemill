@@ -58,6 +58,7 @@ server.prototype.layer = function(req, res, next) {
     if (!res.project.get('formatter') && !res.project.get('legend')) {
         next(new Error.HTTP('Not found.', 404));
     } else {
+        req.query.callback = 'grid'; // Force jsonp.
         res.send({
             formatter: res.project.get('formatter'),
             legend: res.project.get('legend')
