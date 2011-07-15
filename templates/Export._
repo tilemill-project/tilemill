@@ -17,8 +17,8 @@
   <% if (type === 'png' || type === 'pdf') { %>
   <li>
     <label>Image size</label>
-    <input type='text' value='400' size='4' /> x
-    <input type='text' value='400' size='4' />
+    <input name='width' type='text' value='400' size='4' /> x
+    <input name='height' type='text' value='400' size='4' />
   </li>
   <% } %>
   <% if (type === 'mbtiles') { %>
