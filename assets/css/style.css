@@ -367,6 +367,7 @@ a {
 .project .editor {
   top:50px;
   width:50% !important;
+  height:auto !important;
   }
 
 .project .layers {
