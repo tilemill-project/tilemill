@@ -2,21 +2,32 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'keyup .bboxForm input, input[name=width], input[name=height]': 'size',
+    'click input[type=submit]': 'save'
 };
 
 view.prototype.initialize = function(options) {
     if (!options.map) throw new Error('No map provided.');
     if (!options.type) throw new Error('No export type specified.');
-    if (!options.model) throw new Error('No project model provided.');
+    if (!options.model) throw new Error('No export model provided.');
+    if (!options.project) throw new Error('No project model provided.');
 
-    _(this).bindAll('render', 'remove', 'size');
+    _(this).bindAll('render', 'remove', 'size', 'zoom', 'save');
     this.map = options.map;
     this.type = options.type;
+    this.project = options.project;
     this.render();
 };
 
 view.prototype.render = function() {
     this.$('.content').html(templates.Export(this));
+    this.$('.slider').slider({
+        range: true,
+        min:0,
+        max:22,
+        values:[this.project.get('minzoom'), this.project.get('maxzoom')],
+        step:1,
+        slide: this.zoom
+    });
     this.map.controls.zoombox.remove();
     this.map.controls.boxselector = wax.mm.boxselector(this.map, {}, _(function(data) {
         var s = _(data).chain().pluck('lat').min().value().toFixed(2);
@@ -69,5 +80,35 @@ view.prototype.size = function(ev) {
 view.prototype.remove = function() {
     this.map.controls.boxselector.remove();
     this.map.controls.zoombox.add(this.map);
+};
+
+view.prototype.zoom = function(ev, ui) {
+    this.$('.minzoom').text(ui.values[0]);
+    this.$('.maxzoom').text(ui.values[1]);
+};
+
+view.prototype.save = function() {
+    var attr = {};
+    attr.filename = this.$('input[name=filename]').val();
+    attr.bbox = [
+        parseFloat(this.$('input[name=bbox_0]').val()),
+        parseFloat(this.$('input[name=bbox_1]').val()),
+        parseFloat(this.$('input[name=bbox_2]').val()),
+        parseFloat(this.$('input[name=bbox_3]').val())
+    ];
+    if (this.type === 'mbtiles') {
+        attr.minzoom = this.$('.slider').slider('values', 0);
+        attr.maxzoom = this.$('.slider').slider('values', 1);
+    } else {
+        attr.width = parseInt(this.$('input[name=width]').val(), 10);
+        attr.height = parseInt(this.$('input[name=height]').val(), 10);
+    }
+    this.model.save(attr, {
+        success: function() {
+            console.log('asdf');
+        },
+        error: function(m,e) { new views.Modal(e) }
+    });
+    return false;
 };
 

@@ -1,7 +1,7 @@
 <form><ul class='form'>
   <li>
     <label>Filename</label>
-    <input type='text' value='<%=model.id%>' size='12' />
+    <input type='text' name='filename' value='<%=project.id%>' size='12' />
     <span class='description'>.<%=type%></span>
   </li>
   <li>
@@ -25,11 +25,11 @@
   <li>
     <label>Zoom levels</label>
     <div class='slider'></div>
-    <div class='zoomrange'>
-      <span class='minzoom'></span>
-      <span class='maxzoom'></span>
+    <div class='description help'>
+        Zoom
+        <span class='minzoom'><%=project.get('minzoom')%></span> -
+        <span class='maxzoom'><%=project.get('maxzoom')%></span>
     </div>
-    @TODO zoom slider
   </li>
   <% } %>
   <li class='buttons'>

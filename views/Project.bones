@@ -297,8 +297,9 @@ view.prototype.exportAdd = function(ev) {
     this.exportView = new views.Export({
         el: $('#export'),
         type: type,
-        model: this.model,
-        map: this.map
+        map: this.map,
+        model: new models.Export(),
+        project: this.model
     });
 };
 

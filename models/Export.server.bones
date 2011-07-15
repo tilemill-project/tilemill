@@ -2,7 +2,8 @@ var Step = require('step'),
     Pool = require('generic-pool').Pool,
     Worker = require('worker').Worker,
     fs = require('fs'),
-    path = require('path');
+    path = require('path'),
+    settings = Bones.plugin.config;
 
 // Export
 // ------
@@ -11,7 +12,7 @@ var Step = require('step'),
 var workers = [];
 var pool = Pool({
     create: function(callback) {
-        callback(null, new Worker(require.resolve('./export-worker.js')));
+        callback(null, new Worker(require.resolve('../lib/export-worker.js')));
     },
     destroy: function(worker) {
         worker.terminate();

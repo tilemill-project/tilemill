@@ -436,6 +436,7 @@ a {
   }
 
 #export .content { padding:0px; }
+#export .help { text-align:center; }
 
 .project.exporting .wax-fullscreen { display:none; }
 .project.exporting .zoom-display { width:59px; }
@@ -875,6 +876,46 @@ ul.form input + span.description { margin-left:10px; }
 ul.form select + span.description,
 ul.form input + div.description { margin-top:10px; }
 ul.form select { width:120px; }
+
+/* Slider widget */
+.ui-slider {
+  position:relative;
+  background: #eee;
+  border:#ddd solid 1px;
+  height:4px;
+  padding:0px;
+  margin:7px 8px;
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  box-shadow:inset #ddd 0px 1px 3px;
+  -moz-box-shadow:inset #ddd 0px 1px 3px;
+  -webkit-box-shadow:inset #ddd 0px 1px 3px;
+  }
+
+.ui-slider-range {
+  background:#aaa;
+  position:absolute;
+  height:4px;
+  border:1px solid #999;
+  margin:-1px;
+  padding:0px;
+  }
+
+.ui-slider-handle {
+  position:absolute;
+  top:0px;
+  height:8px;
+  width:16px;
+  margin:-2px 0px;
+  background:#888;
+  border-radius:2px;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
+  }
+
+.ui-slider-handle:first-of-type { margin-left:-8px; }
+.ui-slider-handle:last-of-type { margin-left:-8px; }
 
 /* Special sauce */
 ul::-webkit-scrollbar,
