@@ -289,16 +289,19 @@ view.prototype.stylesheetDelete = function(ev) {
 
 view.prototype.exportAdd = function(ev) {
     var target = $(ev.currentTarget);
-    var type = target.attr('href').split('#export-').pop();
+    var format = target.attr('href').split('#export-').pop();
 
     this.map.controls.fullscreen.full();
     this.$('.project').addClass('exporting');
     this.$('#export > .title').text(target.attr('title'));
     this.exportView = new views.Export({
         el: $('#export'),
-        type: type,
         map: this.map,
-        model: new models.Export(),
+        model: new models.Export({
+            format: format,
+            project: this.model.id,
+            tile_format: this.model.get('format')
+        }),
         project: this.model
     });
 };

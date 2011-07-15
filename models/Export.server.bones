@@ -77,6 +77,10 @@ models.Export.prototype.process = function() {
                 'project',
                 model.get('project'),
                 model.get('project') + '.mml'
+            ),
+            filepath: path.join(
+                settings['export'],
+                model.get('filename')
             )
         }));
     });

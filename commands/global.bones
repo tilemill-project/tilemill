@@ -37,10 +37,10 @@ var bootstrap = function(callback) {
         fs.mkdirSync(settings.files, 0777);
     }
     try {
-        fs.statSync(settings.export);
+        fs.statSync(settings['export']);
     } catch (Exception) {
-        console.log('Creating export dir %s', settings.export);
-        fs.mkdirSync(settings.export, 0777);
+        console.log('Creating export dir %s', settings['export']);
+        fs.mkdirSync(settings['export'], 0777);
     }
 
     // @TODO: Better infrastructure for handling updates.

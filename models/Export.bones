@@ -9,6 +9,20 @@ model = Backbone.Model.extend({
                 'type': 'string',
                 'required': true
             },
+            'bbox': {
+                'type': 'array',
+                'minItems': 4,
+                'maxItems': 4,
+                'items': {
+                    'type': 'number'
+                }
+            },
+            'width': {
+                'type': 'integer'
+            },
+            'height': {
+                'type': 'integer'
+            },
             'project': {
                 'type': 'string',
                 'required': true

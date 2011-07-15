@@ -7,13 +7,11 @@ view.prototype.events = {
 
 view.prototype.initialize = function(options) {
     if (!options.map) throw new Error('No map provided.');
-    if (!options.type) throw new Error('No export type specified.');
     if (!options.model) throw new Error('No export model provided.');
     if (!options.project) throw new Error('No project model provided.');
 
     _(this).bindAll('render', 'remove', 'size', 'zoom', 'save');
     this.map = options.map;
-    this.type = options.type;
     this.project = options.project;
     this.render();
 };
@@ -89,14 +87,15 @@ view.prototype.zoom = function(ev, ui) {
 
 view.prototype.save = function() {
     var attr = {};
-    attr.filename = this.$('input[name=filename]').val();
+    attr.filename = this.$('input[name=filename]').val()
+        + '.' + this.model.get('format');
     attr.bbox = [
         parseFloat(this.$('input[name=bbox_0]').val()),
         parseFloat(this.$('input[name=bbox_1]').val()),
         parseFloat(this.$('input[name=bbox_2]').val()),
         parseFloat(this.$('input[name=bbox_3]').val())
     ];
-    if (this.type === 'mbtiles') {
+    if (this.model.get('format') === 'mbtiles') {
         attr.minzoom = this.$('.slider').slider('values', 0);
         attr.maxzoom = this.$('.slider').slider('values', 1);
     } else {
