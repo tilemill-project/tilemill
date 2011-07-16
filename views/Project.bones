@@ -6,7 +6,7 @@ view.prototype.events = {
     'click .actions a[href=#export-png]': 'exportAdd',
     'click .actions a[href=#export-mbtiles]': 'exportAdd',
     'click .actions a[href=#exports]': 'exportList',
-    'click #export input.cancel': 'exportCancel',
+    'click #export .buttons input': 'exportClose',
     'click a[href=#fonts]': 'fonts',
     'click a[href=#carto]': 'carto',
     'click a[href=#settings]': 'settings',
@@ -35,8 +35,8 @@ view.prototype.initialize = function() {
         'stylesheetAdd',
         'stylesheetDelete',
         'exportAdd',
-        'exportList',
-        'exportCancel'
+        'exportClose',
+        'exportList'
     );
     this.model.bind('save', this.attach);
     this.render().attach();
@@ -302,11 +302,16 @@ view.prototype.exportAdd = function(ev) {
             project: this.model.id,
             tile_format: this.model.get('format')
         }),
-        project: this.model
+        project: this.model,
+        success: _(function() {
+            // @TODO better API for manipulating UI elements.
+            $('a[href=#exports]').click();
+            $('.actions > .dropdown').click();
+        }).bind(this)
     });
 };
 
-view.prototype.exportCancel = function(ev) {
+view.prototype.exportClose = function(ev) {
     this.exportView.remove();
     this.$('.project').removeClass('exporting');
     this.map.controls.fullscreen.original();
@@ -315,9 +320,8 @@ view.prototype.exportCancel = function(ev) {
 
 view.prototype.exportList = function(ev) {
     $('#drawer').addClass('loading');
-    var collection = new models.Exports();
-    collection.fetch({
-        success: function() {
+    (new models.Exports()).fetch({
+        success: function(collection) {
             $('#drawer').removeClass('loading');
             new views.Exports({
                 collection: collection,

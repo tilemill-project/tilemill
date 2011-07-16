@@ -13,6 +13,8 @@ view.prototype.initialize = function(options) {
     _(this).bindAll('render', 'remove', 'size', 'zoom', 'save');
     this.map = options.map;
     this.project = options.project;
+    this.success = options.success || function() {};
+    this.error = options.error || function(m,e) { new views.Modal(e) };
     this.render();
 };
 
@@ -102,12 +104,7 @@ view.prototype.save = function() {
         attr.width = parseInt(this.$('input[name=width]').val(), 10);
         attr.height = parseInt(this.$('input[name=height]').val(), 10);
     }
-    this.model.save(attr, {
-        success: function() {
-            console.log('asdf');
-        },
-        error: function(m,e) { new views.Modal(e) }
-    });
-    return false;
+    // Use `success` and `error` callbacks set on the view.
+    this.model.save(attr, this);
 };
 
