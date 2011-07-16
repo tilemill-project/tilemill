@@ -152,8 +152,10 @@ Map {
   <li>
   <div>
     <%= p.css %>
-    <small class='types <%= _(p.type).size() > 4 ? 'long' : '' %>'>
-      <%= _(_(p.type).isArray() ? p.type : [p.type]).map(function(type) { return "<span class='type'>" + type + "</span>"; }).join(' ') %>
+    <small class='types'>
+      <% _(_(p.type).isArray() ? p.type : [p.type]).each(function(type) { %>
+      <span class='type'><%= type %></span>
+      <% }); %>
     </small>
   </div>
   <% if (p['default-value']) { %>
