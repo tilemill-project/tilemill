@@ -305,8 +305,11 @@ view.prototype.exportAdd = function(ev) {
         project: this.model,
         success: _(function() {
             // @TODO better API for manipulating UI elements.
-            $('a[href=#exports]').click();
-            $('.actions > .dropdown').click();
+            if (!$('#drawer').is('.active')) {
+                $('a[href=#exports]').click();
+                $('.actions > .dropdown').click();
+            }
+            this.exportList();
         }).bind(this)
     });
 };
