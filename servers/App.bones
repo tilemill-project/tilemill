@@ -1,6 +1,7 @@
 var mapnik = require('tilelive-mapnik/node_modules/mapnik'),
     Map = require('tilelive-mapnik').Map,
-    path = require('path');
+    path = require('path'),
+    env = process.env.NODE_ENV || 'development';
 var abilities = {
     carto: require('tilelive-mapnik/node_modules/carto').tree.Reference.data,
     fonts: mapnik.fonts(),
@@ -20,6 +21,12 @@ server.prototype.initialize = function(app) {
     this.get('/', this.index);
     this.get('/assets/tilemill/js/abilities.js', this.abilities);
     this.get('/api/Datasource/:option?', this.describeDatasource);
+
+    // Add static provider to download exports.
+    this.use('/export/download', middleware['static'](
+        this.config['export'],
+        { maxAge: env === 'production' ? 3600000 : 0 } // 1 hour
+    ));
 };
 
 server.prototype.index = function(req, res, next) {
