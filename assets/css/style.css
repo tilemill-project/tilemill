@@ -681,6 +681,12 @@ li:hover .actions { display:block; }
   background:transparent url(../images/sprite.png) 20px 20px no-repeat;
   }
 
+.filetype {
+  width:40px;
+  height:40px;
+  background-position:40px 40px;
+  }
+
 a:hover .icon,
 li:hover .icon { display:block; }
 
@@ -757,6 +763,19 @@ li:hover .icon { display:block; }
 .dock .active .icon.file     { background-position:-540px -200px;}
 .dock .active .icon.postgis  { background-position:-560px -200px;}
 .dock .active .icon.tooltip  { background-position:-580px -200px;}
+
+/* File icons */
+.filetype.png     { background-position:0px -320px; }
+.filetype.pdf     { background-position:-40px -320px; }
+.filetype.mbtiles { background-position:-80px -320px; }
+.filetype.zip     { background-position:-120px -320px; }
+
+/* Export status icons */
+.icon.processing { background-position:-40px -220px; }
+.icon.complete   { background-position:-60px -220px; }
+.icon.error      { background-position:-80px -220px; }
+.icon.waiting    { background-position:-100px -220px; }
+.filetype .icon { margin-top:20px; }
 
 /**
  * Form elements
@@ -1039,7 +1058,7 @@ th.header { cursor:pointer; }
 /**
  * Font reference
  */
-.fonts { padding-top:30px; }
+div.fonts { padding-top:30px; }
 
 .fonts .toggler {
   font-size:11px;
@@ -1067,26 +1086,34 @@ th.header { cursor:pointer; }
   color:#fff;
   }
 
-.exports li,
 .fonts .font {
+  display:none;
   position:relative;
   padding:5px 10px 4px;
   border-bottom:1px solid #eee;
   }
 
-.fonts .font { display:none; }
 .fonts .font.active { display:block; }
 
 /**
  * Exports
  */
-.exports li.complete {
-  color:#666;
+.exports li {
+  position:relative;
+  padding:5px 10px 4px 50px;
+  border-bottom:1px solid #eee;
+  }
+
+.exports li.complete,
+.exports li.error {
+  color:#999;
   background:#f8f8f8;
   }
 
-.exports li.error {
-  background:#ffe8e0;
+.exports .filetype {
+  position:absolute;
+  left:5px;
+  top:5px;
   }
 
 .exports .status,
@@ -1094,7 +1121,7 @@ th.header { cursor:pointer; }
 
 .exports .status {
   position:absolute;
-  right:10px;
+  right:30px;
   top:15px;
   }
 
@@ -1102,6 +1129,15 @@ th.header { cursor:pointer; }
   text-align:right;
   top:5px;
   }
+
+.exports .delete {
+  display:none;
+  position:absolute;
+  right:5px;
+  top:15px;
+  }
+
+.exports li:hover .delete { display:block; }
 
 .progress {
   margin-left:0px;
