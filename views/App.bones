@@ -1,13 +1,11 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'click #popup a[href=#close]': 'popupClose',
-    'click #popup input.cancel': 'popupClose',
+    'click #popup a[href=#close], #popup input.cancel': 'popupClose',
     'click a.popup': 'popupOpen',
     'click #drawer a[href=#close]': 'drawerClose',
     'click a.drawer': 'drawerOpen',
-    'click .button.dropdown a': 'dropdown',
-    'click .button.dropdown': 'dropdown',
+    'click .button.dropdown, .button.dropdown a': 'dropdown',
     'click .toggler a': 'toggler',
     'keydown': 'keydown'
 };
