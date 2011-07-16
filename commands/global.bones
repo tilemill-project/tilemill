@@ -15,6 +15,7 @@ Bones.Command.options['files'] = {
     'default': path.join(process.cwd(), 'files')
 };
 
+// @TODO this used to be called `export_dir`. Migrate this value.
 Bones.Command.options['export'] = {
     'title': 'export=[path]',
     'description': 'Path to export directory.',

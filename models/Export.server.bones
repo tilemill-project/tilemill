@@ -29,7 +29,7 @@ models.Export.prototype.sync = function(method, model, success, error) {
         },
         function(data) {
             if (data && data.filename) {
-                var filepath = path.join(settings.export_dir, data.filename);
+                var filepath = path.join(settings['export'], data.filename);
                 path.exists(filepath, function(exists) {
                     exists && fs.unlink(filepath, this) || this();
                 }.bind(this));

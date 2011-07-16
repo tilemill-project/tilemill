@@ -72,10 +72,6 @@ model = Backbone.Model.extend({
         progress: 0,
         status: 'waiting'
     },
-    // Generate a download URL for an Export.
-    downloadURL: function() {
-        return '/export/download/' + this.get('filename');
-    },
     // Get the duration of the current export job.
     time: function() {
         if (this.get('updated')) {
