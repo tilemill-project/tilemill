@@ -344,10 +344,11 @@ var AssetRowView = Backbone.View.extend({
         this.render();
     },
     render: function() {
+        var absurl = this.model.get('url');
         $(this.el).html(ich.AssetRowView({
             id: this.model.id,
             bytes: this.model.get('bytes'),
-            url: this.model.get('url'),
+            url: absurl.slice(absurl.indexOf('api')),
             type: this.model.extension()
         }));
         return this;
