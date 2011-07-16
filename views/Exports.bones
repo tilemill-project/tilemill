@@ -5,7 +5,7 @@ view.prototype.initialize = function(options) {
 };
 
 view.prototype.render = function() {
-    this.$('.content').html('@TODO');
+    this.$('.content').html(templates.Exports(this.collection));
     return this;
 };
 
