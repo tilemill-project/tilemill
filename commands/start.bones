@@ -1,36 +1,28 @@
 var fs = require('fs'),
     path = require('path'),
-    Step = require('step'),
-    settings = Bones.plugin.config;
+    Step = require('step');
 
-Bones.Command.options['port'] = {
+commands['start'].options['port'] = {
     'title': 'port=[port]',
     'description': 'Server port.',
     'default': 8889
 };
 
-Bones.Command.options['files'] = {
+commands['start'].options['files'] = {
     'title': 'files=[path]',
     'description': 'Path to files directory.',
     'default': path.join(process.cwd(), 'files')
 };
 
 // @TODO this used to be called `export_dir`. Migrate this value.
-Bones.Command.options['export'] = {
+commands['start'].options['export'] = {
     'title': 'export=[path]',
     'description': 'Path to export directory.',
     'default': path.join(process.cwd(), 'files', 'export')
 };
 
-Bones.Command.augment({
-    bootstrap: function(parent, plugin, callback) {
-        parent.call(this, plugin, function() {
-            bootstrap(callback);
-        });
-    }
-});
-
-var bootstrap = function(callback) {
+commands['start'].prototype.bootstrap = function(plugin, callback) {
+    var settings = Bones.plugin.config;
     try {
         fs.statSync(settings.files);
     } catch (Exception) {
