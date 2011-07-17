@@ -2,17 +2,41 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click .layerFile input[type=submit]': 'saveFile',
-    'click .layerPostGIS input[type=submit]': 'savePostGIS'
+    'click .layerPostGIS input[type=submit]': 'savePostGIS',
+    'change select[name=srs-name]': 'nameToSrs',
+    'keyup input[name=srs]': 'srsToName'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'saveFile', 'savePostGIS');
+    _(this).bindAll(
+        'render',
+        'saveFile',
+        'savePostGIS',
+        'nameToSrs',
+        'srsToName'
+    );
     this.render();
 };
 
 view.prototype.render = function() {
     this.$('.content').html(templates.Layer(this.model));
     return this;
+};
+
+view.prototype.nameToSrs = function(ev) {
+    var el = $(ev.currentTarget);
+    var name = $(ev.currentTarget).val();
+    if (this.model.SRS[name]) {
+        el.siblings('input[name=srs]').val(this.model.SRS[name]);
+    } else if (name === 'autodetect') {
+        el.siblings('input[name=srs]').val('');
+    }
+};
+
+view.prototype.srsToName = function(ev) {
+    var el = $(ev.currentTarget);
+    var srs = $(ev.currentTarget).val();
+    el.siblings('select[name=srs-name]').val(this.model.srsName(srs));
 };
 
 view.prototype.saveFile = function() {

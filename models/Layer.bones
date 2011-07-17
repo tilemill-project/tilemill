@@ -53,13 +53,12 @@ model = Backbone.Model.extend({
     },
     // Get the name of a model's SRS string if known, otherwise reteurn
     // 'custom' or 'autodetect' if empty.
-    srsName: function() {
+    srsName: function(srs) {
+        srs = srs || this.get('srs');
         for (name in this.SRS) {
-            if (this.SRS[name] === this.get('srs')) {
-                return name;
-            }
+            if (this.SRS[name] === this.get('srs')) return name;
         }
-        return this.get('srs') ? 'custom' : 'autodetect';
+        return srs ? 'custom' : 'autodetect';
     },
     // Implementation of `Model.set()` that allows a datasource model to be
     // passed in as `options.datasource`. If provided, the datasource will be

@@ -27,7 +27,7 @@
     <li>
       <label for='srs-name'>SRS</label>
       <select name='srs-name'>
-        <option value=''       <% if (srsName() === 'autodetect') { %>selected='selected'<% } %>>
+        <option value='autodetect' <% if (srsName() === 'autodetect') { %>selected='selected'<% } %>>
           Autodetect
         </option>
         <option value='900913' <% if (srsName() === '900913') { %>selected='selected'<% } %>>
@@ -37,7 +37,7 @@
           WGS84
         </option>
         <option value='custom' <% if (srsName() === 'custom') { %>selected='selected'<% } %>>
-          Add custom
+          Custom
         </option>
       </select>
       <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='Autodetect' />
@@ -97,7 +97,7 @@
           WGS84
         </option>
         <option value='custom' <% if (srsName() === 'custom') { %>selected='selected'<% } %>>
-          Add custom
+          Custom
         </option>
       </select>
       <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='Autodetect' />
