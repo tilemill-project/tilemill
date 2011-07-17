@@ -3,18 +3,20 @@ var Step = require('step'),
     Worker = require('worker').Worker,
     fs = require('fs'),
     path = require('path'),
-    settings = Bones.plugin.config;
+    settings = Bones.plugin.config,
+    workerPath = require.resolve('../lib/export-worker.js');
 
 // Export
 // ------
 // Implement custom sync method for Export model. Removes any files associated
 // with the export model at `filename` when a model is destroyed.
-var workers = [];
+var workers = {};
 var pool = Pool({
     create: function(callback) {
-        callback(null, new Worker(require.resolve('../lib/export-worker.js')));
+        callback(null, new Worker(workerPath));
     },
     destroy: function(worker) {
+        worker.removeAllListeners('message');
         worker.terminate();
     },
     max: 3,
@@ -24,6 +26,9 @@ var pool = Pool({
 models.Export.prototype.sync = function(method, model, success, error) {
     switch (method) {
     case 'delete':
+        // Destroy worker if exists.
+        if (workers[model.id]) pool.destroy(workers[model.id]);
+
         Step(function() {
             Backbone.sync('read', model, this, this);
         },
@@ -65,7 +70,6 @@ models.Export.prototype.process = function() {
         workers[model.id] = worker;
         worker.on('message', function(data) {
             if (data.event === 'complete') {
-                worker.removeAllListeners('message');
                 pool.release(worker);
             } else if (data.event === 'update') {
                 model.save(data.attributes);
@@ -85,3 +89,20 @@ models.Export.prototype.process = function() {
         }));
     });
 };
+
+models.Exports.prototype.sync = function(method, model, success, error) {
+    switch (method) {
+    case 'read':
+        Backbone.sync('read', model, function(exports) {
+            _(exports).each(function(data) {
+                if (data.status === 'processing' && !workers[data.id]) {
+                    data.status = 'error';
+                    data.error = 'Export did not complete.';
+                }
+            });
+            success(exports);
+        }, error);
+        break;
+    }
+};
+

@@ -321,9 +321,14 @@ view.prototype.exportClose = function(ev) {
     return false;
 };
 
+// Create a global reference to the exports collection on the Bones
+// object. Ensures that export polling only ever occurs against one
+// collection.
 view.prototype.exportList = function(ev) {
     $('#drawer').addClass('loading');
-    (new models.Exports()).fetch({
+    Bones.models = Bones.models || {};
+    Bones.models.exports = Bones.models.exports || new models.Exports();
+    Bones.models.exports.fetch({
         success: function(collection) {
             $('#drawer').removeClass('loading');
             new views.Exports({

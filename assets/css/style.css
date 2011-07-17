@@ -1125,6 +1125,7 @@ div.fonts { padding-top:30px; }
   top:15px;
   }
 
+.exports .waiting .status,
 .exports .processing .status {
   text-align:right;
   top:5px;

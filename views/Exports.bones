@@ -5,7 +5,12 @@ view.prototype.events = {
 };
 
 view.prototype.initialize = function(options) {
+    Bones.intervals = Bones.intervals || {};
+    Bones.intervals.exports = Bones.intervals.exports ||
+        setInterval(_(this.collection.fetch).bind(this.collection), 5000);
+
     _(this).bindAll('render', 'exportDelete');
+    this.collection.bind('all', this.render);
     this.render();
 };
 
@@ -20,10 +25,7 @@ view.prototype.exportDelete = function(ev) {
     new views.Modal({
         content: 'Are you sure you want to delete "'+ model.get('filename') +'"?',
         callback: function() {
-            model.destroy({
-                success: function() { $('#export-' + id).remove(); },
-                error: function(m, e) { new views.Modal(e) }
-            });
+            model.destroy({ error: function(m, e) { new views.Modal(e) }});
         }
     });
     return false;
