@@ -72,11 +72,7 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
         }
     );
     // Process any waiting exports.
-    (new models.Exports).fetch({success: function(collection) {
-        collection.each(function(model) {
-            model.get('status') === 'waiting' && model.process();
-        });
-    }});
+    (new models.Exports).fetch();
     callback();
 };
 

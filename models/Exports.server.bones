@@ -1,45 +1,75 @@
 var Step = require('step'),
-    Pool = require('generic-pool').Pool,
-    Worker = require('worker').Worker,
     fs = require('fs'),
     path = require('path'),
-    settings = Bones.plugin.config,
-    workerPath = require.resolve('../lib/export-worker.js');
+    exec = require('child_process').exec,
+    spawn = require('child_process').spawn,
+    settings = Bones.plugin.config;
 
-// Export
-// ------
-// Implement custom sync method for Export model. Removes any files associated
-// with the export model at `filename` when a model is destroyed.
-var workers = {};
-var pool = Pool({
-    create: function(callback) {
-        callback(null, new Worker(workerPath));
-    },
-    destroy: function(worker) {
-        worker.removeAllListeners('message');
-        worker.terminate();
-    },
-    max: 3,
-    idleTimeoutMillis: 5000
-});
+var start = function(model, data, callback) {
+    if (data.pid && _(['waiting', 'processing']).include(data.status)) {
+        var pid = data.pid
+        exec('ps -p ' + pid + ' | grep ' + pid, function(err, stdout) {
+            if (err) {
+                model.set({status: 'error', error: 'Export process died.'});
+                Backbone.sync('update', model, callback, callback);
+            } else {
+                callback();
+            }
+        });
+    } else if (data.status === 'waiting') {
+        var args = [];
+        // tilemill index.js
+        args.push(path.resolve(path.join(__dirname + '/../index.js')));
+        // export command
+        args.push('export');
+        // datasource
+        args.push(path.join(
+            settings.files,
+            'project',
+            data.project,
+            data.project + '.mml'
+        ));
+        // filepath
+        args.push(path.join(
+            settings['export'],
+            data.filename
+        ));
+        // url
+        // @TODO: need proper host info.
+        args.push('--url=' + 'http://localhost:'+settings.port+'/api/Export/'+data.id);
+
+        if (data.bbox) args.push('--bbox=' + data.bbox.join(','));
+        if (data.width) args.push('--width=' + data.width);
+        if (data.height) args.push('--height=' + data.height);
+        if (data.minzoom) args.push('--minzoom=' + data.minzoom);
+        if (data.maxzoom) args.push('--maxzoom=' + data.maxzoom);
+
+        var child = spawn(process.execPath, args);
+        model.set({pid: child.pid});
+        Backbone.sync('update', model, callback, callback);
+    } else if (data.status === 'processing') {
+        model.set({status: 'error', error: 'Export process died.'});
+        Backbone.sync('update', model, callback, callback);
+    } else {
+        callback();
+    }
+};
 
 models.Export.prototype.sync = function(method, model, success, error) {
     switch (method) {
     case 'delete':
-        // Destroy worker if exists.
-        if (workers[model.id]) pool.destroy(workers[model.id]);
-
         Step(function() {
             Backbone.sync('read', model, this, this);
         },
         function(data) {
+            if (data && data.pid) process.kill(pid, 'SIGUSR1');
             if (data && data.filename) {
                 var filepath = path.join(settings['export'], data.filename);
                 path.exists(filepath, function(exists) {
                     exists && fs.unlink(filepath, this) || this();
                 }.bind(this));
             } else {
-                this(false);
+                this();
             }
         },
         function() {
@@ -47,62 +77,36 @@ models.Export.prototype.sync = function(method, model, success, error) {
         });
         break;
     case 'read':
-        Backbone.sync('read', model, function(data) {
-            if (data.status === 'processing' && !workers[model.id]) {
-                data.status = 'error';
-                data.error = 'Export did not complete.';
-            }
-            success(data);
+        Backbone.sync(method, model, function(data) {
+            start(model, model.toJSON(), function() {
+                success(data);
+            });
         }, error);
         break;
     case 'create':
+        Backbone.sync(method, model, function(data) {
+            start(model, model.toJSON(), function() {
+                success(data);
+            });
+        }, error);
+        break;
     case 'update':
-        model.get('status') === 'waiting' && model.process();
         Backbone.sync(method, model, success, error);
         break;
     }
 };
 
-models.Export.prototype.process = function() {
-    var model = this;
-    pool.acquire(function(err, worker) {
-        if (err) return callback(err);
-        workers[model.id] = worker;
-        worker.on('message', function(data) {
-            if (data.event === 'complete') {
-                pool.release(worker);
-            } else if (data.event === 'update') {
-                model.save(data.attributes);
-            }
-        });
-        worker.postMessage(_(model.toJSON()).extend({
-            datasource: path.join(
-                settings.files,
-                'project',
-                model.get('project'),
-                model.get('project') + '.mml'
-            ),
-            filepath: path.join(
-                settings['export'],
-                model.get('filename')
-            )
-        }));
-    });
-};
-
 models.Exports.prototype.sync = function(method, model, success, error) {
-    switch (method) {
-    case 'read':
-        Backbone.sync('read', model, function(exports) {
-            _(exports).each(function(data) {
-                if (data.status === 'processing' && !workers[data.id]) {
-                    data.status = 'error';
-                    data.error = 'Export did not complete.';
-                }
+    if (method !== 'read') return success({});
+    Backbone.sync(method, model, function(data) {
+        Step(function() {
+            var group = this.group();
+            _(data).each(function(m) {
+                var model = new models.Export(m);
+                start(model, model.toJSON(), group());
             });
-            success(exports);
-        }, error);
-        break;
-    }
+        }, function() {
+            success(data);
+        });
+    }, error);
 };
-

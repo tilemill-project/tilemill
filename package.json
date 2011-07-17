@@ -28,17 +28,20 @@
         "JSV": "3.5.x",
         "mbtiles": "0.0.x",
         "sax": "0.1.x",
+        "request": "1.9.x",
         "step": "0.0.x",
         "tilelive": "3.0.x",
         "tilelive-mapnik": "0.0.x",
         "underscore": "1.1.x",
-        "wax": "3.0.x",
-        "worker": "0.2.x"
+        "wax": "3.0.x"
     },
     "devDependencies": {
         "expresso" : "0.7.x",
         "jshint": "0.2.x",
         "docco": "0.3.x"
+    },
+    "bin": {
+        "tilemill": "./index.js"
     },
     "engines": { "node": "0.4.x" }
 }
