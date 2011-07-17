@@ -130,11 +130,6 @@ command.prototype.put = function(data, callback) {
 
 command.prototype.png =
 command.prototype.pdf = function(data, callback) {
-    this.put({
-        status: 'processing',
-        updated: + new Date()
-    });
-
     var sm = new (require('tilelive').SphericalMercator);
     var map = new (require('tilelive-mapnik').Map)(data.datasource, data);
     data.bbox = sm.convert(data.bbox, '900913');
@@ -158,11 +153,6 @@ command.prototype.pdf = function(data, callback) {
 };
 
 command.prototype.mbtiles = function (data, callback) {
-    this.put({
-        status: 'processing',
-        updated: + new Date()
-    });
-
     try {
         var project = JSON.parse(fs.readFileSync(data.datasource));
     } catch(e) { this.error(e); }
