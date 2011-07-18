@@ -82,17 +82,17 @@
       <label for='table'><span class='required' title='This field is required'>*</span> Query</label>
       <div class='inline'>
         <pre>SELECT * FROM </pre>
-        <textarea name='table' cols='60' rows='4'><%=get('table')%></textarea>
+        <textarea name='table' cols='60' rows='4'><%=get('Datasource') && get('Datasource').table%></textarea>
       </div>
     </li>
     <li>
       <label for='extent'>Extent</label>
-      <input type='text' name='extent' value='<%=get('extent')%>' />
+      <input type='text' name='extent' value='<%=get('Datasource') && get('Datasource').extent%>' />
       <span class='description'>limit the query by this bounding box</span>
     </li>
     <li>
       <label for='extent'>Geometry Field</label>
-      <input type='text' name='geometry_field' value='<%=get('geometry_field')%>' />
+      <input type='text' name='geometry_field' value='<%=get('Datasource') && get('Datasource').geometry_field%>' />
       <span class='description'>SQL field containing feature geometry</span>
     </li>
     <li>
