@@ -18,9 +18,9 @@ view.prototype.render = function() {
 view.prototype.saveFile = function() {
     var datasource = new models.Datasource();
     var attr = {
-            id: this.$('input[name=id]').val(),
+            id: this.$('form.layerFile input[name=id]').val(),
             project: this.model.collection.parent.get('id'),
-            file: this.$('input[name=file]').val()
+            file: this.$('form.layerFile input[name=file]').val()
     }
     var options = { error: function(m, e) { new views.Modal(e); } };
     if (datasource.set(attr, options)) {
@@ -28,13 +28,13 @@ view.prototype.saveFile = function() {
         datasource.fetch({
             success: _(function() {
                 var attr = {
-                    'id':    this.$('input[name=id]').val(),
-                    'name':  this.$('input[name=id]').val(),
-                    'srs':   this.$('input[name=srs]').val(),
-                    'class': this.$('input[name=class]').val(),
+                    'id':    this.$('form.layerFile input[name=id]').val(),
+                    'name':  this.$('form.layerFile input[name=id]').val(),
+                    'srs':   this.$('form.layerFile input[name=srs]').val(),
+                    'class': this.$('form.layerFile input[name=class]').val(),
                     'geometry': datasource.get('geometry_type'),
                     'Datasource': {
-                        'file': this.$('input[name=file]').val()
+                        'file': datasource.get('file')
                     }
                 };
                 var options = { error: function(m, e) { new views.Modal(e); } };
@@ -55,18 +55,23 @@ view.prototype.saveFile = function() {
 };
 
 view.prototype.savePostGIS = function() {
+    var connection = /pgsql:\/\/([^:@\/]*):?([^@\/]*)@?([^\/:]*):?(\d*)\/?([^\/]*)/
+        .exec(this.$('form.layerPostGIS input[name=connection]').val());
+    if (!connection) {
+        new views.Modal(new Error('Invalid PostgreSQL connection string.'));
+        return false;
+    }
     var attr = {
-        'id':    this.$('input[name=id]').val(),
-        'name':  this.$('input[name=id]').val(),
-        'srs':   this.$('input[name=srs]').val(),
-        'class': this.$('input[name=class]').val(),
+        'id':    this.$('form.layerPostGIS input[name=id]').val(),
+        'name':  this.$('form.layerPostGIS input[name=id]').val(),
+        'srs':   this.$('form.layerPostGIS input[name=srs]').val(),
+        'class': this.$('form.layerPostGIS input[name=class]').val(),
         'Datasource': {
-            'host':     this.$('input[name=host]', this.el).val(),
-            'port':     this.$('input[name=port]', this.el).val(),
-            'database': this.$('input[name=database]', this.el).val(),
-            'username': this.$('input[name=username]', this.el).val(),
-            'password': this.$('input[name=password]', this.el).val(),
-            'dbname':   this.$('input[name=dbname]', this.el).val(),
+            'username': connection[1],
+            'password': connection[2],
+            'host':     connection[3],
+            'port':     connection[4],
+            'dbname':   connection[5],
             'table':    this.$('textarea[name=table]', this.el).val(),
             'geometry_field': this.$('input[name=geometry_field]', this.el).val(),
             'extent':   this.$('input[name=extent]', this.el).val(),

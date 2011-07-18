@@ -65,8 +65,8 @@
       <span class='description'>select in Carto <code>.class</code></span>
     </li>
     <li>
-      <label for='dbname'><span class='required'>*</span> Database</label>
-      <input type='text' placeholder='pgsql://user:password@hostname:5432/database' name='dbname' value='<%=get('dbname')%>' size='60' />
+      <label for='connection'><span class='required'>*</span> Connection</label>
+      <input type='text' placeholder='pgsql://user:password@hostname:5432/database' name='connection' id='connection' value='<%= get('connection') %>' size='60' />
       <a href='#dbBrowser' class='button'>Browse</a>
       <div class='dbBrowser browser'></div>
     </li>
