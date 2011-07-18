@@ -20,6 +20,13 @@ view.prototype.initialize = function(options) {
 
 view.prototype.render = function() {
     this.$('.content').html(templates.Layer(this.model));
+    if (this.model.get('Datasource')) {
+        if (this.model.get('Datasource').file) {
+            this.$('a[href=#layerFile]').click();
+        } else if (this.model.get('Datasource').type == 'postgis') {
+            this.$('a[href=#layerPostGIS]').click();
+        }
+    }
     return this;
 };
 
