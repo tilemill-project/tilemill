@@ -6,7 +6,7 @@
       <a href='/#!/project/<%= id %>'><%= id %></a>
     </div>
     <div class='actions'>
-      <a class='button' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
+      <a class='button disabled' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
       <span class='button dropdown' href='#export'>
         <span class='icon reverse labeled export'></span>
         Export
@@ -46,6 +46,10 @@
     <ul class='tabs toggler clearfix'></ul>
     <a class='popup add button'><span class='icon reverse plus'>Add stylesheet</span></a>
     <div class='code fill-s'></div>
+    <div class='status fill-s'>
+      <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
+      <div class='content'></div>
+    </div>
   </div>
 
   <div id='drawer' class='pane fill-w'>

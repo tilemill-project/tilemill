@@ -53,24 +53,6 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
     var sync = require('backbone-dirty')(settings.files + '/app.db').sync;
     Backbone.sync = sync;
 
-    // Create a default library for the local data directory.
-    var data = new models.Library({
-        id: 'data',
-        name: 'Local data',
-        type: 'directory'
-    });
-    Step(
-        function() {
-            data.fetch({ success: this, error: this });
-        },
-        function() {
-            if (!data.get('directory_path')) {
-                data.save({
-                    directory_path: path.join(settings.files, 'data')
-                });
-            }
-        }
-    );
     // Process any waiting exports.
     (new models.Exports).fetch();
     callback();

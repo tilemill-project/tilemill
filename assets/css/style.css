@@ -596,6 +596,8 @@ li:hover .actions { display:block; }
   z-index:1;
   }
 
+.tabs li a.tab.error { background:#fe8; }
+
 .tabs + a.add { margin:10px 10px 0px; }
 
 .tabs li a.delete {
@@ -668,6 +670,20 @@ li:hover .actions { display:block; }
   }
 
 .editor .CodeMirror.active { z-index:0; }
+
+.editor .status {
+  background:#fe8;
+  border-top:1px solid #ccc;
+  padding:9px 60px 10px 10px;
+  display:none;
+  }
+
+.editor .status.active { display:block; }
+.editor .status a.close {
+  position:absolute;
+  right:10px;
+  top:10px;
+  }
 
 /**
  * Icons
@@ -821,6 +837,17 @@ input[type=submit] {
 .button:hover,
 input[type=button]:hover,
 input[type=submit]:hover { background-color:#8cd; }
+
+.button.disabled,
+input[type=button].disabled,
+input[type=submit].disabled,
+.button.disabled:active,
+input[type=button].disabled:active,
+input[type=submit].disabled:active {
+  background:#ccc;
+  border-color:#bbb;
+  box-shadow:none;
+  }
 
 .button:active,
 .button.active,
