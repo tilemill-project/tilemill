@@ -6,13 +6,7 @@ model = Backbone.Model.extend({
     schema: {
         'type': 'object',
         'properties': {
-            'id': {
-                'type': 'string',
-                'required': true,
-                'pattern': '^[A-Za-z0-9\-_]+$',
-                'title': 'Name',
-                'description': 'Name may include alphanumeric characters, dashes and underscores.'
-            },
+            // Mapnik-specific properties.
             'srs': {
                 'type': 'string',
                 'required': true
@@ -25,18 +19,80 @@ model = Backbone.Model.extend({
                 'type': ['object', 'array'],
                 'required': true
             },
-            '_format': {
+
+            // TileMill-specific properties. @TODO these need a home, see
+            // https://github.com/mapbox/tilelive-mapnik/issues/4
+            'format': {
                 'type': 'string',
                 'enum': ['png', 'png24', 'png8', 'jpeg80', 'jpeg85', 'jpeg90', 'jpeg95']
             },
-            '_center': {
-                'type': 'object'
-            },
-            '_interactivity': {
+            'interactivity': {
                 'type': ['object', 'boolean']
             },
-            '_updated': {
+
+            // TileJSON properties.
+            'name':        { 'type': 'string' },
+            'description': { 'type': 'string' },
+            'version':     { 'type': 'string' },
+            'attribution': { 'type': 'string' },
+            'legend':      { 'type': 'string' },
+            'minzoom': {
+                'minimum': 0,
+                'maximum': 22,
                 'type': 'integer'
+            },
+            'maxzoom': {
+                'minimum': 0,
+                'maximum': 22,
+                'type': 'integer'
+            },
+            'bounds': {
+                'type': 'array',
+                'items': { 'type': 'number' }
+            },
+            'center': {
+                'type': 'array',
+                'items': { 'type': 'number' }
+            },
+
+            // Non-stored properties.
+            // @TODO make this writable at some point
+            'scheme': {
+                'type': 'string',
+                'ignore': true
+            },
+            // @TODO make this writable at some point
+            'formatter': {
+                'type': 'string',
+                'ignore': true
+            },
+            'tilejson': {
+                'type': 'string',
+                'ignore': true
+            },
+            'tiles': {
+                'type': 'array',
+                'required': true,
+                'items': { 'type': 'string' },
+                'ignore': true
+            },
+            'grids': {
+                'type': 'array',
+                'items': { 'type': 'string' },
+                'ignore': true
+            },
+            '_updated': {
+                'type': 'integer',
+                'description': 'Last update time of project',
+                'ignore': true
+            },
+            'id': {
+                'type': 'string',
+                'required': true,
+                'pattern': '^[A-Za-z0-9\-_]+$',
+                'title': 'Name',
+                'description': 'Name may include alphanumeric characters, dashes and underscores.',
+                'ignore': true
             }
         }
     },
@@ -63,9 +119,11 @@ model = Backbone.Model.extend({
         }
     }],
     defaults: {
-        '_center': { lat:0, lon:0, zoom:2 },
-        '_format': 'png',
-        '_interactivity': false,
+        'center': [0,0,2],
+        'format': 'png',
+        'interactivity': false,
+        'minzoom': 0,
+        'maxzoom': 22,
         'srs': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 '
             + '+lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over',
         'Stylesheet': [],
@@ -141,66 +199,18 @@ model = Backbone.Model.extend({
             }
         });
     },
-    // Interactivity: Convert teaser/full template markup into formatter js.
-    // Replaces tokens like `[NAME]` with string concatentations of `data.NAME`
-    // removes line breaks and escapes single quotes.
-    // @TODO properly handle other possible #fail. Maybe use underscore
-    // templating?
-    formatterJS: function() {
-        if (_.isEmpty(this.get('_interactivity'))) return;
-
-        var full = this.get('_interactivity').template_full || '';
-        var teaser = this.get('_interactivity').template_teaser || '';
-        var location = this.get('_interactivity').template_location || '';
-        full = full.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
-        teaser = teaser.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
-        location = location.replace(/\'/g, '\\\'').replace(/\[([\w\d]+)\]/g, "' + data.$1 + '").replace(/\n/g, ' ');
-        return "function(options, data) { "
-            + "  switch (options.format) {"
-            + "    case 'full': "
-            + "      return '" + full + "'; "
-            + "      break; "
-            + "    case 'location': "
-            + "      return '" + location + "'; "
-            + "      break; "
-            + "    case 'teaser': "
-            + "    default: "
-            + "      return '" + teaser + "'; "
-            + "      break; "
-            + "  }"
-            + "}";
-    },
-    // Interactivity: Retrieve array of field names to be included in
-    // interactive tiles by parsing `[field]` tokens.
-    formatterFields: function() {
-        if (_.isEmpty(this.get('_interactivity'))) return;
-        var fields = [];
-        var full = this.get('_interactivity').template_full || '';
-        var teaser = this.get('_interactivity').template_teaser || '';
-        fields = fields
-            .concat(full.match(/\[([\w\d]+)\]/g))
-            .concat(teaser.match(/\[([\w\d]+)\]/g));
-        fields = _(fields).chain()
-            .filter(_.isString)
-            .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
-            .uniq()
-            .value();
-        return fields;
-    },
     // Single tile thumbnail URL generation. From [OSM wiki][1].
     // [1]: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
     thumb: function() {
-        var lat = this.get('_center').lat * -1; // TMS
-        var lon = this.get('_center').lon;
-        var z = this.get('_center').zoom;
-        var lat_rad = lat * Math.PI / 180;
-        var x = parseInt((lon + 180.0) / 360.0 * Math.pow(2, z));
-        var y = parseInt(
-            (1.0 -
-                Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) /
-                Math.PI) /
-                2.0 * Math.pow(2, z));
-        return '/' + ['1.0.0', this.id, z, x, y].join('/') + '.png?updated=' + this.get('_updated');
+        var z = this.get('center')[2];
+        var lat_rad = this.get('center')[1] * Math.PI / 180 * -1; // -1 for TMS (flipped from OSM)
+        var x = parseInt((this.get('center')[0] + 180.0) / 360.0 * Math.pow(2, z));
+        var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2, z));
+        return this.get('tiles')[0]
+            .replace('{z}', z)
+            .replace('{x}', x)
+            .replace('{y}', y);
+('_updated');
     }
 });
 

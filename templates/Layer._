@@ -1,8 +1,14 @@
 <div class='dock fill'>
   <div class='toggler icons fill-w'>
-    <a class='active' href='#layerFile'><span class='icon file'></span>File</a>
-    <a href='#layerPostGIS'><span class='icon postgis'></span>PostGIS</a>
+    <% if (isNew() || get('Datasource') && get('Datasource').file) {%>
+    <a href='#layerFile' class='active'><span class='icon file'></span>File</a>
+    <% } %>
+    <% if (isNew() || get('Datasource') && get('Datasource').ds_type === 'postgis') {%>
+    <a href='#layerPostGIS' <% if(get('Datasource')) { %>class='active'<% } %>><span class='icon postgis'></span>PostGIS</a>
+    <% } %>
   </div>
+
+  <% if (isNew() || get('Datasource') && get('Datasource').file) {%>
   <form class='layerFile active'><ul class='form'>
     <li class='text'>
       <h2>File</h2>
@@ -27,7 +33,7 @@
     <li>
       <label for='srs-name'>SRS</label>
       <select name='srs-name'>
-        <option value=''       <% if (srsName() === 'autodetect') { %>selected='selected'<% } %>>
+        <option value='autodetect' <% if (srsName() === 'autodetect') { %>selected='selected'<% } %>>
           Autodetect
         </option>
         <option value='900913' <% if (srsName() === '900913') { %>selected='selected'<% } %>>
@@ -37,7 +43,7 @@
           WGS84
         </option>
         <option value='custom' <% if (srsName() === 'custom') { %>selected='selected'<% } %>>
-          Add custom
+          Custom
         </option>
       </select>
       <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='Autodetect' />
@@ -48,7 +54,9 @@
       <input type='button' value='Cancel' class='cancel' />
     </li>
   </ul></form>
+  <% } %>
 
+  <% if (isNew() || get('Datasource') && get('Datasource').ds_type === 'postgis') {%>
   <form class='layerPostGIS'><ul class='form'>
     <li class='text'>
       <h2>PostGIS</h2>
@@ -97,7 +105,7 @@
           WGS84
         </option>
         <option value='custom' <% if (srsName() === 'custom') { %>selected='selected'<% } %>>
-          Add custom
+          Custom
         </option>
       </select>
       <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='Autodetect' />
@@ -108,6 +116,7 @@
       <input type='button' value='Cancel' class='cancel' />
     </li>
   </ul></form>
+  <% } %>
 
 </div>
 

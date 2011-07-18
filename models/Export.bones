@@ -9,6 +9,20 @@ model = Backbone.Model.extend({
                 'type': 'string',
                 'required': true
             },
+            'bbox': {
+                'type': 'array',
+                'minItems': 4,
+                'maxItems': 4,
+                'items': {
+                    'type': 'number'
+                }
+            },
+            'width': {
+                'type': 'integer'
+            },
+            'height': {
+                'type': 'integer'
+            },
             'project': {
                 'type': 'string',
                 'required': true
@@ -57,10 +71,6 @@ model = Backbone.Model.extend({
     defaults: {
         progress: 0,
         status: 'waiting'
-    },
-    // Generate a download URL for an Export.
-    downloadURL: function() {
-        return (this.get('status') === 'complete') && 'export/download/' + this.get('filename');
     },
     // Get the duration of the current export job.
     time: function() {

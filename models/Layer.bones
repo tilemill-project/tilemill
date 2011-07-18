@@ -53,14 +53,23 @@ model = Backbone.Model.extend({
     },
     // Get the name of a model's SRS string if known, otherwise reteurn
     // 'custom' or 'autodetect' if empty.
-    srsName: function() {
+    srsName: function(srs) {
+        srs = srs || this.get('srs');
         for (name in this.SRS) {
-            if (this.SRS[name] === this.get('srs')) {
-                return name;
-            }
+            if (this.SRS[name] === this.get('srs')) return name;
         }
-        return this.get('srs') ? 'custom' : 'autodetect';
+        return srs ? 'custom' : 'autodetect';
     },
+    // Custom validation method that allows for asynchronous processing.
+    // Expects options.success and options.error callbacks to be consistent
+    // with other Backbone methods.
+    validateAsync: function(attributes, options) {
+        (new models.Datasource(_(attributes.Datasource).extend({
+            id: this.get('id'),
+            project: this.collection.parent.get('id')
+        }))).fetch(options);
+    },
+    // @TODO how is this used now???
     // Implementation of `Model.set()` that allows a datasource model to be
     // passed in as `options.datasource`. If provided, the datasource will be
     // used to enforce key attributes.

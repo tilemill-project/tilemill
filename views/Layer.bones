@@ -2,11 +2,19 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click .layerFile input[type=submit]': 'saveFile',
-    'click .layerPostGIS input[type=submit]': 'savePostGIS'
+    'click .layerPostGIS input[type=submit]': 'savePostGIS',
+    'change select[name=srs-name]': 'nameToSrs',
+    'keyup input[name=srs]': 'srsToName'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'saveFile', 'savePostGIS');
+    _(this).bindAll(
+        'render',
+        'saveFile',
+        'savePostGIS',
+        'nameToSrs',
+        'srsToName'
+    );
     this.render();
 };
 
@@ -15,46 +23,49 @@ view.prototype.render = function() {
     return this;
 };
 
+view.prototype.nameToSrs = function(ev) {
+    var el = $(ev.currentTarget);
+    var name = $(ev.currentTarget).val();
+    if (this.model.SRS[name]) {
+        el.siblings('input[name=srs]').val(this.model.SRS[name]);
+    } else if (name === 'autodetect') {
+        el.siblings('input[name=srs]').val('');
+    }
+};
+
+view.prototype.srsToName = function(ev) {
+    var el = $(ev.currentTarget);
+    var srs = $(ev.currentTarget).val();
+    el.siblings('select[name=srs-name]').val(this.model.srsName(srs));
+};
+
 view.prototype.saveFile = function() {
-    var datasource = new models.Datasource();
+    $(this.el).addClass('loading');
     var attr = {
-            id: this.$('form.layerFile input[name=id]').val(),
-            project: this.model.collection.parent.get('id'),
-            file: this.$('form.layerFile input[name=file]').val()
-    }
-    var options = { error: function(m, e) { new views.Modal(e); } };
-    if (datasource.set(attr, options)) {
-        $(this.el).addClass('loading');
-        datasource.fetch({
-            success: _(function() {
-                var attr = {
-                    'id':    this.$('form.layerFile input[name=id]').val(),
-                    'name':  this.$('form.layerFile input[name=id]').val(),
-                    'srs':   this.$('form.layerFile input[name=srs]').val(),
-                    'class': this.$('form.layerFile input[name=class]').val(),
-                    'geometry': datasource.get('geometry_type'),
-                    'Datasource': {
-                        'file': datasource.get('file')
-                    }
-                };
-                var options = { error: function(m, e) { new views.Modal(e); } };
-                if (this.model.set(attr, options)) {
-                    if (!this.model.collection.include(this.model))
-                        this.model.collection.add(this.model);
-                    this.$('.close').click();
-                }
-                $(this.el).removeClass('loading');
-            }).bind(this),
-            error: _(function(m, e) {
-                new views.Modal(e);
-                $(this.el).removeClass('loading');
-            }).bind(this)
-        });
-    }
+        'id':    this.$('input[name=id]').val(),
+        'name':  this.$('input[name=id]').val(),
+        'srs':   this.$('input[name=srs]').val(),
+        'class': this.$('input[name=class]').val(),
+        'Datasource': {
+            'file': this.$('input[name=file]').val()
+        }
+    };
+    var error = _(function(m, e) {
+        $(this.el).removeClass('loading');
+        new views.Modal(e);
+    }).bind(this);
+    this.model.validateAsync(attr, { success:_(function() {
+        $(this.el).removeClass('loading');
+        if (!this.model.set(attr, {error:error})) return;
+        if (!this.model.collection.include(this.model))
+            this.model.collection.add(this.model);
+        this.$('.close').click();
+    }).bind(this), error:error });
     return false;
 };
 
 view.prototype.savePostGIS = function() {
+    $(this.el).addClass('loading');
     var connection = /pgsql:\/\/([^:@\/]*):?([^@\/]*)@?([^\/:]*):?(\d*)\/?([^\/]*)/
         .exec(this.$('form.layerPostGIS input[name=connection]').val());
     if (!connection) {
@@ -78,11 +89,16 @@ view.prototype.savePostGIS = function() {
             'type': 'postgis'
         }
     };
-    var options = { error: function(m, e) { new views.Modal(e); } };
-    if (this.model.set(attr, options)) {
+    var error = _(function(m, e) {
+        $(this.el).removeClass('loading');
+        new views.Modal(e);
+    }).bind(this);
+    this.model.validateAsync(attr, { success:_(function() {
+        $(this.el).removeClass('loading');
+        if (!this.model.set(attr, {error:error})) return;
         if (!this.model.collection.include(this.model))
             this.model.collection.add(this.model);
         this.$('.close').click();
-    }
+    }).bind(this), error:error });
     return false;
 };

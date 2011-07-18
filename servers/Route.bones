@@ -11,12 +11,12 @@ servers['Route'].augment({
             // require.resolve('../assets/js/libraries/colorpicker/js/colorpicker.js'),
             require.resolve('../assets/js/jquery.ui.js'),
             require.resolve('../build/vendor.js'),
+            require.resolve('chrono/lib/chrono.js'),
             require.resolve('wax/ext/modestmaps.min.js'),
             require.resolve('wax/dist/wax.mm.min.js'),
             require.resolve('JSV/lib/uri/uri.js'),
             require.resolve('JSV/lib/jsv.js'),
             require.resolve('JSV/lib/json-schema-draft-03.js'),
-            require.resolve('../assets/js/mm.signed.js'),
             require.resolve('../assets/js/codemirror.carto.js'),
         ]
     },

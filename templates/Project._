@@ -24,8 +24,16 @@
     </div>
   </div></div>
 
+  <div class='map fill-w' id='map'>
+    <div class='zoom-display'>Zoom <span class='zoom'></span></div>
+  </div>
+
+  <div class='layers'>
+    <a href='#add' class='popup add button'><span class='icon reverse plus labeled'></span> Add layer</a>
+    <ul></ul>
+  </div>
+
   <div class='editor fill-e'>
-    <div class='code fill-s'></div>
     <div class='palette clearfix'>
       <div class='colors'>
         <a class='button' href='#colorpicker'><span class='icon reverse color-picker'>Colorpicker</span></a>
@@ -37,15 +45,7 @@
     </div>
     <ul class='tabs toggler clearfix'></ul>
     <a class='popup add button'><span class='icon reverse plus'>Add stylesheet</span></a>
-  </div>
-
-  <div class='map fill-w' id='map'>
-    <div class='zoom-display'>Zoom <span class='zoom'></span></div>
-  </div>
-
-  <div class='layers'>
-    <a href='#add' class='popup add button'><span class='icon reverse plus labeled'></span> Add layer</a>
-    <ul></ul>
+    <div class='code fill-s'></div>
   </div>
 
   <div id='drawer' class='pane fill-w'>

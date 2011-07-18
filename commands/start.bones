@@ -1,35 +1,28 @@
 var fs = require('fs'),
     path = require('path'),
-    Step = require('step'),
-    settings = Bones.plugin.config;
+    Step = require('step');
 
-Bones.Command.options['port'] = {
+commands['start'].options['port'] = {
     'title': 'port=[port]',
     'description': 'Server port.',
     'default': 8889
 };
 
-Bones.Command.options['files'] = {
+commands['start'].options['files'] = {
     'title': 'files=[path]',
     'description': 'Path to files directory.',
     'default': path.join(process.cwd(), 'files')
 };
 
-Bones.Command.options['export'] = {
+// @TODO this used to be called `export_dir`. Migrate this value.
+commands['start'].options['export'] = {
     'title': 'export=[path]',
     'description': 'Path to export directory.',
     'default': path.join(process.cwd(), 'files', 'export')
 };
 
-Bones.Command.augment({
-    bootstrap: function(parent, plugin, callback) {
-        parent.call(this, plugin, function() {
-            bootstrap(callback);
-        });
-    }
-});
-
-var bootstrap = function(callback) {
+commands['start'].prototype.bootstrap = function(plugin, callback) {
+    var settings = Bones.plugin.config;
     try {
         fs.statSync(settings.files);
     } catch (Exception) {
@@ -37,10 +30,10 @@ var bootstrap = function(callback) {
         fs.mkdirSync(settings.files, 0777);
     }
     try {
-        fs.statSync(settings.export);
+        fs.statSync(settings['export']);
     } catch (Exception) {
-        console.log('Creating export dir %s', settings.export);
-        fs.mkdirSync(settings.export, 0777);
+        console.log('Creating export dir %s', settings['export']);
+        fs.mkdirSync(settings['export'], 0777);
     }
 
     // @TODO: Better infrastructure for handling updates.
@@ -79,11 +72,7 @@ var bootstrap = function(callback) {
         }
     );
     // Process any waiting exports.
-    (new models.Exports).fetch({success: function(collection) {
-        collection.each(function(model) {
-            model.get('status') === 'waiting' && model.process();
-        });
-    }});
+    (new models.Exports).fetch();
     callback();
 };
 

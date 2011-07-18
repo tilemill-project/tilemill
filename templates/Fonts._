@@ -1,4 +1,4 @@
-<div class='fonts'>
+<div class='fonts fill'>
 
 <div class='toggler fill-n'>
   <a class='active all' href='#group-0'>All</a>
@@ -14,4 +14,5 @@
 <% _(fonts).each(function(f) { %>
 <a href='#insert' class='font active group-0 group-<%= f.group %>'><%= f.name %></a>
 <% }); %>
+
 </div>

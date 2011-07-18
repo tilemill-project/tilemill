@@ -21,6 +21,8 @@ view.prototype.initialize = function(options) {
         } catch(e) {
             options = { content: options.responseText };
         }
+    } else if (options.status === 0) {
+        options = { content: 'No response from server.' };
     } else if (typeof options === 'string') {
         options = { content: options };
     } else if (options instanceof Error) {

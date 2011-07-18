@@ -17,15 +17,15 @@ view.prototype.render = function() {
         features: _(features).first(this.featureLimit),
         more: _(features).size() > this.featureLimit
     }));
-    $('#drawer').removeClass('loading');
     return this;
 };
 
 view.prototype.showAll = function() {
     this.$('a.showall').hide();
     this.$('.content table tbody').append(templates.DatasourceInfoRows({
+        fields: this.model.get('fields'),
         features: _(this.model.get('features')).rest(this.featureLimit)
-    }))
+    }));
     return false;
 }
 

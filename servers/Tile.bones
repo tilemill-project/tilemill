@@ -6,8 +6,8 @@ server = Bones.Server.extend({});
 
 server.prototype.initialize = function() {
     _.bindAll(this, 'load', 'layer', 'tile');
-    this.get('/1.0.0/:id/:z/:x/:y.(png8|png|jpeg[\\d]+|jpeg)', this.tile);
-    this.get('/1.0.0/:id/:z/:x/:y.grid.json', this.load, this.tile);
+    this.get('/1.0.0/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.tile);
+    this.get('/1.0.0/:id/:z/:x/:y.:format(grid.json)', this.load, this.tile);
     this.get('/1.0.0/:id/layer.json', this.load, this.layer);
 };
 
@@ -26,11 +26,26 @@ server.prototype.tile = function(req, res, next) {
         req.param('id'),
         req.param('id') + '.mml'
     );
-    req.params.format = req.params[0];
     if (req.params.format === 'grid.json' && res.project) {
-        var interactivity = res.project.get('_interactivity');
+        if (!res.project.get('interactivity'))
+            return next(new Error.HTTP('Not found.', 404));
+
+        var interactivity = res.project.get('interactivity');
         req.params.layer = interactivity.layer;
-        req.params.fields = res.project.formatterFields();
+
+        // Determine fields that need to be included from templates.
+        // @TODO allow non-templated fields to be included.
+        var fields = [
+            interactivity.template_full || '',
+            interactivity.template_teaser || '',
+            interactivity.location || ''
+        ].join(' ').match(/\[([\w\d]+)\]/g);
+        req.params.fields = _(fields).chain()
+            .filter(_.isString)
+            .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
+            .uniq()
+            .value();
+        req.query.callback = 'grid'; // Force jsonp.
     }
     tilelive.serve(req.params, function(err, data) {
         if (err) return next(err);
@@ -40,12 +55,13 @@ server.prototype.tile = function(req, res, next) {
 };
 
 server.prototype.layer = function(req, res, next) {
-    if (!res.project.get('_interactivity') && !res.project.get('_legend')) {
-        next(new Error('Formatter not found.'));
+    if (!res.project.get('formatter') && !res.project.get('legend')) {
+        next(new Error.HTTP('Not found.', 404));
     } else {
+        req.query.callback = 'grid'; // Force jsonp.
         res.send({
-            formatter: res.project.formatterJS(),
-            legend: res.project.get('_legend')
+            formatter: res.project.get('formatter'),
+            legend: res.project.get('legend')
         });
     }
 };

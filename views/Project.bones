@@ -6,7 +6,7 @@ view.prototype.events = {
     'click .actions a[href=#export-png]': 'exportAdd',
     'click .actions a[href=#export-mbtiles]': 'exportAdd',
     'click .actions a[href=#exports]': 'exportList',
-    'click #export input.cancel': 'exportCancel',
+    'click #export .buttons input': 'exportClose',
     'click a[href=#fonts]': 'fonts',
     'click a[href=#carto]': 'carto',
     'click a[href=#settings]': 'settings',
@@ -35,10 +35,11 @@ view.prototype.initialize = function() {
         'stylesheetAdd',
         'stylesheetDelete',
         'exportAdd',
-        'exportList',
-        'exportCancel'
+        'exportClose',
+        'exportList'
     );
-    this.render().trigger('attach');
+    this.model.bind('save', this.attach);
+    this.render().attach();
 };
 
 view.prototype.render = function() {
@@ -47,23 +48,27 @@ view.prototype.render = function() {
     _(function mapInit () {
         if (!com.modestmaps) throw new Error('ModestMaps not found.');
         this.map = new com.modestmaps.Map('map',
-            new wax.mm.signedProvider({
-                baseUrl: '/',
-                filetype: '.' + this.model.get('_format'),
-                zoomRange: [0, 22],
-                signature: this.model.get('_updated'),
-                layerName: this.model.id}));
+            new wax.mm.connector(this.model.attributes));
 
-        wax.mm.interaction(this.map);
-        wax.mm.legend(this.map);
-        wax.mm.zoomer(this.map);
-        wax.mm.zoombox(this.map);
-        wax.mm.fullscreen(this.map);
+        // Add references to all controls onto the map object.
+        // Allows controls to be removed later on. @TODO need
+        // wax 3.x and updates to controls to return references
+        // to themselves.
+        this.map.controls = {
+            // @TODO wax 3.x.
+            // interaction, legend require TileJSON attributes from the model.
+            interaction: wax.mm.interaction(this.map, this.model.attributes),
+            legend: wax.mm.legend(this.map, this.model.attributes),
+            zoombox: wax.mm.zoombox(this.map),
+            zoomer: wax.mm.zoomer(this.map).appendTo(this.map.parent),
+            fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
+        };
 
-        var center = this.model.get('_center');
-        this.map.setCenterZoom(
-            new com.modestmaps.Location(center.lat, center.lon),
-            center.zoom);
+        var center = this.model.get('center');
+        this.map.setCenterZoom(new com.modestmaps.Location(
+            center[1],
+            center[0]),
+            center[2]);
         this.map.addCallback('zoomed', this.mapZoom);
         this.map.addCallback('panned', this.mapZoom);
         this.mapZoom({element: this.map.div});
@@ -128,8 +133,8 @@ view.prototype.makeStylesheet = function(model) {
 // Set the model center whenever the map is moved.
 view.prototype.mapZoom = function(e) {
     var center = this.map.getCenter();
-    center = { lat: center.lat, lon: center.lon, zoom: this.map.getZoom() };
-    this.model.set({ _center: center }, { silent: true });
+    center = [center.lon, center.lat, this.map.getZoom()];
+    this.model.set({center:center}, {silent:true});
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };
 
@@ -142,9 +147,12 @@ view.prototype.mapLegend = function() {
 
 view.prototype.attach = function() {
     _(function map() {
-        this.map.provider.filetype = '.' + this.model.get('_format');
-        this.map.provider.signature = this.model.get('_updated');
+        this.map.provider.options.tiles = this.model.get('tiles');
         this.map.setProvider(this.map.provider);
+
+        // @TODO Currently interaction formatter/data is cached
+        // deep in Wax making it difficult to update without simply
+        // creating a new map. Likely requires an upstream fix.
     }).bind(this)();
 
     // Rescan stylesheets for colors, dedupe, sort by luminosity
@@ -178,12 +186,8 @@ view.prototype.attach = function() {
 
 view.prototype.save = function() {
     this.model.save(this.model.attributes, {
-        success: _(function(model, resp) {
-            this.attach();
-        }).bind(this),
-        error: function(model, resp) {
-            console.log(resp);
-        }
+        success: function(model) { model.trigger('save'); },
+        error: function(model, err) { new views.Modal(err); }
     });
     return false;
 };
@@ -245,23 +249,21 @@ view.prototype.layerInspect = function(ev) {
     $('#drawer').addClass('loading');
     var id = $(ev.currentTarget).attr('href').split('#').pop();
     var layer = this.model.get('Layer').get(id);
-    var model = new models.Datasource(_.extend(
-        {
-            id: layer.get('id'),
-            project: this.model.get('id')
-        },
-        layer.get('Datasource')
-    ));
+    var model = new models.Datasource(_(layer.get('Datasource')).extend({
+        id: layer.get('id'),
+        project: this.model.get('id')
+    }));
     model.fetchFeatures({
         success: function(model) {
+            $('#drawer').removeClass('loading');
             new views.DatasourceInfo({
                 el: $('#drawer'),
                 model: model
             });
         },
-        error: function(err) {
-            // TODO
-            console.log(err);
+        error: function(model, err) {
+            $('#drawer').removeClass('loading');
+            new views.Modal(err);
         }
     });
 };
@@ -287,26 +289,47 @@ view.prototype.stylesheetDelete = function(ev) {
 
 view.prototype.exportAdd = function(ev) {
     var target = $(ev.currentTarget);
-    var type = target.attr('href').split('#export-').pop();
+    var format = target.attr('href').split('#export-').pop();
+
+    this.map.controls.fullscreen.full();
     this.$('.project').addClass('exporting');
     this.$('#export > .title').text(target.attr('title'));
-    new views.Export({
+    this.exportView = new views.Export({
         el: $('#export'),
-        type: type,
-        model: this.model
+        map: this.map,
+        model: new models.Export({
+            format: format,
+            project: this.model.id,
+            tile_format: this.model.get('format')
+        }),
+        project: this.model,
+        success: _(function() {
+            // @TODO better API for manipulating UI elements.
+            if (!$('#drawer').is('.active')) {
+                $('a[href=#exports]').click();
+                $('.actions > .dropdown').click();
+            }
+            this.exportList();
+        }).bind(this)
     });
 };
 
-view.prototype.exportCancel = function(ev) {
+view.prototype.exportClose = function(ev) {
+    this.exportView.remove();
     this.$('.project').removeClass('exporting');
+    this.map.controls.fullscreen.original();
     return false;
 };
 
+// Create a global reference to the exports collection on the Bones
+// object. Ensures that export polling only ever occurs against one
+// collection.
 view.prototype.exportList = function(ev) {
     $('#drawer').addClass('loading');
-    var collection = new models.Exports();
-    collection.fetch({
-        success: function() {
+    Bones.models = Bones.models || {};
+    Bones.models.exports = Bones.models.exports || new models.Exports();
+    Bones.models.exports.fetch({
+        success: function(collection) {
             $('#drawer').removeClass('loading');
             new views.Exports({
                 collection: collection,
