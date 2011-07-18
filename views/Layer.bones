@@ -40,6 +40,7 @@ view.prototype.srsToName = function(ev) {
 };
 
 view.prototype.saveFile = function() {
+    $(this.el).addClass('loading');
     var attr = {
         'id':    this.$('input[name=id]').val(),
         'name':  this.$('input[name=id]').val(),
@@ -49,16 +50,22 @@ view.prototype.saveFile = function() {
             'file': this.$('input[name=file]').val()
         }
     };
-    var options = { error: function(m, e) { new views.Modal(e); } };
-    if (this.model.set(attr, options)) {
+    var error = _(function(m, e) {
+        $(this.el).removeClass('loading');
+        new views.Modal(e);
+    }).bind(this);
+    this.model.validateAsync(attr, { success:_(function() {
+        $(this.el).removeClass('loading');
+        if (!this.model.set(attr, {error:error})) return;
         if (!this.model.collection.include(this.model))
             this.model.collection.add(this.model);
         this.$('.close').click();
-    }
+    }).bind(this), error:error });
     return false;
 };
 
 view.prototype.savePostGIS = function() {
+    $(this.el).addClass('loading');
     var attr = {
         'id':    this.$('input[name=id]').val(),
         'name':  this.$('input[name=id]').val(),
@@ -77,11 +84,16 @@ view.prototype.savePostGIS = function() {
             'type': 'postgis'
         }
     };
-    var options = { error: function(m, e) { new views.Modal(e); } };
-    if (this.model.set(attr, options)) {
+    var error = _(function(m, e) {
+        $(this.el).removeClass('loading');
+        new views.Modal(e);
+    }).bind(this);
+    this.model.validateAsync(attr, { success:_(function() {
+        $(this.el).removeClass('loading');
+        if (!this.model.set(attr, {error:error})) return;
         if (!this.model.collection.include(this.model))
             this.model.collection.add(this.model);
         this.$('.close').click();
-    }
+    }).bind(this), error:error });
     return false;
 };

@@ -60,6 +60,16 @@ model = Backbone.Model.extend({
         }
         return srs ? 'custom' : 'autodetect';
     },
+    // Custom validation method that allows for asynchronous processing.
+    // Expects options.success and options.error callbacks to be consistent
+    // with other Backbone methods.
+    validateAsync: function(attributes, options) {
+        (new models.Datasource(_(attributes.Datasource).extend({
+            id: this.get('id'),
+            project: this.collection.parent.get('id')
+        }))).fetch(options);
+    },
+    // @TODO how is this used now???
     // Implementation of `Model.set()` that allows a datasource model to be
     // passed in as `options.datasource`. If provided, the datasource will be
     // used to enforce key attributes.

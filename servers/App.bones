@@ -1,6 +1,8 @@
 var mapnik = require('tilelive-mapnik/node_modules/mapnik'),
     Map = require('tilelive-mapnik').Map,
+    Step = require('step'),
     path = require('path'),
+    fs = require('fs'),
     env = process.env.NODE_ENV || 'development';
 var abilities = {
     carto: require('tilelive-mapnik/node_modules/carto').tree.Reference.data,
@@ -38,6 +40,10 @@ server.prototype.abilities = function(req, res, next) {
     res.send(js, {'Content-type': 'text/javascript'});
 };
 
+// @TODO this is rather messy atm - it caches the datasource to
+// `files/project/[id]` but in the process also writes a hash-name
+// map to `/files/project/102579sdjkvxcoi8a.xml` (or so) as part of
+// `map.initialize()`. After initialization
 server.prototype.describeDatasource = function(req, res, next) {
     if (!req.query) return next(new Error('query is required.'));
     if (!req.query.id) return next(new Error('query.id is required.'));
@@ -61,8 +67,12 @@ server.prototype.describeDatasource = function(req, res, next) {
         local_data_dir: path.join(this.config.files, 'project', req.query.project)
     };
     var map = new Map(mml, env);
-    map.initialize(function(err) {
-        if (err) return next(err);
+    Step(function() {
+        map.initialize(this);
+    },
+    function(err) {
+        if (err) throw err;
+
         var ds = map.mapnik.describe_data()[req.query.id];
         res.datasource = {
             id: req.query.id,
@@ -92,6 +102,14 @@ server.prototype.describeDatasource = function(req, res, next) {
                     }).value()
             };
         }
+
+        map.destroy();
+        // Ignore unlink errors -- it's possible that because of
+        // concurrency someone else nukes the mapfile first.
+        fs.unlink(map.mapfile(), function(err) { this() }.bind(this));
+    },
+    function(err) {
+        if (err) return next(err);
         res.send(res.datasource);
     });
 };
