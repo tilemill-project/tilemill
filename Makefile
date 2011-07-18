@@ -2,8 +2,6 @@ ext:
 	-test ! -d ext && mkdir ext
 	wget -q --no-check-certificate https://github.com/marijnh/CodeMirror2/raw/v2.11/lib/codemirror.js -O ext/codemirror.js
 	wget -q --no-check-certificate https://github.com/marijnh/CodeMirror2/raw/v2.11/lib/codemirror.css -O ext/codemirror.css
-	wget -q --no-check-certificate https://github.com/jaz303/tipsy/raw/v1.0.0a/src/javascripts/jquery.tipsy.js -O ext/jquery.tipsy.js
-	wget -q --no-check-certificate https://github.com/jaz303/tipsy/raw/v1.0.0a/src/stylesheets/tipsy.css -O ext/tipsy.css
 # @TODO: inclusion of this seems to break codemirror -- probably as a result of concatenation.
 #	wget -q --no-check-certificate https://github.com/dankogai/js-base64/raw/b1d15613be6651917ef5761e0bc29c7c07aabd90/base64.js -O ext/base64.js
 
