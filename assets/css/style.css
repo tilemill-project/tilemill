@@ -172,6 +172,7 @@ a {
   left:-50%;
   z-index:10;
   background:#fff;
+  border-right:1px solid #ccc;
   overflow:hidden;
   width:50% !important;
   transition:left .25s;
@@ -358,10 +359,7 @@ a {
 /**
  * Project
  */
-.project .map {
-  background:#fff url(../images/bg.png) 100% 0%;
-  border-right:1px solid #ccc;
-  }
+.project .map { background:#fff url(../images/bg.png) 100% 0%; }
 
 .project .map,
 .project .editor {
@@ -369,6 +367,8 @@ a {
   width:50% !important;
   height:auto !important;
   }
+
+.project .editor { border-left:1px solid #ccc; }
 
 .project .layers {
   position:absolute;
