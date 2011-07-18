@@ -6,7 +6,7 @@
       <a href='/#!/project/<%= id %>'><%= id %></a>
     </div>
     <div class='actions'>
-      <a class='button' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
+      <a class='button disabled' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
       <span class='button dropdown' href='#export'>
         <span class='icon reverse labeled export'></span>
         Export

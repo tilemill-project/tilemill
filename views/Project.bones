@@ -24,6 +24,7 @@ view.prototype.initialize = function() {
         'render',
         'attach',
         'save',
+        'change',
         'mapZoom',
         'keydown',
         'layerAdd',
@@ -38,7 +39,7 @@ view.prototype.initialize = function() {
         'exportClose',
         'exportList'
     );
-    this.model.bind('save', this.attach);
+    this.model.bind('change', this.change);
     this.render().attach();
 };
 
@@ -184,9 +185,18 @@ view.prototype.attach = function() {
     }).bind(this)();
 };
 
-view.prototype.save = function() {
+view.prototype.change = function() {
+    this.$('.actions a[href=#save]').removeClass('disabled');
+};
+
+view.prototype.save = function(ev) {
+    if (this.$('.actions a[href=#save]').is('.disabled')) return false;
+
     this.model.save(this.model.attributes, {
-        success: function(model) { model.trigger('save'); },
+        success: _(function(model) {
+            this.$('.actions a[href=#save]').addClass('disabled');
+            this.attach();
+        }).bind(this),
         error: function(model, err) { new views.Modal(err); }
     });
     return false;

@@ -822,6 +822,17 @@ input[type=submit] {
 input[type=button]:hover,
 input[type=submit]:hover { background-color:#8cd; }
 
+.button.disabled,
+input[type=button].disabled,
+input[type=submit].disabled,
+.button.disabled:active,
+input[type=button].disabled:active,
+input[type=submit].disabled:active {
+  background:#ccc;
+  border-color:#bbb;
+  box-shadow:none;
+  }
+
 .button:active,
 .button.active,
 input[type=button]:active,
