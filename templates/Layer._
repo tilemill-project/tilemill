@@ -73,8 +73,8 @@
       <span class='description'>select in Carto <code>.class</code></span>
     </li>
     <li>
-      <label for='dbname'><span class='required'>*</span> Database</label>
-      <input type='text' placeholder='pgsql://user:password@hostname:5432/database' name='dbname' value='<%=get('dbname')%>' size='60' />
+      <label for='connection'><span class='required'>*</span> Connection</label>
+      <input type='text' name='connection' id='connection' placeholder='pgsql://user:password@localhost:5432/database' value='<%= get('connection') %>' size='60' />
       <a href='#dbBrowser' class='button'>Browse</a>
       <div class='dbBrowser browser'></div>
     </li>
@@ -108,8 +108,8 @@
           Custom
         </option>
       </select>
-      <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='Autodetect' />
-      <div class='description'>SRS projection string for this datasource. TileMill can often autodetect this value.</div>
+      <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over' />
+      <div class='description'>SRS projection string for this datasource.</div>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />

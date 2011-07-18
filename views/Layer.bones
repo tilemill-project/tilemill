@@ -66,18 +66,25 @@ view.prototype.saveFile = function() {
 
 view.prototype.savePostGIS = function() {
     $(this.el).addClass('loading');
+    var connection = /pgsql:\/\/(([^:@\/]+):?([^@\/]*)@)?([^\/:]*):?(\d*)\/?([^\/]*)/
+        .exec(this.$('form.layerPostGIS input[name=connection]').val());
+    if (!connection) {
+        $(this.el).removeClass('loading');
+        new views.Modal(new Error('Invalid PostgreSQL connection string.'));
+        return false;
+    }
     var attr = {
-        'id':    this.$('input[name=id]').val(),
-        'name':  this.$('input[name=id]').val(),
-        'srs':   this.$('input[name=srs]').val(),
-        'class': this.$('input[name=class]').val(),
+        'id':    this.$('form.layerPostGIS input[name=id]').val(),
+        'name':  this.$('form.layerPostGIS input[name=id]').val(),
+        'srs':   this.$('form.layerPostGIS input[name=srs]').val()
+            || this.$('form.layerPostGIS input[name=srs]').attr('placeholder'),
+        'class': this.$('form.layerPostGIS input[name=class]').val(),
         'Datasource': {
-            'host':     this.$('input[name=host]', this.el).val(),
-            'port':     this.$('input[name=port]', this.el).val(),
-            'database': this.$('input[name=database]', this.el).val(),
-            'username': this.$('input[name=username]', this.el).val(),
-            'password': this.$('input[name=password]', this.el).val(),
-            'dbname':   this.$('input[name=dbname]', this.el).val(),
+            'username': connection[2],
+            'password': connection[3],
+            'host':     connection[4],
+            'port':     connection[5],
+            'dbname':   connection[6],
             'table':    this.$('textarea[name=table]', this.el).val(),
             'geometry_field': this.$('input[name=geometry_field]', this.el).val(),
             'extent':   this.$('input[name=extent]', this.el).val(),
