@@ -16,6 +16,8 @@ view.prototype.events = {
     'click .layers a.delete': 'layerDelete',
     'click .editor a.add': 'stylesheetAdd',
     'click .editor a.delete': 'stylesheetDelete',
+    'click pre.error': 'statusOpen',
+    'click .status a[href=#close]': 'statusClose',
     'keydown': 'keydown'
 };
 
@@ -37,7 +39,9 @@ view.prototype.initialize = function() {
         'stylesheetDelete',
         'exportAdd',
         'exportClose',
-        'exportList'
+        'exportList',
+        'statusOpen',
+        'statusClose'
     );
     this.model.bind('change', this.change);
     this.render().attach();
@@ -195,9 +199,35 @@ view.prototype.save = function(ev) {
     this.model.save(this.model.attributes, {
         success: _(function(model) {
             this.$('.actions a[href=#save]').addClass('disabled');
+            this.$('.tabs a.error').removeClass('error');
+            this.$('.editor pre.error').removeClass('error');
+            this.statusClose();
             this.attach();
         }).bind(this),
-        error: function(model, err) { new views.Modal(err); }
+        // Test for a Carto error of the form
+        //
+        //     style.mss:2 Invalid value for background-color ...
+        //
+        // and highlight the line number and stylesheet appropriately if
+        // found. Otherwise, display error in a modal.
+        error: _(function(model, err) {
+            if (err.responseText) err = JSON.parse(err.responseText).message;
+            var err = _(err.toString().split('\n')).compact();
+            for (var i = 0; i < err.length; i++) {
+                var match = err[i].match(/^([\w.]+):([\d]+) (.*)$/);
+                if (match && _(match).compact().length === 4) {
+                    var id = 'stylesheet-' + match[1].replace(/[\.]/g, '-');
+                    var code = this.$();
+                    this.$('.tabs a[href=#'+id+']').addClass('error');
+                    this.$('.'+id+' div.CodeMirror-gutter pre:nth-child('+match[2]+')')
+                        .addClass('error')
+                        .attr('title', err[i]);
+                } else {
+                    new views.Modal(err[i]);
+                    break;
+                }
+            }
+        }).bind(this)
     });
     return false;
 };
@@ -351,5 +381,17 @@ view.prototype.exportList = function(ev) {
             new views.Modal(e);
         }
     });
+};
+
+view.prototype.statusOpen = function(ev) {
+    var text = $(ev.currentTarget).attr('title');
+    this.$('.status').addClass('active');
+    this.$('.status .content').text(text);
+    return false;
+};
+
+view.prototype.statusClose = function(ev) {
+    this.$('.status').removeClass('active');
+    return false;
 };
 

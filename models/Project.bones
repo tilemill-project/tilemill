@@ -168,13 +168,10 @@ model = Backbone.Model.extend({
     // with other Backbone methods.
     validateAsync: function(attributes, options) {
         // If client-side, pass-through.
-        if (typeof require === 'undefined') {
-            return options.success(this, null);
-        }
+        if (!Bones.server) return options.success(this, null);
 
         var carto = require('tilelive-mapnik/node_modules/carto'),
             mapnik = require('tilelive-mapnik/node_modules/mapnik'),
-            that = this,
             stylesheets = this.get('Stylesheet'),
             env = {
                 returnErrors: true,
@@ -190,14 +187,34 @@ model = Backbone.Model.extend({
         // Hard clone the model JSON before rendering as rendering will change
         // properties (e.g. localize a datasource URL to the filesystem).
         var data = JSON.parse(JSON.stringify(attributes));
-        new carto.Renderer(env)
-            .render(data, function(err, output) {
-            if (err) {
-                options.error(that, err);
+        new carto.Renderer(env).render(data, _(function(err, output) {
+            // Carto parse error. Turn array into usable string as Bones error
+            // convention is to use strings / wrapped string objects. This
+            // string is easily parsed by the `Project` view for highlighting
+            // syntax errors in code.
+            //
+            //     [{ line: 5, filename: 'style.mss', message: 'Foo bar'}] =>
+            //     'style.mss:5 Foo bar'
+            //
+            // @TODO: Possibly make a change upstream in Carto for a better
+            // error object with a good .toString() method?
+            if (_(err).isArray()) {
+                if (_(err).any(function(e) { return e.line && e.filename })) {
+                    err = _(err).chain()
+                        .filter(function(e) { return e.line && e.filename })
+                        .map(function(e) {
+                            return e.filename + ':' + e.line + ' ' + e.message
+                        }).value().join('\n');
+                } else {
+                    err = err[0].message;
+                }
+                options.error(this, err);
+            } else if (err) {
+                options.error(this, err);
             } else {
-                options.success(that, null);
+                options.success(this, null);
             }
-        });
+        }).bind(this));
     },
     // Single tile thumbnail URL generation. From [OSM wiki][1].
     // [1]: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
@@ -211,6 +228,15 @@ model = Backbone.Model.extend({
             .replace('{x}', x)
             .replace('{y}', y);
 ('_updated');
-    }
-});
+    },
+    // Wrap `save` to call validateAsync first.
+    save: _(Backbone.Model.prototype.save).wrap(function(parent, attrs, options) {
+        this.validateAsync(attrs, {
+            success: _(function() {
+                parent.call(this, attrs, options);
+            }).bind(this),
+            error: options.error
+        });
+    })
+})
 

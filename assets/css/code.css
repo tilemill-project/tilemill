@@ -7,6 +7,17 @@ div.CodeMirror {
   font:13px/20px monospace;
   }
 
+div.CodeMirror-lines,
+div.CodeMirror-gutter-text { padding:5px; }
+
+div.CodeMirror-gutter-text pre.error {
+  background:#fe8;
+  color:#222;
+  padding:0px 5px;
+  margin:0px -5px;
+  cursor:pointer;
+  }
+
 span.cm-carto-variable           { color:#708; }
 span.cm-carto-color-variable     { color:#B60049; }
 span.cm-carto-unit               { color:#281; }
