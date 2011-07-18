@@ -65,7 +65,7 @@ model = Backbone.Model.extend({
     // with other Backbone methods.
     validateAsync: function(attributes, options) {
         (new models.Datasource(_(attributes.Datasource).extend({
-            id: this.get('id'),
+            id: attributes.id,
             project: this.collection.parent.get('id')
         }))).fetch(options);
     },
