@@ -84,7 +84,7 @@ view.prototype.savePostGIS = function() {
         'id':    this.$('form.layerPostGIS input[name=id]').val(),
         'name':  this.$('form.layerPostGIS input[name=id]').val(),
         'srs':   this.$('form.layerPostGIS input[name=srs]').val()
-            || this.$('form.layerPostGIS input[name=srs]').attr('placeholder'),
+            || this.model.SRS['900913'],
         'class': this.$('form.layerPostGIS input[name=class]').val(),
         'Datasource': {
             'username': connection[2],
