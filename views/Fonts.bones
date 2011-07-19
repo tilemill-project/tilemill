@@ -1,11 +1,12 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'click a.font': 'insert'
+    'click a.font': 'insert',
+    'keydown a.font input': 'keydown'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('insert');
+    _(this).bindAll('insert', 'keydown');
     this.render();
 };
 
@@ -25,12 +26,15 @@ view.prototype.render = function() {
     return this;
 };
 
+// Select font text.
 view.prototype.insert = function(ev) {
     var target = $(ev.currentTarget);
-    if (target.is('.insert')) return false;
-
-    target.addClass('insert').siblings('.insert').removeClass('insert');
+    target.addClass('insert').siblings().removeClass('insert');
     $('input', target).select();
     return false;
 };
+
+// Catch keypress events when a font input field is selected
+// to prevent users from tampering with a font name.
+view.prototype.keydown = function(ev) { return false; }
 

@@ -1179,16 +1179,10 @@ div.fonts { padding-top:30px; }
 
 .fonts .font.active { display:block; }
 
-.fonts .font .label { display:block; }
-.fonts .font input,
-.fonts .font .description { display:none; }
-
-.fonts .font.insert .label { display:none; }
-.fonts .font.insert input,
-.fonts .font.insert .description { display:block; }
-
 /* Unstyle font selection inputs */
 .fonts .font input {
+  cursor:pointer;
+  display:block;
   border:0px;
   padding:0px;
   width:100%;
@@ -1198,10 +1192,17 @@ div.fonts { padding-top:30px; }
   }
 
 .fonts .font .description {
+  visibility:hidden;
   position:absolute;
-  right:10px;
-  top:5px;
+  text-align:right;
+  top:0px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  padding:5px 10px 4px;
   }
+
+.fonts .font.insert .description { visibility:visible; }
 
 /**
  * Exports

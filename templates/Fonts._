@@ -13,7 +13,6 @@
 
 <% _(fonts).each(function(f) { %>
 <a href='#insert' class='font active group-0 group-<%= f.group %>'>
-  <span class='label'><%= f.name %></span>
   <input type='text' value='<%= f.name %>' />
   <span class='description'>Copy + paste into editor</span>
 </a>
