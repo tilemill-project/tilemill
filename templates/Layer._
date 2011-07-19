@@ -74,7 +74,7 @@
     </li>
     <li class='expand'>
       <label for='connection'><span class='required'>*</span> Connection</label>
-      <input type='text' name='connection' id='connection' placeholder='pgsql://user:password@localhost:5432/database' value='<%if (get("Datasource") && get("Datasource").host) {%>pgsql://<%if (get("Datasource").user) { print(get("Datasource").user + ":" + get("Datasource").password + "@"); }%><%=get("Datasource").host%>:<%=get("Datasource").port%>/<%=get("Datasource").dbname%><%}%>' size='60' />
+      <input type='text' name='connection' id='connection' placeholder='pgsql://user:password@localhost:5432/database' value='<%if (get("Datasource") && get("Datasource").host) with(get("Datasource")) { %>pgsql://<%if(username){%><%=username%>:<%=password%>@<%}%><%=host%><%if(port){%>:<%=port%><%}%>/<%=dbname%><%}%>' size='60' />
       <a href='#open' class='button open'>Browse</a>
       <div class='browser'></div>
     </li>
