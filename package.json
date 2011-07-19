@@ -32,7 +32,7 @@
         "tilelive": "3.0.x",
         "tilelive-mapnik": "0.0.x",
         "underscore": "1.1.x",
-        "wax": "3.0.x"
+        "wax": "https://github.com/mapbox/wax/tarball/abf06066575c63b84f952e658956d49ab8644d2a"
     },
     "devDependencies": {
         "expresso" : "0.7.x",

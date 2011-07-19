@@ -165,13 +165,6 @@ view.prototype.mapZoom = function(e) {
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };
 
-// @TODO.
-view.prototype.mapLegend = function() {
-    this.$('a.map-legend').toggleClass('active');
-    $(this.el).toggleClass('legend');
-    return false;
-};
-
 view.prototype.attach = function() {
     // Reset various portions of the UI.
     this.$('.actions a[href=#save]').addClass('disabled');
@@ -187,6 +180,12 @@ view.prototype.attach = function() {
     this.map.provider.options.maxzoom = this.model.get('maxzoom');
     this.map.setProvider(this.map.provider);
 
+    if (this.model.attributes.legend) {
+        this.map.controls.legend.content(this.model.attributes);
+        this.map.controls.legend.appendTo(this.map.parent);
+    } else {
+        $(this.map.controls.legend.element()).remove();
+    }
 
     // Rescan stylesheets for colors, dedupe, sort by luminosity
     // and render swatches for each one.
