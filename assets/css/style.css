@@ -259,19 +259,6 @@ a {
   height:20px;
   }
 
-.header .actions > * {
-  float:left;
-  border-radius:0px;
-  border-right-width:0px;
-  }
-
-.header .actions > *:first-child { border-radius:3px 0px 0px 3px; }
-
-.header .actions > *:last-child {
-  border-right-width:1px;
-  border-radius:0px 3px 3px 0px;
-  }
-
 .button.dropdown {
   width:100px;
   position:relative;
@@ -792,7 +779,7 @@ li:hover .icon { display:block; }
 .icon.reference      { background-position:-320px -180px;}
 .icon.dropdown       { background-position:-300px -180px; }
 .icon.settings       { background-position:-260px -180px; }
-.icon.assets         { background-position:-340px -180px;}
+.icon.folder         { background-position:-340px -180px;}
 .icon.minus          { background-position:-380px -180px; }
 .icon.geometry-linestring { background-position:-200px -180px; }
 .icon.geometry-point      { background-position:-220px -180px; }
@@ -801,6 +788,8 @@ li:hover .icon { display:block; }
 .icon.file              { background-position:-540px -180px; }
 .icon.postgis           { background-position:-560px -180px; }
 .icon.tooltip           { background-position:-580px -180px; }
+.icon.star              { background-position:-600px -180px; }
+.icon.cloud             { background-position:-620px -180px; }
 
 .reverse.edit           { background-position:0px -200px; }
 .reverse.inspect        { background-position:-20px -200px; }
@@ -817,7 +806,7 @@ li:hover .icon { display:block; }
 .reverse.reference      { background-position: -320px -200px;}
 .reverse.dropdown       { background-position:-300px -200px; }
 .reverse.settings       { background-position:-260px -200px; }
-.reverse.assets         { background-position:-340px -200px;}
+.reverse.folder         { background-position:-340px -200px;}
 .reverse.minus          { background-position:-380px -200px; }
 .reverse.geometry-linestring { background-position:-200px -200px; }
 .reverse.geometry-point      { background-position:-220px -200px; }
@@ -826,13 +815,15 @@ li:hover .icon { display:block; }
 .reverse.file           { background-position:-540px -200px; }
 .reverse.postgis        { background-position:-560px -200px; }
 .reverse.tooltip        { background-position:-580px -200px; }
+.reverse.star           { background-position:-600px -200px; }
+.reverse.cloud          { background-position:-620px -200px; }
 
 /* Dock-icon specific reverse styles */
-.dock .active .icon.legend   { background-position:-280px -200px; }
-.dock .active .icon.settings { background-position:-260px -200px; }
-.dock .active .icon.file     { background-position:-540px -200px;}
-.dock .active .icon.postgis  { background-position:-560px -200px;}
-.dock .active .icon.tooltip  { background-position:-580px -200px;}
+.dock .active > .icon.legend   { background-position:-280px -200px; }
+.dock .active > .icon.settings { background-position:-260px -200px; }
+.dock .active > .icon.file     { background-position:-540px -200px;}
+.dock .active > .icon.postgis  { background-position:-560px -200px;}
+.dock .active > .icon.tooltip  { background-position:-580px -200px;}
 
 /* File icons */
 .filetype.png     { background-position:0px -320px; }
@@ -913,12 +904,31 @@ input[type=submit]:active {
   box-shadow:inset #999 0px -1px 0px;
   }
 
+/* Joined buttons */
+.joined > * {
+  float:left;
+  border-radius:0px;
+  border-right-width:0px;
+  }
+
+.joined > *:first-child { border-radius:3px 0px 0px 3px; }
+.joined > *:last-child {
+  border-right-width:1px;
+  border-radius:0px 3px 3px 0px;
+  }
+.joined > *:only-child { border-radius:3px; }
+
+/* Forms */
 ul.form h2 { font-size:16px; }
 
 ul.form li {
   position:relative;
   padding:10px 20px 9px 120px;
   border-bottom:1px solid #eee;
+  background:#fff;
+  transition:padding .25s, height .25s;
+  -moz-transition:padding .25s, height .25s;
+  -webkit-transition:padding .25s, height .25s;
   }
 
 ul.form li.text,
@@ -1017,6 +1027,64 @@ ul.form select { width:120px; }
 
 .ui-slider-handle:first-of-type { margin-left:-8px; }
 .ui-slider-handle:last-of-type { margin-left:-8px; }
+
+/**
+ * Libraries
+ */
+ul.form.expand li:not(.expand) {
+  overflow:hidden;
+  height:0px;
+  padding-top:0px;
+  padding-bottom:0px;
+  border:0px;
+  }
+
+ul.form.expand li.expand:hover { background:#fff; }
+
+ul.form .browser {
+  display:none;
+  margin:10px 0px;
+  }
+
+ul.form.expand .browser { display:block; }
+
+.library .toggler {
+  text-align:center;
+  height:30px;
+  }
+
+.library .joined { display:inline-block }
+.library .joined .button { width:100px; text-align:left; }
+
+.library .breadcrumb * {
+  float:left;
+  padding:5px;
+  }
+
+.library .assets a,
+.library .assets div.description {
+  display:block;
+  padding:5px 10px 4px 30px;
+  margin:0px 0px 1px;
+  background:#eee;
+  position:relative;
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  }
+
+.library .assets div.description {
+  padding-left:10px;
+  text-align:center;
+  }
+
+.library .assets a .icon {
+  position:absolute;
+  top:5px;
+  left:5px;
+  }
+
+.library .assets a .icon.folder { opacity:.5; }
 
 /* Special sauce */
 ul::-webkit-scrollbar,

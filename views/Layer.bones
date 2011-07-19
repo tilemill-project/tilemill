@@ -3,6 +3,8 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'click .layerFile input[type=submit]': 'saveFile',
     'click .layerPostGIS input[type=submit]': 'savePostGIS',
+    'click .layerFile a[href=#open]': 'browseFile',
+    'click .layerPostGIS a[href=#open]': 'browsePostGIS',
     'change select[name=srs-name]': 'nameToSrs',
     'keyup input[name=srs]': 'srsToName'
 };
@@ -12,6 +14,8 @@ view.prototype.initialize = function(options) {
         'render',
         'saveFile',
         'savePostGIS',
+        'browseFile',
+        'browsePostGIS',
         'nameToSrs',
         'srsToName'
     );
@@ -44,6 +48,44 @@ view.prototype.srsToName = function(ev) {
     var el = $(ev.currentTarget);
     var srs = $(ev.currentTarget).val();
     el.siblings('select[name=srs-name]').val(this.model.srsName(srs));
+};
+
+view.prototype.browseFile = function(ev) {
+    var id = 'file';
+    var target = $(ev.currentTarget);
+    target.toggleClass('active');
+    this.$('.layerFile ul.form').toggleClass('expand');
+
+    if (target.is('.active')) (new models.Library({id:id})).fetch({
+        success: _(function(model, resp) {
+            new views.Library({
+                model: model,
+                input: this.$('.layerFile input[name=file]'),
+                el: this.$('.layerFile .browser')
+            });
+        }).bind(this),
+        error: function(model, err) { new views.Modal(err) }
+    });
+    return false;
+};
+
+view.prototype.browsePostGIS = function(ev) {
+    var id = 'favoritesPostGIS';
+    var target = $(ev.currentTarget);
+    target.toggleClass('active');
+    this.$('.layerPostGIS ul.form').toggleClass('expand');
+
+    if (target.is('.active')) (new models.Library({id:id})).fetch({
+        success: _(function(model, resp) {
+            new views.Library({
+                model: model,
+                input: this.$('.layerPostGIS input[name=file]'),
+                el: this.$('.layerPostGIS .browser')
+            });
+        }).bind(this),
+        error: function(model, err) { new views.Modal(err) }
+    });
+    return false;
 };
 
 view.prototype.saveFile = function() {

@@ -10,7 +10,7 @@
 
   <% if (isNew() || get('Datasource') && get('Datasource').file) {%>
   <form class='layerFile active'><ul class='form'>
-    <li class='text'>
+    <li class='expand text'>
       <h2>File</h2>
       <div class='description'>Use a URL or filepath to a shape, kml, geotiff or geojson file for this layer.</div>
     </li>
@@ -24,11 +24,11 @@
       <input type='text' name='class' value='<%=get('class')%>' size='20'/>
       <span class='description'>select in Carto <code>.class</code></span>
     </li>
-    <li class='toggler'>
+    <li class='expand'>
       <label for='file'><span class='required'>*</span> Datasource</label>
       <input type='text' name='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' size='60'/>
-      <a href='#fileBrowser' class='button'>Browse</a>
-      <div class='fileBrowser browser'></div>
+      <a href='#open' class='button open'>Browse</a>
+      <div class='browser'></div>
     </li>
     <li>
       <label for='srs-name'>SRS</label>
@@ -58,7 +58,7 @@
 
   <% if (isNew() || get('Datasource') && get('Datasource').type === 'postgis') {%>
   <form class='layerPostGIS'><ul class='form'>
-    <li class='text'>
+    <li class='expand text'>
       <h2>PostGIS</h2>
       <div class='description'>Use a table or SQL query against a PostGIS database for this layer.</div>
     </li>
@@ -72,11 +72,11 @@
       <input type='text' name='class' value='<%=get('class')%>' size='20'/>
       <span class='description'>select in Carto <code>.class</code></span>
     </li>
-    <li>
+    <li class='expand'>
       <label for='connection'><span class='required'>*</span> Connection</label>
       <input type='text' name='connection' id='connection' placeholder='pgsql://user:password@localhost:5432/database' value='<%if (get("Datasource") && get("Datasource").host) {%>pgsql://<%if (get("Datasource").user) { print(get("Datasource").user + ":" + get("Datasource").password + "@"); }%><%=get("Datasource").host%>:<%=get("Datasource").port%>/<%=get("Datasource").dbname%><%}%>' size='60' />
-      <a href='#dbBrowser' class='button'>Browse</a>
-      <div class='dbBrowser browser'></div>
+      <a href='#open' class='button open'>Browse</a>
+      <div class='browser'></div>
     </li>
     <li>
       <label for='table'><span class='required' title='This field is required'>*</span> Query</label>

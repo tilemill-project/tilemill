@@ -5,7 +5,7 @@
       <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
       <a href='/#!/project/<%= id %>'><%= id %></a>
     </div>
-    <div class='actions'>
+    <div class='actions joined'>
       <a class='button disabled' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
       <span class='button dropdown' href='#export'>
         <span class='icon reverse labeled export'></span>
@@ -36,7 +36,7 @@
   <div class='editor fill-e'>
     <div class='palette clearfix'>
       <div class='colors clearfix'></div>
-      <div class='ref'>
+      <div class='ref joined'>
         <a class='drawer button' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>
         <a class='drawer button' href='#carto'><span class='icon reverse reference'>Carto</span></a>
       </div>
