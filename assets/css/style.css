@@ -1173,9 +1173,35 @@ div.fonts { padding-top:30px; }
   position:relative;
   padding:5px 10px 4px;
   border-bottom:1px solid #eee;
+  overflow:hidden;
+  height:20px;
   }
 
 .fonts .font.active { display:block; }
+
+.fonts .font .label { display:block; }
+.fonts .font input,
+.fonts .font .description { display:none; }
+
+.fonts .font.insert .label { display:none; }
+.fonts .font.insert input,
+.fonts .font.insert .description { display:block; }
+
+/* Unstyle font selection inputs */
+.fonts .font input {
+  border:0px;
+  padding:0px;
+  width:100%;
+  background:transparent;
+  box-shadow:none;
+  text-indent:0px;
+  }
+
+.fonts .font .description {
+  position:absolute;
+  right:10px;
+  top:5px;
+  }
 
 /**
  * Exports

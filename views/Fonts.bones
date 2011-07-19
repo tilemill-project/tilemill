@@ -26,7 +26,11 @@ view.prototype.render = function() {
 };
 
 view.prototype.insert = function(ev) {
-    alert('@TODO');
+    var target = $(ev.currentTarget);
+    if (target.is('.insert')) return false;
+
+    target.addClass('insert').siblings('.insert').removeClass('insert');
+    $('input', target).select();
     return false;
 };
 
