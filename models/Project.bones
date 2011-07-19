@@ -119,6 +119,7 @@ model = Backbone.Model.extend({
         }
     }],
     defaults: {
+        'bounds': [-180,-90,180,90],
         'center': [0,0,2],
         'format': 'png',
         'interactivity': false,
