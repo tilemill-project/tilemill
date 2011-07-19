@@ -90,7 +90,7 @@ command.prototype.initialize = function(plugin, callback) {
         opts.filepath = opts.filepath.replace(ext, '_' + hash + ext);
 
         // Update filename in TileMill.
-        this.put({ filename: path.basename(opts.filepath) });
+        this.put({ filename: path.basename(opts.filepath), status: 'processing' });
     }
 
     // Set process title.
