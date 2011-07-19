@@ -6056,9 +6056,9 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="46.637492"
-     inkscape:cy="5.2217243"
+     inkscape:zoom="7.4505806"
+     inkscape:cx="8.3533176"
+     inkscape:cy="171.82376"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -6778,7 +6778,7 @@
     </g>
     <path
        style="color:#000000;fill:#000000;fill-opacity:0.1254902;fill-rule:nonzero;stroke:none;stroke-width:3;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="M 0 220 L 0 221 L 19 221 L 19 239 L 0 239 L 0 240 L 19 240 L 20 240 L 20 239 L 20 221 L 20 220 L 19 220 L 0 220 z "
+       d="M 0 220 L 0 221 L 0 239 L 0 240 L 19 240 L 20 240 L 20 239 L 20 221 L 20 220 L 19 220 L 0 220 z M 1 221 L 19 221 L 19 239 L 1 239 L 1 221 z "
        id="rect3915" />
     <path
        style="color:#000000;fill:#202020;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
