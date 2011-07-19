@@ -32,7 +32,7 @@ Backbone.Model.prototype.validateAttributes = function(attr) {
                 if (prop.description) {
                     return new Error(prop.description);
                 } else {
-                    return new Error(err.message);
+                    return new Error(err.message + ' (' + k + ')');
                 }
             }
         })
