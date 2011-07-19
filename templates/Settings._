@@ -47,11 +47,16 @@
     </li>
     <li>
       <label for='bounds'>Bounds</label>
-      @TODO: [w, s, e, n]
+      <span class='description'>W</span> <input type='text' name='bounds_0' size='6' value='<%= get('bounds')[0] %>' />&deg;
+      <span class='description'>S</span> <input type='text' name='bounds_1' size='6' value='<%= get('bounds')[1] %>' />&deg;
+      <span class='description'>E</span> <input type='text' name='bounds_2' size='6' value='<%= get('bounds')[2] %>' />&deg;
+      <span class='description'>N</span> <input type='text' name='bounds_3' size='6' value='<%= get('bounds')[3] %>' />&deg;
     </li>
     <li>
       <label for='center'>Center</label>
-      @TODO: [lon, lat, zoom]
+      <span class='description'>Lon</span> <input type='text' name='center_0' size='6' value='<%= get('center')[0] %>' />&deg;
+      <span class='description'>Lat</span> <input type='text' name='center_1' size='6' value='<%= get('center')[1] %>' />&deg;
+      <span class='description'>Zoom</span> <input type='text' name='center_2' size='6' value='<%= get('center')[2] %>' />
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />

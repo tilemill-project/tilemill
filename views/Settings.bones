@@ -42,10 +42,21 @@ view.prototype.save = function() {
         'attribution':   this.$('input[name=attribution]').val(),
         'version':       this.$('input[name=version]').val(),
         'format':        this.$('select[name=format]').val(),
-        'minzoom':       this.$('.slider').slider('values', 0),
-        'maxzoom':       this.$('.slider').slider('values', 1),
+        'minzoom':       parseInt(this.$('.slider').slider('values', 0)),
+        'maxzoom':       parseInt(this.$('.slider').slider('values', 1)),
         'interactivity': interactivity,
-        'legend':        this.$('textarea[name=legend]').val()
+        'legend':        this.$('textarea[name=legend]').val(),
+        'bounds': [
+            parseFloat(this.$('input[name=bounds_0]').val()),
+            parseFloat(this.$('input[name=bounds_1]').val()),
+            parseFloat(this.$('input[name=bounds_2]').val()),
+            parseFloat(this.$('input[name=bounds_2]').val())
+        ],
+        'center': [
+            parseFloat(this.$('input[name=center_0]').val()),
+            parseFloat(this.$('input[name=center_1]').val()),
+            parseInt(this.$('input[name=center_2]').val())
+        ]
     };
     var error = function(m, e) { new views.Modal(e); };
     if (!this.model.set(attr, {error:error})) return;
