@@ -161,11 +161,7 @@ view.prototype.mapZoom = function(e) {
     var lon = this.map.getCenter().lon % 360;
     if (lon < -180) lon += 360; else if (lon > 180) lon -= 360;
 
-    this.model.set({center:[
-        lon.toFixed(2),
-        lat.toFixed(2),
-        zoom
-    ]}, {silent:true});
+    this.model.set({center:[lon, lat, zoom]}, {silent:true});
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };
 
