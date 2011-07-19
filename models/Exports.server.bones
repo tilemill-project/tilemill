@@ -7,6 +7,8 @@ var Step = require('step'),
 
 // @TODO: need a queue system. Difficult to manage atm because process
 // completion is now determined outside this process.
+// See http://en.wikipedia.org/wiki/SIGCHLD ... may be useful for determining
+// when a child process has died and can be removed from the pool.
 var start = function(model, data, callback) {
     if (data.status === 'waiting') {
         var args = [];

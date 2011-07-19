@@ -6,7 +6,7 @@
   </span>
   <h2><%= m.get('filename') %></h2>
   <div class='description'>
-    <%= (new Date(m.get('created'))).format('F j h:ia') %>
+    <%= m.time() %>
   </div>
   <div class='status'>
     <% if (m.get('status') === 'processing' || m.get('status') === 'waiting') { %>

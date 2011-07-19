@@ -23,7 +23,6 @@
     "dependencies": {
         "backbone-dirty": "1.1.x",
         "bones": "1.3.x",
-        "chrono": "1.0.x",
         "generic-pool": "1.0.x",
         "JSV": "3.5.x",
         "mbtiles": "0.0.x",
