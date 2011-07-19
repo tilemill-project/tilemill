@@ -156,9 +156,16 @@ view.prototype.makeStylesheet = function(model) {
 
 // Set the model center whenever the map is moved.
 view.prototype.mapZoom = function(e) {
-    var center = this.map.getCenter();
-    center = [center.lon, center.lat, this.map.getZoom()];
-    this.model.set({center:center}, {silent:true});
+    var zoom = this.map.getZoom();
+    var lat = this.map.getCenter().lat;
+    var lon = this.map.getCenter().lon % 360;
+    if (lon < -180) lon += 360; else if (lon > 180) lon -= 360;
+
+    this.model.set({center:[
+        lon.toFixed(2),
+        lat.toFixed(2),
+        zoom
+    ]}, {silent:true});
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };
 
