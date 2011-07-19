@@ -60,6 +60,13 @@ model = Backbone.Model.extend({
         }
         return srs ? 'custom' : 'autodetect';
     },
+    validate: function(attr) {
+        if (attr.id &&
+            this.collection &&
+            this.collection.get(attr.id) &&
+            this.collection.get(attr.id) !== this)
+                return new Error(_('Layer with ID "<%=id%>" already exists.').template(attr));
+    },
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent
     // with other Backbone methods.
