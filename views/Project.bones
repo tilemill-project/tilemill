@@ -16,6 +16,8 @@ view.prototype.events = {
     'click .layers a.delete': 'layerDelete',
     'click .editor a.add': 'stylesheetAdd',
     'click .editor a.delete': 'stylesheetDelete',
+    'sortupdate .layers ul': 'sortLayers',
+    'sortupdate .tabs': 'sortStylesheets',
     'click pre.error': 'statusOpen',
     'click .status a[href=#close]': 'statusClose',
     'click .swatch': 'colorOpen',
@@ -40,6 +42,8 @@ view.prototype.initialize = function() {
         'makeStylesheet',
         'stylesheetAdd',
         'stylesheetDelete',
+        'sortLayers',
+        'sortStylesheets',
         'exportAdd',
         'exportClose',
         'exportList',
@@ -57,42 +61,50 @@ view.prototype.initialize = function() {
 view.prototype.render = function() {
     $(this.el).html(templates.Project(this.model));
 
-    _(function mapInit () {
-        if (!com.modestmaps) throw new Error('ModestMaps not found.');
-        this.map = new com.modestmaps.Map('map',
-            new wax.mm.connector(this.model.attributes));
+    if (!com.modestmaps) throw new Error('ModestMaps not found.');
+    this.map = new com.modestmaps.Map('map',
+        new wax.mm.connector(this.model.attributes));
 
-        // Add references to all controls onto the map object.
-        // Allows controls to be removed later on. @TODO need
-        // wax 3.x and updates to controls to return references
-        // to themselves.
-        this.map.controls = {
-            // @TODO wax 3.x.
-            // interaction, legend require TileJSON attributes from the model.
-            interaction: wax.mm.interaction(this.map, this.model.attributes),
-            legend: wax.mm.legend(this.map, this.model.attributes),
-            zoombox: wax.mm.zoombox(this.map),
-            zoomer: wax.mm.zoomer(this.map).appendTo(this.map.parent),
-            fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
-        };
+    // Add references to all controls onto the map object.
+    // Allows controls to be removed later on. @TODO need
+    // wax 3.x and updates to controls to return references
+    // to themselves.
+    this.map.controls = {
+        // @TODO wax 3.x.
+        // interaction, legend require TileJSON attributes from the model.
+        interaction: wax.mm.interaction(this.map, this.model.attributes),
+        legend: wax.mm.legend(this.map, this.model.attributes),
+        zoombox: wax.mm.zoombox(this.map),
+        zoomer: wax.mm.zoomer(this.map).appendTo(this.map.parent),
+        fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
+    };
 
-        var center = this.model.get('center');
-        this.map.setCenterZoom(new com.modestmaps.Location(
-            center[1],
-            center[0]),
-            center[2]);
-        this.map.addCallback('zoomed', this.mapZoom);
-        this.map.addCallback('panned', this.mapZoom);
-        this.mapZoom({element: this.map.div});
-    }).bind(this)();
+    var center = this.model.get('center');
+    this.map.setCenterZoom(new com.modestmaps.Location(
+        center[1],
+        center[0]),
+        center[2]);
+    this.map.addCallback('zoomed', this.mapZoom);
+    this.map.addCallback('panned', this.mapZoom);
+    this.mapZoom({element: this.map.div});
 
-    _(function stylesheetInit() {
-        this.model.get('Stylesheet').each(this.makeStylesheet);
-    }).bind(this)();
+    // Stylesheets are intuitive in normal order (overrides last).
+    this.model.get('Stylesheet').chain().each(this.makeStylesheet);
+    this.$('.tabs').sortable({
+        axis: 'x',
+        containment: 'parent',
+        tolerance: 'pointer'
+    });
 
-    _(function layerInit() {
-        this.model.get('Layer').each(this.makeLayer);
-    }).bind(this)();
+    // Layers are intuitive in reverse order since the last drawn layer
+    // appears "on top" (painting model).
+    this.model.get('Layer').chain().reverse().each(this.makeLayer);
+    this.$('.layers ul').sortable({
+        axis: 'y',
+        handle: '.handle',
+        containment: 'parent',
+        tolerance: 'pointer'
+    });
 
     return this;
 };
@@ -335,6 +347,27 @@ view.prototype.stylesheetDelete = function(ev) {
             this.model.get('Stylesheet').remove(model);
         }).bind(this)
     });
+};
+
+view.prototype.sortLayers = function() {
+    var order = _(this.$('.layers li .actions a')).chain()
+        .map(function(el) { return $(el).attr('href').split('#').pop(); })
+        .uniq()
+        .reverse()
+        .value();
+    this.model.get('Layer').models = this.model.get('Layer')
+        .sortBy(function(model) { return _(order).indexOf(model.id) });
+    this.model.get('Layer').trigger('change');
+};
+
+view.prototype.sortStylesheets = function() {
+    var order = _(this.$('.tabs li a.delete')).chain()
+        .map(function(el) { return $(el).attr('href').split('#').pop(); })
+        .uniq()
+        .value();
+    this.model.get('Stylesheet').models = this.model.get('Stylesheet')
+        .sortBy(function(model) { return _(order).indexOf(model.id) });
+    this.model.get('Stylesheet').trigger('change');
 };
 
 view.prototype.exportAdd = function(ev) {
