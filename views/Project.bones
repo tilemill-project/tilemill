@@ -49,6 +49,7 @@ view.prototype.initialize = function() {
         'colorSave',
         'colorClose'
     );
+    this.model.bind('save', this.attach);
     this.model.bind('change', this.change);
     this.render().attach();
 };
@@ -157,34 +158,36 @@ view.prototype.mapLegend = function() {
 };
 
 view.prototype.attach = function() {
-    _(function map() {
-        this.map.provider.options.tiles = this.model.get('tiles');
-        this.map.provider.options.minzoom = this.model.get('minzoom');
-        this.map.provider.options.maxzoom = this.model.get('maxzoom');
-        this.map.setProvider(this.map.provider);
+    // Reset various portions of the UI.
+    this.$('.actions a[href=#save]').addClass('disabled');
+    this.$('.tabs a.error').removeClass('error');
+    this.$('.editor pre.error').removeClass('error');
+    this.statusClose();
 
-        // @TODO Currently interaction formatter/data is cached
-        // deep in Wax making it difficult to update without simply
-        // creating a new map. Likely requires an upstream fix.
-    }).bind(this)();
+    // @TODO Currently interaction formatter/data is cached
+    // deep in Wax making it difficult to update without simply
+    // creating a new map. Likely requires an upstream fix.
+    this.map.provider.options.tiles = this.model.get('tiles');
+    this.map.provider.options.minzoom = this.model.get('minzoom');
+    this.map.provider.options.maxzoom = this.model.get('maxzoom');
+    this.map.setProvider(this.map.provider);
+
 
     // Rescan stylesheets for colors, dedupe, sort by luminosity
     // and render swatches for each one.
-    _(function swatches() {
-        this.$('.colors').empty();
-        _(this.model.get('Stylesheet').pluck('data').join('\n')
-            .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || []
-        ).chain()
-            .uniq(true)
-            .sortBy(_(function(c) {
-                var rgb = this.css2rgb(c);
-                return rgb.R + rgb.G + rgb.B;
-            }).bind(this))
-            .each(_(function(color) {
-                var swatch = templates.ProjectSwatch({color:color});
-                this.$('.colors').append(swatch);
-            }).bind(this));
-    }).bind(this)();
+    this.$('.colors').empty();
+    _(this.model.get('Stylesheet').pluck('data').join('\n')
+        .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || []
+    ).chain()
+        .uniq(true)
+        .sortBy(_(function(c) {
+            var rgb = this.css2rgb(c);
+            return rgb.R + rgb.G + rgb.B;
+        }).bind(this))
+        .each(_(function(color) {
+            var swatch = templates.ProjectSwatch({color:color});
+            this.$('.colors').append(swatch);
+        }).bind(this));
 };
 
 view.prototype.css2rgb = function(c) {
@@ -202,26 +205,6 @@ view.prototype.css2rgb = function(c) {
     }
 };
 
-view.prototype.rgb2hsv = function(rgb) {
-    var r = rgb[0], g = rgb[1], b = rgb[2],
-        min = Math.min(r, g, b),
-        max = Math.max(r, g, b),
-        delta = max - min,
-        h = 0,
-        s = 0,
-        l = (min + max) / 2;
-    if (l > 0 && l < 1) {
-        s = delta / (l < 0.5 ? (2 * l) : (2 - 2 * l));
-    }
-    if (delta > 0) {
-        if (max == r && max != g) h += (g - b) / delta;
-        if (max == g && max != b) h += (2 + (b - r) / delta);
-        if (max == b && max != r) h += (4 + (r - g) / delta);
-        h /= 6;
-    }
-    return [h, s, max];
-};
-
 view.prototype.change = function() {
     this.$('.actions a[href=#save]').removeClass('disabled');
 };
@@ -230,13 +213,7 @@ view.prototype.save = function(ev) {
     if (this.$('.actions a[href=#save]').is('.disabled')) return false;
 
     this.model.save(this.model.attributes, {
-        success: _(function(model) {
-            this.$('.actions a[href=#save]').addClass('disabled');
-            this.$('.tabs a.error').removeClass('error');
-            this.$('.editor pre.error').removeClass('error');
-            this.statusClose();
-            this.attach();
-        }).bind(this),
+        success: function(model) { model.trigger('save'); },
         // Test for a Carto error of the form
         //
         //     style.mss:2 Invalid value for background-color ...

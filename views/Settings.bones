@@ -47,12 +47,16 @@ view.prototype.save = function() {
         'interactivity': interactivity,
         'legend':        this.$('textarea[name=legend]').val()
     };
-    var options = { error: function(m, e) { new views.Modal(e); } };
-    if (this.model.set(attr, options)) {
-        this.model.save({}, options);
-        this.model.trigger('save');
-        this.$('.close').click();
-    }
+    var error = function(m, e) { new views.Modal(e); };
+    if (!this.model.set(attr, {error:error})) return;
+
+    this.model.save({}, {
+        success: _(function(model) {
+            this.model.trigger('save');
+            this.$('.close').click();
+        }).bind(this),
+        error:error
+    });
     return false;
 };
 
