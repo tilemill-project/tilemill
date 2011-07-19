@@ -88,7 +88,6 @@ view.prototype.render = function() {
     this.map.addCallback('panned', this.mapZoom);
     this.mapZoom({element: this.map.div});
 
-    // Stylesheets are intuitive in normal order (overrides last).
     this.model.get('Stylesheet').chain().each(this.makeStylesheet);
     this.$('.tabs').sortable({
         axis: 'x',
@@ -96,9 +95,7 @@ view.prototype.render = function() {
         tolerance: 'pointer'
     });
 
-    // Layers are intuitive in reverse order since the last drawn layer
-    // appears "on top" (painting model).
-    this.model.get('Layer').chain().reverse().each(this.makeLayer);
+    this.model.get('Layer').chain().each(this.makeLayer);
     this.$('.layers ul').sortable({
         axis: 'y',
         handle: '.handle',
@@ -111,7 +108,10 @@ view.prototype.render = function() {
 
 view.prototype.makeLayer = function(model) {
     model.el = $(templates.ProjectLayer(model));
-    this.$('.layers ul').append(model.el);
+
+    // Prepend layers since intuitively the last drawn layer appears
+    // "on top" of the other layers (painting model).
+    this.$('.layers ul').prepend(model.el);
 
     // Bind to the 'remove' event to teardown.
     model.bind('remove', _(function(model) {
