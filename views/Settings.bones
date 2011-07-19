@@ -6,13 +6,26 @@ view.prototype.events = {
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'save', 'attach');
+    _(this).bindAll('render', 'save', 'attach', 'zoom');
     this.render().attach();
 };
 
 view.prototype.render = function() {
     this.$('.content').html(templates.Settings(this.model));
+    this.$('.slider').slider({
+        range: true,
+        min:0,
+        max:22,
+        values:[this.model.get('minzoom'), this.model.get('maxzoom')],
+        step:1,
+        slide: this.zoom
+    });
     return this;
+};
+
+view.prototype.zoom = function(ev, ui) {
+    this.$('.minzoom').text(ui.values[0]);
+    this.$('.maxzoom').text(ui.values[1]);
 };
 
 view.prototype.save = function() {
@@ -29,12 +42,14 @@ view.prototype.save = function() {
         'attribution':   this.$('input[name=attribution]').val(),
         'version':       this.$('input[name=version]').val(),
         'format':        this.$('select[name=format]').val(),
+        'minzoom':       this.$('.slider').slider('values', 0),
+        'maxzoom':       this.$('.slider').slider('values', 1),
         'interactivity': interactivity,
         'legend':        this.$('textarea[name=legend]').val()
     };
     var options = { error: function(m, e) { new views.Modal(e); } };
     if (this.model.set(attr, options)) {
-        this.model.save();
+        this.model.save({}, options);
         this.model.trigger('save');
         this.$('.close').click();
     }

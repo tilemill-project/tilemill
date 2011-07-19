@@ -37,8 +37,13 @@
       </select>
     </li>
     <li>
-      <label for='minzoom'>Zoom range</label>
-      @TODO: minzoom - maxzoom slider
+      <label>Zoom levels</label>
+      <div class='slider'></div>
+      <div class='description help'>
+        Zoom
+        <span class='minzoom'><%=get('minzoom')%></span> -
+        <span class='maxzoom'><%=get('maxzoom')%></span>
+      </div>
     </li>
     <li>
       <label for='bounds'>Bounds</label>

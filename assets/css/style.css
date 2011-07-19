@@ -518,8 +518,7 @@ li:hover .actions { display:block; }
 .palette {
   position:relative;
   height:20px;
-  padding:10px 100px 9px 10px;
-  border-bottom:1px solid #ddd;
+  padding:10px 100px 0px 10px;
   }
 
 .palette .ref {
@@ -703,7 +702,7 @@ li:hover .actions { display:block; }
  */
 .editor .code {
   overflow:hidden;
-  top:79px;
+  top:69px;
   background:#fff;
   border-top:1px solid #ccc;
   box-shadow:rgba(0,0,0,.1) 0px 0px 3px;
@@ -982,6 +981,7 @@ ul.form select { width:120px; }
   height:4px;
   padding:0px;
   margin:7px 8px;
+  max-width:200px;
   border-radius:3px;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;

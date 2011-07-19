@@ -159,6 +159,8 @@ view.prototype.mapLegend = function() {
 view.prototype.attach = function() {
     _(function map() {
         this.map.provider.options.tiles = this.model.get('tiles');
+        this.map.provider.options.minzoom = this.model.get('minzoom');
+        this.map.provider.options.maxzoom = this.model.get('maxzoom');
         this.map.setProvider(this.map.provider);
 
         // @TODO Currently interaction formatter/data is cached
