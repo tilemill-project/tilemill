@@ -34,7 +34,10 @@ view.prototype.insert = function(ev) {
     return false;
 };
 
-// Catch keypress events when a font input field is selected
-// to prevent users from tampering with a font name.
-view.prototype.keydown = function(ev) { return false; }
+// Catch non-action keypress (e.g. Ctrl-C) events when a font input field
+// is selected to prevent users from tampering with a font name.
+view.prototype.keydown = function(ev) {
+    if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
+    return false;
+}
 
