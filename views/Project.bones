@@ -259,22 +259,30 @@ view.prototype.keydown = function(ev) {
 };
 
 view.prototype.layerAdd = function(ev) {
-    var model = new models.Layer({}, {
-        collection: this.model.get('Layer')
-    })
-    model.bind('add', this.makeLayer);
-    new views.Layer({
-        el: $('#popup'),
-        model: model
-    });
+    var cb = _(function(favorites) {
+        var model = new models.Layer({}, {
+            collection: this.model.get('Layer')
+        })
+        model.bind('add', this.makeLayer);
+        new views.Layer({
+            el: $('#popup'),
+            model: model,
+            favorites: favorites
+        });
+    }).bind(this);
+    (new models.Favorites).fetch({success:cb,error:cb});
 };
 
 view.prototype.layerEdit = function(ev) {
-    var id = $(ev.currentTarget).attr('href').split('#').pop();
-    new views.Layer({
-        el: $('#popup'),
-        model: this.model.get('Layer').get(id)
-    });
+    var cb = _(function(favorites) {
+        var id = $(ev.currentTarget).attr('href').split('#').pop();
+        new views.Layer({
+            el: $('#popup'),
+            model: this.model.get('Layer').get(id),
+            favorites: favorites
+        });
+    }).bind(this);
+    (new models.Favorites).fetch({success:cb,error:cb});
 };
 
 view.prototype.layerDelete = function(ev) {

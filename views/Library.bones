@@ -69,7 +69,7 @@ view.prototype.libraryLocation = function(ev) {
 
 view.prototype.libraryURI = function(ev) {
     var uri = $(ev.currentTarget).attr('href').split('#').pop();
-    this.input.val(uri);
+    this.input.val(uri).change();
     return false;
 };
 

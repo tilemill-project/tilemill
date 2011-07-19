@@ -5,25 +5,38 @@ view.prototype.events = {
     'click .layerPostGIS input[type=submit]': 'savePostGIS',
     'click .layerFile a[href=#open]': 'browseFile',
     'click .layerPostGIS a[href=#open]': 'browsePostGIS',
+    'click a[href=#favorite]': 'favoriteToggle',
+    'keyup input[name=file], input[name=connection]': 'favoriteUpdate',
+    'change input[name=file], input[name=connection]': 'favoriteUpdate',
     'change select[name=srs-name]': 'nameToSrs',
     'keyup input[name=srs]': 'srsToName'
 };
 
 view.prototype.initialize = function(options) {
+    if (!options.favorites) throw new Error('options.favorites required.');
+
     _(this).bindAll(
         'render',
         'saveFile',
         'savePostGIS',
         'browseFile',
         'browsePostGIS',
+        'favoriteToggle',
+        'favoriteUpdate',
         'nameToSrs',
         'srsToName'
     );
+    this.favorites = options.favorites;
     this.render();
 };
 
 view.prototype.render = function() {
     this.$('.content').html(templates.Layer(this.model));
+
+    // Quick easy way to check and set whether input
+    // URI is favorited.
+    this.$('input[name=file], input[name=connection]').change();
+
     if (this.model.get('Datasource')) {
         if (this.model.get('Datasource').file) {
             this.$('a[href=#layerFile]').click();
@@ -48,6 +61,34 @@ view.prototype.srsToName = function(ev) {
     var el = $(ev.currentTarget);
     var srs = $(ev.currentTarget).val();
     el.siblings('select[name=srs-name]').val(this.model.srsName(srs));
+};
+
+view.prototype.favoriteToggle = function(ev) {
+    var form = $(ev.currentTarget).parents('form');
+    var uri = $('input[name=file], input[name=connection]', form).val();
+    // @TODO wait for 'success'? Throw errors?
+    if (this.favorites.get(uri)) {
+        var model = this.favorites.get(uri);
+        this.favorites.remove(uri);
+        model.destroy();
+        $(ev.currentTarget).removeClass('active');
+    } else {
+        var model = new models.Favorite({id:uri});
+        this.favorites.add(model);
+        model.save();
+        $(ev.currentTarget).addClass('active');
+    }
+    return false;
+};
+
+view.prototype.favoriteUpdate = function(ev) {
+    var uri = $(ev.currentTarget).val();
+    if (this.favorites.get(uri)) {
+        $(ev.currentTarget).siblings('a.favorite').addClass('active');
+    } else {
+        $(ev.currentTarget).siblings('a.favorite').removeClass('active');
+    }
+    return false;
 };
 
 view.prototype.browseFile = function(ev) {
@@ -79,7 +120,7 @@ view.prototype.browsePostGIS = function(ev) {
         success: _(function(model, resp) {
             new views.Library({
                 model: model,
-                input: this.$('.layerPostGIS input[name=file]'),
+                input: this.$('.layerPostGIS input[name=connection]'),
                 el: this.$('.layerPostGIS .browser')
             });
         }).bind(this),
@@ -153,3 +194,4 @@ view.prototype.savePostGIS = function() {
     }).bind(this), error:error });
     return false;
 };
+

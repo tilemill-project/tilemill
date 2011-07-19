@@ -836,7 +836,11 @@ li:hover .icon { display:block; }
 .icon.complete   { background-position:-60px -220px; }
 .icon.error      { background-position:-80px -220px; }
 .icon.waiting    { background-position:-100px -220px; }
-.filetype .icon { margin-top:20px; }
+.filetype .icon  { margin-top:20px; }
+
+/* Favorite */
+.icon.favorite   { background-position:-140px -220px; }
+.icon.favorite.active { background-position:-120px -220px; }
 
 /**
  * Form elements
@@ -1031,6 +1035,11 @@ ul.form select { width:120px; }
 /**
  * Libraries
  */
+ul.form a.icon.favorite {
+  display:inline-block;
+  margin-left:-25px;
+  }
+
 ul.form.expand li:not(.expand) {
   overflow:hidden;
   height:0px;

@@ -63,7 +63,14 @@ models.Library.prototype.sync = function(method, model, success, error) {
 
         (new models.Favorites({}, {type:type})).fetch({
             success: function(coll, resp) {
-                data.assets = resp;
+                data.assets = _(resp).chain()
+                    .pluck('id')
+                    .filter(function(id) {
+                        var postgis = id.indexOf('pgsql://') === 0;
+                        return type === 'postgis' ? !!postgis : !postgis;
+                    })
+                    .map(function(id) { return { name:id, uri:id }})
+                    .value();
                 success(data);
             },
             error: function(coll, resp) { error(resp); }
