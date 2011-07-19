@@ -518,18 +518,8 @@ li:hover .actions { display:block; }
 .palette {
   position:relative;
   height:20px;
-  overflow:hidden;
-  padding:10px 20px 9px;
+  padding:10px 100px 9px 10px;
   border-bottom:1px solid #ddd;
-  }
-
-.palette .colors {
-  position:absolute;
-  left:10px;
-  top:10px;
-  right:90px;
-  height:20px;
-  overflow:hidden;
   }
 
 .palette .ref {
@@ -538,14 +528,29 @@ li:hover .actions { display:block; }
   top:10px;
   }
 
-.colors .button {
+.palette .colors {
+  height:20px;
   float:left;
-  border-radius:3px 0px 0px 3px;
-  -moz-border-radius:3px 0px 0px 3px;
-  -webkit-border-radius:3px 0px 0px 3px;
+  overflow:hidden;
+  }
+
+.palette .colors.active {
+  position:relative;
+  border:1px solid rgba(255,255,255,.75);
+  padding:4px;
+  margin:-5px;
+  height:auto;
+  z-index:101;
+  background:rgba(255,255,255,.5);
+  overflow:visible;
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
   }
 
 .swatch {
+  cursor:pointer;
+  position:relative;
   background:url(../images/sprite.png) -20px -220px no-repeat;
   width:20px;
   height:20px;
@@ -558,6 +563,56 @@ li:hover .actions { display:block; }
   width:20px;
   height:20px;
   }
+
+#colorpicker {
+  border-radius:3px;
+  background:rgba(48,48,48,.9);
+  color:#ccc;
+
+  cursor:default;
+  display:block;
+  position:absolute;
+  left:-100px;
+  top:30px;
+  width:200px;
+  padding:10px;
+  z-index:1;
+  }
+
+#colorpicker .caret {
+  width:30px;
+  height:15px;
+  background:url(../images/sprite.png) -40px -385px no-repeat;
+  position:absolute;
+  top:-15px;
+  left:50%;
+  margin-left:-15px;
+  }
+
+#colorpicker .buttons { text-align:center; }
+
+#colorpicker .button {
+  background:#222;
+  border-color:#666;
+  width:80px;
+  }
+
+#colorpicker .button:active {
+  box-shadow:inset #666 0px 0px 5px;
+  background:#444;
+  }
+
+#colorjack_square canvas {
+  position:static !important;
+  top:auto !important;
+  left:auto !important;
+  }
+
+#colorjack_square { height:175px !important; }
+#colorjack_square br { display:none; }
+#colorjack_square .hexBox { display:none; }
+#colorjack_square .hexClose { display:none; }
+#colorjack_square .hexString { display:none; }
 
 /**
  * Tabs

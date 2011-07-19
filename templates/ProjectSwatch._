@@ -1,3 +1,3 @@
-<span class='swatch'>
-  <span style='background-color:<%= color %>' class='color'></span>
+<span class='swatch' title='<%=color%>'>
+  <span style='background-color:<%=color%>' class='color'></span>
 </span>

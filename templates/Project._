@@ -35,9 +35,7 @@
 
   <div class='editor fill-e'>
     <div class='palette clearfix'>
-      <div class='colors'>
-        <a class='button' href='#colorpicker'><span class='icon reverse color-picker'>Colorpicker</span></a>
-      </div>
+      <div class='colors clearfix'></div>
       <div class='ref'>
         <a class='drawer button' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>
         <a class='drawer button' href='#carto'><span class='icon reverse reference'>Carto</span></a>

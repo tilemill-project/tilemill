@@ -18,6 +18,9 @@ view.prototype.events = {
     'click .editor a.delete': 'stylesheetDelete',
     'click pre.error': 'statusOpen',
     'click .status a[href=#close]': 'statusClose',
+    'click .swatch': 'colorOpen',
+    'click .swatch a[href=#save]': 'colorSave',
+    'click .swatch a[href=#close]': 'colorClose',
     'keydown': 'keydown'
 };
 
@@ -41,7 +44,10 @@ view.prototype.initialize = function() {
         'exportClose',
         'exportList',
         'statusOpen',
-        'statusClose'
+        'statusClose',
+        'colorOpen',
+        'colorSave',
+        'colorClose'
     );
     this.model.bind('change', this.change);
     this.render().attach();
@@ -163,30 +169,55 @@ view.prototype.attach = function() {
     // Rescan stylesheets for colors, dedupe, sort by luminosity
     // and render swatches for each one.
     _(function swatches() {
-        this.$('.colors span.swatch').remove();
+        this.$('.colors').empty();
         _(this.model.get('Stylesheet').pluck('data').join('\n')
             .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || []
         ).chain()
             .uniq(true)
-            .sortBy(function(c) {
-                var x = function(i, size) {
-                    return parseInt(c.substr(i, size), 16)
-                        / (Math.pow(16, size) - 1);
-                };
-                if (c[0] === '#' && c.length == 7) {
-                    return x(1, 2) + x(3, 2) + x(5, 2);
-                } else if (c[0] === '#' && c.length == 4) {
-                    return x(1, 1) + x(2, 1) + x(3, 1);
-                } else {
-                    var matches = c.match(/\d+/g);
-                    return matches[0]/255 + matches[1]/255 + matches[2]/255;
-                }
-            })
+            .sortBy(_(function(c) {
+                var rgb = this.css2rgb(c);
+                return rgb.R + rgb.G + rgb.B;
+            }).bind(this))
             .each(_(function(color) {
                 var swatch = templates.ProjectSwatch({color:color});
                 this.$('.colors').append(swatch);
             }).bind(this));
     }).bind(this)();
+};
+
+view.prototype.css2rgb = function(c) {
+    var x = function(i, size) {
+        return Math.round(parseInt(c.substr(i, size), 16)
+            / (Math.pow(16, size) - 1) * 255);
+    };
+    if (c[0] === '#' && c.length == 7) {
+        return {R:x(1, 2), G:x(3, 2), B:x(5, 2)};
+    } else if (c[0] === '#' && c.length == 4) {
+        return {R:x(1, 1), G:x(2, 1), B:x(3, 1)};
+    } else {
+        var rgb = c.match(/\d+/g);
+        return {R:rgb[0], G:rgb[1], B:rgb[2]};
+    }
+};
+
+view.prototype.rgb2hsv = function(rgb) {
+    var r = rgb[0], g = rgb[1], b = rgb[2],
+        min = Math.min(r, g, b),
+        max = Math.max(r, g, b),
+        delta = max - min,
+        h = 0,
+        s = 0,
+        l = (min + max) / 2;
+    if (l > 0 && l < 1) {
+        s = delta / (l < 0.5 ? (2 * l) : (2 - 2 * l));
+    }
+    if (delta > 0) {
+        if (max == r && max != g) h += (g - b) / delta;
+        if (max == g && max != b) h += (2 + (b - r) / delta);
+        if (max == b && max != r) h += (4 + (r - g) / delta);
+        h /= 6;
+    }
+    return [h, s, max];
 };
 
 view.prototype.change = function() {
@@ -392,6 +423,58 @@ view.prototype.statusOpen = function(ev) {
 
 view.prototype.statusClose = function(ev) {
     this.$('.status').removeClass('active');
+    return false;
+};
+
+view.prototype.colorOpen = function(ev) {
+    if (this.$('#colorpicker').size()) return;
+
+    var swatch = $(ev.currentTarget);
+    $('body').addClass('overlay');
+    this.$('.colors').addClass('active');
+    var find = swatch.attr('title');
+    var hsv = Color.RGB_HSV(this.css2rgb(find));
+    var picker = $(templates.Colorpicker({find:find}));
+    new Color.Picker({
+        hue: hsv.H,
+        sat: hsv.S,
+        val: hsv.V,
+        element: picker.get(0),
+        callback: _(function(hex) {
+            $('.color', swatch).css('backgroundColor', '#'+hex);
+        }).bind(this)
+    });
+    swatch.append(picker);
+};
+
+view.prototype.colorSave = function(ev) {
+    var swatch = $(ev.currentTarget).parents('.swatch');
+    var from = $('input[name=find]', swatch).val();
+    var to = $('.color', swatch).css('backgroundColor');
+    if (from) {
+        from = from.replace('(', '\\(').replace(')', '\\)');
+        from = new RegExp(from, 'g');
+        to = '#' + Color.HEX_STRING(Color.RGB_HEX(this.css2rgb(to)));
+        this.model.get('Stylesheet').each(function(s) {
+            var data = s.get('data').replace(from, to);
+            s.set({ data: data });
+            s.codemirror.setValue(data);
+        });
+        this.save();
+    }
+    $('body').removeClass('overlay');
+    this.$('.colors').removeClass('active');
+    this.$('#colorpicker').remove();
+    return false;
+};
+
+view.prototype.colorClose = function(ev) {
+    var swatch = $(ev.currentTarget).parents('.swatch');
+    var from = $('input[name=find]', swatch).val();
+    $('.color', swatch).css('backgroundColor', from);
+    $('body').removeClass('overlay');
+    this.$('.colors').removeClass('active');
+    this.$('#colorpicker').remove();
     return false;
 };
 

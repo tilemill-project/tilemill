@@ -8,7 +8,7 @@ servers['Route'].augment({
             require.resolve('../assets/css/code.css')
         ],
         scripts: [
-            // require.resolve('../assets/js/libraries/colorpicker/js/colorpicker.js'),
+            require.resolve('../assets/js/colorpicker.classic.js'),
             require.resolve('../assets/js/jquery.ui.js'),
             require.resolve('../build/vendor.js'),
             require.resolve('chrono/lib/chrono.js'),
