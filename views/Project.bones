@@ -195,29 +195,10 @@ view.prototype.attach = function() {
         .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || []
     ).chain()
         .uniq(true)
-        .sortBy(_(function(c) {
-            var rgb = this.css2rgb(c);
-            return rgb.R + rgb.G + rgb.B;
-        }).bind(this))
         .each(_(function(color) {
             var swatch = templates.ProjectSwatch({color:color});
             this.$('.colors').append(swatch);
         }).bind(this));
-};
-
-view.prototype.css2rgb = function(c) {
-    var x = function(i, size) {
-        return Math.round(parseInt(c.substr(i, size), 16)
-            / (Math.pow(16, size) - 1) * 255);
-    };
-    if (c[0] === '#' && c.length == 7) {
-        return {R:x(1, 2), G:x(3, 2), B:x(5, 2)};
-    } else if (c[0] === '#' && c.length == 4) {
-        return {R:x(1, 1), G:x(2, 1), B:x(3, 1)};
-    } else {
-        var rgb = c.match(/\d+/g);
-        return {R:rgb[0], G:rgb[1], B:rgb[2]};
-    }
 };
 
 view.prototype.change = function() {
@@ -439,6 +420,21 @@ view.prototype.statusOpen = function(ev) {
 view.prototype.statusClose = function(ev) {
     this.$('.status').removeClass('active');
     return false;
+};
+
+view.prototype.css2rgb = function(c) {
+    var x = function(i, size) {
+        return Math.round(parseInt(c.substr(i, size), 16)
+            / (Math.pow(16, size) - 1) * 255);
+    };
+    if (c[0] === '#' && c.length == 7) {
+        return {R:x(1, 2), G:x(3, 2), B:x(5, 2)};
+    } else if (c[0] === '#' && c.length == 4) {
+        return {R:x(1, 1), G:x(2, 1), B:x(3, 1)};
+    } else {
+        var rgb = c.match(/\d+/g);
+        return {R:rgb[0], G:rgb[1], B:rgb[2]};
+    }
 };
 
 view.prototype.colorOpen = function(ev) {
