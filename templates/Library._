@@ -4,7 +4,7 @@
   <a href='#favoritesPostGIS' class='button active'><span class='icon reverse labeled star'></span>Favorites</a>
   <% } else { %>
   <a href='#file' class='button active'><span class='icon reverse labeled file'></span>File</a>
-  <a href='#s3' class='button'><span class='icon reverse labeled cloud'></span>S3</a>
+  <a href='#s3' class='button'><span class='icon reverse labeled cloud'></span>MapBox</a>
   <a href='#favoritesFile' class='button'><span class='icon reverse labeled star'></span>Favorites</a>
   <% } %>
 </div></div>
