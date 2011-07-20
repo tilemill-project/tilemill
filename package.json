@@ -31,6 +31,7 @@
         "tilelive": "~ 3.0.3",
         "tilelive-mapnik": "~ 0.0.6",
         "underscore": "1.1.x",
+        "carto": "https://github.com/mapbox/carto/tarball/master",
         "wax": "https://github.com/mapbox/wax/tarball/abf06066575c63b84f952e658956d49ab8644d2a"
     },
     "devDependencies": {

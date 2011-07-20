@@ -8,6 +8,7 @@ view.prototype.events = {
     'click a[href=#favorite]': 'favoriteToggle',
     'keyup input[name=file], input[name=connection]': 'favoriteUpdate',
     'change input[name=file], input[name=connection]': 'favoriteUpdate',
+    'click a[href=#cacheLocal]': 'cacheLocal',
     'change select[name=srs-name]': 'nameToSrs',
     'keyup input[name=srs]': 'srsToName'
 };
@@ -23,6 +24,7 @@ view.prototype.initialize = function(options) {
         'browsePostGIS',
         'favoriteToggle',
         'favoriteUpdate',
+        'cacheLocal',
         'nameToSrs',
         'srsToName'
     );
@@ -82,12 +84,42 @@ view.prototype.favoriteToggle = function(ev) {
 };
 
 view.prototype.favoriteUpdate = function(ev) {
-    var uri = $(ev.currentTarget).val();
-    if (this.favorites.get(uri)) {
-        $(ev.currentTarget).siblings('a.favorite').addClass('active');
+    var target = $(ev.currentTarget);
+    var favorite = target.siblings('a.favorite');
+    var cache = target.siblings('.cache');
+    var uri = target.val();
+    if (uri.match(/^(pgsql:\/\/|\/[\w]+|http:\/\/)/)) {
+        favorite.removeClass('hidden');
+        if (uri === (this.model.get('Datasource') || {}).file) {
+            cache.removeClass('hidden');
+            var id = this.model.id;
+            var base = uri.split('/').pop();
+            var ext = _(base).indexOf('.') !== -1 ? base.split('.').pop() : '';
+            if (ext === 'zip' || ext === 'shp' || ext === '') {
+                $('.cachepath', cache).text(id + '/');
+            } else {
+                $('.cachepath', cache).text(id + '/' + id + '.' + ext);
+            }
+        } else {
+            cache.addClass('hidden');
+        }
+        if (this.favorites.get(uri)) {
+            favorite.addClass('active');
+        } else {
+            favorite.removeClass('active');
+        }
     } else {
-        $(ev.currentTarget).siblings('a.favorite').removeClass('active');
+        favorite.addClass('hidden');
+        cache.addClass('hidden');
     }
+    return false;
+};
+
+view.prototype.cacheLocal = function(ev) {
+    var target = $(ev.currentTarget);
+    var cachepath = target.siblings('.cachepath').text();
+    var input = target.parents('.cache').siblings('input[name=file]');
+    input.val(cachepath).change();
     return false;
 };
 

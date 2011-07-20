@@ -1040,6 +1040,10 @@ ul.form a.icon.favorite {
   margin-left:-25px;
   }
 
+ul.form .cache { font-size:11px; }
+ul.form .cache.hidden { display:none; }
+ul.form a.icon.favorite.hidden { visibility:hidden; }
+
 ul.form.expand li:not(.expand) {
   overflow:hidden;
   height:0px;

@@ -171,7 +171,8 @@ model = Backbone.Model.extend({
         // If client-side, pass-through.
         if (!Bones.server) return options.success(this, null);
 
-        var carto = require('tilelive-mapnik/node_modules/carto'),
+        var carto = require('carto'),
+        // var carto = require('tilelive-mapnik/node_modules/carto'),
             mapnik = require('tilelive-mapnik/node_modules/mapnik'),
             stylesheets = this.get('Stylesheet'),
             env = {
