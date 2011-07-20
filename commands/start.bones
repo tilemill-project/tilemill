@@ -11,7 +11,9 @@ commands['start'].options['port'] = {
 commands['start'].options['files'] = {
     'title': 'files=[path]',
     'description': 'Path to files directory.',
-    'default': path.join(process.cwd(), 'files')
+    'default': process.platform == 'darwin' ?
+        path.join(process.env.HOME, 'Documents', 'TileMill') :
+        path.join(process.env.HOME, 'tilemill')
 };
 
 // @TODO this used to be called `export_dir`. Migrate this value.
