@@ -42,7 +42,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
         map.initialize(this);
     },
     function(err) {
-        if (err) throw err;
+        if (err) return error(err);
 
         var ds = map.mapnik.describe_data()[options.id];
         datasource = {
