@@ -180,7 +180,10 @@ view.prototype.attach = function() {
     this.map.provider.options.maxzoom = this.model.get('maxzoom');
     this.map.setProvider(this.map.provider);
 
-    if (this.model.attributes.legend) {
+    this.map.controls.interaction.remove();
+    this.map.controls.interaction = wax.mm.interaction(this.map, this.model.attributes);
+
+    if (this.model.get('legend')) {
         this.map.controls.legend.content(this.model.attributes);
         this.map.controls.legend.appendTo(this.map.parent);
     } else {

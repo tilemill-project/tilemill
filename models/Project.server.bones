@@ -117,16 +117,7 @@ function loadProject(model, callback) {
         object.scheme = 'tms';
         object.tiles = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (object.format || 'png') + '?' + object._updated];
         object.grids = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?' + object._updated];
-        if (object.interactivity) object.formatter = (function(opts) {
-            opts = opts || {};
-            var full = opts.template_full || '';
-            var teaser = opts.template_teaser || '';
-            var location = opts.template_location || '';
-            full = _(full.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
-            teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
-            location = _(location.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
-            return _('function(o,d) { return {full:<%=full%>, teaser:<%=teaser%>, location:<%=location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
-        })(object.interactivity);
+        if (object.interactivity) object.formatter = compileFormatter(object.interactivity);
         this();
     },
     function(err) {
@@ -249,8 +240,19 @@ function saveProject(model, callback) {
         callback(err, {
             _updated: updated,
             tiles: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (model.get('format') || 'png') + '?' + updated],
-            grids: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?' + updated]
+            grids: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?' + updated],
+            formatter: model.get('interactivity') ? compileFormatter(model.get('interactivity')) : undefined
         });
     });
 };
 
+function compileFormatter(opts) {
+    opts = opts || {};
+    var full = opts.template_full || '';
+    var teaser = opts.template_teaser || '';
+    var location = opts.template_location || '';
+    full = _(full.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
+    teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
+    location = _(location.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
+    return _('function(o,d) { return {full:<%=full%>, teaser:<%=teaser%>, location:<%=location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
+}
