@@ -71,12 +71,6 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
         }
 
         map.destroy();
-        // Ignore unlink errors -- it's possible that because of
-        // concurrency someone else nukes the mapfile first.
-        fs.unlink(map.mapfile(), function(err) { this() }.bind(this));
-    },
-    function(err) {
-        if (err) return error(err);
         success(datasource);
     });
 };
