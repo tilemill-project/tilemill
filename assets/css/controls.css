@@ -1,7 +1,7 @@
 .wax-legends,
 .wax-tooltip {
   position:absolute;
-  z-index:999999;
+  z-index:9;
   right:10px;
   }
 
