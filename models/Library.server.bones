@@ -1,11 +1,13 @@
 var fs = require('fs');
 var Step = require('step');
 var path = require('path');
-var read = require('../lib/fsutil.js').read;
-var readdir = require('../lib/fsutil.js').readdir;
-var mkdirp = require('../lib/fsutil.js').mkdirp;
-var rm = require('../lib/fsutil.js').rm;
+var read = require('../lib/fsutil').read;
+var readdir = require('../lib/fsutil').readdir;
+var mkdirp = require('../lib/fsutil').mkdirp;
+var rm = require('../lib/fsutil').rm;
+var s3 = require('../lib/s3');
 var config = Bones.plugin.config;
+var url = require('url');
 
 // Extensions supported by TileMill. See `carto/lib/carto/external.js` for
 // the source of this list.
@@ -28,7 +30,10 @@ models.Library.prototype.sync = function(method, model, success, error) {
             data.id = model.id;
             data.location = location;
             data.assets = _(files).chain()
-                .sortBy(function(f) { return !f.isDirectory(); })
+                .sortBy(function(f) {
+                    var pre = f.isDirectory() ? 0 : 1;
+                    return pre + f.basename;
+                })
                 .map(function(f) {
                     var asset = { name: f.basename };
                     var local = path.join(location, f.basename);
@@ -49,10 +54,50 @@ models.Library.prototype.sync = function(method, model, success, error) {
     case 's3':
         // @TODO:
         var data = {};
+        var options = {};
         data.id = model.id;
-        data.location = 'tilemill-data';
+        data.location = model.get('location') || '';
         data.assets = [];
-        return success(data);
+        options.bucket = 'tilemill-data';
+        options.prefix = data.location;
+        s3.list(options, function(err, objects) {
+            if (err) return error(err);
+
+            data.assets = _(objects).chain()
+                .map(function(obj) {
+                    if (!obj.Key && !obj.Prefix) return;
+
+                    var filepath, isFile;
+                    if (obj.Key) {
+                        filepath = obj.Key[0].text;
+                        isFile = true;
+                    } else {
+                        filepath = obj.Prefix[0].text;
+                        isFile = false;
+                    }
+
+                    if (isFile && _(ext).include(path.extname(filepath))) {
+                        return {
+                            uri: url.format({
+                                protocol: 'http:',
+                                host: options.bucket + '.s3.amazonaws.com',
+                                pathname: filepath
+                            }),
+                            name: path.basename(filepath)
+                        };
+                    } else if (!isFile) {
+                        return { location: filepath, name: filepath };
+                    }
+                })
+                .compact()
+                .sortBy(function(asset) {
+                    var pre = asset.location ? 0 : 1;
+                    return pre + asset.name;
+                })
+                .value();
+            return success(data);
+        });
+        break;
     case 'favoritesFile':
     case 'favoritesPostGIS':
         var type = model.id.split('favorites').pop().toLowerCase();
