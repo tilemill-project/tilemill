@@ -13,6 +13,9 @@
 <% if (model.id === 'file') { %>
   <a href='#/' class='location'>Data</a><span class='sep description'>/</span>
 <% } %>
+<% if (model.id === 's3') { %>
+  <a href='#' class='location'>tilemill-data</a><span class='sep description'>/</span>
+<% } %>
 <% _(breadcrumb).each(function(part) { %>
   <a href='#<%= part %>' class='location'><%= part.split('/').pop() %></a><span class='sep description'>/</span>
 <% }); %>
