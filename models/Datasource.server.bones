@@ -42,7 +42,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
         map.initialize(this);
     },
     function(err) {
-        if (err) throw err;
+        if (err) return error(err);
 
         var ds = map.mapnik.describe_data()[options.id];
         datasource = {
@@ -71,12 +71,6 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
         }
 
         map.destroy();
-        // Ignore unlink errors -- it's possible that because of
-        // concurrency someone else nukes the mapfile first.
-        fs.unlink(map.mapfile(), function(err) { this() }.bind(this));
-    },
-    function(err) {
-        if (err) return error(err);
         success(datasource);
     });
 };

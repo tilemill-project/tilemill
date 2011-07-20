@@ -23,14 +23,13 @@
     "dependencies": {
         "backbone-dirty": "1.1.x",
         "bones": "1.3.x",
-        "generic-pool": "1.0.x",
         "JSV": "3.5.x",
         "mbtiles": "0.0.x",
         "sax": "0.1.x",
         "request": "1.9.x",
         "step": "0.0.x",
-        "tilelive": "3.0.x",
-        "tilelive-mapnik": "0.0.x",
+        "tilelive": "~ 3.0.3",
+        "tilelive-mapnik": "~ 0.0.6",
         "underscore": "1.1.x",
         "wax": "https://github.com/mapbox/wax/tarball/abf06066575c63b84f952e658956d49ab8644d2a"
     },

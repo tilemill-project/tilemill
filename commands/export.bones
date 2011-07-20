@@ -50,8 +50,8 @@ command.options['url'] = {
 
 command.prototype.initialize = function(plugin, callback) {
     var opts = plugin.config;
-    opts.datasource = plugin.argv._[1];
-    opts.filepath = plugin.argv._[2];
+    opts.datasource = path.resolve(plugin.argv._[1]);
+    opts.filepath = path.resolve(plugin.argv._[2]);
     callback = callback || function() {};
     this.opts = opts;
 
@@ -163,6 +163,7 @@ command.prototype.mbtiles = function (data, callback) {
         filepath: data.filepath,
         bbox: data.bbox,
         format: project.format || 'png',
+        metatile: 4,
         // @TODO: probably should be at `serve` key.
         // interactivity: that.data.interactivity,
         minzoom: data.minzoom || project.minzoom || 0,
