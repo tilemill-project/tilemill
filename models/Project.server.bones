@@ -193,10 +193,7 @@ function saveProject(model, callback) {
                         l.Datasource.file[0] !== '/') return false;
                     if (l.Datasource.file === file.origin) return false;
                 }
-                if (file.basename[0] === '.') return false;
-                if (file.basename === model.id + '.mml') return false;
-                if (_(stylesheets).include(file.basename)) return false;
-                return true;
+                return false;
             })
             .each(function(file) {
                 rm(path.join(modelPath, file.basename), group());
