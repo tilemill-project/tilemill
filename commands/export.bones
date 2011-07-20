@@ -173,7 +173,8 @@ command.prototype.mbtiles = function (data, callback) {
             name: project.name || '',
             description: project.description || '',
             version: project.version || '1.0.0',
-            formatter: project.formatter || ''
+            formatter: project.formatter || '',
+            legend: project.legend || ''
         }
     });
 
