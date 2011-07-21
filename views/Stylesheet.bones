@@ -11,6 +11,9 @@ view.prototype.initialize = function(options) {
 
 view.prototype.render = function() {
     this.$('.content').html(templates.Stylesheet({}));
+
+    // Autofocus first field.
+    this.$('input[type=text]:first').focus();
     return this;
 };
 

@@ -20,6 +20,9 @@ view.prototype.render = function() {
         step:1,
         slide: this.zoom
     });
+
+    // Focus name field for unnamed projects.
+    if (!this.model.get('name')) this.$('input[type=text]:first').focus();
     return this;
 };
 

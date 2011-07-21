@@ -46,6 +46,9 @@ view.prototype.render = function() {
             this.$('a[href=#layerPostGIS]').click();
         }
     }
+
+    // Autofocus first field for new layers.
+    if (!this.model.id) this.$('input[type=text]:first').focus();
     return this;
 };
 
