@@ -96,14 +96,14 @@ command.prototype.initialize = function(plugin, callback) {
     // Set process title.
     process.title = 'tm-' + path.basename(opts.filepath);
 
-    // Kickoff export function.
-    this[opts.format](opts, callback);
-
     // Catch SIGINT.
     process.on('SIGINT', function () {
       console.log('Got SIGINT. Press Control-D to exit.');
     });
     process.on('SIGUSR1', process.exit);
+
+    // Kickoff export function.
+    this[opts.format](opts, callback);
 };
 
 command.prototype.error = function(err) {
