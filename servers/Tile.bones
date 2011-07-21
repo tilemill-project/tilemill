@@ -61,6 +61,9 @@ server.prototype.grid = function(req, res, next) {
 
     // Force jsonp.
     req.query.callback = 'grid';
+
+    var interactivity = res.project.get('interactivity');
+    res.projectMML.interactivity.fields = models.Project.fields(interactivity);
     next();
 };
 
