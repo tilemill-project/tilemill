@@ -9,6 +9,7 @@ view.prototype.events = {
     'keyup input[name=file], input[name=connection]': 'favoriteUpdate',
     'change input[name=file], input[name=connection]': 'favoriteUpdate',
     'click a[href=#cacheLocal]': 'cacheLocal',
+    'click a[href=#cacheFlush]': 'cacheFlush',
     'change select[name=srs-name]': 'nameToSrs',
     'keyup input[name=srs]': 'srsToName'
 };
@@ -25,6 +26,7 @@ view.prototype.initialize = function(options) {
         'favoriteToggle',
         'favoriteUpdate',
         'cacheLocal',
+        'cacheFlush',
         'nameToSrs',
         'srsToName'
     );
@@ -123,6 +125,21 @@ view.prototype.cacheLocal = function(ev) {
     var cachepath = target.siblings('.cachepath').text();
     var input = target.parents('.cache').siblings('input[name=file]');
     input.val(cachepath).change();
+    return false;
+};
+
+view.prototype.cacheFlush = function(ev) {
+    $(this.el).addClass('loading');
+    this.model.collection.parent.flush(this.model.id, {
+        success: _(function(m, resp) {
+            $(this.el).removeClass('loading');
+            this.$('.cache').addClass('hidden');
+        }).bind(this),
+        error: _(function(m, err) {
+            $(this.el).removeClass('loading');
+            new views.Modal(err);
+        }).bind(this)
+    });
     return false;
 };
 

@@ -130,6 +130,10 @@ model = Backbone.Model.extend({
         'Stylesheet': [],
         'Layer': []
     },
+    // Set model options to `this.options`.
+    initialize: function(attributes, options) {
+        this.options = options;
+    },
     // Custom setDefaults() method for creating a project with default layers,
     // stylesheets, etc. Note that we do not use Backbone native initialize()
     // or defaults(), both of which make default values far pervasive than the
@@ -252,6 +256,27 @@ model = Backbone.Model.extend({
                 if (!_(resp).keys().length) return;
                 if (!this.set(this.parse(resp))) return;
                 this.trigger('poll', this, resp);
+            }).bind(this)
+        });
+    },
+    // Hit the project flush endpoint.
+    flush: function(layer, options) {
+        if (Bones.server) throw Error('Client-side method only.');
+        if (!this.get('Layer').get(layer)) throw Error('No layer ' + layer + ' found.');
+
+        $.ajax({
+            url: this.url() + '/' + layer,
+            type: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify({'bones.token':Backbone.csrf(this.url())}),
+            dataType: 'json',
+            processData: false,
+            success: _(function(resp) {
+                this.trigger('change');
+                if (options.success) options.success(this, resp);
+            }).bind(this),
+            error: _(function(resp) {
+                if (options.error) options.error(this, resp);
             }).bind(this)
         });
     }

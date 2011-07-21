@@ -51,7 +51,46 @@ models.Project.prototype.sync = function(method, model, success, error) {
             }
         });
         break;
+    // Custom sync method to flush the cache for a specific model. Requires
+    // `model.options.layer` to be set.
+    case 'flush':
+        flushProject(model, function(err, model) {
+            return err ? error(err) : success(model);
+        });
+        break;
     }
+};
+
+// Flush the cache for a project's layer.
+function flushProject(model, callback) {
+    if (!model.options || !model.options.layer)
+        return callback(new Error('options.layer required.'));
+
+    var layer = model.options.layer;
+    var modelPath = path.join(settings.files, 'project', model.id);
+
+    Step(function() {
+        read(path.join(modelPath, model.id) + '.mml', this);
+    },
+    function(err, file) {
+        if (err) throw err;
+
+        // Check that the layer exists.
+        try { var project = JSON.parse(file.data); }
+        catch(err) { throw err; }
+        if (!_(project.Layer).chain().pluck('id').include(layer).value())
+            throw new Error('Layer not found.');
+        fs.stat(path.join(modelPath, layer), this);
+    },
+    function(err, stat) {
+        if (err) throw err;
+        if (!stat.isDirectory()) throw new Error('Cache is not a directory.');
+        rm(path.join(modelPath, layer), this);
+    },
+    function(err) {
+        if (err) return callback(err);
+        return callback(null);
+    });
 };
 
 // Get the mtime for a project.
@@ -60,6 +99,7 @@ function mtimeProject(model, callback) {
     readdir(modelPath, function(err, files) {
         if (err) return callback(err);
         var max = _(files).chain()
+            .filter(function(stat) { return stat.isFile() })
             .pluck('mtime')
             .map(Date.parse)
             .max()
@@ -189,40 +229,6 @@ function saveProject(model, callback) {
     var modelPath = path.join(settings.files, 'project', model.id);
     Step(function() {
         mkdirp(modelPath, 0777, this);
-    },
-    function(err) {
-        if (err) throw err;
-        readdir(modelPath, this);
-    },
-    function(err, files) {
-        if (err) throw err;
-
-        // Remove any stale files in the project directory.
-        var layers = _(model.get('Layer')).pluck('name');
-        var stylesheets = _(model.get('Stylesheet')).pluck('id') || [];
-        var group = this.group();
-        _(files).chain()
-            .select(function(file) {
-                // - Directory does not match a layer name. Valid.
-                // - Directory name and origin match a layer. Valid.
-                // - Directory name matches and uri is a relative path. Valid.
-                // - Directory name matches but origin does not. Stale or
-                //   broken cache. Cleanup.
-                if (file.isDirectory()) {
-                    var index = layers.indexOf(file.basename);
-                    var l = model.get('Layer')[index];
-                    if (index === -1) return false;
-                    if (!l.Datasource.file) return false;
-                    if (l.Datasource.file.search('http') !== 0 &&
-                        l.Datasource.file[0] !== '/') return false;
-                    if (l.Datasource.file === file.origin) return false;
-                }
-                return false;
-            })
-            .each(function(file) {
-                rm(path.join(modelPath, file.basename), group());
-            });
-        group()();
     },
     function(err) {
         if (err) throw err;
