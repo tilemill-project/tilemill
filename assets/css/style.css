@@ -994,6 +994,13 @@ ul.form select + span.description,
 ul.form input + div.description { margin-top:10px; }
 ul.form select { width:120px; }
 
+ul.form .preview {
+  background:#eee;
+  margin:5px 0px 0px;
+  padding:0px 10px;
+  max-width:300px;
+  }
+
 /* Slider widget */
 .progress,
 .ui-slider {
