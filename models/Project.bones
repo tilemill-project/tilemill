@@ -188,8 +188,7 @@ model = Backbone.Model.extend({
         if (!Bones.server) return options.success(this, null);
 
         var carto = require('carto'),
-        // var carto = require('tilelive-mapnik/node_modules/carto'),
-            mapnik = require('tilelive-mapnik/node_modules/mapnik'),
+            mapnik = require('mapnik'),
             stylesheets = this.get('Stylesheet'),
             env = {
                 returnErrors: true,

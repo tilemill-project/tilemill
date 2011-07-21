@@ -1,10 +1,9 @@
-var mapnik = require('tilelive-mapnik/node_modules/mapnik');
+var mapnik = require('mapnik');
 var path = require('path');
 var env = process.env.NODE_ENV || 'development';
 
 var abilities = {
     carto: require('carto').tree.Reference.data,
-    // carto: require('tilelive-mapnik/node_modules/carto').tree.Reference.data,
     fonts: mapnik.fonts(),
     datasources: mapnik.datasources(),
     exports: {

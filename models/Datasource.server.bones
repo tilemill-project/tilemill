@@ -1,7 +1,7 @@
 var path = require('path');
+var url = require('url');
 var fs = require('fs');
-var mapnik = require('tilelive-mapnik/node_modules/mapnik');
-var Map = require('tilelive-mapnik').Map;
+var tilelive = require('tilelive');
 var Step = require('step');
 
 // @TODO this is rather messy atm - it caches the datasource to
@@ -25,53 +25,66 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
         Layer: [{
             name: options.id,
             Datasource: _({
-                file: options.url,
+                file: options.file,
                 type: options.ds_type
             }).extend(options),
             srs: SRS
         }]
     };
-    var env = {
-        data_dir: path.join(config.files, 'project', options.project),
-        local_data_dir: path.join(config.files, 'project', options.project)
-    };
-    var map = new Map(mml, env);
-    var datasource;
 
-    Step(function() {
-        map.initialize(this);
-    },
-    function(err) {
+    // We abuse tilelive-mapnik and use a faked MML object to localize data
+    // into the project directory.
+    var id = options.project;
+    var uri = {
+        protocol: 'mapnik:',
+        slashes: true,
+        pathname: path.join(config.files, 'project', id, id + '.mml'),
+        query: {
+            // Note: data_file is only used to force a different cache key.
+            data_file: options.file,
+            data_dir: path.join(config.files, 'project', options.project),
+            local_data_dir: path.join(config.files, 'project', options.project)
+        },
+        data: mml
+    };
+
+    tilelive.load(uri, function(err, source) {
         if (err) return error(err);
 
-        var ds = map.mapnik.describe_data()[options.id];
-        datasource = {
-            id: options.id,
-            project: options.project,
-            url: options.url,
-            fields: ds.fields,
-            features: options.features ? map.mapnik.features(0, 1000) : [],
-            type: ds.type,
-            geometry_type: ds.type === 'raster' ? 'raster' : ds.geometry_type
-        };
+        // @TODO: We're accessing the internals of tilelive-mapnik.
+        // This may or may not be a good idea.
+        source._pool.acquire(function(err, map) {
+            if (err) return error(err);
 
-        // Process fields and calculate min/max values.
-        for (var f in datasource.fields) {
-            datasource.fields[f] = {
-                type: datasource.fields[f],
-                max: _(datasource.features).chain().pluck(f)
-                    .max(function(v) {
-                        return _(v).isString() ? v.length : v;
-                    }).value(),
-                min: _(datasource.features).chain().pluck(f)
-                    .min(function(v) {
-                        return _(v).isString() ? v.length : v;
-                    }).value()
+            var ds = map.describe_data()[options.id];
+            var datasource = {
+                id: options.id,
+                project: options.project,
+                url: options.file,
+                fields: ds.fields,
+                features: options.features ? map.features(0, 1000) : [],
+                type: ds.type,
+                geometry_type: ds.type === 'raster' ? 'raster' : ds.geometry_type
             };
-        }
 
-        map.destroy();
-        success(datasource);
+            // Process fields and calculate min/max values.
+            for (var f in datasource.fields) {
+                datasource.fields[f] = {
+                    type: datasource.fields[f],
+                    max: _(datasource.features).chain().pluck(f)
+                        .max(function(v) {
+                            return _(v).isString() ? v.length : v;
+                        }).value(),
+                    min: _(datasource.features).chain().pluck(f)
+                        .min(function(v) {
+                            return _(v).isString() ? v.length : v;
+                        }).value()
+                };
+            }
+
+            source._pool.release(map);
+            success(datasource);
+        });
     });
 };
 
