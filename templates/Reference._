@@ -11,6 +11,10 @@
 
 <div class='section section-intro active'>
 
+<h2>Get Started</h2>
+
+<p>Learn the basics of TileMill by reading <a href="http://tilemill.com/manual.html">the manual</a> online.</p>
+
 <h2>Selectors</h2>
 
 <p><a href='http://www.tilemill.com'>TileMill</a> supports the <a href="https://github.com/mapbox/carto">carto</a> map styling language. It should be familiar to CSS users and easy to pick up for everyone else.</p>
