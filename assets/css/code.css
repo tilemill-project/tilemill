@@ -1,10 +1,15 @@
+@font-face {
+  font-family:'Droid Sans Mono';
+  src:url('../fonts/DroidSansMono.ttf');
+  }
+
 div.CodeMirror {
   height:100%;
   background:#fff;
   color:#222;
   padding:0px;
   margin:0px;
-  font:13px/20px monospace;
+  font:12px/18px "Droid Sans Mono",monospace;
   }
 
 div.CodeMirror-lines,
