@@ -5,14 +5,10 @@ view.prototype.events = {
 };
 
 view.prototype.initialize = function(options) {
-    Bones.intervals = Bones.intervals || {};
-    Bones.intervals.exports = Bones.intervals.exports ||
-        setInterval(_(this.collection.fetch).bind(this.collection), 5000);
-
-    _(this).bindAll('render', 'exportDelete', 'stop');
-    this.collection.bind('all', this.render, this.stop);
-    this.collection.bind('all', this.stop);
-    this.render(true);
+    _(this).bindAll('render', 'exportDelete', 'poll');
+    this.collection.bind('all', this.render);
+    this.collection.bind('all', this.poll);
+    this.render(true).poll();
 };
 
 view.prototype.render = function(force) {
@@ -34,10 +30,24 @@ view.prototype.exportDelete = function(ev) {
     return false;
 };
 
-view.prototype.stop = function(ev) {
-    // Stop polling if drawer has be replaced with other content.
-    if (!this.$('.content ul.exports').size()) {
+// Poll controller.
+// - Starts polling if exports are active and drawer shows this view.
+// - Stops polling under all other conditions.
+view.prototype.poll = function() {
+    Bones.intervals = Bones.intervals || {};
+
+    var active =
+        this.collection.any(function(m) {
+            return _(['waiting','processing']).include(m.get('status'))
+        })
+        && $('#drawer').is('.active')
+        && this.$('ul.exports').size();
+
+    if (active && !Bones.intervals.exports) {
+        var fetch = _(this.collection.fetch).bind(this.collection);
+        Bones.intervals.exports = setInterval(fetch, 5000);
+    } else if (!active && Bones.intervals.exports) {
         clearInterval(Bones.intervals.exports);
         Bones.intervals.exports = null;
     }
-}
+};
