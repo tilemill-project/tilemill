@@ -19,7 +19,7 @@ var start = function(model, data, callback) {
         // datasource
         args.push(path.join(settings.files, 'project', data.project, data.project + '.mml'));
         // filepath
-        args.push(path.join(settings['export'], data.filename));
+        args.push(path.join(settings.files, 'export', data.filename));
         // url, @TODO: need proper host info.
         args.push('--url=' + 'http://localhost:'+settings.port+'/api/Export/'+data.id);
 

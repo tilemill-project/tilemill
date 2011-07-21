@@ -1,4 +1,5 @@
 var mapnik = require('tilelive-mapnik/node_modules/mapnik');
+var path = require('path');
 var env = process.env.NODE_ENV || 'development';
 
 var abilities = {
@@ -33,7 +34,7 @@ server.prototype.initialize = function(app) {
 
     // Add static provider to download exports.
     this.use('/export/download', middleware['static'](
-        this.config['export'],
+        path.join(this.config.files, 'export'),
         { maxAge: env === 'production' ? 3600000 : 0 } // 1 hour
     ));
 };

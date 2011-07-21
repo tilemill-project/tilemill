@@ -15,23 +15,19 @@ commands['start'].options['files'] = {
     'default': path.join(process.env.HOME, 'Documents', 'TileMill')
 };
 
-// @TODO this used to be called `export_dir`. Migrate this value.
-commands['start'].options['export'] = {
-    'title': 'export=[path]',
-    'description': 'Path to export directory.',
-    'default': path.join(process.env.HOME, 'Documents', 'TileMill', 'export')
-};
-
 commands['start'].prototype.bootstrap = function(plugin, callback) {
     var settings = Bones.plugin.config;
     if (!path.existsSync(settings.files)) {
         console.warn('Creating files dir %s', settings.files);
         fsutil.mkdirpSync(settings.files, 0755);
     }
-    if (!path.existsSync(settings['export'])) {
-        console.warn('Creating export dir %s', settings['export']);
-        fsutil.mkdirpSync(settings['export'], 0755);
-    }
+    ['export', 'project', 'data'].forEach(function(key) {
+        var dir = path.join(settings.files, key);
+        if (!path.existsSync(dir)) {
+            console.warn('Creating %s dir %s', key, dir);
+            fsutil.mkdirpSync(dir, 0755);
+        }
+    });
 
     // @TODO: Better infrastructure for handling updates.
     // Update 1: Migrate to new backbone-dirty key format.

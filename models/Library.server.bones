@@ -23,7 +23,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
     case 'file':
         // @TODO: disallow .. and other nasty things.
         var location = model.get('location') || '/';
-        var filepath = path.join(config.files, location);
+        var filepath = path.join(config.files, 'data', location);
         readdir(filepath, function(err, files) {
             if (err) return error(err);
             var data = {};
