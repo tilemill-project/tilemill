@@ -32,11 +32,11 @@
         "tilelive": "~ 3.0.3",
         "tilelive-mapnik": "~ 0.0.6",
         "underscore": "1.1.x",
-        "carto": "https://github.com/mapbox/carto/tarball/master",
+        "carto": "https://github.com/mapbox/carto/tarball/b84f22830336235aaf6fdaf64fb963a6f6a087b4",
         "wax": "https://github.com/mapbox/wax/tarball/abf06066575c63b84f952e658956d49ab8644d2a"
     },
     "devDependencies": {
-        "expresso" : "0.7.x",
+        "expresso" : "0.8.x",
         "jshint": "0.2.x",
         "docco": "0.3.x"
     },
