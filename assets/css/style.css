@@ -682,7 +682,16 @@ small { font-size:11px; }
   background:#aaa url(../images/sprite.png) 0px 10px repeat-x;
   }
 
-.dock form { display:none; }
+.dock form {
+  display:none;
+  overflow:auto;
+  position:absolute;
+  top:0px;
+  left:60px;
+  right:0px;
+  bottom:0px;
+  }
+
 .dock form.active { display:block; }
 
 /**
@@ -1031,9 +1040,7 @@ ul.form select { width:120px; }
 .ui-slider-handle:first-of-type { margin-left:-8px; }
 .ui-slider-handle:last-of-type { margin-left:-8px; }
 
-/**
- * Libraries
- */
+/* Libraries */
 ul.form a.icon.favorite {
   display:inline-block;
   margin-left:-25px;
@@ -1055,10 +1062,10 @@ ul.form .browser {
   display:none;
   background:#fff;
   position:absolute;
-  left:60px;
   top:130px;
-  bottom:0px;
+  left:0px;
   right:0px;
+  bottom:0px;
   }
 
 ul.form.expand .browser { display:block; }
@@ -1116,29 +1123,7 @@ ul.form.expand .browser { display:block; }
 
 .library .assets a .icon.folder { opacity:.5; }
 
-/* Special sauce */
-ul::-webkit-scrollbar,
-div::-webkit-scrollbar {
-  height:8px;
-  width:8px;
-  background:#eee;
-  border-radius:4px;
-  }
-
-ul::-webkit-scrollbar-thumb,
-div::-webkit-scrollbar-thumb {
-  border-radius:4px;
-  background:#aaa;
-  }
-
-ul::-webkit-scrollbar-thumb:vertical,
-div::-webkit-scrollbar-thumb:vertical { height:25px; }
-ul::-webkit-scrollbar-thumb:horizontal,
-div::-webkit-scrollbar-thumb:horizontal { width:25px; }
-
-/**
- * Manual
- */
+/* Manual */
 .manual {}
 
 .manual .toggler {
@@ -1202,9 +1187,7 @@ div::-webkit-scrollbar-thumb:horizontal { width:25px; }
 .prose .CodeMirror-scroll { height:auto; }
 .prose .CodeMirror-lines { padding:0px 0px 0px 20px; }
 
-/**
- * Features inspection table
- */
+/* Features inspection table */
 table {
   font-size:11px;
   width:100%;
@@ -1233,9 +1216,7 @@ th.header { cursor:pointer; }
   padding:10px;
   }
 
-/**
- * Font reference
- */
+/* Font reference */
 div.fonts { padding-top:30px; }
 
 .fonts .toggler {
@@ -1300,9 +1281,7 @@ div.fonts { padding-top:30px; }
 
 .fonts .font.insert .description { visibility:visible; }
 
-/**
- * Exports
- */
+/* Exports */
 .exports li {
   position:relative;
   padding:5px 10px 4px 50px;
