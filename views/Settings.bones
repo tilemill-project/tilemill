@@ -2,12 +2,28 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click input[type=submit]': 'save',
-    'change select[name=layer]': 'attach'
+    'change select[name=layer]': 'attach',
+    'keyup input[name=template_location]': 'preview',
+    'keyup textarea[name=template_teaser]': 'preview',
+    'keyup textarea[name=template_full]': 'preview'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'save', 'attach', 'zoom');
+    _(this).bindAll('render', 'save', 'attach', 'zoom', 'preview');
     this.render().attach();
+};
+
+view.prototype.preview = function(ev) {
+    var target = $(ev.currentTarget);
+    var format = target.attr('name').split('template_').pop();
+    var formatter = _(target.val().replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
+    var feature = this.datasource.get('features')[0];
+    try {
+        var preview = formatter(feature);
+        target.siblings('.preview').html(preview);
+    } catch(err) {
+        target.siblings('.preview').html(err.toString());
+    }
 };
 
 view.prototype.render = function() {
@@ -34,7 +50,6 @@ view.prototype.zoom = function(ev, ui) {
 view.prototype.save = function() {
     var interactivity = this.$('select[name=layer]').val() ? {
         'layer': this.$('select[name=layer]').val(),
-        'key_name': this.$('select[name=key_name]').val(),
         'template_teaser': this.$('textarea[name=template_teaser]').val(),
         'template_full': this.$('textarea[name=template_full]').val(),
         'template_location': this.$('input[name=template_location]').val(),
@@ -84,30 +99,33 @@ view.prototype.attach = function() {
         return;
     }
 
-    $('#popup').addClass('loading');
-    var model = new models.Datasource(_(layer.get('Datasource')).extend({
-        id: layer.get('id'),
-        project: this.model.get('id')
-    }));
-    model.fetchFeatures({
-        success: _(function(model) {
-            var fields = _(model.get('fields')).keys();
+    var update = _(function(model) {
+        var fields = _(model.get('fields')).keys();
 
-            this.$('select[name=key_name]').html(_(fields).map(function(f) {
-                return _("<option value='<%=f%>'><%=f%></option>").template({f:f});
-            }).join(' '));
-            this.$('select[name=key_name]').val((this.model.get('interactivity') || {}).key_name);
+        this.$('.tokens').html(_(fields).map(function(f) {
+            return _('<code>[<%=f%>]</code>').template({f:f});
+        }).join(' '));
 
-            this.$('.tokens').html(_(fields).map(function(f) {
-                return _('<code>[<%=f%>]</code>').template({f:f});
-            }).join(' '));
+        this.$('.dependent').show();
+        $('#popup').removeClass('loading');
+    }).bind(this);
 
-            this.$('.dependent').show();
-            $('#popup').removeClass('loading');
-        }).bind(this),
-        error: function(model, err) { new views.Modal(err); }
-    });
-
+    // Cache the datasource model to `this.datasource` so it can
+    // be used to live render/preview the formatters.
+    if (!this.datasource || this.datasource.id !== layer.get('id')) {
+        $('#popup').addClass('loading');
+        var attr = _(layer.get('Datasource')).chain()
+            .clone()
+            .extend({id: layer.get('id'), project: this.model.get('id')})
+            .value();
+        this.datasource = new models.Datasource(attr);
+        this.datasource.fetchFeatures({
+            success: update,
+            error: function(model, err) { new views.Modal(err); }
+        });
+    } else {
+        update(this.datasource);
+    }
     if (!layer) return;
 };
 

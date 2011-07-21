@@ -7,7 +7,7 @@
   <form class='settingsProject active'><ul class='form'>
     <li class='text'>
       <h2>Project information</h2>
-      <div class='description'>Adjust metadata for this </div>
+      <div class='description'>Adjust metadata for this project.</div>
     </li>
     <li>
       <label for='name'>Name</label>
@@ -66,7 +66,7 @@
   <form class='settingsTooltips interactivity'><ul class='form'>
     <li class='text'>
       <h2>Tooltips</h2>
-      <div class='description'>Adjust interaction settings for this </div>
+      <div class='description'>Adjust interaction settings for this project.</div>
     </li>
     <li>
       <label>Layer</label>
@@ -79,11 +79,6 @@
       <span class='description'>Layer to use for interaction data</span>
     </li>
     <li class='dependent'>
-      <label>Key name</label>
-      <select name='key_name'></select>
-      <span class='description'>Field containing unique IDs for features on this layer</span>
-    </li>
-    <li class='dependent'>
       <label>Fields</label>
       <div class='description'>
         These tokens will be replaced by data in the templates below:
@@ -93,17 +88,17 @@
     <li class='dependent'>
       <label>Location</label>
       <input type='text' size='60' name='template_location' value='<%= (get('interactivity') || {}).template_location %>' placeholder='http://www.example.com' />
-      <div class='description'>URL that clients can optionally navigate to on click.</div>
+      <div class='preview'></div>
     </li>
     <li class='dependent'>
-      <label>Teaser</label>
+      <label>Teaser<small class='description'>HTML</small></label>
       <textarea cols='60' rows='2' name='template_teaser'><%= (get('interactivity') || {}).template_teaser %></textarea>
-      <div class='description'>HTML markup for teaser tooltips.</div>
+      <div class='preview'></div>
     </li>
     <li class='dependent'>
-      <label>Full</label>
+      <label>Full<small class='description'>HTML</small></label>
       <textarea cols='60' rows='2' name='template_full'><%= (get('interactivity') || {}).template_full %></textarea>
-      <div class='description'>HTML markup for full tooltips.</div>
+      <div class='preview'></div>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
