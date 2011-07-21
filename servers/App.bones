@@ -17,9 +17,12 @@ server = Bones.Server.extend({});
 
 server.prototype.initialize = function(app) {
     this.config = app.config;
-    _(this).bindAll('index', 'abilities');
+    _(this).bindAll('index', 'abilities', 'projectPoll');
     this.get('/', this.index);
     this.get('/assets/tilemill/js/abilities.js', this.abilities);
+
+    // Poll endpoint for Project model.
+    this.get('/api/Project/:id/:time(\\d+)', this.projectPoll);
 
     // Add static provider to download exports.
     this.use('/export/download', middleware['static'](
@@ -37,3 +40,10 @@ server.prototype.abilities = function(req, res, next) {
     res.send(js, {'Content-type': 'text/javascript'});
 };
 
+server.prototype.projectPoll = function(req, res, next) {
+    var model = new models.Project({
+        id: req.param('id'),
+        _updated: req.param('time')
+    });
+    model.sync('mtime', model, res.send.bind(res), next);
+};

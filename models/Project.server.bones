@@ -36,7 +36,36 @@ models.Project.prototype.sync = function(method, model, success, error) {
             return err ? error(err) : success(model);
         });
         break;
+    // Custom sync method for Project model. A sync request is made with the
+    // `_updated` attr of the model set. The mtime of the model is first
+    // checked -- if it is later than the provided time a full read is done,
+    // otherwise no attributes are returned to be updated.
+    case 'mtime':
+        mtimeProject(model, function(err, mtime) {
+            if (mtime > model.get('_updated')) {
+                loadProject(model, function(err, model) {
+                    return err ? error(err) : success(model);
+                });
+            } else {
+                success({});
+            }
+        });
+        break;
     }
+};
+
+// Get the mtime for a project.
+function mtimeProject(model, callback) {
+    var modelPath = path.join(settings.files, 'project', model.id);
+    readdir(modelPath, function(err, files) {
+        if (err) return callback(err);
+        var max = _(files).chain()
+            .pluck('mtime')
+            .map(Date.parse)
+            .max()
+            .value();
+        callback(null, max);
+    });
 };
 
 // Load a single project model.
@@ -44,18 +73,21 @@ function loadProject(model, callback) {
     var modelPath = path.join(settings.files, 'project', model.id);
     var object = {};
     Step(function() {
+        mtimeProject(model, this);
+    },
+    function(err, mtime) {
+        object._updated = mtime;
         read(path.join(modelPath, model.id) + '.mml', this);
     },
     function(err, file) {
         if (err) throw new Error('Error reading model file.');
         try {
-            object = JSON.parse(file.data);
+            object = _(object).extend(JSON.parse(file.data));
         } catch(err) {
             throw err;
         }
 
         object.id = model.id;
-        object._updated = Date.parse(file.mtime);
         if (object.Stylesheet && object.Stylesheet.length > 0) {
             var group = this.group();
             object.Stylesheet.forEach(function(filename) {
@@ -67,15 +99,6 @@ function loadProject(model, callback) {
     },
     function(err, stylesheets) {
         if (err) throw err;
-
-        // Retrive the most current modified time from all stylesheets and
-        // set to project modified time if more current than project mml.
-        var mtime = _(stylesheets).chain()
-            .pluck('mtime')
-            .map(function(mtime) { return Date.parse(mtime); })
-            .max()
-            .value();
-        (mtime > object._updated) && (object._updated = mtime);
 
         // Embed stylesheet contents at the `Stylesheet` key.
         object.Stylesheet = _(stylesheets).map(function(file) {

@@ -53,40 +53,52 @@ view.prototype.initialize = function() {
         'colorSave',
         'colorClose'
     );
+    var poll = _(this.model.poll).bind(this.model);
+    Bones.intervals = Bones.intervals || {};
+    if (Bones.intervals.project) clearInterval(Bones.intervals.project);
+    Bones.intervals.project = setInterval(poll, 1000);
+
     this.model.bind('save', this.attach);
     this.model.bind('change', this.change);
-    this.render().attach();
+    this.model.bind('poll', this.render);
+    this.model.bind('poll', this.attach);
+    this.render(true).attach();
 };
 
-view.prototype.render = function() {
-    $(this.el).html(templates.Project(this.model));
+view.prototype.render = function(init) {
+    if (init === true) {
+        $(this.el).html(templates.Project(this.model));
 
-    if (!com.modestmaps) throw new Error('ModestMaps not found.');
-    this.map = new com.modestmaps.Map('map',
-        new wax.mm.connector(this.model.attributes));
+        if (!com.modestmaps) throw new Error('ModestMaps not found.');
+        this.map = new com.modestmaps.Map('map',
+            new wax.mm.connector(this.model.attributes));
 
-    // Add references to all controls onto the map object.
-    // Allows controls to be removed later on. @TODO need
-    // wax 3.x and updates to controls to return references
-    // to themselves.
-    this.map.controls = {
-        // @TODO wax 3.x.
-        // interaction, legend require TileJSON attributes from the model.
-        interaction: wax.mm.interaction(this.map, this.model.attributes),
-        legend: wax.mm.legend(this.map, this.model.attributes),
-        zoombox: wax.mm.zoombox(this.map),
-        zoomer: wax.mm.zoomer(this.map).appendTo(this.map.parent),
-        fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
-    };
+        // Add references to all controls onto the map object.
+        // Allows controls to be removed later on. @TODO need
+        // wax 3.x and updates to controls to return references
+        // to themselves.
+        this.map.controls = {
+            // @TODO wax 3.x.
+            // interaction, legend require TileJSON attributes from the model.
+            interaction: wax.mm.interaction(this.map, this.model.attributes),
+            legend: wax.mm.legend(this.map, this.model.attributes),
+            zoombox: wax.mm.zoombox(this.map),
+            zoomer: wax.mm.zoomer(this.map).appendTo(this.map.parent),
+            fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
+        };
 
-    var center = this.model.get('center');
-    this.map.setCenterZoom(new com.modestmaps.Location(
-        center[1],
-        center[0]),
-        center[2]);
-    this.map.addCallback('zoomed', this.mapZoom);
-    this.map.addCallback('panned', this.mapZoom);
-    this.mapZoom({element: this.map.div});
+        var center = this.model.get('center');
+        this.map.setCenterZoom(new com.modestmaps.Location(
+            center[1],
+            center[0]),
+            center[2]);
+        this.map.addCallback('zoomed', this.mapZoom);
+        this.map.addCallback('panned', this.mapZoom);
+        this.mapZoom({element: this.map.div});
+    }
+    this.$('.tabs').empty();
+    this.$('.code').empty();
+    this.$('.layers ul').empty();
 
     this.model.get('Stylesheet').chain().each(this.makeStylesheet);
     this.$('.tabs').sortable({
