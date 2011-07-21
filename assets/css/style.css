@@ -1339,7 +1339,6 @@ div.fonts { padding-top:30px; }
 /* Hover */
 tr:hover td,
 tr:hover th,
-ul.form li:hover,
 .fonts .font:hover {
   background-color:#f0f8fa;
   border-color:#e0e8ea;
