@@ -159,13 +159,20 @@ model = Backbone.Model.extend({
     url: function() {
         return 'api/Project/' + this.id;
     },
-    // Adds id uniqueness checking to validate.
+    // Adds:
+    // - id uniqueness checking.
+    // - interactivity check to ensure the referenced layer exists.
     validate: function(attr) {
         if (attr.id &&
             this.collection &&
             this.collection.get(attr.id) &&
             this.collection.get(attr.id) !== this)
                 return new Error(_('Project "<%=id%>" already exists.').template(attr));
+        if (attr.interactivity &&
+            attr.interactivity.layer &&
+            attr.Layer &&
+            !_(attr.Layer).chain().pluck('id').include(attr.interactivity.layer).value())
+                return new Error(_('Interactivity layer "<%=obj%>" does not exist.').template(attr.interactivity.layer));
         return this.validateAttributes(attr);
     },
     // Custom validation method that allows for asynchronous processing.
