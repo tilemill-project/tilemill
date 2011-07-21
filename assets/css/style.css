@@ -1170,6 +1170,10 @@ ul.form.expand .browser { display:block; }
   -webkit-border-radius:5px;
   }
 
+.manual .prose a {
+  color:#5ab;
+  }
+
 .prose h1,
 .prose h2,
 .prose h3,
