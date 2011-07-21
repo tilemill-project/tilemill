@@ -130,7 +130,8 @@ command.prototype.put = function(data, callback) {
 
 command.prototype.png =
 command.prototype.pdf = function(data, callback) {
-    var sm = new (require('tilelive').SphericalMercator);
+    // @TODO tilelive should expose this dependency in its exports.
+    var sm = new (require('tilelive/node_modules/sphericalmercator'));
     var map = new (require('tilelive-mapnik').Map)(data.datasource, data);
     data.bbox = sm.convert(data.bbox, '900913');
     map.initialize(function(err) {
