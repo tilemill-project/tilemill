@@ -256,7 +256,7 @@ model = Backbone.Model.extend({
         });
     }),
     // Hit the project poll endpoint.
-    poll: function() {
+    poll: function(options) {
         if (Bones.server) throw Error('Client-side method only.');
         $.ajax({
             url: this.url() + '/' + this.get('_updated'),
@@ -267,6 +267,10 @@ model = Backbone.Model.extend({
                 if (!_(resp).keys().length) return;
                 if (!this.set(this.parse(resp))) return;
                 this.trigger('poll', this, resp);
+                if (options.success) options.success(this, resp);
+            }).bind(this),
+            error: _(function(resp) {
+                if (options.error) options.error(this, resp);
             }).bind(this)
         });
     },
