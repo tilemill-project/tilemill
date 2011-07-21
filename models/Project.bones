@@ -168,11 +168,16 @@ model = Backbone.Model.extend({
             this.collection.get(attr.id) &&
             this.collection.get(attr.id) !== this)
                 return new Error(_('Project "<%=id%>" already exists.').template(attr));
-        if (attr.interactivity &&
-            attr.interactivity.layer &&
-            attr.Layer &&
-            !_(attr.Layer).chain().pluck('id').include(attr.interactivity.layer).value())
-                return new Error(_('Interactivity layer "<%=obj%>" does not exist.').template(attr.interactivity.layer));
+
+        if (attr.interactivity && attr.interactivity.layer && attr.Layer) {
+            var id = attr.interactivity.layer;
+            var layers = _(attr.Layer).isArray()
+                ? attr.Layer
+                : attr.Layer.toJSON();
+            if (!_(layers).chain().pluck('id').include(id).value())
+                return new Error(_('Interactivity layer "<%=obj%>" does not exist.').template(id));
+        }
+
         return this.validateAttributes(attr);
     },
     // Custom validation method that allows for asynchronous processing.
