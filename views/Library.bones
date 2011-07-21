@@ -8,14 +8,19 @@ view.prototype.events = {
 
 view.prototype.initialize = function(options) {
     if (!options.input) throw new Error('options.input required.')
+    if (!options.favorites) throw new Error('options.favorites required.')
 
     _(this).bindAll(
         'render',
         'library',
         'libraryLocation',
-        'libraryURI'
+        'libraryURI',
+        'libraryUpdate'
     );
     this.input = options.input;
+    this.favorites = options.favorites;
+    this.favorites.bind('add', this.libraryUpdate);
+    this.favorites.bind('remove', this.libraryUpdate);
     this.render();
 };
 
@@ -50,11 +55,27 @@ view.prototype.render = function() {
 
 view.prototype.library = function(ev) {
     var id = $(ev.currentTarget).attr('href').split('#').pop();
-    this.model.set({id:id, location:undefined});
-    this.model.fetch({
-        success:this.render,
-        error:function(m, err) { new views.Modal(err) }
-    });
+    if (id === 'favoritesFile' || id === 'favoritesPostGIS') {
+        this.model.set(this.favorites.toLibrary(id));
+        this.render();
+    } else {
+        this.model.set({id:id, location:undefined});
+        this.model.fetch({
+            success:this.render,
+            error:function(m, err) { new views.Modal(err) }
+        });
+    }
+};
+
+view.prototype.libraryUpdate = function() {
+    if (this.$('a[href=#favoritesFile]').is('.active')) {
+        this.model.set(this.favorites.toLibrary('favoritesFile'));
+        this.render();
+    } else if (this.$('a[href=#favoritesPostGIS]').is('.active')) {
+        this.model.set(this.favorites.toLibrary('favoritesPostGIS'));
+        this.render();
+    }
+    return false;
 };
 
 view.prototype.libraryLocation = function(ev) {

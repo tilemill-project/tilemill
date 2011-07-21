@@ -100,23 +100,9 @@ models.Library.prototype.sync = function(method, model, success, error) {
         break;
     case 'favoritesFile':
     case 'favoritesPostGIS':
-        var type = model.id.split('favorites').pop().toLowerCase();
-        var data = {};
-        data.id = model.id;
-        data.location = '';
-        data.assets = [];
-
-        (new models.Favorites({}, {type:type})).fetch({
+        (new models.Favorites({})).fetch({
             success: function(coll, resp) {
-                data.assets = _(resp).chain()
-                    .pluck('id')
-                    .filter(function(id) {
-                        var postgis = id.indexOf('pgsql://') === 0;
-                        return type === 'postgis' ? !!postgis : !postgis;
-                    })
-                    .map(function(id) { return { name:id, uri:id }})
-                    .value();
-                success(data);
+                success(coll.toLibrary(model.id));
             },
             error: function(coll, resp) { error(resp); }
         });
