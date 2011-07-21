@@ -32,19 +32,7 @@ server.prototype.tile = function(req, res, next) {
 
         var interactivity = res.project.get('interactivity');
         req.params.layer = interactivity.layer;
-
-        // Determine fields that need to be included from templates.
-        // @TODO allow non-templated fields to be included.
-        var fields = [
-            interactivity.template_full || '',
-            interactivity.template_teaser || '',
-            interactivity.location || ''
-        ].join(' ').match(/\[([\w\d]+)\]/g);
-        req.params.fields = _(fields).chain()
-            .filter(_.isString)
-            .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
-            .uniq()
-            .value();
+        req.params.fields = models.Project.fields(interactivity);
         req.query.callback = 'grid'; // Force jsonp.
     }
     tilelive.serve(req.params, function(err, data) {

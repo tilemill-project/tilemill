@@ -163,20 +163,29 @@ command.prototype.mbtiles = function (data, callback) {
         storage: require('mbtiles'),
         filepath: data.filepath,
         bbox: data.bbox,
-        format: project.format || 'png',
         metatile: 4,
         // @TODO: probably should be at `serve` key.
         // interactivity: that.data.interactivity,
         minzoom: data.minzoom || project.minzoom || 0,
         maxzoom: data.maxzoom || project.maxzoom || 4,
         datasource: data.datasource,
-        // @TODO
         metadata: {
-            name: project.name || '',
-            description: project.description || '',
-            version: project.version || '1.0.0',
-            formatter: project.formatter || '',
-            legend: project.legend || ''
+            name: project.name || undefined,
+            description: project.description || undefined,
+            version: project.version || undefined,
+            legend: project.legend || undefined,
+            formatter: project.interactivity
+                ? models.Project.formatter(project.interactivity)
+                : undefined
+        },
+        serve: {
+            format: project.format || 'png',
+            fields: project.interactivity
+                ? models.Project.fields(project.interactivity)
+                : undefined,
+            layer: project.interactivity
+                ? project.interactivity.layer
+                : undefined
         }
     });
 

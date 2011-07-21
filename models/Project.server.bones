@@ -140,7 +140,8 @@ function loadProject(model, callback) {
         object.scheme = 'tms';
         object.tiles = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (object.format || 'png') + '?' + object._updated];
         object.grids = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?' + object._updated];
-        if (object.interactivity) object.formatter = compileFormatter(object.interactivity);
+        if (object.interactivity)
+            object.formatter = models.Project.formatter(object.interactivity);
         this();
     },
     function(err) {
@@ -261,12 +262,16 @@ function saveProject(model, callback) {
             _updated: updated,
             tiles: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (model.get('format') || 'png') + '?' + updated],
             grids: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?' + updated],
-            formatter: model.get('interactivity') ? compileFormatter(model.get('interactivity')) : undefined
+            formatter: model.get('interactivity')
+                ? models.Project.formatter(model.get('interactivity'))
+                : undefined
         });
     });
 };
 
-function compileFormatter(opts) {
+// Hang the formatter compiler off the model object so it can
+// be used by the export command. See `commands/export.bones`.
+models.Project.formatter = function(opts) {
     opts = opts || {};
     var full = opts.template_full || '';
     var teaser = opts.template_teaser || '';
@@ -275,4 +280,24 @@ function compileFormatter(opts) {
     teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
     location = _(location.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
     return _('function(o,d) { return {full:<%=full%>, teaser:<%=teaser%>, location:<%=location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
-}
+};
+
+// Hang the field parser compiler off the model object so it can
+// be used by the export command. See `commands/export.bones`.
+models.Project.fields = function(opts) {
+    opts = opts || {};
+    var full = opts.template_full || '';
+    var teaser = opts.template_teaser || '';
+    var location = opts.template_location || '';
+
+    // Determine fields that need to be included from templates.
+    // @TODO allow non-templated fields to be included.
+    var fields = [full, teaser, location]
+        .join(' ').match(/\[([\w\d]+)\]/g);
+    return _(fields).chain()
+        .filter(_.isString)
+        .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
+        .uniq()
+        .value();
+};
+
