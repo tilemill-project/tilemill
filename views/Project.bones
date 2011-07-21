@@ -53,10 +53,14 @@ view.prototype.initialize = function() {
         'colorSave',
         'colorClose'
     );
-    var poll = _(this.model.poll).bind(this.model);
     Bones.intervals = Bones.intervals || {};
     if (Bones.intervals.project) clearInterval(Bones.intervals.project);
-    Bones.intervals.project = setInterval(poll, 1000);
+    Bones.intervals.project = setInterval(_(function() {
+        this.model.poll({ error: function(m, err) {
+            new views.Modal(err);
+            clearInterval(Bones.intervals.project);
+        }});
+    }).bind(this), 1000);
 
     this.model.bind('save', this.attach);
     this.model.bind('change', this.change);

@@ -44,8 +44,15 @@ view.prototype.poll = function() {
         && this.$('ul.exports').size();
 
     if (active && !Bones.intervals.exports) {
-        var fetch = _(this.collection.fetch).bind(this.collection);
-        Bones.intervals.exports = setInterval(fetch, 5000);
+        Bones.intervals.exports = setInterval(_(function() {
+            this.collection.fetch({
+                success: function() {},
+                error: function(m, err) {
+                    new views.Modal(err);
+                    clearInterval(Bones.intervals.exports);
+                }
+            });
+        }).bind(this), 5000);
     } else if (!active && Bones.intervals.exports) {
         clearInterval(Bones.intervals.exports);
         Bones.intervals.exports = null;
