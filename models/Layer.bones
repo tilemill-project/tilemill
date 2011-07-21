@@ -74,28 +74,14 @@ model = Backbone.Model.extend({
         (new models.Datasource(_(attributes.Datasource).extend({
             id: attributes.id,
             project: this.collection.parent.get('id')
-        }))).fetch(options);
-    },
-    // @TODO how is this used now???
-    // Implementation of `Model.set()` that allows a datasource model to be
-    // passed in as `options.datasource`. If provided, the datasource will be
-    // used to enforce key attributes.
-    set: function(attributes, options) {
-        if (options && options.datasource) {
-            if (options.datasource.get('ds_type') === 'gdal') {
-                attributes.srs = this.SRS['900913'];
-            }
-            if (options.datasource.get('geometry_type')) {
-                attributes.geometry = options.datasource.get('geometry_type');
-            }
-            if (options.datasource.get('ds_options')) {
-                attributes.Datasource = _.extend(
-                    attributes.Datasource,
-                    options.datasource.get('ds_options')
-                );
-            }
-        }
-        return Backbone.Model.prototype.set.call(this, attributes, options);
+        }))).fetch({
+            success: _(function(model, resp) {
+                if (resp.geometry_type)
+                    this.set({geometry:resp.geometry_type});
+                options.success(model, resp);
+            }).bind(this),
+            error: options.error
+        });
     }
 });
 
