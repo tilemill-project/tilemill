@@ -29,10 +29,10 @@
       <input type='text' name='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' size='60'/>
       <a href='#favorite' class='icon favorite'>Favorite</a>
       <a href='#open' class='button open'>Browse</a>
-      <div class='cache description hidden'>
+      <small class='cache description hidden'>
         Cached locally at <span class='cachepath'></span> &mdash;
         <a href='#cacheLocal'>Use local copy</a>
-      </div>
+      </small>
       <div class='browser'></div>
     </li>
     <li>
@@ -52,7 +52,7 @@
         </option>
       </select>
       <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='Autodetect' />
-      <div class='description'>SRS projection string for this datasource. TileMill can often autodetect this value.</div>
+      <small class='description'>SRS projection string for this datasource. TileMill can often autodetect this value.</small>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
@@ -82,6 +82,7 @@
       <input type='text' name='connection' id='connection' placeholder='pgsql://user:password@localhost:5432/database' value='<%if (get("Datasource") && get("Datasource").host) { (function(d) { %>pgsql://<%if(d.username){%><%=d.username%>:<%=d.password%>@<%}%><%=d.host%><%if(d.port){%>:<%=d.port%><%}%>/<%=d.dbname%> <% } )(get("Datasource")); } %>' size='60' />
       <a href='#favorite' class='icon favorite'>Favorite</a>
       <a href='#open' class='button open'>Browse</a>
+      <small class='description'>Provide your PostGIS authentication and connection parameters.</small>
       <div class='browser'></div>
     </li>
     <li>
@@ -115,7 +116,7 @@
         </option>
       </select>
       <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='<%=SRS["900913"]%>' />
-      <div class='description'>SRS projection string for this datasource.</div>
+      <small class='description'>SRS projection string for this datasource.</small>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />

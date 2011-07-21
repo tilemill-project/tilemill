@@ -42,6 +42,7 @@ a {
 .required { color:#c30; }
 .description { color:#999; }
 .dependent {display:none; }
+small { font-size:11px; }
 
 /**
  * Generic loading, overlay classes
@@ -484,23 +485,23 @@ a {
 /**
  * Layers
  */
-li { position:relative; }
+.layers li { position:relative; }
 
-li .handle {
+.layers li .handle {
   width:20px;
   padding:2px;
   cursor:move;
   }
 
-li .actions {
+.layers li .actions {
   display:none;
   width:60px;
   padding:2px;
   }
 
-li .handle .icon,
-li .actions .icon { float:left; }
-li:hover .actions { display:block; }
+.layers li .handle .icon,
+.layers li .actions .icon { float:left; }
+.layers li:hover .actions { display:block; }
 
 .palette {
   position:relative;
@@ -926,13 +927,12 @@ input[type=submit]:active {
 ul.form h2 { font-size:16px; }
 
 ul.form li {
-  position:relative;
   padding:10px 20px 9px 120px;
   border-bottom:1px solid #eee;
   background:#fff;
-  transition:padding .25s, height .25s;
-  -moz-transition:padding .25s, height .25s;
-  -webkit-transition:padding .25s, height .25s;
+  transition:padding .1s, height .1s;
+  -moz-transition:padding .1s, height .1s;
+  -webkit-transition:padding .1s, height .1s;
   }
 
 ul.form li.text,
@@ -944,11 +944,9 @@ ul.form li .inline {
   }
 
 ul.form li label {
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:105px;
-  padding:10px 5px 10px 10px;
+  float:left;
+  width:100px;
+  margin-left:-110px;
   text-align:right;
   }
 
@@ -980,6 +978,7 @@ ul.form .buttons input:active {
   box-shadow:inset #999 0px -1px 0px;
   }
 
+ul.form small.description { display:block; }
 ul.form select + span.description,
 ul.form input + span.description { margin-left:10px; }
 ul.form select + span.description,
@@ -1040,11 +1039,11 @@ ul.form a.icon.favorite {
   margin-left:-25px;
   }
 
-ul.form .cache { font-size:11px; }
-ul.form .cache.hidden { display:none; }
+ul.form .cache.hidden { visibility:hidden; }
 ul.form a.icon.favorite.hidden { visibility:hidden; }
 
 ul.form.expand li:not(.expand) {
+  visibility:hidden;
   overflow:hidden;
   height:0px;
   padding-top:0px;
@@ -1052,11 +1051,14 @@ ul.form.expand li:not(.expand) {
   border:0px;
   }
 
-ul.form.expand li.expand:hover { background:#fff; }
-
 ul.form .browser {
   display:none;
-  margin:10px 0px;
+  background:#fff;
+  position:absolute;
+  left:60px;
+  top:130px;
+  bottom:0px;
+  right:0px;
   }
 
 ul.form.expand .browser { display:block; }
@@ -1069,9 +1071,24 @@ ul.form.expand .browser { display:block; }
 .library .joined { display:inline-block }
 .library .joined .button { width:100px; text-align:left; }
 
+.library .breadcrumb {
+  position:absolute;
+  top:30px;
+  left:10px;
+  }
+
 .library .breadcrumb * {
   float:left;
   padding:5px;
+  }
+
+.library .assets {
+  position:absolute;
+  top:60px;
+  left:10px;
+  right:10px;
+  bottom:10px;
+  overflow:auto;
   }
 
 .library .assets a,
@@ -1181,8 +1198,6 @@ div::-webkit-scrollbar-thumb:horizontal { width:25px; }
 .prose ul,
 .prose .CodeMirror,
 .prose p { margin:0px 0px 20px; }
-
-.prose small { font-size:11px; }
 
 .prose .CodeMirror-scroll { height:auto; }
 .prose .CodeMirror-lines { padding:0px 0px 0px 20px; }
