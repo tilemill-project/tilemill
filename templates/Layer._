@@ -87,9 +87,8 @@
       <div class='browser'></div>
     </li>
     <li>
-      <label for='table'><span class='required' title='This field is required'>*</span> Query</label>
+      <label for='table'><span class='required' title='This field is required'>*</span> Table or subquery</label>
       <div class='inline'>
-        <pre>SELECT * FROM </pre>
         <textarea name='table' cols='60' rows='4'><%=get('Datasource') && get('Datasource').table%></textarea>
       </div>
     </li>
