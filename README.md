@@ -20,7 +20,7 @@ Requirements
   - Tested: Chrome 6+, Firefox 3+, IE8+
   - May work: Opera 11
 - *TileMill server*
-  - Tested: Mac OS X 10.6, Ubuntu 10.10, Centos 5.5 
+  - Tested: Mac OS X 10.6, Ubuntu 10.10, Centos 5.5
   - At least 2GB memory
   - May work: Older versions, other POSIX-compliant systems
 
@@ -44,23 +44,24 @@ Install [Xcode][xcode] for Mac OS X. Version 3 or 4 will work.
 
 [xcode]:http://developer.apple.com/technologies/tools/xcode.html
 
-Install the latest `Mapnik 2.0` build:
+[Download Mapnik 2.0.0 r3030](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r3030.dmg) and install
 
-- [Download mapnik 2.0](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r2898.dmg)
+Install [node][4].
 
-[Download TileMill](https://github.com/mapbox/tilemill/downloads) and unpack the archive.
+Install [npm][5]:
 
-Open Terminal and change to unpacked directory:
+    curl http://npmjs.org/install.sh | sh
 
-    cd mapbox-tilemill
+Install TileMill:
 
-Build & install:
+    npm install -g tilemill
 
-    ./ndistro
+This will install TileMill globally. If you want a local installation in
+your current working directory, run the command without the `-g` option.
 
 Start TileMill:
 
-    ./tilemill.js
+    tilemill
 
 TileMill should now be accessible from a browser at `http://localhost:8889`.
 
@@ -96,20 +97,39 @@ Install build requirements:
 
 Install `mapnik` from source:
 
-    svn checkout -r 2898 http://svn.mapnik.org/trunk mapnik2
+    svn checkout -r 3030 http://svn.mapnik.org/trunk mapnik2
     cd mapnik2
     python scons/scons.py configure
     python scons/scons.py
     sudo python scons/scons.py install
 
-Download and unpack TileMill. Build & install:
+Install [node][4].
 
-    cd TileMill
-    ./ndistro
+    git clone --depth 1 git://github.com/joyent/node.git
+    cd node
+    git checkout v0.4.9
+    export JOBS=2 # optional, sets number of parallel commands.
+    mkdir ~/local
+    ./configure --prefix=$HOME/local/node
+    make
+    make install
+    echo 'export PATH=$HOME/local/node/bin:$PATH' >> ~/.profile
+    source ~/.profile
+
+Install [npm][5]:
+
+    curl http://npmjs.org/install.sh | sh
+
+Install TileMill:
+
+    npm install -g tilemill
+
+This will install TileMill globally. If you want a local installation in
+your current working directory, run the command without the `-g` option.
 
 Start TileMill:
 
-    ./tilemill.js
+    tilemill
 
 TileMill should now be accessible from a browser at `http://localhost:8889`.
 
@@ -146,16 +166,21 @@ settings:
 
     cp -r tilemill.old/files tilemill
 
-Install TileMill as usual:
+Install TileMill with npm:
 
     cd tilemill
-    ./ndistro
+    npm install
+
+Start TileMill:
+
+    ./index.js
 
 To update your dev version, clean your copy and rebuild:
 
+    cd tilemill
     git pull
-    ./ndistro clean
-    ./ndistro
+    rm -rf node_modules
+    npm install
 
 
 Contributors
