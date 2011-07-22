@@ -28,11 +28,8 @@ Requirements
 Support
 -------
 
-[Report bugs on GitHub][1] or get support at [support.mapbox.com][2]. Join us
+[Report bugs on GitHub][issues] or get support at [support.mapbox.com][support]. Join us
 in the #mapbox IRC channel on irc.freenode.net.
-
-[1]:https://github.com/mapbox/tilemill/issues
-[2]:http://support.mapbox.com/kb/tilemill/where-can-i-get-help-with-tilemill
 
 
 Installation: Mac OS X 10.6
@@ -42,13 +39,12 @@ Install [Xcode][xcode] for Mac OS X. Version 3 or 4 will work.
 - [Download Xcode 3](https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20792)
 - [Download Xcode 4](http://developer.apple.com/xcode/) (Apple charges a fee for this download)
 
-[xcode]:http://developer.apple.com/technologies/tools/xcode.html
 
 [Download Mapnik 2.0.0 r3030](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r3030.dmg) and install
 
-Install [node][4].
+Install [node][node].
 
-Install [npm][5]:
+Install [npm][npm]:
 
     curl http://npmjs.org/install.sh | sh
 
@@ -103,7 +99,7 @@ Install `mapnik` from source:
     python scons/scons.py
     sudo python scons/scons.py install
 
-Install [node][4].
+Install [node][node].
 
     git clone --depth 1 git://github.com/joyent/node.git
     cd node
@@ -116,7 +112,7 @@ Install [node][4].
     echo 'export PATH=$HOME/local/node/bin:$PATH' >> ~/.profile
     source ~/.profile
 
-Install [npm][5]:
+Install [npm][npm]:
 
     curl http://npmjs.org/install.sh | sh
 
@@ -193,3 +189,10 @@ Contributors
 - [AJ Ashton](http://github.com/ajashton)
 - [Konstantin Käfer](http://github.com/kkaefer)
 - [Dane Springmeyer](http://github.com/springmeyer)
+
+
+[xcode]:http://developer.apple.com/technologies/tools/xcode.html
+[issues]:https://github.com/mapbox/tilemill/issues
+[support]:http://support.mapbox.com/kb/tilemill/where-can-i-get-help-with-tilemill
+[node]:https://github.com/joyent/node/wiki/Installation
+[npm]:http://npmjs.org/
