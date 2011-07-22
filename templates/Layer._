@@ -99,6 +99,11 @@
       <span class='description'>limit the query by this bounding box</span>
     </li>
     <li>
+      <label for='extent'>Unique Key Field</label>
+      <input type='text' name='key_field' value='<%=get('Datasource') && get('Datasource').key_field%>' />
+      <span class='description'>SQL field containing a unique key for each feature</span>
+    </li>
+    <li>
       <label for='extent'>Geometry Field</label>
       <input type='text' name='geometry_field' value='<%=get('Datasource') && get('Datasource').geometry_field%>' />
       <span class='description'>SQL field containing feature geometry</span>
