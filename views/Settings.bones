@@ -5,7 +5,10 @@ view.prototype.events = {
     'change select[name=layer]': 'attach',
     'keyup input[name=template_location]': 'preview',
     'keyup textarea[name=template_teaser]': 'preview',
-    'keyup textarea[name=template_full]': 'preview'
+    'keyup textarea[name=template_full]': 'preview',
+    'focus input[name=template_location]': 'preview',
+    'focus textarea[name=template_teaser]': 'preview',
+    'focus textarea[name=template_full]': 'preview'
 };
 
 view.prototype.initialize = function(options) {
