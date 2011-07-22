@@ -44,8 +44,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             data_file: options.file,
             data_dir: path.join(config.files, 'project', options.project),
             local_data_dir: path.join(config.files, 'project', options.project)
-        },
-        data: mml
+        }
     };
 
     tilelive.load(uri, function(err, source) {
