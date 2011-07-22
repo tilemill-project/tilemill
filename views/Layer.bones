@@ -173,6 +173,7 @@ view.prototype.browsePostGIS = function(ev) {
         success: _(function(model, resp) {
             new views.Library({
                 model: model,
+                favorites: this.favorites,
                 input: this.$('.layerPostGIS input[name=connection]'),
                 el: this.$('.layerPostGIS .browser')
             });
