@@ -14,5 +14,5 @@ model.prototype.schema = {
 };
 
 model.prototype.url = function() {
-    return 'api/Favorite/' + encodeURIComponent(this.id);
+    return '/api/Favorite/' + encodeURIComponent(this.id);
 };

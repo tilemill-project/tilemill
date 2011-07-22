@@ -3,7 +3,7 @@
 // Collection of Favorite models.
 model = Backbone.Collection.extend();
 model.prototype.model = models.Favorite;
-model.prototype.url = 'api/Favorite';
+model.prototype.url = '/api/Favorite';
 model.prototype.toLibrary = function(id) {
     var type = (id === 'favoritesPostGIS') ? 'postgis' : 'file';
     return {

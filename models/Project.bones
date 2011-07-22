@@ -157,7 +157,7 @@ model = Backbone.Model.extend({
         return resp;
     },
     url: function() {
-        return 'api/Project/' + this.id;
+        return '/api/Project/' + this.id;
     },
     // Adds:
     // - id uniqueness checking.

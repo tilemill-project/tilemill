@@ -10,7 +10,7 @@ model = Backbone.Model.extend({
         this.options = options;
     },
     url: function() {
-        var url = 'api/Datasource/' + this.get('id');
+        var url = '/api/Datasource/' + this.get('id');
         var attr = this.attributes;
         if (this.getFeatures) attr.features = true;
         if (!Bones.server) url += '?' + $.param(attr);
