@@ -92,11 +92,8 @@ command.prototype.initialize = function(plugin, callback) {
     process.title = 'tm-' + path.basename(opts.filepath);
 
     // Catch SIGINT.
-    var quit = -1;
     process.on('SIGINT', function () {
-        quit++;
-        if (quit) process.exit();
-        console.log('Got SIGINT. Press Control-C again to exit.');
+        console.log('Got SIGINT. Run "kill ' + process.pid + '" to terminate.');
     });
     process.on('SIGUSR1', process.exit);
 
@@ -192,7 +189,7 @@ command.prototype.mbtiles = function (project, callback) {
                         maxZoom: project.mml.maxzoom,
                         concurrency: 100,
                         tiles: true,
-                        grids: false
+                        grids: true
                     });
 
                     var timeout = setInterval(function progress() {
@@ -217,7 +214,6 @@ command.prototype.mbtiles = function (project, callback) {
                         }, process.exit);
                     }.bind(this));
                     copy.on('error', function(err) {
-                        console.log(err);
                         clearTimeout(timeout);
                         this.error(err);
                     }.bind(this));
