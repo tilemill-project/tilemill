@@ -178,11 +178,26 @@ view.prototype.saveFile = function() {
 
 view.prototype.savePostGIS = function() {
     $(this.el).addClass('loading');
-    var connection = /pgsql:\/\/(([^:@\/]+):?([^@\/]*)@)?([^\/:]*):?(\d*)\/?([^\/]*)/
-        .exec(this.$('form.layerPostGIS input[name=connection]').val());
-    if (!connection) {
+    var connection = {};
+    var error;
+    var allowedArgs = ['username', 'passwprd', 'dbname', 'port', 'host'];
+    _(this.$('form.layerPostGIS input[name=connection]').val().split(' '))
+        .each(function(argument) {
+            var pair = argument.split('=');
+            if (pair[0] && pair[1] && allowedArgs.indexOf(pair[0]) !== -1) {
+                connection[pair[0]] = pair[1];
+            } else {
+                error = new Error('Invalid argument ' + pair[0] + ' in PostgreSQL connection string.');
+            }
+        });
+    if (!error && !_(connection).size()) {
+        error = new Error('Invalid PostgreSQL connection string.');
+    } else if (!error && !connection.dbname) {
+        error = new Error('dbname is required in PostgreSQL connection string.');
+    }
+    if (error) {
         $(this.el).removeClass('loading');
-        new views.Modal(new Error('Invalid PostgreSQL connection string.'));
+        new views.Modal(error);
         return false;
     }
     var attr = {
@@ -191,18 +206,13 @@ view.prototype.savePostGIS = function() {
         'srs':   this.$('form.layerPostGIS input[name=srs]').val()
             || this.model.SRS['900913'],
         'class': this.$('form.layerPostGIS input[name=class]').val(),
-        'Datasource': {
-            'username': connection[2],
-            'password': connection[3],
-            'host':     connection[4],
-            'port':     connection[5],
-            'dbname':   connection[6],
+        'Datasource': _({
             'table':    this.$('textarea[name=table]', this.el).val(),
             'key_field': this.$('input[name=key_field]', this.el).val(),
             'geometry_field': this.$('input[name=geometry_field]', this.el).val(),
             'extent':   this.$('input[name=extent]', this.el).val(),
             'type': 'postgis'
-        }
+        }).extend(connection)
     };
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
