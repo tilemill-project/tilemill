@@ -31,10 +31,10 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
     }, function(err, mml) {
         if (err) return error(err);
 
-        var source = new mapnik.Datasource({
+        var source = new mapnik.Datasource(_({
             file: mml.Layer[0].Datasource.file,
             type: mml.Layer[0].Datasource.type
-        });
+        }).defaults(options));
 
         var desc = source.describe();
         var datasource = {
