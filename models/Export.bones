@@ -66,7 +66,7 @@ model = Backbone.Model.extend({
         }
     },
     url: function() {
-        return 'api/Export/' + this.id;
+        return '/api/Export/' + this.id;
     },
     defaults: {
         progress: 0,

@@ -40,7 +40,7 @@ model.prototype.schema = {
 };
 
 model.prototype.url = function() {
-    var url = 'api/Library/' + this.id;
+    var url = '/api/Library/' + this.id;
     if (!Bones.server && this.get('location')) {
         url += '?' + $.param({location:this.get('location')});
     }

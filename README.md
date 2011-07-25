@@ -20,7 +20,7 @@ Requirements
   - Tested: Chrome 6+, Firefox 3+, IE8+
   - May work: Opera 11
 - *TileMill server*
-  - Tested: Mac OS X 10.6, Ubuntu 10.10, Centos 5.5 
+  - Tested: Mac OS X 10.6, Ubuntu 10.10, Centos 5.5
   - At least 2GB memory
   - May work: Older versions, other POSIX-compliant systems
 
@@ -28,11 +28,8 @@ Requirements
 Support
 -------
 
-[Report bugs on GitHub][1] or get support at [support.mapbox.com][2]. Join us
+[Report bugs on GitHub][issues] or get support at [support.mapbox.com][support]. Join us
 in the #mapbox IRC channel on irc.freenode.net.
-
-[1]:https://github.com/mapbox/tilemill/issues
-[2]:http://support.mapbox.com/kb/tilemill/where-can-i-get-help-with-tilemill
 
 
 Installation: Mac OS X 10.6
@@ -42,25 +39,25 @@ Install [Xcode][xcode] for Mac OS X. Version 3 or 4 will work.
 - [Download Xcode 3](https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20792)
 - [Download Xcode 4](http://developer.apple.com/xcode/) (Apple charges a fee for this download)
 
-[xcode]:http://developer.apple.com/technologies/tools/xcode.html
 
-Install the latest `Mapnik 2.0` build:
+[Download Mapnik 2.0.0 r3030](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r3030.dmg) and install
 
-- [Download mapnik 2.0](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r2898.dmg)
+Install [node][node].
 
-[Download TileMill](https://github.com/mapbox/tilemill/downloads) and unpack the archive.
+Install [npm][npm]:
 
-Open Terminal and change to unpacked directory:
+    curl http://npmjs.org/install.sh | sh
 
-    cd mapbox-tilemill
+Install TileMill:
 
-Build & install:
+    npm install -g tilemill
 
-    ./ndistro
+This will install TileMill globally. If you want a local installation in
+your current working directory, run the command without the `-g` option.
 
 Start TileMill:
 
-    ./tilemill.js
+    tilemill
 
 TileMill should now be accessible from a browser at `http://localhost:8889`.
 
@@ -96,20 +93,39 @@ Install build requirements:
 
 Install `mapnik` from source:
 
-    svn checkout -r 2898 http://svn.mapnik.org/trunk mapnik2
+    svn checkout -r 3030 http://svn.mapnik.org/trunk mapnik2
     cd mapnik2
     python scons/scons.py configure
     python scons/scons.py
     sudo python scons/scons.py install
 
-Download and unpack TileMill. Build & install:
+Install [node][node].
 
-    cd TileMill
-    ./ndistro
+    git clone --depth 1 git://github.com/joyent/node.git
+    cd node
+    git checkout v0.4.9
+    export JOBS=2 # optional, sets number of parallel commands.
+    mkdir ~/local
+    ./configure --prefix=$HOME/local/node
+    make
+    make install
+    echo 'export PATH=$HOME/local/node/bin:$PATH' >> ~/.profile
+    source ~/.profile
+
+Install [npm][npm]:
+
+    curl http://npmjs.org/install.sh | sh
+
+Install TileMill:
+
+    npm install -g tilemill
+
+This will install TileMill globally. If you want a local installation in
+your current working directory, run the command without the `-g` option.
 
 Start TileMill:
 
-    ./tilemill.js
+    tilemill
 
 TileMill should now be accessible from a browser at `http://localhost:8889`.
 
@@ -146,16 +162,21 @@ settings:
 
     cp -r tilemill.old/files tilemill
 
-Install TileMill as usual:
+Install TileMill with npm:
 
     cd tilemill
-    ./ndistro
+    npm install
+
+Start TileMill:
+
+    ./index.js
 
 To update your dev version, clean your copy and rebuild:
 
+    cd tilemill
     git pull
-    ./ndistro clean
-    ./ndistro
+    rm -rf node_modules
+    npm install
 
 
 Contributors
@@ -168,3 +189,10 @@ Contributors
 - [AJ Ashton](http://github.com/ajashton)
 - [Konstantin Käfer](http://github.com/kkaefer)
 - [Dane Springmeyer](http://github.com/springmeyer)
+
+
+[xcode]:http://developer.apple.com/technologies/tools/xcode.html
+[issues]:https://github.com/mapbox/tilemill/issues
+[support]:http://support.mapbox.com/kb/tilemill/where-can-i-get-help-with-tilemill
+[node]:https://github.com/joyent/node/wiki/Installation
+[npm]:http://npmjs.org/

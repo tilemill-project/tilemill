@@ -238,14 +238,14 @@ view.prototype.save = function(ev) {
             if (err.responseText) err = JSON.parse(err.responseText).message;
             var err = _(err.toString().split('\n')).compact();
             for (var i = 0; i < err.length; i++) {
-                var match = err[i].match(/^([\w.]+):([\d]+) (.*)$/);
-                if (match && _(match).compact().length === 4) {
-                    var id = 'stylesheet-' + match[1].replace(/[\.]/g, '-');
+                var match = err[i].match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/);
+                if (match) {
+                    var id = 'stylesheet-' + match[2].replace(/[\.]/g, '-');
                     var code = this.$();
                     this.$('.tabs a[href=#'+id+']').addClass('error');
-                    this.$('.'+id+' div.CodeMirror-gutter pre:nth-child('+match[2]+')')
+                    this.$('.'+id+' div.CodeMirror-gutter pre:nth-child('+match[3]+')')
                         .addClass('error')
-                        .attr('title', err[i]);
+                        .attr('title', match[5]);
                 } else {
                     new views.Modal(err[i]);
                     break;

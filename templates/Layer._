@@ -80,16 +80,15 @@
     </li>
     <li class='expand'>
       <label for='connection'><span class='required'>*</span> Connection</label>
-      <input type='text' name='connection' id='connection' placeholder='pgsql://user:password@localhost:5432/database' value='<%if (get("Datasource") && get("Datasource").host) { (function(d) { %>pgsql://<%if(d.username){%><%=d.username%>:<%=d.password%>@<%}%><%=d.host%><%if(d.port){%>:<%=d.port%><%}%>/<%=d.dbname%> <% } )(get("Datasource")); } %>' size='60' />
+      <input type='text' name='connection' id='connection' placeholder='pgsql://user:password@localhost:5432/database' value='<%if (get("Datasource") && get("Datasource").host) { (function(d) { %>pgsql://<%if(d.username){%><%=d.username%>:<%=d.password%>@<%}%><%=d.host%><%if(d.port){%>:<%=d.port%><%}%>/<%=d.dbname%><% } )(get("Datasource")); } %>' size='60' />
       <a href='#favorite' class='icon favorite'>Favorite</a>
       <a href='#open' class='button open'>Browse</a>
       <small class='description'>Provide your PostGIS authentication and connection parameters.</small>
       <div class='browser'></div>
     </li>
     <li>
-      <label for='table'><span class='required' title='This field is required'>*</span> Query</label>
+      <label for='table'><span class='required' title='This field is required'>*</span> Table or subquery</label>
       <div class='inline'>
-        <pre>SELECT * FROM </pre>
         <textarea name='table' cols='60' rows='4'><%=get('Datasource') && get('Datasource').table%></textarea>
       </div>
     </li>
@@ -97,6 +96,11 @@
       <label for='extent'>Extent</label>
       <input type='text' name='extent' value='<%=get('Datasource') && get('Datasource').extent%>' />
       <span class='description'>limit the query by this bounding box</span>
+    </li>
+    <li>
+      <label for='extent'>Unique Key Field</label>
+      <input type='text' name='key_field' value='<%=get('Datasource') && get('Datasource').key_field%>' />
+      <span class='description'>SQL field containing a unique key for each feature</span>
     </li>
     <li>
       <label for='extent'>Geometry Field</label>

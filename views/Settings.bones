@@ -5,7 +5,10 @@ view.prototype.events = {
     'change select[name=layer]': 'attach',
     'keyup input[name=template_location]': 'preview',
     'keyup textarea[name=template_teaser]': 'preview',
-    'keyup textarea[name=template_full]': 'preview'
+    'keyup textarea[name=template_full]': 'preview',
+    'focus input[name=template_location]': 'preview',
+    'focus textarea[name=template_teaser]': 'preview',
+    'focus textarea[name=template_full]': 'preview'
 };
 
 view.prototype.initialize = function(options) {
@@ -16,7 +19,7 @@ view.prototype.initialize = function(options) {
 view.prototype.preview = function(ev) {
     var target = $(ev.currentTarget);
     var format = target.attr('name').split('template_').pop();
-    var formatter = _(target.val().replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
+    var formatter = _(target.val().replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
     var feature = this.datasource.get('features')[0];
     try {
         var preview = formatter(feature);

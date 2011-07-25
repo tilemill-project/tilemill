@@ -1,3 +1,7 @@
+0.4
+---
+- app.db file from previous versions is not compatible with 0.4
+
 0.3.0
 -----
 - Basic PostGIS layer support

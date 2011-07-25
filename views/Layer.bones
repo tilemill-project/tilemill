@@ -173,6 +173,7 @@ view.prototype.browsePostGIS = function(ev) {
         success: _(function(model, resp) {
             new views.Library({
                 model: model,
+                favorites: this.favorites,
                 input: this.$('.layerPostGIS input[name=connection]'),
                 el: this.$('.layerPostGIS .browser')
             });
@@ -229,6 +230,7 @@ view.prototype.savePostGIS = function() {
             'port':     connection[5],
             'dbname':   connection[6],
             'table':    this.$('textarea[name=table]', this.el).val(),
+            'key_field': this.$('input[name=key_field]', this.el).val(),
             'geometry_field': this.$('input[name=geometry_field]', this.el).val(),
             'extent':   this.$('input[name=extent]', this.el).val(),
             'type': 'postgis'
