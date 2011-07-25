@@ -17,7 +17,7 @@ var start = function(model, data, callback) {
         // export command
         args.push('export');
         // datasource
-        args.push(path.join(settings.files, 'project', data.project, data.project + '.mml'));
+        args.push(data.project);
         // filepath
         args.push(path.join(settings.files, 'export', data.filename));
         // url, @TODO: need proper host info.
