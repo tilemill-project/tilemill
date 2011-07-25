@@ -88,9 +88,9 @@ view.prototype.favoriteUpdate = function(ev) {
     var target = $(ev.currentTarget);
     var favorite = target.siblings('a.favorite');
     var uri = target.val();
-    if (uri.match(/^(pgsql:\/\/|\/[\w]+|http:\/\/)/)) {
+    if (uri.match(/^(http:\/\/|(.+\s)?dbname=[\w]+)/)) {
         favorite.removeClass('hidden');
-        if (this.favorites.get(uri)) {
+        if (this.favorites.isFavorite(uri)) {
             favorite.addClass('active');
         } else {
             favorite.removeClass('active');
@@ -180,7 +180,7 @@ view.prototype.savePostGIS = function() {
     $(this.el).addClass('loading');
     var connection = {};
     var error;
-    var allowedArgs = ['username', 'passwprd', 'dbname', 'port', 'host'];
+    var allowedArgs = ['username', 'password', 'dbname', 'port', 'host'];
     _(this.$('form.layerPostGIS input[name=connection]').val().split(' '))
         .each(function(argument) {
             var pair = argument.split('=');
