@@ -306,6 +306,7 @@ models.Project.formatter = function(opts) {
     return _('function(o,d) { return {full:<%=full%>, teaser:<%=teaser%>, location:<%=location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
 };
 
+// Localizes an MML file and compiles the stylesheet for use in tilelive-mapnik.
 models.Project.prototype.localize = function(mml, callback) {
     var model = this;
     Step(function() {
