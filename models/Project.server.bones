@@ -7,6 +7,7 @@ var mkdirp = require('../lib/fsutil.js').mkdirp;
 var rm = require('../lib/fsutil.js').rm;
 var carto = require('carto');
 var mapnik = require('mapnik');
+var EventEmitter = require('events').EventEmitter;
 var millstone = require('millstone');
 var settings = Bones.plugin.config;
 
@@ -306,9 +307,36 @@ models.Project.formatter = function(opts) {
     return _('function(o,d) { return {full:<%=full%>, teaser:<%=teaser%>, location:<%=location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
 };
 
+var localizedCache = {};
+
 // Localizes an MML file and compiles the stylesheet for use in tilelive-mapnik.
 models.Project.prototype.localize = function(mml, callback) {
     var model = this;
+    var key = path.join(settings.files, 'project', model.id);
+
+    function done() {
+        model.xml = localizedCache[key].xml;
+        model.mml = localizedCache[key].mml;
+        callback(null);
+    }
+
+    if (localizedCache[key]) {
+        if (localizedCache[key].updated < mml._updated) {
+            // The existing item is outdated.
+            delete localizedCache[key];
+        } else if (localizedCache[key].mml && localizedCache[key].xml) {
+            // This is already loaded.
+            return done();
+        } else {
+            return localizedCache[key].once('load', done);
+        }
+    }
+
+    // Actually load the object.
+    localizedCache[key] = new EventEmitter;
+    localizedCache[key].updated = mml._updated;
+    localizedCache[key].once('load', done);
+
     Step(function() {
         millstone({
             mml: mml,
@@ -318,13 +346,12 @@ models.Project.prototype.localize = function(mml, callback) {
     }, function(err, localized) {
         if (err) return callback(err);
 
-        model.mml = localized;
+        localizedCache[key].mml = localized;
         compileStylesheet(localized, this);
     }, function(err, compiled) {
         if (err) return callback(err);
-
-        model.xml = compiled;
-        callback(null);
+        localizedCache[key].xml = compiled;
+        localizedCache[key].emit('load');
     });
 };
 
