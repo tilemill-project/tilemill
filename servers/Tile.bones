@@ -12,11 +12,10 @@ server.prototype.initialize = function() {
 };
 
 server.prototype.load = function(req, res, next) {
-    res.project = new models.Project({id: req.param('id')});
+    res.project = new models.Project({ id: req.param('id') });
     res.project.fetch({
         success: function(model, resp) {
-            res.projectMML = resp;
-            next();
+            model.localize(resp, next);
         },
         error: function(model, resp) {
             next(resp);
@@ -31,11 +30,14 @@ server.prototype.getArtifact = function(req, res, next) {
     var uri = {
         protocol: 'mapnik:',
         slashes: true,
-        pathname: path.join(settings.files, 'project', id, id + '.mml'),
-        query: {
-            _updated: res.projectMML._updated,
-            cache: path.join(settings.files, 'cache')
-        }
+
+        // This file does not exist; but we pass in literal strings below.
+        // This is used as a cache key.
+        pathname: path.join(settings.files, 'project', id, id + '.xml'),
+        search: '?' + res.project.mml._updated,
+
+        xml: res.project.xml,
+        mml: res.project.mml
     };
 
     tilelive.load(uri, function(err, source) {
@@ -65,7 +67,7 @@ server.prototype.grid = function(req, res, next) {
     req.query.callback = 'grid';
 
     var interactivity = res.project.get('interactivity');
-    res.projectMML.interactivity.fields = models.Project.fields(interactivity);
+    res.project.mml.interactivity.fields = models.Project.fields(interactivity);
     next();
 };
 

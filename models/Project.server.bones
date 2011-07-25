@@ -5,6 +5,9 @@ var read = require('../lib/fsutil.js').read;
 var readdir = require('../lib/fsutil.js').readdir;
 var mkdirp = require('../lib/fsutil.js').mkdirp;
 var rm = require('../lib/fsutil.js').rm;
+var carto = require('carto');
+var mapnik = require('mapnik');
+var millstone = require('millstone');
 var settings = Bones.plugin.config;
 
 // Project
@@ -274,6 +277,22 @@ function saveProject(model, callback) {
     });
 };
 
+function compileStylesheet(mml, callback) {
+    var env = {
+        validation_data: { fonts: mapnik.fonts() },
+        returnErrors: true,
+        effects: []
+    };
+
+    // Hard clone the model JSON to avoid any alterations to it.
+    // @TODO: is this necessary?
+    var data = JSON.parse(JSON.stringify(mml));
+    new carto.Renderer(env).render(data, function(err, output) {
+        if (err) callback(err);
+        else callback(null, output);
+    });
+};
+
 // Hang the formatter compiler off the model object so it can
 // be used by the export command. See `commands/export.bones`.
 models.Project.formatter = function(opts) {
@@ -285,6 +304,27 @@ models.Project.formatter = function(opts) {
     teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
     location = _(location.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
     return _('function(o,d) { return {full:<%=full%>, teaser:<%=teaser%>, location:<%=location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
+};
+
+models.Project.prototype.localize = function(mml, callback) {
+    var model = this;
+    Step(function() {
+        millstone({
+            mml: mml,
+            base: path.join(settings.files, 'project', model.id),
+            cache: path.join(settings.files, 'cache')
+        }, this)
+    }, function(err, localized) {
+        if (err) return callback(err);
+
+        model.mml = localized;
+        compileStylesheet(localized, this);
+    }, function(err, compiled) {
+        if (err) return callback(err);
+
+        model.xml = compiled;
+        callback(null);
+    });
 };
 
 // Hang the field parser compiler off the model object so it can
