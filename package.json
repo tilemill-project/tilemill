@@ -31,7 +31,7 @@
         "step": "0.0.x",
         "tilelive": "4.0.x",
         "mapnik": "0.4.x",
-        "tilelive-mapnik": "https://github.com/mapbox/tilelive-mapnik/tarball/tilelive-refactoring",
+        "tilelive-mapnik": "https://github.com/mapbox/tilelive-mapnik/tarball/ab61cbe83a80bc7fd7d388a79115dce2046df540",
         "underscore": "1.1.x",
         "carto": "https://github.com/mapbox/carto/tarball/b84f22830336235aaf6fdaf64fb963a6f6a087b4",
         "wax": "https://github.com/mapbox/wax/tarball/abf06066575c63b84f952e658956d49ab8644d2a"
