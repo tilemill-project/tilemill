@@ -29,6 +29,9 @@ body {
   display:block;
   }
 
+body.overlay:before,
+body.loading:before { position:fixed; }
+
 .fill-s { top:auto; }
 .fill-n { bottom:auto; }
 .fill-w { right:auto; }
