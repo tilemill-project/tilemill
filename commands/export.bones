@@ -130,27 +130,12 @@ command.prototype.put = function(data, callback) {
 
 command.prototype.png =
 command.prototype.pdf = function(data, callback) {
-    // @TODO tilelive should expose this dependency in its exports.
-    var sm = new (require('tilelive/node_modules/sphericalmercator'));
-    var map = new (require('tilelive-mapnik').Map)(data.datasource, data);
-    data.bbox = sm.convert(data.bbox, '900913');
-    map.initialize(function(err) {
-        if (err) return callback(err);
-        map.render(data, function(err, render) {
-            if (err) {
-                this.error(err);
-                callback();
-            } else {
-                fs.writeFileSync(data.filepath, render[0], 'binary');
-                this.put({
-                    status: 'complete',
-                    progress: 1,
-                    updated: +new Date()
-                });
-                callback();
-            }
-        }.bind(this));
-    }.bind(this));
+    // @TODO: use millstone & mapnik API directly to render images here.
+    this.put({
+        status: 'error',
+        error: 'PNG/PDF export is currently disabled.',
+        updated: +new Date()
+    }, process.exit);
 };
 
 command.prototype.mbtiles = function (data, callback) {
@@ -158,61 +143,62 @@ command.prototype.mbtiles = function (data, callback) {
         var project = JSON.parse(fs.readFileSync(data.datasource));
     } catch(e) { this.error(e); }
 
-    var batch = new (require('tilelive').Batch)({
-        renderer: require('tilelive-mapnik'),
-        storage: require('mbtiles'),
-        filepath: data.filepath,
-        bbox: data.bbox,
-        metatile: 4,
-        // @TODO: probably should be at `serve` key.
-        // interactivity: that.data.interactivity,
-        minzoom: data.minzoom || project.minzoom || 0,
-        maxzoom: data.maxzoom || project.maxzoom || 4,
-        datasource: data.datasource,
-        metadata: {
-            name: project.name || undefined,
-            description: project.description || undefined,
-            version: project.version || undefined,
-            legend: project.legend || undefined,
-            formatter: project.interactivity
-                ? models.Project.formatter(project.interactivity)
-                : undefined
-        },
-        serve: {
-            format: project.format || 'png',
-            fields: project.interactivity
-                ? models.Project.fields(project.interactivity)
-                : undefined,
-            layer: project.interactivity
-                ? project.interactivity.layer
-                : undefined
+    var tilelive = require('tilelive');
+    require('mbtiles').registerProtocols(tilelive);
+    require('tilelive-mapnik').registerProtocols(tilelive);
+
+    var uri = {
+        protocol: 'mapnik:',
+        slashes: true,
+        pathname: data.datasource,
+        query: {
+            base: path.dirname(data.datasource),
+            cache: path.join(data.files, 'cache')
         }
-    });
+    };
+    tilelive.load(uri, function(err, source) {
+        if (err) throw err;
+        tilelive.load('mbtiles://' + data.filepath, function(err, sink) {
+            if (err) throw err;
 
-    batch.on('write', function(batch) {
-        this.put({
-            status: batch.tilesCurrent >= batch.tilesTotal
-                ? 'complete'
-                : 'processing',
-            progress: batch.tilesCurrent / batch.tilesTotal,
-            updated: +new Date()
-        });
+            var copy = tilelive.copy({
+                source: source,
+                sink: sink,
+                bbox: data.bbox,
+                minZoom: data.minzoom,
+                maxZoom: data.maxzoom,
+                concurrency: 100,
+                tiles: true,
+                grids: false
+            });
+
+            var timeout = setInterval(function progress() {
+                var progress = (copy.copied + copy.failed) / copy.total;
+                var remaining = (Date.now() - copy.started) / (copy.copied + copy.failed) *
+                    (copy.total - copy.copied - copy.failed);
+                this.put({
+                    status: progress < 1 ? 'processing' : 'complete',
+                    progress: progress,
+                    updated: +new Date()
+                });
+            }.bind(this), 1000);
+            copy.on('warning', function(err) {
+                console.log(err);
+            }.bind(this));
+            copy.on('finished', function() {
+                clearTimeout(timeout);
+                this.put({
+                    status: 'complete',
+                    progress: 1,
+                    updated: +new Date()
+                }, process.exit);
+            }.bind(this));
+            copy.on('error', function(err) {
+                console.log(err);
+                clearTimeout(timeout);
+                this.error(err);
+            }.bind(this));
+        }.bind(this));
     }.bind(this));
-
-    batch.on('end', function(batch) {
-        this.put({
-            status: 'complete',
-            progress: 1,
-            updated: +new Date()
-        });
-        callback();
-    }.bind(this));
-
-    batch.on('error', function(batch, err) {
-        this.error(err);
-        callback();
-    }.bind(this));
-
-    batch.execute();
 };
 

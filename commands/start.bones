@@ -9,12 +9,6 @@ commands['start'].options['port'] = {
     'default': 8889
 };
 
-commands['start'].options['files'] = {
-    'title': 'files=[path]',
-    'description': 'Path to files directory.',
-    'default': path.join(process.env.HOME, 'Documents', 'TileMill')
-};
-
 commands['start'].prototype.bootstrap = function(plugin, callback) {
     var settings = Bones.plugin.config;
     if (!path.existsSync(settings.files)) {
