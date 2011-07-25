@@ -105,6 +105,11 @@ view.prototype.browseFile = function(ev) {
     var id = 'file';
     var target = $(ev.currentTarget);
     target.toggleClass('active');
+    if (target.hasClass('active')) {
+        target.text('Done');
+    } else {
+        target.text('Browse');
+    }
     this.$('.layerFile ul.form').toggleClass('expand');
 
     if (target.is('.active')) (new models.Library({id:id})).fetch({
@@ -125,6 +130,11 @@ view.prototype.browsePostGIS = function(ev) {
     var id = 'favoritesPostGIS';
     var target = $(ev.currentTarget);
     target.toggleClass('active');
+    if (target.hasClass('active')) {
+        target.text('Done');
+    } else {
+        target.text('Browse');
+    }
     this.$('.layerPostGIS ul.form').toggleClass('expand');
 
     if (target.is('.active')) (new models.Library({id:id})).fetch({
