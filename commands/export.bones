@@ -6,7 +6,7 @@ var request = require('request');
 command = Bones.Command.extend();
 
 command.description = 'export project';
-command.usage = '<datasource> <export>';
+command.usage = '<project> <export>';
 
 command.options['format'] = {
     'title': 'format=[format]',
@@ -15,20 +15,17 @@ command.options['format'] = {
 
 command.options['bbox'] = {
     'title': 'bbox=[bbox]',
-    'description': 'Comma separated coordinates of bounding box to export.',
-    'default': '-180,-90,180,90'
+    'description': 'Comma separated coordinates of bounding box to export.'
 };
 
 command.options['minzoom'] = {
     'title': 'minzoom=[zoom]',
-    'description': 'MBTiles: minimum zoom level to export.',
-    'default': 0
+    'description': 'MBTiles: minimum zoom level to export.'
 };
 
 command.options['maxzoom'] = {
     'title': 'maxzoom=[zoom]',
-    'description': 'MBTiles: maximum zoom level to export.',
-    'default': 4
+    'description': 'MBTiles: maximum zoom level to export.'
 };
 
 command.options['width'] = {
@@ -50,15 +47,13 @@ command.options['url'] = {
 
 command.prototype.initialize = function(plugin, callback) {
     var opts = plugin.config;
-    opts.datasource = path.resolve(plugin.argv._[1]);
+    opts.project = plugin.argv._[1];
     opts.filepath = path.resolve(plugin.argv._[2]);
     callback = callback || function() {};
     this.opts = opts;
 
     // Validation.
-    if (!opts.datasource || !opts.filepath) return plugin.help();
-    if (!path.existsSync(opts.datasource))
-        return this.error(new Error('Project path does not exist: ' + opts.datasource));
+    if (!opts.project || !opts.filepath) return plugin.help();
     if (!path.existsSync(path.dirname(opts.filepath)))
         return this.error(new Error('Export path does not exist: ' + path.dirname(opts.filepath)));
 
@@ -97,13 +92,31 @@ command.prototype.initialize = function(plugin, callback) {
     process.title = 'tm-' + path.basename(opts.filepath);
 
     // Catch SIGINT.
+    var quit = -1;
     process.on('SIGINT', function () {
-      console.log('Got SIGINT. Press Control-D to exit.');
+        quit++;
+        if (quit) process.exit();
+        console.log('Got SIGINT. Press Control-C again to exit.');
     });
     process.on('SIGUSR1', process.exit);
 
-    // Kickoff export function.
-    this[opts.format](opts, callback);
+    // Load project, localize and call export function.
+    (new models.Project({id: plugin.argv._[1] })).fetch({
+        success: function(model, resp) {
+            model.localize(resp, function(err) {
+                if (err) return this.error(err);
+                model.mml = _(model.mml).extend({
+                    minzoom: !_(opts.minzoom).isUndefined() ? opts.minzoom : model.get('minzoom'),
+                    maxzoom: !_(opts.maxzoom).isUndefined() ? opts.maxzoom : model.get('maxzoom'),
+                    bounds: !_(opts.bbox).isUndefined() ? opts.bbox : model.get('bounds')
+                });
+                this[opts.format](model, callback);
+            }.bind(this));
+        }.bind(this),
+        error: function(model, resp) {
+            this.error(resp);
+        }.bind(this)
+    });
 };
 
 command.prototype.error = function(err) {
@@ -129,20 +142,30 @@ command.prototype.put = function(data, callback) {
 };
 
 command.prototype.png =
-command.prototype.pdf = function(data, callback) {
-    // @TODO: use millstone & mapnik API directly to render images here.
-    this.put({
-        status: 'error',
-        error: 'PNG/PDF export is currently disabled.',
-        updated: +new Date()
-    }, process.exit);
+command.prototype.pdf = function(project, callback) {
+    var mapnik = require('mapnik');
+    var sm = new (require('sphericalmercator'))();
+    var map = new mapnik.Map(this.opts.width, this.opts.height);
+
+    map.fromStringSync(project.xml, {
+        strict: false,
+        base: path.join(this.opts.files, 'project', project.id) + '/'
+    });
+    map.bufferSize = 128;
+    map.extent = sm.convert(project.mml.bounds, '900913');
+    try {
+        map.renderFileSync(this.opts.filepath, { format: this.opts.format });
+        this.put({
+            status: 'complete',
+            progress: 1,
+            updated: +new Date()
+        }, process.exit);
+    } catch(err) {
+        this.error(err);
+    }
 };
 
-command.prototype.mbtiles = function (data, callback) {
-    try {
-        var project = JSON.parse(fs.readFileSync(data.datasource));
-    } catch(e) { this.error(e); }
-
+command.prototype.mbtiles = function (project, callback) {
     var tilelive = require('tilelive');
     require('mbtiles').registerProtocols(tilelive);
     require('tilelive-mapnik').registerProtocols(tilelive);
@@ -150,53 +173,55 @@ command.prototype.mbtiles = function (data, callback) {
     var uri = {
         protocol: 'mapnik:',
         slashes: true,
-        pathname: data.datasource,
-        query: {
-            base: path.dirname(data.datasource),
-            cache: path.join(data.files, 'cache')
-        }
+        xml: project.xml,
+        mml: project.mml
     };
     tilelive.load(uri, function(err, source) {
         if (err) throw err;
-        tilelive.load('mbtiles://' + data.filepath, function(err, sink) {
+        tilelive.load('mbtiles://' + this.opts.filepath, function(err, sink) {
             if (err) throw err;
+            sink.startWriting(function(err) {
+                if (err) throw err;
+                sink.putInfo(project.mml, function(err) {
+                    if (err) throw err;
+                    var copy = tilelive.copy({
+                        source: source,
+                        sink: sink,
+                        bbox: project.mml.bounds,
+                        minZoom: project.mml.minzoom,
+                        maxZoom: project.mml.maxzoom,
+                        concurrency: 100,
+                        tiles: true,
+                        grids: false
+                    });
 
-            var copy = tilelive.copy({
-                source: source,
-                sink: sink,
-                bbox: data.bbox,
-                minZoom: data.minzoom,
-                maxZoom: data.maxzoom,
-                concurrency: 100,
-                tiles: true,
-                grids: false
-            });
-
-            var timeout = setInterval(function progress() {
-                var progress = (copy.copied + copy.failed) / copy.total;
-                var remaining = (Date.now() - copy.started) / (copy.copied + copy.failed) *
-                    (copy.total - copy.copied - copy.failed);
-                this.put({
-                    status: progress < 1 ? 'processing' : 'complete',
-                    progress: progress,
-                    updated: +new Date()
-                });
-            }.bind(this), 1000);
-            copy.on('warning', function(err) {
-                console.log(err);
-            }.bind(this));
-            copy.on('finished', function() {
-                clearTimeout(timeout);
-                this.put({
-                    status: 'complete',
-                    progress: 1,
-                    updated: +new Date()
-                }, process.exit);
-            }.bind(this));
-            copy.on('error', function(err) {
-                console.log(err);
-                clearTimeout(timeout);
-                this.error(err);
+                    var timeout = setInterval(function progress() {
+                        var progress = (copy.copied + copy.failed) / copy.total;
+                        var remaining = (Date.now() - copy.started) / (copy.copied + copy.failed) *
+                            (copy.total - copy.copied - copy.failed);
+                        this.put({
+                            status: progress < 1 ? 'processing' : 'complete',
+                            progress: progress,
+                            updated: +new Date()
+                        });
+                    }.bind(this), 1000);
+                    copy.on('warning', function(err) {
+                        console.log(err);
+                    }.bind(this));
+                    copy.on('finished', function() {
+                        clearTimeout(timeout);
+                        this.put({
+                            status: 'complete',
+                            progress: 1,
+                            updated: +new Date()
+                        }, process.exit);
+                    }.bind(this));
+                    copy.on('error', function(err) {
+                        console.log(err);
+                        clearTimeout(timeout);
+                        this.error(err);
+                    }.bind(this));
+                }.bind(this));
             }.bind(this));
         }.bind(this));
     }.bind(this));

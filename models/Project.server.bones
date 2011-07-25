@@ -335,6 +335,7 @@ models.Project.prototype.localize = function(mml, callback) {
     // Actually load the object.
     localizedCache[key] = new EventEmitter;
     localizedCache[key].updated = mml._updated;
+    localizedCache[key].setMaxListeners(0);
     localizedCache[key].once('load', done);
 
     Step(function() {

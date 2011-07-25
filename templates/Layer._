@@ -29,11 +29,6 @@
       <input type='text' name='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' size='60'/>
       <a href='#favorite' class='icon favorite'>Favorite</a>
       <a href='#open' class='button open'>Browse</a>
-      <small class='cache description hidden'>
-        Cached locally at <span class='cachepath'></span> &mdash;
-        <a href='#cacheLocal'>Use local copy</a> |
-        <a href='#cacheFlush'>Clear cache</a>
-      </small>
       <div class='browser'></div>
     </li>
     <li>
