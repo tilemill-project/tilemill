@@ -191,12 +191,8 @@ model = Backbone.Model.extend({
             mapnik = require('mapnik'),
             stylesheets = this.get('Stylesheet'),
             env = {
+                validation_data: { fonts: mapnik.fonts() },
                 returnErrors: true,
-                errors: [],
-                validation_data: {
-                    fonts: mapnik.fonts()
-                },
-                deferred_externals: [],
                 only_validate: true,
                 effects: []
             };
@@ -205,28 +201,7 @@ model = Backbone.Model.extend({
         // properties (e.g. localize a datasource URL to the filesystem).
         var data = JSON.parse(JSON.stringify(attributes));
         new carto.Renderer(env).render(data, _(function(err, output) {
-            // Carto parse error. Turn array into usable string as Bones error
-            // convention is to use strings / wrapped string objects. This
-            // string is easily parsed by the `Project` view for highlighting
-            // syntax errors in code.
-            //
-            //     [{ line: 5, filename: 'style.mss', message: 'Foo bar'}] =>
-            //     'style.mss:5 Foo bar'
-            //
-            // @TODO: Possibly make a change upstream in Carto for a better
-            // error object with a good .toString() method?
-            if (_(err).isArray()) {
-                if (_(err).any(function(e) { return e.line && e.filename })) {
-                    err = _(err).chain()
-                        .filter(function(e) { return e.line && e.filename })
-                        .map(function(e) {
-                            return e.filename + ':' + e.line + ' ' + e.message
-                        }).value().join('\n');
-                } else {
-                    err = err[0].message;
-                }
-                options.error(this, err);
-            } else if (err) {
+            if (err) {
                 options.error(this, err);
             } else {
                 options.success(this, null);

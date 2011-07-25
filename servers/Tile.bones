@@ -32,7 +32,10 @@ server.prototype.getArtifact = function(req, res, next) {
         protocol: 'mapnik:',
         slashes: true,
         pathname: path.join(settings.files, 'project', id, id + '.mml'),
-        search: '_updated=' + res.projectMML._updated
+        query: {
+            _updated: res.projectMML._updated,
+            cache: path.join(settings.files, 'cache')
+        }
     };
 
     tilelive.load(uri, function(err, source) {

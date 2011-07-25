@@ -40,10 +40,10 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
         slashes: true,
         pathname: path.join(config.files, 'project', id, id + '.mml'),
         query: {
-            // Note: data_file is only used to force a different cache key.
-            data_file: options.file,
-            data_dir: path.join(config.files, 'project', options.project),
-            local_data_dir: path.join(config.files, 'project', options.project)
+            // Note: file is only used to force a different cache key.
+            file: options.file + (+ new Date()),
+            base: path.join(config.files, 'project', options.project),
+            cache: path.join(config.files, 'cache')
         },
         data: mml
     };
