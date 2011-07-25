@@ -31,35 +31,47 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
     }, function(err, mml) {
         if (err) return error(err);
 
-        var source = new mapnik.Datasource({
-            file: mml.Layer[0].Datasource.file,
-            type: mml.Layer[0].Datasource.type
-        });
+        try {
+            var source = new mapnik.Datasource(_({
+                file: mml.Layer[0].Datasource.file,
+                type: mml.Layer[0].Datasource.type
+            }).defaults(options));
 
-        var desc = source.describe();
-        var datasource = {
-            id: options.id,
-            project: options.project,
-            url: options.file,
-            fields: desc.fields,
-            features: options.features ? source.features(0, 1000) : [],
-            type: desc.type,
-            geometry_type: desc.type === 'raster' ? 'raster' : desc.geometry_type
-        };
+            var features = [];
+            if (options.features) {
+                var featureset = source.featureset();
+                for (var i = 0, feat; i < 1000 && (feat = featureset.next(true)); i++) {
+                    features.push(feat.attributes());
+                }
+            }
 
-        // Process fields and calculate min/max values.
-        for (var f in datasource.fields) {
-            datasource.fields[f] = {
-                type: datasource.fields[f],
-                max: _(datasource.features).chain().pluck(f)
-                    .max(function(v) {
-                        return _(v).isString() ? v.length : v;
-                    }).value(),
-                min: _(datasource.features).chain().pluck(f)
-                    .min(function(v) {
-                        return _(v).isString() ? v.length : v;
-                    }).value()
+            var desc = source.describe();
+            var datasource = {
+                id: options.id,
+                project: options.project,
+                url: options.file,
+                fields: desc.fields,
+                features: features,
+                type: desc.type,
+                geometry_type: desc.type === 'raster' ? 'raster' : desc.geometry_type
             };
+
+            // Process fields and calculate min/max values.
+            for (var f in datasource.fields) {
+                datasource.fields[f] = {
+                    type: datasource.fields[f],
+                    max: _(datasource.features).chain().pluck(f)
+                        .max(function(v) {
+                            return _(v).isString() ? v.length : v;
+                        }).value(),
+                    min: _(datasource.features).chain().pluck(f)
+                        .min(function(v) {
+                            return _(v).isString() ? v.length : v;
+                        }).value()
+                };
+            }
+        } catch(err) {
+            return error(err);
         }
 
         success(datasource);

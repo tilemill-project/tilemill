@@ -75,7 +75,7 @@
     </li>
     <li class='expand'>
       <label for='connection'><span class='required'>*</span> Connection</label>
-      <input type='text' name='connection' id='connection' placeholder='pgsql://user:password@localhost:5432/database' value='<%if (get("Datasource") && get("Datasource").host) { (function(d) { %>pgsql://<%if(d.username){%><%=d.username%>:<%=d.password%>@<%}%><%=d.host%><%if(d.port){%>:<%=d.port%><%}%>/<%=d.dbname%><% } )(get("Datasource")); } %>' size='60' />
+      <input type='text' name='connection' id='connection' placeholder='hostname=? port=? username=? password=? dbname=?' value='<%if (get("Datasource")) { (function(d) { if (d.dbname) { print("dbname="+d.dbname) } if (d.host) { print(" host="+d.host) } if (d.port) { print(" port="+d.port) } if (d.username) { print(" username="+d.username) } if (d.password) { print(" password="+d.password) } } )(get("Datasource")); } %>' size='60' />
       <a href='#favorite' class='icon favorite'>Favorite</a>
       <a href='#open' class='button open'>Browse</a>
       <small class='description'>Provide your PostGIS authentication and connection parameters.</small>
