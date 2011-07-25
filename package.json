@@ -33,7 +33,7 @@
         "mapnik": "0.4.x",
         "tilelive-mapnik": "https://github.com/mapbox/tilelive-mapnik/tarball/ab61cbe83a80bc7fd7d388a79115dce2046df540",
         "underscore": "1.1.x",
-        "carto": "https://github.com/mapbox/carto/tarball/master",
+        "carto": "https://github.com/mapbox/carto/tarball/aea887200852226acf25a01937c2ae414e253f32",
         "wax": "https://github.com/mapbox/wax/tarball/abf06066575c63b84f952e658956d49ab8644d2a"
     },
     "devDependencies": {
