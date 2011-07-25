@@ -189,7 +189,7 @@ command.prototype.mbtiles = function (project, callback) {
                         maxZoom: project.mml.maxzoom,
                         concurrency: 100,
                         tiles: true,
-                        grids: true
+                        grids: !!project.mml.interactivity
                     });
 
                     var timeout = setInterval(function progress() {
