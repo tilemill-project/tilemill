@@ -36,13 +36,21 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             type: mml.Layer[0].Datasource.type
         }).defaults(options));
 
+        var features = [];
+        if (options.features) {
+            var featureset = source.featureset();
+            for (var i = 0, feat; i < 1000 && (feat = featureset.next(true)); i++) {
+                features.push(feat.attributes());
+            }
+        }
+
         var desc = source.describe();
         var datasource = {
             id: options.id,
             project: options.project,
             url: options.file,
             fields: desc.fields,
-            features: options.features ? source.features(0, 1000) : [],
+            features: features,
             type: desc.type,
             geometry_type: desc.type === 'raster' ? 'raster' : desc.geometry_type
         };
