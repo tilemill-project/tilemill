@@ -224,7 +224,6 @@ model = Backbone.Model.extend({
             .replace('{z}', z)
             .replace('{x}', x)
             .replace('{y}', y);
-('_updated');
     },
     // Wrap `save` to call validateAsync first.
     save: _(Backbone.Model.prototype.save).wrap(function(parent, attrs, options) {
