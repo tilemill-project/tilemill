@@ -301,10 +301,10 @@ models.Project.formatter = function(opts) {
     var full = opts.template_full || '';
     var teaser = opts.template_teaser || '';
     var location = opts.template_location || '';
-    full = _(full.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
-    teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
-    location = _(location.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
-    return _('function(o,d) { return {full:<%=full%>, teaser:<%=teaser%>, location:<%=location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
+    full = _(full.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
+    teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
+    location = _(location.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
+    return _('function(o,d) { return {full:<%=obj.full%>, teaser:<%=obj.teaser%>, location:<%=obj.location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
 };
 
 var localizedCache = {};
