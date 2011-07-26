@@ -12,6 +12,10 @@ var Step = require('step'),
 var start = function(model, data, callback) {
     if (data.status === 'waiting') {
         var args = [];
+        // nice the export process.
+        args.push('-n19');
+        // path to node bin.
+        args.push(process.execPath);
         // tilemill index.js
         args.push(path.resolve(path.join(__dirname + '/../index.js')));
         // export command
@@ -29,7 +33,7 @@ var start = function(model, data, callback) {
         if (data.minzoom) args.push('--minzoom=' + data.minzoom);
         if (data.maxzoom) args.push('--maxzoom=' + data.maxzoom);
 
-        var child = spawn(process.execPath, args);
+        var child = spawn('nice', args);
         model.set({pid:child.pid, status:'processing'});
         Backbone.sync('update', model, callback, callback);
     } else if (data.status === 'processing') {

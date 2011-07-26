@@ -187,26 +187,31 @@ model = Backbone.Model.extend({
         // If client-side, pass-through.
         if (!Bones.server) return options.success(this, null);
 
-        var carto = require('carto'),
-            mapnik = require('mapnik'),
-            stylesheets = this.get('Stylesheet'),
-            env = {
-                validation_data: { fonts: mapnik.fonts() },
-                returnErrors: true,
-                only_validate: true,
-                effects: []
-            };
+        // Catches three main types of errors:
+        // - localize failure
+        // - carto compilation failure
+        // - limited mapnik "test render" failure
+        var mapnik = require('mapnik');
+        var path = require('path');
+        var mml = _(attributes).extend({_updated: + new Date()});
+        this.localize(mml, function(err) {
+            if (err) return options.error(this, err);
 
-        // Hard clone the model JSON before rendering as rendering will change
-        // properties (e.g. localize a datasource URL to the filesystem).
-        var data = JSON.parse(JSON.stringify(attributes));
-        new carto.Renderer(env).render(data, _(function(err, output) {
-            if (err) {
-                options.error(this, err);
-            } else {
-                options.success(this, null);
-            }
-        }).bind(this));
+            var map = new mapnik.Map(1,1);
+            var im = new mapnik.Image(1,1);
+            map.fromString(this.xml, {
+                strict:false,
+                base:path.join(Bones.plugin.config.files, 'project', this.id)
+            }, function(err, map) {
+                if (err) return options.error(this.err);
+                map.bufferSize = 0;
+                map.extent = [0,0,1,1];
+                map.render(im, {format:'png'}, function(err) {
+                    if (err) return options.error(this, err);
+                    options.success(this, null);
+                }.bind(this));
+            });
+        }.bind(this));
     },
     // Single tile thumbnail URL generation. From [OSM wiki][1].
     // [1]: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
@@ -219,7 +224,6 @@ model = Backbone.Model.extend({
             .replace('{z}', z)
             .replace('{x}', x)
             .replace('{y}', y);
-('_updated');
     },
     // Wrap `save` to call validateAsync first.
     save: _(Backbone.Model.prototype.save).wrap(function(parent, attrs, options) {

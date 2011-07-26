@@ -13,9 +13,26 @@ view.prototype.initialize = function(options) {
 
 view.prototype.render = function(force) {
     if (force === true || this.$('ul.exports').size()) {
-        this.$('.content').html(templates.Exports(this.collection));
+        this.$('.content').html(templates.Exports(this));
     }
     return this;
+};
+
+view.prototype.time = function(ms) {
+    function lpad(str, len, chr) {
+        if (!chr) chr = ' ';
+        str = String(str);
+        len = Math.max(0, len - str.length + 1);
+        return Array(len).join(chr) + str;
+    }
+    var seconds = ms / 1000 | 0;
+    var hours = (seconds / 3600) | 0;
+    if (hours > 48) return Math.round(hours/24) + ' days';
+
+    seconds -= hours * 3600;
+    var minutes = (seconds / 60) | 0;
+    seconds -= minutes * 60;
+    return lpad(hours, 2, '0') + ':' + lpad(minutes, 2, '0') + ':' + lpad(seconds, 2, '0') + 's';
 };
 
 view.prototype.exportDelete = function(ev) {

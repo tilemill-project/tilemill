@@ -189,19 +189,19 @@ command.prototype.mbtiles = function (project, callback) {
                         maxZoom: project.mml.maxzoom,
                         concurrency: 100,
                         tiles: true,
-                        grids: true
+                        grids: !!project.mml.interactivity
                     });
 
                     var timeout = setInterval(function progress() {
                         var progress = (copy.copied + copy.failed) / copy.total;
-                        var remaining = (Date.now() - copy.started) / (copy.copied + copy.failed) *
-                            (copy.total - copy.copied - copy.failed);
+                        var remaining = Math.floor((Date.now() - copy.started) * (1 / progress));
                         this.put({
                             status: progress < 1 ? 'processing' : 'complete',
                             progress: progress,
-                            updated: +new Date()
+                            remaining: remaining,
+                            updated: +new Date(),
                         });
-                    }.bind(this), 1000);
+                    }.bind(this), 5000);
                     copy.on('warning', function(err) {
                         console.log(err);
                     }.bind(this));
