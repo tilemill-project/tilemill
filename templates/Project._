@@ -22,6 +22,7 @@
         <span class='icon reverse settings'>Settings</span>
       </a>
     </div>
+    <span class='icon spinner'></span>
   </div></div>
 
   <div class='map fill-w' id='map'>

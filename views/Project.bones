@@ -226,8 +226,12 @@ view.prototype.change = function() {
 view.prototype.save = function(ev) {
     if (this.$('.actions a[href=#save]').is('.disabled')) return false;
 
+    $(this.el).addClass('saving');
     this.model.save(this.model.attributes, {
-        success: function(model) { model.trigger('save'); },
+        success: _(function(model) {
+            $(this.el).removeClass('saving');
+            model.trigger('save');
+        }).bind(this),
         // Test for a Carto error of the form
         //
         //     style.mss:2 Invalid value for background-color ...
@@ -235,6 +239,7 @@ view.prototype.save = function(ev) {
         // and highlight the line number and stylesheet appropriately if
         // found. Otherwise, display error in a modal.
         error: _(function(model, err) {
+            $(this.el).removeClass('saving');
             if (err.responseText) err = JSON.parse(err.responseText).message;
             var err = _(err.toString().split('\n')).compact();
             for (var i = 0; i < err.length; i++) {
