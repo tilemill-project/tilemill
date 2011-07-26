@@ -291,7 +291,8 @@ view.prototype.layerAdd = function(ev) {
         new views.Layer({
             el: $('#popup'),
             model: model,
-            favorites: favorites
+            favorites: favorites,
+            success: this.save
         });
     }).bind(this);
     (new models.Favorites).fetch({success:cb,error:cb});
@@ -303,7 +304,8 @@ view.prototype.layerEdit = function(ev) {
         new views.Layer({
             el: $('#popup'),
             model: this.model.get('Layer').get(id),
-            favorites: favorites
+            favorites: favorites,
+            success: this.save
         });
     }).bind(this);
     (new models.Favorites).fetch({success:cb,error:cb});
@@ -316,6 +318,7 @@ view.prototype.layerDelete = function(ev) {
         callback: _(function() {
             var model = this.model.get('Layer').get(id);
             this.model.get('Layer').remove(model);
+            this.save();
         }).bind(this)
     });
     return false;
@@ -350,7 +353,11 @@ view.prototype.stylesheetAdd = function(ev) {
         collection: this.model.get('Stylesheet')
     });
     model.bind('add', this.makeStylesheet);
-    new views.Stylesheet({el:$('#popup'), model:model});
+    new views.Stylesheet({
+        el:$('#popup'),
+        model:model,
+        success:this.save
+    });
 };
 
 view.prototype.stylesheetDelete = function(ev) {
@@ -360,6 +367,7 @@ view.prototype.stylesheetDelete = function(ev) {
         callback: _(function() {
             var model = this.model.get('Stylesheet').get(id);
             this.model.get('Stylesheet').remove(model);
+            this.save();
         }).bind(this)
     });
 };

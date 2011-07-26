@@ -15,6 +15,7 @@ view.prototype.events = {
 
 view.prototype.initialize = function(options) {
     if (!options.favorites) throw new Error('options.favorites required.');
+    if (!options.success) throw new Error('options.success required.');
 
     _(this).bindAll(
         'render',
@@ -29,6 +30,7 @@ view.prototype.initialize = function(options) {
         'srsToName'
     );
     this.favorites = options.favorites;
+    this.success = options.success || function() {};
     this.render();
 };
 
@@ -182,6 +184,7 @@ view.prototype.saveFile = function() {
         if (!this.model.collection.include(this.model))
             this.model.collection.add(this.model);
         this.$('.close').click();
+        this.success();
     }).bind(this), error:error });
     return false;
 };
@@ -234,6 +237,7 @@ view.prototype.savePostGIS = function() {
         if (!this.model.collection.include(this.model))
             this.model.collection.add(this.model);
         this.$('.close').click();
+        this.success();
     }).bind(this), error:error });
     return false;
 };
