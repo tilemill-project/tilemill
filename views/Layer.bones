@@ -176,13 +176,9 @@ view.prototype.saveFile = function() {
         $(this.el).removeClass('loading');
         new views.Modal(e);
     }).bind(this);
-
-    // Validate properties.
-    if (!this.model.set(attr, {error:error})) return false;
-
-    // Validate datasource using validateAsync.
     this.model.validateAsync(attr, { success:_(function() {
         $(this.el).removeClass('loading');
+        if (!this.model.set(attr, {error:error})) return;
         if (!this.model.collection.include(this.model))
             this.model.collection.add(this.model);
         this.$('.close').click();
@@ -232,13 +228,9 @@ view.prototype.savePostGIS = function() {
         $(this.el).removeClass('loading');
         new views.Modal(e);
     }).bind(this);
-
-    // Validate properties.
-    if (!this.model.set(attr, {error:error})) return false;
-
-    // Validate datasource using validateAsync.
     this.model.validateAsync(attr, { success:_(function() {
         $(this.el).removeClass('loading');
+        if (!this.model.set(attr, {error:error})) return;
         if (!this.model.collection.include(this.model))
             this.model.collection.add(this.model);
         this.$('.close').click();

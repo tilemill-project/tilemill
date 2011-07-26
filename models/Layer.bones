@@ -66,8 +66,6 @@ model = Backbone.Model.extend({
             this.collection.get(attr.id) &&
             this.collection.get(attr.id) !== this)
                 return new Error(_('Layer with ID "<%=id%>" already exists.').template(attr));
-
-        return this.validateAttributes(attr);
     },
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent
