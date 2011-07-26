@@ -15,7 +15,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
     if (!options.id) return error(new Error('id is required.'));
     if (!options.project) return error(new Error('project is required.'));
 
-    millstone({
+    millstone.resolve({
         mml: {
             Stylesheet: [{ id: 'layer', data: '' }],
             Layer: [{
