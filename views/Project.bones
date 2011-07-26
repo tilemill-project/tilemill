@@ -133,6 +133,12 @@ view.prototype.makeLayer = function(model) {
     model.bind('remove', _(function(model) {
         model.el.remove();
     }).bind(this));
+    // Bind change event to retemplate.
+    model.bind('change', _(function(model) {
+        var update = $(templates.ProjectLayer(model));
+        model.el.replaceWith(update);
+        model.el = update;
+    }).bind(this));
 };
 
 view.prototype.makeStylesheet = function(model) {
