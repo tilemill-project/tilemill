@@ -1,6 +1,7 @@
 0.4
 ---
 - app.db file from previous versions is not compatible with 0.4
+- Default files directory is now ~/Documents/TileMill
 
 0.3.0
 -----
