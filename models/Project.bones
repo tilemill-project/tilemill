@@ -227,6 +227,9 @@ model = Backbone.Model.extend({
     },
     // Wrap `save` to call validateAsync first.
     save: _(Backbone.Model.prototype.save).wrap(function(parent, attrs, options) {
+        var err = this.validate(attrs);
+        if (err) return options.error(this, err);
+
         this.validateAsync(attrs, {
             success: _(function() {
                 parent.call(this, attrs, options);
@@ -254,12 +257,12 @@ model = Backbone.Model.extend({
         });
     },
     // Hit the project flush endpoint.
-    flush: function(layer, options) {
+    flush: function(layer, url, options) {
         if (Bones.server) throw Error('Client-side method only.');
         if (!this.get('Layer').get(layer)) throw Error('No layer ' + layer + ' found.');
 
         $.ajax({
-            url: this.url() + '/' + layer,
+            url: this.url() + '/' + layer + '?' + $.param({url: url}),
             type: 'DELETE',
             contentType: 'application/json',
             data: JSON.stringify({'bones.token':Backbone.csrf(this.url())}),

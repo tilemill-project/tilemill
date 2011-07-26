@@ -8,6 +8,7 @@ view.prototype.events = {
     'click a[href=#favorite]': 'favoriteToggle',
     'keyup input[name=file], input[name=connection]': 'favoriteUpdate',
     'change input[name=file], input[name=connection]': 'favoriteUpdate',
+    'click a[href=#cacheFlush]': 'cacheFlush',
     'change select[name=srs-name]': 'nameToSrs',
     'keyup input[name=srs]': 'srsToName'
 };
@@ -23,6 +24,7 @@ view.prototype.initialize = function(options) {
         'browsePostGIS',
         'favoriteToggle',
         'favoriteUpdate',
+        'cacheFlush',
         'nameToSrs',
         'srsToName'
     );
@@ -97,6 +99,14 @@ view.prototype.favoriteUpdate = function(ev) {
         }
     } else {
         favorite.addClass('hidden');
+    }
+
+    // Show cache clear link if datasource points to a URL.
+    var cache = target.siblings('.cache');
+    if (uri.match(/^http:\/\//)) {
+        cache.removeClass('hidden');
+    } else {
+        cache.addClass('hidden');
     }
     return false;
 };
@@ -225,6 +235,21 @@ view.prototype.savePostGIS = function() {
             this.model.collection.add(this.model);
         this.$('.close').click();
     }).bind(this), error:error });
+    return false;
+};
+
+view.prototype.cacheFlush = function(ev) {
+    $(this.el).addClass('loading');
+    var url = this.$('form.layerFile input[name=file]').val();
+    this.model.collection.parent.flush(this.model.id, url, {
+        success: _(function(m, resp) {
+            $(this.el).removeClass('loading');
+        }).bind(this),
+        error: _(function(m, err) {
+            $(this.el).removeClass('loading');
+            new views.Modal(err);
+        }).bind(this)
+    });
     return false;
 };
 

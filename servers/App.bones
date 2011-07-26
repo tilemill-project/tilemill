@@ -57,9 +57,11 @@ server.prototype.projectPoll = function(req, res, next) {
 };
 
 server.prototype.projectFlush = function(req, res, next) {
+    if (!req.param('url')) return next(new Error('req.query.url required.'));
+
     var model = new models.Project(
         { id: req.param('id') },
-        { layer: req.param('layer') }
+        { layer: req.param('layer'), url: req.param('url') }
     );
     model.sync('flush', model, res.send.bind(res), next);
 };

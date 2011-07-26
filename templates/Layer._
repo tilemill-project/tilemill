@@ -29,6 +29,9 @@
       <input type='text' name='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' size='60'/>
       <a href='#favorite' class='icon favorite'>Favorite</a>
       <a href='#open' class='button open'>Browse</a>
+      <small class='cache description hidden'>
+        Does the layer data appear stale? <a href='#cacheFlush'>Flush cache</a>
+      </small>
       <div class='browser'></div>
     </li>
     <li>
