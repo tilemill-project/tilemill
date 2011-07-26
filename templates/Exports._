@@ -8,13 +8,13 @@
   <div class='description'>
     Started <%= (new Date(m.get('created'))).format('F j h:ia') %>
     <% if (m.get('updated')) { %>
-    &mdash; <%= obj.time(m.get('updated') - m.get('created')) %>s
+    &mdash; <%= obj.time(m.get('updated') - m.get('created')) %>
     <% } %>
   </div>
   <div class='status'>
     <% if (m.get('status') === 'processing' || m.get('status') === 'waiting') { %>
       <div class='progress'><div style='width:<%= Math.round(m.get('progress') * 100) %>%'class='bar'></div></div>
-      <%= obj.time(m.get('remaining')) %>s remaining
+      <%= obj.time(m.get('remaining')) %> remaining
     <% } %>
     <% if (m.get('status') === 'complete') { %>
       <a class='button' href='/export/download/<%=m.get('filename')%>'><span class='icon reverse labeled export'></span> Download</a>

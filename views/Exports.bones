@@ -27,10 +27,12 @@ view.prototype.time = function(ms) {
     }
     var seconds = ms / 1000 | 0;
     var hours = (seconds / 3600) | 0;
+    if (hours > 48) return Math.round(hours/24) + ' days';
+
     seconds -= hours * 3600;
     var minutes = (seconds / 60) | 0;
     seconds -= minutes * 60;
-    return lpad(hours, 2, '0') + ':' + lpad(minutes, 2, '0') + ':' + lpad(seconds, 2, '0');
+    return lpad(hours, 2, '0') + ':' + lpad(minutes, 2, '0') + ':' + lpad(seconds, 2, '0') + 's';
 };
 
 view.prototype.exportDelete = function(ev) {
