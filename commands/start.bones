@@ -27,10 +27,10 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
     // Update 1: Migrate to new backbone-dirty key format.
     try {
         var db = fs.readFileSync(settings.files + '/app.db', 'utf8');
-        if (db && db.match(/{"key":"(export|library|settings):/g)) {
-            db = db.replace(/{"key":"export:/g, '{"key":"api/Export/');
-            db = db.replace(/{"key":"library:/g, '{"key":"api/Library/');
-            db = db.replace(/{"key":"settings:/g, '{"key":"api/Settings/');
+        if (db && db.match(/\{"key":"(export|library|settings):/g)) {
+            db = db.replace(/\{"key":"export:/g, '{"key":"api/Export/');
+            db = db.replace(/\{"key":"library:/g, '{"key":"api/Library/');
+            db = db.replace(/\{"key":"settings:/g, '{"key":"api/Settings/');
             fs.writeFileSync(settings.files + '/app.db', db);
             console.log('Update: Migrated to new backbone-dirty key format.');
         }

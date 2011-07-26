@@ -114,7 +114,7 @@ function mtimeProject(model, callback) {
 
 // Load a single project model.
 function loadProject(model, callback) {
-    var modelPath = path.join(settings.files, 'project', model.id);
+    var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
     var object = {};
     Step(function() {
         mtimeProject(model, this);
@@ -124,7 +124,7 @@ function loadProject(model, callback) {
         read(path.join(modelPath, model.id) + '.mml', this);
     },
     function(err, file) {
-        if (err) throw new Error('Error reading model file.');
+        if (err) return callback(new Error.HTTP('Project does not exist', 404));
         try {
             object = _(object).extend(JSON.parse(file.data));
         } catch(err) {
@@ -194,16 +194,16 @@ function loadProject(model, callback) {
 
 // Load all projects into an array.
 function loadProjectAll(model, callback) {
-    var basepath = path.join(settings.files, 'project');
+    var basepath = path.resolve(path.join(settings.files, 'project'));
     Step(function() {
         mkdirp(basepath, 0777, this);
     },
     function(err) {
-        if (err) throw err;
+        if (err) return callback(err);
         readdir(basepath, this);
     },
     function(err, files) {
-        if (err) throw new Error('Error reading model directory.');
+        if (err) return callback(err);
         if (files.length === 0) return this(null, []);
         var group = this.group();
         _(files).chain()
@@ -339,7 +339,7 @@ models.Project.prototype.localize = function(mml, callback) {
     localizedCache[key].once('load', done);
 
     Step(function() {
-        millstone({
+        millstone.resolve({
             mml: mml,
             base: path.join(settings.files, 'project', model.id),
             cache: path.join(settings.files, 'cache')

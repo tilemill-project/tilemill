@@ -69,17 +69,20 @@ small { font-size:11px; }
 
 .loading:after {
   content:'Loading ...';
+  text-indent:-9999px;
+  overflow:hidden;
   position:absolute;
   left:50%;
   top:50%;
-  margin:-10px 0px 0px -50px;
-  width:100px;
+  margin:-20px 0px 0px -20px;
+  width:20px;
   height:20px;
-  font-size:20px;
-  text-align:center;
+  padding:10px;
+  background:#444 url(../images/spinner-reverse.gif) 50% 50% no-repeat;
   z-index:101;
-  color:#fff;
-  text-shadow:#fff 0px 0px 10px;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
   }
 
 /**
@@ -255,6 +258,15 @@ small { font-size:11px; }
   height:30px;
   background:url(../images/sprite.png) 0px -150px no-repeat;
   }
+
+.header .spinner {
+  margin:5px 0px;
+  float:right;
+  background:url(../images/spinner.gif) no-repeat;
+  visibility:hidden;
+  }
+
+.saving .header .spinner { visibility:visible; }
 
 .header .actions {
   float:right;

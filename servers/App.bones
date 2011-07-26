@@ -28,6 +28,7 @@ server.prototype.initialize = function(app) {
     this.get('/assets/tilemill/js/abilities.js', this.abilities);
 
     // Custom Project sync endpoints.
+    this.get('/api/Project/:id.xml', this.projectXML);
     this.get('/api/Project/:id/:time(\\d+)', this.projectPoll);
     this.del('/api/Project/:id/:layer', this.projectFlush);
 
@@ -61,4 +62,17 @@ server.prototype.projectFlush = function(req, res, next) {
         { layer: req.param('layer') }
     );
     model.sync('flush', model, res.send.bind(res), next);
+};
+
+server.prototype.projectXML = function(req, res, next) {
+    var model = new models.Project({ id: req.param('id') });
+    model.fetch({
+        success: function(model, resp) {
+            model.localize(model.toJSON(), function(err) {
+                if (err) return next(err);
+                res.send(model.xml, {'content-type': 'text/xml'});
+            });
+        },
+        error: function(model, resp) { next(resp); }
+    });
 };
