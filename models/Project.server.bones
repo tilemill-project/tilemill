@@ -339,7 +339,7 @@ models.Project.prototype.localize = function(mml, callback) {
     localizedCache[key].once('load', done);
 
     Step(function() {
-        millstone({
+        millstone.resolve({
             mml: mml,
             base: path.join(settings.files, 'project', model.id),
             cache: path.join(settings.files, 'cache')
