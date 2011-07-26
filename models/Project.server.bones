@@ -114,7 +114,7 @@ function mtimeProject(model, callback) {
 
 // Load a single project model.
 function loadProject(model, callback) {
-    var modelPath = path.join(settings.files, 'project', model.id);
+    var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
     var object = {};
     Step(function() {
         mtimeProject(model, this);
@@ -194,7 +194,7 @@ function loadProject(model, callback) {
 
 // Load all projects into an array.
 function loadProjectAll(model, callback) {
-    var basepath = path.join(settings.files, 'project');
+    var basepath = path.resolve(path.join(settings.files, 'project'));
     Step(function() {
         mkdirp(basepath, 0777, this);
     },
