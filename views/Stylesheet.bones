@@ -5,9 +5,7 @@ view.prototype.events = {
 };
 
 view.prototype.initialize = function(options) {
-    if (!options.success) throw new Error('options.success required.');
     _(this).bindAll('render', 'save');
-    this.success = options.success || function() {};
     this.render();
 };
 
@@ -25,7 +23,6 @@ view.prototype.save = function() {
     if (this.model.set(attr, options)) {
         this.model.collection.add(this.model);
         this.$('.close').click();
-        this.success();
     }
     return false;
 };
