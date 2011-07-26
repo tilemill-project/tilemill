@@ -124,7 +124,7 @@ function loadProject(model, callback) {
         read(path.join(modelPath, model.id) + '.mml', this);
     },
     function(err, file) {
-        if (err) throw new Error('Error reading model file.');
+        if (err) return callback(new Error.HTTP('Project does not exist', 404));
         try {
             object = _(object).extend(JSON.parse(file.data));
         } catch(err) {
@@ -199,11 +199,11 @@ function loadProjectAll(model, callback) {
         mkdirp(basepath, 0777, this);
     },
     function(err) {
-        if (err) throw err;
+        if (err) return callback(err);
         readdir(basepath, this);
     },
     function(err, files) {
-        if (err) throw new Error('Error reading model directory.');
+        if (err) return callback(err);
         if (files.length === 0) return this(null, []);
         var group = this.group();
         _(files).chain()
