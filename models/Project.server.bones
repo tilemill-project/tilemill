@@ -69,32 +69,16 @@ models.Project.prototype.sync = function(method, model, success, error) {
 function flushProject(model, callback) {
     if (!model.options || !model.options.layer)
         return callback(new Error('options.layer required.'));
+    if (!model.options || !model.options.url)
+        return callback(new Error('options.url required.'));
 
-    var layer = model.options.layer;
-    var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
-
-    Step(function() {
-        read(path.join(modelPath, model.id) + '.mml', this);
-    },
-    function(err, file) {
-        if (err) throw err;
-
-        // Check that the layer exists.
-        try { var project = JSON.parse(file.data); }
-        catch(err) { throw err; }
-        if (!_(project.Layer).chain().pluck('id').include(layer).value())
-            throw new Error('Layer not found.');
-        fs.stat(path.join(modelPath, layer), this);
-    },
-    function(err, stat) {
-        if (err) throw err;
-        if (!stat.isDirectory()) throw new Error('Cache is not a directory.');
-        rm(path.join(modelPath, layer), this);
-    },
-    function(err) {
-        if (err) return callback(err);
-        return callback(null);
-    });
+    var options = {
+        url: model.options.url,
+        layer: model.options.layer,
+        base: path.join(settings.files, 'project', model.id),
+        cache: path.join(settings.files, 'cache')
+    };
+    millstone.flush(options, callback);
 };
 
 // Get the mtime for a project.
