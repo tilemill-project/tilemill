@@ -1,0 +1,25 @@
+{
+    "bounds": [ -180, -90, 180, 90],
+    "center": [0, 0, 2],
+    "format": "png",
+    "interactivity": false,
+    "minzoom": 0,
+    "maxzoom": 22,
+    "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over",
+    "Stylesheet": [{
+        "data": "Map {\n  background-color: #fff;\n}\n\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}",
+        "id": "style.mss"
+    }],
+    "Layer": [{
+        "id": "world",
+        "name": "world",
+        "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over",
+        "geometry": "polygon",
+        "Datasource": {
+            "file": "http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip",
+            "type": "shape"
+        }
+    }],
+    "id": "demo_02",
+    "bones.token": "NTdptwhjvjRcJy89kqsV9Hgk0AkG3Y5O"
+}

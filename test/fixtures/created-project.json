@@ -1,0 +1,32 @@
+{
+    "Layer": [
+        {
+            "Datasource": {
+                "file": "http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip",
+                "type": "shape"
+            },
+            "geometry": "polygon",
+            "id": "world",
+            "name": "world",
+            "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over"
+        }
+    ],
+    "Stylesheet": [
+        {
+            "data": "Map {\n  background-color: #fff;\n}\n\n#world {\n  polygon-fill: #eee;\n  line-color: #ccc;\n  line-width: 0.5;\n}",
+            "id": "style.mss"
+        }
+    ],
+    "bounds": [ -180, -90, 180, 90 ],
+    "center": [ 0, 0, 2 ],
+    "format": "png",
+    "grids": [ "/1.0.0/demo_02/{z}/{x}/{y}.grid.json" ],
+    "tiles": [ "/1.0.0/demo_02/{z}/{x}/{y}.png" ],
+    "id": "demo_02",
+    "interactivity": false,
+    "maxzoom": 22,
+    "minzoom": 0,
+    "scheme": "tms",
+    "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+    "tilejson": "1.0.0"
+}
