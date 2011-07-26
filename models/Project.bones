@@ -227,6 +227,9 @@ model = Backbone.Model.extend({
     },
     // Wrap `save` to call validateAsync first.
     save: _(Backbone.Model.prototype.save).wrap(function(parent, attrs, options) {
+        var err = this.validate(attrs);
+        if (err) return options.error(this, err);
+
         this.validateAsync(attrs, {
             success: _(function() {
                 parent.call(this, attrs, options);
