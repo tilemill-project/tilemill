@@ -71,7 +71,7 @@ function flushProject(model, callback) {
         return callback(new Error('options.layer required.'));
 
     var layer = model.options.layer;
-    var modelPath = path.join(settings.files, 'project', model.id);
+    var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
 
     Step(function() {
         read(path.join(modelPath, model.id) + '.mml', this);
@@ -99,7 +99,7 @@ function flushProject(model, callback) {
 
 // Get the mtime for a project.
 function mtimeProject(model, callback) {
-    var modelPath = path.join(settings.files, 'project', model.id);
+    var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
     readdir(modelPath, function(err, files) {
         if (err) return callback(err);
         var max = _(files).chain()
@@ -222,14 +222,14 @@ function loadProjectAll(model, callback) {
 
 // Destroy a project. `rm -rf` equivalent for the project directory.
 function destroyProject(model, callback) {
-    var modelPath = path.join(settings.files, 'project', model.id);
+    var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
     rm(modelPath, callback);
 }
 
 // Save a project. Creates a subdirectory per project and splits out
 // stylesheets into separate files.
 function saveProject(model, callback) {
-    var modelPath = path.join(settings.files, 'project', model.id);
+    var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
     Step(function() {
         mkdirp(modelPath, 0777, this);
     },
