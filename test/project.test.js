@@ -42,7 +42,8 @@ require('./support/start')(function(command) {
         );
     };
 
-    exports['test project creation'] = function() {
+    exports['test project creation'] = function(beforeExit) {
+        var completed = false;
         var data = readJSON('create-project');
         assert.response(command.servers['Core'], {
             url: '/api/Project/demo_02',
@@ -67,10 +68,71 @@ require('./support/start')(function(command) {
                     var body = JSON.parse(res.body);
                     cleanProject(body);
                     assert.deepEqual(readJSON('created-project'), body);
+
+                    assert.response(command.servers['Core'], {
+                        url: '/api/Project/demo_02',
+                        method: 'DELETE',
+                        headers: {
+                            'content-type': 'application/json',
+                            'cookie': 'bones.token=' + data['bones.token']
+                        },
+                        data: JSON.stringify({ 'bones.token': data['bones.token'] })
+                    }, { status: 200 }, function(res) {
+                        assert.equal(res.body, '{}');
+                        completed = true;
+                    });
                 }
             );
         });
 
+        beforeExit(function() {
+            assert.ok(completed);
+        });
+    };
 
+    exports['test project creation with invalid id'] = function() {
+        var data = readJSON('create-project');
+        data.id = 'Bad !@!ID';
+        assert.response(command.servers['Core'], {
+            url: '/api/Project/Bad%20!@!ID',
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                'cookie': 'bones.token=' + data['bones.token'],
+                'accept': 'application/json'
+            },
+            data: JSON.stringify(data)
+        }, { status: 409 }, function(res) {
+            var body = JSON.parse(res.body);
+            delete body.stack;
+            assert.deepEqual({
+                message: "Error: Name may include alphanumeric characters, dashes and underscores.",
+                status: 409
+            }, body);
+            assert['throws'](function() {
+                fs.statSync('./test/fixtures/files/project/Bad !@!ID');
+            }, "ENOENT, No such file or directory './test/fixtures/files/project/Bad !@!ID'");
+        });
+    };
+
+    exports['test updating project with invalid stylesheet'] = function() {
+        var data = readJSON('invalid-project');
+        assert.response(command.servers['Core'], {
+            url: '/api/Project/demo_01',
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                'cookie': 'bones.token=' + data['bones.token'],
+                'accept': 'application/json'
+            },
+            data: JSON.stringify(data)
+        }, { status: 409 }, function(res) {
+            var body = JSON.parse(res.body);
+            delete body.stack;
+            assert.deepEqual({
+                message: "Error: style.mss:2:2 Invalid value for background-color, a valid color is expected. blurb was given.",
+                status: 409
+            }, body);
+        });
     };
 });
