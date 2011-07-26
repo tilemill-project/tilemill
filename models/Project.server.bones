@@ -83,7 +83,7 @@ function flushProject(model, callback) {
 
 // Get the mtime for a project.
 function mtimeProject(model, callback) {
-    var modelPath = path.join(settings.files, 'project', model.id);
+    var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
     readdir(modelPath, function(err, files) {
         if (err) return callback(err);
         var max = _(files).chain()
@@ -206,14 +206,14 @@ function loadProjectAll(model, callback) {
 
 // Destroy a project. `rm -rf` equivalent for the project directory.
 function destroyProject(model, callback) {
-    var modelPath = path.join(settings.files, 'project', model.id);
+    var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
     rm(modelPath, callback);
 }
 
 // Save a project. Creates a subdirectory per project and splits out
 // stylesheets into separate files.
 function saveProject(model, callback) {
-    var modelPath = path.join(settings.files, 'project', model.id);
+    var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
     Step(function() {
         mkdirp(modelPath, 0777, this);
     },
@@ -285,10 +285,10 @@ models.Project.formatter = function(opts) {
     var full = opts.template_full || '';
     var teaser = opts.template_teaser || '';
     var location = opts.template_location || '';
-    full = _(full.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
-    teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
-    location = _(location.replace(/\[([\w\d]+)\]/g, "<%=$1%>")).template();
-    return _('function(o,d) { return {full:<%=full%>, teaser:<%=teaser%>, location:<%=location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
+    full = _(full.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
+    teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
+    location = _(location.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
+    return _('function(o,d) { return {full:<%=obj.full%>, teaser:<%=obj.teaser%>, location:<%=obj.location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
 };
 
 var localizedCache = {};

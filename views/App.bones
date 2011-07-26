@@ -92,6 +92,15 @@ view.prototype.keydown = function(ev) {
 view.prototype.dropdown = function(ev) {
     var target = $(ev.currentTarget);
     if (!target.is('.dropdown')) target = target.parents('.button.dropdown');
-    target.toggleClass('active');
+    var app = this.el;
+    if (!target.hasClass('active')) {
+        target.addClass('active');
+        $(app).bind('click', collapse);
+    }
+    function collapse(ev) {
+        target.removeClass('active');
+        $(app).unbind('click', collapse);
+    }
+
     return false;
 };
