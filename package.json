@@ -2,8 +2,8 @@
     "name": "tilemill",
     "version": "0.3.0",
     "main": "./tilemill.js",
-    "description": "An Integrated Map Design Environment",
-    "keywords": ["map", "client"],
+    "description": "Modern map design studio.",
+    "keywords": ["map", "design", "cartography"],
     "url": "http://github.com/developmentseed/tilemill",
     "repositories": [{
         "type": "git",
