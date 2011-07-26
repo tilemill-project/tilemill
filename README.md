@@ -37,7 +37,7 @@ Installation: Mac OS X 10.6
 Install [Xcode][xcode] for Mac OS X. Version 3 or 4 will work.
 
 - [Download Xcode 3](https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20792)
-- [Download Xcode 4](http://developer.apple.com/xcode/) (Apple charges a fee for this download)
+- [Download Xcode 4](http://itunes.apple.com/us/app/xcode/id448457090?mt=12)
 
 
 [Download Mapnik 2.0.0 r3030](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r3030.dmg) and install
