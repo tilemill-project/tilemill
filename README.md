@@ -131,14 +131,12 @@ Start TileMill:
 TileMill should now be accessible from a browser at `http://localhost:8889`.
 
 
-Upgrading
----------
-Refer to CHANGELOG.md for information about the new version. This file will
-indicate if a Mapnik upgrade is required. To upgrade TileMill, use the
-installation instructions to install the new version TileMill in a separate
-directory. Once the new installation is complete, manually copy the `files/`
-directory and the `settings.js` file from the old installation to the new
-installation. This will migrate your projects, settings, and data.
+Upgrading (0.3.x to 0.4.x)
+--------------------------
+TileMill will now keep its files by default in your user's home directory
+at `~/Documents/TileMill`. After running `tilemill` for the first time this
+directory will be created. Move your old projects to
+`~/Documents/TileMill/project`.
 
 
 Configuration
