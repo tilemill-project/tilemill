@@ -71,22 +71,6 @@ model = Backbone.Model.extend({
     defaults: {
         progress: 0,
         status: 'waiting'
-    },
-    // Get the duration of the current export job.
-    time: function() {
-        if (this.get('updated')) {
-            var seconds = parseInt((this.get('updated') - this.get('created')) * .001, 10);
-            var minutes = parseInt(seconds / 60, 10);
-            var remainder = seconds - (minutes * 60);
-            if (minutes && remainder) {
-                return minutes + ' min ' + remainder + ' sec';
-            } else if (minutes) {
-                return minutes + ' min';
-            } else {
-                return seconds + ' sec';
-            }
-        }
-        return '0 sec';
     }
 });
 

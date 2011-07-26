@@ -1,18 +1,20 @@
 <ul class='exports fill'>
-<% each(function(m) { %>
+<% collection.each(function(m) { %>
 <li id='export-<%=m.id%>' class='<%= m.get('status') %>'>
   <span class='icon filetype <%=m.get('format')%>'>
     <span class='icon <%=m.get('status')%>'><%=m.get('status')%></span>
   </span>
   <h2><%= m.get('filename') %></h2>
   <div class='description'>
-    Started <%= (new Date(m.get('created'))).format('F j h:ia') %> &mdash; <%= m.time() %>
+    Started <%= (new Date(m.get('created'))).format('F j h:ia') %>
+    <% if (m.get('updated')) { %>
+    &mdash; <%= obj.time(m.get('updated') - m.get('created')) %>s
+    <% } %>
   </div>
   <div class='status'>
     <% if (m.get('status') === 'processing' || m.get('status') === 'waiting') { %>
       <div class='progress'><div style='width:<%= Math.round(m.get('progress') * 100) %>%'class='bar'></div></div>
-      <%= Math.round(m.get('progress') * 100) %>% complete
-      <!-- @TODO progress bar/info -->
+      <%= obj.time(m.get('remaining')) %>s remaining
     <% } %>
     <% if (m.get('status') === 'complete') { %>
       <a class='button' href='/export/download/<%=m.get('filename')%>'><span class='icon reverse labeled export'></span> Download</a>
