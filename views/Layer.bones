@@ -10,7 +10,9 @@ view.prototype.events = {
     'change input[name=file], input[name=connection]': 'favoriteUpdate',
     'click a[href=#cacheFlush]': 'cacheFlush',
     'change select[name=srs-name]': 'nameToSrs',
-    'keyup input[name=srs]': 'srsToName'
+    'keyup input[name=srs]': 'srsToName',
+    'keyup input[name=file]': 'srsForce',
+    'change input[name=file]': 'srsForce'
 };
 
 view.prototype.initialize = function(options) {
@@ -26,7 +28,8 @@ view.prototype.initialize = function(options) {
         'favoriteUpdate',
         'cacheFlush',
         'nameToSrs',
-        'srsToName'
+        'srsToName',
+        'srsForce'
     );
     this.favorites = options.favorites;
     this.render();
@@ -66,6 +69,30 @@ view.prototype.srsToName = function(ev) {
     var el = $(ev.currentTarget);
     var srs = $(ev.currentTarget).val();
     el.siblings('select[name=srs-name]').val(this.model.srsName(srs));
+};
+
+// Force raster and KML sources to use `autodetect` as their SRS. Actual SRS
+// enforcement occurs upstream in `millstone`.
+view.prototype.srsForce = function(ev) {
+    var uri = $(ev.currentTarget).val();
+    var form = $(ev.currentTarget).parents('form');
+    var matches = uri.match(/.(\w+)$/) || [''];
+    switch (matches[0]) {
+    case '.geotiff':
+    case '.geotif':
+    case '.vrt':
+    case '.tiff':
+    case '.tif':
+    case '.kml':
+        $('select[name=srs-name], input[name=srs]', form).attr('disabled', true);
+        $('select[name=srs-name]', form).val('autodetect').change();
+        $('input[name=srs]', form).val('');
+        break;
+    default:
+        $('select[name=srs-name], input[name=srs]', form).attr('disabled', false);
+        $('select[name=srs-name]', form).change();
+        break;
+    }
 };
 
 view.prototype.favoriteToggle = function(ev) {
