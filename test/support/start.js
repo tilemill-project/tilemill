@@ -12,8 +12,9 @@ tilemill.config.files = './test/fixtures/files';
 
 var started = false, waiting = [];
 var command = tilemill.start(function() {
-    exec('./test/support/cleanup.sh', function(err) {
+    exec('./test/support/init.sh', function(err) {
         if (err) throw err;
+        console.warn('Initialized test fixture');
         started = true;
         for (var fn; fn = waiting.shift();) fn(command);
     });
