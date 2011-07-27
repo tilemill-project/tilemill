@@ -29,11 +29,11 @@
         "sax": "0.1.x",
         "request": "1.9.x",
         "step": "0.0.x",
-        "tilelive": "4.0.x",
+        "tilelive": "~4.0.3",
         "mapnik": "0.4.x",
         "millstone": "~ 0.0.3",
         "sphericalmercator": "1.0.x",
-        "tilelive-mapnik": "0.1.0",
+        "tilelive-mapnik": "~0.1.1",
         "underscore": "1.1.x",
         "carto": "0.2.0",
         "wax": "https://github.com/mapbox/wax/tarball/aa81654edb7473fd241a703d2bfc1e881365ca69"
