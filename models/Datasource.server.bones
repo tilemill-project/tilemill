@@ -20,6 +20,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             Stylesheet: [{ id: 'layer', data: '' }],
             Layer: [{
                 name: options.id,
+                srs: options.srs || '',
                 Datasource: {
                     file: options.file,
                     type: options.type

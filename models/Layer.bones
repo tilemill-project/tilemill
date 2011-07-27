@@ -78,6 +78,7 @@ model = Backbone.Model.extend({
 
         (new models.Datasource(_(attributes.Datasource).extend({
             id: attributes.id,
+            srs: attributes.srs,
             project: this.collection.parent.get('id')
         }))).fetch({
             success: _(function(model, resp) {
