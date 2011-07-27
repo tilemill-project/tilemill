@@ -34,7 +34,11 @@ model.prototype.schema = {
         // TileJSON properties.
         'name':        { 'type': 'string' },
         'description': { 'type': 'string' },
-        'version':     { 'type': 'string' },
+        'version':     {
+            'type': 'string',
+            'description': 'Semver compatible version string.',
+            'pattern': '\\d+\\.\\d+\\.\\d+\\w?[\\w\\d]*'
+        },
         'attribution': { 'type': 'string' },
         'legend':      { 'type': 'string' },
         'minzoom': {
@@ -53,9 +57,9 @@ model.prototype.schema = {
             'maxItems': 4,
             'items': [
                 { 'type':'number', 'minimum':-180, 'maximum':180 },
-                { 'type':'number', 'minimum':-90, 'maximum':90 },
+                { 'type':'number', 'minimum':-85.0511, 'maximum':85.0511 },
                 { 'type':'number', 'minimum':-180, 'maximum':180 },
-                { 'type':'number', 'minimum':-90, 'maximum':90 }
+                { 'type':'number', 'minimum':-85.0511, 'maximum':85.0511 }
             ]
         },
         'center': {
@@ -64,7 +68,7 @@ model.prototype.schema = {
             'maxItems': 3,
             'items': [
                 { 'type':'number', 'minimum':-180, 'maximum':180 },
-                { 'type':'number', 'minimum':-90, 'maximum':90 },
+                { 'type':'number', 'minimum':-85.0511, 'maximum':85.0511 },
                 { 'type':'integer', 'minimum':0, 'maximum':22 }
             ]
         },
@@ -136,7 +140,7 @@ model.prototype.LAYER_DEFAULT = [{
 }];
 
 model.prototype.defaults = {
-    'bounds': [-180,-90,180,90],
+    'bounds': [-180,-85.0511,180,85.0511],
     'center': [0,0,2],
     'format': 'png',
     'interactivity': false,

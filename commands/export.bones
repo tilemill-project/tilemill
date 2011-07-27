@@ -116,10 +116,17 @@ command.prototype.initialize = function(plugin, callback) {
             model.localize(resp, function(err) {
                 if (err) return this.error(err);
                 model.mml = _(model.mml).extend({
+                    name: model.mml.name || model.id,
+                    version: model.mml.version || '1.0.0',
                     minzoom: !_(opts.minzoom).isUndefined() ? opts.minzoom : model.get('minzoom'),
                     maxzoom: !_(opts.maxzoom).isUndefined() ? opts.maxzoom : model.get('maxzoom'),
                     bounds: !_(opts.bbox).isUndefined() ? opts.bbox : model.get('bounds')
                 });
+
+                // Unset map center for now given that it may be outside
+                // overridden bounds provided.
+                if (model.mml.center) delete model.mml.center;
+
                 this[opts.format](model, callback);
             }.bind(this));
         }.bind(this),
