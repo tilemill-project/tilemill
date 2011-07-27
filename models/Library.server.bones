@@ -86,7 +86,10 @@ models.Library.prototype.sync = function(method, model, success, error) {
                             name: path.basename(filepath)
                         };
                     } else if (!isFile) {
-                        return { location: filepath, name: filepath };
+                        return {
+                            location: filepath,
+                            name: path.basename(filepath)
+                        };
                     }
                 })
                 .compact()
