@@ -12,7 +12,7 @@ view.prototype.initialize = function(options) {
 
 view.prototype.render = function() {
     var features = this.model.get('features');
-    this.$('.content').html(templates.DatasourceInfo({
+    this.$('.content').html(templates.Datasource({
         fields: this.model.get('fields'),
         features: _(features).first(this.featureLimit),
         more: _(features).size() > this.featureLimit
@@ -22,7 +22,7 @@ view.prototype.render = function() {
 
 view.prototype.showAll = function() {
     this.$('a.showall').hide();
-    this.$('.content table tbody').append(templates.DatasourceInfoRows({
+    this.$('.content table tbody').append(templates.DatasourceRows({
         fields: this.model.get('fields'),
         features: _(this.model.get('features')).rest(this.featureLimit)
     }));
