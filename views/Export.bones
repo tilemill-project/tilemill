@@ -30,10 +30,10 @@ view.prototype.render = function() {
     });
     this.map.controls.zoombox.remove();
     this.map.controls.boxselector = wax.mm.boxselector(this.map, {}, _(function(data) {
-        var s = _(data).chain().pluck('lat').min().value().toFixed(2);
-        var n = _(data).chain().pluck('lat').max().value().toFixed(2);
-        var w = _(data).chain().pluck('lon').min().value().toFixed(2) % 360;
-        var e = _(data).chain().pluck('lon').max().value().toFixed(2) % 360;
+        var s = _(data).chain().pluck('lat').min().value().toFixed(4);
+        var n = _(data).chain().pluck('lat').max().value().toFixed(4);
+        var w = _(data).chain().pluck('lon').min().value().toFixed(4) % 360;
+        var e = _(data).chain().pluck('lon').max().value().toFixed(4) % 360;
         if (w < -180) w += 360; else if (w > 180) w -= 360;
         if (e < -180) e += 360; else if (e > 180) e -= 360;
 
