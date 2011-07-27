@@ -328,7 +328,7 @@ view.prototype.layerInspect = function(ev) {
     model.fetchFeatures({
         success: function(model) {
             $('#drawer').removeClass('loading');
-            new views.DatasourceInfo({
+            new views.Datasource({
                 el: $('#drawer'),
                 model: model
             });

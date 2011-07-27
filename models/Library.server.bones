@@ -58,7 +58,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
         data.id = model.id;
         data.location = model.get('location') || '';
         data.assets = [];
-        options.bucket = 'tilemill-data';
+        options.bucket = 'mapbox-geodata';
         options.prefix = data.location;
         s3.list(options, function(err, objects) {
             if (err) return error(err);
