@@ -68,7 +68,7 @@ model.prototype.schema = {
             'maxItems': 3,
             'items': [
                 { 'type':'number', 'minimum':-180, 'maximum':180 },
-                { 'type':'number', 'minimum':-85.0511, 'maximum':85.0511 },
+                { 'type':'number', 'minimum':-85.05112877980659, 'maximum':85.05112877980659 },
                 { 'type':'integer', 'minimum':0, 'maximum':22 }
             ]
         },
@@ -143,7 +143,7 @@ model.prototype.LAYER_DEFAULT = [{
 }];
 
 model.prototype.defaults = {
-    'bounds': [-180,-85.0511,180,85.0511],
+    'bounds': [-180,-85.05112877980659,180,85.05112877980659],
     'center': [0,0,2],
     'format': 'png',
     'interactivity': false,
