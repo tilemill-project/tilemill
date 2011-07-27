@@ -50,12 +50,12 @@ Prerequisites for Ubuntu 10.10
 ------------------------------
 
 You can either build from source or install using Ubuntu packages.  Ubuntu
-packages are available for Maverick 10.10.  To install from packages, do the
-following:
+packages are available for Maverick 10.10.  To install from packages, run the
+following command (location shown from base of TileMill directory tree):
 
 `sudo ./platforms/ubuntu/install-packages`
 
-which will add and sign the necessary PPA's 
+which will add and sign the necessary PPA's, and install TileMill.
 
 To build from source:
 
