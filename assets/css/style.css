@@ -116,6 +116,7 @@ small { font-size:11px; }
 #modal .content {
   padding:20px;
   font-size:16px;
+  overflow:hidden;
   color:#fff;
   }
 
