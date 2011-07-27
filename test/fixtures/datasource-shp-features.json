@@ -3205,7 +3205,7 @@
     },
     "geometry_type": "polygon",
     "id": "world",
-    "project": "asdf",
+    "project": "demo_01",
     "type": "vector",
     "url": "http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip"
 }
