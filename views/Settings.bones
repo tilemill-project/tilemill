@@ -79,6 +79,10 @@ view.prototype.save = function() {
             parseInt(this.$('input[name=center_2]').val())
         ]
     };
+
+    // Remove empty strings from attributes.
+    _(attr).each(function(v, k) { if (v === '') delete attr[k]; });
+
     var error = function(m, e) { new views.Modal(e); };
     if (!this.model.set(attr, {error:error})) return false;
 
