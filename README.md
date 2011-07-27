@@ -48,6 +48,17 @@ Install [node][node] 0.4.9 or greater.
 
 Prerequisites for Ubuntu 10.10
 ------------------------------
+
+You can either build from source or install using Ubuntu packages.  Ubuntu
+packages are available for Maverick 10.10.  To install from packages, do the
+following:
+
+`sudo ./platforms/ubuntu/install-packages`
+
+which will add and sign the necessary PPA's 
+
+To build from source:
+
 Install build requirements:
 
     # Mapnik dependencies
