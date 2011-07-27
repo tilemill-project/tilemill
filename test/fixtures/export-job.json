@@ -1,0 +1,14 @@
+{
+    "progress": 0,
+    "status": "waiting",
+    "format": "mbtiles",
+    "project": "demo_01",
+    "tile_format": "png",
+    "created": 0,
+    "id": "",
+    "filename": "demo_01.mbtiles",
+    "bbox": [ -29.5642, 31.8402, 42.1545, 71.9245 ],
+    "minzoom": 0,
+    "maxzoom": 9,
+    "bones.token": "zbx6dr0ghgvRNZOuu8PXtt2VCAIKO2qK"
+}
