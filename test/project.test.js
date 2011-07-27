@@ -30,16 +30,41 @@ require('./support/start')(function(command) {
         );
     };
 
-    exports['test project endpoint'] = function() {
+    exports['test project endpoint'] = function(beforeExit) {
+        var completed = false;
         assert.response(command.servers['Core'],
             { url: '/api/Project/demo_01' },
             { status: 200 },
             function(res) {
                 var body = JSON.parse(res.body);
+                var _updated = body._updated;
                 cleanProject(body);
                 assert.deepEqual(readJSON('existing-project'), body);
+
+                // No new update.
+                assert.response(command.servers['Core'],
+                    { url: '/api/Project/demo_01/' + _updated },
+                    { body: '{}', status: 200 }
+                );
+
+                // Update notification.
+                assert.response(command.servers['Core'],
+                    { url: '/api/Project/demo_01/' + (+_updated - 1000) },
+                    { status: 200 },
+                    function(res) {
+                        var body = JSON.parse(res.body);
+                        var _updated = body._updated;
+                        cleanProject(body);
+                        assert.deepEqual(readJSON('existing-project'), body);
+                        completed = true;
+                    }
+                );
             }
         );
+
+        beforeExit(function() {
+            assert.ok(completed);
+        })
     };
 
     exports['test project creation'] = function(beforeExit) {

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = "configure" ]; then
+
+	# Create the "tilemill" user
+	if ! getent passwd tilemill > /dev/null; then
+		adduser --quiet --system --group --no-create-home \
+			--gecos "TileMill system user" \
+			tilemill
+	fi
+
+	# Create files common to "tilemill" which need to be owned by the 
+        # "tilemill" user
+	install --owner tilemill --group tilemill --directory \
+        	/var/log/tilemill
+        # Ownership on tilemill home dir
+        chown tilemill:tilemill /usr/share/tilemill
+fi
+
+#DEBHELPER#
