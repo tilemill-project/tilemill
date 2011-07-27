@@ -107,9 +107,6 @@ Install TileMill:
 
     npm install -g tilemill
 
-This will install TileMill globally. If you want a local installation in
-your current working directory, run the command without the `-g` option.
-
 Start TileMill:
 
     tilemill
