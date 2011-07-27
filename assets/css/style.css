@@ -426,7 +426,7 @@ small { font-size:11px; }
 .project.exporting .header .actions { display:none; }
 
 .project.exporting #export { right:0px; }
-.project.exporting #drawer.active { left:-60%; }
+.project.exporting #drawer.active { left:-50%; }
 
 #export {
   position:fixed;
@@ -1375,6 +1375,7 @@ tr:hover th,
 /* Screen-size adjustments */
 @media (min-width:1000px) {
   #drawer { width:55% !important; left:-55%; }
+  .project.exporting #drawer.active { left:-55%; }
   .project .map { width:55% !important; }
   .project .editor { width:45% !important; }
   .project.exporting .map,
@@ -1382,6 +1383,7 @@ tr:hover th,
 }
 @media (min-width:1200px) {
   #drawer { width:60% !important; left:-60%; }
+  .project.exporting #drawer.active { left:-60%; }
   .project .map { width:60% !important; }
   .project .editor { width:40% !important; }
   .project.exporting .map,
