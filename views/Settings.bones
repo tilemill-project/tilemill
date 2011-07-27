@@ -71,7 +71,7 @@ view.prototype.save = function() {
             parseFloat(this.$('input[name=bounds_0]').val()),
             parseFloat(this.$('input[name=bounds_1]').val()),
             parseFloat(this.$('input[name=bounds_2]').val()),
-            parseFloat(this.$('input[name=bounds_2]').val())
+            parseFloat(this.$('input[name=bounds_3]').val())
         ],
         'center': [
             parseFloat(this.$('input[name=center_0]').val()),
