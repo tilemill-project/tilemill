@@ -174,13 +174,12 @@ function loadProject(model, callback) {
             return { id: file.basename, data: file.data };
         });
 
-        // Migrate underscore properties to normal equivalents.
+        // Migrate old properties to tilejson equivalents.
         ['_center', '_format', '_interactivity'].forEach(function(k) {
             if (!object[k]) return;
             object[k.substr(1)] = object[k.substr(1)] || object[k];
             delete object[k];
         });
-        // Migrate from old center format to TileJSON compliant.
         if (object.center && !_(object.center).isArray()) {
             object.center = [
                 object.center.lon || 0,
@@ -188,20 +187,6 @@ function loadProject(model, callback) {
                 object.center.zoom || 0
             ];
         }
-
-        // Migrate project, layer SRS strings.
-        // Normalizes srs by finding relevant proj arguments to compare.
-        [object].concat(object.Layer || []).forEach(function(obj) {
-            if (!obj.srs) return;
-
-            var normalized = _(obj.srs.split(' ')).chain()
-                .select(function(s) { return s.indexOf('=') > 0 })
-                .sortBy(function(s) { return s })
-                .value()
-                .join(' ');
-            var legacy = '+a=6378137 +b=6378137 +k=1.0 +lat_ts=0.0 +lon_0=0.0 +nadgrids=@null +proj=merc +units=m +x_0=0.0 +y_0=0';
-            if (normalized === legacy) obj.srs = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over';
-        });
 
         // Generate dynamic properties.
         object.tilejson = '1.0.0';
