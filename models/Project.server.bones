@@ -65,6 +65,47 @@ models.Project.prototype.sync = function(method, model, success, error) {
     }
 };
 
+// Custom validation method that allows for asynchronous processing.
+// Expects options.success and options.error callbacks to be consistent
+// with other Backbone methods. Catches three main types of errors:
+// - localize failure
+// - carto compilation failure
+// - limited mapnik "test render" failure
+models.Project.prototype.validateAsync = function(attributes, options) {
+    var mml = _(attributes).extend({_updated: + new Date()});
+    this.localize(mml, function(err) {
+        if (err) return options.error(this, err);
+
+        var map = new mapnik.Map(1,1);
+        var im = new mapnik.Image(1,1);
+        map.fromString(this.xml, {
+            strict:false,
+            base:path.join(Bones.plugin.config.files, 'project', this.id)
+        }, function(err, map) {
+            if (err) return options.error(this.err);
+            map.bufferSize = 0;
+            map.extent = [0,0,1,1];
+            map.render(im, {format:'png'}, function(err) {
+                if (err) return options.error(this, err);
+                options.success(this, null);
+            }.bind(this));
+        });
+    }.bind(this));
+};
+
+// Wrap save to call validateAsync first.
+models.Project.prototype.save = _(Backbone.Model.prototype.save).wrap(function(parent, attrs, options) {
+    var err = this.validate(attrs);
+    if (err) return options.error(this, err);
+
+    this.validateAsync(attrs, {
+        success: _(function() {
+            parent.call(this, attrs, options);
+        }).bind(this),
+        error: options.error
+    });
+});
+
 // Flush the cache for a project's layer.
 function flushProject(model, callback) {
     if (!model.options || !model.options.layer)
