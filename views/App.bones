@@ -72,7 +72,7 @@ view.prototype.toggler = function(ev) {
 };
 
 view.prototype.keydown = function(ev) {
-    // Keypress: escape
+    // Escape
     if (ev.which == 27 && (!ev.ctrlKey && !ev.metaKey && !ev.altKey)) {
         // @TODO for some reason a function bound from the Modal view
         // to a keydown event is not fired. Probably related to
@@ -85,6 +85,18 @@ view.prototype.keydown = function(ev) {
         } else if (this.$('#drawer.active').size()) {
             this.drawerClose();
         }
+        return false;
+    }
+    // Ctrl + S
+    // The keydown event is only passed to a specific view if an form
+    // element in that view has focus. When no form element has focus
+    // the top most view takes precedence and the event is *not* bubbled
+    // down (http://api.jquery.com/keydown). This code conceptually belongs
+    // in `Project.bones` but is handled here as the App is the one to
+    // receive the event.
+    if (ev.which == 83 &&
+        ((ev.ctrlKey || ev.metaKey) && !ev.altKey)) {
+        this.$('.actions a[href=#save]').click();
         return false;
     }
 };

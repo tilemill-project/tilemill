@@ -22,8 +22,7 @@ view.prototype.events = {
     'click .status a[href=#close]': 'statusClose',
     'click .swatch': 'colorOpen',
     'click .swatch a[href=#save]': 'colorSave',
-    'click .swatch a[href=#close]': 'colorClose',
-    'keydown': 'keydown'
+    'click .swatch a[href=#close]': 'colorClose'
 };
 
 view.prototype.initialize = function() {
@@ -33,7 +32,6 @@ view.prototype.initialize = function() {
         'save',
         'change',
         'mapZoom',
-        'keydown',
         'layerAdd',
         'layerInspect',
         'layerEdit',
@@ -277,15 +275,6 @@ view.prototype.carto = function(ev) {
 
 view.prototype.settings = function(ev) {
     new views.Settings({ el: $('#popup'), model: this.model });
-};
-
-view.prototype.keydown = function(ev) {
-    // ctrl+S
-    if (ev.which == 83 &&
-        ((ev.ctrlKey || ev.metaKey) && !ev.altKey)) {
-        this.save();
-        return false;
-    }
 };
 
 view.prototype.layerAdd = function(ev) {
