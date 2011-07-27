@@ -45,23 +45,6 @@ Install [Xcode][xcode] for Mac OS X. Version 3 or 4 will work.
 
 Install [node][node] 0.4.9 or greater.
 
-Install [npm][npm]:
-
-    curl http://npmjs.org/install.sh | sh
-
-Install TileMill:
-
-    npm install -g tilemill
-
-This will install TileMill globally. If you want a local installation in
-your current working directory, run the command without the `-g` option.
-
-Start TileMill:
-
-    tilemill
-
-TileMill should now be accessible from a browser at `http://localhost:8889`.
-
 
 Prerequisites for Ubuntu 10.10
 ------------------------------
