@@ -45,12 +45,25 @@ command.options['url'] = {
     'description': 'URL to PUT updates to.'
 };
 
+command.options['log'] = {
+    'title': 'log',
+    'description': 'Write crash logs to destination directory.'
+};
+
 command.prototype.initialize = function(plugin, callback) {
     var opts = plugin.config;
     opts.project = plugin.argv._[1];
     opts.filepath = path.resolve(plugin.argv._[2]);
     callback = callback || function() {};
     this.opts = opts;
+
+    // Write crash log
+    if (opts.log) {
+        process.on('uncaughtException', function(err) {
+            fs.writeFileSync(opts.filepath + '.crashlog', err.stack || err.toString());
+            process.exit(1);
+        });
+    }
 
     // Validation.
     if (!opts.project || !opts.filepath) return plugin.help();

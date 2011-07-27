@@ -26,6 +26,8 @@ var start = function(model, data, callback) {
         args.push(path.join(settings.files, 'export', data.filename));
         // url, @TODO: need proper host info.
         args.push('--url=' + 'http://localhost:'+settings.port+'/api/Export/'+data.id);
+        // Log crashes to output directory.
+        args.push('--log');
 
         if (data.bbox) args.push('--bbox=' + data.bbox.join(','));
         if (data.width) args.push('--width=' + data.width);
