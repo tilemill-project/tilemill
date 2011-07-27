@@ -115,7 +115,7 @@ view.prototype.render = function(init) {
     this.$('.layers ul').sortable({
         axis: 'y',
         handle: '.handle',
-        containment: 'parent',
+        containment: this.$('.layers'),
         tolerance: 'pointer'
     });
 

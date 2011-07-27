@@ -402,6 +402,14 @@ small { font-size:11px; }
   max-width:240px;
   }
 
+.project .layers li.ui-sortable-helper {
+  background:#fe8;
+  margin-left:5px;
+  border:1px solid #ccc;
+  border-radius:3px;
+  box-shadow:rgba(0,0,0,.1) 0px 1px 3px;
+  }
+
 .project .layers li .icon { background-color:transparent; }
 .project .layers li .punc { color:#999; }
 
