@@ -80,7 +80,7 @@ view.prototype.save = function() {
         ]
     };
     var error = function(m, e) { new views.Modal(e); };
-    if (!this.model.set(attr, {error:error})) return;
+    if (!this.model.set(attr, {error:error})) return false;
 
     this.model.save({}, {
         success: _(function(model) {
