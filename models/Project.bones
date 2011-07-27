@@ -34,7 +34,11 @@ model.prototype.schema = {
         // TileJSON properties.
         'name':        { 'type': 'string' },
         'description': { 'type': 'string' },
-        'version':     { 'type': 'string' },
+        'version':     {
+            'type': 'string',
+            'description': 'Semver compatible version string.',
+            'pattern': '\\d+\\.\\d+\\.\\d+\\w?[\\w\\d]*'
+        },
         'attribution': { 'type': 'string' },
         'legend':      { 'type': 'string' },
         'minzoom': {
