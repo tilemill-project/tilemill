@@ -396,15 +396,14 @@ small { font-size:11px; }
   border-top:1px solid #eee;
   padding:2px 70px 2px 30px;
   font-weight:bold;
+  overflow:hidden;
+  white-space:nowrap;
+  min-width:60px;
+  max-width:240px;
   }
 
 .project .layers li .icon { background-color:transparent; }
 .project .layers li .punc { color:#999; }
-
-.project .layers li {
-  min-width:60px;
-  max-width:240px;
-  }
 
 /**
  * Map fullscreen and project exporting mode.
