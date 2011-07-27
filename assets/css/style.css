@@ -1377,10 +1377,14 @@ tr:hover th,
   #drawer { width:55% !important; left:-55%; }
   .project .map { width:55% !important; }
   .project .editor { width:45% !important; }
+  .project.exporting .map,
+  .project .wax-fullscreen-map { width:100% !important; }
 }
 @media (min-width:1200px) {
   #drawer { width:60% !important; left:-60%; }
   .project .map { width:60% !important; }
   .project .editor { width:40% !important; }
+  .project.exporting .map,
+  .project .wax-fullscreen-map { width:100% !important; }
 }
 
