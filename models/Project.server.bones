@@ -263,6 +263,22 @@ function saveProject(model, callback) {
 };
 
 function compileStylesheet(mml, callback) {
+    // Parse project stylesheets for `font-directory` property and register
+    // font path if it is present so that `validation_data` includes fonts from
+    // this directory.
+    // @TODO Probably the only more reasonable way to do this would be to have
+    // carto expand validation data dynamically to include this dir when it
+    // comes across this map property. Gross....
+    var styles = _(mml.Stylesheet || []).pluck('data').join('\n');
+    var fonts = styles.match(/font-directory:[\s]*url\(['"]*([^'"\)]*)['"]*\)/);
+    if (fonts) {
+        fonts = fonts[1];
+        fonts = fonts.charAt(0) !== '/'
+            ? path.join(settings.files, 'project', mml.id, fonts)
+            : fonts;
+        mapnik.register_fonts(fonts);
+    }
+
     var env = {
         validation_data: { fonts: mapnik.fonts() },
         returnErrors: true,
@@ -327,7 +343,7 @@ models.Project.prototype.localize = function(mml, callback) {
             mml: mml,
             base: path.join(settings.files, 'project', model.id),
             cache: path.join(settings.files, 'cache')
-        }, this)
+        }, this);
     }, function(err, localized) {
         if (err) return callback(err);
 
