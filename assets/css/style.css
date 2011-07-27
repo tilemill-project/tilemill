@@ -426,7 +426,7 @@ small { font-size:11px; }
 .project.exporting .header .actions { display:none; }
 
 .project.exporting #export { right:0px; }
-.project.exporting #drawer.active { left:-60%; }
+.project.exporting #drawer.active { left:-50%; }
 
 #export {
   position:fixed;
