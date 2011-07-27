@@ -44,7 +44,8 @@
         "docco": "0.3.x"
     },
     "scripts": {
-        "start": "./index.js"
+        "start": "./index.js",
+        "test": "expresso"
     },
     "bin": {
         "tilemill": "./index.js"
