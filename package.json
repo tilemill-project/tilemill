@@ -1,6 +1,6 @@
 {
     "name": "tilemill",
-    "version": "0.3.0",
+    "version": "0.4.0alpha",
     "main": "./tilemill.js",
     "description": "Modern map design studio.",
     "keywords": ["map", "design", "cartography"],
