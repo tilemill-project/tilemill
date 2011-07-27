@@ -48,11 +48,24 @@ model = Backbone.Model.extend({
             },
             'bounds': {
                 'type': 'array',
-                'items': { 'type': 'number' }
+                'minItems': 4,
+                'maxItems': 4,
+                'items': [
+                    { 'type':'number', 'minimum':-180, 'maximum':180 },
+                    { 'type':'number', 'minimum':-90, 'maximum':90 },
+                    { 'type':'number', 'minimum':-180, 'maximum':180 },
+                    { 'type':'number', 'minimum':-90, 'maximum':90 }
+                ]
             },
             'center': {
                 'type': 'array',
-                'items': { 'type': 'number' }
+                'minItems': 3,
+                'maxItems': 3,
+                'items': [
+                    { 'type':'number', 'minimum':-180, 'maximum':180 },
+                    { 'type':'number', 'minimum':-90, 'maximum':90 },
+                    { 'type':'integer', 'minimum':0, 'maximum':22 }
+                ]
             },
 
             // Non-stored properties.
@@ -163,6 +176,9 @@ model = Backbone.Model.extend({
     // - id uniqueness checking.
     // - interactivity check to ensure the referenced layer exists.
     validate: function(attr) {
+        var error = this.validateAttributes(attr);
+        if (error) return error;
+
         if (attr.id &&
             this.collection &&
             this.collection.get(attr.id) &&
@@ -178,7 +194,21 @@ model = Backbone.Model.extend({
                 return new Error(_('Interactivity layer "<%=obj%>" does not exist.').template(id));
         }
 
-        return this.validateAttributes(attr);
+        if (attr.bounds && attr.bounds[0] >= attr.bounds[2])
+            return new Error('Bounds W must be less than E.');
+        if (attr.bounds && attr.bounds[1] >= attr.bounds[3])
+            return new Error('Bounds S must be less than N.');
+
+        if (attr.center && attr.bounds &&
+           (attr.center[0] < attr.bounds[0] ||
+            attr.center[0] > attr.bounds[2] ||
+            attr.center[1] < attr.bounds[1] ||
+            attr.center[1] > attr.bounds[3]))
+            return new Error('Center must be within bounds.');
+        if (attr.center && attr.minzoom && (attr.center[2] < attr.minzoom))
+            return new Error('Center must be within zoom range.');
+        if (attr.center && attr.maxzoom && (attr.center[2] > attr.maxzoom))
+            return new Error('Center must be within zoom range.');
     },
     // Custom validation method that allows for asynchronous processing.
     // Expects options.success and options.error callbacks to be consistent
