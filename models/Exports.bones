@@ -1,9 +1,8 @@
-// ExportList
-// ----------
+// Exports
+// -------
 // Collection. List of all Exports.
-model = Backbone.Collection.extend({
-    model: models.Export,
-    url: '/api/Export',
-    comparator: function(m) { return m.get('created') * -1; }
-});
+model = Backbone.Collection.extend({});
 
+model.prototype.model = models.Export;
+model.prototype.url = '/api/Export';
+model.prototype.comparator = function(m) { return m.get('created') * -1; }
