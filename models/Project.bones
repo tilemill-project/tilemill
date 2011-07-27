@@ -56,10 +56,10 @@ model.prototype.schema = {
             'minItems': 4,
             'maxItems': 4,
             'items': [
-                { 'type':'number', 'minimum':-180, 'maximum':180 },
-                { 'type':'number', 'minimum':-85.0511, 'maximum':85.0511 },
-                { 'type':'number', 'minimum':-180, 'maximum':180 },
-                { 'type':'number', 'minimum':-85.0511, 'maximum':85.0511 }
+                { 'type':'number', 'minimum': -180, 'maximum':180 },
+                { 'type':'number', 'minimum': -85.05112877980659, 'maximum': 85.05112877980659 },
+                { 'type':'number', 'minimum': -180, 'maximum':180 },
+                { 'type':'number', 'minimum': -85.05112877980659, 'maximum': 85.05112877980659 }
             ]
         },
         'center': {
