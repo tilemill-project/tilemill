@@ -33,8 +33,8 @@ Support
 in the #mapbox IRC channel on irc.freenode.net.
 
 
-Installation: Mac OS X 10.6
----------------------------
+Prerequisites for Mac OS X 10.6 & 10.7
+--------------------------------------
 Install [Xcode][xcode] for Mac OS X. Version 3 or 4 will work.
 
 - [Download Xcode 3](https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20792)
@@ -43,7 +43,7 @@ Install [Xcode][xcode] for Mac OS X. Version 3 or 4 will work.
 
 [Download Mapnik 2.0.0 r3030](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r3030.dmg) and install
 
-Install [node][node].
+Install [node][node] 0.4.9 or greater.
 
 Install [npm][npm]:
 
@@ -63,8 +63,8 @@ Start TileMill:
 TileMill should now be accessible from a browser at `http://localhost:8889`.
 
 
-Installation: Ubuntu 10.10
---------------------------
+Prerequisites for Ubuntu 10.10
+------------------------------
 Install build requirements:
 
     # Mapnik dependencies
@@ -100,7 +100,7 @@ Install `mapnik` from source:
     python scons/scons.py
     sudo python scons/scons.py install
 
-Install [node][node].
+Install [node][node] 0.4.9 or greater.
 
     git clone --depth 1 git://github.com/joyent/node.git
     cd node
@@ -113,6 +113,9 @@ Install [node][node].
     echo 'export PATH=$HOME/local/node/bin:$PATH' >> ~/.profile
     source ~/.profile
 
+
+Install TileMill
+----------------
 Install [npm][npm]:
 
     curl http://npmjs.org/install.sh | sh
