@@ -310,8 +310,6 @@ small { font-size:11px; }
 /**
  * Projects
  */
-.projects form { text-align:right; }
-
 .projects ul {
   margin:20px;
   /* Fixes a variety of spacing problems when using `inline-block` */
