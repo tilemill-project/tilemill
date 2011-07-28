@@ -39,6 +39,12 @@ server.prototype.initialize = function(app) {
         path.join(this.config.files, 'export'),
         { maxAge: env === 'production' ? 3600000 : 0 } // 1 hour
     ));
+
+    // Add static provider for manual images.
+    this.use('/manual', middleware['static'](
+        path.join(__dirname, '..', 'pages', 'manual'),
+        { maxAge: env === 'production' ? 3600000 : 0 } // 1 hour
+    ));
 };
 
 server.prototype.index = function(req, res, next) {

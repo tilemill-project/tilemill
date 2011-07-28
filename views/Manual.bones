@@ -6,7 +6,7 @@ view.prototype.initialize = function() {
 }
 
 view.prototype.render = function() {
-    $(this.el).html(templates.Manual(abilities));
+    $(this.el).html(templates.Manual(this.model));
     this.$('.md').each(function() {
         var html = $('<div></div>')
             .html((new Showdown.converter()).makeHtml($(this).html()))

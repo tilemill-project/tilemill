@@ -57,7 +57,13 @@ controller.prototype.projectExport = function(id, format) {
 };
 
 controller.prototype.manual = function() {
-    new views.Manual({
-        el: $('#page')
+    (new models.Page({ id: 'manual.html' })).fetch({
+        success: function(model) {
+            new views.Manual({
+                el: $('#page'),
+                model: model
+            });
+        },
+        error: function(m, e) { new views.Modal(e); }
     });
 }
