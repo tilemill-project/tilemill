@@ -3,11 +3,15 @@
     <div class='breadcrumb'>
       <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
     </div>
-    <div class='actions'>
-      <form>
-      <input class='text' type='text' />
-      <input class='submit' type='submit' value='+ Add' />
-      </form>
+    <div class='actions joined'>
+      <a class='popup button' href='#add'>
+        <span class='icon reverse labeled add'></span>
+        Add project
+      </a>
+      <a class='button' href='/#!/manual'>
+        <span class='icon reverse labeled reference'></span>
+        Manual
+      </a>
     </div>
   </div></div>
   <% if (models.length) { %>

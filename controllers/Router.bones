@@ -13,7 +13,8 @@ controller.prototype.routes = {
     '/': 'projects',
     '/project/:id': 'project',
     '/project/:id/export': 'projectExport',
-    '/project/:id/export/:format': 'projectExport'
+    '/project/:id/export/:format': 'projectExport',
+    '/manual': 'manual'
 };
 
 controller.prototype.error = function() {
@@ -54,4 +55,9 @@ controller.prototype.projectExport = function(id, format) {
         }
     }).bind(this));
 };
+
+controller.prototype.manual = function() {
+    alert('@TODO');
+};
+
 
