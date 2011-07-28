@@ -20,7 +20,7 @@
       <a class='thumb' href='/#!/project/<%= model.id %>'>
         <span class='thumb-layer fill' style='background-image: url(<%= model.thumb() %>)'></span>
         <span class='thumb-name fill-s'>
-          <%= model.id %>
+          <%= model.get('name') || model.get('id') %>
           <span id='<%= model.id %>' class='icon delete'>Delete</span>
         </span>
       </a>
