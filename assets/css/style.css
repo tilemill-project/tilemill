@@ -1364,6 +1364,15 @@ div.fonts { padding-top:30px; }
   width:120px;
   }
 
+/* Error page */
+.empty {
+  text-align:center;
+  font-size:20px;
+  padding:40px 20px;
+  max-width:680px;
+  margin:0px auto;
+  }
+
 /* Hover */
 tr:hover td,
 tr:hover th,
