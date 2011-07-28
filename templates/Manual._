@@ -51,7 +51,7 @@ For example: at zoom level 6 you get a full view of a medium-sized country.  At 
 
 If you’ve got TileMill running on your computer, you can access the web interface in any modern web browser at [http://localhost:8889](http://localhost:8889) (by default - this address is configurable). The main TileMill screen is a project browser, and you will see a few example projects there already to give you an idea of what TileMill can do. If you click on one of the projects you will be taken to the editing interface:
 
-![Screenshot](manual/project.png)
+![Screenshot](assets/tilemill/images/manual/project.png)
 
 1. Main toolbar
 2. Map preview
@@ -61,7 +61,7 @@ If you’ve got TileMill running on your computer, you can access the web interf
 
 ### Main toolbar
 
-![Screenshot](manual/toolbar.png)
+![Screenshot](assets/tilemill/images/manual/toolbar.png)
 
 1. Settings button
 2. Project name
@@ -72,7 +72,7 @@ If you’ve got TileMill running on your computer, you can access the web interf
 
 ### Map preview
 
-![Screenshot](manual/map.png)
+![Screenshot](assets/tilemill/images/manual/map.png)
 
 1. Map preview
 2. Zoom indicator & controls
@@ -88,7 +88,7 @@ When you save a project TileMill also saves the position and scale you were view
 
 ### Layers list
 
-![Screenshot](manual/tools.png)
+![Screenshot](assets/tilemill/images/manual/tools.png)
 
 1. Add layer button
 2. Draggable area
@@ -106,7 +106,7 @@ For the purposes of styling, a layer can be one of four types of geometries - po
 
 ### Layer data inspector
 
-![Screenshot](manual/inspector.png)
+![Screenshot](assets/tilemill/images/manual/inspector.png)
 
 If you click on the magnifying glass icon of any layer, a drawer will slide in from the left and a table of data will appear. (It may take a few seconds for the data to show up if you are inspecting a complex file.)
 
@@ -122,7 +122,7 @@ Unlike what you may be used to from CSS or common word processor interfaces, the
 
 ### Code editor
 
-![Screenshot](manual/editor.png)
+![Screenshot](assets/tilemill/images/manual/editor.png)
 
 1. Active stylesheet tab
 2. Delete stylesheet
@@ -251,7 +251,7 @@ Returning to our previous example, declaring the second rule will add a blue glo
        line-width: 4;
     }
 
-![Screenshot](manual/symbolizer-1.png)
+![Screenshot](assets/tilemill/images/manual/symbolizer-1.png)
 
 Symbolizers are rendered in the order they are defined, so here the `::glow` (blue line) appears on top of the first style (red line).
 
@@ -266,7 +266,7 @@ Named symbolizer styles can still be overridden by further styles that reference
        line-color: #3F6;
     }
 
-![Screenshot](manual/symbolizer-2.png)
+![Screenshot](assets/tilemill/images/manual/symbolizer-2.png)
 
 ### Complex line styles with multiple symbolizers
 
