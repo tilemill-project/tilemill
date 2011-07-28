@@ -131,7 +131,7 @@ require('./support/start')(function(command) {
             var body = JSON.parse(res.body);
             delete body.stack;
             assert.deepEqual({
-                message: "Error: Name may include alphanumeric characters, dashes and underscores.",
+                message: "Error: Filename may include alphanumeric characters, dashes and underscores.",
                 status: 409
             }, body);
             assert['throws'](function() {
