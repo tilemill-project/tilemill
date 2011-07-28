@@ -9,6 +9,11 @@
     </div>
   </div></div>
 
+<div class='navigation'>
+  <ul></ul>
+  <div class'support'>Need more help? <a href='http://support.mapbox.com/discussions/tilemill'>Contact support</a> or file bugs on <a href='http://github.com/mapbox/tilemill/issues'>GitHub</a>.</div>
+</div>
+
 <pre class='md prose'>
 
 # TileMill <%= tilemill.version %>
@@ -21,15 +26,15 @@ TileMill can also export directly to the SQLite-based [MBTiles](http://www.mbtil
 
 TileMill is a project of [Development Seed](http://www.developmentseed.org) and the source code is [available on GitHub](http://github.com/mapbox/tilemill).
 
-# Basics
+## Basics
 
-## GIS
+### GIS
 
 If you have never worked in GIS or cartography before, there a number of basics to go over before jumping into TileMill.
 
 GIS stands for Geographic Information System and refers to any system dealing with the recording, analysis, or display of data that is related to a location. TileMill is focused on the ‘display’ part of that definition, but does provide some tools for basic analysis. Cartography is the practice of making maps.
 
-## Map projections
+### Map projections
 
 **Projections** refer to the method used for representing a three-dimensional object like the Earth on a two-dimensional surface like a sheet of paper or a computer screen. While TileMill maps are always projected as ‘Web Mercator’ you will come across data sources that use [many different projections](http://en.wikipedia.org/wiki/Map_projection).
 
@@ -41,13 +46,13 @@ The **[proj4](http://trac.osgeo.org/proj/) SRS string** (spatial referencing sys
 
 TileMill can generally autodetect the SRS of shapefiles and other datasources. You may need to provide an SRS string for some datasources if TileMill cannot autodetect the value.
 
-## Zoom levels
+### Zoom levels
 
 Interactive, tiled maps are designed and rendered at a number of different scales. A zoom level is a predefined scale at which a map is rendered. OpenStreetMap, Google Maps, and most other online maps zoom levels are scaled such that the entire world fills a 256x256 pixel tile at zoom level 0, and doubles in width & height at each subsequent zoom level. 
 
 For example: at zoom level 6 you get a full view of a medium-sized country.  At zoom level 11 you’re looking at a metropolitan-region-sized area. At Zoom level 16 you’re down to a neighborhood scale.
 
-# Interface tour
+## Interface tour
 
 If you’ve got TileMill running on your computer, you can access the web interface in any modern web browser at [http://localhost:8889](http://localhost:8889) (by default - this address is configurable). The main TileMill screen is a project browser, and you will see a few example projects there already to give you an idea of what TileMill can do. If you click on one of the projects you will be taken to the editing interface:
 
@@ -134,11 +139,11 @@ Unlike what you may be used to from CSS or common word processor interfaces, the
 
 TileMill provides an integrated code editor for editing the map stylesheets. This editor will make sure you write valid code, coloring correctly formatted text as you write it (syntax highlighting) and highlighting any errors if you try to save an invalid file.
 
-As your map style becomes more complex, you may wish to keep things organized by splitting the style across multiple files. New stylesheets can be added with the + button on the tab bar and entering a name for the file. Though not required, there is a convention of using the file extention `.mss` for ‘map stylesheet’. 
+As your map style becomes more complex, you may wish to keep things organized by splitting the style across multiple files. New stylesheets can be added with the + button on the tab bar and entering a name for the file. Though not required, there is a convention of using the file extention `.mss` for ‘map stylesheet’.
 
 Stylesheets can be re-ordered by clicking and dragging their tabs within the tab bar. Note that just like CSS, the order can have an effect on the way a map is rendered - if two styles conflict, the one that is defined last will be applied. Here, ‘last’ means closest to the bottom of the file in the tab furthest to the right.
 
-# Adding layers
+## Adding layers
 
 Layers are how sets of data are added to a map in TileMill. Each  layer references a single shapefile, geoJSON file, KML file, geoTIFF, or PostGIS database query. Multiple layers are combined over top of each other to create the final map - if you are familiar with layers in Photoshop or other graphics software the concept is very similar. TileMill currently supports creating maps with four data formats.
 
@@ -179,11 +184,11 @@ Since Mapnik is currently unable to reproject raster data sources, to load them 
 
 <!-- TODO: explain the options -->
 
-# The styling language
+## The styling language
 
 If you are familiar with web design with Cascading Stylesheets (CSS) the format of TileMill’s styling language will look familiar, though the exact properties are quite different.
 
-## Symbolizers
+### Symbolizers
 
 Mapnik, the rendering software TileMill is built upon, provides a number of fundamental style types out of which to build complex styles. Each type is called a symbolizer, and has its own set of configurable properties.
 
@@ -206,7 +211,7 @@ Multiple symbolizers can be applied to the same layer - some common combinations
 
 A symbolizer is not present on the map unless it has a style defined, but once one of its style properties is added to the stylesheet default values will apply to the other properties for that symbolizer unless overridden. For example, the default line symbolizer color is black, so if you assign a `line-width` to a layer that line will be black unless you also assign a different color.
 
-### The line symbolizer
+#### The line symbolizer
 
 Line styles can be applied to line or polygon geometries.
 

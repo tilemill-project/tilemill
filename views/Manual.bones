@@ -14,8 +14,27 @@ view.prototype.render = function() {
             .attr('id', $(this).attr('id'));
         $(this).hide().after(html);
         $('h1, h2, h3, h4, h5, h6', html).each(function() {
-            var cleaned = $(this).text().replace(/[\s\W]+/g, '-').toLowerCase();
+            var heading = this;
+            var cleaned = $(heading).text().replace(/[\s\W]+/g, '-').toLowerCase();
             $(this).attr('id', cleaned);
+            this.className = this.nodeName;
+
+            if (!$(this).is('h1')) {
+                $('.navigation ul').append(
+                    $('<li></li>')
+                        .addClass(heading.nodeName)
+                        .append($('<a></a>')
+                            .text($(heading).text())
+                            .attr('href', '#')
+                            .click(function() {
+                                window.scroll(0, $(heading).offset().top - 60);
+                                console.log($(heading).offset().top);
+                                return false;
+                            })
+                    )
+                );
+            }
+
         });
     });
     this.$('pre.carto-snippet').each(function(i, elem) {
