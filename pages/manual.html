@@ -52,15 +52,15 @@ TileMill can also export directly to the SQLite-based [MBTiles](http://www.mbtil
 
 TileMill is a project of [Development Seed](http://www.developmentseed.org) and the source code is [available on GitHub](http://github.com/mapbox/tilemill).
 
-# Basics
+## Basics
 
-## GIS
+### GIS
 
 If you have never worked in GIS or cartography before, there a number of basics to go over before jumping into TileMill.
 
 GIS stands for Geographic Information System and refers to any system dealing with the recording, analysis, or display of data that is related to a location. TileMill is focused on the ‘display’ part of that definition, but does provide some tools for basic analysis. Cartography is the practice of making maps.
 
-## Map projections
+### Map projections
 
 **Projections** refer to the method used for representing a three-dimensional object like the Earth on a two-dimensional surface like a sheet of paper or a computer screen. While TileMill maps are always projected as ‘Web Mercator’ you will come across data sources that use [many different projections](http://en.wikipedia.org/wiki/Map_projection).
 
@@ -72,13 +72,13 @@ The **[proj4](http://trac.osgeo.org/proj/) SRS string** (spatial referencing sys
 
 TileMill can generally autodetect the SRS of shapefiles and other datasources. You may need to provide an SRS string for some datasources if TileMill cannot autodetect the value.
 
-## Zoom levels
+### Zoom levels
 
 Interactive, tiled maps are designed and rendered at a number of different scales. A zoom level is a predefined scale at which a map is rendered. OpenStreetMap, Google Maps, and most other online maps zoom levels are scaled such that the entire world fills a 256x256 pixel tile at zoom level 0, and doubles in width & height at each subsequent zoom level. 
 
 For example: at zoom level 6 you get a full view of a medium-sized country.  At zoom level 11 you’re looking at a metropolitan-region-sized area. At Zoom level 16 you’re down to a neighborhood scale.
 
-# Interface tour
+## Interface tour
 
 If you’ve got TileMill running on your computer, you can access the web interface in any modern web browser at [http://localhost:8889](http://localhost:8889) (by default - this address is configurable). The main TileMill screen is a project browser, and you will see a few example projects there already to give you an idea of what TileMill can do. If you click on one of the projects you will be taken to the editing interface:
 
@@ -169,7 +169,7 @@ As your map style becomes more complex, you may wish to keep things organized by
 
 Stylesheets can be re-ordered by clicking and dragging their tabs within the tab bar. Note that just like CSS, the order can have an effect on the way a map is rendered - if two styles conflict, the one that is defined last will be applied. Here, ‘last’ means closest to the bottom of the file in the tab furthest to the right.
 
-# Adding layers
+## Adding layers
 
 Layers are how sets of data are added to a map in TileMill. Each  layer references a single shapefile, geoJSON file, KML file, geoTIFF, or PostGIS database query. Multiple layers are combined over top of each other to create the final map - if you are familiar with layers in Photoshop or other graphics software the concept is very similar. TileMill currently supports creating maps with four data formats.
 
@@ -210,11 +210,11 @@ Since Mapnik is currently unable to reproject raster data sources, to load them 
 
 <!-- TODO: explain the options -->
 
-# The styling language
+## The styling language
 
 If you are familiar with web design with Cascading Stylesheets (CSS) the format of TileMill’s styling language will look familiar, though the exact properties are quite different.
 
-## Symbolizers
+### Symbolizers
 
 Mapnik, the rendering software TileMill is built upon, provides a number of fundamental style types out of which to build complex styles. Each type is called a symbolizer, and has its own set of configurable properties.
 
@@ -241,7 +241,7 @@ A symbolizer is not present on the map unless it has a style defined, but once o
 
 Line styles can be applied to line or polygon geometries.
 
-## Multiple symbolizers
+### Multiple symbolizers
 
 A single layer is not limited to one of each symbolizer type. For example, multiple semi-transparent line symbolizers can be assigned to a polygon to achieve a soft glow or shadow effect. Multiple text symbolizers can be assigned to the same point with different offsets to label it with more than one field.
 
@@ -305,58 +305,13 @@ Using combinations of different dasharrays and/or pattern images, a wide variety
 
 *TODO: Examples*
 
-# Further resources
+## Further resources
 
-## Free sources of GIS data
+Learn more about designing maps with TileMill at support.mapbox.com.
 
-### Global
+- [Preparing your data](http://support.mapbox.com/kb/preparing-your-geographic-data)
+- [TileMil knowledge base](http://support.mapbox.com/kb/tilemill)
 
-- [Cloudmade OpenStreetMap Downloads](http://downloads.cloudmade.com/)
-- [GADM Global Administrative Areas](http://gadm.org/)
-- [Natural Earth](http://www.naturalearthdata.com/) (much of this data is included in TileMill)
-- [SRTM Digital Elevation from CGIAR](http://srtm.csi.cgiar.org/)
-
-### National
-- [US Census Bureau TIGER/Line Shapefiles](http://www.census.gov/geo/www/tiger/tgrshp2009/tgrshp2009.html)
-- [US National Weather Service GeoData](http://www.nws.noaa.gov/geodata/)
-- [Natural Resources Canada GeoGratis](http://www.geogratis.cgdi.gc.ca/)
-- [Government of Canada Open Data Portal](http://www.data.gc.ca/default.asp?lang=En)
-
-### Regional & Local
-
-1. [District of Columbia GIS Catalog](http://dcatlas.dcgis.dc.gov/catalog/)
-2. [OpenData Ottawa](http://www.ottawa.ca/online_services/opendata/index_en.html)
-3. [OpenData Paris (français)](http://opendata.paris.fr/opendata/jsp/site/Portal.jsp)
-</pre>
-<pre class='md column-25'>
-- [Introduction](#introduction)
-- [Basics](#basics)
-  - [GIS](#gis)
-  - [Map projections](#map-projections)
-  - [Zoom levels](#zoom-levels)
-- [Interface tour](#interface-tour)
-  - [Main toolbar](#main-toolbar)
-  - [Map preview](#map-preview)
-  - [Layers list](#layers-list)
-  - [Layer data inspector](#layer-data-inspector)
-  - [Color palette](#color-palette)
-  - [Fonts list](#fonts-list)
-  - [Code editor](#code-editor)
-- [Adding layers](#adding-layers)
-  - [ESRI Shapefile](#esri-shapefile)
-  - [GeoJSON](#geojson)
-  - [KML](#kml)
-  - [GeoTIFF](#geotiff)
-  - [PostGIS](#postgis)
-- [The styling language](#the-styling-language)
-  - [Symbolizers](#symbolizers)
-  - [The line symbolizer](#the-line-symbolizers)
-  - [Complex line styles with multiple symbolizers](#complex-line-styles-with-multiple-symbolizers)
-- [Further resources](#further-resources)
-  - [Free sources of GIS data](#free-sources-of-gis-data)
-  - [Global](#global)
-  - [National](#national)
-  - [Regional & Local](#regional-local)
 </pre>
 </div>
 
