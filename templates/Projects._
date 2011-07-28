@@ -14,7 +14,11 @@
       </a>
     </div>
   </div></div>
-  <% if (models.length) { %>
+
+  <% if (!models.length) { %>
+  <div class='empty'>No projects found.</div>
+  <% } %>
+
   <ul>
     <% _(models).each(function(model) { %><li>
       <a class='thumb' href='/#!/project/<%= model.id %>'>
@@ -26,8 +30,5 @@
       </a>
     </li><% }); %>
   </ul>
-  <% } else { %>
-  <div class='empty'>No projects found.</div>
-  <% } %>
 </div>
 

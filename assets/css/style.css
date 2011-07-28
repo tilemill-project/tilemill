@@ -1371,6 +1371,11 @@ div.fonts { padding-top:30px; }
   margin:0px auto;
   }
 
+li .empty {
+  padding:10px;
+  font-size:13px;
+  }
+
 /* Hover */
 tr:hover td,
 tr:hover th,

@@ -1,4 +1,9 @@
 <ul class='exports fill'>
+
+<% if (!collection.length) { %>
+<li><div class='empty'>No exports found.</div></li>
+<% } %>
+
 <% collection.each(function(m) { %>
 <li id='export-<%=m.id%>' class='<%= m.get('status') %>'>
   <span class='icon filetype <%=m.get('format')%>'>
