@@ -22,7 +22,8 @@ view.prototype.events = {
     'click .status a[href=#close]': 'statusClose',
     'click .swatch': 'colorOpen',
     'click .swatch a[href=#save]': 'colorSave',
-    'click .swatch a[href=#close]': 'colorClose'
+    'click .swatch a[href=#close]': 'colorClose',
+    'click .breadcrumb .logo': 'unload'
 };
 
 view.prototype.initialize = function() {
@@ -49,7 +50,8 @@ view.prototype.initialize = function() {
         'statusClose',
         'colorOpen',
         'colorSave',
-        'colorClose'
+        'colorClose',
+        'unload'
     );
     Bones.intervals = Bones.intervals || {};
     if (Bones.intervals.project) clearInterval(Bones.intervals.project);
@@ -59,6 +61,8 @@ view.prototype.initialize = function() {
             clearInterval(Bones.intervals.project);
         }});
     }).bind(this), 1000);
+
+    window.onbeforeunload = window.onbeforeunload || this.unload;
 
     this.model.bind('save', this.attach);
     this.model.bind('change', this.change);
@@ -512,6 +516,19 @@ view.prototype.colorClose = function(ev) {
     $('body').removeClass('overlay');
     this.$('.colors').removeClass('active');
     this.$('#colorpicker').remove();
+    return false;
+};
+
+// This handler may be called from *anywhere* since we don't have a chance to
+// unbind when handling the beforeunload event. Check that we are indeed on a
+// project view when doing this.
+view.prototype.unload = function(ev) {
+    if (!$('.project').size()) return;
+    if ($('.actions a.disabled[href=#save]').size()) return;
+
+    var message = 'You have unsaved changes. Are you sure you want to close this project?';
+    if (ev.type === 'beforeunload') return message;
+    if (confirm(message)) return true;
     return false;
 };
 
