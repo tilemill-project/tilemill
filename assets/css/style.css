@@ -1151,17 +1151,17 @@ ul.form.expand .browser { display:block; }
 
 .library .assets a .icon.folder { opacity:.5; }
 
-/* Manual */
-.manual {}
+/* Carto reference */
+.reference {}
 
-.manual .toggler {
+.reference .toggler {
   font-size:11px;
   width:119px;
   background:#eee;
   border-right:1px solid #ddd;
   }
 
-.manual .toggler a {
+.reference .toggler a {
   display:block;
   width:100px;
   padding:5px 9px 4px 10px;
@@ -1169,27 +1169,27 @@ ul.form.expand .browser { display:block; }
   border-bottom:1px solid #ddd;
   }
 
-.manual .toggler a.active {
+.reference .toggler a.active {
   border-color:#aaa;
   background:#999 url(../images/sprite.png) 0px -20px repeat-x;
   color:#fff;
   }
 
-.manual .page {
+.reference .page {
   left:120px;
   overflow:auto;
   padding:10px;
   }
 
-.manual .section { display:none; }
-.manual .section.active { display:block; }
+.reference .section { display:none; }
+.reference .section.active { display:block; }
 
-.manual ul li {
+.reference ul li {
   border-top:1px solid #eee;
   padding:9px 0px 10px;
   }
 
-.manual .types .type {
+.reference .types .type {
   display:inline-block;
   padding:0px 5px;
   background:#fe8;
@@ -1198,7 +1198,7 @@ ul.form.expand .browser { display:block; }
   -webkit-border-radius:5px;
   }
 
-.manual .prose a {
+.reference .prose a {
   color:#5ab;
   }
 
@@ -1402,3 +1402,94 @@ tr:hover th,
   .project .wax-fullscreen-map { width:100% !important; }
 }
 
+/* Manual */
+.manual {
+  width:600px;
+  margin:20px auto;
+  }
+
+.manual a {
+  border-bottom:1px solid #eee;
+  text-decoration:none;
+  }
+
+.manual a:hover { color:#824; }
+
+.manual h1,
+.manual h2,
+.manual h3,
+.manual h4,
+.manual h5,
+.manual h6,
+.manual ul,
+.manual ol,
+.manual p,
+.manual img {
+  display:block;
+  margin:20px 0px;
+  }
+
+.manual ul ul { margin:0px; }
+
+.manual h1,
+.manual h2,
+.manual h3,
+.manual h4,
+.manual h5,
+.manual h6 {
+  color:#824;
+  letter-spacing:-1px;
+  font:bold 15px/20px Arial,Helvetica,sans-serif;
+  }
+
+.manual h1 {
+  color:#222;
+  font:italic 24px/40px Georgia,serif;
+  margin:0px;
+  border:0px;
+  }
+
+.manual h2 { font-size:20px; }
+.manual h3 { font-size:18px; }
+
+.manual ul li {
+  background:url(images/sprite.png) 0px -240px no-repeat;
+  padding-left:20px;
+  }
+
+.manual ol li {
+  list-style-type:decimal;
+  margin-left:20px;
+}
+
+.manual tt,
+.manual pre,
+.manual code {
+  font:normal 12px/20px 'Andale Mono',Monaco,Consolas,'Lucida Console',monospace;
+  margin:0px;
+  padding:0px;
+  }
+
+.manual pre,
+.manual code {
+  color:#888;
+  background:#f8f8f8;
+  }
+
+.manual pre {
+  padding:9px;
+  margin:10px 0px;
+  border:1px solid #eee;
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  box-shadow:inset #eee 0px 1px 5px;
+  -moz-box-shadow:inset #eee 0px 1px 5px;
+  -webkit-box-shadow:inset #eee 0px 1px 5px;
+  }
+
+.manual img {
+  box-shadow:#ddd 0px 2px 5px;
+  -moz-box-shadow:#ddd 0px 2px 5px;
+  -webkit-box-shadow:#ddd 0px 2px 5px;
+  }

@@ -57,7 +57,7 @@ controller.prototype.projectExport = function(id, format) {
 };
 
 controller.prototype.manual = function() {
-    alert('@TODO');
-};
-
-
+    new views.Manual({
+        el: $('#page')
+    });
+}

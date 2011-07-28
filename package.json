@@ -36,7 +36,8 @@
         "tilelive-mapnik": "~0.1.1",
         "underscore": "1.1.x",
         "carto": "0.2.0",
-        "wax": "https://github.com/mapbox/wax/tarball/aa81654edb7473fd241a703d2bfc1e881365ca69"
+        "wax": "https://github.com/mapbox/wax/tarball/aa81654edb7473fd241a703d2bfc1e881365ca69",
+        "node-markdown": "0.1.0"
     },
     "devDependencies": {
         "expresso" : "0.8.x",
