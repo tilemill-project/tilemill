@@ -217,7 +217,7 @@ view.prototype.savePostGIS = function() {
     $(this.el).addClass('loading');
     var connection = {};
     var error;
-    var allowedArgs = ['username', 'password', 'dbname', 'port', 'host'];
+    var allowedArgs = ['user', 'password', 'dbname', 'port', 'host'];
     _(this.$('form.layerPostGIS input[name=connection]').val().split(' '))
         .each(function(argument) {
             var pair = argument.split('=');
