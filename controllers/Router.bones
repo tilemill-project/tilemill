@@ -1,7 +1,11 @@
 controller = Backbone.Controller.extend();
 
 controller.prototype.initialize = function() {
-    if (!Bones.server) new views.App({ el: $('body') });
+    if (Bones.server) return;
+    new views.App({ el: $('body') });
+
+    // Add catchall route to show error page.
+    this.route(/^(.*?)/, 'error', this.error);
 };
 
 controller.prototype.routes = {
@@ -11,6 +15,10 @@ controller.prototype.routes = {
     '/project/:id/export': 'projectExport',
     '/project/:id/export/:format': 'projectExport',
     '/manual': 'manual'
+};
+
+controller.prototype.error = function() {
+    new views.Error(new Error('Page not found.'));
 };
 
 controller.prototype.projects = function() {
@@ -24,6 +32,7 @@ controller.prototype.projects = function() {
         error: function(m, e) { new views.Modal(e); }
     });
 };
+
 controller.prototype.project = function(id, next) {
     (new models.Project({ id: id })).fetch({
         success: function(model) {
@@ -36,6 +45,7 @@ controller.prototype.project = function(id, next) {
         error: function(m, e) { new views.Modal(e); }
     });
 };
+
 controller.prototype.projectExport = function(id, format) {
     this.project(id, _(function() {
         if (format) {

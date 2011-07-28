@@ -58,6 +58,10 @@
       <span class='description'>Lat</span> <input type='text' name='center_1' size='6' value='<%= get('center')[1] %>' />&deg;
       <span class='description'>Zoom</span> <input type='text' name='center_2' size='6' value='<%= get('center')[2] %>' />
     </li>
+    <li>
+      <label>Advanced</label>
+      <span class='description'>View the rendered <a href='<%= url() %>.xml' target='_blank'>Mapnik XML</a> for this project.</span>
+    </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
       <input type='button' value='Cancel' class='cancel' />

@@ -57,7 +57,7 @@ view.prototype.save = function() {
         'template_full': this.$('textarea[name=template_full]').val(),
         'template_location': this.$('input[name=template_location]').val(),
     } : false;
-    var attr = {
+    var attr = _({
         'name':          this.$('input[name=name]').val(),
         'description':   this.$('input[name=description]').val(),
         'attribution':   this.$('input[name=attribution]').val(),
@@ -78,7 +78,11 @@ view.prototype.save = function() {
             parseFloat(this.$('input[name=center_1]').val()),
             parseInt(this.$('input[name=center_2]').val())
         ]
-    };
+    }).reduce(function(memo, val, key) {
+        if (val !== '') memo[key] = val;
+        return memo;
+    }, {});
+
     var error = function(m, e) { new views.Modal(e); };
     if (!this.model.set(attr, {error:error})) return false;
 

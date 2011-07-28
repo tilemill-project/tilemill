@@ -1,6 +1,6 @@
 view = Backbone.View.extend({
     events: {
-        'click input.submit': 'add',
+        'click .actions a[href=#add]': 'add',
         'click .delete': 'del'
     },
     initialize: function() {
@@ -14,24 +14,8 @@ view = Backbone.View.extend({
         return this;
     },
     add: function() {
-        var id = this.$('input.text').val();
         var model = new models.Project({}, {collection:this.collection});
-        var error = _(function(model, err) {
-            $(this.el).removeClass('loading');
-            new views.Modal(err);
-        }).bind(this);
-        $(this.el).addClass('loading');
-        if (model.set({id:id}, {error:error})) {
-            model.setDefaults();
-            model.save(model, {
-                success: _(function() {
-                    $(this.el).removeClass('loading');
-                    this.collection.add(model);
-                }).bind(this),
-                error: error
-            });
-        }
-        return false;
+        new views.ProjectAdd({ el: $('#popup'), model: model });
     },
     del: function(ev) {
         var id = $(ev.currentTarget).attr('id');

@@ -1,79 +1,74 @@
-require.paths.unshift(__dirname + '/../lib/node', __dirname + '/../');
-
-var settings = require('settings');
-settings.files = __dirname + '/files';
-settings.mapfile_dir = __dirname + '/files/.cache';
-settings.data_dir = __dirname + '/files/.cache';
-settings.export_dir = __dirname + '/files/export';
-
 var assert = require('assert');
 var fs = require('fs');
-var _ = require('underscore')._;
-var app = require('tilemill');
 
-var project1 = fs.readFileSync('./test/fixtures/project1.json', 'utf8');
-var exportjob1 = fs.readFileSync('./test/fixtures/exportjob1.json', 'utf8');
-
-module.exports = {
-    'project-create': function() {
-        // Create project
-        assert.response(app, {
-            url: '/api/Project/Test',
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            data: project1
-        }, {
-            status: 200
-        }, function(res) {
-            assert.deepEqual(_.keys(JSON.parse(res.body)), ['_updated']);
-        });
-    },
-    'export-create': function() {
-        // Create export
-        assert.response(app, {
-            url: '/api/Export/6566fe',
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            data: exportjob1
-        }, {
-            status: 200
-        }, function(res) {
-            assert.deepEqual(res.body, '{}');
-        });
-    },
-    'export-test': function() {
-        // Get export
-        assert.response(app, {
-            url: '/api/Export/6566fe',
-            method: 'GET'
-        }, {
-            status: 200
-        }, function(res) {
-            assert.deepEqual(JSON.parse(res.body), JSON.parse(exportjob1));
-        });
-    },
-    'export-delete': function() {
-        // Delete export
-        assert.response(app, {
-            url: '/api/Export/6566fe',
-            method: 'DELETE'
-        }, {
-            status: 200
-        }, function(res) {
-            assert.equal(res.body, '{}');
-        });
-    },
-    'project-delete': function() {
-        // Delete project
-        assert.response(app, {
-            url: '/api/Project/Test',
-            method: 'DELETE'
-        }, {
-            status: 200
-        }, function(res) {
-            assert.equal(res.body, '{}');
-        });
-    }
+function readJSON(name) {
+    var json = fs.readFileSync('./test/fixtures/' + name + '.json', 'utf8');
+    return JSON.parse(json);
 }
+
+require('./support/start')(function(command) {
+
+    exports['test export job creation'] = function(beforeExit) {
+        var completed = false;
+        var created = Date.now()
+        var id = String(created);
+        var job = readJSON('export-job');
+        var token = job['bones.token'];
+        job.created = created;
+        job.id = id;
+
+        assert.response(command.servers['Core'], {
+            url: '/api/Export/' + id,
+            method: 'PUT',
+            data: JSON.stringify(job),
+            headers: {
+                cookie: "bones.token=" + token,
+                'content-type': "application/json"
+            }
+        }, {
+            body: '{}',
+            status: 200
+        }, function (res) {
+            assert.response(command.servers['Core'], {
+                url: '/api/Export'
+            }, { status: 200 }, function(res) {
+                var body = JSON.parse(res.body);
+                job.status = "processing";
+                delete job['bones.token'];
+                assert.ok(body[0].pid);
+                delete body[0].pid;
+                assert.deepEqual([job], body);
+
+                job['bones.token'] = token;
+                assert.response(command.servers['Core'], {
+                    url: '/api/Export/' + id,
+                    method: 'DELETE',
+                    headers: {
+                        cookie: "bones.token=" + token,
+                        'content-type': "application/json"
+                    },
+                    body: JSON.stringify(job)
+                }, {
+                    body: '{}',
+                    status: 200
+                }, function (res) {
+                    assert.response(command.servers['Core'], {
+                        url: '/api/Export'
+                    }, { status: 200 }, function(res) {
+                        completed = true;
+                        var body = JSON.parse(res.body);
+                        assert.deepEqual([], body);
+                    });
+                });
+            });
+        });
+
+        beforeExit(function() {
+            assert.ok(completed);
+        })
+    };
+});
+
+
+
+

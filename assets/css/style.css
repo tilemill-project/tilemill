@@ -310,8 +310,6 @@ small { font-size:11px; }
 /**
  * Projects
  */
-.projects form { text-align:right; }
-
 .projects ul {
   margin:20px;
   /* Fixes a variety of spacing problems when using `inline-block` */
@@ -1364,6 +1362,20 @@ div.fonts { padding-top:30px; }
   width:120px;
   }
 
+/* Error page */
+.empty {
+  text-align:center;
+  font-size:20px;
+  padding:40px 20px;
+  max-width:680px;
+  margin:0px auto;
+  }
+
+li .empty {
+  padding:10px;
+  font-size:13px;
+  }
+
 /* Hover */
 tr:hover td,
 tr:hover th,
@@ -1373,17 +1385,21 @@ tr:hover th,
   }
 
 /* Screen-size adjustments */
-@media (min-width:1000px) {
+@media (min-width:1200px) {
   #drawer { width:55% !important; left:-55%; }
   .project.exporting #drawer.active { left:-55%; }
   .project .map { width:55% !important; }
   .project .editor { width:45% !important; }
+  .project.exporting .map,
+  .project .wax-fullscreen-map { width:100% !important; }
 }
-@media (min-width:1200px) {
+@media (min-width:1400px) {
   #drawer { width:60% !important; left:-60%; }
   .project.exporting #drawer.active { left:-60%; }
   .project .map { width:60% !important; }
   .project .editor { width:40% !important; }
+  .project.exporting .map,
+  .project .wax-fullscreen-map { width:100% !important; }
 }
 
 /* Manual */

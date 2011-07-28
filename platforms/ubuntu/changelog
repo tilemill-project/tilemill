@@ -1,0 +1,41 @@
+tilemill (0.4.0.2-1) maverick; urgency=medium
+
+  * New upstream head build.
+
+ -- Ian Ward <ian@developmentseed.org>  Wed, 27 Jul 2011 10:39:51 -0400
+
+tilemill (0.4.0.1-2) maverick; urgency=medium
+
+  * Fix install directories
+
+ -- Ian Ward <ian@developmentseed.org>  Tue, 26 Jul 2011 15:49:15 -0400
+
+tilemill (0.4.0.1-1) maverick; urgency=medium
+
+  * No longer a build dir
+
+ -- Ian Ward <ian@developmentseed.org>  Tue, 26 Jul 2011 14:49:15 -0400
+
+tilemill (0.4.0.1-0) maverick; urgency=medium
+
+  * Update node version used for build.
+
+ -- Ian Ward <ian@developmentseed.org>  Tue, 26 Jul 2011 14:10:09 -0400
+
+tilemill (0.4.0-3) maverick; urgency=medium
+
+  * Fix upstart, node version used to build.
+
+ -- Ian Ward <ian@developmentseed.org>  Tue, 26 Jul 2011 12:50:07 -0400
+
+tilemill (0.4.0-2) maverick; urgency=medium
+
+  * Updating to head.
+
+ -- Ian Ward <ian@developmentseed.org>  Tue, 26 Jul 2011 10:10:46 -0400
+
+tilemill (0.4.0-1) maverick; urgency=medium
+
+  * Initial release.
+
+ -- Ian Ward <ian@developmentseed.org>  Mon, 18 Jul 2011 12:26:26 -0400

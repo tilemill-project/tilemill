@@ -1,0 +1,21 @@
+# Project source
+assets usr/share/tilemill
+commands usr/share/tilemill
+controllers usr/share/tilemill
+lib usr/share/tilemill
+models usr/share/tilemill
+servers usr/share/tilemill
+templates usr/share/tilemill
+test usr/share/tilemill
+views usr/share/tilemill
+node_modules usr/share/tilemill
+CHANGELOG.md usr/share/tilemill
+LICENSE.md usr/share/tilemill
+README.md usr/share/tilemill
+index.js usr/share/tilemill
+package.json usr/share/tilemill
+
+# Package helpers
+debian/tilemill.config etc/tilemill
+debian/tilemill.conf etc/init
+debian/tilemill.rotate etc/logrotate.d

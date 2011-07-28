@@ -66,13 +66,13 @@ view.prototype.size = function(ev) {
     case 'height':
         var h = parseInt(this.$('input[name=height]').val(), 10);
         if (_(h).isNumber() && _(aspect).isNumber())
-            this.$('input[name=width]').val(Math.round(h /aspect));
+            this.$('input[name=width]').val(Math.round(h * aspect));
         break;
     case 'width':
     default:
         var w = parseInt(this.$('input[name=width]').val(), 10);
         if (_(w).isNumber() && _(aspect).isNumber())
-            this.$('input[name=height]').val(Math.round(w * aspect));
+            this.$('input[name=height]').val(Math.round(w / aspect));
         break;
     };
 };
