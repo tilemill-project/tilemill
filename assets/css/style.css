@@ -1198,27 +1198,6 @@ ul.form.expand .browser { display:block; }
   -webkit-border-radius:5px;
   }
 
-.reference .prose a {
-  color:#5ab;
-  }
-
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
-  font-size:20px;
-  margin:0px 0px 20px;
-  }
-
-.prose ul,
-.prose .CodeMirror,
-.prose p { margin:0px 0px 20px; }
-
-.prose .CodeMirror-scroll { height:auto; }
-.prose .CodeMirror-lines { padding:0px 0px 0px 20px; }
-
 /* Features inspection table */
 table {
   font-size:11px;
@@ -1403,92 +1382,61 @@ tr:hover th,
 }
 
 /* Manual */
+.prose a { color:#5ab; }
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  color:#666;
+  font-size:20px;
+  margin:0px 0px 20px;
+  }
+
+.prose ol,
+.prose ul,
+.prose pre,
+.prose .CodeMirror,
+.prose p { margin:0px 0px 20px; }
+
+.prose .CodeMirror-scroll { height:auto; }
+.prose .CodeMirror-lines { padding:0px 0px 0px 20px; }
+.prose pre { padding:0px 0px 0px 20px; }
+
+.prose img {
+  box-shadow:#ddd 0px 2px 5px;
+  -moz-box-shadow:#ddd 0px 2px 5px;
+  -webkit-box-shadow:#ddd 0px 2px 5px;
+  }
+
 .manual {
-  width:600px;
-  margin:20px auto;
+  background:#fff;
+  padding:20px 0px 40px;
   }
 
-.manual .md a {
-  border-bottom:1px solid #eee;
-  text-decoration:none;
-  }
+.manual pre { font-size:13px; }
 
-.manual .md a:hover { color:#824; }
-
-.manual .md h1,
-.manual .md h2,
-.manual .md h3,
-.manual .md h4,
-.manual .md h5,
-.manual .md h6,
-.manual .md ul,
-.manual .md ol,
-.manual .md p,
-.manual .md img {
-  display:block;
-  margin:20px 0px;
+.manual .md {
+  font-size:15px;
+  width:720px;
+  margin:0px auto;
   }
 
 .manual .md ul ul { margin:0px; }
 
-.manual .md h1,
-.manual .md h2,
-.manual .md h3,
-.manual .md h4,
-.manual .md h5,
-.manual .md h6 {
-  color:#824;
-  letter-spacing:-1px;
-  font:bold 15px/20px Arial,Helvetica,sans-serif;
-  }
-
 .manual .md h1 {
-  color:#222;
-  font:italic 24px/40px Georgia,serif;
-  margin:0px;
-  border:0px;
+  font-size:24px;
+  line-height:30px;
   }
 
 .manual .md h2 { font-size:20px; }
 .manual .md h3 { font-size:18px; }
 
-.manual .md ul li {
-  padding-left:20px;
-  }
-
+.manual .md ul li { padding-left:20px; }
 .manual .md ol li {
   list-style-type:decimal;
   margin-left:20px;
-}
-
-.manual .md tt,
-.manual .md pre,
-.manual .md code {
-  font:normal 12px/20px 'Andale Mono',Monaco,Consolas,'Lucida Console',monospace;
-  margin:0px;
-  padding:0px;
   }
 
-.manual .md pre,
-.manual .md code {
-  color:#888;
-  background:#f8f8f8;
-  }
-
-.manual .md pre {
-  padding:9px;
-  margin:10px 0px;
-  border:1px solid #eee;
-  border-radius:3px;
-  -moz-border-radius:3px;
-  -webkit-border-radius:3px;
-  box-shadow:inset #eee 0px 1px 5px;
-  -moz-box-shadow:inset #eee 0px 1px 5px;
-  -webkit-box-shadow:inset #eee 0px 1px 5px;
-  }
-
-.manual .md img {
-  box-shadow:#ddd 0px 2px 5px;
-  -moz-box-shadow:#ddd 0px 2px 5px;
-  -webkit-box-shadow:#ddd 0px 2px 5px;
-  }
