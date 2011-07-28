@@ -1153,17 +1153,17 @@ ul.form.expand .browser { display:block; }
 
 .library .assets a .icon.folder { opacity:.5; }
 
-/* Manual */
-.manual {}
+/* Carto reference */
+.reference {}
 
-.manual .toggler {
+.reference .toggler {
   font-size:11px;
   width:119px;
   background:#eee;
   border-right:1px solid #ddd;
   }
 
-.manual .toggler a {
+.reference .toggler a {
   display:block;
   width:100px;
   padding:5px 9px 4px 10px;
@@ -1171,27 +1171,27 @@ ul.form.expand .browser { display:block; }
   border-bottom:1px solid #ddd;
   }
 
-.manual .toggler a.active {
+.reference .toggler a.active {
   border-color:#aaa;
   background:#999 url(../images/sprite.png) 0px -20px repeat-x;
   color:#fff;
   }
 
-.manual .page {
+.reference .page {
   left:120px;
   overflow:auto;
   padding:10px;
   }
 
-.manual .section { display:none; }
-.manual .section.active { display:block; }
+.reference .section { display:none; }
+.reference .section.active { display:block; }
 
-.manual ul li {
+.reference ul li {
   border-top:1px solid #eee;
   padding:9px 0px 10px;
   }
 
-.manual .types .type {
+.reference .types .type {
   display:inline-block;
   padding:0px 5px;
   background:#fe8;
@@ -1200,7 +1200,7 @@ ul.form.expand .browser { display:block; }
   -webkit-border-radius:5px;
   }
 
-.manual .prose a {
+.reference .prose a {
   color:#5ab;
   }
 
