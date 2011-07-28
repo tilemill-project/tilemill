@@ -1398,6 +1398,7 @@ tr:hover th,
 .prose ol,
 .prose ul,
 .prose pre,
+.prose img,
 .prose .CodeMirror,
 .prose p { margin:0px 0px 20px; }
 

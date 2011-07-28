@@ -9,7 +9,7 @@
     </div>
   </div></div>
 
-  <pre class='md prose'>
+<pre class='md prose'>
 
 # Introduction
 
@@ -216,40 +216,43 @@ A single layer is not limited to one of each symbolizer type. For example, multi
 
 Normally when you assign a style to a layer, the style applies to a default symbolizer that is created. In the following example, the second rule overrides the first one because they both apply to the default symbolizer.
 
-    #layer {
-       line-color: #C00;
-       line-width: 1;
-    }
+<pre class='carto-snippet'>
+#layer {
+   line-color: #C00;
+   line-width: 1;
+}
 
-    #layer {
-       line-color: #0AF;
-       line-opacity: 0.5;
-       line-width: 2;
-    }
+#layer {
+   line-color: #0AF;
+   line-opacity: 0.5;
+   line-width: 2;
+}</pre>
 
 You can explicitly declare any number of new symbolizers for a layer that will be rendered in addition to styles they would otherwise conflict with. New symbolizers are defined using a double colon syntax inspired by [pseudo-elements](http://www.w3.org/TR/css3-selectors/#pseudo-elements) in CSS3:
 
-    #layer {
-       /* styles for the default symbolizers */
-    }
-    #layer::newsymbol {
-       /* styles for a new symbolizer named ‘newsymbol’ */
-    }
+<pre class='carto-snippet'>
+#layer {
+   /* styles for the default symbolizers */
+}
+#layer::newsymbol {
+   /* styles for a new symbolizer named ‘newsymbol’ */
+}</pre>
 
 Note that `newsymbol` is not a special keyword but an arbitrary name chosen by the user. To help keep track of different symbolizers you can name additional symbolizers whatever makes sense for the situation. Some examples: `#road::casing`, `#coastline::glow_inner`, `#building::shadow`.
 
 Returning to our previous example, declaring the second rule will add a blue glow on top of the red line instead of replacing it:
 
-    #layer {
-       line-color: #C00;
-       line-width: 1;
-    }
+<pre class='carto-snippet'>
+#layer {
+   line-color: #C00;
+   line-width: 1;
+}
 
-    #layer::glow {
-       line-color: #0AF;
-       line-opacity: 0.5;
-       line-width: 4;
-    }
+#layer::glow {
+   line-color: #0AF;
+   line-opacity: 0.5;
+   line-width: 4;
+}</pre>
 
 ![Screenshot](assets/tilemill/images/manual/symbolizer-1.png)
 
@@ -257,14 +260,15 @@ Symbolizers are rendered in the order they are defined, so here the `::glow` (bl
 
 Named symbolizer styles can still be overridden by further styles that reference the same symbolizer name. In this example, the line color will be green, not green-on-yellow.
 
-    .border::highlight {
-       line-color: #FF0;
-       line-opacity: 0.5;
-    }
+<pre class='carto-snippet'>
+.border::highlight {
+   line-color: #FF0;
+   line-opacity: 0.5;
+}
 
-    .border::highlight {
-       line-color: #3F6;
-    }
+.border::highlight {
+   line-color: #3F6;
+}</pre>
 
 ![Screenshot](assets/tilemill/images/manual/symbolizer-2.png)
 
@@ -286,6 +290,7 @@ Using combinations of different dasharrays and/or pattern images, a wide variety
 - [SRTM Digital Elevation from CGIAR](http://srtm.csi.cgiar.org/)
 
 ### National
+
 - [US Census Bureau TIGER/Line Shapefiles](http://www.census.gov/geo/www/tiger/tgrshp2009/tgrshp2009.html)
 - [US National Weather Service GeoData](http://www.nws.noaa.gov/geodata/)
 - [Natural Resources Canada GeoGratis](http://www.geogratis.cgdi.gc.ca/)
@@ -293,9 +298,9 @@ Using combinations of different dasharrays and/or pattern images, a wide variety
 
 ### Regional & Local
 
-1. [District of Columbia GIS Catalog](http://dcatlas.dcgis.dc.gov/catalog/)
-2. [OpenData Ottawa](http://www.ottawa.ca/online_services/opendata/index_en.html)
-3. [OpenData Paris (français)](http://opendata.paris.fr/opendata/jsp/site/Portal.jsp)
+- [District of Columbia GIS Catalog](http://dcatlas.dcgis.dc.gov/catalog/)
+- [OpenData Ottawa](http://www.ottawa.ca/online_services/opendata/index_en.html)
+- [OpenData Paris (français)](http://opendata.paris.fr/opendata/jsp/site/Portal.jsp)
 
-  </pre>
+</pre>
 </div>

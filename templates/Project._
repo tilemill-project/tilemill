@@ -39,7 +39,7 @@
       <div class='colors clearfix'></div>
       <div class='ref joined'>
         <a class='drawer button' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>
-        <a class='drawer button' href='#carto'><span class='icon reverse reference'>Carto</span></a>
+        <a class='drawer button' href='#carto'><span class='icon reverse reference'>Carto reference</span></a>
       </div>
     </div>
     <ul class='tabs toggler clearfix'></ul>

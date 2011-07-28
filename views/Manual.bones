@@ -8,7 +8,6 @@ view.prototype.initialize = function() {
 view.prototype.render = function() {
     $(this.el).html(templates.Manual());
     this.$('.md').each(function() {
-        console.log((new Showdown.converter()).makeHtml($(this).html()));
         var html = $('<div></div>')
             .html((new Showdown.converter()).makeHtml($(this).html()))
             .attr('class', $(this).attr('class'))
@@ -18,5 +17,15 @@ view.prototype.render = function() {
             var cleaned = $(this).text().replace(/[\s\W]+/g, '-').toLowerCase();
             $(this).attr('id', cleaned);
         });
+    });
+    this.$('pre.carto-snippet').each(function(i, elem) {
+        CodeMirror(
+            function(el) { $(elem).replaceWith(el); },
+            {
+                readOnly: 'nocursor',
+                mode: {name:'carto', reference:abilities.carto},
+                value: $(elem).text()
+            }
+        );
     });
 }
