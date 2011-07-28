@@ -1408,75 +1408,74 @@ tr:hover th,
   margin:20px auto;
   }
 
-.manual a {
+.manual .md a {
   border-bottom:1px solid #eee;
   text-decoration:none;
   }
 
-.manual a:hover { color:#824; }
+.manual .md a:hover { color:#824; }
 
-.manual h1,
-.manual h2,
-.manual h3,
-.manual h4,
-.manual h5,
-.manual h6,
-.manual ul,
-.manual ol,
-.manual p,
-.manual img {
+.manual .md h1,
+.manual .md h2,
+.manual .md h3,
+.manual .md h4,
+.manual .md h5,
+.manual .md h6,
+.manual .md ul,
+.manual .md ol,
+.manual .md p,
+.manual .md img {
   display:block;
   margin:20px 0px;
   }
 
-.manual ul ul { margin:0px; }
+.manual .md ul ul { margin:0px; }
 
-.manual h1,
-.manual h2,
-.manual h3,
-.manual h4,
-.manual h5,
-.manual h6 {
+.manual .md h1,
+.manual .md h2,
+.manual .md h3,
+.manual .md h4,
+.manual .md h5,
+.manual .md h6 {
   color:#824;
   letter-spacing:-1px;
   font:bold 15px/20px Arial,Helvetica,sans-serif;
   }
 
-.manual h1 {
+.manual .md h1 {
   color:#222;
   font:italic 24px/40px Georgia,serif;
   margin:0px;
   border:0px;
   }
 
-.manual h2 { font-size:20px; }
-.manual h3 { font-size:18px; }
+.manual .md h2 { font-size:20px; }
+.manual .md h3 { font-size:18px; }
 
-.manual ul li {
-  background:url(images/sprite.png) 0px -240px no-repeat;
+.manual .md ul li {
   padding-left:20px;
   }
 
-.manual ol li {
+.manual .md ol li {
   list-style-type:decimal;
   margin-left:20px;
 }
 
-.manual tt,
-.manual pre,
-.manual code {
+.manual .md tt,
+.manual .md pre,
+.manual .md code {
   font:normal 12px/20px 'Andale Mono',Monaco,Consolas,'Lucida Console',monospace;
   margin:0px;
   padding:0px;
   }
 
-.manual pre,
-.manual code {
+.manual .md pre,
+.manual .md code {
   color:#888;
   background:#f8f8f8;
   }
 
-.manual pre {
+.manual .md pre {
   padding:9px;
   margin:10px 0px;
   border:1px solid #eee;
@@ -1488,7 +1487,7 @@ tr:hover th,
   -webkit-box-shadow:inset #eee 0px 1px 5px;
   }
 
-.manual img {
+.manual .md img {
   box-shadow:#ddd 0px 2px 5px;
   -moz-box-shadow:#ddd 0px 2px 5px;
   -webkit-box-shadow:#ddd 0px 2px 5px;
