@@ -11,7 +11,6 @@
 
 <div class='navigation'>
   <ul></ul>
-  <div class'support'>Need more help? <a href='http://support.mapbox.com/discussions/tilemill'>Contact support</a> or file bugs on <a href='http://github.com/mapbox/tilemill/issues'>GitHub</a>.</div>
 </div>
 
 <pre class='md prose'>
@@ -283,8 +282,6 @@ Using combinations of different dasharrays and/or pattern images, a wide variety
 
 *TODO: Examples*
 
-# Further resources
-
 ## Free sources of GIS data
 
 ### Global
@@ -306,6 +303,10 @@ Using combinations of different dasharrays and/or pattern images, a wide variety
 - [District of Columbia GIS Catalog](http://dcatlas.dcgis.dc.gov/catalog/)
 - [OpenData Ottawa](http://www.ottawa.ca/online_services/opendata/index_en.html)
 - [OpenData Paris (français)](http://opendata.paris.fr/opendata/jsp/site/Portal.jsp)
+
+## Getting help
+
+Need more help? [Contact support](http://support.mapbox.com/discussions/tilemill) or file bugs on [GitHub](http://github.com/mapbox/tilemill/issues).
 
 </pre>
 </div>

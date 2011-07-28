@@ -1412,7 +1412,23 @@ tr:hover th,
   -webkit-box-shadow:#ddd 0px 2px 5px;
   }
 
+.manual .navigation {
+  position:absolute;
+  left:50%;
+  margin:10px 0px 0px 180px;
+  width:160px;
+  padding-left:19px;
+  border-left:1px solid #ccc;
+  }
+
+.manual .navigation .H3 a,
+.manual .navigation .H4 a { color:#666; }
+
+.manual .navigation .H3 { margin-left:10px; }
+.manual .navigation .H4 { margin-left:20px; }
+
 .manual {
+  position:relative;
   background:#fff;
   padding:20px 0px 40px;
   }
@@ -1421,7 +1437,8 @@ tr:hover th,
 
 .manual .md {
   font-size:15px;
-  width:720px;
+  width:520px;
+  padding-right:200px;
   margin:0px auto;
   }
 
