@@ -53,7 +53,7 @@ h1 {
   text-decoration:none;
   }
 
-.md a:hover { color:#824; }
+.md a:hover { color:#c20; }
 
 .md h1,
 .md h2,
@@ -101,9 +101,7 @@ code {
   }
 
 .md pre,
-.md code {
-  color:#888;
-  }
+.md code { color:#666; }
 
 .md a { color:#5ab; }
 

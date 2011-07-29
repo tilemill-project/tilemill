@@ -36,23 +36,107 @@
 
 <div class='page'>
 <div class='limiter clearfix'>
+<div class='navigation'><ul></ul></div>
 <pre class='md column-75'>
 # Code
 
-TileMill is an example of a fully javascript-based web application (both server/client side) that integrates with several external libraries including Mapnik and SQLite. It also takes advantage of several interesting APIs including `node-worker` for spawning separate processes and `backbone.js` on both the client and server. The TileMill source has been annotated using [docco](http://github.com/jashkenas/docco) for interested developers.
+TileMill is an example of a fully javascript-based web application (both server/client side) that integrates with several external libraries including Mapnik and SQLite.
 
 TileMill is released under a BSD license. Below are just some of the open source projects leveraged by TileMill:
 
-- [Mapnik](http://www.mapnik.org) provides map rendering.
-- [carto](http://github.com/mapbox/carto) provides MSS-to-Mapnik XML map style compiling.
-- [tilelive.js](http://github.com/mapbox/tilelive.js) provides high-speed tile-rendering.
-- [node.js](http://www.nodejs.org) provides evented server-side javascript.
+- [Mapnik][mapnik] provides map rendering.
+- [Carto](http://github.com/mapbox/carto) provides MSS-to-Mapnik XML map style compiling.
+- [Tilelive](http://github.com/mapbox/tilelive.js) provides high-speed tile-rendering.
+- [Node.js](http://www.nodejs.org) provides evented server-side javascript.
 - [Express](http://github.com/visionmedia/express) provides a robust HTTP web server.
 - [Backbone](http://github.com/documentcloud/backbone) provides an MVC framework for client-server AJAX.
-- [OpenLayers](http://www.openlayers.org) provides a tile-based map UI.
+- [Bones](http://github.com/developmentseed/bones) provides a framework for using Backbone on the client &amp; server.
+- [Modest Maps](http://github.com/stamen/modestmaps-js) provides a tile-based map UI.
 - [CodeMirror](http://www.codemirror.net) provides "in-browser code editing made bearable."
 
-For a full list of projects see the [ndistro manifest](https://github.com/mapbox/tilemill/blob/master/.ndistro) in the TileMill repository.
+For a full list of projects see [package.json](https://github.com/mapbox/tilemill/blob/master/package.json) in the TileMill repository.
+
+## Building from source
+
+### Mac OS X
+
+Install the following dependencies first:
+
+- [Xcode 3](https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20792) or [Xcode 4](http://itunes.apple.com/us/app/xcode/id448457090?mt=12)
+- [Mapnik 2.0.0 r3030](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r3030.dmg) and install
+- [Node.js][node] 0.4.9 or greater
+- [NPM][npm] 1.0.22 or greater
+
+### Ubuntu Linux
+
+Install build requirements:
+
+    # Mapnik dependencies
+    sudo apt-get install -y g++ cpp \
+    libboost-filesystem1.42-dev \
+    libboost-program-options1.42-dev \
+    libboost-python1.42-dev libboost-regex1.42-dev \
+    libboost-system1.42-dev libboost-thread1.42-dev \
+    python-dev libxml2 libxml2-dev \
+    libfreetype6 libfreetype6-dev \
+    libjpeg62 libjpeg62-dev \
+    libltdl7 libltdl-dev \
+    libpng12-0 libpng12-dev \
+    libgeotiff-dev libtiff4 libtiff4-dev libtiffxx0c2 \
+    libcairo2 libcairo2-dev python-cairo python-cairo-dev \
+    libcairomm-1.0-1 libcairomm-1.0-dev \
+    ttf-unifont ttf-dejavu ttf-dejavu-core ttf-dejavu-extra \
+    subversion build-essential python-nose
+
+    # Mapnik plugin dependencies
+    sudo apt-get install libgdal1-dev python-gdal \
+    postgresql-8.4 postgresql-server-dev-8.4 \
+    postgresql-contrib-8.4 postgresql-8.4-postgis \
+    libsqlite3-0 libsqlite3-dev
+
+    # TileMill dependencies
+    sudo apt-get install curl
+
+Install [Mapnik][mapnik] from source:
+
+    svn checkout -r 3030 http://svn.mapnik.org/trunk mapnik2
+    cd mapnik2
+    python scons/scons.py configure
+    python scons/scons.py
+    sudo python scons/scons.py install
+
+Follow the linked instructions to install:
+
+- [Node.js][node] 0.4.9 or greater
+- [NPM][npm] 1.0.22 or greater
+
+### Building TileMill
+
+Run the following from a terminal to check out a development copy of TileMill and build it from source.
+
+    git clone git@github.com:mapbox/tilemill.git
+    cd tilemill
+    npm install
+
+Once the build is complete you can start TileMill with the following command from the `tilemill` directory:
+
+    npm start
+
+### Updating
+
+To update your development copy of TileMill clean your copy and rebuild:
+
+    # From the `tilemill` directory
+    git pull
+    rm -rf node_modules
+    npm install
+
+[mapnik]:http://www.mapnik.org
+[xcode]:http://developer.apple.com/technologies/tools/xcode.html
+[issues]:https://github.com/mapbox/tilemill/issues
+[support]:http://support.mapbox.com/kb/tilemill/where-can-i-get-help-with-tilemill
+[node]:https://github.com/joyent/node/wiki/Installation
+[npm]:http://npmjs.org/
 </pre>
 </div>
 </div>
