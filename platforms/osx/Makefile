@@ -8,7 +8,6 @@ DIRS= assets \
       commands \
       controllers \
       index.html \
-      index.js \
       lib \
       models \
       node_modules \
@@ -30,6 +29,7 @@ package: build
 		if ! [ -d $(TARGET)$i ]; then cp -R ../../$i $(TARGET); fi; \
 	)
 	if ! [ -d $(TARGET)node ];  then cp $(NODE) $(TARGET); fi;
+	sed 's/#!\/usr\/bin\/env node/#!.\/node/' ../../index.js > $(TARGET)index.js
 
 zip: package
 	zip -9qr tilemill-0.4.0alpha.zip build/Release/tilemill.app/
