@@ -51,12 +51,6 @@ view.prototype.zoom = function(ev, ui) {
 };
 
 view.prototype.save = function() {
-    var interactivity = this.$('select[name=layer]').val() ? {
-        'layer': this.$('select[name=layer]').val(),
-        'template_teaser': this.$('textarea[name=template_teaser]').val(),
-        'template_full': this.$('textarea[name=template_full]').val(),
-        'template_location': this.$('input[name=template_location]').val(),
-    } : false;
     var attr = _({
         'name':          this.$('input[name=name]').val(),
         'description':   this.$('input[name=description]').val(),
@@ -65,7 +59,14 @@ view.prototype.save = function() {
         'format':        this.$('select[name=format]').val(),
         'minzoom':       parseInt(this.$('.slider').slider('values', 0)),
         'maxzoom':       parseInt(this.$('.slider').slider('values', 1)),
-        'interactivity': interactivity,
+        'interactivity': this.$('select[name=layer]').val() ?
+            {
+                'layer': this.$('select[name=layer]').val(),
+                'template_teaser': this.$('textarea[name=template_teaser]').val(),
+                'template_full': this.$('textarea[name=template_full]').val(),
+                'template_location': this.$('input[name=template_location]').val(),
+            } :
+            false,
         'legend':        this.$('textarea[name=legend]').val(),
         'bounds': [
             parseFloat(this.$('input[name=bounds_0]').val()),
@@ -79,7 +80,8 @@ view.prototype.save = function() {
             parseInt(this.$('input[name=center_2]').val())
         ]
     }).reduce(function(memo, val, key) {
-        if (val !== '') memo[key] = val;
+        var allowEmpty = ['description', 'attribution', 'legend']
+        if (val !== '' || _(allowEmpty).include(key)) memo[key] = val;
         return memo;
     }, {});
 
