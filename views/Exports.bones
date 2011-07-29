@@ -1,11 +1,12 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'click a.delete': 'exportDelete'
+    'click a.delete': 'exportDelete',
+    'click a.preview': 'exportPreview'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'exportDelete', 'poll');
+    _(this).bindAll('render', 'exportDelete', 'exportPreview', 'poll');
     this.collection.bind('all', this.render);
     this.collection.bind('all', this.poll);
     this.render(true).poll();
@@ -45,6 +46,19 @@ view.prototype.exportDelete = function(ev) {
         }
     });
     return false;
+};
+
+view.prototype.exportPreview = function(ev) {
+    var id = $(ev.currentTarget).attr('href').split('#').pop();
+    (new models.Preview({id:id})).fetch({
+        success: function(model, resp) {
+            new views.Preview({
+                el: $('#popup'),
+                model:model
+            });
+        },
+        error: function(m, e) { new views.Modal(e) }
+    });
 };
 
 // Poll controller.
