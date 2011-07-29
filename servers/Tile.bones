@@ -66,7 +66,7 @@ server.prototype.grid = function(req, res, next) {
     req.query.callback = 'grid';
 
     var interactivity = res.project.get('interactivity');
-    res.project.mml.interactivity.fields = models.Project.fields(interactivity);
+    res.project.mml.interactivity.fields = models.Project.fields(res.project.attributes);
     next();
 };
 
