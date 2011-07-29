@@ -41,8 +41,7 @@
     },
     "devDependencies": {
         "expresso" : "0.8.x",
-        "jshint": "0.2.x",
-        "docco": "0.3.x"
+        "jshint": "0.2.x"
     },
     "scripts": {
         "start": "./index.js",
