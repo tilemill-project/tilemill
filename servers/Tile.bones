@@ -5,10 +5,9 @@ var path = require('path'),
 server = Bones.Server.extend({});
 
 server.prototype.initialize = function() {
-    _.bindAll(this, 'load', 'grid', 'layer', 'getArtifact');
+    _.bindAll(this, 'load', 'grid', 'getArtifact');
     this.get('/1.0.0/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.load, this.getArtifact);
     this.get('/1.0.0/:id/:z/:x/:y.:format(grid.json)', this.load, this.grid, this.getArtifact);
-    this.get('/1.0.0/:id/layer.json', this.load, this.layer);
 };
 
 server.prototype.load = function(req, res, next) {
@@ -71,14 +70,3 @@ server.prototype.grid = function(req, res, next) {
     next();
 };
 
-server.prototype.layer = function(req, res, next) {
-    if (!res.project.get('formatter') && !res.project.get('legend')) {
-        next(new Error.HTTP('Not found.', 404));
-    } else {
-        req.query.callback = 'grid'; // Force jsonp.
-        res.send({
-            formatter: res.project.get('formatter'),
-            legend: res.project.get('legend')
-        });
-    }
-};
