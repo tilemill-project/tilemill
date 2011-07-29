@@ -69,15 +69,19 @@ prepared libmapnik2.a and plugins.
     cd ../mapnik/
     make clean
 
-Edit the wscript adding these lines before line 115:
+Edit the wscript adding these lines around line 105:
 
+    # only link to libmapnik, which should be in first two flags
+    linkflags =  []
     linkflags.append('-L/Users/dane/projects/mapnik-dev/trunk-build-static/osx/sources/lib')
     linkflags.append('-lboost_system')
     linkflags.append('-lboost_filesystem')
     linkflags.append('-lfreetype')
     linkflags.append('-lproj')
     linkflags.append('-lltdl')
+    linkflags.append('-lmapnik2')
     linkflags.append('-Wl,-search_paths_first')
+
 
 Then build:
 
