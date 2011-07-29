@@ -35,11 +35,11 @@
 <pre class='carto-snippet'>
 /* All layers */
 * {}
-/* Only layers with class "red" */
+/* layers with class "red" */
 .red {}
-/* Only layers with class blue beyond zoom 8 */
+/* layers with class blue beyond zoom 8 */
 .blue[zoom > 8] {}
-/* Features in the 'countries' layer with NAME equal to 'USA' */
+/* features in #countries with NAME 'USA' */
 #countries[NAME='USA']</pre>
 
 <p>The order of selectors does not matter as there is no hierarchical structure in maps. Separating selector parts with spaces is optional. The following selectors are thus equivalent:</p>
@@ -56,27 +56,19 @@
 <pre class='carto-snippet'>
 /* Applies to all layers with .land class */
 .land {
-  line-color: #ccc;
-  line-width: 0.5;
   polygon-fill: #eee;
   /* Applies to #lakes.land */
-  #lakes {
-    polygon-fill: #000;
-  }
+  #lakes { polygon-fill: #000; }
 }</pre>
 
 <p>This can be a convenient way to group style changes by zoom level:</p>
 
 <pre class='carto-snippet'>
+/* Applies to all layers at zoom &gt; 1 */
 [zoom &gt; 1] {
-  /* Applies to all layers at zoom &gt; 1 */
   polygon-gamma: 0.3;
-  #world {
-    polygon-fill: #323;
-  }
-  #lakes {
-    polygon-fill: #144;
-  }
+  #world { polygon-fill: #323; }
+  #lakes { polygon-fill: #144; }
 }</pre>
 
 <h2>Attachments</h2>
@@ -127,21 +119,50 @@
 
 <pre class='carto-snippet'>raster-mode: normal;</pre>
 
-<h2>Variables &amp; Expressions</h2>
+<h2>Variables</h2>
 
-<p>You can define variables in stylesheets by prefixing an alphanumeric name with <code>@</code>, and use expressions to modify them. You can also apply operations to color names.</p>
+<p>You can define variables in stylesheets by prefixing an alphanumeric name with <code>@</code>.</p>
 
 <pre class='carto-snippet'>
 @green: #2B4D2D;
 
-Map {
-  background-color: @green;
-}
+Map { background-color: @green; }
+#world { polygon-fill: @green; }</pre>
+
+<h2>Operations</h2>
+
+<p>Any number, color or variable can be operated on using mathematical expressions.</p>
+
+<pre class='carto-snippet'>
+@gray: #888;
 
 #world {
-  polygon-fill: @green + #222;
-  line-color: darken(red, 10%);
+  polygon-fill: @gray + #111;
+  line-width: 2 * 2;
+  line-color: @gray / 2;
 }</pre>
+
+<h2>Color functions</h2>
+
+<p>Carto inherits color manipulation functions from <a href='http://lesscss.org' target='_blank'>less.js</a>.</p>
+
+<pre class='carto-snippet'>
+// lighten or darken a color by 10%
+lighten(@color, 10%);
+darken(@color, 10%);
+
+// de/saturate a color by 10%
+saturate(@color, 10%);
+desaturate(@color, 10%);
+
+// adjust opacity of a color by 10%
+fadein(@color, 10%);
+fadeout(@color, 10%);
+
+// adjust the hue of a color by 10 degrees
+// (e.g. on a color wheel)
+spin(@color, 10);
+spin(@color, -10);</pre>
 
 </div>
 
