@@ -87,7 +87,7 @@
   text-dy: -4;
   text-halo-fill: rgba(255,255,255,0.5);
   text-halo-radius: 1;
-  point-file: url(../resources/icons/circle-7.png);
+  point-file: url(icons/circle-7.png);
 }
 
 #cities[ADM0CAP=1][zoom>3] {
@@ -98,7 +98,7 @@
   text-dy: -5;
   text-halo-fill: rgba(255,255,255,0.5);
   text-halo-radius: 1;
-  point-file: url(../resources/icons/star-10.png);
+  point-file: url(icons/star-10.png);
 }
 
 /* ---- GEOGRAPHIC LINES ---- */

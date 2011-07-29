@@ -251,8 +251,8 @@ Map {
 
 /* Transparent PNG overlay for paper texture */
 #paper[zoom<2] { 
-  polygon-pattern-file:url(../resources/textures/paperfolds_256.png);
+  polygon-pattern-file:url(textures/paperfolds_256.png);
 }
 #paper[zoom>1] { 
-  polygon-pattern-file:url(../resources/textures/paperfolds_512.png);
+  polygon-pattern-file:url(textures/paperfolds_512.png);
 }
