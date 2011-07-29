@@ -36,7 +36,7 @@
             searchTask = [[ChildProcess alloc] initWithController:self arguments:
                     [NSArray arrayWithObjects:
                      base_path, // working directory
-                     [NSString stringWithFormat:@"%@/tilemill.js", base_path], // abs path to program
+                     [NSString stringWithFormat:@"%@/index.js", base_path], // abs path to program
                      nil
                     ]
             ];

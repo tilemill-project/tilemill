@@ -386,14 +386,22 @@ models.Project.prototype.localize = function(mml, callback) {
 // be used by the export command. See `commands/export.bones`.
 models.Project.fields = function(opts) {
     opts = opts || {};
-    var full = opts.template_full || '';
-    var teaser = opts.template_teaser || '';
-    var location = opts.template_location || '';
+    opts.interactivity = opts.interactivity || {};
+    var full = opts.interactivity.template_full || '';
+    var teaser = opts.interactivity.template_teaser || '';
+    var location = opts.interactivity.template_location || '';
 
     // Determine fields that need to be included from templates.
     // @TODO allow non-templated fields to be included.
     var fields = [full, teaser, location]
         .join(' ').match(/\[([\w\d]+)\]/g);
+
+    // Include `key_field` for PostGIS Layers.
+    var layer = opts.Layer.get(opts.interactivity.layer);
+    if (layer && layer.get('Datasource').key_field) {
+        fields.push('[' + layer.get('Datasource').key_field + ']');
+    }
+
     return _(fields).chain()
         .filter(_.isString)
         .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
