@@ -5,9 +5,8 @@ TileMill is a modern map design studio powered by open source technology.
 
 Features
 --------
-- Access datasources on the local filesystem or online
+- Access datasources from the local filesystem, the Internet, or PostGIS databases
 - Manage map layers with file-based datasources (shapefiles, rasters)
-- Load data stored in PostGIS databases
 - Edit `carto` stylesheets directly in the browser
 - Edit `carto` stylesheets with a custom editor like `vim` in *Minimal mode*
 - Preview map tiles instantly while editing stylesheets
