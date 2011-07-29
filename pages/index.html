@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+  <title>TileMill | Home</title>
+  <script type='text/javascript' src='jquery.js'></script>
+  <script type='text/javascript' src='showdown.js'></script>
+  <link rel='shortcut icon' href='images/favicon.ico' type='image/x-icon' />
+  <link rel='stylesheet' media='all' href='reset.css' />
+  <link rel='stylesheet' media='all' href='style.css' />
+  <script type='text/javascript'>
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-88478-19']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+  <script type='text/javascript' src='script.js'></script>
+</head>
+<body>
+<div class='header limiter'>
+  <a href='index.html' class='logo'>TileMill</a>
+  <ul class='menu clearfix'>
+    <li><a class='active' href='index.html'>Home</a></li>
+    <li><a href='manual.html'>Manual</a></li>
+    <li><a href='code.html'>Code</a></li>
+  </ul>
+  <a class='mapbox' href='http://www.mapbox.com'>A Product of Mapbox</a>
+</div>
+
+<div class='banner'>
+  <div id='video'>
+    <a class='close' href='#close'>Close</a>
+    <iframe src='http://player.vimeo.com/video/20006926?title=0&amp;byline=0&amp;portrait=0'
+    width='600' height='375' frameborder='0'></iframe>
+  </div>
+  <div class='screenshot'>
+    <a class='video' href='#video'>Watch video</a>
+  </div>
+  <ul class='limiter clearfix'>
+    <li>
+      <strong>Custom data</strong><br/>
+      Add layers using formats including Shapefile, PostGIS and GeoJSON.
+    </li>
+    <li>
+      <strong>Instant preview</strong><br/>
+      Preview your design while you work using a fully interactive map.
+    </li>
+    <li>
+      <strong>Carto styling language</strong><br/>
+      Use the intuitive CSS-inspired Carto language for adding styles to your map.
+    </li>
+  </ul>
+</div>
+
+<div class='limiter'>
+
+<h1>TileMill 0.4.0alpha</h1>
+
+<ul class='download clearfix'>
+<li class='mac'>
+  <h3>Mac OS X</h3>
+</li>
+<li class='linux'>
+  <h3>Ubuntu Linux</h3>
+</li>
+</ul>
+
+<div class='columns clearfix'>
+<pre class='md column-50'>
+### Features
+
+- Access datasources on the local filesystem or through Amazon S3
+- Manage map layers with file-based datasources (shapefiles, rasters)
+- Edit `carto` stylesheets directly in the browser
+- Edit `carto` stylesheets with a custom editor like `vim` in *Minimal mode*
+- Preview map tiles instantly while editing stylesheets
+- Inspect datasource field values and data types
+- Export maps to PNG, PDF and [MBTiles](http://www.mbtiles.org) formats
+</pre>
+<pre class='md column-50'>
+### Requirements
+
+#### Browser
+
+- Tested: Chrome 6+, Firefox 3+, IE8+
+- May work: Opera 11
+
+#### Server
+
+- Tested: Mac OS X 10.6, Ubuntu 10.10, Centos 5.5 
+- At least 2GB memory
+- May work: Older versions, other POSIX-compliant systems
+</pre>
+</div>
+
+</div>
+</body>
+</html>
+
+

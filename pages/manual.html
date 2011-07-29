@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
   <title>TileMill | Manual</title>
   <script type='text/javascript' src='jquery.js'></script>
   <script type='text/javascript' src='showdown.js'></script>
-  <!--Facebox (http://chriswanstrath.com/facebox/) -->
-  <link rel='stylesheet' media='all' href='facebox/src/facebox.css' />
-  <script type='text/javascript' src='facebox/src/facebox.js'></script>
-  <!-- TileMill -->
-  <link rel='shortcut icon' href='images/favicon.ico' />
+  <link rel='shortcut icon' href='images/favicon.ico' type='image/x-icon' />
   <link rel='stylesheet' media='all' href='reset.css' />
   <link rel='stylesheet' media='all' href='style.css' />
-  <script type='text/javascript' src='script.js'></script>
-  <script type="text/javascript">
+  <script type='text/javascript'>
 
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-88478-19']);
@@ -26,21 +21,22 @@
     })();
 
   </script>
+  <script type='text/javascript' src='script.js'></script>
 </head>
 <body>
-<div class='banner'>
-  <div class='header'>
-    <a href='index.html' class='logo'>TileMill</a>
-    <ul class='navigation clearfix'>
-      <li><a href='index.html'>Home</a></li>
-      <li><a href='manual.html'>Manual</a></li>
-      <li><a href='code.html'>Code</a></li>
-    </ul>
-  </div>
+<div class='header limiter'>
+  <a href='index.html' class='logo'>TileMill</a>
+  <ul class='menu clearfix'>
+    <li><a href='index.html'>Home</a></li>
+    <li><a class='active' href='manual.html'>Manual</a></li>
+    <li><a href='code.html'>Code</a></li>
+  </ul>
+  <a class='mapbox' href='http://www.mapbox.com'>A Product of Mapbox</a>
 </div>
-<a class='fork' href='http://github.com/mapbox/tilemill'>Fork me on GitHub</a>
 
-<div class='clearfix'>
+<div class='page'>
+<div class='clearfix limiter'>
+<div class='navigation'><ul></ul></div>
 <pre class='md column-75'>
 # Introduction
 
@@ -313,6 +309,7 @@ Learn more about designing maps with TileMill at support.mapbox.com.
 - [TileMil knowledge base](http://support.mapbox.com/kb/tilemill)
 
 </pre>
+</div>
 </div>
 
 </body>
