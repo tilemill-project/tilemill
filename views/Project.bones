@@ -80,12 +80,8 @@ view.prototype.render = function(init) {
             new wax.mm.connector(this.model.attributes));
 
         // Add references to all controls onto the map object.
-        // Allows controls to be removed later on. @TODO need
-        // wax 3.x and updates to controls to return references
-        // to themselves.
+        // Allows controls to be removed later on.
         this.map.controls = {
-            // @TODO wax 3.x.
-            // interaction, legend require TileJSON attributes from the model.
             interaction: wax.mm.interaction(this.map, this.model.attributes),
             legend: wax.mm.legend(this.map, this.model.attributes),
             zoombox: wax.mm.zoombox(this.map),
