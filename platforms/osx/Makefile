@@ -29,7 +29,10 @@ package: build
 		if ! [ -d $(TARGET)$i ]; then cp -R ../../$i $(TARGET); fi; \
 	)
 
+zip: package
+	zip -9r tilemill-0.4.0alpha.zip build/Release/tilemill.app
+
 run:
 	open build/Release/tilemill.app
 
-.PHONY: build clean package run
+.PHONY: build clean package run zip
