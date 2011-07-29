@@ -1,0 +1,160 @@
+{
+  "_center": {
+    "lat": 36.79542122197988,
+    "lon": -96.93408203125,
+    "zoom": 4
+  },
+  "_format": "png",
+  "_interactivity": false,
+  "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+  "Stylesheet": [
+    "style.mss",
+    "roads.mss",
+    "labels.mss"
+  ],
+  "Layer": [
+    {
+      "id": "countries",
+      "name": "countries",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/natural-earth-10m-1.3.0/admin_0_countries.zip",
+        "type": "shape"
+      },
+      "geometry": "polygon"
+    },
+    {
+      "id": "us-parks",
+      "name": "us-parks",
+      "srs": "",
+      "class": "park area",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/natural-earth-10m-1.3.0/us_parks_area.zip",
+        "type": "shape"
+      },
+      "geometry": "polygon"
+    },
+    {
+      "id": "us-park-line",
+      "name": "us-park-line",
+      "srs": "",
+      "class": "park",
+      "geometry": "linestring",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/natural-earth-10m-1.3.0/us_parks_line.zip",
+        "type": "shape"
+      }
+    },
+    {
+      "id": "lake",
+      "name": "lake",
+      "srs": "",
+      "class": "",
+      "geometry": "polygon",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/natural-earth-10m-1.3.0/lakes.zip",
+        "type": "shape"
+      }
+    },
+    {
+      "id": "state_line",
+      "name": "state_line",
+      "srs": "",
+      "class": "",
+      "geometry": "linestring",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/natural-earth-10m-1.3.0/admin_1_states_provinces_lines_shp.zip",
+        "type": "shape"
+      }
+    },
+    {
+      "id": "country_border_marine",
+      "name": "country_border_marine",
+      "srs": "",
+      "class": "",
+      "geometry": "linestring",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/natural-earth-10m-1.3.0/admin_0_boundary_lines_maritime_indicator.zip",
+        "type": "shape"
+      }
+    },
+    {
+      "id": "road",
+      "name": "road",
+      "srs": "",
+      "class": "",
+      "geometry": "linestring",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/natural-earth-10m-1.3.0/roads.zip",
+        "type": "shape"
+      }
+    },
+    {
+      "id": "rail",
+      "name": "rail",
+      "srs": "",
+      "class": "",
+      "geometry": "linestring",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/natural-earth-10m-1.3.0/railroads.zip",
+        "type": "shape"
+      }
+    },
+    {
+      "id": "country_border",
+      "name": "country_border",
+      "srs": "",
+      "class": "",
+      "geometry": "linestring",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/natural-earth-10m-1.3.0/admin_0_boundary_lines_land.zip",
+        "type": "shape"
+      }
+    },
+    {
+      "id": "road_na",
+      "name": "road_na",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/natural-earth-10m-1.3.0/roads_north_america.zip",
+        "type": "shape"
+      },
+      "geometry": "linestring"
+    },
+    {
+      "id": "country_label",
+      "name": "country_label",
+      "srs": "",
+      "class": "",
+      "geometry": "point",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/example_data/admin-0-point.zip",
+        "type": "shape"
+      }
+    },
+    {
+      "id": "city",
+      "name": "city",
+      "srs": "",
+      "class": "",
+      "geometry": "point",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/natural-earth-10m-1.3.0/populated_places_by_pop.zip",
+        "type": "shape"
+      }
+    },
+    {
+      "id": "park_label",
+      "name": "park_label",
+      "srs": "",
+      "class": "",
+      "geometry": "polygon",
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/natural-earth-10m-1.3.0/us_parks_area.zip",
+        "type": "shape"
+      }
+    }
+  ]
+}

@@ -20,6 +20,10 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
         if (!path.existsSync(dir)) {
             console.warn('Creating %s dir %s', key, dir);
             fsutil.mkdirpSync(dir, 0755);
+            if (key === 'project') {
+                var examples = path.resolve(path.join(__dirname, '..', 'examples'));
+                fsutil.cprSync(examples, dir);
+            }
         }
     });
 
