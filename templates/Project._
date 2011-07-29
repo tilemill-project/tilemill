@@ -3,7 +3,7 @@
   <div class='bleed'><div class='header'>
     <div class='breadcrumb'>
       <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
-      <a href='/#!/project/<%= id %>'><%= id %></a>
+      <a href='/#!/project/<%= id %>'><%= get('name') || get('id') %></a>
     </div>
     <div class='actions joined'>
       <a class='button disabled' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
