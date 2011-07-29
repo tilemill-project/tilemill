@@ -19,12 +19,7 @@ $(function() {
                         .addClass(heading.nodeName)
                         .append($('<a></a>')
                             .text($(heading).text())
-                            .attr('href', '#')
-                            .click(function() {
-                                window.scroll(0, $(heading).offset().top - 60);
-                                console.log($(heading).offset().top);
-                                return false;
-                            })
+                            .attr('href', '#' + cleaned)
                     )
                 );
             }
