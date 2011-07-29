@@ -1,5 +1,5 @@
 @font-face {
-  font-family:'Droid Sans Mono';
+  font-family:DroidSansMono;
   src:url('../fonts/DroidSansMono.ttf');
   }
 
@@ -9,7 +9,7 @@ div.CodeMirror {
   color:#222;
   padding:0px;
   margin:0px;
-  font:12px/18px "Droid Sans Mono",monospace;
+  font:12px/18px DroidSansMono,monospace;
   }
 
 div.CodeMirror-lines,

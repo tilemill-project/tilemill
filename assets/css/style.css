@@ -1,12 +1,27 @@
 @font-face {
-  font-family:Droid;
+  font-family:DroidSans;
   src:url('../fonts/DroidSans.ttf');
+  }
+
+@font-face {
+  font-family:DroidSans;
+  font-weight:bold;
+  src:url('../fonts/DroidSansBold.ttf');
+  }
+
+@font-face {
+  font-family:DroidSansMono;
+  src:url('../fonts/DroidSansMono.ttf');
   }
 
 input,
 select,
 textarea,
-body { font-family:Droid,'Lucida Grande',sans-serif; }
+body { font-family:DroidSans,'Lucida Grande',sans-serif; }
+
+code,
+pre,
+div.CodeMirror { font-family:DroidSansMono,monospace; }
 
 body {
   padding:50px 0px 0px;
@@ -42,6 +57,8 @@ a {
   text-decoration:none;
   }
 
+h1, h2, h3, h4, h5, h6,
+label { font-weight:normal; }
 .required { color:#c30; }
 .description { color:#999; }
 .dependent {display:none; }
@@ -243,7 +260,6 @@ small { font-size:11px; }
 
 .header .breadcrumb a {
   float:left;
-  font-weight:bold;
   padding:5px 20px 5px 10px;
   background:url(../images/sprite.png) 100% -80px no-repeat;
   height:20px;
@@ -334,7 +350,6 @@ small { font-size:11px; }
 .thumb {
   width:238px;
   height:238px;
-  font-weight:bold;
   display:block;
   background:#fff url(../images/bg.png);
   position:relative;
@@ -1390,8 +1405,8 @@ tr:hover th,
 .prose h4,
 .prose h5,
 .prose h6 {
-  color:#666;
-  font-size:20px;
+  font-weight:bold;
+  font-size:18px;
   margin:0px 0px 20px;
   }
 
@@ -1421,9 +1436,8 @@ tr:hover th,
   border-left:1px solid #ccc;
   }
 
-.manual .navigation .H3 a,
-.manual .navigation .H4 a { color:#666; }
-
+.manual .navigation .H1,
+.manual .navigation .H2 { font-weight:bold; }
 .manual .navigation .H3 { margin-left:10px; }
 .manual .navigation .H4 { margin-left:20px; }
 
