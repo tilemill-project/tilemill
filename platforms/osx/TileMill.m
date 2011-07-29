@@ -33,10 +33,12 @@
             [resultsTextField setString:@""];
             [resultsTextField setString:@"Error: unable to start, tilemill nodejs program folder not found...\n"];
         } else {
+            NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
+            //NSLog(command);
             searchTask = [[ChildProcess alloc] initWithController:self arguments:
                     [NSArray arrayWithObjects:
                      base_path, // working directory
-                     [NSString stringWithFormat:@"%@/index.js", base_path], // abs path to program
+                     command, // abs path to program
                      nil
                     ]
             ];
