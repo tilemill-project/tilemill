@@ -5,7 +5,9 @@ var path = require('path'),
 server = Bones.Server.extend({});
 
 server.prototype.initialize = function() {
-    _.bindAll(this, 'load', 'grid', 'getArtifact');
+    _.bindAll(this, 'load', 'grid', 'getArtifact', 'mbtiles');
+    this.get('/1.0.0/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.mbtiles);
+    this.get('/1.0.0/:id.mbtiles/:z/:x/:y.:format(grid.json)', this.mbtiles);
     this.get('/1.0.0/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.load, this.getArtifact);
     this.get('/1.0.0/:id/:z/:x/:y.:format(grid.json)', this.load, this.grid, this.getArtifact);
 };
@@ -50,7 +52,7 @@ server.prototype.getArtifact = function(req, res, next) {
         var fn = req.params.format === 'grid.json' ? 'getGrid' : 'getTile';
         source[fn](z, x, y, function(err, tile, headers) {
             if (err) return next(err);
-            headers['max-age'] = 3600;
+            if (headers) headers['max-age'] = 3600;
             res.send(tile, headers);
         });
     });
@@ -68,5 +70,24 @@ server.prototype.grid = function(req, res, next) {
     var interactivity = res.project.get('interactivity');
     res.project.mml.interactivity.fields = models.Project.fields(interactivity);
     next();
+};
+
+server.prototype.mbtiles = function(req, res, next) {
+    var uri = 'mbtiles://' + path.join(settings.files, 'export', req.param('id') + '.mbtiles');
+    tilelive.load(uri, function(err, source) {
+        if (err) return next(err);
+
+        var z = req.params.z, x = +req.params.x, y = +req.params.y;
+
+        // The interface is still TMS.
+        y = (1 << z) - 1 - y;
+
+        var fn = req.params.format === 'grid.json' ? 'getGrid' : 'getTile';
+        source[fn](z, x, y, function(err, tile, headers) {
+            if (err) return next(err);
+            if (headers) headers['max-age'] = 3600;
+            res.send(tile, headers);
+        });
+    });
 };
 

@@ -836,6 +836,7 @@ li:hover .icon { display:block; }
 .icon.tooltip           { background-position:-580px -180px; }
 .icon.star              { background-position:-600px -180px; }
 .icon.cloud             { background-position:-620px -180px; }
+.icon.eye               { background-position:-640px -180px; }
 
 .reverse.edit           { background-position:0px -200px; }
 .reverse.inspect        { background-position:-20px -200px; }
@@ -863,6 +864,7 @@ li:hover .icon { display:block; }
 .reverse.tooltip        { background-position:-580px -200px; }
 .reverse.star           { background-position:-600px -200px; }
 .reverse.cloud          { background-position:-620px -200px; }
+.reverse.eye            { background-position:-640px -200px; }
 
 /* Dock-icon specific reverse styles */
 .dock .active > .icon.legend   { background-position:-280px -200px; }
@@ -1354,6 +1356,24 @@ div.fonts { padding-top:30px; }
   margin-left:0px;
   margin-right:0px;
   width:120px;
+  }
+
+/* Exports preview */
+#preview {
+  background-position:50% 50%;
+  background-repeat:no-repeat;
+  background-color:#eee;
+  border:1px solid #ccc;
+  position:absolute !important;
+  left:20px !important;
+  right:20px !important;
+  top:80px !important;
+  bottom:20px !important;
+  width:auto !important;
+  height:auto !important;
+  box-shadow:inset #ddd 0px 0px 5px;
+  -moz-box-shadow:inset #ddd 0px 0px 5px;
+  -webkit-box-shadow:inset #ddd 0px 0px 5px;
   }
 
 /* Error page */
