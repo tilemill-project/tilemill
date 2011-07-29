@@ -1,12 +1,13 @@
 # TileMill OSX App
 
-A first pass at a simple debug UI around tilemill as a child process
+A simple wrapper around tilemill for OSX.
+
 
 # Requires
 
  * Snow Leopard or Lion
  * XCode >= 4
- * Fully built TileMill 0.3.x
+ * Fully built TileMill
 
 
 # Build and test
