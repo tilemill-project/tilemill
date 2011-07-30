@@ -14,8 +14,11 @@ var start = function(model, data, callback) {
         var args = [];
         // nice the export process.
         args.push('-n19');
-        // path to node bin.
-        args.push(process.execPath);
+        // node command
+        // @TODO note that process.execPath is not used here as certain
+        // installs (e.g. ubuntu node ppa) do not use `node` as the binary
+        // name causing optimist arg parsing to fail.
+        args.push('node');
         // tilemill index.js
         args.push(path.resolve(path.join(__dirname + '/../index.js')));
         // export command
@@ -25,9 +28,9 @@ var start = function(model, data, callback) {
         // filepath
         args.push(path.join(settings.files, 'export', data.filename));
         // url, @TODO: need proper host info.
-        args.push('--url=' + 'http://localhost:'+settings.port+'/api/Export/'+data.id);
+        args.push('--url=http://localhost:'+settings.port+'/api/Export/'+data.id);
         // Log crashes to output directory.
-        args.push('--log');
+        args.push('--log=1');
 
         if (data.bbox) args.push('--bbox=' + data.bbox.join(','));
         if (data.width) args.push('--width=' + data.width);
