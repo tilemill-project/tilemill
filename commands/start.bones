@@ -9,6 +9,12 @@ commands['start'].options['port'] = {
     'default': 8889
 };
 
+commands['start'].options['examples'] = {
+    'title': 'examples=1|0',
+    'description': 'Copy example projects on first start.',
+    'default': 1
+};
+
 commands['start'].prototype.bootstrap = function(plugin, callback) {
     var settings = Bones.plugin.config;
     if (!path.existsSync(settings.files)) {
@@ -20,7 +26,7 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
         if (!path.existsSync(dir)) {
             console.warn('Creating %s dir %s', key, dir);
             fsutil.mkdirpSync(dir, 0755);
-            if (key === 'project') {
+            if (key === 'project' && settings.examples) {
                 var examples = path.resolve(path.join(__dirname, '..', 'examples'));
                 fsutil.cprSync(examples, dir);
             }
