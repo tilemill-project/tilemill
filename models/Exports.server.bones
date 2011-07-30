@@ -87,7 +87,7 @@ models.Export.prototype.sync = function(method, model, success, error) {
                 catch(err) {}
             }
             if (data && data.filename) {
-                var filepath = path.join(settings['export'], data.filename);
+                var filepath = path.join(settings.files, 'export', data.filename);
                 path.exists(filepath, function(exists) {
                     if (exists) return fs.unlink(filepath, this);
                     this();
