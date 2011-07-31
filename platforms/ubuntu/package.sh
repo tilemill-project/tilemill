@@ -1,17 +1,22 @@
 #!/usr/bin/env sh
 
 BUILD="build"
-VERSION=`grep -m1 'tilemill ([0-9.-]*)' debian/changelog | sed 's/tilemill (\([0-9.]*\)[-0-9]*).*/\1/g'`
-SOURCE="tilemill-$VERSION"
-TARBALL="tilemill-$VERSION.tar.gz"
-ORIG="tilemill_$VERSION.orig.tar.gz"
+PROJECT="tilemill"
+USER="yhahn"
+PPA="mapnik-test"
+
+_="_"
+CWD=`pwd`
+VERSION=`grep -m1 "$PROJECT ([0-9.-]*)" debian/changelog | sed "s/$PROJECT (\([0-9.-]*\)).*/\1/g"`
+TAG=`echo $VERSION | sed "s/\([0-9.]*\).*/\1/g"`
+
 
 if [ -z "$VERSION" ]; then
-  echo "Version could not be detected."
+  echo "Version could not be determined from debian/changelog."
   exit
 fi
 
-if [ ! -f "../../package.json" ]; then
+if [ ! -f "$CWD/../../package.json" ]; then
   echo "package.sh must be run from the platforms/ubuntu directory."
   exit
 fi
@@ -23,7 +28,7 @@ fi
 
 while true
 do
-  echo -n "Build $SOURCE (y/n)? "
+  echo -n "Build $PROJECT-$TAG (y/n)? "
   read CONFIRM
   if [ $CONFIRM = "y" ]; then
     break
@@ -33,21 +38,23 @@ do
   fi
 done
 
-mkdir $BUILD
+mkdir "$CWD/$BUILD"
 
-tar cfz "$BUILD/$TARBALL" ../../ \
+tar cfz "$CWD/$BUILD/$PROJECT-$TAG.tar.gz" "../../" \
 --exclude=.git* \
 --exclude=platforms \
---transform "s,^,$SOURCE/," \
---show-transformed-names
+--transform "s,^,$PROJECT-$TAG/,"
 
-cd $BUILD
-tar zxvf $TARBALL
+cd "$CWD/$BUILD"
+tar zxvf "$CWD/$BUILD/$PROJECT-$TAG.tar.gz"
+cp "$CWD/$BUILD/$PROJECT-$TAG.tar.gz" "$CWD/$BUILD/$PROJECT$_$TAG.orig.tar.gz"
 
-cd ..
-cp "$BUILD/$TARBALL" "$BUILD/$ORIG"
+cp -r "$CWD/debian" "$CWD/$BUILD/$PROJECT-$TAG"
+cd "$CWD/$BUILD/$PROJECT-$TAG/debian"
 
-cp -r debian "$BUILD/$SOURCE"
-cd "$BUILD/$SOURCE/debian"
+CHANGES="source.changes"
 
-debuild -inode_modules\|.git\|.png\|.ttf -S -sa
+debuild -inode_modules\|.git\|.png\|.ttf -S -sa &&
+cd "$CWD/$BUILD" &&
+dput "ppa:$USER/$PPA" "$PROJECT$_$VERSION$_$CHANGES"
+
