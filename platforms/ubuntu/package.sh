@@ -1,12 +1,13 @@
 #!/usr/bin/env sh
 
 BUILD="build"
-VERSION="tilemill-$1"
-TARBALL="tilemill-$1.tar.gz"
-ORIG="tilemill_$1.orig.tar.gz"
+VERSION=`grep -m1 'tilemill ([0-9.-]*)' debian/changelog | sed 's/tilemill (\([0-9.]*\)[-0-9]*).*/\1/g'`
+SOURCE="tilemill-$VERSION"
+TARBALL="tilemill-$VERSION.tar.gz"
+ORIG="tilemill_$VERSION.orig.tar.gz"
 
-if [ -z "$1" ]; then
-  echo "Please specify the version to package."
+if [ -z "$VERSION" ]; then
+  echo "Version could not be detected."
   exit
 fi
 
@@ -20,12 +21,24 @@ if [ -d "$BUILD" ]; then
   exit
 fi
 
+while true
+do
+  echo -n "Build $SOURCE (y/n)? "
+  read CONFIRM
+  if [ $CONFIRM = "y" ]; then
+    break
+  elif [ $CONFIRM = "n" ]; then
+    echo "Aborting."
+    exit
+  fi
+done
+
 mkdir $BUILD
 
 tar cfz "$BUILD/$TARBALL" ../../ \
 --exclude=.git* \
 --exclude=platforms \
---transform "s,^,$VERSION/," \
+--transform "s,^,$SOURCE/," \
 --show-transformed-names
 
 cd $BUILD
@@ -34,7 +47,7 @@ tar zxvf $TARBALL
 cd ..
 cp "$BUILD/$TARBALL" "$BUILD/$ORIG"
 
-cp -r debian "$BUILD/$VERSION"
-cd "$BUILD/$VERSION/debian"
+cp -r debian "$BUILD/$SOURCE"
+cd "$BUILD/$SOURCE/debian"
 
 debuild -inode_modules\|.git\|.png\|.ttf -S -sa
