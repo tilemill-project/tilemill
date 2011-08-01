@@ -80,7 +80,7 @@ models.Project.prototype.validateAsync = function(attributes, options) {
         var im = new mapnik.Image(1,1);
         map.fromString(this.xml, {
             strict:false,
-            base:path.join(Bones.plugin.config.files, 'project', this.id)
+            base:path.join(Bones.plugin.config.files, 'project', this.id) + '/'
         }, function(err, map) {
             if (err) return options.error(this.err);
             map.bufferSize = 0;
