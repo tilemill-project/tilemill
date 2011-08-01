@@ -34,7 +34,7 @@
             [searchTask release];
         }
     
-        NSString *base_path = [[NSBundle mainBundle] pathForResource:@"tilemill" ofType:@""];
+        NSString *base_path = [[NSBundle mainBundle] resourcePath];
 
         if (base_path == nil) {
             // TODO: Handle error.

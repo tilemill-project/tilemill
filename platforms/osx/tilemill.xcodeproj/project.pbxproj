@@ -15,6 +15,26 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		D7CFB14A13E6F5450033DFFD /* assets in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13713E6F5450033DFFD /* assets */; };
+		D7CFB14B13E6F5450033DFFD /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13813E6F5450033DFFD /* CHANGELOG.md */; };
+		D7CFB14C13E6F5450033DFFD /* CNAME in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13913E6F5450033DFFD /* CNAME */; };
+		D7CFB14D13E6F5450033DFFD /* commands in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13A13E6F5450033DFFD /* commands */; };
+		D7CFB14E13E6F5450033DFFD /* controllers in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13B13E6F5450033DFFD /* controllers */; };
+		D7CFB14F13E6F5450033DFFD /* examples in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13C13E6F5450033DFFD /* examples */; };
+		D7CFB15013E6F5450033DFFD /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13D13E6F5450033DFFD /* index.html */; };
+		D7CFB15113E6F5450033DFFD /* index.js in Sources */ = {isa = PBXBuildFile; fileRef = D7CFB13E13E6F5450033DFFD /* index.js */; };
+		D7CFB15213E6F5450033DFFD /* lib in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13F13E6F5450033DFFD /* lib */; };
+		D7CFB15313E6F5450033DFFD /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14013E6F5450033DFFD /* LICENSE.md */; };
+		D7CFB15413E6F5450033DFFD /* models in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14113E6F5450033DFFD /* models */; };
+		D7CFB15513E6F5450033DFFD /* node_modules in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14213E6F5450033DFFD /* node_modules */; };
+		D7CFB15613E6F5450033DFFD /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14313E6F5450033DFFD /* package.json */; };
+		D7CFB15713E6F5450033DFFD /* pages in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14413E6F5450033DFFD /* pages */; };
+		D7CFB15813E6F5450033DFFD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14513E6F5450033DFFD /* README.md */; };
+		D7CFB15913E6F5450033DFFD /* servers in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14613E6F5450033DFFD /* servers */; };
+		D7CFB15A13E6F5450033DFFD /* templates in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14713E6F5450033DFFD /* templates */; };
+		D7CFB15B13E6F5450033DFFD /* test in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14813E6F5450033DFFD /* test */; };
+		D7CFB15C13E6F5450033DFFD /* views in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14913E6F5450033DFFD /* views */; };
+		D7CFB15D13E6F76C0033DFFD /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13E13E6F5450033DFFD /* index.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +55,25 @@
 		35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tilemill.xcconfig; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* tilemill-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "tilemill-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* TileMill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TileMill.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7CFB13713E6F5450033DFFD /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../assets; sourceTree = "<group>"; };
+		D7CFB13813E6F5450033DFFD /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CHANGELOG.md; path = ../../CHANGELOG.md; sourceTree = "<group>"; };
+		D7CFB13913E6F5450033DFFD /* CNAME */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CNAME; path = ../../CNAME; sourceTree = "<group>"; };
+		D7CFB13A13E6F5450033DFFD /* commands */ = {isa = PBXFileReference; lastKnownFileType = folder; name = commands; path = ../../commands; sourceTree = "<group>"; };
+		D7CFB13B13E6F5450033DFFD /* controllers */ = {isa = PBXFileReference; lastKnownFileType = folder; name = controllers; path = ../../controllers; sourceTree = "<group>"; };
+		D7CFB13C13E6F5450033DFFD /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; name = examples; path = ../../examples; sourceTree = "<group>"; };
+		D7CFB13D13E6F5450033DFFD /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../index.html; sourceTree = "<group>"; };
+		D7CFB13E13E6F5450033DFFD /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = index.js; path = ../../index.js; sourceTree = "<group>"; };
+		D7CFB13F13E6F5450033DFFD /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = ../../lib; sourceTree = "<group>"; };
+		D7CFB14013E6F5450033DFFD /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.md; path = ../../LICENSE.md; sourceTree = "<group>"; };
+		D7CFB14113E6F5450033DFFD /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; name = models; path = ../../models; sourceTree = "<group>"; };
+		D7CFB14213E6F5450033DFFD /* node_modules */ = {isa = PBXFileReference; lastKnownFileType = folder; name = node_modules; path = ../../node_modules; sourceTree = "<group>"; };
+		D7CFB14313E6F5450033DFFD /* package.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = package.json; path = ../../package.json; sourceTree = "<group>"; };
+		D7CFB14413E6F5450033DFFD /* pages */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pages; path = ../../pages; sourceTree = "<group>"; };
+		D7CFB14513E6F5450033DFFD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
+		D7CFB14613E6F5450033DFFD /* servers */ = {isa = PBXFileReference; lastKnownFileType = folder; name = servers; path = ../../servers; sourceTree = "<group>"; };
+		D7CFB14713E6F5450033DFFD /* templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = templates; path = ../../templates; sourceTree = "<group>"; };
+		D7CFB14813E6F5450033DFFD /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; name = test; path = ../../test; sourceTree = "<group>"; };
+		D7CFB14913E6F5450033DFFD /* views */ = {isa = PBXFileReference; lastKnownFileType = folder; name = views; path = ../../views; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +150,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D7CFB13513E6F4EA0033DFFD /* tilemill */,
 				35AD8E9E13E10E62006213A0 /* tilemill.icns */,
 				35B36EDC13D26525006C72ED /* ReadMe.rtf */,
 				8D1107310486CEB800E47090 /* tilemill-Info.plist */,
@@ -127,6 +167,32 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D7CFB13513E6F4EA0033DFFD /* tilemill */ = {
+			isa = PBXGroup;
+			children = (
+				D7CFB13713E6F5450033DFFD /* assets */,
+				D7CFB13813E6F5450033DFFD /* CHANGELOG.md */,
+				D7CFB13913E6F5450033DFFD /* CNAME */,
+				D7CFB13A13E6F5450033DFFD /* commands */,
+				D7CFB13B13E6F5450033DFFD /* controllers */,
+				D7CFB13C13E6F5450033DFFD /* examples */,
+				D7CFB13D13E6F5450033DFFD /* index.html */,
+				D7CFB13E13E6F5450033DFFD /* index.js */,
+				D7CFB13F13E6F5450033DFFD /* lib */,
+				D7CFB14013E6F5450033DFFD /* LICENSE.md */,
+				D7CFB14113E6F5450033DFFD /* models */,
+				D7CFB14213E6F5450033DFFD /* node_modules */,
+				D7CFB14313E6F5450033DFFD /* package.json */,
+				D7CFB14413E6F5450033DFFD /* pages */,
+				D7CFB14513E6F5450033DFFD /* README.md */,
+				D7CFB14613E6F5450033DFFD /* servers */,
+				D7CFB14713E6F5450033DFFD /* templates */,
+				D7CFB14813E6F5450033DFFD /* test */,
+				D7CFB14913E6F5450033DFFD /* views */,
+			);
+			name = tilemill;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -183,6 +249,25 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 				35AD8E9F13E10E62006213A0 /* tilemill.icns in Resources */,
+				D7CFB14A13E6F5450033DFFD /* assets in Resources */,
+				D7CFB14B13E6F5450033DFFD /* CHANGELOG.md in Resources */,
+				D7CFB14C13E6F5450033DFFD /* CNAME in Resources */,
+				D7CFB14D13E6F5450033DFFD /* commands in Resources */,
+				D7CFB14E13E6F5450033DFFD /* controllers in Resources */,
+				D7CFB14F13E6F5450033DFFD /* examples in Resources */,
+				D7CFB15013E6F5450033DFFD /* index.html in Resources */,
+				D7CFB15D13E6F76C0033DFFD /* index.js in Resources */,
+				D7CFB15213E6F5450033DFFD /* lib in Resources */,
+				D7CFB15313E6F5450033DFFD /* LICENSE.md in Resources */,
+				D7CFB15413E6F5450033DFFD /* models in Resources */,
+				D7CFB15513E6F5450033DFFD /* node_modules in Resources */,
+				D7CFB15613E6F5450033DFFD /* package.json in Resources */,
+				D7CFB15713E6F5450033DFFD /* pages in Resources */,
+				D7CFB15813E6F5450033DFFD /* README.md in Resources */,
+				D7CFB15913E6F5450033DFFD /* servers in Resources */,
+				D7CFB15A13E6F5450033DFFD /* templates in Resources */,
+				D7CFB15B13E6F5450033DFFD /* test in Resources */,
+				D7CFB15C13E6F5450033DFFD /* views in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +281,7 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				35D15E0E13D25D9D003244AE /* ChildProcess.m in Sources */,
 				35B36EA313D260C6006C72ED /* TileMill.m in Sources */,
+				D7CFB15113E6F5450033DFFD /* index.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
