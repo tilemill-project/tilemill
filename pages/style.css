@@ -32,6 +32,8 @@ a {
   margin:0px auto;
   }
 
+.description { font-size:13px; }
+
 /**
  * Markdown ===================================================================
  */
@@ -135,37 +137,52 @@ pre {
   padding-right:40px;
   }
 
-.download {
+ul.download {
+  text-align:center;
   margin:20px 0px;
   display:block;
+  }
+
+.download li {
+  float:left;
   border:1px solid #ccc;
+  width:310px;
+  min-height:200px;
+  padding:19px;
   border-radius:5px;
   -moz-border-radius:5px;
   -webkit-border-radius:5px;
   }
 
-.download li {
-  float:left;
-  width:320px;
-  min-height:180px;
-  padding:19px;
-  }
+.download li:last-child { float:right; }
 
-.download li:first-child { border-right:1px solid #ccc; }
+.download li:hover {
+  box-shadow:#dcf0f4 0px 0px 0px 10px;
+  -moz-box-shadow:#dcf0f4 0px 0px 0px 10px;
+  -webkit-box-shadow:#dcf0f4 0px 0px 0px 10px;
+  }
 
 .download h3 {
   text-align:center;
   font-size:18px;
   }
 
-.twitter {
+a.download .icon {
   display:block;
-  text-align:center;
-  font:normal 13px/20px Arial,Helvetica,sans-serif;
-  text-shadow:#fff 0px 1px;
-  width:240px;
-  padding:0px 9px;
+  margin:10px auto;
+  width:80px;
+  height:80px;
+  background:url(images/sprite.png) 80px 80px no-repeat;
   }
+
+a.download .icon.osx { background-position:0px -80px; }
+a.download .icon.ubuntu { background-position:-80px -80px; }
+
+a.download strong,
+a.download span { display:block; }
+a.download span.size { color:#666; }
+
+.windows { text-align:center; }
 
 /**
  * Navigation =================================================================
@@ -199,7 +216,7 @@ pre {
   height:80px;
   overflow:hidden;
   text-indent:-9999px;
-  background:url(images/logo.png) no-repeat;
+  background:url(images/sprite.png) 0px 0px no-repeat;
   }
 
 .mapbox {
@@ -210,7 +227,7 @@ pre {
   width:120px;
   overflow:hidden;
   text-indent:-9999px;
-  background:url(images/mapbox.png) no-repeat;
+  background:url(images/sprite.png) -160px -80px no-repeat;
   }
 
 .menu {
@@ -268,7 +285,7 @@ pre {
   width:800px;
   height:450px;
   margin:0px auto;
-  background:url(images/screenshot.png) no-repeat;
+  background:url(images/screenshot.jpg) no-repeat;
   }
 
 .banner li {
