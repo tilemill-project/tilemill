@@ -24,17 +24,16 @@
     }
     else
     {
-        if (searchTask!=nil) {
+        if (searchTask != nil) {
             [searchTask release];
         }
     
         NSString *base_path = [[NSBundle mainBundle] pathForResource:@"tilemill" ofType:@""];
+
         if (base_path == nil) {
-            [resultsTextField setString:@""];
-            [resultsTextField setString:@"Error: unable to start, tilemill nodejs program folder not found...\n"];
+            // TODO: Handle error.
         } else {
             NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
-            //NSLog(command);
             searchTask = [[ChildProcess alloc] initWithController:self arguments:
                     [NSArray arrayWithObjects:
                      base_path, // working directory
@@ -59,73 +58,59 @@
     searchTask=nil;
 }
 
+#pragma IBActions
 
-- (IBAction)startTileMill:(id)sender
+- (IBAction)openBrowser:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8889/"]];
-
 }
 
-- (IBAction)openExports:(id)sender
+- (IBAction)openDirectory:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile: [NSString stringWithFormat:@"%@/Documents/TileMill/export",NSHomeDirectory()]];
+    [[NSWorkspace sharedWorkspace] openFile: [NSString stringWithFormat:@"%@/Documents/TileMill", NSHomeDirectory()]];
 }
 
-- (IBAction)openProjects:(id)sender
+- (IBAction)openHelp:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile: [NSString stringWithFormat:@"%@/Documents/TileMill/project",NSHomeDirectory()]];
-
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8889/#!/manual"]];
 }
 
-- (IBAction)openData:(id)sender
+- (IBAction)openDiscussions:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile: [NSString stringWithFormat:@"%@/Documents/TileMill/data",NSHomeDirectory()]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://support.mapbox.com/discussions/tilemill"]];
 }
 
-
-- (IBAction)openSupport:(id)sender
+- (IBAction)openKnowledgeBase:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:
-        [NSURL URLWithString:@"http://support.mapbox.com"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://support.mapbox.com/kb/tilemill"]];
 }
 
-- (IBAction)openTilemillHome:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:
-        [NSURL URLWithString:@"http://tilemill.com"]];
-}
-
-- (void)firstData
-{
-    [[NSWorkspace sharedWorkspace] openURL:
-       [NSURL URLWithString:@"http://localhost:8889/"]];
-}
+#pragma ChildProcessController Delegate Methods
 
 - (void)appendOutput:(NSString *)output
 {
-    [[resultsTextField textStorage] appendAttributedString: [[[NSAttributedString alloc]
-                             initWithString: output] autorelease]];
-    [self performSelector:@selector(scrollToVisible:) withObject:nil afterDelay:0.0];
-}
-
-- (void)scrollToVisible:(id)ignore {
-    [resultsTextField scrollRangeToVisible:NSMakeRange([[resultsTextField string] length], 0)];
+    // TODO: Handle output.
 }
 
 - (void)processStarted
 {
     findRunning=YES;
-    [resultsTextField setString:@""];
-    [resultsTextField setString:@"Launching in browser...\n"];
+    // TODO: Stop spinner and enable button.
     //[startButton setTitle:@"Stop TileMill"];
 }
 
 - (void)processFinished
 {
     findRunning=NO;
-    //[resultsTextField setString:@"stopped!"];
     //[startButton setTitle:@"Start TileMill"];
 }
+
+- (void)firstData
+{
+    // TODO handle first data
+}
+
+#pragma mark
 
 /*
 -(BOOL)windowWillClose:(id)sender

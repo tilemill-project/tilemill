@@ -34,7 +34,7 @@
 		35D15E0D13D25D9D003244AE /* ChildProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChildProcess.m; sourceTree = "<group>"; };
 		35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tilemill.xcconfig; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* tilemill-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "tilemill-Info.plist"; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* tilemill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tilemill.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* TileMill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TileMill.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +81,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* tilemill.app */,
+				8D1107320486CEB800E47090 /* TileMill.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -147,7 +147,7 @@
 			name = tilemill;
 			productInstallPath = "$(HOME)/Applications";
 			productName = tilemill;
-			productReference = 8D1107320486CEB800E47090 /* tilemill.app */;
+			productReference = 8D1107320486CEB800E47090 /* TileMill.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -234,7 +234,7 @@
 				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
 				INFOPLIST_FILE = "tilemill-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = tilemill;
+				PRODUCT_NAME = TileMill;
 			};
 			name = Debug;
 		};
@@ -249,7 +249,7 @@
 				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
 				INFOPLIST_FILE = "tilemill-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = tilemill;
+				PRODUCT_NAME = TileMill;
 			};
 			name = Release;
 		};
