@@ -9,8 +9,8 @@
     IBOutlet id relNotesTextField;
     IBOutlet NSButton *openBrowserButton;
     IBOutlet NSProgressIndicator *spinner;
-    BOOL findRunning;
     ChildProcess *searchTask;
+    BOOL appTerminating;
 }
 - (IBAction)openBrowser:(id)sender;
 - (IBAction)openDirectory:(id)sender;
@@ -18,4 +18,5 @@
 - (IBAction)openDiscussions:(id)sender;
 - (IBAction)openKnowledgeBase:(id)sender;
 - (IBAction)displayReleaseNotes:(id)sender;
+- (void)startTileMill;
 @end

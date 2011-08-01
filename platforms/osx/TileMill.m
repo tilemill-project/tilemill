@@ -5,52 +5,38 @@
 
 - (id)init
 {
+    if (![super init]) {
+        return nil;
+    }
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
    
     [nc addObserver:self
           selector:@selector(windowWillClose:)
               name:NSWindowWillCloseNotification
             object:nil]; // pass window to observe only that window
-    return (self);
+    return self;
 }
 
 -(void)awakeFromNib
 {
-    findRunning = NO;
-    searchTask = nil;
-    [spinner startAnimation:self];
+    [self startTileMill];
 }
 
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
-{   
-    if (findRunning)
-    {
-        [searchTask stopProcess];
+- (void)startTileMill {
+    [spinner startAnimation:self];
+    if (searchTask) {
         [searchTask release];
-        searchTask = nil;
     }
-    else
-    {
-        if (searchTask != nil) {
-            [searchTask release];
-        }
-    
-        NSString *base_path = [[NSBundle mainBundle] resourcePath];
-
-        if (base_path == nil) {
-            // TODO: Handle error.
-        } else {
-            NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
-            searchTask = [[ChildProcess alloc] initWithController:self arguments:
-                    [NSArray arrayWithObjects:
-                     base_path, // working directory
-                     command, // abs path to program
-                     nil
-                    ]
-            ];
-            [searchTask startProcess];
-        }
-    }
+    NSString *base_path = [[NSBundle mainBundle] resourcePath];
+    NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
+    searchTask = [[ChildProcess alloc] initWithController:self arguments:
+                  [NSArray arrayWithObjects:
+                   base_path, // working directory
+                   command, // abs path to program
+                   nil
+                   ]
+                  ];
+    [searchTask startProcess];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)tilemillAppDelegate {
@@ -64,6 +50,7 @@
     [searchTask stopProcess];
     [searchTask release];
     searchTask = nil;
+    appTerminating = YES;
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -117,32 +104,41 @@
 - (void)appendOutput:(NSString *)output
 {
     NSLog(@"Append output: %@", output);
-    if ([output rangeOfString:@"Server Core:8889"].length) {
-        [openBrowserButton setEnabled:YES];
-        [spinner stopAnimation:self];
+    NSString *logPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:logPath]) {
+        NSError *error;
+        if (![@"" writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:&error]) {
+            NSLog(@"Error creating log file at %@.", logPath);
+        }
     }
-    // TODO: Handle output.
+    NSFileHandle *logFile = [NSFileHandle fileHandleForWritingAtPath:logPath];
+    [logFile seekToEndOfFile];
+    [logFile writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
+    [logFile closeFile];
 }
 
 - (void)processStarted
 {
     NSLog(@"Process started.");
-    findRunning = YES;
-    // TODO: Stop spinner and enable button.
-    //[startButton setTitle:@"Stop TileMill"];
 }
 
 - (void)processFinished
 {
-    findRunning = NO;
+    NSLog(@"Finished");
     [openBrowserButton setEnabled:NO];
-    //[startButton setTitle:@"Start TileMill"];
+    if (!appTerminating) {
+        // We're not shutting down so the app crashed. Restart it.
+        NSLog(@"Restart");
+        // TODO figure out why this causes an infinite loop.
+        //[self startTileMill];
+    }
 }
 
 - (void)firstData
 {
     NSLog(@"First data.");
-    // TODO handle first data
+    [openBrowserButton setEnabled:YES];
+    [spinner stopAnimation:self];
 }
 
 @end
