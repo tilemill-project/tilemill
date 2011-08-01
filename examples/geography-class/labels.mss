@@ -36,32 +36,9 @@
     text-line-spacing:2;
   }
   
- /* The Z_* properties were assigned to indicate at which
-  * zoom level that type of label should begin appearing
-  * given a Google Mercator projection. 
-  */
-  [zoom>=2][Z_POSTAL = 2],
-  [zoom>=3][Z_POSTAL = 3],
-  [zoom>=4][Z_POSTAL = 4],
-  [zoom>=5][Z_POSTAL = 5] { text-name: "[POSTAL]"; }
-  
-  [zoom>=2][Z_ABBREV = 2],
-  [zoom>=3][Z_ABBREV = 3],
-  [zoom>=4][Z_ABBREV = 4],
-  [zoom>=5][Z_ABBREV = 5],
-  [zoom>=6][Z_ABBREV = 6] { text-name: "[ABBREV]"; }
-  
-  [zoom>=2][Z_NAME = 2],
-  [zoom>=3][Z_NAME = 3],
-  [zoom>=4][Z_NAME = 4],
-  [zoom>=5][Z_NAME = 5],
-  [zoom>=6][Z_NAME = 6] { text-name: "[NAME]"; }
-  
-  [zoom>=2][Z_ADMIN = 2],
-  [zoom>=3][Z_ADMIN = 3],
-  [zoom>=4][Z_ADMIN = 4],
-  [zoom>=5][Z_ADMIN = 5],
-  [zoom>=6][Z_ADMIN = 6] { text-name: "[ADMIN]"; } 
+  [zoom>=2][zoom<4] { text-name: "[ABBREV]"; }
+  [zoom>=4] { text-name: "[NAME]"; }
+
 }
 
 #country-name[zoom>4][TYPE='Dependency']{
