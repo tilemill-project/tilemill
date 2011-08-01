@@ -464,6 +464,9 @@ view.prototype.css2rgb = function(c) {
 };
 
 view.prototype.colorOpen = function(ev) {
+    // Colorpicker uses canvas... disable in IE for now.
+    if ($.browser.msie) return;
+
     if (this.$('#colorpicker').size()) return;
 
     var swatch = $(ev.currentTarget);
