@@ -13,6 +13,7 @@ DIRS= assets \
       node_modules \
       package.json \
       servers \
+	  pages \
       templates \
       views
       
