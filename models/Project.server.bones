@@ -84,7 +84,7 @@ models.Project.prototype.validateAsync = function(attributes, options) {
         }, function(err, map) {
             if (err) return options.error(this.err);
             map.bufferSize = 0;
-            map.extent = [0,0,1,1];
+            map.extent = [0,0,0,0];
             map.render(im, {format:'png'}, function(err) {
                 if (err) return options.error(this, err);
                 options.success(this, null);
