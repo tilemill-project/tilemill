@@ -5,7 +5,6 @@ PROJECT="tilemill"
 USER="yhahn"
 PPA="mapnik-test"
 
-_="_"
 CWD=`pwd`
 VERSION=`grep -m1 "$PROJECT ([0-9.-]*)" debian/changelog | sed "s/$PROJECT (\([0-9.-]*\)).*/\1/g"`
 TAG=`echo $VERSION | sed "s/\([0-9.]*\).*/\1/g"`
@@ -47,7 +46,7 @@ tar cfz "$CWD/$BUILD/$PROJECT-$TAG.tar.gz" "../../" \
 
 cd "$CWD/$BUILD"
 tar zxvf "$CWD/$BUILD/$PROJECT-$TAG.tar.gz"
-cp "$CWD/$BUILD/$PROJECT-$TAG.tar.gz" "$CWD/$BUILD/$PROJECT$_$TAG.orig.tar.gz"
+cp "$CWD/$BUILD/$PROJECT-$TAG.tar.gz" "$CWD/$BUILD/${PROJECT}_${TAG}.orig.tar.gz"
 
 cp -r "$CWD/debian" "$CWD/$BUILD/$PROJECT-$TAG"
 cd "$CWD/$BUILD/$PROJECT-$TAG/debian"
@@ -56,5 +55,5 @@ CHANGES="source.changes"
 
 debuild -inode_modules\|.git\|.png\|.ttf -S -sa &&
 cd "$CWD/$BUILD" &&
-dput "ppa:$USER/$PPA" "$PROJECT$_$VERSION$_$CHANGES"
+dput "ppa:$USER/$PPA" "${PROJECT}_${VERSION}_${CHANGES}"
 
