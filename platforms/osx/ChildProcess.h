@@ -16,13 +16,16 @@
 
 
 @interface ChildProcess : NSObject {
-    NSTask             *task;
-    id                 <ChildProcessController>controller;
-    NSArray            *arguments;
-    bool               launched;
+    NSTask *task;
+    id <ChildProcessController> delegate;
+    NSString *basePath;
+    NSString *command;
+    bool launched;
 }
 
-- (id)initWithController:(id <ChildProcessController>)controller arguments:(NSArray *)args;
+@property (nonatomic, assign) id <ChildProcessController> delegate;
+
+- (id)initWithBasePath:(NSString *)basePath command:(NSString *)command;
 
 - (void) startProcess;
 

@@ -31,13 +31,8 @@
     }
     NSString *base_path = [[NSBundle mainBundle] resourcePath];
     NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
-    searchTask = [[ChildProcess alloc] initWithController:self arguments:
-                  [NSArray arrayWithObjects:
-                   base_path, // working directory
-                   command, // abs path to program
-                   nil
-                   ]
-                  ];
+    searchTask = [[ChildProcess alloc] initWithBasePath:base_path command:command];
+    [searchTask setDelegate:self];
     [searchTask startProcess];
 }
 
