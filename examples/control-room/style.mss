@@ -8,35 +8,37 @@ Map { background-color:@base; }
 
 .water-poly { polygon-fill:@base; }
 
-#land {
-  polygon-fill:#0A202A;
-  polygon-gamma:0.7;
-}
-
-#land-glow::inner[zoom>0] {
+#land::glow-inner[zoom>0] {
   line-color:#225160;
   line-width:1.2;
   line-join:round;
   line-opacity:0.4;
 }
-#land-glow::innermiddle[zoom>1] {
+#land::glow-innermiddle[zoom>1] {
   line-color:#225160;
   line-width:2.5;
   line-join:round;
   line-opacity:0.2;
 }
-#land-glow::outermiddle[zoom>2] {
+#land::glow-outermiddle[zoom>2] {
   line-color:#225160;
   line-width:5;
   line-join:round;
   line-opacity:0.1;
 }
-#land-glow::outer[zoom>3] {
+#land::glow-outer[zoom>3] {
   line-color:#225160;
   line-width:5;
   line-join:round;
   line-opacity:0.05;
 }
+
+#land[zoom>=0] {
+  polygon-fill:#0A202A;
+  polygon-gamma:0.7;
+}
+
+
 
 #international_boundaries[zoom>1] {
   line-color:#0AF;
