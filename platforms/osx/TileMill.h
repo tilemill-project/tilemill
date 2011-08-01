@@ -8,6 +8,7 @@
     IBOutlet id relNotesWin;
     IBOutlet id relNotesTextField;
     IBOutlet NSButton *openBrowserButton;
+    IBOutlet NSProgressIndicator *spinner;
     BOOL findRunning;
     ChildProcess *searchTask;
 }

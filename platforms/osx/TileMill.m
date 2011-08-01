@@ -18,6 +18,7 @@
 {
     findRunning = NO;
     searchTask = nil;
+    [spinner startAnimation:self];
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
@@ -58,7 +59,8 @@
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-	  //NSLog(@"terminating tilemill task!");
+    // TODO doesn't run when app is forced to quit, which leaves the child process running.
+//	  NSLog(@"terminating tilemill task!");
     [searchTask stopProcess];
     [searchTask release];
     searchTask = nil;
@@ -114,21 +116,26 @@
 
 - (void)appendOutput:(NSString *)output
 {
-    NSLog(@"Append output.");
+    NSLog(@"Append output: %@", output);
+    if ([output rangeOfString:@"Server Core:8889"].length) {
+        [openBrowserButton setEnabled:YES];
+        [spinner stopAnimation:self];
+    }
     // TODO: Handle output.
 }
 
 - (void)processStarted
 {
     NSLog(@"Process started.");
-    findRunning=YES;
+    findRunning = YES;
     // TODO: Stop spinner and enable button.
     //[startButton setTitle:@"Stop TileMill"];
 }
 
 - (void)processFinished
 {
-    findRunning=NO;
+    findRunning = NO;
+    [openBrowserButton setEnabled:NO];
     //[startButton setTitle:@"Start TileMill"];
 }
 
