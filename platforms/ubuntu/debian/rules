@@ -1,7 +1,6 @@
 #!/usr/bin/make -f
 
-files = $(shell find node_modules -name wscript | sed 's,/wscript,/,g')
-pwd = $(pwd)
+files = $(shell find `pwd` -name wscript | sed 's,/wscript,/,g')
 
 build:
 	for file in $(files) ; do \
@@ -10,8 +9,8 @@ build:
 			make clean ; \
 			./configure ; \
 			make ; \
-			cd $$pwd ; \
 		fi ; \
 	done
 
 include /usr/share/cdbs/1/rules/debhelper.mk
+
