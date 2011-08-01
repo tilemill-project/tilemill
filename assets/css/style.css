@@ -1091,13 +1091,22 @@ ul.form a.icon.favorite {
 ul.form .cache.hidden { visibility:hidden; }
 ul.form a.icon.favorite.hidden { visibility:hidden; }
 
-ul.form.expand li:not(.expand) {
+ul.form.expand li {
   visibility:hidden;
   overflow:hidden;
   height:0px;
   padding-top:0px;
   padding-bottom:0px;
   border:0px;
+  }
+
+ul.form.expand li.expand {
+  visibility:visible;
+  overflow:visible;
+  height:auto;
+  padding-top:10px;
+  padding-bottom:9px;
+  border-bottom:1px solid #eee;
   }
 
 ul.form .browser {
