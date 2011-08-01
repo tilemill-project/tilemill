@@ -41,7 +41,14 @@ mkdir "$CWD/$BUILD"
 
 tar cfz "$CWD/$BUILD/$PROJECT-$TAG.tar.gz" "../../" \
 --exclude=.git* \
+--exclude=*.mbtiles \
+--exclude=*.zip \
+--exclude=*.node \
+--exclude=build \
 --exclude=platforms \
+--exclude=node_modules/jshint \
+--exclude=node_modules/expresso \
+--exclude=test \
 --transform "s,^,$PROJECT-$TAG/,"
 
 cd "$CWD/$BUILD"

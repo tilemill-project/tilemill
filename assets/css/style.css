@@ -1140,6 +1140,10 @@ ul.form.expand .browser { display:block; }
   padding:5px;
   }
 
+.library .breadcrumb a:active {
+  color:#000;
+}
+
 .library .assets {
   position:absolute;
   top:60px;
@@ -1160,6 +1164,9 @@ ul.form.expand .browser { display:block; }
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   }
+
+.library .assets a:active { background:#ddd; }
+
 
 .library .assets div.description {
   padding-left:10px;

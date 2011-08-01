@@ -147,14 +147,14 @@ ul.download {
   float:left;
   border:1px solid #ccc;
   width:310px;
-  min-height:200px;
+  min-height:210px;
   padding:19px;
   border-radius:5px;
   -moz-border-radius:5px;
   -webkit-border-radius:5px;
   }
 
-.download li:last-child { float:right; }
+.download li.last { float:right; }
 
 .download li:hover {
   box-shadow:#dcf0f4 0px 0px 0px 10px;
@@ -251,13 +251,13 @@ a.download span.size { color:#666; }
   border-right:1px solid #ccc;
   }
 
-.menu li:first-child a {
+.menu li.first a {
   border-radius:4px 0px 0px 4px;
   -moz-border-radius:4px 0px 0px 4px;
   -webkit-border-radius:4px 0px 0px 4px;
   }
 
-.menu li:last-child a {
+.menu li.last a {
   border:0px;
   border-radius:0px 4px 4px 0px;
   -moz-border-radius:0px 4px 4px 0px;
@@ -296,14 +296,14 @@ a.download span.size { color:#666; }
   padding:0px 9px 0px 20px;
   }
 
-.banner li:first-child {
+.banner li.first {
   float:left;
   width:160px;
   border-right:1px solid #a0d0e0;
   padding:0px 19px 0px 0px;
   }
 
-.banner li:last-child {
+.banner li.last {
   border:0px;
   width:330px;
   padding:0px 10px 0px 20px;

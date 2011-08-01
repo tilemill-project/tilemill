@@ -5,46 +5,39 @@
 
 - (id)init
 {
-    NSNotificationCenter  *nc = [NSNotificationCenter defaultCenter];
+    if (![super init]) {
+        return nil;
+    }
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
    
     [nc addObserver:self
           selector:@selector(windowWillClose:)
               name:NSWindowWillCloseNotification
-            object:nil];  // pass window to observe only that window
-    return (self);
+            object:nil]; // pass window to observe only that window
+    return self;
 }
 
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
-{   
-    if (findRunning)
-    {
-        [searchTask stopProcess];
+-(void)awakeFromNib
+{
+    logPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"] retain];
+    [self startTileMill];
+}
+
+- (void)startTileMill {
+    [spinner startAnimation:self];
+    if (searchTask) {
         [searchTask release];
-        searchTask=nil;
     }
-    else
-    {
-        if (searchTask!=nil) {
-            [searchTask release];
-        }
-    
-        NSString *base_path = [[NSBundle mainBundle] pathForResource:@"tilemill" ofType:@""];
-        if (base_path == nil) {
-            [resultsTextField setString:@""];
-            [resultsTextField setString:@"Error: unable to start, tilemill nodejs program folder not found...\n"];
-        } else {
-            NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
-            //NSLog(command);
-            searchTask = [[ChildProcess alloc] initWithController:self arguments:
-                    [NSArray arrayWithObjects:
-                     base_path, // working directory
-                     command, // abs path to program
-                     nil
-                    ]
-            ];
-            [searchTask startProcess];
-        }
-    }
+    NSString *base_path = [[NSBundle mainBundle] resourcePath];
+    NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
+    searchTask = [[ChildProcess alloc] initWithController:self arguments:
+                  [NSArray arrayWithObjects:
+                   base_path, // working directory
+                   command, // abs path to program
+                   nil
+                   ]
+                  ];
+    [searchTask startProcess];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)tilemillAppDelegate {
@@ -53,94 +46,19 @@
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-	  //NSLog(@"terminating tilemill task!");
+    // TODO doesn't run when app is forced to quit, which leaves the child process running.
+//	  NSLog(@"terminating tilemill task!");
     [searchTask stopProcess];
     [searchTask release];
-    searchTask=nil;
+    searchTask = nil;
+    appTerminating = YES;
 }
-
-
-- (IBAction)startTileMill:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8889/"]];
-
-}
-
-- (IBAction)openExports:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openFile: [NSString stringWithFormat:@"%@/Documents/TileMill/export",NSHomeDirectory()]];
-}
-
-- (IBAction)openProjects:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openFile: [NSString stringWithFormat:@"%@/Documents/TileMill/project",NSHomeDirectory()]];
-
-}
-
-- (IBAction)openData:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openFile: [NSString stringWithFormat:@"%@/Documents/TileMill/data",NSHomeDirectory()]];
-}
-
-
-- (IBAction)openSupport:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:
-        [NSURL URLWithString:@"http://support.mapbox.com"]];
-}
-
-- (IBAction)openTilemillHome:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:
-        [NSURL URLWithString:@"http://tilemill.com"]];
-}
-
-- (void)firstData
-{
-    [[NSWorkspace sharedWorkspace] openURL:
-       [NSURL URLWithString:@"http://localhost:8889/"]];
-}
-
-- (void)appendOutput:(NSString *)output
-{
-    [[resultsTextField textStorage] appendAttributedString: [[[NSAttributedString alloc]
-                             initWithString: output] autorelease]];
-    [self performSelector:@selector(scrollToVisible:) withObject:nil afterDelay:0.0];
-}
-
-- (void)scrollToVisible:(id)ignore {
-    [resultsTextField scrollRangeToVisible:NSMakeRange([[resultsTextField string] length], 0)];
-}
-
-- (void)processStarted
-{
-    findRunning=YES;
-    [resultsTextField setString:@""];
-    [resultsTextField setString:@"Launching in browser...\n"];
-    //[startButton setTitle:@"Stop TileMill"];
-}
-
-- (void)processFinished
-{
-    findRunning=NO;
-    //[resultsTextField setString:@"stopped!"];
-    //[startButton setTitle:@"Start TileMill"];
-}
-
-/*
--(BOOL)windowWillClose:(id)sender
-{
-    [searchTask stopProcess];
-    [searchTask release];
-    searchTask=nil;
-    return YES;
-}*/
 
 - (void)windowWillClose:(NSNotification *)notification
 {
     [searchTask stopProcess];
     [searchTask release];
-    searchTask=nil;
+    searchTask = nil;
 }
 
 -(BOOL)windowShouldClose:(id)sender
@@ -149,16 +67,83 @@
     return YES;
 }
 
+#pragma IBActions
+
+- (IBAction)openBrowser:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8889/"]];
+}
+
+- (IBAction)openDirectory:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openFile: [NSString stringWithFormat:@"%@/Documents/TileMill", NSHomeDirectory()]];
+}
+
+- (IBAction)openHelp:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8889/#!/manual"]];
+}
+
+- (IBAction)openDiscussions:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://support.mapbox.com/discussions/tilemill"]];
+}
+
+- (IBAction)openKnowledgeBase:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://support.mapbox.com/kb/tilemill"]];
+}
+
 - (IBAction)displayReleaseNotes:(id)sender
 {
     [relNotesTextField readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"ReadMe" ofType:@"rtf"]];
     [relNotesWin makeKeyAndOrderFront:self];
 }
 
--(void)awakeFromNib
+- (IBAction)openConsole:(id)sender
 {
-    findRunning=NO;
-    searchTask=nil;
+    [[NSWorkspace sharedWorkspace] openFile:logPath withApplication:@"Console" andDeactivate:YES];
+}
+
+#pragma ChildProcessController Delegate Methods
+
+- (void)appendOutput:(NSString *)output
+{
+    NSLog(@"Append output: %@", output);
+    if (![[NSFileManager defaultManager] fileExistsAtPath:logPath]) {
+        NSError *error;
+        if (![@"" writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:&error]) {
+            NSLog(@"Error creating log file at %@.", logPath);
+        }
+    }
+    NSFileHandle *logFile = [NSFileHandle fileHandleForWritingAtPath:logPath];
+    [logFile seekToEndOfFile];
+    [logFile writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
+    [logFile closeFile];
+}
+
+- (void)processStarted
+{
+    NSLog(@"Process started.");
+}
+
+- (void)processFinished
+{
+    NSLog(@"Finished");
+    [openBrowserButton setEnabled:NO];
+    if (!appTerminating) {
+        // We're not shutting down so the app crashed. Restart it.
+        NSLog(@"Restart");
+        // TODO figure out why this causes an infinite loop.
+        //[self startTileMill];
+    }
+}
+
+- (void)firstData
+{
+    NSLog(@"First data.");
+    [openBrowserButton setEnabled:YES];
+    [spinner stopAnimation:self];
 }
 
 @end
