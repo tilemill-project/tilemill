@@ -27,6 +27,7 @@
     [spinner startAnimation:self];
     if (searchTask) {
         [searchTask release];
+        searchTask = nil;
     }
     NSString *base_path = [[NSBundle mainBundle] resourcePath];
     NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
@@ -48,10 +49,10 @@
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // TODO doesn't run when app is forced to quit, which leaves the child process running.
 //	  NSLog(@"terminating tilemill task!");
+    appTerminating = YES;
     [searchTask stopProcess];
     [searchTask release];
     searchTask = nil;
-    appTerminating = YES;
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -109,7 +110,6 @@
 
 - (void)appendOutput:(NSString *)output
 {
-    NSLog(@"Append output: %@", output);
     if (![[NSFileManager defaultManager] fileExistsAtPath:logPath]) {
         NSError *error;
         if (![@"" writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:&error]) {
@@ -124,7 +124,7 @@
 
 - (void)processStarted
 {
-    NSLog(@"Process started.");
+//    NSLog(@"Process started.");
 }
 
 - (void)processFinished
@@ -134,14 +134,12 @@
     if (!appTerminating) {
         // We're not shutting down so the app crashed. Restart it.
         NSLog(@"Restart");
-        // TODO figure out why this causes an infinite loop.
-        //[self startTileMill];
+        [self startTileMill];
     }
 }
 
 - (void)firstData
 {
-    NSLog(@"First data.");
     [openBrowserButton setEnabled:YES];
     [spinner stopAnimation:self];
 }

@@ -14,7 +14,7 @@
 
 - (void)dealloc
 {
-    [self stopProcess];
+    //[self stopProcess];
     [arguments release];
     [task release];
     [super dealloc];
