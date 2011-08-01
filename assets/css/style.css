@@ -29,8 +29,8 @@ body {
   color:#222;
   }
 
-.overlay:before,
-.loading:before,
+.overlay > .mask,
+.loading > .mask,
 .fill,
 .fill-s,
 .fill-n,
@@ -44,8 +44,8 @@ body {
   display:block;
   }
 
-body.overlay:before,
-body.loading:before { position:fixed; }
+body.overlay > .mask,
+body.loading > .mask { position:fixed; }
 
 .fill-s { top:auto; }
 .fill-n { bottom:auto; }
@@ -70,19 +70,16 @@ small { font-size:11px; }
 .overlay,
 .loading { overflow:hidden; }
 
-.overlay:before,
-.loading:before {
-  content:'.';
-  text-indent:-9999px;
-  overflow:hidden;
-  background:rgba(0,0,0,.5);
+.overlay > .mask,
+.loading > .mask {
+  background:url(../images/mask-0-50.png);
   z-index:100;
   }
 
-.overlay .overlay:before,
-.loading .loading:before,
-.overlay .loading:before,
-.loading .overlay:before { background:rgba(0,0,0,.25); }
+.overlay .overlay > .mask,
+.loading .loading > .mask,
+.overlay .loading > .mask,
+.loading .overlay > .mask { background:url(../images/mask-0-25.png); }
 
 .loading:after {
   content:'Loading ...';
@@ -110,7 +107,7 @@ small { font-size:11px; }
   position:absolute;
   left:50%;
   top:50%;
-  background:rgba(48,48,48,.9);
+  background:url(../images/mask-48-90.png);
   color:#ccc;
   width:480px;
   margin:-120px 0px 0px -240px;
@@ -361,7 +358,7 @@ small { font-size:11px; }
   }
 
 .thumb .thumb-name {
-  background:rgba(255,255,255,.9);
+  background:url(../images/mask-255-90.png);
   padding:5px 10px;
   min-height:20px;
   overflow:hidden;
@@ -395,7 +392,7 @@ small { font-size:11px; }
   border-left:0px;
   border-radius:0px 3px 3px 0px;
   box-shadow:rgba(0,0,0,.1) 0px 1px 3px;
-  background:rgba(255,255,255,.9);
+  background:url(../images/mask-255-90.png);
   }
 
 .project .layers .button { margin:5px 10px; }
@@ -559,12 +556,12 @@ small { font-size:11px; }
 
 .palette .colors.active {
   position:relative;
-  border:1px solid rgba(255,255,255,.75);
+  border:1px solid #fff;
   padding:4px;
   margin:-5px;
   height:auto;
   z-index:101;
-  background:rgba(255,255,255,.5);
+  background:url(../images/mask-255-90.png);
   overflow:visible;
   border-radius:3px;
   -moz-border-radius:3px;
@@ -589,7 +586,7 @@ small { font-size:11px; }
 
 #colorpicker {
   border-radius:3px;
-  background:rgba(48,48,48,.9);
+  background:url(../images/mask-48-90.png);
   color:#ccc;
 
   cursor:default;
