@@ -2,8 +2,8 @@
 
 BUILD="build"
 PROJECT="tilemill"
-USER="yhahn"
-PPA="mapnik-test"
+USER="developmentseed"
+PPA="mapbox"
 
 CWD=`pwd`
 VERSION=`grep -m1 "$PROJECT ([0-9.-]*)" debian/changelog | sed "s/$PROJECT (\([0-9.-]*\)).*/\1/g"`
