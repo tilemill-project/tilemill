@@ -5,13 +5,19 @@
 
 - (id)init
 {
-    NSNotificationCenter  *nc = [NSNotificationCenter defaultCenter];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
    
     [nc addObserver:self
           selector:@selector(windowWillClose:)
               name:NSWindowWillCloseNotification
-            object:nil];  // pass window to observe only that window
+            object:nil]; // pass window to observe only that window
     return (self);
+}
+
+-(void)awakeFromNib
+{
+    findRunning = NO;
+    searchTask = nil;
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
@@ -20,7 +26,7 @@
     {
         [searchTask stopProcess];
         [searchTask release];
-        searchTask=nil;
+        searchTask = nil;
     }
     else
     {
@@ -55,7 +61,20 @@
 	  //NSLog(@"terminating tilemill task!");
     [searchTask stopProcess];
     [searchTask release];
-    searchTask=nil;
+    searchTask = nil;
+}
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+    [searchTask stopProcess];
+    [searchTask release];
+    searchTask = nil;
+}
+
+-(BOOL)windowShouldClose:(id)sender
+{
+    [[NSApplication sharedApplication] terminate:nil];
+    return YES;
 }
 
 #pragma IBActions
@@ -85,15 +104,23 @@
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://support.mapbox.com/kb/tilemill"]];
 }
 
+- (IBAction)displayReleaseNotes:(id)sender
+{
+    [relNotesTextField readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"ReadMe" ofType:@"rtf"]];
+    [relNotesWin makeKeyAndOrderFront:self];
+}
+
 #pragma ChildProcessController Delegate Methods
 
 - (void)appendOutput:(NSString *)output
 {
+    NSLog(@"Append output.");
     // TODO: Handle output.
 }
 
 - (void)processStarted
 {
+    NSLog(@"Process started.");
     findRunning=YES;
     // TODO: Stop spinner and enable button.
     //[startButton setTitle:@"Stop TileMill"];
@@ -107,43 +134,8 @@
 
 - (void)firstData
 {
+    NSLog(@"First data.");
     // TODO handle first data
-}
-
-#pragma mark
-
-/*
--(BOOL)windowWillClose:(id)sender
-{
-    [searchTask stopProcess];
-    [searchTask release];
-    searchTask=nil;
-    return YES;
-}*/
-
-- (void)windowWillClose:(NSNotification *)notification
-{
-    [searchTask stopProcess];
-    [searchTask release];
-    searchTask=nil;
-}
-
--(BOOL)windowShouldClose:(id)sender
-{
-    [[NSApplication sharedApplication] terminate:nil];
-    return YES;
-}
-
-- (IBAction)displayReleaseNotes:(id)sender
-{
-    [relNotesTextField readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"ReadMe" ofType:@"rtf"]];
-    [relNotesWin makeKeyAndOrderFront:self];
-}
-
--(void)awakeFromNib
-{
-    findRunning=NO;
-    searchTask=nil;
 }
 
 @end
