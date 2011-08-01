@@ -23,7 +23,9 @@ server.prototype.initialize = function(app) {
         'index',
         'abilities',
         'projectPoll',
-        'projectFlush'
+        'projectFlush',
+        'projectDebug',
+        'projectXML'
     );
 
     this.get('/', this.index);
@@ -31,6 +33,7 @@ server.prototype.initialize = function(app) {
 
     // Custom Project sync endpoints.
     this.get('/api/Project/:id.xml', this.projectXML);
+    this.get('/api/Project/:id.debug', this.projectDebug);
     this.get('/api/Project/:id/:time(\\d+)', this.projectPoll);
     this.del('/api/Project/:id/:layer', this.projectFlush);
 
@@ -81,6 +84,23 @@ server.prototype.projectXML = function(req, res, next) {
             model.localize(model.toJSON(), function(err) {
                 if (err) return next(err);
                 res.send(model.xml, {'content-type': 'text/xml'});
+            });
+        },
+        error: function(model, resp) { next(resp); }
+    });
+};
+
+server.prototype.projectDebug = function(req, res, next) {
+    var model = new models.Project({ id: req.param('id') });
+    model.fetch({
+        success: function(model, resp) {
+            model.localize(model.toJSON(), function(err) {
+                if (err) return next(err);
+                res.send({
+                    debug: model.debug,
+                    mml: model.mml,
+                    xml: model.xml
+                });
             });
         },
         error: function(model, resp) { next(resp); }

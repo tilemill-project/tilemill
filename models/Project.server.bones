@@ -343,6 +343,7 @@ models.Project.prototype.localize = function(mml, callback) {
     function done() {
         model.xml = localizedCache[key].xml;
         model.mml = localizedCache[key].mml;
+        model.debug = localizedCache[key].debug;
         callback(null);
     }
 
@@ -360,11 +361,15 @@ models.Project.prototype.localize = function(mml, callback) {
 
     // Actually load the object.
     localizedCache[key] = new EventEmitter;
+    localizedCache[key].debug = {};
     localizedCache[key].updated = mml._updated;
     localizedCache[key].setMaxListeners(0);
     localizedCache[key].once('load', done);
 
+    var localizeTime;
+    var compileTime;
     Step(function() {
+        localizeTime = (+new Date);
         millstone.resolve({
             mml: mml,
             base: path.join(settings.files, 'project', model.id),
@@ -373,10 +378,15 @@ models.Project.prototype.localize = function(mml, callback) {
     }, function(err, localized) {
         if (err) return callback(err);
 
+        localizedCache[key].debug.localize = (+new Date) - localizeTime + 'ms';
         localizedCache[key].mml = localized;
+
+        compileTime = (+new Date);
         compileStylesheet(localized, this);
     }, function(err, compiled) {
         if (err) return callback(err);
+
+        localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
         localizedCache[key].xml = compiled;
         localizedCache[key].emit('load');
     });
