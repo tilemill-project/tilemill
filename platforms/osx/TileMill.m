@@ -19,6 +19,7 @@
 
 -(void)awakeFromNib
 {
+    logPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"] retain];
     [self startTileMill];
 }
 
@@ -99,12 +100,16 @@
     [relNotesWin makeKeyAndOrderFront:self];
 }
 
+- (IBAction)openConsole:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openFile:logPath withApplication:@"Console" andDeactivate:YES];
+}
+
 #pragma ChildProcessController Delegate Methods
 
 - (void)appendOutput:(NSString *)output
 {
     NSLog(@"Append output: %@", output);
-    NSString *logPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:logPath]) {
         NSError *error;
         if (![@"" writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:&error]) {

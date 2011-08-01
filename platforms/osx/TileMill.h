@@ -11,6 +11,7 @@
     IBOutlet NSProgressIndicator *spinner;
     ChildProcess *searchTask;
     BOOL appTerminating;
+    NSString *logPath;
 }
 - (IBAction)openBrowser:(id)sender;
 - (IBAction)openDirectory:(id)sender;
@@ -18,5 +19,6 @@
 - (IBAction)openDiscussions:(id)sender;
 - (IBAction)openKnowledgeBase:(id)sender;
 - (IBAction)displayReleaseNotes:(id)sender;
+- (IBAction)openConsole:(id)sender;
 - (void)startTileMill;
 @end
