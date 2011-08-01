@@ -2,7 +2,7 @@
     "name": "tilemill",
     "version": "0.4.0alpha",
     "main": "./tilemill.js",
-    "description": "Modern map design studio.",
+    "description": "A modern map design studio.",
     "keywords": ["map", "design", "cartography"],
     "url": "http://github.com/developmentseed/tilemill",
     "repositories": [{
@@ -30,13 +30,13 @@
         "request": "1.9.x",
         "step": "0.0.x",
         "tilelive": "~4.0.3",
-        "mapnik": "0.4.x",
+        "mapnik": "0.4.0",
         "millstone": "~0.0.5",
         "sphericalmercator": "1.0.x",
         "tilelive-mapnik": "~0.1.1",
         "underscore": "1.1.x",
         "carto": "~0.2.1",
-        "wax": "https://github.com/mapbox/wax/tarball/aa81654edb7473fd241a703d2bfc1e881365ca69",
+        "wax": "~3.0.4",
         "node-markdown": "0.1.0"
     },
     "devDependencies": {

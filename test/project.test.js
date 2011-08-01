@@ -7,7 +7,7 @@ function readJSON(name) {
 }
 
 function removeTimestamp(url) {
-    return url.replace(/\?\d+$/, '');
+    return url.replace(/\?.*$/, '');
 }
 
 function cleanProject(proj) {

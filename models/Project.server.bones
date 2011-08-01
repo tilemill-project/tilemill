@@ -80,11 +80,11 @@ models.Project.prototype.validateAsync = function(attributes, options) {
         var im = new mapnik.Image(1,1);
         map.fromString(this.xml, {
             strict:false,
-            base:path.join(Bones.plugin.config.files, 'project', this.id)
+            base:path.join(Bones.plugin.config.files, 'project', this.id) + '/'
         }, function(err, map) {
             if (err) return options.error(this.err);
             map.bufferSize = 0;
-            map.extent = [0,0,1,1];
+            map.extent = [0,0,0,0];
             map.render(im, {format:'png'}, function(err) {
                 if (err) return options.error(this, err);
                 options.success(this, null);
@@ -191,8 +191,8 @@ function loadProject(model, callback) {
         // Generate dynamic properties.
         object.tilejson = '1.0.0';
         object.scheme = 'tms';
-        object.tiles = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (object.format || 'png') + '?' + object._updated];
-        object.grids = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?' + object._updated];
+        object.tiles = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (object.format || 'png') + '?updated=' + object._updated];
+        object.grids = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?updated=' + object._updated];
         if (object.interactivity)
             object.formatter = models.Project.formatter(object.interactivity);
         this();
@@ -279,8 +279,8 @@ function saveProject(model, callback) {
         var updated = stat && Date.parse(stat.mtime) || (+ new Date());
         callback(err, {
             _updated: updated,
-            tiles: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (model.get('format') || 'png') + '?' + updated],
-            grids: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?' + updated],
+            tiles: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (model.get('format') || 'png') + '?updated=' + updated],
+            grids: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?updated=' + updated],
             formatter: model.get('interactivity')
                 ? models.Project.formatter(model.get('interactivity'))
                 : undefined
@@ -343,6 +343,7 @@ models.Project.prototype.localize = function(mml, callback) {
     function done() {
         model.xml = localizedCache[key].xml;
         model.mml = localizedCache[key].mml;
+        model.debug = localizedCache[key].debug;
         callback(null);
     }
 
@@ -360,11 +361,15 @@ models.Project.prototype.localize = function(mml, callback) {
 
     // Actually load the object.
     localizedCache[key] = new EventEmitter;
+    localizedCache[key].debug = {};
     localizedCache[key].updated = mml._updated;
     localizedCache[key].setMaxListeners(0);
     localizedCache[key].once('load', done);
 
+    var localizeTime;
+    var compileTime;
     Step(function() {
+        localizeTime = (+new Date);
         millstone.resolve({
             mml: mml,
             base: path.join(settings.files, 'project', model.id),
@@ -373,10 +378,15 @@ models.Project.prototype.localize = function(mml, callback) {
     }, function(err, localized) {
         if (err) return callback(err);
 
+        localizedCache[key].debug.localize = (+new Date) - localizeTime + 'ms';
         localizedCache[key].mml = localized;
+
+        compileTime = (+new Date);
         compileStylesheet(localized, this);
     }, function(err, compiled) {
         if (err) return callback(err);
+
+        localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
         localizedCache[key].xml = compiled;
         localizedCache[key].emit('load');
     });

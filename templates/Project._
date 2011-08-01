@@ -12,9 +12,15 @@
         Export
         <span class='icon reverse right dropdown'></span>
         <span class='menu'>
+          <% if (window.abilities.exports.png) { %>
           <a href='#export-png' title='Export PNG'>PNG</a>
+          <% } %>
+          <% if (window.abilities.exports.pdf) { %>
           <a href='#export-pdf' title='Export PDF'>PDF</a>
+          <% } %>
+          <% if (window.abilities.exports.mbtiles) { %>
           <a href='#export-mbtiles' title='Export MBTiles'>MBTiles</a>
+          <% } %>
           <a class='divider drawer' href='#exports'>View exports</a>
         </span>
       </span>
@@ -55,6 +61,7 @@
     <h2 class='title'></h2>
     <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
     <div class='content fill-s'></div>
+    <div class='mask'></div>
   </div>
 
   <div id='export' class='pane'>

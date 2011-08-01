@@ -237,7 +237,7 @@ model.prototype.thumb = function() {
     return this.get('tiles')[0]
         .replace('{z}', z)
         .replace('{x}', x)
-        .replace('{y}', y);
+        .replace('{y}', y) + '&cache=true';
 };
 
 // Hit the project poll endpoint.

@@ -3,7 +3,7 @@
     <% if (isNew() || get('Datasource') && get('Datasource').file) {%>
     <a href='#layerFile' class='active'><span class='icon file'></span>File</a>
     <% } %>
-    <% if (isNew() || get('Datasource') && get('Datasource').type === 'postgis') {%>
+    <% if ((isNew() && _(window.abilities.datasources).include('postgis')) || get('Datasource') && get('Datasource').type === 'postgis') {%>
     <a href='#layerPostGIS' <% if(get('Datasource')) { %>class='active'<% } %>><span class='icon postgis'></span>PostGIS</a>
     <% } %>
   </div>
@@ -60,7 +60,7 @@
   </ul></form>
   <% } %>
 
-  <% if (isNew() || get('Datasource') && get('Datasource').type === 'postgis') {%>
+  <% if ((isNew() && _(window.abilities.datasources).include('postgis')) || get('Datasource') && get('Datasource').type === 'postgis') {%>
   <form class='layerPostGIS'><ul class='form'>
     <li class='expand text'>
       <h2>PostGIS</h2>

@@ -1,15 +1,16 @@
-var path = require('path'),
-    tilelive = require('tilelive'),
-    settings = Bones.plugin.config;
+var fs = require('fs');
+var path = require('path');
+var tilelive = require('tilelive');
+var settings = Bones.plugin.config;
 
 server = Bones.Server.extend({});
 
 server.prototype.initialize = function() {
-    _.bindAll(this, 'load', 'grid', 'getArtifact', 'mbtiles');
+    _.bindAll(this, 'load', 'grid', 'getArtifact', 'mbtiles', 'fromCache');
     this.get('/1.0.0/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.mbtiles);
     this.get('/1.0.0/:id.mbtiles/:z/:x/:y.:format(grid.json)', this.mbtiles);
-    this.get('/1.0.0/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.load, this.getArtifact);
-    this.get('/1.0.0/:id/:z/:x/:y.:format(grid.json)', this.load, this.grid, this.getArtifact);
+    this.get('/1.0.0/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.fromCache, this.load, this.getArtifact);
+    this.get('/1.0.0/:id/:z/:x/:y.:format(grid.json)', this.fromCache, this.load, this.grid, this.getArtifact);
 };
 
 server.prototype.load = function(req, res, next) {
@@ -52,6 +53,7 @@ server.prototype.getArtifact = function(req, res, next) {
         var fn = req.params.format === 'grid.json' ? 'getGrid' : 'getTile';
         source[fn](z, x, y, function(err, tile, headers) {
             if (err) return next(err);
+            if (res.cache) fs.writeFile(res.cache, tile);
             if (headers) headers['max-age'] = 3600;
             res.send(tile, headers);
         });
@@ -88,6 +90,26 @@ server.prototype.mbtiles = function(req, res, next) {
             if (headers) headers['max-age'] = 3600;
             res.send(tile, headers);
         });
+    });
+};
+
+server.prototype.fromCache = function(req, res, next) {
+    if (!req.param('cache')) return next();
+
+    var filename = [
+        req.param('id'),
+        req.param('z'),
+        req.param('x'),
+        req.param('y'),
+        req.param('format')
+    ].join('.');
+    res.cache = path.join(settings.files, 'cache', 'tile', filename);
+    fs.stat(res.cache, function(err, stat) {
+        if (!err && +stat.mtime > req.param('updated')) {
+            return res.sendfile(res.cache);
+        } else {
+            return next();
+        }
     });
 };
 

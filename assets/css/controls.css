@@ -99,7 +99,7 @@
   margin:0;
   padding:0;
   border:1px dashed #888;
-  background: rgba(255,255,255,0.25);
+  background:url(../images/mask-0-25.png);
   position: absolute;
   top: 0;
   left: 0;
@@ -121,7 +121,7 @@
 
 .zoom-display {
   width:88px;
-  background:rgba(0,0,0,.75);
+  background:url(../images/mask-48-90.png);
   position:absolute;
   left:10px;
   top:35px;

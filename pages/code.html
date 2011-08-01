@@ -27,11 +27,11 @@
 <div class='header limiter'>
   <a href='index.html' class='logo'>TileMill</a>
   <ul class='menu clearfix'>
-    <li><a href='index.html'>Home</a></li>
+    <li class='first'><a href='index.html'>Home</a></li>
     <li><a href='manual.html'>Manual</a></li>
-    <li><a class='active' href='code.html'>Code</a></li>
+    <li class='last'><a class='active' href='code.html'>Code</a></li>
   </ul>
-  <a class='mapbox' href='http://www.mapbox.com'>A Product of Mapbox</a>
+  <a class='mapbox' href='http://www.mapbox.com' target='_blank'>A Product of Mapbox</a>
 </div>
 
 <div class='page'>
@@ -42,7 +42,7 @@
 
 TileMill is an example of a fully javascript-based web application (both server/client side) that integrates with several external libraries including Mapnik and SQLite.
 
-TileMill is released under a BSD license. Below are just some of the open source projects leveraged by TileMill:
+TileMill is released under a [BSD license](https://github.com/mapbox/tilemill/blob/master/LICENSE.md). Below are just some of the open source projects leveraged by TileMill:
 
 - [Mapnik][mapnik] provides map rendering.
 - [Carto](http://github.com/mapbox/carto) provides MSS-to-Mapnik XML map style compiling.
@@ -63,52 +63,29 @@ For a full list of projects see [package.json](https://github.com/mapbox/tilemil
 Install the following dependencies first:
 
 - [Xcode 3](https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20792) or [Xcode 4](http://itunes.apple.com/us/app/xcode/id448457090?mt=12)
-- [Mapnik 2.0.0 r3030](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r3030.dmg) and install
+- [Mapnik 2.0.0 r3030](http://dbsgeo.com/downloads/mapnik/snow/intel/2.0.0-r3030.dmg)
 - [Node.js][node] 0.4.9 or greater
 - [NPM][npm] 1.0.22 or greater
 
 ### Ubuntu Linux
 
-Install build requirements:
+Install TileMill dependencies:
 
-    # Mapnik dependencies
-    sudo apt-get install -y g++ cpp \
-    libboost-filesystem1.42-dev \
-    libboost-program-options1.42-dev \
-    libboost-python1.42-dev libboost-regex1.42-dev \
-    libboost-system1.42-dev libboost-thread1.42-dev \
-    python-dev libxml2 libxml2-dev \
-    libfreetype6 libfreetype6-dev \
-    libjpeg62 libjpeg62-dev \
-    libltdl7 libltdl-dev \
-    libpng12-0 libpng12-dev \
-    libgeotiff-dev libtiff4 libtiff4-dev libtiffxx0c2 \
-    libcairo2 libcairo2-dev python-cairo python-cairo-dev \
-    libcairomm-1.0-1 libcairomm-1.0-dev \
-    ttf-unifont ttf-dejavu ttf-dejavu-core ttf-dejavu-extra \
-    subversion build-essential python-nose
+    sudo apt-get install build-essential curl \
+    libsqlite3-0 libsqlite3-dev libzip-dev libzip1
 
-    # Mapnik plugin dependencies
-    sudo apt-get install libgdal1-dev python-gdal \
-    postgresql-8.4 postgresql-server-dev-8.4 \
-    postgresql-contrib-8.4 postgresql-8.4-postgis \
-    libsqlite3-0 libsqlite3-dev
+Add the mapnik2 nightly PPA and install mapnik2:
 
-    # TileMill dependencies
-    sudo apt-get install curl
+    sudo add-apt-repository ppa:mapnik/nightly-trunk
+    sudo apt-get update
+    sudo apt-get install libmapnik2 libmapnik2-dev mapnik2-utils
 
-Install [Mapnik][mapnik] from source:
+Add the node.js dev PPA and install node and npm:
 
-    svn checkout -r 3030 http://svn.mapnik.org/trunk mapnik2
-    cd mapnik2
-    python scons/scons.py configure
-    python scons/scons.py
-    sudo python scons/scons.py install
-
-Follow the linked instructions to install:
-
-- [Node.js][node] 0.4.9 or greater
-- [NPM][npm] 1.0.22 or greater
+    sudo add-apt-repository ppa:chris-lea/node.js
+    sudo apt-get update
+    sudo apt-get install nodejs nodejs-dev
+    sudo curl http://npmjs.org/install.sh | sh
 
 ### Building TileMill
 

@@ -9,6 +9,7 @@ require('../..');
 var tilemill = require('bones').plugin;
 
 tilemill.config.files = './test/fixtures/files';
+tilemill.config.examples = false;
 
 var started = false, waiting = [];
 var command = tilemill.start(function() {
