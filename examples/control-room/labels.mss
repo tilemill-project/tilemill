@@ -1,5 +1,5 @@
-@sans:"Droid Sans Book","Liberation Sans Regular","Arial Regular","DejaVu Sans Book";
-@sans_bold:"Droid Sans Bold","Liberation Sans Bold","Arial Bold","DejaVu Sans Bold";
+@sans:"Droid Sans Book","Arial Regular","DejaVu Sans Book";
+@sans_bold:"Droid Sans Bold","Arial Bold","DejaVu Sans Bold";
 
 #country-labels[zoom=4][SHAPE_AREA>5],
 #country-labels[zoom>4] {
