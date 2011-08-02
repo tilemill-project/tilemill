@@ -1,14 +1,14 @@
 
 #import <Cocoa/Cocoa.h>
-#import "ChildProcess.h"
+#import "TileMillChildProcess.h"
 
 @class TileMillMainWindowController;
 
-@interface TileMill : NSObject <ChildProcessDelegate>
+@interface TileMillAppDelegate : NSObject <TileMillChildProcessDelegate>
 {
     IBOutlet id relNotesWin;
     IBOutlet id relNotesTextField;
-    ChildProcess *searchTask;
+    TileMillChildProcess *searchTask;
     BOOL appTerminating;
     NSString *logPath;
     TileMillMainWindowController *mainWindow;

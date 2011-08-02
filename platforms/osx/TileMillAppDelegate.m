@@ -1,8 +1,8 @@
 
-#import "TileMill.h"
+#import "TileMillAppDelegate.h"
 #import "TileMillMainWindowController.h"
 
-@implementation TileMill
+@implementation TileMillAppDelegate
 
 -(void)awakeFromNib {
     logPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"] retain];
@@ -35,13 +35,12 @@
     }
     NSString *base_path = [[NSBundle mainBundle] resourcePath];
     NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
-    searchTask = [[ChildProcess alloc] initWithBasePath:base_path command:command];
+    searchTask = [[TileMillChildProcess alloc] initWithBasePath:base_path command:command];
     [searchTask setDelegate:self];
     [searchTask startProcess];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)tilemillAppDelegate {
-	  //NSLog(@"closed window!");
     return YES;
 }
 
@@ -102,17 +101,17 @@
 
 #pragma ChildProcessDelegate Methods
 
-- (void)childProcess:(ChildProcess *)process didSendOutput:(NSString *)output
+- (void)childProcess:(TileMillChildProcess *)process didSendOutput:(NSString *)output
 {
     [self writeToLog:output];
 }
 
-- (void)childProcessDidStart:(ChildProcess *)process
+- (void)childProcessDidStart:(TileMillChildProcess *)process
 {
 //    NSLog(@"Process started.");
 }
 
-- (void)childProcessDidFinish:(ChildProcess *)process
+- (void)childProcessDidFinish:(TileMillChildProcess *)process
 {
     mainWindow.childRunning = NO;
     NSLog(@"Finished");
@@ -123,7 +122,7 @@
     }
 }
 
-- (void)childProcessDidSendFirstData:(ChildProcess *)process;
+- (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
     mainWindow.childRunning = YES;
 }
