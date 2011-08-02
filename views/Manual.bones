@@ -1,9 +1,14 @@
 view = Backbone.View.extend();
 
-view.prototype.initialize = function() {
-    _(this).bindAll('render');
+view.prototype.events = {
+    'click .navigation a': 'jump'
+};
+
+view.prototype.initialize = function(options) {
+    _(this).bindAll('render', 'jump');
     this.render();
-}
+    if (options.fragment) this.jump(options.fragment);
+};
 
 view.prototype.render = function() {
     $(this.el).html(templates.Manual(this.model));
@@ -13,28 +18,20 @@ view.prototype.render = function() {
             .attr('class', $(this).attr('class'))
             .attr('id', $(this).attr('id'));
         $(this).hide().after(html);
-        $('h1, h2, h3, h4, h5, h6', html).each(function() {
+        $('h2, h3, h4, h5, h6', html).each(function() {
             var heading = this;
             var cleaned = $(heading).text().replace(/[\s\W]+/g, '-').toLowerCase();
-            $(this).attr('id', cleaned);
+            $(this).attr('id', 'manual-' + cleaned);
             this.className = this.nodeName;
 
-            if (!$(this).is('h1')) {
-                $('.navigation ul').append(
-                    $('<li></li>')
-                        .addClass(heading.nodeName)
-                        .append($('<a></a>')
-                            .text($(heading).text())
-                            .attr('href', '#')
-                            .click(function() {
-                                window.scroll(0, $(heading).offset().top - 60);
-                                console.log($(heading).offset().top);
-                                return false;
-                            })
-                    )
-                );
-            }
-
+            $('.navigation ul').append(
+                $('<li></li>')
+                    .addClass(heading.nodeName)
+                    .append($('<a></a>')
+                        .text($(heading).text())
+                        .attr('href', '#!/manual/' + cleaned)
+                )
+            );
         });
     });
     this.$('pre.carto-snippet').each(function(i, elem) {
@@ -47,4 +44,17 @@ view.prototype.render = function() {
             }
         );
     });
-}
+};
+
+view.prototype.jump = function(ev) {
+    var fragment;
+    if (ev.currentTarget) {
+        fragment = $(ev.currentTarget).attr('href').split('#!/manual/').pop();
+    } else {
+        fragment = ev;
+    }
+    window.scroll(0, this.$('#manual-' + fragment).offset().top - 60);
+    Backbone.history.saveLocation('/manual/' + fragment);
+    return false;
+};
+
