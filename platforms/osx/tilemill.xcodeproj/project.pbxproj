@@ -202,7 +202,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "tilemill" */;
 			buildPhases = (
+				D745083413E8686D0020D8CD /* Update Bundle Version */,
 				8D1107290486CEB800E47090 /* Resources */,
+				D7CFB18F13E852550033DFFD /* Copy Node Executable */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 			);
@@ -272,6 +274,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D745083413E8686D0020D8CD /* Update Bundle Version */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Update Bundle Version";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "INFO=$( echo $PWD)/tilemill-Info\nTAG=\nCOMMIT=\nGITPATH=/usr/bin:/usr/local/bin:/usr/local/git/bin\nPATH=$PATH:$GITPATH; export PATH\n\nif [ -z $( which git ) ]; then\necho \"Unable to find git binary in \\$GITPATH\"\nexit 1\nfi\n\nwhile [ -z $TAG ]; do\n    # start with HEAD, adding carats\n    REVISION=\"HEAD\"$COMMIT\n\n    # see if we've found a tag yet\n    TAG=$( git tag --contains $REVISION )\n\n    # add another carat to go back a revision\n    COMMIT=$COMMIT\"^\"\ndone\n\nCURRENT=$( defaults read \"$INFO\" CFBundleShortVersionString )\n\nif [ $CURRENT != $TAG ]; then\n    # output for Xcode logging\n    echo \"Updating CFBundleShortVersionString to $TAG\"\n\n    # write it to the Info.plist\n    defaults write \"$INFO\" CFBundleShortVersionString $TAG  \nelse\n    # output for Xcode logging\n    echo \"CFBundleShortVersionString already at $TAG\"\nfi\n\nHASH=$( git log -n1 --format=%h )\n\nCURRENT_HASH=$( defaults read \"$INFO\" CFBundleVersion )\n\nif [ $CURRENT_HASH != $HASH ]; then\n    # output for Xcode logging\n    echo \"Updating CFBundleVersion to $HASH\"\n\n    # write it to the Info.plist\n    defaults write \"$INFO\" CFBundleVersion $HASH  \nelse\n    # output for Xcode logging\n    echo \"CFBundleVersion already at $HASH\"\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D7CFB18F13E852550033DFFD /* Copy Node Executable */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Node Executable";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TARGET=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/\"\n# copy node executable\ncp `which node` $TARGET\n# change shebang to use local node\nsed -i.backup 's/#!\\/usr\\/bin\\/env node/#!node/' ${TARGET}index.js\nrm ${TARGET}index.js.backup";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D11072C0486CEB800E47090 /* Sources */ = {

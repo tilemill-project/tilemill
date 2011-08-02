@@ -25,6 +25,18 @@
 
 - (void)startTileMill {
     [spinner startAnimation:self];
+
+    // Look for orphan node processes from previous crashes.
+    NSURL *nodeExecURL = [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""];
+    NSArray *applications = [[NSWorkspace sharedWorkspace] runningApplications];
+    for (NSRunningApplication *app in applications) {
+        if ([[app executableURL] isEqual:nodeExecURL]) {
+            if (![app forceTerminate]) {
+                [self writeToLog:@"Failed to terminate orphan tilemill process."];
+            }
+        }
+    }
+
     if (searchTask) {
         [searchTask release];
         searchTask = nil;
@@ -42,9 +54,9 @@
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // TODO doesn't run when app is forced to quit, which leaves the child process running.
-//	  NSLog(@"terminating tilemill task!");
     appTerminating = YES;
+    // This doesn't run when app is forced to quit, so the child process is left running.
+    // We clean up any orphan processes in [self startTileMill].
     [searchTask stopProcess];
     [searchTask release];
     searchTask = nil;
@@ -61,6 +73,19 @@
 {
     [[NSApplication sharedApplication] terminate:nil];
     return YES;
+}
+
+- (void)writeToLog:(NSString *)message {
+    if (![[NSFileManager defaultManager] fileExistsAtPath:logPath]) {
+        NSError *error;
+        if (![@"" writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:&error]) {
+            NSLog(@"Error creating log file at %@.", logPath);
+        }
+    }
+    NSFileHandle *logFile = [NSFileHandle fileHandleForWritingAtPath:logPath];
+    [logFile seekToEndOfFile];
+    [logFile writeData:[message dataUsingEncoding:NSUTF8StringEncoding]];
+    [logFile closeFile];
 }
 
 #pragma IBActions
@@ -105,16 +130,7 @@
 
 - (void)childProcess:(ChildProcess *)process didSendOutput:(NSString *)output
 {
-    if (![[NSFileManager defaultManager] fileExistsAtPath:logPath]) {
-        NSError *error;
-        if (![@"" writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:&error]) {
-            NSLog(@"Error creating log file at %@.", logPath);
-        }
-    }
-    NSFileHandle *logFile = [NSFileHandle fileHandleForWritingAtPath:logPath];
-    [logFile seekToEndOfFile];
-    [logFile writeData:[output dataUsingEncoding:NSUTF8StringEncoding]];
-    [logFile closeFile];
+    [self writeToLog:output];
 }
 
 - (void)childProcessDidStart:(ChildProcess *)process

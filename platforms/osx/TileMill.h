@@ -21,4 +21,5 @@
 - (IBAction)displayReleaseNotes:(id)sender;
 - (IBAction)openConsole:(id)sender;
 - (void)startTileMill;
+- (void)writeToLog:(NSString *)message;
 @end
