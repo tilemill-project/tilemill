@@ -887,16 +887,6 @@ li:hover .icon { display:block; }
 .icon.favorite   { background-position:-140px -220px; }
 .icon.favorite.active { background-position:-120px -220px; }
 
-/* Special effects */
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-.icon.processing {
-  border-radius:10px;
-  background-color: #4ca41c;
-  -webkit-animation: spin 2.5s infinite linear;
-  overflow:hidden;
-}
-
-
 /**
  * Form elements
  */
