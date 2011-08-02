@@ -6,7 +6,7 @@ if [ "$1" = "configure" ]; then
 
 	# Create the "tilemill" user
 	if ! getent passwd mapbox > /dev/null; then
-		adduser --quiet --system --group --no-create-home \
+		adduser --quiet --system --group --home /usr/share/mapbox \
 			--gecos "MapBox system user" \
 			mapbox
 	fi
