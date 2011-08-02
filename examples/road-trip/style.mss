@@ -3,7 +3,8 @@
 'Road Trip'
 ===========
 
-Inspired by the impossible-to-fold maps in your glovebox.
+A map of the United States inspired by the impossible-to-fold maps in
+your glovebox.
 
 ***********************************************************************/
 
@@ -22,7 +23,7 @@ Map {
 #countries::fill {
   polygon-fill:@land;
   polygon-gamma:0.75;
-  [ADM0_A3='USA'] { polygon-fill:lighten(@land, 5); }
+  [ADM0_A3='USA'] { polygon-fill:lighten(@land, 7); }
 }
 
 #lake[zoom>=0][ScaleRank<=2],
