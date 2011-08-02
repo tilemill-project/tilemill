@@ -188,5 +188,9 @@
         "project": "road-trip"
       }
     }
-  ]
+  ],
+  "name": "Road Trip",
+  "description": "A map of the United States inspired by the impossible-to-fold maps in your glovebox.",
+  "attribution": "",
+  "legend": ""
 }
