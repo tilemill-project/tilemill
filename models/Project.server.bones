@@ -175,7 +175,7 @@ function loadProject(model, callback) {
         });
 
         // Migrate old properties to tilejson equivalents.
-        ['_center', '_format', '_interactivity'].forEach(function(k) {
+        ['_center', '_format', '_interactivity', '_legend'].forEach(function(k) {
             if (!object[k]) return;
             object[k.substr(1)] = object[k.substr(1)] || object[k];
             delete object[k];
