@@ -3,22 +3,11 @@
 
 @implementation TileMill
 
-- (id)init
-{
-    if (![super init]) {
-        return nil;
-    }
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-   
-    [nc addObserver:self
-          selector:@selector(windowWillClose:)
-              name:NSWindowWillCloseNotification
-            object:nil]; // pass window to observe only that window
-    return self;
-}
-
--(void)awakeFromNib
-{
+-(void)awakeFromNib {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(windowWillClose:)
+                                                 name:NSWindowWillCloseNotification
+                                               object:window];
     logPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"] retain];
     [self startTileMill];
 }
@@ -62,15 +51,11 @@
     searchTask = nil;
 }
 
-- (void)windowWillClose:(NSNotification *)notification
-{
-    // TODO break this out into a window controller to avoid this check.
-    if ([notification.object isEqual:window]) {
-        appTerminating = YES;
-        [searchTask stopProcess];
-        [searchTask release];
-        searchTask = nil;
-    }
+- (void)windowWillClose:(NSNotification *)notification {
+    appTerminating = YES;
+    [searchTask stopProcess];
+    [searchTask release];
+    searchTask = nil;
 }
 
 -(BOOL)windowShouldClose:(id)sender
