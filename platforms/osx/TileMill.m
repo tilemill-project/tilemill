@@ -64,9 +64,13 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    [searchTask stopProcess];
-    [searchTask release];
-    searchTask = nil;
+    // TODO break this out into a window controller to avoid this check.
+    if ([notification.object isEqual:window]) {
+        appTerminating = YES;
+        [searchTask stopProcess];
+        [searchTask release];
+        searchTask = nil;
+    }
 }
 
 -(BOOL)windowShouldClose:(id)sender
