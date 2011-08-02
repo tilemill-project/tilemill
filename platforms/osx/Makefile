@@ -1,22 +1,6 @@
 
-TARGET=build/Release/tilemill.app/Contents/Resources/tilemill/
+TARGET=build/Release/TileMill.app/Contents/Resources/
 NODE=`which node`
-
-# we manually list items here to be able
-# to easily avoid unneeded files/folders
-DIRS= assets \
-      commands \
-      controllers \
-      index.html \
-      lib \
-      models \
-      node_modules \
-      package.json \
-      servers \
-	  pages \
-      templates \
-      views
-      
 
 build:
 	@xcodebuild -project tilemill.xcodeproj
@@ -25,22 +9,20 @@ clean:
 	@xcodebuild -project tilemill.xcodeproj clean
 
 package: build
-	mkdir -p $(TARGET)
-	$(foreach i,$(DIRS), \
-		if ! [ -d $(TARGET)$i ]; then cp -R ../../$i $(TARGET); fi; \
-	)
+	# copy node executable
 	if ! [ -d $(TARGET)node ];  then cp $(NODE) $(TARGET); fi;
+	# change shebang to use local node
 	sed 's/#!\/usr\/bin\/env node/#!.\/node/' ../../index.js > $(TARGET)index.js
 	chmod +x $(TARGET)index.js
 
 run: package
-	./build/Release/tilemill.app/Contents/MacOS/tilemill
+	./build/Release/TileMill.app/Contents/MacOS/tilemill
 
 zip: package
-	zip -9qr tilemill-0.4.0alpha.zip build/Release/tilemill.app/
+	zip -9qr tilemill-0.4.0alpha.zip build/Release/TileMill.app/
 
 tar: package
-	tar -cjf tilemill-0.4.0alpha.tar.bz2 -C build/Release/ tilemill.app
+	tar -cjf tilemill-0.4.0alpha.tar.bz2 -C build/Release/ TileMill.app
 
 
 .PHONY: build clean package run zip
