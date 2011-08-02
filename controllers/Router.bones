@@ -14,7 +14,8 @@ controller.prototype.routes = {
     '/project/:id': 'project',
     '/project/:id/export': 'projectExport',
     '/project/:id/export/:format': 'projectExport',
-    '/manual': 'manual'
+    '/manual': 'manual',
+    '/manual/:fragment': 'manual'
 };
 
 controller.prototype.error = function() {
@@ -56,12 +57,13 @@ controller.prototype.projectExport = function(id, format) {
     }).bind(this));
 };
 
-controller.prototype.manual = function() {
+controller.prototype.manual = function(fragment) {
     (new models.Page({ id: 'manual.html' })).fetch({
         success: function(model) {
             new views.Manual({
                 el: $('#page'),
-                model: model
+                model: model,
+                fragment: fragment
             });
         },
         error: function(m, e) { new views.Modal(e); }
