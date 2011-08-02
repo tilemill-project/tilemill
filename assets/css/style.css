@@ -387,7 +387,7 @@ small { font-size:11px; }
 .project .layers {
   position:absolute;
   left:0px;
-  bottom:20px;
+  bottom:10px;
   border:1px solid #ccc;
   border-left:0px;
   border-radius:0px 3px 3px 0px;
