@@ -1245,6 +1245,15 @@ th {
 
 td { border:1px solid #eee; }
 
+tr.min td,
+tr.max td,
+tr.min:hover td,
+tr.max:hover td {
+  color:#222;
+  background:#eee;
+  border-color:#ddd;
+  }
+
 td.Number {
   color:#393;
   text-align:right;

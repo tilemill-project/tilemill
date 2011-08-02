@@ -8,6 +8,24 @@
     </tr>
   </thead>
   <tbody>
+    <tr class='min'>
+      <% _(fields).each(function (field) { %>
+        <% if (field.type === 'Number') { %>
+        <td class='<%= field.type %>'><span class='description'>min</span> <%= field.min %></td>
+        <% } else { %>
+        <td class='<%= field.type %>'><%= field.min %> <span class='description'>min</span></td>
+        <% } %>
+      <% }); %>
+    </tr>
+    <tr class='max'>
+      <% _(fields).each(function (field) { %>
+        <% if (field.type === 'Number') { %>
+        <td class='<%= field.type %>'><span class='description'>max</span> <%= field.max %></td>
+        <% } else { %>
+        <td class='<%= field.type %>'><%= field.max %> <span class='description'>max</span></td>
+        <% } %>
+      <% }); %>
+    </tr>
     <%= this['DatasourceRows'](obj) %>
   </tbody>
 </table>
