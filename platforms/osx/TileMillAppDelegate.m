@@ -1,31 +1,23 @@
 
-#import "TileMill.h"
+#import "TileMillAppDelegate.h"
+#import "TileMillMainWindowController.h"
 
-@implementation TileMill
+@implementation TileMillAppDelegate
 
-- (id)init
-{
-    if (![super init]) {
-        return nil;
-    }
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-   
-    [nc addObserver:self
-          selector:@selector(windowWillClose:)
-              name:NSWindowWillCloseNotification
-            object:nil]; // pass window to observe only that window
-    return self;
-}
-
--(void)awakeFromNib
-{
+-(void)awakeFromNib {
     logPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"] retain];
+    mainWindow = [[TileMillMainWindowController alloc] init];
+    [mainWindow showWindow:nil];
+    mainWindow.childRunning = NO;
     [self startTileMill];
 }
 
-- (void)startTileMill {
-    [spinner startAnimation:self];
+- (void)dealloc {
+    [mainWindow release];
+    [super dealloc];
+}
 
+- (void)startTileMill {
     // Look for orphan node processes from previous crashes.
     NSURL *nodeExecURL = [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""];
     NSArray *applications = [[NSWorkspace sharedWorkspace] runningApplications];
@@ -43,13 +35,12 @@
     }
     NSString *base_path = [[NSBundle mainBundle] resourcePath];
     NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
-    searchTask = [[ChildProcess alloc] initWithBasePath:base_path command:command];
+    searchTask = [[TileMillChildProcess alloc] initWithBasePath:base_path command:command];
     [searchTask setDelegate:self];
     [searchTask startProcess];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)tilemillAppDelegate {
-	  //NSLog(@"closed window!");
     return YES;
 }
 
@@ -60,19 +51,6 @@
     [searchTask stopProcess];
     [searchTask release];
     searchTask = nil;
-}
-
-- (void)windowWillClose:(NSNotification *)notification
-{
-    [searchTask stopProcess];
-    [searchTask release];
-    searchTask = nil;
-}
-
--(BOOL)windowShouldClose:(id)sender
-{
-    [[NSApplication sharedApplication] terminate:nil];
-    return YES;
 }
 
 - (void)writeToLog:(NSString *)message {
@@ -88,12 +66,7 @@
     [logFile closeFile];
 }
 
-#pragma IBActions
-
-- (IBAction)openBrowser:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8889/"]];
-}
+#pragma MainMenu IBActions
 
 - (IBAction)openDirectory:(id)sender
 {
@@ -128,20 +101,20 @@
 
 #pragma ChildProcessDelegate Methods
 
-- (void)childProcess:(ChildProcess *)process didSendOutput:(NSString *)output
+- (void)childProcess:(TileMillChildProcess *)process didSendOutput:(NSString *)output
 {
     [self writeToLog:output];
 }
 
-- (void)childProcessDidStart:(ChildProcess *)process
+- (void)childProcessDidStart:(TileMillChildProcess *)process
 {
 //    NSLog(@"Process started.");
 }
 
-- (void)childProcessDidFinish:(ChildProcess *)process
+- (void)childProcessDidFinish:(TileMillChildProcess *)process
 {
+    mainWindow.childRunning = NO;
     NSLog(@"Finished");
-    [openBrowserButton setEnabled:NO];
     if (!appTerminating) {
         // We're not shutting down so the app crashed. Restart it.
         NSLog(@"Restart");
@@ -149,10 +122,9 @@
     }
 }
 
-- (void)childProcessDidSendFirstData:(ChildProcess *)process;
+- (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
-    [openBrowserButton setEnabled:YES];
-    [spinner stopAnimation:self];
+    mainWindow.childRunning = YES;
 }
 
 @end

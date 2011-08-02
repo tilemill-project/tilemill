@@ -1,7 +1,7 @@
 
-#import "ChildProcess.h"
+#import "TileMillChildProcess.h"
 
-@implementation ChildProcess
+@implementation TileMillChildProcess
 
 @synthesize delegate;
 
