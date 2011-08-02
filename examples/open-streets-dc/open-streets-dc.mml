@@ -1,11 +1,19 @@
 {
-  "_center": {
-    "lat": 38.892289595340415,
-    "lon": -77.03649222850682,
-    "zoom": 14
-  },
-  "_format": "png",
-  "_interactivity": false,
+  "bounds": [
+    -180,
+    -85.05112877980659,
+    180,
+    85.05112877980659
+  ],
+  "center": [
+    -77.03649222850682,
+    38.892289595340415,
+    14
+  ],
+  "format": "png",
+  "interactivity": false,
+  "minzoom": 7,
+  "maxzoom": 18,
   "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
   "Stylesheet": [
     "style.mss",
@@ -80,5 +88,8 @@
       "geometry": "linestring"
     }
   ],
-  "_legend": "<!-- This legend uses Unicode box-drawing characters to approxmate line styles. -->\n<span style='color:#DD3A85'>\u2501</span> Motorways <br />\n<span style='color:#FFC81A'>\u2501</span> Main roads <br />\n<span style='color:#fff'>\u2501</span> Other roads <br />\n<span style='color:#69B'>\u2509</span> Bike paths <br />\n<span style='color:#6B9'>\u2509</span> Foot paths <br />\n<span style='color:#cea'>\u2589</span> Forest <br />\n<span style='color:#c0d8ff'>\u2589</span> Water "
+  "legend": "<!-- This legend uses Unicode box-drawing characters to approxmate line styles. -->\n<span style='color:#DD3A85'>━</span> Motorways <br />\n<span style='color:#FFC81A'>━</span> Main roads <br />\n<span style='color:#fff'>━</span> Other roads <br />\n<span style='color:#69B'>┉</span> Bike paths <br />\n<span style='color:#6B9'>┉</span> Foot paths <br />\n<span style='color:#cea'>▉</span> Forest <br />\n<span style='color:#c0d8ff'>▉</span> Water ",
+  "name": "Open Streets, DC",
+  "description": "An example of street-level map design.",
+  "attribution": "Data used by this map is © OpenStreetMap contributors,  CC-BY-SA. See <http://openstreetmap.org> for more info."
 }

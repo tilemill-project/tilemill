@@ -1,17 +1,24 @@
 {
-  "_center": {
-    "lat": 42.02073285156818,
-    "lon": -77.531741040808,
-    "zoom": 4
-  },
-  "_format": "png",
-  "_interactivity": {
+  "bounds": [
+    -180,
+    -85.05112877980659,
+    180,
+    85.05112877980659
+  ],
+  "center": [
+    -77.531741040808,
+    42.02073285156818,
+    4
+  ],
+  "format": "png",
+  "interactivity": {
     "layer": "country-interaction",
-    "key_name": "ADM0_A3",
     "template_teaser": "<img src=\"data:image/png;base64,[flagpng]\" /><br />\n<strong>[ADMIN]</strong>",
     "template_full": "",
     "template_location": ""
   },
+  "minzoom": 0,
+  "maxzoom": 8,
   "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
   "Stylesheet": [
     "style.mss",
@@ -165,10 +172,8 @@
       "geometry": "polygon"
     }
   ],
-  "center": {
-    "lat": 24.595831454685,
-    "lon": -13.362870704305,
-    "zoom": 4
-  },
-  "_legend": "<ul>\n<li><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE1ha2kgSWNvbiBTZXT5lOECAAAAF3RFWHRBdXRob3IARGV2ZWxvcG1lbnQgU2VlZInFvFUAAAAmdEVYdFNvdXJjZQBodHRwOi8vd3d3LmRldmVsb3BtZW50c2VlZC5vcmcvEQGOfQAAAKxJREFUGFd1jrEJwkAUhiNYBVc4cAVnCDhBTkS0sFCQaOEEprWOC1jGBa7MGreAG9jH/4O7cAQtPvjf/747Xtb3fZYwETuxDXnYpRIsmqZ5AvmfOBVXY8wbyKEbxJW4QV3XbaYKyLEXG8RjWZZdFMawk7NHnInqlxykCifeN3fOPcYiHTucKBa8zvP8o9teQA4/Fql4ttZ23vu78hLIdMqXVLTiJEyYgXwQa+YvjuH+50mVVl0AAAAASUVORK5CYII=\" /> country capital city</li>\n</ul>"
+  "legend": "<ul>\n<li><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE1ha2kgSWNvbiBTZXT5lOECAAAAF3RFWHRBdXRob3IARGV2ZWxvcG1lbnQgU2VlZInFvFUAAAAmdEVYdFNvdXJjZQBodHRwOi8vd3d3LmRldmVsb3BtZW50c2VlZC5vcmcvEQGOfQAAAKxJREFUGFd1jrEJwkAUhiNYBVc4cAVnCDhBTkS0sFCQaOEEprWOC1jGBa7MGreAG9jH/4O7cAQtPvjf/747Xtb3fZYwETuxDXnYpRIsmqZ5AvmfOBVXY8wbyKEbxJW4QV3XbaYKyLEXG8RjWZZdFMawk7NHnInqlxykCifeN3fOPcYiHTucKBa8zvP8o9teQA4/Fql4ttZ23vu78hLIdMqXVLTiJEyYgXwQa+YvjuH+50mVVl0AAAAASUVORK5CYII=\" /> country capital city</li>\n</ul>",
+  "name": "Geography Class",
+  "description": "",
+  "attribution": ""
 }

@@ -12,7 +12,7 @@
 .wax-tooltip {
   font:normal 13px/20px Arial,sans-serif;
   color:#222;
-  min-width:180px;
+  min-width:100px;
   max-width:280px;
   max-height:400px;
   padding:4px 9px;
