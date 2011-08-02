@@ -27,7 +27,7 @@
 
 - (void) startProcess
 {
-    [self.delegate processStarted];
+    [self.delegate childProcessDidStart:self];
     task = [[NSTask alloc] init];
     [task setStandardOutput: [NSPipe pipe]];
     [task setStandardError: [task standardOutput]];
@@ -49,10 +49,10 @@
 
     while ((data = [[[task standardOutput] fileHandleForReading] availableData]) && [data length])
     {
-        [self.delegate appendOutput: [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]];
+        [self.delegate childProcess:self didSendOutput:[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]];
     }
 
-    [self.delegate processFinished];
+    [self.delegate childProcessDidFinish:self];
 }
 
 - (void) getData: (NSNotification *)aNotification
@@ -61,10 +61,10 @@
     if ([data length])
     {
         NSString *message = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-        [delegate appendOutput: message];
+        [self.delegate childProcess:self didSendOutput:message];
         if ([message hasPrefix:@"Started"] && !launched) {
             launched = YES;
-            [delegate firstData];
+            [self.delegate childProcessDidSendFirstData:self];
         }
     } else {
         [self stopProcess];

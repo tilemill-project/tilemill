@@ -2,7 +2,7 @@
 #import <Cocoa/Cocoa.h>
 #import "ChildProcess.h"
 
-@interface TileMill : NSObject <ChildProcessController>
+@interface TileMill : NSObject <ChildProcessDelegate>
 {
     IBOutlet id window;
     IBOutlet id relNotesWin;

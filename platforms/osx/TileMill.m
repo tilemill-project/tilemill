@@ -101,9 +101,9 @@
     [[NSWorkspace sharedWorkspace] openFile:logPath withApplication:@"Console" andDeactivate:YES];
 }
 
-#pragma ChildProcessController Delegate Methods
+#pragma ChildProcessDelegate Methods
 
-- (void)appendOutput:(NSString *)output
+- (void)childProcess:(ChildProcess *)process didSendOutput:(NSString *)output
 {
     if (![[NSFileManager defaultManager] fileExistsAtPath:logPath]) {
         NSError *error;
@@ -117,12 +117,12 @@
     [logFile closeFile];
 }
 
-- (void)processStarted
+- (void)childProcessDidStart:(ChildProcess *)process
 {
 //    NSLog(@"Process started.");
 }
 
-- (void)processFinished
+- (void)childProcessDidFinish:(ChildProcess *)process
 {
     NSLog(@"Finished");
     [openBrowserButton setEnabled:NO];
@@ -133,7 +133,7 @@
     }
 }
 
-- (void)firstData
+- (void)childProcessDidSendFirstData:(ChildProcess *)process;
 {
     [openBrowserButton setEnabled:YES];
     [spinner stopAnimation:self];
