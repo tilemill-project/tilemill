@@ -5,18 +5,23 @@ set -e
 if [ "$1" = "configure" ]; then
 
 	# Create the "tilemill" user
-	if ! getent passwd tilemill > /dev/null; then
+	if ! getent passwd mapbox > /dev/null; then
 		adduser --quiet --system --group --no-create-home \
-			--gecos "TileMill system user" \
-			tilemill
+			--gecos "MapBox system user" \
+			mapbox
 	fi
 
 	# Create files common to "tilemill" which need to be owned by the 
-        # "tilemill" user
-	install --owner tilemill --group tilemill --directory \
+  # "tilemill" user
+	install --owner mapbox --group mapbox --directory \
         	/var/log/tilemill
         # Ownership on tilemill home dir
-        chown tilemill:tilemill /usr/share/tilemill
+        chown mapbox:mapbox /usr/share/tilemill
+  # Create mapbox dir if it doesn't already exist.
+  if [ ! -d "/usr/share/mapbox" ]; then
+    install --owner mapbox --group mapbox --directory \
+          /usr/share/mapbox
+  fi
 fi
 
 #DEBHELPER#
