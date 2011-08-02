@@ -9,7 +9,9 @@ case "$1" in
 		rm -rf /usr/share/tilemill/
 		;;
     remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
-
+                if [ -n "$(status tilemill |grep running)" ]; then
+                  /sbin/stop tilemill
+                fi
 
         ;;
 
