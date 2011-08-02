@@ -1,25 +1,27 @@
 
 #import <Cocoa/Cocoa.h>
-#import "ChildProcess.h"
+#import "TileMillChildProcess.h"
 
-@interface TileMill : NSObject <ChildProcessDelegate>
+@class TileMillMainWindowController;
+
+@interface TileMillAppDelegate : NSObject <TileMillChildProcessDelegate>
 {
-    IBOutlet id window;
     IBOutlet id relNotesWin;
     IBOutlet id relNotesTextField;
-    IBOutlet NSButton *openBrowserButton;
-    IBOutlet NSProgressIndicator *spinner;
-    ChildProcess *searchTask;
+    TileMillChildProcess *searchTask;
     BOOL appTerminating;
     NSString *logPath;
+    TileMillMainWindowController *mainWindow;
 }
-- (IBAction)openBrowser:(id)sender;
+
 - (IBAction)openDirectory:(id)sender;
 - (IBAction)openHelp:(id)sender;
 - (IBAction)openDiscussions:(id)sender;
 - (IBAction)openKnowledgeBase:(id)sender;
 - (IBAction)displayReleaseNotes:(id)sender;
 - (IBAction)openConsole:(id)sender;
+
 - (void)startTileMill;
 - (void)writeToLog:(NSString *)message;
+
 @end
