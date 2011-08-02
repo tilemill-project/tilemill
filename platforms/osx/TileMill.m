@@ -1,20 +1,23 @@
 
 #import "TileMill.h"
+#import "TileMillMainWindowController.h"
 
 @implementation TileMill
 
 -(void)awakeFromNib {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(windowWillClose:)
-                                                 name:NSWindowWillCloseNotification
-                                               object:window];
     logPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"] retain];
+    mainWindow = [[TileMillMainWindowController alloc] init];
+    [mainWindow showWindow:nil];
+    mainWindow.childRunning = NO;
     [self startTileMill];
 }
 
-- (void)startTileMill {
-    [spinner startAnimation:self];
+- (void)dealloc {
+    [mainWindow release];
+    [super dealloc];
+}
 
+- (void)startTileMill {
     // Look for orphan node processes from previous crashes.
     NSURL *nodeExecURL = [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""];
     NSArray *applications = [[NSWorkspace sharedWorkspace] runningApplications];
@@ -51,19 +54,6 @@
     searchTask = nil;
 }
 
-- (void)windowWillClose:(NSNotification *)notification {
-    appTerminating = YES;
-    [searchTask stopProcess];
-    [searchTask release];
-    searchTask = nil;
-}
-
--(BOOL)windowShouldClose:(id)sender
-{
-    [[NSApplication sharedApplication] terminate:nil];
-    return YES;
-}
-
 - (void)writeToLog:(NSString *)message {
     if (![[NSFileManager defaultManager] fileExistsAtPath:logPath]) {
         NSError *error;
@@ -77,12 +67,7 @@
     [logFile closeFile];
 }
 
-#pragma IBActions
-
-- (IBAction)openBrowser:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8889/"]];
-}
+#pragma MainMenu IBActions
 
 - (IBAction)openDirectory:(id)sender
 {
@@ -129,8 +114,8 @@
 
 - (void)childProcessDidFinish:(ChildProcess *)process
 {
+    mainWindow.childRunning = NO;
     NSLog(@"Finished");
-    [openBrowserButton setEnabled:NO];
     if (!appTerminating) {
         // We're not shutting down so the app crashed. Restart it.
         NSLog(@"Restart");
@@ -140,8 +125,7 @@
 
 - (void)childProcessDidSendFirstData:(ChildProcess *)process;
 {
-    [openBrowserButton setEnabled:YES];
-    [spinner stopAnimation:self];
+    mainWindow.childRunning = YES;
 }
 
 @end

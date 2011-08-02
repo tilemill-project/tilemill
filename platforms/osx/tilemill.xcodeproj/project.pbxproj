@@ -15,6 +15,8 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		D745084313E889230020D8CD /* TileMillMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D745084213E889230020D8CD /* TileMillMainWindowController.m */; };
+		D745084613E894020020D8CD /* TileMillMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D745084513E894010020D8CD /* TileMillMainWindow.xib */; };
 		D7CFB14A13E6F5450033DFFD /* assets in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13713E6F5450033DFFD /* assets */; };
 		D7CFB14B13E6F5450033DFFD /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13813E6F5450033DFFD /* CHANGELOG.md */; };
 		D7CFB14C13E6F5450033DFFD /* CNAME in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13913E6F5450033DFFD /* CNAME */; };
@@ -55,6 +57,9 @@
 		35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tilemill.xcconfig; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* tilemill-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "tilemill-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* TileMill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TileMill.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D745084113E889220020D8CD /* TileMillMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillMainWindowController.h; sourceTree = "<group>"; };
+		D745084213E889230020D8CD /* TileMillMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillMainWindowController.m; sourceTree = "<group>"; };
+		D745084513E894010020D8CD /* TileMillMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileMillMainWindow.xib; sourceTree = "<group>"; };
 		D7CFB13713E6F5450033DFFD /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../assets; sourceTree = "<group>"; };
 		D7CFB13813E6F5450033DFFD /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CHANGELOG.md; path = ../../CHANGELOG.md; sourceTree = "<group>"; };
 		D7CFB13913E6F5450033DFFD /* CNAME */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CNAME; path = ../../CNAME; sourceTree = "<group>"; };
@@ -95,6 +100,8 @@
 				35B36EA213D260C6006C72ED /* TileMill.m */,
 				35D15E0C13D25D9D003244AE /* ChildProcess.h */,
 				35D15E0D13D25D9D003244AE /* ChildProcess.m */,
+				D745084113E889220020D8CD /* TileMillMainWindowController.h */,
+				D745084213E889230020D8CD /* TileMillMainWindowController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -156,6 +163,7 @@
 				8D1107310486CEB800E47090 /* tilemill-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+				D745084513E894010020D8CD /* TileMillMainWindow.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -270,6 +278,7 @@
 				D7CFB15A13E6F5450033DFFD /* templates in Resources */,
 				D7CFB15B13E6F5450033DFFD /* test in Resources */,
 				D7CFB15C13E6F5450033DFFD /* views in Resources */,
+				D745084613E894020020D8CD /* TileMillMainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +326,7 @@
 				35D15E0E13D25D9D003244AE /* ChildProcess.m in Sources */,
 				35B36EA313D260C6006C72ED /* TileMill.m in Sources */,
 				D7CFB15113E6F5450033DFFD /* index.js in Sources */,
+				D745084313E889230020D8CD /* TileMillMainWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
