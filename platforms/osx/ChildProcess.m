@@ -3,31 +3,36 @@
 
 @implementation ChildProcess
 
-- (id)initWithController:(id <ChildProcessController>)cont arguments:(NSArray *)args
+@synthesize delegate;
+
+- (id)initWithBasePath:(NSString *)bp command:(NSString *)c
 {
-    self = [super init];
-    controller = cont;
-    arguments = [args retain];
-    launched = NO;
+    if (![super init]) {
+        return nil;
+    }
+    basePath = [bp retain];
+    command = [c retain];
     return self;
 }
 
 - (void)dealloc
 {
+    delegate = nil;
     [self stopProcess];
-    [arguments release];
+    [basePath release];
+    [command release];
     [task release];
     [super dealloc];
 }
 
 - (void) startProcess
 {
-    [controller processStarted];
+    [self.delegate childProcessDidStart:self];
     task = [[NSTask alloc] init];
     [task setStandardOutput: [NSPipe pipe]];
     [task setStandardError: [task standardOutput]];
-    [task setCurrentDirectoryPath: [arguments objectAtIndex:0]];
-    [task setLaunchPath: [arguments objectAtIndex:1]];
+    [task setCurrentDirectoryPath: basePath];
+    [task setLaunchPath: command];
     [[NSNotificationCenter defaultCenter] addObserver:self 
         selector:@selector(getData:) 
         name: NSFileHandleReadCompletionNotification 
@@ -44,11 +49,10 @@
 
     while ((data = [[[task standardOutput] fileHandleForReading] availableData]) && [data length])
     {
-        [controller appendOutput: [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]];
+        [self.delegate childProcess:self didSendOutput:[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]];
     }
 
-    [controller processFinished];
-    controller = nil;
+    [self.delegate childProcessDidFinish:self];
 }
 
 - (void) getData: (NSNotification *)aNotification
@@ -57,10 +61,10 @@
     if ([data length])
     {
         NSString *message = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-        [controller appendOutput: message];
+        [self.delegate childProcess:self didSendOutput:message];
         if ([message hasPrefix:@"Started"] && !launched) {
             launched = YES;
-            [controller firstData];
+            [self.delegate childProcessDidSendFirstData:self];
         }
     } else {
         [self stopProcess];

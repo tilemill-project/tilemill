@@ -1,32 +1,35 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol ChildProcessController
+@class ChildProcess;
 
-- (void)appendOutput:(NSString *)output;
+@protocol ChildProcessDelegate
 
-- (void)processStarted;
+- (void)childProcess:(ChildProcess *)process didSendOutput:(NSString *)output;
 
-- (void)processFinished;
+- (void)childProcessDidStart:(ChildProcess *)process;
 
-- (void)firstData;
+- (void)childProcessDidFinish:(ChildProcess *)process;
 
+- (void)childProcessDidSendFirstData:(ChildProcess *)process;
 
 @end
 
 
 @interface ChildProcess : NSObject {
-    NSTask             *task;
-    id                 <ChildProcessController>controller;
-    NSArray            *arguments;
-    bool               launched;
+    NSTask *task;
+    id <ChildProcessDelegate> delegate;
+    NSString *basePath;
+    NSString *command;
+    bool launched;
 }
 
-- (id)initWithController:(id <ChildProcessController>)controller arguments:(NSArray *)args;
+@property (nonatomic, assign) id <ChildProcessDelegate> delegate;
+
+- (id)initWithBasePath:(NSString *)basePath command:(NSString *)command;
 
 - (void) startProcess;
 
 - (void) stopProcess;
 
 @end
-
