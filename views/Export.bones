@@ -14,7 +14,7 @@ view.prototype.initialize = function(options) {
     this.map = options.map;
     this.project = options.project;
     this.success = options.success || function() {};
-    this.error = options.error || function(m,e) { new views.Modal(e) };
+    this.error = options.error || function(m,e) { new views.Modal(e); };
     this.render();
 };
 
@@ -43,6 +43,7 @@ view.prototype.render = function() {
         this.$('input[name=bbox_3]').val(n);
         this.size();
     }).bind(this));
+    this.updateTotal();
     return this;
 };
 
@@ -75,6 +76,8 @@ view.prototype.size = function(ev) {
             this.$('input[name=height]').val(Math.round(w / aspect));
         break;
     };
+
+    this.updateTotal();
 };
 
 view.prototype.remove = function() {
@@ -82,12 +85,33 @@ view.prototype.remove = function() {
     this.map.controls.zoombox.add(this.map);
 };
 
+view.prototype.formatThousands = function(num) {
+    for (var num = parseInt(num, 0).toString(), i = num.length - 3; i > 0; i -= 3) {
+        num = num.substring(0, i) + ',' + num.substring(i);
+    }
+    return num;
+};
+
+view.prototype.updateTotal = function(attributes) {
+    if (this.model.get('format') === 'mbtiles') {
+        var sm = new SphericalMercator;
+        var attr = _(attributes || {}).defaults(this.getAttributes());
+        var total = 0;
+        for (var z = attr.minzoom; z <= attr.maxzoom; z++) {
+            var b = sm.xyz(attr.bbox, z);
+            total += (b.maxX - b.minX + 1) * (b.maxY - b.minY + 1);
+        }
+        this.$('.totaltiles').text(this.formatThousands(total));
+    }
+};
+
 view.prototype.zoom = function(ev, ui) {
     this.$('.minzoom').text(ui.values[0]);
     this.$('.maxzoom').text(ui.values[1]);
+    this.updateTotal({ minzoom: ui.values[0], maxzoom: ui.values[1] });
 };
 
-view.prototype.save = function() {
+view.prototype.getAttributes = function() {
     var attr = {};
     attr.filename = this.$('input[name=filename]').val()
         + '.' + this.model.get('format');
@@ -104,6 +128,11 @@ view.prototype.save = function() {
         attr.width = parseInt(this.$('input[name=width]').val(), 10);
         attr.height = parseInt(this.$('input[name=height]').val(), 10);
     }
+    return attr;
+};
+
+view.prototype.save = function() {
+    var attr = this.getAttributes();
     // Use `success` and `error` callbacks set on the view.
     this.model.save(attr, this);
 };
