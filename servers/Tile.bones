@@ -52,7 +52,7 @@ server.prototype.getArtifact = function(req, res, next) {
 
         var fn = req.params.format === 'grid.json' ? 'getGrid' : 'getTile';
         source[fn](z, x, y, function(err, tile, headers) {
-            if (err) return next(err);
+            if (err) return next(new Error.HTTP(err.message, 404));
             if (res.cache) fs.writeFile(res.cache, tile);
             if (headers) headers['max-age'] = 3600;
             res.send(tile, headers);
@@ -82,7 +82,7 @@ server.prototype.mbtiles = function(req, res, next) {
 
         var fn = req.params.format === 'grid.json' ? 'getGrid' : 'getTile';
         source[fn](z, x, y, function(err, tile, headers) {
-            if (err) return next(err);
+            if (err) return next(new Error.HTTP(err.message, 404));
             if (headers) headers['max-age'] = 3600;
             res.send(tile, headers);
         });
