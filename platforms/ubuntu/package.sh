@@ -11,8 +11,8 @@ USER="developmentseed"
 : ${PPA:="mapbox-dev"}
 
 CWD=`pwd`
-VERSION=`grep -m1 "$PROJECT ([0-9.-]*)" debian/changelog | sed "s/$PROJECT (\([0-9.-]*\)).*/\1/g"`
-DIST=`grep -m1 "$PROJECT ([0-9.-]*)" debian/changelog | sed "s/$PROJECT ([0-9.-]*) \([a-z]*\);.*/\1/g"`
+VERSION=`grep -m1 "$PROJECT ([a-z0-9.-]*)" debian/changelog | sed "s/$PROJECT (\([a-z0-9.-]*\)).*/\1/g"`
+DIST=`grep -m1 "$PROJECT ([a-z0-9.-]*)" debian/changelog | sed "s/$PROJECT ([a-z0-9.-]*) \([a-z]*\);.*/\1/g"`
 TAG=`echo $VERSION | sed "s/\([0-9.]*\).*/\1/g"`
 
 if [ -z "$VERSION" ]; then
