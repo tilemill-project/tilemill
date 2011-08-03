@@ -62,15 +62,11 @@ server.prototype.getArtifact = function(req, res, next) {
 
 server.prototype.grid = function(req, res, next) {
     // Early exit. tilelive-mapnik would catch that too.
-    if (!res.project.get('interactivity')) {
+    if (!res.project.get('interactivity'))
         return next(new Error.HTTP('Not found.', 404));
-    }
 
     // Force jsonp.
     req.query.callback = 'grid';
-
-    var interactivity = res.project.get('interactivity');
-    res.project.mml.interactivity.fields = models.Project.fields(res.project.attributes);
     next();
 };
 

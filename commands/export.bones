@@ -191,7 +191,8 @@ command.prototype.mbtiles = function (project, callback) {
         protocol: 'mapnik:',
         slashes: true,
         xml: project.xml,
-        mml: project.mml
+        mml: project.mml,
+        pathname: path.join(this.opts.files, 'project', project.id, project.id + '.xml')
     };
     tilelive.load(uri, function(err, source) {
         if (err) throw err;
