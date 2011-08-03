@@ -1,7 +1,9 @@
-0.4
----
+0.4.0
+-----
+- Major rewrite of application.
 - app.db file from previous versions is not compatible with 0.4
 - Default files directory is now ~/Documents/MapBox
+
 
 0.3.0
 -----
