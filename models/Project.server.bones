@@ -36,8 +36,8 @@ models.Project.prototype.sync = function(method, model, success, error) {
         });
         break;
     case 'delete':
-        destroyProject(model, function(err, model) {
-            return err ? error(err) : success(model);
+        destroyProject(model, function(err) {
+            return err ? error(err) : success({});
         });
         break;
     // Custom sync method for Project model. A sync request is made with the
@@ -58,8 +58,8 @@ models.Project.prototype.sync = function(method, model, success, error) {
     // Custom sync method to flush the cache for a specific model. Requires
     // `model.options.layer` to be set.
     case 'flush':
-        flushProject(model, function(err, model) {
-            return err ? error(err) : success(model);
+        flushProject(model, function(err) {
+            return err ? error(err) : success({});
         });
         break;
     }
