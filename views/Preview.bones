@@ -12,7 +12,7 @@ view.prototype.render = function() {
     this.map = new com.modestmaps.Map('preview',
         new wax.mm.connector(this.model.attributes));
     wax.mm.interaction(this.map, this.model.attributes);
-    wax.mm.legend(this.map, this.model.attributes);
+    wax.mm.legend(this.map, this.model.attributes).appendTo(this.map.parent);
     wax.mm.zoombox(this.map);
     wax.mm.zoomer(this.map).appendTo(this.map.parent);
 
