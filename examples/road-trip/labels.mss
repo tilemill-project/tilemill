@@ -3,10 +3,10 @@
 @sans:"Arial Regular","Liberation Sans Regular","DejaVu Sans Book";
 @sans-bold:"Arial Bold","Liberation Sans Bold","DejaVu Sans Bold";
 
-#country_label[zoom>2][zoom<6][COUNTRY='Canada'],
-#country_label[zoom>2][zoom<6][COUNTRY='United States of America'],
-#country_label[zoom>2][zoom<6][COUNTRY='Mexico'] {
-  text-name:"[COUNTRY]";
+#country_label[zoom>2][zoom<6][NAME='Canada'],
+#country_label[zoom>2][zoom<6][NAME='United States of America'],
+#country_label[zoom>2][zoom<6][NAME='Mexico'] {
+  text-name:"[NAME]";
   text-face-name:@serif;
   text-transform:uppercase;
   text-character-spacing:1;

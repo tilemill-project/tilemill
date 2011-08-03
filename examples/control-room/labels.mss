@@ -3,7 +3,7 @@
 
 #country-labels[zoom=4][SHAPE_AREA>5],
 #country-labels[zoom>4] {
-  text-name:'[COUNTRY]';
+  text-name:'[NAME]';
   text-face-name:@sans;
   text-fill:#8EF * 0.7;
   text-size:10;

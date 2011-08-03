@@ -12,9 +12,9 @@ A simple wrapper around tilemill for OSX.
 
 # Build and test
 
-Compile the OSX App:
+Compile and run the OSX App:
 
-    make && make package && make run
+    make && make run
 
 
 # Standalone packaging
