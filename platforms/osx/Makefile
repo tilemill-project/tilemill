@@ -9,15 +9,17 @@ clean:
 
 package: build
 	chmod +x $(TARGET)index.js
+	rm -rf $(TARGET)node_modules/jshint
+	rm -rf $(TARGET)node_modules/expresso
+	rm -rf $(TARGET)test
 
 run: package
-	./build/Release/TileMill.app/Contents/MacOS/tilemill
+	open ./build/Release/TileMill.app
 
 zip: package
 	zip -9qr tilemill-0.4.0alpha.zip build/Release/TileMill.app/
 
 tar: package
-	tar -cjf tilemill-0.4.0alpha.tar.bz2 -C build/Release/ TileMill.app
-
-
-.PHONY: build clean package run zip
+	tar cfz tilemill-0.4.0alpha.tar.gz -C build/Release/ TileMill.app
+  
+.PHONY: build clean package run zip tar
