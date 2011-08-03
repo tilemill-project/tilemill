@@ -231,24 +231,6 @@ Map {
   }
 }
 
-/* Coastlines */
-#land-glow::inner { 
-  line-color:@line;
-  line-opacity:0.8;
-  line-join:round;
-  [zoom=0] { line-width:1.2; }
-  [zoom=1] { line-width:1.6; }
-  [zoom=2] { line-width:2; }
-  [zoom>2] { line-width:2.4; }
-}
-
-#land-glow::outer[zoom>1] { 
-  line-color:@line;
-  line-width:5;
-  line-opacity:0.1;
-  line-join:round;
-}
-
 /* Transparent PNG overlay for paper texture */
 #paper[zoom<2] { 
   polygon-pattern-file:url(textures/paperfolds_256.png);
