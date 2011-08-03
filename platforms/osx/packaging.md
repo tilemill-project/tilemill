@@ -142,6 +142,12 @@ Clean up crap:
 
     rm ./node_modules/bones/node_modules/jquery/node_modules/htmlparser/libxmljs.node
       
-Now test that the app still works
+Test that the app still works
  
     ./index.js
+
+Now go build and package the tilemill app:
+
+    make clean
+    make run # test
+    make tar # package
