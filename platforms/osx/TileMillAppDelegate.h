@@ -6,8 +6,6 @@
 
 @interface TileMillAppDelegate : NSObject <TileMillChildProcessDelegate>
 {
-    IBOutlet id relNotesWin;
-    IBOutlet id relNotesTextField;
     TileMillChildProcess *searchTask;
     BOOL appTerminating;
     NSString *logPath;
@@ -18,7 +16,6 @@
 - (IBAction)openHelp:(id)sender;
 - (IBAction)openDiscussions:(id)sender;
 - (IBAction)openKnowledgeBase:(id)sender;
-- (IBAction)displayReleaseNotes:(id)sender;
 - (IBAction)openConsole:(id)sender;
 
 - (void)startTileMill;

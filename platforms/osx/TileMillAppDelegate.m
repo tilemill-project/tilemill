@@ -88,12 +88,6 @@
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://support.mapbox.com/kb/tilemill"]];
 }
 
-- (IBAction)displayReleaseNotes:(id)sender
-{
-    [relNotesTextField readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"ReadMe" ofType:@"rtf"]];
-    [relNotesWin makeKeyAndOrderFront:self];
-}
-
 - (IBAction)openConsole:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openFile:logPath withApplication:@"Console" andDeactivate:YES];
