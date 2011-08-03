@@ -193,8 +193,10 @@ function loadProject(model, callback) {
         object.scheme = 'tms';
         object.tiles = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (object.format || 'png') + '?updated=' + object._updated];
         object.grids = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?updated=' + object._updated];
-        if (object.interactivity)
-            object.formatter = models.Project.formatter(object.interactivity);
+        if (object.interactivity) {
+            object.formatter = formatter(object.interactivity);
+            object.interactivity.fields = fields(object);
+        }
         this();
     },
     function(err) {
@@ -282,7 +284,7 @@ function saveProject(model, callback) {
             tiles: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (model.get('format') || 'png') + '?updated=' + updated],
             grids: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?updated=' + updated],
             formatter: model.get('interactivity')
-                ? models.Project.formatter(model.get('interactivity'))
+                ? formatter(model.get('interactivity'))
                 : undefined
         });
     });
@@ -318,19 +320,6 @@ function compileStylesheet(mml, callback) {
         if (err) callback(err);
         else callback(null, output);
     });
-};
-
-// Hang the formatter compiler off the model object so it can
-// be used by the export command. See `commands/export.bones`.
-models.Project.formatter = function(opts) {
-    opts = opts || {};
-    var full = opts.template_full || '';
-    var teaser = opts.template_teaser || '';
-    var location = opts.template_location || '';
-    full = _(full.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
-    teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
-    location = _(location.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
-    return _('function(o,d) { return {full:<%=obj.full%>, teaser:<%=obj.teaser%>, location:<%=obj.location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
 };
 
 var localizedCache = {};
@@ -392,9 +381,8 @@ models.Project.prototype.localize = function(mml, callback) {
     });
 };
 
-// Hang the field parser compiler off the model object so it can
-// be used by the export command. See `commands/export.bones`.
-models.Project.fields = function(opts) {
+// Generate list of fields from model attributes.
+function fields(opts) {
     opts = opts || {};
     opts.interactivity = opts.interactivity || {};
     var full = opts.interactivity.template_full || '';
@@ -407,15 +395,29 @@ models.Project.fields = function(opts) {
         .join(' ').match(/\[([\w\d]+)\]/g);
 
     // Include `key_field` for PostGIS Layers.
-    var layer = opts.Layer.get(opts.interactivity.layer);
-    if (layer && layer.get('Datasource').key_field) {
-        fields.push('[' + layer.get('Datasource').key_field + ']');
-    }
+    var layer = opts.interactivity.layer;
+    _(opts.Layer).each(function(l) {
+        if (l.id !== opts.interactivity.layer) return;
+        if (l.Datasource && l.Datasource.key_field)
+            fields.push('[' + l.Datasource.key_field + ']');
+    });
 
     return _(fields).chain()
         .filter(_.isString)
         .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
         .uniq()
         .value();
+};
+
+// Generate formatter function from templates.
+function formatter(opts) {
+    opts = opts || {};
+    var full = opts.template_full || '';
+    var teaser = opts.template_teaser || '';
+    var location = opts.template_location || '';
+    full = _(full.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
+    teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
+    location = _(location.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
+    return _('function(o,d) { return {full:<%=obj.full%>, teaser:<%=obj.teaser%>, location:<%=obj.location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
 };
 
