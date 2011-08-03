@@ -18,7 +18,8 @@ servers['Route'].augment({
             require.resolve('JSV/lib/json-schema-draft-03.js'),
             require.resolve('../assets/js/codemirror.js'),
             require.resolve('../assets/js/codemirror.carto.js'),
-            require.resolve('node-markdown/lib/vendor/showdown/compressed/showdown.js')
+            require.resolve('node-markdown/lib/vendor/showdown/compressed/showdown.js'),
+            require.resolve('sphericalmercator')
         ]
     },
     initializeAssets: function(parent, app) {

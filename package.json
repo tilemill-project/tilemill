@@ -32,7 +32,7 @@
         "tilelive": "~4.0.3",
         "mapnik": "~0.4.1",
         "millstone": "~0.0.5",
-        "sphericalmercator": "1.0.x",
+        "sphericalmercator": "~1.0.1",
         "tilelive-mapnik": "~0.1.1",
         "underscore": "1.1.x",
         "carto": "~0.2.1",

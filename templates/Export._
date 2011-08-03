@@ -31,6 +31,10 @@
         <span class='maxzoom'><%=project.get('maxzoom')%></span>
     </div>
   </li>
+  <li>
+    <label>Total tiles</label>
+    <div class='totaltiles'>0</div>
+  </li>
   <% } %>
   <li class='buttons'>
     <input type='submit' value='Export' />
