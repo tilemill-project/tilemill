@@ -1,0 +1,20 @@
+{
+"type": "FeatureCollection",
+"features": [
+
+{ "type": "Feature",
+  "properties": { "FID": 0.000000 },
+  "geometry":
+  { "type": "Polygon", 
+    "coordinates": [ [ 
+      [ -180.0, -85.051129 ],
+      [ -180.0, 85.051129 ],
+      [ 180.0, 85.051129 ],
+      [ 180.0, -85.051129 ],
+      [ -180.0, -85.051129 ] 
+    ] ] 
+  } 
+}
+
+]
+}
