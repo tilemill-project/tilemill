@@ -94,8 +94,19 @@ Configure:
     export JOBS=`sysctl -n hw.ncpu`
     export MAPNIK_INPUT_PLUGINS="path.join(__dirname, 'input')"
     export MAPNIK_FONTS="path.join(__dirname, 'fonts')"
+
+If mapnik does not have cairo support:
+
     export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/include/freetype2 -I$MAPNIK_ROOT/usr/local/include"
     export LINKFLAGS="-L$MAPNIK_ROOT/lib -lboost_system -lboost_thread -lboost_regex -lboost_filesystem -lfreetype -lproj -lpng12 -ljpeg -lltdl -lz -lxml2 -licucore -Wl,-search_paths_first -L$MAPNIK_ROOT/usr/local/lib"
+    
+
+If mapnik has cairo support (-lcairo in `mapnik-config --libs`) instead do:
+
+
+    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/include/freetype2  -I$MAPNIK_ROOT/include/fontconfig -I$MAPNIK_ROOT/include/sigc++-2.0 -I$MAPNIK_ROOT/lib/sigc++-2.0/include  -I$MAPNIK_ROOT/usr/local/include"
+    export LINKFLAGS="-L$MAPNIK_ROOT/lib -lboost_system -lboost_thread -lboost_regex -lboost_filesystem -lfreetype -lproj -lpng12 -ljpeg -lcairomm-1.0 -lcairo -lpixman-1 -lsigc-2.0 -lfontconfig -lexpat -liconv -lltdl -lz -lxml2 -licucore -lexpat -Wl,-search_paths_first -L$MAPNIK_ROOT/usr/local/lib"
+    export DYLD_LIBRARY_PATH=$MAPNIK_ROOT/usr/local/lib
 
 
 Then build:
