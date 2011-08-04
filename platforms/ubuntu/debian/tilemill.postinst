@@ -12,7 +12,7 @@ if [ "$1" = "configure" ]; then
 	fi
 
 	# Create files common to "tilemill" which need to be owned by the 
-  # "tilemill" user
+    # "tilemill" user
 	install --owner mapbox --group mapbox --directory \
         	/var/log/tilemill
         # Ownership on tilemill home dir
@@ -22,6 +22,8 @@ if [ "$1" = "configure" ]; then
     install --owner mapbox --group mapbox --directory \
           /usr/share/mapbox
   fi
+  # start it up
+  start tilemill
 fi
 
 #DEBHELPER#
