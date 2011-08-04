@@ -17,9 +17,9 @@ run: package
 	open ./build/Release/TileMill.app
 
 zip: package
-	zip -9qr tilemill-0.4.0alpha.zip build/Release/TileMill.app/
+	zip -9qr TileMill.zip build/Release/TileMill.app/
 
 tar: package
-	tar cfz tilemill-0.4.0alpha.tar.gz -C build/Release/ TileMill.app
-  
+	tar cfz TileMill.tar.gz -C build/Release/ TileMill.app
+
 .PHONY: build clean package run zip tar
