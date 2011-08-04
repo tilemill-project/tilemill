@@ -18,6 +18,10 @@
 }
 
 - (void)startTileMill {
+    if (![[NSBundle mainBundle] URLForResource:@"node" withExtension:@""]) {
+        NSLog(@"node is missing.");
+        [NSApp terminate:nil];
+    }
     // Look for orphan node processes from previous crashes.
     NSURL *nodeExecURL = [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""];
     NSArray *applications = [[NSWorkspace sharedWorkspace] runningApplications];

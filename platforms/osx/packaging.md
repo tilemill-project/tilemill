@@ -2,15 +2,13 @@
 
 The are the steps to setup tilemill to be portable within an .app bundle.
 
-This is only necessary for developers that wish to build a fully 
+This is only necessary for developers that wish to build a fully
 distributable tilemill.app without requiring any other installation steps.
 
 
 ## Caveats
 
-1) Currently depends on node-sqlite master: https://github.com/developmentseed/node-sqlite3/issues/34
-
-2) Until a new SDK is posted if you are not using clang++ to compile things (likely just using g++)
+1) Until a new SDK is posted if you are not using clang++ to compile things (likely just using g++)
 then you will need to remove the text of "-Wno-unused-function -Wno-uninitialized -Wno-array-bounds -Wno-parentheses -Wno-char-subscripts" from $MAPNIK_ROOT/usr/local/bin/mapnik-config below
 
 2) Where npm installs zlib, sqlite3, and node-mapnik depends on where these
@@ -26,10 +24,6 @@ Build tilemill normally:
     npm install .
 
 
-You could also first do:
-
-    npm install node-sqlite3 node-mapnik
-    
 The above ensures the latest release are in the first level of node_modules/. But
 be sure to check that tilemill's package.json uses the latest tags.
 
@@ -78,11 +72,11 @@ Configure:
 Then rebuild:
 
     make
-    
+
     # check that static compile worked (should not see libsqlite3 in output):
     otool -L lib/sqlite3_bindings.node
 
-    
+
 ## Rebuild node-mapnik
 
 
@@ -101,7 +95,7 @@ Then build:
 
     ./configure
     make
-    
+
     # confirm static linking
     otool -L lib/_mapnik.node
 
@@ -113,7 +107,7 @@ Now set up plugins:
 
     # check plugins
     otool -L lib/input/*input | grep /usr/local
-    
+
 
 And set up fonts:
 
@@ -127,13 +121,13 @@ Now go back to the main tilemill directory:
 
 
 And check builds overall
-    
+
     # for reference see all the C++ module depedencies
     for i in $(find . -name '*.node'); do otool -L $i; done;
 
     # should return nothing
     for i in $(find . -name '*.node'); do otool -L $i | grep local; done;
-    
+
     # dump out file to inspect if problems
     for i in $(find . -name '*.node'); do otool -L $i >>t.txt; done;
 
@@ -144,7 +138,7 @@ Clean up crap:
 
 
 Test that the app still works
- 
+
     ./index.js
 
 
