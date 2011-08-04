@@ -8,10 +8,7 @@ distributable tilemill.app without requiring any other installation steps.
 
 ## Caveats
 
-1) Until a new SDK is posted if you are not using clang++ to compile things (likely just using g++)
-then you will need to remove the text of "-Wno-unused-function -Wno-uninitialized -Wno-array-bounds -Wno-parentheses -Wno-char-subscripts" from $MAPNIK_ROOT/usr/local/bin/mapnik-config below
-
-2) Where npm installs zlib, sqlite3, and node-mapnik depends on where these
+1) Where npm installs zlib, sqlite3, and node-mapnik depends on where these
 modules are defined in each depdencies package.json. The instructions below
 may differ slightly in terms of where in node-modules you need to look to find
 each module depending on how you installed them.
@@ -30,7 +27,7 @@ and rebuild a few.
 ## Check zlib
 
 We need to make sure node-zlib is linked against the system zlib. The output of
-the command below similar to https://gist.github.com/1125399.
+the command below should be similar to https://gist.github.com/1125399.
 
     otool -L node_modules/mbtiles/node_modules/zlib/lib/zlib_bindings.node
 
@@ -40,19 +37,33 @@ the command below similar to https://gist.github.com/1125399.
 Mapnik needs to be compiled such that all dependencies are either statically linked
 or are linked using @rpath/@loader_path (and then all those dylib deps are included).
 
-An experimental SDK includes these dependencies and can be tested.
+An experimental SDK includes these dependencies as static libs and can be tested.
 
 To set up the SDK do:
 
+    # optionally, create a tmp working directory
     mkdir tmp-build
     cd tmp-build
+
+    # grab and unpack the sdk
     wget http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk.zip
     unzip -d mapnik-static-sdk mapnik-static-sdk.zip
+
+    # set critical shell env settings
     export MAPNIK_ROOT=`pwd`/mapnik-static-sdk/sources
     export PATH=$MAPNIK_ROOT/usr/local/bin:$PATH
 
+## Change into tilemill dir
+
+Now, in the same shell that you set the above environment settings
+navigate to your tilemill development directory.
+
+   cd ~/tilemill # or wherever you git clone tilemill
+
 
 ## Rebuild node-sqlite
+
+First we will rebuild node-sqlite3.
 
     cd node_modules/mbtiles/node_modules/sqlite3/
 
@@ -69,7 +80,7 @@ Then rebuild:
 
     make
 
-    # check that static compile worked (should not see libsqlite3 in output):
+    # check that static compile worked (you should not see libsqlite3.dylib in output):
     otool -L lib/sqlite3_bindings.node
 
 
