@@ -94,7 +94,7 @@ Configure:
     export JOBS=`sysctl -n hw.ncpu`
     export MAPNIK_INPUT_PLUGINS="path.join(__dirname, 'input')"
     export MAPNIK_FONTS="path.join(__dirname, 'fonts')"
-    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/include/freetype -I$MAPNIK_ROOT/usr/local/include"
+    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/include/freetype2 -I$MAPNIK_ROOT/usr/local/include"
     export LINKFLAGS="-L$MAPNIK_ROOT/lib -lboost_system -lboost_thread -lboost_regex -lboost_filesystem -lfreetype -lproj -lpng12 -ljpeg -lltdl -lz -lxml2 -licucore -Wl,-search_paths_first -L$MAPNIK_ROOT/usr/local/lib"
 
 
