@@ -14,6 +14,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		D738213C13EB4FE500639A03 /* application.icns in Resources */ = {isa = PBXBuildFile; fileRef = D738213B13EB4FE500639A03 /* application.icns */; };
 		D745084313E889230020D8CD /* TileMillMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D745084213E889230020D8CD /* TileMillMainWindowController.m */; };
 		D745084613E894020020D8CD /* TileMillMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D745084513E894010020D8CD /* TileMillMainWindow.xib */; };
 		D745087913E9EC160020D8CD /* mbtiles.icns in Resources */ = {isa = PBXBuildFile; fileRef = D745087813E9EC160020D8CD /* mbtiles.icns */; };
@@ -56,6 +57,7 @@
 		35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tilemill.xcconfig; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* tilemill-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "tilemill-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* TileMill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TileMill.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D738213B13EB4FE500639A03 /* application.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = application.icns; sourceTree = "<group>"; };
 		D745084113E889220020D8CD /* TileMillMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillMainWindowController.h; sourceTree = "<group>"; };
 		D745084213E889230020D8CD /* TileMillMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillMainWindowController.m; sourceTree = "<group>"; };
 		D745084513E894010020D8CD /* TileMillMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileMillMainWindow.xib; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				D7CFB13513E6F4EA0033DFFD /* tilemill */,
+				D738213B13EB4FE500639A03 /* application.icns */,
 				35AD8E9E13E10E62006213A0 /* tilemill.icns */,
 				D745087813E9EC160020D8CD /* mbtiles.icns */,
 				8D1107310486CEB800E47090 /* tilemill-Info.plist */,
@@ -279,6 +282,7 @@
 				D7CFB15C13E6F5450033DFFD /* views in Resources */,
 				D745084613E894020020D8CD /* TileMillMainWindow.xib in Resources */,
 				D745087913E9EC160020D8CD /* mbtiles.icns in Resources */,
+				D738213C13EB4FE500639A03 /* application.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
