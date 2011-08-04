@@ -1,4 +1,3 @@
-
 # Packaging TileMill.app standalone
 
 The are the steps to setup tilemill to be portable within an .app bundle.
@@ -7,17 +6,33 @@ This is only necessary for developers that wish to build a fully
 distributable tilemill.app without requiring any other installation steps.
 
 
-## Compile Mapnik
+## Caveats
 
-Mapnik needs to be compiled such that all dependencies are either statically linked
-or are linked using @rpath/@loader_path (and then all those dylib deps are included).
+1) Currently depends on node-sqlite master: https://github.com/developmentseed/node-sqlite3/issues/34
 
-Obviously this approach is beyond the scope of tilemill. Contact @springmeyer for details.
+2) Where npm installs zlib, sqlite3, and node-mapnik depends on where these
+modules are defined in each depdencies package.json. The instructions below
+may differ slightly in terms of where in node-modules you need to look to find
+each module depending on how you installed them.
 
 
-## Compile tilemill C++ deps that have other depedencies
+## Build tilemill
 
-    npm install zlib sqlite3 zipfile srs mapnik
+Build tilemill normally:
+
+    npm install .
+
+
+You could also first do:
+
+    npm install node-sqlite3 node-mapnik
+    
+The above ensures the latest release are in the first level of node_modules/. But
+be sure to check that tilemill's package.json uses the latest tags.
+
+
+This will drop all tilemill depedencies in node_modules/. Now the task is to check on a few
+and rebuild a few.
 
 
 ## Check zlib
@@ -26,13 +41,21 @@ We need to make sure node-zlib is linked against the system zlib
 
     otool -L node_modules/zlib/lib/zlib_bindings.node
 
-## Setup static builds
 
-We need an SDK of static libs of mapnik dependencies and mapnik compiled against them.
+## Set up Mapnik SDK
 
-We need to set the path to that SDK directory:
+Mapnik needs to be compiled such that all dependencies are either statically linked
+or are linked using @rpath/@loader_path (and then all those dylib deps are included).
 
-    export MAPNIK_ROOT=/Users/dane/projects/mapnik-dev/trunk-build-static/osx/sources/
+An experimental SDK includes these dependencies and can be tested.
+
+To set up the SDK do:
+
+    mkdir tmp-build
+    cd tmp-build
+    wget http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk.zip
+    unzip -d mapnik-static-sdk mapnik-static-sdk.zip
+    export MAPNIK_ROOT=`pwd`/mapnik-static-sdk/sources
     export PATH=$MAPNIK_ROOT/usr/local/bin:$PATH
 
 
@@ -40,12 +63,14 @@ We need to set the path to that SDK directory:
 
     cd node_modules/sqlite3
 
+
 Configure:
 
     make clean
     export CXXFLAGS="-I$MAPNIK_ROOT/include"
     export LINKFLAGS="-L$MAPNIK_ROOT/lib -Wl,-search_paths_first"
     ./configure
+
 
 Then rebuild:
 
@@ -57,18 +82,17 @@ Then rebuild:
     
 ## Rebuild node-mapnik
 
-The goal here is to re-compile node-mapnik against the specially
-prepared libmapnik2.a and plugins.
+
+Configure:
 
     cd ../mapnik/
     make clean
-
-Configure:
     export JOBS=`sysctl -n hw.ncpu`
     export MAPNIK_INPUT_PLUGINS="path.join(__dirname, 'input')"
     export MAPNIK_FONTS="path.join(__dirname, 'fonts')"
     export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include"
     export LINKFLAGS="-L$MAPNIK_ROOT/lib -lboost_system -lboost_thread -lboost_regex -lboost_filesystem -lfreetype -lproj -lpng12 -ljpeg -lltdl -lz -lxml2 -licucore -Wl,-search_paths_first -L$MAPNIK_ROOT/usr/local/lib"
+
 
 Then build:
 
@@ -77,6 +101,7 @@ Then build:
     
     # confirm static linking
     otool -L lib/_mapnik.node
+
 
 Now set up plugins:
 
@@ -93,12 +118,9 @@ And set up fonts:
     cp -R $MAPNIK_ROOT/usr/local/lib/mapnik2/fonts lib/
 
 
-## Build tilemill
-
-Now we can build the remaining js deps of tilemill locally:
+Now go back to the main tilemill directory:
 
     cd ../../
-    npm install .
 
 
 And check builds overall
@@ -112,13 +134,16 @@ And check builds overall
     # dump out file to inspect if problems
     for i in $(find . -name '*.node'); do otool -L $i >>t.txt; done;
 
+
 Clean up crap:
 
     rm ./node_modules/bones/node_modules/jquery/node_modules/htmlparser/libxmljs.node
-      
+
+
 Test that the app still works
  
     ./index.js
+
 
 Now go build and package the tilemill app:
 
