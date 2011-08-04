@@ -28,33 +28,27 @@ We need to make sure node-zlib is linked against the system zlib
 
 ## Setup static builds
 
-I've built a bunch of libs statically and put in a custom folder.
+We need an SDK of static libs of mapnik dependencies and mapnik compiled against them.
 
-We need to set that path now:
+We need to set the path to that SDK directory:
 
-    export MAPNIK_DEPS=/Users/dane/projects/mapnik-dev/trunk-build-static/osx/sources
-
-I also compiled mapnik against these static libs.
-
-We need to set the path to that statically compiled mapnik directory:
-
-    export MAPNIK_ROOT=/Users/dane/projects/mapnik-dev/trunk-build-static
-    export PATH=$MAPNIK_ROOT/utils/mapnik-config:$PATH
+    export MAPNIK_ROOT=/Users/dane/projects/mapnik-dev/trunk-build-static/osx/sources/
+    export PATH=$MAPNIK_ROOT/usr/local/bin:$PATH
 
 
 ## Rebuild node-sqlite
 
     cd node_modules/sqlite3
 
-Add this line to wscript on line 17:
-
-    conf.env.append_value("LINKFLAGS", ['-L/Users/dane/projects/mapnik-dev/trunk-build-static/osx/sources/lib','-Wl,-search_paths_first'])
-
-Then rebuild:
+Configure:
 
     make clean
     export CXXFLAGS="-I$MAPNIK_ROOT/include"
+    export LINKFLAGS="-L$MAPNIK_ROOT/lib -Wl,-search_paths_first"
     ./configure
+
+Then rebuild:
+
     make
     
     # check that static compile worked (should not see libsqlite3 in output):
@@ -69,24 +63,15 @@ prepared libmapnik2.a and plugins.
     cd ../mapnik/
     make clean
 
-Edit the wscript adding these lines around line 105:
-
-    # only link to libmapnik, which should be in first two flags
-    linkflags =  []
-    linkflags.append('-L/Users/dane/projects/mapnik-dev/trunk-build-static/osx/sources/lib')
-    linkflags.append('-lboost_system')
-    linkflags.append('-lboost_filesystem')
-    linkflags.append('-lfreetype')
-    linkflags.append('-lproj')
-    linkflags.append('-lltdl')
-    linkflags.append('-lmapnik2')
-    linkflags.append('-Wl,-search_paths_first')
-
+Configure:
+    export JOBS=`sysctl -n hw.ncpu`
+    export MAPNIK_INPUT_PLUGINS="path.join(__dirname, 'input')"
+    export MAPNIK_FONTS="path.join(__dirname, 'fonts')"
+    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include"
+    export LINKFLAGS="-L$MAPNIK_ROOT/lib -lboost_system -lboost_thread -lboost_regex -lboost_filesystem -lfreetype -lproj -lpng12 -ljpeg -lltdl -lz -lxml2 -licucore -Wl,-search_paths_first -L$MAPNIK_ROOT/usr/local/lib"
 
 Then build:
 
-    export CXXFLAGS="-I$MAPNIK_ROOT/include"
-    export JOBS=`sysctl -n hw.ncpu`
     ./configure
     make
     
@@ -96,27 +81,16 @@ Then build:
 Now set up plugins:
 
     mkdir lib/input
-    cp $MAPNIK_ROOT/plugins/input/*.input lib/input
+    cp $MAPNIK_ROOT/usr/local/lib/mapnik2/input/*.input lib/input/
 
     # check plugins
     otool -L lib/input/*input | grep /usr/local
-
-    # edit settings
-    vim lib/mapnik_settings.js
-    
-    var path = require('path');
-    
-    module.exports.paths = {
-        'fonts': path.join(__dirname, 'fonts'),
-        'input_plugins': path.join(__dirname, 'input'),
-    };
     
 
 And set up fonts:
 
     mkdir lib/fonts
-    cp $MAPNIK_ROOT/fonts/*.ttf lib/fonts/
-    cp $MAPNIK_ROOT/fonts/*/*/*.ttf lib/fonts/
+    cp -R $MAPNIK_ROOT/usr/local/lib/mapnik2/fonts lib/
 
 
 ## Build tilemill
