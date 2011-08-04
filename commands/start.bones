@@ -34,8 +34,9 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
     });
 
     // Apply server-side mixins/overrides.
-    var sync = require('backbone-dirty')(settings.files + '/app.db').sync;
-    Backbone.sync = sync;
+    var db = require('backbone-dirty')(settings.files + '/app.db');
+    db.dirty.on('error', console.log);
+    Backbone.sync = db.sync;
 
     // Process any waiting exports.
     (new models.Exports).fetch();
