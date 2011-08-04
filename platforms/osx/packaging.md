@@ -10,6 +10,9 @@ distributable tilemill.app without requiring any other installation steps.
 
 1) Currently depends on node-sqlite master: https://github.com/developmentseed/node-sqlite3/issues/34
 
+2) Until a new SDK is posted if you are not using clang++ to compile things (likely just using g++)
+then you will need to remove the text of "-Wno-unused-function -Wno-uninitialized -Wno-array-bounds -Wno-parentheses -Wno-char-subscripts" from $MAPNIK_ROOT/usr/local/bin/mapnik-config below
+
 2) Where npm installs zlib, sqlite3, and node-mapnik depends on where these
 modules are defined in each depdencies package.json. The instructions below
 may differ slightly in terms of where in node-modules you need to look to find
