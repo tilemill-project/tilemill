@@ -524,6 +524,7 @@ view.prototype.colorClose = function(ev) {
 view.prototype.unload = function(ev) {
     if (!$('.project').size()) return;
     if ($('.actions a.disabled[href=#save]').size()) return;
+    if (ev.metaKey) return;
 
     var message = 'You have unsaved changes. Are you sure you want to close this project?';
     if (ev.type === 'beforeunload') return message;
