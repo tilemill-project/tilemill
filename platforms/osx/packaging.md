@@ -18,9 +18,9 @@ each module depending on how you installed them.
 
 Build tilemill normally:
 
-    npm install
+    npm install .
 
-This will drop all tilemill depedencies in node_modules/. Now the task is to check on a few
+This will drop all tilemill dependencies in node_modules/. Now the task is to check on a few
 and rebuild a few.
 
 
@@ -114,7 +114,9 @@ Then build:
     ./configure
     make
 
-    # confirm static linking
+    # confirm no linking to libmapnik2.dylib and only links to libs in /usr/lib
+    # avoiding linking to libmapnik2 may require removing /usr/local/lib/libmapnik2.dylib 
+    # and /usr/local/include/mapnik if they exist
     otool -L lib/_mapnik.node
 
 
@@ -123,7 +125,7 @@ Now set up plugins:
     mkdir lib/input
     cp $MAPNIK_ROOT/usr/local/lib/mapnik2/input/*.input lib/input/
 
-    # check plugins
+    # check plugins: should return nothing
     otool -L lib/input/*input | grep /usr/local
 
 
@@ -150,11 +152,6 @@ And check builds overall
     for i in $(find . -name '*.node'); do otool -L $i >>t.txt; done;
 
 
-Clean up crap:
-
-    rm ./node_modules/bones/node_modules/jquery/node_modules/htmlparser/libxmljs.node
-
-
 Test that the app still works
 
     ./index.js
@@ -162,6 +159,7 @@ Test that the app still works
 
 Now go build and package the tilemill app:
 
+    cd platforms/osx
     make clean
     make run # test
     make tar # package
