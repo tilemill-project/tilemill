@@ -15,10 +15,7 @@ var start = function(model, data, callback) {
         // nice the export process.
         args.push('-n19');
         // node command
-        // @TODO note that process.execPath is not used here as certain
-        // installs (e.g. ubuntu node ppa) do not use `node` as the binary
-        // name causing optimist arg parsing to fail.
-        args.push('node');
+        args.push(process.execPath);
         // tilemill index.js
         args.push(path.resolve(path.join(__dirname + '/../index.js')));
         // export command
