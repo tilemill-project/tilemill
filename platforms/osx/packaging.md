@@ -21,12 +21,7 @@ each module depending on how you installed them.
 
 Build tilemill normally:
 
-    npm install .
-
-
-The above ensures the latest release are in the first level of node_modules/. But
-be sure to check that tilemill's package.json uses the latest tags.
-
+    npm install
 
 This will drop all tilemill depedencies in node_modules/. Now the task is to check on a few
 and rebuild a few.
@@ -34,9 +29,10 @@ and rebuild a few.
 
 ## Check zlib
 
-We need to make sure node-zlib is linked against the system zlib
+We need to make sure node-zlib is linked against the system zlib. The output of
+the command below similar to https://gist.github.com/1125399.
 
-    otool -L node_modules/zlib/lib/zlib_bindings.node
+    otool -L node_modules/mbtiles/node_modules/zlib/lib/zlib_bindings.node
 
 
 ## Set up Mapnik SDK
@@ -58,7 +54,7 @@ To set up the SDK do:
 
 ## Rebuild node-sqlite
 
-    cd node_modules/sqlite3
+    cd node_modules/mbtiles/node_modules/sqlite3/
 
 
 Configure:
@@ -82,7 +78,7 @@ Then rebuild:
 
 Configure:
 
-    cd ../mapnik/
+    cd ../../../mapnik/
     make clean
     export JOBS=`sysctl -n hw.ncpu`
     export MAPNIK_INPUT_PLUGINS="path.join(__dirname, 'input')"
