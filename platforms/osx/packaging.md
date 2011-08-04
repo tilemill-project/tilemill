@@ -1,4 +1,3 @@
-
 # Packaging TileMill.app standalone
 
 The are the steps to setup tilemill to be portable within an .app bundle.
@@ -7,17 +6,36 @@ This is only necessary for developers that wish to build a fully
 distributable tilemill.app without requiring any other installation steps.
 
 
-## Compile Mapnik
+## Caveats
 
-Mapnik needs to be compiled such that all dependencies are either statically linked
-or are linked using @rpath/@loader_path (and then all those dylib deps are included).
+1) Currently depends on node-sqlite master: https://github.com/developmentseed/node-sqlite3/issues/34
 
-Obviously this approach is beyond the scope of tilemill. Contact @springmeyer for details.
+2) Until a new SDK is posted if you are not using clang++ to compile things (likely just using g++)
+then you will need to remove the text of "-Wno-unused-function -Wno-uninitialized -Wno-array-bounds -Wno-parentheses -Wno-char-subscripts" from $MAPNIK_ROOT/usr/local/bin/mapnik-config below
+
+2) Where npm installs zlib, sqlite3, and node-mapnik depends on where these
+modules are defined in each depdencies package.json. The instructions below
+may differ slightly in terms of where in node-modules you need to look to find
+each module depending on how you installed them.
 
 
-## Compile tilemill C++ deps that have other depedencies
+## Build tilemill
 
-    npm install zlib sqlite3 zipfile srs mapnik
+Build tilemill normally:
+
+    npm install .
+
+
+You could also first do:
+
+    npm install node-sqlite3 node-mapnik
+    
+The above ensures the latest release are in the first level of node_modules/. But
+be sure to check that tilemill's package.json uses the latest tags.
+
+
+This will drop all tilemill depedencies in node_modules/. Now the task is to check on a few
+and rebuild a few.
 
 
 ## Check zlib
@@ -26,35 +44,39 @@ We need to make sure node-zlib is linked against the system zlib
 
     otool -L node_modules/zlib/lib/zlib_bindings.node
 
-## Setup static builds
 
-I've built a bunch of libs statically and put in a custom folder.
+## Set up Mapnik SDK
 
-We need to set that path now:
+Mapnik needs to be compiled such that all dependencies are either statically linked
+or are linked using @rpath/@loader_path (and then all those dylib deps are included).
 
-    export MAPNIK_DEPS=/Users/dane/projects/mapnik-dev/trunk-build-static/osx/sources
+An experimental SDK includes these dependencies and can be tested.
 
-I also compiled mapnik against these static libs.
+To set up the SDK do:
 
-We need to set the path to that statically compiled mapnik directory:
-
-    export MAPNIK_ROOT=/Users/dane/projects/mapnik-dev/trunk-build-static
-    export PATH=$MAPNIK_ROOT/utils/mapnik-config:$PATH
+    mkdir tmp-build
+    cd tmp-build
+    wget http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk.zip
+    unzip -d mapnik-static-sdk mapnik-static-sdk.zip
+    export MAPNIK_ROOT=`pwd`/mapnik-static-sdk/sources
+    export PATH=$MAPNIK_ROOT/usr/local/bin:$PATH
 
 
 ## Rebuild node-sqlite
 
     cd node_modules/sqlite3
 
-Add this line to wscript on line 17:
 
-    conf.env.append_value("LINKFLAGS", ['-L/Users/dane/projects/mapnik-dev/trunk-build-static/osx/sources/lib','-Wl,-search_paths_first'])
-
-Then rebuild:
+Configure:
 
     make clean
     export CXXFLAGS="-I$MAPNIK_ROOT/include"
+    export LINKFLAGS="-L$MAPNIK_ROOT/lib -Wl,-search_paths_first"
     ./configure
+
+
+Then rebuild:
+
     make
     
     # check that static compile worked (should not see libsqlite3 in output):
@@ -63,68 +85,45 @@ Then rebuild:
     
 ## Rebuild node-mapnik
 
-The goal here is to re-compile node-mapnik against the specially
-prepared libmapnik2.a and plugins.
+
+Configure:
 
     cd ../mapnik/
     make clean
-
-Edit the wscript adding these lines around line 105:
-
-    # only link to libmapnik, which should be in first two flags
-    linkflags =  []
-    linkflags.append('-L/Users/dane/projects/mapnik-dev/trunk-build-static/osx/sources/lib')
-    linkflags.append('-lboost_system')
-    linkflags.append('-lboost_filesystem')
-    linkflags.append('-lfreetype')
-    linkflags.append('-lproj')
-    linkflags.append('-lltdl')
-    linkflags.append('-lmapnik2')
-    linkflags.append('-Wl,-search_paths_first')
+    export JOBS=`sysctl -n hw.ncpu`
+    export MAPNIK_INPUT_PLUGINS="path.join(__dirname, 'input')"
+    export MAPNIK_FONTS="path.join(__dirname, 'fonts')"
+    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include"
+    export LINKFLAGS="-L$MAPNIK_ROOT/lib -lboost_system -lboost_thread -lboost_regex -lboost_filesystem -lfreetype -lproj -lpng12 -ljpeg -lltdl -lz -lxml2 -licucore -Wl,-search_paths_first -L$MAPNIK_ROOT/usr/local/lib"
 
 
 Then build:
 
-    export CXXFLAGS="-I$MAPNIK_ROOT/include"
-    export JOBS=`sysctl -n hw.ncpu`
     ./configure
     make
     
     # confirm static linking
     otool -L lib/_mapnik.node
 
+
 Now set up plugins:
 
     mkdir lib/input
-    cp $MAPNIK_ROOT/plugins/input/*.input lib/input
+    cp $MAPNIK_ROOT/usr/local/lib/mapnik2/input/*.input lib/input/
 
     # check plugins
     otool -L lib/input/*input | grep /usr/local
-
-    # edit settings
-    vim lib/mapnik_settings.js
-    
-    var path = require('path');
-    
-    module.exports.paths = {
-        'fonts': path.join(__dirname, 'fonts'),
-        'input_plugins': path.join(__dirname, 'input'),
-    };
     
 
 And set up fonts:
 
     mkdir lib/fonts
-    cp $MAPNIK_ROOT/fonts/*.ttf lib/fonts/
-    cp $MAPNIK_ROOT/fonts/*/*/*.ttf lib/fonts/
+    cp -R $MAPNIK_ROOT/usr/local/lib/mapnik2/fonts lib/
 
 
-## Build tilemill
-
-Now we can build the remaining js deps of tilemill locally:
+Now go back to the main tilemill directory:
 
     cd ../../
-    npm install .
 
 
 And check builds overall
@@ -138,13 +137,16 @@ And check builds overall
     # dump out file to inspect if problems
     for i in $(find . -name '*.node'); do otool -L $i >>t.txt; done;
 
+
 Clean up crap:
 
     rm ./node_modules/bones/node_modules/jquery/node_modules/htmlparser/libxmljs.node
-      
+
+
 Test that the app still works
  
     ./index.js
+
 
 Now go build and package the tilemill app:
 
