@@ -46,6 +46,7 @@ if [ ! -f "$CWD/orig/$PROJECT-$TAG.tar.gz" ]; then
   --exclude=*.zip \
   --exclude=*.node \
   --exclude=build \
+  --exclude=libzip-0.9.3 \
   --exclude=platforms \
   --exclude=node_modules/jshint \
   --exclude=node_modules/expresso \

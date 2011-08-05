@@ -14,7 +14,7 @@ Standards-Version: 3.8.3
 Homepage: http://github.com/mapbox/tilemill
 
 Package: tilemill
-Architecture: amd64
+Architecture: all
 Depends: ${shlibs:Depends},
  ${misc:Depends},
  curl,
