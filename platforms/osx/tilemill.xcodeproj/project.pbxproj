@@ -107,7 +107,6 @@
 		557C0F1C13EC886B004FB40C /* MBTilesQuickLook.qlgenerator */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MBTilesQuickLook.qlgenerator; sourceTree = "<group>"; };
 		557C0F1E13EC886B004FB40C /* CHANGES_AND_TODO_LIST.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES_AND_TODO_LIST.txt; sourceTree = "<group>"; };
 		557C0F1F13EC886B004FB40C /* CONTRIBUTORS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CONTRIBUTORS.txt; sourceTree = "<group>"; };
-		557C0F2013EC886B004FB40C /* fmdb.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = fmdb.1; sourceTree = "<group>"; };
 		557C0F2113EC886B004FB40C /* fmdb.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = fmdb.xcodeproj; sourceTree = "<group>"; };
 		557C0F2413EC886B004FB40C /* fmdb_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fmdb_Prefix.pch; sourceTree = "<group>"; };
 		557C0F2513EC886B004FB40C /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -346,7 +345,6 @@
 			children = (
 				557C0F1E13EC886B004FB40C /* CHANGES_AND_TODO_LIST.txt */,
 				557C0F1F13EC886B004FB40C /* CONTRIBUTORS.txt */,
-				557C0F2013EC886B004FB40C /* fmdb.1 */,
 				557C0F2113EC886B004FB40C /* fmdb.xcodeproj */,
 				557C0F2413EC886B004FB40C /* fmdb_Prefix.pch */,
 				557C0F2513EC886B004FB40C /* LICENSE.txt */,
