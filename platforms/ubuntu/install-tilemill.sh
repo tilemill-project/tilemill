@@ -9,7 +9,7 @@
 ### `sudo make uninstall` to uninstall that version of mapnik2.
 ### If you install the packaged version of TileMill using this script and
 ### then you see segmentation fault errors in the TileMill log in
-### /var/log/tilemill/tilemill.log, then chances are you have a previsouly
+### /var/log/tilemill/tilemill.log, then chances are you have a previously
 ### compiled version of mapnik2, in addition to the mapnik2 package required
 ### and which will be installed for you using this script.
 
