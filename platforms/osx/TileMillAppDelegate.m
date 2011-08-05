@@ -74,7 +74,7 @@
 
 - (IBAction)openDirectory:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile: [NSString stringWithFormat:@"%@/Documents/TileMill", NSHomeDirectory()]];
+    [[NSWorkspace sharedWorkspace] openFile: [NSString stringWithFormat:@"%@/Documents/MapBox", NSHomeDirectory()]];
 }
 
 - (IBAction)openHelp:(id)sender
