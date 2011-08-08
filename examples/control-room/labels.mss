@@ -1,8 +1,7 @@
 @sans:"Droid Sans Book","Arial Regular","DejaVu Sans Book";
 @sans_bold:"Droid Sans Bold","Arial Bold","DejaVu Sans Bold";
 
-#country-labels[zoom=4][SHAPE_AREA>5],
-#country-labels[zoom>4] {
+#country-labels[zoom>3] {
   text-name:'[NAME]';
   text-face-name:@sans;
   text-fill:#8EF * 0.7;

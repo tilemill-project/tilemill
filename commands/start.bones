@@ -3,6 +3,12 @@ var fs = require('fs'),
     path = require('path'),
     Step = require('step');
 
+commands['start'].options['host'] = {
+    'title': 'host=[host(s)]',
+    'description': 'Accepted hosts.',
+    'default': false
+};
+
 commands['start'].options['port'] = {
     'title': 'port=[port]',
     'description': 'Server port.',
