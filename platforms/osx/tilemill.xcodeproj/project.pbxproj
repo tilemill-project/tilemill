@@ -10,7 +10,6 @@
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		35B36EA313D260C6006C72ED /* TileMillAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B36EA213D260C6006C72ED /* TileMillAppDelegate.m */; };
 		35D15E0E13D25D9D003244AE /* TileMillChildProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D15E0D13D25D9D003244AE /* TileMillChildProcess.m */; };
-		557C0F5613EC886B004FB40C /* MBTilesQuickLook.qlgenerator in Resources */ = {isa = PBXBuildFile; fileRef = 557C0F1C13EC886B004FB40C /* MBTilesQuickLook.qlgenerator */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -41,37 +40,6 @@
 		D7CFB15D13E6F76C0033DFFD /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13E13E6F5450033DFFD /* index.js */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		557C0F6913EC886B004FB40C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 557C0F2113EC886B004FB40C /* fmdb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DD76FA10486AA7600D96B5E;
-			remoteInfo = fmdb;
-		};
-		557C0F6B13EC886B004FB40C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 557C0F2113EC886B004FB40C /* fmdb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EE4290EF12B42F870088BD94;
-			remoteInfo = FMDB;
-		};
-		557C0F6E13EC886B004FB40C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 557C0F3A13EC886B004FB40C /* MBTilesQuickLook.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5504854313EAF31D0001DFFD;
-			remoteInfo = MBTilesQuickLook;
-		};
-		557C0F7913EC8871004FB40C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 557C0F3A13EC886B004FB40C /* MBTilesQuickLook.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 5504854213EAF31D0001DFFD;
-			remoteInfo = MBTilesQuickLook;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -86,49 +54,6 @@
 		35D15E0C13D25D9D003244AE /* TileMillChildProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillChildProcess.h; sourceTree = "<group>"; };
 		35D15E0D13D25D9D003244AE /* TileMillChildProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillChildProcess.m; sourceTree = "<group>"; };
 		35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tilemill.xcconfig; sourceTree = "<group>"; };
-		557C0F0713EC886B004FB40C /* build-state.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "build-state.dat"; sourceTree = "<group>"; };
-		557C0F0813EC886B004FB40C /* build-state~.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "build-state~.dat"; sourceTree = "<group>"; };
-		557C0F0913EC886B004FB40C /* MBTilesQuickLook-all-target-headers.hmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MBTilesQuickLook-all-target-headers.hmap"; sourceTree = "<group>"; };
-		557C0F0A13EC886B004FB40C /* MBTilesQuickLook-generated-files.hmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MBTilesQuickLook-generated-files.hmap"; sourceTree = "<group>"; };
-		557C0F0B13EC886B004FB40C /* MBTilesQuickLook-own-target-headers.hmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MBTilesQuickLook-own-target-headers.hmap"; sourceTree = "<group>"; };
-		557C0F0C13EC886B004FB40C /* MBTilesQuickLook-project-headers.hmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MBTilesQuickLook-project-headers.hmap"; sourceTree = "<group>"; };
-		557C0F0D13EC886B004FB40C /* MBTilesQuickLook.dep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MBTilesQuickLook.dep; sourceTree = "<group>"; };
-		557C0F0E13EC886B004FB40C /* MBTilesQuickLook.hmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = MBTilesQuickLook.hmap; sourceTree = "<group>"; };
-		557C0F0F13EC886B004FB40C /* MBTilesQuickLook~.dep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "MBTilesQuickLook~.dep"; sourceTree = "<group>"; };
-		557C0F1213EC886B004FB40C /* GeneratePreviewForURL.d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.dtrace; path = GeneratePreviewForURL.d; sourceTree = "<group>"; };
-		557C0F1313EC886B004FB40C /* GeneratePreviewForURL.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = GeneratePreviewForURL.o; sourceTree = "<group>"; };
-		557C0F1413EC886B004FB40C /* GenerateThumbnailForURL.d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.dtrace; path = GenerateThumbnailForURL.d; sourceTree = "<group>"; };
-		557C0F1513EC886B004FB40C /* GenerateThumbnailForURL.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = GenerateThumbnailForURL.o; sourceTree = "<group>"; };
-		557C0F1613EC886B004FB40C /* main.d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.dtrace; path = main.d; sourceTree = "<group>"; };
-		557C0F1713EC886B004FB40C /* main.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = main.o; sourceTree = "<group>"; };
-		557C0F1813EC886B004FB40C /* MBTiles.d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.dtrace; path = MBTiles.d; sourceTree = "<group>"; };
-		557C0F1913EC886B004FB40C /* MBTiles.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = MBTiles.o; sourceTree = "<group>"; };
-		557C0F1A13EC886B004FB40C /* MBTilesQuickLook.LinkFileList */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MBTilesQuickLook.LinkFileList; sourceTree = "<group>"; };
-		557C0F1C13EC886B004FB40C /* MBTilesQuickLook.qlgenerator */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MBTilesQuickLook.qlgenerator; sourceTree = "<group>"; };
-		557C0F1E13EC886B004FB40C /* CHANGES_AND_TODO_LIST.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES_AND_TODO_LIST.txt; sourceTree = "<group>"; };
-		557C0F1F13EC886B004FB40C /* CONTRIBUTORS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CONTRIBUTORS.txt; sourceTree = "<group>"; };
-		557C0F2013EC886B004FB40C /* fmdb.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = fmdb.1; sourceTree = "<group>"; };
-		557C0F2113EC886B004FB40C /* fmdb.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = fmdb.xcodeproj; sourceTree = "<group>"; };
-		557C0F2413EC886B004FB40C /* fmdb_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fmdb_Prefix.pch; sourceTree = "<group>"; };
-		557C0F2513EC886B004FB40C /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		557C0F2613EC886B004FB40C /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
-		557C0F2813EC886B004FB40C /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
-		557C0F2913EC886B004FB40C /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
-		557C0F2A13EC886B004FB40C /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
-		557C0F2B13EC886B004FB40C /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
-		557C0F2C13EC886B004FB40C /* fmdb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fmdb.m; sourceTree = "<group>"; };
-		557C0F2D13EC886B004FB40C /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
-		557C0F2E13EC886B004FB40C /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
-		557C0F3113EC886B004FB40C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		557C0F3213EC886B004FB40C /* GeneratePreviewForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratePreviewForURL.m; sourceTree = "<group>"; };
-		557C0F3313EC886B004FB40C /* GenerateThumbnailForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateThumbnailForURL.m; sourceTree = "<group>"; };
-		557C0F3413EC886B004FB40C /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		557C0F3513EC886B004FB40C /* MBTiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBTiles.h; sourceTree = "<group>"; };
-		557C0F3613EC886B004FB40C /* MBTiles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBTiles.m; sourceTree = "<group>"; };
-		557C0F3713EC886B004FB40C /* MBTilesQuickLook-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MBTilesQuickLook-Info.plist"; sourceTree = "<group>"; };
-		557C0F3813EC886B004FB40C /* MBTilesQuickLook-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBTilesQuickLook-Prefix.pch"; sourceTree = "<group>"; };
-		557C0F3913EC886B004FB40C /* template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = template.html; sourceTree = "<group>"; };
-		557C0F3A13EC886B004FB40C /* MBTilesQuickLook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MBTilesQuickLook.xcodeproj; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* tilemill-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "tilemill-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* TileMill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TileMill.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D738213B13EB4FE500639A03 /* application.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = application.icns; sourceTree = "<group>"; };
@@ -212,7 +137,6 @@
 		29B97314FDCFA39411CA2CEA /* tilemill */ = {
 			isa = PBXGroup;
 			children = (
-				557C0F0213EC886B004FB40C /* MBTilesQuickLook */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -254,153 +178,6 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		557C0F0213EC886B004FB40C /* MBTilesQuickLook */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F0313EC886B004FB40C /* build */,
-				557C0F1D13EC886B004FB40C /* fmdb */,
-				557C0F2F13EC886B004FB40C /* MBTilesQuickLook */,
-				557C0F3A13EC886B004FB40C /* MBTilesQuickLook.xcodeproj */,
-			);
-			path = MBTilesQuickLook;
-			sourceTree = "<group>";
-		};
-		557C0F0313EC886B004FB40C /* build */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F0413EC886B004FB40C /* MBTilesQuickLook.build */,
-				557C0F1B13EC886B004FB40C /* Release */,
-			);
-			path = build;
-			sourceTree = "<group>";
-		};
-		557C0F0413EC886B004FB40C /* MBTilesQuickLook.build */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F0513EC886B004FB40C /* Release */,
-			);
-			path = MBTilesQuickLook.build;
-			sourceTree = "<group>";
-		};
-		557C0F0513EC886B004FB40C /* Release */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F0613EC886B004FB40C /* MBTilesQuickLook.build */,
-			);
-			path = Release;
-			sourceTree = "<group>";
-		};
-		557C0F0613EC886B004FB40C /* MBTilesQuickLook.build */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F0713EC886B004FB40C /* build-state.dat */,
-				557C0F0813EC886B004FB40C /* build-state~.dat */,
-				557C0F0913EC886B004FB40C /* MBTilesQuickLook-all-target-headers.hmap */,
-				557C0F0A13EC886B004FB40C /* MBTilesQuickLook-generated-files.hmap */,
-				557C0F0B13EC886B004FB40C /* MBTilesQuickLook-own-target-headers.hmap */,
-				557C0F0C13EC886B004FB40C /* MBTilesQuickLook-project-headers.hmap */,
-				557C0F0D13EC886B004FB40C /* MBTilesQuickLook.dep */,
-				557C0F0E13EC886B004FB40C /* MBTilesQuickLook.hmap */,
-				557C0F0F13EC886B004FB40C /* MBTilesQuickLook~.dep */,
-				557C0F1013EC886B004FB40C /* Objects-normal */,
-			);
-			path = MBTilesQuickLook.build;
-			sourceTree = "<group>";
-		};
-		557C0F1013EC886B004FB40C /* Objects-normal */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F1113EC886B004FB40C /* x86_64 */,
-			);
-			path = "Objects-normal";
-			sourceTree = "<group>";
-		};
-		557C0F1113EC886B004FB40C /* x86_64 */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F1213EC886B004FB40C /* GeneratePreviewForURL.d */,
-				557C0F1313EC886B004FB40C /* GeneratePreviewForURL.o */,
-				557C0F1413EC886B004FB40C /* GenerateThumbnailForURL.d */,
-				557C0F1513EC886B004FB40C /* GenerateThumbnailForURL.o */,
-				557C0F1613EC886B004FB40C /* main.d */,
-				557C0F1713EC886B004FB40C /* main.o */,
-				557C0F1813EC886B004FB40C /* MBTiles.d */,
-				557C0F1913EC886B004FB40C /* MBTiles.o */,
-				557C0F1A13EC886B004FB40C /* MBTilesQuickLook.LinkFileList */,
-			);
-			path = x86_64;
-			sourceTree = "<group>";
-		};
-		557C0F1B13EC886B004FB40C /* Release */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F1C13EC886B004FB40C /* MBTilesQuickLook.qlgenerator */,
-			);
-			path = Release;
-			sourceTree = "<group>";
-		};
-		557C0F1D13EC886B004FB40C /* fmdb */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F1E13EC886B004FB40C /* CHANGES_AND_TODO_LIST.txt */,
-				557C0F1F13EC886B004FB40C /* CONTRIBUTORS.txt */,
-				557C0F2013EC886B004FB40C /* fmdb.1 */,
-				557C0F2113EC886B004FB40C /* fmdb.xcodeproj */,
-				557C0F2413EC886B004FB40C /* fmdb_Prefix.pch */,
-				557C0F2513EC886B004FB40C /* LICENSE.txt */,
-				557C0F2613EC886B004FB40C /* README.markdown */,
-				557C0F2713EC886B004FB40C /* src */,
-			);
-			path = fmdb;
-			sourceTree = "<group>";
-		};
-		557C0F2213EC886B004FB40C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F6A13EC886B004FB40C /* fmdb */,
-				557C0F6C13EC886B004FB40C /* libFMDB.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		557C0F2713EC886B004FB40C /* src */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F2813EC886B004FB40C /* FMDatabase.h */,
-				557C0F2913EC886B004FB40C /* FMDatabase.m */,
-				557C0F2A13EC886B004FB40C /* FMDatabaseAdditions.h */,
-				557C0F2B13EC886B004FB40C /* FMDatabaseAdditions.m */,
-				557C0F2C13EC886B004FB40C /* fmdb.m */,
-				557C0F2D13EC886B004FB40C /* FMResultSet.h */,
-				557C0F2E13EC886B004FB40C /* FMResultSet.m */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
-		557C0F2F13EC886B004FB40C /* MBTilesQuickLook */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F3013EC886B004FB40C /* InfoPlist.strings */,
-				557C0F3213EC886B004FB40C /* GeneratePreviewForURL.m */,
-				557C0F3313EC886B004FB40C /* GenerateThumbnailForURL.m */,
-				557C0F3413EC886B004FB40C /* main.c */,
-				557C0F3513EC886B004FB40C /* MBTiles.h */,
-				557C0F3613EC886B004FB40C /* MBTiles.m */,
-				557C0F3713EC886B004FB40C /* MBTilesQuickLook-Info.plist */,
-				557C0F3813EC886B004FB40C /* MBTilesQuickLook-Prefix.pch */,
-				557C0F3913EC886B004FB40C /* template.html */,
-			);
-			path = MBTilesQuickLook;
-			sourceTree = "<group>";
-		};
-		557C0F3B13EC886B004FB40C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				557C0F6F13EC886B004FB40C /* MBTilesQuickLook.qlgenerator */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		D7CFB13513E6F4EA0033DFFD /* tilemill */ = {
@@ -445,7 +222,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				557C0F7A13EC8871004FB40C /* PBXTargetDependency */,
 			);
 			name = tilemill;
 			productInstallPath = "$(HOME)/Applications";
@@ -467,50 +243,15 @@
 				Japanese,
 				French,
 				German,
-				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* tilemill */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 557C0F2213EC886B004FB40C /* Products */;
-					ProjectRef = 557C0F2113EC886B004FB40C /* fmdb.xcodeproj */;
-				},
-				{
-					ProductGroup = 557C0F3B13EC886B004FB40C /* Products */;
-					ProjectRef = 557C0F3A13EC886B004FB40C /* MBTilesQuickLook.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* tilemill */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		557C0F6A13EC886B004FB40C /* fmdb */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = fmdb;
-			remoteRef = 557C0F6913EC886B004FB40C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		557C0F6C13EC886B004FB40C /* libFMDB.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libFMDB.a;
-			remoteRef = 557C0F6B13EC886B004FB40C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		557C0F6F13EC886B004FB40C /* MBTilesQuickLook.qlgenerator */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MBTilesQuickLook.qlgenerator;
-			remoteRef = 557C0F6E13EC886B004FB40C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -542,7 +283,6 @@
 				D745087913E9EC160020D8CD /* mbtiles.icns in Resources */,
 				D738213C13EB4FE500639A03 /* application.icns in Resources */,
 				D738213F13EB500D00639A03 /* tilemill.icns in Resources */,
-				557C0F5613EC886B004FB40C /* MBTilesQuickLook.qlgenerator in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,14 +336,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		557C0F7A13EC8871004FB40C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = MBTilesQuickLook;
-			targetProxy = 557C0F7913EC8871004FB40C /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -619,14 +351,6 @@
 				1DDD58150DA1D0A300B32029 /* English */,
 			);
 			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		557C0F3013EC886B004FB40C /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				557C0F3113EC886B004FB40C /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
