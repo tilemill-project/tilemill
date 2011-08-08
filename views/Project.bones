@@ -6,7 +6,6 @@ view.prototype.events = {
     'click .actions a[href=#export-png]': 'exportAdd',
     'click .actions a[href=#export-mbtiles]': 'exportAdd',
     'click .actions a[href=#exports]': 'exportList',
-    'click #export .buttons input': 'exportClose',
     'click a[href=#fonts]': 'fonts',
     'click a[href=#carto]': 'carto',
     'click a[href=#settings]': 'settings',
@@ -44,7 +43,6 @@ view.prototype.initialize = function() {
         'sortLayers',
         'sortStylesheets',
         'exportAdd',
-        'exportClose',
         'exportList',
         'statusOpen',
         'statusClose',
@@ -397,21 +395,21 @@ view.prototype.exportAdd = function(ev) {
         }),
         project: this.model,
         success: _(function() {
+            this.exportView.remove();
+            this.$('.project').removeClass('exporting');
+            this.map.controls.fullscreen.original();
+
             // @TODO better API for manipulating UI elements.
             if (!$('#drawer').is('.active')) {
                 $('a[href=#exports]').click();
                 $('.actions > .dropdown').click();
             }
             this.exportList();
+        }).bind(this),
+        error: _(function(m, err) {
+            new views.Modal(err);
         }).bind(this)
     });
-};
-
-view.prototype.exportClose = function(ev) {
-    this.exportView.remove();
-    this.$('.project').removeClass('exporting');
-    this.map.controls.fullscreen.original();
-    return false;
 };
 
 // Create a global reference to the exports collection on the Bones

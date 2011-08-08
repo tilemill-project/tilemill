@@ -99,7 +99,7 @@ view.prototype.updateTotal = function(attributes) {
         var total = 0;
         for (var z = attr.minzoom; z <= attr.maxzoom; z++) {
             var b = sm.xyz(attr.bbox, z);
-            total += (b.maxX - b.minX + 1) * (b.maxY - b.minY + 1);
+            total += Math.abs((b.maxX - b.minX + 1) * (b.maxY - b.minY + 1));
         }
         this.$('.totaltiles').text(this.formatThousands(total));
     }
@@ -131,9 +131,9 @@ view.prototype.getAttributes = function() {
     return attr;
 };
 
+// Use `success` and `error` callbacks set on the view.
 view.prototype.save = function() {
-    var attr = this.getAttributes();
-    // Use `success` and `error` callbacks set on the view.
-    this.model.save(attr, this);
+    this.model.save(this.getAttributes(), this);
+    return false;
 };
 
