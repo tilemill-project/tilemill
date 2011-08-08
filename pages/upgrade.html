@@ -42,6 +42,29 @@
 
 ## 0.4.x
 
+### Important note for Ubuntu users
+
+A specific version of mapnik2 is provided in the `mapbox` PPA for use with TileMill 0.4.x. TileMill will not work if you have **any other version** of mapnik2 installed on your system. Please remove any previous versions of mapnik2 that you may have installed from source or from the mapnik `nightly-trunk` PPA.
+
+**Removing mapnik2 compiled from source**
+
+Enter the directory of the original mapnik2 source.
+
+    cd /home/ubuntu/mapnik2 # or the path to your mapnik2 source
+    sudo make uninstall
+
+**Removing mapnik2 from the nightly-trunk PPA**
+
+First remove your mapnik2 packages.
+
+    sudo apt-get uninstall mapnik2*
+
+Remove the `sources.list` entries for the `nightly-trunk` PPA and run
+
+    sudo apt-get update
+
+You can now install TileMill using the `install-tilemill.sh` script.
+
 ### Project files
 
 TileMill now keeps its files by default in your user's home directory at `~/Documents/MapBox`. After starting TileMill for the first time this directory will be created. Move your projects from their old location to `~/Documents/MapBox/project`.
