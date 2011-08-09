@@ -23,11 +23,22 @@ We build node with two cpu architectures, aka universal/fat to support older mac
     cd node-v0.4.10
     # ia32 == i386
     ./configure --without-snapshot --jobs=`sysctl -n hw.ncpu` --blddir=node-32 --dest-cpu=ia32
-    make
+    make install # will install headers
     # x64 == x86_64
     ./configure --without-snapshot --jobs=`sysctl -n hw.ncpu` --blddir=node-64 --dest-cpu=x64
     make
-    lipo -create node-32/default/node node-64/default/node -output node-universal
+    lipo -create node-32/default/node node-64/default/node -output node
+    
+    # then copy that node overwriting the previously installed uni-arch node
+    # so it is default on your PATH
+    cp node /usr/local/bin/node
+    chmod +x /usr/local/bin/node
+    
+    # confirm it comes first
+    which node | grep /usr/local/bin
+    
+    # should report two archs
+    file `which node`
 
 
 ## Install latest npm
