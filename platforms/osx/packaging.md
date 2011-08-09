@@ -6,14 +6,6 @@ This is only necessary for developers that wish to build a fully
 distributable tilemill.app without requiring any other installation steps.
 
 
-## Caveats
-
-1) Where npm installs zlib, sqlite3, and node-mapnik depends on where these
-modules are defined in each depdencies package.json. The instructions below
-may differ slightly in terms of where in node-modules you need to look to find
-each module depending on how you installed them.
-
-
 ## Build node
 
 We build node with two cpu architectures, aka universal/fat to support older macs:
@@ -44,6 +36,7 @@ We build node with two cpu architectures, aka universal/fat to support older mac
 ## Install latest npm
 
     curl http://npmjs.org/install.sh | sudo sh
+
 
 ## Build testing tools globally
 
@@ -200,7 +193,6 @@ If mapnik has cairo support (-lcairo in `mapnik-config --libs`) instead do:
 
     export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/include/freetype2  -I$MAPNIK_ROOT/include/fontconfig -I$MAPNIK_ROOT/include/sigc++-2.0 -I$MAPNIK_ROOT/lib/sigc++-2.0/include  -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
     export LINKFLAGS="-L$MAPNIK_ROOT/lib -lboost_system -lboost_thread -lboost_regex -lboost_filesystem -lfreetype -lproj -lpng -ljpeg -lcairomm-1.0 -lcairo -lpixman-1 -lsigc-2.0 -lfontconfig -lexpat -liconv -lltdl -lz -lxml2 -licucore -lexpat -Wl,-search_paths_first -L$MAPNIK_ROOT/usr/local/lib $CORE_LINKFLAGS"
-    export DYLD_LIBRARY_PATH=$MAPNIK_ROOT/usr/local/lib
 
 
 Then build:
