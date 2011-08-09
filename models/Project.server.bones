@@ -72,7 +72,11 @@ models.Project.prototype.sync = function(method, model, success, error) {
 // - carto compilation failure
 // - limited mapnik "test render" failure
 models.Project.prototype.validateAsync = function(attributes, options) {
-    var mml = _(attributes).extend({_updated: + new Date()});
+    var mml = _(attributes).clone();
+
+    // Set _updated to 0 to force a localize cache clear.
+    mml._updated = 0;
+
     this.localize(mml, function(err) {
         if (err) return options.error(this, err);
 
@@ -337,7 +341,10 @@ models.Project.prototype.localize = function(mml, callback) {
     }
 
     if (localizedCache[key]) {
-        if (localizedCache[key].updated < mml._updated) {
+        if (mml._updated === 0) {
+            // Caller may set _updated to 0 to force a cache clear.
+            delete localizedCache[key];
+        } else if (localizedCache[key].updated < mml._updated) {
             // The existing item is outdated.
             delete localizedCache[key];
         } else if (localizedCache[key].mml && localizedCache[key].xml) {
