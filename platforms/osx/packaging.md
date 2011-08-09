@@ -112,8 +112,6 @@ Search for others with:
 
 ## Set up Mapnik SDK
 
-@TODO - THIS STEP IS BROKEN AT THE MOMENT
-
 Mapnik needs to be compiled such that all dependencies are either statically linked
 or are linked using @rpath/@loader_path (and then all those dylib deps are included).
 
@@ -121,16 +119,17 @@ An experimental SDK includes these dependencies as static libs and can be tested
 
 To set up the SDK do:
 
-    # optionally, create a tmp working directory
-    mkdir tmp-build
-    cd tmp-build
+    # create a directory to hold the static sources
+    # this can live anywhere of your choosing
+    mkdir mapnik-static-sdk
+    cd mapnik-static-sdk
 
-    # grab and unpack the sdk
-    wget http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk.zip
-    unzip -d mapnik-static-sdk mapnik-static-sdk.zip
+    # download and unpack the latest sdk
+    wget https://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-2.0.0_r3084.tar.bz2
+    tar xvf mapnik-static-sdk-2.0.0_r3084.tar.bz2
 
     # set critical shell env settings
-    export MAPNIK_ROOT=`pwd`/mapnik-static-sdk/mapnik-static-sdk/sources
+    export MAPNIK_ROOT=`pwd`/sources
     export PATH=$MAPNIK_ROOT/usr/local/bin:$PATH
 
 Confirm the SDK is working by checking mapnik-config presence at that path:
@@ -191,7 +190,7 @@ If mapnik does not have cairo support:
 If mapnik has cairo support (-lcairo in `mapnik-config --libs`) instead do:
 
 
-    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/include/freetype2  -I$MAPNIK_ROOT/include/fontconfig -I$MAPNIK_ROOT/include/sigc++-2.0 -I$MAPNIK_ROOT/lib/sigc++-2.0/include  -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
+    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/include/freetype2 -I$MAPNIK_ROOT/include/cairo -I$MAPNIK_ROOT/include/cairomm-1.0 -I$MAPNIK_ROOT/include/fontconfig -I$MAPNIK_ROOT/include/sigc++-2.0 -I$MAPNIK_ROOT/lib/sigc++-2.0/include  -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
     export LINKFLAGS="-L$MAPNIK_ROOT/lib -lboost_system -lboost_thread -lboost_regex -lboost_filesystem -lfreetype -lproj -lpng -ljpeg -lcairomm-1.0 -lcairo -lpixman-1 -lsigc-2.0 -lfontconfig -lexpat -liconv -lltdl -lz -lxml2 -licucore -lexpat -Wl,-search_paths_first -L$MAPNIK_ROOT/usr/local/lib $CORE_LINKFLAGS"
 
 
