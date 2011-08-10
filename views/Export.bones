@@ -2,7 +2,8 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'keyup .bboxForm input, input[name=width], input[name=height]': 'size',
-    'click input[type=submit]': 'save'
+    'click input[type=submit]': 'save',
+    'click input.cancel': 'close'
 };
 
 view.prototype.initialize = function(options) {
@@ -10,11 +11,12 @@ view.prototype.initialize = function(options) {
     if (!options.model) throw new Error('No export model provided.');
     if (!options.project) throw new Error('No project model provided.');
 
-    _(this).bindAll('render', 'remove', 'size', 'zoom', 'save');
+    _(this).bindAll('render', 'remove', 'size', 'zoom', 'save', 'close');
     this.map = options.map;
     this.project = options.project;
     this.success = options.success || function() {};
-    this.error = options.error || function(m,e) { new views.Modal(e); };
+    this.cancel = options.cancel || function() {};
+    this.error = options.error || function() {};
     this.render();
 };
 
@@ -134,6 +136,11 @@ view.prototype.getAttributes = function() {
 // Use `success` and `error` callbacks set on the view.
 view.prototype.save = function() {
     this.model.save(this.getAttributes(), this);
+    return false;
+};
+
+view.prototype.close = function() {
+    this.cancel();
     return false;
 };
 

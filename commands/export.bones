@@ -52,6 +52,9 @@ command.options['log'] = {
 
 command.prototype.initialize = function(plugin, callback) {
     var opts = plugin.config;
+    if (process.env.tilemillConfig)
+        _(opts).extend(JSON.parse(process.env.tilemillConfig));
+    opts.files = path.resolve(opts.files);
     opts.project = plugin.argv._[1];
     opts.filepath = path.resolve(plugin.argv._[2]);
     callback = callback || function() {};
@@ -168,7 +171,7 @@ command.prototype.pdf = function(project, callback) {
         strict: false,
         base: path.join(this.opts.files, 'project', project.id) + '/'
     });
-    map.bufferSize = 128;
+    map.bufferSize = this.opts.bufferSize;
     map.extent = sm.convert(project.mml.bounds, '900913');
     try {
         map.renderFileSync(this.opts.filepath, { format: this.opts.format });
@@ -192,7 +195,8 @@ command.prototype.mbtiles = function (project, callback) {
         slashes: true,
         xml: project.xml,
         mml: project.mml,
-        pathname: path.join(this.opts.files, 'project', project.id, project.id + '.xml')
+        pathname: path.join(this.opts.files, 'project', project.id, project.id + '.xml'),
+        query: { bufferSize: this.opts.bufferSize }
     };
     tilelive.load(uri, function(err, source) {
         if (err) throw err;

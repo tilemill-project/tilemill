@@ -408,6 +408,11 @@ view.prototype.exportAdd = function(ev) {
         }).bind(this),
         error: _(function(m, err) {
             new views.Modal(err);
+        }).bind(this),
+        cancel: _(function() {
+            this.exportView.remove();
+            this.$('.project').removeClass('exporting');
+            this.map.controls.fullscreen.original();
         }).bind(this)
     });
 };
