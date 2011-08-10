@@ -1,3 +1,8 @@
+0.4.2 & 0.4.1
+-------------
+- Bugfixes.
+
+
 0.4.0
 -----
 - Major rewrite of application.
