@@ -6,3 +6,9 @@ Bones.Command.options['files'] = {
     'default': path.join(process.env.HOME, 'Documents', 'MapBox')
 };
 
+Bones.Command.options['bufferSize'] = {
+    'title': 'bufferSize=[number]',
+    'description': 'Mapnik render buffer size.',
+    'default': 256
+};
+
