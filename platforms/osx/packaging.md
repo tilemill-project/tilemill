@@ -1,6 +1,6 @@
 # Packaging TileMill.app standalone
 
-The are the steps to setup tilemill to be portable within an .app bundle.
+Thes are the steps to setup tilemill to be portable within an .app bundle.
 
 This is only necessary for developers that wish to build a fully
 distributable tilemill.app without requiring any other installation steps.
@@ -41,7 +41,7 @@ We build node with two cpu architectures, aka universal/fat to support older mac
 ## Build testing tools globally
 
 This will keep these out of tilemill's local node_modules, avoid having to strip them
-from the final package, and most importantly avoid any compile failures do to the
+from the final package, and most importantly avoid any compile failures due to
 custom flags we set later on.
 
     npm install -g jshint expresso
@@ -53,10 +53,10 @@ Clear out any previous builds:
 
     rm -rf node_modules
     
+Also ensure that you have no globally installed node modules (other than `jshint` and `expresso`).
+You may need to check various node_modules depending on your $NODE_PATH.
 
-Also ensure that you have no globally installed node modules (or at least they are not on NODE_PATH).
-
-The, build tilemill with a few custom flags:
+Now build tilemill with a few custom flags:
 
     export CORE_CXXFLAGS="-O3 -arch x86_64 -arch i386 -mmacosx-version-min=10.6 -isysroot /Developer/SDKs/MacOSX10.6.sdk"
     export CORE_LINKFLAGS="-arch x86_64 -arch i386 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk"
@@ -65,7 +65,7 @@ The, build tilemill with a few custom flags:
     export JOBS=`sysctl -n hw.ncpu`
     npm install . --verbose
 
-As long as you don't have any globally installed modules, this should deposit all 
+As long as you don't have any globally installed modules that tilemill uses, this should deposit all 
 tilemill dependencies in node_modules/. Now the task is to check on a few and rebuild a few.
 
 
@@ -106,8 +106,9 @@ Search for others with:
 
 ## Uninstall any globally installed libmapnik2.dylib
 
-   cd src/mapnik-trunk # or wherever your mapnik sources are
-   sudo make uninstall
+    # move to where your mapnik sources are
+    cd src/mapnik-trunk
+    sudo make uninstall
 
 
 ## Set up Mapnik SDK
@@ -125,8 +126,8 @@ To set up the SDK do:
     cd mapnik-static-sdk
 
     # download and unpack the latest sdk
-    wget https://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-2.0.0_r3084.tar.bz2
-    tar xvf mapnik-static-sdk-2.0.0_r3084.tar.bz2
+    wget http://dbsgeo.com/mapnik/mapnik-static-sdk-2.0.0_r3085.tar.bz2
+    tar xvf mapnik-static-sdk-2.0.0_r3085.tar.bz2
 
     # set critical shell env settings
     export MAPNIK_ROOT=`pwd`/sources
@@ -137,12 +138,15 @@ Confirm the SDK is working by checking mapnik-config presence at that path:
     # this should produce a line of output pointing to valid mapnik-config
     which mapnik-config | grep $MAPNIK_ROOT
 
+
+Note: the sdk was created using http://trac.mapnik.org/browser/trunk/osx/scripts/static-universal.sh
+
 ## Change into tilemill dir
 
 Now, in the same shell that you set the above environment settings
 navigate to your tilemill development directory.
 
-   cd ~/tilemill # or wherever you git clone tilemill
+   cd ~/tilemill # or wherever you git cloned tilemill
 
 
 ## Rebuild node-sqlite
@@ -208,7 +212,7 @@ Then build:
 
 Now set up plugins:
 
-    mkdir lib/input
+    mkdir -p lib/input
     cp $MAPNIK_ROOT/usr/local/lib/mapnik2/input/*.input lib/input/
 
     # check plugins: should return nothing
@@ -217,7 +221,7 @@ Now set up plugins:
 
 And set up fonts:
 
-    mkdir lib/fonts
+    mkdir -p lib/fonts
     cp -R $MAPNIK_ROOT/usr/local/lib/mapnik2/fonts lib/
 
 
@@ -248,4 +252,4 @@ Now go build and package the tilemill app:
     cd platforms/osx
     make clean
     make run # test
-    make tar # package
+    make zip # package
