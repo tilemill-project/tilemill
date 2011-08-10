@@ -35,7 +35,14 @@ var start = function(model, data, callback) {
         if (data.minzoom) args.push('--minzoom=' + data.minzoom);
         if (data.maxzoom) args.push('--maxzoom=' + data.maxzoom);
 
-        var child = spawn('nice', args);
+        var options = {
+            env: process.env,
+            cwd: undefined,
+            customFds: [-1, -1, -1],
+            setsid: false
+        };
+        options.env.tilemillConfig = JSON.stringify(settings);
+        var child = spawn('nice', args, options);
         model.set({pid:child.pid, status:'processing'});
         Backbone.sync('update', model, callback, callback);
     } else if (data.status === 'processing') {

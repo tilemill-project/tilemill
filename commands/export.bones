@@ -52,6 +52,9 @@ command.options['log'] = {
 
 command.prototype.initialize = function(plugin, callback) {
     var opts = plugin.config;
+    if (process.env.tilemillConfig)
+        _(opts).extend(JSON.parse(process.env.tilemillConfig));
+    opts.files = path.resolve(opts.files);
     opts.project = plugin.argv._[1];
     opts.filepath = path.resolve(plugin.argv._[2]);
     callback = callback || function() {};
