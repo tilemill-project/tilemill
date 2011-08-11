@@ -1,5 +1,5 @@
 //
-//  PFMoveApplication.m, version 1.6.1
+//  PFMoveApplication.m, version 1.6.2
 //  LetsMove
 //
 //  Created by Andy Kim at Potion Factory LLC on 9/17/09
@@ -160,16 +160,28 @@ void PFMoveToApplicationsFolderIfNecessary() {
 			if ([fm fileExistsAtPath:destinationPath]) {
 				// But first, make sure that it's not running
 				BOOL destinationIsRunning = NO;
-				for (NSRunningApplication *runningApplication in [[NSWorkspace sharedWorkspace] runningApplications]) {
-					NSString *executablePath = [[runningApplication executableURL] path];
-					if ([[executablePath substringToIndex:[destinationPath length]] isEqualToString:destinationPath]) {
-						destinationIsRunning = YES;
-						break;
+
+				// Use the shell to determine if the app is already running on systems 10.5 or lower
+				if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_5) {
+					NSString *script = [NSString stringWithFormat:@"ps ax -o comm | grep '%@/' | grep -v grep >/dev/null", destinationPath];
+					NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObjects:@"-c", script, nil]];
+					[task waitUntilExit];
+
+					// If the task terminated with status 0, it means that the final grep produced 1 or more lines of output.
+					// Which means that the app is already running
+					destinationIsRunning = ([task terminationStatus] == 0);
+				}
+				// Use the new API on 10.6 or higher
+				else {
+					for (NSRunningApplication *runningApplication in [[NSWorkspace sharedWorkspace] runningApplications]) {
+						NSString *executablePath = [[runningApplication executableURL] path];
+						if ([[executablePath substringToIndex:[destinationPath length]] isEqualToString:destinationPath]) {
+							destinationIsRunning = YES;
+							break;
+						}
 					}
 				}
-				
-				// If the task terminated with status 0, it means that the final grep produced 1 or more lines of output.
-				// It means that the app is already running
+
 				if (destinationIsRunning) {
 					// Give the running app focus and terminate myself
 					NSLog(@"INFO -- Switching to an already running version");

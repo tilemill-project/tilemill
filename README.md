@@ -7,6 +7,10 @@ A sample project that demonstrates how to move a running Mac OS X application to
 Version History
 ---------------
 
+* 1.6.2
+	- Garbage collection compatibility added
+	- Use a new method to check if an application is already running on Mac OS X 10.6 systems or higher
+
 * 1.6.1
 	- Use exit(0) to terminate the app before relaunching instead of [NSApp terminate:]. We don't want applicationShouldTerminate or applicationWillTerminate NSApplication delegate methods to be called, possibly introducing side effects.
 
