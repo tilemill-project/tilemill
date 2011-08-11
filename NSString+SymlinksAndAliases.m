@@ -222,7 +222,7 @@
 				if (resolvedUrl != NULL)
 				{
 					resolvedPath =
-						[(id)CFURLCopyFileSystemPath(resolvedUrl, kCFURLPOSIXPathStyle)
+						[(id)NSMakeCollectable(CFURLCopyFileSystemPath(resolvedUrl, kCFURLPOSIXPathStyle))
 							autorelease];
 					CFRelease(resolvedUrl);
 				}
