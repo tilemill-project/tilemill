@@ -280,6 +280,7 @@ view.prototype.saveSqlite = function() {
         'Datasource': {
             'file': this.$('form.layerSqlite input[name=file]').val(),
             'table':    this.$('form.layerSqlite textarea[name=table]', this.el).val(),
+            'attachdb': this.$('input[name=attachdb]', this.el).val(),
             'extent':   this.$('form.layerSqlite input[name=extent]', this.el).val(),
             'type': 'sqlite'
         }

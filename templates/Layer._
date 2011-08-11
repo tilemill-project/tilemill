@@ -164,6 +164,11 @@
       </div>
     </li>
     <li>
+      <label for='attachdb'>Attach DB</label>
+      <input type='text' name='attachdb' value='<%=get('Datasource') && get('Datasource').attachdb%>' />
+      <span class='description'></span>
+    </li>
+    <li>
       <label for='extent'>Extent</label>
       <input type='text' name='extent' value='<%=get('Datasource') && get('Datasource').extent%>' />
       <span class='description'></span>
