@@ -135,7 +135,7 @@
   <form class='layerSqlite'><ul class='form'>
     <li class='expand text'>
       <h2>SQLite</h2>
-      <div class='description'>SQLITE</div>
+      <div class='description'>Use a table or query against an SQLite database file.</div>
     </li>
     <li>
       <label for='id'><span class='required'>*</span> ID</label>
@@ -171,9 +171,6 @@
     <li>
       <label for='srs-name'>SRS</label>
       <select name='srs-name'>
-        <option value='autodetect' <% if (srsName() === 'autodetect') { %>selected='selected'<% } %>>
-          Autodetect
-        </option>
         <option value='900913' <% if (srsName() === '900913') { %>selected='selected'<% } %>>
           900913
         </option>
@@ -184,8 +181,8 @@
           Custom
         </option>
       </select>
-      <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='Autodetect' />
-      <small class='description'>SRS projection string for this datasource. TileMill can often autodetect this value.</small>
+      <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='<%=SRS["900913"]%>' />
+      <small class='description'>SRS projection string for this datasource.</small>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />

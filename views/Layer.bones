@@ -272,14 +272,15 @@ view.prototype.savePostGIS = function() {
 view.prototype.saveSqlite = function() {
     $(this.el).addClass('loading');
     var attr = {
-        'id':    this.$('input[name=id]').val(),
-        'name':  this.$('input[name=id]').val(),
-        'srs':   this.$('input[name=srs]').val(),
-        'class': this.$('input[name=class]').val(),
+        'id':    this.$('form.layerSqlite input[name=id]').val(),
+        'name':  this.$('form.layerSqlite input[name=id]').val(),
+        'srs':   this.$('form.layerSqlite input[name=srs]').val()
+            || this.model.SRS['900913'],
+        'class': this.$('form.layerSqlite input[name=class]').val(),
         'Datasource': {
-            'file': this.$('input[name=file]').val(),
-            'table':    this.$('textarea[name=table]', this.el).val(),
-            'extent':   this.$('input[name=extent]', this.el).val(),
+            'file': this.$('form.layerSqlite input[name=file]').val(),
+            'table':    this.$('form.layerSqlite textarea[name=table]', this.el).val(),
+            'extent':   this.$('form.layerSqlite input[name=extent]', this.el).val(),
             'type': 'sqlite'
         }
     };
