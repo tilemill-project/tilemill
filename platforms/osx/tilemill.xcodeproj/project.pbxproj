@@ -25,7 +25,6 @@
 		D7CFB14E13E6F5450033DFFD /* controllers in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13B13E6F5450033DFFD /* controllers */; };
 		D7CFB14F13E6F5450033DFFD /* examples in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13C13E6F5450033DFFD /* examples */; };
 		D7CFB15013E6F5450033DFFD /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13D13E6F5450033DFFD /* index.html */; };
-		D7CFB15113E6F5450033DFFD /* index.js in Sources */ = {isa = PBXBuildFile; fileRef = D7CFB13E13E6F5450033DFFD /* index.js */; };
 		D7CFB15213E6F5450033DFFD /* lib in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13F13E6F5450033DFFD /* lib */; };
 		D7CFB15313E6F5450033DFFD /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14013E6F5450033DFFD /* LICENSE.md */; };
 		D7CFB15413E6F5450033DFFD /* models in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14113E6F5450033DFFD /* models */; };
@@ -332,7 +331,6 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				35D15E0E13D25D9D003244AE /* TileMillChildProcess.m in Sources */,
 				35B36EA313D260C6006C72ED /* TileMillAppDelegate.m in Sources */,
-				D7CFB15113E6F5450033DFFD /* index.js in Sources */,
 				D745084313E889230020D8CD /* TileMillMainWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
