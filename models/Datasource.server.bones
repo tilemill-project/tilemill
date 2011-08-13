@@ -40,7 +40,11 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             if (options.features) {
                 var featureset = source.featureset();
                 for (var i = 0, feat; i < 1000 && (feat = featureset.next(true)); i++) {
-                    features.push(feat.attributes());
+                    var attributes = {};
+                    _(feat.attributes()).each(function (attr, key) {
+                        attributes[key.replace(/['"]/g,'')] = attr;
+                    });
+                    features.push(attributes);
                 }
             }
 
