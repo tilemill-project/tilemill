@@ -3,7 +3,7 @@
 //  MBTilesQuickLook
 //
 //  Created by Käfer Konstantin on 04.08.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Development Seed, Inc. All rights reserved.
 //
 
 #import "MBTiles.h"
