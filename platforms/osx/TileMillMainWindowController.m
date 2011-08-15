@@ -12,8 +12,13 @@
     return self;
 }
 
+- (void)awakeFromNib
+{
+    [[self window] center];
+}
+
 - (IBAction)openBrowser:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8889/"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]]];
 }
 
 @end

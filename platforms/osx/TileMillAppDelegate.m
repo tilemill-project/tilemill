@@ -1,19 +1,14 @@
 
 #import "TileMillAppDelegate.h"
 #import "TileMillMainWindowController.h"
+#import "TileMillPrefsWindowController.h"
 
 @implementation TileMillAppDelegate
 
--(void)awakeFromNib {
-    logPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"] retain];
-    mainWindow = [[TileMillMainWindowController alloc] init];
-    [mainWindow showWindow:nil];
-    mainWindow.childRunning = NO;
-    [self startTileMill];
-}
-
 - (void)dealloc {
-    [mainWindow release];
+    [mainWindowController release];
+    [logPath release];
+    [prefsController release];
     [super dealloc];
 }
 
@@ -44,6 +39,22 @@
     [searchTask startProcess];
 }
 
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+    // eventually we should consolidate these defaults between Node & OS X
+    // see https://github.com/mapbox/tilemill/issues/622
+    //
+    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                [NSNumber numberWithInt:8889],                                    @"serverPort",
+                                                                [NSHomeDirectory() stringByAppendingString:@"/Documents/MapBox"], @"filesPath", 
+                                                                nil]];
+    
+    logPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"] retain];
+    [self showMainWindow:self];
+    mainWindowController.childRunning = YES; //NO;
+    [self startTileMill];
+}
+
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)tilemillAppDelegate {
     return YES;
 }
@@ -55,6 +66,14 @@
     [searchTask stopProcess];
     [searchTask release];
     searchTask = nil;
+}
+
+- (IBAction)showMainWindow:(id)sender
+{
+    if ( ! mainWindowController)
+        mainWindowController = [[TileMillMainWindowController alloc] init];
+    
+    [mainWindowController showWindow:self];
 }
 
 - (void)writeToLog:(NSString *)message {
@@ -74,12 +93,12 @@
 
 - (IBAction)openDirectory:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile: [NSString stringWithFormat:@"%@/Documents/MapBox", NSHomeDirectory()]];
+    [[NSWorkspace sharedWorkspace] openFile:[[NSUserDefaults standardUserDefaults] stringForKey:@"filesPath"]];
 }
 
 - (IBAction)openHelp:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:8889/#!/manual"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]]];
 }
 
 - (IBAction)openDiscussions:(id)sender
@@ -97,6 +116,14 @@
     [[NSWorkspace sharedWorkspace] openFile:logPath withApplication:@"Console" andDeactivate:YES];
 }
 
+- (IBAction)openPreferences:(id)sender
+{
+    if ( ! prefsController)
+        prefsController = [[TileMillPrefsWindowController alloc] initWithWindowNibName:@"TileMillPrefsWindow"];
+    
+    [prefsController showWindow:self];
+}
+
 #pragma ChildProcessDelegate Methods
 
 - (void)childProcess:(TileMillChildProcess *)process didSendOutput:(NSString *)output
@@ -111,7 +138,7 @@
 
 - (void)childProcessDidFinish:(TileMillChildProcess *)process
 {
-    mainWindow.childRunning = NO;
+    mainWindowController.childRunning = NO;
     NSLog(@"Finished");
     if (!appTerminating) {
         // We're not shutting down so the app crashed. Restart it.
@@ -122,7 +149,7 @@
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
-    mainWindow.childRunning = YES;
+    mainWindowController.childRunning = YES;
 }
 
 @end
