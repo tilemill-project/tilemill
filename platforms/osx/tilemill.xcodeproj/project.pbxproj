@@ -154,7 +154,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */,
 			);
 			name = tilemill;
 			sourceTree = "<group>";
@@ -178,6 +177,7 @@
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 				D745084513E894010020D8CD /* TileMillMainWindow.xib */,
+				35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
