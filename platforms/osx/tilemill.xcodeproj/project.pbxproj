@@ -38,6 +38,7 @@
 		D7CFB15D13E6F76C0033DFFD /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13E13E6F5450033DFFD /* index.js */; };
 		DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6F0D5C13F981140055EFAE /* Cocoa.framework */; };
 		DD6F0D6113F982770055EFAE /* MBTiles.qlgenerator in Copy QuickLook Plugin */ = {isa = PBXBuildFile; fileRef = DD6F0D4F13F97F120055EFAE /* MBTiles.qlgenerator */; };
+		DD6F0DBE13F989550055EFAE /* MBTiles.mdimporter in Copy Spotlight Importer */ = {isa = PBXBuildFile; fileRef = DD6F0DBA13F989220055EFAE /* MBTiles.mdimporter */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,20 @@
 			remoteGlobalIDString = 5504854213EAF31D0001DFFD;
 			remoteInfo = MBTilesQuickLook;
 		};
+		DD6F0DB913F989220055EFAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD6F0DB213F989210055EFAE /* MBTiles Spotlight Importer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D576316048677EA00EA77CD;
+			remoteInfo = "MBTiles Spotlight Importer";
+		};
+		DD6F0DBB13F9892F0055EFAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD6F0DB213F989210055EFAE /* MBTiles Spotlight Importer.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
+			remoteInfo = "MBTiles Spotlight Importer";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -67,6 +82,17 @@
 				DD6F0D6113F982770055EFAE /* MBTiles.qlgenerator in Copy QuickLook Plugin */,
 			);
 			name = "Copy QuickLook Plugin";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD6F0DBD13F989380055EFAE /* Copy Spotlight Importer */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/Spotlight;
+			dstSubfolderSpec = 1;
+			files = (
+				DD6F0DBE13F989550055EFAE /* MBTiles.mdimporter in Copy Spotlight Importer */,
+			);
+			name = "Copy Spotlight Importer";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -110,6 +136,7 @@
 		D7CFB14913E6F5450033DFFD /* views */ = {isa = PBXFileReference; lastKnownFileType = folder; name = views; path = ../../views; sourceTree = "<group>"; };
 		DD6F0D4713F97F120055EFAE /* MBTilesQuickLook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MBTilesQuickLook.xcodeproj; sourceTree = "<group>"; };
 		DD6F0D5C13F981140055EFAE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		DD6F0DB213F989210055EFAE /* MBTiles Spotlight Importer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "MBTiles Spotlight Importer.xcodeproj"; path = "MBTiles Spotlight Importer/MBTiles Spotlight Importer.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,6 +257,7 @@
 			children = (
 				D7CFB13513E6F4EA0033DFFD /* tilemill */,
 				557C0F0213EC886B004FB40C /* QuickLook Plugin */,
+				DD6F0DB113F989100055EFAE /* Spotlight Importer */,
 			);
 			name = Subprojects;
 			sourceTree = "<group>";
@@ -238,6 +266,22 @@
 			isa = PBXGroup;
 			children = (
 				DD6F0D4F13F97F120055EFAE /* MBTiles.qlgenerator */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DD6F0DB113F989100055EFAE /* Spotlight Importer */ = {
+			isa = PBXGroup;
+			children = (
+				DD6F0DB213F989210055EFAE /* MBTiles Spotlight Importer.xcodeproj */,
+			);
+			name = "Spotlight Importer";
+			sourceTree = "<group>";
+		};
+		DD6F0DB313F989210055EFAE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD6F0DBA13F989220055EFAE /* MBTiles.mdimporter */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -253,12 +297,14 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				D7CFB18F13E852550033DFFD /* Copy Node Executable */,
 				DD6F0D5E13F981820055EFAE /* Copy QuickLook Plugin */,
+				DD6F0DBD13F989380055EFAE /* Copy Spotlight Importer */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DD6F0DBC13F9892F0055EFAE /* PBXTargetDependency */,
 				DD6F0D6013F981A50055EFAE /* PBXTargetDependency */,
 			);
 			name = tilemill;
@@ -290,6 +336,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = DD6F0DB313F989210055EFAE /* Products */;
+					ProjectRef = DD6F0DB213F989210055EFAE /* MBTiles Spotlight Importer.xcodeproj */;
+				},
+				{
 					ProductGroup = DD6F0D4813F97F120055EFAE /* Products */;
 					ProjectRef = DD6F0D4713F97F120055EFAE /* MBTilesQuickLook.xcodeproj */;
 				},
@@ -307,6 +357,13 @@
 			fileType = wrapper.cfbundle;
 			path = MBTiles.qlgenerator;
 			remoteRef = DD6F0D4E13F97F120055EFAE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD6F0DBA13F989220055EFAE /* MBTiles.mdimporter */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MBTiles.mdimporter;
+			remoteRef = DD6F0DB913F989220055EFAE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -398,6 +455,11 @@
 			isa = PBXTargetDependency;
 			name = MBTilesQuickLook;
 			targetProxy = DD6F0D5F13F981A50055EFAE /* PBXContainerItemProxy */;
+		};
+		DD6F0DBC13F9892F0055EFAE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "MBTiles Spotlight Importer";
+			targetProxy = DD6F0DBB13F9892F0055EFAE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
