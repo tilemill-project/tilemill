@@ -1,0 +1,3 @@
+[submodule "platforms/osx/Externals/FMDB"]
+	path = platforms/osx/Externals/FMDB
+	url = https://github.com/ccgus/fmdb.git
