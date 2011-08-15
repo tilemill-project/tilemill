@@ -200,7 +200,7 @@
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSMenuItem" id="255442977">
 									<reference key="NSMenu" ref="898168585"/>
-									<string key="NSTitle">Open TileMill Directory</string>
+									<string key="NSTitle">Open Documents Folder</string>
 									<string key="NSKeyEquiv">o</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
