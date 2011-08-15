@@ -37,6 +37,7 @@
 		D7CFB15C13E6F5450033DFFD /* views in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14913E6F5450033DFFD /* views */; };
 		D7CFB15D13E6F76C0033DFFD /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13E13E6F5450033DFFD /* index.js */; };
 		DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6F0D5C13F981140055EFAE /* Cocoa.framework */; };
+		DD6F0D6113F982770055EFAE /* MBTiles.qlgenerator in Copy QuickLook Plugin */ = {isa = PBXBuildFile; fileRef = DD6F0D4F13F97F120055EFAE /* MBTiles.qlgenerator */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +48,28 @@
 			remoteGlobalIDString = 5504854313EAF31D0001DFFD;
 			remoteInfo = MBTilesQuickLook;
 		};
+		DD6F0D5F13F981A50055EFAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD6F0D4713F97F120055EFAE /* MBTilesQuickLook.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5504854213EAF31D0001DFFD;
+			remoteInfo = MBTilesQuickLook;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DD6F0D5E13F981820055EFAE /* Copy QuickLook Plugin */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/QuickLook;
+			dstSubfolderSpec = 1;
+			files = (
+				DD6F0D6113F982770055EFAE /* MBTiles.qlgenerator in Copy QuickLook Plugin */,
+			);
+			name = "Copy QuickLook Plugin";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -230,12 +252,14 @@
 				D745083413E8686D0020D8CD /* Update Bundle Version */,
 				8D1107290486CEB800E47090 /* Resources */,
 				D7CFB18F13E852550033DFFD /* Copy Node Executable */,
+				DD6F0D5E13F981820055EFAE /* Copy QuickLook Plugin */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DD6F0D6013F981A50055EFAE /* PBXTargetDependency */,
 			);
 			name = tilemill;
 			productInstallPath = "$(HOME)/Applications";
@@ -368,6 +392,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DD6F0D6013F981A50055EFAE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MBTilesQuickLook;
+			targetProxy = DD6F0D5F13F981A50055EFAE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
