@@ -36,6 +36,7 @@
 		D7CFB15B13E6F5450033DFFD /* test in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14813E6F5450033DFFD /* test */; };
 		D7CFB15C13E6F5450033DFFD /* views in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14913E6F5450033DFFD /* views */; };
 		D7CFB15D13E6F76C0033DFFD /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13E13E6F5450033DFFD /* index.js */; };
+		DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6F0D5C13F981140055EFAE /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +51,6 @@
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		256AC3F00F4B6AF500CF3369 /* tilemill_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tilemill_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -87,6 +87,7 @@
 		D7CFB14813E6F5450033DFFD /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; name = test; path = ../../test; sourceTree = "<group>"; };
 		D7CFB14913E6F5450033DFFD /* views */ = {isa = PBXFileReference; lastKnownFileType = folder; name = views; path = ../../views; sourceTree = "<group>"; };
 		DD6F0D4713F97F120055EFAE /* MBTilesQuickLook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MBTilesQuickLook.xcodeproj; sourceTree = "<group>"; };
+		DD6F0D5C13F981140055EFAE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,7 +163,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				DD6F0D5C13F981140055EFAE /* Cocoa.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
