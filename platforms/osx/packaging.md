@@ -110,6 +110,9 @@ Search for others with:
     cd src/mapnik-trunk
     sudo make uninstall
 
+NOTE: you may also have to remove any globally installed boost versions otherwise
+you may hit segfaults in node-mapnik later on.
+
 
 ## Set up Mapnik SDK
 
@@ -159,7 +162,7 @@ First we will rebuild node-sqlite3.
 Configure:
 
     make clean
-    export CXXFLAGS="-I$MAPNIK_ROOT/include $CORE_CXXFLAGS"
+    export CXXFLAGS="-isystem $MAPNIK_ROOT/include $CORE_CXXFLAGS"
     export LINKFLAGS="-L$MAPNIK_ROOT/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
     ./configure
 
@@ -178,51 +181,49 @@ Then rebuild:
 ## Rebuild node-mapnik
 
 
-Configure:
+Move to the node-mapnik directory:
 
     cd ../../../mapnik/
+
+
+Then rebuild like:
+
     make clean
+    export CXXFLAGS="-isystem $MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
+    export LINKFLAGS="-L$MAPNIK_ROOT/lib -L$MAPNIK_ROOT/usr/local/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
     export MAPNIK_INPUT_PLUGINS="path.join(__dirname, 'input')"
     export MAPNIK_FONTS="path.join(__dirname, 'fonts')"
-
-If mapnik does not have cairo support:
-
-    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/include/freetype2 -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
-    export LINKFLAGS="-L$MAPNIK_ROOT/lib -lboost_system -lboost_thread -lboost_regex -lboost_filesystem -lfreetype -lproj -lpng12 -ljpeg -lltdl -lz -lxml2 -licucore -Wl,-search_paths_first -L$MAPNIK_ROOT/usr/local/lib $CORE_LINKFLAGS"
-    
-
-If mapnik has cairo support (-lcairo in `mapnik-config --libs`) instead do:
-
-
-    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/include/freetype2 -I$MAPNIK_ROOT/include/cairo -I$MAPNIK_ROOT/include/cairomm-1.0 -I$MAPNIK_ROOT/include/fontconfig -I$MAPNIK_ROOT/include/sigc++-2.0 -I$MAPNIK_ROOT/lib/sigc++-2.0/include  -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
-    export LINKFLAGS="-L$MAPNIK_ROOT/lib -lboost_system -lboost_thread -lboost_regex -lboost_filesystem -lfreetype -lproj -lpng -ljpeg -lcairomm-1.0 -lcairo -lpixman-1 -lsigc-2.0 -lfontconfig -lexpat -liconv -lltdl -lz -lxml2 -licucore -lexpat -Wl,-search_paths_first -L$MAPNIK_ROOT/usr/local/lib $CORE_LINKFLAGS"
-
-
-Then build:
-
     ./configure
     node-waf -v build
+    SONAME=2
+    cp $MAPNIK_ROOT/usr/local/lib/libmapnik2.dylib lib/libmapnik$SONAME.dylib
+    install_name_tool -id libmapnik$SONAME.dylib lib/libmapnik2.dylib
+    install_name_tool -change /usr/local/lib/libmapnik2.dylib @loader_path/libmapnik$SONAME.dylib lib/_mapnik.node
 
-    # confirm no linking to libmapnik2.dylib and only links to libs in /usr/lib
-    # avoiding linking to libmapnik2 may require removing /usr/local/lib/libmapnik2.dylib 
-    # and /usr/local/include/mapnik if they exist
+    mkdir -p lib/fonts
+    rm lib/fonts/*
+    cp -R $MAPNIK_ROOT/usr/local/lib/mapnik2/fonts lib/
+    
+    mkdir -p lib/input
+    rm lib/input/*.input
+    cp $MAPNIK_ROOT/usr/local/lib/mapnik2/input/*.input lib/input/
+    for i in $(ls lib/input/*input);
+    do install_name_tool -change /usr/local/lib/libmapnik2.dylib @loader_path/../libmapnik$SONAME.dylib $i;
+    done;
+
+
+Run the tests:
+
+    make test
+
+
+Check a few things:
+
     otool -L lib/_mapnik.node
     file lib/_mapnik.node
 
-
-Now set up plugins:
-
-    mkdir -p lib/input
-    cp $MAPNIK_ROOT/usr/local/lib/mapnik2/input/*.input lib/input/
-
     # check plugins: should return nothing
     otool -L lib/input/*input | grep /usr/local
-
-
-And set up fonts:
-
-    mkdir -p lib/fonts
-    cp -R $MAPNIK_ROOT/usr/local/lib/mapnik2/fonts lib/
 
 
 Now go back to the main tilemill directory:
@@ -251,5 +252,11 @@ Now go build and package the tilemill app:
 
     cd platforms/osx
     make clean
-    make run # test
+    make run # test and check version
     make zip # package
+
+Then rename the TileMill.zip to TileMill-$VER.zip. For example:
+
+   mv TileMill.zip TileMill-0.4.2.zip
+
+Upload to https://github.com/mapbox/tilemill/downloads
