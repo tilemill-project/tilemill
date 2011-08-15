@@ -1,0 +1,194 @@
+{
+  "bounds": [
+    -180,
+    -85.05112877980659,
+    180,
+    85.05112877980659
+  ],
+  "center": [
+    0,
+    20,
+    3
+  ],
+  "format": "png",
+  "interactivity": {
+    "layer": "country-interaction",
+    "template_teaser": "<img src=\"data:image/png;base64,[flagpng]\" /><br />\n<strong>[ADMIN]</strong>",
+    "template_full": "",
+    "template_location": "",
+    "fields": [
+      "flagpng",
+      "ADMIN"
+    ]
+  },
+  "minzoom": 0,
+  "maxzoom": 8,
+  "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+  "Stylesheet": [
+    "style.mss",
+    "labels.mss",
+    "rainbow.mss"
+  ],
+  "Layer": [
+    {
+      "id": "country",
+      "name": "country",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-0-countries.zip",
+        "id": "country",
+        "srs": "",
+        "project": "geography-class"
+      },
+      "geometry": "polygon"
+    },
+    {
+      "id": "rivers",
+      "name": "rivers",
+      "srs": "",
+      "class": "",
+      "geometry": "linestring",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-rivers-europe.zip",
+        "id": "rivers",
+        "srs": "",
+        "project": "geography-class"
+      }
+    },
+    {
+      "id": "lakes",
+      "name": "lakes",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-lakes.zip",
+        "id": "lakes",
+        "srs": "",
+        "project": "geography-class"
+      },
+      "geometry": "polygon"
+    },
+    {
+      "id": "state",
+      "name": "state",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-1-states-provinces-lines-shp.zip",
+        "id": "state",
+        "srs": "",
+        "project": "geography-class"
+      },
+      "geometry": "linestring"
+    },
+    {
+      "id": "admin-0-line-disputed",
+      "name": "admin-0-line-disputed",
+      "srs": "",
+      "class": "border disputed",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-0-boundary-breakaway-disputed-areas.zip",
+        "id": "admin-0-line-disputed",
+        "srs": "",
+        "project": "geography-class"
+      },
+      "geometry": "linestring"
+    },
+    {
+      "id": "admin-0-line-land",
+      "name": "admin-0-line-land",
+      "srs": "",
+      "class": "border country",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-0-boundary-lines-land.zip",
+        "id": "admin-0-line-land",
+        "srs": "",
+        "project": "geography-class"
+      },
+      "geometry": "linestring"
+    },
+    {
+      "id": "glacier",
+      "name": "glacier",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-glaciated-areas.zip",
+        "id": "glacier",
+        "srs": "",
+        "project": "geography-class"
+      },
+      "geometry": "polygon"
+    },
+    {
+      "id": "geo-lines",
+      "name": "geo-lines",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-geographic-lines.zip",
+        "id": "geo-lines",
+        "srs": "",
+        "project": "geography-class"
+      },
+      "geometry": "linestring"
+    },
+    {
+      "id": "country-name",
+      "name": "country-name",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-0-country-points.zip",
+        "id": "country-name",
+        "srs": "",
+        "project": "geography-class"
+      },
+      "geometry": "point"
+    },
+    {
+      "id": "cities",
+      "name": "cities",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-populated-places-simple.zip",
+        "id": "cities",
+        "srs": "",
+        "project": "geography-class"
+      },
+      "geometry": "point"
+    },
+    {
+      "id": "paper",
+      "name": "paper",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "class": "",
+      "Datasource": {
+        "file": "layers/world_extent_wgs84.geojson",
+        "id": "paper",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "project": "geography-class"
+      },
+      "geometry": "polygon"
+    },
+    {
+      "id": "country-interaction",
+      "name": "country-interaction",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "class": "",
+      "Datasource": {
+        "file": "layers/country-interaction.geojson",
+        "id": "country-interaction",
+        "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+        "project": "geography-class"
+      },
+      "geometry": "polygon"
+    }
+  ],
+  "legend": "<ul>\n<li><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE1ha2kgSWNvbiBTZXT5lOECAAAAF3RFWHRBdXRob3IARGV2ZWxvcG1lbnQgU2VlZInFvFUAAAAmdEVYdFNvdXJjZQBodHRwOi8vd3d3LmRldmVsb3BtZW50c2VlZC5vcmcvEQGOfQAAAKxJREFUGFd1jrEJwkAUhiNYBVc4cAVnCDhBTkS0sFCQaOEEprWOC1jGBa7MGreAG9jH/4O7cAQtPvjf/747Xtb3fZYwETuxDXnYpRIsmqZ5AvmfOBVXY8wbyKEbxJW4QV3XbaYKyLEXG8RjWZZdFMawk7NHnInqlxykCifeN3fOPcYiHTucKBa8zvP8o9teQA4/Fql4ttZ23vu78hLIdMqXVLTiJEyYgXwQa+YvjuH+50mVVl0AAAAASUVORK5CYII=\" /> country capital city</li>\n</ul>",
+  "name": "Geography Class",
+  "description": "",
+  "attribution": ""
+}

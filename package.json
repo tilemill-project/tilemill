@@ -1,0 +1,54 @@
+{
+    "name": "tilemill",
+    "version": "0.4.1",
+    "main": "./tilemill.js",
+    "description": "A modern map design studio.",
+    "keywords": ["map", "design", "cartography"],
+    "url": "http://github.com/developmentseed/tilemill",
+    "repositories": [{
+        "type": "git",
+        "url": "git://github.com/developmentseed/tilemill.git"
+    }],
+    "contributors": [
+        "Tom MacWright <tmcw>",
+        "Konstantin Kaefer <kkaefer>",
+        "Will White <willwhite>",
+        "Dane Springmeyer <springmeyer>",
+        "Dmitri Gaskin <dmitrig01>",
+        "AJ Ashton <ajashton>",
+        "Tristen Brown <tristen>",
+        "Young Hahn <yhahn>"
+    ],
+    "licenses": [{ "type": "BSD" }],
+    "dependencies": {
+        "backbone-dirty": "1.1.x",
+        "bones": "1.3.x",
+        "chrono": "~1.0.1",
+        "JSV": "3.5.x",
+        "mbtiles": "~0.1.2",
+        "sax": "0.1.x",
+        "request": "1.9.x",
+        "step": "0.0.x",
+        "tilelive": "~4.0.3",
+        "mapnik": "~0.5.3",
+        "millstone": "~0.0.7",
+        "sphericalmercator": "~1.0.1",
+        "tilelive-mapnik": "~0.2.0",
+        "underscore": "1.1.x",
+        "carto": "~0.2.1",
+        "wax": "~3.0.4",
+        "node-markdown": "0.1.0"
+    },
+    "devDependencies": {
+        "expresso" : "0.8.x",
+        "jshint": "0.2.x"
+    },
+    "scripts": {
+        "start": "./index.js",
+        "test": "expresso"
+    },
+    "bin": {
+        "tilemill": "./index.js"
+    },
+    "engines": { "node": "0.4.x" }
+}

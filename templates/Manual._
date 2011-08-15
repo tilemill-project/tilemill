@@ -1,0 +1,15 @@
+<div class='manual'>
+
+  <div class='bleed'><div class='header'>
+    <div class='breadcrumb'>
+      <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
+      <a href='/#!/manual'>Manual</a>
+    </div>
+    <div class='actions'>
+    </div>
+  </div></div>
+
+  <div class='navigation'><ul></ul></div>
+  <pre class='md prose'><%= get('data') %></pre>
+
+</div>

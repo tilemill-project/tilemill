@@ -1,0 +1,35 @@
+<div class='features fill'>
+<table>
+  <thead>
+    <tr>
+      <% _(fields).each(function (field, name) { %>
+        <th><a title='<%= field.type %>'><%= name %></a></th>
+      <% }); %>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class='min'>
+      <% _(fields).each(function (field) { %>
+        <% if (field.type === 'Number') { %>
+        <td class='<%= field.type %>'><span class='description'>min</span> <%= field.min %></td>
+        <% } else { %>
+        <td class='<%= field.type %>'><%= field.min %> <span class='description'>min</span></td>
+        <% } %>
+      <% }); %>
+    </tr>
+    <tr class='max'>
+      <% _(fields).each(function (field) { %>
+        <% if (field.type === 'Number') { %>
+        <td class='<%= field.type %>'><span class='description'>max</span> <%= field.max %></td>
+        <% } else { %>
+        <td class='<%= field.type %>'><%= field.max %> <span class='description'>max</span></td>
+        <% } %>
+      <% }); %>
+    </tr>
+    <%= this['DatasourceRows'](obj) %>
+  </tbody>
+</table>
+<% if (more) { %>
+<div class='buttons'><a class='showall button' href='#'><span class='icon reverse plus labeled'></span> Show all</a></div>
+<% } %>
+</div>

@@ -1,0 +1,9 @@
+<div class='error'>
+  <div class='bleed'><div class='header'>
+    <div class='breadcrumb'>
+      <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
+    </div>
+  </div></div>
+  <div class='empty'><%= content.toString() %></div>
+</div>
+

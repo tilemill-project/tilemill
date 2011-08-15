@@ -1,0 +1,39 @@
+<ul class='exports fill'>
+
+<% if (!collection.length) { %>
+<li><div class='empty'>No exports found.</div></li>
+<% } %>
+
+<% collection.each(function(m) { %>
+<li id='export-<%=m.id%>' class='<%= m.get('status') %>'>
+  <span class='icon filetype <%=m.get('format')%>'>
+    <span class='icon <%=m.get('status')%>'><%=m.get('status')%></span>
+  </span>
+  <h2><%= m.get('filename') %></h2>
+  <div class='description'>
+    Started <%= (new Date(m.get('created'))).format('F j h:ia') %>
+    <% if (m.get('updated')) { %>
+    &mdash; <%= obj.time(m.get('updated') - m.get('created')) %>
+    <% } %>
+  </div>
+  <div class='status'>
+    <% if (m.get('status') === 'processing' || m.get('status') === 'waiting') { %>
+      <div class='progress'><div style='width:<%= Math.round(m.get('progress') * 100) %>%'class='bar'></div></div>
+      <%= obj.time(m.get('remaining')) %> remaining
+    <% } %>
+    <% if (m.get('status') === 'complete') { %>
+      <div class='joined'>
+      <% if (m.get('format') === 'mbtiles') { %>
+      <a class='button preview popup' href='#<%=m.get('filename')%>'><span class='icon reverse labeled eye'></span> Preview</a>
+      <% } %>
+      <a class='button' href='/export/download/<%=m.get('filename')%>'><span class='icon reverse labeled export'></span> Download</a>
+      </div>
+    <% } %>
+    <% if (m.get('status') === 'error') { %>
+      <%=m.get('error')%>
+    <% } %>
+  </div>
+  <a href='#<%=m.id%>' class='icon delete'>Delete</a>
+</li>
+<% }); %>
+</ul>

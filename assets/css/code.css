@@ -1,0 +1,39 @@
+@font-face {
+  font-family:DroidSansMono;
+  src:url('../fonts/DroidSansMono.ttf');
+  }
+
+div.CodeMirror {
+  height:100%;
+  background:#fff;
+  color:#222;
+  padding:0px;
+  margin:0px;
+  font:12px/18px DroidSansMono,monospace;
+  }
+
+div.CodeMirror-lines,
+div.CodeMirror-gutter-text { padding:5px; }
+
+div.CodeMirror-gutter-text pre.error {
+  background:#fe8;
+  color:#222;
+  padding:0px 5px;
+  margin:0px -5px;
+  cursor:pointer;
+  }
+
+span.cm-carto-variable           { color:#708; }
+span.cm-carto-color-variable     { color:#B60049; }
+span.cm-carto-unit               { color:#281; }
+span.cm-carto-value              { color:#708; }
+span.cm-carto-valid-value        { color:#B60049; }
+span.cm-carto-selector           { color:#b64f90; }
+span.cm-carto-identifier         { color:#999; }
+span.cm-carto-valid-identifier   { color:#333; }
+span.cm-carto-important          { color:#03c; }
+span.cm-carto-colorcode          { color:#048; }
+span.cm-carto-punctuation        { color:#666; }
+span.cm-carto-comment            { color:#999; }
+span.cm-carto-string             { color:#8010a0; }
+span.cm-carto-filter             { color:#66475B; }

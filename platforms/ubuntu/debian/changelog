@@ -1,0 +1,23 @@
+tilemill (0.4.1-0ubuntu2) maverick; urgency=medium
+  * tilemill 0.4.1
+ -- Young Hahn <yfhahn@gmail.com>  Mon, 8 Aug 2011 11:55:00 -0400
+
+tilemill (0.4.1-0ubuntu1) natty; urgency=medium
+  * tilemill 0.4.1
+ -- Young Hahn <yfhahn@gmail.com>  Mon, 8 Aug 2011 11:55:00 -0400
+
+tilemill (0.4.0.18-0ubuntu2) maverick; urgency=medium
+  * Fix for i386 packaging.
+ -- Young Hahn <yfhahn@gmail.com>  Thu, 4 Aug 2011 17:30:00 -0400
+
+tilemill (0.4.0.18-0ubuntu1) natty; urgency=medium
+  * Fix for i386 packaging.
+ -- Young Hahn <yfhahn@gmail.com>  Thu, 4 Aug 2011 17:30:00 -0400
+
+tilemill (0.4.0.17-0ubuntu2) maverick; urgency=medium
+  * tilemill 0.4.0
+ -- Young Hahn <yfhahn@gmail.com>  Thu, 4 Aug 2011 17:30:00 -0400
+
+tilemill (0.4.0.17-0ubuntu1) natty; urgency=medium
+  * tilemill 0.4.0
+ -- Young Hahn <yfhahn@gmail.com>  Thu, 4 Aug 2011 17:30:00 -0400

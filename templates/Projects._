@@ -1,0 +1,34 @@
+<div class='projects'>
+  <div class='bleed'><div class='header'>
+    <div class='breadcrumb'>
+      <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
+    </div>
+    <div class='actions joined'>
+      <a class='popup button' href='#add'>
+        <span class='icon reverse labeled add'></span>
+        Add project
+      </a>
+      <a class='button' href='/#!/manual'>
+        <span class='icon reverse labeled reference'></span>
+        Manual
+      </a>
+    </div>
+  </div></div>
+
+  <% if (!models.length) { %>
+  <div class='empty'>No projects found.</div>
+  <% } %>
+
+  <ul>
+    <% _(models).each(function(model) { %><li>
+      <a class='thumb' href='/#!/project/<%= model.id %>'>
+        <span class='thumb-layer fill' style='background-image: url(<%= model.thumb() %>)'></span>
+        <span class='thumb-name fill-s'>
+          <%= model.get('name') || model.get('id') %>
+          <span id='<%= model.id %>' class='icon delete'>Delete</span>
+        </span>
+      </a>
+    </li><% }); %>
+  </ul>
+</div>
+

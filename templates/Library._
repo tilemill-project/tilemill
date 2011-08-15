@@ -1,0 +1,37 @@
+<div class='library'>
+<div class='toggler'><div class='libraries joined clear-block'>
+  <% if (model.id === 'favoritesPostGIS') { %>
+  <a href='#favoritesPostGIS' class='button active'><span class='icon reverse labeled star'></span>Favorites</a>
+  <% } else { %>
+  <a href='#file' class='button active'><span class='icon reverse labeled file'></span>File</a>
+  <a href='#s3' class='button'><span class='icon reverse labeled cloud'></span>MapBox</a>
+  <a href='#favoritesFile' class='button'><span class='icon reverse labeled star'></span>Favorites</a>
+  <% } %>
+</div></div>
+
+<div class='breadcrumb clearfix'>
+<% if (model.id === 'file') { %>
+  <a href='#/' class='location'>Data</a><span class='sep description'>/</span>
+<% } %>
+<% if (model.id === 's3') { %>
+  <a href='#' class='location'>mapbox-geodata</a><span class='sep description'>/</span>
+<% } %>
+<% _(breadcrumb).each(function(part) { %>
+  <a href='#<%= part %>' class='location'><%= part.split('/').pop() %></a><span class='sep description'>/</span>
+<% }); %>
+</div>
+
+<div class='assets'>
+  <% if (model.get('assets').length === 0) { %>
+  <div class='description'>No items found.</div>
+  <% } %>
+
+  <% _(model.get('assets')).each(function(asset) { %>
+  <a href='#<%= asset.location || asset.uri %>' class='<%= asset.location ? 'location' : 'uri' %>'>
+  <% if (asset.location) { %><span class='icon folder'></span><% } %>
+  <% if (asset.uri) { %><span class='icon file'></span><% } %>
+  <%= asset.name %>
+  </a>
+  <% }); %>
+</div>
+</div>

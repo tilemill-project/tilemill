@@ -1,0 +1,145 @@
+{
+  "bounds": [
+    -180,
+    -85.05112877980659,
+    180,
+    85.05112877980659
+  ],
+  "center": [
+    0,
+    20,
+    3
+  ],
+  "format": "png",
+  "interactivity": false,
+  "minzoom": 0,
+  "maxzoom": 8,
+  "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+  "Stylesheet": [
+    "style.mss",
+    "labels.mss"
+  ],
+  "Layer": [
+    {
+      "id": "land",
+      "name": "land",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-land.zip",
+        "id": "land",
+        "srs": "",
+        "project": "control-room"
+      },
+      "geometry": "polygon"
+    },
+    {
+      "id": "urban",
+      "name": "urban",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-urban-areas.zip",
+        "id": "urban",
+        "srs": "",
+        "project": "control-room"
+      },
+      "geometry": "polygon"
+    },
+    {
+      "id": "lakes",
+      "name": "lakes",
+      "srs": "",
+      "class": "water-poly",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-lakes.zip",
+        "id": "lakes",
+        "srs": "",
+        "project": "control-room"
+      },
+      "geometry": "polygon"
+    },
+    {
+      "id": "geo-lines",
+      "name": "geo-lines",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-geographic-lines.zip",
+        "id": "geo-lines",
+        "srs": "",
+        "project": "control-room"
+      },
+      "geometry": "linestring"
+    },
+    {
+      "id": "international_boundaries",
+      "name": "international_boundaries",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-0-boundary-lines-land.zip",
+        "id": "international_boundaries",
+        "srs": "",
+        "project": "control-room"
+      },
+      "geometry": "linestring"
+    },
+    {
+      "id": "map-units",
+      "name": "map-units",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-0-boundary-lines-map-units.zip",
+        "id": "map-units",
+        "srs": "",
+        "project": "control-room"
+      },
+      "geometry": "linestring"
+    },
+    {
+      "id": "subnational_boundaries",
+      "name": "subnational_boundaries",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-1-states-provinces-lines-shp.zip",
+        "id": "subnational_boundaries",
+        "srs": "",
+        "project": "control-room"
+      },
+      "geometry": "linestring"
+    },
+    {
+      "id": "country-labels",
+      "name": "country-labels",
+      "srs": "",
+      "class": "",
+      "geometry": "point",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-0-country-points.zip",
+        "id": "country-labels",
+        "srs": "",
+        "project": "control-room"
+      }
+    },
+    {
+      "id": "cities",
+      "name": "cities",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-populated-places-simple.zip",
+        "id": "cities",
+        "srs": "",
+        "project": "control-room"
+      },
+      "geometry": "point"
+    }
+  ],
+  "name": "Control Room",
+  "description": "",
+  "attribution": "",
+  "legend": ""
+}

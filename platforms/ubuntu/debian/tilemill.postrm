@@ -1,0 +1,26 @@
+#!/bin/sh -e
+
+case "$1" in
+    purge)
+		rm -f /etc/tilemill/tilemill.config
+		rm -f /etc/init/tilemill.conf
+		# Remove puppet log files
+		rm -rf /var/log/tilemill/
+		rm -rf /usr/share/tilemill/
+		;;
+    remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+                if [ -n "$(status tilemill |grep running)" ]; then
+                  /sbin/stop tilemill
+                fi
+
+        ;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+
+esac
+
+#DEBHELPER#
+
+exit 0

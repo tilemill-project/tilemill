@@ -1,0 +1,444 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
+		35B36EA313D260C6006C72ED /* TileMillAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B36EA213D260C6006C72ED /* TileMillAppDelegate.m */; };
+		35D15E0E13D25D9D003244AE /* TileMillChildProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D15E0D13D25D9D003244AE /* TileMillChildProcess.m */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		D738213C13EB4FE500639A03 /* application.icns in Resources */ = {isa = PBXBuildFile; fileRef = D738213B13EB4FE500639A03 /* application.icns */; };
+		D738213F13EB500D00639A03 /* tilemill.icns in Resources */ = {isa = PBXBuildFile; fileRef = D738213E13EB500C00639A03 /* tilemill.icns */; };
+		D745084313E889230020D8CD /* TileMillMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D745084213E889230020D8CD /* TileMillMainWindowController.m */; };
+		D745084613E894020020D8CD /* TileMillMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D745084513E894010020D8CD /* TileMillMainWindow.xib */; };
+		D745087913E9EC160020D8CD /* mbtiles.icns in Resources */ = {isa = PBXBuildFile; fileRef = D745087813E9EC160020D8CD /* mbtiles.icns */; };
+		D7CFB14A13E6F5450033DFFD /* assets in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13713E6F5450033DFFD /* assets */; };
+		D7CFB14B13E6F5450033DFFD /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13813E6F5450033DFFD /* CHANGELOG.md */; };
+		D7CFB14C13E6F5450033DFFD /* CNAME in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13913E6F5450033DFFD /* CNAME */; };
+		D7CFB14D13E6F5450033DFFD /* commands in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13A13E6F5450033DFFD /* commands */; };
+		D7CFB14E13E6F5450033DFFD /* controllers in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13B13E6F5450033DFFD /* controllers */; };
+		D7CFB14F13E6F5450033DFFD /* examples in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13C13E6F5450033DFFD /* examples */; };
+		D7CFB15013E6F5450033DFFD /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13D13E6F5450033DFFD /* index.html */; };
+		D7CFB15113E6F5450033DFFD /* index.js in Sources */ = {isa = PBXBuildFile; fileRef = D7CFB13E13E6F5450033DFFD /* index.js */; };
+		D7CFB15213E6F5450033DFFD /* lib in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13F13E6F5450033DFFD /* lib */; };
+		D7CFB15313E6F5450033DFFD /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14013E6F5450033DFFD /* LICENSE.md */; };
+		D7CFB15413E6F5450033DFFD /* models in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14113E6F5450033DFFD /* models */; };
+		D7CFB15513E6F5450033DFFD /* node_modules in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14213E6F5450033DFFD /* node_modules */; };
+		D7CFB15613E6F5450033DFFD /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14313E6F5450033DFFD /* package.json */; };
+		D7CFB15713E6F5450033DFFD /* pages in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14413E6F5450033DFFD /* pages */; };
+		D7CFB15813E6F5450033DFFD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14513E6F5450033DFFD /* README.md */; };
+		D7CFB15913E6F5450033DFFD /* servers in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14613E6F5450033DFFD /* servers */; };
+		D7CFB15A13E6F5450033DFFD /* templates in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14713E6F5450033DFFD /* templates */; };
+		D7CFB15B13E6F5450033DFFD /* test in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14813E6F5450033DFFD /* test */; };
+		D7CFB15C13E6F5450033DFFD /* views in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14913E6F5450033DFFD /* views */; };
+		D7CFB15D13E6F76C0033DFFD /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13E13E6F5450033DFFD /* index.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		256AC3F00F4B6AF500CF3369 /* tilemill_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tilemill_Prefix.pch; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		35B36EA113D260C6006C72ED /* TileMillAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillAppDelegate.h; sourceTree = "<group>"; };
+		35B36EA213D260C6006C72ED /* TileMillAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillAppDelegate.m; sourceTree = "<group>"; };
+		35D15E0C13D25D9D003244AE /* TileMillChildProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillChildProcess.h; sourceTree = "<group>"; };
+		35D15E0D13D25D9D003244AE /* TileMillChildProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillChildProcess.m; sourceTree = "<group>"; };
+		35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tilemill.xcconfig; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* tilemill-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "tilemill-Info.plist"; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* TileMill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TileMill.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D738213B13EB4FE500639A03 /* application.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = application.icns; sourceTree = "<group>"; };
+		D738213E13EB500C00639A03 /* tilemill.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = tilemill.icns; sourceTree = "<group>"; };
+		D745084113E889220020D8CD /* TileMillMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillMainWindowController.h; sourceTree = "<group>"; };
+		D745084213E889230020D8CD /* TileMillMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillMainWindowController.m; sourceTree = "<group>"; };
+		D745084513E894010020D8CD /* TileMillMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileMillMainWindow.xib; sourceTree = "<group>"; };
+		D745087813E9EC160020D8CD /* mbtiles.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = mbtiles.icns; sourceTree = "<group>"; };
+		D7CFB13713E6F5450033DFFD /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../assets; sourceTree = "<group>"; };
+		D7CFB13813E6F5450033DFFD /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CHANGELOG.md; path = ../../CHANGELOG.md; sourceTree = "<group>"; };
+		D7CFB13913E6F5450033DFFD /* CNAME */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CNAME; path = ../../CNAME; sourceTree = "<group>"; };
+		D7CFB13A13E6F5450033DFFD /* commands */ = {isa = PBXFileReference; lastKnownFileType = folder; name = commands; path = ../../commands; sourceTree = "<group>"; };
+		D7CFB13B13E6F5450033DFFD /* controllers */ = {isa = PBXFileReference; lastKnownFileType = folder; name = controllers; path = ../../controllers; sourceTree = "<group>"; };
+		D7CFB13C13E6F5450033DFFD /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; name = examples; path = ../../examples; sourceTree = "<group>"; };
+		D7CFB13D13E6F5450033DFFD /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../index.html; sourceTree = "<group>"; };
+		D7CFB13E13E6F5450033DFFD /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = index.js; path = ../../index.js; sourceTree = "<group>"; };
+		D7CFB13F13E6F5450033DFFD /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = ../../lib; sourceTree = "<group>"; };
+		D7CFB14013E6F5450033DFFD /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.md; path = ../../LICENSE.md; sourceTree = "<group>"; };
+		D7CFB14113E6F5450033DFFD /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; name = models; path = ../../models; sourceTree = "<group>"; };
+		D7CFB14213E6F5450033DFFD /* node_modules */ = {isa = PBXFileReference; lastKnownFileType = folder; name = node_modules; path = ../../node_modules; sourceTree = "<group>"; };
+		D7CFB14313E6F5450033DFFD /* package.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = package.json; path = ../../package.json; sourceTree = "<group>"; };
+		D7CFB14413E6F5450033DFFD /* pages */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pages; path = ../../pages; sourceTree = "<group>"; };
+		D7CFB14513E6F5450033DFFD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
+		D7CFB14613E6F5450033DFFD /* servers */ = {isa = PBXFileReference; lastKnownFileType = folder; name = servers; path = ../../servers; sourceTree = "<group>"; };
+		D7CFB14713E6F5450033DFFD /* templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = templates; path = ../../templates; sourceTree = "<group>"; };
+		D7CFB14813E6F5450033DFFD /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; name = test; path = ../../test; sourceTree = "<group>"; };
+		D7CFB14913E6F5450033DFFD /* views */ = {isa = PBXFileReference; lastKnownFileType = folder; name = views; path = ../../views; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				35B36EA113D260C6006C72ED /* TileMillAppDelegate.h */,
+				35B36EA213D260C6006C72ED /* TileMillAppDelegate.m */,
+				35D15E0C13D25D9D003244AE /* TileMillChildProcess.h */,
+				35D15E0D13D25D9D003244AE /* TileMillChildProcess.m */,
+				D745084113E889220020D8CD /* TileMillMainWindowController.h */,
+				D745084213E889230020D8CD /* TileMillMainWindowController.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* TileMill.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* tilemill */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+				35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */,
+			);
+			name = tilemill;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				256AC3F00F4B6AF500CF3369 /* tilemill_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D7CFB13513E6F4EA0033DFFD /* tilemill */,
+				D738213B13EB4FE500639A03 /* application.icns */,
+				D738213E13EB500C00639A03 /* tilemill.icns */,
+				D745087813E9EC160020D8CD /* mbtiles.icns */,
+				8D1107310486CEB800E47090 /* tilemill-Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+				D745084513E894010020D8CD /* TileMillMainWindow.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D7CFB13513E6F4EA0033DFFD /* tilemill */ = {
+			isa = PBXGroup;
+			children = (
+				D7CFB13713E6F5450033DFFD /* assets */,
+				D7CFB13813E6F5450033DFFD /* CHANGELOG.md */,
+				D7CFB13913E6F5450033DFFD /* CNAME */,
+				D7CFB13A13E6F5450033DFFD /* commands */,
+				D7CFB13B13E6F5450033DFFD /* controllers */,
+				D7CFB13C13E6F5450033DFFD /* examples */,
+				D7CFB13D13E6F5450033DFFD /* index.html */,
+				D7CFB13E13E6F5450033DFFD /* index.js */,
+				D7CFB13F13E6F5450033DFFD /* lib */,
+				D7CFB14013E6F5450033DFFD /* LICENSE.md */,
+				D7CFB14113E6F5450033DFFD /* models */,
+				D7CFB14213E6F5450033DFFD /* node_modules */,
+				D7CFB14313E6F5450033DFFD /* package.json */,
+				D7CFB14413E6F5450033DFFD /* pages */,
+				D7CFB14513E6F5450033DFFD /* README.md */,
+				D7CFB14613E6F5450033DFFD /* servers */,
+				D7CFB14713E6F5450033DFFD /* templates */,
+				D7CFB14813E6F5450033DFFD /* test */,
+				D7CFB14913E6F5450033DFFD /* views */,
+			);
+			name = tilemill;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* tilemill */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "tilemill" */;
+			buildPhases = (
+				D745083413E8686D0020D8CD /* Update Bundle Version */,
+				8D1107290486CEB800E47090 /* Resources */,
+				D7CFB18F13E852550033DFFD /* Copy Node Executable */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tilemill;
+			productInstallPath = "$(HOME)/Applications";
+			productName = tilemill;
+			productReference = 8D1107320486CEB800E47090 /* TileMill.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "tilemill" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* tilemill */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* tilemill */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+				D7CFB14A13E6F5450033DFFD /* assets in Resources */,
+				D7CFB14B13E6F5450033DFFD /* CHANGELOG.md in Resources */,
+				D7CFB14C13E6F5450033DFFD /* CNAME in Resources */,
+				D7CFB14D13E6F5450033DFFD /* commands in Resources */,
+				D7CFB14E13E6F5450033DFFD /* controllers in Resources */,
+				D7CFB14F13E6F5450033DFFD /* examples in Resources */,
+				D7CFB15013E6F5450033DFFD /* index.html in Resources */,
+				D7CFB15D13E6F76C0033DFFD /* index.js in Resources */,
+				D7CFB15213E6F5450033DFFD /* lib in Resources */,
+				D7CFB15313E6F5450033DFFD /* LICENSE.md in Resources */,
+				D7CFB15413E6F5450033DFFD /* models in Resources */,
+				D7CFB15513E6F5450033DFFD /* node_modules in Resources */,
+				D7CFB15613E6F5450033DFFD /* package.json in Resources */,
+				D7CFB15713E6F5450033DFFD /* pages in Resources */,
+				D7CFB15813E6F5450033DFFD /* README.md in Resources */,
+				D7CFB15913E6F5450033DFFD /* servers in Resources */,
+				D7CFB15A13E6F5450033DFFD /* templates in Resources */,
+				D7CFB15B13E6F5450033DFFD /* test in Resources */,
+				D7CFB15C13E6F5450033DFFD /* views in Resources */,
+				D745084613E894020020D8CD /* TileMillMainWindow.xib in Resources */,
+				D745087913E9EC160020D8CD /* mbtiles.icns in Resources */,
+				D738213C13EB4FE500639A03 /* application.icns in Resources */,
+				D738213F13EB500D00639A03 /* tilemill.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D745083413E8686D0020D8CD /* Update Bundle Version */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Update Bundle Version";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "INFO=$( echo $PWD)/tilemill-Info\nTAG=\nCOMMIT=\nGITPATH=/usr/bin:/usr/local/bin:/usr/local/git/bin\nPATH=$PATH:$GITPATH; export PATH\n\nif [ -z $( which git ) ]; then\n  echo \"Unable to find git binary in \\$GITPATH\"\n  exit 1\nfi\n\nwhile [ -z $TAG ]; do\n    # start with HEAD, adding carats\n    REVISION=\"HEAD\"$COMMIT\n\n    # see if we've found a tag yet\n    TAG=$( git tag --contains $REVISION )\n\n    # add another carat to go back a revision\n    COMMIT=$COMMIT\"^\"\ndone\n\nCURRENT=$( defaults read \"$INFO\" CFBundleShortVersionString )\n\nif [ $CURRENT != $TAG ]; then\n    # output for Xcode logging\n    echo \"Updating CFBundleShortVersionString to $TAG\"\n\n    # write it to the Info.plist\n    defaults write \"$INFO\" CFBundleShortVersionString $TAG  \nelse\n    # output for Xcode logging\n    echo \"CFBundleShortVersionString already at $TAG\"\nfi\n\nHASH=$( git log -n1 --format=%h )\n\nCURRENT_HASH=$( defaults read \"$INFO\" CFBundleVersion )\n\nif [ $CURRENT_HASH != $HASH ]; then\n    # output for Xcode logging\n    echo \"Updating CFBundleVersion to $HASH\"\n\n    # write it to the Info.plist\n    defaults write \"$INFO\" CFBundleVersion $HASH  \nelse\n    # output for Xcode logging\n    echo \"CFBundleVersion already at $HASH\"\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D7CFB18F13E852550033DFFD /* Copy Node Executable */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Node Executable";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -z $( which node ) ]; then\n  echo \"Unable to find node binary\"\n  exit 1\nfi\n\nTARGET=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/\"\n# copy node executable\ncp `which node` $TARGET\n# change shebang to use local node\nsed -i.backup 's/#!\\/usr\\/bin\\/env node/#!node/' ${TARGET}index.js\nrm ${TARGET}index.js.backup";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				35D15E0E13D25D9D003244AE /* TileMillChildProcess.m in Sources */,
+				35B36EA313D260C6006C72ED /* TileMillAppDelegate.m in Sources */,
+				D7CFB15113E6F5450033DFFD /* index.js in Sources */,
+				D745084313E889230020D8CD /* TileMillMainWindowController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1DDD58140DA1D0A300B32029 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DDD58150DA1D0A300B32029 /* English */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
+				INFOPLIST_FILE = "tilemill-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = TileMill;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
+				INFOPLIST_FILE = "tilemill-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = TileMill;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "tilemill" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "tilemill" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

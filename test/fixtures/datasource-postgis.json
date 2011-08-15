@@ -1,0 +1,12 @@
+{
+    "features": [],
+    "fields": {
+        "featurecla": { "type": "String" },
+        "gid": { "type": "Number" },
+        "scalerank": { "type": "Number" }
+    },
+    "geometry_type": "multilinestring",
+    "id": "postgis",
+    "project": "demo_01",
+    "type": "vector"
+}

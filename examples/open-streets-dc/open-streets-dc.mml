@@ -1,0 +1,107 @@
+{
+  "bounds": [
+    -180,
+    -85.05112877980659,
+    180,
+    85.05112877980659
+  ],
+  "center": [
+    -77.02945411205174,
+    38.89816813905991,
+    13
+  ],
+  "format": "png",
+  "interactivity": false,
+  "minzoom": 7,
+  "maxzoom": 18,
+  "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+  "Stylesheet": [
+    "style.mss",
+    "highway.mss",
+    "labels.mss"
+  ],
+  "Layer": [
+    {
+      "id": "dcgis-water",
+      "name": "dcgis-water",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "class": "water",
+      "Datasource": {
+        "file": "layers/dcgis_water/WaterPly_900913.shp",
+        "id": "dcgis-water",
+        "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+        "project": "open-streets-dc"
+      },
+      "geometry": "polygon"
+    },
+    {
+      "id": "natural",
+      "name": "natural",
+      "srs": "",
+      "class": "natural",
+      "Datasource": {
+        "file": "layers/dc_osm_natural/dc_osm_natural.shp",
+        "id": "natural",
+        "srs": "",
+        "project": "open-streets-dc"
+      },
+      "geometry": "polygon"
+    },
+    {
+      "id": "highway-outline",
+      "name": "highway-outline",
+      "srs": "",
+      "class": "highway line",
+      "Datasource": {
+        "file": "layers/dc_osm_highway/dc_osm_highway.shp",
+        "id": "highway-outline",
+        "srs": "",
+        "project": "open-streets-dc"
+      },
+      "geometry": "linestring"
+    },
+    {
+      "id": "highway",
+      "name": "highway",
+      "srs": "",
+      "class": "highway fill",
+      "Datasource": {
+        "file": "layers/dc_osm_highway/dc_osm_highway.shp",
+        "id": "highway",
+        "srs": "",
+        "project": "open-streets-dc"
+      },
+      "geometry": "linestring"
+    },
+    {
+      "id": "location",
+      "name": "location",
+      "srs": "",
+      "class": "location",
+      "Datasource": {
+        "file": "layers/dc_osm_location/dc_osm_location.shp",
+        "id": "location",
+        "srs": "",
+        "project": "open-streets-dc"
+      },
+      "geometry": "point"
+    },
+    {
+      "id": "highway-label",
+      "name": "highway-label",
+      "srs": "",
+      "class": "highway-label",
+      "Datasource": {
+        "file": "layers/dc_osm_highway/dc_osm_highway.shp",
+        "id": "highway-label",
+        "srs": "",
+        "project": "open-streets-dc"
+      },
+      "geometry": "linestring"
+    }
+  ],
+  "legend": "<!-- This legend uses Unicode box-drawing characters to approxmate line styles. -->\n<span style='color:#DD3A85'>━</span> Motorways <br />\n<span style='color:#FFC81A'>━</span> Main roads <br />\n<span style='color:#fff'>━</span> Other roads <br />\n<span style='color:#69B'>┉</span> Bike paths <br />\n<span style='color:#6B9'>┉</span> Foot paths <br />\n<span style='color:#cea'>▉</span> Forest <br />\n<span style='color:#c0d8ff'>▉</span> Water ",
+  "name": "Open Streets, DC",
+  "description": "An example of street-level map design.",
+  "attribution": "Data used by this map is © OpenStreetMap contributors,  CC-BY-SA. See <http://openstreetmap.org> for more info."
+}

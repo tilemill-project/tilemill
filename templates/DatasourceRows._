@@ -1,0 +1,7 @@
+<% _(features).each(function (feature) { %>
+<tr>
+  <% _(fields).each(function (value, key) { if (key !== '__id__') { %>
+  <td class='<% if (fields[key]) { print(fields[key].type) } %>'><%= feature[key] %></td>
+  <% }}); %>
+</tr>
+<% }); %>
