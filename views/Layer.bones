@@ -3,6 +3,7 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'click .layerFile input[type=submit]': 'saveFile',
     'click .layerPostGIS input[type=submit]': 'savePostGIS',
+    'click .layerSqlite input[type=submit]': 'saveSqlite',
     'click .layerFile a[href=#open]': 'browseFile',
     'click .layerPostGIS a[href=#open]': 'browsePostGIS',
     'click a[href=#favorite]': 'favoriteToggle',
@@ -43,7 +44,9 @@ view.prototype.render = function() {
     this.$('input[name=file], input[name=connection]').change();
 
     if (this.model.get('Datasource')) {
-        if (this.model.get('Datasource').file) {
+        if (this.model.get('Datasource').type == 'sqlite') {
+            this.$('a[href=#layerSqlite]').click();
+        } else if (this.model.get('Datasource').file) {
             this.$('a[href=#layerFile]').click();
         } else if (this.model.get('Datasource').type == 'postgis') {
             this.$('a[href=#layerPostGIS]').click();
@@ -251,6 +254,36 @@ view.prototype.savePostGIS = function() {
             'extent':   this.$('input[name=extent]', this.el).val(),
             'type': 'postgis'
         }).extend(connection)
+    };
+    var error = _(function(m, e) {
+        $(this.el).removeClass('loading');
+        new views.Modal(e);
+    }).bind(this);
+    this.model.validateAsync(attr, { success:_(function() {
+        $(this.el).removeClass('loading');
+        if (!this.model.set(attr, {error:error})) return;
+        if (!this.model.collection.include(this.model))
+            this.model.collection.add(this.model);
+        this.$('.close').click();
+    }).bind(this), error:error });
+    return false;
+};
+
+view.prototype.saveSqlite = function() {
+    $(this.el).addClass('loading');
+    var attr = {
+        'id':    this.$('form.layerSqlite input[name=id]').val(),
+        'name':  this.$('form.layerSqlite input[name=id]').val(),
+        'srs':   this.$('form.layerSqlite input[name=srs]').val()
+            || this.model.SRS['900913'],
+        'class': this.$('form.layerSqlite input[name=class]').val(),
+        'Datasource': {
+            'file': this.$('form.layerSqlite input[name=file]').val(),
+            'table':    this.$('form.layerSqlite textarea[name=table]', this.el).val(),
+            'attachdb': this.$('input[name=attachdb]', this.el).val(),
+            'extent':   this.$('form.layerSqlite input[name=extent]', this.el).val(),
+            'type': 'sqlite'
+        }
     };
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');

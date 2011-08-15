@@ -23,6 +23,8 @@ commands['start'].options['examples'] = {
 
 commands['start'].prototype.bootstrap = function(plugin, callback) {
     var settings = Bones.plugin.config;
+    settings.files = path.resolve(settings.files);
+
     if (!path.existsSync(settings.files)) {
         console.warn('Creating files dir %s', settings.files);
         fsutil.mkdirpSync(settings.files, 0755);

@@ -1,3 +1,11 @@
+tilemill (0.4.2-0ubuntu2) maverick; urgency=medium
+  * tilemill 0.4.2
+ -- Young Hahn <yfhahn@gmail.com>  Wed, 10 Aug 2011 11:55:00 -0400
+
+tilemill (0.4.2-0ubuntu1) natty; urgency=medium
+  * tilemill 0.4.2
+ -- Young Hahn <yfhahn@gmail.com>  Wed, 10 Aug 2011 11:55:00 -0400
+
 tilemill (0.4.1-0ubuntu2) maverick; urgency=medium
   * tilemill 0.4.1
  -- Young Hahn <yfhahn@gmail.com>  Mon, 8 Aug 2011 11:55:00 -0400

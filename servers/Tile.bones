@@ -36,7 +36,10 @@ server.prototype.getArtifact = function(req, res, next) {
         // This file does not exist; but we pass in literal strings below.
         // This is used as a cache key.
         pathname: path.join(settings.files, 'project', id, id + '.xml'),
-        search: '?' + res.project.mml._updated,
+        query: {
+            updated:res.project.mml._updated,
+            bufferSize:settings.bufferSize
+        },
 
         xml: res.project.xml,
         mml: res.project.mml
