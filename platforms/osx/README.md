@@ -7,7 +7,7 @@ A simple wrapper around tilemill for OSX.
 
  * Snow Leopard or Lion
  * XCode >= 4
- * Fully built TileMill
+ * Fully built TileMill (run `npm install` in the top-level folder)
 
 
 # Build and test
