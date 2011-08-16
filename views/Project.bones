@@ -94,6 +94,7 @@ view.prototype.render = function(init) {
             center[2]);
         this.map.addCallback('zoomed', this.mapZoom);
         this.map.addCallback('panned', this.mapZoom);
+        this.map.addCallback('extentset', this.mapZoom);
         this.mapZoom({element: this.map.div});
     }
     this.$('.tabs').empty();
