@@ -42,7 +42,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
                     var asset = { name: f.basename };
                     var local = path.join(location, f.basename);
                     var uri = path.join(filepath, f.basename);
-                    if (f.isFile() && _(ext).include(path.extname(f.basename))) {
+                    if (f.isFile() && _(ext).include(path.extname(f.basename).toLowerCase())) {
                         asset.uri = uri;
                         return asset;
                     } else if (f.isDirectory()) {
@@ -81,7 +81,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
                         isFile = false;
                     }
 
-                    if (isFile && _(ext).include(path.extname(filepath))) {
+                    if (isFile && _(ext).include(path.extname(filepath).toLowerCase())) {
                         return {
                             uri: url.format({
                                 protocol: 'http:',
