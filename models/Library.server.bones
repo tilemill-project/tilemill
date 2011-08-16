@@ -16,8 +16,7 @@ var extFile = [
     '.tif', '.vrt', '.kml', '.geojson', '.json', '.rss'
 ];
 // Sqlite extensions.
-// @TODO spatialite extension?
-var extSqlite = [ '.sqlite' ];
+var extSqlite = [ '.sqlite', '.spatialite' ];
 
 models.Library.prototype.sync = function(method, model, success, error) {
     if (method !== 'read') return error(new Error('Method not supported.'));
