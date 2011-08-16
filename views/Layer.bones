@@ -4,8 +4,7 @@ view.prototype.events = {
     'click .layerFile input[type=submit]': 'saveFile',
     'click .layerPostGIS input[type=submit]': 'savePostGIS',
     'click .layerSqlite input[type=submit]': 'saveSqlite',
-    'click .layerFile a[href=#open]': 'browseFile',
-    'click .layerPostGIS a[href=#open]': 'browsePostGIS',
+    'click a[href=#open]': 'browse',
     'click a[href=#favorite]': 'favoriteToggle',
     'keyup input[name=file], input[name=connection]': 'favoriteUpdate',
     'change input[name=file], input[name=connection]': 'favoriteUpdate',
@@ -23,8 +22,7 @@ view.prototype.initialize = function(options) {
         'render',
         'saveFile',
         'savePostGIS',
-        'browseFile',
-        'browsePostGIS',
+        'browse',
         'favoriteToggle',
         'favoriteUpdate',
         'cacheFlush',
@@ -120,7 +118,7 @@ view.prototype.favoriteUpdate = function(ev) {
     var target = $(ev.currentTarget);
     var favorite = target.siblings('a.favorite');
     var uri = target.val();
-    if (uri.match(/^(http:\/\/|(.+\s)?dbname=[\w]+)/)) {
+    if (uri.match(/^(\/|http:\/\/|(.+\s)?dbname=[\w]+)/)) {
         favorite.removeClass('hidden');
         if (this.favorites.isFavorite(uri)) {
             favorite.addClass('active');
@@ -142,49 +140,30 @@ view.prototype.favoriteUpdate = function(ev) {
     return false;
 };
 
-view.prototype.browseFile = function(ev) {
-    var id = 'file';
+view.prototype.browse = function(ev) {
     var target = $(ev.currentTarget);
-    target.toggleClass('active');
-    if (target.hasClass('active')) {
-        target.text('Done');
-    } else {
-        target.text('Browse');
+    target
+        .toggleClass('active')
+        .text(target.hasClass('active') ? 'Done' : 'Browse');
+
+    var id;
+    var form = target.parents('form');
+    if (form.is('.layerFile')) {
+        id = 'file';
+    } else if (form.is('.layerSqlite')) {
+        id = 'sqlite';
+    } else if (form.is('.layerPostGIS')) {
+        id = 'favoritesPostGIS';
     }
-    this.$('.layerFile ul.form').toggleClass('expand');
+    $('ul.form', form).toggleClass('expand');
 
     if (target.is('.active')) (new models.Library({id:id})).fetch({
         success: _(function(model, resp) {
             new views.Library({
                 model: model,
                 favorites: this.favorites,
-                input: this.$('.layerFile input[name=file]'),
-                el: this.$('.layerFile .browser')
-            });
-        }).bind(this),
-        error: function(model, err) { new views.Modal(err) }
-    });
-    return false;
-};
-
-view.prototype.browsePostGIS = function(ev) {
-    var id = 'favoritesPostGIS';
-    var target = $(ev.currentTarget);
-    target.toggleClass('active');
-    if (target.hasClass('active')) {
-        target.text('Done');
-    } else {
-        target.text('Browse');
-    }
-    this.$('.layerPostGIS ul.form').toggleClass('expand');
-
-    if (target.is('.active')) (new models.Library({id:id})).fetch({
-        success: _(function(model, resp) {
-            new views.Library({
-                model: model,
-                favorites: this.favorites,
-                input: this.$('.layerPostGIS input[name=connection]'),
-                el: this.$('.layerPostGIS .browser')
+                input: $('input[name=file], input[name=connection]', form),
+                el: $('.browser', form)
             });
         }).bind(this),
         error: function(model, err) { new views.Modal(err) }

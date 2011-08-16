@@ -11,22 +11,27 @@ var url = require('url');
 
 // Extensions supported by TileMill. See `carto/lib/carto/external.js` for
 // the source of this list.
-var ext = [
+var extFile = [
     '.zip', '.shp', '.png', '.geotiff', '.geotif', '.tiff',
     '.tif', '.vrt', '.kml', '.geojson', '.json', '.rss'
 ];
+// Sqlite extensions.
+// @TODO spatialite extension?
+var extSqlite = [ '.sqlite' ];
 
 models.Library.prototype.sync = function(method, model, success, error) {
     if (method !== 'read') return error(new Error('Method not supported.'));
 
     switch (model.id) {
     case 'file':
+    case 'sqlite':
         // @TODO: disallow .. and other nasty things.
         var location = model.get('location') || '/';
         var filepath = path.join(config.files, 'data', location);
         readdir(filepath, function(err, files) {
             if (err) return error(err);
             var data = {};
+            var ext = model.id === 'file' ? extFile : extSqlite;
             data.id = model.id;
             data.location = location;
             data.assets = _(files).chain()
@@ -55,6 +60,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
         // @TODO:
         var data = {};
         var options = {};
+        var ext = extFile;
         data.id = model.id;
         data.location = model.get('location') || '';
         data.assets = [];
@@ -102,6 +108,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
         });
         break;
     case 'favoritesFile':
+    case 'favoritesSqlite':
     case 'favoritesPostGIS':
         (new models.Favorites({})).fetch({
             success: function(coll, resp) {
