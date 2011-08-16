@@ -62,11 +62,13 @@
     
     NSAssert([json isKindOfClass:[NSDictionary class]], @"JSON file containing shared defaults not formatted as expected");
 
-    int serverPort = [[json objectForKey:@"port"] intValue];
+    int serverPort = [[json objectForKey:@"port"]       intValue];
+    int bufferSize = [[json objectForKey:@"bufferSize"] intValue];
 
     NSString *filesPath = [[json objectForKey:@"files"] stringByExpandingTildeInPath];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:serverPort], @"serverPort",
+                                                                                                       [NSNumber numberWithInt:bufferSize], @"bufferSize",
                                                                                                        filesPath,                           @"filesPath", 
                                                                                                        nil]];
     

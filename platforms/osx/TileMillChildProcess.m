@@ -40,8 +40,9 @@
     [task setStandardError: [task standardOutput]];
     [task setCurrentDirectoryPath: basePath];
     [task setLaunchPath: command];
-    [task setArguments:[NSArray arrayWithObjects:[NSString stringWithFormat:@"--port=%i",      [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]],
-                                                 [NSString stringWithFormat:@"--files=\"%@\"", [[NSUserDefaults standardUserDefaults] stringForKey:@"filesPath"]], 
+    [task setArguments:[NSArray arrayWithObjects:[NSString stringWithFormat:@"--port=%i",       [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]],
+                                                 [NSString stringWithFormat:@"--bufferSize=%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"bufferSize"]],
+                                                 [NSString stringWithFormat:@"--files=\"%@\"",  [[NSUserDefaults standardUserDefaults] stringForKey:@"filesPath"]], 
                                                  nil]];
     [[NSNotificationCenter defaultCenter] addObserver:self 
         selector:@selector(getData:) 
