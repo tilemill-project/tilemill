@@ -7,7 +7,7 @@ view.prototype.events = {
 view.prototype.initialize = function(options) {
     _(this).bindAll('render', 'jump');
     this.render();
-    if (options.fragment) this.jump(options.fragment);
+    this.jump(options.fragment);
 };
 
 view.prototype.render = function() {
@@ -48,13 +48,18 @@ view.prototype.render = function() {
 
 view.prototype.jump = function(ev) {
     var fragment;
-    if (ev.currentTarget) {
+    if (ev && ev.currentTarget) {
         fragment = $(ev.currentTarget).attr('href').split('#!/manual/').pop();
     } else {
         fragment = ev;
     }
-    window.scroll(0, this.$('#manual-' + fragment).offset().top - 60);
-    Backbone.history.saveLocation('/manual/' + fragment);
+    if (fragment) {
+        window.scroll(0, this.$('#manual-' + fragment).offset().top - 60);
+        Backbone.history.saveLocation('/manual/' + fragment);
+    } else {
+        window.scroll(0, 0);
+        Backbone.history.saveLocation('/manual');
+    }
     return false;
 };
 
