@@ -1,24 +1,28 @@
-var fs = require('fs'),
-    fsutil = require('../lib/fsutil'),
-    path = require('path'),
-    Step = require('step');
+var fs = require('fs');
+var fsutil = require('../lib/fsutil');
+var path = require('path');
+var Step = require('step');
+var defaults = JSON.parse(fs.readFileSync(
+    path.resolve(__dirname + '/../lib/config.defaults.json'),
+    'utf8'
+));
 
 commands['start'].options['host'] = {
     'title': 'host=[host(s)]',
     'description': 'Accepted hosts.',
-    'default': false
+    'default': defaults.host
 };
 
 commands['start'].options['port'] = {
     'title': 'port=[port]',
     'description': 'Server port.',
-    'default': 8889
+    'default': defaults.port
 };
 
 commands['start'].options['examples'] = {
     'title': 'examples=1|0',
     'description': 'Copy example projects on first start.',
-    'default': 1
+    'default': defaults.examples
 };
 
 commands['start'].prototype.bootstrap = function(plugin, callback) {

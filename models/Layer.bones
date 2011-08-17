@@ -78,14 +78,18 @@ model.prototype.validateAsync = function(attributes, options) {
     var error = this.validate(attributes);
     if (error) return options.error(this, error);
 
-    (new models.Datasource(_(attributes.Datasource).extend({
-        id: attributes.id,
-        srs: attributes.srs,
-        project: this.collection.parent.get('id')
-    }))).fetch({
+    var attr = _(attributes.Datasource).chain()
+        .clone()
+        .extend({
+            id: attributes.id,
+            srs: attributes.srs,
+            project: this.collection.parent.get('id')
+        })
+        .value();
+
+    (new models.Datasource(attr)).fetch({
         success: _(function(model, resp) {
-            if (resp.geometry_type)
-                this.set({geometry:resp.geometry_type});
+            if (resp.geometry_type) this.set({geometry:resp.geometry_type});
             options.success(model, resp);
         }).bind(this),
         error: options.error

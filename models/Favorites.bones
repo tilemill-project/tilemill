@@ -5,16 +5,36 @@ model = Backbone.Collection.extend();
 model.prototype.model = models.Favorite;
 model.prototype.url = '/api/Favorite';
 model.prototype.toLibrary = function(id) {
-    var type = (id === 'favoritesPostGIS') ? 'postgis' : 'file';
+    var type;
+    var filter;
+    switch (id) {
+    case 'favoritesPostGIS':
+        type = 'postgis';
+        filter = function(id) {
+            return id.indexOf('dbname=') !== -1
+        };
+        break;
+    case 'favoritesFile':
+        type = 'file';
+        filter = function(id) {
+            return id.indexOf('dbname=') === -1
+                && id.indexOf('.sqlite') === -1;
+        };
+        break;
+    case 'favoritesSqlite':
+        type = 'sqlite';
+        filter = function(id) {
+            return id.indexOf('dbname=') === -1
+                && id.indexOf('.sqlite') !== -1;
+        };
+        break;
+    }
     return {
         id: id,
         location: '',
         assets: this.chain()
             .pluck('id')
-            .filter(function(id) {
-                var postgis = id.indexOf('dbname=') !== -1;
-                return type === 'postgis' ? !!postgis : !postgis;
-            })
+            .filter(filter)
             .map(function(id) { return { name:id, uri:id }})
             .value()
     };

@@ -11,22 +11,26 @@ var url = require('url');
 
 // Extensions supported by TileMill. See `carto/lib/carto/external.js` for
 // the source of this list.
-var ext = [
+var extFile = [
     '.zip', '.shp', '.png', '.geotiff', '.geotif', '.tiff',
     '.tif', '.vrt', '.kml', '.geojson', '.json', '.rss'
 ];
+// Sqlite extensions.
+var extSqlite = [ '.sqlite', '.spatialite' ];
 
 models.Library.prototype.sync = function(method, model, success, error) {
     if (method !== 'read') return error(new Error('Method not supported.'));
 
     switch (model.id) {
     case 'file':
+    case 'sqlite':
         // @TODO: disallow .. and other nasty things.
         var location = model.get('location') || '/';
         var filepath = path.join(config.files, 'data', location);
         readdir(filepath, function(err, files) {
             if (err) return error(err);
             var data = {};
+            var ext = model.id === 'file' ? extFile : extSqlite;
             data.id = model.id;
             data.location = location;
             data.assets = _(files).chain()
@@ -38,7 +42,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
                     var asset = { name: f.basename };
                     var local = path.join(location, f.basename);
                     var uri = path.join(filepath, f.basename);
-                    if (f.isFile() && _(ext).include(path.extname(f.basename))) {
+                    if (f.isFile() && _(ext).include(path.extname(f.basename).toLowerCase())) {
                         asset.uri = uri;
                         return asset;
                     } else if (f.isDirectory()) {
@@ -55,6 +59,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
         // @TODO:
         var data = {};
         var options = {};
+        var ext = extFile;
         data.id = model.id;
         data.location = model.get('location') || '';
         data.assets = [];
@@ -76,7 +81,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
                         isFile = false;
                     }
 
-                    if (isFile && _(ext).include(path.extname(filepath))) {
+                    if (isFile && _(ext).include(path.extname(filepath).toLowerCase())) {
                         return {
                             uri: url.format({
                                 protocol: 'http:',
@@ -102,6 +107,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
         });
         break;
     case 'favoritesFile':
+    case 'favoritesSqlite':
     case 'favoritesPostGIS':
         (new models.Favorites({})).fetch({
             success: function(coll, resp) {

@@ -55,7 +55,9 @@ view.prototype.render = function() {
 
 view.prototype.library = function(ev) {
     var id = $(ev.currentTarget).attr('href').split('#').pop();
-    if (id === 'favoritesFile' || id === 'favoritesPostGIS') {
+    if (id === 'favoritesFile' ||
+        id === 'favoritesPostGIS' ||
+        id === 'favoritesSqlite') {
         this.model.set(this.favorites.toLibrary(id));
         this.render();
     } else {
@@ -68,13 +70,13 @@ view.prototype.library = function(ev) {
 };
 
 view.prototype.libraryUpdate = function() {
-    if (this.$('a[href=#favoritesFile]').is('.active')) {
-        this.model.set(this.favorites.toLibrary('favoritesFile'));
-        this.render();
-    } else if (this.$('a[href=#favoritesPostGIS]').is('.active')) {
-        this.model.set(this.favorites.toLibrary('favoritesPostGIS'));
-        this.render();
-    }
+    _(['File', 'PostGIS', 'Sqlite']).each(_(function(id) {
+        id = 'favorites' + id;
+        if (this.$('a[href=#' + id + ']').is('.active')) {
+            this.model.set(this.favorites.toLibrary(id));
+            this.render();
+        }
+    }).bind(this));
     return false;
 };
 

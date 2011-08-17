@@ -2,6 +2,9 @@
 <div class='toggler'><div class='libraries joined clear-block'>
   <% if (model.id === 'favoritesPostGIS') { %>
   <a href='#favoritesPostGIS' class='button active'><span class='icon reverse labeled star'></span>Favorites</a>
+  <% } else if (model.id === 'sqlite') { %>
+  <a href='#sqlite' class='button active'><span class='icon reverse labeled file'></span>File</a>
+  <a href='#favoritesSqlite' class='button'><span class='icon reverse labeled star'></span>Favorites</a>
   <% } else { %>
   <a href='#file' class='button active'><span class='icon reverse labeled file'></span>File</a>
   <a href='#s3' class='button'><span class='icon reverse labeled cloud'></span>MapBox</a>
@@ -10,7 +13,7 @@
 </div></div>
 
 <div class='breadcrumb clearfix'>
-<% if (model.id === 'file') { %>
+<% if (model.id === 'file' || model.id === 'sqlite') { %>
   <a href='#/' class='location'>Data</a><span class='sep description'>/</span>
 <% } %>
 <% if (model.id === 's3') { %>
