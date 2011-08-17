@@ -41,6 +41,8 @@
 		DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6F0D5C13F981140055EFAE /* Cocoa.framework */; };
 		DD6F0D6113F982770055EFAE /* MBTiles.qlgenerator in Copy QuickLook Plugin */ = {isa = PBXBuildFile; fileRef = DD6F0D4F13F97F120055EFAE /* MBTiles.qlgenerator */; };
 		DD6F0DBE13F989550055EFAE /* MBTiles.mdimporter in Copy Spotlight Importer */ = {isa = PBXBuildFile; fileRef = DD6F0DBA13F989220055EFAE /* MBTiles.mdimporter */; };
+		DD820DE213FAC13400685B10 /* config.defaults.json in Resources */ = {isa = PBXBuildFile; fileRef = DD820DE113FAC13400685B10 /* config.defaults.json */; };
+		DD820DE713FAC27600685B10 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD820DE613FAC27600685B10 /* JSONKit.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +144,9 @@
 		DD6F0D4713F97F120055EFAE /* MBTilesQuickLook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MBTilesQuickLook.xcodeproj; sourceTree = "<group>"; };
 		DD6F0D5C13F981140055EFAE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DD6F0DB213F989210055EFAE /* MBTiles Spotlight Importer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "MBTiles Spotlight Importer.xcodeproj"; path = "MBTiles Spotlight Importer/MBTiles Spotlight Importer.xcodeproj"; sourceTree = "<group>"; };
+		DD820DE113FAC13400685B10 /* config.defaults.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = config.defaults.json; path = ../../lib/config.defaults.json; sourceTree = "<group>"; };
+		DD820DE513FAC27600685B10 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Externals/JSONKit/JSONKit.h; sourceTree = "<group>"; };
+		DD820DE613FAC27600685B10 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Externals/JSONKit/JSONKit.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +185,7 @@
 				080E96DDFE201D6D7F000001 /* Process Management */,
 				DD1081F013F9ADF2001772BE /* Preferences */,
 				DD6F0CE613F974D00055EFAE /* Subprojects */,
+				DD820DE313FAC22600685B10 /* Externals */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -208,6 +214,7 @@
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 				D745084513E894010020D8CD /* TileMillMainWindow.xib */,
 				35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */,
+				DD820DE113FAC13400685B10 /* config.defaults.json */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -308,6 +315,23 @@
 				DD6F0DBA13F989220055EFAE /* MBTiles.mdimporter */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DD820DE313FAC22600685B10 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				DD820DE413FAC23C00685B10 /* JSONKit */,
+			);
+			name = Externals;
+			sourceTree = "<group>";
+		};
+		DD820DE413FAC23C00685B10 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				DD820DE513FAC27600685B10 /* JSONKit.h */,
+				DD820DE613FAC27600685B10 /* JSONKit.m */,
+			);
+			name = JSONKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -423,6 +447,7 @@
 				D738213C13EB4FE500639A03 /* application.icns in Resources */,
 				D738213F13EB500D00639A03 /* tilemill.icns in Resources */,
 				DD1081DF13F9A5DB001772BE /* TileMillPrefsWindow.xib in Resources */,
+				DD820DE213FAC13400685B10 /* config.defaults.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +496,7 @@
 				35B36EA313D260C6006C72ED /* TileMillAppDelegate.m in Sources */,
 				D745084313E889230020D8CD /* TileMillMainWindowController.m in Sources */,
 				DD1081EE13F9AA4F001772BE /* TileMillPrefsWindowController.m in Sources */,
+				DD820DE713FAC27600685B10 /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

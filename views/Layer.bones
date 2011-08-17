@@ -4,8 +4,7 @@ view.prototype.events = {
     'click .layerFile input[type=submit]': 'saveFile',
     'click .layerPostGIS input[type=submit]': 'savePostGIS',
     'click .layerSqlite input[type=submit]': 'saveSqlite',
-    'click .layerFile a[href=#open]': 'browseFile',
-    'click .layerPostGIS a[href=#open]': 'browsePostGIS',
+    'click a[href=#open]': 'browse',
     'click a[href=#favorite]': 'favoriteToggle',
     'keyup input[name=file], input[name=connection]': 'favoriteUpdate',
     'change input[name=file], input[name=connection]': 'favoriteUpdate',
@@ -23,8 +22,7 @@ view.prototype.initialize = function(options) {
         'render',
         'saveFile',
         'savePostGIS',
-        'browseFile',
-        'browsePostGIS',
+        'browse',
         'favoriteToggle',
         'favoriteUpdate',
         'cacheFlush',
@@ -120,7 +118,7 @@ view.prototype.favoriteUpdate = function(ev) {
     var target = $(ev.currentTarget);
     var favorite = target.siblings('a.favorite');
     var uri = target.val();
-    if (uri.match(/^(http:\/\/|(.+\s)?dbname=[\w]+)/)) {
+    if (uri.match(/^(\/|http:\/\/|(.+\s)?dbname=[\w]+)/)) {
         favorite.removeClass('hidden');
         if (this.favorites.isFavorite(uri)) {
             favorite.addClass('active');
@@ -142,49 +140,30 @@ view.prototype.favoriteUpdate = function(ev) {
     return false;
 };
 
-view.prototype.browseFile = function(ev) {
-    var id = 'file';
+view.prototype.browse = function(ev) {
     var target = $(ev.currentTarget);
-    target.toggleClass('active');
-    if (target.hasClass('active')) {
-        target.text('Done');
-    } else {
-        target.text('Browse');
+    target
+        .toggleClass('active')
+        .text(target.hasClass('active') ? 'Done' : 'Browse');
+
+    var id;
+    var form = target.parents('form');
+    if (form.is('.layerFile')) {
+        id = 'file';
+    } else if (form.is('.layerSqlite')) {
+        id = 'sqlite';
+    } else if (form.is('.layerPostGIS')) {
+        id = 'favoritesPostGIS';
     }
-    this.$('.layerFile ul.form').toggleClass('expand');
+    $('ul.form', form).toggleClass('expand');
 
     if (target.is('.active')) (new models.Library({id:id})).fetch({
         success: _(function(model, resp) {
             new views.Library({
                 model: model,
                 favorites: this.favorites,
-                input: this.$('.layerFile input[name=file]'),
-                el: this.$('.layerFile .browser')
-            });
-        }).bind(this),
-        error: function(model, err) { new views.Modal(err) }
-    });
-    return false;
-};
-
-view.prototype.browsePostGIS = function(ev) {
-    var id = 'favoritesPostGIS';
-    var target = $(ev.currentTarget);
-    target.toggleClass('active');
-    if (target.hasClass('active')) {
-        target.text('Done');
-    } else {
-        target.text('Browse');
-    }
-    this.$('.layerPostGIS ul.form').toggleClass('expand');
-
-    if (target.is('.active')) (new models.Library({id:id})).fetch({
-        success: _(function(model, resp) {
-            new views.Library({
-                model: model,
-                favorites: this.favorites,
-                input: this.$('.layerPostGIS input[name=connection]'),
-                el: this.$('.layerPostGIS .browser')
+                input: $('input[name=file], input[name=connection]', form),
+                el: $('.browser', form)
             });
         }).bind(this),
         error: function(model, err) { new views.Modal(err) }
@@ -195,10 +174,10 @@ view.prototype.browsePostGIS = function(ev) {
 view.prototype.saveFile = function() {
     $(this.el).addClass('loading');
     var attr = {
-        'id':    this.$('input[name=id]').val(),
-        'name':  this.$('input[name=id]').val(),
+        'id':    this.$('input[name=id]').val().replace('#', ''),
+        'name':  this.$('input[name=id]').val().replace('#', ''),
         'srs':   this.$('input[name=srs]').val(),
-        'class': this.$('input[name=class]').val(),
+        'class': this.$('input[name=class]').val().replace('.', ''),
         'Datasource': {
             'file': this.$('input[name=file]').val()
         }
@@ -242,11 +221,11 @@ view.prototype.savePostGIS = function() {
         return false;
     }
     var attr = {
-        'id':    this.$('form.layerPostGIS input[name=id]').val(),
-        'name':  this.$('form.layerPostGIS input[name=id]').val(),
+        'id':    this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
+        'name':  this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
         'srs':   this.$('form.layerPostGIS input[name=srs]').val()
             || this.model.SRS['900913'],
-        'class': this.$('form.layerPostGIS input[name=class]').val(),
+        'class': this.$('form.layerPostGIS input[name=class]').val().replace('.', ''),
         'Datasource': _({
             'table':    this.$('textarea[name=table]', this.el).val(),
             'key_field': this.$('input[name=key_field]', this.el).val(),
@@ -272,16 +251,17 @@ view.prototype.savePostGIS = function() {
 view.prototype.saveSqlite = function() {
     $(this.el).addClass('loading');
     var attr = {
-        'id':    this.$('form.layerSqlite input[name=id]').val(),
-        'name':  this.$('form.layerSqlite input[name=id]').val(),
+        'id':    this.$('form.layerSqlite input[name=id]').val().replace('#', ''),
+        'name':  this.$('form.layerSqlite input[name=id]').val().replace('#', ''),
         'srs':   this.$('form.layerSqlite input[name=srs]').val()
             || this.model.SRS['900913'],
-        'class': this.$('form.layerSqlite input[name=class]').val(),
+        'class': this.$('form.layerSqlite input[name=class]').val().replace('.', ''),
         'Datasource': {
             'file': this.$('form.layerSqlite input[name=file]').val(),
-            'table':    this.$('form.layerSqlite textarea[name=table]', this.el).val(),
-            'attachdb': this.$('input[name=attachdb]', this.el).val(),
-            'extent':   this.$('form.layerSqlite input[name=extent]', this.el).val(),
+            'table':     this.$('form.layerSqlite textarea[name=table]', this.el).val(),
+            'attachdb':  this.$('input[name=attachdb]', this.el).val(),
+            'key_field': this.$('input[name=key_field]', this.el).val(),
+            'extent':    this.$('form.layerSqlite input[name=extent]', this.el).val(),
             'type': 'sqlite'
         }
     };

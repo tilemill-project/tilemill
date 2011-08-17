@@ -169,6 +169,11 @@
       <span class='description'></span>
     </li>
     <li>
+      <label for='attachdb'>Key field</label>
+      <input type='text' name='key_field' value='<%=get('Datasource') && get('Datasource').key_field%>' />
+      <span class='description'></span>
+    </li>
+    <li>
       <label for='extent'>Extent</label>
       <input type='text' name='extent' value='<%=get('Datasource') && get('Datasource').extent%>' />
       <span class='description'></span>

@@ -1,7 +1,16 @@
+//
+//  TileMillAppDelegate.m
+//  tilemill
+//
+//  Created by Dane Springmeyer on 7/28/11.
+//  Copyright 2011 Development Seed. All rights reserved.
+//
 
 #import "TileMillAppDelegate.h"
 #import "TileMillMainWindowController.h"
 #import "TileMillPrefsWindowController.h"
+
+#import "JSONKit.h"
 
 @implementation TileMillAppDelegate
 
@@ -41,14 +50,30 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // eventually we should consolidate these defaults between Node & OS X
-    // see https://github.com/mapbox/tilemill/issues/622
+    // used defaults shared between TileMill core & OS X (see #622)
     //
-    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                [NSNumber numberWithInt:8889],                                    @"serverPort",
-                                                                [NSHomeDirectory() stringByAppendingString:@"/Documents/MapBox"], @"filesPath", 
-                                                                nil]];
+    NSString *jsonDefaults = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config.defaults" ofType:@"json"]
+                                                       encoding:NSUTF8StringEncoding
+                                                          error:NULL];
     
+    NSAssert(jsonDefaults, @"JSON file containing shared defaults not found");
+    
+    id json = [jsonDefaults objectFromJSONString];
+    
+    NSAssert([json isKindOfClass:[NSDictionary class]], @"JSON file containing shared defaults not formatted as expected");
+
+    int serverPort = [[json objectForKey:@"port"]       intValue];
+    int bufferSize = [[json objectForKey:@"bufferSize"] intValue];
+
+    NSString *filesPath = [[json objectForKey:@"files"] stringByExpandingTildeInPath];
+    
+    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:serverPort], @"serverPort",
+                                                                                                       [NSNumber numberWithInt:bufferSize], @"bufferSize",
+                                                                                                       filesPath,                           @"filesPath", 
+                                                                                                       nil]];
+    
+    // setup logging & fire up main functionality
+    //
     logPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"] retain];
     [self showMainWindow:self];
     mainWindowController.childRunning = YES; //NO;
