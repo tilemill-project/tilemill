@@ -21,10 +21,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             Layer: [{
                 name: options.id,
                 srs: options.srs || '',
-                Datasource: {
-                    file: options.file,
-                    type: options.type
-                }
+                Datasource: options
             }]
         },
         base: path.join(config.files, 'project', options.project),
