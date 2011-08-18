@@ -174,8 +174,8 @@ view.prototype.browse = function(ev) {
 view.prototype.saveFile = function() {
     $(this.el).addClass('loading');
     var attr = {
-        'id':    this.$('input[name=id]').val().replace('#', ''),
         'name':  this.$('input[name=id]').val().replace('#', ''),
+        'id':    this.$('input[name=id]').val().replace('#', ''),
         'srs':   this.$('input[name=srs]').val(),
         'class': this.$('input[name=class]').val().replace('.', ''),
         'Datasource': {
@@ -221,8 +221,8 @@ view.prototype.savePostGIS = function() {
         return false;
     }
     var attr = {
-        'id':    this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
         'name':  this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
+        'id':    this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
         'srs':   this.$('form.layerPostGIS input[name=srs]').val()
             || this.model.SRS['900913'],
         'class': this.$('form.layerPostGIS input[name=class]').val().replace('.', ''),
@@ -251,8 +251,8 @@ view.prototype.savePostGIS = function() {
 view.prototype.saveSqlite = function() {
     $(this.el).addClass('loading');
     var attr = {
-        'id':    this.$('form.layerSqlite input[name=id]').val().replace('#', ''),
         'name':  this.$('form.layerSqlite input[name=id]').val().replace('#', ''),
+        'id':    this.$('form.layerSqlite input[name=id]').val().replace('#', ''),
         'srs':   this.$('form.layerSqlite input[name=srs]').val()
             || this.model.SRS['900913'],
         'class': this.$('form.layerSqlite input[name=class]').val().replace('.', ''),
