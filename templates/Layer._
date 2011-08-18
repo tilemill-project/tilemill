@@ -56,6 +56,11 @@
       <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='Autodetect' />
       <small class='description'>SRS projection string for this datasource. TileMill can often autodetect this value.</small>
     </li>
+    <li>
+      <label for='advanced'>Advanced</label>
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1=? option2=?' />
+      <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
+    </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
       <input type='button' value='Cancel' class='cancel' />
@@ -124,6 +129,11 @@
       <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='<%=SRS["900913"]%>' />
       <small class='description'>SRS projection string for this datasource.</small>
     </li>
+    <li>
+      <label for='advanced'>Advanced</label>
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1=? option2=?' />
+      <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
+    </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
       <input type='button' value='Cancel' class='cancel' />
@@ -188,6 +198,11 @@
       </select>
       <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='<%=SRS["900913"]%>' />
       <small class='description'>SRS projection string for this datasource.</small>
+    </li>
+    <li>
+      <label for='advanced'>Advanced</label>
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1=? option2=?' />
+      <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />

@@ -198,18 +198,31 @@ view.prototype.saveFile = function() {
 
 view.prototype.savePostGIS = function() {
     $(this.el).addClass('loading');
-    var connection = {};
+    var attr = {
+        'name':  this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
+        'id':    this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
+        'srs':   this.$('form.layerPostGIS input[name=srs]').val()
+            || this.model.SRS['900913'],
+        'class': this.$('form.layerPostGIS input[name=class]').val().replace('.', ''),
+        'Datasource': {
+            'table':    this.$('textarea[name=table]', this.el).val(),
+            'key_field': this.$('input[name=key_field]', this.el).val(),
+            'geometry_field': this.$('input[name=geometry_field]', this.el).val(),
+            'extent':   this.$('input[name=extent]', this.el).val(),
+            'type': 'postgis'
+        }
+    };
+    _(attr['Datasource']).defaults(this.parseOptions(this.$('form.layerPostGIS input[name=advanced]').val()));
+
+    // Special parseing around PostGIS connection.
     var error;
     var allowedArgs = ['user', 'password', 'dbname', 'port', 'host'];
-    _(this.$('form.layerPostGIS input[name=connection]').val().split(' '))
-        .each(function(argument) {
-            var pair = argument.split('=');
-            if (pair[0] && pair[1] && allowedArgs.indexOf(pair[0]) !== -1) {
-                connection[pair[0]] = pair[1];
-            } else {
-                error = new Error('Invalid argument ' + pair[0] + ' in PostgreSQL connection string.');
-            }
-        });
+    var connection = this.parseOptions(this.$('form.layerPostGIS input[name=connection]').val());
+    _(connection).each(function(val, key) {
+        if (allowedArgs.indexOf(key) === -1) {
+            error = new Error('Invalid argument ' + key + ' in PostgreSQL connection string.');
+        }
+    });
     if (!error && !_(connection).size()) {
         error = new Error('Invalid PostgreSQL connection string.');
     } else if (!error && !connection.dbname) {
@@ -220,24 +233,12 @@ view.prototype.savePostGIS = function() {
         new views.Modal(error);
         return false;
     }
-    var attr = {
-        'name':  this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
-        'id':    this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
-        'srs':   this.$('form.layerPostGIS input[name=srs]').val()
-            || this.model.SRS['900913'],
-        'class': this.$('form.layerPostGIS input[name=class]').val().replace('.', ''),
-        'Datasource': _({
-            'table':    this.$('textarea[name=table]', this.el).val(),
-            'key_field': this.$('input[name=key_field]', this.el).val(),
-            'geometry_field': this.$('input[name=geometry_field]', this.el).val(),
-            'extent':   this.$('input[name=extent]', this.el).val(),
-            'type': 'postgis'
-        }).extend(connection)
-    };
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
         new views.Modal(e);
     }).bind(this);
+    _(attr['Datasource']).defaults(connection);
+
     this.model.validateAsync(attr, { success:_(function() {
         $(this.el).removeClass('loading');
         if (!this.model.set(attr, {error:error})) return;
@@ -260,11 +261,11 @@ view.prototype.saveSqlite = function() {
             'file': this.$('form.layerSqlite input[name=file]').val(),
             'table':     this.$('form.layerSqlite textarea[name=table]', this.el).val(),
             'attachdb':  this.$('input[name=attachdb]', this.el).val(),
-            'key_field': this.$('input[name=key_field]', this.el).val(),
             'extent':    this.$('form.layerSqlite input[name=extent]', this.el).val(),
             'type': 'sqlite'
         }
     };
+    _(attr['Datasource']).defaults(this.parseOptions(this.$('form.layerSqlite input[name=advanced]').val()));
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
         new views.Modal(e);
@@ -278,6 +279,15 @@ view.prototype.saveSqlite = function() {
     }).bind(this), error:error });
     return false;
 };
+
+view.prototype.parseOptions = function (o) {
+    var options = {};
+    _(o.match(/([\d\w]*)\=\"?([\w\s]*)\"?/g)).each(function(pair) {
+        pair = pair.replace(/"|'/g, '').split('=');
+        options[pair[0]] = pair[1];
+    });
+    return options;
+}
 
 view.prototype.cacheFlush = function(ev) {
     $(this.el).addClass('loading');
