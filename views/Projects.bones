@@ -24,12 +24,12 @@ view = Backbone.View.extend({
             content: _('Are you sure you want to delete "<%=id%>?"').template({id:id}),
             callback: _(function() {
                 model.destroy({
-                    success: function() {
+                    success: _(function() {
                         this.collection.remove(model);
-                    }.bind(this),
-                    error: function(model, err) {
+                    }).bind(this),
+                    error: _(function(model, err) {
                         new views.Modal(err);
-                    }.bind(this)
+                    }).bind(this)
                 });
             }).bind(this)
         });
