@@ -30,7 +30,7 @@ view.prototype.save = function() {
     if (!this.model.set(attr, {error:error})) return false;
 
     $(this.el).addClass('loading');
-    this.model.setDefaults();
+    this.model.setDefaults(this.$('input[name=use-default]')[0].checked);
     this.model.save({}, {
         success: _(function(model) {
             this.model.collection.add(this.model);

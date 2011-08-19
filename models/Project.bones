@@ -130,6 +130,13 @@ model.prototype.STYLESHEET_DEFAULT = [{
         + '}'
 }];
 
+model.prototype.STYLESHEET_DEFAULT_NODATA = [{
+    id: 'style.mss',
+    data: 'Map {\n'
+        + '  background-color: #b8dee6;\n'
+        + '}\n\n'
+}];
+
 model.prototype.LAYER_DEFAULT = [{
     id: 'countries',
     name: 'countries',
@@ -164,10 +171,15 @@ model.prototype.initialize = function(attributes, options) {
 // stylesheets, etc. Note that we do not use Backbone native initialize()
 // or defaults(), both of which make default values far pervasive than the
 // expected use here.
-model.prototype.setDefaults = function() {
+model.prototype.setDefaults = function(data) {
     var template = {};
-    !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT);
-    !this.get('Layer').length && (template.Layer = this.LAYER_DEFAULT);
+    if (data) {
+        !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT);
+        !this.get('Layer').length && (template.Layer = this.LAYER_DEFAULT);
+    }
+    else {
+        !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT_NODATA);
+    }
     this.set(this.parse(template), { silent: true });
 };
 
