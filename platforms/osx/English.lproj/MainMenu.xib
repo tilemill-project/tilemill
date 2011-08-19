@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11A511</string>
+		<string key="IBDocument.SystemVersion">11B26</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">566.00</string>
@@ -66,6 +66,14 @@
 								<object class="NSMenuItem" id="517465537">
 									<reference key="NSMenu" ref="1056235272"/>
 									<string key="NSTitle">About TileMill</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="1069444490"/>
+									<reference key="NSMixedImage" ref="495418515"/>
+								</object>
+								<object class="NSMenuItem" id="908016190">
+									<reference key="NSMenu" ref="1056235272"/>
+									<string key="NSTitle">Check For Updates...</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1069444490"/>
@@ -390,6 +398,9 @@
 			<object class="NSCustomObject" id="1067955784">
 				<string key="NSClassName">TileMillAppDelegate</string>
 			</object>
+			<object class="NSCustomObject" id="407084142">
+				<string key="NSClassName">SUUpdater</string>
+			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -522,6 +533,14 @@
 					</object>
 					<int key="connectionID">292</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">checkForUpdates:</string>
+						<reference key="source" ref="407084142"/>
+						<reference key="destination" ref="908016190"/>
+					</object>
+					<int key="connectionID">296</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -582,6 +601,7 @@
 							<reference ref="1012883052"/>
 							<reference ref="535155510"/>
 							<reference ref="56516819"/>
+							<reference ref="908016190"/>
 						</object>
 						<reference key="parent" ref="624108951"/>
 					</object>
@@ -814,6 +834,16 @@
 						<reference key="object" ref="304194388"/>
 						<reference key="parent" ref="395876340"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">293</int>
+						<reference key="object" ref="407084142"/>
+						<reference key="parent" ref="0"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">294</int>
+						<reference key="object" ref="908016190"/>
+						<reference key="parent" ref="1056235272"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -851,6 +881,8 @@
 					<string>289.IBPluginDependency</string>
 					<string>29.IBPluginDependency</string>
 					<string>291.IBPluginDependency</string>
+					<string>293.IBPluginDependency</string>
+					<string>294.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
 					<string>56.IBPluginDependency</string>
 					<string>57.IBPluginDependency</string>
@@ -864,6 +896,8 @@
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -919,11 +953,41 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">292</int>
+			<int key="maxID">296</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
+				<object class="IBPartialClassDescription">
+					<string key="className">SUUpdater</string>
+					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">checkForUpdates:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">checkForUpdates:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">checkForUpdates:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">delegate</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">delegate</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">delegate</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SUUpdater.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">TileMillAppDelegate</string>
 					<string key="superclassName">NSObject</string>
