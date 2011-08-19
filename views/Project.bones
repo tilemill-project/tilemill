@@ -46,6 +46,7 @@ view.prototype.initialize = function() {
         'exportList',
         'statusOpen',
         'statusClose',
+        'colors',
         'colorOpen',
         'colorSave',
         'colorClose',
@@ -149,7 +150,8 @@ view.prototype.makeStylesheet = function(model) {
         tabMode: 'shift',
         mode: {
             name: 'carto',
-            reference: window.abilities.carto
+            reference: window.abilities.carto,
+            onColor: this.colors
         },
         onCursorActivity: function() {
             model.set({'data': model.codemirror.getValue()});
@@ -158,7 +160,8 @@ view.prototype.makeStylesheet = function(model) {
             // onchange runs before this function is finished,
             // so self.codemirror is false.
             model.codemirror && model.set({'data': model.codemirror.getValue()});
-        }
+        },
+        foo: 'bar'
     });
     $(model.codemirror.getWrapperElement())
         .addClass(id)
@@ -209,17 +212,7 @@ view.prototype.attach = function() {
         $(this.map.controls.legend.element()).remove();
     }
 
-    // Rescan stylesheets for colors, dedupe, sort by luminosity
-    // and render swatches for each one.
-    this.$('.colors').empty();
-    _(this.model.get('Stylesheet').pluck('data').join('\n')
-        .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || []
-    ).chain()
-        .uniq(true)
-        .each(_(function(color) {
-            var swatch = templates.ProjectSwatch({color:color});
-            this.$('.colors').append(swatch);
-        }).bind(this));
+    this.colors();
 };
 
 view.prototype.change = function() {
@@ -536,3 +529,22 @@ view.prototype.unload = function(ev) {
     return false;
 };
 
+view.prototype.colorList = [];
+view.prototype.colors = function(color) {
+    if (color) {
+        this.colorList[color] = true;
+    }
+    // Rescan stylesheets for colors, dedupe, sort by luminosity
+    // and render swatches for each one.
+    this.$('.colors').empty();
+    _(this.model.get('Stylesheet').pluck('data').join('\n')
+        .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || []
+    ).chain()
+        .uniq(true)
+        .each(_(function(color) {
+            if (color[0] != '#' || this.colorList[color]) {
+                var swatch = templates.ProjectSwatch({ color: color});
+                this.$('.colors').append(swatch);
+            }
+        }).bind(this));
+}

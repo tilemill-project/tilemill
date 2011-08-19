@@ -111,6 +111,9 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
       var context = state.stack[state.stack.length - 1];
       if (type == 'hash' && context == 'rule') {
           style = 'carto-colorcode';
+          if (parserConfig.onColor) {
+              parserConfig.onColor(stream.current());
+          }
       } else if (style == 'carto-identifier') {
         if (context == 'rule') {
           style = (valid_keywords[stream.current()] || valid_colors[stream.current()]) ?
