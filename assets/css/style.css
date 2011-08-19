@@ -550,12 +550,15 @@ small { font-size:11px; }
 
 .palette .colors {
   height:20px;
-  float:left;
+  position: absolute;
+  right: 106px;
+  left: 10px;
   overflow:hidden;
   }
 
-.palette .colors.active {
-  position:relative;
+.palette .colors.active,
+.palette .colors:hover {
+  position:absolute;
   border:1px solid #fff;
   padding:4px;
   margin:-5px;
