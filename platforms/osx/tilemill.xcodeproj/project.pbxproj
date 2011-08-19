@@ -43,6 +43,8 @@
 		DD6F0DBE13F989550055EFAE /* MBTiles.mdimporter in Copy Spotlight Importer */ = {isa = PBXBuildFile; fileRef = DD6F0DBA13F989220055EFAE /* MBTiles.mdimporter */; };
 		DD820DE213FAC13400685B10 /* config.defaults.json in Resources */ = {isa = PBXBuildFile; fileRef = DD820DE113FAC13400685B10 /* config.defaults.json */; };
 		DD820DE713FAC27600685B10 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD820DE613FAC27600685B10 /* JSONKit.m */; };
+		DDE4970213FEAEE0006E35F3 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE4970013FEADC1006E35F3 /* Sparkle.framework */; };
+		DDE4970313FEAEE8006E35F3 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DDE4970013FEADC1006E35F3 /* Sparkle.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +101,17 @@
 			name = "Copy Spotlight Importer";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDE496FD13FEAD63006E35F3 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DDE4970313FEAEE8006E35F3 /* Sparkle.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -147,6 +160,7 @@
 		DD820DE113FAC13400685B10 /* config.defaults.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = config.defaults.json; path = ../../lib/config.defaults.json; sourceTree = "<group>"; };
 		DD820DE513FAC27600685B10 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Externals/JSONKit/JSONKit.h; sourceTree = "<group>"; };
 		DD820DE613FAC27600685B10 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Externals/JSONKit/JSONKit.m; sourceTree = "<group>"; };
+		DDE4970013FEADC1006E35F3 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Externals/Sparkle/Sparkle.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */,
+				DDE4970213FEAEE0006E35F3 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				DD6F0D5C13F981140055EFAE /* Cocoa.framework */,
+				DDE4970013FEADC1006E35F3 /* Sparkle.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -346,6 +362,7 @@
 				D7CFB18F13E852550033DFFD /* Copy Node Executable */,
 				DD6F0D5E13F981820055EFAE /* Copy QuickLook Plugin */,
 				DD6F0DBD13F989380055EFAE /* Copy Spotlight Importer */,
+				DDE496FD13FEAD63006E35F3 /* Copy Frameworks */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 			);
@@ -540,6 +557,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Externals/Sparkle\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -557,6 +578,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Externals/Sparkle\"",
+				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
