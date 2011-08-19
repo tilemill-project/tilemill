@@ -481,7 +481,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -z $( which node ) ]; then\n  echo \"Unable to find node binary\"\n  exit 1\nfi\n\nTARGET=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/\"\n# copy node executable\ncp `which node` $TARGET\n# change shebang to use local node\nsed -i.backup 's/#!\\/usr\\/bin\\/env node/#!node/' ${TARGET}index.js\nrm ${TARGET}index.js.backup";
+			shellScript = "PATH=$PATH:$HOME/bin:/usr/local/bin\n\nif [ -z $( which node ) ]; then\n  echo \"Unable to find node binary\"\n  exit 1\nfi\n\nTARGET=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/\"\n# copy node executable\ncp `which node` $TARGET\n# change shebang to use local node\nsed -i.backup 's/#!\\/usr\\/bin\\/env node/#!node/' ${TARGET}index.js\nrm ${TARGET}index.js.backup";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
