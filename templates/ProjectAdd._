@@ -26,6 +26,10 @@
       <option value='jpeg95'<% if (get('format') == 'jpeg95') { %> selected='selected' <% } %>>jpeg (95%)</option>
     </select>
   </li>
+  <li>
+    <label for='use-default'>Use Default Data</label>
+    <input type='checkbox' name='use-default' checked='checked' />
+  </li>
   <li class='buttons'>
     <input type='submit' value='Add' />
     <input type='button' value='Cancel' class='cancel' />
