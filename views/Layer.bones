@@ -282,7 +282,7 @@ view.prototype.saveSqlite = function() {
 
 view.prototype.parseOptions = function (o) {
     var options = {};
-    _(o.match(/([\d\w]*)\=\"?([\w\s]*)\"?/g)).each(function(pair) {
+    _(o.match(/([\d\w]*)\=(\"[^\"]*\"|[^\s]*)/g)).each(function(pair) {
         pair = pair.replace(/"|'/g, '').split('=');
         options[pair[0]] = pair[1];
     });
