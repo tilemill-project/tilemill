@@ -100,7 +100,8 @@ model.prototype.advancedDatasourceOptions = function() {
     var omit = [
         'type', 'file',
         'table', 'host', 'port', 'user', 'password', 'dbname',
-        'extent', 'key_field', 'geometry_field', 'type', 'attachdb'
+        'extent', 'key_field', 'geometry_field', 'type', 'attachdb',
+        'srs', 'id', 'project'
     ];
     var advancedOptions = [];
     _(this.get('Datasource')).each(function(value, key) {
