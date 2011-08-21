@@ -58,7 +58,7 @@
     </li>
     <li>
       <label for='advanced'>Advanced</label>
-      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1=? option2=?' />
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
     <li class='buttons'>
@@ -131,7 +131,7 @@
     </li>
     <li>
       <label for='advanced'>Advanced</label>
-      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1=? option2=?' />
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
     <li class='buttons'>
@@ -201,7 +201,7 @@
     </li>
     <li>
       <label for='advanced'>Advanced</label>
-      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1=? option2=?' />
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
     <li class='buttons'>
