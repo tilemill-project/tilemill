@@ -37,7 +37,8 @@
         "underscore": "1.1.x",
         "carto": "~0.2.1",
         "wax": "~3.0.4",
-        "node-markdown": "0.1.0"
+        "node-markdown": "0.1.0",
+        "sqlite3": "~2.0.16"
     },
     "devDependencies": {
         "expresso" : "0.8.x",
