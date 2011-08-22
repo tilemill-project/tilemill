@@ -160,8 +160,7 @@ view.prototype.makeStylesheet = function(model) {
             // onchange runs before this function is finished,
             // so self.codemirror is false.
             model.codemirror && model.set({'data': model.codemirror.getValue()});
-        },
-        foo: 'bar'
+        }
     });
     $(model.codemirror.getWrapperElement())
         .addClass(id)
