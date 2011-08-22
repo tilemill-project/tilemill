@@ -36,7 +36,11 @@ echo
 
 zipurl=$( echo $urlbase | sed -e s/==TAG==/$tag/ )
 echo -n "Downloading $zipurl... "
-#curl -L -s $zipurl > /tmp/TileMill-$tag.zip
+curl -L -s $zipurl > /tmp/TileMill-$tag.zip
+if [ $? != 0 ]; then
+  echo "Unable to download $zipurl. Aborting."
+  exit 1
+fi
 echo "done."
 echo
 
@@ -72,10 +76,8 @@ else
   cat $template > $appcast
 fi
 echo "        <item>" >> $appcast
-echo "            <title>TileMill $tag" >> $appcast
-echo "            <sparkle:releaseNotesLink>" >> $appcast
-echo "                $changelogurl" >> $appcast
-echo "            </sparkle:releaseNotesLink>" >> $appcast
+echo "            <title>TileMill $tag</title>" >> $appcast
+echo "            <sparkle:releaseNotesLink>$changelogurl</sparkle:releaseNotesLink>" >> $appcast
 echo "            <pubDate>$timestamp</pubDate>" >> $appcast
 echo "            <enclosure url=\"$zipurl\" sparkle:version=\"2.0\" length=\"$zipsize\" type=\"application/octet-stream\" sparkle:dsaSignature=\"$signature\"/>" >> $appcast
 echo "        </item>" >> $appcast
