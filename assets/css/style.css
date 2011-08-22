@@ -1187,6 +1187,17 @@ ul.form.expand .browser { display:block; }
 
 .library .assets a .icon.folder { opacity:.5; }
 
+.library .assets a.with-size {
+  padding-right: 100px;
+  }
+
+.library .assets a .size {
+  position:absolute;
+  top:5px;
+  right:5px;
+  }
+
+
 /* Carto reference */
 .reference {}
 
