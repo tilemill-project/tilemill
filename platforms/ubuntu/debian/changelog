@@ -1,3 +1,11 @@
+tilemill (0.4.2-0ubuntu4) maverick; urgency=medium
+  * Rebuild using node 0.4.11
+ -- Young Hahn <yfhahn@gmail.com>  Mon, 22 Aug 2011 11:55:00 -0400
+
+tilemill (0.4.2-0ubuntu3) natty; urgency=medium
+  * Rebuild using node 0.4.11
+ -- Young Hahn <yfhahn@gmail.com>  Mon, 22 Aug 2011 11:55:00 -0400
+
 tilemill (0.4.2-0ubuntu2) maverick; urgency=medium
   * tilemill 0.4.2
  -- Young Hahn <yfhahn@gmail.com>  Wed, 10 Aug 2011 11:55:00 -0400
