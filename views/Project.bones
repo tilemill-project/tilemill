@@ -496,7 +496,8 @@ view.prototype.colorSave = function(ev) {
         this.model.get('Stylesheet').each(function(s) {
             var data = s.get('data').replace(from, to);
             s.set({ data: data });
-            s.codemirror.setValue(data);
+            var lines = data.split("\n");
+            s.codemirror.replaceRange(data, {line: 0, ch: 0}, {line: lines.length, ch: lines[lines.length - 1].length });
         });
         this.save();
     }
