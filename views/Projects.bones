@@ -32,7 +32,8 @@ view = Backbone.View.extend({
                         new views.Modal(err);
                     }).bind(this)
                 });
-            }).bind(this)
+            }).bind(this),
+            affirmative: 'Delete'
         });
         return false;
     },

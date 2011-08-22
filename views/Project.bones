@@ -303,7 +303,8 @@ view.prototype.layerDelete = function(ev) {
         callback: _(function() {
             var model = this.model.get('Layer').get(id);
             this.model.get('Layer').remove(model);
-        }).bind(this)
+        }).bind(this),
+        affirmative: 'Delete'
     });
     return false;
 };
@@ -347,7 +348,8 @@ view.prototype.stylesheetDelete = function(ev) {
         callback: _(function() {
             var model = this.model.get('Stylesheet').get(id);
             this.model.get('Stylesheet').remove(model);
-        }).bind(this)
+        }).bind(this),
+        affirmative: 'Delete'
     });
 };
 

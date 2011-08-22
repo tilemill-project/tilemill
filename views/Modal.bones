@@ -32,6 +32,8 @@ view.prototype.initialize = function(options) {
     options = options || {};
     options.content = options.content || {};
     options.type = options.callback ? 'confirm' : 'message';
+    options.affirmative = options.affirmative || 'Ok';
+    options.negative = options.negative || 'Cancel';
     this.options = options;
     this.render();
 };
