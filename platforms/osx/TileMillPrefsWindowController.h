@@ -9,6 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 @interface TileMillPrefsWindowController : NSWindowController
+{
+    BOOL needsRestart;
+}
 
 - (IBAction)clickedFilesPathButton:(id)sender;
 

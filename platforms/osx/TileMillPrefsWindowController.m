@@ -8,6 +8,8 @@
 
 #import "TileMillPrefsWindowController.h"
 
+#define kRestartKeyPaths [NSArray arrayWithObjects:@"serverPort", @"filesPath", @"bufferSize", nil]
+
 @implementation TileMillPrefsWindowController
 
 - (id)initWithWindowNibName:(NSString *)windowNibName
@@ -15,10 +17,18 @@
     self = [super initWithWindowNibName:windowNibName];
     
     if (self)
+    {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(windowWillClose:)
                                                      name:NSWindowWillCloseNotification
                                                    object:[self window]];
+        
+        for (NSString *keyPath in kRestartKeyPaths)
+            [[NSUserDefaults standardUserDefaults] addObserver:self
+                                                    forKeyPath:keyPath
+                                                       options:0
+                                                       context:nil];
+    }
 
     return self;
 }
@@ -29,6 +39,10 @@
                                                     name:NSWindowWillCloseNotification 
                                                   object:[self window]];
     
+    for (NSString *keyPath in kRestartKeyPaths)
+        [[NSUserDefaults standardUserDefaults] removeObserver:self
+                                                   forKeyPath:keyPath];
+
     [super dealloc];
 }
 
@@ -59,9 +73,31 @@
 
 #pragma mark -
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    needsRestart = YES;
+}
+
+#pragma mark -
+
 - (void)windowWillClose:(NSNotification *)notification
 {
     [[self window] makeFirstResponder:nil];
+
+    if (needsRestart)
+    {
+        needsRestart = NO;
+
+        NSAlert *alert = [NSAlert alertWithMessageText:@"Manual Restart Required"
+                                         defaultButton:@"OK"
+                                       alternateButton:nil 
+                                           otherButton:nil 
+                             informativeTextWithFormat:@"Some changes were made that require TileMill to be restarted manually for them to take effect."
+                          ];
+        
+        [alert runModal];
+    }
+
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
