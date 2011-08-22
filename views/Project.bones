@@ -496,7 +496,8 @@ view.prototype.colorSave = function(ev) {
         this.model.get('Stylesheet').each(function(s) {
             var data = s.get('data').replace(from, to);
             s.set({ data: data });
-            s.codemirror.setValue(data);
+            var lines = data.split("\n");
+            s.codemirror.replaceRange(data, {line: 0, ch: 0}, {line: lines.length, ch: lines[lines.length - 1].length });
         });
         this.save();
     }
@@ -530,7 +531,7 @@ view.prototype.unload = function(ev) {
     return false;
 };
 
-view.prototype.colorList = [];
+view.prototype.colorList = {};
 view.prototype.colors = function(color) {
     if (color) {
         this.colorList[color] = true;
@@ -541,7 +542,7 @@ view.prototype.colors = function(color) {
     _(this.model.get('Stylesheet').pluck('data').join('\n')
         .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || []
     ).chain()
-        .uniq(true)
+        .uniq()
         .each(_(function(color) {
             if (color[0] != '#' || this.colorList[color]) {
                 var swatch = templates.ProjectSwatch({ color: color});

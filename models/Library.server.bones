@@ -18,6 +18,25 @@ var extFile = [
 // Sqlite extensions.
 var extSqlite = [ '.sqlite', '.spatialite' ];
 
+var formatFileSize = function(size) {
+    var size = parseInt(size), scaled, suffix;
+    if (size >= 1024*1024*1024) {
+        scaled = size /(1024*1024*1024);
+        suffix = 'GB';
+    } else if (size >= 1024*1024) {
+        scaled = size/(1024*1024);
+        suffix = 'MB';
+    } else if (size >= 1024) {
+        scaled = size/1024;
+        suffix = 'KB';
+    } else {
+        scaled = size;
+        suffix = 'bytes';
+    }
+
+    return Math.round(scaled * 100) / 100 + ' ' + suffix;
+};
+
 models.Library.prototype.sync = function(method, model, success, error) {
     if (method !== 'read') return error(new Error('Method not supported.'));
 
@@ -67,7 +86,6 @@ models.Library.prototype.sync = function(method, model, success, error) {
         options.prefix = data.location;
         s3.list(options, function(err, objects) {
             if (err) return error(err);
-
             data.assets = _(objects).chain()
                 .map(function(obj) {
                     if (!obj.Key && !obj.Prefix) return;
@@ -88,7 +106,8 @@ models.Library.prototype.sync = function(method, model, success, error) {
                                 host: options.bucket + '.s3.amazonaws.com',
                                 pathname: filepath
                             }),
-                            name: path.basename(filepath)
+                            name: path.basename(filepath),
+                            size: formatFileSize(obj.Size[0].text)
                         };
                     } else if (!isFile) {
                         return {
