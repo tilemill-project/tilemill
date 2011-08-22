@@ -107,14 +107,8 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
     token: function(stream, state) {
       if (stream.eatSpace()) return null;
       var style = state.tokenize(stream, state);
-
       var context = state.stack[state.stack.length - 1];
-      if (type[0] === '@') {
-          state.variable = true;
-      } else if (type[0] === ';') {
-          state.variable = false;
-      }
-      if (type == 'hash' && (context == 'rule' || state.variable)) {
+      if (type == 'hash' && (context == 'rule' || context == 'variable')) {
           style = 'carto-colorcode';
           if (parserConfig.onColor) {
               parserConfig.onColor(stream.current());
@@ -139,6 +133,12 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
         state.stack.pop();
       } else if (context == '{' && type != 'comment') {
         state.stack.push('rule');
+      }
+
+      if (!context && type[0] == '@') {
+          state.stack.push('variable');
+      } else if (context == 'variable' && type == ';') {
+          state.stack.pop();
       }
 
       return style;
