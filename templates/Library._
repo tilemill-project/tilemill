@@ -30,10 +30,11 @@
   <% } %>
 
   <% _(model.get('assets')).each(function(asset) { %>
-  <a href='#<%= asset.location || asset.uri %>' class='<%= asset.location ? 'location' : 'uri' %>'>
+  <a href='#<%= asset.location || asset.uri %>' class='<%= (asset.location ? 'location' : 'uri') + (asset.size ? ' with-size' : '') %>'>
   <% if (asset.location) { %><span class='icon folder'></span><% } %>
   <% if (asset.uri) { %><span class='icon file'></span><% } %>
   <%= asset.name %>
+  <% if (asset.size) { %><span class='size'><%= asset.size %></span><% } %>
   </a>
   <% }); %>
 </div>

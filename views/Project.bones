@@ -46,6 +46,7 @@ view.prototype.initialize = function() {
         'exportList',
         'statusOpen',
         'statusClose',
+        'colors',
         'colorOpen',
         'colorSave',
         'colorClose',
@@ -140,8 +141,7 @@ view.prototype.makeLayer = function(model) {
 
 view.prototype.makeStylesheet = function(model) {
     if (!CodeMirror) throw new Error('CodeMirror not found.');
-    var codeEl = this.$('.code').get(0);
-    var id = 'stylesheet-' + model.id.replace(/[\.]/g, '-');
+    var codeEl = this.$('.code').get(0), self = this, id = 'stylesheet-' + model.id.replace(/[\.]/g, '-');
     model.el = $(templates.ProjectStylesheet(model));
     model.codemirror = CodeMirror(codeEl, {
         value: model.get('data'),
@@ -149,7 +149,8 @@ view.prototype.makeStylesheet = function(model) {
         tabMode: 'shift',
         mode: {
             name: 'carto',
-            reference: window.abilities.carto
+            reference: window.abilities.carto,
+            onColor: this.colors
         },
         onCursorActivity: function() {
             model.set({'data': model.codemirror.getValue()});
@@ -158,6 +159,7 @@ view.prototype.makeStylesheet = function(model) {
             // onchange runs before this function is finished,
             // so self.codemirror is false.
             model.codemirror && model.set({'data': model.codemirror.getValue()});
+            self.colors();
         }
     });
     $(model.codemirror.getWrapperElement())
@@ -209,17 +211,7 @@ view.prototype.attach = function() {
         $(this.map.controls.legend.element()).remove();
     }
 
-    // Rescan stylesheets for colors, dedupe, sort by luminosity
-    // and render swatches for each one.
-    this.$('.colors').empty();
-    _(this.model.get('Stylesheet').pluck('data').join('\n')
-        .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || []
-    ).chain()
-        .uniq(true)
-        .each(_(function(color) {
-            var swatch = templates.ProjectSwatch({color:color});
-            this.$('.colors').append(swatch);
-        }).bind(this));
+    this.colors();
 };
 
 view.prototype.change = function() {
@@ -310,7 +302,8 @@ view.prototype.layerDelete = function(ev) {
         callback: _(function() {
             var model = this.model.get('Layer').get(id);
             this.model.get('Layer').remove(model);
-        }).bind(this)
+        }).bind(this),
+        affirmative: 'Delete'
     });
     return false;
 };
@@ -354,7 +347,8 @@ view.prototype.stylesheetDelete = function(ev) {
         callback: _(function() {
             var model = this.model.get('Stylesheet').get(id);
             this.model.get('Stylesheet').remove(model);
-        }).bind(this)
+        }).bind(this),
+        affirmative: 'Delete'
     });
 };
 
@@ -502,7 +496,8 @@ view.prototype.colorSave = function(ev) {
         this.model.get('Stylesheet').each(function(s) {
             var data = s.get('data').replace(from, to);
             s.set({ data: data });
-            s.codemirror.setValue(data);
+            var lines = data.split("\n");
+            s.codemirror.replaceRange(data, {line: 0, ch: 0}, {line: lines.length, ch: lines[lines.length - 1].length });
         });
         this.save();
     }
@@ -536,3 +531,22 @@ view.prototype.unload = function(ev) {
     return false;
 };
 
+view.prototype.colorList = {};
+view.prototype.colors = function(color) {
+    if (color) {
+        this.colorList[color] = true;
+    }
+    // Rescan stylesheets for colors, dedupe, sort by luminosity
+    // and render swatches for each one.
+    this.$('.colors').empty();
+    _(this.model.get('Stylesheet').pluck('data').join('\n')
+        .match(/\#[A-Fa-f0-9]{6}\b|\#[A-Fa-f0-9]{3}\b|\b(rgb\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(0?\.)?\d+\s*\))/g) || []
+    ).chain()
+        .uniq()
+        .each(_(function(color) {
+            if (color[0] != '#' || this.colorList[color]) {
+                var swatch = templates.ProjectSwatch({ color: color});
+                this.$('.colors').append(swatch);
+            }
+        }).bind(this));
+}

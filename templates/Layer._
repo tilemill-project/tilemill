@@ -58,7 +58,7 @@
     </li>
     <li>
       <label for='advanced'>Advanced</label>
-      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1=? option2=?' />
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
     <li class='buttons'>
@@ -131,7 +131,7 @@
     </li>
     <li>
       <label for='advanced'>Advanced</label>
-      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1=? option2=?' />
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
     <li class='buttons'>
@@ -175,13 +175,13 @@
     </li>
     <li>
       <label for='attachdb'>Attach DB</label>
-      <input type='text' name='attachdb' value='<%=get('Datasource') && get('Datasource').attachdb%>' />
-      <span class='description'></span>
+      <input type='text' name='attachdb' value='<%=get('Datasource') && get('Datasource').attachdb%>' placeholder='name1@file/path.sqlite,name2@other.sqlite' />
+      <span class='description'>attach additional databases for joins</span>
     </li>
     <li>
       <label for='extent'>Extent</label>
       <input type='text' name='extent' value='<%=get('Datasource') && get('Datasource').extent%>' />
-      <span class='description'></span>
+      <span class='description'>limit the query by this bounding box</span>
     </li>
     <li>
       <label for='srs-name'>SRS</label>
@@ -201,7 +201,7 @@
     </li>
     <li>
       <label for='advanced'>Advanced</label>
-      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1=? option2=?' />
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
     <li class='buttons'>

@@ -14,8 +14,11 @@
   src:url('../fonts/DroidSansMono.ttf');
   }
 
+
+/* It would be great if we could apply this style to selects too, but a bug
+   in Safari prevents us unfortunately. See 
+   http://redrata.com/2011/07/safari-woff-select-field-crash/ */
 input,
-select,
 textarea,
 body { font-family:DroidSans,'Lucida Grande',sans-serif; }
 
@@ -550,12 +553,15 @@ small { font-size:11px; }
 
 .palette .colors {
   height:20px;
-  float:left;
+  position: absolute;
+  right: 106px;
+  left: 10px;
   overflow:hidden;
   }
 
-.palette .colors.active {
-  position:relative;
+.palette .colors.active,
+.palette .colors:hover {
+  position:absolute;
   border:1px solid #fff;
   padding:4px;
   margin:-5px;
@@ -1180,6 +1186,17 @@ ul.form.expand .browser { display:block; }
   }
 
 .library .assets a .icon.folder { opacity:.5; }
+
+.library .assets a.with-size {
+  padding-right: 100px;
+  }
+
+.library .assets a .size {
+  position:absolute;
+  top:5px;
+  right:5px;
+  }
+
 
 /* Carto reference */
 .reference {}

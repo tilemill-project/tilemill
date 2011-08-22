@@ -43,7 +43,8 @@ view.prototype.exportDelete = function(ev) {
         content: 'Are you sure you want to delete "'+ model.get('filename') +'"?',
         callback: function() {
             model.destroy({ error: function(m, e) { new views.Modal(e) }});
-        }
+        },
+        affirmative: 'Delete'
     });
     return false;
 };

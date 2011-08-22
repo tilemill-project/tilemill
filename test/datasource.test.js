@@ -1,5 +1,5 @@
-var assert = require('assert');
-var fs = require('fs');
+var assert = require('assert'),
+    fs = require('fs');
 
 function readJSON(name) {
     var json = fs.readFileSync('./test/fixtures/' + name + '.json', 'utf8');
@@ -7,6 +7,19 @@ function readJSON(name) {
 }
 
 require('./support/start')(function(command) {
+
+    exports['test sqlite datasource'] = function() {
+        assert.response(command.servers['Core'],
+            { url: '/api/Datasource/world?file=' + encodeURIComponent(__dirname + '/fixtures/countries.sqlite') + '&table=countries&id=world&type=sqlite&project=demo_01' },
+            { status: 200 },
+            function(res) {
+                var body = JSON.parse(res.body), datasource = readJSON('datasource-sqlite');
+                datasource.url = __dirname + '/fixtures/countries.sqlite';
+                assert.deepEqual(datasource, body);
+            }
+        );
+    };
+
     exports['test shapefile datasource'] = function() {
         assert.response(command.servers['Core'],
             { url: '/api/Datasource/world?file=http%3A%2F%2Ftilemill-data.s3.amazonaws.com%2Fworld_borders_merc.zip&type=shape&id=world&project=demo_01' },

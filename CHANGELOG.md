@@ -1,3 +1,9 @@
+0.5.0
+-----
+- SQLite/SpatiaLite datasource support.
+- Advanced field for datasources.
+
+
 0.4.2 & 0.4.1
 -------------
 - Bugfixes.

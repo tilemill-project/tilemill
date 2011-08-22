@@ -47,6 +47,7 @@ model.prototype.schema = {
 model.prototype.initialize = function(attributes) {
     this.set({'Datasource': attributes.Datasource});
 };
+
 // Constant. Hash of simple names to known SRS strings.
 model.prototype.SRS = {
     // note: 900913 should be the same as EPSG 3857
@@ -100,7 +101,8 @@ model.prototype.advancedDatasourceOptions = function() {
     var omit = [
         'type', 'file',
         'table', 'host', 'port', 'user', 'password', 'dbname',
-        'extent', 'key_field', 'geometry_field', 'type', 'attachdb'
+        'extent', 'key_field', 'geometry_field', 'type', 'attachdb',
+        'srs', 'id', 'project'
     ];
     var advancedOptions = [];
     _(this.get('Datasource')).each(function(value, key) {
