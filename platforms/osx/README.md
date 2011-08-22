@@ -16,8 +16,8 @@ A simple wrapper around tilemill for OSX.
  When building for personal use, the Spotlight & QuickLook plugins may not get 
  properly registered. To manually register them: 
 
-  - `/usr/bin/mdimport -r /path/to/TileMill.app/Contents/Library/Spotlight/MBTiles.mdimporter`
-  - `/usr/bin/qlmanage -r`
+    /usr/bin/mdimport -r TileMill.app/Contents/Library/Spotlight/MBTiles.mdimporter
+    /usr/bin/qlmanage -r
 
 # Build and test
 
