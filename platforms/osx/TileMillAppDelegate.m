@@ -85,6 +85,7 @@
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
+    [[NSUserDefaults standardUserDefaults] synchronize];
     appTerminating = YES;
     // This doesn't run when app is forced to quit, so the child process is left running.
     // We clean up any orphan processes in [self startTileMill].

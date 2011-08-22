@@ -97,8 +97,6 @@
         
         [alert runModal];
     }
-
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (IBAction)clickedFilesPathButton:(id)sender
