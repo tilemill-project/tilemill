@@ -2,14 +2,11 @@
 
 A simple wrapper around tilemill for OSX.
 
-
 # Requires
 
  * Snow Leopard or Lion
  * XCode >= 4
  * Fully built TileMill (run `npm install` in the top-level folder)
- * `git submodule update --init` to initialize dependent Git submodules
-
 
 # Notes
 
@@ -24,7 +21,6 @@ A simple wrapper around tilemill for OSX.
 Compile and run the OSX App:
 
     make && make run
-
 
 # Standalone packaging
 
