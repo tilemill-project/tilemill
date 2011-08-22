@@ -109,7 +109,12 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
       var style = state.tokenize(stream, state);
 
       var context = state.stack[state.stack.length - 1];
-      if (type == 'hash' && context == 'rule') {
+      if (type[0] === '@') {
+          state.variable = true;
+      } else if (type[0] === ';') {
+          state.variable = false;
+      }
+      if (type == 'hash' && (context == 'rule' || state.variable)) {
           style = 'carto-colorcode';
           if (parserConfig.onColor) {
               parserConfig.onColor(stream.current());
