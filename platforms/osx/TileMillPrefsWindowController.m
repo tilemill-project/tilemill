@@ -71,6 +71,21 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (NSString *)lastUpdateCheckString
+{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"SULastCheckTime"])
+    {
+        NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+        
+        [formatter setDateStyle:NSDateFormatterLongStyle];
+        [formatter setTimeStyle:NSDateFormatterShortStyle];
+        
+        return [NSString stringWithFormat:@"Last checked %@", [formatter stringFromDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"SULastCheckTime"]]];
+    }
+
+    return @"Never checked";
+}
+
 #pragma mark -
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
