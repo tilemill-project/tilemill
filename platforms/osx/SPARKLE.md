@@ -13,7 +13,7 @@ target of the `Makefile`.
 
 ## Requirements
 
-Aside from an OS X standard installation (including Bash, Perl with `XML::LibXML`, stat, 
+Aside from an OS X standard installation (including Bash, Perl with `XML::LibXML`, `stat`, 
 and OpenSSL), you will need: 
 
  * Node.js in your path with `node-markdown` (which installs via the TileMill build process).
@@ -21,8 +21,8 @@ and OpenSSL), you will need:
  * A `.zip` already uploaded to the server configured in `sparkle.sh`.
  * A changelog entry for the version in `../../CHANGELOG.md`. 
  * A copy of the private key corresponding to `dsa_public.pem` in a secure note in your OS X 
-   keychain named *TileMill Sparkle Private Key* (`Keychain Access.app > File > New Secure 
-   Note Item...`). Running `security find-generic-password -g -s "TileMill Sparkle Private
+   keychain named **TileMill Sparkle Private Key** (*Keychain Access.app > File > New Secure 
+   Note Item...*). Running `security find-generic-password -g -s "TileMill Sparkle Private
    Key"` should yield output.
 
 ## Usage
