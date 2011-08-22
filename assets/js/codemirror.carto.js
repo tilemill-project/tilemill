@@ -65,7 +65,10 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
     } else if (/[;{}:\[\]]/.test(ch)) {
       return ret(null, ch);
     } else {
-      stream.eatWhile(/[\w\\\-_]/);
+      var current = null;
+      while (current = stream.eat(/[a-zA-Z\\\-_\d\(]/)) {
+        if (current == '(') break;
+      }
       return valid_identifiers[stream.current()] ?
           ret('carto-valid-identifier', 'identifier') :
           ret('carto-identifier', 'identifier');
@@ -114,7 +117,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
               parserConfig.onColor(stream.current());
           }
       } else if (style == 'carto-identifier') {
-        if (context == 'rule') {
+        if (context == 'rule' || context == 'variable') {
           style = (valid_keywords[stream.current()] || valid_colors[stream.current()]) ?
             'carto-valid-value' :
             'carto-value';
