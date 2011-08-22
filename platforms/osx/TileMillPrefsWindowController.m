@@ -10,10 +10,34 @@
 
 @implementation TileMillPrefsWindowController
 
+- (id)initWithWindowNibName:(NSString *)windowNibName
+{
+    self = [super initWithWindowNibName:windowNibName];
+    
+    if (self)
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(windowWillClose:)
+                                                     name:NSWindowWillCloseNotification
+                                                   object:[self window]];
+
+    return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:NSWindowWillCloseNotification 
+                                                  object:[self window]];
+    
+    [super dealloc];
+}
+
 - (void)awakeFromNib
 {
     [[self window] center];
 }
+
+#pragma mark -
 
 - (NSString *)abbreviatedFilesPath
 {
@@ -30,6 +54,14 @@
     // this is a dummy pass-through to satisfy bindings KVO
     //
     [[NSUserDefaults standardUserDefaults] setObject:path forKey:@"filesPath"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark -
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+    [[self window] makeFirstResponder:nil];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
