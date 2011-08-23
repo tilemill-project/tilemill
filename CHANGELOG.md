@@ -4,7 +4,12 @@
 - Advanced field for datasources.
 
 
-0.4.2 & 0.4.1
+0.4.2
+-------------
+- Bugfixes.
+
+
+0.4.1
 -------------
 - Bugfixes.
 
