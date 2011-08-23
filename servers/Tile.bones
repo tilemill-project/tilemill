@@ -9,8 +9,8 @@ server.prototype.initialize = function() {
     _.bindAll(this, 'load', 'grid', 'getArtifact', 'mbtiles', 'fromCache');
     this.get('/1.0.0/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.mbtiles);
     this.get('/1.0.0/:id.mbtiles/:z/:x/:y.:format(grid.json)', this.mbtiles);
-    this.get('/1.0.0/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.fromCache, this.load, this.getArtifact);
-    this.get('/1.0.0/:id/:z/:x/:y.:format(grid.json)', this.fromCache, this.load, this.grid, this.getArtifact);
+    this.get('/1.0.0/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', [this.fromCache, this.load, this.getArtifact]);
+    this.get('/1.0.0/:id/:z/:x/:y.:format(grid.json)', [this.fromCache, this.load, this.grid, this.getArtifact]);
 };
 
 server.prototype.load = function(req, res, next) {

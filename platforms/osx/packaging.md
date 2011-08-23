@@ -46,6 +46,7 @@ custom flags we set later on.
 
     npm install -g jshint expresso
     
+jshint installation may fail with clang++.
 
 ## Build tilemill
 
@@ -131,7 +132,7 @@ To set up the SDK and build mapnik do:
     curl http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-r3183M.diff | patch -p0
     cd osx/
     curl -o sources.tar.bz2 http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-2.0.0_r3183M.tar.bz2
-    tar svf mapnik-static-sdk-2.0.0_r3181M.tar.bz2
+    tar xvf sources.tar.bz2
     cd ../
     cp osx/config.py .
     ./configure
@@ -139,7 +140,7 @@ To set up the SDK and build mapnik do:
     make install
 
     # set critical shell env settings
-    export MAPNIK_ROOT=`pwd`/sources
+    export MAPNIK_ROOT=`pwd`/mapnik-trunk
     export PATH=$MAPNIK_ROOT/usr/local/bin:$PATH
 
 Confirm the SDK is working by checking mapnik-config presence at that path:
@@ -168,7 +169,7 @@ First we will rebuild node-sqlite3.
 Configure:
 
     make clean
-    export CXXFLAGS="-isystem $MAPNIK_ROOT/include $CORE_CXXFLAGS"
+    export CXXFLAGS="-I$MAPNIK_ROOT/include $CORE_CXXFLAGS"
     export LINKFLAGS="-L$MAPNIK_ROOT/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
     ./configure
 
@@ -191,11 +192,12 @@ Move to the node-mapnik directory:
 
     cd ../../../mapnik/
 
+Optional Hint: if using clang++ you are about to see a lot of compiler warning from boost. They are harmless but annoying. You can suppress them by adding '-Wno-unused-function -Wno-uninitialized -Wno-array-bounds -Wno-parentheses -Wno-char-subscripts' to your CXXFLAGS, or by adding `-isystem $MAPNIK_ROOT/include` instead. However, the latter flag is dangerous if your system has many duplicate libraries because it will background the precedence of that path when compiling and linking.
 
 Then rebuild like:
 
     make clean
-    export CXXFLAGS="-isystem $MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
+    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
     export LINKFLAGS="-L$MAPNIK_ROOT/lib -L$MAPNIK_ROOT/usr/local/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
     export MAPNIK_INPUT_PLUGINS="path.join(__dirname, 'input')"
     export MAPNIK_FONTS="path.join(__dirname, 'fonts')"
