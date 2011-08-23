@@ -1,7 +1,15 @@
 0.5.0
 -----
 - SQLite/SpatiaLite datasource support.
+- Fixed bug in manual breadcrumb.
+- Autocorrect common id/class entry errors.
+- Handy preference panel in Mac OS X application.
 - Advanced field for datasources.
+- Fixed sytax error in Ubuntu install script.
+- New projects can optionally empty to save bandwith.
+- Better wording of buttons in modal confirmation dialogs.
+- Fix for bug that would cause Safari 5.1 to crash.
+- Fix for frequent "Forbidden" errors in Safari.
 
 
 0.4.2
