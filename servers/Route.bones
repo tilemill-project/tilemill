@@ -25,9 +25,9 @@ servers['Route'].augment({
     initializeAssets: function(parent, app) {
         parent.call(this, app);
         this.get('/assets/tilemill/css/vendor.css',
-            mirror.assets(this.assets.styles, { type: '.css' }));
+            mirror.assets(this.assets.styles, { type: '.css' }).handler);
         this.get('/assets/tilemill/js/vendor.js',
-            mirror.assets(this.assets.scripts, { type: '.js' }));
+            mirror.assets(this.assets.scripts, { type: '.js' }).handler);
     }
 });
 
