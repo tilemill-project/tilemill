@@ -169,7 +169,7 @@ First we will rebuild node-sqlite3.
 Configure:
 
     make clean
-    export CXXFLAGS="-isystem $MAPNIK_ROOT/include $CORE_CXXFLAGS"
+    export CXXFLAGS="-I$MAPNIK_ROOT/include $CORE_CXXFLAGS"
     export LINKFLAGS="-L$MAPNIK_ROOT/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
     ./configure
 
@@ -192,11 +192,12 @@ Move to the node-mapnik directory:
 
     cd ../../../mapnik/
 
+Optional Hint: if using clang++ you are about to see a lot of compiler warning from boost. They are harmless but annoying. You can suppress them by adding '-Wno-unused-function -Wno-uninitialized -Wno-array-bounds -Wno-parentheses -Wno-char-subscripts' to your CXXFLAGS, or by adding `-isystem $MAPNIK_ROOT/include` instead. However, the latter flag is dangerous if your system has many duplicate libraries because it will background the precedence of that path when compiling and linking.
 
 Then rebuild like:
 
     make clean
-    export CXXFLAGS="-isystem $MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
+    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
     export LINKFLAGS="-L$MAPNIK_ROOT/lib -L$MAPNIK_ROOT/usr/local/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
     export MAPNIK_INPUT_PLUGINS="path.join(__dirname, 'input')"
     export MAPNIK_FONTS="path.join(__dirname, 'fonts')"
