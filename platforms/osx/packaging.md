@@ -46,6 +46,7 @@ custom flags we set later on.
 
     npm install -g jshint expresso
     
+jshint installation may fail with clang++.
 
 ## Build tilemill
 
@@ -131,7 +132,7 @@ To set up the SDK and build mapnik do:
     curl http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-r3183M.diff | patch -p0
     cd osx/
     curl -o sources.tar.bz2 http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-2.0.0_r3183M.tar.bz2
-    tar svf mapnik-static-sdk-2.0.0_r3181M.tar.bz2
+    tar xvf sources.tar.bz2
     cd ../
     cp osx/config.py .
     ./configure
@@ -139,7 +140,7 @@ To set up the SDK and build mapnik do:
     make install
 
     # set critical shell env settings
-    export MAPNIK_ROOT=`pwd`/sources
+    export MAPNIK_ROOT=`pwd`/mapnik-trunk
     export PATH=$MAPNIK_ROOT/usr/local/bin:$PATH
 
 Confirm the SDK is working by checking mapnik-config presence at that path:
