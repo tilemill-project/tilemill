@@ -92,7 +92,7 @@
                                          defaultButton:@"OK"
                                        alternateButton:nil 
                                            otherButton:nil 
-                             informativeTextWithFormat:@"Some changes were made that require TileMill to be restarted manually for them to take effect."
+                             informativeTextWithFormat:@"TileMill must be restarted manually for these changes to take effect."
                           ];
         
         [alert runModal];
