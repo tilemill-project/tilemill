@@ -10,7 +10,6 @@ view.prototype.events = {
     'click a[href=#carto]': 'carto',
     'click a[href=#settings]': 'settings',
     'click .layers a.add': 'layerAdd',
-    'click .layers li': 'layerDuplicate',
     'click .layers a.edit': 'layerEdit',
     'click .layers a.inspect': 'layerInspect',
     'click .layers a.delete': 'layerDelete',
@@ -34,7 +33,6 @@ view.prototype.initialize = function() {
         'change',
         'mapZoom',
         'layerAdd',
-        'layerDuplicate',
         'layerInspect',
         'layerEdit',
         'layerDelete',
@@ -284,31 +282,6 @@ view.prototype.layerAdd = function(ev) {
     }).bind(this);
     (new models.Favorites).fetch({success:cb,error:cb});
 };
-
-view.prototype.layerDuplicate = function(ev) {
-    if (!ev.altKey) return;
-
-    var cb = _(function(favorites) {
-        var id = $(ev.currentTarget).find('a:last').attr('href').split('#').pop(),
-            model = this.model.get('Layer').get(id),
-            seq = 0,
-            attributes = {'id': id + '-copy'};
-        while (this.model.get('Layer').get(attributes.id)) {
-            attributes.id = id + '-copy' + (seq++);
-        }
-        model = new models.Layer(_.extend(attributes, model.attributes), {
-            collection: this.model.get('Layer')
-        });
-        model.bind('add', this.makeLayer);
-        new views.Layer({
-            el: $('#popup'),
-            model: model,
-            favorites: favorites
-        });
-        (new views.App({ el: $('body') })).popupOpen({ currentTarget: $('<span>').text('Duplicate ' + id) });
-    }).bind(this);
-    (new models.Favorites).fetch({success:cb,error:cb});
-}
 
 view.prototype.layerEdit = function(ev) {
     var cb = _(function(favorites) {
