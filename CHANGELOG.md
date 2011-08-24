@@ -10,6 +10,7 @@
 - Better wording of buttons in modal confirmation dialogs.
 - Fix for bug that would cause Safari 5.1 to crash.
 - Fix for frequent "Forbidden" errors in Safari.
+- Automatic updates for Mac OS X app.
 
 
 0.4.2
