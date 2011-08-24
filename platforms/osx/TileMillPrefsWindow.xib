@@ -596,31 +596,30 @@
 												<string key="NSKeyEquivalent"/>
 												<int key="NSPeriodicDelay">400</int>
 												<int key="NSPeriodicInterval">75</int>
-												<object class="NSMenuItem" key="NSMenuItem" id="197622377">
-													<reference key="NSMenu" ref="542538017"/>
-													<string key="NSTitle">Once An Hour</string>
-													<string key="NSKeyEquiv"/>
-													<int key="NSKeyEquivModMask">1048576</int>
-													<int key="NSMnemonicLoc">2147483647</int>
-													<int key="NSState">1</int>
-													<object class="NSCustomResource" key="NSOnImage" id="339666969">
-														<string key="NSClassName">NSImage</string>
-														<string key="NSResourceName">NSMenuCheckmark</string>
-													</object>
-													<object class="NSCustomResource" key="NSMixedImage" id="229232313">
-														<string key="NSClassName">NSImage</string>
-														<string key="NSResourceName">NSMenuMixedState</string>
-													</object>
-													<string key="NSAction">_popUpItemAction:</string>
-													<int key="NSTag">3600</int>
-													<reference key="NSTarget" ref="755984850"/>
-												</object>
+												<nil key="NSMenuItem"/>
 												<bool key="NSMenuItemRespectAlignment">YES</bool>
 												<object class="NSMenu" key="NSMenu" id="542538017">
 													<string key="NSTitle">OtherViews</string>
 													<object class="NSMutableArray" key="NSMenuItems">
 														<bool key="EncodedWithXMLCoder">YES</bool>
-														<reference ref="197622377"/>
+														<object class="NSMenuItem" id="197622377">
+															<reference key="NSMenu" ref="542538017"/>
+															<string key="NSTitle">Once An Hour</string>
+															<string key="NSKeyEquiv"/>
+															<int key="NSKeyEquivModMask">1048576</int>
+															<int key="NSMnemonicLoc">2147483647</int>
+															<object class="NSCustomResource" key="NSOnImage" id="339666969">
+																<string key="NSClassName">NSImage</string>
+																<string key="NSResourceName">NSMenuCheckmark</string>
+															</object>
+															<object class="NSCustomResource" key="NSMixedImage" id="229232313">
+																<string key="NSClassName">NSImage</string>
+																<string key="NSResourceName">NSMenuMixedState</string>
+															</object>
+															<string key="NSAction">_popUpItemAction:</string>
+															<int key="NSTag">3600</int>
+															<reference key="NSTarget" ref="755984850"/>
+														</object>
 														<object class="NSMenuItem" id="923473870">
 															<reference key="NSMenu" ref="542538017"/>
 															<string key="NSTitle">Once A Day</string>
@@ -651,7 +650,6 @@
 															<string key="NSKeyEquiv"/>
 															<int key="NSKeyEquivModMask">1048576</int>
 															<int key="NSMnemonicLoc">2147483647</int>
-															<int key="NSState">1</int>
 															<reference key="NSOnImage" ref="339666969"/>
 															<reference key="NSMixedImage" ref="229232313"/>
 															<string key="NSAction">_popUpItemAction:</string>
@@ -661,7 +659,7 @@
 													</object>
 													<reference key="NSMenuFont" ref="892514940"/>
 												</object>
-												<int key="NSSelectedIndex">3</int>
+												<int key="NSSelectedIndex">-1</int>
 												<int key="NSPreferredEdge">1</int>
 												<bool key="NSUsesItemFromMenu">YES</bool>
 												<bool key="NSAltersState">YES</bool>
@@ -873,22 +871,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: automaticallyChecksForUpdates</string>
-						<reference key="source" ref="149040777"/>
-						<reference key="destination" ref="78203472"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="149040777"/>
-							<reference key="NSDestination" ref="78203472"/>
-							<string key="NSLabel">enabled: automaticallyChecksForUpdates</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">automaticallyChecksForUpdates</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">117</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: sendsSystemProfile</string>
 						<reference key="source" ref="302349710"/>
 						<reference key="destination" ref="78203472"/>
@@ -905,22 +887,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectedTag: updateCheckInterval</string>
-						<reference key="source" ref="149040777"/>
-						<reference key="destination" ref="78203472"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="149040777"/>
-							<reference key="NSDestination" ref="78203472"/>
-							<string key="NSLabel">selectedTag: updateCheckInterval</string>
-							<string key="NSBinding">selectedTag</string>
-							<string key="NSKeyPath">updateCheckInterval</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">121</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: lastUpdateCheckString</string>
 						<reference key="source" ref="4549659"/>
 						<reference key="destination" ref="1001"/>
@@ -934,6 +900,38 @@
 						</object>
 					</object>
 					<int key="connectionID">126</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectedTag: updateCheckInterval</string>
+						<reference key="source" ref="755984850"/>
+						<reference key="destination" ref="78203472"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="755984850"/>
+							<reference key="NSDestination" ref="78203472"/>
+							<string key="NSLabel">selectedTag: updateCheckInterval</string>
+							<string key="NSBinding">selectedTag</string>
+							<string key="NSKeyPath">updateCheckInterval</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">129</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: automaticallyChecksForUpdates</string>
+						<reference key="source" ref="755984850"/>
+						<reference key="destination" ref="78203472"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="755984850"/>
+							<reference key="NSDestination" ref="78203472"/>
+							<string key="NSLabel">enabled: automaticallyChecksForUpdates</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">automaticallyChecksForUpdates</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">130</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1434,7 +1432,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">126</int>
+			<int key="maxID">130</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
