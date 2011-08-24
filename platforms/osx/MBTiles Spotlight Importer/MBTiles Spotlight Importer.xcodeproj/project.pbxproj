@@ -12,6 +12,7 @@
 		8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
 		8D5B49A804867FD3000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D5B49A704867FD3000E48DA /* InfoPlist.strings */; };
 		C86B05270671AA6E00DD9006 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C86B05260671AA6E00DD9006 /* CoreServices.framework */; };
+		DD079F0C1405B2F4006D9A19 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DD079F0B1405B2F4006D9A19 /* libsqlite3.dylib */; };
 		DD529A1A1301148E00B6E597 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD529A191301148E00B6E597 /* Foundation.framework */; };
 		DD529AE613011A6600B6E597 /* mbtiles.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD529AE513011A6600B6E597 /* mbtiles.icns */; };
 		DD6F0D9C13F987D10055EFAE /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = DD6F0D9613F987D10055EFAE /* FMDatabase.h */; };
@@ -20,7 +21,6 @@
 		DD6F0D9F13F987D10055EFAE /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D9913F987D10055EFAE /* FMDatabaseAdditions.m */; };
 		DD6F0DA013F987D10055EFAE /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = DD6F0D9A13F987D10055EFAE /* FMResultSet.h */; };
 		DD6F0DA113F987D10055EFAE /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D9B13F987D10055EFAE /* FMResultSet.m */; };
-		DD6F0DA313F987EA0055EFAE /* SQLite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6F0DA213F987EA0055EFAE /* SQLite3.framework */; };
 		DDBBD27D130137040057503D /* schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = C88FB7D7067446EC006EBB30 /* schema.xml */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +34,7 @@
 		C86B05260671AA6E00DD9006 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		C88FB7D7067446EC006EBB30 /* schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = schema.xml; sourceTree = "<group>"; };
 		C88FB7DB0674470F006EBB30 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/schema.strings; sourceTree = "<group>"; };
+		DD079F0B1405B2F4006D9A19 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		DD529A191301148E00B6E597 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		DD529AE513011A6600B6E597 /* mbtiles.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = mbtiles.icns; sourceTree = "<group>"; };
 		DD6F0D9613F987D10055EFAE /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = ../Externals/FMDB/src/FMDatabase.h; sourceTree = "<group>"; };
@@ -42,7 +43,6 @@
 		DD6F0D9913F987D10055EFAE /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseAdditions.m; path = ../Externals/FMDB/src/FMDatabaseAdditions.m; sourceTree = "<group>"; };
 		DD6F0D9A13F987D10055EFAE /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = ../Externals/FMDB/src/FMResultSet.h; sourceTree = "<group>"; };
 		DD6F0D9B13F987D10055EFAE /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = ../Externals/FMDB/src/FMResultSet.m; sourceTree = "<group>"; };
-		DD6F0DA213F987EA0055EFAE /* SQLite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite3.framework; path = Library/Frameworks/SQLite3.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,10 +50,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD6F0DA313F987EA0055EFAE /* SQLite3.framework in Frameworks */,
 				8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */,
 				C86B05270671AA6E00DD9006 /* CoreServices.framework in Frameworks */,
 				DD529A1A1301148E00B6E597 /* Foundation.framework in Frameworks */,
+				DD079F0C1405B2F4006D9A19 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,10 +75,10 @@
 		089C1671FE841209C02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C86B05260671AA6E00DD9006 /* CoreServices.framework */,
 				0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */,
+				C86B05260671AA6E00DD9006 /* CoreServices.framework */,
 				DD529A191301148E00B6E597 /* Foundation.framework */,
-				DD6F0DA213F987EA0055EFAE /* SQLite3.framework */,
+				DD079F0B1405B2F4006D9A19 /* libsqlite3.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
