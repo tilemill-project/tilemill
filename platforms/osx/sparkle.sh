@@ -8,7 +8,7 @@ privatekeyname="TileMill Sparkle Private Key"
 template="./appcast_template.xml"
 appcast="./appcast.xml"
 
-tag=$( git describe --abbrev=0 | sed -e s/^v// )
+tag=$( git describe --tags --abbrev=0 | sed -e s/^v// )
 clear
 echo
 read -n 1 -p "Updating Sparkle for TileMill-$tag. Proceed? " proceed
