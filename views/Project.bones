@@ -190,7 +190,13 @@ view.prototype.attach = function() {
     // Reset various portions of the UI.
     this.$('.actions a[href=#save]').addClass('disabled');
     this.$('.tabs a.error').removeClass('error');
-    this.$('.editor pre.error').removeClass('error');
+    _(this.model.get('Stylesheet').models).each(function(model) {
+        if (!model.dirty) return;
+        model.dirty = false;
+        for (i = 0; i < model.codemirror.getValue().match(/\n/g).length+1; i++) {
+            model.codemirror.clearMarker(i);
+        }
+    });
     this.statusClose();
 
     // @TODO Currently interaction formatter/data is cached
@@ -240,12 +246,10 @@ view.prototype.save = function(ev) {
             for (var i = 0; i < err.length; i++) {
                 var match = err[i].match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/);
                 if (match) {
-                    var id = 'stylesheet-' + match[2].replace(/[\.]/g, '-');
-                    var code = this.$();
-                    this.$('.tabs a[href=#'+id+']').addClass('error');
-                    this.$('.'+id+' div.CodeMirror-gutter pre:nth-child('+match[3]+')')
-                        .addClass('error')
-                        .attr('title', match[5]);
+                    var id = 'stylesheet-' + match[2].replace(/[\.]/g, '-'),
+                        stylesheet = this.model.get('Stylesheet').models[this.$('.tabs a[href=#'+id+']').addClass('error').index()];
+                    stylesheet.dirty = true;
+                    stylesheet.codemirror.setMarker(parseInt(match[3]), '%N%', 'error');
                 } else {
                     new views.Modal(err[i]);
                     break;
