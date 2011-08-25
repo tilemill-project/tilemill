@@ -86,7 +86,7 @@ models.Project.prototype.validateAsync = function(attributes, options) {
             strict:false,
             base:path.join(Bones.plugin.config.files, 'project', this.id) + '/'
         }, function(err, map) {
-            if (err) return options.error(this.err);
+            if (err) return options.error(this, err);
             map.bufferSize = 0;
             map.extent = [0,0,0,0];
             map.render(im, {format:'png'}, function(err) {
