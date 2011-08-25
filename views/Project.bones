@@ -249,7 +249,7 @@ view.prototype.save = function(ev) {
                     var id = 'stylesheet-' + match[2].replace(/[\.]/g, '-'),
                         stylesheet = this.model.get('Stylesheet').models[this.$('.tabs a[href=#'+id+']').addClass('error').index()];
                     stylesheet.dirty = true;
-                    stylesheet.codemirror.setMarker(parseInt(match[3]), '%N%', 'error');
+                    stylesheet.codemirror.setMarker(parseInt(match[3])-1, '%N%', 'error');
                 } else {
                     new views.Modal(err[i]);
                     break;
