@@ -46,7 +46,8 @@
     },
     "scripts": {
         "start": "./index.js",
-        "test": "expresso"
+        "test": "expresso",
+        "prepublish": "sh changelog.sh"
     },
     "bin": {
         "tilemill": "./index.js"
