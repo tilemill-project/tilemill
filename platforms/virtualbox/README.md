@@ -87,6 +87,11 @@ Test tilemill:
   * Make sure it can right data (indicates proper perms to /usr/share/mapbox)
   * Make sure you can manually add files to /usr/share/mapbox
   
+For now, to get the permissions to work for both the app and the user you need to do:
+
+    sudo chmod -R 777 /usr/share/mapbox
+
+  
 Now set up niceities:
 
   * Make the user an admin user in System > Administration > Users & Groups
