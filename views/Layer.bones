@@ -182,6 +182,7 @@ view.prototype.saveFile = function() {
             'file': this.$('input[name=file]').val()
         }
     };
+    _(attr['Datasource']).defaults(this.parseOptions(this.$('input[name=advanced]').val()));
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
         new views.Modal(e);
