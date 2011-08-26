@@ -13,8 +13,7 @@
 ### compiled version of mapnik2, in addition to the mapnik2 package required
 ### and which will be installed for you using this script.
 
-LIST="/etc/apt/sources.list.d/tilemill.list"
-DIST=`grep DISTRIB_CODENAME /etc/lsb-release | sed "s/DISTRIB_CODENAME=\(.*\)/\1/g"`
+DIST=`lsb_release -cs`
 
 if [ -z "$DIST" ]; then
   echo "Your Ubuntu distribution version could not be determined."
@@ -26,18 +25,8 @@ if [[ "$DIST" != "maverick" && "$DIST" != "natty" ]]; then
   exit
 fi
 
-echo "
-deb http://ppa.launchpad.net/developmentseed/mapbox/ubuntu $DIST main
-deb-src http://ppa.launchpad.net/developmentseed/mapbox/ubuntu $DIST main
-
-deb http://ppa.launchpad.net/chris-lea/node.js/ubuntu $DIST main
-deb-src http://ppa.launchpad.net/chris-lea/node.js/ubuntu $DIST main
-" > $LIST
-
-# Mapbox key
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0FB81AF3
-# Node.js key
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C7917B12
+apt-add-repository ppa:developmentseed/mapbox
+apt-add-repository ppa:chris-lea/node.js
 
 apt-get update
 apt-get install tilemill
