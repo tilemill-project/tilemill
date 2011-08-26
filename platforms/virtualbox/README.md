@@ -2,6 +2,7 @@
 
 Details on setup of TileMill in a VirtualBox Virtual Machine
 
+
 # Requires
 
  * VirtualBox 4.0.x
@@ -31,7 +32,7 @@ Now skip down to 'Testing and configuration' below and update the readme.
  * VB > Machine > New..
  * Choose OS "Linux", Version "Ubuntu" (or Ubuntu 64 if iso is 64 bit)
  * Name it "TileMill-$VER-$arch" like: "TileMill-0.5.0-32bit"
- * First run, create a new dyamically expanding virtual disk >=  150GB
+ * First run, create a new dynamically expanding virtual disk >=  150GB
 
 
 # Install Ubuntu
@@ -61,7 +62,7 @@ Then optionally enable Bridged internet (to later be able to ssh from host).
 Restart VM. Unity will likely fail - no problem.
 
 Optional: Install guest additions for copy/paste between
-host/guest and nicer screen resising.
+host/guest and nicer screen resizing.
 
 Then on the guest open a terminal and do:
 
