@@ -13,7 +13,7 @@ Details on setup of TileMill in a VirtualBox Virtual Machine
 If you are updating an existing VM after a TileMill release do:
 
     sudo apt-get update
-    sudo apt-get upgrade
+    apt-get install tilemill
     sudo stop tilemill
     sudo start tilemill
 
