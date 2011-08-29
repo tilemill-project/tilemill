@@ -76,7 +76,7 @@
     //
     logPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"] retain];
     [self showMainWindow:self];
-    mainWindowController.childRunning = YES; //NO;
+    mainWindowController.childRunning = NO;
     [self startTileMill];
 }
 
