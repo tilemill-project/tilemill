@@ -2,6 +2,7 @@
     "id": "world",
     "project": "demo_01",
     "fields": {
+        "rowid": { "type": "Number" },
         "OGC_FID": { "type": "Number" },
         "scalerank": { "type": "Number" },
         "labelrank": { "type": "Number" },
