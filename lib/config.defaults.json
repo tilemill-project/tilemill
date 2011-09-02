@@ -1,6 +1,6 @@
 {
     "port": 8889,
-    "bufferSize": 256,
+    "bufferSize": 128,
     "files": "~/Documents/MapBox",
     "examples": true,
     "host": false
