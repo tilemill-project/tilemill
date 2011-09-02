@@ -17,7 +17,6 @@ view.prototype.events = {
     'click .editor a.delete': 'stylesheetDelete',
     'sortupdate .layers ul': 'sortLayers',
     'sortupdate .tabs': 'sortStylesheets',
-    'click pre.error': 'statusOpen',
     'click .status a[href=#close]': 'statusClose',
     'click .swatch': 'colorOpen',
     'click .swatch a[href=#save]': 'colorSave',
@@ -44,7 +43,6 @@ view.prototype.initialize = function() {
         'sortStylesheets',
         'exportAdd',
         'exportList',
-        'statusOpen',
         'statusClose',
         'colors',
         'colorOpen',
@@ -160,7 +158,14 @@ view.prototype.makeStylesheet = function(model) {
             // so self.codemirror is false.
             model.codemirror && model.set({'data': model.codemirror.getValue()});
             self.colors();
-        }
+        },
+        onGutterClick: _(function(editor, line, ev) {
+            if (model.errors[line]) {
+                this.$('.status').addClass('active');
+                this.$('.status .content').text(model.errors[line]);
+                return false;
+            }
+        }).bind(this)
     });
     $(model.codemirror.getWrapperElement())
         .addClass(id)
@@ -189,14 +194,6 @@ view.prototype.mapZoom = function(e) {
 view.prototype.attach = function() {
     // Reset various portions of the UI.
     this.$('.actions a[href=#save]').addClass('disabled');
-    this.$('.tabs a.error').removeClass('error');
-    _(this.model.get('Stylesheet').models).each(function(model) {
-        if (!model.dirty) return;
-        model.dirty = false;
-        for (i = 0; i < model.codemirror.getValue().match(/\n/g).length+1; i++) {
-            model.codemirror.clearMarker(i);
-        }
-    });
     this.statusClose();
 
     // @TODO Currently interaction formatter/data is cached
@@ -227,6 +224,16 @@ view.prototype.change = function() {
 view.prototype.save = function(ev) {
     if (this.$('.actions a[href=#save]').is('.disabled')) return false;
 
+    this.model.get('Stylesheet').forEach(function(model) {
+        if (model.errors) {
+            model.errors = [];
+            for (i = 0; i < model.codemirror.getValue().match(/\n/g).length+1; i++) {
+                model.codemirror.clearMarker(i);
+            }
+        }
+    });
+    this.$('.tabs a.error').removeClass('error');
+
     $(this.el).addClass('saving');
     this.model.save(this.model.attributes, {
         success: _(function(model) {
@@ -246,10 +253,14 @@ view.prototype.save = function(ev) {
             for (var i = 0; i < err.length; i++) {
                 var match = err[i].match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/);
                 if (match) {
-                    var id = 'stylesheet-' + match[2].replace(/[\.]/g, '-'),
-                        stylesheet = this.model.get('Stylesheet').models[this.$('.tabs a[href=#'+id+']').addClass('error').index()];
-                    stylesheet.dirty = true;
-                    stylesheet.codemirror.setMarker(parseInt(match[3])-1, '%N%', 'error');
+                    var stylesheet = this.model.get('Stylesheet').get(match[2]),
+                        id = 'stylesheet-' + stylesheet.id.replace(/[\.]/g, '-'),
+                        lineNum = parseInt(match[3]) - 1;
+
+                    this.$('.tabs a[href=#' + id + ']').addClass('error');
+                    stylesheet.errors = stylesheet.errors || [];
+                    stylesheet.errors[lineNum] = match[5];
+                    stylesheet.codemirror.setMarker(lineNum, '%N%', 'error');
                 } else {
                     new views.Modal(err[i]);
                     break;
@@ -436,13 +447,6 @@ view.prototype.exportList = function(ev) {
             new views.Modal(e);
         }
     });
-};
-
-view.prototype.statusOpen = function(ev) {
-    var text = $(ev.currentTarget).attr('title');
-    this.$('.status').addClass('active');
-    this.$('.status .content').text(text);
-    return false;
 };
 
 view.prototype.statusClose = function(ev) {
