@@ -1,3 +1,12 @@
+0.5.1
+-----
+- Fixed bug in OSX app that would activate the "Launch Browser" button before
+  TileMill was ready.
+- Update to CodeMirror 2.13.
+- Better line-by-line error reporting for Carto files.
+- Fixed bug that would break conditional styles on some PostGIS.
+
+
 0.5.0
 -----
 - SQLite/SpatiaLite datasource support.
