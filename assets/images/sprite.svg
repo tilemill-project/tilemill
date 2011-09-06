@@ -6056,14 +6056,14 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="618.15013"
-     inkscape:cy="185.16902"
+     inkscape:zoom="3.8146973"
+     inkscape:cx="593.93845"
+     inkscape:cy="197.90078"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:snap-bbox="true"
-     showguides="false"
+     showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="1343"
      inkscape:window-height="817"
@@ -6664,7 +6664,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="color:#000000;fill:#202020;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 513,185 -4,3 -2.5,-2.5 -2.5,2.5 1.5,1.5 -1.5,1.5 2.5,2.5 2.5,-2.5 4,3 2,0 -4.78125,-4.5 L 515,185 l -2,0 z m -6.5,2 1,1 -1,1 -1,-1 1,-1 z m 6,2 c -0.277,0 -0.5,0.223 -0.5,0.5 0,0.277 0.223,0.5 0.5,0.5 l 0.5,0 c 0.277,0 0.5,-0.223 0.5,-0.5 0,-0.277 -0.223,-0.5 -0.5,-0.5 l -0.5,0 z m 2,0 c -0.20775,0 -0.39305,0.13292 -0.46875,0.3125 -0.0252,0.0599 -0.0312,0.11825 -0.0312,0.1875 0,0.277 0.223,0.5 0.5,0.5 l 0.5,0 c 0.277,0 0.5,-0.223 0.5,-0.5 0,-0.277 -0.223,-0.5 -0.5,-0.5 l -0.5,0 z m -8,1 1,1 -1,1 -1,-1 1,-1 z"
+       d="m 512.5,185 -4,3 -2.5,-2.5 -2.5,2.5 1.5,1.5 -1.5,1.5 2.5,2.5 2.5,-2.5 4,3 2,0 -4.78125,-4.5 4.78125,-4.5 -2,0 z m -6.5,2 1,1 -1,1 -1,-1 1,-1 z m 6,2 c -0.277,0 -0.5,0.223 -0.5,0.5 0,0.277 0.223,0.5 0.5,0.5 l 0.5,0 c 0.277,0 0.5,-0.223 0.5,-0.5 0,-0.277 -0.223,-0.5 -0.5,-0.5 l -0.5,0 z m 2,0 c -0.20775,0 -0.39305,0.13292 -0.46875,0.3125 -0.0252,0.0599 -0.0312,0.11825 -0.0312,0.1875 0,0.277 0.223,0.5 0.5,0.5 l 0.5,0 c 0.277,0 0.5,-0.223 0.5,-0.5 0,-0.277 -0.223,-0.5 -0.5,-0.5 l -0.5,0 z m -8,1 1,1 -1,1 -1,-1 1,-1 z"
        id="path4246"
        inkscape:connector-curvature="0" />
     <path
@@ -7163,5 +7163,17 @@
        d="m 650,205 c -4,0 -5,3 -8,5 3,2 4,5 8,5 4,0 5,-3 8,-5 -3,-2 -4,-5 -8,-5 z m 0,2 c 1.65687,0 3,1.34313 3,3 0,1.65687 -1.34313,3 -3,3 -1.65687,0 -3,-1.34313 -3,-3 0,-1.65687 1.34313,-3 3,-3 z"
        style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        inkscape:connector-curvature="0" />
+    <path
+       style="color:#000000;fill:#202020;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 670,184 c 0,0 -2,0 -2,2 l -0.5,-1 -1.5,0 c -1.662,0 -3,1.338 -3,3 l 0,1 c 0,1.10457 -0.89543,2 -2,2 l 0,1 c 0.77238,0 1.46826,-0.30176 2,-0.78125 l 0,0.78125 0,4 3,0 0,-1 c 0,-0.554 0.446,-1 1,-1 l 3,0 c 0.554,0 1,0.446 1,1 l 0,1 3,0 0,-1.1875 0,-2.3125 0.5,0 c 0.45572,0.61181 1.17848,1 2,1 1.21874,0 2.21612,-0.87707 2.4375,-2.03125 L 677,190.5 l 0,0.5 c 0,0 -0.22386,0.5 -0.5,0.5 -0.27614,0 -0.5,-0.22386 -0.5,-0.5 l 0,-2.9375 0,-0.0625 c 0,-3 -1,-4 -4,-4 z m 3.5,3 c 0.277,0 0.5,0.223 0.5,0.5 l 0,1 c 0,0.277 -0.223,0.5 -0.5,0.5 -0.277,0 -0.5,-0.223 -0.5,-0.5 l 0,-1 c 0,-0.277 0.223,-0.5 0.5,-0.5 z"
+       id="rect9654"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="csccssccccccsssscccccscccsscsscsssssss" />
+    <path
+       sodipodi:nodetypes="csccssccccccsssscccccscccsscsscsssssss"
+       inkscape:connector-curvature="0"
+       id="path9718"
+       d="m 670,204 c 0,0 -2,0 -2,2 l -0.5,-1 -1.5,0 c -1.662,0 -3,1.338 -3,3 l 0,1 c 0,1.10457 -0.89543,2 -2,2 l 0,1 c 0.77238,0 1.46826,-0.30176 2,-0.78125 l 0,0.78125 0,4 3,0 0,-1 c 0,-0.554 0.446,-1 1,-1 l 3,0 c 0.554,0 1,0.446 1,1 l 0,1 3,0 0,-1.1875 0,-2.3125 0.5,0 c 0.45572,0.61181 1.17848,1 2,1 1.21874,0 2.21612,-0.87707 2.4375,-2.03125 L 677,210.5 l 0,0.5 c 0,0 -0.22386,0.5 -0.5,0.5 -0.27614,0 -0.5,-0.22386 -0.5,-0.5 l 0,-2.9375 0,-0.0625 c 0,-3 -1,-4 -4,-4 z m 3.5,3 c 0.277,0 0.5,0.223 0.5,0.5 l 0,1 c 0,0.277 -0.223,0.5 -0.5,0.5 -0.277,0 -0.5,-0.223 -0.5,-0.5 l 0,-1 c 0,-0.277 0.223,-0.5 0.5,-0.5 z"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
   </g>
 </svg>

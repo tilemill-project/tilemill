@@ -7,7 +7,7 @@
     <a href='#layerPostGIS' <% if(get('Datasource')) { %>class='active'<% } %>><span class='icon postgis'></span>PostGIS</a>
     <% } %>
     <% if (isNew() || get('Datasource') && get('Datasource').type == 'sqlite') {%>
-    <a href='#layerSqlite'><span class='icon file'></span>SQLite</a>
+    <a href='#layerSqlite'><span class='icon sqlite'></span>SQLite</a>
     <% } %>
   </div>
 

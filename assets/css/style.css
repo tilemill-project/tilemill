@@ -835,7 +835,8 @@ li:hover .icon { display:block; }
 .icon.geometry-polygon    { background-position:-240px -180px; }
 .icon.geometry-raster     { background-position:-360px -180px; }
 .icon.file              { background-position:-540px -180px; }
-.icon.postgis           { background-position:-560px -180px; }
+.icon.postgis           { background-position:-660px -180px; }
+.icon.sqlite            { background-position:-560px -180px; }
 .icon.tooltip           { background-position:-580px -180px; }
 .icon.star              { background-position:-600px -180px; }
 .icon.cloud             { background-position:-620px -180px; }
@@ -863,7 +864,8 @@ li:hover .icon { display:block; }
 .reverse.geometry-polygon    { background-position:-240px -200px; }
 .reverse.geometry-raster     { background-position:-360px -200px; }
 .reverse.file           { background-position:-540px -200px; }
-.reverse.postgis        { background-position:-560px -200px; }
+.reverse.postgis        { background-position:-660px -200px; }
+.reverse.sqlite         { background-position:-560px -200px; }
 .reverse.tooltip        { background-position:-580px -200px; }
 .reverse.star           { background-position:-600px -200px; }
 .reverse.cloud          { background-position:-620px -200px; }
@@ -873,7 +875,8 @@ li:hover .icon { display:block; }
 .dock .active > .icon.legend   { background-position:-280px -200px; }
 .dock .active > .icon.settings { background-position:-260px -200px; }
 .dock .active > .icon.file     { background-position:-540px -200px;}
-.dock .active > .icon.postgis  { background-position:-560px -200px;}
+.dock .active > .icon.postgis  { background-position:-660px -200px;}
+.dock .active > .icon.sqlite   { background-position:-560px -200px;}
 .dock .active > .icon.tooltip  { background-position:-580px -200px;}
 
 /* File icons */
