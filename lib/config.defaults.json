@@ -3,5 +3,6 @@
     "bufferSize": 128,
     "files": "~/Documents/MapBox",
     "examples": true,
+    "sampledata": true,
     "host": false
 }

@@ -25,6 +25,12 @@ commands['start'].options['examples'] = {
     'default': defaults.examples
 };
 
+commands['start'].options['sampledata'] = {
+    'title': 'sampledata=1|0',
+    'description': 'Precache sample data for low bandwidth connections.',
+    'default': defaults.sampledata
+};
+
 commands['start'].prototype.bootstrap = function(plugin, callback) {
     var settings = Bones.plugin.config;
     settings.files = path.resolve(settings.files);
@@ -41,6 +47,9 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
             if (key === 'project' && settings.examples) {
                 var examples = path.resolve(path.join(__dirname, '..', 'examples'));
                 fsutil.cprSync(examples, dir);
+            } else if (key === 'cache' && settings.sampledata) {
+                var data = path.resolve(path.join(__dirname, '..', 'data'));
+                fsutil.cprSync(data, dir);
             }
         }
     });
