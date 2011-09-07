@@ -79,7 +79,7 @@ echo "        <item>" >> $appcast
 echo "            <title>TileMill $tag</title>" >> $appcast
 echo "            <sparkle:releaseNotesLink>$changelogurl</sparkle:releaseNotesLink>" >> $appcast
 echo "            <pubDate>$timestamp</pubDate>" >> $appcast
-echo "            <enclosure url=\"$zipurl\" sparkle:version=\"2.0\" length=\"$zipsize\" type=\"application/octet-stream\" sparkle:dsaSignature=\"$signature\"/>" >> $appcast
+echo "            <enclosure url=\"$zipurl\" sparkle:version=\"$tag\" length=\"$zipsize\" type=\"application/octet-stream\" sparkle:dsaSignature=\"$signature\"/>" >> $appcast
 echo "        </item>" >> $appcast
 echo "    </channel>" >> $appcast
 echo "</rss>" >> $appcast
