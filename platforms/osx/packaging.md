@@ -140,7 +140,7 @@ To set up the SDK and build mapnik do:
     make install
 
     # set critical shell env settings
-    export MAPNIK_ROOT=`pwd`/mapnik-trunk/osx/sources
+    export MAPNIK_ROOT=`pwd`/osx/sources
     export PATH=$MAPNIK_ROOT/usr/local/bin:$PATH
 
 Confirm the SDK is working by checking mapnik-config presence at that path:
