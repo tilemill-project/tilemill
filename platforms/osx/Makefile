@@ -13,7 +13,7 @@ package: build
 	rm -rf $(TARGET)node_modules/jshint
 	rm -rf $(TARGET)node_modules/expresso
 	rm -rf $(TARGET)test
-	find $(TARGET) -name test -delete
+	find $(TARGET) -name test -exec rm -rf {} \;
 	rm -rf $(TARGET)node_modules/mapnik/{build,examples,src,tests}
 	rm -rf $(TARGET)node_modules/sqlite3/build
 	rm -rf $(TARGET)node_modules/tilelive/examples
