@@ -36,6 +36,7 @@
 		D7CFB15B13E6F5450033DFFD /* test in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14813E6F5450033DFFD /* test */; };
 		D7CFB15C13E6F5450033DFFD /* views in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14913E6F5450033DFFD /* views */; };
 		D7CFB15D13E6F76C0033DFFD /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13E13E6F5450033DFFD /* index.js */; };
+		D7FF972114182DE500DD264C /* data in Resources */ = {isa = PBXBuildFile; fileRef = D7FF972014182DE500DD264C /* data */; };
 		DD1081DF13F9A5DB001772BE /* TileMillPrefsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD1081DE13F9A5DB001772BE /* TileMillPrefsWindow.xib */; };
 		DD1081EE13F9AA4F001772BE /* TileMillPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1081ED13F9AA4F001772BE /* TileMillPrefsWindowController.m */; };
 		DD49236B1403254D0004E12F /* dsa_public.pem in Resources */ = {isa = PBXBuildFile; fileRef = DD49236A1403254D0004E12F /* dsa_public.pem */; };
@@ -152,6 +153,7 @@
 		D7CFB14713E6F5450033DFFD /* templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = templates; path = ../../templates; sourceTree = "<group>"; };
 		D7CFB14813E6F5450033DFFD /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; name = test; path = ../../test; sourceTree = "<group>"; };
 		D7CFB14913E6F5450033DFFD /* views */ = {isa = PBXFileReference; lastKnownFileType = folder; name = views; path = ../../views; sourceTree = "<group>"; };
+		D7FF972014182DE500DD264C /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../data; sourceTree = "<group>"; };
 		DD1081DE13F9A5DB001772BE /* TileMillPrefsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileMillPrefsWindow.xib; sourceTree = "<group>"; };
 		DD1081EC13F9AA4F001772BE /* TileMillPrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillPrefsWindowController.h; sourceTree = "<group>"; };
 		DD1081ED13F9AA4F001772BE /* TileMillPrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillPrefsWindowController.m; sourceTree = "<group>"; };
@@ -159,7 +161,7 @@
 		DD6F0D4713F97F120055EFAE /* MBTilesQuickLook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MBTilesQuickLook.xcodeproj; sourceTree = "<group>"; };
 		DD6F0D5C13F981140055EFAE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DD6F0DB213F989210055EFAE /* MBTiles Spotlight Importer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "MBTiles Spotlight Importer.xcodeproj"; path = "MBTiles Spotlight Importer/MBTiles Spotlight Importer.xcodeproj"; sourceTree = "<group>"; };
-		DD820DE113FAC13400685B10 /* config.defaults.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = config.defaults.json; path = ../../lib/config.defaults.json; sourceTree = "<group>"; };
+		DD820DE113FAC13400685B10 /* config.defaults.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = config.defaults.json; path = ../../lib/config.defaults.json; sourceTree = "<group>"; };
 		DD820DE513FAC27600685B10 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Externals/JSONKit/JSONKit.h; sourceTree = "<group>"; };
 		DD820DE613FAC27600685B10 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Externals/JSONKit/JSONKit.m; sourceTree = "<group>"; };
 		DDE4970013FEADC1006E35F3 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Externals/Sparkle/Sparkle.framework; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 		D7CFB13513E6F4EA0033DFFD /* tilemill */ = {
 			isa = PBXGroup;
 			children = (
+				D7FF972014182DE500DD264C /* data */,
 				D7CFB13713E6F5450033DFFD /* assets */,
 				D7CFB13813E6F5450033DFFD /* CHANGELOG.md */,
 				D7CFB13913E6F5450033DFFD /* CNAME */,
@@ -469,6 +472,7 @@
 				DD1081DF13F9A5DB001772BE /* TileMillPrefsWindow.xib in Resources */,
 				DD820DE213FAC13400685B10 /* config.defaults.json in Resources */,
 				DD49236B1403254D0004E12F /* dsa_public.pem in Resources */,
+				D7FF972114182DE500DD264C /* data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
