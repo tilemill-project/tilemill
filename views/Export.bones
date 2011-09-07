@@ -51,20 +51,24 @@ view.prototype.render = function() {
 
 // Update size fields based on bbox ratio.
 view.prototype.size = function(ev) {
-    var nw = this.map.locationPoint(new com.modestmaps.Location(
+    var nwLoc = new com.modestmaps.Location(
         this.$('input[name=bbox_3]').val(),
         this.$('input[name=bbox_0]').val()
-    ));
-    var se = this.map.locationPoint(new com.modestmaps.Location(
+    );
+    var seLoc = new com.modestmaps.Location(
         this.$('input[name=bbox_1]').val(),
         this.$('input[name=bbox_2]').val()
-    ));
+    );
+    var nw = this.map.locationPoint(nwLoc);
+    var se = this.map.locationPoint(seLoc);
     var aspect = (Math.round(se.x) - Math.round(nw.x)) /
         (Math.round(se.y) - Math.round(nw.y));
 
-    // @TODO if ev is width/height we need to redraw the boxselector.
-    // See https://github.com/mapbox/wax/issues/81
     var target = $((ev || {}).currentTarget);
+    if (target.attr('name') && target.attr('name').substring(0, 4) === 'bbox') {
+        this.map.controls.boxselector.extent([nwLoc, seLoc], true);
+    }
+
     switch (target.attr('name')) {
     case 'height':
         var h = parseInt(this.$('input[name=height]').val(), 10);
