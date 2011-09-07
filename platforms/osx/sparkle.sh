@@ -71,7 +71,7 @@ echo
 
 echo -n "Outputting new appcast... "
 if [ -f $appcast ]; then
-  cat $appcast | grep -v "</channel>" | grep -v "</rss>" > $appcast
+  cat $appcast | grep -v "</channel>" | grep -v "</rss>" > $appcast.tmp && mv $appcast.tmp $appcast
 else
   cat $template > $appcast
 fi
