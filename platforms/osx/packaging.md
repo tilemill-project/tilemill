@@ -10,9 +10,9 @@ distributable tilemill.app without requiring any other installation steps.
 
 We build node with two cpu architectures, aka universal/fat to support older macs:
 
-    wget http://nodejs.org/dist/node-v0.4.10.tar.gz
-    tar xvf node-v0.4.10.tar.gz
-    cd node-v0.4.10
+    wget http://nodejs.org/dist/node-v0.4.11.tar.gz
+    tar xvf node-v0.4.11.tar.gz
+    cd node-v0.4.11
     # ia32 == i386
     ./configure --without-snapshot --jobs=`sysctl -n hw.ncpu` --blddir=node-32 --dest-cpu=ia32
     make install # will install headers
@@ -129,7 +129,7 @@ To set up the SDK and build mapnik do:
     cd mapnik-static-sdk
     svn co http://svn.mapnik.org/trunk/ mapnik-trunk
     cd mapnik-trunk
-    curl http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-r3183M.diff | patch -p0
+    curl http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-r3274M.diff | patch -p0
     cd osx/
     curl -o sources.tar.bz2 http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-2.0.0_r3183M.tar.bz2
     tar xvf sources.tar.bz2
