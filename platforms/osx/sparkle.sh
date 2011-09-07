@@ -19,12 +19,19 @@ fi
 echo
 echo
 
+if [ -f $appcast -o -f $changeloghtml ]; then
+  echo "Resetting $appcast and $changeloghtml to latest from repository."
+  git checkout $appcast
+  git checkout $changeloghtml
+  echo
+fi
+
 grep $tag $changelogmd > /dev/null
 if [ $? != 0 ]; then
   echo "Unable to find entry for $tag in $changelogmd. Aborting."
   exit 1
 else
-  echo -n "Found entry for $tag in $changelogmd. Rendering Markdown to HTML... "
+  echo -n "Found entry for $tag in $changelogmd. Rendering to $changeloghtml... "
   node -e 'var fs = require("fs");
            var md = require("node-markdown").Markdown;
            fs.readFile("'$changelogmd'", "utf8", function (err, file) {
