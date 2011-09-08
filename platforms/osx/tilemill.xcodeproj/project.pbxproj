@@ -125,7 +125,6 @@
 		35B36EA213D260C6006C72ED /* TileMillAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillAppDelegate.m; sourceTree = "<group>"; };
 		35D15E0C13D25D9D003244AE /* TileMillChildProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillChildProcess.h; sourceTree = "<group>"; };
 		35D15E0D13D25D9D003244AE /* TileMillChildProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillChildProcess.m; sourceTree = "<group>"; };
-		35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tilemill.xcconfig; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* tilemill-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "tilemill-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* TileMill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TileMill.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D738213B13EB4FE500639A03 /* application.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = application.icns; sourceTree = "<group>"; };
@@ -232,7 +231,6 @@
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 				D745084513E894010020D8CD /* TileMillMainWindow.xib */,
-				35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */,
 				DD820DE113FAC13400685B10 /* config.defaults.json */,
 				DD49236A1403254D0004E12F /* dsa_public.pem */,
 			);
@@ -582,7 +580,6 @@
 		};
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -601,7 +598,6 @@
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -616,7 +612,6 @@
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35FF5C3613D8F7670064C3A2 /* tilemill.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
