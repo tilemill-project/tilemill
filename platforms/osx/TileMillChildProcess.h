@@ -1,3 +1,10 @@
+//
+//  TileMillChildProcess.h
+//  tilemill
+//
+//  Created by Will White on 8/2/11.
+//  Copyright 2011 Development Seed. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 
