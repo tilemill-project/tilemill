@@ -41,11 +41,19 @@
         [searchTask release];
         searchTask = nil;
     }
+    shouldAttemptRestart = YES;
     NSString *base_path = [[NSBundle mainBundle] resourcePath];
     NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
     searchTask = [[TileMillChildProcess alloc] initWithBasePath:base_path command:command];
     [searchTask setDelegate:self];
     [searchTask startProcess];
+}
+
+- (void)stopTileMill
+{
+    [searchTask stopProcess];
+    [searchTask release];
+    searchTask = nil;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -86,12 +94,10 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     [[NSUserDefaults standardUserDefaults] synchronize];
-    appTerminating = YES;
+    shouldAttemptRestart = NO;
     // This doesn't run when app is forced to quit, so the child process is left running.
     // We clean up any orphan processes in [self startTileMill].
-    [searchTask stopProcess];
-    [searchTask release];
-    searchTask = nil;
+    [self stopTileMill];
 }
 
 - (IBAction)showMainWindow:(id)sender
@@ -155,6 +161,21 @@
 - (void)childProcess:(TileMillChildProcess *)process didSendOutput:(NSString *)output
 {
     [self writeToLog:output];
+    
+    if ([[NSPredicate predicateWithFormat:@"SELF contains 'EADDRINUSE'"] evaluateWithObject:output])
+    {
+        NSAlert *alert = [NSAlert alertWithMessageText:@"Port already in use"
+                                         defaultButton:@"OK"
+                                       alternateButton:nil
+                                           otherButton:nil
+                             informativeTextWithFormat:@"Port %@ is already in use by another application on the system. Please change either that application or TileMill's preference, then relaunch TileMill.", [[NSUserDefaults standardUserDefaults] objectForKey:@"serverPort"]];
+        
+        [alert runModal];
+    
+        shouldAttemptRestart = NO;
+        
+        [self stopTileMill];
+    }
 }
 
 - (void)childProcessDidStart:(TileMillChildProcess *)process
@@ -166,7 +187,7 @@
 {
     mainWindowController.childRunning = NO;
     NSLog(@"Finished");
-    if (!appTerminating) {
+    if (shouldAttemptRestart) {
         // We're not shutting down so the app crashed. Restart it.
         NSLog(@"Restart");
         [self startTileMill];

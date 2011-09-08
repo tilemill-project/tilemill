@@ -15,7 +15,7 @@
 @interface TileMillAppDelegate : NSObject <TileMillChildProcessDelegate>
 {
     TileMillChildProcess *searchTask;
-    BOOL appTerminating;
+    BOOL shouldAttemptRestart;
     NSString *logPath;
     TileMillMainWindowController *mainWindowController;
     TileMillPrefsWindowController *prefsController;
@@ -30,6 +30,7 @@
 - (IBAction)openPreferences:(id)sender;
 
 - (void)startTileMill;
+- (void)stopTileMill;
 - (void)writeToLog:(NSString *)message;
 
 @end
