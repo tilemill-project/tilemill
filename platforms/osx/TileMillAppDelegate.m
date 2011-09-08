@@ -155,7 +155,7 @@
 
 #pragma MainMenu IBActions
 
-- (IBAction)openDirectory:(id)sender
+- (IBAction)openDocumentsFolder:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openFile:[[NSUserDefaults standardUserDefaults] stringForKey:@"filesPath"]];
 }

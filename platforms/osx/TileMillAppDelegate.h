@@ -21,7 +21,7 @@
     TileMillPrefsWindowController *prefsController;
 }
 
-- (IBAction)openDirectory:(id)sender;
+- (IBAction)openDocumentsFolder:(id)sender;
 - (IBAction)openHelp:(id)sender;
 - (IBAction)openDiscussions:(id)sender;
 - (IBAction)openKnowledgeBase:(id)sender;
