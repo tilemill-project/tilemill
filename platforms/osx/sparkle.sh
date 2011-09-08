@@ -8,10 +8,12 @@ privatekeyname="TileMill Sparkle Private Key"
 template="./appcast_template.xml"
 appcast="./appcast.xml"
 
-tag=$( git describe --tags --abbrev=0 | sed -e s/^v// )
+tag=$( git describe --tags --abbrev=0 )
+version=$( echo $tag | sed -e s/^v// )
+build=$( git rev-list $tag | grep -c ^ )
 clear
 echo
-read -n 1 -p "Updating Sparkle for TileMill-$tag. Proceed? " proceed
+read -n 1 -p "Updating Sparkle for TileMill-$version ($build). Proceed? " proceed
 if [ $proceed != "y" ] && [ $proceed != "Y" ]; then
   clear
   exit 1
@@ -26,12 +28,12 @@ if [ -f $appcast -o -f $changeloghtml ]; then
   echo
 fi
 
-grep $tag $changelogmd > /dev/null
+grep $version $changelogmd > /dev/null
 if [ $? != 0 ]; then
-  echo "Unable to find entry for $tag in $changelogmd. Aborting."
+  echo "Unable to find entry for $version in $changelogmd. Aborting."
   exit 1
 else
-  echo -n "Found entry for $tag in $changelogmd. Rendering to $changeloghtml... "
+  echo -n "Found entry for $version in $changelogmd. Rendering to $changeloghtml... "
   node -e 'var fs = require("fs");
            var md = require("node-markdown").Markdown;
            fs.readFile("'$changelogmd'", "utf8", function (err, file) {
@@ -41,9 +43,9 @@ else
 fi
 echo
 
-zipurl=$( echo $urlbase | sed -e s/==TAG==/$tag/ )
+zipurl=$( echo $urlbase | sed -e s/==TAG==/$version/ )
 echo -n "Downloading $zipurl... "
-curl -L -s $zipurl > /tmp/TileMill-$tag.zip
+curl -L -s $zipurl > /tmp/TileMill-$version.zip
 if [ $? != 0 ]; then
   echo "Unable to download $zipurl. Aborting."
   exit 1
@@ -51,7 +53,7 @@ fi
 echo "done."
 echo
 
-zipfile="/tmp/TileMill-$tag.zip"
+zipfile="/tmp/TileMill-$version.zip"
 if [ ! -f $zipfile ]; then
   echo "Unable to stat downloaded $zipfile. Aborting."
   exit 1
@@ -83,17 +85,17 @@ else
   cat $template > $appcast
 fi
 echo "        <item>" >> $appcast
-echo "            <title>TileMill $tag</title>" >> $appcast
+echo "            <title>TileMill $version</title>" >> $appcast
 echo "            <sparkle:releaseNotesLink>$changelogurl</sparkle:releaseNotesLink>" >> $appcast
 echo "            <pubDate>$timestamp</pubDate>" >> $appcast
-echo "            <enclosure url=\"$zipurl\" sparkle:version=\"$tag\" length=\"$zipsize\" type=\"application/octet-stream\" sparkle:dsaSignature=\"$signature\"/>" >> $appcast
+echo "            <enclosure url=\"$zipurl\" sparkle:version=\"$build\" sparkle:shortVersionString=\"$version\" length=\"$zipsize\" type=\"application/octet-stream\" sparkle:dsaSignature=\"$signature\"/>" >> $appcast
 echo "        </item>" >> $appcast
 echo "    </channel>" >> $appcast
 echo "</rss>" >> $appcast
 echo "done."
 echo
 
-echo "Local appcast updated for TileMill $tag. Now do the following:"
+echo "Local appcast updated for TileMill $version ($build). Now do the following:"
 echo
 echo " 1. \`git add $appcast $changeloghtml\`"
 echo " 2. \`git commit\`"
