@@ -14,7 +14,25 @@
 
 @interface TileMillAppDelegate ()
 
+- (IBAction)openDocumentsFolder:(id)sender;
+- (IBAction)openHelp:(id)sender;
+- (IBAction)openDiscussions:(id)sender;
+- (IBAction)openKnowledgeBase:(id)sender;
+- (IBAction)openConsole:(id)sender;
+- (IBAction)openPreferences:(id)sender;
+- (IBAction)showMainWindow:(id)sender;
+
+- (void)startTileMill;
+- (void)stopTileMill;
+- (void)writeToLog:(NSString *)message;
 - (void)presentFatalError;
+
+@property (nonatomic, retain) TileMillChildProcess *searchTask;
+@property (nonatomic, retain) TileMillMainWindowController *mainWindowController;
+@property (nonatomic, retain) TileMillPrefsWindowController *prefsController;
+@property (nonatomic, retain) NSString *logPath;
+@property (nonatomic, assign) BOOL shouldAttemptRestart;
+@property (nonatomic, assign) BOOL fatalErrorCaught;
 
 @end
    
@@ -22,53 +40,24 @@
 
 @implementation TileMillAppDelegate
 
-- (void)dealloc {
+@synthesize searchTask;
+@synthesize mainWindowController;
+@synthesize prefsController;
+@synthesize logPath;
+@synthesize shouldAttemptRestart;
+@synthesize fatalErrorCaught;
+
+- (void)dealloc
+{
+    [searchTask release];
     [mainWindowController release];
-    [logPath release];
     [prefsController release];
+    [logPath release];
+
     [super dealloc];
 }
 
-- (void)startTileMill {
-    if ( ! [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""])
-    {
-        NSLog(@"node is missing.");
-        [self presentFatalError];
-    }
-    // Look for orphan node processes from previous crashes.
-    NSURL *nodeExecURL = [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""];
-    NSArray *applications = [[NSWorkspace sharedWorkspace] runningApplications];
-    for (NSRunningApplication *app in applications) {
-        if ([[app executableURL] isEqual:nodeExecURL]) {
-            if (![app forceTerminate]) {
-                [self writeToLog:@"Failed to terminate orphan tilemill process."];
-            }
-        }
-    }
-
-    if (searchTask) {
-        [searchTask release];
-        searchTask = nil;
-    }
-    shouldAttemptRestart = YES;
-    NSString *base_path = [[NSBundle mainBundle] resourcePath];
-    NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
-    searchTask = [[TileMillChildProcess alloc] initWithBasePath:base_path command:command];
-    [searchTask setDelegate:self];
-    [searchTask startProcess];
-}
-
-- (void)stopTileMill
-{
-    if (searchTask)
-    {
-        if (searchTask.launched)
-            [searchTask stopProcess];
-
-        [searchTask release];
-        searchTask = nil;
-    }
-}
+#pragma mark -
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -114,6 +103,49 @@
     [self stopTileMill];
 }
 
+#pragma mark -
+
+- (void)startTileMill {
+    if ( ! [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""])
+    {
+        NSLog(@"node is missing.");
+        [self presentFatalError];
+    }
+    // Look for orphan node processes from previous crashes.
+    NSURL *nodeExecURL = [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""];
+    NSArray *applications = [[NSWorkspace sharedWorkspace] runningApplications];
+    for (NSRunningApplication *app in applications) {
+        if ([[app executableURL] isEqual:nodeExecURL]) {
+            if (![app forceTerminate]) {
+                [self writeToLog:@"Failed to terminate orphan tilemill process."];
+            }
+        }
+    }
+    
+    if (searchTask) {
+        [searchTask release];
+        searchTask = nil;
+    }
+    shouldAttemptRestart = YES;
+    NSString *base_path = [[NSBundle mainBundle] resourcePath];
+    NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
+    searchTask = [[TileMillChildProcess alloc] initWithBasePath:base_path command:command];
+    [searchTask setDelegate:self];
+    [searchTask startProcess];
+}
+
+- (void)stopTileMill
+{
+    if (searchTask)
+    {
+        if (searchTask.launched)
+            [searchTask stopProcess];
+        
+        [searchTask release];
+        searchTask = nil;
+    }
+}
+
 - (IBAction)showMainWindow:(id)sender
 {
     if ( ! mainWindowController)
@@ -153,7 +185,7 @@
     [self stopTileMill];
 }
 
-#pragma MainMenu IBActions
+#pragma mark -
 
 - (IBAction)openDocumentsFolder:(id)sender
 {
@@ -188,7 +220,7 @@
     [prefsController showWindow:self];
 }
 
-#pragma ChildProcessDelegate Methods
+#pragma mark -
 
 - (void)childProcess:(TileMillChildProcess *)process didSendOutput:(NSString *)output
 {
