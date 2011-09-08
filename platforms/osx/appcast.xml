@@ -9,7 +9,7 @@
             <title>TileMill 0.5.0</title>
             <sparkle:releaseNotesLink>http://tilemill.com/platforms/osx/changelog.html</sparkle:releaseNotesLink>
             <pubDate>Thu, 25 Aug 2011 14:28:34 -0400</pubDate>
-            <enclosure url="https://github.com/downloads/mapbox/tilemill/TileMill-0.5.0.zip" sparkle:version="2875" sparkle:shortVersionString="0.5.0" length="54966410" type="application/octet-stream" sparkle:dsaSignature="MTlkYjExMTdiMDllMGZkMGVjNjE2MjhlYjBiOTY4ZjQxNWNlMzBiMgo="/>
+            <enclosure url="https://github.com/downloads/mapbox/tilemill/TileMill-0.5.0.zip" sparkle:version="2875" sparkle:shortVersionString="0.5.0" length="54966410" type="application/octet-stream" sparkle:dsaSignature="MCwCFESkb0ub6SL6KGrMgPEVW22E9aIJAhRlTbXR3jcjWBLi07PK3ks4OmW71Q=="/>
         </item>
     </channel>
 </rss>
