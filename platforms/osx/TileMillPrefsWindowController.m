@@ -10,7 +10,17 @@
 
 #define kRestartKeyPaths [NSArray arrayWithObjects:@"serverPort", @"filesPath", @"bufferSize", nil]
 
+@interface TileMillPrefsWindowController ()
+
+@property (nonatomic, assign) BOOL needsRestart;
+
+@end
+
+#pragma mark -
+
 @implementation TileMillPrefsWindowController
+
+@synthesize needsRestart;
 
 - (id)initWithWindowNibName:(NSString *)windowNibName
 {
@@ -90,7 +100,10 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    needsRestart = YES;
+    // Assume we get here only via notifications of prefs changes
+    // requiring a restart.
+    //
+    self.needsRestart = YES;
 }
 
 #pragma mark -
@@ -99,9 +112,9 @@
 {
     [[self window] makeFirstResponder:nil];
 
-    if (needsRestart)
+    if (self.needsRestart)
     {
-        needsRestart = NO;
+        self.needsRestart = NO;
 
         NSAlert *alert = [NSAlert alertWithMessageText:@"Manual Restart Required"
                                          defaultButton:@"OK"
