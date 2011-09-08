@@ -12,12 +12,11 @@
 
 @protocol TileMillChildProcessDelegate
 
+@optional
+
 - (void)childProcess:(TileMillChildProcess *)process didSendOutput:(NSString *)output;
-
 - (void)childProcessDidStart:(TileMillChildProcess *)process;
-
 - (void)childProcessDidFinish:(TileMillChildProcess *)process;
-
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 
 @end

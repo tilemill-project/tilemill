@@ -35,7 +35,9 @@
 
 - (void) startProcess
 {
-    [self.delegate childProcessDidStart:self];
+    if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidStart:)])
+        [self.delegate childProcessDidStart:self];
+ 
     task = [[NSTask alloc] init];
     [task setStandardOutput: [NSPipe pipe]];
     [task setStandardError: [task standardOutput]];
@@ -45,11 +47,14 @@
                                                  [NSString stringWithFormat:@"--bufferSize=%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"bufferSize"]],
                                                  [NSString stringWithFormat:@"--files=%@",      [[NSUserDefaults standardUserDefaults] stringForKey:@"filesPath"]], 
                                                  nil]];
+
     [[NSNotificationCenter defaultCenter] addObserver:self 
-        selector:@selector(getData:) 
-        name: NSFileHandleReadCompletionNotification 
-        object: [[task standardOutput] fileHandleForReading]];
+                                             selector:@selector(getData:) 
+                                                 name:NSFileHandleReadCompletionNotification 
+                                               object:[[task standardOutput] fileHandleForReading]];
+    
     [[[task standardOutput] fileHandleForReading] readInBackgroundAndNotify];
+    
     [task launch];    
 }
 
@@ -59,12 +64,12 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadCompletionNotification object: [[task standardOutput] fileHandleForReading]];
     [task terminate];
 
-    while ((data = [[[task standardOutput] fileHandleForReading] availableData]) && [data length])
-    {
-        [self.delegate childProcess:self didSendOutput:[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]];
-    }
+    if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcess:didSendOutput:)])
+        while ((data = [[[task standardOutput] fileHandleForReading] availableData]) && [data length])
+            [self.delegate childProcess:self didSendOutput:[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]];
 
-    [self.delegate childProcessDidFinish:self];
+    if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidFinish:)])
+        [self.delegate childProcessDidFinish:self];
 }
 
 - (void) getData: (NSNotification *)aNotification
@@ -73,10 +78,15 @@
     if ([data length])
     {
         NSString *message = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-        [self.delegate childProcess:self didSendOutput:message];
+
+        if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcess:didSendOutput:)])
+            [self.delegate childProcess:self didSendOutput:message];
+        
         if ([message hasPrefix:@"Started"] && !launched) {
             launched = YES;
-            [self.delegate childProcessDidSendFirstData:self];
+            
+            if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidSendFirstData:)])
+                [self.delegate childProcessDidSendFirstData:self];
         }
     } else {
         [self stopProcess];
