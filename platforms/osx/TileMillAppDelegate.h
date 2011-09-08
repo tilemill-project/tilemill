@@ -12,4 +12,12 @@
 {
 }
 
+- (IBAction)openDocumentsFolder:(id)sender;
+- (IBAction)openHelp:(id)sender;
+- (IBAction)openDiscussions:(id)sender;
+- (IBAction)openKnowledgeBase:(id)sender;
+- (IBAction)openConsole:(id)sender;
+- (IBAction)openPreferences:(id)sender;
+- (IBAction)showMainWindow:(id)sender;
+
 @end
