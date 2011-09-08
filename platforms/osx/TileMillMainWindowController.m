@@ -10,21 +10,27 @@
 
 @implementation TileMillMainWindowController
 
+@synthesize openBrowserButton;
+@synthesize spinner;
 @synthesize childRunning;
-
-- (id)init {
-    if (![super initWithWindowNibName:@"TileMillMainWindow"]) {
-        return nil;
-    }
-    return self;
-}
 
 - (void)awakeFromNib
 {
     [[self window] center];
 }
 
-- (IBAction)openBrowser:(id)sender {
+- (void)dealloc
+{
+    [openBrowserButton release];
+    [spinner release];
+    
+    [super dealloc];
+}
+
+#pragma mark -
+
+- (IBAction)openBrowser:(id)sender
+{
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]]];
 }
 

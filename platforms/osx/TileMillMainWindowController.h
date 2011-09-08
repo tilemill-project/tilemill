@@ -6,14 +6,12 @@
 //  Copyright 2011 Development Seed. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
-@interface TileMillMainWindowController : NSWindowController {
-    IBOutlet NSButton *openBrowserButton;
-    IBOutlet NSProgressIndicator *spinner;
-    BOOL childRunning;
+@interface TileMillMainWindowController : NSWindowController
+{
 }
 
+@property (nonatomic, readonly, retain) IBOutlet NSButton *openBrowserButton;
+@property (nonatomic, readonly, retain) IBOutlet NSProgressIndicator *spinner;
 @property (nonatomic, assign) BOOL childRunning;
 
 - (IBAction)openBrowser:(id)sender;

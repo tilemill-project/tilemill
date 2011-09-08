@@ -149,7 +149,7 @@
 - (IBAction)showMainWindow:(id)sender
 {
     if ( ! self.mainWindowController)
-        self.mainWindowController = [[[TileMillMainWindowController alloc] init] autorelease];
+        self.mainWindowController = [[[TileMillMainWindowController alloc] initWithWindowNibName:@"TileMillMainWindow"] autorelease];
     
     [self.mainWindowController showWindow:self];
 }
