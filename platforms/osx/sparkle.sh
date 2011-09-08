@@ -71,7 +71,7 @@ if [ -z "$privatekey" ]; then
   exit 1
 fi
 echo "$privatekey" > ./dsa_private.pem
-signature=$( openssl dgst -sha1 -binary < $zipfile | openssl dgst -dss1 -sign < ./dsa_private.pem | openssl enc -base64 )
+signature=$( cat $zipfile | openssl dgst -sha1 -binary | openssl dgst -dss1 -sign ./dsa_private.pem | openssl enc -base64 )
 rm -f ./dsa_private.pem
 echo "done."
 echo
