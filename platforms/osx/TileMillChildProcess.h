@@ -6,37 +6,30 @@
 //  Copyright 2011 Development Seed. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @class TileMillChildProcess;
 
 @protocol TileMillChildProcessDelegate
 
 @optional
 
-- (void)childProcess:(TileMillChildProcess *)process didSendOutput:(NSString *)output;
 - (void)childProcessDidStart:(TileMillChildProcess *)process;
-- (void)childProcessDidFinish:(TileMillChildProcess *)process;
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
+- (void)childProcess:(TileMillChildProcess *)process didSendOutput:(NSString *)output;
+- (void)childProcessDidFinish:(TileMillChildProcess *)process;
 
 @end
 
+#pragma mark -
 
-@interface TileMillChildProcess : NSObject {
-    NSTask *task;
-    id <TileMillChildProcessDelegate> delegate;
-    NSString *basePath;
-    NSString *command;
-    BOOL launched;
+@interface TileMillChildProcess : NSObject
+{
 }
 
 @property (nonatomic, assign) id <TileMillChildProcessDelegate> delegate;
-@property (nonatomic, readonly, assign) BOOL launched;
+@property (nonatomic, readonly, assign, getter=isLaunched) BOOL launched;
 
 - (id)initWithBasePath:(NSString *)basePath command:(NSString *)command;
-
-- (void) startProcess;
-
-- (void) stopProcess;
+- (void)startProcess;
+- (void)stopProcess;
 
 @end
