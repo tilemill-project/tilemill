@@ -19,6 +19,7 @@
     NSString *logPath;
     TileMillMainWindowController *mainWindowController;
     TileMillPrefsWindowController *prefsController;
+    BOOL fatalErrorCaught;
 }
 
 - (IBAction)openDocumentsFolder:(id)sender;

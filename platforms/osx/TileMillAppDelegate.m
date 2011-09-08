@@ -210,11 +210,19 @@
         
         [self stopTileMill];
     }
-    else if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
+    else if (fatalErrorCaught)
     {
-        // any other fatal error
+        // generic fatal error
         //
         [self presentFatalError];
+    }
+    else if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
+    {
+        // We noticed a fatal error, so let's mark it, but not do
+        // anything yet. Let's get more output so that we can 
+        // further evaluate & act accordingly.
+
+        fatalErrorCaught = YES;
     }
 }
 
