@@ -28,10 +28,11 @@
     id <TileMillChildProcessDelegate> delegate;
     NSString *basePath;
     NSString *command;
-    bool launched;
+    BOOL launched;
 }
 
 @property (nonatomic, assign) id <TileMillChildProcessDelegate> delegate;
+@property (nonatomic, readonly, assign) BOOL launched;
 
 - (id)initWithBasePath:(NSString *)basePath command:(NSString *)command;
 

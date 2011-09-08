@@ -11,6 +11,7 @@
 @implementation TileMillChildProcess
 
 @synthesize delegate;
+@synthesize launched;
 
 - (id)initWithBasePath:(NSString *)bp command:(NSString *)c
 {

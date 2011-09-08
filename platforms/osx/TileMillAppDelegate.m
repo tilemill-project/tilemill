@@ -12,6 +12,14 @@
 
 #import "JSONKit.h"
 
+@interface TileMillAppDelegate ()
+
+- (void)presentFatalError;
+
+@end
+   
+#pragma mark -
+
 @implementation TileMillAppDelegate
 
 - (void)dealloc {
@@ -22,9 +30,10 @@
 }
 
 - (void)startTileMill {
-    if (![[NSBundle mainBundle] URLForResource:@"node" withExtension:@""]) {
+    if ( ! [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""])
+    {
         NSLog(@"node is missing.");
-        [NSApp terminate:nil];
+        [self presentFatalError];
     }
     // Look for orphan node processes from previous crashes.
     NSURL *nodeExecURL = [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""];
@@ -51,9 +60,14 @@
 
 - (void)stopTileMill
 {
-    [searchTask stopProcess];
-    [searchTask release];
-    searchTask = nil;
+    if (searchTask)
+    {
+        if (searchTask.launched)
+            [searchTask stopProcess];
+
+        [searchTask release];
+        searchTask = nil;
+    }
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -121,6 +135,24 @@
     [logFile closeFile];
 }
 
+- (void)presentFatalError
+{
+    NSAlert *alert = [NSAlert alertWithMessageText:@"There was a problem trying to start the server process"
+                                     defaultButton:@"OK"
+                                   alternateButton:@"Contact Support"
+                                       otherButton:nil
+                         informativeTextWithFormat:@"TileMill experienced a fatal error while trying to start the server process. Please restart the application. If this persists, please contact support."];
+    
+    NSInteger status = [alert runModal];
+    
+    if (status == NSAlertAlternateReturn)
+        [self openDiscussions:self];
+    
+    shouldAttemptRestart = NO;
+    
+    [self stopTileMill];
+}
+
 #pragma MainMenu IBActions
 
 - (IBAction)openDirectory:(id)sender
@@ -164,6 +196,8 @@
     
     if ([[NSPredicate predicateWithFormat:@"SELF contains 'EADDRINUSE'"] evaluateWithObject:output])
     {
+        // port in use error
+        //
         NSAlert *alert = [NSAlert alertWithMessageText:@"Port already in use"
                                          defaultButton:@"OK"
                                        alternateButton:nil
@@ -175,6 +209,12 @@
         shouldAttemptRestart = NO;
         
         [self stopTileMill];
+    }
+    else if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
+    {
+        // any other fatal error
+        //
+        [self presentFatalError];
     }
 }
 
