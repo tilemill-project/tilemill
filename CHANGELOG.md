@@ -4,7 +4,7 @@
   TileMill was ready.
 - Update to CodeMirror 2.13.
 - Better line-by-line error reporting for Carto files.
-- Fixed bug that would break conditional styles on some PostGIS.
+- Fixed bug that would break conditional styles on some PostGIS layers.
 - Faster rendering thanks to performance improvements in Mapnik.
 
 
@@ -35,6 +35,7 @@
 
 0.4.0
 -----
+- Please read these [important upgrade notes](http://tilemill.com/pages/upgrade.html#0-4)
 - Major rewrite of application.
 - app.db file from previous versions is not compatible with 0.4
 - Default files directory is now ~/Documents/MapBox
