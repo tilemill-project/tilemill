@@ -303,10 +303,6 @@
 		5504855E13EAF31D0001DFFD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../Library/Developer/Xcode/DerivedData/SQLite3-gzxsffpbpjatysgnfkbezbdmdptz/Build/Products/Debug\"",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MBTilesQuickLook/MBTilesQuickLook-Prefix.pch";
 				INFOPLIST_FILE = "MBTilesQuickLook/MBTilesQuickLook-Info.plist";
@@ -319,10 +315,6 @@
 		5504855F13EAF31D0001DFFD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../Library/Developer/Xcode/DerivedData/SQLite3-gzxsffpbpjatysgnfkbezbdmdptz/Build/Products/Debug\"",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MBTilesQuickLook/MBTilesQuickLook-Prefix.pch";
 				INFOPLIST_FILE = "MBTilesQuickLook/MBTilesQuickLook-Info.plist";

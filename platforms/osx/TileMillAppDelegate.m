@@ -12,44 +12,53 @@
 
 #import "JSONKit.h"
 
+#import "PFMoveApplication.h"
+
+@interface TileMillAppDelegate ()
+
+- (void)startTileMill;
+- (void)stopTileMill;
+- (void)writeToLog:(NSString *)message;
+- (void)presentFatalError;
+
+@property (nonatomic, retain) TileMillChildProcess *searchTask;
+@property (nonatomic, retain) TileMillMainWindowController *mainWindowController;
+@property (nonatomic, retain) TileMillPrefsWindowController *prefsController;
+@property (nonatomic, retain) NSString *logPath;
+@property (nonatomic, assign) BOOL shouldAttemptRestart;
+@property (nonatomic, assign) BOOL fatalErrorCaught;
+
+@end
+   
+#pragma mark -
+
 @implementation TileMillAppDelegate
 
-- (void)dealloc {
+@synthesize searchTask;
+@synthesize mainWindowController;
+@synthesize prefsController;
+@synthesize logPath;
+@synthesize shouldAttemptRestart;
+@synthesize fatalErrorCaught;
+
+- (void)dealloc
+{
+    [searchTask release];
     [mainWindowController release];
-    [logPath release];
     [prefsController release];
+    [logPath release];
+
     [super dealloc];
 }
 
-- (void)startTileMill {
-    if (![[NSBundle mainBundle] URLForResource:@"node" withExtension:@""]) {
-        NSLog(@"node is missing.");
-        [NSApp terminate:nil];
-    }
-    // Look for orphan node processes from previous crashes.
-    NSURL *nodeExecURL = [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""];
-    NSArray *applications = [[NSWorkspace sharedWorkspace] runningApplications];
-    for (NSRunningApplication *app in applications) {
-        if ([[app executableURL] isEqual:nodeExecURL]) {
-            if (![app forceTerminate]) {
-                [self writeToLog:@"Failed to terminate orphan tilemill process."];
-            }
-        }
-    }
+#pragma mark -
 
-    if (searchTask) {
-        [searchTask release];
-        searchTask = nil;
-    }
-    NSString *base_path = [[NSBundle mainBundle] resourcePath];
-    NSString *command = [NSString stringWithFormat:@"%@/index.js", base_path];
-    searchTask = [[TileMillChildProcess alloc] initWithBasePath:base_path command:command];
-    [searchTask setDelegate:self];
-    [searchTask startProcess];
-}
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+- (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+    // offer to move app to Applications folder
+    //
+    PFMoveToApplicationsFolderIfNecessary();
+    
     // used defaults shared between TileMill core & OS X (see #622)
     //
     NSString *jsonDefaults = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config.defaults" ofType:@"json"]
@@ -74,50 +83,121 @@
     
     // setup logging & fire up main functionality
     //
-    logPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"] retain];
+    self.logPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"];
+
+    self.mainWindowController.childRunning = NO;
+    
     [self showMainWindow:self];
-    mainWindowController.childRunning = NO;
     [self startTileMill];
 }
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)tilemillAppDelegate {
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)tilemillAppDelegate
+{
     return YES;
 }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
     [[NSUserDefaults standardUserDefaults] synchronize];
-    appTerminating = YES;
+    
+    self.shouldAttemptRestart = NO;
+
     // This doesn't run when app is forced to quit, so the child process is left running.
     // We clean up any orphan processes in [self startTileMill].
-    [searchTask stopProcess];
-    [searchTask release];
-    searchTask = nil;
+    //
+    [self stopTileMill];
+}
+
+#pragma mark -
+
+- (void)startTileMill
+{
+    NSURL *nodeExecURL = [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""];
+
+    if ( ! nodeExecURL)
+    {
+        NSLog(@"node is missing.");
+
+        [self presentFatalError];
+    }
+    
+    // Look for orphan node processes from previous crashes.
+    //
+    for (NSRunningApplication *app in [[NSWorkspace sharedWorkspace] runningApplications])
+        if ([[app executableURL] isEqual:nodeExecURL])
+            if ( ! [app forceTerminate])
+                [self writeToLog:@"Failed to terminate orphan tilemill process."];
+    
+    if (self.searchTask)
+        self.searchTask = nil;
+
+    self.shouldAttemptRestart = YES;
+
+    NSString *command = [NSString stringWithFormat:@"%@/index.js", [[NSBundle mainBundle] resourcePath]];
+    
+    self.searchTask = [[TileMillChildProcess alloc] initWithBasePath:[[NSBundle mainBundle] resourcePath] command:command];
+    
+    [self.searchTask setDelegate:self];
+    [self.searchTask startProcess];
+}
+
+- (void)stopTileMill
+{
+    if (self.searchTask)
+    {
+        if (self.searchTask.launched)
+            [self.searchTask stopProcess];
+        
+        self.searchTask = nil;
+    }
 }
 
 - (IBAction)showMainWindow:(id)sender
 {
-    if ( ! mainWindowController)
-        mainWindowController = [[TileMillMainWindowController alloc] init];
+    if ( ! self.mainWindowController)
+        self.mainWindowController = [[[TileMillMainWindowController alloc] initWithWindowNibName:@"TileMillMainWindow"] autorelease];
     
-    [mainWindowController showWindow:self];
+    [self.mainWindowController showWindow:self];
 }
 
-- (void)writeToLog:(NSString *)message {
-    if (![[NSFileManager defaultManager] fileExistsAtPath:logPath]) {
-        NSError *error;
-        if (![@"" writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:&error]) {
-            NSLog(@"Error creating log file at %@.", logPath);
-        }
+- (void)writeToLog:(NSString *)message
+{
+    if ( ! [[NSFileManager defaultManager] fileExistsAtPath:self.logPath])
+    {
+        NSError *error = nil;
+        
+        if ( ! [@"" writeToFile:self.logPath atomically:YES encoding:NSUTF8StringEncoding error:&error])
+            NSLog(@"Error creating log file at %@.", self.logPath);
     }
+    
     NSFileHandle *logFile = [NSFileHandle fileHandleForWritingAtPath:logPath];
+    
     [logFile seekToEndOfFile];
     [logFile writeData:[message dataUsingEncoding:NSUTF8StringEncoding]];
     [logFile closeFile];
 }
 
-#pragma MainMenu IBActions
+- (void)presentFatalError
+{
+    NSAlert *alert = [NSAlert alertWithMessageText:@"There was a problem trying to start the server process"
+                                     defaultButton:@"OK"
+                                   alternateButton:@"Contact Support"
+                                       otherButton:nil
+                         informativeTextWithFormat:@"TileMill experienced a fatal error while trying to start the server process. Please restart the application. If this persists, please contact support."];
+    
+    NSInteger status = [alert runModal];
+    
+    if (status == NSAlertAlternateReturn)
+        [self openDiscussions:self];
+    
+    self.shouldAttemptRestart = NO;
+    
+    [self stopTileMill];
+}
 
-- (IBAction)openDirectory:(id)sender
+#pragma mark -
+
+- (IBAction)openDocumentsFolder:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openFile:[[NSUserDefaults standardUserDefaults] stringForKey:@"filesPath"]];
 }
@@ -139,43 +219,72 @@
 
 - (IBAction)openConsole:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile:logPath withApplication:@"Console" andDeactivate:YES];
+    [[NSWorkspace sharedWorkspace] openFile:self.logPath withApplication:@"Console" andDeactivate:YES];
 }
 
 - (IBAction)openPreferences:(id)sender
 {
-    if ( ! prefsController)
-        prefsController = [[TileMillPrefsWindowController alloc] initWithWindowNibName:@"TileMillPrefsWindow"];
+    if ( ! self.prefsController)
+        self.prefsController = [[[TileMillPrefsWindowController alloc] initWithWindowNibName:@"TileMillPrefsWindow"] autorelease];
     
-    [prefsController showWindow:self];
+    [self.prefsController showWindow:self];
 }
 
-#pragma ChildProcessDelegate Methods
+#pragma mark -
 
 - (void)childProcess:(TileMillChildProcess *)process didSendOutput:(NSString *)output
 {
     [self writeToLog:output];
-}
+    
+    if ([[NSPredicate predicateWithFormat:@"SELF contains 'EADDRINUSE'"] evaluateWithObject:output])
+    {
+        // port in use error
+        //
+        NSAlert *alert = [NSAlert alertWithMessageText:@"Port already in use"
+                                         defaultButton:@"OK"
+                                       alternateButton:nil
+                                           otherButton:nil
+                             informativeTextWithFormat:@"Port %@ is already in use by another application on the system. Please change either that application or TileMill's preference, then relaunch TileMill.", [[NSUserDefaults standardUserDefaults] objectForKey:@"serverPort"]];
+        
+        [alert runModal];
+    
+        self.shouldAttemptRestart = NO;
+        
+        [self stopTileMill];
+    }
+    else if (self.fatalErrorCaught)
+    {
+        // generic fatal error
+        //
+        [self presentFatalError];
+    }
+    else if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
+    {
+        // We noticed a fatal error, so let's mark it, but not do
+        // anything yet. Let's get more output so that we can 
+        // further evaluate & act accordingly.
 
-- (void)childProcessDidStart:(TileMillChildProcess *)process
-{
-//    NSLog(@"Process started.");
+        self.fatalErrorCaught = YES;
+    }
 }
 
 - (void)childProcessDidFinish:(TileMillChildProcess *)process
 {
-    mainWindowController.childRunning = NO;
+    self.mainWindowController.childRunning = NO;
+    
     NSLog(@"Finished");
-    if (!appTerminating) {
-        // We're not shutting down so the app crashed. Restart it.
+    
+    if (self.shouldAttemptRestart)
+    {
         NSLog(@"Restart");
+
         [self startTileMill];
     }
 }
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
-    mainWindowController.childRunning = YES;
+    self.mainWindowController.childRunning = YES;
 }
 
 @end

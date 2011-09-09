@@ -31,9 +31,9 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#include <CoreFoundation/CoreFoundation.h>
-#include <CoreServices/CoreServices.h> 
-#include <Foundation/Foundation.h>
+#import <CoreFoundation/CoreFoundation.h>
+#import <CoreServices/CoreServices.h> 
+#import <Foundation/Foundation.h>
 
 #import "FMDatabase.h"
 #import "FMResultSet.h"
