@@ -12,6 +12,8 @@
 
 #import "JSONKit.h"
 
+#import "PFMoveApplication.h"
+
 @interface TileMillAppDelegate ()
 
 - (void)startTileMill;
@@ -53,6 +55,10 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+    // offer to move app to Applications folder
+    //
+    PFMoveToApplicationsFolderIfNecessary();
+    
     // used defaults shared between TileMill core & OS X (see #622)
     //
     NSString *jsonDefaults = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config.defaults" ofType:@"json"]

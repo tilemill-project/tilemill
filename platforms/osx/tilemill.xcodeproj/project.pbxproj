@@ -40,6 +40,9 @@
 		DD1081DF13F9A5DB001772BE /* TileMillPrefsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD1081DE13F9A5DB001772BE /* TileMillPrefsWindow.xib */; };
 		DD1081EE13F9AA4F001772BE /* TileMillPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1081ED13F9AA4F001772BE /* TileMillPrefsWindowController.m */; };
 		DD49236B1403254D0004E12F /* dsa_public.pem in Resources */ = {isa = PBXBuildFile; fileRef = DD49236A1403254D0004E12F /* dsa_public.pem */; };
+		DD4F9DDC1419914400278ECD /* PFMoveApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F9DDB1419914400278ECD /* PFMoveApplication.m */; };
+		DD4F9DE2141991A400278ECD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F9DE1141991A400278ECD /* Security.framework */; };
+		DD4F9DE51419923C00278ECD /* NSString+SymlinksAndAliases.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F9DE41419923C00278ECD /* NSString+SymlinksAndAliases.m */; };
 		DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6F0D5C13F981140055EFAE /* Cocoa.framework */; };
 		DD6F0D6113F982770055EFAE /* MBTiles.qlgenerator in Copy QuickLook Plugin */ = {isa = PBXBuildFile; fileRef = DD6F0D4F13F97F120055EFAE /* MBTiles.qlgenerator */; };
 		DD6F0DBE13F989550055EFAE /* MBTiles.mdimporter in Copy Spotlight Importer */ = {isa = PBXBuildFile; fileRef = DD6F0DBA13F989220055EFAE /* MBTiles.mdimporter */; };
@@ -157,6 +160,11 @@
 		DD1081EC13F9AA4F001772BE /* TileMillPrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillPrefsWindowController.h; sourceTree = "<group>"; };
 		DD1081ED13F9AA4F001772BE /* TileMillPrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillPrefsWindowController.m; sourceTree = "<group>"; };
 		DD49236A1403254D0004E12F /* dsa_public.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_public.pem; sourceTree = "<group>"; };
+		DD4F9DDA1419914400278ECD /* PFMoveApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PFMoveApplication.h; path = Externals/LetsMove/PFMoveApplication.h; sourceTree = "<group>"; };
+		DD4F9DDB1419914400278ECD /* PFMoveApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PFMoveApplication.m; path = Externals/LetsMove/PFMoveApplication.m; sourceTree = "<group>"; };
+		DD4F9DE1141991A400278ECD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		DD4F9DE31419923C00278ECD /* NSString+SymlinksAndAliases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SymlinksAndAliases.h"; path = "Externals/LetsMove/NSString+SymlinksAndAliases.h"; sourceTree = "<group>"; };
+		DD4F9DE41419923C00278ECD /* NSString+SymlinksAndAliases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+SymlinksAndAliases.m"; path = "Externals/LetsMove/NSString+SymlinksAndAliases.m"; sourceTree = "<group>"; };
 		DD6F0D4713F97F120055EFAE /* MBTilesQuickLook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MBTilesQuickLook.xcodeproj; sourceTree = "<group>"; };
 		DD6F0D5C13F981140055EFAE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DD6F0DB213F989210055EFAE /* MBTiles Spotlight Importer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "MBTiles Spotlight Importer.xcodeproj"; path = "MBTiles Spotlight Importer/MBTiles Spotlight Importer.xcodeproj"; sourceTree = "<group>"; };
@@ -172,6 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */,
+				DD4F9DE2141991A400278ECD /* Security.framework in Frameworks */,
 				DDE4970213FEAEE0006E35F3 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				DD6F0D5C13F981140055EFAE /* Cocoa.framework */,
+				DD4F9DE1141991A400278ECD /* Security.framework */,
 				DDE4970013FEADC1006E35F3 /* Sparkle.framework */,
 			);
 			name = Frameworks;
@@ -303,6 +313,17 @@
 			name = Preferences;
 			sourceTree = "<group>";
 		};
+		DD4F9DD91419912E00278ECD /* LetsMove */ = {
+			isa = PBXGroup;
+			children = (
+				DD4F9DE31419923C00278ECD /* NSString+SymlinksAndAliases.h */,
+				DD4F9DE41419923C00278ECD /* NSString+SymlinksAndAliases.m */,
+				DD4F9DDA1419914400278ECD /* PFMoveApplication.h */,
+				DD4F9DDB1419914400278ECD /* PFMoveApplication.m */,
+			);
+			name = LetsMove;
+			sourceTree = "<group>";
+		};
 		DD6F0CE613F974D00055EFAE /* Subprojects */ = {
 			isa = PBXGroup;
 			children = (
@@ -341,6 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				DD820DE413FAC23C00685B10 /* JSONKit */,
+				DD4F9DD91419912E00278ECD /* LetsMove */,
 			);
 			name = Externals;
 			sourceTree = "<group>";
@@ -520,6 +542,8 @@
 				D745084313E889230020D8CD /* TileMillMainWindowController.m in Sources */,
 				DD1081EE13F9AA4F001772BE /* TileMillPrefsWindowController.m in Sources */,
 				DD820DE713FAC27600685B10 /* JSONKit.m in Sources */,
+				DD4F9DDC1419914400278ECD /* PFMoveApplication.m in Sources */,
+				DD4F9DE51419923C00278ECD /* NSString+SymlinksAndAliases.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
