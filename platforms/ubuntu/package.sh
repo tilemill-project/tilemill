@@ -43,7 +43,6 @@ if [ ! -f "$CWD/orig/$PROJECT-$TAG.tar.gz" ]; then
   tar cfz "$CWD/orig/$PROJECT-$TAG.tar.gz" "../../" \
   --exclude=.git* \
   --exclude=*.mbtiles \
-  --exclude=*.zip \
   --exclude=*.node \
   --exclude=build \
   --exclude=libzip-0.9.3 \
