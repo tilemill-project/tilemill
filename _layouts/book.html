@@ -4,8 +4,8 @@ layout: default
 <div class='limiter title'>
 {% if page.section and page.category %}
 <small class='breadcrumb'>
-<a href='{{site.baseurl}}/{{page.section}}'>{{page.section|capitalize}}</a> /
-<a href='{{site.baseurl}}{{site.categories[page.category].last.url}}'>{{page.category}}</a>
+<a href='{{site.url}}/{{page.section}}/'>{{page.section|capitalize}}</a> /
+<a href='{{site.baseurl}}{{site.categories[page.category].last.url}}/'>{{page.category}}</a>
 </small>
 {% endif %}
 <h1>{{page.title}}</h1>
@@ -16,7 +16,7 @@ layout: default
 <div class='book'>
 <ul>
 {% for item in site.categories[page.category] reversed %}
-<li><a {% if page.url == item.url %}class='active'{% endif %} href='{{site.baseurl}}{{item.url}}'>{% if page.url == item.url %}<span class='icon'></span>{% endif %}{{item.title}}</a></li>
+<li><a {% if page.url == item.url %}class='active'{% endif %} href='{{site.baseurl}}{{item.url}}/'>{% if page.url == item.url %}<span class='icon'></span>{% endif %}{{item.title}}</a></li>
 {% endfor %}
 </ul>
 </div>
