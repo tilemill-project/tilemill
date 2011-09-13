@@ -1,5 +1,6 @@
 .DS_Store
-platforms/osx/build
+/_site
+/platforms/osx/build
 /node_modules
 /test/fixtures/files
 npm-debug.log

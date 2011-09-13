@@ -1,0 +1,27 @@
+auto: true
+server: true
+exclude:
+# Directories
+- commands
+- controllers
+- data
+- examples
+- lib
+- models
+- node_modules
+- platforms
+- servers
+- templates
+- test
+- views
+# Files
+- .gitignore
+- .gitmodules
+- index.js
+- package.json
+- LICENSE.md
+- README.md
+baseurl: /tilemill
+permalink: /:categories/:title
+title: TileMill
+url: http://mapbox.github.com

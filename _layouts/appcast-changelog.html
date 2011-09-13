@@ -1,0 +1,10 @@
+---
+---
+{% for item in site.tags.changelog[0].releases %}{% if item.version %}
+<h2>{{item.version}} {% if item.date %}<small>{{item.date|date:'%B %d %Y'}}</small>{% endif %}</h2>
+<ul class='checklist'>
+  {% for item in item.notes %}
+  <li>{{item | markdownify}}</li>
+  {% endfor %}
+</ul>
+{% endif %}{% endfor %}

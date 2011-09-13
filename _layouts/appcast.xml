@@ -1,0 +1,25 @@
+---
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+<channel>
+    <title>TileMill</title>
+    <link>http://tilemill.com/platforms/osx/appcast.xml</link>
+    <description>Most recent changes with links to updates.</description>
+    <language>en</language>
+    {% for item in site.tags.changelog[0].releases reversed %}{% if item.version and item.sign %}
+    <item>
+        <title>TileMill {{item.version}}</title>
+        <sparkle:releaseNotesLink>http://tilemill.com/platforms/osx/changelog.html</sparkle:releaseNotesLink>
+        <pubDate>{{item.date | date: '%a, %d %b %Y %H:%M:%S -0400'}}</pubDate>
+        <enclosure
+            url="https://github.com/downloads/mapbox/tilemill/TileMill-{{item.version}}.zip"
+            type="application/octet-stream"
+            length="{{item.size}}"
+            sparkle:version="{{item.version}}"
+            sparkle:shortVersionString="{{item-version}}"
+            sparkle:dsaSignature="{{item.sign}}" />
+    </item>
+    {% endif %}{% endfor %}
+</channel>
+</rss>
