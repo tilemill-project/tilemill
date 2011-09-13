@@ -308,9 +308,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D1107260486CEB800E47090 /* tilemill */ = {
+		8D1107260486CEB800E47090 /* TileMill */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "tilemill" */;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "TileMill" */;
 			buildPhases = (
 				D745083413E8686D0020D8CD /* Update Bundle Version */,
 				8D1107290486CEB800E47090 /* Resources */,
@@ -328,7 +328,7 @@
 				DD6F0DBC13F9892F0055EFAE /* PBXTargetDependency */,
 				DD6F0D6013F981A50055EFAE /* PBXTargetDependency */,
 			);
-			name = tilemill;
+			name = TileMill;
 			productInstallPath = "$(HOME)/Applications";
 			productName = tilemill;
 			productReference = 8D1107320486CEB800E47090 /* TileMill.app */;
@@ -367,7 +367,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* tilemill */,
+				8D1107260486CEB800E47090 /* TileMill */,
 			);
 		};
 /* End PBXProject section */
@@ -571,7 +571,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "tilemill" */ = {
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "TileMill" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,
