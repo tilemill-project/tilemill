@@ -17,26 +17,6 @@
 		D745084313E889230020D8CD /* TileMillMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D745084213E889230020D8CD /* TileMillMainWindowController.m */; };
 		D745084613E894020020D8CD /* TileMillMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D745084513E894010020D8CD /* TileMillMainWindow.xib */; };
 		D745087913E9EC160020D8CD /* mbtiles.icns in Resources */ = {isa = PBXBuildFile; fileRef = D745087813E9EC160020D8CD /* mbtiles.icns */; };
-		D7CFB14A13E6F5450033DFFD /* assets in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13713E6F5450033DFFD /* assets */; };
-		D7CFB14B13E6F5450033DFFD /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13813E6F5450033DFFD /* CHANGELOG.md */; };
-		D7CFB14C13E6F5450033DFFD /* CNAME in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13913E6F5450033DFFD /* CNAME */; };
-		D7CFB14D13E6F5450033DFFD /* commands in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13A13E6F5450033DFFD /* commands */; };
-		D7CFB14E13E6F5450033DFFD /* controllers in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13B13E6F5450033DFFD /* controllers */; };
-		D7CFB14F13E6F5450033DFFD /* examples in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13C13E6F5450033DFFD /* examples */; };
-		D7CFB15013E6F5450033DFFD /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13D13E6F5450033DFFD /* index.html */; };
-		D7CFB15213E6F5450033DFFD /* lib in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13F13E6F5450033DFFD /* lib */; };
-		D7CFB15313E6F5450033DFFD /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14013E6F5450033DFFD /* LICENSE.md */; };
-		D7CFB15413E6F5450033DFFD /* models in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14113E6F5450033DFFD /* models */; };
-		D7CFB15513E6F5450033DFFD /* node_modules in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14213E6F5450033DFFD /* node_modules */; };
-		D7CFB15613E6F5450033DFFD /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14313E6F5450033DFFD /* package.json */; };
-		D7CFB15713E6F5450033DFFD /* pages in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14413E6F5450033DFFD /* pages */; };
-		D7CFB15813E6F5450033DFFD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14513E6F5450033DFFD /* README.md */; };
-		D7CFB15913E6F5450033DFFD /* servers in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14613E6F5450033DFFD /* servers */; };
-		D7CFB15A13E6F5450033DFFD /* templates in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14713E6F5450033DFFD /* templates */; };
-		D7CFB15B13E6F5450033DFFD /* test in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14813E6F5450033DFFD /* test */; };
-		D7CFB15C13E6F5450033DFFD /* views in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB14913E6F5450033DFFD /* views */; };
-		D7CFB15D13E6F76C0033DFFD /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = D7CFB13E13E6F5450033DFFD /* index.js */; };
-		D7FF972114182DE500DD264C /* data in Resources */ = {isa = PBXBuildFile; fileRef = D7FF972014182DE500DD264C /* data */; };
 		DD1081DF13F9A5DB001772BE /* TileMillPrefsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD1081DE13F9A5DB001772BE /* TileMillPrefsWindow.xib */; };
 		DD1081EE13F9AA4F001772BE /* TileMillPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1081ED13F9AA4F001772BE /* TileMillPrefsWindowController.m */; };
 		DD49236B1403254D0004E12F /* dsa_public.pem in Resources */ = {isa = PBXBuildFile; fileRef = DD49236A1403254D0004E12F /* dsa_public.pem */; };
@@ -46,7 +26,6 @@
 		DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6F0D5C13F981140055EFAE /* Cocoa.framework */; };
 		DD6F0D6113F982770055EFAE /* MBTiles.qlgenerator in Copy QuickLook Plugin */ = {isa = PBXBuildFile; fileRef = DD6F0D4F13F97F120055EFAE /* MBTiles.qlgenerator */; };
 		DD6F0DBE13F989550055EFAE /* MBTiles.mdimporter in Copy Spotlight Importer */ = {isa = PBXBuildFile; fileRef = DD6F0DBA13F989220055EFAE /* MBTiles.mdimporter */; };
-		DD820DE213FAC13400685B10 /* config.defaults.json in Resources */ = {isa = PBXBuildFile; fileRef = DD820DE113FAC13400685B10 /* config.defaults.json */; };
 		DD820DE713FAC27600685B10 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD820DE613FAC27600685B10 /* JSONKit.m */; };
 		DDE4970213FEAEE0006E35F3 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE4970013FEADC1006E35F3 /* Sparkle.framework */; };
 		DDE4970313FEAEE8006E35F3 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DDE4970013FEADC1006E35F3 /* Sparkle.framework */; };
@@ -136,26 +115,6 @@
 		D745084213E889230020D8CD /* TileMillMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillMainWindowController.m; sourceTree = "<group>"; };
 		D745084513E894010020D8CD /* TileMillMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileMillMainWindow.xib; sourceTree = "<group>"; };
 		D745087813E9EC160020D8CD /* mbtiles.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = mbtiles.icns; sourceTree = "<group>"; };
-		D7CFB13713E6F5450033DFFD /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../assets; sourceTree = "<group>"; };
-		D7CFB13813E6F5450033DFFD /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CHANGELOG.md; path = ../../CHANGELOG.md; sourceTree = "<group>"; };
-		D7CFB13913E6F5450033DFFD /* CNAME */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CNAME; path = ../../CNAME; sourceTree = "<group>"; };
-		D7CFB13A13E6F5450033DFFD /* commands */ = {isa = PBXFileReference; lastKnownFileType = folder; name = commands; path = ../../commands; sourceTree = "<group>"; };
-		D7CFB13B13E6F5450033DFFD /* controllers */ = {isa = PBXFileReference; lastKnownFileType = folder; name = controllers; path = ../../controllers; sourceTree = "<group>"; };
-		D7CFB13C13E6F5450033DFFD /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; name = examples; path = ../../examples; sourceTree = "<group>"; };
-		D7CFB13D13E6F5450033DFFD /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../index.html; sourceTree = "<group>"; };
-		D7CFB13E13E6F5450033DFFD /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = index.js; path = ../../index.js; sourceTree = "<group>"; };
-		D7CFB13F13E6F5450033DFFD /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = ../../lib; sourceTree = "<group>"; };
-		D7CFB14013E6F5450033DFFD /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.md; path = ../../LICENSE.md; sourceTree = "<group>"; };
-		D7CFB14113E6F5450033DFFD /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; name = models; path = ../../models; sourceTree = "<group>"; };
-		D7CFB14213E6F5450033DFFD /* node_modules */ = {isa = PBXFileReference; lastKnownFileType = folder; name = node_modules; path = ../../node_modules; sourceTree = "<group>"; };
-		D7CFB14313E6F5450033DFFD /* package.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = package.json; path = ../../package.json; sourceTree = "<group>"; };
-		D7CFB14413E6F5450033DFFD /* pages */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pages; path = ../../pages; sourceTree = "<group>"; };
-		D7CFB14513E6F5450033DFFD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
-		D7CFB14613E6F5450033DFFD /* servers */ = {isa = PBXFileReference; lastKnownFileType = folder; name = servers; path = ../../servers; sourceTree = "<group>"; };
-		D7CFB14713E6F5450033DFFD /* templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = templates; path = ../../templates; sourceTree = "<group>"; };
-		D7CFB14813E6F5450033DFFD /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; name = test; path = ../../test; sourceTree = "<group>"; };
-		D7CFB14913E6F5450033DFFD /* views */ = {isa = PBXFileReference; lastKnownFileType = folder; name = views; path = ../../views; sourceTree = "<group>"; };
-		D7FF972014182DE500DD264C /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../data; sourceTree = "<group>"; };
 		DD1081DE13F9A5DB001772BE /* TileMillPrefsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileMillPrefsWindow.xib; sourceTree = "<group>"; };
 		DD1081EC13F9AA4F001772BE /* TileMillPrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillPrefsWindowController.h; sourceTree = "<group>"; };
 		DD1081ED13F9AA4F001772BE /* TileMillPrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillPrefsWindowController.m; sourceTree = "<group>"; };
@@ -168,7 +127,6 @@
 		DD6F0D4713F97F120055EFAE /* MBTilesQuickLook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MBTilesQuickLook.xcodeproj; sourceTree = "<group>"; };
 		DD6F0D5C13F981140055EFAE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DD6F0DB213F989210055EFAE /* MBTiles Spotlight Importer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "MBTiles Spotlight Importer.xcodeproj"; path = "MBTiles Spotlight Importer/MBTiles Spotlight Importer.xcodeproj"; sourceTree = "<group>"; };
-		DD820DE113FAC13400685B10 /* config.defaults.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = config.defaults.json; path = ../../lib/config.defaults.json; sourceTree = "<group>"; };
 		DD820DE513FAC27600685B10 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Externals/JSONKit/JSONKit.h; sourceTree = "<group>"; };
 		DD820DE613FAC27600685B10 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Externals/JSONKit/JSONKit.m; sourceTree = "<group>"; };
 		DDE4970013FEADC1006E35F3 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Externals/Sparkle/Sparkle.framework; sourceTree = "<group>"; };
@@ -240,7 +198,6 @@
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 				D745084513E894010020D8CD /* TileMillMainWindow.xib */,
-				DD820DE113FAC13400685B10 /* config.defaults.json */,
 				DD49236A1403254D0004E12F /* dsa_public.pem */,
 			);
 			name = Resources;
@@ -263,33 +220,6 @@
 			);
 			name = "QuickLook Plugin";
 			path = MBTilesQuickLook;
-			sourceTree = "<group>";
-		};
-		D7CFB13513E6F4EA0033DFFD /* tilemill */ = {
-			isa = PBXGroup;
-			children = (
-				D7FF972014182DE500DD264C /* data */,
-				D7CFB13713E6F5450033DFFD /* assets */,
-				D7CFB13813E6F5450033DFFD /* CHANGELOG.md */,
-				D7CFB13913E6F5450033DFFD /* CNAME */,
-				D7CFB13A13E6F5450033DFFD /* commands */,
-				D7CFB13B13E6F5450033DFFD /* controllers */,
-				D7CFB13C13E6F5450033DFFD /* examples */,
-				D7CFB13D13E6F5450033DFFD /* index.html */,
-				D7CFB13E13E6F5450033DFFD /* index.js */,
-				D7CFB13F13E6F5450033DFFD /* lib */,
-				D7CFB14013E6F5450033DFFD /* LICENSE.md */,
-				D7CFB14113E6F5450033DFFD /* models */,
-				D7CFB14213E6F5450033DFFD /* node_modules */,
-				D7CFB14313E6F5450033DFFD /* package.json */,
-				D7CFB14413E6F5450033DFFD /* pages */,
-				D7CFB14513E6F5450033DFFD /* README.md */,
-				D7CFB14613E6F5450033DFFD /* servers */,
-				D7CFB14713E6F5450033DFFD /* templates */,
-				D7CFB14813E6F5450033DFFD /* test */,
-				D7CFB14913E6F5450033DFFD /* views */,
-			);
-			name = tilemill;
 			sourceTree = "<group>";
 		};
 		DD1081EF13F9ADD8001772BE /* Main */ = {
@@ -327,7 +257,6 @@
 		DD6F0CE613F974D00055EFAE /* Subprojects */ = {
 			isa = PBXGroup;
 			children = (
-				D7CFB13513E6F4EA0033DFFD /* tilemill */,
 				557C0F0213EC886B004FB40C /* QuickLook Plugin */,
 				DD6F0DB113F989100055EFAE /* Spotlight Importer */,
 			);
@@ -385,6 +314,7 @@
 			buildPhases = (
 				D745083413E8686D0020D8CD /* Update Bundle Version */,
 				8D1107290486CEB800E47090 /* Resources */,
+				DD66F892142007E0004BF4A3 /* Copy TileMill node Sources */,
 				D7CFB18F13E852550033DFFD /* Copy Node Executable */,
 				DD6F0D5E13F981820055EFAE /* Copy QuickLook Plugin */,
 				DD6F0DBD13F989380055EFAE /* Copy Spotlight Importer */,
@@ -466,33 +396,12 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
-				D7CFB14A13E6F5450033DFFD /* assets in Resources */,
-				D7CFB14B13E6F5450033DFFD /* CHANGELOG.md in Resources */,
-				D7CFB14C13E6F5450033DFFD /* CNAME in Resources */,
-				D7CFB14D13E6F5450033DFFD /* commands in Resources */,
-				D7CFB14E13E6F5450033DFFD /* controllers in Resources */,
-				D7CFB14F13E6F5450033DFFD /* examples in Resources */,
-				D7CFB15013E6F5450033DFFD /* index.html in Resources */,
-				D7CFB15D13E6F76C0033DFFD /* index.js in Resources */,
-				D7CFB15213E6F5450033DFFD /* lib in Resources */,
-				D7CFB15313E6F5450033DFFD /* LICENSE.md in Resources */,
-				D7CFB15413E6F5450033DFFD /* models in Resources */,
-				D7CFB15513E6F5450033DFFD /* node_modules in Resources */,
-				D7CFB15613E6F5450033DFFD /* package.json in Resources */,
-				D7CFB15713E6F5450033DFFD /* pages in Resources */,
-				D7CFB15813E6F5450033DFFD /* README.md in Resources */,
-				D7CFB15913E6F5450033DFFD /* servers in Resources */,
-				D7CFB15A13E6F5450033DFFD /* templates in Resources */,
-				D7CFB15B13E6F5450033DFFD /* test in Resources */,
-				D7CFB15C13E6F5450033DFFD /* views in Resources */,
 				D745084613E894020020D8CD /* TileMillMainWindow.xib in Resources */,
 				D745087913E9EC160020D8CD /* mbtiles.icns in Resources */,
 				D738213C13EB4FE500639A03 /* application.icns in Resources */,
 				D738213F13EB500D00639A03 /* tilemill.icns in Resources */,
 				DD1081DF13F9A5DB001772BE /* TileMillPrefsWindow.xib in Resources */,
-				DD820DE213FAC13400685B10 /* config.defaults.json in Resources */,
 				DD49236B1403254D0004E12F /* dsa_public.pem in Resources */,
-				D7FF972114182DE500DD264C /* data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +437,20 @@
 			shellPath = /bin/sh;
 			shellScript = "PATH=$PATH:$HOME/bin:/usr/local/bin\n\nif [ -z $( which node ) ]; then\n  echo \"Unable to find node binary\"\n  exit 1\nfi\n\nTARGET=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/\"\n# copy node executable\ncp `which node` $TARGET\n# change shebang to use local node\nsed -i.backup 's/#!\\/usr\\/bin\\/env node/#!node/' ${TARGET}index.js\nrm ${TARGET}index.js.backup";
 			showEnvVarsInLog = 0;
+		};
+		DD66F892142007E0004BF4A3 /* Copy TileMill node Sources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy TileMill node Sources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TARGET=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n\n#\n# Copy each source item into the bundle if we haven't already.\n# Exclude Jekyll stuff & platform-specific resources.\n#\nfor i in $( ls ../.. | grep -v ^\\_ | grep -v platforms )\ndo\n  if [ ! -f $TARGET/$i -a ! -d $TARGET/$i ]; then\n    cp -rv ../../$i $TARGET\n  fi\ndone";
 		};
 /* End PBXShellScriptBuildPhase section */
 

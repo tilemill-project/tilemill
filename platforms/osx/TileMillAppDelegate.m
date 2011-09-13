@@ -61,7 +61,7 @@
     
     // used defaults shared between TileMill core & OS X (see #622)
     //
-    NSString *jsonDefaults = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config.defaults" ofType:@"json"]
+    NSString *jsonDefaults = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config.defaults" ofType:@"json" inDirectory:@"lib"]
                                                        encoding:NSUTF8StringEncoding
                                                           error:NULL];
     
