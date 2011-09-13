@@ -16,7 +16,7 @@ Enrich your maps with hover tooltips and clickable pop ups. Reveal details in yo
 ### UTF-8 grid technology
 TileMill implements the UTF-8 grid specification -- a standard for describing interactive data alongside tile images. UTF-8 grid is fast, flexible, and scalable making it perfect for mapping whole countries down to to individual city blocks.
 
-<small class='more'>[Learn more about UTF-8 grids &rarr;](http://mapbox.github.com/mbtiles-spec/utfgrid/)</small>
+<small class='more'>[Learn more about UTF-8 grids &rarr;]({{site.url}}/mbtiles-spec/utfgrid/)</small>
 
 ### Embed graphs &amp; images
 Leverage custom interaction formatters and templates to insert graphs, images, links, and other content into your maps. Interactive content can cover the full spectrum of HTML and CSS.
