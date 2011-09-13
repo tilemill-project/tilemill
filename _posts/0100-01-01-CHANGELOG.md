@@ -4,7 +4,7 @@
 ### as the Sparkle appcast feed.
 tag: changelog
 layout: changelog
-section: developers
+section: documentation
 category: TileMill
 title: Changelog
 permalink: /docs/changelog
