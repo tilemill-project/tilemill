@@ -54,7 +54,6 @@ releases:
 
 - version: 0.4.0
   notes:
-  - Please read these [important upgrade notes](http://tilemill.com/pages/upgrade.html#0-4)
   - Major rewrite of application.
   - app.db file from previous versions is not compatible with 0.4
   - Default files directory is now ~/Documents/MapBox
