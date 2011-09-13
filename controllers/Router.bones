@@ -58,7 +58,7 @@ controller.prototype.projectExport = function(id, format) {
 };
 
 controller.prototype.manual = function(fragment) {
-    (new models.Page({ id: 'manual.html' })).fetch({
+    (new models.Page({ id: '0200-01-04-manual.md' })).fetch({
         success: function(model) {
             new views.Manual({
                 el: $('#page'),
