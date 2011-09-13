@@ -86,21 +86,15 @@
 
 - (void)stopProcess
 {
-    NSData *data;
-
     [[NSNotificationCenter defaultCenter] removeObserver:self 
                                                     name:NSFileHandleReadCompletionNotification 
                                                   object:[[self.task standardOutput] fileHandleForReading]];
 
     [self.task terminate];
+    [self.task waitUntilExit];
 
-    if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcess:didSendOutput:)])
-        while ((data = [[[self.task standardOutput] fileHandleForReading] availableData]) && [data length])
-            [self.delegate childProcess:self didSendOutput:[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]];
-
-    if ( ! [self.task isRunning])
-        if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidFinish:)])
-            [self.delegate childProcessDidFinish:self];
+    if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidFinish:)])
+        [self.delegate childProcessDidFinish:self];
 }
 
 - (void)receivedData:(NSNotification *)notification
