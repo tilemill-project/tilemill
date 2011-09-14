@@ -12,11 +12,11 @@
 
 #  Kill existing node process.
 #
-kill $( ps ax | grep -i TileMill.app | grep index.js | sed -n 1p | awk '{ print $1 }' )
+kill $( ps ax | grep -i TileMill.app | grep index.js | sed -n 1p | awk '{ print $1 }' ) 2>/dev/null
 
 #  Kill existing Mac app.
 #
-kill $( ps ax | grep -i TileMill.app | grep MacOS    | sed -n 1p | awk '{ print $1 }' )
+kill $( ps ax | grep -i TileMill.app | grep MacOS    | sed -n 1p | awk '{ print $1 }' ) 2>/dev/null
 
 #  Change to bundle directory.
 #
