@@ -227,7 +227,7 @@
     else if ( ! messageText)
     {
         messageText     = @"Installation failed";
-        informativeText = [NSString stringWithFormat:@"The command-line tool was unable to be installed in %@. If you'd like to try manually, you may either copy from or symbolically link to the tool in the application bundle itself.", [self.selectedCommandLinePath stringByAbbreviatingWithTildeInPath]];
+        informativeText = [NSString stringWithFormat:@"The command-line tool was unable to be installed in %@. If you'd like to try manually, you may symbolically link to the tool in the application bundle yourself.", [self.selectedCommandLinePath stringByAbbreviatingWithTildeInPath]];
         alternateText   = @"Copy Path";
     }
     
