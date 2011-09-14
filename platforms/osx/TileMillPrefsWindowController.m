@@ -164,11 +164,12 @@
 - (IBAction)clickedInstallCommandLineButton:(id)sender
 {
     NSString *toolName        = @"tilemill.sh";
+    NSString *toolBaseName    = [[toolName componentsSeparatedByString:@"."] objectAtIndex:0];
     
-    NSString *toolPath        = [[NSBundle mainBundle] pathForResource:[[toolName componentsSeparatedByString:@"."] objectAtIndex:0] 
+    NSString *toolPath        = [[NSBundle mainBundle] pathForResource:toolBaseName 
                                                                 ofType:[toolName pathExtension]];
 
-    NSString *linkPath        = [[self.selectedCommandLinePath stringByAppendingString:@"/"] stringByAppendingString:toolName];
+    NSString *linkPath        = [[self.selectedCommandLinePath stringByAppendingString:@"/"] stringByAppendingString:toolBaseName];
     
     NSString *messageText     = nil;
     NSString *informativeText = nil;
@@ -222,7 +223,7 @@
     if (success && ! messageText)
     {
         messageText     = @"Installed successfully";
-        informativeText = [NSString stringWithFormat:@"The command-line tool '%@' was installed successfully. If %@ is in your path, you should be all set!", toolName, [self.selectedCommandLinePath stringByAbbreviatingWithTildeInPath]];
+        informativeText = [NSString stringWithFormat:@"The command-line tool '%@' was installed successfully. If %@ is in your path, you should be all set!", toolBaseName, [self.selectedCommandLinePath stringByAbbreviatingWithTildeInPath]];
     }
     else if ( ! messageText)
     {
