@@ -160,6 +160,11 @@
     [self.mainWindowController showWindow:self];
 }
 
+- (IBAction)showAboutPanel:(id)sender
+{
+    [NSApp orderFrontStandardAboutPanelWithOptions:[NSDictionary dictionaryWithObject:[NSImage imageNamed:@"tilemill.icns"] forKey:@"ApplicationIcon"]];
+}
+
 - (void)writeToLog:(NSString *)message
 {
     if ( ! [[NSFileManager defaultManager] fileExistsAtPath:self.logPath])

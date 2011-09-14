@@ -19,5 +19,6 @@
 - (IBAction)openConsole:(id)sender;
 - (IBAction)openPreferences:(id)sender;
 - (IBAction)showMainWindow:(id)sender;
+- (IBAction)showAboutPanel:(id)sender;
 
 @end
