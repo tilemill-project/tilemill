@@ -27,6 +27,7 @@
 		DD6F0D6113F982770055EFAE /* MBTiles.qlgenerator in Copy QuickLook Plugin */ = {isa = PBXBuildFile; fileRef = DD6F0D4F13F97F120055EFAE /* MBTiles.qlgenerator */; };
 		DD6F0DBE13F989550055EFAE /* MBTiles.mdimporter in Copy Spotlight Importer */ = {isa = PBXBuildFile; fileRef = DD6F0DBA13F989220055EFAE /* MBTiles.mdimporter */; };
 		DD820DE713FAC27600685B10 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD820DE613FAC27600685B10 /* JSONKit.m */; };
+		DDCD773614212FC900864BD2 /* tilemill.sh in Resources */ = {isa = PBXBuildFile; fileRef = DDCD773514212FC900864BD2 /* tilemill.sh */; };
 		DDE4970213FEAEE0006E35F3 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE4970013FEADC1006E35F3 /* Sparkle.framework */; };
 		DDE4970313FEAEE8006E35F3 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DDE4970013FEADC1006E35F3 /* Sparkle.framework */; };
 /* End PBXBuildFile section */
@@ -129,6 +130,7 @@
 		DD6F0DB213F989210055EFAE /* MBTiles Spotlight Importer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "MBTiles Spotlight Importer.xcodeproj"; path = "MBTiles Spotlight Importer/MBTiles Spotlight Importer.xcodeproj"; sourceTree = "<group>"; };
 		DD820DE513FAC27600685B10 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Externals/JSONKit/JSONKit.h; sourceTree = "<group>"; };
 		DD820DE613FAC27600685B10 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Externals/JSONKit/JSONKit.m; sourceTree = "<group>"; };
+		DDCD773514212FC900864BD2 /* tilemill.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = tilemill.sh; sourceTree = "<group>"; };
 		DDE4970013FEADC1006E35F3 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Externals/Sparkle/Sparkle.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -199,6 +201,7 @@
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 				D745084513E894010020D8CD /* TileMillMainWindow.xib */,
 				DD49236A1403254D0004E12F /* dsa_public.pem */,
+				DDCD773514212FC900864BD2 /* tilemill.sh */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				D738213F13EB500D00639A03 /* tilemill.icns in Resources */,
 				DD1081DF13F9A5DB001772BE /* TileMillPrefsWindow.xib in Resources */,
 				DD49236B1403254D0004E12F /* dsa_public.pem in Resources */,
+				DDCD773614212FC900864BD2 /* tilemill.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,8 @@
 
 #import "TileMillPrefsWindowController.h"
 
+#import <Security/Security.h>
+
 #define kRestartKeyPaths [NSArray arrayWithObjects:@"serverPort", @"filesPath", @"bufferSize", nil]
 
 @interface TileMillPrefsWindowController ()
@@ -21,6 +23,8 @@
 @implementation TileMillPrefsWindowController
 
 @synthesize needsRestart;
+@synthesize commandLinePathButton;
+@synthesize selectedCommandLinePath = _selectedCommandLinePath;
 
 - (id)initWithWindowNibName:(NSString *)windowNibName
 {
@@ -53,11 +57,16 @@
         [[NSUserDefaults standardUserDefaults] removeObserver:self
                                                    forKeyPath:keyPath];
 
+    [commandLinePathButton release];
+    [_selectedCommandLinePath release];
+    
     [super dealloc];
 }
 
 - (void)awakeFromNib
 {
+    [[[commandLinePathButton menu] itemWithTitle:@"$HOME/bin"] setTitle:[NSString stringWithFormat:@"%@/bin", NSHomeDirectory()]];    
+    
     [[self window] center];
 }
 
@@ -94,6 +103,11 @@
     }
 
     return @"Never checked";
+}
+
+- (NSString *)selectedCommandLinePath
+{
+    return (_selectedCommandLinePath ? _selectedCommandLinePath : [[[commandLinePathButton menu] itemAtIndex:0] title]);
 }
 
 #pragma mark -
@@ -145,6 +159,94 @@
                           [self setAbbreviatedFilesPath:[[[panel URLs] objectAtIndex:0] relativePath]];
                       }
                   }];
+}
+
+- (IBAction)clickedInstallCommandLineButton:(id)sender
+{
+    NSString *toolName        = @"tilemill.sh";
+    
+    NSString *toolPath        = [[NSBundle mainBundle] pathForResource:[[toolName componentsSeparatedByString:@"."] objectAtIndex:0] 
+                                                                ofType:[toolName pathExtension]];
+
+    NSString *linkPath        = [[self.selectedCommandLinePath stringByAppendingString:@"/"] stringByAppendingString:toolName];
+    
+    NSString *messageText     = nil;
+    NSString *informativeText = nil;
+    NSString *alternateText   = nil;
+    
+    NSError *linkError        = nil;
+    
+    BOOL success = NO;
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    if ([fileManager fileExistsAtPath:linkPath])
+    {
+        messageText     = @"Command-line tool already installed";
+        informativeText = [NSString stringWithFormat:@"The command-line tool already exists at %@.", [linkPath stringByAbbreviatingWithTildeInPath]];
+    }
+    else if ([fileManager isWritableFileAtPath:[linkPath stringByDeletingLastPathComponent]])
+    {
+        if ([fileManager createSymbolicLinkAtPath:linkPath withDestinationPath:toolPath error:&linkError] && ! linkError)
+        {
+            success = YES;
+        }
+    }
+    else
+    {
+        AuthorizationRef auth = NULL;
+        OSStatus authStat     = errAuthorizationDenied;
+        
+        while (authStat == errAuthorizationDenied)
+        {
+            authStat = AuthorizationCreate(NULL,
+                                           kAuthorizationEmptyEnvironment,
+                                           kAuthorizationFlagDefaults,
+                                           &auth);
+        }
+        
+        if (authStat == errAuthorizationSuccess)
+        {
+            const char *command           = [@"/bin/ln" UTF8String];
+            const char *const arguments[] = { "-s", [toolPath UTF8String], [linkPath UTF8String], NULL };
+            
+            if (AuthorizationExecuteWithPrivileges(auth, command, kAuthorizationFlagDefaults, (char *const *)arguments, NULL) == errAuthorizationSuccess)
+            {
+                success = YES;
+            }
+        }
+        
+        AuthorizationFree(auth, kAuthorizationFlagDefaults);
+    }
+    
+    if (success && ! messageText)
+    {
+        messageText     = @"Installed successfully";
+        informativeText = [NSString stringWithFormat:@"The command-line tool '%@' was installed successfully. If %@ is in your path, you should be all set!", toolName, [self.selectedCommandLinePath stringByAbbreviatingWithTildeInPath]];
+    }
+    else if ( ! messageText)
+    {
+        messageText     = @"Installation failed";
+        informativeText = [NSString stringWithFormat:@"The command-line tool was unable to be installed in %@. If you'd like to try manually, you may either copy from or symbolically link to the tool in the application bundle itself.", [self.selectedCommandLinePath stringByAbbreviatingWithTildeInPath]];
+        alternateText   = @"Copy Path";
+    }
+    
+    NSAlert *alert = [NSAlert alertWithMessageText:messageText
+                                     defaultButton:@"OK"
+                                   alternateButton:alternateText
+                                       otherButton:nil
+                         informativeTextWithFormat:informativeText];
+    
+    if ( ! success)
+        [alert setAlertStyle:NSCriticalAlertStyle];
+    
+    int status = [alert runModal];
+    
+    if (status == NSAlertAlternateReturn)
+    {
+        [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+        [[NSPasteboard generalPasteboard] setString:toolPath forType:NSStringPboardType];
+    }
 }
 
 @end
