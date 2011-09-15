@@ -8,9 +8,7 @@
 
 #import "TileMillChildProcess.h"
 
-#import "SUVersionComparisonProtocol.h"
-
-@interface TileMillAppDelegate : NSObject <TileMillChildProcessDelegate, SUVersionComparison>
+@interface TileMillAppDelegate : NSObject <TileMillChildProcessDelegate>
 {
 }
 

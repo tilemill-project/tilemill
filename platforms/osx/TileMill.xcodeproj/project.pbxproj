@@ -414,7 +414,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		D745083413E8686D0020D8CD /* Update Bundle Version */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
@@ -424,7 +424,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "INFO=$( echo $PWD )/tilemill-Info\nTAG=\nCOMMIT=\nCURRENT=\nCOUNT=\nCURRENT_COUNT=\nGITPATH=/usr/bin:/usr/local/bin:/usr/local/git/bin\nPATH=$PATH:$GITPATH; export PATH\n\nif [ -z $( which git ) ]; then\n  echo \"Unable to find git binary in \\$GITPATH\"\n  exit 1\nfi\n\nTAG=$( git describe --tags --abbrev=0 | sed -e s/^v// )\n\nCURRENT=$( defaults read \"$INFO\" CFBundleShortVersionString )\n\nif [ $CURRENT != $TAG ]; then\n    # output for Xcode logging\n    echo \"Updating CFBundleShortVersionString to $TAG\"\n\n    # write it to the Info.plist\n    defaults write \"$INFO\" CFBundleShortVersionString $TAG  \nelse\n    # output for Xcode logging\n    echo \"CFBundleShortVersionString already at $TAG\"\nfi\n\nCURRENT=$( defaults read \"$INFO\" CFBundleVersion )\n\nif [ $CURRENT != $TAG ]; then\n    # output for Xcode logging\n    echo \"Updating CFBundleVersion to $TAG\"\n\n    # write it to the Info.plist\n    defaults write \"$INFO\" CFBundleVersion $TAG  \nelse\n    # output for Xcode logging\n    echo \"CFBundleVersion already at $TAG\"\nfi";
+			shellScript = "INFO=$( echo $PWD )/tilemill-Info\nTAG=\nCOMMIT=\nCURRENT=\nCOUNT=\nCURRENT_COUNT=\nGITPATH=/usr/bin:/usr/local/bin:/usr/local/git/bin\nPATH=$PATH:$GITPATH; export PATH\n\nif [ -z $( which git ) ]; then\n  echo \"Unable to find git binary in \\$GITPATH\"\n  exit 1\nfi\n\nTAG=$( git describe --tags --abbrev=0 | sed -e s/^v// )\n\nCURRENT=$( defaults read \"$INFO\" CFBundleShortVersionString )\n\nif [ $CURRENT != $TAG ]; then\n    # output for Xcode logging\n    echo \"Updating CFBundleShortVersionString to $TAG\"\n\n    # write it to the Info.plist\n    defaults write \"$INFO\" CFBundleShortVersionString $TAG  \nelse\n    # output for Xcode logging\n    echo \"CFBundleShortVersionString already at $TAG\"\nfi\n\nCOUNT=$( git rev-list HEAD | grep -c ^ )\n\nCURRENT_COUNT=$( defaults read \"$INFO\" CFBundleVersion )\n\nif [ $CURRENT_COUNT != $COUNT ]; then\n    # output for Xcode logging\n    echo \"Updating CFBundleVersion to $COUNT\"\n\n    # write it to the Info.plist\n    defaults write \"$INFO\" CFBundleVersion $COUNT  \nelse\n    # output for Xcode logging\n    echo \"CFBundleVersion already at $COUNT\"\nfi";
 			showEnvVarsInLog = 0;
 		};
 		D7CFB18F13E852550033DFFD /* Copy Node Executable */ = {
@@ -523,7 +523,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Externals/Sparkle/Sparkle.framework/Versions/A/Headers\"";
 				INFOPLIST_FILE = "tilemill-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = TileMill;
@@ -542,7 +541,6 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Externals/Sparkle/Sparkle.framework/Versions/A/Headers\"";
 				INFOPLIST_FILE = "tilemill-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = TileMill;
