@@ -14,6 +14,8 @@
 
 #import "PFMoveApplication.h"
 
+#import "SUUpdater.h"
+
 @interface TileMillAppDelegate ()
 
 - (void)startTileMill;
@@ -290,6 +292,39 @@
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
     self.mainWindowController.childRunning = YES;
+}
+
+#pragma mark -
+
+- (id <SUVersionComparison>)versionComparatorForUpdater:(SUUpdater *)updater
+{
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    
+    // handle ourselves for early versions - see https://github.com/mapbox/tilemill/issues/730
+    //
+    if ([[NSArray arrayWithObjects:@"0.5.0", @"0.5.1", nil] containsObject:version])
+        return self;
+    
+    return nil;
+}
+
+#pragma mark -
+
+- (NSComparisonResult)compareVersion:(NSString *)versionA toVersion:(NSString *)versionB;
+{
+    // Should return NSOrderedAscending if b > a, NSOrderedDescending if b < a, and NSOrderedSame if they are equivalent.
+    
+    // A is x.y.z and B is not - A is the new scheme
+    //
+    if ([[versionA componentsSeparatedByString:@"."] count] == 3 && [[versionB componentsSeparatedByString:@"."] count] != 3)
+        return NSOrderedDescending;
+    
+    // B is x.y.z and A is not - B is the new scheme
+    //
+    if ([[versionB componentsSeparatedByString:@"."] count] == 3 && [[versionA componentsSeparatedByString:@"."] count] != 3)
+        return NSOrderedAscending;
+    
+    return NSOrderedSame;
 }
 
 @end
