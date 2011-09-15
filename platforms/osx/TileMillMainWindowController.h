@@ -8,6 +8,9 @@
 
 @interface TileMillMainWindowController : NSWindowController
 {
+    NSButton *openBrowserButton;
+    NSProgressIndicator *spinner;
+    BOOL childRunning;
 }
 
 @property (nonatomic, readonly, retain) IBOutlet NSButton *openBrowserButton;

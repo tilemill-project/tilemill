@@ -25,18 +25,18 @@
 
 @synthesize delegate;
 @synthesize task;
-@synthesize basePath = _basePath;
-@synthesize command = _command;
+@synthesize basePath;
+@synthesize command;
 @synthesize launched;
 
-- (id)initWithBasePath:(NSString *)basePath command:(NSString *)command
+- (id)initWithBasePath:(NSString *)inBasePath command:(NSString *)inCommand
 {
     self = [super init];
     
     if (self)
     {
-        _basePath = [basePath retain];
-        _command  = [command retain];
+        basePath = [inBasePath retain];
+        command  = [inCommand retain];
     }
 
     return self;
@@ -47,8 +47,8 @@
     [self stopProcess];
 
     [task release];
-    [_basePath release];
-    [_command release];
+    [basePath release];
+    [command release];
 
     [super dealloc];
 }
