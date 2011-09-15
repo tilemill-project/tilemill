@@ -10,10 +10,6 @@
 {
 }
 
-@property (nonatomic, retain) IBOutlet NSPopUpButton *commandLinePathButton;
-@property (nonatomic, retain) NSString *selectedCommandLinePath;
-
 - (IBAction)clickedFilesPathButton:(id)sender;
-- (IBAction)clickedInstallCommandLineButton:(id)sender;
 
 @end
