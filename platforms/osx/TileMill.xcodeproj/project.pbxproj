@@ -525,6 +525,7 @@
 				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
 				INFOPLIST_FILE = "tilemill-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = TileMill;
 			};
 			name = Debug;
@@ -543,6 +544,7 @@
 				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
 				INFOPLIST_FILE = "tilemill-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = TileMill;
 			};
 			name = Release;
