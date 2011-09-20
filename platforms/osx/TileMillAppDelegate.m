@@ -16,17 +16,17 @@
 
 @interface TileMillAppDelegate ()
 
-- (void)startTileMill;
-- (void)stopTileMill;
-- (void)writeToLog:(NSString *)message;
-- (void)presentFatalError;
-
 @property (nonatomic, retain) TileMillChildProcess *searchTask;
 @property (nonatomic, retain) TileMillMainWindowController *mainWindowController;
 @property (nonatomic, retain) TileMillPrefsWindowController *prefsController;
 @property (nonatomic, retain) NSString *logPath;
 @property (nonatomic, assign) BOOL shouldAttemptRestart;
 @property (nonatomic, assign) BOOL fatalErrorCaught;
+
+- (void)startTileMill;
+- (void)stopTileMill;
+- (void)writeToLog:(NSString *)message;
+- (void)presentFatalError;
 
 @end
    
@@ -158,6 +158,11 @@
         self.mainWindowController = [[[TileMillMainWindowController alloc] initWithWindowNibName:@"TileMillMainWindow"] autorelease];
     
     [self.mainWindowController showWindow:self];
+}
+
+- (IBAction)showAboutPanel:(id)sender
+{
+    [NSApp orderFrontStandardAboutPanelWithOptions:[NSDictionary dictionaryWithObject:[NSImage imageNamed:@"tilemill.icns"] forKey:@"ApplicationIcon"]];
 }
 
 - (void)writeToLog:(NSString *)message

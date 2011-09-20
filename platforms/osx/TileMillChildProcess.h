@@ -23,12 +23,17 @@
 
 @interface TileMillChildProcess : NSObject
 {
+    id <TileMillChildProcessDelegate>delegate;
+    NSTask *task;
+    NSString *basePath;
+    NSString *command;
+    BOOL launched;
 }
 
 @property (nonatomic, assign) id <TileMillChildProcessDelegate> delegate;
 @property (nonatomic, readonly, assign, getter=isLaunched) BOOL launched;
 
-- (id)initWithBasePath:(NSString *)basePath command:(NSString *)command;
+- (id)initWithBasePath:(NSString *)inBasePath command:(NSString *)inCommand;
 - (void)startProcess;
 - (void)stopProcess;
 
