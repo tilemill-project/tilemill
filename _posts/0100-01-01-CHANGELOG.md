@@ -2,6 +2,10 @@
 ### This changelog is in YAML format and is a Jekyll post.
 ### It is the source file for the HTML changelog as well
 ### as the Sparkle appcast feed.
+###
+### The 'oldrev' is only needed for 0.5.0/0.5.1 since the
+### Sparkle scheme changed for 0.5.2+ (see #730).
+###
 tag: changelog
 layout: changelog
 section: documentation
@@ -12,6 +16,7 @@ releases:
 
 
 - version: 0.5.1
+  oldrev: 2917
   date: 2011-09-07
   size: 54341919
   sign: MCwCFESkb0ub6SL6KGrMgPEVW22E9aIJAhRlTbXR3jcjWBLi07PK3ks4OmW71Q==
@@ -24,6 +29,7 @@ releases:
   - Faster rendering thanks to performance improvements in Mapnik.
 
 - version: 0.5.0
+  oldrev: 2875
   date: 2011-08-25
   size: 54966410
   sign: MC0CFD5JLjVnLtoMNh8RpN4qIk93oelbAhUA+ODVplRgaNSYhpRQoM/1+qEKIF0=

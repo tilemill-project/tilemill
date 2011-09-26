@@ -39,7 +39,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
   function tokenBase(stream, state) {
     var ch = stream.next();
     if (ch == '@') {
-      stream.eatWhile(/\w/);
+      stream.eatWhile(/\w|\-|\_/);
       return ret('carto-variable', stream.current());
     } else if (ch == '/' && stream.eat('*')) {
       state.tokenize = tokenCComment;
