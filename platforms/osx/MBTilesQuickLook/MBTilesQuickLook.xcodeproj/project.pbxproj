@@ -186,6 +186,9 @@
 /* Begin PBXProject section */
 		5504853813EAF31D0001DFFD /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 5504853B13EAF31D0001DFFD /* Build configuration list for PBXProject "MBTilesQuickLook" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
