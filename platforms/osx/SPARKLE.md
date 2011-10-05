@@ -27,7 +27,7 @@ and OpenSSL), you will need:
 
 ## Usage
 
-Run `./sparkle.sh` (or `make sparkle`) and follow the prompts. Appcast push instructions are
-given at the end of a successful local update process.
+Run `./sparkle.sh` (or `make sparkle`) and follow the prompts. Appcast update instructions 
+are given at the end of a successful local update process.
 
 [1]: http://sparkle.andymatuschak.org/

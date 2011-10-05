@@ -19,7 +19,7 @@ releases:
   oldrev: 2917
   date: 2011-09-07
   size: 54341919
-  sign: MCwCFESkb0ub6SL6KGrMgPEVW22E9aIJAhRlTbXR3jcjWBLi07PK3ks4OmW71Q==
+  sign: MC4CFQDCvneOlUKcQneRCNIfy/vrs+ZBIQIVAOUD6mzQrITdBNSrv86XJO7WauXt
 
   notes:
   - Fixed bug in OS X app that would activate the "Launch Browser" button before TileMill was ready.
@@ -32,7 +32,7 @@ releases:
   oldrev: 2875
   date: 2011-08-25
   size: 54966410
-  sign: MC0CFD5JLjVnLtoMNh8RpN4qIk93oelbAhUA+ODVplRgaNSYhpRQoM/1+qEKIF0=
+  sign: MC0CFQDYZwPKnPQfMz9Sa+6FJr6bVZxu4gIUJFa/5mBuKzqKq4X2bBB6vF0uD7s=
 
   notes:
   - SQLite/SpatiaLite datasource support.
