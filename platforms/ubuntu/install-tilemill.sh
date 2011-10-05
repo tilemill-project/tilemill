@@ -25,6 +25,7 @@ if [[ "$DIST" != "maverick" && "$DIST" != "natty" ]]; then
   exit
 fi
 
+apt-get install python-software-properties
 apt-add-repository ppa:developmentseed/mapbox
 apt-add-repository ppa:chris-lea/node.js
 
