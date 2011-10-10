@@ -40,7 +40,7 @@ footer:
   <link rel='shortcut icon' href='{{site.url}}/images/favicon.ico' type='image/x-icon' />
   <script src='{{site.url}}/site.js' type='text/javascript'></script>
 </head>
-<body {% if page.class %}class='{{page.class}}'{% endif %}>
+<body {% if page.class %}class='{{page.class}}'{% endif %}><div class='wrapper'>
 
 <div class='branding'><div class='limiter'>
   <a class='logo' href='{{site.url}}'>MapBox</a>
@@ -58,6 +58,8 @@ footer:
 </div></div>
 
 {{content}}
+
+<div class='push'></div></div>
 
 <div class='footer'><div class='limiter'>
 
