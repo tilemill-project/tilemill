@@ -1,6 +1,6 @@
 ---
 layout: book
-section: documentation
+section: manual
 category: TileMill
 title: 'Carto: The Styling Language'
 permalink: /docs/manual/carto

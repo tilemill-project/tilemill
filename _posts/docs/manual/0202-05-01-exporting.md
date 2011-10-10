@@ -1,6 +1,6 @@
 ---
 layout: book
-section: documentation
+section: manual
 category: TileMill
 title: Exporting your maps
 permalink: /docs/manual/exporting

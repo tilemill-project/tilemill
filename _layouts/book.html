@@ -16,7 +16,9 @@ layout: default
 <div class='book'>
 <ul>
 {% for item in site.categories[page.category] reversed %}
-<li><a {% if page.url == item.url %}class='active'{% endif %} href='{{site.baseurl}}{{item.url}}/'>{% if page.url == item.url %}<span class='icon'></span>{% endif %}{{item.title}}</a></li>
+  {% if page.title == 'Manual' or page.section == 'manual' or item.section != 'manual' %}
+    <li class='{{item.section}}'><a class='{% if page.url == item.url %}active{% endif %}' href='{{site.baseurl}}{{item.url}}/'>{% if page.url == item.url %}<span class='icon'></span>{% endif %}{{item.title}}</a></li>
+  {% endif %}
 {% endfor %}
 </ul>
 </div>

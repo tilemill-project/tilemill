@@ -1,6 +1,6 @@
 ---
 layout: book
-section: documentation
+section: manual
 category: TileMill
 title: Interface Tour
 permalink: /docs/manual/interface-tour

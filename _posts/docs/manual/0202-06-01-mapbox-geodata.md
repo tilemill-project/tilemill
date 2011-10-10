@@ -1,6 +1,6 @@
 ---
 layout: book
-section: documentation
+section: manual
 category: TileMill
 title: MapBox GeoData
 permalink: /docs/manual/mapbox-geodata

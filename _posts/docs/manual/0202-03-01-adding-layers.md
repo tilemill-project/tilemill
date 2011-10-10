@@ -1,6 +1,6 @@
 ---
 layout: book
-section: documentation
+section: manual
 category: TileMill
 title: Adding Layers
 permalink: /docs/manual/adding-layers
