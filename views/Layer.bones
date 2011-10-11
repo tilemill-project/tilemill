@@ -132,7 +132,7 @@ view.prototype.favoriteUpdate = function(ev) {
     // Show cache clear link if datasource points to a URL and we're editing
     // an existing layer.
     var cache = target.siblings('.cache');
-    if (this.model.id && uri.match(/^http:\/\//)) {
+    if (this.model.id && uri.match(/^http:\/\/|^https:\/\//)) {
         cache.removeClass('hidden');
     } else {
         cache.addClass('hidden');
