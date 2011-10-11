@@ -19,4 +19,7 @@ Use PNG to export a static image of your map. This format is useful if you want 
 
 PDF provides a vector-based export of your map, which is useful if you're designing maps for printed material.
 
+## SVG
+
+SVG provides another vector-based option for exporting your map. PDF and SVG output should contain very similar content but SVG is often supported by drawing programs natively (does not require conversion upon import).
 
