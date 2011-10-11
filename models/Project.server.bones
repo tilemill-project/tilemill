@@ -1,15 +1,15 @@
-var fs = require('fs');
-var Step = require('step');
-var path = require('path');
-var read = require('../lib/fsutil.js').read;
-var readdir = require('../lib/fsutil.js').readdir;
-var mkdirp = require('../lib/fsutil.js').mkdirp;
-var rm = require('../lib/fsutil.js').rm;
-var carto = require('carto');
-var mapnik = require('mapnik');
-var EventEmitter = require('events').EventEmitter;
-var millstone = require('millstone');
-var settings = Bones.plugin.config;
+var fs = require('fs'),
+    Step = require('step'),
+    path = require('path'),
+    read = require('../lib/fsutil.js').read,
+    readdir = require('../lib/fsutil.js').readdir,
+    mkdirp = require('../lib/fsutil.js').mkdirp,
+    rm = require('../lib/fsutil.js').rm,
+    carto = require('carto'),
+    mapnik = require('mapnik'),
+    EventEmitter = require('events').EventEmitter,
+    millstone = require('millstone'),
+    settings = Bones.plugin.config;
 
 // Project
 // -------
@@ -98,7 +98,8 @@ models.Project.prototype.validateAsync = function(attributes, options) {
 };
 
 // Wrap save to call validateAsync first.
-models.Project.prototype.save = _(Backbone.Model.prototype.save).wrap(function(parent, attrs, options) {
+models.Project.prototype.save = _(Backbone.Model.prototype.save)
+.wrap(function(parent, attrs, options) {
     var err = this.validate(attrs);
     if (err) return options.error(this, err);
 
@@ -195,10 +196,13 @@ function loadProject(model, callback) {
         // Generate dynamic properties.
         object.tilejson = '1.0.0';
         object.scheme = 'tms';
-        object.tiles = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (object.format || 'png') + '?updated=' + object._updated];
-        object.grids = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?updated=' + object._updated];
+        object.tiles = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' +
+            (object.format || 'png') +
+            '?updated=' + object._updated];
+        object.grids = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' +
+            '?updated=' + object._updated];
         if (object.interactivity) {
-            object.formatter = formatter(object.interactivity);
+            object.template = template(object.interactivity);
             object.interactivity.fields = fields(object);
         }
         this();
@@ -285,10 +289,13 @@ function saveProject(model, callback) {
         var updated = stat && Date.parse(stat.mtime) || (+ new Date());
         callback(err, {
             _updated: updated,
-            tiles: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (model.get('format') || 'png') + '?updated=' + updated],
-            grids: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?updated=' + updated],
-            formatter: model.get('interactivity')
-                ? formatter(model.get('interactivity'))
+            tiles: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' +
+                (model.get('format') || 'png') +
+                '?updated=' + updated],
+            grids: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' +
+                '?updated=' + updated],
+            template: model.get('interactivity')
+                ? template(model.get('interactivity'))
                 : undefined
         });
     });
@@ -416,15 +423,10 @@ function fields(opts) {
         .value();
 };
 
-// Generate formatter function from templates.
-function formatter(opts) {
+// Generate combined template from templates.
+function template(opts) {
     opts = opts || {};
-    var full = opts.template_full || '';
-    var teaser = opts.template_teaser || '';
-    var location = opts.template_location || '';
-    full = _(full.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
-    teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
-    location = _(location.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
-    return _('function(o,d) { return {full:<%=obj.full%>, teaser:<%=obj.teaser%>, location:<%=obj.location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
+    return '{{#location}}' + (opts.template_full || '') + '{{/location}}' +
+        '{{#teaser}}' + (opts.template_teaser || '') + '{{/teaser}}' +
+        '{{#full}}' + (opts.template_full || '') + '{{/full}}';
 };
-
