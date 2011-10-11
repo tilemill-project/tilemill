@@ -10,7 +10,7 @@ command.usage = '<project> <export>';
 
 command.options['format'] = {
     'title': 'format=[format]',
-    'description': 'Export format (png|pdf|mbtiles).'
+    'description': 'Export format (png|pdf|svg|mbtiles).'
 };
 
 command.options['bbox'] = {
@@ -75,7 +75,7 @@ command.prototype.initialize = function(plugin, callback) {
 
     // Format.
     if (!opts.format) opts.format = path.extname(opts.filepath).split('.').pop();
-    if (!_(['pdf', 'png', 'mbtiles']).include(opts.format))
+    if (!_(['pdf', 'svg', 'png', 'mbtiles']).include(opts.format))
         return this.error(new Error('Invalid format: ' + opts.format));
 
     // Convert string params into numbers.
@@ -162,6 +162,7 @@ command.prototype.put = function(data, callback) {
 };
 
 command.prototype.png =
+command.prototype.svg =
 command.prototype.pdf = function(project, callback) {
     var mapnik = require('mapnik');
     var sm = new (require('sphericalmercator'))();

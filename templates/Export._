@@ -14,7 +14,7 @@
       <input class='n' type='text' name='bbox_3' size='4' value='<%= project.get('bounds')[3] %>' />
     </div>
   </li>
-  <% if (model.get('format') === 'png' || model.get('format') === 'pdf') { %>
+  <% if (model.get('format') === 'png' || model.get('format') === 'pdf' || model.get('format') === 'svg') { %>
   <li>
     <label>Image size</label>
     <input name='width' type='text' value='400' size='4' /> x

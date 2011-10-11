@@ -34,7 +34,7 @@ model.prototype.schema = {
         'format': {
             'type': 'string',
             'required': true,
-            'enum': ['png', 'pdf', 'mbtiles']
+            'enum': ['png', 'pdf', 'svg', 'mbtiles']
         },
         'status': {
             'type': 'string',

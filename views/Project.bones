@@ -3,6 +3,7 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'click .actions a[href=#save]': 'save',
     'click .actions a[href=#export-pdf]': 'exportAdd',
+    'click .actions a[href=#export-svg]': 'exportAdd',
     'click .actions a[href=#export-png]': 'exportAdd',
     'click .actions a[href=#export-mbtiles]': 'exportAdd',
     'click .actions a[href=#exports]': 'exportList',
