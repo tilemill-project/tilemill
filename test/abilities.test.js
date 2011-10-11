@@ -26,7 +26,8 @@ require('./support/start')(function(command) {
                 assert.deepEqual({
                     mbtiles: true,
                     png: true,
-                    pdf: true
+                    pdf: true,
+                    svg: true
                 }, abilities.exports);
             }
         );

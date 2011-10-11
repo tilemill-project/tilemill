@@ -18,6 +18,9 @@
           <% if (window.abilities.exports.pdf) { %>
           <a href='#export-pdf' title='Export PDF'>PDF</a>
           <% } %>
+          <% if (window.abilities.exports.svg) { %>
+          <a href='#export-svg' title='Export SVG'>SVG</a>
+          <% } %>
           <% if (window.abilities.exports.mbtiles) { %>
           <a href='#export-mbtiles' title='Export MBTiles'>MBTiles</a>
           <% } %>

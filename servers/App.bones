@@ -11,7 +11,8 @@ var abilities = {
     exports: {
         mbtiles: true,
         png: true,
-        pdf: mapnik.supports.cairo
+        pdf: mapnik.supports.cairo,
+        svg: mapnik.supports.cairo
     }
 };
 
