@@ -28,11 +28,6 @@
     
     if (self)
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowWillClose:)
-                                                     name:NSWindowWillCloseNotification
-                                                   object:[self window]];
-        
         for (NSString *keyPath in kRestartKeyPaths)
             [[NSUserDefaults standardUserDefaults] addObserver:self
                                                     forKeyPath:keyPath
@@ -45,10 +40,6 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
-                                                    name:NSWindowWillCloseNotification 
-                                                  object:[self window]];
-    
     for (NSString *keyPath in kRestartKeyPaths)
         [[NSUserDefaults standardUserDefaults] removeObserver:self
                                                    forKeyPath:keyPath];
@@ -126,6 +117,8 @@
         [alert runModal];
     }
 }
+
+#pragma mark -
 
 - (IBAction)clickedFilesPathButton:(id)sender
 {
