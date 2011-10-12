@@ -125,7 +125,7 @@ function flushProject(model, callback) {
         cache: path.join(settings.files, 'cache')
     };
     millstone.flush(options, callback);
-};
+}
 
 // Get the mtime for a project.
 function mtimeProject(model, callback) {
@@ -140,7 +140,7 @@ function mtimeProject(model, callback) {
             .value();
         callback(null, max);
     });
-};
+}
 
 // Load a single project model.
 function loadProject(model, callback) {
@@ -210,7 +210,7 @@ function loadProject(model, callback) {
     function(err) {
         return callback(err, object);
     });
-};
+}
 
 // Load all projects into an array.
 function loadProjectAll(model, callback) {
@@ -238,7 +238,7 @@ function loadProjectAll(model, callback) {
         });
         return callback(null, models);
     });
-};
+}
 
 // Destroy a project. `rm -rf` equivalent for the project directory.
 function destroyProject(model, callback) {
@@ -299,7 +299,7 @@ function saveProject(model, callback) {
                 : undefined
         });
     });
-};
+}
 
 function compileStylesheet(mml, callback) {
     // Parse project stylesheets for `font-directory` property and register
@@ -331,7 +331,7 @@ function compileStylesheet(mml, callback) {
         if (err) callback(err);
         else callback(null, output);
     });
-};
+}
 
 var localizedCache = {};
 
@@ -406,22 +406,24 @@ function fields(opts) {
     // Determine fields that need to be included from templates.
     // @TODO allow non-templated fields to be included.
     var fields = [full, teaser, location]
-        .join(' ').match(/\[([\w\d]+)\]/g);
+        .join(' ').match(/\{\{#?\/?\^?([\w\d]+)\}\}/g);
 
     // Include `key_field` for PostGIS Layers.
     var layer = opts.interactivity.layer;
     _(opts.Layer).each(function(l) {
         if (l.id !== opts.interactivity.layer) return;
         if (l.Datasource && l.Datasource.key_field)
-            fields.push('[' + l.Datasource.key_field + ']');
+            fields.push('{{' + l.Datasource.key_field + '}}');
     });
 
     return _(fields).chain()
         .filter(_.isString)
-        .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
+        .map(function(field) {
+            return field.replace(/[\{\{|\}\}]/g, '');
+        })
         .uniq()
         .value();
-};
+}
 
 // Generate combined template from templates.
 function template(opts) {
@@ -429,4 +431,4 @@ function template(opts) {
     return '{{#location}}' + (opts.template_full || '') + '{{/location}}' +
         '{{#teaser}}' + (opts.template_teaser || '') + '{{/teaser}}' +
         '{{#full}}' + (opts.template_full || '') + '{{/full}}';
-};
+}
