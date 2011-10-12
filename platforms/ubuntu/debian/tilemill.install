@@ -21,3 +21,5 @@ data usr/share/tilemill
 debian/tilemill.config etc/tilemill
 debian/tilemill.conf etc/init
 debian/tilemill.rotate etc/logrotate.d
+debian/tilemill.desktop usr/share/applications
+debian/tilemill.svg usr/share/icons/hicolor/scalable/apps
