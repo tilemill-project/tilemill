@@ -22,9 +22,7 @@ GeoJSON is a specification for storing spatial data in [JavaScript Object Notati
 
 ## KML
 
-Keyhole Markup Language, or KML, is a standard geospatial data format that was originally developed for and popularized by Google Earth *1*. TileMill has limited support of this format - point and polygon styles will be ignored, and other features such as images and 3D models are not supported. There is also no support for the compressed KMZ format at this time.
-
-- *1: Google acquired this project in 2004 from Keyhole, Inc., hence the name*
+KML is a standard geospatial data format that was originally developed for and popularized by Google Earth. TileMill has limited support of this format–point and polygon styles will be ignored, and other features such as images and 3D models are not supported. There is also no support for the compressed KMZ format at this time.
 
 ## GeoTIFF
 
@@ -56,3 +54,8 @@ Here are some example connection strings:
     dbname=gis user=mapbox
     dbname=gis user=mapbox password=foo host=localhost port=5984
 
+In the **Table or subquery** field, you can either specify the of the table that contains your data or, for more advanced uses, specify a subquery in SQL. The subquery must be wrapped in parentheses and be given an alias using the `AS` statement. For example:
+
+    (SELECT * FROM geodata WHERE type = 'birdhouse') AS data;
+
+If you plan to use the tooltip feature in TileMill, your PostGIS table must provide a column that contains a [unique key](http://en.wikipedia.org/wiki/Unique_key). Specify the name of that column in **Unique key field** box. Otherwise, you may see incorrect tooltips after exporting to MBTiles.
