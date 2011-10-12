@@ -7,4 +7,4 @@ Terminal=true
 Type=Application
 Encoding=UTF-8
 Categories=Network;Application;Geography;
-StartupNotify=true
+StartupNotify=false
