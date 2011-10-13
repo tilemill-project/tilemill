@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11C73</string>
+		<string key="IBDocument.SystemVersion">11B26</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -68,7 +68,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="WebView" id="749414685">
 							<reference key="NSNextResponder" ref="1006"/>
-							<int key="NSvFlags">274</int>
+							<int key="NSvFlags">282</int>
 							<object class="NSMutableSet" key="NSDragTypes">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSArray" key="set.sortedObjects">
@@ -103,29 +103,15 @@
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="NSArray" key="dict.sortedKeys">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<string>WebKitCacheModelPreferenceKey</string>
 										<string>WebKitDefaultFixedFontSize</string>
 										<string>WebKitDefaultFontSize</string>
-										<string>WebKitJavaEnabled</string>
-										<string>WebKitJavaScriptCanOpenWindowsAutomatically</string>
-										<string>WebKitJavaScriptEnabled</string>
 										<string>WebKitMinimumFontSize</string>
-										<string>WebKitPluginsEnabled</string>
-										<string>WebKitUserStyleSheetEnabledPreferenceKey</string>
-										<string>WebKitUserStyleSheetLocationPreferenceKey</string>
 									</object>
 									<object class="NSMutableArray" key="dict.values">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<integer value="0"/>
 										<integer value="12"/>
 										<integer value="12"/>
-										<boolean value="NO"/>
-										<boolean value="NO"/>
-										<boolean value="YES"/>
 										<integer value="1"/>
-										<boolean value="NO"/>
-										<boolean value="YES"/>
-										<string>/System/Library/PrivateFrameworks/Lookup.framework/Resources/LUWebKitModuleStyle.css</string>
 									</object>
 								</object>
 							</object>
