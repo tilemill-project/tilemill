@@ -6,5 +6,5 @@ Icon=/usr/share/icons/hicolor/scalable/apps/tilemill.svg
 Terminal=true
 Type=Application
 Encoding=UTF-8
-Categories=Network;Application;Geography;
+Categories=Graphics;Application;Geography;
 StartupNotify=false
