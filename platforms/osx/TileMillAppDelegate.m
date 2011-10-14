@@ -1,6 +1,6 @@
 //
 //  TileMillAppDelegate.m
-//  tilemill
+//  TileMill
 //
 //  Created by Dane Springmeyer on 7/28/11.
 //  Copyright 2011 Development Seed. All rights reserved.
