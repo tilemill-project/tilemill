@@ -1,0 +1,8 @@
+.book ul li.topic ul.articles {
+  display:none;
+  }
+
+.book ul li.active ul.articles {
+  display:block;
+  }
+

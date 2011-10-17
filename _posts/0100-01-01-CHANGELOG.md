@@ -9,7 +9,7 @@
 tag: changelog
 layout: changelog
 section: documentation
-category: TileMill
+category: installation
 title: Changelog
 permalink: /docs/changelog
 releases:

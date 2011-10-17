@@ -1,5 +1,9 @@
 ---
 layout: default
+sidebar_cats:
+- installation
+- manual
+- tutorials
 ---
 <div class='limiter title'>
 {% if page.section and page.category %}
@@ -14,12 +18,22 @@ layout: default
 <div class='limiter'><div class='content clearfix'>
 <div class='col-3 prose'>{{content}}</div>
 <div class='book'>
-<ul>
-{% for item in site.categories[page.category] reversed %}
-  {% if page.title == 'Manual' or page.section == 'manual' or item.section != 'manual' %}
-    <li class='{{item.section}}'><a class='{% if page.url == item.url %}active{% endif %}' href='{{site.baseurl}}{{item.url}}/'>{% if page.url == item.url %}<span class='icon'></span>{% endif %}{{item.title}}</a></li>
-  {% endif %}
-{% endfor %}
-</ul>
+  <ul>
+    {% for cat in (page.sidebar_cats) %}
+    <li class='topic'>
+      <h3><a href='#'>{{ cat | replace:'_',' ' | capitalize }}</a></h3>
+      <ul class='articles'>
+        {% for post in site.posts reversed %}{% if post.categories contains cat %}
+          {% if page.title == post.title %}
+            <li><a class='active' href='{{site.baseurl}}{{ post.url }}'>{{ post.title }}</a></li>
+          {% else %}
+            <li><a href='{{site.baseurl}}{{ post.url }}'>{{ post.title }}</a></li>
+          {% endif %}
+        {% endif %}{% endfor %}
+      </ul>
+    </li>
+    {% endfor %}
+  </ul>
 </div>
 </div></div>
+<script type='text/javascript'>$(tilemill.book);</script>

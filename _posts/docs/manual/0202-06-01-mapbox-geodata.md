@@ -1,7 +1,7 @@
 ---
 layout: book
 section: manual
-category: TileMill
+category: manual
 title: MapBox GeoData
 permalink: /docs/manual/mapbox-geodata
 ---
