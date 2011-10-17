@@ -1,0 +1,52 @@
+.prose img {
+  max-width:640px;
+}
+
+.book {
+  border:none;
+  padding:0px;
+  margin:0px;
+  width:210px;
+  }
+
+.book .topic {
+  border: 1px solid #ccc;
+  margin:10px;
+  }
+
+  .book .topic h3 a {
+    background:#eee;
+    color:#444;
+    }
+
+  .book .active h3 {
+    border-bottom: 1px solid #ccc;
+    }
+
+.book .topic .articles a {
+  padding:0px 10px;
+  height:0px;
+  overflow:hidden;
+  transition: height .25s;
+  -moz-transition: height .25s;
+  -webkit-transition: height .25s;
+  }
+
+  .book .topic.active .articles a {
+    height:20px;
+    padding:5px 10px;
+    }
+
+.book a {
+  margin:0;
+  padding:5px 10px;
+  border-radius:0px;
+  -moz-border-radius:0px;
+  -webkit-border-radius:0px;
+  }
+
+  .book a.active {
+    border-radius:0px;
+    -moz-border-radius:0px;
+    -webkit-border-radius:0px;
+    }
