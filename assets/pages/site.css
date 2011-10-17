@@ -22,12 +22,17 @@
     border-bottom: 1px solid #ccc;
     }
 
-.book ul li.topic ul.articles {
-  display:none;
+.book ul li.topic ul.articles li {
+  height:0px;
+  overflow:hidden;
+  transition: height .25s;
+  -moz-transition: height .25s;
+  -webkit-transition: height .25s;
   }
 
-  .book ul li.active ul.articles {
-    display:block;
+  .book ul li.topic.active ul.articles li {
+    height:30px;
+    overflow:hidden;
     }
 
 .book a {
