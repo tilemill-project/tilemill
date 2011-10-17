@@ -1,6 +1,6 @@
 ---
 layout: book
-section: manual
+section: documentation
 category: manual
 title: Adding Layers
 permalink: /docs/manual/adding-layers

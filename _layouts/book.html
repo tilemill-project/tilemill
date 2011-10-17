@@ -5,10 +5,10 @@ sidebar_cats:
 - manual
 ---
 <div class='limiter title'>
-{% if page.section and page.category %}
+{% if page.section %}
 <small class='breadcrumb'>
 <a href='{{site.url}}/{{page.section}}/'>{{page.section|capitalize}}</a> /
-<a href='{{site.baseurl}}{{site.categories[page.category].last.url}}/'>{{page.category}}</a>
+<a href='{{site.baseurl}}/docs'>TileMill</a>
 </small>
 {% endif %}
 <h1>{{page.title}}</h1>

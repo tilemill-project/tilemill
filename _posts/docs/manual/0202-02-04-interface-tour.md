@@ -1,6 +1,6 @@
 ---
 layout: book
-section: manual
+section: documentation
 category: manual
 title: Interface Tour
 permalink: /docs/manual/interface-tour

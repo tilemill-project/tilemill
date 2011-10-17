@@ -1,6 +1,6 @@
 ---
 layout: book
-section: manual
+section: documentation
 category: manual
 title: Exporting your maps
 permalink: /docs/manual/exporting

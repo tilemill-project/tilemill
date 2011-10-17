@@ -1,6 +1,6 @@
 ---
 layout: book
-section: manual
+section: documentation
 category: manual
 title: Files & Directories
 permalink: /docs/manual/files-directories

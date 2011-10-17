@@ -1,6 +1,6 @@
 ---
 layout: book
-section: manual
+section: documentation
 category: manual
 title: MapBox GeoData
 permalink: /docs/manual/mapbox-geodata
