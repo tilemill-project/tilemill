@@ -32,9 +32,7 @@ First, create a new project and find the default is a world map with grey countr
 
 Now, let's import the sample data by copying and pasting the url to the GeoJSON into the TileMill "Add Layer" window.
 
-
-![tilemill_styling_points_one.jpg](/assets/74c08203fa61c0aa3bbec7c3c6c1567a1f9ad3c6/tilemill_styling_points_one_normal.jpg)
-
+![](/tilemill/assets/pages/styling-points1.jpg)
 
 Now we can jump into styling our data.
 
@@ -50,15 +48,12 @@ One of the most powerful features of a good map is its ability to tell multiple 
 
 This style will give every point the same radius at every zoom level, leaving you with a national view that (depending on the size of your data set) will be covered in blue circles, looking something like this: 
 
-
-![tilemill_styling_points_two.jpg](/assets/1a576eeeeff183feb4df12cbff34bfcb1825bc33/tilemill_styling_points_two_normal.jpg)
-
-
+![](/tilemill/assets/pages/styling-points2.jpg)
 
 While this looks cluttered at a national level, at a higher zoom level, the marker style looks more appropriate: 
 
 
-![tilemill_styling_points_three.jpg](/assets/966022c7c6ed39cd7c1ce07dcdcf815e6b4aaf5f/tilemill_styling_points_three_normal.jpg)
+![](/tilemill/assets/pages/styling-points3.jpg)
 
 
 To avoid this ambiguous cluttering, tailor the way your data points are represented to each zoom level:
@@ -70,9 +65,7 @@ To avoid this ambiguous cluttering, tailor the way your data points are represen
         [zoom<4] { marker-height: 1; }
     }
 
-For those unfamiliar with Carto or CSS, these command lines are essentially "If/Then" conditional rules. You have a condition, say [zoom>9], and if this is satisfied, then TileMill applies the subsequent command(s) contained within the curly braces. This code gives you marker heights increasing in radius as you zoom farther into the map, which allows for a cleaner presentation of the data at every level. 
-
-On a logical tangent, this example shows that you can use more than one condition in your rule. Carto's versions of "and" or "or" are symbolized as an empty string and "," respectively; so, "[zoom>6][zoom<10]" reads "[zoom>6] and [zoom<10]" while "[zoom=4],[zoom=5]" reads "[zoom=4] or [zoom=5]". Note that if you wanted to use "and"'s and "or"'s in your conditions, TileMill evaluates "and" conditions first, followed by "or"'s, to avoid logical ambiguity. So, "[zoom>4][zoom<6],[zoom=6]" would read "([zoom>4] and [zoom<6]) or [zoom=7]."
+For those unfamiliar with Carto or CSS, these command lines are essentially "If/Then" conditional rules. You have a condition, say `[zoom>9]`, and if this is satisfied, then TileMill applies the subsequent command(s) contained within the curly braces. This code gives you marker heights increasing in radius as you zoom farther into the map, which allows for a cleaner presentation of the data at every level.
 
 ## Intra-data Relationships
 
@@ -82,30 +75,29 @@ Each dataset has its own nuances and certain kinds of information are better sui
 
 In this example, we have essentially two different "kinds" of data: quantitative and qualitative. Let's suppose you want to focus on the amount of funding each of these research centers received (quantitative data). One way to demonstrate this visually is by changing the radius of the markers based on the amount of funding associated with each data point. Using what we learned about conditional rules, we can use *nested* conditional rules (conditional rules within conditional rules) to vary marker height first by zoom level and then by amount of funding. Here is some sample text to demonstrate this:
 
-<pre>
-#data {
-  [Fund<100000] {
-    [zoom>0][zoom<5]{ marker-height: 2; }
-    [zoom>4][zoom<10] { marker-height: 3; }
-    [zoom>9] { marker-height: 4.5; }
+    #data {
+      [Fund<100000] {
+        [zoom>0][zoom<5]{ marker-height: 2; }
+        [zoom>4][zoom<10] { marker-height: 3; }
+        [zoom>9] { marker-height: 4.5; }
+        }
+      [Fund>=1000000][Fund<5000000] {
+        [zoom>0][zoom<5] { marker-height: 4; }
+        [zoom>4][zoom<10] { marker-height: 6; }
+        [zoom>9] { marker-height: 9; }
+        }    
+      [Fund>=5000000][Fund<8000000] {
+        [zoom>0][zoom<5] {marker-height: 6; }
+        [zoom>4][zoom<10] { marker-height: 8; }
+        [zoom>9] { marker-height: 13.5; }
+        } 
+      [Fund>=8000000] { 
+        [zoom>0][zoom<5] { marker-height: 8; }
+        [zoom>4][zoom<10] { marker-height: 12; }
+        [zoom>9] { marker-height: 18; }
+        }
     }
-  [Fund>=1000000][Fund<5000000] {
-    [zoom>0][zoom<5] { marker-height: 4; }
-    [zoom>4][zoom<10] { marker-height: 6; }
-    [zoom>9] { marker-height: 9; }
-    }    
-  [Fund>=5000000][Fund<8000000] {
-    [zoom>0][zoom<5] {marker-height: 6; }
-    [zoom>4][zoom<10] { marker-height: 8; }
-    [zoom>9] { marker-height: 13.5; }
-    } 
-  [Fund>=8000000] { 
-    [zoom>0][zoom<5] { marker-height: 8; }
-    [zoom>4][zoom<10] { marker-height: 12; }
-    [zoom>9] { marker-height: 18; }
-    }
-}
-</pre>
+
 This will allow you to compare recipient funding by basic geographic location. But what if you also wanted to compare recipient funding by type of research? Using color is a good way to compare qualitatively different sections of your data. An added bonus of using color is that it does not typically have to vary by zoom level, so we can put our color conditionals outside of the nested conditionals above (right after `#data {` and before `[Fund<100000]`). 
 
     [Type="Geo-thermal"] {
@@ -156,6 +148,5 @@ To mitigate the tension between complex datasets and available space, TileMill p
 
 With all of these suggestions implemented, you can come up with a map looking something like this, at a high zoom level:
 
-
-![tilemill_styling_points_four.jpg](/assets/316e25edaf959d4be67455103c1a39f35a6a1c57/tilemill_styling_points_four_normal.jpg)
+![](/tilemill/assets/pages/styling-points4.jpg)
 

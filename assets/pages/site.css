@@ -1,3 +1,7 @@
+.prose img {
+  max-width:640px;
+}
+
 .book {
   border:none;
   padding:0px;

@@ -29,31 +29,29 @@ Geocoding APIs, web services that accept an address and return coordinates, usua
 
 First you need a base url for the geocoding server:
 
-> http://where.yahooapis.com/geocode?
+    http://where.yahooapis.com/geocode?
 
 [Now get an API key from Yahoo on this page.](http://developer.yahoo.com/dashboard/createKey.html) - specify any application name and description, and you won't need the optional BOSS Search API or private data.
 
 Next, include your key, so Yahoo knows who you are and can enforce its rate limiting:
 
-> appid=[[your Yahoo Placefinder API key goes here]]
+    appid=[your Yahoo Placefinder API key goes here]
 
 Then you need to add `flags=J` to the request so that the response from the geocoder is properly formed for use in Refine (this results in a [JSON format](http://www.json.org/) response rather than XML).
 
-> &flags=J
+    &flags=J
 
 Finally, the last part of the url is the address we want to geocode. Here we're using the White House's address, but for our sample dataset, we'll need to make this part by joining together a few separate address fields.
 
-> &q=1600 Pennsylvania Ave Washington DC
+    &q=1600 Pennsylvania Ave Washington DC
 
 Try it! Copy the following url to your browser and see the response you get back from the geocoder:
 
-	http://where.yahooapis.com/geocode?flags=J&q=1600 Pensylvania Ave Washington DC
+    http://where.yahooapis.com/geocode?flags=J&q=1600 Pensylvania Ave Washington DC
 
 The response should be in JSON format, and will not be very readable in your browser, but thats okay. If you want to see the JSON printed in a more readible way try copy and pasting the result into the <a href="http://jsonlint.com/">JSONLint</a> site, which validates and formats json snippets to confirm they will work:
 
-![json_geocode_response.png](/assets/e354ab22a005594e281c62b409157402d4c123c6/json_geocode_response_normal.png)
-
-
+![](/tilemill/assets/pages/spreadsheet-data1.png)
 
 ### Applying the geocoding API to each address in our dataset
 
@@ -90,7 +88,7 @@ If you want to use this expression on another project, make sure to set the `cel
 
 For example, given a different spreadsheet that looks like this:
 
-![simple_csv_in_refine.png](/assets/64258dedd7d6786a7d11bde5320755a19c1917a1/simple_csv_in_refine_normal.png)
+![](/tilemill/assets/pages/spreadsheet-data2.png)
 
 Your refine geocoding expression would look like:
 
@@ -225,5 +223,5 @@ Now I'm ready to share my map, so I'll export it to MBTiles and load it into my 
 
 Embed code:
 
-    `<div id='ts-embed-1305426544377-script'><script src='http://tiles.mapbox.com/dhcole/api/v1/embed.js?api=ol&size%5B%5D=630&size%5B%5D=400&center%5B%5D=-74.992675763906&center%5B%5D=40.149488205192&center%5B%5D=8&layers%5B%5D=world-bright-test&layers%5B%5D=recovery-map_d623b4&options%5B%5D=legend&options%5B%5D=zoompan&options%5B%5D=tooltips&options%5B%5D=zoomwheel&el=ts-embed-1305426544377'></script></div>`
+    <div id='ts-embed-1305426544377-script'><script src='http://tiles.mapbox.com/dhcole/api/v1/embed.js?api=ol&size%5B%5D=630&size%5B%5D=400&center%5B%5D=-74.992675763906&center%5B%5D=40.149488205192&center%5B%5D=8&layers%5B%5D=world-bright-test&layers%5B%5D=recovery-map_d623b4&options%5B%5D=legend&options%5B%5D=zoompan&options%5B%5D=tooltips&options%5B%5D=zoomwheel&el=ts-embed-1305426544377'></script></div>
 

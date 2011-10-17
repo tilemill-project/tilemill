@@ -11,7 +11,7 @@ Most users will not need to directly use this underlying Mapnik XML, but it is e
 
 In TileMill >= 0.4.x you can access the Mapnik XML for each project within the advanced section:
 
-![export_mapnik_view.png](/assets/a5953e64ad3fbd0f18f6d56c653b2b1977723f3b/export_mapnik_view_normal.png)
+![](/tilemill/assets/pages/mapnikxml.png)
 
 You can also do this programmatic on the command line using the carto command line tool.
 

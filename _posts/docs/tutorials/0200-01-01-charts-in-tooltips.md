@@ -20,8 +20,7 @@ Here's how it works, it's simple: the API generates an image based on the data t
 
 Whether you are using a shapefile, geojson file, or a PostGIS database, data variables are defined as tokens, `[ID]`, within TileMill and can be inserted into the data values component within the Chart API URL.  Let's follow this example of a chart for a map we've been working on recently:
 
-![googleblog1.png](/assets/6b2ee4b045a959514c7d153138f6d9c88fde74db/googleblog1_normal.png)
-
+![](/tilemill/assets/pages/googlecharts1.png)
 
 Here is the code for this example.  Feel free to copy and paste the following code into the chart [playground](http://code.google.com/apis/chart/image/docs/chart_playground.html) to try it out for yourself.
 
@@ -90,13 +89,13 @@ The new HTML image tag with the URL should look something like this:
 
 Then copy your new image tag into the `Teaser` field.
 
-![googleblog3.png](/assets/172e49f1e170b8f0efa728301825e3de1a4c49ac/googleblog3_normal.png)
+![](/tilemill/assets/pages/googlecharts2.png)
 
 
 ### Final Product
 
 Once you click `Save`, TileMill will process the settings and mouse-over interactivity will be available for your map. You should now see an interactive pop-up in your preview window.
 
-![googleblog6.png](/assets/ad096323415f78b9f940802b5160cfcc5357a27c/googleblog6_normal.png)
+![](/tilemill/assets/pages/googlecharts3.png)
 
 

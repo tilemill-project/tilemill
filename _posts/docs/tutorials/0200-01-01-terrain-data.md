@@ -41,13 +41,13 @@ The US Geological Survey publishes a [National Elevation Dataset][3] for the Uni
 
 #### Color-relief (or hypsometric tint)
 
-![relief-example.png](/assets/a66610604ec7db9bb2346eead65f37961693e685/relief-example_normal.png)
+![relief-example.png](/tilemill/assets/pages/relief-example.png)
 
 Color relief assigns a color to a pixel based on the elevation of that pixel. The result is not intended to be hysically accurate, and even if natural-looking colors are chosen the results should not be interpreted as representative of actual landcover. Low-lying areas are often given assigned green and yellow shades, with higher elevations blending to shades of grey, white, and/or red. 
 
 #### Hillshade (or shaded relief)
 
-![hillshade-example.png](/assets/2108af33e98f64ab89535bfa368e5dbca0291fd8/hillshade-example_normal.png)
+![hillshade-example.png](/tilemill/assets/pages/hillshade-example.png)
 
 Hillshade visualization analyzes the digital elevation model to simulate a 3-dimensional terrain. The effect of sunlight on topography is not necessarily accurate but gives a good approximation of the terrain.
 
@@ -80,7 +80,7 @@ Run this command to generate the shaded relief image:
 
 The `-co compress=lzw` option will compress the TIFF. If you're not concerned about disk space you can leave that part out. Our output looks like this:
 
-![Result, scaled and cropped](/assets/e6de5ea409c96ebe14af9afbbb2da41bfd4d9d28/hillshade-dc_normal.png)
+![Result, scaled and cropped](/tilemill/assets/pages/hillshade-dc.png)
 
 **Note:** If there is not a 1:1 relation between your vertical and horizontal units, you will want to use the `-s` (scale) option to indicate the difference. Since Google Mercator X & Y units are meters, and NED elevation is also stored in meters this wasn't necessary for our example. If your elevation data is stored in feet, you might do this instead (since there are approximately 3.28 feet in 1 meter):
 
@@ -100,7 +100,7 @@ Here is our example, saved to a file called ramp.txt:
 
 The above numbers define a gradient that will blend 5 colors over 4000 units of elevation. (Our units are meters, but we don't need to specify that in the file.) They will translate to a color-to-elevation relationship that looks like this:
 
-![Ramp illustration](/assets/d71cc6f1f8fbae4e7703ef319006453ed296d3d1/ramp-illustration-fs8_normal.png)
+![Ramp illustration](/tilemill/assets/pages/ramp-illustration-fs8.png)
 
 To apply this color ramp to the DEM, use the `gdaldem color-relief` command:
 
@@ -112,7 +112,7 @@ The area you are working with may not have such a wide range of elevations. You 
 
 Among other things, this will tell you the minimum, maximum, and mean values of your elevation data to help you make decisions about how to choose your colors. With elevations tweaked for our area around DC, this is what we get:
 
-![color-dc.png](/assets/0caa3bddadd404c33cd90970276cfb114f5c9924/color-dc_normal.png)
+![color-dc.png](/tilemill/assets/pages/color-dc.png)
 
 #### Generating slope shading
 
@@ -137,7 +137,7 @@ This file can then be referenced by by the color-relief command to display white
 
 Which gives us:
 
-![dc-slope.png](/assets/76af052eaa6ee5e41ae140486d0e0c405e950762/dc-slope_normal.png)
+![dc-slope.png](/tilemill/assets/pages/dc-slope.png)
 
 ## Combining the final result in TileMill
 
@@ -156,5 +156,5 @@ To combine these geotiffs in TileMill, we'll make use of the 'multiply' image bl
 
 The end result is something like this, ready to be combined with your vector data:
 
-![combined-dc.png](/assets/30ff3452c9ea20772acfad6a9131936ab95db7ef/combined-dc_normal.png)
+![combined-dc.png](/tilemill/assets/pages/combined-dc.png)
 
