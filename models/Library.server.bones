@@ -9,14 +9,15 @@ var s3 = require('../lib/s3');
 var config = Bones.plugin.config;
 var url = require('url');
 
-// Extensions supported by TileMill. See `carto/lib/carto/external.js` for
+// Extensions supported by TileMill. See `millstone.resolve()` for
 // the source of this list.
 var extFile = [
     '.zip', '.shp', '.png', '.geotiff', '.geotif', '.tiff',
-    '.tif', '.vrt', '.kml', '.geojson', '.json', '.rss'
+    '.tif', '.vrt', '.kml', '.geojson', '.json', '.rss',
+    '.csv', '.tsv', '.txt'
 ];
 // Sqlite extensions.
-var extSqlite = [ '.sqlite', '.spatialite' ];
+var extSqlite = [ '.sqlite', '.db', '.sqlite3', '.spatialite' ];
 
 var formatFileSize = function(size) {
     var size = parseInt(size), scaled, suffix;
