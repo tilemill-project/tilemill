@@ -20,7 +20,7 @@ sidebar_cats:
 <div class='book'>
   <ul>
     {% for cat in (page.sidebar_cats) %}
-    <li class='topic'>
+    <li class='topic{% if page.categories contains cat %} active{% endif %}'>
       <h3><a href='#'>{{ cat | replace:'_',' ' | capitalize }}</a></h3>
       <ul class='articles'>
         {% for post in site.posts reversed %}{% if post.categories contains cat %}

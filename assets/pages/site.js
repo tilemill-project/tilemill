@@ -2,11 +2,14 @@
 var tilemill = {};
 
 tilemill.book = function() {
-    $('.book li.topic > h3').click(function() {
-        console.log('foo');
-        $(this).parent().toggleClass('active');
+    $('.book li.topic').each(function() {
+        var item = this;
+        $('h3', item).click(function() {
+            $('.book li.topic').removeClass('active');
+            $(item).addClass('active');
+            return false;
+        });
     });
-
 };
 
 this.tilemill = tilemill;
