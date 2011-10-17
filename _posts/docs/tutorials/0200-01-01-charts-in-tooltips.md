@@ -9,14 +9,14 @@ This is a short step-by-step article for building charts and graphs to enhance i
 
 Google's Chart API is unique tool that allows you to embed dynamic charts and graphs in the interactive space of TileMill. Little to no programming experience is needed to adjust an existing chart in their gallery or build one from scratch in their interactive chart [playground](http://code.google.com/apis/chart/image/docs/chart_playground.html).
 
-### How it works
+## How it works
 
 Here's how it works, it's simple: the API generates an image based on the data that is sent via an URL request.  Within the URL, parameters are set and data variables are defined and returns a PNG image of a chart based on the data. A basic chart consists of only a few components: base URL, chart type, chart size, data values, and data labels. The only steps you need to take are:
 
 1. Set parameters and define data values
 2. Copy and paste URL into the interactivity window in TileMill
 
-### Set parameters and define data
+## Set parameters and define data
 
 Whether you are using a shapefile, geojson file, or a PostGIS database, data variables are defined as tokens, `[ID]`, within TileMill and can be inserted into the data values component within the Chart API URL.  Let's follow this example of a chart for a map we've been working on recently:
 
@@ -55,7 +55,7 @@ There are three key parameters for defining and displaying your data in TileMill
 
 Google provides a great overview of the key components [here](http://code.google.com/apis/chart/image/docs/making_charts.html#chart_elements).
 
-### Copy and paste into TileMill
+## Copy and paste into TileMill
 
 After you've set your parameters, defined your data, and defined your labels, you can wrap an HTML image tag around your Image API URL then copy and paste your new code into the interactivity window within TileMill.
 
@@ -92,7 +92,7 @@ Then copy your new image tag into the `Teaser` field.
 ![](/tilemill/assets/pages/googlecharts2.png)
 
 
-### Final Product
+## Final Product
 
 Once you click `Save`, TileMill will process the settings and mouse-over interactivity will be available for your map. You should now see an interactive pop-up in your preview window.
 
