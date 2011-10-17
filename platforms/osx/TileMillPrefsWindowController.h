@@ -6,7 +6,7 @@
 //  Copyright 2011 Development Seed. All rights reserved.
 //
 
-@interface TileMillPrefsWindowController : NSWindowController
+@interface TileMillPrefsWindowController : NSWindowController <NSWindowDelegate>
 {
     BOOL needsRestart;
 }
