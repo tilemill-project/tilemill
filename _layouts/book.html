@@ -18,22 +18,20 @@ sidebar_cats:
 <div class='limiter'><div class='content clearfix'>
 <div class='col-3 prose'>{{content}}</div>
 <div class='book'>
-  <ul>
-    {% for cat in (page.sidebar_cats) %}
-    <li class='topic{% if page.categories contains cat %} active{% endif %}'>
-      <h3><a href='#'>{{ cat | replace:'_',' ' | capitalize }}</a></h3>
-      <ul class='articles'>
-        {% for post in site.posts reversed %}{% if post.categories contains cat %}
-          {% if page.title == post.title %}
-            <li><a class='active' href='{{site.baseurl}}{{ post.url }}'>{{ post.title }}</a></li>
-          {% else %}
-            <li><a href='{{site.baseurl}}{{ post.url }}'>{{ post.title }}</a></li>
-          {% endif %}
-        {% endif %}{% endfor %}
-      </ul>
-    </li>
-    {% endfor %}
-  </ul>
+  {% for cat in (page.sidebar_cats) %}
+  <div class='topic{% if page.categories contains cat %} active{% endif %}'>
+    <h3><a href='#'>{{ cat | replace:'_',' ' | capitalize }}</a></h3>
+    <div class='articles'>
+      {% for post in site.posts reversed %}{% if post.categories contains cat %}
+        {% if page.title == post.title %}
+          <a class='active' href='{{site.baseurl}}{{ post.url }}'>{{ post.title }}</a>
+        {% else %}
+          <a href='{{site.baseurl}}{{ post.url }}'>{{ post.title }}</a>
+        {% endif %}
+      {% endif %}{% endfor %}
+    </div>
+  </div>
+  {% endfor %}
 </div>
 </div></div>
 <script type='text/javascript'>$(tilemill.book);</script>

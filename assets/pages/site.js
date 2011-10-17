@@ -2,10 +2,10 @@
 var tilemill = {};
 
 tilemill.book = function() {
-    $('.book li.topic').each(function() {
+    $('.book div.topic').each(function() {
         var item = this;
         $('h3', item).click(function() {
-            $('.book li.topic').removeClass('active');
+            $('.book div.topic').removeClass('active');
             $(item).addClass('active');
             return false;
         });

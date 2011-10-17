@@ -5,24 +5,22 @@
   width:210px;
   }
 
-.book li.topic {
+.book .topic {
   border: 1px solid #ccc;
   margin:10px;
   }
 
-.book li.topic h3 {
-  background:#eee;
-  }
-
-  .book li.topic h3 a {
+  .book .topic h3 a {
+    background:#eee;
     color:#444;
     }
 
-  .book ul li.active h3 {
+  .book .active h3 {
     border-bottom: 1px solid #ccc;
     }
 
-.book ul li.topic ul.articles li {
+.book .topic .articles a {
+  padding:0px 10px;
   height:0px;
   overflow:hidden;
   transition: height .25s;
@@ -30,9 +28,9 @@
   -webkit-transition: height .25s;
   }
 
-  .book ul li.topic.active ul.articles li {
-    height:30px;
-    overflow:hidden;
+  .book .topic.active .articles a {
+    height:20px;
+    padding:5px 10px;
     }
 
 .book a {
