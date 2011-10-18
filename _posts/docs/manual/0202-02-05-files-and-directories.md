@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: manual
-title: Files & Directories
+title: Files & directories
 permalink: /docs/manual/files-directories
 ---
 By default TileMill manages project files, data and other configuration in a `MapBox` directory on your hard drive. TileMill will create this directory and its contents automatically when you first start the program.
