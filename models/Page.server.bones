@@ -3,7 +3,7 @@ var fs = require('fs');
 
 models.Page.prototype.sync = function(method, model, success, error) {
     if (method !== 'read') return error('Method not supported.');
-    var filepath = path.resolve(path.join(__dirname, '..', '_posts', 'docs', model.id));
+    var filepath = path.resolve(path.join(__dirname, '..', '_posts', 'docs', 'manual', model.id));
     fs.readFile(filepath, 'utf8', function(err, data) {
         if (err) return error(err);
         data = data.substring(data.indexOf('---', 3) + 3);
