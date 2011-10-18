@@ -53,4 +53,11 @@
         self.initialRequestComplete = YES;
 }
 
+#pragma mark -
+
+- (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
+{
+    return [NSArray array];
+}
+
 @end
