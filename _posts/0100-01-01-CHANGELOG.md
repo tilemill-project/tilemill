@@ -14,6 +14,14 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+- version: 0.6.0
+
+  notes:
+  - Added support for export to SVG.
+  - Added support for CSV datasources.
+  - Mac app redesigned to use a native UI that wraps TileMill.
+  - Ubuntu app redesigned to feel more like a desktop application. See [upgrade
+    notes](http://mapbox.com/tilemill/docs/upgrade/) for important migration information.
 
 - version: 0.5.1
   oldrev: 2917
