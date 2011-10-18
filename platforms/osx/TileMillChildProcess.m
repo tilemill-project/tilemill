@@ -71,7 +71,8 @@
     
     [self.task setArguments:[NSArray arrayWithObjects:[NSString stringWithFormat:@"--port=%i",       [defaults integerForKey:@"serverPort"]],
                                                       [NSString stringWithFormat:@"--bufferSize=%i", [defaults integerForKey:@"bufferSize"]],
-                                                      [NSString stringWithFormat:@"--files=%@",      [defaults stringForKey: @"filesPath"]], 
+                                                      [NSString stringWithFormat:@"--files=%@",      [defaults stringForKey: @"filesPath"]],
+                                                      [NSString stringWithFormat:@"--listenHost=127.0.0.1"],
                                                       nil]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self 
