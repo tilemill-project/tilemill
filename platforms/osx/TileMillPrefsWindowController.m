@@ -8,7 +8,7 @@
 
 #import "TileMillPrefsWindowController.h"
 
-#define kRestartKeyPaths [NSArray arrayWithObjects:@"serverPort", @"filesPath", @"bufferSize", nil]
+#define kRestartKeyPaths [NSArray arrayWithObjects:@"serverPort", @"filesPath", @"bufferSize", @"listenAllInterfaces", nil]
 
 @interface TileMillPrefsWindowController ()
 
