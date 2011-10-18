@@ -33,7 +33,7 @@ model.prototype.schema = {
         },
         'geometry': {
             'type': 'string',
-            'enum': ['polygon', 'point', 'linestring', 'raster', 'unknown']
+            'enum': ['polygon', 'multipolygon', 'point', 'multipoint', 'linestring', 'multilinestring', 'raster', 'unknown']
         },
         'Datasource': {
             'type': 'object',
