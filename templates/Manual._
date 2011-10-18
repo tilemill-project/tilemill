@@ -11,7 +11,7 @@
 
   <div class='navigation'><ul>
     <% obj.collection.each(function(page) { %>
-      <li><a class='route' href='/#!/manual/<%= page.id %>'><%= page.get('title') %></a></li>
+      <li><a href='/#!/manual/<%= page.id %>'><%= page.get('title') %></a></li>
     <% }); %>
   </ul></div>
   <pre class='md prose'><%= obj.model.get('data') %></pre>
