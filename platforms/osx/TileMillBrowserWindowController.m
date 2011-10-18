@@ -51,6 +51,9 @@
 {
     if ( ! self.initialRequestComplete)
         self.initialRequestComplete = YES;
+    
+    self.webView.mainFrame.frameView.documentView.enclosingScrollView.horizontalScrollElasticity = NSScrollElasticityNone;
+    self.webView.mainFrame.frameView.documentView.enclosingScrollView.verticalScrollElasticity   = NSScrollElasticityNone;
 }
 
 #pragma mark -
