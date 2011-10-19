@@ -213,7 +213,7 @@ And I'll set up my `Full` with the following:
 	Funded by: [funding_agency_name]<br />
 	Jobs funded: [job_creation]
 
-Once TileMill's had a chance to process the interactivity settings, you'll see your overlays and on-click pop-ups in the preview window. That interactivity will work on maps embedded from Tile Stream Hosting and in the [1.3 release of the MapBox iPad App](http://developmentseed.org/blog/2011/may/24/mapbox-ipad-13-released).
+Once TileMill's had a chance to process the interactivity settings, you'll see your overlays and on-click pop-ups in the preview window. That interactivity will work on maps embedded from Tile Stream Hosting and in the [1.3 release of MapBox for iPad](http://developmentseed.org/blog/2011/may/24/mapbox-ipad-13-released).
 
 ## The Finished Product
 
