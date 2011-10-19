@@ -80,6 +80,8 @@ view.prototype.srsForce = function(ev) {
     var matches = uri.match(/.(\w+)$/) || [''];
     switch (matches[0]) {
     case '.kml':
+    case '.csv':
+    case '.rss':
         $('select[name=srs-name], input[name=srs]', form).attr('disabled', true);
         $('select[name=srs-name]', form).val('autodetect').change();
         $('input[name=srs]', form).val('');
