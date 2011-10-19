@@ -22,6 +22,7 @@ releases:
   - Mac app redesigned to use a native UI that wraps TileMill.
   - Ubuntu app redesigned to feel more like a desktop application. See [upgrade
     notes](http://mapbox.com/tilemill/docs/upgrade/) for important migration information.
+  - Fixed bug in Carto where the pound sign in an ID selector was optional.
 
 - version: 0.5.1
   oldrev: 2917
