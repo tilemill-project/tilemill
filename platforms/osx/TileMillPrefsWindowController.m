@@ -1,6 +1,6 @@
 //
 //  TileMillPrefsWindowController.m
-//  tilemill
+//  TileMill
 //
 //  Created by Justin Miller on 8/15/11.
 //  Copyright 2011 Development Seed. All rights reserved.
@@ -8,7 +8,7 @@
 
 #import "TileMillPrefsWindowController.h"
 
-#define kRestartKeyPaths [NSArray arrayWithObjects:@"serverPort", @"filesPath", @"bufferSize", nil]
+#define kRestartKeyPaths [NSArray arrayWithObjects:@"serverPort", @"filesPath", @"bufferSize", @"listenAllInterfaces", nil]
 
 @interface TileMillPrefsWindowController ()
 
@@ -28,11 +28,6 @@
     
     if (self)
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowWillClose:)
-                                                     name:NSWindowWillCloseNotification
-                                                   object:[self window]];
-        
         for (NSString *keyPath in kRestartKeyPaths)
             [[NSUserDefaults standardUserDefaults] addObserver:self
                                                     forKeyPath:keyPath
@@ -45,10 +40,6 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
-                                                    name:NSWindowWillCloseNotification 
-                                                  object:[self window]];
-    
     for (NSString *keyPath in kRestartKeyPaths)
         [[NSUserDefaults standardUserDefaults] removeObserver:self
                                                    forKeyPath:keyPath];
@@ -126,6 +117,8 @@
         [alert runModal];
     }
 }
+
+#pragma mark -
 
 - (IBAction)clickedFilesPathButton:(id)sender
 {

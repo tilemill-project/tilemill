@@ -6,7 +6,7 @@ navigation:
     path: /tilemill
     category: design
   - title: Hosting
-    path: /tilestream
+    path: /hosting
     category: hosting
   - title: Support
     path: /support
@@ -37,8 +37,10 @@ footer:
   <title>{{page.title}} | MapBox</title>
   <link rel='stylesheet' href='{{site.url}}/site.css' type='text/css'/>
   <!--[if IE]><link rel='stylesheet' href='{{site.url}}/site-ie.css' type='text/css'/><![endif]-->
+  <link rel='stylesheet' href='{{site.url}}/tilemill/assets/pages/site.css' type='text/css'/>
   <link rel='shortcut icon' href='{{site.url}}/images/favicon.ico' type='image/x-icon' />
   <script src='{{site.url}}/site.js' type='text/javascript'></script>
+  <script src='{{site.url}}/tilemill/assets/pages/site.js' type='text/javascript'></script>
 </head>
 <body {% if page.class %}class='{{page.class}}'{% endif %}><div class='wrapper'>
 

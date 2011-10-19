@@ -1,15 +1,15 @@
 ---
 layout: book
-section: manual
-category: TileMill
-title: Exporting your maps
+section: documentation
+category: manual
+title: Exporting
 permalink: /docs/manual/exporting
 ---
 Once you've finished a map design, you can export your map for use in other applications. You can export the entire world or choose a smaller region by setting the bounding box. TileMill can export MBTiles, PNG and PDF and each format has different advantages.
 
 ## MBTiles
 
-Use MBTiles to export your project as a pannable, zoomable map just like the preview you see in TileMill. You can upload MBTiles to [TileStream](http://mapbox.com/tilestream/) for hosting on the web, transfer them to the [MapBox iPad app](http://mapbox.com/ipad/) for presentations or manipulate them with a variety of [other tools](https://github.com/mapbox/mbtiles-spec/wiki/Implementations).
+Use MBTiles to export your project as a pannable, zoomable map just like the preview you see in TileMill. You can upload MBTiles to [MapBox Hosting](http://mapbox.com/hosting/) or [TileStream](http://mapbox.com/tilestream/) for hosting on the web, transfer them to [MapBox for iPad](http://mapbox.com/ipad/) for offline access or for presentations, or manipulate them with a variety of [other tools](https://github.com/mapbox/mbtiles-spec/wiki/Implementations).
 
 ## PNG
 
