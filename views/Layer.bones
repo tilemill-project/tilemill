@@ -72,19 +72,18 @@ view.prototype.srsToName = function(ev) {
     el.siblings('select[name=srs-name]').val(this.model.srsName(srs));
 };
 
-// Force raster and KML sources to use `autodetect` as their SRS. Actual SRS
+// Force KML sources to use `WGS84` as their SRS. Actual SRS
 // enforcement occurs upstream in `millstone`.
 view.prototype.srsForce = function(ev) {
     var uri = $(ev.currentTarget).val();
     var form = $(ev.currentTarget).parents('form');
     var matches = uri.match(/.(\w+)$/) || [''];
     switch (matches[0]) {
-    case '.geotiff':
-    case '.geotif':
-    case '.vrt':
-    case '.tiff':
-    case '.tif':
     case '.kml':
+    case '.csv':
+    case '.tsv':
+    case '.txt':
+    case '.rss':
         $('select[name=srs-name], input[name=srs]', form).attr('disabled', true);
         $('select[name=srs-name]', form).val('autodetect').change();
         $('input[name=srs]', form).val('');

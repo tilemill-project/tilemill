@@ -1,6 +1,6 @@
 //
 //  TileMillAppDelegate.h
-//  tilemill
+//  TileMill
 //
 //  Created by Dane Springmeyer on 7/28/11.
 //  Copyright 2011 Development Seed. All rights reserved.
@@ -8,13 +8,13 @@
 
 #import "TileMillChildProcess.h"
 
-@class TileMillMainWindowController;
+@class TileMillBrowserWindowController;
 @class TileMillPrefsWindowController;
 
 @interface TileMillAppDelegate : NSObject <TileMillChildProcessDelegate>
 {
     TileMillChildProcess *searchTask;
-    TileMillMainWindowController *mainWindowController;
+    TileMillBrowserWindowController *browserController;
     TileMillPrefsWindowController *prefsController;
     NSString *logPath;
     BOOL shouldAttemptRestart;
@@ -27,7 +27,7 @@
 - (IBAction)openKnowledgeBase:(id)sender;
 - (IBAction)openConsole:(id)sender;
 - (IBAction)openPreferences:(id)sender;
-- (IBAction)showMainWindow:(id)sender;
+- (IBAction)showBrowserWindow:(id)sender;
 - (IBAction)showAboutPanel:(id)sender;
 
 @end

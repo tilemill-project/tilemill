@@ -1,8 +1,8 @@
 ---
 layout: book
-section: manual
-category: TileMill
-title: Adding Layers
+section: documentation
+category: manual
+title: Adding layers
 permalink: /docs/manual/adding-layers
 ---
 Layers are how sets of data are added to a map in TileMill. Each  layer references a single shapefile, geoJSON file, KML file, geoTIFF, or PostGIS database query. Multiple layers are combined over top of each other to create the final map - if you are familiar with layers in Photoshop or other graphics software the concept is very similar. TileMill currently supports creating maps with several formats.
