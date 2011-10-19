@@ -10,9 +10,9 @@ distributable tilemill.app without requiring any other installation steps.
 
 We build node with two cpu architectures, aka universal/fat to support older macs:
 
-    wget http://nodejs.org/dist/node-v0.4.11.tar.gz
-    tar xvf node-v0.4.11.tar.gz
-    cd node-v0.4.11
+    wget http://nodejs.org/dist/node-v0.4.12.tar.gz
+    tar xvf node-v0.4.12.tar.gz
+    cd node-v0.4.12
     # ia32 == i386
     ./configure --without-snapshot --jobs=`sysctl -n hw.ncpu` --blddir=node-32 --dest-cpu=ia32
     make install # will install headers
@@ -46,16 +46,24 @@ custom flags we set later on.
 
     npm install -g jshint expresso
     
-jshint installation may fail with clang++.
+Note: jshint installation will fail with clang compiler so do:
+
+    export CC=gcc
+    export CXX=g++
+
 
 ## Build tilemill
 
 Clear out any previous builds:
 
+    cd tilemill
     rm -rf node_modules
     
 Also ensure that you have no globally installed node modules (other than `jshint` and `expresso`).
 You may need to check various node_modules depending on your $NODE_PATH.
+
+TODO: we should be able to avoid having to clear out node_modules by telling/tricking
+npm to avoid finding them (just needs testing).
 
 Now build tilemill with a few custom flags:
 
@@ -157,32 +165,6 @@ Now, in the same shell that you set the above environment settings
 navigate to your tilemill development directory.
 
    cd ~/tilemill # or wherever you git cloned tilemill
-
-
-## Rebuild node-sqlite
-
-First we will rebuild node-sqlite3.
-
-    cd node_modules/mbtiles/node_modules/sqlite3/
-
-
-Configure:
-
-    make clean
-    export CXXFLAGS="-I$MAPNIK_ROOT/include $CORE_CXXFLAGS"
-    export LINKFLAGS="-L$MAPNIK_ROOT/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
-    ./configure
-
-
-Then rebuild:
-
-    make
-
-    # check that static compile worked (you should not see libsqlite3.dylib in output):
-    otool -L lib/sqlite3_bindings.node
-    
-    # check for multi-arch
-    file lib/sqlite3_bindings.node
 
 
 ## Rebuild node-mapnik
