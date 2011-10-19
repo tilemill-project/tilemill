@@ -47,6 +47,18 @@
 
 #pragma mark -
 
+- (void)webView:(WebView *)sender didStartProvisionalLoadForFrame:(WebFrame *)frame
+{
+    NSURL *loadURL = [NSURL URLWithString:sender.mainFrameURL];
+    
+    if ( ! [[loadURL scheme] isEqualToString:@"http"] || ! [[loadURL host] isEqualToString:@"localhost"])
+    {
+        [frame stopLoading];
+
+        [[NSWorkspace sharedWorkspace] openURL:loadURL];
+    }
+}
+
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
     if ( ! self.initialRequestComplete)
