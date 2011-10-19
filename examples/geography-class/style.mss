@@ -16,7 +16,7 @@ in the top left. You can pull any attributes from a data
 layer to form tooltips like this. Here, we are pulling a 
 text attribute and a base64-encoded PNG image from a GeoJSON
 file of country polygons. Click on the settings wrench at the
-top right, then on the 'Interaction' tab to see how this was 
+top right, then on the 'Tooltips' tab to see how this was
 set up.
 
 Layers overview

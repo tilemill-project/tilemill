@@ -33,7 +33,7 @@ model.prototype.schema = {
         },
         'geometry': {
             'type': 'string',
-            'enum': ['polygon', 'point', 'linestring', 'raster', 'unknown']
+            'enum': ['polygon', 'multipolygon', 'point', 'multipoint', 'linestring', 'multilinestring', 'raster', 'unknown']
         },
         'Datasource': {
             'type': 'object',
@@ -99,9 +99,8 @@ model.prototype.validateAsync = function(attributes, options) {
 
 model.prototype.advancedDatasourceOptions = function() {
     var omit = [
-        'type', 'file',
-        'table', 'host', 'port', 'user', 'password', 'dbname',
-        'extent', 'key_field', 'geometry_field', 'type', 'attachdb',
+        'file', 'table', 'host', 'port', 'user', 'password', 'dbname',
+        'extent', 'key_field', 'geometry_field', 'attachdb',
         'srs', 'id', 'project'
     ];
     var advancedOptions = [];

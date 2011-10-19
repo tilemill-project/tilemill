@@ -71,21 +71,9 @@ Boolean GetMetadataForURL(void *thisInterface,
                 [result close];
             }
         }
-
-        FMResultSet *result = [db executeQuery:@"select value from metadata where name = 'type'"];
-        
-        if ( ! [db hadError])
-        {
-            [result next];
-            
-            [(NSMutableDictionary *)attributes setObject:[NSString stringWithFormat:@"MBTiles %@", [result stringForColumnIndex:0]] 
-                                                  forKey:(NSString *)kMDItemKind];
-            
-            [result close];
-        }
-
         [db close];
-        
+        [(NSMutableDictionary *)attributes setObject:[NSString stringWithFormat:@"MBTiles"]
+                                              forKey:(NSString *)kMDItemKind];
         success = YES;
     }
     
