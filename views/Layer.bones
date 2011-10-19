@@ -81,6 +81,8 @@ view.prototype.srsForce = function(ev) {
     switch (matches[0]) {
     case '.kml':
     case '.csv':
+    case '.tsv':
+    case '.txt':
     case '.rss':
         $('select[name=srs-name], input[name=srs]', form).attr('disabled', true);
         $('select[name=srs-name]', form).val('autodetect').change();
