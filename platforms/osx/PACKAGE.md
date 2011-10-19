@@ -157,7 +157,7 @@ Confirm the SDK is working by checking mapnik-config presence at that path:
     which mapnik-config | grep $MAPNIK_ROOT
 
 
-Note: the sdk was created using http://trac.mapnik.org/browser/trunk/osx/scripts/static-universal.sh
+Note: the sdk was created using https://github.com/mapnik/mapnik-packaging/blob/master/osx/scripts/static-universal.sh
 
 ## Change into tilemill dir
 
@@ -172,7 +172,7 @@ navigate to your tilemill development directory.
 
 Move to the node-mapnik directory:
 
-    cd ../../../mapnik/
+    cd node_modules/mapnik/
 
 Optional Hint: if using clang++ you are about to see a lot of compiler warning from boost. They are harmless but annoying. You can suppress them by adding '-Wno-unused-function -Wno-uninitialized -Wno-array-bounds -Wno-parentheses -Wno-char-subscripts' to your CXXFLAGS, or by adding `-isystem $MAPNIK_ROOT/include` instead. However, the latter flag is dangerous if your system has many duplicate libraries because it will background the precedence of that path when compiling and linking.
 
