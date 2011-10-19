@@ -99,8 +99,9 @@ model.prototype.validateAsync = function(attributes, options) {
 
 model.prototype.advancedDatasourceOptions = function() {
     var omit = [
-        'file', 'table', 'host', 'port', 'user', 'password', 'dbname',
-        'extent', 'key_field', 'geometry_field', 'attachdb',
+        'type', 'file',
+        'table', 'host', 'port', 'user', 'password', 'dbname',
+        'extent', 'key_field', 'geometry_field', 'type', 'attachdb',
         'srs', 'id', 'project'
     ];
     var advancedOptions = [];
