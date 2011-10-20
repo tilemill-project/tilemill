@@ -66,6 +66,12 @@
     if ( ! self.initialRequestComplete)
         self.initialRequestComplete = YES;
     
+    /*
+     * This is a nasty runtime hack to get rid of scroll bouncing when
+     * building the app against the 10.6 SDK. We'll get around this soon
+     * by building on 10.7.
+     */
+    
     NSScrollView *scroller = self.webView.mainFrame.frameView.documentView.enclosingScrollView;
     
     if ([scroller respondsToSelector:@selector(setHorizontalScrollElasticity:)])
