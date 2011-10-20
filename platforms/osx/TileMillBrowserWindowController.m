@@ -8,6 +8,8 @@
 
 #import "TileMillBrowserWindowController.h"
 
+#import <objc/message.h>
+
 @interface TileMillBrowserWindowController ()
 
 @property (nonatomic, assign) BOOL initialRequestComplete;
@@ -64,8 +66,13 @@
     if ( ! self.initialRequestComplete)
         self.initialRequestComplete = YES;
     
-    self.webView.mainFrame.frameView.documentView.enclosingScrollView.horizontalScrollElasticity = NSScrollElasticityNone;
-    self.webView.mainFrame.frameView.documentView.enclosingScrollView.verticalScrollElasticity   = NSScrollElasticityNone;
+    NSScrollView *scroller = self.webView.mainFrame.frameView.documentView.enclosingScrollView;
+    
+    if ([scroller respondsToSelector:@selector(setHorizontalScrollElasticity:)])
+    {
+        objc_msgSend(scroller, @selector(setHorizontalScrollElasticity:), 1);
+        objc_msgSend(scroller, @selector(setVerticalScrollElasticity:),   1);
+    }
 }
 
 #pragma mark -
