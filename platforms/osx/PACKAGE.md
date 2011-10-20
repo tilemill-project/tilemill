@@ -133,17 +133,14 @@ mapnik to be compiled statically against them.
 
 To set up the SDK and build mapnik do:
 
-    mkdir mapnik-static-sdk
-    cd mapnik-static-sdk
-    svn co http://svn.mapnik.org/trunk/ mapnik-trunk
-    cd mapnik-trunk
-    curl http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-r3274M.diff | patch -p0
+    git clone git://github.com/mapnik/mapnik.git -b macbinary-tilemill
+    cd mapnik
+    mkdir osx
     cd osx/
-    curl -o sources.tar.bz2 http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-2.0.0_r3183M.tar.bz2
+    curl -o sources.tar.bz2 http://dbsgeo.com/tmp/mapnik-static-sdk-2.1.0-dev_r1.tar.bz2
     tar xvf sources.tar.bz2
     cd ../
-    cp osx/config.py .
-    ./configure
+    ./configure JOBS=`sysctl -n hw.ncpu`
     make
     make install
 
@@ -247,6 +244,6 @@ Now go build and package the tilemill app:
 
 Then rename the TileMill.zip to TileMill-$VER.zip. For example:
 
-   mv TileMill.zip TileMill-0.4.2.zip
+   mv TileMill.zip TileMill-0.6.0.zip
 
 Upload to https://github.com/mapbox/tilemill/downloads
