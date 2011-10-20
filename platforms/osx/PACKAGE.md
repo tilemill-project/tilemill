@@ -108,19 +108,11 @@ We need to do the same linking and architecture test for 3 more modules:
     file ./node_modules/millstone/node_modules/zipfile/lib/_zipfile.node
 
 
-Search for others with:
-
-    for i in $(find . -name '*.node'); do echo $i; done
-
-
 ## Uninstall any globally installed libmapnik2.dylib
 
     # move to where your mapnik sources are
     cd src/mapnik-trunk
     sudo make uninstall
-
-NOTE: you may also have to remove any globally installed boost versions otherwise
-you may hit segfaults in node-mapnik later on.
 
 
 ## Set up Mapnik SDK
@@ -156,6 +148,23 @@ Confirm the SDK is working by checking mapnik-config presence at that path:
 
 Note: the sdk was created using https://github.com/mapnik/mapnik-packaging/blob/master/osx/scripts/static-universal.sh
 
+## Edit the mapnik-config script
+
+A major flaw in the portability of the above system we've yet to take time to tackle is the hardcoded
+absolute paths from the SDK creation. So, before continuing we need to manually edit the mapnik-config
+script.
+
+Open the script:
+
+    vim `which mapnik-config`
+
+Edit the file and change all paths that include:
+
+    /Users/dane/projects/mapnik-dev/trunk-build-static-universal/osx/sources
+
+To be equal to your $MAPNIK_ROOT value.
+
+
 ## Change into tilemill dir
 
 Now, in the same shell that you set the above environment settings
@@ -171,7 +180,6 @@ Move to the node-mapnik directory:
 
     cd node_modules/mapnik/
 
-Optional Hint: if using clang++ you are about to see a lot of compiler warning from boost. They are harmless but annoying. You can suppress them by adding '-Wno-unused-function -Wno-uninitialized -Wno-array-bounds -Wno-parentheses -Wno-char-subscripts' to your CXXFLAGS, or by adding `-isystem $MAPNIK_ROOT/include` instead. However, the latter flag is dangerous if your system has many duplicate libraries because it will background the precedence of that path when compiling and linking.
 
 Then rebuild like:
 
@@ -218,7 +226,7 @@ Now go back to the main tilemill directory:
     cd ../../
 
 
-And check builds overall
+And check builds overall. These commands can help find possible errors but are not necessary to run:
 
     # for reference see all the C++ module dependencies
     for i in $(find . -name '*.node'); do otool -L $i; done;
