@@ -224,6 +224,10 @@
 - (IBAction)openHelp:(id)sender
 {
     [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]]];
+
+    // give page time to load, then be sure browser window is visible
+    //
+    [self performSelector:@selector(showBrowserWindow:) withObject:self afterDelay:0.25];
 }
 
 - (IBAction)openDiscussions:(id)sender
