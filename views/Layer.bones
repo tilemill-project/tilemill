@@ -84,6 +84,8 @@ view.prototype.srsForce = function(ev) {
     case '.tsv':
     case '.txt':
     case '.rss':
+    case '.geojson':
+    case '.json':
         $('select[name=srs-name], input[name=srs]', form).attr('disabled', true);
         $('select[name=srs-name]', form).val('autodetect').change();
         $('input[name=srs]', form).val('');
