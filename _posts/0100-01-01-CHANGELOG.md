@@ -15,6 +15,7 @@ permalink: /docs/changelog
 releases:
 
 - version: 0.6.0
+  date: 2011-10-24
 
   notes:
   - Added support for export to SVG.
