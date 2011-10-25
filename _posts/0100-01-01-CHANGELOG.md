@@ -15,13 +15,19 @@ permalink: /docs/changelog
 releases:
 
 - version: 0.6.0
+  date: 2011-10-24
 
   notes:
-  - Added support for export to SVG.
-  - Added support for CSV datasources.
-  - Mac app redesigned to use a native UI that wraps TileMill.
+  - Added a native Mac OS X user interface.
   - Ubuntu app redesigned to feel more like a desktop application. See [upgrade
     notes](http://mapbox.com/tilemill/docs/upgrade/) for important migration information.
+  - Added support for CSV datasources.
+  - Added support for export to SVG.
+  - Added support for downloading remote datasources over HTTPS.
+  - For remote datasources, TileMill can now use the Content-Disposition HTTP
+    header to automatically identify the datasource type.
+  - By default, connections are now only accepted from the loopback interface.
+  - Fixed bug in Carto where the pound sign in an ID selector was optional.
 
 - version: 0.5.1
   oldrev: 2917

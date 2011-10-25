@@ -1,6 +1,6 @@
 {
     "name": "tilemill",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "main": "./tilemill.js",
     "description": "A modern map design studio.",
     "keywords": ["map", "design", "cartography"],
@@ -31,11 +31,11 @@
         "step": "0.0.x",
         "tilelive": "~4.0.3",
         "mapnik": "~0.5.8",
-        "millstone": "https://github.com/mapbox/millstone/tarball/master",
+        "millstone": "~0.2.0",
         "sphericalmercator": "~1.0.1",
         "tilelive-mapnik": "~0.2.0",
         "underscore": "1.1.x",
-        "carto": "https://github.com/mapbox/carto/tarball/master",
+        "carto": "~0.4.2",
         "wax": "https://github.com/mapbox/wax/tarball/formatter2",
         "node-markdown": "0.1.0",
         "sqlite3": "~2.0.16"

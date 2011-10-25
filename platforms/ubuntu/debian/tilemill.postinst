@@ -22,8 +22,6 @@ if [ "$1" = "configure" ]; then
     install --owner mapbox --group mapbox --directory \
           /usr/share/mapbox
   fi
-  # start it up
-  start tilemill
 fi
 
 #DEBHELPER#

@@ -7,6 +7,10 @@ permalink: /docs/manual/adding-layers
 ---
 Layers are how sets of data are added to a map in TileMill. Each  layer references a single shapefile, geoJSON file, KML file, geoTIFF, or PostGIS database query. Multiple layers are combined over top of each other to create the final map - if you are familiar with layers in Photoshop or other graphics software the concept is very similar. TileMill currently supports creating maps with several formats.
 
+## CSV
+
+TileMill can plot points using comma separated value (CSV) files if they contain columns for latitude and longitude. The file's first row must contain headings for the columns that contain the coordinates. Any of the following column headings are acceptable: `latitude`, `longitude`, `lat`, `long`,`lon`, `x`, `y`.
+
 ## ESRI Shapefile
 Usually referred to simply as ‘shapefile’, this is de facto standard file format for portable GIS data storage and is supported by most GIS software applications. The tricky part is that a single 'shapefile' is actually a collection of at least three files (possibly more). The required components are:
 

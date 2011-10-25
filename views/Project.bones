@@ -331,7 +331,11 @@ view.prototype.layerInspect = function(ev) {
     var layer = this.model.get('Layer').get(id);
     var model = new models.Datasource(_(layer.get('Datasource')).extend({
         id: layer.get('id'),
-        project: this.model.get('id')
+        project: this.model.get('id'),
+        // millstone will not allow `srs` be undefined for inspection so we set
+        // it to null. We could use the layer's SRS, but this likely has fewer
+        // side effects.
+        srs: null
     }));
     model.fetchFeatures({
         success: function(model) {
