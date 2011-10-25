@@ -31,6 +31,12 @@ commands['start'].options['sampledata'] = {
     'default': defaults.sampledata
 };
 
+commands['start'].options['listenHost'] = {
+    'title': 'listenHost=n.n.n.n',
+    'description': 'Bind the server to the given host.',
+    'default': defaults.listenHost
+};
+
 commands['start'].prototype.bootstrap = function(plugin, callback) {
     var settings = Bones.plugin.config;
     settings.files = path.resolve(settings.files);

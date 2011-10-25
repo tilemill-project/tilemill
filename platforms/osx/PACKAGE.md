@@ -10,9 +10,9 @@ distributable tilemill.app without requiring any other installation steps.
 
 We build node with two cpu architectures, aka universal/fat to support older macs:
 
-    wget http://nodejs.org/dist/node-v0.4.11.tar.gz
-    tar xvf node-v0.4.11.tar.gz
-    cd node-v0.4.11
+    wget http://nodejs.org/dist/node-v0.4.12.tar.gz
+    tar xvf node-v0.4.12.tar.gz
+    cd node-v0.4.12
     # ia32 == i386
     ./configure --without-snapshot --jobs=`sysctl -n hw.ncpu` --blddir=node-32 --dest-cpu=ia32
     make install # will install headers
@@ -46,16 +46,24 @@ custom flags we set later on.
 
     npm install -g jshint expresso
     
-jshint installation may fail with clang++.
+Note: jshint installation will fail with clang compiler so do:
+
+    export CC=gcc
+    export CXX=g++
+
 
 ## Build tilemill
 
 Clear out any previous builds:
 
+    cd tilemill
     rm -rf node_modules
     
 Also ensure that you have no globally installed node modules (other than `jshint` and `expresso`).
 You may need to check various node_modules depending on your $NODE_PATH.
+
+TODO: we should be able to avoid having to clear out node_modules by telling/tricking
+npm to avoid finding them (just needs testing).
 
 Now build tilemill with a few custom flags:
 
@@ -100,19 +108,11 @@ We need to do the same linking and architecture test for 3 more modules:
     file ./node_modules/millstone/node_modules/zipfile/lib/_zipfile.node
 
 
-Search for others with:
-
-    for i in $(find . -name '*.node'); do echo $i; done
-
-
 ## Uninstall any globally installed libmapnik2.dylib
 
     # move to where your mapnik sources are
     cd src/mapnik-trunk
     sudo make uninstall
-
-NOTE: you may also have to remove any globally installed boost versions otherwise
-you may hit segfaults in node-mapnik later on.
 
 
 ## Set up Mapnik SDK
@@ -125,17 +125,14 @@ mapnik to be compiled statically against them.
 
 To set up the SDK and build mapnik do:
 
-    mkdir mapnik-static-sdk
-    cd mapnik-static-sdk
-    svn co http://svn.mapnik.org/trunk/ mapnik-trunk
-    cd mapnik-trunk
-    curl http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-r3274M.diff | patch -p0
+    git clone git://github.com/mapnik/mapnik.git -b macbinary-tilemill
+    cd mapnik
+    mkdir osx
     cd osx/
-    curl -o sources.tar.bz2 http://tilemill-osx.s3.amazonaws.com/mapnik-static-sdk-2.0.0_r3183M.tar.bz2
+    curl -o sources.tar.bz2 http://dbsgeo.com/tmp/mapnik-static-sdk-2.1.0-dev_r1.tar.bz2
     tar xvf sources.tar.bz2
     cd ../
-    cp osx/config.py .
-    ./configure
+    ./configure JOBS=`sysctl -n hw.ncpu`
     make
     make install
 
@@ -149,7 +146,24 @@ Confirm the SDK is working by checking mapnik-config presence at that path:
     which mapnik-config | grep $MAPNIK_ROOT
 
 
-Note: the sdk was created using http://trac.mapnik.org/browser/trunk/osx/scripts/static-universal.sh
+Note: the sdk was created using https://github.com/mapnik/mapnik-packaging/blob/master/osx/scripts/static-universal.sh
+
+## Edit the mapnik-config script
+
+A major flaw in the portability of the above system we've yet to take time to tackle is the hardcoded
+absolute paths from the SDK creation. So, before continuing we need to manually edit the mapnik-config
+script.
+
+Open the script:
+
+    vim `which mapnik-config`
+
+Edit the file and change all paths that include:
+
+    /Users/dane/projects/mapnik-dev/trunk-build-static-universal/osx/sources
+
+To be equal to your $MAPNIK_ROOT value.
+
 
 ## Change into tilemill dir
 
@@ -159,40 +173,13 @@ navigate to your tilemill development directory.
    cd ~/tilemill # or wherever you git cloned tilemill
 
 
-## Rebuild node-sqlite
-
-First we will rebuild node-sqlite3.
-
-    cd node_modules/mbtiles/node_modules/sqlite3/
-
-
-Configure:
-
-    make clean
-    export CXXFLAGS="-I$MAPNIK_ROOT/include $CORE_CXXFLAGS"
-    export LINKFLAGS="-L$MAPNIK_ROOT/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
-    ./configure
-
-
-Then rebuild:
-
-    make
-
-    # check that static compile worked (you should not see libsqlite3.dylib in output):
-    otool -L lib/sqlite3_bindings.node
-    
-    # check for multi-arch
-    file lib/sqlite3_bindings.node
-
-
 ## Rebuild node-mapnik
 
 
 Move to the node-mapnik directory:
 
-    cd ../../../mapnik/
+    cd node_modules/mapnik/
 
-Optional Hint: if using clang++ you are about to see a lot of compiler warning from boost. They are harmless but annoying. You can suppress them by adding '-Wno-unused-function -Wno-uninitialized -Wno-array-bounds -Wno-parentheses -Wno-char-subscripts' to your CXXFLAGS, or by adding `-isystem $MAPNIK_ROOT/include` instead. However, the latter flag is dangerous if your system has many duplicate libraries because it will background the precedence of that path when compiling and linking.
 
 Then rebuild like:
 
@@ -239,7 +226,7 @@ Now go back to the main tilemill directory:
     cd ../../
 
 
-And check builds overall
+And check builds overall. These commands can help find possible errors but are not necessary to run:
 
     # for reference see all the C++ module dependencies
     for i in $(find . -name '*.node'); do otool -L $i; done;
@@ -265,6 +252,6 @@ Now go build and package the tilemill app:
 
 Then rename the TileMill.zip to TileMill-$VER.zip. For example:
 
-   mv TileMill.zip TileMill-0.4.2.zip
+   mv TileMill.zip TileMill-0.6.0.zip
 
 Upload to https://github.com/mapbox/tilemill/downloads

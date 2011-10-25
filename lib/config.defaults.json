@@ -4,5 +4,6 @@
     "files": "~/Documents/MapBox",
     "examples": true,
     "sampledata": true,
-    "host": false
+    "host": false,
+    "listenHost": "127.0.0.1"
 }

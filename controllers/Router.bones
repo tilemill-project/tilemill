@@ -15,7 +15,7 @@ controller.prototype.routes = {
     '/project/:id/export': 'projectExport',
     '/project/:id/export/:format': 'projectExport',
     '/manual': 'manual',
-    '/manual/:fragment': 'manual'
+    '/manual/:page?': 'manual'
 };
 
 controller.prototype.error = function() {
@@ -57,15 +57,17 @@ controller.prototype.projectExport = function(id, format) {
     }).bind(this));
 };
 
-controller.prototype.manual = function(fragment) {
-    (new models.Page({ id: '0200-01-04-manual.md' })).fetch({
-        success: function(model) {
-            new views.Manual({
-                el: $('#page'),
-                model: model,
-                fragment: fragment
-            });
-        },
-        error: function(m, e) { new views.Modal(e); }
+controller.prototype.manual = function(page) {
+    Bones.utils.fetch({
+        page: new models.Page({ id: page }),
+        pages: new models.Pages()
+    }, function(err, data) {
+        if (err) return new views.Modal(err);
+        new views.Manual({
+            el: $('#page'),
+            model: data.page,
+            collection: data.pages,
+            page: page
+        });
     });
 }

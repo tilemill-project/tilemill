@@ -15,7 +15,7 @@
   <form class='layerFile active'><ul class='form'>
     <li class='expand text'>
       <h2>File</h2>
-      <div class='description'>Use a URL or filepath to a shape, kml, geotiff or geojson file for this layer.</div>
+      <div class='description'>Use a URL or filepath to a shape, csv, kml, geojson, or geotiff file for this layer.</div>
     </li>
     <li>
       <label for='id'><span class='required'>*</span> ID</label>

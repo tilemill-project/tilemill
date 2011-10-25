@@ -1,8 +1,8 @@
 ---
 layout: book
-section: manual
-category: TileMill
-title: 'Carto: The Styling Language'
+section: documentation
+category: manual
+title: Carto
 permalink: /docs/manual/carto
 ---
 If you are familiar with web design with Cascading Stylesheets (CSS) the format of TileMill’s styling language will look familiar, though the exact properties are quite different.

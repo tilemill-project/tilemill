@@ -10,7 +10,7 @@ require('./support/start')(function(command) {
 
     exports['test sqlite datasource'] = function() {
         assert.response(command.servers['Core'],
-            { url: '/api/Datasource/world?file=' + encodeURIComponent(__dirname + '/fixtures/countries.sqlite') + '&table=countries&id=world&type=sqlite&project=demo_01' },
+            { url: '/api/Datasource/world?file=' + encodeURIComponent(__dirname + '/fixtures/countries.sqlite') + '&table=countries&id=world&type=sqlite&project=demo_01&srs=null' },
             { status: 200 },
             function(res) {
                 var body = JSON.parse(res.body), datasource = readJSON('datasource-sqlite');
