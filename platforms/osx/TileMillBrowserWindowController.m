@@ -61,7 +61,7 @@
     }
 }
 
-- (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
+- (void)webView:(WebView *)sender didCommitLoadForFrame:(WebFrame *)frame
 {
     if ( ! self.initialRequestComplete)
         self.initialRequestComplete = YES;
