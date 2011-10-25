@@ -16,8 +16,8 @@ releases:
 
 - version: 0.6.0
   date: 2011-10-25
-  size: 61091925
-  sign: MCwCFD13mpSbGN+n9+p2zPyUI8WEssUQAhRe48vTIDcYtlp0EufZAmlRGaiCSQ==
+  size: 61176469
+  sign: MC0CFB4RKbv0zmzp8z0s+4QnOLtNEGrvAhUA13NNcox2vTa2yv0FpQLaX3LCMoM=
 
   notes:
   - Added a native Mac OS X user interface.
