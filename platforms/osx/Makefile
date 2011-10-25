@@ -3,10 +3,10 @@
 TARGET=build/Release/TileMill.app/Contents/Resources/
 
 build:
-	@xcodebuild -project tilemill.xcodeproj
+	@xcodebuild -project TileMill.xcodeproj
 
 clean:
-	@xcodebuild -project tilemill.xcodeproj clean
+	@xcodebuild -project TileMill.xcodeproj clean
 
 package: build
 	chmod +x $(TARGET)index.js

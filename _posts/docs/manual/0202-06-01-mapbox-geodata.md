@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: manual
-title: MapBox GeoData
+title: MapBox geodata
 permalink: /docs/manual/mapbox-geodata
 ---
 The MapBox GeoData Library is a collection of free datasets that have been optimized to work well with TileMill. The library is browsable from the TileMill interface through the Add Layer dialog - click on the 'browse' button next to the file field, then click the 'MapBox' button with the cloud icon.

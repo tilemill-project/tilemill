@@ -13,7 +13,7 @@ require('./support/start')(function(command) {
             { url: '/1.0.0/demo_01/2/2/2.png', encoding: 'binary' },
             { status: 200 },
             function(res) {
-                assert.equal(res.body.length, 18592);
+                assert.equal(res.body.length, 18568);
             }
         );
     };

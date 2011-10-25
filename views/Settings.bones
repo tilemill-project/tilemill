@@ -125,7 +125,14 @@ view.prototype.attach = function() {
         $('#popup').addClass('loading');
         var attr = _(layer.get('Datasource')).chain()
             .clone()
-            .extend({id: layer.get('id'), project: this.model.get('id')})
+            .extend({
+                id: layer.get('id'),
+                project: this.model.get('id'),
+                // millstone will not allow `srs` be undefined for inspection so we set
+                // it to null. We could use the layer's SRS, but this likely has fewer
+                // side effects.
+                srs: null
+            })
             .value();
         this.datasource = new models.Datasource(attr);
         this.datasource.fetchFeatures({

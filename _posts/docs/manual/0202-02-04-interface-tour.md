@@ -2,10 +2,10 @@
 layout: book
 section: documentation
 category: manual
-title: Interface Tour
+title: Interface tour
 permalink: /docs/manual/interface-tour
 ---
-If you’ve got TileMill running on your computer, you can access the web interface in any modern web browser at [http://localhost:8889](http://localhost:8889) (by default - this address is configurable). The main TileMill screen is a project browser, and you will see a few example projects there already to give you an idea of what TileMill can do. If you click on one of the projects you will be taken to the editing interface:
+When TileMill first starts it will display the project browser, where you will see a few example projects to give you an idea of what TileMill can do. If you click on one of the projects you will be taken to the editing interface:
 
 ![Screenshot]({{site.baseurl}}/assets/manual/project.png)
 

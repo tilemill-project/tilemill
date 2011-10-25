@@ -1,13 +1,13 @@
 //
 //  TileMillAppDelegate.m
-//  tilemill
+//  TileMill
 //
 //  Created by Dane Springmeyer on 7/28/11.
 //  Copyright 2011 Development Seed. All rights reserved.
 //
 
 #import "TileMillAppDelegate.h"
-#import "TileMillMainWindowController.h"
+#import "TileMillBrowserWindowController.h"
 #import "TileMillPrefsWindowController.h"
 
 #import "JSONKit.h"
@@ -17,7 +17,7 @@
 @interface TileMillAppDelegate ()
 
 @property (nonatomic, retain) TileMillChildProcess *searchTask;
-@property (nonatomic, retain) TileMillMainWindowController *mainWindowController;
+@property (nonatomic, retain) TileMillBrowserWindowController *browserController;
 @property (nonatomic, retain) TileMillPrefsWindowController *prefsController;
 @property (nonatomic, retain) NSString *logPath;
 @property (nonatomic, assign) BOOL shouldAttemptRestart;
@@ -35,7 +35,7 @@
 @implementation TileMillAppDelegate
 
 @synthesize searchTask;
-@synthesize mainWindowController;
+@synthesize browserController;
 @synthesize prefsController;
 @synthesize logPath;
 @synthesize shouldAttemptRestart;
@@ -44,7 +44,7 @@
 - (void)dealloc
 {
     [searchTask release];
-    [mainWindowController release];
+    [browserController release];
     [prefsController release];
     [logPath release];
 
@@ -85,14 +85,20 @@
     //
     self.logPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"];
 
-    self.mainWindowController.childRunning = NO;
-    
-    [self showMainWindow:self];
+    [self showBrowserWindow:self];
     [self startTileMill];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)tilemillAppDelegate
 {
+    return NO;
+}
+
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
+{
+    if ( ! flag)
+        [self.browserController showWindow:self];
+    
     return YES;
 }
 
@@ -152,12 +158,12 @@
     }
 }
 
-- (IBAction)showMainWindow:(id)sender
+- (IBAction)showBrowserWindow:(id)sender
 {
-    if ( ! self.mainWindowController)
-        self.mainWindowController = [[[TileMillMainWindowController alloc] initWithWindowNibName:@"TileMillMainWindow"] autorelease];
+    if ( ! self.browserController)
+        self.browserController = [[[TileMillBrowserWindowController alloc] initWithWindowNibName:@"TileMillBrowserWindow"] autorelease];
     
-    [self.mainWindowController showWindow:self];
+    [self.browserController showWindow:self];
 }
 
 - (IBAction)showAboutPanel:(id)sender
@@ -217,7 +223,11 @@
 
 - (IBAction)openHelp:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]]];
+    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]]];
+
+    // give page time to load, then be sure browser window is visible
+    //
+    [self performSelector:@selector(showBrowserWindow:) withObject:self afterDelay:0.25];
 }
 
 - (IBAction)openDiscussions:(id)sender
@@ -283,8 +293,6 @@
 
 - (void)childProcessDidFinish:(TileMillChildProcess *)process
 {
-    self.mainWindowController.childRunning = NO;
-    
     NSLog(@"Finished");
     
     if (self.shouldAttemptRestart)
@@ -297,7 +305,7 @@
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
-    self.mainWindowController.childRunning = YES;
+    [self.browserController loadInitialRequest];
 }
 
 @end

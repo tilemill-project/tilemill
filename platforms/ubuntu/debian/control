@@ -5,6 +5,7 @@ Maintainer: Ian Ward <ian@developmentseed.org>
 Build-Depends: cdbs (>=0.4.42), 
  debhelper (>= 7),
  libsqlite3-0,
+ libsqlite3-dev,
  libmapnik2,
  libmapnik2-dev,
  libzip1,

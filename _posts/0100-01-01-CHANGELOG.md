@@ -4,7 +4,7 @@
 ### as the Sparkle appcast feed.
 ###
 ### The 'oldrev' is only needed for 0.5.0/0.5.1 since the
-### Sparkle scheme changed for 0.5.2+ (see #730).
+### Sparkle scheme changed for 0.6.0+ (see #730).
 ###
 tag: changelog
 layout: changelog
@@ -14,6 +14,22 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+- version: 0.6.0
+  date: 2011-10-25
+  size: 61092320
+  sign: MC0CFBfuEduUy1W15WVrfSNI5CqOFfWOAhUA7Xnwa/HF+1oAEVLF1DuzanqNq5g=
+
+  notes:
+  - Added a native Mac OS X user interface.
+  - Ubuntu app redesigned to feel more like a desktop application. See [upgrade
+    notes](http://mapbox.com/tilemill/docs/upgrade/) for important migration information.
+  - Added support for CSV datasources.
+  - Added support for export to SVG.
+  - Added support for downloading remote datasources over HTTPS.
+  - For remote datasources, TileMill can now use the Content-Disposition HTTP
+    header to automatically identify the datasource type.
+  - By default, connections are now only accepted from the loopback interface.
+  - Fixed bug in Carto where the pound sign in an ID selector was optional.
 
 - version: 0.5.1
   oldrev: 2917
