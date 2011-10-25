@@ -5,9 +5,8 @@ privatekeyname="TileMill Sparkle Private Key"
 
 tag=$( git describe --tags --abbrev=0 )
 version=$( echo $tag | sed -e s/^v// )
-build=$( git rev-list $tag | grep -c ^ )
 echo
-read -n 1 -p "Updating Sparkle for TileMill-$version ($build). Proceed? " proceed
+read -n 1 -p "Updating Sparkle for TileMill-$version. Proceed? " proceed
 if [ $proceed != "y" ] && [ $proceed != "Y" ]; then
   clear
   exit 1
