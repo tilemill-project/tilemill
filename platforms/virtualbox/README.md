@@ -85,7 +85,7 @@ Install tilemill:
 Test tilemill:
   
   * Make sure it running at http://localhost:8889/
-  * Make sure it can right data (indicates proper perms to /usr/share/mapbox)
+  * Make sure it can write data (indicates proper perms to /usr/share/mapbox)
   * Make sure you can manually add files to /usr/share/mapbox
   
 For now, to get the permissions to work for both the app and the user you need to do:
@@ -93,7 +93,7 @@ For now, to get the permissions to work for both the app and the user you need t
     sudo chmod -R 777 /usr/share/mapbox
 
   
-Now set up niceities:
+Now set up niceties:
 
   * Make the user an admin user in System > Administration > Users & Groups
   * Make a Desktop symlink to /usr/share/mapbox
@@ -102,13 +102,16 @@ Now set up niceities:
 
 Add a README.txt to the desktop like:
 
-    TileMill 0.5.0 VM
+    TileMill 0.6.0 VM
     -----------------
     
     This is Ubuntu Natty 32bit running TileMill.
     
-    Open FireFox and click on the "TileMill" bookmark
-    to start making maps.
+    Open FireFox and click on the "TileMill" bookmark to start making maps.
+    
+    Note: TileMill 0.6.0 can be run either as a server process or as a
+    desktop application. This machine is running a persistent tilemill
+    server. See more details at http://mapbox.com/tilemill/docs/upgrade/
     
     Find the data directories for TileMill in the MapBox folder on your desktop.
     
@@ -118,8 +121,7 @@ Add a README.txt to the desktop like:
     
     And for support visit:
     
-    http://support.mapbox.com/
-    
+    http://support.mapbox.com/    
 
 Now, optionally, we can try to compact the VM's disk saving potentially a few GB of space.
 
@@ -182,7 +184,7 @@ Finally export:
 
 Put this link in the Vendor URL:
 
-    http://support.mapbox.com/kb/introduction-installation/tilemill-virtualbox-vm
+    http://mapbox.com/tilemill/docs/tutorials/virtualbox
 
 And upload to:
 
