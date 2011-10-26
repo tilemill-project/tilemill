@@ -73,9 +73,9 @@
 
 #pragma mark -
 
-- (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id < WebPolicyDecisionListener >)listener
+- (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id <WebPolicyDecisionListener>)listener
 {
-    if ([[request.URL host] isEqualToString:@"localhost"] && [[request.URL pathComponents] containsObject:@"export"] && [[request.URL pathComponents] containsObject:@"download"])
+    if ([[request.URL host] isEqualToString:@"localhost"] && [[request.URL pathComponents] containsObject:@"export"] && [[request.URL pathComponents] containsObject:@"download"] && [[actionInformation objectForKey:@"WebActionNavigationTypeKey"] intValue] == WebNavigationTypeLinkClicked)
     {
         // offer to save "downloaded" files to disk
         //
@@ -83,7 +83,7 @@
         
         [listener ignore];
     }    
-    else if ( ! [request.URL.scheme isEqualToString:@"http"] || ! [request.URL.host isEqualToString:@"localhost"])
+    else if (( ! [request.URL.scheme isEqualToString:@"http"] || ! [request.URL.host isEqualToString:@"localhost"]) && [[actionInformation objectForKey:@"WebActionNavigationTypeKey"] intValue] == WebNavigationTypeLinkClicked)
     {
         // open external URLs in the default browser
         //
@@ -99,15 +99,15 @@
     }
 }
 
-- (void)webView:(WebView *)webView decidePolicyForNewWindowAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request newFrameName:(NSString *)frameName decisionListener:(id < WebPolicyDecisionListener >)listener
+- (void)webView:(WebView *)webView decidePolicyForNewWindowAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request newFrameName:(NSString *)frameName decisionListener:(id <WebPolicyDecisionListener>)listener
 {
-    if ( ! [request.URL.scheme isEqualToString:@"http"] || ! [request.URL.host isEqualToString:@"localhost"])
+    if (( ! [request.URL.scheme isEqualToString:@"http"] || ! [request.URL.host isEqualToString:@"localhost"]) && [[actionInformation objectForKey:@"WebActionNavigationTypeKey"] intValue] == WebNavigationTypeLinkClicked)
     {
         // open "new window" external links in the default browser
         //
         [[NSWorkspace sharedWorkspace] openURL:request.URL];
     }
-    else if ([request.URL.pathComponents containsObject:@"api"] && [request.URL.pathComponents containsObject:@"Project"] && [request.URL.pathExtension isEqualToString:@"xml"])
+    else if ([request.URL.pathComponents containsObject:@"api"] && [request.URL.pathComponents containsObject:@"Project"] && [request.URL.pathExtension isEqualToString:@"xml"] && [[actionInformation objectForKey:@"WebActionNavigationTypeKey"] intValue] == WebNavigationTypeLinkClicked)
     {
         // save Mapnik XML externally
         //
@@ -115,11 +115,13 @@
     }
     else
     {    
-        // handle everything else ourselves in the main window
+        // handle everything else ourselves manually in the main window
         //
         [self.webView.mainFrame loadRequest:request];
     }
     
+    // never actually try to open a new window
+    //
     [listener ignore];
 }
 
@@ -157,6 +159,8 @@
 
 - (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
 {
+    // don't show a contextual menu
+    //
     return [NSArray array];
 }
 
