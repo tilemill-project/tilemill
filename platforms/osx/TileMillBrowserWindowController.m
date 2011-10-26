@@ -12,6 +12,8 @@
 
 @interface TileMillBrowserWindowController ()
 
+- (void)promptToSaveRemoteURL:(NSURL *)remoteURL revealingInFinder:(BOOL)shouldReveal;
+
 @property (nonatomic, assign) BOOL initialRequestComplete;
 
 @end
@@ -47,19 +49,81 @@
     [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:loadURL]];
 }
 
+- (void)promptToSaveRemoteURL:(NSURL *)remoteURL revealingInFinder:(BOOL)shouldReveal;
+{
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
+    
+    savePanel.nameFieldStringValue = remoteURL.lastPathComponent;
+    
+    [savePanel beginSheetModalForWindow:self.webView.window completionHandler:^(NSInteger result)
+    {
+        if (result == NSFileHandlingPanelOKButton)
+        {
+            NSURL *destinationURL = [[NSURL URLWithString:remoteURL.lastPathComponent relativeToURL:savePanel.directoryURL] filePathURL];
+
+            NSData *saveData = [NSData dataWithContentsOfURL:remoteURL];
+            
+            [saveData writeToURL:destinationURL atomically:YES];
+            
+            if (shouldReveal)
+                [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:[NSArray arrayWithObject:destinationURL.absoluteURL]];
+        }
+    }];
+}
+
 #pragma mark -
 
-- (void)webView:(WebView *)sender didStartProvisionalLoadForFrame:(WebFrame *)frame
+- (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id < WebPolicyDecisionListener >)listener
 {
-    NSURL *loadURL = [NSURL URLWithString:sender.mainFrameURL];
-    
-    if ( ! [[loadURL scheme] isEqualToString:@"http"] || ! [[loadURL host] isEqualToString:@"localhost"])
+    if ([[request.URL host] isEqualToString:@"localhost"] && [[request.URL pathComponents] containsObject:@"export"] && [[request.URL pathComponents] containsObject:@"download"])
     {
-        [frame stopLoading];
-
-        [[NSWorkspace sharedWorkspace] openURL:loadURL];
+        // offer to save "downloaded" files to disk
+        //
+        [self promptToSaveRemoteURL:request.URL revealingInFinder:YES];
+        
+        [listener ignore];
+    }    
+    else if ( ! [request.URL.scheme isEqualToString:@"http"] || ! [request.URL.host isEqualToString:@"localhost"])
+    {
+        // open external URLs in the default browser
+        //
+        [[NSWorkspace sharedWorkspace] openURL:request.URL];
+        
+        [listener ignore];
+    }
+    else
+    {    
+        // handle everything else ourselves as normal
+        //
+        [listener use];
     }
 }
+
+- (void)webView:(WebView *)webView decidePolicyForNewWindowAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request newFrameName:(NSString *)frameName decisionListener:(id < WebPolicyDecisionListener >)listener
+{
+    if ( ! [request.URL.scheme isEqualToString:@"http"] || ! [request.URL.host isEqualToString:@"localhost"])
+    {
+        // open "new window" external links in the default browser
+        //
+        [[NSWorkspace sharedWorkspace] openURL:request.URL];
+    }
+    else if ([request.URL.pathComponents containsObject:@"api"] && [request.URL.pathComponents containsObject:@"Project"] && [request.URL.pathExtension isEqualToString:@"xml"])
+    {
+        // save Mapnik XML externally
+        //
+        [self promptToSaveRemoteURL:request.URL revealingInFinder:YES];
+    }
+    else
+    {    
+        // handle everything else ourselves in the main window
+        //
+        [self.webView.mainFrame loadRequest:request];
+    }
+    
+    [listener ignore];
+}
+
+#pragma mark -
 
 - (void)webView:(WebView *)sender didCommitLoadForFrame:(WebFrame *)frame
 {
