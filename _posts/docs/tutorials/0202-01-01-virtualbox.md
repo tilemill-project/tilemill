@@ -34,9 +34,9 @@ After logging in you will find TileMill running at http://localhost:8889/ and to
 
 TileMill comes with a remote data resource called [MapBox Geodata](/tilemill/docs/manual/mapbox-geodata).
 
-But you will likely also want to load your own data. VirtualBox has a feature called "shared folders" to allow mapping a connection between your windows machine and the virtual machine. See [this post](http://blogs.oracle.com/tao/entry/virtual_box_shared_folder_between) for more details.
+But you will likely also want to load your own data. VirtualBox has a feature called "shared folders" to allow mapping a connection between your Windows machine and the virtual machine. See [this post](http://blogs.oracle.com/tao/entry/virtual_box_shared_folder_between) for more details.
 
-[DropBox](www.dropbox.com) can also be an easy way to transfer data. Simply create a folder in DropBox to store your TileMill data. Copy the files from your PC into this folder, and then sign into DropBox online from within the Virtual machine. On the Virtual Machine download the files into the “data” folder in the MapBox directory.  You will now be able to access your data from TileMill. 
+[Dropbox](www.dropbox.com) can also be an easy way to transfer data. Simply create a folder in Dropbox to store your TileMill data. Copy the files from your PC into this folder, and then sign into Dropbox online from within the Virtual machine. On the Virtual Machine download the files into the “data” folder in the MapBox directory.  You will now be able to access your data from TileMill.
 
 
 ## Previous versions
