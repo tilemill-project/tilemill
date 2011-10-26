@@ -21,8 +21,8 @@ view.prototype.preview = function(ev) {
     var format = target.attr('name').split('template_').pop();
     var feature = this.datasource.get('features')[0];
     try {
-        var preview = Mustache.to_html(target.val(), feature);
-        target.siblings('.preview').html(preview);
+        target.siblings('.preview').html(
+            wax.template(target.val()).format(false, feature));
     } catch(err) {
         target.siblings('.preview').html(err.toString());
     }

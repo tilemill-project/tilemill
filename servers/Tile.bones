@@ -7,7 +7,8 @@ server = Bones.Server.extend({});
 
 server.prototype.initialize = function() {
     _.bindAll(this, 'load', 'grid', 'getArtifact', 'mbtiles', 'fromCache');
-    this.get('/v2/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.mbtiles);
+    this.get('/v2/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)',
+        this.mbtiles);
     this.get('/v2/:id.mbtiles/:z/:x/:y.:format(grid.json)', this.mbtiles);
     this.get('/v2/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', [
         this.fromCache,
@@ -55,7 +56,9 @@ server.prototype.getArtifact = function(req, res, next) {
     tilelive.load(uri, function(err, source) {
         if (err) return next(err);
 
-        var z = req.params.z, x = +req.params.x, y = +req.params.y;
+        var z = req.params.z,
+            x = +req.params.x,
+            y = +req.params.y;
 
         var fn = req.params.format === 'grid.json' ? 'getGrid' : 'getTile';
         source[fn](z, x, y, function(err, tile, headers) {
