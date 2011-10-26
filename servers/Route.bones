@@ -9,6 +9,7 @@ servers['Route'].augment({
         ],
         scripts: [
             require.resolve('../assets/js/colorpicker.classic.js'),
+            require.resolve('../assets/js/mustache.js'),
             require.resolve('../assets/js/jquery.ui.js'),
             require.resolve('chrono/lib/chrono.js'),
             require.resolve('wax/ext/modestmaps.min.js'),
