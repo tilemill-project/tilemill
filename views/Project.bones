@@ -140,7 +140,9 @@ view.prototype.makeLayer = function(model) {
 
 view.prototype.makeStylesheet = function(model) {
     if (!CodeMirror) throw new Error('CodeMirror not found.');
-    var codeEl = this.$('.code').get(0), self = this, id = 'stylesheet-' + model.id.replace(/[\.]/g, '-');
+    var codeEl = this.$('.code').get(0),
+        self = this,
+        id = 'stylesheet-' + model.id.replace(/[\.]/g, '-');
     model.el = $(templates.ProjectStylesheet(model));
     model.codemirror = CodeMirror(codeEl, {
         value: model.get('data'),

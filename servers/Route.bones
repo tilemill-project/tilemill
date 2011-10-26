@@ -17,7 +17,10 @@ servers['Route'].augment({
             require.resolve('JSV/lib/jsv.js'),
             require.resolve('JSV/lib/json-schema-draft-03.js'),
             require.resolve('../assets/js/codemirror.js'),
+            require.resolve('../assets/js/codemirror.overlay.js'),
             require.resolve('../assets/js/codemirror.carto.js'),
+            require.resolve('../assets/js/codemirror.xml.js'),
+            require.resolve('../assets/js/codemirror.mustache.js'),
             require.resolve('node-markdown/lib/vendor/showdown/compressed/showdown.js'),
             require.resolve('sphericalmercator')
         ]

@@ -41,6 +41,11 @@ view.prototype.render = function() {
 
     // Focus name field for unnamed projects.
     if (!this.model.get('name')) this.$('input[type=text]:first').focus();
+
+    var template_location_mirror = CodeMirror(this.$('input[name=template_location]').get(0), {
+        lineNumbers: true,
+        mode: "mustache"
+    });
     return this;
 };
 
