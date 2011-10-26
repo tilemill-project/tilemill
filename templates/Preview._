@@ -2,7 +2,7 @@
 <li class='text'>
 <h2><%= get('id') %></h2>
 <p class='prose'>
-To host these tiles sign up for <a target='_blank' href='http://mapbox.com/tilestream'>TileStream Hosting</a> or setup <a target='_blank' href='http://github.com/mapbox/tilestream'>TileStream</a> on your own server.
+To host these tiles sign up for <a target='_blank' href='http://mapbox.com/hosting'>MapBox Hosting</a> or setup <a target='_blank' href='http://github.com/mapbox/tilestream'>TileStream</a> on your own server.
 </p>
 </li>
 </ul>

@@ -14,6 +14,14 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+- version: 0.6.1
+  date: 2011-10-26
+  size: 61268451
+  sign: MCwCFFKfoN3MIscOoz4i5TsMfYrqizEsAhR2bLWoXnhwYQjQJx9wvNr85FCQMA==
+
+  notes:
+  - Fixed several bugs with the Mac OS X interface that prevented the user from clicking links. 
+
 - version: 0.6.0
   date: 2011-10-25
   size: 61176469
