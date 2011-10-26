@@ -7,13 +7,13 @@ server = Bones.Server.extend({});
 
 server.prototype.initialize = function() {
     _.bindAll(this, 'load', 'grid', 'getArtifact', 'mbtiles', 'fromCache');
-    this.get('/1.0.0/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.mbtiles);
-    this.get('/1.0.0/:id.mbtiles/:z/:x/:y.:format(grid.json)', this.mbtiles);
-    this.get('/1.0.0/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', [
+    this.get('/v2/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.mbtiles);
+    this.get('/v2/:id.mbtiles/:z/:x/:y.:format(grid.json)', this.mbtiles);
+    this.get('/v2/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', [
         this.fromCache,
         this.load,
         this.getArtifact]);
-    this.get('/1.0.0/:id/:z/:x/:y.:format(grid.json)', [
+    this.get('/v2/:id/:z/:x/:y.:format(grid.json)', [
         this.fromCache,
         this.load,
         this.grid,
@@ -56,9 +56,6 @@ server.prototype.getArtifact = function(req, res, next) {
         if (err) return next(err);
 
         var z = req.params.z, x = +req.params.x, y = +req.params.y;
-
-        // The interface is still TMS.
-        y = (1 << z) - 1 - y;
 
         var fn = req.params.format === 'grid.json' ? 'getGrid' : 'getTile';
         source[fn](z, x, y, function(err, tile, headers) {

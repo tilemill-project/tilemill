@@ -194,12 +194,12 @@ function loadProject(model, callback) {
         }
 
         // Generate dynamic properties.
-        object.tilejson = '1.0.0';
-        object.scheme = 'tms';
-        object.tiles = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' +
+        object.tilejson = 'v2';
+        object.scheme = 'xyz';
+        object.tiles = ['/v2/' + model.id + '/{z}/{x}/{y}.' +
             (object.format || 'png') +
             '?updated=' + object._updated];
-        object.grids = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' +
+        object.grids = ['/v2/' + model.id + '/{z}/{x}/{y}.grid.json' +
             '?updated=' + object._updated];
         if (object.interactivity) {
             object.template = template(object.interactivity);
@@ -289,10 +289,10 @@ function saveProject(model, callback) {
         var updated = stat && Date.parse(stat.mtime) || (+ new Date());
         callback(err, {
             _updated: updated,
-            tiles: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' +
+            tiles: ['/v2/' + model.id + '/{z}/{x}/{y}.' +
                 (model.get('format') || 'png') +
                 '?updated=' + updated],
-            grids: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' +
+            grids: ['/v2/' + model.id + '/{z}/{x}/{y}.grid.json' +
                 '?updated=' + updated],
             template: model.get('interactivity')
                 ? template(model.get('interactivity'))
