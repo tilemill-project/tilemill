@@ -110,7 +110,7 @@ Add a README.txt to the desktop like:
     Open FireFox and click on the "TileMill" bookmark to start making maps.
     
     Note: TileMill 0.6.0 can be run either as a server process or as a
-    desktop application. This machine is running a persistant tilemill
+    desktop application. This machine is running a persistent tilemill
     server. See more details at http://mapbox.com/tilemill/docs/upgrade/
     
     Find the data directories for TileMill in the MapBox folder on your desktop.
@@ -184,7 +184,7 @@ Finally export:
 
 Put this link in the Vendor URL:
 
-    http://support.mapbox.com/kb/introduction-installation/tilemill-virtualbox-vm
+    http://mapbox.com/tilemill/docs/tutorials/virtualbox
 
 And upload to:
 
