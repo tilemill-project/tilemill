@@ -315,9 +315,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "TileMill" */;
 			buildPhases = (
+				DDCD7BA81458C14D000DF130 /* Check For TileMill Base */,
 				D745083413E8686D0020D8CD /* Update Bundle Version */,
 				8D1107290486CEB800E47090 /* Resources */,
-				DD66F892142007E0004BF4A3 /* Copy TileMill node Sources */,
+				DD66F892142007E0004BF4A3 /* Copy TileMill Base */,
 				D7CFB18F13E852550033DFFD /* Copy Node Executable */,
 				DD6F0D5E13F981820055EFAE /* Copy QuickLook Plugin */,
 				DD6F0DBD13F989380055EFAE /* Copy Spotlight Importer */,
@@ -442,19 +443,33 @@
 			shellScript = "PATH=$PATH:$HOME/bin:/usr/local/bin\n\nif [ -z $( which node ) ]; then\n  echo \"Unable to find node binary\"\n  exit 1\nfi\n\nTARGET=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/\"\n# copy node executable\ncp `which node` $TARGET\n# change shebang to use local node\nsed -i.backup 's/#!\\/usr\\/bin\\/env node/#!node/' ${TARGET}index.js\nrm ${TARGET}index.js.backup";
 			showEnvVarsInLog = 0;
 		};
-		DD66F892142007E0004BF4A3 /* Copy TileMill node Sources */ = {
+		DD66F892142007E0004BF4A3 /* Copy TileMill Base */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy TileMill node Sources";
+			name = "Copy TileMill Base";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "TARGET=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n\n#\n# Copy each source item into the bundle if we haven't already.\n# Exclude platform-specific stuff since that's for building.\n#\nfor i in $( ls ../.. | grep -v platforms | grep -v npm-debug.log )\ndo\n  if [ ! -f $TARGET/$i -a ! -d $TARGET/$i ]; then\n    cp -rv ../../$i $TARGET\n  fi\ndone";
+		};
+		DDCD7BA81458C14D000DF130 /* Check For TileMill Base */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check For TileMill Base";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ ! -d ../../node_modules ]; then\n  echo \"The underlying TileMill engine needs to be built first. Please see PACKAGE.md or http://mapbox.com/tilemill/docs/source/\"\n  exit 1\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
