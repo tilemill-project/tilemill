@@ -11,7 +11,7 @@
 @class TileMillBrowserWindowController;
 @class TileMillPrefsWindowController;
 
-@interface TileMillAppDelegate : NSObject <TileMillChildProcessDelegate>
+@interface TileMillAppDelegate : NSObject <NSApplicationDelegate, TileMillChildProcessDelegate>
 {
     TileMillChildProcess *searchTask;
     TileMillBrowserWindowController *browserController;

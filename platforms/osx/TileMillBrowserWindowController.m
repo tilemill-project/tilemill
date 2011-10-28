@@ -72,6 +72,7 @@
 }
 
 #pragma mark -
+#pragma mark WebPolicyDelegate
 
 - (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id <WebPolicyDecisionListener>)listener
 {
@@ -126,6 +127,7 @@
 }
 
 #pragma mark -
+#pragma mark WebFrameLoadDelegate
 
 - (void)webView:(WebView *)sender didCommitLoadForFrame:(WebFrame *)frame
 {
@@ -156,6 +158,29 @@
 }
 
 #pragma mark -
+#pragma mark WebUIDelegate
+
+- (void)webView:(WebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WebFrame *)frame
+{
+    NSAlert *alert = [NSAlert alertWithMessageText:@"TileMill" 
+                                     defaultButton:@"OK" 
+                                   alternateButton:nil 
+                                       otherButton:nil 
+                         informativeTextWithFormat:message];
+    
+    [alert runModal];
+}
+
+- (BOOL)webView:(WebView *)sender runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WebFrame *)frame
+{
+    NSAlert *alert = [NSAlert alertWithMessageText:@"TileMill" 
+                                     defaultButton:@"OK" 
+                                   alternateButton:@"Cancel" 
+                                       otherButton:nil 
+                         informativeTextWithFormat:message];
+    
+    return ([alert runModal] == NSAlertDefaultReturn ? YES : NO);
+}
 
 - (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
 {
