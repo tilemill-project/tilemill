@@ -13,7 +13,7 @@ In TileMill >= 0.4.x you can access the Mapnik XML for each project within the a
 
 ![](/tilemill/assets/pages/mapnikxml.png)
 
-You can also do script this using the carto command line tool.
+You can also script this using the carto command line tool.
 
 You can install carto with [npm](http://npmjs.org/), which depends on nodejs, by doing:
 
