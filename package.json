@@ -25,7 +25,7 @@
         "bones": "1.3.19",
         "chrono": "~1.0.1",
         "JSV": "3.5.x",
-        "mbtiles": "~0.1.2",
+        "mbtiles": "https://github.com/mapbox/node-mbtiles/tarball/formatter2",
         "sax": "0.1.x",
         "request": "1.9.x",
         "step": "0.0.x",
