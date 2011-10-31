@@ -1,3 +1,27 @@
+tilemill (0.6.0.1-0ubuntu3) oneiric; urgency=medium
+  * tilemill 0.6.0
+ -- Ian Ward <ian@developmentseed.org>  Tue, 25 Oct 2011 13:36:00 -0400
+
+tilemill (0.6.0.1-0ubuntu2) natty; urgency=medium
+  * tilemill 0.6.0
+ -- Ian Ward <ian@developmentseed.org>  Tue, 25 Oct 2011 12:26:00 -0400
+
+tilemill (0.6.0.1-0ubuntu1) maverick; urgency=medium
+  * tilemill 0.6.0
+ -- Ian Ward <ian@developmentseed.org>  Tue, 25 Oct 2011 11:29:00 -0400
+
+tilemill (0.6.0.0-0ubuntu3) oneiric; urgency=medium
+  * tilemill 0.6.0
+ -- Ian Ward <ian@developmentseed.org>  Tue, 25 Oct 2011 00:25:00 -0400
+
+tilemill (0.6.0.0-0ubuntu2) natty; urgency=medium
+  * tilemill 0.6.0
+ -- Ian Ward <ian@developmentseed.org>  Tue, 25 Oct 2011 00:07:00 -0400
+
+tilemill (0.6.0.0-0ubuntu1) maverick; urgency=medium
+  * tilemill 0.6.0
+ -- Ian Ward <ian@developmentseed.org>  Mon, 24 Oct 2011 23:54:00 -0400
+
 tilemill (0.5.1.1-0ubuntu6) natty; urgency=medium
   * tilemill 0.5.1
  -- Will White <will@developmentseed.org>  Thu, 26 Sep 2011 11:55:00 -0400

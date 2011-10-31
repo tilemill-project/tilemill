@@ -217,7 +217,7 @@ Once TileMill's had a chance to process the interactivity settings, you'll see y
 
 ## The Finished Product
 
-Now I'm ready to share my map, so I'll export it to MBTiles and load it into my [TileStream Hosting](http://mapbox.com/tilestream) account. Now I can embed it on any webpage: http://tiles.mapbox.com/dhcole/#/map/map_1304106306810
+Now I'm ready to share my map, so I'll export it to MBTiles and load it into my [MapBox Hosting](http://mapbox.com/hosting) account. Now I can embed it on any webpage: http://tiles.mapbox.com/dhcole/#/map/map_1304106306810
 
 ![Finished map of Recovery Act Projects](http://img.skitch.com/20110515-f2aj7fpamc4yha7ghsmmxhecxu.jpg)
 

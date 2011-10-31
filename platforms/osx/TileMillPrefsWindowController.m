@@ -98,6 +98,7 @@
 }
 
 #pragma mark -
+#pragma mark NSWindowDelegate
 
 - (void)windowWillClose:(NSNotification *)notification
 {

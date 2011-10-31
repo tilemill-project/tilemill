@@ -52,6 +52,7 @@
 }
 
 #pragma mark -
+#pragma mark NSApplicationDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
@@ -254,6 +255,7 @@
 }
 
 #pragma mark -
+#pragma mark TileMillChildProcessDelegate
 
 - (void)childProcess:(TileMillChildProcess *)process didSendOutput:(NSString *)output
 {

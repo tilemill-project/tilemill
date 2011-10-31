@@ -4,7 +4,7 @@
 ### as the Sparkle appcast feed.
 ###
 ### The 'oldrev' is only needed for 0.5.0/0.5.1 since the
-### Sparkle scheme changed for 0.5.2+ (see #730).
+### Sparkle scheme changed for 0.6.0+ (see #730).
 ###
 tag: changelog
 layout: changelog
@@ -14,8 +14,18 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+- version: 0.6.1
+  date: 2011-10-26
+  size: 61268451
+  sign: MCwCFFKfoN3MIscOoz4i5TsMfYrqizEsAhR2bLWoXnhwYQjQJx9wvNr85FCQMA==
+
+  notes:
+  - Fixed several bugs with the Mac OS X interface that prevented the user from clicking links. 
+
 - version: 0.6.0
-  date: 2011-10-24
+  date: 2011-10-25
+  size: 61176469
+  sign: MC0CFB4RKbv0zmzp8z0s+4QnOLtNEGrvAhUA13NNcox2vTa2yv0FpQLaX3LCMoM=
 
   notes:
   - Added a native Mac OS X user interface.
