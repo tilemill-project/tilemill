@@ -132,7 +132,7 @@ To set up the SDK and build mapnik do:
     curl -o sources.tar.bz2 http://dbsgeo.com/tmp/mapnik-static-sdk-2.1.0-dev_r1.tar.bz2
     tar xvf sources.tar.bz2
     cd ../
-    ./configure JOBS=`sysctl -n hw.ncpu`
+    ./configure JOBS=`sysctl -n hw.ncpu` (If you have problems with Clang, add "CC=gcc CXX=g++" as well.)
     make
     make install
 
