@@ -17,7 +17,7 @@ releases:
 - version: 0.6.2
 
   notes:
-  - Fixed a bug that would prevent interactivity behavior from the first row in a CSV.
+  - Fixed a bug that would prevent interactivity behavior from the first row in an imported CSV from working. 
   - Fixed a bug in the Mac app that would prevent some alert and confirmation dialogs from working properly. 
   - Fixed a bug in the Mac app where the user wouldn't be prompted to save their work at app quit time. 
 
