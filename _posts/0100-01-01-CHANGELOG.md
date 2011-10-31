@@ -14,6 +14,12 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+- version: 0.6.2
+
+  notes:
+  - Fixed bug that would prevent interactivity behavior from the first row in a
+    CSV.
+
 - version: 0.6.1
   date: 2011-10-26
   size: 61268451
