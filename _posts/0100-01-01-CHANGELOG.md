@@ -15,7 +15,7 @@ permalink: /docs/changelog
 releases:
 
 - version: 0.6.2
-  date: 2011-10-31
+  date: 2011-11-01
   size: 61255635
   sign: MC0CFETrPlwFQbAUvzIxq2BsUMGf6gvBAhUAkOYK5wh5pteeByJBbFeFl5GCXa4=
 
