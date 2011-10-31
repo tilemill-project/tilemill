@@ -18,5 +18,6 @@
 
 - (void)loadInitialRequest;
 - (void)loadRequestURL:(NSURL *)loadURL;
+- (BOOL)browserShouldQuit;
 
 @end
