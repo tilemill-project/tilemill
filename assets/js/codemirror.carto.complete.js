@@ -4,6 +4,7 @@
     function cartoCompletion(editor, reference) {
 
         function cancelEvent(e) {
+            if (!e) return;
             if (e.stopPropagation) { e.stopPropagation(); }
             if (e.preventDefault) { e.preventDefault(); }
         }
@@ -65,7 +66,8 @@
             sel.firstChild.selected = true;
             sel.size = Math.min(10, completions.length);
             var pos = editor.cursorCoords();
-            widget.style.height = '50px';
+            widget.style.height = '100px';
+            sel.style.height = '100px';
             widget.style.position = 'absolute';
             widget.style.left = pos.x + 'px';
             widget.style.top = pos.yBot + 'px';
