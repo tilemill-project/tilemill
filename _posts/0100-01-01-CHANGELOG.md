@@ -15,6 +15,9 @@ permalink: /docs/changelog
 releases:
 
 - version: 0.6.2
+  date: 2011-11-01
+  size: 61255635
+  sign: MC0CFETrPlwFQbAUvzIxq2BsUMGf6gvBAhUAkOYK5wh5pteeByJBbFeFl5GCXa4=
 
   notes:
   - Fixed a bug that would prevent interactivity behavior from the first row in an imported CSV from working.
