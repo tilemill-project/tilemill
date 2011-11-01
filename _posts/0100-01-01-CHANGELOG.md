@@ -23,6 +23,7 @@ releases:
   - Fixed a bug in the Mac app where the user wouldn't be prompted to save their work at app quit time.
   - Removed behavior in datasource panel that would force the SRS for certain file extensions.
   - Custom SRS strings are supported for CSV files, but the default remains WGS84.
+  - More robust CSV parsing.
 
 - version: 0.6.1
   date: 2011-10-26
