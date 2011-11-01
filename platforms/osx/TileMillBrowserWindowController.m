@@ -13,6 +13,8 @@
 @interface TileMillBrowserWindowController ()
 
 - (void)promptToSaveRemoteURL:(NSURL *)remoteURL revealingInFinder:(BOOL)shouldReveal;
+- (NSString *)runJavaScript:(NSString *)code;
+- (NSString *)runJavaScript:(NSString *)code inBones:(BOOL)useBones;
 
 @property (nonatomic, assign) BOOL initialRequestComplete;
 
@@ -49,6 +51,24 @@
     [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:loadURL]];
 }
 
+- (BOOL)browserShouldQuit
+{
+    // check for unsaved work
+    //
+    [self runJavaScript:@"var loseUnsavedWork;"];
+    [self runJavaScript:@"var getLoseUnsavedWork = function() { return loseUnsavedWork; }"];
+    [self runJavaScript:@"loseUnsavedWork = views.Project.prototype.unload({type: 'unload'})" inBones:YES];
+    
+    if ([[self runJavaScript:@"getLoseUnsavedWork();"] isEqualToString:@"false"])
+    {
+        [self.window makeKeyAndOrderFront:self];
+        
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (void)promptToSaveRemoteURL:(NSURL *)remoteURL revealingInFinder:(BOOL)shouldReveal;
 {
     NSSavePanel *savePanel = [NSSavePanel savePanel];
@@ -69,6 +89,19 @@
                 [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:[NSArray arrayWithObject:destinationURL.absoluteURL]];
         }
     }];
+}
+
+- (NSString *)runJavaScript:(NSString *)code
+{
+    return [self runJavaScript:code inBones:NO];
+}
+
+- (NSString *)runJavaScript:(NSString *)code inBones:(BOOL)useBones
+{
+    if (useBones)
+        code = [NSString stringWithFormat:@"window.Bones.initialize(function(models, views, controllers) { %@ });", code];
+        
+    return [self.webView stringByEvaluatingJavaScriptFromString:code];
 }
 
 #pragma mark -

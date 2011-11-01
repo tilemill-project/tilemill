@@ -20,7 +20,7 @@ if [ -z "$DIST" ]; then
   exit
 fi
 
-if [[ "$DIST" != "maverick" && "$DIST" != "natty" ]]; then
+if [[ "$DIST" != "maverick" && "$DIST" != "natty" && "$DIST" != "oneiric" ]]; then
   echo "Your distribution $DIST is not supported."
   exit
 fi
