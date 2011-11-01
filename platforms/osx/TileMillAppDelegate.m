@@ -103,6 +103,11 @@
     return YES;
 }
 
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+    return ([self.browserController browserShouldQuit] ? NSTerminateNow : NSTerminateCancel);
+}
+
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
     [[NSUserDefaults standardUserDefaults] synchronize];
