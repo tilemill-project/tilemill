@@ -34,11 +34,10 @@
         "millstone": "~0.2.0",
         "sphericalmercator": "~1.0.1",
         "tilelive-mapnik": "~0.2.0",
-        "underscore": "1.1.x",
+        "underscore": "1.2.x",
         "carto": "~0.4.3",
         "wax": "3.0.8",
         "node-markdown": "0.1.0",
-        "ent": "0.0.4",
         "sqlite3": "~2.0.16"
     },
     "devDependencies": {

@@ -3,7 +3,6 @@ var url = require('url');
 var fs = require('fs');
 var mapnik = require('mapnik');
 var Step = require('step');
-var ent = require('ent');
 var millstone = require('millstone');
 
 models.Datasource.prototype.sync = function(method, model, success, error) {
@@ -43,7 +42,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                     var f = feat.attributes();
                     for (k in f) {
                         if (typeof f[k] === 'string') {
-                            f[k] = ent.encode(f[k]);
+                            f[k] = _.escape(f[k]);
                         }
                     }
                     features.push(f);
