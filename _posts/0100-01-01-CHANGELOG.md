@@ -20,10 +20,13 @@ releases:
   sign: MC0CFETrPlwFQbAUvzIxq2BsUMGf6gvBAhUAkOYK5wh5pteeByJBbFeFl5GCXa4=
 
   notes:
-  - Fixed a bug that would prevent interactivity behavior from the first row in an imported CSV from working. 
-  - Fixed a bug where highlighted syntax errors in the Carto editor would not show tooltips properly. 
-  - Fixed a bug in the Mac app that would prevent some alert and confirmation dialogs from working properly. 
-  - Fixed a bug in the Mac app where the user wouldn't be prompted to save their work at app quit time. 
+  - Fixed a bug that would prevent interactivity behavior from the first row in an imported CSV from working.
+  - Fixed a bug where highlighted syntax errors in the Carto editor would not show tooltips properly.
+  - Fixed a bug in the Mac app that would prevent some alert and confirmation dialogs from working properly.
+  - Fixed a bug in the Mac app where the user wouldn't be prompted to save their work at app quit time.
+  - Removed behavior in datasource panel that would force the SRS for certain file extensions.
+  - Custom SRS strings are supported for CSV files, but the default remains WGS84.
+  - More robust CSV parsing.
 
 - version: 0.6.1
   date: 2011-10-26
@@ -31,7 +34,7 @@ releases:
   sign: MCwCFFKfoN3MIscOoz4i5TsMfYrqizEsAhR2bLWoXnhwYQjQJx9wvNr85FCQMA==
 
   notes:
-  - Fixed several bugs with the Mac OS X interface that prevented the user from clicking links. 
+  - Fixed several bugs with the Mac OS X interface that prevented the user from clicking links.
 
 - version: 0.6.0
   date: 2011-10-25
