@@ -1,6 +1,8 @@
 // CodeMirror2 Autocompletion for Carto
 (function (context) {
     if (!$) throw new Error('$-library expected');
+    if (!_) throw new Error('_-library expected');
+
     function cartoCompletion(editor, reference) {
 
         function cancelEvent(e) {
@@ -16,7 +18,21 @@
                     ids.push(reference.symbolizers[i][j].css);
                 }
             }
-            return ids;
+            return _.uniq(ids);
+        })(reference);
+
+        var valid_keywords = (function(reference) {
+            var ids = [];
+            for (var i in reference.symbolizers) {
+                for (var j in reference.symbolizers[i]) {
+                    if (typeof reference.symbolizers[i][j].type == 'object') {
+                        for (var k in reference.symbolizers[i][j].type) {
+                            ids.push(reference.symbolizers[i][j].type[k]);
+                        }
+                    }
+                }
+            }
+            return _.uniq(ids);
         })(reference);
 
         function complete(e) {
@@ -29,7 +45,7 @@
                 token = editor.getTokenAt(cur),
                 tprop = token;
 
-            if (!/^[\w-$_]*$/.test(token.string)) {
+            if (!/^@?[\w-$_]*$/.test(token.string)) {
                 return false;
             }
 
@@ -91,24 +107,30 @@
             }
             $(sel).blur(close);
             $(sel).keydown(function(event) {
-                var code = event.keyCode;
+                var code = event.keyCode || event.charCode;
                 // Enter and space
                 if (code == 13 || code == 32) {
                     cancelEvent(event);
                     pick();
-                }
+                } else if (code == 9 && !event.shiftKey) {
+                    cancelEvent(event);
+                    sel.selectedIndex = (++sel.selectedIndex % sel.size);
+                } else if (code == 9) {
+                    cancelEvent(event);
+                    sel.selectedIndex = (--sel.selectedIndex === -1) ?
+                            sel.size - 1 : sel.selectedIndex;
+                } else if (code == 27) {
                 // Escape
-                else if (code == 27) {
                     cancelEvent(event);
                     close();
                     editor.focus();
-                } else if (code != 38 && code != 40) {
+                } else if (code != 38 && code != 40 && !event.shiftKey) {
                     close();
                     editor.focus();
                     setTimeout(complete, 50);
                 }
             });
-            $(sel).dblclick(pick);
+            $(sel).click(pick);
 
             sel.focus();
             // Opera sometimes ignores focusing a freshly created node
@@ -119,10 +141,23 @@
             return true;
         }
 
+        function getVariables() {
+            var v = editor.getValue();
+            return _.uniq(v.match(/@[\w\d\-]+/));
+        }
+
         function getCompletions(token, context) {
-            var r = new RegExp('^' + token.string);
-            return _.filter(valid_identifiers, function(i) {
-                return i.match(r);
+            var against;
+            if (token.className === 'carto-value') {
+                against = valid_keywords;
+            } else if (token.className === 'carto-variable') {
+                against = getVariables();
+            } else {
+                against = valid_identifiers;
+            }
+
+            return _.filter(against, function(i) {
+                return i.indexOf(token.string) === 0;
             });
         }
 
