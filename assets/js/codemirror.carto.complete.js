@@ -87,6 +87,8 @@
             widget.style.position = 'absolute';
             widget.style.left = pos.x + 'px';
             widget.style.top = pos.yBot + 'px';
+
+            var $sel = $(sel);
             document.body.appendChild(widget);
             // Hack to hide the scrollbar.
             if (completions.length <= 10)
@@ -105,9 +107,9 @@
                     editor.focus();
                 }, 50);
             }
-            $(sel).blur(close);
-            $(sel).keydown(function(event) {
-                var code = event.keyCode || event.charCode;
+            $sel.blur(close);
+            $sel.keydown(function(event) {
+                var code = event.which;
                 // Enter and space
                 if (code == 13 || code == 32) {
                     cancelEvent(event);
@@ -118,7 +120,8 @@
                 } else if (code == 9) {
                     cancelEvent(event);
                     sel.selectedIndex = (--sel.selectedIndex === -1) ?
-                            sel.size - 1 : sel.selectedIndex;
+                        sel.size - 1 :
+                        sel.selectedIndex;
                 } else if (code == 27) {
                 // Escape
                     cancelEvent(event);
@@ -130,12 +133,12 @@
                     setTimeout(complete, 50);
                 }
             });
-            $(sel).click(pick);
+            $sel.click(pick);
 
-            sel.focus();
+            $sel.focus();
             // Opera sometimes ignores focusing a freshly created node
             if (window.opera) setTimeout(function(){
-                if (!done) sel.focus();
+                if (!done) $sel.focus();
             }, 100);
 
             return true;
@@ -164,7 +167,7 @@
         return {
             onKeyEvent: function(i, e) {
                 // Hook into tab
-                if (e.keyCode == 9 && !(e.ctrlKey || e.metaKey) && !e.altKey) {
+                if (e.which == 9 && !(e.ctrlKey || e.metaKey) && !e.altKey) {
                     return complete(e);
                 }
             }
