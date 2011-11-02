@@ -142,6 +142,22 @@ function mtimeProject(model, callback) {
     });
 }
 
+// Migrate a TileJSON 1.0.0 project to 2.0.0
+function migrate100_200(object) {
+    function formatterToTemplate(formatter) {
+        return formatter.replace(/\[([\w\d]+)\]/g, '{{$1}}');
+    }
+    if (object.interactivity) {
+        _([
+          'template_teaser',
+          'template_full',
+          'template_location']).each(function(t) {
+            object.interactivity[t] = formatterToTemplate(object.interactivity[t]);
+        });
+    }
+    return object;
+}
+
 // Load a single project model.
 function loadProject(model, callback) {
     var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
@@ -176,7 +192,10 @@ function loadProject(model, callback) {
 
         // Embed stylesheet contents at the `Stylesheet` key.
         object.Stylesheet = _(stylesheets).map(function(file) {
-            return { id: file.basename, data: file.data };
+            return {
+                id: file.basename,
+                data: file.data
+            };
         });
 
         // Migrate old properties to tilejson equivalents.
@@ -193,13 +212,24 @@ function loadProject(model, callback) {
             ];
         }
 
+        // TileJSON version migration
+        switch (object.tilejson) {
+            // Current version should be at the top
+            case '2.0.0':
+                break;
+            // version-less object is 1.0.0
+            default:
+                object = migrate100_200(object);
+                break;
+        }
+
         // Generate dynamic properties.
-        object.tilejson = 'v2';
+        object.tilejson = '2.0.0';
         object.scheme = 'xyz';
-        object.tiles = ['/v2/' + model.id + '/{z}/{x}/{y}.' +
+        object.tiles = ['/v3/' + model.id + '/{z}/{x}/{y}.' +
             (object.format || 'png') +
             '?updated=' + object._updated];
-        object.grids = ['/v2/' + model.id + '/{z}/{x}/{y}.grid.json' +
+        object.grids = ['/v3/' + model.id + '/{z}/{x}/{y}.grid.json' +
             '?updated=' + object._updated];
         if (object.interactivity) {
             object.template = template(object.interactivity);
@@ -289,10 +319,10 @@ function saveProject(model, callback) {
         var updated = stat && Date.parse(stat.mtime) || (+ new Date());
         callback(err, {
             _updated: updated,
-            tiles: ['/v2/' + model.id + '/{z}/{x}/{y}.' +
+            tiles: ['/v3/' + model.id + '/{z}/{x}/{y}.' +
                 (model.get('format') || 'png') +
                 '?updated=' + updated],
-            grids: ['/v2/' + model.id + '/{z}/{x}/{y}.grid.json' +
+            grids: ['/v3/' + model.id + '/{z}/{x}/{y}.grid.json' +
                 '?updated=' + updated],
             template: model.get('interactivity')
                 ? template(model.get('interactivity'))
