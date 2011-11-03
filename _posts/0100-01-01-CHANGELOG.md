@@ -14,6 +14,12 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+# - version x.x
+#
+# notes:
+# - Fixed a bug in the Mac app where saving files such as exports would not obey custom filenames entered.
+# - Ensured that saved files automatically contain the original file's extension if a custom filename is entered. 
+
 - version: 0.6.2
   date: 2011-11-01
   size: 61254835
