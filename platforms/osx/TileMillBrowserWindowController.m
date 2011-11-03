@@ -79,7 +79,12 @@
     {
         if (result == NSFileHandlingPanelOKButton)
         {
-            NSURL *destinationURL = [[NSURL URLWithString:remoteURL.lastPathComponent relativeToURL:savePanel.directoryURL] filePathURL];
+            NSString *destinationName = savePanel.nameFieldStringValue;
+            
+            if ([destinationName.pathExtension isNotEqualTo:remoteURL.pathExtension])
+                destinationName = [NSString stringWithFormat:@"%@.%@", destinationName, remoteURL.pathExtension];
+            
+            NSURL *destinationURL = [[NSURL URLWithString:destinationName relativeToURL:savePanel.directoryURL] filePathURL];
 
             NSData *saveData = [NSData dataWithContentsOfURL:remoteURL];
             
