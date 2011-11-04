@@ -2,11 +2,12 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click a.delete': 'exportDelete',
-    'click a.preview': 'exportPreview'
+    'click a.preview': 'exportPreview',
+    'click a.upload': 'exportUpload'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'exportDelete', 'exportPreview', 'poll');
+    _(this).bindAll('render', 'exportDelete', 'exportPreview', 'exportUpload', 'poll');
     this.collection.bind('all', this.render);
     this.collection.bind('all', this.poll);
     this.render(true).poll();
@@ -60,6 +61,28 @@ view.prototype.exportPreview = function(ev) {
         },
         error: function(m, e) { new views.Modal(e) }
     });
+};
+
+view.prototype.exportUpload = function(ev) {
+    var id = $(ev.currentTarget).attr('href').split('#').pop();
+    var model = this.collection.get(id);
+    var collection = this.collection;
+    new views.Modal({
+        content: 'Are you sure you want to upload "'+ model.get('filename') +'"?',
+        callback: function() {
+            (new models.Export({
+                filename: model.get('filename'),
+                project: model.get('project'),
+                format: 'upload'
+            }).save({}, {
+                success: function(model) {
+                    collection.add(model);
+                }
+            }))
+        },
+        affirmative: 'Upload'
+    });
+    return false;
 };
 
 // Poll controller.
