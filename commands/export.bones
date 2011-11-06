@@ -277,11 +277,26 @@ command.prototype.upload = function (project, callback) {
             this.error(new Error('Failed to parse policy from MapBox Hosting.'));
         }
 
-        var tmpPath = '/tmp/' + path.basename(this.opts.filepath) + '.post';
+        var bucket = uploadArgs.bucket;
+        delete uploadArgs.bucket;
+        delete uploadArgs.filename;
+
+        var filename = path.basename(this.opts.filepath);
+        // Write multipart body post to a temporary file. Fix this once piping
+        // works better.
+        var tmpPath = '/tmp/' + filename + '.post';
         var dest = fs.createWriteStream(tmpPath);
 
-        var body = '--frontier\r\n';
-        body += 'Content-Disposition: form-data; name="file"; filename="gdp.mbtiles"\r\n'
+        var body = '';
+        _(uploadArgs).each(function(arg, key) {
+            body += '--frontier\r\n';
+            body += 'Content-Disposition: form-data; name="' + key + '"\r\n',
+            body += '\r\n' + arg + '\r\n';
+        });
+
+        body += '--frontier\r\n';
+        body += 'Content-Disposition: form-data; name="file"; filename="' +
+            path.basename(this.opts.filepath) + '"\r\n'
         body += 'Content-Type: application/octet-stream\r\n\r\n';
         dest.write(body, 'ascii');
 
@@ -291,24 +306,26 @@ command.prototype.upload = function (project, callback) {
         });
         source.pipe(dest, {end: false});
 
-        var options = {
-            uri: 'http://localhost:3000/',
-            host: 'localhost',
-            port: '3000',
-            path: '/',
-            method:'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data; boundary=frontier',
-            }
-        };
-
-        dest.on('close', function() {
-            // File has been closed. Time to upload.
+        dest.on('close', _(function() {
+            // Temporary file has been closed. Time to upload.
+            var options = {
+                uri: 'http://' + bucket + '.s3.amazonaws.com/',
+                headers: {
+                    'Content-Type': 'multipart/form-data; boundary=frontier',
+                    'X_FILE_NAME': filename
+                }
+            };
             var source = fs.createReadStream(tmpPath);
-            var dest = request.post(options);
+            var stat = fs.statSync(tmpPath);
+            options.headers['content-length'] = stat.size;
+            console.log(options);
+            var dest = request.post(options, _(function(err) {
+                fs.unlink(tmpPath);
+                console.log('done');
+                if (err) return this.error(err);
+            }).bind(this));
             source.pipe(dest);
             console.log('uploading');
-        });
-
+        }).bind(this));
     }).bind(this));
 };
