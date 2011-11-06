@@ -277,44 +277,38 @@ command.prototype.upload = function (project, callback) {
             this.error(new Error('Failed to parse policy from MapBox Hosting.'));
         }
 
+        var tmpPath = '/tmp/' + path.basename(this.opts.filepath) + '.post';
+        var dest = fs.createWriteStream(tmpPath);
+
+        var body = '--frontier\r\n';
+        body += 'Content-Disposition: form-data; name="file"; filename="gdp.mbtiles"\r\n'
+        body += 'Content-Type: application/octet-stream\r\n\r\n';
+        dest.write(body, 'ascii');
+
+        var source = fs.createReadStream(this.opts.filepath);
+        source.on('end', function() {
+            dest.end('\r\n--frontier--', 'ascii');
+        });
+        source.pipe(dest, {end: false});
+
         var options = {
-            uri: 'http://' + uploadArgs.bucket + '.s3.amazonaws.com/',
-            headers: { 'X_FILE_NAME': path.basename(this.opts.filepath) },
-            multipart: []
+            uri: 'http://localhost:3000/',
+            host: 'localhost',
+            port: '3000',
+            path: '/',
+            method:'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data; boundary=frontier',
+            }
         };
 
-        // Remove keys used for UI purposes in frameup but not sent to S3.
-        delete uploadArgs.bucket;
-        delete uploadArgs.filename;
-
-        _(uploadArgs).each(function(arg, key) {
-            options.multipart.push({
-                'content-disposition': 'form-data; name="' + key + '"',
-                'body': arg
-            });
+        dest.on('close', function() {
+            // File has been closed. Time to upload.
+            var source = fs.createReadStream(tmpPath);
+            var dest = request.post(options);
+            source.pipe(dest);
+            console.log('uploading');
         });
 
-        // Add the file using base64 to work around request stringifying everything.
-        options.multipart.push({
-            'content-disposition': 'form-data; name="file"; filename="' +
-                path.basename(this.opts.filepath) + '"',
-            'content-type': 'application/octet-stream',
-            'body': fs.readFileSync(this.opts.filepath)
-        });
-
-        request.post(options, _(function(err, resp, body) {
-            if (err) return this.error(err);
-            if (resp.statusCode !== 303) return this.error(
-                new Error('Upload to MapBox Hosting failed with status ' +
-                          resp.statusCode + '.'));
-
-            this.put({
-                status: 'complete',
-                progress: 1,
-                url: resp.headers.location.split('?')[0],
-                updated: +new Date()
-            }, process.exit);
-
-        }).bind(this));
     }).bind(this));
 };
