@@ -220,7 +220,7 @@ command.prototype.mbtiles = function (project, callback) {
 
                     var timeout = setInterval(function progress() {
                         var progress = (copy.copied + copy.failed) / copy.total;
-                        var remaining = Math.floor((Date.now() - copy.started) * (1 / progress));
+                        var remaining = Math.floor((Date.now() - copy.started) * (1 / progress) - (Date.now() - copy.started));
                         this.put({
                             status: progress < 1 ? 'processing' : 'complete',
                             progress: progress,
@@ -339,6 +339,23 @@ command.prototype.upload = function (project, callback) {
                         }, process.exit);
                     }).bind(this));
                 }).bind(this));
+
+                var written = 0;
+                var started = Date.now();
+                var updateProgress = _(_(function() {
+                    var progress = written / stat.size;
+                    this.put({
+                        status: 'complete',
+                        progress: progress,
+                        status: progress < 1 ? 'processing' : 'complete',
+                        remaining: Math.floor((Date.now() - started) * (1 / progress) - (Date.now() - started)),
+                        updated: +new Date()
+                    });
+                }).bind(this)).throttle(500);
+                source.on('data', function(chunk) {
+                    written += chunk.length;
+                    updateProgress(written);
+                });
 
                 // Start the upload!
                 source.pipe(dest);
