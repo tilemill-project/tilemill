@@ -287,14 +287,19 @@ command.prototype.upload = function (project, callback) {
         var tmpPath = '/tmp/' + filename + '.post';
         var dest = fs.createWriteStream(tmpPath);
 
+        var boundry = '----TileMill' + crypto.createHash('md5')
+            .update(+new Date + '')
+            .digest('hex')
+            .substring(0, 6);
+
         var body = '';
         _(uploadArgs).each(function(arg, key) {
-            body += '--frontier\r\n';
+            body += '--' + boundry + '\r\n';
             body += 'Content-Disposition: form-data; name="' + key + '"\r\n',
             body += '\r\n' + arg + '\r\n';
         });
 
-        body += '--frontier\r\n';
+        body += '--' + boundry + '\r\n';
         body += 'Content-Disposition: form-data; name="file"; filename="' +
             path.basename(this.opts.filepath) + '"\r\n'
         body += 'Content-Type: application/octet-stream\r\n\r\n';
@@ -302,7 +307,7 @@ command.prototype.upload = function (project, callback) {
 
         var source = fs.createReadStream(this.opts.filepath);
         source.on('end', function() {
-            dest.end('\r\n--frontier--', 'ascii');
+            dest.end('\r\n--' + boundry + '--', 'ascii');
         });
         source.pipe(dest, {end: false});
 
@@ -313,7 +318,7 @@ command.prototype.upload = function (project, callback) {
                 var options = {
                     uri: 'http://' + bucket + '.s3.amazonaws.com/',
                     headers: {
-                        'Content-Type': 'multipart/form-data; boundary=frontier',
+                        'Content-Type': 'multipart/form-data; boundary=' + boundry,
                         'Content-Length': stat.size,
                         'X_FILE_NAME': filename
                     }
