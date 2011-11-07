@@ -45,7 +45,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
       state.tokenize = tokenCComment;
       return tokenCComment(stream, state);
     } else if (ch == '/' && stream.eat('/')) {
-      while (stream.next() !== undefined)
+      stream.skipToEnd();
       return ret("carto-comment", "comment");
     } else if (ch == '=') {
       ret(null, 'compare');
