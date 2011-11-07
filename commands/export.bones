@@ -316,6 +316,9 @@ command.prototype.upload = function (project, callback) {
             fs.stat(tmpPath, _(function(err, stat) {
                 if (err) return this.error(err);
                 var options = {
+                    host: bucket + '.s3.amazonaws.com',
+                    path: '/',
+                    method: 'POST',
                     uri: 'http://' + bucket + '.s3.amazonaws.com/',
                     headers: {
                         'Content-Type': 'multipart/form-data; boundary=' + boundry,
@@ -324,7 +327,7 @@ command.prototype.upload = function (project, callback) {
                     }
                 };
                 var source = fs.createReadStream(tmpPath);
-                var dest = request.post(options, _(function(err, resp) {
+                var dest = http.request(options, _(function(resp) {
                     if (err) return this.error(err);
                     fs.unlink(tmpPath, _(function(err) {
                         if (err) return this.error(err);
