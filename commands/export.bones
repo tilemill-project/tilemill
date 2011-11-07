@@ -308,24 +308,34 @@ command.prototype.upload = function (project, callback) {
 
         dest.on('close', _(function() {
             // Temporary file has been closed. Time to upload.
-            var options = {
-                uri: 'http://' + bucket + '.s3.amazonaws.com/',
-                headers: {
-                    'Content-Type': 'multipart/form-data; boundary=frontier',
-                    'X_FILE_NAME': filename
-                }
-            };
-            var source = fs.createReadStream(tmpPath);
-            var stat = fs.statSync(tmpPath);
-            options.headers['content-length'] = stat.size;
-            console.log(options);
-            var dest = request.post(options, _(function(err) {
-                fs.unlink(tmpPath);
-                console.log('done');
+            fs.stat(tmpPath, _(function(err, stat) {
                 if (err) return this.error(err);
+                var options = {
+                    uri: 'http://' + bucket + '.s3.amazonaws.com/',
+                    headers: {
+                        'Content-Type': 'multipart/form-data; boundary=frontier',
+                        'Content-Length': stat.size,
+                        'X_FILE_NAME': filename
+                    }
+                };
+                var source = fs.createReadStream(tmpPath);
+                var dest = request.post(options, _(function(err, resp) {
+                    if (err) return this.error(err);
+                    fs.unlink(tmpPath, _(function(err) {
+                        if (err) return this.error(err);
+                        this.put({
+                            status: 'complete',
+                            progress: 1,
+                            url: resp.headers.location.split('?')[0],
+                            updated: +new Date()
+                        }, process.exit);
+                    }).bind(this));
+                }).bind(this));
+
+                // Start the upload!
+                source.pipe(dest);
+
             }).bind(this));
-            source.pipe(dest);
-            console.log('uploading');
         }).bind(this));
     }).bind(this));
 };
