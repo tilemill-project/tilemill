@@ -26,6 +26,13 @@ code,
 pre,
 div.CodeMirror { font-family:DroidSansMono,monospace; }
 
+p code {
+  font-size:12px;
+  line-height:20px;
+  background:#f0f8fa;
+  padding:2px;
+}
+
 body {
   padding:50px 0px 0px;
   background:#eee;
