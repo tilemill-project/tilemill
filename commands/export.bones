@@ -256,7 +256,7 @@ command.prototype.upload = function (project, callback) {
         .substring(0, 6);
     var policyEndpoint = url.format({
         protocol: 'http:',
-        host: this.opts.mapboxHost || 'tiles.mapbox.com',
+        host: this.opts.mapboxHost || 'api.tiles.mapbox.com',
         pathname: '/v2/'+ hash + '/upload.json'
     });
 

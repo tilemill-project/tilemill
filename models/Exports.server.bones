@@ -26,8 +26,6 @@ var start = function(model, data, callback) {
         args.push(path.join(settings.files, 'export', data.filename));
         // format, don't try to guess extension based on filepath
         args.push('--format=' + data.format);
-        // set the mapboxHost for uploads
-        args.push('--mapboxHost=' + settings.mapboxHost || 'tiles.mapbox.com');
         // url, @TODO: need proper host info.
         args.push('--url=http://localhost:'+settings.port+'/api/Export/'+data.id);
         // Log crashes to output directory.
