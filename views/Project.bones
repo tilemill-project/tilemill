@@ -377,10 +377,8 @@ view.prototype.stylesheetRename = function(ev) {
     var $input = $('<input type="text"></input>').val(id);
     $(ev.currentTarget).replaceWith($input);
 
-    $input.blur(_(function() {
-        if ($input.val() == id) {
-            return;
-        } else {
+    var submit = _(function() {
+        if ($input.val() !== id) {
             var new_model = new models.Stylesheet(
                 _.extend(model.toJSON(), {
                     id: $input.val()
@@ -390,9 +388,15 @@ view.prototype.stylesheetRename = function(ev) {
             );
             this.model.get('Stylesheet').add(new_model);
             this.model.get('Stylesheet').remove(model);
-            this.render();
         }
-    }).bind(this)).focus();
+        this.render();
+    }).bind(this)
+
+    $input
+    .blur(submit)
+    .keydown(function(e) {
+        if (e.which == 13) submit();
+    }).focus();
 };
 
 view.prototype.stylesheetDelete = function(ev) {
