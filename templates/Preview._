@@ -1,6 +1,6 @@
 <ul class='form fill'>
 <li class='text'>
-<h2><%= get('id') %></h2>
+<h2><%= get('filename') %></h2>
 <p class='prose'>
 To host these tiles sign up for <a target='_blank' href='http://mapbox.com/hosting'>MapBox Hosting</a> or setup <a target='_blank' href='http://github.com/mapbox/tilestream'>TileStream</a> on your own server.
 </p>

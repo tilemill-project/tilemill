@@ -24,7 +24,7 @@
     <% if (m.get('status') === 'complete') { %>
       <div class='joined'>
       <% if (m.get('format') === 'mbtiles') { %>
-      <a class='button preview popup' href='#<%=m.get('filename')%>'><span class='icon reverse labeled eye'></span> Preview</a>
+      <a class='button preview popup' href='#<%=m.id%>'><span class='icon reverse labeled eye'></span> Preview</a>
       <a class='button upload' href='#<%=m.id%>'><span class='reverse labeled'></span> Upload to web</a>
       <% } %>
       <% if (m.get('format') === 'upload') { %>
