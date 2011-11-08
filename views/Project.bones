@@ -15,6 +15,7 @@ view.prototype.events = {
     'click .layers a.inspect': 'layerInspect',
     'click .layers a.delete': 'layerDelete',
     'click .editor a.add': 'stylesheetAdd',
+    'dblclick .tabs a': 'stylesheetRename',
     'click .editor a.delete': 'stylesheetDelete',
     'sortupdate .layers ul': 'sortLayers',
     'sortupdate .tabs': 'sortStylesheets',
@@ -361,7 +362,37 @@ view.prototype.stylesheetAdd = function(ev) {
         collection: this.model.get('Stylesheet')
     });
     model.bind('add', this.makeStylesheet);
-    new views.Stylesheet({el:$('#popup'), model:model});
+    new views.Stylesheet({
+        el: $('#popup'),
+        model: model
+    });
+};
+
+view.prototype.stylesheetRename = function(ev) {
+    var id = $(ev.currentTarget).text()
+        .replace(/^\s*/, '')
+        .replace(/\s*$/, '');
+
+    var model = this.model.get('Stylesheet').get(id);
+    var $input = $('<input type="text"></input>').val(id);
+    $(ev.currentTarget).replaceWith($input);
+
+    $input.blur(_(function() {
+        if ($input.val() == id) {
+            return;
+        } else {
+            var new_model = new models.Stylesheet(
+                _.extend(model.toJSON(), {
+                    id: $input.val()
+                }), {
+                    collection: this.model.get('Stylesheet')
+                }
+            );
+            this.model.get('Stylesheet').add(new_model);
+            this.model.get('Stylesheet').remove(model);
+            this.render();
+        }
+    }).bind(this)).focus();
 };
 
 view.prototype.stylesheetDelete = function(ev) {
