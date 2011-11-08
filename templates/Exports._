@@ -25,10 +25,10 @@
       <div class='joined'>
       <% if (m.get('format') === 'mbtiles') { %>
       <a class='button preview popup' href='#<%=m.get('filename')%>'><span class='icon reverse labeled eye'></span> Preview</a>
-      <a class='button upload' href='#<%=m.id%>'><span class='icon reverse labeled'></span> Upload to web</a>
+      <a class='button upload' href='#<%=m.id%>'><span class='reverse labeled'></span> Upload to web</a>
       <% } %>
       <% if (m.get('format') === 'upload') { %>
-      <a class='button' target='_blank' href='<%=m.get('url')%>'><span class='icon reverse labeled'></span> View</a>
+      <a class='button' target='_blank' href='<%=m.get('url')%>'><span class='reverse labeled'></span> View</a>
       <% } else { %>
       <a class='button' href='/export/download/<%=m.get('filename')%>'><span class='icon reverse labeled export'></span> Save</a>
       <% } %>
