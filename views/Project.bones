@@ -157,7 +157,9 @@ view.prototype.makeStylesheet = function(model) {
         onChange: function() {
             // onchange runs before this function is finished,
             // so self.codemirror is false.
-            model.codemirror && model.set({'data': model.codemirror.getValue()});
+            model.codemirror && model.set({
+                data: model.codemirror.getValue()
+            });
             self.colors();
         },
         onGutterClick: _(function(editor, line, ev) {
@@ -168,6 +170,8 @@ view.prototype.makeStylesheet = function(model) {
             }
         }).bind(this)
     });
+    model.codemirror.setOption('onKeyEvent',
+        cartoCompletion(model.codemirror, window.abilities.carto).onKeyEvent);
     $(model.codemirror.getWrapperElement())
         .addClass(id)
         .addClass(model.collection.indexOf(model) === 0 ? 'active' : '');
