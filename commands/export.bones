@@ -267,9 +267,10 @@ command.prototype.upload = function (project, callback) {
         }
     }, _(function(err, resp, body) {
         if (err) return this.error(err);
-        if (resp.statusCode !== 200) return this.error(
-            new Error('MapBox Hosting is not available. Status '
-                      + resp.statusCode + '.'));
+        if (resp.statusCode !== 200) {
+            return this.error(new Error('MapBox Hosting is not available. Status '
+                                        + resp.statusCode + '.'));
+        }
 
         try {
             var uploadArgs = JSON.parse(body);
@@ -281,86 +282,80 @@ command.prototype.upload = function (project, callback) {
         delete uploadArgs.bucket;
         delete uploadArgs.filename;
 
-        var filename = path.basename(this.opts.filepath);
-        // Write multipart body post to a temporary file. Fix this once piping
-        // works better.
-        var tmpPath = '/tmp/' + filename + '.post';
-        var dest = fs.createWriteStream(tmpPath);
-
         var boundry = '----TileMill' + crypto.createHash('md5')
             .update(+new Date + '')
             .digest('hex')
             .substring(0, 6);
 
-        var body = '';
-        _(uploadArgs).each(function(arg, key) {
-            body += '--' + boundry + '\r\n';
-            body += 'Content-Disposition: form-data; name="' + key + '"\r\n',
-            body += '\r\n' + arg + '\r\n';
-        });
+        var filename = path.basename(this.opts.filepath);
 
-        body += '--' + boundry + '\r\n';
-        body += 'Content-Disposition: form-data; name="file"; filename="' +
-            path.basename(this.opts.filepath) + '"\r\n'
-        body += 'Content-Type: application/octet-stream\r\n\r\n';
-        dest.write(body, 'ascii');
+        var multipartBody = new Buffer(_(uploadArgs).map(function(value, key) {
+            return '--' + boundry + '\r\n'
+                + 'Content-Disposition: form-data; name="' + key + '"\r\n'
+                + '\r\n' + value + '\r\n';
+            })
+            .concat(['--' + boundry + '\r\n'
+                + 'Content-Disposition: form-data; name="file"; filename="' + filename + '"\r\n'
+                + 'Content-Type: application/octet-stream\r\n\r\n'])
+            .join(''));
+        var terminate = new Buffer('\r\n--' + boundry + '--', 'ascii');
 
-        var source = fs.createReadStream(this.opts.filepath);
-        source.on('end', function() {
-            dest.end('\r\n--' + boundry + '--', 'ascii');
-        });
-        source.pipe(dest, {end: false});
-
-        dest.on('close', _(function() {
-            // Temporary file has been closed. Time to upload.
-            fs.stat(tmpPath, _(function(err, stat) {
-                if (err) return this.error(err);
-                var options = {
-                    host: bucket + '.s3.amazonaws.com',
-                    path: '/',
-                    method: 'POST',
-                    uri: 'http://' + bucket + '.s3.amazonaws.com/',
-                    headers: {
-                        'Content-Type': 'multipart/form-data; boundary=' + boundry,
-                        'Content-Length': stat.size,
-                        'X_FILE_NAME': filename
-                    }
-                };
-                var source = fs.createReadStream(tmpPath);
-                var dest = http.request(options, _(function(resp) {
-                    if (err) return this.error(err);
-                    fs.unlink(tmpPath, _(function(err) {
-                        if (err) return this.error(err);
-                        this.put({
-                            status: 'complete',
-                            progress: 1,
-                            url: resp.headers.location.split('?')[0],
-                            updated: +new Date()
-                        }, process.exit);
-                    }).bind(this));
-                }).bind(this));
-
-                var written = 0;
-                var started = Date.now();
-                var updateProgress = _(_(function() {
-                    var progress = written / stat.size;
-                    this.put({
-                        status: 'complete',
-                        progress: progress,
-                        status: progress < 1 ? 'processing' : 'complete',
-                        remaining: Math.floor((Date.now() - started) * (1 / progress) - (Date.now() - started)),
-                        updated: +new Date()
-                    });
-                }).bind(this)).throttle(500);
-                source.on('data', function(chunk) {
-                    written += chunk.length;
-                    updateProgress(written);
-                });
-
-                // Start the upload!
-                source.pipe(dest);
-
+        fs.stat(this.opts.filepath, _(function(err, stat) {
+            if (err) return this.error(err);
+            var options = {
+                host: bucket + '.s3.amazonaws.com',
+                path: '/',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data; boundary=' + boundry,
+                    'Content-Length': stat.size + multipartBody.length + terminate.length,
+                    'X_FILE_NAME': filename
+                }
+            };
+            var dest = http.request(options, _(function(resp) {
+                if (resp.statusCode !== 303) {
+                    return this.error(new Error('S3 is not available. Status '
+                                                + resp.statusCode + '.'));
+                }
+                this.put({
+                    status: 'complete',
+                    progress: 1,
+                    url: resp.headers.location.split('?')[0],
+                    updated: +new Date()
+                }, process.exit);
             }).bind(this));
+
+            // Write multipart values from memory.
+            dest.write(multipartBody, 'ascii');
+
+            // Set up read for MBTiles file.
+            var source = fs.createReadStream(this.opts.filepath);
+
+            var bytesWritten = 0;
+            var started = Date.now();
+            var updateProgress = _(function() {
+                var progress = bytesWritten / stat.size;
+                this.put({
+                    status: 'complete',
+                    progress: progress,
+                    status: progress < 1 ? 'processing' : 'complete',
+                    remaining: Math.floor((Date.now() - started) * (1 / progress) - (Date.now() - started)),
+                    updated: +new Date()
+                });
+            }).chain().bind(this).throttle(5000).value();
+            source.on('data', function(chunk) {
+                bytesWritten += chunk.length;
+                updateProgress();
+            });
+
+            source.on('end', function() {
+                dest.write(terminate);
+                dest.end();
+            });
+
+            // Start the upload!
+            source.pipe(dest, {end: false});
+
         }).bind(this));
     }).bind(this));
 };
