@@ -129,7 +129,7 @@
 
             sel.innerHTML = '';
             sel.multiple = true;
-            for (var i = 0; i < completions.length; ++i) {
+            for (var i = 0; i < Math.min(completions.length, 10); ++i) {
                 var opt = sel.appendChild(document.createElement('option'));
                 opt.appendChild(document.createTextNode(completions[i]));
             }
