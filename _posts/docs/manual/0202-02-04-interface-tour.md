@@ -68,6 +68,10 @@ If you click on the magnifying glass icon of any layer, a drawer will slide in f
 
 TileMill provides an integrated code editor for editing the map stylesheets. This editor will make sure you write valid code, coloring correctly formatted text as you write it (syntax highlighting) and highlighting any errors if you try to save an invalid file.
 
+The TileMill editor supports autocomplete: when typing a property name like `polygon-fill`, you can type `polygon-` and immediately hit the tab key in order to get a list of available completions. This also works with values, like `line-join: miter`: typing `mi` and pressing tab will autocomplete `miter`. If you have variables like `@acolor` defined in your stylesheet, you can autocomplete them by typing `@` and tab. After the autocomplete menu is open, it can be navigated with the mouse, arrow keys, or with further presses of `tab` and `shift-tab` to go backwards. Press `enter` to accept an autocomplete suggestion.
+
+**Stylesheets**
+
 As your map style becomes more complex, you may wish to keep things organized by splitting the style across multiple files. New stylesheets can be added with the + button on the tab bar and entering a name for the file. Though not required, there is a convention of using the file extention `.mss` for ‘map stylesheet’. 
 
 Stylesheets can be re-ordered by clicking and dragging their tabs within the tab bar. Note that just like CSS, the order can have an effect on the way a map is rendered - if two styles conflict, the one that is defined last will be applied. Here, ‘last’ means closest to the bottom of the file in the tab furthest to the right.
