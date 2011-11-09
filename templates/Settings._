@@ -87,6 +87,9 @@
       <div class='description'>
         These tokens will be replaced by data in the templates below:
         <div class='tokens'></div>
+        You can also use the full
+        <a target='blank' href='http://mustache.github.com/mustache.5.html'>Mustache template language</a>
+        to customize your tooltips.
       </div>
     </li>
     <li class='dependent'>

@@ -9,16 +9,20 @@ servers['Route'].augment({
         ],
         scripts: [
             require.resolve('../assets/js/colorpicker.classic.js'),
+            require.resolve('../assets/js/mustache.js'),
             require.resolve('../assets/js/jquery.ui.js'),
             require.resolve('chrono/lib/chrono.js'),
             require.resolve('wax/ext/modestmaps.min.js'),
-            require.resolve('wax/dist/wax.mm.min.js'),
+            require.resolve('wax/dist/wax.mm.js'),
             require.resolve('JSV/lib/uri/uri.js'),
             require.resolve('JSV/lib/jsv.js'),
             require.resolve('JSV/lib/json-schema-draft-03.js'),
             require.resolve('../assets/js/codemirror.js'),
+            require.resolve('../assets/js/codemirror.overlay.js'),
             require.resolve('../assets/js/codemirror.carto.js'),
             require.resolve('../assets/js/codemirror.carto.complete.js'),
+            require.resolve('../assets/js/codemirror.xml.js'),
+            require.resolve('../assets/js/codemirror.mustache.js'),
             require.resolve('node-markdown/lib/vendor/showdown/compressed/showdown.js'),
             require.resolve('sphericalmercator')
         ]

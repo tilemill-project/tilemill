@@ -19,11 +19,10 @@ view.prototype.initialize = function(options) {
 view.prototype.preview = function(ev) {
     var target = $(ev.currentTarget);
     var format = target.attr('name').split('template_').pop();
-    var formatter = _(target.val().replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
     var feature = this.datasource.get('features')[0];
     try {
-        var preview = formatter(feature);
-        target.siblings('.preview').html(preview);
+        target.siblings('.preview').html(
+            wax.template(target.val()).format(false, feature));
     } catch(err) {
         target.siblings('.preview').html(err.toString());
     }
@@ -42,6 +41,11 @@ view.prototype.render = function() {
 
     // Focus name field for unnamed projects.
     if (!this.model.get('name')) this.$('input[type=text]:first').focus();
+
+    var template_location_mirror = CodeMirror(this.$('input[name=template_location]').get(0), {
+        lineNumbers: true,
+        mode: "mustache"
+    });
     return this;
 };
 
@@ -112,7 +116,7 @@ view.prototype.attach = function() {
         var fields = _(model.get('fields')).keys();
 
         this.$('.tokens').html(_(fields).map(function(f) {
-            return _('<code>[<%=f%>]</code>').template({f:f});
+            return '<code>{{' + f + '}}</code>';
         }).join(' '));
 
         this.$('.dependent').show();
