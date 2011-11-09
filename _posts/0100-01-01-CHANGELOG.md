@@ -18,7 +18,8 @@ releases:
 #
 # notes:
 # - Fixed a bug in the Mac app where saving files such as exports would not obey custom filenames entered.
-# - Ensured that saved files automatically contain the original file's extension if a custom filename is entered. 
+# - Ensured that saved files automatically contain the original file's extension if a custom filename is entered.
+# - Added autocomplete in Carto editor for properties, variables and values. Press 'tab' to activate.
 # - Upload MBTiles to MapBox Hosting directly from export menu.
 
 - version: 0.6.2
