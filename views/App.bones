@@ -24,7 +24,7 @@ view.prototype.initialize = function() {
 
 view.prototype.popupOpen = function(ev) {
     var target = $(ev.currentTarget);
-    var title = target.text() || target.attr('title');
+    var title = target.attr('title') || target.text();
 
     $(this.el).addClass('overlay');
     this.$('#popup').addClass('active');

@@ -1,5 +1,9 @@
 view = Backbone.View.extend();
 
+view.prototype.events = {
+    'click a.upload': 'upload'
+};
+
 view.prototype.initialize = function(options) {
     _(this).bindAll('render');
 
@@ -13,7 +17,7 @@ view.prototype.initialize = function(options) {
 };
 
 view.prototype.render = function() {
-    this.$('.content').html(templates.Preview(this.preview));
+    this.$('.content').html(templates.Preview(this.model));
 
     if (!com.modestmaps) throw new Error('ModestMaps not found.');
     this.map = new com.modestmaps.Map('preview',
@@ -32,3 +36,16 @@ view.prototype.render = function() {
     return this;
 };
 
+view.prototype.upload = function(ev) {
+    (new models.Export({
+        filename: this.model.get('filename'),
+        project: this.model.get('project'),
+        format: 'upload'
+    }).save({}, {
+        success: _(function(model) {
+            this.collection.add(model);
+            $('a.close', this.el).click();
+        }).bind(this)
+    }));
+    return false;
+};
