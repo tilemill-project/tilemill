@@ -23,3 +23,11 @@ model.prototype.schema = {
 };
 
 model.prototype.defaults = { 'data': '' };
+
+model.prototype.validate = function(attr) {
+    if (attr.id &&
+        this.collection &&
+        this.collection.get(attr.id) &&
+        this.collection.get(attr.id) !== this)
+            return new Error(_('Stylesheet "<%=id%>" already exists.').template(attr));
+};

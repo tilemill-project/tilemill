@@ -2,6 +2,7 @@ var fs = require('fs');
 var url = require('url');
 var path = require('path');
 var request = require('request');
+var crypto = require('crypto');
 
 command = Bones.Command.extend();
 
@@ -75,7 +76,7 @@ command.prototype.initialize = function(plugin, callback) {
 
     // Format.
     if (!opts.format) opts.format = path.extname(opts.filepath).split('.').pop();
-    if (!_(['pdf', 'svg', 'png', 'mbtiles']).include(opts.format))
+    if (!_(['pdf', 'svg', 'png', 'mbtiles', 'upload']).include(opts.format))
         return this.error(new Error('Invalid format: ' + opts.format));
 
     // Convert string params into numbers.
@@ -91,9 +92,8 @@ command.prototype.initialize = function(plugin, callback) {
         opts.height = parseInt(opts.height, 10);
 
     // Rename the output filepath using a random hash if file already exists.
-    if (path.existsSync(opts.filepath)) {
-        var hash = require('crypto')
-            .createHash('md5')
+    if (path.existsSync(opts.filepath) && opts.format !== 'upload') {
+        var hash = crypto.createHash('md5')
             .update(+new Date + '')
             .digest('hex')
             .substring(0, 6);
@@ -145,7 +145,7 @@ command.prototype.error = function(err) {
         error: err.toString(),
         updated: +new Date()
     });
-    console.error(err);
+    console.error(err.toString());
 };
 
 command.prototype.put = function(data, callback) {
@@ -220,7 +220,7 @@ command.prototype.mbtiles = function (project, callback) {
 
                     var timeout = setInterval(function progress() {
                         var progress = (copy.copied + copy.failed) / copy.total;
-                        var remaining = Math.floor((Date.now() - copy.started) * (1 / progress));
+                        var remaining = Math.floor((Date.now() - copy.started) * (1 / progress) - (Date.now() - copy.started));
                         this.put({
                             status: progress < 1 ? 'processing' : 'complete',
                             progress: progress,
@@ -249,3 +249,113 @@ command.prototype.mbtiles = function (project, callback) {
     }.bind(this));
 };
 
+command.prototype.upload = function (project, callback) {
+    var hash = crypto.createHash('md5')
+        .update(+new Date + '')
+        .digest('hex')
+        .substring(0, 6);
+    var policyEndpoint = url.format({
+        protocol: 'http:',
+        host: this.opts.mapboxHost || 'api.tiles.mapbox.com',
+        pathname: '/v2/'+ hash + '/upload.json'
+    });
+
+    request.get({
+        uri: policyEndpoint,
+        headers: {
+            'Host': url.parse(policyEndpoint).host,
+        }
+    }, _(function(err, resp, body) {
+        if (err) return this.error(err);
+        if (resp.statusCode !== 200) {
+            return this.error(new Error('MapBox Hosting is not available. Status '
+                                        + resp.statusCode + '.'));
+        }
+
+        try {
+            var uploadArgs = JSON.parse(body);
+        } catch (e) {
+            this.error(new Error('Failed to parse policy from MapBox Hosting.'));
+        }
+
+        var bucket = uploadArgs.bucket;
+        delete uploadArgs.bucket;
+        delete uploadArgs.filename;
+
+        var boundry = '----TileMill' + crypto.createHash('md5')
+            .update(+new Date + '')
+            .digest('hex')
+            .substring(0, 6);
+
+        var filename = path.basename(this.opts.filepath);
+
+        var multipartBody = new Buffer(_(uploadArgs).map(function(value, key) {
+            return '--' + boundry + '\r\n'
+                + 'Content-Disposition: form-data; name="' + key + '"\r\n'
+                + '\r\n' + value + '\r\n';
+            })
+            .concat(['--' + boundry + '\r\n'
+                + 'Content-Disposition: form-data; name="file"; filename="' + filename + '"\r\n'
+                + 'Content-Type: application/octet-stream\r\n\r\n'])
+            .join(''));
+        var terminate = new Buffer('\r\n--' + boundry + '--', 'ascii');
+
+        fs.stat(this.opts.filepath, _(function(err, stat) {
+            if (err) return this.error(err);
+            var options = {
+                host: bucket + '.s3.amazonaws.com',
+                path: '/',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data; boundary=' + boundry,
+                    'Content-Length': stat.size + multipartBody.length + terminate.length,
+                    'X_FILE_NAME': filename
+                }
+            };
+            var dest = http.request(options, _(function(resp) {
+                if (resp.statusCode !== 303) {
+                    return this.error(new Error('S3 is not available. Status '
+                                                + resp.statusCode + '.'));
+                }
+                this.put({
+                    status: 'complete',
+                    progress: 1,
+                    url: resp.headers.location.split('?')[0],
+                    updated: +new Date()
+                }, process.exit);
+            }).bind(this));
+
+            // Write multipart values from memory.
+            dest.write(multipartBody, 'ascii');
+
+            // Set up read for MBTiles file.
+            var source = fs.createReadStream(this.opts.filepath);
+
+            var bytesWritten = 0;
+            var started = Date.now();
+            var updateProgress = _(function() {
+                var progress = bytesWritten / stat.size;
+                this.put({
+                    status: 'complete',
+                    progress: progress,
+                    status: progress < 1 ? 'processing' : 'complete',
+                    remaining: Math.floor((Date.now() - started) * (1 / progress) - (Date.now() - started)),
+                    updated: +new Date()
+                });
+            }).chain().bind(this).throttle(5000).value();
+            source.on('data', function(chunk) {
+                bytesWritten += chunk.length;
+                updateProgress();
+            });
+
+            source.on('end', function() {
+                dest.write(terminate);
+                dest.end();
+            });
+
+            // Start the upload!
+            source.pipe(dest, {end: false});
+
+        }).bind(this));
+    }).bind(this));
+};

@@ -24,6 +24,8 @@ var start = function(model, data, callback) {
         args.push(data.project);
         // filepath
         args.push(path.join(settings.files, 'export', data.filename));
+        // format, don't try to guess extension based on filepath
+        args.push('--format=' + data.format);
         // url, @TODO: need proper host info.
         args.push('--url=http://localhost:'+settings.port+'/api/Export/'+data.id);
         // Log crashes to output directory.
@@ -90,7 +92,7 @@ models.Export.prototype.sync = function(method, model, success, error) {
                 try { process.kill(data.pid, 'SIGUSR1'); }
                 catch(err) {}
             }
-            if (data && data.filename) {
+            if (data && data.filename && data.format !== 'upload') {
                 var filepath = path.join(settings.files, 'export', data.filename);
                 path.exists(filepath, function(exists) {
                     if (exists) return fs.unlink(filepath, this);
