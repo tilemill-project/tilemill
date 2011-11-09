@@ -1,9 +1,13 @@
-<ul class='form fill'>
+<ul class='form fill preview'>
 <li class='text'>
-<h2><%= get('id') %></h2>
-<p class='prose'>
-To host these tiles sign up for <a target='_blank' href='http://mapbox.com/hosting'>MapBox Hosting</a> or setup <a target='_blank' href='http://github.com/mapbox/tilestream'>TileStream</a> on your own server.
-</p>
+<div class='clearfix'>
+<div class='prose'>
+  <p><a href='http://mapbox.com/hosting' target='_blank'>MapBox Hosting</a> is an easy-to-use hosting service that gets maps onto your websites fast. If you don't have an account, we'll host your map for free for 7 days. <a href='http://tiles.mapbox.com/upload/' target='_blank'>Learn more &rarr;</a></p>
+</div>
+  <div class='buttons'>
+    <a class='upload button large' href='#'>Start Upload</a>
+  </div>
+</div>
 </li>
 </ul>
 
