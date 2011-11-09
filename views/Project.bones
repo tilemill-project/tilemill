@@ -63,6 +63,13 @@ view.prototype.initialize = function() {
 
     window.onbeforeunload = window.onbeforeunload || this.unload;
 
+    this.model.get('Stylesheet').bind('add', this.makeStylesheet);
+    this.model.get('Stylesheet').bind('remove', _(function(model) {
+        model.el.remove();
+        $(model.codemirror.getWrapperElement()).remove();
+        this.$('.tabs a.tab:last').click();
+    }).bind(this));
+
     this.model.bind('save', this.attach);
     this.model.bind('change', this.change);
     this.model.bind('poll', this.render);
@@ -177,13 +184,6 @@ view.prototype.makeStylesheet = function(model) {
         .addClass(id)
         .addClass(model.collection.indexOf(model) === 0 ? 'active' : '');
     this.$('.editor ul').append(model.el);
-
-    // Bind to the 'remove' event to teardown.
-    model.bind('remove', _(function(model) {
-        model.el.remove();
-        $(model.codemirror.getWrapperElement()).remove();
-        this.$('.tabs a.tab:last').click();
-    }).bind(this));
 };
 
 // Set the model center whenever the map is moved.
@@ -361,7 +361,6 @@ view.prototype.stylesheetAdd = function(ev) {
     var model = new models.Stylesheet({}, {
         collection: this.model.get('Stylesheet')
     });
-    model.bind('add', this.makeStylesheet);
     new views.Stylesheet({
         el: $('#popup'),
         model: model
@@ -389,7 +388,6 @@ view.prototype.stylesheetRename = function(ev) {
             this.model.get('Stylesheet').add(new_model);
             this.model.get('Stylesheet').remove(model);
         }
-        this.render();
     }).bind(this)
 
     $input
