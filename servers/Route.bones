@@ -20,6 +20,7 @@ servers['Route'].augment({
             require.resolve('../assets/js/codemirror.js'),
             require.resolve('../assets/js/codemirror.overlay.js'),
             require.resolve('../assets/js/codemirror.carto.js'),
+            require.resolve('../assets/js/codemirror.carto.complete.js'),
             require.resolve('../assets/js/codemirror.xml.js'),
             require.resolve('../assets/js/codemirror.mustache.js'),
             require.resolve('node-markdown/lib/vendor/showdown/compressed/showdown.js'),

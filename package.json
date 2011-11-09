@@ -27,7 +27,7 @@
         "JSV": "3.5.x",
         "mbtiles": "https://github.com/mapbox/node-mbtiles/tarball/formatter2",
         "sax": "0.1.x",
-        "request": "1.9.x",
+        "request": "https://github.com/developmentseed/request/tarball/binary-multipart",
         "step": "0.0.x",
         "tilelive": "~4.0.3",
         "mapnik": "~0.5.8",
