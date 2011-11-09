@@ -378,15 +378,16 @@ view.prototype.stylesheetRename = function(ev) {
 
     var submit = _(function() {
         if ($input.val() !== id) {
-            var new_model = new models.Stylesheet(
-                _.extend(model.toJSON(), {
-                    id: $input.val()
-                }), {
-                    collection: this.model.get('Stylesheet')
-                }
-            );
-            this.model.get('Stylesheet').add(new_model);
-            this.model.get('Stylesheet').remove(model);
+            var options = { error: function(m, e) { new views.Modal(e); } };
+            var new_model = model.clone();
+            // TODO: Necessary for duplicate checking during validation, but is
+            // it wise to set the collection before adding it to the
+            // collection? We do this elsewhere.
+            new_model.collection = this.model.get('Stylesheet');
+            if (new_model.set({id:$input.val()}, options)) {
+                this.model.get('Stylesheet').add(new_model);
+                this.model.get('Stylesheet').remove(model);
+            }
         }
     }).bind(this)
 
