@@ -29,7 +29,8 @@
 
 - (void)awakeFromNib
 {
-    [[self window] center];
+    if ( ! [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"NSWindow Frame %@", [[self window] frameAutosaveName]]])
+        [[self window] center];
 }
 
 - (void)dealloc
