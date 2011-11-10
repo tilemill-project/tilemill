@@ -27,7 +27,7 @@
         "JSV": "3.5.x",
         "mbtiles": "~0.1.2",
         "sax": "0.1.x",
-        "request": "https://github.com/developmentseed/request/tarball/binary-multipart",
+        "request": "1.9.x",
         "step": "0.0.x",
         "tilelive": "~4.0.3",
         "mapnik": "~0.5.8",
