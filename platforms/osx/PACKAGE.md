@@ -46,10 +46,11 @@ custom flags we set later on.
 
     npm install -g jshint expresso
     
-Note: jshint installation will fail with clang compiler so do:
+Note: jshint installation may fail with clang compiler so do:
 
     export CC=gcc
     export CXX=g++
+    npm install -g jshint
 
 
 ## Build tilemill
@@ -62,15 +63,59 @@ Clear out any previous builds:
 Also ensure that you have no globally installed node modules (other than `jshint` and `expresso`).
 You may need to check various node_modules depending on your $NODE_PATH.
 
+Possible locations include:
+
+    /usr/local/lib/node_modules/
+    /usr/local/lib/node/
+
+And the paths visible at:
+
+    node -e "require.paths"
+
 TODO: we should be able to avoid having to clear out node_modules by telling/tricking
 npm to avoid finding them (just needs testing).
 
+
+## Set up Mapnik SDK
+
+Mapnik needs to be compiled such that all dependencies are either statically linked
+or are linked using @rpath/@loader_path (and then all those dylib deps are included).
+
+An experimental SDK includes all mapnik dependencies such that you can set up
+mapnik to be compiled statically against them.
+
+To set up the SDK and build mapnik do:
+
+    git clone git://github.com/mapnik/mapnik.git -b macbinary-tilemill
+    cd mapnik
+    mkdir osx
+    cd osx/
+    curl -o sources.tar.bz2 http://dbsgeo.com/tmp/mapnik-static-sdk-2.1.0-dev_r1.tar.bz2
+    tar xvf sources.tar.bz2
+    cd ../
+    ./configure JOBS=`sysctl -n hw.ncpu` (If you have problems with Clang, add "CC=gcc CXX=g++" as well.)
+    make
+    make install
+
+    # set critical shell env settings
+    export MAPNIK_ROOT=`pwd`/osx/sources
+    export PATH=$MAPNIK_ROOT/usr/local/bin:$PATH
+
+Confirm the SDK is working by checking mapnik-config presence at that path:
+
+    # this should produce a line of output pointing to valid mapnik-config
+    which mapnik-config | grep $MAPNIK_ROOT
+
+
+Note: the sdk was created using https://github.com/mapnik/mapnik-packaging/blob/master/osx/scripts/static-universal.sh
+
+
 Now build tilemill with a few custom flags:
 
-    export CORE_CXXFLAGS="-O3 -arch x86_64 -arch i386 -mmacosx-version-min=10.6 -isysroot /Developer/SDKs/MacOSX10.6.sdk"
-    export CORE_LINKFLAGS="-arch x86_64 -arch i386 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk"
-    export CXXFLAGS=$CORE_LINKFLAGS
-    export LINKFLAGS=$CORE_LINKFLAGS
+    export CORE_CXXFLAGS="-O3 -arch x86_64 -arch i386 -mmacosx-version-min=10.6"
+    export CORE_LINKFLAGS="-arch x86_64 -arch i386"
+    export CXXFLAGS="$CORE_LINKFLAGS -I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
+    export LINKFLAGS="$CORE_LINKFLAGS -L$MAPNIK_ROOT/lib -L$MAPNIK_ROOT/usr/local/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
     export JOBS=`sysctl -n hw.ncpu`
     npm install . --verbose
 
@@ -115,56 +160,6 @@ We need to do the same linking and architecture test for 3 more modules:
     sudo make uninstall
 
 
-## Set up Mapnik SDK
-
-Mapnik needs to be compiled such that all dependencies are either statically linked
-or are linked using @rpath/@loader_path (and then all those dylib deps are included).
-
-An experimental SDK includes all mapnik dependencies such that you can set up
-mapnik to be compiled statically against them.
-
-To set up the SDK and build mapnik do:
-
-    git clone git://github.com/mapnik/mapnik.git -b macbinary-tilemill
-    cd mapnik
-    mkdir osx
-    cd osx/
-    curl -o sources.tar.bz2 http://dbsgeo.com/tmp/mapnik-static-sdk-2.1.0-dev_r1.tar.bz2
-    tar xvf sources.tar.bz2
-    cd ../
-    ./configure JOBS=`sysctl -n hw.ncpu` (If you have problems with Clang, add "CC=gcc CXX=g++" as well.)
-    make
-    make install
-
-    # set critical shell env settings
-    export MAPNIK_ROOT=`pwd`/osx/sources
-    export PATH=$MAPNIK_ROOT/usr/local/bin:$PATH
-
-Confirm the SDK is working by checking mapnik-config presence at that path:
-
-    # this should produce a line of output pointing to valid mapnik-config
-    which mapnik-config | grep $MAPNIK_ROOT
-
-
-Note: the sdk was created using https://github.com/mapnik/mapnik-packaging/blob/master/osx/scripts/static-universal.sh
-
-## Edit the mapnik-config script
-
-A major flaw in the portability of the above system we've yet to take time to tackle is the hardcoded
-absolute paths from the SDK creation. So, before continuing we need to manually edit the mapnik-config
-script.
-
-Open the script:
-
-    vim `which mapnik-config`
-
-Edit the file and change all paths that include:
-
-    /Users/dane/projects/mapnik-dev/trunk-build-static-universal/osx/sources
-
-To be equal to your $MAPNIK_ROOT value.
-
-
 ## Change into tilemill dir
 
 Now, in the same shell that you set the above environment settings
@@ -173,7 +168,7 @@ navigate to your tilemill development directory.
    cd ~/tilemill # or wherever you git cloned tilemill
 
 
-## Rebuild node-mapnik
+## Fixup node-mapnik
 
 
 Move to the node-mapnik directory:
@@ -181,11 +176,8 @@ Move to the node-mapnik directory:
     cd node_modules/mapnik/
 
 
-Then rebuild like:
+Then fixup node-mapnik install so that the plugins work:
 
-    make clean
-    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
-    export LINKFLAGS="-L$MAPNIK_ROOT/lib -L$MAPNIK_ROOT/usr/local/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
     export MAPNIK_INPUT_PLUGINS="path.join(__dirname, 'input')"
     export MAPNIK_FONTS="path.join(__dirname, 'fonts')"
     ./configure
@@ -211,6 +203,7 @@ Run the tests:
 
     make test
 
+Note: you should see one failure like: `Error: failed to initialize projection with: '+init=epsg:4326'`
 
 Check a few things:
 
@@ -226,6 +219,11 @@ Now go back to the main tilemill directory:
     cd ../../
 
 
+Remove cruft:
+
+    rm node_modules/bones/node_modules/jquery/node_modules/htmlparser/libxmljs.node
+    rm node_modules/mapnik/build/default/_mapnik.node
+    
 And check builds overall. These commands can help find possible errors but are not necessary to run:
 
     # for reference see all the C++ module dependencies
@@ -238,7 +236,7 @@ And check builds overall. These commands can help find possible errors but are n
     for i in $(find . -name '*.node'); do otool -L $i >>t.txt; done;
 
 
-Test that the app still works
+Test that the app works:
 
     ./index.js
 
