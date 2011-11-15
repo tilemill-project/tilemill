@@ -7,14 +7,14 @@ server = Bones.Server.extend({});
 
 server.prototype.initialize = function() {
     _.bindAll(this, 'load', 'grid', 'getArtifact', 'mbtiles', 'fromCache');
-    this.get('/v3/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)',
+    this.get('/tile/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)',
         this.mbtiles);
-    this.get('/v3/:id.mbtiles/:z/:x/:y.:format(grid.json)', this.mbtiles);
-    this.get('/v3/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', [
+    this.get('/tile/:id.mbtiles/:z/:x/:y.:format(grid.json)', this.mbtiles);
+    this.get('/tile/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', [
         this.fromCache,
         this.load,
         this.getArtifact]);
-    this.get('/v3/:id/:z/:x/:y.:format(grid.json)', [
+    this.get('/tile/:id/:z/:x/:y.:format(grid.json)', [
         this.fromCache,
         this.load,
         this.grid,

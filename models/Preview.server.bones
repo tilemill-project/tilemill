@@ -9,7 +9,7 @@ models.Preview.prototype.sync = function(method, model, success, error) {
         if (err) return error(err);
         source.getInfo(function(err, info) {
             if (err) return error(err);
-            info.tiles = ['/v3/' + model.id + '/{z}/{x}/{y}.png'];
+            info.tiles = ['/tiles/' + model.id + '/{z}/{x}/{y}.png'];
             success(_(info).extend({id: model.id }));
         });
     });
