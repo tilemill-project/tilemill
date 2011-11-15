@@ -21,9 +21,9 @@
         }
     }],
     "id": "demo_01",
-    "tilejson": "1.0.0",
-    "scheme": "tms",
-    "tiles": ["/1.0.0/demo_01/{z}/{x}/{y}.png"],
-    "grids": ["/1.0.0/demo_01/{z}/{x}/{y}.grid.json"],
+    "tilejson": "2.0.0",
+    "scheme": "xyz",
+    "tiles": ["/v3/demo_01/{z}/{x}/{y}.png"],
+    "grids": ["/v3/demo_01/{z}/{x}/{y}.grid.json"],
     "bones.token": "qUPgDcUqcee7RkBieVn7bfhZxAZALOyx"
 }
