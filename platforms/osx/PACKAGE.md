@@ -1,6 +1,6 @@
 # Packaging TileMill.app standalone
 
-Thes are the steps to setup tilemill to be portable within an .app bundle.
+Thes are steps to setup tilemill to be portable within an .app bundle.
 
 This is only necessary for developers that wish to build a fully
 distributable tilemill.app without requiring any other installation steps.
@@ -46,7 +46,7 @@ custom flags we set later on.
 
     npm install -g jshint@0.2.x expresso@0.8.x
     
-Note: jshint installation may fail with clang compiler so do:
+Note: expresso's bundled jsconverage code may fail with the clang compiler so do:
 
     export CC=gcc
     export CXX=g++
@@ -59,7 +59,7 @@ Clear out any previous builds:
 
     cd tilemill
     rm -rf node_modules
-    
+
 Also ensure that you have no globally installed node modules (other than `jshint` and `expresso`).
 You may need to check various node_modules depending on your $NODE_PATH.
 
@@ -78,8 +78,9 @@ npm to avoid finding them (just needs testing).
 
 ## Set up Mapnik SDK
 
-Mapnik needs to be compiled such that all dependencies are either statically linked
-or are linked using @rpath/@loader_path (and then all those dylib deps are included).
+For portbility with the tilemill.app bundle Mapnik needs to be compiled such that
+all dependencies are either statically linked or are linked using @rpath/@loader_path
+(and then all those dylib deps are included).
 
 An experimental SDK includes all mapnik dependencies such that you can set up
 mapnik to be compiled statically against them.
@@ -107,7 +108,7 @@ Confirm the SDK is working by checking mapnik-config presence at that path:
     which mapnik-config | grep $MAPNIK_ROOT
 
 
-Note: the sdk was created using https://github.com/mapnik/mapnik-packaging/blob/master/osx/scripts/static-universal.sh
+Note: this sdk was created using https://github.com/mapnik/mapnik-packaging/blob/master/osx/scripts/static-universal.sh
 
 
 Now build tilemill with a few custom flags:
@@ -121,43 +122,6 @@ Now build tilemill with a few custom flags:
 
 As long as you don't have any globally installed modules that tilemill uses, this should deposit all 
 tilemill dependencies in node_modules/. Now the task is to check on a few and rebuild a few.
-
-
-## Check node-zlib
-
-We need to make sure node-zlib is linked against the system zlib. The output of
-the command below should be similar to https://gist.github.com/1125399.
-
-    otool -L node_modules/mbtiles/node_modules/zlib/lib/zlib_bindings.node
-
-We also need to make sure that node-zlib and other C++ addons were compiled universal (both 32/64 bit).
-The command output should look like https://gist.github.com/1132771.
-
-    file node_modules/mbtiles/node_modules/zlib/lib/zlib_bindings.node
-
-
-## Check, node-srs, node-zipfile, and node-eio
-
-We need to do the same linking and architecture test for 3 more modules:
-
-    # eio
-    otool -L node_modules/tilelive-mapnik/node_modules/eio/build/default/eio.node
-    file node_modules/tilelive-mapnik/node_modules/eio/build/default/eio.node
-    
-    # srs
-    otool -L ./node_modules/millstone/node_modules/srs/lib/_srs.node
-    file ./node_modules/millstone/node_modules/srs/lib/_srs.node
-    
-    # zipfile
-    otool -L ./node_modules/millstone/node_modules/zipfile/lib/_zipfile.node
-    file ./node_modules/millstone/node_modules/zipfile/lib/_zipfile.node
-
-
-## Uninstall any globally installed libmapnik2.dylib
-
-    # move to where your mapnik sources are
-    cd src/mapnik-trunk
-    sudo make uninstall
 
 
 ## Change into tilemill dir
@@ -199,7 +163,7 @@ Then fixup node-mapnik install so that the plugins work:
     done;
 
 
-Run the tests:
+Run the node-mapnik tests:
 
     make test
 
@@ -223,17 +187,6 @@ Remove cruft:
 
     rm node_modules/bones/node_modules/jquery/node_modules/htmlparser/libxmljs.node
     rm node_modules/mapnik/build/default/_mapnik.node
-    
-And check builds overall. These commands can help find possible errors but are not necessary to run:
-
-    # for reference see all the C++ module dependencies
-    for i in $(find . -name '*.node'); do otool -L $i; done;
-
-    # should return nothing
-    for i in $(find . -name '*.node'); do otool -L $i | grep local; done;
-
-    # dump out file to inspect if problems
-    for i in $(find . -name '*.node'); do otool -L $i >>t.txt; done;
 
 
 Test that the app works:
