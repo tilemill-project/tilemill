@@ -44,7 +44,7 @@ This will keep these out of tilemill's local node_modules, avoid having to strip
 from the final package, and most importantly avoid any compile failures due to
 custom flags we set later on.
 
-    npm install -g jshint expresso
+    npm install -g jshint@0.2.x expresso@0.8.x
     
 Note: jshint installation may fail with clang compiler so do:
 
@@ -112,8 +112,8 @@ Note: the sdk was created using https://github.com/mapnik/mapnik-packaging/blob/
 
 Now build tilemill with a few custom flags:
 
-    export CORE_CXXFLAGS="-O3 -arch x86_64 -arch i386 -mmacosx-version-min=10.6"
-    export CORE_LINKFLAGS="-arch x86_64 -arch i386"
+    export CORE_CXXFLAGS="-O3 -arch x86_64 -arch i386 -mmacosx-version-min=10.6 -isysroot /Developer/SDKs/MacOSX10.6.sdk"
+    export CORE_LINKFLAGS="-arch x86_64 -arch i386 -mmacosx-version-min=10.6 -isysroot /Developer/SDKs/MacOSX10.6.sdk"
     export CXXFLAGS="$CORE_LINKFLAGS -I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
     export LINKFLAGS="$CORE_LINKFLAGS -L$MAPNIK_ROOT/lib -L$MAPNIK_ROOT/usr/local/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
     export JOBS=`sysctl -n hw.ncpu`
