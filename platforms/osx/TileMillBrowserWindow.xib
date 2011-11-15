@@ -170,6 +170,7 @@
 									<string key="NSFrame">{{49, 20}, {32, 32}}</string>
 									<reference key="NSSuperview" ref="1061276305"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<int key="NSViewLayerContentsRedrawPolicy">2</int>
 									<int key="NSpiFlags">28682</int>
 									<double key="NSMaxValue">100</double>
@@ -191,6 +192,7 @@
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{800, 622}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
+				<string key="NSFrameAutosaveName">BrowserWindow</string>
 				<int key="NSWindowCollectionBehavior">128</int>
 				<bool key="NSWindowIsRestorable">NO</bool>
 			</object>
