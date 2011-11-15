@@ -39,13 +39,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 for (var i = 0, feat;
                     i < 1000 && (feat = featureset.next(true));
                     i++) {
-                    var f = feat.attributes();
-                    for (k in f) {
-                        if (typeof f[k] === 'string') {
-                            f[k] = _.escape(f[k]);
-                        }
-                    }
-                    features.push(f);
+                    features.push(feat.attributes());
                 }
             }
 
