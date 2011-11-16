@@ -15,7 +15,7 @@ package: build
 	rm -rf $(TARGET)test
 	find $(TARGET) -name test -exec rm -rf {} \;
 	rm -rf $(TARGET)node_modules/mapnik/{build,examples,src,tests}
-	rm -rf $(TARGET)node_modules/sqlite3/build
+	rm -rf $(TARGET)node_modules/sqlite3/build{build,deps,src}
 	rm -rf $(TARGET)node_modules/tilelive/examples
 	rm -rf $(TARGET)node_modules/millstone/node_modules/srs/{build,tools,deps,src}
 	rm -rf $(TARGET)node_modules/millstone/node_modules/zipfile/{build,deps,src}
