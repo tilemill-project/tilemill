@@ -94,7 +94,7 @@
     </li>
     <li class='dependent'>
       <label>Location</label>
-      <input type='text' size='60' name='template_location' value='<%= (get('interactivity') || {}).template_location %>' placeholder='http://www.example.com' />
+      <input type='text' size='60' name='template_location' value='<%= (get('interactivity') || {}).template_location %>' placeholder='http://www.example.com/regions/{{{name}}}.html' />
       <div class='preview'></div>
     </li>
     <li class='dependent'>
