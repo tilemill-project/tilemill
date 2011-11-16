@@ -443,7 +443,7 @@ function fields(opts) {
     _(opts.Layer).each(function(l) {
         if (l.id !== opts.interactivity.layer) return;
         if (l.Datasource && l.Datasource.key_field)
-            fields.push('{{' + l.Datasource.key_field + '}}');
+            fields.push('{{{' + l.Datasource.key_field + '}}}');
     });
 
     return _(fields).chain()
