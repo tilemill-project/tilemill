@@ -1,15 +1,15 @@
-var fs = require('fs'),
-    Step = require('step'),
-    path = require('path'),
-    read = require('../lib/fsutil.js').read,
-    readdir = require('../lib/fsutil.js').readdir,
-    mkdirp = require('../lib/fsutil.js').mkdirp,
-    rm = require('../lib/fsutil.js').rm,
-    carto = require('carto'),
-    mapnik = require('mapnik'),
-    EventEmitter = require('events').EventEmitter,
-    millstone = require('millstone'),
-    settings = Bones.plugin.config;
+var fs = require('fs');
+var Step = require('step');
+var path = require('path');
+var read = require('../lib/fsutil.js').read;
+var readdir = require('../lib/fsutil.js').readdir;
+var mkdirp = require('../lib/fsutil.js').mkdirp;
+var rm = require('../lib/fsutil.js').rm;
+var carto = require('carto');
+var mapnik = require('mapnik');
+var EventEmitter = require('events').EventEmitter;
+var millstone = require('millstone');
+var settings = Bones.plugin.config;
 
 // Project
 // -------
@@ -145,7 +145,7 @@ function mtimeProject(model, callback) {
 // Migrate a TileJSON 1.0.0 project to 2.0.0
 function migrate100_200(object) {
     function formatterToTemplate(formatter) {
-        return formatter.replace(/\[([\w\d]+)\]/g, '{{$1}}');
+        return formatter.replace(/\[([\w\d]+)\]/g, '{{{$1}}}');
     }
     if (object.interactivity) {
         _([
@@ -226,10 +226,10 @@ function loadProject(model, callback) {
         // Generate dynamic properties.
         object.tilejson = '2.0.0';
         object.scheme = 'xyz';
-        object.tiles = ['/v3/' + model.id + '/{z}/{x}/{y}.' +
+        object.tiles = ['/tile/' + model.id + '/{z}/{x}/{y}.' +
             (object.format || 'png') +
             '?updated=' + object._updated];
-        object.grids = ['/v3/' + model.id + '/{z}/{x}/{y}.grid.json' +
+        object.grids = ['/tile/' + model.id + '/{z}/{x}/{y}.grid.json' +
             '?updated=' + object._updated];
         if (object.interactivity) {
             object.template = template(object.interactivity);
@@ -319,10 +319,10 @@ function saveProject(model, callback) {
         var updated = stat && Date.parse(stat.mtime) || (+ new Date());
         callback(err, {
             _updated: updated,
-            tiles: ['/v3/' + model.id + '/{z}/{x}/{y}.' +
+            tiles: ['/tile/' + model.id + '/{z}/{x}/{y}.' +
                 (model.get('format') || 'png') +
                 '?updated=' + updated],
-            grids: ['/v3/' + model.id + '/{z}/{x}/{y}.grid.json' +
+            grids: ['/tile/' + model.id + '/{z}/{x}/{y}.grid.json' +
                 '?updated=' + updated],
             template: model.get('interactivity')
                 ? template(model.get('interactivity'))
@@ -443,7 +443,7 @@ function fields(opts) {
     _(opts.Layer).each(function(l) {
         if (l.id !== opts.interactivity.layer) return;
         if (l.Datasource && l.Datasource.key_field)
-            fields.push('{{' + l.Datasource.key_field + '}}');
+            fields.push('{{{' + l.Datasource.key_field + '}}}');
     });
 
     return _(fields).chain()
