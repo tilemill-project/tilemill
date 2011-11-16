@@ -137,7 +137,8 @@ view.prototype.browse = function(ev) {
 
     if (target.is('.active')) (new models.Library({
         id:id,
-        location:location
+        location:location,
+        project: this.model.collection.parent.id
     })).fetch({
         success: _(function(model, resp) {
             new views.Library({
