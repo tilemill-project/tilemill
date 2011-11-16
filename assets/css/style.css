@@ -939,6 +939,8 @@ textarea {
   resize:none;
   }
 
+textarea.expand { height:200px; }
+
 .button,
 input[type=button],
 input[type=submit] {

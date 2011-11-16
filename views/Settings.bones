@@ -8,16 +8,19 @@ view.prototype.events = {
     'keyup textarea[name=template_full]': 'preview',
     'focus input[name=template_location]': 'preview',
     'focus textarea[name=template_teaser]': 'preview',
-    'focus textarea[name=template_full]': 'preview'
+    'focus textarea[name=template_full]': 'preview',
+    'blur textarea[name=template_teaser]': 'collapse',
+    'blur textarea[name=template_full]': 'collapse'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'save', 'attach', 'zoom', 'preview');
+    _(this).bindAll('render', 'save', 'attach', 'zoom', 'preview', 'collapse');
     this.render().attach();
 };
 
 view.prototype.preview = function(ev) {
     var target = $(ev.currentTarget);
+    target.addClass('expand');
     var format = target.attr('name').split('template_').pop();
     var feature = this.datasource.get('features')[0];
     try {
@@ -26,6 +29,12 @@ view.prototype.preview = function(ev) {
     } catch(err) {
         target.siblings('.preview').html(err.toString());
     }
+};
+
+view.prototype.collapse = function(ev) {
+    var target = $(ev.currentTarget);
+    target.removeClass('expand');
+    target.siblings('.preview').html('');
 };
 
 view.prototype.render = function() {
