@@ -145,7 +145,7 @@ function mtimeProject(model, callback) {
 // Migrate a TileJSON 1.0.0 project to 2.0.0
 function migrate100_200(object) {
     function formatterToTemplate(formatter) {
-        return formatter.replace(/\[([\w\d]+)\]/g, '{{$1}}');
+        return formatter.replace(/\[([\w\d]+)\]/g, '{{{$1}}}');
     }
     if (object.interactivity) {
         _([

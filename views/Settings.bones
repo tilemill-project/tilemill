@@ -116,7 +116,7 @@ view.prototype.attach = function() {
         var fields = _(model.get('fields')).keys();
 
         this.$('.tokens').html(_(fields).map(function(f) {
-            return '<code>{{' + f + '}}</code>';
+            return '<code>{{{' + f + '}}}</code>';
         }).join(' '));
 
         this.$('.dependent').show();
