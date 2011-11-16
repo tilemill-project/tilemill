@@ -131,7 +131,16 @@ view.prototype.browse = function(ev) {
     }
     $('ul.form', form).toggleClass('expand');
 
-    if (target.is('.active')) (new models.Library({id:id})).fetch({
+    var components = $('input[name=file], input[name=connection]', form)
+        .val()
+        .split('/');
+    var location = components.slice(0, components.length - 1).join('/');
+
+    if (target.is('.active')) (new models.Library({
+        id:id,
+        location:location,
+        project: this.model.collection.parent.id
+    })).fetch({
         success: _(function(model, resp) {
             new views.Library({
                 model: model,
