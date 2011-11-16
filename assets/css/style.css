@@ -33,6 +33,8 @@ p code {
   padding:2px;
 }
 
+.tokens code { font-size:11px; }
+
 body {
   padding:50px 0px 0px;
   background:#eee;
@@ -936,6 +938,8 @@ textarea {
   height:auto;
   resize:none;
   }
+
+textarea.expand { height:200px; }
 
 .button,
 input[type=button],

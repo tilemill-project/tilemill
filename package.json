@@ -36,7 +36,7 @@
         "tilelive-mapnik": "~0.2.0",
         "underscore": "1.1.x",
         "carto": "~0.4.3",
-        "wax": "3.0.8",
+        "wax": "~4.1.2",
         "node-markdown": "0.1.0",
         "sqlite3": "~2.0.16"
     },
