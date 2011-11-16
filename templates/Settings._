@@ -85,11 +85,11 @@
     <li class='dependent'>
       <label>Fields</label>
       <div class='description'>
-        These tokens will be replaced by data in the templates below:
-        <div class='tokens'></div>
-        You can also use the full
+        These <a target='blank' href='http://mustache.github.com/'>Mustache</a> tags will be replaced by data
+        in the templates below. You can also use the full
         <a target='blank' href='http://mustache.github.com/mustache.5.html'>Mustache template language</a>
         to customize your tooltips.
+        <div class='tokens'></div>
       </div>
     </li>
     <li class='dependent'>
@@ -98,12 +98,12 @@
       <div class='preview'></div>
     </li>
     <li class='dependent'>
-      <label>Teaser<small class='description'>HTML</small></label>
+      <label>Teaser<small class='description'>Basic HTML</small></label>
       <textarea cols='60' rows='2' name='template_teaser'><%= (get('interactivity') || {}).template_teaser %></textarea>
       <div class='preview'></div>
     </li>
     <li class='dependent'>
-      <label>Full<small class='description'>HTML</small></label>
+      <label>Full<small class='description'>Basic HTML</small></label>
       <textarea cols='60' rows='2' name='template_full'><%= (get('interactivity') || {}).template_full %></textarea>
       <div class='preview'></div>
     </li>
