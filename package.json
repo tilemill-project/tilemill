@@ -22,7 +22,7 @@
     "licenses": [{ "type": "BSD" }],
     "dependencies": {
         "backbone-dirty": "1.1.x",
-        "bones": "1.3.21",
+        "bones": "~1.3.20",
         "chrono": "~1.0.1",
         "JSV": "3.5.x",
         "mbtiles": "~0.1.2",
@@ -34,9 +34,9 @@
         "millstone": "https://github.com/mapbox/millstone/tarball/master",
         "sphericalmercator": "~1.0.1",
         "tilelive-mapnik": "~0.2.0",
-        "underscore": "1.2.x",
+        "underscore": "1.1.x",
         "carto": "~0.4.3",
-        "wax": "3.0.8",
+        "wax": "~4.1.2",
         "node-markdown": "0.1.0",
         "sqlite3": "~2.0.16"
     },

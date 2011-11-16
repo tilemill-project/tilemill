@@ -7,10 +7,18 @@ server = Bones.Server.extend({});
 
 server.prototype.initialize = function() {
     _.bindAll(this, 'load', 'grid', 'getArtifact', 'mbtiles', 'fromCache');
-    this.get('/1.0.0/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', this.mbtiles);
-    this.get('/1.0.0/:id.mbtiles/:z/:x/:y.:format(grid.json)', this.mbtiles);
-    this.get('/1.0.0/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', [this.fromCache, this.load, this.getArtifact]);
-    this.get('/1.0.0/:id/:z/:x/:y.:format(grid.json)', [this.fromCache, this.load, this.grid, this.getArtifact]);
+    this.get('/tile/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)',
+        this.mbtiles);
+    this.get('/tile/:id.mbtiles/:z/:x/:y.:format(grid.json)', this.mbtiles);
+    this.get('/tile/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg)', [
+        this.fromCache,
+        this.load,
+        this.getArtifact]);
+    this.get('/tile/:id/:z/:x/:y.:format(grid.json)', [
+        this.fromCache,
+        this.load,
+        this.grid,
+        this.getArtifact]);
 };
 
 server.prototype.load = function(req, res, next) {
@@ -48,10 +56,9 @@ server.prototype.getArtifact = function(req, res, next) {
     tilelive.load(uri, function(err, source) {
         if (err) return next(err);
 
-        var z = req.params.z, x = +req.params.x, y = +req.params.y;
-
-        // The interface is still TMS.
-        y = (1 << z) - 1 - y;
+        var z = req.params.z,
+            x = +req.params.x,
+            y = +req.params.y;
 
         var fn = req.params.format === 'grid.json' ? 'getGrid' : 'getTile';
         source[fn](z, x, y, function(err, tile, headers) {
@@ -74,7 +81,8 @@ server.prototype.grid = function(req, res, next) {
 };
 
 server.prototype.mbtiles = function(req, res, next) {
-    var uri = 'mbtiles://' + path.join(settings.files, 'export', req.param('id') + '.mbtiles');
+    var uri = 'mbtiles://' +
+        path.join(settings.files, 'export', req.param('id') + '.mbtiles');
     tilelive.load(uri, function(err, source) {
         if (err) return next(err);
 
