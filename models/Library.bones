@@ -41,14 +41,14 @@ model.prototype.schema = {
 
 model.prototype.url = function() {
     var url = '/api/Library/' + this.id;
-    if (!Bones.server && this.get('location')) {
-        url += '?' + $.param({location:this.get('location')});
+    if (!Bones.server && this.get('location') && this.get('project')) {
+        url += '?' + $.param({location:this.get('location'), project:this.get('project')});
     }
     return url;
 };
 
 model.prototype.initialize = function(attributes, options) {
     options = options || {};
-    if (options.location) this.set({'location': options.location});
+    if (options.location) this.set({'location': options.location, project:options.project});
 };
 
