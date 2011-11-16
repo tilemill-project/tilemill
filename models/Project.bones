@@ -25,7 +25,8 @@ model.prototype.schema = {
         // https://github.com/mapbox/tilelive-mapnik/issues/4
         'format': {
             'type': 'string',
-            'enum': ['png', 'png24', 'png8', 'jpeg80', 'jpeg85', 'jpeg90', 'jpeg95']
+            'enum': ['png', 'png24', 'png8', 'jpeg80', 'jpeg85',
+                'jpeg90', 'jpeg95']
         },
         'interactivity': {
             'type': ['object', 'boolean']
@@ -57,9 +58,15 @@ model.prototype.schema = {
             'maxItems': 4,
             'items': [
                 { 'type':'number', 'minimum': -180, 'maximum':180 },
-                { 'type':'number', 'minimum': -85.05112877980659, 'maximum': 85.05112877980659 },
+                {
+                    'type':'number',
+                    'minimum': -85.05112877980659,
+                    'maximum': 85.05112877980659 },
                 { 'type':'number', 'minimum': -180, 'maximum':180 },
-                { 'type':'number', 'minimum': -85.05112877980659, 'maximum': 85.05112877980659 }
+                {
+                    'type':'number',
+                    'minimum': -85.05112877980659,
+                    'maximum': 85.05112877980659 }
             ]
         },
         'center': {
@@ -68,7 +75,10 @@ model.prototype.schema = {
             'maxItems': 3,
             'items': [
                 { 'type':'number', 'minimum':-180, 'maximum':180 },
-                { 'type':'number', 'minimum':-85.05112877980659, 'maximum':85.05112877980659 },
+                {
+                    'type':'number',
+                    'minimum':-85.05112877980659,
+                    'maximum':85.05112877980659 },
                 { 'type':'integer', 'minimum':0, 'maximum':22 }
             ]
         },

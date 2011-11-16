@@ -21,6 +21,10 @@ releases:
 # - Ensured that saved files automatically contain the original file's extension if a custom filename is entered.
 # - Added autocomplete in Carto editor for properties, variables and values. Press 'tab' to activate.
 # - Upload MBTiles to MapBox Hosting directly from export menu.
+# - Includes SQLite fixes from Mapnik which ensure features are not missing and all join types are supported.
+# - Significant changes to how interactivity is authored and exported.
+#   [Mustache](http://mustache.github.com/) templates are now used instead of pure JavaScript.
+# - Add ability to browse entire local filesystem when adding or editing a layer.
 
 - version: 0.6.2
   date: 2011-11-01

@@ -1,6 +1,6 @@
 # Packaging TileMill.app standalone
 
-Thes are the steps to setup tilemill to be portable within an .app bundle.
+Thes are steps to setup tilemill to be portable within an .app bundle.
 
 This is only necessary for developers that wish to build a fully
 distributable tilemill.app without requiring any other installation steps.
@@ -44,12 +44,13 @@ This will keep these out of tilemill's local node_modules, avoid having to strip
 from the final package, and most importantly avoid any compile failures due to
 custom flags we set later on.
 
-    npm install -g jshint expresso
+    npm install -g jshint@0.2.x expresso@0.8.x
     
-Note: jshint installation will fail with clang compiler so do:
+Note: expresso's bundled jsconverage code may fail with the clang compiler so do:
 
     export CC=gcc
     export CXX=g++
+    npm install -g jshint
 
 
 ## Build tilemill
@@ -58,67 +59,28 @@ Clear out any previous builds:
 
     cd tilemill
     rm -rf node_modules
-    
+
 Also ensure that you have no globally installed node modules (other than `jshint` and `expresso`).
 You may need to check various node_modules depending on your $NODE_PATH.
+
+Possible locations include:
+
+    /usr/local/lib/node_modules/
+    /usr/local/lib/node/
+
+And the paths visible at:
+
+    node -e "require.paths"
 
 TODO: we should be able to avoid having to clear out node_modules by telling/tricking
 npm to avoid finding them (just needs testing).
 
-Now build tilemill with a few custom flags:
-
-    export CORE_CXXFLAGS="-O3 -arch x86_64 -arch i386 -mmacosx-version-min=10.6 -isysroot /Developer/SDKs/MacOSX10.6.sdk"
-    export CORE_LINKFLAGS="-arch x86_64 -arch i386 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk"
-    export CXXFLAGS=$CORE_LINKFLAGS
-    export LINKFLAGS=$CORE_LINKFLAGS
-    export JOBS=`sysctl -n hw.ncpu`
-    npm install . --verbose
-
-As long as you don't have any globally installed modules that tilemill uses, this should deposit all 
-tilemill dependencies in node_modules/. Now the task is to check on a few and rebuild a few.
-
-
-## Check node-zlib
-
-We need to make sure node-zlib is linked against the system zlib. The output of
-the command below should be similar to https://gist.github.com/1125399.
-
-    otool -L node_modules/mbtiles/node_modules/zlib/lib/zlib_bindings.node
-
-We also need to make sure that node-zlib and other C++ addons were compiled universal (both 32/64 bit).
-The command output should look like https://gist.github.com/1132771.
-
-    file node_modules/mbtiles/node_modules/zlib/lib/zlib_bindings.node
-
-
-## Check, node-srs, node-zipfile, and node-eio
-
-We need to do the same linking and architecture test for 3 more modules:
-
-    # eio
-    otool -L node_modules/tilelive-mapnik/node_modules/eio/build/default/eio.node
-    file node_modules/tilelive-mapnik/node_modules/eio/build/default/eio.node
-    
-    # srs
-    otool -L ./node_modules/millstone/node_modules/srs/lib/_srs.node
-    file ./node_modules/millstone/node_modules/srs/lib/_srs.node
-    
-    # zipfile
-    otool -L ./node_modules/millstone/node_modules/zipfile/lib/_zipfile.node
-    file ./node_modules/millstone/node_modules/zipfile/lib/_zipfile.node
-
-
-## Uninstall any globally installed libmapnik2.dylib
-
-    # move to where your mapnik sources are
-    cd src/mapnik-trunk
-    sudo make uninstall
-
 
 ## Set up Mapnik SDK
 
-Mapnik needs to be compiled such that all dependencies are either statically linked
-or are linked using @rpath/@loader_path (and then all those dylib deps are included).
+For portbility with the tilemill.app bundle Mapnik needs to be compiled such that
+all dependencies are either statically linked or are linked using @rpath/@loader_path
+(and then all those dylib deps are included).
 
 An experimental SDK includes all mapnik dependencies such that you can set up
 mapnik to be compiled statically against them.
@@ -146,23 +108,20 @@ Confirm the SDK is working by checking mapnik-config presence at that path:
     which mapnik-config | grep $MAPNIK_ROOT
 
 
-Note: the sdk was created using https://github.com/mapnik/mapnik-packaging/blob/master/osx/scripts/static-universal.sh
+Note: this sdk was created using https://github.com/mapnik/mapnik-packaging/blob/master/osx/scripts/static-universal.sh
 
-## Edit the mapnik-config script
 
-A major flaw in the portability of the above system we've yet to take time to tackle is the hardcoded
-absolute paths from the SDK creation. So, before continuing we need to manually edit the mapnik-config
-script.
+Now build tilemill with a few custom flags:
 
-Open the script:
+    export CORE_CXXFLAGS="-O3 -arch x86_64 -arch i386 -mmacosx-version-min=10.6 -isysroot /Developer/SDKs/MacOSX10.6.sdk"
+    export CORE_LINKFLAGS="-arch x86_64 -arch i386 -mmacosx-version-min=10.6 -isysroot /Developer/SDKs/MacOSX10.6.sdk"
+    export CXXFLAGS="$CORE_LINKFLAGS -I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
+    export LINKFLAGS="$CORE_LINKFLAGS -L$MAPNIK_ROOT/lib -L$MAPNIK_ROOT/usr/local/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
+    export JOBS=`sysctl -n hw.ncpu`
+    npm install . --verbose
 
-    vim `which mapnik-config`
-
-Edit the file and change all paths that include:
-
-    /Users/dane/projects/mapnik-dev/trunk-build-static-universal/osx/sources
-
-To be equal to your $MAPNIK_ROOT value.
+As long as you don't have any globally installed modules that tilemill uses, this should deposit all 
+tilemill dependencies in node_modules/. Now the task is to check on a few and rebuild a few.
 
 
 ## Change into tilemill dir
@@ -173,7 +132,7 @@ navigate to your tilemill development directory.
    cd ~/tilemill # or wherever you git cloned tilemill
 
 
-## Rebuild node-mapnik
+## Fixup node-mapnik
 
 
 Move to the node-mapnik directory:
@@ -181,11 +140,8 @@ Move to the node-mapnik directory:
     cd node_modules/mapnik/
 
 
-Then rebuild like:
+Then fixup node-mapnik install so that the plugins work:
 
-    make clean
-    export CXXFLAGS="-I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
-    export LINKFLAGS="-L$MAPNIK_ROOT/lib -L$MAPNIK_ROOT/usr/local/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
     export MAPNIK_INPUT_PLUGINS="path.join(__dirname, 'input')"
     export MAPNIK_FONTS="path.join(__dirname, 'fonts')"
     ./configure
@@ -207,10 +163,11 @@ Then rebuild like:
     done;
 
 
-Run the tests:
+Run the node-mapnik tests:
 
     make test
 
+Note: you should see one failure like: `Error: failed to initialize projection with: '+init=epsg:4326'`
 
 Check a few things:
 
@@ -226,19 +183,13 @@ Now go back to the main tilemill directory:
     cd ../../
 
 
-And check builds overall. These commands can help find possible errors but are not necessary to run:
+Remove cruft:
 
-    # for reference see all the C++ module dependencies
-    for i in $(find . -name '*.node'); do otool -L $i; done;
-
-    # should return nothing
-    for i in $(find . -name '*.node'); do otool -L $i | grep local; done;
-
-    # dump out file to inspect if problems
-    for i in $(find . -name '*.node'); do otool -L $i >>t.txt; done;
+    rm node_modules/bones/node_modules/jquery/node_modules/htmlparser/libxmljs.node
+    rm node_modules/mapnik/build/default/_mapnik.node
 
 
-Test that the app still works
+Test that the app works:
 
     ./index.js
 
