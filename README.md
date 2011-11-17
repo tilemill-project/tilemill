@@ -5,6 +5,13 @@ on the [TileMill website](http://mapbox.com/tilemill).
 - [Download and install](http://mapbox.com/tilemill/download/)
 - [Build from source](http://mapbox.com/tilemill/docs/source/)
 
+# Running tests
+
+Install expresso and run the tests
+
+   npm install expresso
+   npm test
+
 # Viewing docs locally
 
 ## Install jekyll
