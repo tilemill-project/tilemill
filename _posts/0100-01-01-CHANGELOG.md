@@ -14,7 +14,7 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
-# - version x.x
+# - version 0.7.0
 #
 # notes:
 # - Fixed a bug in the Mac app where saving files such as exports would not obey custom filenames entered.
