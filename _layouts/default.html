@@ -3,7 +3,7 @@
 # -----------------------------
 navigation:
   - title: Maps
-    path: "http://tiles.mapbox.com"
+    path: http://tiles.mapbox.com
     category: maps
   - title: Design
     path: /tilemill
@@ -49,7 +49,11 @@ footer:
   <ul class='menu'>
     {% for item in page.navigation %}
     <li class='{{item.category}} {% if page.category contains item.category or item.category == page.section %}active{% endif %}'>
+      {% if item.path contains '://' %}
+      <a href='{{item.path}}'><span class='icon'></span>{{item.title}}</a>
+      {% else %}
       <a href='{{site.url}}{{item.path}}'><span class='icon'></span>{{item.title}}</a>
+      {% endif %}
     </li>
     {% endfor %}
   </ul>
