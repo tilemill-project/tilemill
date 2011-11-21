@@ -175,11 +175,26 @@ view.prototype.makeStylesheet = function(model) {
 
     var cartoCompleter = cartoCompletion(model.codemirror, window.abilities.carto);
 
+    function updateSelectors(model) {
+        var ids = _.map(model.get('Layer').pluck('id'), function(x) { return '#' + x; });
+        var classes = _(model.get('Layer').pluck('class')).chain().map(
+            function(c) {
+                var cs = c.split(' ');
+                if (cs[0] == '') return '';
+                return _.map(cs, function(x) { return '.' + x; });
+            }).flatten().compact().value();
+        cartoCompleter.ids(ids);
+        cartoCompleter.classes(classes);
+    }
+
+    this.model.bind('change', updateSelectors);
+    updateSelectors(this.model);
+
     model.codemirror.setOption('onKeyEvent',
         cartoCompleter.onKeyEvent);
 
     model.codemirror.setOption('onHighlightComplete',
-        _.throttle(cartoCompleter.setTitles, 500));
+        _.throttle(cartoCompleter.setTitles, 100));
 
     $(model.codemirror.getWrapperElement())
         .addClass(id)

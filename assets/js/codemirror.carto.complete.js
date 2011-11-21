@@ -6,6 +6,8 @@
     function cartoCompletion(editor, reference) {
         var widget = document.createElement('div'),
             sel = widget.appendChild(document.createElement('select')),
+            ids = [],
+            classes = [],
             $widget = $(widget),
             $sel = $(sel);
 
@@ -67,6 +69,12 @@
                 }
             } else if (token.className === 'carto-variable') {
                 against = getVariables();
+            } else if (token.className === 'carto-selector') {
+                if (token.string[0] == '.') {
+                    against = classes;
+                } else {
+                    against = ids;
+                }
             } else {
                 against = valid_identifiers;
             }
@@ -78,6 +86,8 @@
                     return i + ';';
                 } else if (token.className === 'carto-variable') {
                     return i;
+                } else if (token.className === 'carto-selector') {
+                    return i + ' {';
                 } else {
                     return i + ':';
                 }
@@ -97,7 +107,7 @@
 
             // If this is not on a token that's autocompletable,
             // insert a tab.
-            if (!/@?[\w-$_]+$/.test(token.string)) {
+            if (!/(@|#|\.)?[\w-$_]+$/.test(token.string)) {
                 editor.focus();
                 return !/^\s*$/.test(token.string);
             }
@@ -228,6 +238,12 @@
             },
             setTitles: function() {
                 setTitles();
+            },
+            ids: function(x) {
+                ids = x;
+            },
+            classes: function(x) {
+                classes = x;
             }
         };
     }
