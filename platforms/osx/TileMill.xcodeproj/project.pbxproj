@@ -24,6 +24,7 @@
 		DD4F9DDC1419914400278ECD /* PFMoveApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F9DDB1419914400278ECD /* PFMoveApplication.m */; };
 		DD4F9DE2141991A400278ECD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F9DE1141991A400278ECD /* Security.framework */; };
 		DD4F9DE51419923C00278ECD /* NSString+SymlinksAndAliases.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F9DE41419923C00278ECD /* NSString+SymlinksAndAliases.m */; };
+		DD5904CC147AE1A900BF4AD0 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD5904CB147AE1A900BF4AD0 /* WebKit.framework */; };
 		DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6F0D5C13F981140055EFAE /* Cocoa.framework */; };
 		DD6F0D6113F982770055EFAE /* MBTiles.qlgenerator in Copy QuickLook Plugin */ = {isa = PBXBuildFile; fileRef = DD6F0D4F13F97F120055EFAE /* MBTiles.qlgenerator */; };
 		DD6F0DBE13F989550055EFAE /* MBTiles.mdimporter in Copy Spotlight Importer */ = {isa = PBXBuildFile; fileRef = DD6F0DBA13F989220055EFAE /* MBTiles.mdimporter */; };
@@ -126,6 +127,7 @@
 		DD4F9DE1141991A400278ECD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		DD4F9DE31419923C00278ECD /* NSString+SymlinksAndAliases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SymlinksAndAliases.h"; path = "Externals/LetsMove/NSString+SymlinksAndAliases.h"; sourceTree = "<group>"; };
 		DD4F9DE41419923C00278ECD /* NSString+SymlinksAndAliases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+SymlinksAndAliases.m"; path = "Externals/LetsMove/NSString+SymlinksAndAliases.m"; sourceTree = "<group>"; };
+		DD5904CB147AE1A900BF4AD0 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		DD6F0D4713F97F120055EFAE /* MBTilesQuickLook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MBTilesQuickLook.xcodeproj; sourceTree = "<group>"; };
 		DD6F0D5C13F981140055EFAE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DD6F0DB213F989210055EFAE /* MBTiles Spotlight Importer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "MBTiles Spotlight Importer.xcodeproj"; path = "MBTiles Spotlight Importer/MBTiles Spotlight Importer.xcodeproj"; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */,
 				DD4F9DE2141991A400278ECD /* Security.framework in Frameworks */,
 				DDE4970213FEAEE0006E35F3 /* Sparkle.framework in Frameworks */,
+				DD5904CC147AE1A900BF4AD0 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +214,7 @@
 				DD6F0D5C13F981140055EFAE /* Cocoa.framework */,
 				DD4F9DE1141991A400278ECD /* Security.framework */,
 				DDE4970013FEADC1006E35F3 /* Sparkle.framework */,
+				DD5904CB147AE1A900BF4AD0 /* WebKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
