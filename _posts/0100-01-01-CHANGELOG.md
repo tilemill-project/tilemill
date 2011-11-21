@@ -15,6 +15,9 @@ permalink: /docs/changelog
 releases:
 
 - version: 0.7.0
+  date: 2011-11-20
+  size: 58399814
+  sign: MCwCFAu3C+3JqUaOqwbpWmkKH0Q8jzCJAhRjiQ5D1z1DWbt/0taeJo3dv+O9VQ==
 
   notes:
   - Fixed a bug in the Mac app where saving files such as exports would not obey custom filenames entered.
