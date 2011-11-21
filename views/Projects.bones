@@ -1,11 +1,10 @@
 view = Backbone.View.extend({
     events: {
         'click .actions a[href=#add]': 'add',
-        'click .actions a[href=#exports]': 'exportList',
         'click .delete': 'del'
     },
     initialize: function() {
-        _(this).bindAll('render', 'add', 'del', 'exportList');
+        _(this).bindAll('render', 'add', 'del');
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
         this.render();
@@ -36,23 +35,5 @@ view = Backbone.View.extend({
             affirmative: 'Delete'
         });
         return false;
-    },
-    exportList: function(ev) {
-        $('#popup').addClass('loading');
-        Bones.models = Bones.models || {};
-        Bones.models.exports = Bones.models.exports || new models.Exports();
-        Bones.models.exports.fetch({
-            success: function(collection) {
-                $('#popup').removeClass('loading');
-                new views.Exports({
-                    collection: collection,
-                    el: $('#popup')
-                });
-            },
-            error: function(m, e) {
-                $('#popup').removeClass('loading');
-                new views.Modal(e);
-            }
-        });
     }
 });

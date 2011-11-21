@@ -31,7 +31,7 @@ view.prototype.render = function() {
             .compact()
             .reduce(function(memo, part) {
                 if (!memo.length) {
-                    memo.push(part);
+                    memo.push('/' + part);
                 } else {
                     memo.push(_(memo).last() + '/' + part);
                 }

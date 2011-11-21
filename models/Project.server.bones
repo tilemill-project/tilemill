@@ -98,7 +98,8 @@ models.Project.prototype.validateAsync = function(attributes, options) {
 };
 
 // Wrap save to call validateAsync first.
-models.Project.prototype.save = _(Backbone.Model.prototype.save).wrap(function(parent, attrs, options) {
+models.Project.prototype.save = _(Backbone.Model.prototype.save)
+.wrap(function(parent, attrs, options) {
     var err = this.validate(attrs);
     if (err) return options.error(this, err);
 
@@ -124,7 +125,7 @@ function flushProject(model, callback) {
         cache: path.join(settings.files, 'cache')
     };
     millstone.flush(options, callback);
-};
+}
 
 // Get the mtime for a project.
 function mtimeProject(model, callback) {
@@ -139,7 +140,23 @@ function mtimeProject(model, callback) {
             .value();
         callback(null, max);
     });
-};
+}
+
+// Migrate a TileJSON 1.0.0 project to 2.0.0
+function migrate100_200(object) {
+    function formatterToTemplate(formatter) {
+        return formatter.replace(/\[([\w\d]+)\]/g, '{{{$1}}}');
+    }
+    if (object.interactivity) {
+        _([
+          'template_teaser',
+          'template_full',
+          'template_location']).each(function(t) {
+            object.interactivity[t] = formatterToTemplate(object.interactivity[t]);
+        });
+    }
+    return object;
+}
 
 // Load a single project model.
 function loadProject(model, callback) {
@@ -171,11 +188,18 @@ function loadProject(model, callback) {
         }
     },
     function(err, stylesheets) {
-        if (err) throw err;
+        if (err && err.code === 'ENOENT') {
+            stylesheets = _(stylesheets).compact();
+        } else if (err) {
+            return this(err);
+        }
 
         // Embed stylesheet contents at the `Stylesheet` key.
         object.Stylesheet = _(stylesheets).map(function(file) {
-            return { id: file.basename, data: file.data };
+            return {
+                id: file.basename,
+                data: file.data
+            };
         });
 
         // Migrate old properties to tilejson equivalents.
@@ -192,13 +216,27 @@ function loadProject(model, callback) {
             ];
         }
 
+        // TileJSON version migration
+        switch (object.tilejson) {
+            // Current version should be at the top
+            case '2.0.0':
+                break;
+            // version-less object is 1.0.0
+            default:
+                object = migrate100_200(object);
+                break;
+        }
+
         // Generate dynamic properties.
-        object.tilejson = '1.0.0';
-        object.scheme = 'tms';
-        object.tiles = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (object.format || 'png') + '?updated=' + object._updated];
-        object.grids = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?updated=' + object._updated];
+        object.tilejson = '2.0.0';
+        object.scheme = 'xyz';
+        object.tiles = ['/tile/' + model.id + '/{z}/{x}/{y}.' +
+            (object.format || 'png') +
+            '?updated=' + object._updated];
+        object.grids = ['/tile/' + model.id + '/{z}/{x}/{y}.grid.json' +
+            '?updated=' + object._updated];
         if (object.interactivity) {
-            object.formatter = formatter(object.interactivity);
+            object.template = template(object.interactivity);
             object.interactivity.fields = fields(object);
         }
         this();
@@ -206,7 +244,7 @@ function loadProject(model, callback) {
     function(err) {
         return callback(err, object);
     });
-};
+}
 
 // Load all projects into an array.
 function loadProjectAll(model, callback) {
@@ -234,7 +272,7 @@ function loadProjectAll(model, callback) {
         });
         return callback(null, models);
     });
-};
+}
 
 // Destroy a project. `rm -rf` equivalent for the project directory.
 function destroyProject(model, callback) {
@@ -285,14 +323,17 @@ function saveProject(model, callback) {
         var updated = stat && Date.parse(stat.mtime) || (+ new Date());
         callback(err, {
             _updated: updated,
-            tiles: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (model.get('format') || 'png') + '?updated=' + updated],
-            grids: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?updated=' + updated],
-            formatter: model.get('interactivity')
-                ? formatter(model.get('interactivity'))
+            tiles: ['/tile/' + model.id + '/{z}/{x}/{y}.' +
+                (model.get('format') || 'png') +
+                '?updated=' + updated],
+            grids: ['/tile/' + model.id + '/{z}/{x}/{y}.grid.json' +
+                '?updated=' + updated],
+            template: model.get('interactivity')
+                ? template(model.get('interactivity'))
                 : undefined
         });
     });
-};
+}
 
 function compileStylesheet(mml, callback) {
     // Parse project stylesheets for `font-directory` property and register
@@ -324,7 +365,7 @@ function compileStylesheet(mml, callback) {
         if (err) callback(err);
         else callback(null, output);
     });
-};
+}
 
 var localizedCache = {};
 
@@ -399,32 +440,29 @@ function fields(opts) {
     // Determine fields that need to be included from templates.
     // @TODO allow non-templated fields to be included.
     var fields = [full, teaser, location]
-        .join(' ').match(/\[([\w\d]+)\]/g);
+        .join(' ').match(/\{\{#?\/?\^?([\w\d]+)\}\}/g);
 
     // Include `key_field` for PostGIS Layers.
     var layer = opts.interactivity.layer;
     _(opts.Layer).each(function(l) {
         if (l.id !== opts.interactivity.layer) return;
         if (l.Datasource && l.Datasource.key_field)
-            fields.push('[' + l.Datasource.key_field + ']');
+            fields.push('{{{' + l.Datasource.key_field + '}}}');
     });
 
     return _(fields).chain()
         .filter(_.isString)
-        .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
+        .map(function(field) {
+            return field.replace(/[\{\{|\}\}]/g, '');
+        })
         .uniq()
         .value();
-};
+}
 
-// Generate formatter function from templates.
-function formatter(opts) {
+// Generate combined template from templates.
+function template(opts) {
     opts = opts || {};
-    var full = opts.template_full || '';
-    var teaser = opts.template_teaser || '';
-    var location = opts.template_location || '';
-    full = _(full.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
-    teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
-    location = _(location.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
-    return _('function(o,d) { return {full:<%=obj.full%>, teaser:<%=obj.teaser%>, location:<%=obj.location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
-};
-
+    return '{{#__location__}}' + (opts.template_full || '') + '{{/__location__}}' +
+        '{{#__teaser__}}' + (opts.template_teaser || '') + '{{/__teaser__}}' +
+        '{{#__full__}}' + (opts.template_full || '') + '{{/__full__}}';
+}

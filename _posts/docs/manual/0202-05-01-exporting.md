@@ -9,7 +9,7 @@ Once you've finished a map design, you can export your map for use in other appl
 
 ## MBTiles
 
-Use MBTiles to export your project as a pannable, zoomable map just like the preview you see in TileMill. You can upload MBTiles to [MapBox Hosting](http://mapbox.com/hosting/) or [TileStream](http://mapbox.com/tilestream/) for hosting on the web, transfer them to [MapBox for iPad](http://mapbox.com/ipad/) for offline access or for presentations, or manipulate them with a variety of [other tools](https://github.com/mapbox/mbtiles-spec/wiki/Implementations).
+Use MBTiles to export your project as a pannable, zoomable map just like the preview you see in TileMill. You can upload MBTiles to [MapBox Hosting](http://mapbox.com/hosting/) directly from TileMill. You can also save MBTiles files and host them yourself with [TileStream](https://github.com/mapbox/tilestream) or transfer them to [MapBox for iPad](http://mapbox.com/ipad/) for offline access.
 
 ## PNG
 

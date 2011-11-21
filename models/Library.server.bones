@@ -45,34 +45,48 @@ models.Library.prototype.sync = function(method, model, success, error) {
     case 'file':
     case 'sqlite':
         // @TODO: disallow .. and other nasty things.
-        var location = model.get('location') || '/';
-        var filepath = path.join(config.files, 'data', location);
-        readdir(filepath, function(err, files) {
-            if (err) return error(err);
-            var data = {};
-            var ext = model.id === 'file' ? extFile : extSqlite;
-            data.id = model.id;
-            data.location = location;
-            data.assets = _(files).chain()
-                .sortBy(function(f) {
-                    var pre = f.isDirectory() ? 0 : 1;
-                    return pre + f.basename;
-                })
-                .map(function(f) {
-                    var asset = { name: f.basename };
-                    var local = path.join(location, f.basename);
-                    var uri = path.join(filepath, f.basename);
-                    if (f.isFile() && _(ext).include(path.extname(f.basename).toLowerCase())) {
-                        asset.uri = uri;
-                        return asset;
-                    } else if (f.isDirectory()) {
-                        asset.location = local;
-                        return asset;
-                    }
-                })
-                .compact()
-                .value()
-            return success(data);
+        var location = model.get('location') || path.join(process.env.HOME, 'Documents');
+
+        // Resolve paths relative to project directory.
+        if (location[0] !== '/') {
+            location = path.join(config.files, 'project', model.get('project'), location);
+        }
+
+        path.exists(location, function(exists) {
+            if (!exists) {
+                location = path.join(process.env.HOME, 'Documents');
+            }
+            var filepath = path.join('/', location);
+            readdir(filepath, function(err, files) {
+                if (err) return error(err);
+                var data = {};
+                var ext = model.id === 'file' ? extFile : extSqlite;
+                data.id = model.id;
+                data.location = location;
+                data.assets = _(files).chain()
+                    .reject(function(f) { return f.basename[0] === '.'; })
+                    // Reject Icon? files from Mac OS X. See #917.
+                    .reject(function(f) { return f.basename === 'Icon\r'; })
+                    .sortBy(function(f) {
+                        var pre = f.isDirectory() ? 0 : 1;
+                        return pre + f.basename;
+                    })
+                    .map(function(f) {
+                        var asset = { name: f.basename };
+                        var local = path.join(location, f.basename);
+                        var uri = path.join(filepath, f.basename);
+                        if (f.isFile() && _(ext).include(path.extname(f.basename).toLowerCase())) {
+                            asset.uri = uri;
+                            return asset;
+                        } else if (f.isDirectory()) {
+                            asset.location = local;
+                            return asset;
+                        }
+                    })
+                    .compact()
+                    .value()
+                return success(data);
+            });
         });
         break;
     case 's3':

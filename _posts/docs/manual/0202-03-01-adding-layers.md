@@ -40,11 +40,17 @@ Since Mapnik is currently unable to reproject raster data sources, to load them 
       -te -20037508.34 -20037508.34 20037508.34 20037508.34 \
       input_file.tif output_file.tif
 
+
+## SQLite
+
+[SQLite](http://sqlite.org/) is a compact database format with spatial types - and [Spatialite](http://www.gaia-gis.it/spatialite/) is an extension to SQLite that provides PostGIS-like functionality, including reprojection. TileMill supports both formats through the 'SQLite' panel of the Add Layer dialog.
+
+
 ## PostGIS
 
-[PostGIS](http://postgis.refractions.net/) is an extension for PostgreSQL that allows you to store geographical objects in a database. It provides special functions and indexes for querying and manipulating spatial data and can be used as a powerful storage/analysis tool. From TileMill you can connect to a PostGIS supported database and run queries from the application directly.
+[PostGIS](http://postgis.refractions.net/) is an extension for the general-purpose [PostgreSQL](http://www.postgresql.org/) database that allows you to store geographical objects in a database. It provides special functions and indexes for querying and manipulating spatial data and can be used as a powerful storage/analysis tool. From TileMill you can connect to a PostGIS supported database and run queries from the application directly.
 
-When adding a PostGIS layer to your project you will need to supply a connection string with at least some of the following information:
+When adding a PostGIS layer to your project you will need to supply a connection string. The following options are available:
 
 - `dbname` **Required.** The database that containing geodata for your layer.
 - `user` Your PostGIS username.

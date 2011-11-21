@@ -1,6 +1,6 @@
 {
     "name": "tilemill",
-    "version": "0.6.2",
+    "version": "0.7.0",
     "main": "./tilemill.js",
     "description": "A modern map design studio.",
     "keywords": ["map", "design", "cartography"],
@@ -22,7 +22,7 @@
     "licenses": [{ "type": "BSD" }],
     "dependencies": {
         "backbone-dirty": "1.1.x",
-        "bones": "1.3.21",
+        "bones": "~1.3.20",
         "chrono": "~1.0.1",
         "JSV": "3.5.x",
         "mbtiles": "~0.1.2",
@@ -30,18 +30,17 @@
         "request": "1.9.x",
         "step": "0.0.x",
         "tilelive": "~4.0.3",
-        "mapnik": "~0.5.8",
-        "millstone": "~0.2.2",
+        "mapnik": "~0.5.9",
+        "millstone": "~0.3.0",
         "sphericalmercator": "~1.0.1",
         "tilelive-mapnik": "~0.2.0",
-        "underscore": "1.2.x",
+        "underscore": "1.1.x",
         "carto": "~0.4.3",
-        "wax": "3.0.8",
+        "wax": "~4.1.2",
         "node-markdown": "0.1.0",
         "sqlite3": "~2.0.16"
     },
     "devDependencies": {
-        "expresso" : "0.8.x",
         "jshint": "0.2.x"
     },
     "scripts": {

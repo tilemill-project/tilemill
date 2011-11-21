@@ -26,6 +26,15 @@ code,
 pre,
 div.CodeMirror { font-family:DroidSansMono,monospace; }
 
+p code {
+  font-size:12px;
+  line-height:20px;
+  background:#f0f8fa;
+  padding:2px;
+}
+
+.tokens code { font-size:11px; }
+
 body {
   padding:50px 0px 0px;
   background:#eee;
@@ -844,6 +853,7 @@ li:hover .icon { display:block; }
 .icon.star              { background-position:-600px -180px; }
 .icon.cloud             { background-position:-620px -180px; }
 .icon.eye               { background-position:-640px -180px; }
+.icon.upload            { background-position:-680px -180px; }
 
 .reverse.edit           { background-position:0px -200px; }
 .reverse.inspect        { background-position:-20px -200px; }
@@ -876,6 +886,7 @@ li:hover .icon { display:block; }
 .reverse.star           { background-position:-600px -200px; }
 .reverse.cloud          { background-position:-620px -200px; }
 .reverse.eye            { background-position:-640px -200px; }
+.reverse.upload         { background-position:-680px -200px; }
 
 /* Dock-icon specific reverse styles */
 .dock .active > .icon.legend   { background-position:-280px -200px; }
@@ -890,6 +901,7 @@ li:hover .icon { display:block; }
 .filetype.pdf     { background-position:-40px -320px; }
 .filetype.mbtiles { background-position:-80px -320px; }
 .filetype.zip     { background-position:-120px -320px; }
+.filetype.upload  { background-position:-200px -320px; }
 
 /* Export status icons */
 .icon.processing { background-position:-40px -220px; }
@@ -926,6 +938,8 @@ textarea {
   height:auto;
   resize:none;
   }
+
+textarea.expand { height:200px; }
 
 .button,
 input[type=button],
@@ -966,6 +980,19 @@ input[type=submit]:active {
   border-color:#666;
   background-position:0px -110px;
   box-shadow:inset #999 0px -1px 0px;
+  }
+
+.button.large {
+  font-size:15px;
+  line-height:40px;
+  height:40px;
+  background-position:0px -440px;
+  padding:0px 20px;
+  }
+
+.button.large:active,
+.button.large.active {
+  background-position:0px -400px;
   }
 
 /* Joined buttons */
@@ -1415,13 +1442,23 @@ div.fonts { padding-top:30px; }
   position:absolute !important;
   left:20px !important;
   right:20px !important;
-  top:80px !important;
+  top:100px !important;
   bottom:20px !important;
   width:auto !important;
   height:auto !important;
   box-shadow:inset #ddd 0px 0px 5px;
   -moz-box-shadow:inset #ddd 0px 0px 5px;
   -webkit-box-shadow:inset #ddd 0px 0px 5px;
+  }
+
+#popup .preview p {
+  margin:0;
+  float:left;
+  width:400px
+  }
+
+#popup .preview .buttons {
+  padding:10px 0px;
   }
 
 /* Error page */

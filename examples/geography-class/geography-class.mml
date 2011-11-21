@@ -13,7 +13,7 @@
   "format": "png",
   "interactivity": {
     "layer": "country-interaction",
-    "template_teaser": "<img src=\"data:image/png;base64,[flagpng]\" /><br />\n<strong>[ADMIN]</strong>",
+    "template_teaser": "<img src=\"data:image/png;base64,{{flagpng}}\" /><br />\n<strong>{{ADMIN}}</strong>",
     "template_full": "",
     "template_location": "",
     "fields": [

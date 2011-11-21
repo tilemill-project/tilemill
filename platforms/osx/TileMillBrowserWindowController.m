@@ -29,7 +29,8 @@
 
 - (void)awakeFromNib
 {
-    [[self window] center];
+    if ( ! [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"NSWindow Frame %@", [[self window] frameAutosaveName]]])
+        [[self window] center];
 }
 
 - (void)dealloc
@@ -79,7 +80,12 @@
     {
         if (result == NSFileHandlingPanelOKButton)
         {
-            NSURL *destinationURL = [[NSURL URLWithString:remoteURL.lastPathComponent relativeToURL:savePanel.directoryURL] filePathURL];
+            NSString *destinationName = savePanel.nameFieldStringValue;
+            
+            if ([destinationName.pathExtension isNotEqualTo:remoteURL.pathExtension])
+                destinationName = [NSString stringWithFormat:@"%@.%@", destinationName, remoteURL.pathExtension];
+            
+            NSURL *destinationURL = [[NSURL URLWithString:destinationName relativeToURL:savePanel.directoryURL] filePathURL];
 
             NSData *saveData = [NSData dataWithContentsOfURL:remoteURL];
             

@@ -14,6 +14,21 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+- version: 0.7.0
+  date: 2011-11-20
+  size: 58399814
+  sign: MCwCFAu3C+3JqUaOqwbpWmkKH0Q8jzCJAhRjiQ5D1z1DWbt/0taeJo3dv+O9VQ==
+
+  notes:
+  - Fixed a bug in the Mac app where saving files such as exports would not obey custom filenames entered.
+  - Ensured that saved files automatically contain the original file's extension if a custom filename is entered.
+  - Added autocomplete in Carto editor for properties, variables and values. Press 'tab' to activate.
+  - Upload MBTiles to MapBox Hosting directly from export menu.
+  - Includes SQLite fixes from Mapnik which ensure features are not missing and all join types are supported.
+  - Significant changes to how interactivity is authored and exported.
+    [Mustache](http://mustache.github.com/) templates are now used instead of pure JavaScript.
+  - Add ability to browse entire local filesystem when adding or editing a layer.
+
 - version: 0.6.2
   date: 2011-11-01
   size: 61254835

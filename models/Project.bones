@@ -25,7 +25,8 @@ model.prototype.schema = {
         // https://github.com/mapbox/tilelive-mapnik/issues/4
         'format': {
             'type': 'string',
-            'enum': ['png', 'png24', 'png8', 'jpeg80', 'jpeg85', 'jpeg90', 'jpeg95']
+            'enum': ['png', 'png24', 'png8', 'jpeg80', 'jpeg85',
+                'jpeg90', 'jpeg95']
         },
         'interactivity': {
             'type': ['object', 'boolean']
@@ -57,9 +58,15 @@ model.prototype.schema = {
             'maxItems': 4,
             'items': [
                 { 'type':'number', 'minimum': -180, 'maximum':180 },
-                { 'type':'number', 'minimum': -85.05112877980659, 'maximum': 85.05112877980659 },
+                {
+                    'type':'number',
+                    'minimum': -85.05112877980659,
+                    'maximum': 85.05112877980659 },
                 { 'type':'number', 'minimum': -180, 'maximum':180 },
-                { 'type':'number', 'minimum': -85.05112877980659, 'maximum': 85.05112877980659 }
+                {
+                    'type':'number',
+                    'minimum': -85.05112877980659,
+                    'maximum': 85.05112877980659 }
             ]
         },
         'center': {
@@ -68,7 +75,10 @@ model.prototype.schema = {
             'maxItems': 3,
             'items': [
                 { 'type':'number', 'minimum':-180, 'maximum':180 },
-                { 'type':'number', 'minimum':-85.05112877980659, 'maximum':85.05112877980659 },
+                {
+                    'type':'number',
+                    'minimum':-85.05112877980659,
+                    'maximum':85.05112877980659 },
                 { 'type':'integer', 'minimum':0, 'maximum':22 }
             ]
         },
@@ -243,7 +253,7 @@ model.prototype.validate = function(attr) {
 // [1]: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
 model.prototype.thumb = function() {
     var z = this.get('center')[2];
-    var lat_rad = this.get('center')[1] * Math.PI / 180 * -1; // -1 for TMS (flipped from OSM)
+    var lat_rad = this.get('center')[1] * Math.PI / 180;
     var x = parseInt((this.get('center')[0] + 180.0) / 360.0 * Math.pow(2, z));
     var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2, z));
     return this.get('tiles')[0]

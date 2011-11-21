@@ -140,7 +140,9 @@ view.prototype.makeLayer = function(model) {
 
 view.prototype.makeStylesheet = function(model) {
     if (!CodeMirror) throw new Error('CodeMirror not found.');
-    var codeEl = this.$('.code').get(0), self = this, id = 'stylesheet-' + model.id.replace(/[\.]/g, '-');
+    var codeEl = this.$('.code').get(0),
+        self = this,
+        id = 'stylesheet-' + model.id.replace(/[\.]/g, '-');
     model.el = $(templates.ProjectStylesheet(model));
     model.codemirror = CodeMirror(codeEl, {
         value: model.get('data'),
@@ -157,7 +159,9 @@ view.prototype.makeStylesheet = function(model) {
         onChange: function() {
             // onchange runs before this function is finished,
             // so self.codemirror is false.
-            model.codemirror && model.set({'data': model.codemirror.getValue()});
+            model.codemirror && model.set({
+                data: model.codemirror.getValue()
+            });
             self.colors();
         },
         onGutterClick: _(function(editor, line, ev) {
@@ -168,6 +172,8 @@ view.prototype.makeStylesheet = function(model) {
             }
         }).bind(this)
     });
+    model.codemirror.setOption('onKeyEvent',
+        cartoCompletion(model.codemirror, window.abilities.carto).onKeyEvent);
     $(model.codemirror.getWrapperElement())
         .addClass(id)
         .addClass(model.collection.indexOf(model) === 0 ? 'active' : '');

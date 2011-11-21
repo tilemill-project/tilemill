@@ -7,7 +7,11 @@ build:
 		if [ -f "$$file/Makefile" ]; then \
 			cd $$file ; \
 			make clean ; \
-			./configure ; \
+			if [ $$(echo "$$file" | grep "sqlite2") ]; then \
+		        ./configure --with-sqlite3=/usr/lib ; \
+			else \
+			    ./configure ; \
+			fi ; \
 			make ; \
 		fi ; \
 	done
