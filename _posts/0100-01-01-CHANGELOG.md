@@ -17,7 +17,7 @@ releases:
 - version: 0.7.0
   date: 2011-11-20
   size: 58399814
-  sign: MC4CFQCkkwREgDM8wyItVN8KWnusZ9YQOgIVAMAOtdJB7PE7oozNswrSSpIaqmeU
+  sign: MC0CFHAL6z6Qu8AngabQzPSUXSGNXg9GAhUAn5LtAU6D4nt06YIXRwG9/zB7upc=
 
   notes:
   - Fixed a bug in the Mac app where saving files such as exports would not obey custom filenames entered.
