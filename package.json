@@ -1,6 +1,6 @@
 {
     "name": "tilemill",
-    "version": "0.6.2",
+    "version": "0.7.0",
     "main": "./tilemill.js",
     "description": "A modern map design studio.",
     "keywords": ["map", "design", "cartography"],
@@ -30,8 +30,8 @@
         "request": "1.9.x",
         "step": "0.0.x",
         "tilelive": "~4.0.3",
-        "mapnik": "~0.5.8",
-        "millstone": "https://github.com/mapbox/millstone/tarball/master",
+        "mapnik": "~0.5.9",
+        "millstone": "~0.3.0",
         "sphericalmercator": "~1.0.1",
         "tilelive-mapnik": "~0.2.0",
         "underscore": "1.1.x",
@@ -41,7 +41,6 @@
         "sqlite3": "~2.0.16"
     },
     "devDependencies": {
-        "expresso" : "0.8.x",
         "jshint": "0.2.x"
     },
     "scripts": {

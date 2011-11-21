@@ -65,6 +65,8 @@ models.Library.prototype.sync = function(method, model, success, error) {
                 data.location = location;
                 data.assets = _(files).chain()
                     .reject(function(f) { return f.basename[0] === '.'; })
+                    // Reject Icon? files from Mac OS X. See #917.
+                    .reject(function(f) { return f.basename === 'Icon\r'; })
                     .sortBy(function(f) {
                         var pre = f.isDirectory() ? 0 : 1;
                         return pre + f.basename;

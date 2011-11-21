@@ -1,12 +1,13 @@
 
 
 TARGET=build/Release/TileMill.app/Contents/Resources/
+JOBS=`sysctl -n hw.ncpu`
 
 build:
-	@xcodebuild -project TileMill.xcodeproj
+	@xcodebuild -jobs $(JOBS) -project TileMill.xcodeproj
 
 clean:
-	@xcodebuild -project TileMill.xcodeproj clean
+	@xcodebuild -jobs $(JOBS) -project TileMill.xcodeproj clean
 
 package: build
 	chmod +x $(TARGET)index.js

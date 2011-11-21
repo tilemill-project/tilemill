@@ -1,3 +1,12 @@
+<%
+/* @TODO not using underscore 1.2's escape method as it is
+   still stabilizing. Consider switching once 1.2 stable. */
+obj.escape = function(string) {
+  return (''+string)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}; %>
 <% _(features).each(function (feature) { %>
 <tr>
   <% _(fields).each(function (value, key) { if (key !== '__id__') { %>

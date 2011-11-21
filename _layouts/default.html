@@ -2,6 +2,9 @@
 # MapBox project pages template
 # -----------------------------
 navigation:
+  - title: Maps
+    path: http://tiles.mapbox.com
+    category: maps
   - title: Design
     path: /tilemill
     category: design
@@ -11,9 +14,6 @@ navigation:
   - title: Support
     path: /support
     category: support
-  - title: Showcase
-    path: /showcase
-    category: showcase
   - title: Documentation
     path: /documentation
     category: documentation
@@ -35,11 +35,11 @@ footer:
   <meta charset='UTF-8'/>
   {% if page.description %}<meta name='description' content='{{page.description}}'/>{% endif %}
   <title>{{page.title}} | MapBox</title>
-  <link rel='stylesheet' href='{{site.url}}/site.css' type='text/css'/>
-  <!--[if IE]><link rel='stylesheet' href='{{site.url}}/site-ie.css' type='text/css'/><![endif]-->
+  <link rel='stylesheet' href='{{site.url}}/css/site.css' type='text/css'/>
+  <!--[if IE]><link rel='stylesheet' href='{{site.url}}/css/site-ie.css' type='text/css'/><![endif]-->
   <link rel='stylesheet' href='{{site.url}}/tilemill/assets/pages/site.css' type='text/css'/>
   <link rel='shortcut icon' href='{{site.url}}/images/favicon.ico' type='image/x-icon' />
-  <script src='{{site.url}}/site.js' type='text/javascript'></script>
+  <script src='{{site.url}}/js/site.js' type='text/javascript'></script>
   <script src='{{site.url}}/tilemill/assets/pages/site.js' type='text/javascript'></script>
 </head>
 <body {% if page.class %}class='{{page.class}}'{% endif %}><div class='wrapper'>
@@ -49,14 +49,20 @@ footer:
   <ul class='menu'>
     {% for item in page.navigation %}
     <li class='{{item.category}} {% if page.category contains item.category or item.category == page.section %}active{% endif %}'>
+      {% if item.path contains '://' %}
+      <a href='{{item.path}}'><span class='icon'></span>{{item.title}}</a>
+      {% else %}
       <a href='{{site.url}}{{item.path}}'><span class='icon'></span>{{item.title}}</a>
+      {% endif %}
     </li>
     {% endfor %}
   </ul>
-  <a class='goto' href='http://tiles.mapbox.com'>
-    <span class='icon'></span>
-    Login <em>to MapBox</em>
-  </a>
+  <small class='auth'>
+    <a class='login' href='http://tiles.mapbox.com/login'>
+      <span class='icon'></span>
+      My account
+    </a>
+  </small>
 </div></div>
 
 {{content}}

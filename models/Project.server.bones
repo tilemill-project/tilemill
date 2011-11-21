@@ -188,7 +188,11 @@ function loadProject(model, callback) {
         }
     },
     function(err, stylesheets) {
-        if (err) throw err;
+        if (err && err.code === 'ENOENT') {
+            stylesheets = _(stylesheets).compact();
+        } else if (err) {
+            return this(err);
+        }
 
         // Embed stylesheet contents at the `Stylesheet` key.
         object.Stylesheet = _(stylesheets).map(function(file) {

@@ -44,13 +44,7 @@ This will keep these out of tilemill's local node_modules, avoid having to strip
 from the final package, and most importantly avoid any compile failures due to
 custom flags we set later on.
 
-    npm install -g jshint@0.2.x expresso@0.8.x
-    
-Note: expresso's bundled jsconverage code may fail with the clang compiler so do:
-
-    export CC=gcc
-    export CXX=g++
-    npm install -g jshint
+    npm install -g jshint@0.2.x
 
 
 ## Build tilemill
@@ -60,7 +54,7 @@ Clear out any previous builds:
     cd tilemill
     rm -rf node_modules
 
-Also ensure that you have no globally installed node modules (other than `jshint` and `expresso`).
+Also ensure that you have no globally installed node modules (other than `jshint`).
 You may need to check various node_modules depending on your $NODE_PATH.
 
 Possible locations include:
