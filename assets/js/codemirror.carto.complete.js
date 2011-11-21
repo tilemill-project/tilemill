@@ -93,9 +93,11 @@
                 token = editor.getTokenAt(cur),
                 done = false;
 
+            // If this is not on a token that's autocompletable,
+            // insert a tab.
             if (!/@?[\w-$_]+$/.test(token.string)) {
                 editor.focus();
-                return false;
+                return !/^\s*$/.test(token.string);
             }
 
             function insert(str) {
@@ -134,7 +136,7 @@
 
             var completions = getCompletions(token, cur);
             if (!completions.length) {
-                return false;
+                return true;
             } else if (completions.length == 1) {
                 insert(completions[0]); return true;
             }
