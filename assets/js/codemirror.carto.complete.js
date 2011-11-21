@@ -6,11 +6,17 @@
     function cartoCompletion(editor, reference) {
         var widget = document.createElement('div'),
             sel = widget.appendChild(document.createElement('select')),
+            ids = [],
+            classes = [],
             $widget = $(widget),
             $sel = $(sel);
 
         function cancelEvent(e) {
             if (!e) return;
+            e.cancelBubble = true;
+            e.cancel = true;
+            e.returnValue = false;
+            if (e.stop) e.stop();
             if (e.stopPropagation) { e.stopPropagation(); }
             if (e.preventDefault) { e.preventDefault(); }
         }
@@ -25,31 +31,50 @@
             return _.uniq(ids);
         })(reference);
 
-        var valid_keywords = (function(reference) {
-            var ids = [];
-            for (var i in reference.symbolizers) {
-                for (var j in reference.symbolizers[i]) {
-                    if (typeof reference.symbolizers[i][j].type == 'object') {
-                        for (var k in reference.symbolizers[i][j].type) {
-                            ids.push(reference.symbolizers[i][j].type[k]);
-                        }
+        var valid_keywords = [];
+        var kw_by_property = {};
+        var kw_reference = {};
+        for (var i in reference.symbolizers) {
+            for (var j in reference.symbolizers[i]) {
+                kw_reference[reference.symbolizers[i][j].css] = reference.symbolizers[i][j].doc || '';
+                if (typeof reference.symbolizers[i][j].type == 'object') {
+                    var css = reference.symbolizers[i][j].css;
+                    for (var k in reference.symbolizers[i][j].type) {
+                        valid_keywords.push(reference.symbolizers[i][j].type[k]);
+                        if (!kw_by_property[css]) kw_by_property[css] = [];
+                        kw_by_property[css].push(reference.symbolizers[i][j].type[k]);
                     }
                 }
             }
-            return _.uniq(ids);
-        })(reference);
+        }
+        valid_keywords = _.uniq(valid_keywords);
 
         function getVariables() {
             var v = editor.getValue();
             return _.uniq(v.match(/@[\w\d\-]+/));
         }
 
-        function getCompletions(token, context) {
+        function getCompletions(token, cur) {
             var against;
             if (token.className === 'carto-value') {
-                against = valid_keywords;
+                var l = editor.getLine(cur.line);
+                var start = l.match(/\w/);
+                var p = editor.getTokenAt({
+                    line: cur.line,
+                    ch: start.index + 1
+                });
+                if (p && p.className === 'carto-valid-identifier' &&
+                    kw_by_property[p.string]) {
+                        against = kw_by_property[p.string];
+                }
             } else if (token.className === 'carto-variable') {
                 against = getVariables();
+            } else if (token.className === 'carto-selector') {
+                if (token.string[0] == '.') {
+                    against = classes;
+                } else {
+                    against = ids;
+                }
             } else {
                 against = valid_identifiers;
             }
@@ -61,6 +86,8 @@
                     return i + ';';
                 } else if (token.className === 'carto-variable') {
                     return i;
+                } else if (token.className === 'carto-selector') {
+                    return i + ' {';
                 } else {
                     return i + ':';
                 }
@@ -78,9 +105,11 @@
                 token = editor.getTokenAt(cur),
                 done = false;
 
-            if (!/@?[\w-$_]+$/.test(token.string)) {
+            // If this is not on a token that's autocompletable,
+            // insert a tab.
+            if (!/(@|#|\.)?[\w-$_]+$/.test(token.string)) {
                 editor.focus();
-                return false;
+                return !/^\s*$/.test(token.string);
             }
 
             function insert(str) {
@@ -117,9 +146,9 @@
                 }, 50);
             }
 
-            var completions = getCompletions(token, context);
+            var completions = getCompletions(token, cur);
             if (!completions.length) {
-                return false;
+                return true;
             } else if (completions.length == 1) {
                 insert(completions[0]); return true;
             }
@@ -134,6 +163,7 @@
                 opt.appendChild(document.createTextNode(completions[i]));
             }
             sel.firstChild.selected = true;
+            sel.selectedIndex = 0;
             sel.size = Math.min(10, completions.length);
             sel.style.height = '100px';
 
@@ -189,13 +219,31 @@
             return true;
         }
 
+        function setTitles() {
+            var wrap = editor.getWrapperElement();
+            var ids = $('.cm-carto-valid-identifier', wrap).each(function() {
+                if (kw_reference[this.innerHTML]) {
+                    this.title = kw_reference[this.innerHTML];
+                }
+            });
+        }
+
         return {
             onKeyEvent: function(i, e) {
                 // Hook into tab
                 if (e.which == 9 && !(e.ctrlKey || e.metaKey) && !e.altKey) {
-                    cancelEvent(e);
+                    e.stop();
                     return complete(e);
                 }
+            },
+            setTitles: function() {
+                setTitles();
+            },
+            ids: function(x) {
+                ids = x;
+            },
+            classes: function(x) {
+                classes = x;
             }
         };
     }
