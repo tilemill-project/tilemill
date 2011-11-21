@@ -172,8 +172,15 @@ view.prototype.makeStylesheet = function(model) {
             }
         }).bind(this)
     });
+
+    var cartoCompleter = cartoCompletion(model.codemirror, window.abilities.carto);
+
     model.codemirror.setOption('onKeyEvent',
-        cartoCompletion(model.codemirror, window.abilities.carto).onKeyEvent);
+        cartoCompleter.onKeyEvent);
+
+    model.codemirror.setOption('onHighlightComplete',
+        _.throttle(cartoCompleter.setTitles, 500));
+
     $(model.codemirror.getWrapperElement())
         .addClass(id)
         .addClass(model.collection.indexOf(model) === 0 ? 'active' : '');

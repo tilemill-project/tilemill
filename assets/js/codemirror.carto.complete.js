@@ -31,8 +31,10 @@
 
         var valid_keywords = [];
         var kw_by_property = {};
+        var kw_reference = {};
         for (var i in reference.symbolizers) {
             for (var j in reference.symbolizers[i]) {
+                kw_reference[reference.symbolizers[i][j].css] = reference.symbolizers[i][j].doc || '';
                 if (typeof reference.symbolizers[i][j].type == 'object') {
                     var css = reference.symbolizers[i][j].css;
                     for (var k in reference.symbolizers[i][j].type) {
@@ -151,6 +153,7 @@
                 opt.appendChild(document.createTextNode(completions[i]));
             }
             sel.firstChild.selected = true;
+            sel.selectedIndex = 0;
             sel.size = Math.min(10, completions.length);
             sel.style.height = '100px';
 
@@ -206,6 +209,15 @@
             return true;
         }
 
+        function setTitles() {
+            var wrap = editor.getWrapperElement();
+            var ids = $('.cm-carto-valid-identifier', wrap).each(function() {
+                if (kw_reference[this.innerHTML]) {
+                    this.title = kw_reference[this.innerHTML];
+                }
+            });
+        }
+
         return {
             onKeyEvent: function(i, e) {
                 // Hook into tab
@@ -213,6 +225,9 @@
                     e.stop();
                     return complete(e);
                 }
+            },
+            setTitles: function() {
+                setTitles();
             }
         };
     }
