@@ -152,7 +152,9 @@ function migrate100_200(object) {
           'template_teaser',
           'template_full',
           'template_location']).each(function(t) {
-            object.interactivity[t] = formatterToTemplate(object.interactivity[t]);
+            if (object.interactivity[t]) {
+                object.interactivity[t] = formatterToTemplate(object.interactivity[t]);
+            }
         });
     }
     return object;
