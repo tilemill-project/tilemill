@@ -40,7 +40,7 @@ Now skip down to 'Testing and configuration' below and update the readme.
  * London timezone
  * USA keyboard
  * name: ubuntu
- * computer name:tilemill-virtualbox
+ * computer name: TileMill-VirtualBox
  * username: ubuntu
  * pass: ubuntu
 
@@ -102,26 +102,27 @@ Now set up niceties:
 
 Add a README.txt to the desktop like:
 
-    TileMill 0.6.0 VM
-    -----------------
-    
-    This is Ubuntu Natty 32bit running TileMill.
-    
-    Open FireFox and click on the "TileMill" bookmark to start making maps.
-    
-    Note: TileMill 0.6.0 can be run either as a server process or as a
-    desktop application. This machine is running a persistent tilemill
-    server. See more details at http://mapbox.com/tilemill/docs/upgrade/
-    
-    Find the data directories for TileMill in the MapBox folder on your desktop.
-    
-    For more information visit:
-    
-    http://support.mapbox.com/kb/introduction-installation/tilemill-virtualbox-vm
-    
-    And for support visit:
-    
-    http://support.mapbox.com/    
+```
+TileMill VM
+-----------
+
+This is Ubuntu 32bit machine with TileMill pre-installed.
+
+Start TileMill via the Desktop Icon. Then in FireFox and go to http://localhost:8889/ to start making maps.
+
+Note: TileMill can be run either as a server process or as a
+desktop application. This machine runs as a desktop application.
+
+See more details at http://mapbox.com/tilemill/docs/manual/usage/
+
+For more information on the VM visit:
+
+http://mapbox.com/tilemill/docs/tutorials/virtualbox/
+
+And for support visit:
+
+http://support.mapbox.com/    
+```
 
 Now, optionally, we can try to compact the VM's disk saving potentially a few GB of space.
 
