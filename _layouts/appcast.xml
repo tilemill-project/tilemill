@@ -16,11 +16,7 @@
             url="https://github.com/downloads/mapbox/tilemill/TileMill-{{item.version}}.zip"
             type="application/octet-stream"
             length="{{item.size}}"
-            sparkle:version="{% if item.oldrev %}{{item.oldrev}}{% else %}{{ '3' | append:item.version | replace:'.','' }}{% endif %}"
-            {% comment %}
-            See https://github.com/mapbox/tilemill/issues/730 for background on this 'oldrev' business.
-            {% endcomment %}
-            sparkle:shortVersionString="{{item.version}}"
+            sparkle:version="{{item.version}}"
             sparkle:dsaSignature="{{item.sign}}" />
     </item>
     {% endif %}{% endfor %}
