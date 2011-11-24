@@ -9,6 +9,8 @@
 #import "TileMillAppDelegate.h"
 #import "TileMillBrowserWindowController.h"
 #import "TileMillPrefsWindowController.h"
+#import "TileMillVersionComparator.h"
+#import <Sparkle/SUUpdater.h>
 
 #import "JSONKit.h"
 
@@ -53,6 +55,12 @@
 
 #pragma mark -
 #pragma mark NSApplicationDelegate
+
+- (void)applicationWillFinishLaunching:(NSNotification *)notification
+{
+    // Set delegate before the first automatic update check.
+    [[SUUpdater sharedUpdater] setDelegate:self];
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
@@ -313,6 +321,17 @@
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
     [self.browserController loadInitialRequest];
+}
+
+#pragma mark -
+#pragma mark TileMillChildProcessDelegate
+
+// This method allows you to provide a custom version comparator.
+// If you don't implement this method or return nil, the standard version
+// comparator will be used. See SUVersionComparisonProtocol.h for more.
+- (id <SUVersionComparison>)versionComparatorForUpdater:(SUUpdater *)updater
+{
+    return [[TileMillVersionComparator alloc] init];
 }
 
 @end

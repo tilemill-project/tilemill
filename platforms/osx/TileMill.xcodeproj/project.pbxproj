@@ -15,6 +15,7 @@
 		D738213C13EB4FE500639A03 /* application.icns in Resources */ = {isa = PBXBuildFile; fileRef = D738213B13EB4FE500639A03 /* application.icns */; };
 		D738213F13EB500D00639A03 /* tilemill.icns in Resources */ = {isa = PBXBuildFile; fileRef = D738213E13EB500C00639A03 /* tilemill.icns */; };
 		D745087913E9EC160020D8CD /* mbtiles.icns in Resources */ = {isa = PBXBuildFile; fileRef = D745087813E9EC160020D8CD /* mbtiles.icns */; };
+		D76FF918147DB3DA002D94C1 /* TileMillVersionComparator.m in Sources */ = {isa = PBXBuildFile; fileRef = D76FF917147DB3DA002D94C1 /* TileMillVersionComparator.m */; };
 		DD05482F14226B8100D7C317 /* tilemill in Resources */ = {isa = PBXBuildFile; fileRef = DD05482E14226B8100D7C317 /* tilemill */; };
 		DD1081DF13F9A5DB001772BE /* TileMillPrefsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD1081DE13F9A5DB001772BE /* TileMillPrefsWindow.xib */; };
 		DD1081EE13F9AA4F001772BE /* TileMillPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1081ED13F9AA4F001772BE /* TileMillPrefsWindowController.m */; };
@@ -114,6 +115,8 @@
 		D738213B13EB4FE500639A03 /* application.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = application.icns; sourceTree = "<group>"; };
 		D738213E13EB500C00639A03 /* tilemill.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = tilemill.icns; sourceTree = "<group>"; };
 		D745087813E9EC160020D8CD /* mbtiles.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = mbtiles.icns; sourceTree = "<group>"; };
+		D76FF916147DB3DA002D94C1 /* TileMillVersionComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillVersionComparator.h; sourceTree = "<group>"; };
+		D76FF917147DB3DA002D94C1 /* TileMillVersionComparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillVersionComparator.m; sourceTree = "<group>"; };
 		DD05482E14226B8100D7C317 /* tilemill */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = tilemill; sourceTree = "<group>"; };
 		DD1081DE13F9A5DB001772BE /* TileMillPrefsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileMillPrefsWindow.xib; sourceTree = "<group>"; };
 		DD1081EC13F9AA4F001772BE /* TileMillPrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillPrefsWindowController.h; sourceTree = "<group>"; };
@@ -235,6 +238,8 @@
 				35B36EA213D260C6006C72ED /* TileMillAppDelegate.m */,
 				DD35FE0014461B8A00455DAA /* TileMillBrowserWindowController.h */,
 				DD35FE0114461B8A00455DAA /* TileMillBrowserWindowController.m */,
+				D76FF916147DB3DA002D94C1 /* TileMillVersionComparator.h */,
+				D76FF917147DB3DA002D94C1 /* TileMillVersionComparator.m */,
 				DD35FE0314461BA900455DAA /* TileMillBrowserWindow.xib */,
 			);
 			name = Main;
@@ -350,7 +355,7 @@
 			attributes = {
 				LastUpgradeCheck = 0420;
 			};
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "TileMill" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "tilemill" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -490,6 +495,7 @@
 				DD4F9DDC1419914400278ECD /* PFMoveApplication.m in Sources */,
 				DD4F9DE51419923C00278ECD /* NSString+SymlinksAndAliases.m in Sources */,
 				DD35FE0214461B8A00455DAA /* TileMillBrowserWindowController.m in Sources */,
+				D76FF918147DB3DA002D94C1 /* TileMillVersionComparator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -605,7 +611,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "TileMill" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "tilemill" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
