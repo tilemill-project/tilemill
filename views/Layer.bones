@@ -104,6 +104,7 @@ view.prototype.favoriteUpdate = function(ev) {
 
     // Show cache clear link if datasource points to a URL and we're editing
     // an existing layer.
+    // todo - this is broken
     var cache = target.siblings('.cache');
     if (this.model.id && uri.match(/^http:\/\/|^https:\/\//)) {
         cache.removeClass('hidden');
@@ -184,6 +185,7 @@ view.prototype.saveFile = function() {
         'id':    this.$('input[name=id]').val().replace('#', ''),
         'srs':   this.$('input[name=srs]').val(),
         'class': this.$('input[name=class]').val().replace('.', ''),
+        'cache_method': this.$('select[name=cache-method]').val(),
         'Datasource': {
             'file': this.$('input[name=file]').val()
         }

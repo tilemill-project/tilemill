@@ -32,10 +32,21 @@
       <input type='text' name='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' size='60'/>
       <a href='#favorite' class='icon favorite'>Favorite</a>
       <a href='#open' class='button open'>Browse</a>
-      <small class='cache description hidden'>
-        Does the layer data appear stale? <a href='#cacheFlush'>Flush cache</a>
-      </small>
       <div class='browser'></div>
+    </li>
+    <li>
+      <label for='cache-method'>Cache Strategy</label>
+      <select name='cache-method'>
+        <option value='manual' <% if (cacheMethod() === 'manual') { %>selected='selected'<% } %>>
+          Manual
+        </option>
+        <option value='live' <% if (cacheMethod() === 'live') { %>selected='selected'<% } %>>
+          Live (no cache)
+        </option>
+      </select>
+      <span class='cache description'>
+          <a href='#cacheFlush' class='button open'>Flush</a>
+      </span>
     </li>
     <li>
       <label for='srs-name'>SRS</label>
