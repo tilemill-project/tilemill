@@ -173,6 +173,7 @@ view.prototype.autostyle = function() {
             templates.Autostyle(this.model),
             coord,
             coord);
+        $('.actions a[href=#save]').click();
     }
 };
 
