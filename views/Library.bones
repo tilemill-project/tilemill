@@ -7,7 +7,7 @@ view.prototype.events = {
 };
 
 view.prototype.initialize = function(options) {
-    if (!options.input) throw new Error('options.input required.')
+    if (!options.change) throw new Error('options.change required.')
     if (!options.favorites) throw new Error('options.favorites required.')
 
     _(this).bindAll(
@@ -17,7 +17,7 @@ view.prototype.initialize = function(options) {
         'libraryURI',
         'libraryUpdate'
     );
-    this.input = options.input;
+    this.change = options.change;
     this.favorites = options.favorites;
     this.favorites.bind('add', this.libraryUpdate);
     this.favorites.bind('remove', this.libraryUpdate);
@@ -92,7 +92,7 @@ view.prototype.libraryLocation = function(ev) {
 
 view.prototype.libraryURI = function(ev) {
     var uri = $(ev.currentTarget).attr('href').split('#').pop();
-    this.input.val(uri).change();
+    this.change(uri);
     return false;
 };
 
