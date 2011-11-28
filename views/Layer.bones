@@ -145,7 +145,15 @@ view.prototype.browse = function(ev) {
                 model: model,
                 favorites: this.favorites,
                 change: function(uri) {
-                    $('input[name=file], input[name=connection]', form).val(val);
+                    $('input[name=file], input[name=connection]', form).val(uri);
+                    if ($('input[name=id]', form).val() == '') {
+                        // Get the 'basename' of the file, minus anything
+                        // after the first dot, in alphanumeric
+                        // and lowercase.
+                        $('input[name=id]', form).val(
+                            _(uri.split('/')).last().split('.')[0]
+                                .replace(/[^a-z0-9]/gi,'').toLowerCase());
+                    }
                 },
                 el: $('.browser', form)
             });
