@@ -192,6 +192,7 @@ view.prototype.saveFile = function() {
     _(attr['Datasource']).defaults(this.parseOptions(this.$('input[name=advanced]').val()));
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
+        e.type = 'code';
         new views.Modal(e);
     }).bind(this);
     this.model.validateAsync(attr, {
@@ -252,19 +253,24 @@ view.prototype.savePostGIS = function() {
     }
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
+        e.type = 'code';
         new views.Modal(e);
     }).bind(this);
+
     _(attr['Datasource']).defaults(connection);
 
-    this.model.validateAsync(attr, { success:_(function() {
-        $(this.el).removeClass('loading');
-        if (!this.model.set(attr, {error:error})) return;
-        if (!this.model.collection.include(this.model)) {
-            this.model.collection.add(this.model);
-            if (autostyle) this.autostyle();
-        }
-        this.$('.close').click();
-    }).bind(this), error:error });
+    this.model.validateAsync(attr, {
+        success:_(function() {
+            $(this.el).removeClass('loading');
+            if (!this.model.set(attr, {error:error})) return;
+            if (!this.model.collection.include(this.model)) {
+                this.model.collection.add(this.model);
+                if (autostyle) this.autostyle();
+            }
+            this.$('.close').click();
+        }).bind(this),
+        error: error
+    });
     return false;
 };
 
@@ -288,17 +294,21 @@ view.prototype.saveSqlite = function() {
     _(attr['Datasource']).defaults(this.parseOptions(this.$('form.layerSqlite input[name=advanced]').val()));
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
+        e.type = 'code';
         new views.Modal(e);
     }).bind(this);
-    this.model.validateAsync(attr, { success:_(function() {
-        $(this.el).removeClass('loading');
-        if (!this.model.set(attr, {error:error})) return;
-        if (!this.model.collection.include(this.model)) {
-            this.model.collection.add(this.model);
-            if (autostyle) this.autostyle();
-        }
-        this.$('.close').click();
-    }).bind(this), error:error });
+    this.model.validateAsync(attr, {
+        success:_(function() {
+            $(this.el).removeClass('loading');
+            if (!this.model.set(attr, {error:error})) return;
+            if (!this.model.collection.include(this.model)) {
+                this.model.collection.add(this.model);
+                if (autostyle) this.autostyle();
+            }
+            this.$('.close').click();
+        }).bind(this),
+        error: error
+    });
     return false;
 };
 
