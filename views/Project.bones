@@ -179,6 +179,7 @@ view.prototype.makeStylesheet = function(model) {
         var ids = _.map(model.get('Layer').pluck('id'), function(x) { return '#' + x; });
         var classes = _(model.get('Layer').pluck('class')).chain().map(
             function(c) {
+                if (c == undefined) return '';
                 var cs = c.split(' ');
                 if (cs[0] == '') return '';
                 return _.map(cs, function(x) { return '.' + x; });
