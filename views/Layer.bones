@@ -153,6 +153,19 @@ view.prototype.browse = function(ev) {
     return false;
 };
 
+view.prototype.autostyle = function() {
+    var root = this.model.collection.parent;
+    var stylesheets = root.get('Stylesheet');
+    if (stylesheets.length !== 0) {
+        var cm = stylesheets.models[0].codemirror;
+        var coord = cm.coordsFromIndex(Infinity);
+        cm.replaceRange(
+            templates.Autostyle(this.model),
+            coord,
+            coord);
+    }
+};
+
 view.prototype.saveFile = function() {
     $(this.el).addClass('loading');
     var attr = {
@@ -164,29 +177,38 @@ view.prototype.saveFile = function() {
             'file': this.$('input[name=file]').val()
         }
     };
+    var autostyle = this.$('input[name=autostyle]').val() === 'on';
     _(attr['Datasource']).defaults(this.parseOptions(this.$('input[name=advanced]').val()));
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
         new views.Modal(e);
     }).bind(this);
-    this.model.validateAsync(attr, { success:_(function() {
-        $(this.el).removeClass('loading');
-        if (!this.model.set(attr, {error:error})) return;
-        if (!this.model.collection.include(this.model))
-            this.model.collection.add(this.model);
-        this.$('.close').click();
-    }).bind(this), error:error });
+    this.model.validateAsync(attr, {
+        success: _(function() {
+            $(this.el).removeClass('loading');
+            if (!this.model.set(attr, {error:error})) return;
+            if (!this.model.collection.include(this.model)) {
+                this.model.collection.add(this.model);
+                if (autostyle) this.autostyle();
+            }
+            this.$('.close').click();
+        }).bind(this),
+        error: error
+    });
     return false;
 };
 
 view.prototype.savePostGIS = function() {
     $(this.el).addClass('loading');
     var attr = {
-        'name':  this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
-        'id':    this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
+        'name':  this.$('form.layerPostGIS input[name=id]')
+            .val().replace('#', ''),
+        'id':    this.$('form.layerPostGIS input[name=id]')
+            .val().replace('#', ''),
         'srs':   this.$('form.layerPostGIS input[name=srs]').val()
             || this.model.SRS['900913'],
-        'class': this.$('form.layerPostGIS input[name=class]').val().replace('.', ''),
+        'class': this.$('form.layerPostGIS input[name=class]')
+            .val().replace('.', ''),
         'Datasource': {
             'table':    this.$('textarea[name=table]', this.el).val(),
             'key_field': this.$('input[name=key_field]', this.el).val(),
@@ -195,6 +217,7 @@ view.prototype.savePostGIS = function() {
             'type': 'postgis'
         }
     };
+    var autostyle = this.$('input[name=autostyle]').val() === 'on';
     _(attr['Datasource']).defaults(this.parseOptions(this.$('form.layerPostGIS input[name=advanced]').val()));
 
     // Special parseing around PostGIS connection.
@@ -225,8 +248,10 @@ view.prototype.savePostGIS = function() {
     this.model.validateAsync(attr, { success:_(function() {
         $(this.el).removeClass('loading');
         if (!this.model.set(attr, {error:error})) return;
-        if (!this.model.collection.include(this.model))
+        if (!this.model.collection.include(this.model)) {
             this.model.collection.add(this.model);
+            if (autostyle) this.autostyle();
+        }
         this.$('.close').click();
     }).bind(this), error:error });
     return false;
@@ -256,8 +281,10 @@ view.prototype.saveSqlite = function() {
     this.model.validateAsync(attr, { success:_(function() {
         $(this.el).removeClass('loading');
         if (!this.model.set(attr, {error:error})) return;
-        if (!this.model.collection.include(this.model))
+        if (!this.model.collection.include(this.model)) {
             this.model.collection.add(this.model);
+            if (autostyle) this.autostyle();
+        }
         this.$('.close').click();
     }).bind(this), error:error });
     return false;

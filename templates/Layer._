@@ -61,6 +61,14 @@
       <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
+    <li>
+      <label for='autostyle'>Add default style</label>
+      <input type='checkbox' name='autostyle' checked='checked' />
+      <span class='description'>Insert the Carto code required
+          to make this layer appear in the currently-selected
+          stylesheet. Don't use this option if you're working with
+          large data that you want to restrict.</span>
+    </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
       <input type='button' value='Cancel' class='cancel' />
@@ -134,6 +142,16 @@
       <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
+    <li>
+      <label for='autostyle'>Add default style</label>
+      <input type='checkbox' name='autostyle' checked='checked' />
+      <span class='description'>Insert the Carto code required
+          to make this layer appear in the currently-selected
+          stylesheet. Don't use this option if you want to start
+          with a different type of style or are working with
+          very large data that you want to restrict, like
+          road networks.</span>
+    </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
       <input type='button' value='Cancel' class='cancel' />
@@ -203,6 +221,16 @@
       <label for='advanced'>Advanced</label>
       <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
+    </li>
+    <li>
+      <label for='autostyle'>Add default style</label>
+      <input type='checkbox' name='autostyle' checked='checked' />
+      <span class='description'>Insert the Carto code required
+          to make this layer appear in the currently-selected
+          stylesheet. Don't use this option if you want to start
+          with a different type of style or are working with
+          very large data that you want to restrict, like
+          road networks.</span>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />

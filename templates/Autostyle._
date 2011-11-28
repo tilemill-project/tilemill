@@ -1,0 +1,17 @@
+<% if (get('geometry') == 'polygon' || get('geometry') == 'multipolygon') { %>
+
+#<%= get('id') %> {
+  polygon-opacity:1;
+  }<% } %><% if (get('geometry') == 'point' || get('geometry') == 'multipoint') { %>
+
+#<%= get('id') %> {
+  marker-width:5;
+  }<% } %><% if (get('geometry') == 'linestring' || get('geometry') == 'multilinestring') { %>
+
+#<%= get('id') %> {
+  line-width:2;
+  }<% } %><% if (get('geometry') == 'raster') { %>
+
+#<%= get('id') %> {
+  raster-opacity:1;
+  }<% } %>
