@@ -16,7 +16,7 @@
 
 #<%= get('id') %> {
   line-width:1;
-  line-color:#fd4;
+  line-color:#168;
   }<% } %><% if (get('geometry') == 'raster') { %>
 
 #<%= get('id') %> {
