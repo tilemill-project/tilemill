@@ -273,6 +273,7 @@ view.prototype.saveSqlite = function() {
             'type': 'sqlite'
         }
     };
+    var autostyle = this.$('input[name=autostyle]').val() === 'on';
     _(attr['Datasource']).defaults(this.parseOptions(this.$('form.layerSqlite input[name=advanced]').val()));
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
