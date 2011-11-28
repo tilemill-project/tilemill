@@ -144,7 +144,9 @@ view.prototype.browse = function(ev) {
             new views.Library({
                 model: model,
                 favorites: this.favorites,
-                input: $('input[name=file], input[name=connection]', form),
+                change: function(uri) {
+                    $('input[name=file], input[name=connection]', form).val(val);
+                },
                 el: $('.browser', form)
             });
         }).bind(this),
