@@ -62,12 +62,9 @@
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
     <li>
-      <label for='autostyle'>Add default style</label>
+      <label for='autostyle'>Default style</label>
       <input type='checkbox' name='autostyle' checked='checked' />
-      <span class='description'>Insert the Carto code required
-          to make this layer appear in the currently-selected
-          stylesheet. Don't use this option if you're working with
-          large data that you want to restrict.</span>
+      <span class='description'>Add a default style to make this layer appear.</span>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
@@ -143,14 +140,9 @@
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
     <li>
-      <label for='autostyle'>Add default style</label>
+      <label for='autostyle'>Default style</label>
       <input type='checkbox' name='autostyle' checked='checked' />
-      <span class='description'>Insert the Carto code required
-          to make this layer appear in the currently-selected
-          stylesheet. Don't use this option if you want to start
-          with a different type of style or are working with
-          very large data that you want to restrict, like
-          road networks.</span>
+      <span class='description'>Add a default style to make this layer appear.</span>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
@@ -223,14 +215,9 @@
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
     <li>
-      <label for='autostyle'>Add default style</label>
+      <label for='autostyle'>Default style</label>
       <input type='checkbox' name='autostyle' checked='checked' />
-      <span class='description'>Insert the Carto code required
-          to make this layer appear in the currently-selected
-          stylesheet. Don't use this option if you want to start
-          with a different type of style or are working with
-          very large data that you want to restrict, like
-          road networks.</span>
+      <span class='description'>Add a default style to make this layer appear.</span>
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
