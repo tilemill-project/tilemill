@@ -144,7 +144,17 @@ view.prototype.browse = function(ev) {
             new views.Library({
                 model: model,
                 favorites: this.favorites,
-                input: $('input[name=file], input[name=connection]', form),
+                change: function(uri) {
+                    $('input[name=file], input[name=connection]', form).val(uri);
+                    if ($('input[name=id]', form).val() == '') {
+                        // Get the 'basename' of the file, minus anything
+                        // after the first dot, in alphanumeric
+                        // and lowercase.
+                        $('input[name=id]', form).val(
+                            _(uri.split('/')).last().split('.')[0]
+                                .replace(/[^a-z0-9]/gi,'').toLowerCase());
+                    }
+                },
                 el: $('.browser', form)
             });
         }).bind(this),
