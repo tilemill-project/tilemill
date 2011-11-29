@@ -464,7 +464,7 @@ function fields(opts) {
 // Generate combined template from templates.
 function template(opts) {
     opts = opts || {};
-    return '{{#__location__}}' + (opts.template_full || '') + '{{/__location__}}' +
+    return '{{#__location__}}' + (opts.template_location || '') + '{{/__location__}}' +
         '{{#__teaser__}}' + (opts.template_teaser || '') + '{{/__teaser__}}' +
         '{{#__full__}}' + (opts.template_full || '') + '{{/__full__}}';
 }
