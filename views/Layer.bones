@@ -177,7 +177,7 @@ view.prototype.autostyle = function() {
     }
 };
 
-view.prototype.saveFile = function() {
+view.prototype.saveFile = function(e) {
     $(this.el).addClass('loading');
     var attr = {
         'name':  this.$('input[name=id]').val().replace('#', ''),
@@ -188,7 +188,7 @@ view.prototype.saveFile = function() {
             'file': this.$('input[name=file]').val()
         }
     };
-    var autostyle = this.$('input[name=autostyle]').val() === 'on';
+    var autostyle = $(e.target).hasClass('with-style');
     _(attr['Datasource']).defaults(this.parseOptions(this.$('input[name=advanced]').val()));
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
@@ -229,7 +229,7 @@ view.prototype.savePostGIS = function() {
             'type': 'postgis'
         }
     };
-    var autostyle = this.$('input[name=autostyle]').val() === 'on';
+    var autostyle = $(e.target).hasClass('with-style');
     _(attr['Datasource']).defaults(this.parseOptions(this.$('form.layerPostGIS input[name=advanced]').val()));
 
     // Special parseing around PostGIS connection.
@@ -290,7 +290,7 @@ view.prototype.saveSqlite = function() {
             'type': 'sqlite'
         }
     };
-    var autostyle = this.$('input[name=autostyle]').val() === 'on';
+    var autostyle = $(e.target).hasClass('with-style');
     _(attr['Datasource']).defaults(this.parseOptions(this.$('form.layerSqlite input[name=advanced]').val()));
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');

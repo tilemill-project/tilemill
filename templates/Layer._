@@ -61,13 +61,9 @@
       <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
-    <li>
-      <label for='autostyle'>Default style</label>
-      <input type='checkbox' name='autostyle' checked='checked' />
-      <span class='description'>Add a default style to make this layer appear.</span>
-    </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
+      <input type='submit' class='with-style' value='Save with default style' />
       <input type='button' value='Cancel' class='cancel' />
     </li>
   </ul></form>
@@ -139,13 +135,9 @@
       <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
-    <li>
-      <label for='autostyle'>Default style</label>
-      <input type='checkbox' name='autostyle' checked='checked' />
-      <span class='description'>Add a default style to make this layer appear.</span>
-    </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
+      <input type='submit' class='with-style'value='Save with default style' />
       <input type='button' value='Cancel' class='cancel' />
     </li>
   </ul></form>
@@ -214,13 +206,9 @@
       <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
-    <li>
-      <label for='autostyle'>Default style</label>
-      <input type='checkbox' name='autostyle' checked='checked' />
-      <span class='description'>Add a default style to make this layer appear.</span>
-    </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
+      <input type='submit' class='with-style' value='Save with default style' />
       <input type='button' value='Cancel' class='cancel' />
     </li>
   </ul></form>
