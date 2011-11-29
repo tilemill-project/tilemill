@@ -23,14 +23,96 @@ platforms:
   help: Read our guide on using TileMill<br/>in a VirtualBox VM in Windows
   file: VirtualBox VM
   size: for Windows
-  url: /docs/tutorials/virtualbox/
+  url: /tilemill/docs/tutorials/virtualbox/
 ---
-<style type='text/css'>@import url('{{site.baseurl}}/assets/pages/site.css');</style>
+<style>
+.wrapper { background:#e0f0f4; }
+hr { background-color:#c0d8e0; }
 
-<div id='bleed' class='mac'><div class='limiter clearfix' style='height:560px'>
+.content .box {
+  position:relative;
+  background-color:#fff;
+  padding:20px;
+  margin:0px 0px 20px;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  }
+.content .box.short { min-height:160px; }
+.content .box.tall { min-height:300px; }
+.content .box.image {
+  padding-right:140px;
+  background-position:95% 20px;
+  }
 
+.box .more {
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  }
+
+#bleed {
+  height:560px;
+  background:#040812 url({{site.baseurl}}/assets/pages/screenshot.jpg) 50% 100% no-repeat;
+  overflow:hidden;
+  margin:0px 0px 40px;
+  }
+
+#bleed .dlbox {
+  width:400px;
+  padding:20px;
+  background:#222;
+  background:rgba(32,32,32,0.95);
+  color:#fff;
+  margin:0px;
+  position:absolute;
+  right:0px;
+  bottom:-400px;
+  box-shadow:#000 0px 0px 10px;
+  border-radius:5px 5px 0px 0px;
+  -moz-border-radius:5px 5px 0px 0px;
+  -webkit-border-radius:5px 5px 0px 0px;
+  transition:all 500ms;
+  -moz-transition:all 500ms;
+  -webkit-transition:all 500ms;
+  }
+
+#bleed.mac .mac,
+#bleed.windows .windows,
+#bleed.linux .linux { bottom:0px; }
+
+#bleed .actions {
+  position:relative;
+  background:#6c4;
+  margin:20px -30px;
+  padding:10px 20px;
+  border-radius:0px 0px 5px 5px;
+  }
+
+#bleed .actions .triangle {
+  position:absolute;
+  top:-10px;
+  display:block;
+  width:0px;
+  height:0px;
+  border-top:10px solid transparent;
+  }
+
+#bleed .actions .nw { left:0px; border-right:10px solid #4a2; }
+#bleed .actions .ne { right:0px; border-left:10px solid #4a2; }
+
+#bleed .actions small.label {
+  color:#fff;
+  padding:5px 0px;
+  }
+
+.oslist,
+.oslist a { margin:0px 5px; }
+</style>
+
+<div id='bleed' class='mac'><div class='limiter' style='height:560px'>
 {% for item in page.platforms %}
-<div class='box download {{item.id}}'>
+<div class='dlbox {{item.id}}'>
 <h1>Download TileMill</h1>
 <h2>for {{item.name}}
   <small class='inline oslist'>
@@ -49,7 +131,6 @@ platforms:
   </a>
 </div>
 <small class='centered'>
-  <a href='{{site.baseurl}}/docs/install/'>Install guide</a> |
   <a href='{{site.baseurl}}/docs/changelog/'>Changelog</a> |
   <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> |
   <a href='{{site.baseurl}}/docs/manual/'>Manual</a> |
@@ -57,7 +138,6 @@ platforms:
 </small>
 </div>
 {% endfor %}
-
 </div></div>
 
 <div class='limiter clip'><div class='content prose'>
@@ -84,7 +164,7 @@ platforms:
 
 <div class='clearfix'>
   <p class='col-4'><big>
-  Working with GIS data isn't easy. That's why TileMill automates as much as possible for you -- sharing data between projects, downloading and unzipping shapefiles, autodetecting projections, indexing SQLite databases -- so that you can focus on making beautiful maps.
+  Working with GIS data isn't easy. That's why TileMill automates as much as possible for you &mdash; sharing data between projects, downloading and unzipping shapefiles, autodetecting projections, indexing SQLite databases &mdash; so that you can focus on making beautiful maps.
   </big></p>
   <div class='col-1'><div class='box tall'>
     <img src='http://placehold.it/160x100/eee/ccc.png' />
@@ -103,8 +183,8 @@ platforms:
   </div></div>
   <div class='col-1'><div class='box tall'>
     <img src='http://placehold.it/160x100/eee/ccc.png' />
-    <h3>Spreadsheet support</h3>
-    <small></small>
+    <h3>Spreadsheets</h3>
+    <small>Map data directly from a Google Docs spreadsheet using TileMill's built-in CSV integration.</small>
   </div></div>
 </div>
 
@@ -117,22 +197,22 @@ platforms:
   <div class='col-1'><div class='box tall'>
     <img src='http://placehold.it/160x100/eee/ccc.png' />
     <h3>Patterns &amp; textures</h3>
-    <small>Stamp trees across parks, add paper creases to maps. The possibilities are endless.</small>
+    <small>Stamp trees across parks, add paper creases to maps. With full alpha-channel support and the ability to add multiple layers and fills TileMill can create richly textured maps.</small>
   </div></div>
   <div class='col-1'><div class='box tall'>
     <img src='http://placehold.it/160x100/eee/ccc.png' />
     <h3>Fonts</h3>
-    <small>Leverage your system fonts or drop pro fonts into projects.</small>
+    <small>Use all your TrueType, OpenType and PostScript fonts for custom map typography.</small>
   </div></div>
   <div class='col-1'><div class='box tall'>
     <img src='http://placehold.it/160x100/eee/ccc.png' />
     <h3>SVG markers</h3>
-    <small>Take advantage of scalable vector SVGs to make your markers smooth at any scale.</small>
+    <small>Use vector SVGs to make your markers smooth at any scale. Advanced SVG transforms give you the ability resize and transform your images right in TileMill.</small>
   </div></div>
   <div class='col-1'><div class='box tall'>
     <img src='http://placehold.it/160x100/eee/ccc.png' />
     <h3>Carto</h3>
-    <small>Inspired by CSS, Carto makes it easy to control even the most complex map designs.</small>
+    <small>Inspired by CSS, Carto makes it easy to control even the most complex map designs. Mixins, variables, and functions are at your fingertips in an autocomplete-enabled code editor.</small>
   </div></div>
 </div>
 
@@ -164,21 +244,20 @@ Enrich your maps with hover tooltips and clickable pop ups. Reveal details in yo
 
 <div class='clearfix'>
   <div class='col-2'>
-  <h3>Common questions</h3>
+  <h2>Common questions</h2>
   <h3>I have never made a map...</h3>
-  <p>If you have ever written one line of CSS, you'll be right at home with TileMill's map styling language Carto. TileMill comes with well-documented examples that illustrate the basics of layer management, feature styling, and interaction. A [step-by-step manual]({{site.baseurl}}/docs/manual/) can teach you everything you need to know about geodata, projections, and symbolizers.</p>
-  <p>Looking for training or support? We can be with you through every step of the mapmaking process. Check out our [support plans]({{site.url}}/support/index.html).</p>
+  <p>If you have ever written one line of CSS, you'll be right at home with TileMill's map styling language Carto. TileMill comes with well-documented examples that illustrate the basics of layer management, feature styling, and interaction. A <a href='{{site.baseurl}}/docs/manual/'>step-by-step manual</a> can teach you everything you need to know about geodata, projections, and symbolizers.</p>
   <h3>Is there a Windows version?</h3>
-  <p>Not yet. [Node.js](http://nodejs.org) is expected to have full Windows support in the next stable version. When that happens, we'll evaluate the feasibility of a Windows port.</p>
-  <p>Until then you may want to try the [VirtualBox VM](http://support.mapbox.com/kb/introduction-installation/tilemill-virtualbox-vm) for running TileMill on Windows.</p>
+  <p>Not yet. <a href='http://nodejs.org'>Node.js</a> is expected to have full Windows support in the next stable version. When that happens, we'll evaluate the feasibility of a Windows port. Until then you may want to try the <a href='http://support.mapbox.com/kb/introduction-installation/tilemill-virtualbox-vm'>VirtualBox VM</a> for running TileMill on Windows.</p>
   <h3>Have more questions?</h3>
-  <p>Feel free to [contact us]({{site.url}}/contact/index.html) with any questions regarding TileMill or map design in general.</p>
+  <p>Feel free to <a href='{{site.url}}/contact/index.html'>contact us</a> with any questions regarding TileMill or map design in general.</p>
   </div>
   <div class='col-1'>
   <h3>Need help?</h3>
+  <p></p>
   </div>
   <div class='col-1'>
-  <h3>Need help?</h3>
+  <h3>Need hosting?</h3>
   </div>
 </div>
 
