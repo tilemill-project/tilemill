@@ -1,7 +1,8 @@
 ---
 layout: book
 section: documentation
-category: tutorials
+category: TileMill
+tag: tutorials
 title: Mapnik XML
 permalink: /docs/tutorials/mapnik-xml
 ---

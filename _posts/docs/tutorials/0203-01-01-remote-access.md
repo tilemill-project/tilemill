@@ -1,7 +1,8 @@
 ---
 layout: book
 section: documentation
-category: tutorials
+category: TileMill
+tag: tutorials
 title: Ubuntu service
 permalink: /docs/tutorials/ubuntu-service
 ---

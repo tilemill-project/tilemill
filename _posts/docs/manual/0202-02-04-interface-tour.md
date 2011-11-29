@@ -1,7 +1,8 @@
 ---
 layout: book
 section: documentation
-category: manual
+category: TileMill
+tag: manual
 title: Interface tour
 permalink: /docs/manual/interface-tour
 ---

@@ -1,7 +1,8 @@
 ---
 layout: book
 section: documentation
-category: tutorials
+category: TileMill
+tag: tutorials
 title: Terrain data
 permalink: /docs/tutorials/terrain-data
 ---

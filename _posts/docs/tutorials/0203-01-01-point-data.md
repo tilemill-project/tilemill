@@ -1,7 +1,8 @@
 ---
 layout: book
 section: documentation
-category: tutorials
+category: TileMill
+tag: tutorials
 title: Point data
 permalink: /docs/tutorials/point-data
 code1: |
