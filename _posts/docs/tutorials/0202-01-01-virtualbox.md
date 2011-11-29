@@ -12,7 +12,7 @@ We provide an Ubuntu Linux (32 bit) machine with the latest TileMill release pre
 
 ## Getting Started
 
-First start [downloading the TileMill 0.7.0 VM](http://tilemill-vm.s3.amazonaws.com/TileMill-0.7.0-32bit.ova) (1.3 GB).
+First start [downloading the TileMill 0.7.0 VM](http://tilemill-vm.s3.amazonaws.com/TileMill-0.7.0.ova) (1.3 GB).
 
 Then make sure you have installed [VirtualBox 4.0.x](http://www.virtualbox.org/wiki/Downloads) or greater.
 
