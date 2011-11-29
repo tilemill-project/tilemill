@@ -1,23 +1,23 @@
 ---
 layout: default
-class: poster
 section: tilemill
+category: homepage
 title: TileMill
 description: Design beautiful maps
 permalink: /
 platforms:
-- id: linux
-  name: Ubuntu Linux
-  help: Run <code>sudo ./install-tilemill.sh</code><br/>to install packages.
-  file: install-tilemill.sh
-  size: 30 MB
-  url: https://github.com/downloads/mapbox/tilemill/install-tilemill.sh
 - id: mac
   name: Mac OS X
   help: Extract this archive and drag<br />TileMill to your Applications folder.
   file: TileMill-0.7.0.zip
   size: 55.7 MB
   url: https://github.com/downloads/mapbox/tilemill/TileMill-0.7.0.zip
+- id: linux
+  name: Ubuntu Linux
+  help: Run <code>sudo ./install-tilemill.sh</code><br/>to install packages.
+  file: install-tilemill.sh
+  size: 30 MB
+  url: https://github.com/downloads/mapbox/tilemill/install-tilemill.sh
 - id: windows
   name: Windows
   help: Read our guide on using TileMill<br/>in a VirtualBox VM in Windows
@@ -126,13 +126,14 @@ hr { background-color:#c0d8e0; }
   <span class='triangle ne'></span>
   <span class='triangle nw'></span>
   <small class='label'>{{item.help}}</small>
-  <a class='em' href='{{item.url}}'>
+  <a class='em' href='{{item.url}}' title='{{item.name}}'>
     <span class='icon download'></span> {{item.file}} <small>{{item.size}}</small>
   </a>
 </div>
 <small class='centered'>
-  <a href='{{site.baseurl}}/docs/changelog/'>Changelog</a> |
+  <a href='{{site.baseurl}}/docs/install/'>Installing</a> |
   <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> |
+  <a href='{{site.baseurl}}/docs/changelog/'>Changelog</a> |
   <a href='{{site.baseurl}}/docs/manual/'>Manual</a> |
   <a href='http://support.mapbox.com/discussions/tilemill'>Support</a>
 </small>
@@ -274,6 +275,13 @@ $(function() {
   $('.oslist a').click(function() {
     document.getElementById('bleed').className = $(this).attr('href').split('#').pop();
     return false;
+  });
+  $('.dlbox .actions a').click(function(ev) {
+    _gaq.push([
+        '_trackEvent',
+        'TileMill Download',
+        $(ev.currentTarget).attr('title')
+    ]);
   });
 });
 </script>
