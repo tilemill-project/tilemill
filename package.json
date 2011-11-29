@@ -5,10 +5,10 @@
     "description": "A modern map design studio.",
     "keywords": ["map", "design", "cartography"],
     "url": "http://github.com/developmentseed/tilemill",
-    "repositories": [{
+    "repository": {
         "type": "git",
-        "url": "git://github.com/developmentseed/tilemill.git"
-    }],
+        "url": "git://github.com/mapbox/tilemill.git"
+    },
     "contributors": [
         "Tom MacWright <tmcw>",
         "Konstantin Kaefer <kkaefer>",
