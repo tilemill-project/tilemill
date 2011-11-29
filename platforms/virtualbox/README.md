@@ -187,6 +187,10 @@ Put this link in the Vendor URL:
 
     http://mapbox.com/tilemill/docs/tutorials/virtualbox
 
+
+Note: DO NOT rename the .ova file after exporting, as this will break the ability to
+import it on some machines. If you need to rename the file then re-export it.
+
 And upload to:
 
  http://tilemill-vm.s3.amazonaws.com/TileMill-$VER-32bit.ova
