@@ -4,6 +4,12 @@ section: documentation
 category: tutorials
 title: Point data
 permalink: /docs/tutorials/point-data
+code1: |
+  <strong>Total Funding: {{{Fund}}}</strong><br />
+  <em>Type of Research: {{{Type}}}</em><br />
+  Year: {{{Year}}}<br />
+  Technological Sophistication: {{{Tech}}}<br />
+  Number of Researchers: {{{Numb}}}<br />
 ---
 Here's what we'll cover:
 
@@ -140,15 +146,7 @@ It is tempting to try and present the entire contents of a dataset visually on t
 
 To mitigate the tension between complex datasets and available space, TileMill provides an interactivity feature that allows users to reveal various aspects of the data as they hover over data points. By clicking on the interactivity section of the settings menu above and to the right of the style sheet, you can enter tokens for the column values you'd like to appear from a particular layer. Using some html, here's a basic sample of what you might use for the above example:
 
-{% literal %}
-
-    <strong> Total Funding: {{{Fund}}} </strong><br />
-    <em> Type of Research: {{{Type}}} </em><br />
-    Year: {{{Year}}} <br />
-    Technological Sophistication: {{{ Tech }}}<br />
-    Number of Researchers: {{{Numb}}}<br />
-
-{% endliteral %}
+<pre>{{page.code1|xml_escape}}</pre>
 
 With all of these suggestions implemented, you can come up with a map looking something like this, at a high zoom level:
 

@@ -65,10 +65,10 @@ To begin, add a new column to your dataset based on an address field by fetching
 - Set a throttle delay, or how many milliseconds to wait between each API call--consult the terms of service for the geocoding API to see if they have rate limiting
 - Enter an expression that joins data from the appropriate address columns and passes it to the geocoding API
 
-Note: in the below code replace `**YOUR_YAHOO_API_KEY**` with your key, also removing the `*` marks.
+Note: in the below code replace `[YOUR_YAHOO_API_KEY]` with your key.
 
-		"http://where.yahooapis.com/geocode?appid=**YOUR_YAHOO_API_KEY**&flags=J&q="+escape(
-	    join(
+    "http://where.yahooapis.com/geocode?appid=[YOUR_YAHOO_API_KEY]&flags=J&q="+escape(
+      join(
         [
           forNonBlank(cells.pop_st_address_1.value, v, v, ""), 
           forNonBlank(cells.pop_st_address_2.value, v, v, ""),  
@@ -77,8 +77,8 @@ Note: in the below code replace `**YOUR_YAHOO_API_KEY**` with your key, also rem
           forNonBlank(cells.pop_postal_cd.value, v, v, "")
         ],
         " "),
-	    "url"
-		)
+      "url"
+    )
 
 ![Screenshot of Fetch By URL settings](http://img.skitch.com/20110513-ppgujy9hrmrd5cmfd5injgh6nn.jpg)
 		
@@ -92,16 +92,14 @@ For example, given a different spreadsheet that looks like this:
 
 Your refine geocoding expression would look like:
 
-<pre>
-"http://where.yahooapis.com/geocode?appid=**YOUR_YAHOO_API_KEY**&flags=J&q="+escape(
-  join(
-  [
-    forNonBlank(cells.name.value, v, v, "")
-  ],
-  " "),
-  "url"
-)
-</pre>
+    "http://where.yahooapis.com/geocode?appid=[YOUR_YAHOO_API_KEY]&flags=J&q="+escape(
+      join(
+      [
+        forNonBlank(cells.name.value, v, v, "")
+      ],
+      " "),
+      "url"
+    )
 
 When I click OK, Refine will make this url for each row in the dataset, request it, and then store the response in a new column. This process may take some time to complete.
 
