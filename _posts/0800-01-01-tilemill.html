@@ -27,8 +27,7 @@ platforms:
 ---
 <style>
 .wrapper { background:#e0f0f4; }
-hr { background-color:#c0d8e0; }
-
+.content hr { background-color:#c0d8e0; }
 .content .box {
   position:relative;
   background-color:#fff;
@@ -40,10 +39,6 @@ hr { background-color:#c0d8e0; }
   }
 .content .box.short { min-height:160px; }
 .content .box.tall { min-height:300px; }
-.content .box.image {
-  padding-right:140px;
-  background-position:95% 20px;
-  }
 
 .box .more {
   position:absolute;
@@ -108,6 +103,46 @@ hr { background-color:#c0d8e0; }
 
 .oslist,
 .oslist a { margin:0px 5px; }
+
+.img100x120 {
+  display:block;
+  width:100px;
+  height:120px;
+  margin:0px 0px 20px;
+  background:url({{site.baseurl}}/assets/pages/tilemill.png) 100px 120px no-repeat;
+  }
+
+.img160x100 {
+  display:block;
+  width:160px;
+  height:100px;
+  margin:0px 0px 20px;
+  background:url({{site.baseurl}}/assets/pages/tilemill.png) 160px 100px no-repeat;
+  }
+
+.img400x160 {
+  display:block;
+  width:400px;
+  height:160px;
+  margin:0px 0px 20px;
+  background:url({{site.baseurl}}/assets/pages/tilemill.png) 400px 160px no-repeat;
+  }
+
+.img0 { background-position:0px 0px; }
+.img1 { background-position:-170px 0px; }
+.img2 { background-position:-340px 0px; }
+.img3 { background-position:-510px 0px; }
+.img4 { background-position:0px -110px; }
+.img5 { background-position:-170px -110px; }
+.img6 { background-position:-340px -110px; }
+.img7 { background-position:-510px -110px; }
+.img8 { background-position:0px -220px; }
+.img9 { background-position:0px -390px; }
+.imga { background-position:-460px -220px; }
+.imgb { background-position:-570px -220px; }
+
+.img100x120.right { float:right; margin-left:20px; }
+
 </style>
 
 <div id='bleed' class='mac'><div class='limiter' style='height:560px'>
@@ -148,13 +183,15 @@ hr { background-color:#c0d8e0; }
   TileMill is an application for making beautiful maps. Whether you're a journalist, web designer, researcher,	 or seasoned cartographer, TileMill is the design studio you need to create compelling, interactive maps.
   </big></p>
 
-  <div class='col-2'><div class='box short image' style='background-image:url({{site.baseurl}}/assets/pages/octocat.png)'>
+  <div class='col-2'><div class='box short'>
+    <span class='img100x120 right imga'></span>
     <h3>Powered by Open Source</h3>
     <p>TileMill is built on a suite of modern open source libraries including <a href='http://mapnik.org'>Mapnik</a>, <a href='http://nodejs.org'>node.js</a>, <a href='http://documentcloud.github.com/backbone'>backbone.js</a>, <a href='http://expressjs.com'>express</a> and <a href='http://codemirror.net'>CodeMirror</a>. Jump on <a href='http://github.com'>GitHub</a> where you can dig into the source code.</p>
     <small class='more'><a href='http://github.com/mapbox/tilemill'>Fork me on GitHub &rarr;</a></small>
   </div></div>
 
-  <div class='col-2'><div class='box short image' style='background-image:url({{site.baseurl}}/assets/pages/ipad.png)'>
+  <div class='col-2'><div class='box short'>
+    <span class='img100x120 right imgb'></span>
     <h3>Mobile ready</h3>
     <p>Every map you make in TileMill is mobile ready. By leveraging the portable, fast <a href='{{site.url}}/mbtiles-spec/'>MBTiles</a> format, each TileMill map looks and works great on the web and offline.</p>
     <small class='more'><a href='{{site.url}}/ipad/'>MapBox for iPad &rarr;</a></small>
@@ -168,22 +205,22 @@ hr { background-color:#c0d8e0; }
   Working with GIS data isn't easy. That's why TileMill automates as much as possible for you &mdash; sharing data between projects, downloading and unzipping shapefiles, autodetecting projections, indexing SQLite databases &mdash; so that you can focus on making beautiful maps.
   </big></p>
   <div class='col-1'><div class='box tall'>
-    <img src='http://placehold.it/160x100/eee/ccc.png' />
+    <span class='img160x100 img0'></span>
     <h3>Datasources</h3>
     <small>TileMill can read from a wide range of popular file formats and databases: ESRI Shapefile, KML, GeoJSON, GeoTIFF, PostGIS, and SQLite.</small>
   </div></div>
   <div class='col-1'><div class='box tall'>
-    <img src='http://placehold.it/160x100/eee/ccc.png' />
+    <span class='img160x100 img1'></span>
     <h3>Raster support</h3>
     <small>Show satellite terrain data or make use of your DIY weather balloon aerial photography with TileMill's raster image support.</small>
   </div></div>
   <div class='col-1'><div class='box tall'>
-    <img src='http://placehold.it/160x100/eee/ccc.png' />
+    <span class='img160x100 img2'></span>
     <h3>Feature inspection</h3>
     <small>With a built-in data inspector, you can see details about every lake, country, or road from your datasource.</small>
   </div></div>
   <div class='col-1'><div class='box tall'>
-    <img src='http://placehold.it/160x100/eee/ccc.png' />
+    <span class='img160x100 img3'></span>
     <h3>Spreadsheets</h3>
     <small>Map data directly from a Google Docs spreadsheet using TileMill's built-in CSV integration.</small>
   </div></div>
@@ -196,22 +233,22 @@ hr { background-color:#c0d8e0; }
   At TileMill's core is the Mapnik rendering engine. Mapnik is a powerful, full-featured library including support for RGBA color, True Type fonts, rasters, patterns, and even SVG transforms. Leverage all of these features using the simple, elegant syntax of the Carto styling language.
   </big></p>
   <div class='col-1'><div class='box tall'>
-    <img src='http://placehold.it/160x100/eee/ccc.png' />
+    <span class='img160x100 img4'></span>
     <h3>Patterns &amp; textures</h3>
     <small>Stamp trees across parks, add paper creases to maps. With full alpha-channel support and the ability to add multiple layers and fills TileMill can create richly textured maps.</small>
   </div></div>
   <div class='col-1'><div class='box tall'>
-    <img src='http://placehold.it/160x100/eee/ccc.png' />
+    <span class='img160x100 img5'></span>
     <h3>Fonts</h3>
     <small>Use all your TrueType, OpenType and PostScript fonts for custom map typography.</small>
   </div></div>
   <div class='col-1'><div class='box tall'>
-    <img src='http://placehold.it/160x100/eee/ccc.png' />
+    <span class='img160x100 img6'></span>
     <h3>SVG markers</h3>
     <small>Use vector SVGs to make your markers smooth at any scale. Advanced SVG transforms give you the ability resize and transform your images right in TileMill.</small>
   </div></div>
   <div class='col-1'><div class='box tall'>
-    <img src='http://placehold.it/160x100/eee/ccc.png' />
+    <span class='img160x100 img7'></span>
     <h3>Carto</h3>
     <small>Inspired by CSS, Carto makes it easy to control even the most complex map designs. Mixins, variables, and functions are at your fingertips in an autocomplete-enabled code editor.</small>
   </div></div>
@@ -226,17 +263,17 @@ Enrich your maps with hover tooltips and clickable pop ups. Reveal details in yo
 </big></p>
 
 <div class='col-2'><div class='box tall'>
-<img src='http://placehold.it/400x160/eee/ccc.png' />
+<span class='img400x160 img8'></span>
 <h3>UTF-8 grid technology</h3>
 <small>TileMill leverages the UTF-8 grid standard for describing interactive data for tile images. UTF-8 grid is fast, flexible, and scalable making it perfect for mapping whole countries down to to individual city blocks.</small>
 <small class='more'><a href='{{site.url}}/mbtiles-spec/utfgrid/'>Learn about UTF-8 grids &rarr;</a></small>
 </div></div>
 
 <div class='col-2'><div class='box tall'>
-<img src='http://placehold.it/400x160/eee/ccc.png' />
+<span class='img400x160 img9'></span>
 <h3>Embed graphs &amp; images</h3>
 <small>Leverage custom interaction formatters and templates to insert graphs, images, links, and other content into your maps. Interactive content can cover the full spectrum of HTML and CSS.</small>
-<small class='more'><a href='{{site.url}}/docs/tutorials/google-charts/'>How to embed charts in TileMill &rarr;</a></small>
+<small class='more'><a href='{{site.baseurl}}/docs/tutorials/google-charts/'>How to embed charts in TileMill &rarr;</a></small>
 </div></div>
 
 </div>
@@ -245,20 +282,16 @@ Enrich your maps with hover tooltips and clickable pop ups. Reveal details in yo
 
 <div class='clearfix'>
   <div class='col-2'>
-  <h2>Common questions</h2>
   <h3>I have never made a map...</h3>
   <p>If you have ever written one line of CSS, you'll be right at home with TileMill's map styling language Carto. TileMill comes with well-documented examples that illustrate the basics of layer management, feature styling, and interaction. A <a href='{{site.baseurl}}/docs/manual/'>step-by-step manual</a> can teach you everything you need to know about geodata, projections, and symbolizers.</p>
+  </div>
+  <div class='col-1'>
   <h3>Is there a Windows version?</h3>
   <p>Not yet. <a href='http://nodejs.org'>Node.js</a> is expected to have full Windows support in the next stable version. When that happens, we'll evaluate the feasibility of a Windows port. Until then you may want to try the <a href='http://support.mapbox.com/kb/introduction-installation/tilemill-virtualbox-vm'>VirtualBox VM</a> for running TileMill on Windows.</p>
+  </div>
+  <div class='col-1'>
   <h3>Have more questions?</h3>
   <p>Feel free to <a href='{{site.url}}/contact/index.html'>contact us</a> with any questions regarding TileMill or map design in general.</p>
-  </div>
-  <div class='col-1'>
-  <h3>Need help?</h3>
-  <p></p>
-  </div>
-  <div class='col-1'>
-  <h3>Need hosting?</h3>
   </div>
 </div>
 
