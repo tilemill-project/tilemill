@@ -6,11 +6,10 @@
 ### The 'oldrev' is only needed for 0.5.0/0.5.1 since the
 ### Sparkle scheme changed for 0.6.0+ (see #730).
 ###
-tag: changelog
+tag: installation
 layout: changelog
 section: documentation
 category: TileMill
-tag: installation
 date: 0201-01-30
 title: Changelog
 permalink: /docs/changelog
