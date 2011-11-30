@@ -15,6 +15,7 @@ view.prototype.events = {
     'click .layers a.inspect': 'layerInspect',
     'click .layers a.delete': 'layerDelete',
     'click .editor a.add': 'stylesheetAdd',
+    'dblclick .tabs a': 'stylesheetRename',
     'click .editor a.delete': 'stylesheetDelete',
     'sortupdate .layers ul': 'sortLayers',
     'sortupdate .tabs': 'sortStylesheets',
@@ -61,6 +62,13 @@ view.prototype.initialize = function() {
     }).bind(this), 1000);
 
     window.onbeforeunload = window.onbeforeunload || this.unload;
+
+    this.model.get('Stylesheet').bind('add', this.makeStylesheet);
+    this.model.get('Stylesheet').bind('remove', _(function(model) {
+        model.el.remove();
+        $(model.codemirror.getWrapperElement()).remove();
+        this.$('.tabs a.tab:last').click();
+    }).bind(this));
 
     this.model.bind('save', this.attach);
     this.model.bind('change', this.change);
@@ -201,13 +209,6 @@ view.prototype.makeStylesheet = function(model) {
         .addClass(id)
         .addClass(model.collection.indexOf(model) === 0 ? 'active' : '');
     this.$('.editor ul').append(model.el);
-
-    // Bind to the 'remove' event to teardown.
-    model.bind('remove', _(function(model) {
-        model.el.remove();
-        $(model.codemirror.getWrapperElement()).remove();
-        this.$('.tabs a.tab:last').click();
-    }).bind(this));
 };
 
 // Set the model center whenever the map is moved.
@@ -385,8 +386,41 @@ view.prototype.stylesheetAdd = function(ev) {
     var model = new models.Stylesheet({}, {
         collection: this.model.get('Stylesheet')
     });
-    model.bind('add', this.makeStylesheet);
-    new views.Stylesheet({el:$('#popup'), model:model});
+    new views.Stylesheet({
+        el: $('#popup'),
+        model: model
+    });
+};
+
+view.prototype.stylesheetRename = function(ev) {
+    var id = $(ev.currentTarget).text()
+        .replace(/^\s*/, '')
+        .replace(/\s*$/, '');
+
+    var model = this.model.get('Stylesheet').get(id);
+    var $input = $('<input type="text"></input>').val(id);
+    $(ev.currentTarget).replaceWith($input);
+
+    var submit = _(function() {
+        if ($input.val() !== id) {
+            var options = { error: function(m, e) { new views.Modal(e); } };
+            var new_model = model.clone();
+            // TODO: Necessary for duplicate checking during validation, but is
+            // it wise to set the collection before adding it to the
+            // collection? We do this elsewhere.
+            new_model.collection = this.model.get('Stylesheet');
+            if (new_model.set({id:$input.val()}, options)) {
+                this.model.get('Stylesheet').add(new_model);
+                this.model.get('Stylesheet').remove(model);
+            }
+        }
+    }).bind(this)
+
+    $input
+    .blur(submit)
+    .keydown(function(e) {
+        if (e.which == 13) submit();
+    }).focus();
 };
 
 view.prototype.stylesheetDelete = function(ev) {
