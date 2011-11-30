@@ -3,18 +3,23 @@ navigation:
   - title: Maps
     path: http://tiles.mapbox.com
     category: maps
+    class: maps
   - title: Tour
     path: /tour
     category: tour
+    class: tour
   - title: TileMill
     path: /tilemill
     category: tilemill
+    class: tilemill
   - title: Help
     path: /help
     category: help,documentation
+    class: help
   - title: Plans + Pricing
     path: /plans
     category: plans
+    class: plans
 footer:
   - title: About
     path: /about
@@ -50,9 +55,9 @@ footer:
       {% capture url %}{{site.url}}{{item.path}}/{% endcapture %}
     {% endif %}
     {% if item.category contains page.category or item.category contains page.section %}
-      {% capture class %}{{item.category | split:',' | first}} active{% endcapture %}
+      {% capture class %}{{item.class}} active{% endcapture %}
     {% else %}
-      {% capture class %}{{item.category | split:',' | first}}{% endcapture %}
+      {% capture class %}{{item.class}}{% endcapture %}
     {% endif %}
     <li class='{{class}}'>
       <a href='{{url}}'><span class='icon'></span>{{item.title}}</a>
