@@ -26,7 +26,7 @@ GeoJSON is a specification for storing spatial data in [JavaScript Object Notati
 
 ## KML
 
-KML is a standard geospatial data format that was originally developed for and popularized by Google Earth. TileMill has limited support of this format–point and polygon styles will be ignored, and other features such as images and 3D models are not supported. There is also no support for the compressed KMZ format at this time.
+KML is a standard geospatial data format that was popularized by Google with the Google Earth and Google Maps products. TileMill has limited support of KML – embedded styles will be ignored, and other features such as images, flythroughs, and 3D models are not supported. There is also no support for the compressed KMZ format at this time: to use a KMZ file, simply uncompress it as a zip file, and then use the resulting KML file.
 
 ## GeoTIFF
 
