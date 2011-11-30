@@ -46,10 +46,14 @@ platforms:
   bottom:10px;
   }
 
-#bleed {
+#bleed,
+#bleed .limiter {
   height:560px;
-  background:#040812 url({{site.baseurl}}/assets/pages/screenshot.jpg) 50% 100% no-repeat;
   overflow:hidden;
+  }
+
+#bleed {
+  background:#040812 url({{site.baseurl}}/assets/pages/screenshot.jpg) 50% 100% no-repeat;
   margin:0px 0px 40px;
   }
 
@@ -145,7 +149,7 @@ platforms:
 
 </style>
 
-<div id='bleed' class='mac'><div class='limiter' style='height:560px'>
+<div id='bleed' class='mac'><div class='limiter'>
 {% for item in page.platforms %}
 <div class='dlbox {{item.id}}'>
 <h1>Download TileMill</h1>
@@ -254,7 +258,7 @@ platforms:
   <div class='col-1'><div class='box tall'>
     <span class='img160x100 img7'></span>
     <h3>Carto</h3>
-    <small>Inspired by CSS, Carto makes it easy to control even the most complex map designs. Mixins, variables, and functions are at your fingertips in an autocomplete-enabled code editor.</small>
+    <small>Inspired by CSS, Carto gives you full control over your map design. Mixins, variables, and functions are at your fingertips in the code editor.</small>
   </div></div>
 </div>
 
@@ -303,7 +307,7 @@ Enrich your maps with hover tooltips and clickable pop ups. Reveal details in yo
 
 <script type='text/javascript'>
 document.getElementById('bleed').className = (function() {
-  if (navigator.appVersion.indexOf('Win') != -1) return 'win';
+  if (navigator.appVersion.indexOf('Win') != -1) return 'windows';
   if (navigator.appVersion.indexOf('Mac') != -1) return 'mac';
   if (navigator.appVersion.indexOf('X11') != -1 || navigator.appVersion.indexOf('Linux') != -1) return 'linux';
   return 'mac'; // default to Mac.
