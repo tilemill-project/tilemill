@@ -24,4 +24,4 @@ exclude:
 baseurl: /tilemill
 permalink: /:categories/:title
 title: TileMill
-url: http://localhost:4001
+url: http://mapbox.com
