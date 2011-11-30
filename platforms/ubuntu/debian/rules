@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+
+files = $(shell find `pwd` -name wscript | sed 's,/wscript,/,g')
+
+build:
+	for file in $(files) ; do \
+		if [ -f "$$file/Makefile" ]; then \
+			cd $$file ; \
+			make clean ; \
+			if [ $$(echo "$$file" | grep "sqlite2") ]; then \
+		        ./configure --with-sqlite3=/usr/lib ; \
+			else \
+			    ./configure ; \
+			fi ; \
+			make ; \
+		fi ; \
+	done
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+

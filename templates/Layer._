@@ -1,0 +1,214 @@
+<div class='dock fill'>
+  <div class='toggler icons fill-w'>
+    <% if (isNew() || get('Datasource') && get('Datasource').file && get('Datasource').type != 'sqlite') {%>
+    <a href='#layerFile' class='active'><span class='icon file'></span>File</a>
+    <% } %>
+    <% if ((isNew() && _(window.abilities.datasources).include('postgis')) || get('Datasource') && get('Datasource').type === 'postgis') {%>
+    <a href='#layerPostGIS' <% if(get('Datasource')) { %>class='active'<% } %>><span class='icon postgis'></span>PostGIS</a>
+    <% } %>
+    <% if (isNew() || get('Datasource') && get('Datasource').type == 'sqlite') {%>
+    <a href='#layerSqlite'><span class='icon sqlite'></span>SQLite</a>
+    <% } %>
+  </div>
+
+  <% if (isNew() || get('Datasource') && get('Datasource').file) {%>
+  <form class='layerFile active'><ul class='form'>
+    <li class='expand text'>
+      <h2>File</h2>
+      <div class='description'>Use a URL or filepath to a shape, csv, kml, geojson, or geotiff file for this layer.</div>
+    </li>
+    <li>
+      <label for='id'><span class='required'>*</span> ID</label>
+      <input type='text' name='id' value='<%=get('id')%>' size='20'/>
+      <span class='description'>select in Carto <code>#id</code></span>
+    </li>
+    <li>
+      <label for='class'>Class</label>
+      <input type='text' name='class' value='<%=get('class')%>' size='20'/>
+      <span class='description'>select in Carto <code>.class</code></span>
+    </li>
+    <li class='expand'>
+      <label for='file'><span class='required'>*</span> Datasource</label>
+      <input type='text' name='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' size='60'/>
+      <a href='#favorite' class='icon favorite'>Favorite</a>
+      <a href='#open' class='button open'>Browse</a>
+      <small class='cache description hidden'>
+        Does the layer data appear stale? <a href='#cacheFlush'>Flush cache</a>
+      </small>
+      <div class='browser'></div>
+    </li>
+    <li>
+      <label for='srs-name'>SRS</label>
+      <select name='srs-name'>
+        <option value='autodetect' <% if (srsName() === 'autodetect') { %>selected='selected'<% } %>>
+          Autodetect
+        </option>
+        <option value='900913' <% if (srsName() === '900913') { %>selected='selected'<% } %>>
+          900913
+        </option>
+        <option value='WGS84'  <% if (srsName() === 'WGS84') { %>selected='selected'<% } %>>
+          WGS84
+        </option>
+        <option value='custom' <% if (srsName() === 'custom') { %>selected='selected'<% } %>>
+          Custom
+        </option>
+      </select>
+      <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='Autodetect' />
+      <small class='description'>SRS projection string for this datasource. TileMill can often autodetect this value.</small>
+    </li>
+    <li>
+      <label for='advanced'>Advanced</label>
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
+      <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
+    </li>
+    <li class='buttons'>
+      <input type='submit' value='Save' />
+      <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul></form>
+  <% } %>
+
+  <% if ((isNew() && _(window.abilities.datasources).include('postgis')) || get('Datasource') && get('Datasource').type === 'postgis') {%>
+  <form class='layerPostGIS'><ul class='form'>
+    <li class='expand text'>
+      <h2>PostGIS</h2>
+      <div class='description'>Use a table or SQL query against a PostGIS database for this layer.</div>
+    </li>
+    <li>
+      <label for='id'><span class='required'>*</span> ID</label>
+      <input type='text' name='id' value='<%=get('id')%>' size='20'/>
+      <span class='description'>select in Carto <code>#id</code></span>
+    </li>
+    <li>
+      <label for='class'>Class</label>
+      <input type='text' name='class' value='<%=get('class')%>' size='20'/>
+      <span class='description'>select in Carto <code>.class</code></span>
+    </li>
+    <li class='expand'>
+      <label for='connection'><span class='required'>*</span> Connection</label>
+      <input type='text' name='connection' id='connection' placeholder='host=? port=? user=? password=? dbname=?' value='<%if (get("Datasource")) { (function(d) { if (d.dbname) { print("dbname="+d.dbname) } if (d.host) { print(" host="+d.host) } if (d.port) { print(" port="+d.port) } if (d.user) { print(" user="+d.user) } if (d.password) { print(" password="+d.password) } } )(get("Datasource")); } %>' size='60' />
+      <a href='#favorite' class='icon favorite'>Favorite</a>
+      <a href='#open' class='button open'>Browse</a>
+      <small class='description'>Provide your PostGIS authentication and connection parameters.</small>
+      <div class='browser'></div>
+    </li>
+    <li>
+      <label for='table'><span class='required' title='This field is required'>*</span> Table or subquery</label>
+      <div class='inline'>
+        <textarea name='table' cols='60' rows='4'><%=get('Datasource') && get('Datasource').table%></textarea>
+      </div>
+    </li>
+    <li>
+      <label for='extent'>Extent</label>
+      <input type='text' name='extent' value='<%=get('Datasource') && get('Datasource').extent%>' />
+      <span class='description'>limit the query by this bounding box</span>
+    </li>
+    <li>
+      <label for='extent'>Unique Key Field</label>
+      <input type='text' name='key_field' value='<%=get('Datasource') && get('Datasource').key_field%>' />
+      <span class='description'>SQL field containing a unique key for each feature</span>
+    </li>
+    <li>
+      <label for='extent'>Geometry Field</label>
+      <input type='text' name='geometry_field' value='<%=get('Datasource') && get('Datasource').geometry_field%>' />
+      <span class='description'>SQL field containing feature geometry</span>
+    </li>
+    <li>
+      <label for='srs-name'>SRS</label>
+      <select name='srs-name'>
+        <option value='900913' <% if (srsName() === '900913') { %>selected='selected'<% } %>>
+          900913
+        </option>
+        <option value='WGS84'  <% if (srsName() === 'WGS84') { %>selected='selected'<% } %>>
+          WGS84
+        </option>
+        <option value='custom' <% if (srsName() === 'custom') { %>selected='selected'<% } %>>
+          Custom
+        </option>
+      </select>
+      <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='<%=SRS["900913"]%>' />
+      <small class='description'>SRS projection string for this datasource.</small>
+    </li>
+    <li>
+      <label for='advanced'>Advanced</label>
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
+      <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
+    </li>
+    <li class='buttons'>
+      <input type='submit' value='Save' />
+      <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul></form>
+  <% } %>
+
+  <% if (isNew() || get('Datasource') && get('Datasource').file) {%>
+  <form class='layerSqlite'><ul class='form'>
+    <li class='expand text'>
+      <h2>SQLite</h2>
+      <div class='description'>Use a table or query against an SQLite database file.</div>
+    </li>
+    <li>
+      <label for='id'><span class='required'>*</span> ID</label>
+      <input type='text' name='id' value='<%=get('id')%>' size='20'/>
+      <span class='description'>select in Carto <code>#id</code></span>
+    </li>
+    <li>
+      <label for='class'>Class</label>
+      <input type='text' name='class' value='<%=get('class')%>' size='20'/>
+      <span class='description'>select in Carto <code>.class</code></span>
+    </li>
+    <li class='expand'>
+      <label for='file'><span class='required'>*</span> Datasource</label>
+      <input type='text' name='file' value='<%= get('Datasource') ? get('Datasource').file : '' %>' size='60'/>
+      <a href='#favorite' class='icon favorite'>Favorite</a>
+      <a href='#open' class='button open'>Browse</a>
+      <small class='cache description hidden'>
+        Does the layer data appear stale? <a href='#cacheFlush'>Flush cache</a>
+      </small>
+      <div class='browser'></div>
+    </li>
+    <li>
+      <label for='table'><span class='required' title='This field is required'>*</span> Table or subquery</label>
+      <div class='inline'>
+        <textarea name='table' cols='60' rows='4'><%=get('Datasource') && get('Datasource').table%></textarea>
+      </div>
+    </li>
+    <li>
+      <label for='attachdb'>Attach DB</label>
+      <input type='text' name='attachdb' value='<%=get('Datasource') && get('Datasource').attachdb%>' placeholder='name1@file/path.sqlite,name2@other.sqlite' />
+      <span class='description'>attach additional databases for joins</span>
+    </li>
+    <li>
+      <label for='extent'>Extent</label>
+      <input type='text' name='extent' value='<%=get('Datasource') && get('Datasource').extent%>' />
+      <span class='description'>limit the query by this bounding box</span>
+    </li>
+    <li>
+      <label for='srs-name'>SRS</label>
+      <select name='srs-name'>
+        <option value='900913' <% if (srsName() === '900913') { %>selected='selected'<% } %>>
+          900913
+        </option>
+        <option value='WGS84'  <% if (srsName() === 'WGS84') { %>selected='selected'<% } %>>
+          WGS84
+        </option>
+        <option value='custom' <% if (srsName() === 'custom') { %>selected='selected'<% } %>>
+          Custom
+        </option>
+      </select>
+      <input type='text' name='srs' value='<%=get('srs')%>' size='40' placeholder='<%=SRS["900913"]%>' />
+      <small class='description'>SRS projection string for this datasource.</small>
+    </li>
+    <li>
+      <label for='advanced'>Advanced</label>
+      <input type='text' name='advanced' value='<%=get('Datasource') && advancedDatasourceOptions()%>' placeholder='option1="?" option2="?"' />
+      <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
+    </li>
+    <li class='buttons'>
+      <input type='submit' value='Save' />
+      <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul></form>
+  <% } %>
+</div>
+

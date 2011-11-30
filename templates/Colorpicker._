@@ -1,0 +1,8 @@
+<div id='colorpicker'>
+<div class='caret'></div>
+<div class='buttons'>
+  <a href='#save' class='button'><span class='icon edit reverse labeled'></span> Save</a>
+  <a href='#close' class='button'><span class='icon close reverse labeled'></span> Cancel</a>
+</div>
+<input name='find' type='hidden' value='<%=find%>' />
+</div>

@@ -1,0 +1,131 @@
+<div class='dock fill'>
+  <div class='toggler icons fill-w'>
+    <a class='active' href='#settingsProject'><span class='icon settings'></span>Project</a>
+    <a href='#settingsTooltips'><span class='icon tooltip'></span>Tooltips</a>
+    <a href='#settingsLegend'><span class='icon legend'></span>Legend</a>
+  </div>
+  <form class='settingsProject active'><ul class='form'>
+    <li class='text'>
+      <h2>Project information</h2>
+      <div class='description'>Adjust metadata for this project.</div>
+    </li>
+    <li>
+      <label for='name'>Name</label>
+      <input type='text' name='name' size='40' value='<%= get('name') %>' />
+    </li>
+    <li>
+      <label for='description'>Description</label>
+      <input type='text' name='description' size='60' value='<%= get('description') %>' />
+    </li>
+    <li>
+      <label for='attribution'>Attribution</label>
+      <input type='text' name='attribution' size='60' value='<%= get('attribution') %>' />
+    </li>
+    <li>
+      <label for='version'>Version</label>
+      <input type='text' name='version' size='10' value='<%= get('version') %>' />
+    </li>
+    <li>
+      <label for='format'>Image format</label>
+      <select name='format'>
+        <option value='png'<% if (get('format') == 'png') { %> selected='selected' <% } %>>png (24-bit)</option>
+        <option value='png8'<% if (get('format') == 'png8') { %> selected='selected' <% } %>>png (8-bit)</option>
+        <option value='jpeg80'<% if (get('format') == 'jpeg80') { %> selected='selected' <% } %>>jpeg (80%)</option>
+        <option value='jpeg85'<% if (get('format') == 'jpeg85') { %> selected='selected' <% } %>>jpeg (85%)</option>
+        <option value='jpeg90'<% if (get('format') == 'jpeg90') { %> selected='selected' <% } %>>jpeg (90%)</option>
+        <option value='jpeg95'<% if (get('format') == 'jpeg95') { %> selected='selected' <% } %>>jpeg (95%)</option>
+      </select>
+    </li>
+    <li>
+      <label>Zoom levels</label>
+      <div class='slider'></div>
+      <div class='description help'>
+        Zoom
+        <span class='minzoom'><%=get('minzoom')%></span> -
+        <span class='maxzoom'><%=get('maxzoom')%></span>
+      </div>
+    </li>
+    <li>
+      <label for='bounds'>Bounds</label>
+      <span class='description'>W</span> <input type='text' name='bounds_0' size='6' value='<%= get('bounds')[0] %>' />&deg;
+      <span class='description'>S</span> <input type='text' name='bounds_1' size='6' value='<%= get('bounds')[1] %>' />&deg;
+      <span class='description'>E</span> <input type='text' name='bounds_2' size='6' value='<%= get('bounds')[2] %>' />&deg;
+      <span class='description'>N</span> <input type='text' name='bounds_3' size='6' value='<%= get('bounds')[3] %>' />&deg;
+    </li>
+    <li>
+      <label for='center'>Center</label>
+      <span class='description'>Lon</span> <input type='text' name='center_0' size='6' value='<%= get('center')[0] %>' />&deg;
+      <span class='description'>Lat</span> <input type='text' name='center_1' size='6' value='<%= get('center')[1] %>' />&deg;
+      <span class='description'>Zoom</span> <input type='text' name='center_2' size='6' value='<%= get('center')[2] %>' />
+    </li>
+    <li>
+      <label>Advanced</label>
+      <span class='description'>View the rendered <a href='<%= url() %>.xml' target='_blank'>Mapnik XML</a> for this project.</span>
+    </li>
+    <li class='buttons'>
+      <input type='submit' value='Save' />
+      <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul></form>
+  <form class='settingsTooltips interactivity'><ul class='form'>
+    <li class='text'>
+      <h2>Tooltips</h2>
+      <div class='description'>Adjust interaction settings for this project.</div>
+    </li>
+    <li>
+      <label>Layer</label>
+      <select name='layer'>
+        <option value=''>-- disabled --</option>
+        <% get('Layer').each(function(layer) { %>
+          <option <% if ((get('interactivity') || {}).layer === layer.get('id')) { %>selected='selected'<% } %> value='<%= layer.get('id') %>'><%= layer.get('id') %></option>
+        <% }); %>
+      </select>
+      <span class='description'>Layer to use for interaction data</span>
+    </li>
+    <li class='dependent'>
+      <label>Fields</label>
+      <div class='description'>
+        These <a target='blank' href='http://mustache.github.com/'>Mustache</a> tags will be replaced by data
+        in the templates below. You can also use the full
+        <a target='blank' href='http://mustache.github.com/mustache.5.html'>Mustache template language</a>
+        to customize your tooltips.
+        <div class='tokens'></div>
+      </div>
+    </li>
+    <li class='dependent'>
+      <label>Location</label>
+      <input type='text' size='60' name='template_location' value='<%= (get('interactivity') || {}).template_location %>' placeholder='http://www.example.com/regions/{{{name}}}.html' />
+      <div class='preview'></div>
+    </li>
+    <li class='dependent'>
+      <label>Teaser<small class='description'>Basic HTML</small></label>
+      <textarea cols='60' rows='2' name='template_teaser'><%= (get('interactivity') || {}).template_teaser %></textarea>
+      <div class='preview'></div>
+    </li>
+    <li class='dependent'>
+      <label>Full<small class='description'>Basic HTML</small></label>
+      <textarea cols='60' rows='2' name='template_full'><%= (get('interactivity') || {}).template_full %></textarea>
+      <div class='preview'></div>
+    </li>
+    <li class='buttons'>
+      <input type='submit' value='Save' />
+      <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul></form>
+  <form class='settingsLegend'><ul class='form'>
+    <li class='text'>
+      <h2>Legend</h2>
+      <div class='description'>A legend to display on the map.</div>
+    </li>
+    <li>
+      <label>Legend</label>
+      <textarea cols='60' rows='10' name='legend'><%= get('legend') %></textarea>
+      <div class='description'>Enter text or HTML content.</div>
+    </li>
+    <li class='buttons'>
+      <input type='submit' value='Save' />
+      <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul></form>
+</div>
+

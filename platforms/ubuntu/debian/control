@@ -1,0 +1,28 @@
+Source: tilemill
+Section: web
+Priority: extra
+Maintainer: Ian Ward <ian@developmentseed.org>
+Build-Depends: cdbs (>=0.4.42), 
+ debhelper (>= 7),
+ libsqlite3-0,
+ libsqlite3-dev,
+ libmapnik2,
+ libmapnik2-dev,
+ libzip1,
+ libzip-dev,
+ nodejs-dev
+Standards-Version: 3.8.3
+Homepage: http://github.com/mapbox/tilemill
+
+Package: tilemill
+Architecture: any
+Depends: ${shlibs:Depends},
+ ${misc:Depends},
+ curl,
+ nodejs (>=0.4.8),
+ libsqlite3-0 (>=3.6),
+ libsqlite3-dev,
+ unzip,
+ libmapnik2
+Description: A modern map design studio.
+ A modern map design studio powered by open source technology.

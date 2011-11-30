@@ -1,0 +1,26 @@
+# Project source
+_layouts usr/share/tilemill
+_posts usr/share/tilemill
+assets usr/share/tilemill
+commands usr/share/tilemill
+controllers usr/share/tilemill
+data usr/share/tilemill
+examples usr/share/tilemill
+lib usr/share/tilemill
+models usr/share/tilemill
+node_modules usr/share/tilemill
+servers usr/share/tilemill
+templates usr/share/tilemill
+views usr/share/tilemill
+LICENSE.md usr/share/tilemill
+README.md usr/share/tilemill
+_config.yml usr/share/tilemill
+index.js usr/share/tilemill
+package.json usr/share/tilemill
+
+# Package helpers
+debian/tilemill.config etc/tilemill
+debian/tilemill.conf etc/init
+debian/tilemill.rotate etc/logrotate.d
+debian/tilemill.desktop usr/share/applications
+debian/tilemill.svg usr/share/icons/hicolor/scalable/apps
