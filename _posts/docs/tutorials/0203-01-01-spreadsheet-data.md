@@ -1,7 +1,8 @@
 ---
 layout: book
 section: documentation
-category: tutorials
+category: TileMill
+tag: tutorials
 title: Spreadsheet data
 permalink: /docs/tutorials/spreadsheet-data
 ---

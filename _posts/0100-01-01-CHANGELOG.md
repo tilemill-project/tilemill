@@ -9,7 +9,9 @@
 tag: changelog
 layout: changelog
 section: documentation
-category: installation
+category: TileMill
+tag: installation
+date: 0201-01-30
 title: Changelog
 permalink: /docs/changelog
 releases:

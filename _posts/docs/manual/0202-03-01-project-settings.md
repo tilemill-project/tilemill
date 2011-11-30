@@ -1,7 +1,8 @@
 ---
 layout: book
 section: documentation
-category: manual
+category: TileMill
+tag: manual
 title: Project settings
 permalink: /docs/manual/project-settings
 ---
