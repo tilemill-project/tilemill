@@ -13,7 +13,7 @@
   "format": "png",
   "interactivity": {
     "layer": "country-interaction",
-    "template_teaser": "<div style=\"text-align:center;\">\n\n<img src=\"data:image/png;base64,{{flagpng}}\" /><br>\n<strong>{{ADMIN}}</strong>\n\n</div>",
+    "template_teaser": "<div style=\"text-align:center;\">\n\n<img src=\"data:image/png;base64,{{flag_png}}\" /><br>\n<strong>{{admin}}</strong>\n\n</div>",
     "template_full": "",
     "template_location": ""
   },
@@ -148,13 +148,13 @@
     {
       "id": "country-interaction",
       "name": "country-interaction",
-      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
       "class": "",
       "Datasource": {
         "file": "layers/country-interaction.geojson",
         "id": "country-interaction",
-        "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
-        "project": "geography-class"
+        "project": "geography-class",
+        "srs": null
       },
       "geometry": "polygon"
     }
