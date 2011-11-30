@@ -151,7 +151,7 @@ view.prototype.makeStylesheet = function(model) {
         mode: {
             name: 'carto',
             reference: window.abilities.carto,
-            onColor: this.colors
+            onColor: _.debounce(this.colors, 500)
         },
         onCursorActivity: function() {
             model.set({'data': model.codemirror.getValue()});
@@ -162,7 +162,7 @@ view.prototype.makeStylesheet = function(model) {
             model.codemirror && model.set({
                 data: model.codemirror.getValue()
             });
-            self.colors();
+            _.debounce(self.colors, 500);
         },
         onGutterClick: _(function(editor, line, ev) {
             if (model.errors[line]) {
