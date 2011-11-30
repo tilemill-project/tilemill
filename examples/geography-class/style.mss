@@ -12,7 +12,7 @@ Hover Interaction & Embedded Data
 
 When you move your cursor around the map you should see the 
 name and flag of the country you are hovering over appear
-in the top left. You can pull any attributes from a data
+in the top right. You can pull any attributes from a data
 layer to form tooltips like this. Here, we are pulling a 
 text attribute and a base64-encoded PNG image from a GeoJSON
 file of country polygons. Click on the settings wrench at the
