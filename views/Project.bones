@@ -154,7 +154,7 @@ view.prototype.makeStylesheet = function(model) {
         mode: {
             name: 'carto',
             reference: window.abilities.carto,
-            onColor: _.debounce(this.colors, 500)
+            onColor: this.colors
         },
         onCursorActivity: function() {
             model.set({'data': model.codemirror.getValue()});
