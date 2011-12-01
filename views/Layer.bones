@@ -210,7 +210,7 @@ view.prototype.saveFile = function(e) {
     return false;
 };
 
-view.prototype.savePostGIS = function() {
+view.prototype.savePostGIS = function(e) {
     $(this.el).addClass('loading');
     var attr = {
         'name':  this.$('form.layerPostGIS input[name=id]')
@@ -274,7 +274,7 @@ view.prototype.savePostGIS = function() {
     return false;
 };
 
-view.prototype.saveSqlite = function() {
+view.prototype.saveSqlite = function(e) {
     $(this.el).addClass('loading');
     var attr = {
         'name':  this.$('form.layerSqlite input[name=id]').val().replace('#', ''),
