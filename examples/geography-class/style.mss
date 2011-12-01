@@ -12,7 +12,7 @@ Hover Interaction & Embedded Data
 
 When you move your cursor around the map you should see the 
 name and flag of the country you are hovering over appear
-in the top left. You can pull any attributes from a data
+in the top right. You can pull any attributes from a data
 layer to form tooltips like this. Here, we are pulling a 
 text attribute and a base64-encoded PNG image from a GeoJSON
 file of country polygons. Click on the settings wrench at the
@@ -95,83 +95,84 @@ Map {
   polygon-opacity:0;
 }
 
-#lakes[Name1!=''][zoom>2],
-#lakes[Name1=''][zoom>4] {
+#lakes[ScaleRank<3][zoom=3],
+#lakes[ScaleRank<4][zoom=4],
+#lakes[ScaleRank<5][zoom=5],
+#lakes[ScaleRank<6][zoom>=6] {
   polygon-fill:@water;
-  line-color:@line * 1.5;
+  line-color:darken(@water, 20%);
+  line-width:0.3;
+}
+#lakes[ScaleRank<3][zoom=3] {
   line-width:0.4;
-  line-opacity:0.4;
 }
-#lakes[Name1!=''][zoom=4] {
+#lakes[ScaleRank<4][zoom=4] {
+  line-width:0.5;
+}
+#lakes[ScaleRank<5][zoom=5] {
   line-width:0.6;
-  line-opacity:0.6;
 }
-#lakes[zoom=5] {
-  line-width:2;
-  line-opacity:0.8;
-}
-#lakes[zoom>5] {
-  line-width:1.8;
-  line-opacity:1;
+#lakes[ScaleRank<6][zoom>=6] {
+  line-width:0.8;
 }
 
-#rivers[ScaleRank=1][zoom>=3],
-#rivers[ScaleRank=2][zoom>=4],
-#rivers[ScaleRank=3][zoom>=5],
-#rivers[ScaleRank=4][zoom>=5],
-#rivers[ScaleRank=5][zoom>=6],
-#rivers[ScaleRank=6][zoom>=6],
-#rivers[ScaleRank=7][zoom>=7],
-#rivers[ScaleRank=8][zoom>=7],
-#rivers[ScaleRank=9][zoom>=8] {
+#rivers[SCALERANK=1][zoom>=3],
+#rivers[SCALERANK=2][zoom>=4],
+#rivers[SCALERANK=3][zoom>=5],
+#rivers[SCALERANK=4][zoom>=5],
+#rivers[SCALERANK=5][zoom>=6],
+#rivers[SCALERANK=6][zoom>=6],
+#rivers[SCALERANK=7][zoom>=7],
+#rivers[SCALERANK=8][zoom>=7],
+#rivers[SCALERANK=9][zoom>=8] {
   line-color:@line * 1.5;
   line-join:round;
 }
-#rivers[ScaleRank=1][zoom=3],
-#rivers[ScaleRank=2][zoom=4],
-#rivers[ScaleRank=3][zoom=5],
-#rivers[ScaleRank=4][zoom=5],
-#rivers[ScaleRank=5][zoom=6],
-#rivers[ScaleRank=6][zoom=6],
-#rivers[ScaleRank=7][zoom=7],
-#rivers[ScaleRank=8][zoom=7],
-#rivers[ScaleRank=9][zoom=8] {
+#rivers[SCALERANK=1][zoom=3],
+#rivers[SCALERANK=2][zoom=4],
+#rivers[SCALERANK=3][zoom=5],
+#rivers[SCALERANK=4][zoom=5],
+#rivers[SCALERANK=5][zoom=6],
+#rivers[SCALERANK=6][zoom=6],
+#rivers[SCALERANK=7][zoom=7],
+#rivers[SCALERANK=8][zoom=7],
+#rivers[SCALERANK=9][zoom=8] {
   line-width:0.2;
   line-opacity:0.4;
 }
-#rivers[ScaleRank=1][zoom=4],
-#rivers[ScaleRank=2][zoom=5],
-#rivers[ScaleRank=3][zoom=6],
-#rivers[ScaleRank=4][zoom=6],
-#rivers[ScaleRank=5][zoom=7],
-#rivers[ScaleRank=6][zoom=7],
-#rivers[ScaleRank=7][zoom=8],
-#rivers[ScaleRank=8][zoom=8],
-#rivers[ScaleRank=9][zoom=9] {
+#rivers[SCALERANK=1][zoom=4],
+#rivers[SCALERANK=2][zoom=5],
+#rivers[SCALERANK=3][zoom=6],
+#rivers[SCALERANK=4][zoom=6],
+#rivers[SCALERANK=5][zoom=7],
+#rivers[SCALERANK=6][zoom=7],
+#rivers[SCALERANK=7][zoom=8],
+#rivers[SCALERANK=8][zoom=8],
+#rivers[SCALERANK=9][zoom=9] {
   line-width:0.4;
   line-opacity:0.6;
 }
-#rivers[ScaleRank=1][zoom=5],
-#rivers[ScaleRank=2][zoom=6],
-#rivers[ScaleRank=3][zoom=7],
-#rivers[ScaleRank=4][zoom=7],
-#rivers[ScaleRank=5][zoom=8],
-#rivers[ScaleRank=6][zoom=8],
-#rivers[ScaleRank=7][zoom=9],
-#rivers[ScaleRank=8][zoom=9],
-#rivers[ScaleRank=9][zoom=10] {
+#rivers[SCALERANK=1][zoom=5],
+#rivers[SCALERANK=2][zoom=6],
+#rivers[SCALERANK=3][zoom=7],
+#rivers[SCALERANK=4][zoom=7],
+#rivers[SCALERANK=5][zoom=8],
+#rivers[SCALERANK=6][zoom=8],
+#rivers[SCALERANK=7][zoom=9],
+#rivers[SCALERANK=8][zoom=9],
+#rivers[SCALERANK=9][zoom=10] {
   line-width:0.6;
   line-opacity:0.8;
 }
-#rivers[ScaleRank=1][zoom=6],
-#rivers[ScaleRank=2][zoom=7],
-#rivers[ScaleRank=3][zoom=8],
-#rivers[ScaleRank=4][zoom=8],
-#rivers[ScaleRank=5][zoom=9],
-#rivers[ScaleRank=6][zoom=9],
-#rivers[ScaleRank=7][zoom=10],
-#rivers[ScaleRank=8][zoom=10],
-#rivers[ScaleRank=9][zoom=11] {
+#rivers[SCALERANK=1][zoom=6],
+#rivers[SCALERANK=2][zoom=7],
+#rivers[SCALERANK=3][zoom=8],
+#rivers[SCALERANK=4][zoom=8],
+#rivers[SCALERANK=5][zoom=9],
+#rivers[SCALERANK=6][zoom=9],
+#rivers[SCALERANK=7][zoom=10],
+#rivers[SCALERANK=8][zoom=10],
+#rivers[SCALERANK=9][zoom=11] {
   line-width:0.8;
   line-opacity:1;
 }
@@ -182,7 +183,7 @@ Map {
 }
 
 /* Useful/significant lines */
-#geo-lines[DISPLAY!='International Date Line - Pre 1995 alignment'] {
+#geo-lines[ScaleRank<10] {
   line-color:@line;
   line-dasharray:6,2;
   [zoom=0] { line-width:0.2; }
