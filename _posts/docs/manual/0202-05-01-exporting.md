@@ -6,7 +6,7 @@ tag: manual
 title: Exporting
 permalink: /docs/manual/exporting
 ---
-Once you've finished a map design, you can export your map for use in other applications. You can export the entire world or choose a smaller region by setting the bounding box. TileMill can export MBTiles, PNG and PDF and each format has different advantages.
+Once you've finished a map design, you can export your map for use in other applications. You can export the entire world or choose a smaller region by setting the bounding box. TileMill can export a variety of formats and each has different advantages.
 
 ## MBTiles
 
