@@ -194,6 +194,23 @@
 }
 
 #pragma mark -
+#pragma mark WebResourceLoadDelegate
+
+- (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource
+{
+    if ([request timeoutInterval] < kTileMillRequestTimeout)
+    {
+        NSMutableURLRequest *newRequest = [[request copy] autorelease];
+        
+        [newRequest setTimeoutInterval:kTileMillRequestTimeout];
+        
+        return newRequest;
+    }
+
+    return request;
+}
+
+#pragma mark -
 #pragma mark WebUIDelegate
 
 - (void)webView:(WebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WebFrame *)frame
