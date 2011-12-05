@@ -21,7 +21,7 @@ Backbone.Model.prototype.validateAttributes = function(attr) {
     var schemaId = this.schema.id || this.constructor.title;
 
     // Load or create a schema instance that is used to validate the attributes.
-    var schemaInstance = findSchema(schemaId) || env.createSchema(this.schema, undefined, schemaId)
+    var schemaInstance = env.findSchema(schemaId) || env.createSchema(this.schema, undefined, schemaId)
 
     // We will validate against each of the property schemas individually.
     var properties = schemaInstance.getAttribute('properties');
