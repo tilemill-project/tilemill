@@ -17,12 +17,17 @@ Backbone.Model.prototype.validateAttributes = function(attr) {
         env.setOption('latestJSONSchemaLinksURI', 'http://json-schema.org/links#');
     }
 
-    var properties = ((this.schema.id
-        && env.findSchema(this.schema.id)
-        || env.createSchema(this.schema, undefined, this.schema.id))
-        || env.createSchema(this.schema))
-        .getAttribute('properties');
+    // Determine a Schema ID
+    var schemaId = this.schema.id || this.constructor.title;
 
+    // Load or create a schema instance that is used to validate the attributes.
+    var schemaInstance = env.findSchema(schemaId) || env.createSchema(this.schema, undefined, schemaId)
+
+    // We will validate against each of the property schemas individually.
+    var properties = schemaInstance.getAttribute('properties');
+
+    // TODO: this could be done more efficiently by breaking on the first error found,
+    //       instead of discarding all the other errors later.
     return _(attr).chain()
         .map(function(v, k) {
             var err;
