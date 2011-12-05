@@ -10,6 +10,8 @@
 
 #import <objc/message.h>
 
+#define kTileMillRequestTimeout 300
+
 @interface TileMillBrowserWindowController ()
 
 - (void)promptToSaveRemoteURL:(NSURL *)remoteURL revealingInFinder:(BOOL)shouldReveal;
@@ -42,14 +44,16 @@
 
 - (void)loadInitialRequest
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]]];
+    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]];
     
-    [self.webView.mainFrame loadRequest:request];
+    [self loadRequestURL:initialURL];
 }
 
 - (void)loadRequestURL:(NSURL *)loadURL
 {
-    [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:loadURL]];
+    [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:loadURL 
+                                                         cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                     timeoutInterval:kTileMillRequestTimeout]];
 }
 
 - (BOOL)browserShouldQuit
