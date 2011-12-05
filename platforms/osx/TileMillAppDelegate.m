@@ -248,6 +248,9 @@
 
 - (IBAction)openConsole:(id)sender
 {
+    // we do this twice to make sure the right window comes forward (see #940)
+    //
+    [[NSWorkspace sharedWorkspace] openFile:self.logPath withApplication:@"Console"];
     [[NSWorkspace sharedWorkspace] openFile:self.logPath withApplication:@"Console" andDeactivate:YES];
 }
 
