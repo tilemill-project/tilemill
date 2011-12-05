@@ -90,6 +90,15 @@ view.prototype.render = function(init) {
             fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
         };
 
+        this.map.requestManager.addCallback('requesterror', function(manager, url) {
+            $.ajax(url, {
+                success: function() { },
+                error: function(resp) {
+                   new views.Modal(resp);
+                }
+            });
+        });
+
         var center = this.model.get('center');
         this.map.setCenterZoom(new com.modestmaps.Location(
             center[1],
