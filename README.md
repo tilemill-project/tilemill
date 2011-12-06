@@ -5,12 +5,18 @@ on the [TileMill website](http://mapbox.com/tilemill).
 - [Download and install](http://mapbox.com/tilemill/download/)
 - [Build from source](http://mapbox.com/tilemill/docs/source/)
 
+
 # Running tests
 
 Install expresso and run the tests
 
    npm install expresso
    npm test
+
+
+Note: the tests require a running postgres server and a postgis enabled
+database called `template_postgis`.
+
 
 # Viewing docs locally
 
