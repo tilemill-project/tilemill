@@ -63,7 +63,7 @@
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
-      <input type='submit' class='with-style' value='Save with default style' />
+      <input type='submit' class='with-style' value='Save &amp; Style' />
       <input type='button' value='Cancel' class='cancel' />
     </li>
   </ul></form>
@@ -137,7 +137,7 @@
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
-      <input type='submit' class='with-style'value='Save with default style' />
+      <input type='submit' class='with-style'value='Save &amp; Style' />
       <input type='button' value='Cancel' class='cancel' />
     </li>
   </ul></form>
@@ -208,7 +208,7 @@
     </li>
     <li class='buttons'>
       <input type='submit' value='Save' />
-      <input type='submit' class='with-style' value='Save with default style' />
+      <input type='submit' class='with-style' value='Save &amp; Style' />
       <input type='button' value='Cancel' class='cancel' />
     </li>
   </ul></form>
