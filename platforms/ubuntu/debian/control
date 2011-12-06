@@ -6,8 +6,8 @@ Build-Depends: cdbs (>=0.4.42),
  debhelper (>= 7),
  libsqlite3-0,
  libsqlite3-dev,
- libmapnik2,
- libmapnik2-dev,
+ libmapnik,
+ libmapnik-dev,
  libzip1,
  libzip-dev,
  nodejs-dev
@@ -23,6 +23,6 @@ Depends: ${shlibs:Depends},
  libsqlite3-0 (>=3.6),
  libsqlite3-dev,
  unzip,
- libmapnik2
+ libmapnik
 Description: A modern map design studio.
  A modern map design studio powered by open source technology.
