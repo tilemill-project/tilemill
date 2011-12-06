@@ -27,6 +27,9 @@ If you do not have a `template_postgis` create one like:
     psql -d template_postgis -f $POSTGIS_PATH/spatial_ref_sys.sql
 
 
+For more info see: http://postgis.refractions.net/documentation/manual-1.5/ch02.html#id2619431
+
+
 # Viewing docs locally
 
 ## Install jekyll
