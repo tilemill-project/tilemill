@@ -17,6 +17,15 @@ Install expresso and run the tests
 Note: the tests require a running postgres server and a postgis enabled
 database called `template_postgis`.
 
+If you do not have a `template_postgis` create one like:
+
+    POSTGIS_VERSION="1.5" # you may need to change this
+    POSTGIS_PATH=`pg_config --sharedir`/contrib/postgis-$POSTGIS_VERSION
+    createdb -E UTF8 template_postgis
+    createlang -d template_postgis plpgsql
+    psql -d template_postgis -f $POSTGIS_PATH/postgis.sql
+    psql -d template_postgis -f $POSTGIS_PATH/spatial_ref_sys.sql
+
 
 # Viewing docs locally
 
