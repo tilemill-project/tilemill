@@ -14,6 +14,24 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+- version: 0.7.1
+
+  notes:
+  - Introduces Save & Style, an option to automatically add an appropriate
+  style for a layer when you add it to your project.
+  - Updates CodeMirror, fixing a Safari glitch.
+  - Fixes a performance problem related to computing colors
+  while typing stylesheets.
+  - Improves error formatting for technical errors.
+  - Fixes location formatter in exports.
+  - Allows for Linux Mint 11 Katya in Linux install script.
+  - Improves performance of front page listing and project
+  opening.
+  - Improved autocompletion of selectors, properties,
+  and values.
+  - Updated default project and default stylesheet to use
+  Natural Earth 1.4, with proper Sudan borders.
+
 - version: 0.7.0
   date: 2011-11-20
   size: 58399816
