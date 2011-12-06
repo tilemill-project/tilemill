@@ -2,7 +2,15 @@
 
 There is a packaging script located in this directory (./platforms/ubuntu)
 called `package.sh` which may be used to create and upload a new package
-to launchpad.net.  Usage:
+to launchpad.net.  
+
+Requirements:
+
+    apt-get install debhelper devscripts dput git-core cdbs pgpgpg
+
+For more info on these requirements see: https://wiki.ubuntu.com/PackagingGuide/Complete#Packaging_Tools
+
+Usage:
 
 * Update debian/changelog and add a new changelog message.  Respect the
   version convention.  Packaging changes should increment the package
