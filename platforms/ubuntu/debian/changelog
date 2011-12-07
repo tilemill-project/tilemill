@@ -1,3 +1,15 @@
+tilemill (0.7.0-gb7a99ba~maverick1) maverick; urgency=medium
+  * tilemill
+ -- Will White <will@developmentseed.org>  Wed, 21 Nov 2011 23:39:00 -0400
+
+tilemill (0.7.0-gb7a99ba~natty1) natty; urgency=medium
+  * tilemill
+ -- Will White <will@developmentseed.org>  Wed, 21 Nov 2011 23:39:00 -0400
+
+tilemill (0.7.0-gb7a99ba~oneiric1) oneiric; urgency=medium
+  * tilemill
+ -- Will White <will@developmentseed.org>  Wed, 21 Nov 2011 23:39:00 -0400
+
 tilemill (0.6.2.0-0ubuntu6) oneiric; urgency=medium
   * tilemill 0.6.2
  -- Will White <will@developmentseed.org>  Wed, 3 Nov 2011 23:39:00 -0400

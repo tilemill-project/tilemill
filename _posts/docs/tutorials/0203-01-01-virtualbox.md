@@ -1,7 +1,8 @@
 ---
 layout: book
 section: documentation
-category: tutorials
+category: TileMill
+tag: tutorials
 title: VirtualBox VM
 permalink: /docs/tutorials/virtualbox
 ---
