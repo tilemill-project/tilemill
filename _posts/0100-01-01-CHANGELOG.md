@@ -15,6 +15,12 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+- version: 0.7.2
+  date: 2011-12-07
+
+  notes:
+  - Fix jitter in Carto editor.
+
 - version: 0.7.1
   date: 2011-12-07
   size: 62158055
