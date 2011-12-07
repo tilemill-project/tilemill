@@ -2,7 +2,7 @@
 
 There is a packaging script located in this directory (./platforms/ubuntu)
 called `package.sh` which may be used to create and upload a new package
-to launchpad.net.  
+to launchpad.net.
 
 ### Requirements
 
@@ -36,6 +36,23 @@ For more info on creating your key see: https://help.launchpad.net/YourAccount/I
 * Use the -p (production) flag, like `./package.sh -p` to push a build
   up to the main "mapbox" PPA.
 
+## Copying node and mapnik packages
+
+To ensure installation of proper dependencies, we copy dependant packages to
+our own PPA. To copy packages, follow the steps below for each of the following
+pages:
+
+- [chris-lea/node.js](https://launchpad.net/~chris-lea/+archive/node.js/+copy-packages)
+- [mapnik/nightly-trunk](https://launchpad.net/~mapnik/+archive/nightly-trunk)
+
+1. Select the packages you want to copy. Confirm the proper package version
+   and include each supported series.
+2. Select the **Destination PPA**. Use MapBox Dev for testing packages. You'll
+   only copy to MapBox when you are ready to publish, and you'll generally want
+   to copy exiting packages from MapBox Dev after testing.
+3. The **Destination series** should be set to **The same series**.
+4. Select **Copy existing binaries**.
+5. Click **Copy Packages** and wait for the packages to be copied.
 
 ## Testing builds with Pbuilder
 
