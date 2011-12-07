@@ -238,9 +238,9 @@
 				35B36EA213D260C6006C72ED /* TileMillAppDelegate.m */,
 				DD35FE0014461B8A00455DAA /* TileMillBrowserWindowController.h */,
 				DD35FE0114461B8A00455DAA /* TileMillBrowserWindowController.m */,
+				DD35FE0314461BA900455DAA /* TileMillBrowserWindow.xib */,
 				D76FF916147DB3DA002D94C1 /* TileMillVersionComparator.h */,
 				D76FF917147DB3DA002D94C1 /* TileMillVersionComparator.m */,
-				DD35FE0314461BA900455DAA /* TileMillBrowserWindow.xib */,
 			);
 			name = Main;
 			sourceTree = "<group>";
