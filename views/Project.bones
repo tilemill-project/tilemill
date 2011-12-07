@@ -62,6 +62,9 @@ view.prototype.initialize = function() {
 
     window.onbeforeunload = window.onbeforeunload || this.unload;
 
+    // Minor state saving for the carto window
+    this._carto_state = {};
+
     this.model.bind('save', this.attach);
     this.model.bind('change', this.change);
     this.model.bind('poll', this.render);
@@ -162,7 +165,7 @@ view.prototype.makeStylesheet = function(model) {
             model.codemirror && model.set({
                 data: model.codemirror.getValue()
             });
-            self.colors();
+            _.debounce(self.colors, 500);
         },
         onGutterClick: _(function(editor, line, ev) {
             if (model.errors[line]) {
@@ -172,8 +175,34 @@ view.prototype.makeStylesheet = function(model) {
             }
         }).bind(this)
     });
+
+    var cartoCompleter = cartoCompletion(
+        model.codemirror,
+        window.abilities.carto);
+
+    function updateSelectors(model) {
+        var ids = _.map(model.get('Layer').pluck('id'),
+            function(x) { return '#' + x; });
+        var classes = _(model.get('Layer').pluck('class')).chain().map(
+            function(c) {
+                if (c == undefined) return '';
+                var cs = c.split(' ');
+                if (cs[0] == '') return '';
+                return _.map(cs, function(x) { return '.' + x; });
+            }).flatten().compact().value();
+        cartoCompleter.ids(ids);
+        cartoCompleter.classes(classes);
+    }
+
+    this.model.bind('change', updateSelectors);
+    updateSelectors(this.model);
+
     model.codemirror.setOption('onKeyEvent',
-        cartoCompletion(model.codemirror, window.abilities.carto).onKeyEvent);
+        cartoCompleter.onKeyEvent);
+
+    model.codemirror.setOption('onHighlightComplete',
+        _.throttle(cartoCompleter.setTitles, 100));
+
     $(model.codemirror.getWrapperElement())
         .addClass(id)
         .addClass(model.collection.indexOf(model) === 0 ? 'active' : '');
@@ -212,7 +241,9 @@ view.prototype.attach = function() {
     this.map.setProvider(this.map.provider);
 
     this.map.controls.interaction.remove();
-    this.map.controls.interaction = wax.mm.interaction(this.map, this.model.attributes);
+    this.map.controls.interaction = wax.mm.interaction(
+        this.map,
+        this.model.attributes);
 
     if (this.model.get('legend')) {
         this.map.controls.legend.content(this.model.attributes);
@@ -283,7 +314,10 @@ view.prototype.fonts = function(ev) {
 };
 
 view.prototype.carto = function(ev) {
-    new views.Reference({ el: $('#drawer') });
+    new views.Reference({
+        el: $('#drawer'),
+        _carto_state: this._carto_state
+    });
 };
 
 view.prototype.settings = function(ev) {

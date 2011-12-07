@@ -7,8 +7,7 @@
 @futura_bold: "Futura Bold","Function Pro Bold","Ubuntu Bold","Trebuchet MS Bold","DejaVu Sans Bold";
 
 /* ---- Countries ---- */
-#country-name[zoom>1][TYPE='Sovereign country'],
-#country-name[zoom>1][TYPE='Country']{
+#country-name {
   text-face-name: @futura_med;
   text-fill:@line * 0.6;
   text-size:9;
@@ -19,40 +18,30 @@
   text-wrap-width:20;
   text-name:"''"; /* hackish? */
   
-  [zoom=3] { 
-    text-size:10; 
+  [ScaleRank<2][zoom=2] {
+    text-name: "[ABBREV]";
   }
-  [zoom=4] { 
-    text-size:11; 
+  [ScaleRank<3][zoom=3] {
+    text-name: "[ABBREV]";
+    text-size:10;
   }
-  [zoom=5] { 
+  [ScaleRank<4][zoom=4] {
+    text-name: "[NAME]";
+    text-size:11;
+  }
+  [ScaleRank<5][zoom=5] {
+    text-name: "[NAME]";
     text-size:12;
     text-character-spacing:1;
     text-line-spacing:1;
   }
-  [zoom>5] {
+  [ScaleRank<9][zoom>5] {
+    text-name: "[NAME]";
     text-size:14;
     text-character-spacing:2;
     text-line-spacing:2;
   }
-  
-  [zoom>=2][zoom<4] { text-name: "[ABBREV]"; }
-  [zoom>=4] { text-name: "[NAME]"; }
 
-}
-
-#country-name[zoom>4][TYPE='Dependency']{
-  text-face-name: @futura_italic;
-  text-fill:@line * 0.6;
-  text-size:9;
-  text-transform:uppercase;
-  text-halo-fill:rgba(255,255,255,0.5);
-  text-halo-radius:1;
-  text-line-spacing:1;
-  text-wrap-width:20;
-  text-name:"[NAME]";
-  [zoom=6] { text-size:10; }
-  [zoom>6] { text-size:11; }
 }
 
 /* ---- CITIES ---- */
@@ -79,9 +68,9 @@
 }
 
 /* ---- GEOGRAPHIC LINES ---- */
-#geo-lines[zoom>1][DISPLAY!='Internationl Date Line � 1995 Kiribati adjustment']{ 
+#geo-lines[zoom>1][ScaleRank<10]{ 
   text-dy:-7;
-  text-name:"[DISPLAY]";
+  text-name:"[Name]";
   text-face-name:@futura_med;
   text-fill:@line;
   text-placement:line;

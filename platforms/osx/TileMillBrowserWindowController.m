@@ -10,6 +10,8 @@
 
 #import <objc/message.h>
 
+#define kTileMillRequestTimeout 300
+
 @interface TileMillBrowserWindowController ()
 
 - (void)promptToSaveRemoteURL:(NSURL *)remoteURL revealingInFinder:(BOOL)shouldReveal;
@@ -42,14 +44,16 @@
 
 - (void)loadInitialRequest
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]]];
+    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]];
     
-    [self.webView.mainFrame loadRequest:request];
+    [self loadRequestURL:initialURL];
 }
 
 - (void)loadRequestURL:(NSURL *)loadURL
 {
-    [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:loadURL]];
+    [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:loadURL 
+                                                         cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                     timeoutInterval:kTileMillRequestTimeout]];
 }
 
 - (BOOL)browserShouldQuit
@@ -177,23 +181,33 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.25 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void)
         {
             /*
-             * This is a nasty runtime hack to get rid of scroll bouncing when
-             * building the app against the 10.6 SDK. We'll get around this soon
-             * by building on 10.7.
-             *
              * We do this on a delay so that the first request has time to start
              * rendering on the page. Otherwise, the scrollbars don't exist yet.
              */
 
             NSScrollView *scroller = self.webView.mainFrame.frameView.documentView.enclosingScrollView;
            
-            if ([scroller respondsToSelector:@selector(setHorizontalScrollElasticity:)])
-            {
-                objc_msgSend(scroller, @selector(setHorizontalScrollElasticity:), 1);
-                objc_msgSend(scroller, @selector(setVerticalScrollElasticity:),   1);
-            }
+            scroller.horizontalScrollElasticity = NSScrollElasticityNone;
+            scroller.verticalScrollElasticity   = NSScrollElasticityNone;
         });
     }
+}
+
+#pragma mark -
+#pragma mark WebResourceLoadDelegate
+
+- (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource
+{
+    if ([request timeoutInterval] < kTileMillRequestTimeout)
+    {
+        NSMutableURLRequest *newRequest = [[request copy] autorelease];
+        
+        [newRequest setTimeoutInterval:kTileMillRequestTimeout];
+        
+        return newRequest;
+    }
+
+    return request;
 }
 
 #pragma mark -
