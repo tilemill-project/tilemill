@@ -17,9 +17,14 @@ view.prototype.initialize = function(options) {
     // Attempt to handle jqXHR objects.
     if (options.responseText) {
         try {
-            options = { content: JSON.parse(options.responseText).message };
+            options = {
+              content: JSON.parse(options.responseText).message,
+              format: 'code'
+            };
         } catch(e) {
-            options = { content: options.responseText };
+            options = {
+              content: options.responseText
+            };
         }
     } else if (options.status === 0) {
         options = { content: 'No response from server.' };
@@ -32,6 +37,7 @@ view.prototype.initialize = function(options) {
     options = options || {};
     options.content = options.content || {};
     options.type = options.callback ? 'confirm' : 'message';
+    options.format = options.format || 'text';
     options.affirmative = options.affirmative || 'Ok';
     options.negative = options.negative || 'Cancel';
     this.options = options;

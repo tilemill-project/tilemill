@@ -3,9 +3,9 @@
 @sans:"Arial Regular","Liberation Sans Regular","DejaVu Sans Book";
 @sans-bold:"Arial Bold","Liberation Sans Bold","DejaVu Sans Bold";
 
-#country_label[zoom>2][zoom<6][NAME='Canada'],
-#country_label[zoom>2][zoom<6][NAME='United States of America'],
-#country_label[zoom>2][zoom<6][NAME='Mexico'] {
+#country_label[zoom>2][zoom<6][ADM0_A3='CAN'],
+#country_label[zoom>2][zoom<6][ADM0_A3='USA'],
+#country_label[zoom>2][zoom<6][ADM0_A3='MEX'] {
   text-name:"[NAME]";
   text-face-name:@serif;
   text-transform:uppercase;

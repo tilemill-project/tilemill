@@ -6,18 +6,41 @@
 ### The 'oldrev' is only needed for 0.5.0/0.5.1 since the
 ### Sparkle scheme changed for 0.6.0+ (see #730).
 ###
-tag: changelog
+tag: installation
 layout: changelog
 section: documentation
-category: installation
+category: TileMill
+date: 0201-01-30
 title: Changelog
 permalink: /docs/changelog
 releases:
 
+- version: 0.7.1
+  date: 2011-12-07
+  size: 62158055
+  sign: MC0CFEGZ1Mtuw4vP9bX1tFVNEJhkzYNLAhUAyGRM9UXA/piCPo21kIizDvt0mS0=
+
+  notes:
+  - Introduces Save & Style, an option to automatically add an appropriate
+    style for a layer when you add it to your project.
+  - Updates CodeMirror, fixing a Safari glitch.
+  - Fixes a performance problem related to computing colors
+    while typing stylesheets.
+  - Improves error formatting for technical errors.
+  - Fixes location formatter in exports.
+  - Allows for Linux Mint 11 Katya in Linux install script.
+  - Improves performance of front page listing and project
+    opening.
+  - Improved autocompletion of selectors, properties,
+    and values.
+  - Updated default project and default stylesheet to use
+    Natural Earth 1.4, with proper Sudan borders.
+  - Adjusted sparkle update version system.
+
 - version: 0.7.0
   date: 2011-11-20
-  size: 58399814
-  sign: MCwCFAu3C+3JqUaOqwbpWmkKH0Q8jzCJAhRjiQ5D1z1DWbt/0taeJo3dv+O9VQ==
+  size: 58399816
+  sign: MC0CFCDhkHU1BTJ32n/AWGv+vDSREAFKAhUAjhIqAUqtqlfhhBltAxJFBa0f/gg=
 
   notes:
   - Fixed a bug in the Mac app where saving files such as exports would not obey custom filenames entered.

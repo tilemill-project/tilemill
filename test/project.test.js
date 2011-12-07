@@ -131,8 +131,7 @@ require('./support/start')(function(command) {
             var body = JSON.parse(res.body);
             delete body.stack;
             assert.deepEqual({
-                message: "Error: Filename may include alphanumeric characters, dashes and underscores.",
-                status: 409
+                message: "Error: Filename may include alphanumeric characters, dashes and underscores."
             }, body);
             assert['throws'](function() {
                 fs.statSync('./test/fixtures/files/project/Bad !@!ID');
@@ -155,8 +154,7 @@ require('./support/start')(function(command) {
             var body = JSON.parse(res.body);
             delete body.stack;
             assert.deepEqual({
-                message: "Error: style.mss:2:2 Invalid value for background-color, a valid color is expected. blurb was given.",
-                status: 409
+                message: "Error: style.mss:2:2 Invalid value for background-color, a valid color is expected. blurb was given."
             }, body);
         });
     };

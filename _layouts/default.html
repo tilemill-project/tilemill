@@ -1,22 +1,25 @@
 ---
-# MapBox project pages template
-# -----------------------------
 navigation:
-  - title: Design
+  - title: Maps
+    path: http://tiles.mapbox.com
+    category: maps
+    class: maps
+  - title: Tour
+    path: /tour
+    category: tour
+    class: tour
+  - title: TileMill
     path: /tilemill
-    category: design
-  - title: Hosting
-    path: /hosting
-    category: hosting
-  - title: Support
-    path: /support
-    category: support
-  - title: Showcase
-    path: /showcase
-    category: showcase
-  - title: Documentation
-    path: /documentation
-    category: documentation
+    category: tilemill
+    class: tilemill
+  - title: Help
+    path: /help
+    category: help,documentation
+    class: help
+  - title: Plans + Pricing
+    path: /plans
+    category: plans
+    class: plans
 footer:
   - title: About
     path: /about
@@ -28,35 +31,47 @@ footer:
     path: /tos
   - title: Privacy Policy
     path: /privacy
+  - title: Status
+    path: /status
 ---
 <!DOCTYPE html >
 <html>
 <head>
   <meta charset='UTF-8'/>
-  {% if page.description %}<meta name='description' content='{{page.description}}'/>{% endif %}
-  <title>{{page.title}} | MapBox</title>
-  <link rel='stylesheet' href='{{site.url}}/site.css' type='text/css'/>
-  <!--[if IE]><link rel='stylesheet' href='{{site.url}}/site-ie.css' type='text/css'/><![endif]-->
-  <link rel='stylesheet' href='{{site.url}}/tilemill/assets/pages/site.css' type='text/css'/>
+  <meta name='robots' content='{% if page.hidden %}noindex{% else %}index{% endif %}'/>
+  {% if page.description %}<meta name='description' content='{{page.description | strip_html}}'/>{% endif %}
+  <title>{% if page.url == '/index.html' %}{{page.title}}{% else %}{{page.title}} | MapBox{% endif %}</title>
+  <link rel='stylesheet' href='{{site.url}}/css/site.css' type='text/css'/>
+  <!--[if IE]><link rel='stylesheet' href='{{site.url}}/css/site-ie.css' type='text/css'/><![endif]-->
   <link rel='shortcut icon' href='{{site.url}}/images/favicon.ico' type='image/x-icon' />
-  <script src='{{site.url}}/site.js' type='text/javascript'></script>
-  <script src='{{site.url}}/tilemill/assets/pages/site.js' type='text/javascript'></script>
+  <script src='{{site.url}}/js/site.js' type='text/javascript'></script>
 </head>
-<body {% if page.class %}class='{{page.class}}'{% endif %}><div class='wrapper'>
-
+<body class='{{page.class}}'><div class='wrapper'>
 <div class='branding'><div class='limiter'>
-  <a class='logo' href='{{site.url}}'>MapBox</a>
+  <a class='logo' href='{{site.url}}/'>MapBox</a>
   <ul class='menu'>
     {% for item in page.navigation %}
-    <li class='{{item.category}} {% if page.category contains item.category or item.category == page.section %}active{% endif %}'>
-      <a href='{{site.url}}{{item.path}}'><span class='icon'></span>{{item.title}}</a>
+    {% if item.path contains 'http' %}
+      {% capture url %}{{item.path}}{% endcapture %}
+    {% else %}
+      {% capture url %}{{site.url}}{{item.path}}/{% endcapture %}
+    {% endif %}
+    {% if item.category contains page.category or item.category contains page.section %}
+      {% capture class %}{{item.class}} active{% endcapture %}
+    {% else %}
+      {% capture class %}{{item.class}}{% endcapture %}
+    {% endif %}
+    <li class='{{class}}'>
+      <a href='{{url}}'><span class='icon'></span>{{item.title}}</a>
     </li>
     {% endfor %}
   </ul>
-  <a class='goto' href='http://tiles.mapbox.com'>
-    <span class='icon'></span>
-    Login <em>to MapBox</em>
-  </a>
+  <small class='auth'>
+    <a class='login' href='http://tiles.mapbox.com/login'>
+      <span class='icon'></span>
+      My account
+    </a>
+  </small>
 </div></div>
 
 {{content}}
@@ -79,20 +94,6 @@ footer:
 
 </div></div>
 
-<script type="text/javascript">
-  var _gauges = _gauges || [];
-  (function() {
-    var t   = document.createElement('script');
-    t.type  = 'text/javascript';
-    t.async = true;
-    t.id    = 'gauges-tracker';
-    t.setAttribute('data-site-id', '4e970faef5a1f51def000002');
-    t.src = '//secure.gaug.es/track.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(t, s);
-  })();
-</script>
-
 <script type='text/javascript'>
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-12158002-1']);
@@ -102,6 +103,18 @@ _gaq.push(['_trackPageview']);
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+var _gauges = _gauges || [];
+(function() {
+  var t   = document.createElement('script');
+  t.type  = 'text/javascript';
+  t.async = true;
+  t.id    = 'gauges-tracker';
+  t.setAttribute('data-site-id', '4e970faef5a1f51def000002');
+  t.src = '//secure.gaug.es/track.js';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(t, s);
 })();
 </script>
 
