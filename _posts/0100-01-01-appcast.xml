@@ -93,19 +93,6 @@ permalink: /platforms/osx/appcast.xml
             sparkle:dsaSignature="MC0CFCDhkHU1BTJ32n/AWGv+vDSREAFKAhUAjhIqAUqtqlfhhBltAxJFBa0f/gg=" />
     </item>
     
-    <item>
-        <title>TileMill 0.7.1</title>
-        <sparkle:releaseNotesLink>http://mapbox.com/tilemill/platforms/osx/changelog.html</sparkle:releaseNotesLink>
-        <pubDate>Sun, 07 Dec 2011 00:00:00 -0400</pubDate>
-        <enclosure
-            url="https://github.com/downloads/mapbox/tilemill/TileMill-0.7.1.zip"
-            type="application/octet-stream"
-            length="62158055"
-            sparkle:version="3071"
-            
-            sparkle:shortVersionString="0.7.1"
-            sparkle:dsaSignature="MC0CFEGZ1Mtuw4vP9bX1tFVNEJhkzYNLAhUAyGRM9UXA/piCPo21kIizDvt0mS0=" />
-    </item>
-    
+    <!-- TODO: manually add 0.7.1 release with old style versions when ready -->
 </channel>
 </rss>
