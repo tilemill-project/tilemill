@@ -16,6 +16,9 @@ permalink: /docs/changelog
 releases:
 
 - version: 0.7.1
+  date: 2011-12-07
+  size: 62158055
+  sign: MC0CFEGZ1Mtuw4vP9bX1tFVNEJhkzYNLAhUAyGRM9UXA/piCPo21kIizDvt0mS0=
 
   notes:
   - Introduces Save & Style, an option to automatically add an appropriate
