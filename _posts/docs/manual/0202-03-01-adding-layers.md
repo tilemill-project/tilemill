@@ -119,3 +119,10 @@ Databases contain one or many *database tables*, and TileMill needs to know whic
 
 If you plan to use the tooltip feature in TileMill, your PostGIS table must provide a column that contains a [unique key](http://en.wikipedia.org/wiki/Unique_key). Specify the name of that column in **Unique key field** box. Otherwise, you may see incorrect tooltips after exporting to MBTiles.
 
+### Geometry Field
+
+*This setting only applies to PostGIS layers and is optional.*
+
+TileMill can usually determine which field contains your layer's geometry, but if it can't you can explicitly set it here.
+
+
