@@ -5,7 +5,6 @@ layout: default
 <div class='book'>
 {% if page.section and page.category %}
 <h3>
-<small><a href='{{site.url}}/{{page.section}}'>{{page.section|capitalize}} &rarr;</a></small>
 <a class='category' href='{{site.baseurl}}{{site.categories[page.category].last.url}}'>{{page.category}}</a>
 </h3>
 {% endif %}
