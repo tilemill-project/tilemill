@@ -32,6 +32,7 @@ releases:
     and values.
   - Updated default project and default stylesheet to use
     Natural Earth 1.4, with proper Sudan borders.
+  - Adjusted sparkle update version system.
 
 - version: 0.7.0
   date: 2011-11-20
