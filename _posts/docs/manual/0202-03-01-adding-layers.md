@@ -5,18 +5,13 @@ category: manual
 title: Adding layers
 permalink: /docs/manual/adding-layers
 ---
-Layers are how sets of data are added to a map in TileMill. Each  layer references a single shapefile, geoJSON file, KML file, geoTIFF, SQLite database query, or PostGIS database query. Multiple layers are combined over top of each other to create the final map - if you are familiar with layers in Photoshop or other graphics software the concept is very similar. TileMill currently supports creating maps with several formats.
-
-To add a new layer to a TileMill project, click on the 'Add Layer' button at the top of the layers list. A dialog will appear prompting you for details about your layer. For file-based datasources (CSV, Shapefile, GeoJSON, KML, and SQLite) the options are:
-
-- **ID** *required*: This will be the name of the layer. It can be whatever you want, but must contain only letters, numbers, dashes, or underscores, and be unique within the project (two layers can't have the same ID, even if they are the same file). A good ID is a short, accurate description of the layer's purpose in a design, for example, 'major-roads', 'state-borders', or 'lakes'.
-- **Class**: These can be thought of as tags with which to classify your layers. You may have 0 or more separated by spaces, and the same character limitations as IDs apply. Multiple layers may have the same class - in fact, their usefulness is in allowing you to select multiple layers at once using a single class reference in your stylesheet.
-- **Datasource** *required*: This is a path to a geospatial file either on your local filesystem or as a public HTTP URL. Local files may be selected from the filesystem by clicking 'Browse'.
-- **SRS**: this is the spatial reference system your datasource is stored in. TileMill can try to autodetect this value for certain types of files.
+Layers are how sets of data are added to a map in TileMill. Each layer references a single file or database query. Multiple layers can be combined over top of each other to create the final map - if you are familiar with layers in Photoshop or other graphics software the concept is very similar. 
 
 
-File types supported by TileMill
---------------------------------
+Layer types supported by TileMill
+---------------------------------
+
+TileMill currently supports creating map layer from the following types of files and databases.
 
 ### CSV
 
@@ -64,9 +59,35 @@ Since Mapnik is currently unable to reproject raster data sources, to load them 
 
 [PostGIS](http://postgis.refractions.net/) is an extension for the general-purpose [PostgreSQL](http://www.postgresql.org/) database that allows you to store geographical objects in a database. It provides special functions and indexes for querying and manipulating spatial data and can be used as a powerful storage/analysis tool. From TileMill you can connect to a PostGIS supported database and run queries from the application directly.
 
-When adding a PostGIS layer to your project you will need to supply a connection string. The following options are available:
 
-- `dbname` **Required.** The database that containing geodata for your layer.
+Layer Settings
+--------------
+
+To add a new layer to a TileMill project, click on the 'Add Layer' button at the top of the layers list. A dialog will appear prompting you for details about your layer.
+
+<!-- TODO: SCREENSHOT -->
+
+### ID
+
+This will be the name of the layer. It can be whatever you want, but must contain only letters, numbers, dashes, or underscores, and be unique within the project (two layers can't have the same ID, even if they are the same file). A good ID is a short, accurate description of the layer's purpose in a design, for example, 'major-roads', 'state-borders', or 'lakes'. *This setting is required for all layers.*
+
+### Class
+
+These can be thought of as tags with which to classify your layers. You may have 0 or more separated by spaces, and the same character limitations as IDs apply. Multiple layers may have the same class - in fact, their usefulness is in allowing you to select multiple layers at once using a single class reference in your stylesheet.
+
+### Datasource
+
+*Required for all layer types except for PostGIS, where it does not apply.*
+
+This is a path to a geospatial file either on your local filesystem or as a public HTTP URL. Local files may be selected from the filesystem by clicking 'Browse'. 
+
+### Connection
+
+*Required for PostGIS layers. Does not apply to any other layer type.*
+
+This field sets up various information required to connect to a PostgreSQL database. The following options are available:
+
+- `dbname` *Required.* The database that containing geodata for your layer.
 - `user` Your PostGIS username.
 - `password` Your PostGIS password.
 - `host` The hostname to use when connecting to your server.
@@ -78,8 +99,23 @@ Here are some example connection strings:
     dbname=gis user=mapbox
     dbname=gis user=mapbox password=foo host=localhost port=5984
 
-In the **Table or subquery** field, you can either specify the of the table that contains your data or, for more advanced uses, specify a subquery in SQL. The subquery must be wrapped in parentheses and be given an alias using the `AS` statement. For example:
+### SRS
+
+<!-- THIS IS REQUIRED FOR SOME LAYER TYPES - WHICH ONES? -->
+
+This is the spatial reference system your datasource is stored in. TileMill can try to autodetect this value for certain types of files. 
+
+### Table or subquery
+
+*Required for PostGIS and SQLite layers. Does not apply to other file-based layer types.*
+
+Databases contain one or many *database tables*, and TileMill needs to know which of these tables to pull data out of. Unlike non-database sources, you also have the power to add particular subsets of your or even make temporary adjustments to the data. For this TileMill has a **Table or subquery** field. To add an entire table from a database, simply enter the table name in this field. To specify a subquery it must be wrapped in parentheses and be given an alias using the `AS` statement. For example:
 
     (SELECT * FROM geodata WHERE type = 'birdhouse') AS data;
 
+### Unique Key Field
+
+*This setting only applies to PostGIS layers and is optional.*
+
 If you plan to use the tooltip feature in TileMill, your PostGIS table must provide a column that contains a [unique key](http://en.wikipedia.org/wiki/Unique_key). Specify the name of that column in **Unique key field** box. Otherwise, you may see incorrect tooltips after exporting to MBTiles.
+
