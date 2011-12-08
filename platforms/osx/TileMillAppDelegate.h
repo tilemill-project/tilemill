@@ -10,7 +10,6 @@
 
 @class TileMillBrowserWindowController;
 @class TileMillPrefsWindowController;
-@class SUUpdater;
 
 @interface TileMillAppDelegate : NSObject <NSApplicationDelegate, TileMillChildProcessDelegate>
 {

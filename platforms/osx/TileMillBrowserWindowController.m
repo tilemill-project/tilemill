@@ -8,8 +8,6 @@
 
 #import "TileMillBrowserWindowController.h"
 
-#import <objc/message.h>
-
 #define kTileMillRequestTimeout 300
 
 @interface TileMillBrowserWindowController ()

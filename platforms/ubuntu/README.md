@@ -1,58 +1,136 @@
-## Packaging script
+# Packaging
 
-There is a packaging script located in this directory (./platforms/ubuntu)
-called `package.sh` which may be used to create and upload a new package
-to launchpad.net.
+This document describes the packaging steps for TileMill on Ubuntu.
 
-### Requirements
+Debian packages, launchpad PPA, and a bit of elbow grease are the tools.
 
-Install some packages:
+
+## Requirements
+
+* Launchpad account: https://login.launchpad.net/+new_account
+* Ubuntu machine with sudo that can be configured with launchpad keys.
+* Debian packaging tools, git, and tilemill checkout
+
+## Resources on packaging
+
+The are high level resources you should look at before continuing:
+
+* https://wiki.ubuntu.com/PackagingGuide/Complete
+* http://www.debian.org/doc/manuals/maint-guide/
+
+
+## Initial Setup
+
+Install some debian packages:
 
     apt-get install debhelper devscripts dput git-core cdbs pgpgpg
 
 For more info on these requirements see: https://wiki.ubuntu.com/PackagingGuide/Complete#Packaging_Tools
 
-Then create your PGP key through the GUI tool "Passwords and Keys". Make sure to create entropy as the key
-is created by moving your mouse around or typing.
+Then create your PGP key and upload to launchpad. You can do this through the GUI tool "Passwords and Keys". 
+Make sure to create entropy as the key is created by moving your mouse around or typing.
 
 For more info on creating your key see: https://help.launchpad.net/YourAccount/ImportingYourPGPKey
 
-## Resources on packaging
+Ensure your launchpad user has access to the ppas at https://launchpad.net/~developmentseed
 
-* https://wiki.ubuntu.com/PackagingGuide/Complete
-* http://www.debian.org/doc/manuals/maint-guide/
 
-### Usage
+## Instructions for copying packages
 
-* Update debian/changelog and add a new changelog message.  Respect the
-  version convention.  Packaging changes should increment the package
-  version, while upstream source changes should increment the minor/
-  major version.  For example package-0.4.0-0ubuntu1 goes to
-  package-0.4.0-0ubuntu2 for packaging changes. For upstream source
-  changes, the minor or major version should change, like
-  package-0.4.1-0ubuntu1. The packaging version always starts at 1.
-* Run `./package.sh` with no arguments, which will build and upload the
-  package to the "mapbox-dev" PPA.
-* Use the -p (production) flag, like `./package.sh -p` to push a build
-  up to the main "mapbox" PPA.
+The instructions below require copying of packages, to ensure proper dependencies (and avoid other ppa updates
+conflicting with what tilemill needs for versions).
 
-## Copying node and mapnik packages
+Here is how to copy packages:
 
-To ensure installation of proper dependencies, we copy dependant packages to
-our own PPA. To copy packages, follow the steps below for each of the following
-pages:
+1) Go the the launchpad page for the ppa packages you want to copy from, like:
 
 - [chris-lea/node.js](https://launchpad.net/~chris-lea/+archive/node.js/+copy-packages)
-- [mapnik/nightly-trunk](https://launchpad.net/~mapnik/+archive/nightly-trunk)
+- [mapnik/nightly-trunk](https://launchpad.net/~mapnik/+archive/nightly-trunk/+copy-packages)
 
-1. Select the packages you want to copy. Confirm the proper package version
+2) Select the packages you want to copy by checking their box. Confirm the proper package version
    and include each supported series.
-2. Select the **Destination PPA**. Use MapBox Dev for testing packages. You'll
+
+3) Select the **Destination PPA**. Use MapBox Dev for testing packages. You'll
    only copy to MapBox when you are ready to publish, and you'll generally want
    to copy exiting packages from MapBox Dev after testing.
-3. The **Destination series** should be set to **The same series**.
-4. Select **Copy existing binaries**.
-5. Click **Copy Packages** and wait for the packages to be copied.
+
+4) The **Destination series** should be set to **The same series**.
+
+5) Select **Copy existing binaries**.
+
+6) Click **Copy Packages** and wait for the packages to be copied.
+
+
+## Packaging Steps
+
+### Build or copy Mapnik packages
+
+Mapnik master is what is usually needed for TileMill releases.
+
+These can either be copied from https://launchpad.net/~mapnik/+archive/nightly-trunk into the
+~developmentseed/mapbox-dev ppa or built and uploaded there directly.
+
+To build them yourself follow the docs at:
+
+    https://github.com/mapnik/mapnik-packaging/blob/master/debian-nightlies/README
+
+### Copy nodejs packages
+
+Copy the nodejs packages at the versions that work for TileMill.
+
+### Setup TileMill
+
+Locally, on your ubuntu machine checkout TileMill for a given tag:
+
+    TAG="v0.7.1"
+    git clone https://github.com/mapbox/tilemill tilemill-$TAG
+    cd tilemill-$TAG
+    git checkout $TAG
+
+Add the ppa dependencies and install them:
+
+    sudo apt-add-repository ppa:developmentseed/mapbox-dev
+    sudo apt-get update
+    sudo apt-get install libmapnik nodejs
+
+Now build TileMill:
+
+    npm install
+
+### Package and upload
+
+Now we need to create a package for every ubuntu distribution and upload it to launchpad.
+
+There is a packaging script located in this directory (./platforms/ubuntu)
+called `package.sh` which help with this step.
+
+You add a single new changelog entry and then run the package.sh script, repeating
+as many times as distributions you wish to target.
+
+Packaging changes should increment the package version, while upstream source changes
+should increment the minor/major version.  For example package-0.4.0-0ubuntu1 goes 
+to package-0.4.0-0ubuntu2 for packaging changes. For upstream source changes, the 
+minor or major version should change, like package-0.4.1-0ubuntu1. The packaging 
+version always starts at 1.
+
+Edit the changelog:
+
+    ./platforms/ubuntu/debian/changelog
+
+Note: your changelog name and email must match exactly the name and email you used to
+create your gpg/pgp keys.
+
+Do not commit this change to the tag, but rather apply it to the master branch
+of Tilemill.
+
+To create a testing package that will be built and uploaded to "mapbox-dev" PPA do:
+
+    ./package.sh
+
+Use the -p (production) flag to push a build up to the main "mapbox" PPA:
+
+    ./package.sh -p
+
 
 ## Testing builds with Pbuilder
 

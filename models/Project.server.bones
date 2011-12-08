@@ -455,7 +455,7 @@ function fields(opts) {
     return _(fields).chain()
         .filter(_.isString)
         .map(function(field) {
-            return field.replace(/[\{\{|\}\}]/g, '');
+            return field.replace(/[#\/\{\{|\}\}]/g, '');
         })
         .uniq()
         .value();
