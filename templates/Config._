@@ -16,8 +16,11 @@
   </li>
   <li>
     <label for='description'>MapBox sync</label>
-    <input type='text' name='syncAccount' size='12' value='<%=get('syncAccount')%>' placeholder='account' disabled readonly />
-    <a class='button' href='#oauth'><%= get('mapbox') ? 'Refresh' : 'Authorize' %></a>
+    <input type='text' name='syncAccount' size='20' value='<%=get('syncAccount')%>' placeholder='account' disabled readonly />
+    <a class='button' href='#oauth'><%= get('syncAccount') ? 'Refresh' : 'Authorize' %></a>
+    <% if (get('syncAccount')) { %>
+    <a class='button' href='#clear'>Clear</a>
+    <% } %>
     <div class='description'>
       MapBox account for uploading maps.
     </div>

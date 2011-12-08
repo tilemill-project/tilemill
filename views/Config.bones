@@ -2,11 +2,12 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click input[type=submit]': 'save',
-    'click a[href=#oauth]': 'oauth'
+    'click a[href=#oauth]': 'oauth',
+    'click a[href=#clear]': 'clear'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'bufferSize', 'oauth', 'save');
+    _(this).bindAll('render', 'bufferSize', 'oauth', 'clear', 'save');
     this.render();
 };
 
@@ -34,6 +35,15 @@ view.prototype.oauth = function(ev) {
             error:this.render
         });
     }).bind(this);
+    return false;
+};
+
+view.prototype.clear = function(ev) {
+    this.model.set({
+        'syncAccount': '',
+        'syncAccessToken': ''
+    });
+    this.$('input[name=syncAccount]').val('');
     return false;
 };
 
