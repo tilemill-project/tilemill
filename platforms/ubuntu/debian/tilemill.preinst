@@ -7,5 +7,3 @@ BASE="/usr/local/lib"
 if [ -e "$BASE/libmapnik.so" ] || [ -e "$BASE/libmapnik.so.2.0.0" ]; then
   echo "\n\n\033[38;50;33mNOTICE:\033[39m You appear to have another version of libmapnik installed under /usr/local on this system.  In order for TileMill to run correctly you must remove this version of libmapnik.  The TileMill package includes its own libmapnik library, but your copy of libmapnik in /usr/local will interfere with the TileMill package version of libmapnik. Quick solution is to go to where you previously installed mapnik and run \`make uninstall\`.\n\n"
 fi
-
-echo "\n\n\033[38;50;33mNOTICE:\033[39m TileMill can now be run as a non-root user from the Desktop.  Look for the TileMill application in the Applications or Launcher menu.  If you have data and projects in /usr/share/mapbox from a previous installation but decide to run TileMill from the Desktop, you must manually copy your data and projects to /home/<username>/Documents/MapBox.\n\n"
