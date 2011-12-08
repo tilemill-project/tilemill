@@ -2,7 +2,7 @@ TileMill is a modern map design studio powered by open source technology.
 Installation instructions, development docs and other information are available
 on the [TileMill website](http://mapbox.com/tilemill).
 
-- [Download and install](http://mapbox.com/tilemill/download/)
+- [Download and install](http://mapbox.com/tilemill/)
 - [Build from source](http://mapbox.com/tilemill/docs/source/)
 
 
