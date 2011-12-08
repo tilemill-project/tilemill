@@ -16,7 +16,7 @@
   </li>
   <li>
     <label for='description'>MapBox sync</label>
-    <input type='text' name='mapbox_user' size='12' value='<%= get('mapbox') ? get('mapbox').user : '' %>' placeholder='account' disabled readonly />
+    <input type='text' name='syncAccount' size='12' value='<%=get('syncAccount')%>' placeholder='account' disabled readonly />
     <a class='button' href='#oauth'><%= get('mapbox') ? 'Refresh' : 'Authorize' %></a>
     <div class='description'>
       MapBox account for uploading maps.

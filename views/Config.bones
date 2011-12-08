@@ -27,7 +27,13 @@ view.prototype.bufferSize = function(ev, ui) {
 };
 
 view.prototype.oauth = function(ev) {
-    this.$('.content').html(templates.OAuthMapBox());
+    this.$('.content').html('<iframe class="oauth" width="700" height="470" src="/oauth/mapbox"></iframe>');
+    window.onmessage = _(function(msg) {
+        this.model.fetch({
+            success:this.render,
+            error:this.render
+        });
+    }).bind(this);
     return false;
 };
 
