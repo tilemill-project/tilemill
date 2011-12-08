@@ -23,6 +23,7 @@ releases:
   notes:
   - Fix jitter in Carto editor.
   - Add support for conditionals in Mustache templates.
+  - Better first run experiance for Ubuntu users.
 
 - version: 0.7.1
   date: 2011-12-07
