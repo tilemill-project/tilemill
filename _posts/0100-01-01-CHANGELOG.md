@@ -20,6 +20,7 @@ releases:
 
   notes:
   - Fix jitter in Carto editor.
+  - Add support conditionals in Mustache templates.
 
 - version: 0.7.1
   date: 2011-12-07
