@@ -12,6 +12,10 @@
         <span class='icon reverse labeled reference'></span>
         Manual
       </a>
+      <a class='popup button' title='TileMill Preferences' href='#config'>
+        <span class='icon reverse labeled settings'></span>
+        Preferences
+      </a>
     </div>
   </div></div>
 

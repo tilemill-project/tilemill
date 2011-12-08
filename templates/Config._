@@ -1,0 +1,29 @@
+<form class='fill'><ul class='form'>
+  <li>
+    <label for='name'>Render buffer</label>
+    <div class='slider'></div>
+    <div class='description help'>
+      Mapnik render buffer
+      <span class='bufferSize'><%=get('bufferSize')%></span>px.
+    </div>
+  </li>
+  <li>
+    <label for='description'>Documents</label>
+    <input type='text' name='files' size='40' value='<%= get('files') %>' />
+    <div class='description'>
+      File path to TileMill projects &amp; exports.
+    </div>
+  </li>
+  <li>
+    <label for='description'>MapBox sync</label>
+    <input type='text' name='mapbox_user' size='12' value='<%= get('mapbox') ? get('mapbox').user : '' %>' placeholder='account' disabled readonly />
+    <a class='button' href='#oauth'><%= get('mapbox') ? 'Refresh' : 'Authorize' %></a>
+    <div class='description'>
+      MapBox account for uploading maps.
+    </div>
+  </li>
+  <li class='buttons'>
+    <input type='submit' value='Save' />
+    <input type='button' value='Cancel' class='cancel' />
+  </li>
+</ul></form>
