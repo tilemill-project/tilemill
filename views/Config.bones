@@ -1,12 +1,11 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'click input[type=submit]': 'save',
-    'click a[href=#oauth]': 'oauth'
+    'click input[type=submit]': 'save'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'bufferSize', 'oauth', 'save');
+    _(this).bindAll('render', 'bufferSize', 'save');
     this.render();
 };
 
@@ -24,11 +23,6 @@ view.prototype.render = function() {
 
 view.prototype.bufferSize = function(ev, ui) {
     this.$('.bufferSize').text(ui.value);
-};
-
-view.prototype.oauth = function(ev) {
-    this.$('.content').html(templates.OAuthMapBox());
-    return false;
 };
 
 view.prototype.save = function() {

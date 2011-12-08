@@ -14,14 +14,6 @@
       File path to TileMill projects &amp; exports.
     </div>
   </li>
-  <li>
-    <label for='description'>MapBox sync</label>
-    <input type='text' name='mapbox_user' size='12' value='<%= get('mapbox') ? get('mapbox').user : '' %>' placeholder='account' disabled readonly />
-    <a class='button' href='#oauth'><%= get('mapbox') ? 'Refresh' : 'Authorize' %></a>
-    <div class='description'>
-      MapBox account for uploading maps.
-    </div>
-  </li>
   <li class='buttons'>
     <input type='submit' value='Save' />
     <input type='button' value='Cancel' class='cancel' />
