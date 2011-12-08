@@ -7,17 +7,22 @@ view.prototype.events = {
 view.prototype.initialize = function(options) {
     _(this).bindAll('render');
 
-    (new models.Preview({id:this.model.get('filename')})).fetch({
-        success: _(function(model, resp) {
-            this.preview = model;
-            this.render();
-        }).bind(this),
-        error: function(m, e) { new views.Modal(e) }
-    });
+    Bones.utils.fetch({
+        preview: new models.Preview({id:this.model.get('filename')}),
+        config: new models.Config()
+    }, _(function(err, models) {
+        if (err) return new views.Modal(err);
+        this.preview = models.preview;
+        this.config = models.config;
+        this.render();
+    }).bind(this));
 };
 
 view.prototype.render = function() {
-    this.$('.content').html(templates.Preview(this.model));
+    this.$('.content').html(templates.Preview({
+        model: this.model,
+        config: this.config
+    }));
 
     if (!com.modestmaps) throw new Error('ModestMaps not found.');
     this.map = new com.modestmaps.Map('preview',

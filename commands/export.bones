@@ -317,12 +317,48 @@ command.prototype.upload = function (project, callback) {
                     return this.error(new Error('S3 is not available. Status '
                                                 + resp.statusCode + '.'));
                 }
-                this.put({
-                    status: 'complete',
-                    progress: 1,
-                    url: resp.headers.location.split('?')[0],
-                    updated: +new Date()
-                }, process.exit);
+                // Free upload.
+                if (!this.opts.syncAccount || !this.opts.syncAccessToken)
+                    return this.put({
+                        status: 'complete',
+                        progress: 1,
+                        url: resp.headers.location.split('?')[0],
+                        updated: +new Date()
+                    }, process.exit);
+
+                var modelURL = this.opts.syncURL
+                    + '/api/Map/'
+                    + this.opts.syncAccount + '.' + project.id
+                    + '?access_token=' + this.opts.syncAccessToken;
+                request.get(modelURL, function(err, res, body) {
+                    if (err) return this.error(err);
+                    var model = {};
+                    if (res.statusCode !== 404) try {
+                        model = JSON.parse(body);
+                    } catch(err) {
+                        return this.error(new Error('Failed to parse existing map data form MapBox Hosting.'));
+                    }
+                    _(model).extend({
+                        id: this.opts.syncAccount + '.' + project.id,
+                        _type: 'tileset',
+                        created: +new Date,
+                        status: 'pending',
+                        url: 'http://' + bucket + '.s3.amazonaws.com/' + uploadArgs.key
+                    });
+                    request.put({
+                        url: modelURL,
+                        json: model
+                    }, function(err, res, body) {
+                        if (err) return this.error(err);
+                        if (res.statusCode !== 200) return this.error('Map publish failed: ' + res.statusCode);
+                        this.put({
+                            status: 'complete',
+                            progress: 1,
+                            url: this.opts.syncURL + '/' + this.opts.syncAccount + '/map/' + project.id,
+                            updated: +new Date()
+                        }, process.exit);
+                    }.bind(this));
+                }.bind(this));
             }).bind(this));
 
             // Write multipart values from memory.

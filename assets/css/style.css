@@ -991,19 +991,6 @@ input[type=submit]:active {
   box-shadow:inset #999 0px -1px 0px;
   }
 
-.button.large {
-  font-size:15px;
-  line-height:40px;
-  height:40px;
-  background-position:0px -440px;
-  padding:0px 20px;
-  }
-
-.button.large:active,
-.button.large.active {
-  background-position:0px -400px;
-  }
-
 /* Joined buttons */
 .joined > * {
   float:left;
@@ -1046,6 +1033,8 @@ ul.form li label {
   }
 
 ul.form .buttons { text-align:center; }
+
+.button.large,
 ul.form .buttons input {
   display:inline-block;
   background:#74bccc;
@@ -1467,7 +1456,13 @@ div.fonts { padding-top:30px; }
   }
 
 #popup .preview .buttons {
-  padding:10px 0px;
+  float:right;
+  background:#eee;
+  margin:5px 0px;
+  padding:10px 40px;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
   }
 
 /* Error page */
