@@ -17,7 +17,7 @@ layout: default
 {% capture tags %}{{tags}} {{item.tag}}{% endcapture %}
 {% endunless %}{% endif %}
 <li {% if item.tag %}class='tagged {% if item.tag == page.tag %}expanded{% endif %} {{item.tag|downcase}}'{% endif %}>
-<a {% if page.url == item.url %}class='active'{% endif %} href='{{site.baseurl}}{{item.url}}'>{% if page.url == item.url %}<span class='icon'></span>{% endif %}{{item.title}}</a>
+<a {% if page.title == item.title %}class='active'{% endif %} href='{{site.baseurl}}{{item.url}}'>{% if page.url == item.url %}<span class='icon'></span>{% endif %}{{item.title}}</a>
 </li>
 {% endunless %}
 {% endfor %}
