@@ -140,7 +140,7 @@ small { font-size:11px; }
   }
 
 #modal .content {
-  padding:20px;
+  padding:20px 35px 20px 20px;
   font-size:16px;
   overflow:hidden;
   color:#fff;
@@ -154,8 +154,10 @@ small { font-size:11px; }
   }
 
 #modal .content pre {
-  font-size:12px;
-}
+  font-size:13px;
+  max-height:250px;
+  overflow:auto;
+  }
 
 #modal .bug {
   border-top:1px solid #666;
