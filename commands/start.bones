@@ -45,7 +45,7 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
         console.warn('Creating files dir %s', settings.files);
         fsutil.mkdirpSync(settings.files, 0755);
     }
-    ['export', 'project', 'data', 'cache', 'cache/tile'].forEach(function(key) {
+    ['export', 'project', 'cache', 'cache/tile'].forEach(function(key) {
         var dir = path.join(settings.files, key);
         if (!path.existsSync(dir)) {
             console.warn('Creating %s dir %s', key, dir);
