@@ -1,0 +1,21 @@
+---
+layout: book
+---
+
+<p>
+  Attempting to redirect to the page for your platform.
+  If the redirect fails, pick your platform:
+</p>
+
+<ul>
+  <li><a href="{{ page.redirect_win }}">Windows</a></li>
+  <li><a href="{{ page.redirect_mac }}">Mac</a></li>
+  <li><a href="{{ page.redirect_linux }}">Linux</a></li>
+</ul>
+
+<script type="text/javascript">
+  if (navigator.appVersion.indexOf("Win") != -1) {window.location = '{{ page.redirect_win }}'}
+  else if (navigator.appVersion.indexOf("Mac") != -1) {window.location = '{{ page.redirect_mac }}'}
+  else if (navigator.appVersion.indexOf("X11") != -1 || navigator.appVersion.indexOf("Linux") != -1) {window.location = '{{ page.redirect_linux }}'}
+</script>
+
