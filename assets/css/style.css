@@ -140,10 +140,17 @@ small { font-size:11px; }
   }
 
 #modal .content {
-  padding:20px 35px 20px 20px;
+  padding:20px;
   font-size:16px;
   overflow:hidden;
   color:#fff;
+  }
+
+#modal .content pre {
+  font-size:13px;
+  max-height:250px;
+  padding-right:20px;
+  overflow:auto;
   white-space:pre;
   /* http://labnol.blogspot.com/2006/10/html-css-trick-for-displaying-code.html */
   white-space: pre-wrap; /* css-3 */
@@ -151,12 +158,6 @@ small { font-size:11px; }
   white-space: -pre-wrap; /* Opera 4-6 */
   white-space: -o-pre-wrap; /* Opera 7 */
   word-wrap: break-word; /* Internet Explorer 5.5+ */
-  }
-
-#modal .content pre {
-  font-size:13px;
-  max-height:250px;
-  overflow:auto;
   }
 
 #modal .bug {
