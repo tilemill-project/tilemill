@@ -3,11 +3,11 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'click input[type=submit]': 'save',
     'click a[href=#oauth]': 'oauth',
-    'click a[href=#clear]': 'clear'
+    'click a[href=#disable]': 'disable'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'bufferSize', 'oauth', 'clear', 'save');
+    _(this).bindAll('render', 'bufferSize', 'oauth', 'disable', 'save');
     this.render();
 };
 
@@ -28,7 +28,7 @@ view.prototype.bufferSize = function(ev, ui) {
 };
 
 view.prototype.oauth = function(ev) {
-    this.$('.content').html('<iframe class="oauth" width="700" height="470" src="/oauth/mapbox"></iframe>');
+    this.$('.content').html('<iframe class="oauth" width="700" height="300" scrolling="no" src="/oauth/mapbox"></iframe>');
     window.onmessage = _(function(msg) {
         this.model.fetch({
             success:this.render,
@@ -38,12 +38,13 @@ view.prototype.oauth = function(ev) {
     return false;
 };
 
-view.prototype.clear = function(ev) {
+view.prototype.disable = function(ev) {
     this.model.set({
         'syncAccount': '',
         'syncAccessToken': ''
     });
-    this.$('input[name=syncAccount]').val('');
+    this.$('.syncOn').addClass('dependent');
+    this.$('.syncOff').removeClass('dependent');
     return false;
 };
 

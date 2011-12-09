@@ -6,6 +6,7 @@ var OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 server = Bones.Server.extend({});
 server.prototype.initialize = function(app) {
     var auth = passport.authenticate('mapbox', { failureRedirect: '/oauth/mapbox/fail' });
+    var body = '<script type="text/javascript">parent.postMessage("done", "*");</script>';
     this.use(passport.initialize());
     this.get('/oauth/mapbox', auth);
     this.get('/oauth/mapbox/token', auth, function(req, res) {
@@ -13,16 +14,18 @@ server.prototype.initialize = function(app) {
             syncAccount: req.user.id,
             syncAccessToken: req.user.accessToken
         }, {
-            success: function() {
-                res.send('<script type="text/javascript">parent.postMessage("Authorized use with MapBox.", "*");</script>');
-            },
-            error: function() {
-                res.send('<script type="text/javascript">parent.postMessage("Failed to save configuration.", "*");</script>');
-            }
+            success: function() { res.send(body); },
+            error: function() { res.send(body); }
         });
     });
-    this.get('/oauth/mapbox/fail', auth, function(req, res) {
-        res.send('<script type="text/javascript">parent.postMessage("Failed authorization.", "*");</script>');
+    this.get('/oauth/mapbox/fail', function(req, res) {
+        new models.Config().save({
+            syncAccount: '',
+            syncAccessToken: ''
+        }, {
+            success: function() { res.send(body); },
+            error: function() { res.send(body); }
+        });
     });
     passport.use(new Strategy());
     passport.serializeUser(function(obj, done) { done(null, obj); });
