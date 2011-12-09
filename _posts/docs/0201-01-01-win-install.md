@@ -24,6 +24,7 @@ We provide an Ubuntu Linux machine with the latest TileMill release pre-installe
 4. Select the new machine in VirtualBox and boot it by clicking the **Start** button.
 5. You will be greeted with an Ubuntu login screen. Login with the username "ubuntu" and password "ubuntu".
 3. Start TileMill by choosing **Applications > Graphics > TileMill** from the menu.
+4. Open the **Firefox Web Browser** inside the virtual machine and navigate to http://localhost:8889.
 
 You can share data files with the virtual machine using a [VirtualBox shared folder](http://blogs.oracle.com/tao/entry/virtual_box_shared_folder_between) or with a tool like [Dropbox](http://dropbox.com).
 
