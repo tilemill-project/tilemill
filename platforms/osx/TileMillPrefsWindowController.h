@@ -8,9 +8,6 @@
 
 @interface TileMillPrefsWindowController : NSWindowController <NSWindowDelegate>
 {
-    BOOL needsRestart;
 }
-
-- (IBAction)clickedFilesPathButton:(id)sender;
 
 @end
