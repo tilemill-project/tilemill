@@ -2,7 +2,7 @@
 
 This document describes the packaging steps for TileMill on Ubuntu.
 
-Debian packages, launchpad PPA, and a bit of elbow grease are the tools.
+Debian packages, Launchpad PPA's, and a bit of elbow grease are the tools.
 
 
 ## Requirements
@@ -13,7 +13,7 @@ Debian packages, launchpad PPA, and a bit of elbow grease are the tools.
 
 ## Resources on packaging
 
-The are high level resources you should look at before continuing:
+These are high level resources you should look at before continuing:
 
 * https://wiki.ubuntu.com/PackagingGuide/Complete
 * http://www.debian.org/doc/manuals/maint-guide/
@@ -32,17 +32,18 @@ Make sure to create entropy as the key is created by moving your mouse around or
 
 For more info on creating your key see: https://help.launchpad.net/YourAccount/ImportingYourPGPKey
 
-Ensure your launchpad user has access to the ppas at https://launchpad.net/~developmentseed
+Ensure your launchpad user has access to the PPA's at https://launchpad.net/~developmentseed
 
 
 ## Instructions for copying packages
 
-The instructions below require copying of packages, to ensure proper dependencies (and avoid other ppa updates
-conflicting with what tilemill needs for versions).
+The instructions below require copying of packages between PPA's. We do this to ensure 
+proper dependencies (to avoid other PPA updates conflicting with what tilemill needs for versions)
+and to stage builds for testing.
 
 Here is how to copy packages:
 
-1) Go the the launchpad page for the ppa packages you want to copy from, like:
+1) Go the the launchpad page for the PPA packages you want to copy from, like:
 
 - [chris-lea/node.js](https://launchpad.net/~chris-lea/+archive/node.js/+copy-packages)
 - [mapnik/nightly-trunk](https://launchpad.net/~mapnik/+archive/nightly-trunk/+copy-packages)
@@ -68,11 +69,11 @@ Here is how to copy packages:
 Mapnik master is what is usually needed for TileMill releases.
 
 These can either be copied from https://launchpad.net/~mapnik/+archive/nightly-trunk into the
-~developmentseed/mapbox-dev ppa or built and uploaded there directly.
+~developmentseed/mapbox-dev PPA or built and uploaded there directly.
 
 To build them yourself follow the docs at:
 
-    https://github.com/mapnik/mapnik-packaging/blob/master/debian-nightlies/README
+    https://github.com/mapnik/mapnik-packaging/blob/master/debian-nightlies/README.md
 
 ### Copy nodejs packages
 
@@ -82,12 +83,12 @@ Copy the nodejs packages at the versions that work for TileMill.
 
 Locally, on your ubuntu machine checkout TileMill for a given tag:
 
-    TAG="v0.7.1"
+    TAG="v0.8.0"
     git clone https://github.com/mapbox/tilemill tilemill-$TAG
     cd tilemill-$TAG
     git checkout $TAG
 
-Add the ppa dependencies and install them:
+Add the PPA dependencies and install them:
 
     sudo apt-add-repository ppa:developmentseed/mapbox-dev
     sudo apt-get update
@@ -130,6 +131,12 @@ To create a testing package that will be built and uploaded to "mapbox-dev" PPA 
 Use the -p (production) flag to push a build up to the main "mapbox" PPA:
 
     ./package.sh -p
+
+## Testing
+
+Now, ideally on another machine add the `developmentseed/mapbox-dev` PPA and test
+installing tilemill packages. If they work then you can deploy them by copying the
+packages from the "mapbox-dev" PPA to the "mapbox" PPA.
 
 
 ## Testing builds with Pbuilder

@@ -45,7 +45,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
     case 'file':
     case 'sqlite':
         // @TODO: disallow .. and other nasty things.
-        var location = model.get('location') || path.join(process.env.HOME, 'Documents');
+        var location = model.get('location') || process.env.HOME;
 
         // Resolve paths relative to project directory.
         if (location[0] !== '/') {
@@ -54,7 +54,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
 
         path.exists(location, function(exists) {
             if (!exists) {
-                location = path.join(process.env.HOME, 'Documents');
+                location = process.env.HOME;
             }
             var filepath = path.join('/', location);
             readdir(filepath, function(err, files) {

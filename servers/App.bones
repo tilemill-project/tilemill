@@ -4,6 +4,13 @@ var path = require('path');
 var env = process.env.NODE_ENV || 'development';
 
 var abilities = {
+    version: (function() {
+        try {
+            return _(fs.readFileSync(path.resolve(__dirname + '/../VERSION'),'utf8').split('\n')).compact();
+        } catch(e) {
+            return ['unknown', 'unknown'];
+        }
+    })(),
     tilemill: JSON.parse(fs.readFileSync(path.resolve(__dirname + '/../package.json'),'utf8')),
     carto: require('carto').tree.Reference.data,
     fonts: mapnik.fonts(),

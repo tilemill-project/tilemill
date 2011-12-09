@@ -1,6 +1,7 @@
 view = Backbone.View.extend({
     events: {
         'click .actions a[href=#add]': 'add',
+        'click .actions a[href=#about]': 'about',
         'click .actions a[href=#config]': 'config',
         'click .delete': 'del'
     },
@@ -34,6 +35,15 @@ view = Backbone.View.extend({
                 });
             }).bind(this),
             affirmative: 'Delete'
+        });
+        return false;
+    },
+    about: function() {
+        new views.Modal({
+            callback: function() {},
+            content: templates.About(window.abilities),
+            affirmative: 'Close',
+            negative: ''
         });
         return false;
     },

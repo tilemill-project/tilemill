@@ -192,7 +192,6 @@ view.prototype.saveFile = function(e) {
     _(attr['Datasource']).defaults(this.parseOptions(this.$('input[name=advanced]').val()));
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
-        e.type = 'code';
         new views.Modal(e);
     }).bind(this);
     this.model.validateAsync(attr, {
@@ -253,7 +252,6 @@ view.prototype.savePostGIS = function(e) {
     }
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
-        e.type = 'code';
         new views.Modal(e);
     }).bind(this);
 
@@ -294,7 +292,6 @@ view.prototype.saveSqlite = function(e) {
     _(attr['Datasource']).defaults(this.parseOptions(this.$('form.layerSqlite input[name=advanced]').val()));
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
-        e.type = 'code';
         new views.Modal(e);
     }).bind(this);
     this.model.validateAsync(attr, {
