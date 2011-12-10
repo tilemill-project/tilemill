@@ -133,9 +133,17 @@ command.prototype.initialize = function(plugin, callback) {
             bounds: !_(opts.bbox).isUndefined() ? opts.bbox : model.get('bounds')
         });
 
-        // Unset map center for now given that it may be outside
-        // overridden bounds provided.
-        if (model.mml.center) delete model.mml.center;
+        // Unset map center if outside bounds.
+        var validCenter = (function(center, bounds, minzoom, maxzoom) {
+            if (center[0] < bounds[0] ||
+                center[0] > bounds[2] ||
+                center[1] < bounds[1] ||
+                center[1] > bounds[3]) return false;
+            if (center[2] < minzoom) return false;
+            if (center[2] > maxzoom) return false;
+            return true;
+        })(model.mml.center, model.mml.bounds, model.mml.minzoom, model.mml.maxzoom);
+        if (!validCenter) delete model.mml.center;
 
         cmd[opts.format](model, callback);
     });
