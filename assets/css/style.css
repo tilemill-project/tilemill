@@ -1587,7 +1587,11 @@ tr:hover th,
   }
 
 /* About */
-.about { color:#aaa; text-align:center; }
+.about {
+  font-size:13px;
+  color:#aaa;
+  text-align:center;
+  }
 .about img,
 .about h2 { margin:0px auto 20px; }
 .about img { display:block; }
