@@ -28,6 +28,7 @@
 @synthesize basePath;
 @synthesize command;
 @synthesize launched;
+@synthesize port;
 
 - (id)initWithBasePath:(NSString *)inBasePath command:(NSString *)inCommand
 {
@@ -67,16 +68,6 @@
     [self.task setCurrentDirectoryPath:self.basePath];
     [self.task setLaunchPath:self.command];
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    [self.task setArguments:[NSArray arrayWithObjects:[NSString stringWithFormat:@"--port=%i",       [defaults integerForKey:@"serverPort"]],
-                                                      [NSString stringWithFormat:@"--bufferSize=%i", [defaults integerForKey:@"bufferSize"]],
-                                                      [NSString stringWithFormat:@"--files=%@",      [defaults stringForKey: @"filesPath"]],
-                                                      [NSString stringWithFormat:@"--listenHost=%@", [defaults boolForKey:@"listenAllInterfaces"] ? 
-                                                                                                         @"0.0.0.0" : 
-                                                                                                         @"127.0.0.1"],
-                                                      nil]];
-
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(receivedData:) 
                                                  name:NSFileHandleReadCompletionNotification 
@@ -114,6 +105,11 @@
         if ([message hasPrefix:@"Started"] && ! self.isLaunched)
         {
             self.launched = YES;
+            NSScanner *aScanner = [NSScanner scannerWithString:message];
+            NSInteger aPort;
+            [aScanner scanString:@"Started [Server Core:" intoString:NULL];
+            [aScanner scanInteger:&aPort];
+            self.port = aPort;
             
             if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidSendFirstData:)])
                 [self.delegate childProcessDidSendFirstData:self];
