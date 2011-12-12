@@ -9,7 +9,7 @@ prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "[Added an earthquake CSV layer](/tilemill/docs/tutorials/point-data) to your TileMill project."
 nextup:
-- "[Adding tooltips](/tilemill/docs/manual/project-settings/) to your map."
+- "[Adding tooltips](/tilemill/docs/tutorials/tooltips/) to your map."
 - "[Exporting](/tilemill/docs/manual/exporting/) your map."
 ---
 
