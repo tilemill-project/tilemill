@@ -280,6 +280,11 @@ command.prototype.mbtiles = function (project, callback) {
 
 command.prototype.upload = function (callback) {
     var cmd = this;
+    var key;
+    var bucket;
+    var mapURL = '';
+    var freeURL = '';
+    var modelURL = '';
     var hash = crypto.createHash('md5')
         .update(+new Date + '')
         .digest('hex')
@@ -290,6 +295,23 @@ command.prototype.upload = function (callback) {
         pathname: '/v2/'+ hash + '/upload.json'
     });
 
+    // Set URLs for account uploads.
+    if (this.opts.syncAccount && this.opts.syncAccessToken) {
+        mapURL = _('<%=base%>/<%=account%>/map/<%=handle%>')
+            .template({
+                base: this.opts.syncURL,
+                account: this.opts.syncAccount,
+                handle: this.opts.project
+            });
+        modelURL = _('<%=base%>/api/Map/<%=account%>.<%=handle%>?access_token=<%=token%>')
+            .template({
+                base: this.opts.syncURL,
+                account: this.opts.syncAccount,
+                handle: this.opts.project,
+                token: this.opts.syncAccessToken
+            });
+    }
+
     Step(function() {
         request.get({
             uri: policyEndpoint,
@@ -299,18 +321,15 @@ command.prototype.upload = function (callback) {
         if (err) throw err;
         if (resp.statusCode !== 200)
             throw new Error('MapBox Hosting is not available. Status ' + resp.statusCode + '.');
-        try {
-            var uploadArgs = JSON.parse(body);
-        } catch (e) {
-            throw new Error('Failed to parse policy from MapBox Hosting.');
-        }
-        try {
-            var stat = fs.statSync(cmd.opts.filepath);
-        } catch(err) { throw err }
 
-        var bucket = uploadArgs.bucket;
+        // Let Step catch thrown errors here.
+        uploadArgs = JSON.parse(body);
+        key = uploadArgs.key;
+        bucket = uploadArgs.bucket;
         delete uploadArgs.bucket;
         delete uploadArgs.filename;
+
+        var stat = fs.statSync(cmd.opts.filepath);
         var boundary = '----TileMill' + crypto.createHash('md5')
             .update(+new Date + '')
             .digest('hex')
@@ -337,11 +356,11 @@ command.prototype.upload = function (callback) {
                 'X_FILE_NAME': filename
             }
         }, function(resp) {
-            if (resp.statusCode !== 303) {
-                this(new Error('S3 is not available. Status ' + resp.statusCode + '.'));
-            } else {
-                this(null, resp.headers.location.split('?')[0]);
-            }
+            if (resp.statusCode !== 303)
+                return this(new Error('S3 is not available. Status ' + resp.statusCode + '.'));
+
+            freeURL = resp.headers.location.split('?')[0];
+            this();
         }.bind(this))
 
         // Write multipart values from memory.
@@ -372,12 +391,32 @@ command.prototype.upload = function (callback) {
                 dest.end();
             })
             .pipe(dest, {end: false});
-    }, function(err, url) {
+    }, function(err) {
+        if (err) throw err;
+        if (!modelURL) return this(); // Free
+
+        request.get(modelURL, this);
+    }, function(err, res, body) {
+        if (err) throw err;
+        if (!modelURL) return this(); // Free
+
+        // Let Step catch thrown errors here.
+        var model = _(res.statusCode === 404 ? {} : JSON.parse(body)).extend({
+            id: cmd.opts.syncAccount + '.' + cmd.opts.project,
+            _type: 'tileset',
+            created: +new Date,
+            status: 'pending',
+            url: 'http://' + bucket + '.s3.amazonaws.com/' + key
+        });
+        request.put({ url:modelURL, json:model }, this);
+    }, function(err, res, body) {
         if (err) return cmd.error(err);
+        if (modelURL && res.statusCode !== 200)
+            return cmd.error('Map publish failed: ' + res.statusCode);
         cmd.put({
             status: 'complete',
             progress: 1,
-            url: url,
+            url: modelURL ? mapURL : freeURL,
             updated: +new Date()
         }, process.exit);
     });
