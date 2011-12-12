@@ -79,6 +79,7 @@ models.Project.prototype.validateAsync = function(attributes, options) {
 
     this.localize(mml, function(err) {
         if (err) return options.error(this, err);
+        return options.success(this, null);
 
         var map = new mapnik.Map(1,1);
         var im = new mapnik.Image(1,1);
