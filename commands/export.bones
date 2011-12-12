@@ -114,9 +114,12 @@ command.prototype.initialize = function(plugin, callback) {
     });
     process.on('SIGUSR1', process.exit);
 
+    // Upload format does not require loaded project.
+    if (opts.format === 'upload') return this[opts.format](callback);
+
     // Load project, localize and call export function.
     var cmd = this;
-    var model = new models.Project({id:plugin.argv._[1]});
+    var model = new models.Project({id:opts.project});
     Step(function() {
         Bones.utils.fetch({model:model}, this);
     }, function(err) {
@@ -275,7 +278,7 @@ command.prototype.mbtiles = function (project, callback) {
     });
 };
 
-command.prototype.upload = function (project, callback) {
+command.prototype.upload = function (callback) {
     var cmd = this;
     var hash = crypto.createHash('md5')
         .update(+new Date + '')
@@ -308,76 +311,74 @@ command.prototype.upload = function (project, callback) {
         var bucket = uploadArgs.bucket;
         delete uploadArgs.bucket;
         delete uploadArgs.filename;
-
-        var boundry = '----TileMill' + crypto.createHash('md5')
+        var boundary = '----TileMill' + crypto.createHash('md5')
             .update(+new Date + '')
             .digest('hex')
             .substring(0, 6);
-
         var filename = path.basename(cmd.opts.filepath);
-
         var multipartBody = new Buffer(_(uploadArgs).map(function(value, key) {
-            return '--' + boundry + '\r\n'
+            return '--' + boundary + '\r\n'
                 + 'Content-Disposition: form-data; name="' + key + '"\r\n'
                 + '\r\n' + value + '\r\n';
             })
-            .concat(['--' + boundry + '\r\n'
+            .concat(['--' + boundary + '\r\n'
                 + 'Content-Disposition: form-data; name="file"; filename="' + filename + '"\r\n'
                 + 'Content-Type: application/octet-stream\r\n\r\n'])
             .join(''));
-        var terminate = new Buffer('\r\n--' + boundry + '--', 'ascii');
+        var terminate = new Buffer('\r\n--' + boundary + '--', 'ascii');
 
-        var options = {
+        var dest = http.request({
             host: bucket + '.s3.amazonaws.com',
             path: '/',
             method: 'POST',
             headers: {
-                'Content-Type': 'multipart/form-data; boundary=' + boundry,
+                'Content-Type': 'multipart/form-data; boundary=' + boundary,
                 'Content-Length': stat.size + multipartBody.length + terminate.length,
                 'X_FILE_NAME': filename
             }
-        };
-        var dest = http.request(options, function(resp) {
-            if (resp.statusCode !== 303)
-                return cmd.error(new Error('S3 is not available. Status ' + resp.statusCode + '.'));
-
-            cmd.put({
-                status: 'complete',
-                progress: 1,
-                url: resp.headers.location.split('?')[0],
-                updated: +new Date()
-            }, process.exit);
-        });
+        }, function(resp) {
+            if (resp.statusCode !== 303) {
+                this(new Error('S3 is not available. Status ' + resp.statusCode + '.'));
+            } else {
+                this(null, resp.headers.location.split('?')[0]);
+            }
+        }.bind(this))
 
         // Write multipart values from memory.
         dest.write(multipartBody, 'ascii');
 
-        // Set up read for MBTiles file.
-        var source = fs.createReadStream(cmd.opts.filepath);
-
+        // Set up read for MBTiles file and start the upload.
         var bytesWritten = 0;
         var started = Date.now();
-        var updateProgress = _(function() {
-            var progress = bytesWritten / stat.size;
-            cmd.put({
-                status: 'complete',
-                progress: progress,
-                status: progress < 1 ? 'processing' : 'complete',
-                remaining: cmd.remaining(progress, started),
-                updated: +new Date()
-            });
-        }).chain().bind(this).throttle(5000).value();
-        source.on('data', function(chunk) {
-            bytesWritten += chunk.length;
-            updateProgress();
-        });
+        var updated = Date.now();
+        fs.createReadStream(cmd.opts.filepath)
+            .on('data', function(chunk) {
+                bytesWritten += chunk.length;
 
-        source.on('end', function() {
-            dest.write(terminate);
-            dest.end();
-        });
+                if (Date.now() < updated + 5000) return;
 
-        // Start the upload!
-        source.pipe(dest, {end: false});
+                var progress = bytesWritten / stat.size;
+                updated = Date.now();
+                cmd.put({
+                    status: 'complete',
+                    progress: progress,
+                    status: progress < 1 ? 'processing' : 'complete',
+                    remaining: cmd.remaining(progress, started),
+                    updated: updated
+                });
+            })
+            .on('end', function() {
+                dest.write(terminate);
+                dest.end();
+            })
+            .pipe(dest, {end: false});
+    }, function(err, url) {
+        if (err) return cmd.error(err);
+        cmd.put({
+            status: 'complete',
+            progress: 1,
+            url: url,
+            updated: +new Date()
+        }, process.exit);
     });
 };
