@@ -144,6 +144,13 @@ small { font-size:11px; }
   font-size:16px;
   overflow:hidden;
   color:#fff;
+  }
+
+#modal .content pre {
+  font-size:13px;
+  max-height:250px;
+  padding-right:20px;
+  overflow:auto;
   white-space:pre;
   /* http://labnol.blogspot.com/2006/10/html-css-trick-for-displaying-code.html */
   white-space: pre-wrap; /* css-3 */
@@ -154,10 +161,6 @@ small { font-size:11px; }
   max-height:300px;
   overflow-y: auto;
   }
-
-#modal .content pre {
-  font-size:12px;
-}
 
 #modal .bug {
   border-top:1px solid #666;
@@ -852,6 +855,7 @@ li:hover .icon { display:block; }
 .icon.settings       { background-position:-260px -180px; }
 .icon.folder         { background-position:-340px -180px;}
 .icon.minus          { background-position:-380px -180px; }
+.icon.info           { background-position:-400px -180px; }
 .icon.geometry-linestring { background-position:-200px -180px; }
 .icon.geometry-point      { background-position:-220px -180px; }
 .icon.geometry-polygon    { background-position:-240px -180px; }
@@ -885,6 +889,7 @@ li:hover .icon { display:block; }
 .reverse.settings       { background-position:-260px -200px; }
 .reverse.folder         { background-position:-340px -200px;}
 .reverse.minus          { background-position:-380px -200px; }
+.reverse.info           { background-position:-400px -200px; }
 .reverse.geometry-linestring { background-position:-200px -200px; }
 .reverse.geometry-point      { background-position:-220px -200px; }
 .reverse.geometry-polygon    { background-position:-240px -200px; }
@@ -949,10 +954,8 @@ textarea {
 
 textarea {
   height:auto;
-  resize:none;
+  resize:vertical;
   }
-
-textarea.expand { height:200px; }
 
 .button,
 input[type=button],
@@ -993,19 +996,6 @@ input[type=submit]:active {
   border-color:#666;
   background-position:0px -110px;
   box-shadow:inset #999 0px -1px 0px;
-  }
-
-.button.large {
-  font-size:15px;
-  line-height:40px;
-  height:40px;
-  background-position:0px -440px;
-  padding:0px 20px;
-  }
-
-.button.large:active,
-.button.large.active {
-  background-position:0px -400px;
   }
 
 /* Joined buttons */
@@ -1050,6 +1040,8 @@ ul.form li label {
   }
 
 ul.form .buttons { text-align:center; }
+
+.button.large,
 ul.form .buttons input {
   display:inline-block;
   background:#74bccc;
@@ -1471,7 +1463,13 @@ div.fonts { padding-top:30px; }
   }
 
 #popup .preview .buttons {
-  padding:10px 0px;
+  float:right;
+  background:#eee;
+  margin:5px 0px;
+  padding:10px 40px;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
   }
 
 /* Error page */
@@ -1584,4 +1582,15 @@ tr:hover th,
   list-style-type:decimal;
   margin-left:20px;
   }
+
+/* About */
+.about {
+  font-size:13px;
+  color:#aaa;
+  text-align:center;
+  }
+.about img,
+.about h2 { margin:0px auto 20px; }
+.about img { display:block; }
+.about h2 { font-size:20px; }
 

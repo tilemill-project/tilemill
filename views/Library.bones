@@ -27,11 +27,12 @@ view.prototype.initialize = function(options) {
 view.prototype.render = function() {
     var breadcrumb = [];
     if (this.model.get('location')) {
+        var s3 = this.model.get('id') == 's3';
         breadcrumb = _(this.model.get('location').split('/')).chain()
             .compact()
             .reduce(function(memo, part) {
                 if (!memo.length) {
-                    memo.push('/' + part);
+                    memo.push((s3 ? '' : '/') + part);
                 } else {
                     memo.push(_(memo).last() + '/' + part);
                 }
@@ -41,7 +42,7 @@ view.prototype.render = function() {
     }
 
     var render = $(templates.Library({
-        breadcrumb:breadcrumb,
+        breadcrumb: breadcrumb,
         model:this.model
     }));
     if (this.$('.assets').size()) {
@@ -85,7 +86,9 @@ view.prototype.libraryLocation = function(ev) {
     this.model.set({location:location});
     this.model.fetch({
         success:this.render,
-        error:function(m, err) { new views.Modal(err) }
+        error: function(m, err) {
+            new views.Modal(err)
+        }
     });
     return false;
 };

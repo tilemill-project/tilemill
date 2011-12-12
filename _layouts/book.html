@@ -1,37 +1,43 @@
 ---
 layout: default
-sidebar_cats:
-- installation
-- manual
-- tutorials
 ---
-<div class='limiter title'>
-{% if page.section %}
-<small class='breadcrumb'>
-<a href='{{site.url}}/{{page.section}}/'>{{page.section|capitalize}}</a> /
-<a href='{{site.baseurl}}/docs'>TileMill</a>
-</small>
+<div class='limiter'><div class='content clearfix'>
+<div class='book'>
+{% if page.section and page.category %}
+<h3>
+<a class='category' href='{{site.baseurl}}{{site.categories[page.category].last.url}}'>{{page.category}}</a>
+</h3>
 {% endif %}
+<ul>
+{% assign tags = '' %}
+{% for item in site.categories[page.category] reversed %}
+{% unless item.hidden %}
+{% if item.tag %}{% unless tags contains item.tag %}
+<li class='tag'><a {% if item.tag == page.tag %}class='expanded'{% endif %} href='#{{item.tag|downcase}}'>{{item.tag|capitalize}}</a></li>
+{% capture tags %}{{tags}} {{item.tag}}{% endcapture %}
+{% endunless %}{% endif %}
+<li {% if item.tag %}class='tagged {% if item.tag == page.tag %}expanded{% endif %} {{item.tag|downcase}}'{% endif %}>
+<a {% if page.title == item.title %}class='active'{% endif %} href='{{site.baseurl}}{{item.url}}'>{% if page.url == item.url %}<span class='icon'></span>{% endif %}{{item.title}}</a>
+</li>
+{% endunless %}
+{% endfor %}
+</ul>
+</div>
+<div class='col-3 prose'>
+<div class='title'>
 <h1>{{page.title}}</h1>
 </div>
-
-<div class='limiter'><div class='content clearfix'>
-<div class='col-3 prose'>{{content}}</div>
-<div class='book'>
-  {% for cat in (page.sidebar_cats) %}
-  <div class='topic{% if page.categories contains cat %} active{% endif %}'>
-    <h3><a href='#'>{{ cat | replace:'_',' ' | capitalize }}</a></h3>
-    <div class='articles'>
-      {% for post in site.posts reversed %}{% if post.categories contains cat %}
-        {% if page.title == post.title %}
-          <a class='active' href='{{site.baseurl}}{{ post.url }}'>{{ post.title }}</a>
-        {% else %}
-          <a href='{{site.baseurl}}{{ post.url }}'>{{ post.title }}</a>
-        {% endif %}
-      {% endif %}{% endfor %}
-    </div>
-  </div>
-  {% endfor %}
+{{content}}
 </div>
 </div></div>
-<script type='text/javascript'>$(tilemill.book);</script>
+
+<div class='pager'>
+  {% if page.previous and page.previous.category == page.category %}
+  <a class='prev' href='{{site.baseurl}}{{page.previous.url}}'><span class='icon next'>Prev</span></a>
+  {% endif %}
+  {% if page.next and page.next.category == page.category %}
+  <a class='next' href='{{site.baseurl}}{{page.next.url}}'><span class='icon prev'>Next</span></a>
+  {% endif %}
+</div>
+
+<script type='text/javascript'>$(mapbox.book);</script>

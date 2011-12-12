@@ -8,7 +8,7 @@
 
 #import "TileMillBrowserWindowController.h"
 
-#import <objc/message.h>
+#define kTileMillRequestTimeout 300
 
 @interface TileMillBrowserWindowController ()
 
@@ -40,16 +40,18 @@
 
 #pragma mark -
 
-- (void)loadInitialRequest
+- (void)loadInitialRequestWithPort:(NSInteger)port
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]]];
+    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld", port]];
     
-    [self.webView.mainFrame loadRequest:request];
+    [self loadRequestURL:initialURL];
 }
 
 - (void)loadRequestURL:(NSURL *)loadURL
 {
-    [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:loadURL]];
+    [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:loadURL 
+                                                         cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                     timeoutInterval:kTileMillRequestTimeout]];
 }
 
 - (BOOL)browserShouldQuit
@@ -187,6 +189,23 @@
             scroller.verticalScrollElasticity   = NSScrollElasticityNone;
         });
     }
+}
+
+#pragma mark -
+#pragma mark WebResourceLoadDelegate
+
+- (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource
+{
+    if ([request timeoutInterval] < kTileMillRequestTimeout)
+    {
+        NSMutableURLRequest *newRequest = [[request copy] autorelease];
+        
+        [newRequest setTimeoutInterval:kTileMillRequestTimeout];
+        
+        return newRequest;
+    }
+
+    return request;
 }
 
 #pragma mark -

@@ -140,20 +140,19 @@ Then fixup node-mapnik install so that the plugins work:
     export MAPNIK_FONTS="path.join(__dirname, 'fonts')"
     ./configure
     node-waf -v build
-    SONAME=2
-    cp $MAPNIK_ROOT/usr/local/lib/libmapnik2.dylib lib/libmapnik$SONAME.dylib
-    install_name_tool -id libmapnik$SONAME.dylib lib/libmapnik2.dylib
-    install_name_tool -change /usr/local/lib/libmapnik2.dylib @loader_path/libmapnik$SONAME.dylib lib/_mapnik.node
+    cp $MAPNIK_ROOT/usr/local/lib/libmapnik.dylib lib/libmapnik.dylib
+    install_name_tool -id libmapnik.dylib lib/libmapnik.dylib
+    install_name_tool -change /usr/local/lib/libmapnik.dylib @loader_path/libmapnik.dylib lib/_mapnik.node
 
     mkdir -p lib/fonts
     rm lib/fonts/*
-    cp -R $MAPNIK_ROOT/usr/local/lib/mapnik2/fonts lib/
+    cp -R $MAPNIK_ROOT/usr/local/lib/mapnik/fonts lib/
     
     mkdir -p lib/input
     rm lib/input/*.input
-    cp $MAPNIK_ROOT/usr/local/lib/mapnik2/input/*.input lib/input/
+    cp $MAPNIK_ROOT/usr/local/lib/mapnik/input/*.input lib/input/
     for i in $(ls lib/input/*input);
-    do install_name_tool -change /usr/local/lib/libmapnik2.dylib @loader_path/../libmapnik$SONAME.dylib $i;
+    do install_name_tool -change /usr/local/lib/libmapnik.dylib @loader_path/../libmapnik.dylib $i;
     done;
 
 

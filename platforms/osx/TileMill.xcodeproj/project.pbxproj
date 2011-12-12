@@ -28,7 +28,6 @@
 		DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6F0D5C13F981140055EFAE /* Cocoa.framework */; };
 		DD6F0D6113F982770055EFAE /* MBTiles.qlgenerator in Copy QuickLook Plugin */ = {isa = PBXBuildFile; fileRef = DD6F0D4F13F97F120055EFAE /* MBTiles.qlgenerator */; };
 		DD6F0DBE13F989550055EFAE /* MBTiles.mdimporter in Copy Spotlight Importer */ = {isa = PBXBuildFile; fileRef = DD6F0DBA13F989220055EFAE /* MBTiles.mdimporter */; };
-		DD820DE713FAC27600685B10 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD820DE613FAC27600685B10 /* JSONKit.m */; };
 		DDE4970213FEAEE0006E35F3 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE4970013FEADC1006E35F3 /* Sparkle.framework */; };
 		DDE4970313FEAEE8006E35F3 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DDE4970013FEADC1006E35F3 /* Sparkle.framework */; };
 /* End PBXBuildFile section */
@@ -131,8 +130,6 @@
 		DD6F0D4713F97F120055EFAE /* MBTilesQuickLook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MBTilesQuickLook.xcodeproj; sourceTree = "<group>"; };
 		DD6F0D5C13F981140055EFAE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DD6F0DB213F989210055EFAE /* MBTiles Spotlight Importer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "MBTiles Spotlight Importer.xcodeproj"; path = "MBTiles Spotlight Importer/MBTiles Spotlight Importer.xcodeproj"; sourceTree = "<group>"; };
-		DD820DE513FAC27600685B10 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Externals/JSONKit/JSONKit.h; sourceTree = "<group>"; };
-		DD820DE613FAC27600685B10 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Externals/JSONKit/JSONKit.m; sourceTree = "<group>"; };
 		DDE4970013FEADC1006E35F3 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Externals/Sparkle/Sparkle.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -297,19 +294,9 @@
 		DD820DE313FAC22600685B10 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
-				DD820DE413FAC23C00685B10 /* JSONKit */,
 				DD4F9DD91419912E00278ECD /* LetsMove */,
 			);
 			name = Externals;
-			sourceTree = "<group>";
-		};
-		DD820DE413FAC23C00685B10 /* JSONKit */ = {
-			isa = PBXGroup;
-			children = (
-				DD820DE513FAC27600685B10 /* JSONKit.h */,
-				DD820DE613FAC27600685B10 /* JSONKit.m */,
-			);
-			name = JSONKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -429,7 +416,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "INFO=$( echo $PWD )/tilemill-Info\nTAG=\nCOMMIT=\nCURRENT=\nCURRENT_BUILD=\nGITPATH=/usr/bin:/usr/local/bin:/usr/local/git/bin\nPATH=$PATH:$GITPATH; export PATH\n\nif [ -z $( which git ) ]; then\n  echo \"Unable to find git binary in \\$GITPATH\"\n  exit 1\nfi\n\nTAG=$( git describe --tags --abbrev=0 | sed -e 's/^v//' )\n\nCURRENT=$( defaults read \"$INFO\" CFBundleShortVersionString )\n\nif [ $CURRENT != $TAG ]; then\n    # output for Xcode logging\n    echo \"Updating CFBundleShortVersionString to $TAG\"\n\n    # write it to the Info.plist\n    defaults write \"$INFO\" CFBundleShortVersionString $TAG  \nelse\n    # output for Xcode logging\n    echo \"CFBundleShortVersionString already at $TAG\"\nfi\n\nBUILD=3$( echo $TAG | sed -e 's/\\.//g' )\n\nCURRENT_BUILD=$( defaults read \"$INFO\" CFBundleVersion )\n\nif [ $CURRENT_BUILD != $BUILD ]; then\n    # output for Xcode logging\n    echo \"Updating CFBundleVersion to $BUILD\"\n\n    # write it to the Info.plist\n    defaults write \"$INFO\" CFBundleVersion $BUILD  \nelse\n    # output for Xcode logging\n    echo \"CFBundleVersion already at $BUILD\"\nfi";
+			shellScript = "INFO=$( echo $PWD )/tilemill-Info\nTAG=\nCOMMIT=\nCURRENT=\nCURRENT_BUILD=\nGITPATH=/usr/bin:/usr/local/bin:/usr/local/git/bin\nPATH=$PATH:$GITPATH; export PATH\n\nif [ -z $( which git ) ]; then\n  echo \"Unable to find git binary in \\$GITPATH\"\n  exit 1\nfi\n\nSHORT_VERSION=$( git describe --tags )\nVERSION=$( echo $SHORT_VERSION | sed -e 's/^v//' | sed -e 's/-/./' | sed -e 's/-.*//' )\n\necho $VERSION\n\ndefaults write \"$INFO\" CFBundleShortVersionString $SHORT_VERSION\ndefaults write \"$INFO\" CFBundleVersion $VERSION\n";
 			showEnvVarsInLog = 0;
 		};
 		D7CFB18F13E852550033DFFD /* Copy Node Executable */ = {
@@ -486,7 +473,6 @@
 				35D15E0E13D25D9D003244AE /* TileMillChildProcess.m in Sources */,
 				35B36EA313D260C6006C72ED /* TileMillAppDelegate.m in Sources */,
 				DD1081EE13F9AA4F001772BE /* TileMillPrefsWindowController.m in Sources */,
-				DD820DE713FAC27600685B10 /* JSONKit.m in Sources */,
 				DD4F9DDC1419914400278ECD /* PFMoveApplication.m in Sources */,
 				DD4F9DE51419923C00278ECD /* NSString+SymlinksAndAliases.m in Sources */,
 				DD35FE0214461B8A00455DAA /* TileMillBrowserWindowController.m in Sources */,

@@ -1,7 +1,8 @@
 ---
 layout: book
 section: documentation
-category: manual
+category: TileMill
+tag: manual
 title: Files & directories
 permalink: /docs/manual/files-directories
 ---
