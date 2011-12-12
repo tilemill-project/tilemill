@@ -8,10 +8,17 @@ server = Bones.Server.extend({});
 server.prototype.initialize = function() {
     _.bindAll(this, 'fromCache', 'load', 'mbtiles');
     this.get('/tile/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)',
+        this.tilereq,
         this.mbtiles);
     this.get('/tile/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)', [
+        this.tilereq,
         this.fromCache,
         this.load]);
+};
+
+server.prototype.tilereq = function(req, res, next) {
+    req.tilereq = true;
+    return next();
 };
 
 server.prototype.load = function(req, res, next) {

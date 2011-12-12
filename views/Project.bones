@@ -90,14 +90,16 @@ view.prototype.render = function(init) {
             fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
         };
 
-        this.map.requestManager.addCallback('requesterror', function(manager, url) {
-            $.ajax(url, {
-                success: function() { },
-                error: function(resp) {
-                   new views.Modal(resp);
-                }
-            });
-        });
+        // Add image error request handler. "Dedupes" image errors by
+        // checking against last received image error so as to not spam
+        // the user with the same errors message for every image request.
+        this.map.requestManager.addCallback('requesterror', _(function(manager, url) {
+            $.ajax(url, { error: _(function(resp) {
+                if (resp.responseText === this._error) return;
+                this._error = resp.responseText;
+                new views.Modal(resp);
+            }).bind(this) });
+        }).bind(this));
 
         var center = this.model.get('center');
         this.map.setCenterZoom(new com.modestmaps.Location(
@@ -238,6 +240,7 @@ view.prototype.mapZoom = function(e) {
 
 view.prototype.attach = function() {
     // Reset various portions of the UI.
+    this._error = '';
     this.$('.actions a[href=#save]').addClass('disabled');
     this.statusClose();
 
