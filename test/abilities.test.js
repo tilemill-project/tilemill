@@ -10,7 +10,7 @@ require('./support/start')(function(command) {
                 var abilities = JSON.parse(body);
 
                 assert.ok(abilities.fonts.indexOf('Arial Regular') >= 0 ||
-                          abilities.fonts.indexOf('Arial Regular') >= 0);
+                          abilities.fonts.indexOf('DejaVu Sans Book') >= 0);
                 assert.deepEqual([0,206,209], abilities.carto.colors.darkturquoise);
                 assert.deepEqual([
                     "background-color",
