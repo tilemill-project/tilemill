@@ -35,12 +35,12 @@ models.Config.prototype.sync = function(method, model, success, error) {
         break;
     case 'create':
     case 'update':
-        var allowedKeys = ['port', 'bufferSize', 'files'];
+        var allowedKeys = ['bufferSize', 'files'];
         var data = model.toJSON();
 
         // Additional data processing.
         for (var key in data) {
-            if (!_(allowedKeys).include(key)) delete data;
+            if (!_(allowedKeys).include(key)) delete data[key];
         }
         if (data.files) data.files = data.files.replace('~', process.env.HOME);
 
