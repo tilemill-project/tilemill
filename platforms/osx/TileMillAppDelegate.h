@@ -24,10 +24,9 @@
 - (IBAction)openDocumentsFolder:(id)sender;
 - (IBAction)openHelp:(id)sender;
 - (IBAction)openDiscussions:(id)sender;
-- (IBAction)openKnowledgeBase:(id)sender;
+- (IBAction)openOnlineHelp:(id)sender;
 - (IBAction)openConsole:(id)sender;
 - (IBAction)openPreferences:(id)sender;
 - (IBAction)showBrowserWindow:(id)sender;
-- (IBAction)showAboutPanel:(id)sender;
 
 @end
