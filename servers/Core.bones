@@ -1,6 +1,6 @@
 var env = process.env.NODE_ENV || 'development';
 
-servers['Core'].prototype.port = 8889;
+servers['Core'].prototype.port = 20009;
 servers['Core'].prototype.start = function(callback) {
     this.port && this.listen(this.port, this.plugin.config.listenHost, callback);
     return this;

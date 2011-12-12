@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=TileMill
 Comment=TileMill Map Design Studio
-Exec=bash -c "test -f $HOME/.tilemill.json || echo -e '{\n    \"port\": \"8889\"\n}' > $HOME/.tilemill.json && echo -e 'TileMill has started. Open your browser and navigate to http://localhost:8889.\n\n * View log at ~/.tilemill.log\n * Customize runtime settings at ~/.tilemill.json\n\nClose this terminal to stop TileMill.' && /usr/bin/nodejs /usr/share/tilemill/index.js --config=$HOME/.tilemill.json >> $HOME/.tilemill.log 2>&1"
+Exec=bash -c "echo -e 'TileMill has started. Open your browser and navigate to http://localhost:20009.\n\n * View log at ~/.tilemill.log\n * Customize runtime settings at ~/.tilemill.json\n\nClose this terminal to stop TileMill.' && /usr/bin/nodejs /usr/share/tilemill/index.js >> $HOME/.tilemill.log 2>&1"
 Icon=/usr/share/icons/hicolor/scalable/apps/tilemill.svg
 Terminal=true
 Type=Application

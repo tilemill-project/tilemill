@@ -28,10 +28,12 @@
     NSString *basePath;
     NSString *command;
     BOOL launched;
+    NSInteger port;
 }
 
 @property (nonatomic, assign) id <TileMillChildProcessDelegate> delegate;
 @property (nonatomic, readonly, assign, getter=isLaunched) BOOL launched;
+@property (nonatomic, assign) NSInteger port;
 
 - (id)initWithBasePath:(NSString *)inBasePath command:(NSString *)inCommand;
 - (void)startProcess;

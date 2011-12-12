@@ -24,6 +24,6 @@ This page is for **Ubuntu**. We also have instructions for [Mac OS X](/tilemill/
 1. [Download the install script]({{site.categories.homepage[0].platforms[1].url}}) for Ubuntu.
 2. Run `sudo ./install-tilemill.sh` from a terminal to add the TileMill PPA and install the packages.
 3. Start TileMill using the Ubuntu launcher (11.10) or by choosing **Applications > Graphics > TileMill** from the menu (10.10 & 11.04).
-4. Open your browser and navigate to http://localhost:8889.
+4. Open your browser and navigate to http://localhost:20009.
 
 {% include nextup.html %}
