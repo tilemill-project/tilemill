@@ -14,3 +14,21 @@ Bones.Command.options['bufferSize'] = {
     'default': defaults.bufferSize
 };
 
+Bones.Command.options['syncURL'] = {
+    'title': 'syncURL=[URL]',
+    'description': 'MapBox sync URL.',
+    'default': defaults.syncURL || ''
+};
+
+Bones.Command.options['syncAccount'] = {
+    'title': 'syncAccount=[account]',
+    'description': 'MapBox account name.',
+    'default': defaults.syncAccount || ''
+};
+
+Bones.Command.options['syncAccessToken'] = {
+    'title': 'syncAccessToken=[token]',
+    'description': 'MapBox access token.',
+    'default': defaults.syncAccessToken || ''
+};
+

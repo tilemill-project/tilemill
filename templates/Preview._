@@ -1,14 +1,26 @@
 <ul class='form fill preview'>
-<li class='text'>
-<div class='clearfix'>
-<div class='prose'>
-  <p><a href='http://mapbox.com/hosting' target='_blank'>MapBox Hosting</a> is an easy-to-use hosting service that gets maps onto your websites fast. If you don't have an account, we'll host your map for free for 7 days. <a href='http://tiles.mapbox.com/upload/' target='_blank'>Learn more &rarr;</a></p>
-</div>
+<% if (config.get('syncAccount') && config.get('syncAccessToken')) { %>
+<% var mapURL = config.get('syncURL') + '/' + config.get('syncAccount') + '/map/' + model.get('project'); %>
+<li>
   <div class='buttons'>
     <a class='upload button large' href='#'>Start Upload</a>
   </div>
-</div>
+  <label>Account</label>
+  <b><%=config.get('syncAccount')%></b><br/>
+  <label>Map URL</label>
+  <b><a href='<%= mapURL %>' target='_blank'><%= mapURL %></a></b><br/>
+  <small class='prose'>Create or update this map on your <a href='http://mapbox.com/hosting' target='_blank'>MapBox Hosting</a> account.</small>
 </li>
+<% } else { %>
+<li class='text clearfix'>
+  <div class='prose'>
+    <p><a href='http://mapbox.com/hosting' target='_blank'>MapBox Hosting</a> is an easy-to-use hosting service that gets maps onto your websites fast. If you don't have an account, we'll host your map for free for 7 days. <a href='http://tiles.mapbox.com/upload/' target='_blank'>Learn more &rarr;</a></p>
+  </div>
+  <div class='buttons'>
+    <a class='upload button large' href='#'>Start Upload</a>
+  </div>
+</li>
+<% } %>
 </ul>
 
 <div id='preview'></div>
