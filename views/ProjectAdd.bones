@@ -20,7 +20,7 @@ view.prototype.save = function() {
         'id':          this.$('input[name=id]').val(),
         'name':        this.$('input[name=name]').val(),
         'description': this.$('input[name=description]').val(),
-        'format':      this.$('select[name=format]').val(),
+        'format':      this.$('select[name=format]').val()
     }).reduce(function(memo, val, key) {
         if (key === 'id' || val !== '') memo[key] = val;
         return memo;
