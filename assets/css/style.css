@@ -952,7 +952,7 @@ textarea {
 
 textarea {
   height:auto;
-  resize:none;
+  resize:vertical;
   }
 
 .button,
