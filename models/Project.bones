@@ -186,6 +186,8 @@ model.prototype.setDefaults = function(data) {
     if (data) {
         !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT);
         !this.get('Layer').length && (template.Layer = this.LAYER_DEFAULT);
+        template.minzoom = 0;
+        template.maxzoom = 8;
     }
     else {
         !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT_NODATA);
