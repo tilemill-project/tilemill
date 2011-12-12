@@ -140,10 +140,17 @@ small { font-size:11px; }
   }
 
 #modal .content {
-  padding:20px 35px 20px 20px;
+  padding:20px;
   font-size:16px;
   overflow:hidden;
   color:#fff;
+  }
+
+#modal .content pre {
+  font-size:13px;
+  max-height:250px;
+  padding-right:20px;
+  overflow:auto;
   white-space:pre;
   /* http://labnol.blogspot.com/2006/10/html-css-trick-for-displaying-code.html */
   white-space: pre-wrap; /* css-3 */
@@ -151,12 +158,6 @@ small { font-size:11px; }
   white-space: -pre-wrap; /* Opera 4-6 */
   white-space: -o-pre-wrap; /* Opera 7 */
   word-wrap: break-word; /* Internet Explorer 5.5+ */
-  }
-
-#modal .content pre {
-  font-size:13px;
-  max-height:250px;
-  overflow:auto;
   }
 
 #modal .bug {
@@ -852,6 +853,7 @@ li:hover .icon { display:block; }
 .icon.settings       { background-position:-260px -180px; }
 .icon.folder         { background-position:-340px -180px;}
 .icon.minus          { background-position:-380px -180px; }
+.icon.info           { background-position:-400px -180px; }
 .icon.geometry-linestring { background-position:-200px -180px; }
 .icon.geometry-point      { background-position:-220px -180px; }
 .icon.geometry-polygon    { background-position:-240px -180px; }
@@ -885,6 +887,7 @@ li:hover .icon { display:block; }
 .reverse.settings       { background-position:-260px -200px; }
 .reverse.folder         { background-position:-340px -200px;}
 .reverse.minus          { background-position:-380px -200px; }
+.reverse.info           { background-position:-400px -200px; }
 .reverse.geometry-linestring { background-position:-200px -200px; }
 .reverse.geometry-point      { background-position:-220px -200px; }
 .reverse.geometry-polygon    { background-position:-240px -200px; }
@@ -1582,4 +1585,15 @@ tr:hover th,
   list-style-type:decimal;
   margin-left:20px;
   }
+
+/* About */
+.about {
+  font-size:13px;
+  color:#aaa;
+  text-align:center;
+  }
+.about img,
+.about h2 { margin:0px auto 20px; }
+.about img { display:block; }
+.about h2 { font-size:20px; }
 

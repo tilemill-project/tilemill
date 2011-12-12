@@ -40,9 +40,9 @@
 
 #pragma mark -
 
-- (void)loadInitialRequest
+- (void)loadInitialRequestWithPort:(NSInteger)port
 {
-    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]];
+    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld", port]];
     
     [self loadRequestURL:initialURL];
 }

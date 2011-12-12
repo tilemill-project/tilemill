@@ -1,9 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var defaults = JSON.parse(fs.readFileSync(
-    path.resolve(__dirname + '/../lib/config.defaults.json'),
-    'utf8'
-));
+var defaults = models.Config.defaults;
 
 Bones.Command.options['files'] = {
     'title': 'files=[path]',

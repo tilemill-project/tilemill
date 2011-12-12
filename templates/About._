@@ -1,0 +1,9 @@
+<div class='about'>
+<img src='/assets/tilemill/images/tilemill.png' />
+<h2><a target='_blank' href='http://tilemill.com'>TileMill</a></h2>
+<p>
+  Version <%=version[0]%> (<%=version[1]%>)<br/>
+  Made by <a target='_blank' href='http://developmentseed.org'>Development Seed</a><br/>
+  Copyright 2011
+</p>
+</div>

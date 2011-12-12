@@ -15,5 +15,5 @@ By default, TileMill runs as a desktop-style application on Ubuntu, but it can a
 - **Logs** are written to `/var/log/tilemill`
 - **Preferences** can be changed by editing `/etc/tilemill/tilemill.config`
 
-Once TileMill has started you can access the interface in your web browser at `http://localhost:8889`.
+Once TileMill has started you can access the interface in your web browser at `http://localhost:20009`.
 

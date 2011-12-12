@@ -10,8 +10,6 @@
 #import "TileMillBrowserWindowController.h"
 #import "TileMillPrefsWindowController.h"
 
-#import "JSONKit.h"
-
 #import "PFMoveApplication.h"
 
 @interface TileMillAppDelegate ()
@@ -59,29 +57,7 @@
     // offer to move app to Applications folder
     //
     PFMoveToApplicationsFolderIfNecessary();
-    
-    // used defaults shared between TileMill core & OS X (see #622)
-    //
-    NSString *jsonDefaults = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config.defaults" ofType:@"json" inDirectory:@"lib"]
-                                                       encoding:NSUTF8StringEncoding
-                                                          error:NULL];
-    
-    NSAssert(jsonDefaults, @"JSON file containing shared defaults not found");
-    
-    id json = [jsonDefaults objectFromJSONString];
-    
-    NSAssert([json isKindOfClass:[NSDictionary class]], @"JSON file containing shared defaults not formatted as expected");
 
-    int serverPort = [[json objectForKey:@"port"]       intValue];
-    int bufferSize = [[json objectForKey:@"bufferSize"] intValue];
-
-    NSString *filesPath = [[json objectForKey:@"files"] stringByExpandingTildeInPath];
-    
-    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:serverPort], @"serverPort",
-                                                                                                       [NSNumber numberWithInt:bufferSize], @"bufferSize",
-                                                                                                       filesPath,                           @"filesPath", 
-                                                                                                       nil]];
-    
     // setup logging & fire up main functionality
     //
     self.logPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"];
@@ -229,7 +205,7 @@
 
 - (IBAction)openHelp:(id)sender
 {
-    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]]]];
+    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", self.searchTask.port]]];
 
     // give page time to load, then be sure browser window is visible
     //
@@ -241,9 +217,9 @@
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://support.mapbox.com/discussions/tilemill"]];
 }
 
-- (IBAction)openKnowledgeBase:(id)sender
+- (IBAction)openOnlineHelp:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://support.mapbox.com/kb/tilemill"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://mapbox.com/tilemill/docs/"]];
 }
 
 - (IBAction)openConsole:(id)sender
@@ -277,7 +253,7 @@
                                          defaultButton:@"OK"
                                        alternateButton:nil
                                            otherButton:nil
-                             informativeTextWithFormat:@"Port %@ is already in use by another application on the system. Please change either that application or TileMill's preference, then relaunch TileMill.", [[NSUserDefaults standardUserDefaults] objectForKey:@"serverPort"]];
+                             informativeTextWithFormat:@"Port %@ is already in use by another application on the system. Please change either that application or TileMill's preference, then relaunch TileMill.", self.searchTask.port];
         
         [alert runModal];
     
@@ -315,7 +291,7 @@
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
-    [self.browserController loadInitialRequest];
+    [self.browserController loadInitialRequestWithPort:self.searchTask.port];
 }
 
 @end

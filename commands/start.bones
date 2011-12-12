@@ -2,10 +2,7 @@ var fs = require('fs');
 var fsutil = require('../lib/fsutil');
 var path = require('path');
 var Step = require('step');
-var defaults = JSON.parse(fs.readFileSync(
-    path.resolve(__dirname + '/../lib/config.defaults.json'),
-    'utf8'
-));
+var defaults = models.Config.defaults;
 
 commands['start'].options['host'] = {
     'title': 'host=[host(s)]',

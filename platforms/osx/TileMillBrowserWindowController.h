@@ -16,7 +16,7 @@
 
 @property (nonatomic, retain) IBOutlet WebView *webView;
 
-- (void)loadInitialRequest;
+- (void)loadInitialRequestWithPort:(NSInteger)port;
 - (void)loadRequestURL:(NSURL *)loadURL;
 - (BOOL)browserShouldQuit;
 
