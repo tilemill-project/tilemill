@@ -253,7 +253,7 @@
                                          defaultButton:@"OK"
                                        alternateButton:nil
                                            otherButton:nil
-                             informativeTextWithFormat:@"Port %@ is already in use by another application on the system. Please change either that application or TileMill's preference, then relaunch TileMill.", self.searchTask.port];
+                             informativeTextWithFormat:@"TileMill's port is already in use by another application on the system. Please terminate that application and relaunch TileMill."];
         
         [alert runModal];
     
