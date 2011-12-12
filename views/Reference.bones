@@ -1,7 +1,19 @@
 view = Backbone.View.extend();
 
+view.prototype.events = {
+    'click .toggler a': 'toggler'
+}
+
 view.prototype.initialize = function(options) {
     this.render();
+    this._carto_state = options._carto_state;
+    if (this._carto_state.section) {
+        $('a[href=' + this._carto_state.section + ']').click();
+    }
+};
+
+view.prototype.toggler = function(ev) {
+    this._carto_state.section = $(ev.currentTarget).attr('href');
 };
 
 view.prototype.render = function() {
@@ -9,11 +21,14 @@ view.prototype.render = function() {
 
     this.$('.content').html(templates.Reference(abilities.carto));
     this.$('pre.carto-snippet').each(function(i, elem) {
-        CodeMirror(
-            function(el) { $(elem).replaceWith(el); },
-            {
+        CodeMirror(function(el) {
+            $(elem).replaceWith(el);
+        }, {
                 readOnly: 'nocursor',
-                mode: {name:'carto', reference:abilities.carto},
+                mode: {
+                    name: 'carto',
+                    reference: abilities.carto
+                },
                 value: $(elem).text()
             }
         );

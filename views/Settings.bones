@@ -8,19 +8,16 @@ view.prototype.events = {
     'keyup textarea[name=template_full]': 'preview',
     'focus input[name=template_location]': 'preview',
     'focus textarea[name=template_teaser]': 'preview',
-    'focus textarea[name=template_full]': 'preview',
-    'blur textarea[name=template_teaser]': 'collapse',
-    'blur textarea[name=template_full]': 'collapse'
+    'focus textarea[name=template_full]': 'preview'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'save', 'attach', 'zoom', 'preview', 'collapse');
+    _(this).bindAll('render', 'save', 'attach', 'zoom', 'preview');
     this.render().attach();
 };
 
 view.prototype.preview = function(ev) {
     var target = $(ev.currentTarget);
-    target.addClass('expand');
     var format = target.attr('name').split('template_').pop();
     var feature = this.datasource.get('features')[0];
     try {
@@ -29,12 +26,6 @@ view.prototype.preview = function(ev) {
     } catch(err) {
         target.siblings('.preview').html(err.toString());
     }
-};
-
-view.prototype.collapse = function(ev) {
-    var target = $(ev.currentTarget);
-    target.removeClass('expand');
-    target.siblings('.preview').html('');
 };
 
 view.prototype.render = function() {
@@ -51,10 +42,6 @@ view.prototype.render = function() {
     // Focus name field for unnamed projects.
     if (!this.model.get('name')) this.$('input[type=text]:first').focus();
 
-    var template_location_mirror = CodeMirror(this.$('input[name=template_location]').get(0), {
-        lineNumbers: true,
-        mode: "mustache"
-    });
     return this;
 };
 

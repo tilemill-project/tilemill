@@ -448,7 +448,7 @@ function fields(opts) {
     // Determine fields that need to be included from templates.
     // @TODO allow non-templated fields to be included.
     var fields = [full, teaser, location]
-        .join(' ').match(/\{\{#?\/?\^?([\w\d]+)\}\}/g);
+        .join(' ').match(/\{\{#?\/?\^?([\w\d\s-:]+)\}\}/g);
 
     // Include `key_field` for PostGIS Layers.
     var layer = opts.interactivity.layer;
@@ -461,7 +461,7 @@ function fields(opts) {
     return _(fields).chain()
         .filter(_.isString)
         .map(function(field) {
-            return field.replace(/[\{\{|\}\}]/g, '');
+            return field.replace(/[\^#\/\{\{|\}\}]/g, '');
         })
         .uniq()
         .value();
@@ -470,7 +470,7 @@ function fields(opts) {
 // Generate combined template from templates.
 function template(opts) {
     opts = opts || {};
-    return '{{#__location__}}' + (opts.template_full || '') + '{{/__location__}}' +
+    return '{{#__location__}}' + (opts.template_location || '') + '{{/__location__}}' +
         '{{#__teaser__}}' + (opts.template_teaser || '') + '{{/__teaser__}}' +
         '{{#__full__}}' + (opts.template_full || '') + '{{/__full__}}';
 }

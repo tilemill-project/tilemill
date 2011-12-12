@@ -144,7 +144,17 @@ view.prototype.browse = function(ev) {
             new views.Library({
                 model: model,
                 favorites: this.favorites,
-                input: $('input[name=file], input[name=connection]', form),
+                change: function(uri) {
+                    $('input[name=file], input[name=connection]', form).val(uri);
+                    if ($('input[name=id]', form).val() == '') {
+                        // Get the 'basename' of the file, minus anything
+                        // after the first dot, in alphanumeric
+                        // and lowercase.
+                        $('input[name=id]', form).val(
+                            _(uri.split('/')).last().split('.')[0]
+                                .replace(/[^a-z0-9]/gi,'').toLowerCase());
+                    }
+                },
                 el: $('.browser', form)
             });
         }).bind(this),
@@ -153,7 +163,21 @@ view.prototype.browse = function(ev) {
     return false;
 };
 
-view.prototype.saveFile = function() {
+view.prototype.autostyle = function() {
+    var root = this.model.collection.parent;
+    var stylesheets = root.get('Stylesheet');
+    if (stylesheets.length !== 0) {
+        var cm = stylesheets.models[0].codemirror;
+        var coord = cm.coordsFromIndex(Infinity);
+        cm.replaceRange(
+            templates.Autostyle(this.model),
+            coord,
+            coord);
+        $('.actions a[href=#save]').click();
+    }
+};
+
+view.prototype.saveFile = function(e) {
     $(this.el).addClass('loading');
     var attr = {
         'name':  this.$('input[name=id]').val().replace('#', ''),
@@ -164,29 +188,38 @@ view.prototype.saveFile = function() {
             'file': this.$('input[name=file]').val()
         }
     };
+    var autostyle = $(e.target).hasClass('with-style');
     _(attr['Datasource']).defaults(this.parseOptions(this.$('input[name=advanced]').val()));
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
         new views.Modal(e);
     }).bind(this);
-    this.model.validateAsync(attr, { success:_(function() {
-        $(this.el).removeClass('loading');
-        if (!this.model.set(attr, {error:error})) return;
-        if (!this.model.collection.include(this.model))
-            this.model.collection.add(this.model);
-        this.$('.close').click();
-    }).bind(this), error:error });
+    this.model.validateAsync(attr, {
+        success: _(function() {
+            $(this.el).removeClass('loading');
+            if (!this.model.set(attr, {error:error})) return;
+            if (!this.model.collection.include(this.model)) {
+                this.model.collection.add(this.model);
+                if (autostyle) this.autostyle();
+            }
+            this.$('.close').click();
+        }).bind(this),
+        error: error
+    });
     return false;
 };
 
-view.prototype.savePostGIS = function() {
+view.prototype.savePostGIS = function(e) {
     $(this.el).addClass('loading');
     var attr = {
-        'name':  this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
-        'id':    this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
+        'name':  this.$('form.layerPostGIS input[name=id]')
+            .val().replace('#', ''),
+        'id':    this.$('form.layerPostGIS input[name=id]')
+            .val().replace('#', ''),
         'srs':   this.$('form.layerPostGIS input[name=srs]').val()
             || this.model.SRS['900913'],
-        'class': this.$('form.layerPostGIS input[name=class]').val().replace('.', ''),
+        'class': this.$('form.layerPostGIS input[name=class]')
+            .val().replace('.', ''),
         'Datasource': {
             'table':    this.$('textarea[name=table]', this.el).val(),
             'key_field': this.$('input[name=key_field]', this.el).val(),
@@ -195,6 +228,7 @@ view.prototype.savePostGIS = function() {
             'type': 'postgis'
         }
     };
+    var autostyle = $(e.target).hasClass('with-style');
     _(attr['Datasource']).defaults(this.parseOptions(this.$('form.layerPostGIS input[name=advanced]').val()));
 
     // Special parseing around PostGIS connection.
@@ -220,19 +254,25 @@ view.prototype.savePostGIS = function() {
         $(this.el).removeClass('loading');
         new views.Modal(e);
     }).bind(this);
+
     _(attr['Datasource']).defaults(connection);
 
-    this.model.validateAsync(attr, { success:_(function() {
-        $(this.el).removeClass('loading');
-        if (!this.model.set(attr, {error:error})) return;
-        if (!this.model.collection.include(this.model))
-            this.model.collection.add(this.model);
-        this.$('.close').click();
-    }).bind(this), error:error });
+    this.model.validateAsync(attr, {
+        success:_(function() {
+            $(this.el).removeClass('loading');
+            if (!this.model.set(attr, {error:error})) return;
+            if (!this.model.collection.include(this.model)) {
+                this.model.collection.add(this.model);
+                if (autostyle) this.autostyle();
+            }
+            this.$('.close').click();
+        }).bind(this),
+        error: error
+    });
     return false;
 };
 
-view.prototype.saveSqlite = function() {
+view.prototype.saveSqlite = function(e) {
     $(this.el).addClass('loading');
     var attr = {
         'name':  this.$('form.layerSqlite input[name=id]').val().replace('#', ''),
@@ -248,18 +288,24 @@ view.prototype.saveSqlite = function() {
             'type': 'sqlite'
         }
     };
+    var autostyle = $(e.target).hasClass('with-style');
     _(attr['Datasource']).defaults(this.parseOptions(this.$('form.layerSqlite input[name=advanced]').val()));
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
         new views.Modal(e);
     }).bind(this);
-    this.model.validateAsync(attr, { success:_(function() {
-        $(this.el).removeClass('loading');
-        if (!this.model.set(attr, {error:error})) return;
-        if (!this.model.collection.include(this.model))
-            this.model.collection.add(this.model);
-        this.$('.close').click();
-    }).bind(this), error:error });
+    this.model.validateAsync(attr, {
+        success:_(function() {
+            $(this.el).removeClass('loading');
+            if (!this.model.set(attr, {error:error})) return;
+            if (!this.model.collection.include(this.model)) {
+                this.model.collection.add(this.model);
+                if (autostyle) this.autostyle();
+            }
+            this.$('.close').click();
+        }).bind(this),
+        error: error
+    });
     return false;
 };
 

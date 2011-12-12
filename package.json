@@ -1,14 +1,14 @@
 {
     "name": "tilemill",
-    "version": "0.7.0",
+    "version": "0.7.2",
     "main": "./tilemill.js",
     "description": "A modern map design studio.",
     "keywords": ["map", "design", "cartography"],
     "url": "http://github.com/developmentseed/tilemill",
-    "repositories": [{
+    "repository": {
         "type": "git",
-        "url": "git://github.com/developmentseed/tilemill.git"
-    }],
+        "url": "git://github.com/mapbox/tilemill.git"
+    },
     "contributors": [
         "Tom MacWright <tmcw>",
         "Konstantin Kaefer <kkaefer>",
@@ -30,7 +30,7 @@
         "request": "1.9.x",
         "step": "0.0.x",
         "tilelive": "~4.0.3",
-        "mapnik": "~0.5.9",
+        "mapnik": "~0.5.12",
         "millstone": "~0.3.0",
         "sphericalmercator": "~1.0.1",
         "tilelive-mapnik": "~0.2.0",
@@ -38,14 +38,17 @@
         "carto": "~0.4.3",
         "wax": "~4.1.2",
         "node-markdown": "0.1.0",
-        "sqlite3": "~2.0.16"
+        "sqlite3": "~2.0.16",
+        "passport": "0.1.x",
+        "passport-oauth": "0.1.x"
     },
     "devDependencies": {
         "jshint": "0.2.x"
     },
     "scripts": {
         "start": "./index.js",
-        "test": "expresso"
+        "test": "expresso",
+        "postinstall": "GITPATH=/usr/bin:/usr/local/bin:/usr/local/git/bin\nPATH=$PATH:$GITPATH; export PATH\n\nif [ -z $( which git ) ]; then\n  echo \"Unable to find git binary in \\$GITPATH\"\n  exit 1\nfi\n\nSHORT_VERSION=$( git describe --tags )\nVERSION=$( echo $SHORT_VERSION | sed -e 's/^v//' | sed -e 's/-/./' | sed -e 's/-.*//' )\n\necho \"$SHORT_VERSION\n$VERSION\" > VERSION"
     },
     "bin": {
         "tilemill": "./index.js"

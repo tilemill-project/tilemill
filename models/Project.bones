@@ -154,7 +154,7 @@ model.prototype.LAYER_DEFAULT = [{
         + '+lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over',
     geometry: 'polygon',
     Datasource: {
-        file: 'http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-0-countries.zip',
+        file: 'http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.4.0/cultural/10m-admin-0-countries.zip',
         type: 'shape'
     }
 }];
@@ -186,6 +186,8 @@ model.prototype.setDefaults = function(data) {
     if (data) {
         !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT);
         !this.get('Layer').length && (template.Layer = this.LAYER_DEFAULT);
+        template.minzoom = 0;
+        template.maxzoom = 8;
     }
     else {
         !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT_NODATA);

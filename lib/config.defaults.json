@@ -1,9 +1,10 @@
 {
-    "port": 8889,
+    "port": 20009,
     "bufferSize": 128,
     "files": "~/Documents/MapBox",
     "examples": true,
     "sampledata": true,
     "host": false,
-    "listenHost": "127.0.0.1"
+    "listenHost": "127.0.0.1",
+    "syncURL": "https://tiles.mapbox.com"
 }

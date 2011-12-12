@@ -2,6 +2,8 @@
 process.argv[2] = 'start';
 
 var exec = require('child_process').exec;
+var path = require('path');
+process.env.HOME = path.resolve(__dirname + '/../fixtures/files');
 
 // Load application. This file's purpose is to start TileMill only once and
 // share the server with all tests.
