@@ -35,7 +35,7 @@ models.Config.prototype.sync = function(method, model, success, error) {
         break;
     case 'create':
     case 'update':
-        var allowedKeys = ['bufferSize', 'files'];
+        var allowedKeys = ['bufferSize', 'files', 'syncAccount', 'syncAccessToken'];
         var data = model.toJSON();
 
         // Additional data processing.
