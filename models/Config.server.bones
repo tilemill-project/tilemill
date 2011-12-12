@@ -44,19 +44,27 @@ models.Config.prototype.sync = function(method, model, success, error) {
         }
         if (data.files) data.files = data.files.replace('~', process.env.HOME);
 
-        fs.readFile(paths.user, 'utf8', function(err, current) {
-            if (err && err.code !== 'ENOENT') return error(err);
+        Step(function() {
+            fs.readFile(paths.user, 'utf8', this);
+        // Write changes to user config file.
+        }, function(err, current) {
+            if (err && err.code !== 'ENOENT') throw err;
 
             // Catch & blow away invalid user JSON.
             try { current = JSON.parse(current); }
             catch (e) { current = {}; }
 
             data = _(current).extend(data);
-            fs.writeFile(paths.user, JSON.stringify(data, null, 2), function(err) {
-                if (err) return error(err);
-                Bones.plugin.config = _(Bones.plugin.config).extend(data);
-                return success({});
-            });
+            fs.writeFile(paths.user, JSON.stringify(data, null, 2), this);
+        // May contain sensitive info. Set secure permissions.
+        }, function(err) {
+            if (err) throw err;
+            fs.chmod(paths.user, 0600, this);
+        // Update runtime config in memory.
+        }, function(err) {
+            if (err) return error(err);
+            Bones.plugin.config = _(Bones.plugin.config).extend(data);
+            return success({});
         });
         break;
     case 'delete':
