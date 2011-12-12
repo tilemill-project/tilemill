@@ -148,19 +148,6 @@
     [self.browserController showWindow:self];
 }
 
-- (IBAction)showAboutPanel:(id)sender
-{
-    // supply silhouette icon & custom version string for about box
-    // see #730 for background on the version string
-    //
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                                [NSImage imageNamed:@"tilemill.icns"],                                               @"ApplicationIcon",
-                                [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], @"Version",
-                                nil];
-    
-    [NSApp orderFrontStandardAboutPanelWithOptions:options];
-}
-
 - (void)writeToLog:(NSString *)message
 {
     if ( ! [[NSFileManager defaultManager] fileExistsAtPath:self.logPath])
