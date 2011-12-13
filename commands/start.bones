@@ -75,16 +75,33 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
     (new models.Exports).fetch();
 
     // Spawn tile server & restart it on exits.
-    (function startTile() {
-        Bones.plugin.tile = spawn(process.execPath, [
-            path.resolve(path.join(__dirname + '/../index.js')),
-            'tile'
-        ]);
-        Bones.plugin.tile.stdout.pipe(process.stdout);
-        Bones.plugin.tile.stderr.pipe(process.stderr);
-        Bones.plugin.tile.on('exit', startTile);
-    })();
+    Bones.plugin.command = this;
+    this.tileServer();
 
     callback();
+};
+
+commands['start'].prototype.tileServer = function() {
+    // Kill the tile server if present to force a restart.
+    if (Bones.plugin.tile) {
+        Bones.plugin.tile.kill();
+        delete Bones.plugin.tile;
+        return;
+    }
+
+    Bones.plugin.tile = spawn(process.execPath, [
+        path.resolve(path.join(__dirname + '/../index.js')),
+        'tile'
+    ]);
+    Bones.plugin.tile.stdout.pipe(process.stdout);
+    Bones.plugin.tile.stderr.pipe(process.stderr);
+    Bones.plugin.tile.once('exit', function(code, signal) {
+        this.tileServer();
+    }.bind(this));
+
+    process.once('SIGUSR2', function() {
+        process.kill(Bones.plugin.tile.pid, 'SIGUSR2');
+        process.kill(process.pid, 'SIGUSR2');
+    });
 };
 
