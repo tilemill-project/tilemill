@@ -1,0 +1,6 @@
+---
+### Source for the appcast xml file.
+layout: appcast
+permalink: /platforms/osx/appcast-dev.xml
+dev: true
+---
