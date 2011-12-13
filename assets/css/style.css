@@ -36,9 +36,16 @@ p code {
 .tokens code { font-size:11px; }
 
 body {
-  padding:50px 0px 0px;
   background:#eee;
   color:#222;
+  }
+
+#page {
+  position:absolute;
+  left:60px;
+  top:0px;
+  right:0px;
+  bottom:0px;
   }
 
 .overlay > .mask,
@@ -183,6 +190,7 @@ small { font-size:11px; }
   width:80px;
   text-align:center;
   font-size:16px;
+  box-shadow:none;
   }
 
 #modal .buttons input:active {
@@ -218,11 +226,10 @@ small { font-size:11px; }
   }
 
 #drawer {
-  top:50px;
+  top:0px;
   left:-50%;
   z-index:10;
   background:#fff;
-  border-right:1px solid #ccc;
   overflow:hidden;
   width:50% !important;
   transition:left .25s;
@@ -230,13 +237,17 @@ small { font-size:11px; }
   -webkit-transition:left .25s;
   }
 
-#drawer.active { left:0%; }
+#drawer.active {
+  left:0%;
+  border-right:1px solid #ccc;
+  }
 
 .pane { background:#fff; }
 
 .pane > h2.title {
   height:20px;
   font-size:20px;
+  letter-spacing:-1px;
   white-space:nowrap;
   padding:10px 10px 9px;
   border-bottom:1px solid #eee;
@@ -260,45 +271,36 @@ small { font-size:11px; }
 .bleed {
   position:fixed;
   left:0px;
-  right:0px;
   top:0px;
-  z-index:10;
-  height:32px;
-  padding:9px 0px;
-  background:#aaa url(../images/sprite.png) 0px 0px repeat-x;
+  bottom:0px;
+  width:60px;
+  z-index:11;
+  background:#333;
+  box-shadow:inset rgba(0,0,0,0.1) -1px 0px;
+  }
+
+.bleed a {
+  font-weight:bold;
+  font-size:10px;
+  color:#888;
+  text-shadow:rgba(0,0,0,0.5) 0px -1px;
+  display:block;
+  width:60px;
+  height:60px;
+  line-height:60px;
+  text-align:center;
   }
 
 .header {
-  width:720px;
-  height:30px;
-  border:1px solid #888;
-  border-radius:5px;
-  margin:0px auto;
-  background:#fff url(../images/sprite.png) 0px -50px repeat-x;
-  box-shadow:inset rgba(0,0,0,.1) 0px 1px 2px;
-  }
-
-.header .breadcrumb {
-  position:relative;
-  float:left;
-  }
-
-.header .breadcrumb a {
-  float:left;
-  padding:5px 20px 5px 10px;
-  background:url(../images/sprite.png) 100% -80px no-repeat;
+  padding:10px 10px 9px 15px;
+  border-bottom:1px solid #ddd;
   height:20px;
   }
 
-.header .breadcrumb a.logo { padding-left:30px; }
-
-.header .breadcrumb a.logo .icon {
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:30px;
-  height:30px;
-  background:url(../images/sprite.png) 0px -150px no-repeat;
+.header h1 {
+  font-size:20px;
+  letter-spacing:-1px;
+  float:left;
   }
 
 .header .spinner {
@@ -313,7 +315,6 @@ small { font-size:11px; }
 .header .actions {
   float:right;
   position:relative;
-  padding:5px;
   height:20px;
   }
 
@@ -321,8 +322,8 @@ small { font-size:11px; }
   width:100px;
   position:relative;
   }
-
 .dropdown .menu {
+
   display:none;
   position:absolute;
   top:17px;
@@ -352,43 +353,42 @@ small { font-size:11px; }
  * Projects
  */
 .projects ul {
-  margin:20px;
-  /* Fixes a variety of spacing problems when using `inline-block` */
-  font:0px/0px;
-  text-align:center;
+  padding:20px;
   }
 
 .projects li {
-  background:#ddd;
-  font:13px/20px;
-  display:inline-block;
+  background:#fff;
+  float:left;
   text-align:left;
-  width:238px;
-  height:238px;
+  padding:4px;
   border:1px solid #ccc;
-  margin:0px 5px 10px;
+  width:240px;
+  height:60px;
+  margin:0px 10px 10px 0px;
   position:relative;
   overflow:hidden;
+  border-radius:3px;
   box-shadow:rgba(0,0,0,.1) 0px 1px 3px;
   }
 
 .thumb {
-  width:238px;
-  height:238px;
+  height:60px;
   display:block;
-  background:#fff url(../images/bg.png);
   position:relative;
   }
 
 .thumb .thumb-layer {
+  width:60px;
+  background-size:cover;
   background-position:50% 50%;
   background-repeat:no-repeat;
   }
 
 .thumb .thumb-name {
-  background:url(../images/mask-255-90.png);
-  padding:5px 10px;
+  width:140px;
+  padding:5px 30px 5px 10px;
   min-height:20px;
+  font-size:16px;
   overflow:hidden;
   }
 
@@ -405,7 +405,7 @@ small { font-size:11px; }
 
 .project .map,
 .project .editor {
-  top:50px;
+  top:0px;
   width:50% !important;
   height:auto !important;
   }
@@ -414,24 +414,33 @@ small { font-size:11px; }
 
 .project .layers {
   position:absolute;
-  left:0px;
+  z-index:13;
+  left:10px;
   bottom:10px;
+  border-radius:5px;
   border:1px solid #ccc;
-  border-left:0px;
-  border-radius:0px 3px 3px 0px;
-  box-shadow:rgba(0,0,0,.1) 0px 1px 3px;
-  background:url(../images/mask-255-90.png);
+  box-shadow:rgba(0,0,0,.25) 0px 1px 3px;
+  background:rgba(255,255,255,0.9);
   }
 
-.project .layers .button { margin:5px 10px; }
+.project .layers .button { margin:5px; }
+
+.project .layers .caret {
+  position:absolute;
+  left:-15px;
+  bottom:15px;
+  border-right:rgba(255,255,255,0.9) 15px solid;
+  border-top:transparent 15px solid;
+  border-bottom:transparent 15px solid;
+  }
 
 .project .layers ul {
-  max-height:200px;
+  max-height:300px;
   overflow:auto;
   }
 
 .project .layers li {
-  border-top:1px solid #eee;
+  border-top:1px solid rgba(0,0,0,0.1);
   padding:2px 70px 2px 30px;
   font-weight:bold;
   overflow:hidden;
@@ -565,9 +574,22 @@ small { font-size:11px; }
 .layers li:hover .actions { display:block; }
 
 .palette {
-  position:relative;
+  position:fixed;
+  left:20px;
+  bottom:20px;
+  z-index:12;
+  width:40px;
+  background:rgba(0,0,0,0.25);
+  border-radius:5px 0px 0px 5px;
+  box-shadow:rgba(255,255,255,0.1) 0px 1px;
+  }
+
+.palette a {
+  display:block;
+  width:20px;
   height:20px;
-  padding:10px 100px 0px 10px;
+  padding:10px;
+  box-shadow:inset rgba(255,255,255,0.1) 0px 1px;
   }
 
 .palette .ref {
@@ -673,8 +695,8 @@ small { font-size:11px; }
   position:relative;
   overflow:hidden;
   margin:0px;
-  padding:10px 0px 0px 10px;
   height:30px;
+  padding:10px 0px 0px 10px;
   }
 
 .tabs li {
@@ -688,23 +710,29 @@ small { font-size:11px; }
   border:1px solid #ccc;
   border-bottom:0px;
   border-radius:3px 3px 0px 0px;
-  box-shadow:rgba(0,0,0,.1) 0px 1px 2px;
+  box-shadow:
+    inset rgba(255,255,255,0.4) 0px 0px 0px 1px,
+    inset rgba(0,0,0,0.1) 0px -10px 20px -5px,
+    rgba(0,0,0,0.1) 0px 1px 2px;
 
   padding:4px 29px 5px 9px;
   margin:0px 2px 0px 0px;
-  background:#f4f4f4;
+  background:#eee;
   color:#888;
   }
 
+.tabs li a.tab:hover { background-color:#eee; }
+
 .tabs li a.tab.active {
   background:#fff;
+  box-shadow:rgba(0,0,0,0.1) 0px 1px 2px;
   color:#222;
   z-index:1;
   }
 
 .tabs li a.tab.error { background:#fe8; }
 
-.tabs + a.add { margin:10px 10px 0px; }
+.tabs + a.add { margin:15px 3px 0px; }
 
 .tabs li a.delete {
   display:none;
@@ -763,7 +791,7 @@ small { font-size:11px; }
  */
 .editor .code {
   overflow:hidden;
-  top:69px;
+  top:79px;
   background:#fff;
   border-top:1px solid #ccc;
   box-shadow:rgba(0,0,0,.1) 0px 0px 3px;
@@ -961,12 +989,18 @@ textarea {
 input[type=button],
 input[type=submit] {
   font-size:11px;
-  border:1px solid #5ab;
+  border:1px solid #888;
   line-height:20px;
   height:20px;
   cursor:pointer;
   padding:0px 10px;
-  background:#74bccc url(../images/sprite.png) 0px -130px no-repeat;
+  background:#999;
+  box-shadow:
+    inset rgba(255,255,255,0.1) 0px 0px 0px 1px,
+    inset rgba(255,255,255,0.2) 0px 10px 20px -5px,
+    inset rgba(255,255,255,0.3) 0px 1px 0px,
+    #fff 0px 1px 0px,
+    rgba(0,0,0,0.05) 0px 2px 1px;
   color:#fff;
   border-radius:3px;
   box-sizing:border-box;
@@ -975,7 +1009,10 @@ input[type=submit] {
 
 .button:hover,
 input[type=button]:hover,
-input[type=submit]:hover { background-color:#8cd; }
+input[type=submit]:hover {
+  background-color:#6ab;
+  border-color:#59a;
+  }
 
 .button.disabled,
 input[type=button].disabled,
@@ -985,17 +1022,18 @@ input[type=button].disabled:active,
 input[type=submit].disabled:active {
   background:#ccc;
   border-color:#bbb;
-  box-shadow:none;
+/*  box-shadow:none;*/
   }
 
 .button:active,
 .button.active,
 input[type=button]:active,
 input[type=submit]:active {
-  background-color:#888;
-  border-color:#666;
-  background-position:0px -110px;
-  box-shadow:inset #999 0px -1px 0px;
+  background-color:#378;
+  border-color:#267;
+  box-shadow:
+    inset rgba(0,0,0,0.5) 0px 1px 3px,
+    inset rgba(255,255,255,0.2) 0px 10px 20px -5px;
   }
 
 /* Joined buttons */
@@ -1544,28 +1582,29 @@ tr:hover th,
   }
 
 .manual .navigation {
-  position:absolute;
-  left:50%;
-  margin:10px 0px 0px 180px;
-  width:160px;
-  padding-left:19px;
-  border-left:1px solid #ccc;
+  left:60px;
+  position:fixed;
+  width:199px;
+  border-right:1px solid #ddd;
+  padding:15px 0px;
+  }
+
+.manual .navigation h2,
+.manual .navigation a {
+  display:block;
+  padding:5px 20px;
   }
 
 .manual {
-  position:relative;
+  position:absolute;
+  overflow:auto;
   background:#fff;
-  padding:20px 0px 40px;
+  padding:20px 40px 20px 240px;
   }
 
 .manual pre { font-size:13px; }
 
-.manual .md {
-  font-size:15px;
-  width:520px;
-  padding-right:200px;
-  margin:0px auto;
-  }
+.manual .md { max-width:600px; }
 
 .manual .md ul ul { margin:0px; }
 

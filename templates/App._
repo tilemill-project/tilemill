@@ -12,6 +12,14 @@
 </head>
 <body>
 
+<div class='bleed'>
+  <a href='/#!/'>Projects</a>
+  <a href='/#!/editor'>Editor</a>
+  <a href='/#!/sync'>Sync</a>
+  <a href='/#!/manual'>Manual</a>
+  <a href='/#!/settings'>Settings</a>
+</div>
+
 <div id='page'></div>
 <div id='modal'></div>
 <div id='popup' class='pane'>
