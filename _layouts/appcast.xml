@@ -10,6 +10,7 @@
     {% for post in site.tags.installation %}
     {% if post.permalink == '/docs/changelog' %}
     {% for item in post.releases reversed %}
+    {% if item.dev != true or page.dev == true %}
     {% if item.version and item.sign %}
     <item>
         <title>TileMill {{item.version}}</title>
@@ -22,6 +23,7 @@
             sparkle:version="{{item.version}}"
             sparkle:dsaSignature="{{item.sign}}" />
     </item>
+    {% endif %}
     {% endif %}
     {% endfor %}
     {% endif %}

@@ -15,6 +15,12 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+- version: 0.7.2.86
+  dev: true
+  date: 2011-12-12
+  size: 65432672
+  sign: MC4CFQDaC2AahRX82nBst/jhLKjhSAWxeQIVANNP652ch5Nyjkaw+rO8QOV74r0F
+
 - version: 0.7.2
   date: 2011-12-08
   size: 66311839
