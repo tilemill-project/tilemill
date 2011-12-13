@@ -4,7 +4,7 @@ urlbase="http://cloud.github.com/downloads/mapbox/tilemill/TileMill-==TAG==.zip"
 privatekeyname="TileMill Sparkle Private Key"
 
 tag=$( git describe --tags )
-version=$( echo $tag | sed -e s/^v// )
+version=$( echo $tag | sed -e 's/^v//' | sed -e 's/-/./' | sed -e 's/-.*//' )
 echo
 read -n 1 -p "Updating Sparkle for TileMill-$version. Proceed? " proceed
 if [ $proceed != "y" ] && [ $proceed != "Y" ]; then
