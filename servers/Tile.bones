@@ -4,9 +4,10 @@ var tilelive = require('tilelive');
 var settings = Bones.plugin.config;
 
 server = Bones.Server.extend({});
+server.prototype.port = 20008;
 server.prototype.initialize = function() {
     _.bindAll(this, 'fromCache', 'load', 'mbtiles');
-    this.port = settings.tilePort;
+    this.port = settings.tilePort || this.port;
     this.enable('jsonp callback');
     this.get('/tile/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)',
         this.mbtiles);

@@ -30,6 +30,6 @@
     "id": "demo_01",
     "tilejson": "2.0.0",
     "scheme": "xyz",
-    "tiles": ["/tile/demo_01/{z}/{x}/{y}.png"],
-    "grids": ["/tile/demo_01/{z}/{x}/{y}.grid.json"]
+    "tiles": ["http://127.0.0.1:20008/tile/demo_01/{z}/{x}/{y}.png"],
+    "grids": ["http://127.0.0.1:20008/tile/demo_01/{z}/{x}/{y}.grid.json"]
 }
