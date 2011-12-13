@@ -10,6 +10,7 @@ var mapnik = require('mapnik');
 var EventEmitter = require('events').EventEmitter;
 var millstone = require('millstone');
 var settings = Bones.plugin.config;
+var tileURL = _('http://127.0.0.1:<%=port%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>').template();
 
 // Project
 // -------
@@ -67,35 +68,13 @@ models.Project.prototype.sync = function(method, model, success, error) {
 
 // Custom validation method that allows for asynchronous processing.
 // Expects options.success and options.error callbacks to be consistent
-// with other Backbone methods. Catches three main types of errors:
-// - localize failure
-// - carto compilation failure
-// - limited mapnik "test render" failure
+// with other Backbone methods. Now reduced to catching only Carto
+// compilation errors.
 models.Project.prototype.validateAsync = function(attributes, options) {
-    var mml = _(attributes).clone();
-
-    // Set _updated to 0 to force a localize cache clear.
-    mml._updated = 0;
-
-    this.localize(mml, function(err) {
+    compileStylesheet(_(attributes).clone(), function(err) {
         if (err) return options.error(this, err);
         return options.success(this, null);
-
-        var map = new mapnik.Map(1,1);
-        var im = new mapnik.Image(1,1);
-        map.fromString(this.xml, {
-            strict:false,
-            base:path.join(Bones.plugin.config.files, 'project', this.id) + '/'
-        }, function(err, map) {
-            if (err) return options.error(this, err);
-            map.bufferSize = 0;
-            map.extent = [0,0,0,0];
-            map.render(im, {format:'png'}, function(err) {
-                if (err) return options.error(this, err);
-                options.success(this, null);
-            }.bind(this));
-        });
-    }.bind(this));
+    });
 };
 
 // Wrap save to call validateAsync first.
@@ -239,11 +218,18 @@ function loadProject(model, callback) {
         // Generate dynamic properties.
         object.tilejson = '2.0.0';
         object.scheme = 'xyz';
-        object.tiles = ['/tile/' + model.id + '/{z}/{x}/{y}.' +
-            (object.format || 'png') +
-            '?updated=' + object._updated];
-        object.grids = ['/tile/' + model.id + '/{z}/{x}/{y}.grid.json' +
-            '?updated=' + object._updated];
+        object.tiles = [tileURL({
+            port: settings.tilePort,
+            id: model.id,
+            format: object.format || 'png',
+            updated: object._updated
+        })];
+        object.grids = [tileURL({
+            port: settings.tilePort,
+            id: model.id,
+            format: 'grid.json',
+            updated: object._updated
+        })];
         if (object.interactivity) {
             object.template = template(object.interactivity);
             object.interactivity.fields = fields(object);
@@ -332,11 +318,18 @@ function saveProject(model, callback) {
         var updated = stat && Date.parse(stat.mtime) || (+ new Date());
         callback(err, {
             _updated: updated,
-            tiles: ['/tile/' + model.id + '/{z}/{x}/{y}.' +
-                (model.get('format') || 'png') +
-                '?updated=' + updated],
-            grids: ['/tile/' + model.id + '/{z}/{x}/{y}.grid.json' +
-                '?updated=' + updated],
+            tiles: [tileURL({
+                port: settings.tilePort,
+                id: model.id,
+                format: model.get('format') || 'png',
+                updated: updated
+            })],
+            grids: [tileURL({
+                port: settings.tilePort,
+                id: model.id,
+                format: 'grid.json',
+                updated: updated
+            })],
             template: model.get('interactivity')
                 ? template(model.get('interactivity'))
                 : undefined

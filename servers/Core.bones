@@ -7,19 +7,10 @@ servers['Core'].prototype.start = function(callback) {
 };
 servers['Core'].prototype.initialize = function(app) {
     this.port = app.config.port || this.port;
-    this.enable('jsonp callback');
     this.use(new servers['Middleware'](app));
     this.use(new servers['OAuth'](app));
-    this.use(new servers['Tile'](app));
     this.use(new servers['App'](app));
     if (env === 'development') this.use(new servers['Debug'](app));
     this.use(new servers['Route'](app));
     this.use(new servers['Asset'](app));
-
-    // Special error handler for tile requests.
-    this.error(function(err, req, res, next) {
-        if (!req.tilereq) return next(err);
-        err.status = err.status || 500;
-        res.send(err.message, err.status);
-    });
 };

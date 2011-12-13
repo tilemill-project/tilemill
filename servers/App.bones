@@ -36,6 +36,9 @@ server.prototype.initialize = function(app) {
         'projectXML'
     );
 
+    // Set tilePort.
+    abilities.tilePort = app.config.tilePort;
+
     this.get('/', this.index);
     this.get('/assets/tilemill/js/abilities.js', this.abilities);
 

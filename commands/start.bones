@@ -3,6 +3,7 @@ var fsutil = require('../lib/fsutil');
 var path = require('path');
 var Step = require('step');
 var defaults = models.Config.defaults;
+var spawn = require('child_process').spawn;
 
 commands['start'].options['host'] = {
     'title': 'host=[host(s)]',
@@ -14,6 +15,12 @@ commands['start'].options['port'] = {
     'title': 'port=[port]',
     'description': 'Server port.',
     'default': defaults.port
+};
+
+commands['start'].options['tilePort'] = {
+    'title': 'tilePort=[port]',
+    'description': 'Tile server port.',
+    'default': defaults.tilePort
 };
 
 commands['start'].options['examples'] = {
@@ -35,6 +42,8 @@ commands['start'].options['listenHost'] = {
 };
 
 commands['start'].prototype.bootstrap = function(plugin, callback) {
+    process.title = 'tilemill';
+
     var settings = Bones.plugin.config;
     settings.files = path.resolve(settings.files);
 
@@ -64,6 +73,18 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
 
     // Process any waiting exports.
     (new models.Exports).fetch();
+
+    // Spawn tile server & restart it on exits.
+    (function startTile() {
+        Bones.plugin.tile = spawn(process.execPath, [
+            path.resolve(path.join(__dirname + '/../index.js')),
+            'tile'
+        ]);
+        Bones.plugin.tile.stdout.pipe(process.stdout);
+        Bones.plugin.tile.stderr.pipe(process.stderr);
+        Bones.plugin.tile.on('exit', startTile);
+    })();
+
     callback();
 };
 
