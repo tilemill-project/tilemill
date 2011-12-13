@@ -4,6 +4,7 @@ view.prototype.events = {
     'click .layerFile input[type=submit]': 'saveFile',
     'click .layerPostGIS input[type=submit]': 'savePostGIS',
     'click .layerSqlite input[type=submit]': 'saveSqlite',
+    'click .layerOSM input[type=submit]': 'saveOSM',
     'click a[href=#open]': 'browse',
     'click a[href=#favorite]': 'favoriteToggle',
     'keyup input[name=file], input[name=connection]': 'favoriteUpdate',
@@ -290,6 +291,37 @@ view.prototype.saveSqlite = function(e) {
     };
     var autostyle = $(e.target).hasClass('with-style');
     _(attr['Datasource']).defaults(this.parseOptions(this.$('form.layerSqlite input[name=advanced]').val()));
+    var error = _(function(m, e) {
+        $(this.el).removeClass('loading');
+        new views.Modal(e);
+    }).bind(this);
+    this.model.validateAsync(attr, {
+        success:_(function() {
+            $(this.el).removeClass('loading');
+            if (!this.model.set(attr, {error:error})) return;
+            if (!this.model.collection.include(this.model)) {
+                this.model.collection.add(this.model);
+                if (autostyle) this.autostyle();
+            }
+            this.$('.close').click();
+        }).bind(this),
+        error: error
+    });
+    return false;
+};
+
+view.prototype.saveOSM = function(e) {
+    $(this.el).addClass('loading');
+    var attr = {
+        'name':  this.$('form.layerOSM input[name=id]').val().replace('#', ''),
+        'id':    this.$('form.layerOSM input[name=id]').val().replace('#', ''),
+        'srs':   this.model.SRS['900913'],
+        'class': this.$('form.layerOSM input[name=class]').val().replace('.', ''),
+        'Datasource': {
+            'type': 'jit'
+        }
+    };
+    var autostyle = $(e.target).hasClass('with-style');
     var error = _(function(m, e) {
         $(this.el).removeClass('loading');
         new views.Modal(e);

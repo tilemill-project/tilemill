@@ -9,6 +9,9 @@
     <% if (isNew() || get('Datasource') && get('Datasource').type == 'sqlite') {%>
     <a href='#layerSqlite'><span class='icon sqlite'></span>SQLite</a>
     <% } %>
+    <% if (isNew() || get('Datasource') && get('Datasource').type == 'osm') {%>
+    <a href='#layerOSM'><span class='icon sqlite'></span>OSM</a>
+    <% } %>
   </div>
 
   <% if (isNew() || get('Datasource') && get('Datasource').file) {%>
@@ -219,5 +222,24 @@
     </li>
   </ul></form>
   <% } %>
-</div>
 
+
+  <% if (isNew() || get('Datasource') && get('Datasource').file) {%>
+  <form class='layerOSM'><ul class='form'>
+    <li>
+      <label for='id'><span class='required'>*</span> ID</label>
+      <input type='text' name='id' value='<%=get('id')%>' size='20'/>
+      <span class='description'>select in Carto <code>#id</code></span>
+    </li>
+    <li>
+      <label for='class'>Class</label>
+      <input type='text' name='class' value='<%=get('class')%>' size='20'/>
+      <span class='description'>select in Carto <code>.class</code></span>
+    </li>
+    <li class='buttons'>
+      <input type='submit' value='Save' />
+      <input type='button' value='Cancel' class='cancel' />
+    </li>
+  </ul></form>
+  <% } %>
+</div>
