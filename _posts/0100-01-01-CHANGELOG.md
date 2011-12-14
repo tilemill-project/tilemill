@@ -3,9 +3,6 @@
 ### It is the source file for the HTML changelog as well
 ### as the Sparkle appcast feed.
 ###
-### The 'oldrev' is only needed for 0.5.0/0.5.1 since the
-### Sparkle scheme changed for 0.6.0+ (see #730).
-###
 tag: installation
 layout: changelog
 section: documentation
@@ -14,6 +11,12 @@ date: 0201-01-30
 title: Changelog
 permalink: /docs/changelog
 releases:
+
+- version: 0.7.2.86
+  dev: true
+  date: 2011-12-12
+  size: 65432672
+  sign: MC4CFQDaC2AahRX82nBst/jhLKjhSAWxeQIVANNP652ch5Nyjkaw+rO8QOV74r0F
 
 - version: 0.7.2
   date: 2011-12-08
@@ -102,7 +105,6 @@ releases:
   - Fixed bug in Carto where the pound sign in an ID selector was optional.
 
 - version: 0.5.1
-  oldrev: 2917
   date: 2011-09-07
   size: 54341919
   sign: MC4CFQDCvneOlUKcQneRCNIfy/vrs+ZBIQIVAOUD6mzQrITdBNSrv86XJO7WauXt
@@ -115,7 +117,6 @@ releases:
   - Faster rendering thanks to performance improvements in Mapnik.
 
 - version: 0.5.0
-  oldrev: 2875
   date: 2011-08-25
   size: 54966410
   sign: MC0CFQDYZwPKnPQfMz9Sa+6FJr6bVZxu4gIUJFa/5mBuKzqKq4X2bBB6vF0uD7s=
