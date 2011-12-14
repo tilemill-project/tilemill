@@ -10,18 +10,14 @@ view.prototype.events = {
     'click a[href=#fonts]': 'fonts',
     'click a[href=#carto]': 'carto',
     'click a[href=#settings]': 'settings',
-    'click .layers a.add': 'layerAdd',
-    'click .layers a.edit': 'layerEdit',
-    'click .layers a.inspect': 'layerInspect',
-    'click .layers a.delete': 'layerDelete',
-    'click .editor a.add': 'stylesheetAdd',
-    'click .editor a.delete': 'stylesheetDelete',
-    'sortupdate .layers ul': 'sortLayers',
-    'sortupdate .tabs': 'sortStylesheets',
-    'click .status a[href=#close]': 'statusClose',
+    'click a[href=#layers]': 'layers',
     'click .swatch': 'colorOpen',
     'click .swatch a[href=#save]': 'colorSave',
     'click .swatch a[href=#close]': 'colorClose',
+    'click .editor a.add': 'stylesheetAdd',
+    'click .editor a.delete': 'stylesheetDelete',
+    'sortupdate .tabs': 'sortStylesheets',
+    'click .status a[href=#close]': 'statusClose',
     'click .breadcrumb .logo': 'unload'
 };
 
@@ -32,15 +28,9 @@ view.prototype.initialize = function() {
         'save',
         'change',
         'mapZoom',
-        'layerAdd',
-        'layerInspect',
-        'layerEdit',
-        'layerDelete',
-        'makeLayer',
         'makeStylesheet',
         'stylesheetAdd',
         'stylesheetDelete',
-        'sortLayers',
         'sortStylesheets',
         'exportAdd',
         'exportList',
@@ -74,6 +64,9 @@ view.prototype.initialize = function() {
 
 view.prototype.render = function(init) {
     if (init === true) {
+        $('.bleed .active').removeClass('active');
+        $('.bleed .editor').addClass('active').attr('href', '/#!/project/' + this.model.id);
+
         $(this.el).html(templates.Project(this.model));
 
         if (!com.modestmaps) throw new Error('ModestMaps not found.');
@@ -113,7 +106,6 @@ view.prototype.render = function(init) {
     }
     this.$('.tabs').empty();
     this.$('.code').empty();
-    this.$('.layers ul').empty();
 
     this.model.get('Stylesheet').chain().each(this.makeStylesheet);
     this.$('.tabs').sortable({
@@ -122,34 +114,7 @@ view.prototype.render = function(init) {
         tolerance: 'pointer'
     });
 
-    this.model.get('Layer').chain().each(this.makeLayer);
-    this.$('.layers ul').sortable({
-        axis: 'y',
-        handle: '.handle',
-        containment: this.$('.layers'),
-        tolerance: 'pointer'
-    });
-
     return this;
-};
-
-view.prototype.makeLayer = function(model) {
-    model.el = $(templates.ProjectLayer(model));
-
-    // Prepend layers since intuitively the last drawn layer appears
-    // "on top" of the other layers (painting model).
-    this.$('.layers ul').prepend(model.el);
-
-    // Bind to the 'remove' event to teardown.
-    model.bind('remove', _(function(model) {
-        model.el.remove();
-    }).bind(this));
-    // Bind change event to retemplate.
-    model.bind('change', _(function(model) {
-        var update = $(templates.ProjectLayer(model));
-        model.el.replaceWith(update);
-        model.el = update;
-    }).bind(this));
 };
 
 view.prototype.makeStylesheet = function(model) {
@@ -321,6 +286,13 @@ view.prototype.save = function(ev) {
     return false;
 };
 
+view.prototype.layers = function(ev) {
+    new views.Layers({
+        el: $('#drawer'),
+        model: this.model
+    });
+};
+
 view.prototype.fonts = function(ev) {
     new views.Fonts({ el: $('#drawer') });
 };
@@ -334,74 +306,6 @@ view.prototype.carto = function(ev) {
 
 view.prototype.settings = function(ev) {
     new views.Settings({ el: $('#popup'), model: this.model });
-};
-
-view.prototype.layerAdd = function(ev) {
-    var cb = _(function(favorites) {
-        var model = new models.Layer({}, {
-            collection: this.model.get('Layer')
-        })
-        model.bind('add', this.makeLayer);
-        new views.Layer({
-            el: $('#popup'),
-            model: model,
-            favorites: favorites
-        });
-    }).bind(this);
-    (new models.Favorites).fetch({success:cb,error:cb});
-};
-
-view.prototype.layerEdit = function(ev) {
-    var cb = _(function(favorites) {
-        var id = $(ev.currentTarget).attr('href').split('#').pop();
-        new views.Layer({
-            el: $('#popup'),
-            model: this.model.get('Layer').get(id),
-            favorites: favorites
-        });
-    }).bind(this);
-    (new models.Favorites).fetch({success:cb,error:cb});
-};
-
-view.prototype.layerDelete = function(ev) {
-    var id = $(ev.currentTarget).attr('href').split('#').pop();
-    new views.Modal({
-        content: 'Are you sure you want to delete layer "'+ id +'"?',
-        callback: _(function() {
-            var model = this.model.get('Layer').get(id);
-            this.model.get('Layer').remove(model);
-        }).bind(this),
-        affirmative: 'Delete'
-    });
-    return false;
-};
-
-view.prototype.layerInspect = function(ev) {
-    $('#drawer .content').empty();
-    $('#drawer').addClass('loading');
-    var id = $(ev.currentTarget).attr('href').split('#').pop();
-    var layer = this.model.get('Layer').get(id);
-    var model = new models.Datasource(_(layer.get('Datasource')).extend({
-        id: layer.get('id'),
-        project: this.model.get('id'),
-        // millstone will not allow `srs` be undefined for inspection so we set
-        // it to null. We could use the layer's SRS, but this likely has fewer
-        // side effects.
-        srs: null
-    }));
-    model.fetchFeatures({
-        success: function(model) {
-            $('#drawer').removeClass('loading');
-            new views.Datasource({
-                el: $('#drawer'),
-                model: model
-            });
-        },
-        error: function(model, err) {
-            $('#drawer').removeClass('loading');
-            new views.Modal(err);
-        }
-    });
 };
 
 view.prototype.stylesheetAdd = function(ev) {
@@ -422,17 +326,6 @@ view.prototype.stylesheetDelete = function(ev) {
         }).bind(this),
         affirmative: 'Delete'
     });
-};
-
-view.prototype.sortLayers = function() {
-    var order = _(this.$('.layers li .actions a')).chain()
-        .map(function(el) { return $(el).attr('href').split('#').pop(); })
-        .uniq()
-        .reverse()
-        .value();
-    this.model.get('Layer').models = this.model.get('Layer')
-        .sortBy(function(model) { return _(order).indexOf(model.id) });
-    this.model.get('Layer').trigger('change');
 };
 
 view.prototype.sortStylesheets = function() {
@@ -533,7 +426,7 @@ view.prototype.colorOpen = function(ev) {
     if (this.$('#colorpicker').size()) return;
 
     var swatch = $(ev.currentTarget);
-    $('body').addClass('overlay');
+    this.$('.editor').addClass('overlay');
     this.$('.colors').addClass('active');
     var find = swatch.attr('title');
     var hsv = Color.RGB_HSV(this.css2rgb(find));
@@ -566,7 +459,7 @@ view.prototype.colorSave = function(ev) {
         });
         this.save();
     }
-    $('body').removeClass('overlay');
+    this.$('.editor').removeClass('overlay');
     this.$('.colors').removeClass('active');
     this.$('#colorpicker').remove();
     return false;
@@ -576,7 +469,7 @@ view.prototype.colorClose = function(ev) {
     var swatch = $(ev.currentTarget).parents('.swatch');
     var from = $('input[name=find]', swatch).val();
     $('.color', swatch).css('backgroundColor', from);
-    $('body').removeClass('overlay');
+    this.$('.editor').removeClass('overlay');
     this.$('.colors').removeClass('active');
     this.$('#colorpicker').remove();
     return false;

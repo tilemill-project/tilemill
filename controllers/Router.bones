@@ -15,7 +15,8 @@ controller.prototype.routes = {
     '/project/:id/export': 'projectExport',
     '/project/:id/export/:format': 'projectExport',
     '/manual': 'manual',
-    '/manual/:page?': 'manual'
+    '/manual/:page?': 'manual',
+    '/settings': 'config'
 };
 
 controller.prototype.error = function() {
@@ -70,4 +71,19 @@ controller.prototype.manual = function(page) {
             page: page
         });
     });
-}
+};
+
+controller.prototype.config = function() {
+    (new models.Config).fetch({
+        success: function(model, resp) {
+            new views.Config({
+                el: $('#page'),
+                model: model
+            });
+        },
+        error: function(model, err) {
+            new views.Modal(err);
+        }
+    });
+};
+

@@ -1,9 +1,9 @@
-<div class='manual fill'>
-  <div class='navigation fill-w'>
-  <h2>Manual</h2>
+<div class='manual raised'>
+  <div class='navigation'>
   <ul>
     <% obj.collection.each(function(page) { %>
-      <li><a href='/#!/manual/<%= page.id %>'><%= page.get('title') %></a></li>
+      <% var className = page.get('id') === model.get('id') ? 'active' : ''; %>
+      <li><a class='<%=className%>' href='/#!/manual/<%= page.id %>'><%= page.get('title') %></a></li>
     <% }); %>
   </ul>
   </div>

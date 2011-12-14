@@ -1,4 +1,15 @@
-<form class='fill'><ul class='form'>
+<div class='about sunken'>
+<h2><a target='_blank' href='http://tilemill.com'>TileMill</a></h2>
+<p>
+  Version <%=window.abilities.version[0]%> (<%=window.abilities.version[1]%>)<br/>
+  Made by <a target='_blank' href='http://developmentseed.org'>Development Seed</a>. Copyright 2011
+</p>
+</div>
+
+<form><ul class='form raised'>
+  <li class='text'>
+    <h2>Application settings</h2>
+  </li>
   <li>
     <label for='name'>Render buffer</label>
     <div class='slider'></div>

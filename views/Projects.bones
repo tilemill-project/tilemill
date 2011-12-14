@@ -1,8 +1,6 @@
 view = Backbone.View.extend({
     events: {
-        'click .actions a[href=#add]': 'add',
-        'click .actions a[href=#about]': 'about',
-        'click .actions a[href=#config]': 'config',
+        'click a[href=#add]': 'add',
         'click .delete': 'del'
     },
     initialize: function() {
@@ -12,6 +10,9 @@ view = Backbone.View.extend({
         this.render();
     },
     render: function() {
+        $('.bleed .active').removeClass('active');
+        $('.bleed .projects').addClass('active');
+
         $(this.el).html(templates.Projects(this.collection));
         return this;
     },
@@ -37,24 +38,5 @@ view = Backbone.View.extend({
             affirmative: 'Delete'
         });
         return false;
-    },
-    about: function() {
-        new views.Modal({
-            callback: function() {},
-            content: templates.About(window.abilities),
-            affirmative: 'Close',
-            negative: ''
-        });
-        return false;
-    },
-    config: function() {
-        (new models.Config).fetch({
-            success: function(model, resp) {
-                new views.Config({ el: $('#popup'), model: model });
-            },
-            error: function(model, err) {
-                new views.Modal(err);
-            }
-        });
     }
 });

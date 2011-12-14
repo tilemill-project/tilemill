@@ -48,6 +48,9 @@ server.prototype.initialize = function(app) {
     this.get('/api/Project/:id/:time(\\d+)', this.projectPoll);
     this.del('/api/Project/:id/:layer', this.projectFlush);
 
+    // Tile server restart endpoint.
+    this.post('/api/restart', this.restart);
+
     // Add static provider to download exports.
     this.use('/export/download', middleware['static'](
         path.join(this.config.files, 'export'),
@@ -117,3 +120,9 @@ server.prototype.projectDebug = function(req, res, next) {
         error: function(model, resp) { next(resp); }
     });
 };
+
+server.prototype.restart = function(req, res, next) {
+    setTimeout(function() { res.send({});}, 3000);
+    Bones.plugin.command.tileServer();
+};
+

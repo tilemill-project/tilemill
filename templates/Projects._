@@ -1,17 +1,20 @@
-<div class='projects'>
-  <% if (!models.length) { %>
-  <div class='empty'>No projects found.</div>
-  <% } %>
-
-  <ul>
-    <% _(models).each(function(model) { %><li>
-      <a class='thumb' href='/#!/project/<%= model.id %>'>
-        <span class='thumb-layer fill-w' style='background-image: url(<%= model.thumb() %>)'></span>
-        <span class='thumb-name fill-e'>
-          <%= model.get('name') || model.get('id') %>
-          <span id='<%= model.id %>' class='icon delete'>Delete</span>
-        </span>
-      </a>
-    </li><% }); %>
-  </ul>
-</div>
+<ul class='projects'>
+  <li>
+  <span class='sunken actions'>
+    <a class='button large popup' href='#add'>
+      <span class='icon plus reverse labeled'></span>
+      New project
+    </a>
+  </span>
+  </li>
+  <% _(models).each(function(model) { %>
+  <li>
+  <a class='raised thumb' href='/#!/project/<%= model.id %>'>
+    <span class='thumb' style='background-image: url(<%= model.thumb() %>)'></span>
+    <%= model.get('name') || model.get('id') %><br/>
+    <small class='description'>Updated <%= new Date(model.get('_updated')).format('D M j g:ia') %></small>
+    <span id='<%= model.id %>' class='icon delete'>Delete</span>
+  </a>
+  </li>
+  <% }); %>
+</ul>

@@ -3,28 +3,7 @@
     <div class='zoom-display'>Zoom <span class='zoom'></span></div>
   </div>
 
-  <div class='layers'>
-    <div class='caret'></div>
-    <a href='#add' class='popup add button'><span class='icon reverse plus labeled'></span> Add layer</a>
-    <ul></ul>
-  </div>
-
-  <div class='palette clearfix'>
-    <a href='#colors'>Colors</a>
-    <a class='drawer' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>
-    <a class='drawer' href='#carto'><span class='icon reverse reference'>Carto</span></a>
-    <a href='#colors'>Layers</a>
-    <!--
-    <div class='colors clearfix'></div>
-    <div class='ref joined'>
-      <a class='drawer button' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>
-      <a class='drawer button' href='#carto'><span class='icon reverse reference'>Carto reference</span></a>
-    </div>
-    -->
-  </div>
-
   <div class='editor fill-e'>
-
     <div class='header'>
     <h1><%= get('name') || get('id') %></h1>
     <div class='actions joined'>
@@ -55,25 +34,32 @@
     </div>
     <span class='icon spinner'></span>
     </div>
-
     <ul class='tabs toggler clearfix'></ul>
     <a class='popup add button'><span class='icon reverse plus'>Add stylesheet</span></a>
     <div class='code fill-s'></div>
+    <div class='colors'></div>
     <div class='status fill-s'>
       <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
       <div class='content'></div>
     </div>
+    <div class='mask'></div>
   </div>
 
-  <div id='drawer' class='pane fill-w'>
+  <div id='drawer'><div class='pane fill raised'>
     <h2 class='title'></h2>
     <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
     <div class='content fill-s'></div>
     <div class='mask'></div>
-  </div>
+  </div></div>
 
   <div id='export' class='pane'>
     <h2 class='title'></h2>
     <div class='content'></div>
+  </div>
+
+  <div class='palette clearfix'>
+    <a class='drawer' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>
+    <a class='drawer' href='#carto'><span class='icon reverse reference'>Carto</span></a>
+    <a class='drawer mini' href='#layers'><span class='icon reverse layers'>Layers</span></a>
   </div>
 </div>

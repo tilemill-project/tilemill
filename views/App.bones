@@ -7,6 +7,7 @@ view.prototype.events = {
     'click a.drawer': 'drawerOpen',
     'click .button.dropdown, .button.dropdown a': 'dropdown',
     'click .toggler a': 'toggler',
+    'click a.restart': 'restart',
     'keydown': 'keydown'
 };
 
@@ -40,15 +41,16 @@ view.prototype.popupClose = function(ev) {
 
 view.prototype.drawerOpen = function(ev) {
     var target = $(ev.currentTarget);
+    var className = target.is('.mini') ? 'mini' : '';
 
     // Close drawers when the target is active.
     if (target.is('.active')) return this.drawerClose();
 
     var title = target.text() || target.attr('title');
-    this.$('.drawer.active').removeClass('active');
+    this.$('a.drawer.active').removeClass('active');
     target.addClass('active');
-    this.$('#drawer').addClass('active');
-    this.$('#drawer > .title').text(title);
+    this.$('#drawer').attr('class', 'active ' + className);
+    this.$('#drawer .pane > .title').text(title);
     return false;
 };
 
@@ -116,3 +118,20 @@ view.prototype.dropdown = function(ev) {
 
     return false;
 };
+
+view.prototype.restart = function(ev) {
+    var target = $(ev.currentTarget);
+    target.addClass('restarting');
+    $.ajax({
+        url: '/api/restart',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({'bones.token':Backbone.csrf('/api/restart')}),
+        dataType: 'json',
+        processData: false,
+        success: function(resp) { target.removeClass('restarting') },
+        error: function(resp) { target.removeClass('restarting') },
+    });
+    return false;
+};
+

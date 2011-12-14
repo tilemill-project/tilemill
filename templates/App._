@@ -9,18 +9,21 @@
   <script src='/assets/tilemill/js/vendor.js' type='text/javascript'></script>
   <script src='/assets/tilemill/js/abilities.js' type='text/javascript'></script>
   <script type='text/javascript'>$(Bones.start);</script>
+  <meta name='viewport' content='user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0' />
 </head>
 <body>
 
 <div class='bleed'>
-  <a href='/#!/'>Projects</a>
-  <a href='/#!/editor'>Editor</a>
-  <a href='/#!/sync'>Sync</a>
-  <a href='/#!/manual'>Manual</a>
-  <a href='/#!/settings'>Settings</a>
+  <a class='editor'><span class='icon i30 editor'></span>Editor</a>
+  <a class='projects' href='/#!/'><span class='icon i30 projects'></span>Projects</a>
+  <a class='sync' href='/#!/sync'><span class='icon i30 sync'></span>Sync</a>
+  <a class='manual' href='/#!/manual'><span class='icon i30 manual'></span>Manual</a>
+  <a class='settings' href='/#!/settings'><span class='icon i30 settings'></span>Settings</a>
+  <a class='restart'><span class='icon i30 restart'></span><small class='label'>Restart</small></a>
 </div>
 
-<div id='page'></div>
+<div id='page' class='fill-e'></div>
+
 <div id='modal'></div>
 <div id='popup' class='pane'>
   <h2 class='title'></h2>

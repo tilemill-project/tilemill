@@ -12,7 +12,9 @@ view.prototype.initialize = function(options) {
 };
 
 view.prototype.render = function() {
-    this.$('.content').html(templates.Config(this.model));
+    $('.bleed .active').removeClass('active');
+    $('.bleed .settings').addClass('active');
+    this.el.html(templates.Config(this.model));
     this.$('.slider').slider({
         min:0,
         max:1024,
@@ -28,7 +30,7 @@ view.prototype.bufferSize = function(ev, ui) {
 };
 
 view.prototype.oauth = function(ev) {
-    this.$('.content').html('<iframe class="oauth" width="700" height="300" scrolling="no" src="/oauth/mapbox"></iframe>');
+    this.el.html('<iframe class="oauth" width="700" height="300" scrolling="no" src="/oauth/mapbox"></iframe>');
     window.onmessage = _(function(msg) {
         this.model.fetch({
             success:this.render,
