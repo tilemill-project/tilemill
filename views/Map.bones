@@ -85,3 +85,9 @@ view.prototype.attach = function() {
     }
 };
 
+view.plugin = function(project) {
+    return new views.Map({
+        el: project.$('.map'),
+        model: project.model
+    });
+};

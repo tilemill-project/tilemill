@@ -7,10 +7,7 @@ view.prototype.events = {
     'click .actions a[href=#export-png]': 'exportAdd',
     'click .actions a[href=#export-mbtiles]': 'exportAdd',
     'click .actions a[href=#exports]': 'exportList',
-    'click a[href=#fonts]': 'fonts',
-    'click a[href=#carto]': 'carto',
     'click a[href=#settings]': 'settings',
-    'click a[href=#layers]': 'layers',
     'click .breadcrumb .logo': 'unload'
 };
 
@@ -53,14 +50,12 @@ view.prototype.render = function(init) {
     $('.bleed .active').removeClass('active');
     $('.bleed .editor').addClass('active').attr('href', '/#!/project/' + this.model.id);
     $(this.el).html(templates.Project(this.model));
-    this.views.stylesheets = new views.Stylesheets({
-        el:this.$('.editor'),
-        model:this.model
-    });
-    this.views.map = new views.Map({
-        el:this.$('.map'),
-        model:this.model
-    });
+
+    // Load and run plugins.
+    _(views).each(_(function(View, name) {
+        if (!_(View.plugin).isFunction()) return;
+        this.views[name] = View.plugin(this);
+    }).bind(this));
     return this;
 };
 
@@ -87,24 +82,6 @@ view.prototype.saving = function(ev) {
     $(this.el).addClass('saving');
 };
 
-view.prototype.layers = function(ev) {
-    new views.Layers({
-        el: $('#drawer'),
-        model: this.model
-    });
-};
-
-view.prototype.fonts = function(ev) {
-    new views.Fonts({ el: $('#drawer') });
-};
-
-view.prototype.carto = function(ev) {
-    new views.Reference({
-        el: $('#drawer'),
-        _carto_state: this._carto_state
-    });
-};
-
 view.prototype.settings = function(ev) {
     new views.Settings({
         el: $('#popup'),
@@ -115,7 +92,7 @@ view.prototype.settings = function(ev) {
 view.prototype.exportAdd = function(ev) {
     var target = $(ev.currentTarget);
     var format = target.attr('href').split('#export-').pop();
-    var map = this.views.map.map;
+    var map = this.views.Map.map;
 
     map.controls.fullscreen.full();
     this.$('.project').addClass('exporting');

@@ -41,3 +41,9 @@ view.prototype.keydown = function(ev) {
     return false;
 }
 
+view.plugin = function(project) {
+    $(project.el).delegate('a[href=#fonts]', 'click', function(ev) {
+        new view({ el: $('#drawer') });
+    });
+};
+

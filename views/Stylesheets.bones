@@ -306,3 +306,10 @@ view.prototype.colors = function(color) {
         }).bind(this));
 }
 
+view.plugin = function(project) {
+    return new views.Stylesheets({
+        el:project.$('.editor'),
+        model:project.model
+    });
+};
+

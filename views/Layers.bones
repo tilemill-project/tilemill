@@ -131,3 +131,12 @@ view.prototype.sortLayers = function() {
     this.model.get('Layer').trigger('change');
 };
 
+view.plugin = function(project) {
+    $(project.el).delegate('a[href=#layers]', 'click', function(ev) {
+        new view({
+            el: $('#drawer'),
+            model: project.model
+        });
+    });
+};
+

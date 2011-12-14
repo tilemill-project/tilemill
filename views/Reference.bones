@@ -36,3 +36,12 @@ view.prototype.render = function() {
     return this;
 };
 
+view.plugin = function(project) {
+    $(project.el).delegate('a[href=#carto]', 'click', function(ev) {
+        new view({
+            el: $('#drawer'),
+            _carto_state: project._carto_state
+        });
+    });
+};
+
