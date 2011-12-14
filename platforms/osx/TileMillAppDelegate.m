@@ -58,6 +58,39 @@
     //
     PFMoveToApplicationsFolderIfNecessary();
 
+    // v0.7.2+ migrations from defaults to dotfile (see #1015)
+    //
+    if ( ! [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]])
+    {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSMutableArray *options  = [NSMutableArray array];
+        
+        if ([defaults objectForKey:@"serverPort"])
+            [options addObject:[NSString stringWithFormat:@"\"port\": %i", [defaults integerForKey:@"serverPort"]]];
+        
+        if ([defaults objectForKey:@"filesPath"])
+            [options addObject:[NSString stringWithFormat:@"\"files\": \"%@\"", [defaults objectForKey:@"filesPath"]]];
+
+        if ([defaults objectForKey:@"bufferSize"])
+            [options addObject:[NSString stringWithFormat:@"\"bufferSize\": %i", [defaults integerForKey:@"bufferSize"]]];
+        
+        if ([defaults objectForKey:@"listenAllInterfaces"])
+            [options addObject:[NSString stringWithFormat:@"\"listenHost\": \"%@\"", ([defaults boolForKey:@"listenAllInterfaces"] ? @"0.0.0.0" : @"127.0.0.1")]];
+        
+        if ([options count])
+        {
+            NSMutableString *contents = [NSMutableString stringWithString:@"{\n    "];
+            
+            [contents appendString:[options componentsJoinedByString:@",\n    "]];
+            [contents appendString:@"\n}\n"];
+            
+            [contents writeToFile:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]
+                       atomically:YES
+                         encoding:NSUTF8StringEncoding
+                            error:NULL];
+        }
+    }
+    
     // setup logging & fire up main functionality
     //
     self.logPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"];
