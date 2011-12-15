@@ -9,7 +9,7 @@ prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 nextup:
 - "[Using conditional styles](/tilemill/docs/tutorials/conditional-styles/) to control the appearance of points based on data."
-- "[Adding tooltips](/tilemill/docs/manual/project-settings/) to your map."
+- "[Adding tooltips](/tilemill/docs/tutorials/tooltips/) to your map."
 - "[Exporting](/tilemill/docs/manual/exporting/) your map."
 ---
 
