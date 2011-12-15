@@ -237,7 +237,7 @@ view.prototype.colorOpen = function(ev) {
     if (this.$('#colorpicker').size()) return;
 
     var swatch = $(ev.currentTarget);
-    this.$('.editor').addClass('overlay');
+    $(this.el).addClass('overlay');
     this.$('.colors').addClass('active');
     var find = swatch.attr('title');
     var hsv = Color.RGB_HSV(this.css2rgb(find));
@@ -270,7 +270,7 @@ view.prototype.colorSave = function(ev) {
         });
         this.model.save();
     }
-    this.$('.editor').removeClass('overlay');
+    $(this.el).removeClass('overlay');
     this.$('.colors').removeClass('active');
     this.$('#colorpicker').remove();
     return false;
@@ -280,7 +280,7 @@ view.prototype.colorClose = function(ev) {
     var swatch = $(ev.currentTarget).parents('.swatch');
     var from = $('input[name=find]', swatch).val();
     $('.color', swatch).css('backgroundColor', from);
-    this.$('.editor').removeClass('overlay');
+    $(this.el).removeClass('overlay');
     this.$('.colors').removeClass('active');
     this.$('#colorpicker').remove();
     return false;
