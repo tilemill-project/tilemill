@@ -85,9 +85,16 @@ view.prototype.attach = function() {
     }
 };
 
-view.plugin = function(project) {
-    return new views.Map({
-        el: project.$('.map'),
-        model: project.model
-    });
-};
+// Hook in to projet view with an augment.
+views.Project.augment({
+    render: function(p) {
+        p.call(this);
+        this.$('.map').append("<div class='zoom-display'>Zoom <span class='zoom'></span></div>");
+        return new views.Map({
+            el:this.$('.map'),
+            model:this.model
+        });
+        return this;
+    }
+});
+

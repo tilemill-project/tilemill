@@ -74,6 +74,30 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
     // Process any waiting exports.
     (new models.Exports).fetch();
 
+    // Load plugins.
+    _([ path.resolve(__dirname + '/../plugins'),
+        path.resolve(path.join(settings.files + '/plugins')) ]).chain()
+        .map(function(p) {
+            try {
+                return fs.readdirSync(p).map(function(id) {
+                    return { id: id, path: path.join(p, id) };
+                });
+            } catch(e) {
+                return [];
+            }
+        })
+        .flatten()
+        .reduce(function(memo, plugin) {
+            memo[plugin.id] = plugin.path;
+            return memo;
+        }, {})
+        .each(function(p, id) {
+            require(p);
+            console.warn('Plugin [%s] %s.',
+                Bones.utils.colorize(id, 'green'),
+                path.dirname(p));
+        });
+
     callback();
 };
 

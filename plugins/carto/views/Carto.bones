@@ -45,3 +45,23 @@ view.plugin = function(project) {
     });
 };
 
+// Hook in to projet view with an augment.
+views.Project.augment({
+    events: { 'click a[href=#carto]': 'carto' },
+    carto: function() {
+        new view({
+            el:$('#drawer'),
+            _carto_state: this._carto_state
+        })
+    },
+    initialize: function(p, o) {
+        _(this).bindAll('carto');
+        return p.call(this, o);
+    },
+    render: function(p) {
+        p.call(this);
+        this.$('.palette').prepend("<a class='drawer' href='#carto'><span class='icon reverse reference'>Carto</span></a>");
+        return this;
+    }
+});
+

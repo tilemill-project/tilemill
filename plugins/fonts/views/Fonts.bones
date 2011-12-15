@@ -41,9 +41,16 @@ view.prototype.keydown = function(ev) {
     return false;
 }
 
-view.plugin = function(project) {
-    $(project.el).delegate('a[href=#fonts]', 'click', function(ev) {
-        new view({ el: $('#drawer') });
-    });
-};
+// Hook in to projet view with an augment.
+views.Project.augment({
+    events: { 'click a[href=#fonts]': 'fonts' },
+    fonts: function() {
+        new view({ el:$('#drawer') })
+    },
+    render: function(p) {
+        p.call(this);
+        this.$('.palette').prepend("<a class='drawer' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>");
+        return this;
+    }
+});
 

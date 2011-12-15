@@ -313,3 +313,16 @@ view.plugin = function(project) {
     });
 };
 
+// Hook in to projet view with an augment.
+views.Project.augment({
+    render: function(p) {
+        p.call(this);
+        this.$('.editor').append(templates.Editor());
+        return new views.Stylesheets({
+            el:this.$('.editor'),
+            model:this.model
+        });
+        return this;
+    }
+});
+
