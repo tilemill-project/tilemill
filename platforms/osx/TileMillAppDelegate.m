@@ -263,6 +263,9 @@
 
 - (IBAction)openNodeAboutView:(id)sender
 {
+    if ( ! [self.browserController browserShouldQuit])
+        return;
+    
     void (^aboutClick)(void) = ^{ [self.browserController runJavaScript:@"$('a[href=#about]').click()"]; };
     
     // go to main Projects view if needed
@@ -293,6 +296,9 @@
 
 - (IBAction)openNodeSettingsView:(id)sender
 {
+    if ( ! [self.browserController browserShouldQuit])
+        return;
+
     void (^configClick)(void) = ^{ [self.browserController runJavaScript:@"$('a[href=#config]').click()"]; };
 
     // go to main Projects view if needed
