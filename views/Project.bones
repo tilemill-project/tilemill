@@ -50,12 +50,6 @@ view.prototype.render = function(init) {
     $('.bleed .active').removeClass('active');
     $('.bleed .editor').addClass('active').attr('href', '/#!/project/' + this.model.id);
     $(this.el).html(templates.Project(this.model));
-
-    // Load and run plugins.
-    _(views).each(_(function(View, name) {
-        if (!_(View.plugin).isFunction()) return;
-        this.views[name] = View.plugin(this);
-    }).bind(this));
     return this;
 };
 
