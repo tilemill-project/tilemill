@@ -126,7 +126,9 @@ command.prototype.initialize = function(plugin, callback) {
         if (err) throw err;
         model.localize(model.toJSON(), this);
     }, function(err) {
-        if (err) return cmd.error(err);
+        if (err) return cmd.error(err, function() {
+            process.exit(1);
+        });
 
         model.mml = _(model.mml).extend({
             name: model.mml.name || model.id,
@@ -152,13 +154,12 @@ command.prototype.initialize = function(plugin, callback) {
     });
 };
 
-command.prototype.error = function(err) {
+command.prototype.error = function(err, callback) {
     this.put({
         status: 'error',
         error: err.toString(),
         updated: +new Date()
-    });
-    console.error(err.toString());
+    }, callback);
 };
 
 command.prototype.remaining = function(progress, started) {
@@ -170,6 +171,10 @@ command.prototype.remaining = function(progress, started) {
 
 command.prototype.put = function(data, callback) {
     callback = callback || function() {};
+    data.status == 'error' ?
+        console.log(JSON.stringify(data)) :
+        console.error(JSON.stringify(data));
+
     if (!this.opts.url) return callback();
     request.put({
         uri: this.opts.url,
@@ -237,7 +242,9 @@ command.prototype.mbtiles = function (project, callback) {
         if (err) throw err;
         sink.putInfo(project.mml, this);
     }, function(err) {
-        if (err) return cmd.error(err);
+        if (err) return cmd.error(err, function() {
+            process.exit(1);
+        });
 
         var copy = tilelive.copy({
             source: source,
@@ -273,7 +280,9 @@ command.prototype.mbtiles = function (project, callback) {
         });
         copy.on('error', function(err) {
             clearTimeout(timeout);
-            cmd.error(err);
+            cmd.error(err, function() {
+                process.exit(1);
+            });
         });
     });
 };
@@ -410,9 +419,13 @@ command.prototype.upload = function (callback) {
         });
         request.put({ url:modelURL, json:model }, this);
     }, function(err, res, body) {
-        if (err) return cmd.error(err);
+        if (err) return cmd.error(err, function() {
+            process.exit(1);
+        });
         if (modelURL && res.statusCode !== 200)
-            return cmd.error('Map publish failed: ' + res.statusCode);
+            return cmd.error('Map publish failed: ' + res.statusCode, function() {
+                process.exit(1);
+            });
         cmd.put({
             status: 'complete',
             progress: 1,
