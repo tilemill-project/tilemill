@@ -1,5 +1,5 @@
 <div class='project'>
-  <div class='map fill-w' id='map'></div>
+  <div class='map fill-w'></div>
 
   <div class='editor fill-e'>
     <div class='header'>

@@ -89,7 +89,7 @@ view.prototype.attach = function() {
 views.Project.augment({
     render: function(p) {
         p.call(this);
-        this.$('.map').append("<div class='zoom-display'>Zoom <span class='zoom'></span></div>");
+        this.$('.map').append(templates.Map());
         return new views.Map({
             el:this.$('.map'),
             model:this.model

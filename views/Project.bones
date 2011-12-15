@@ -8,6 +8,7 @@ view.prototype.events = {
     'click .actions a[href=#export-mbtiles]': 'exportAdd',
     'click .actions a[href=#exports]': 'exportList',
     'click a[href=#settings]': 'settings',
+    'click a[href=#layers]': 'layers',
     'click .breadcrumb .logo': 'unload'
 };
 
@@ -21,6 +22,8 @@ view.prototype.initialize = function() {
         'change',
         'exportAdd',
         'exportList',
+        'settings',
+        'layers',
         'unload'
     );
     Bones.intervals = Bones.intervals || {};
@@ -142,6 +145,13 @@ view.prototype.exportList = function(ev) {
             $('#drawer').removeClass('loading');
             new views.Modal(e);
         }
+    });
+};
+
+view.prototype.layers = function(ev) {
+    new views.Layers({
+        el: $('#drawer'),
+        model: this.model
     });
 };
 

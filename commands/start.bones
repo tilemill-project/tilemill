@@ -92,7 +92,7 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
             return memo;
         }, {})
         .each(function(p, id) {
-            require(p);
+            require('bones').load(p);
             console.warn('Plugin [%s] %s.',
                 Bones.utils.colorize(id, 'green'),
                 path.dirname(p));
