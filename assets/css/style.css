@@ -628,21 +628,21 @@ ul.layers {
   bottom:60px;
   z-index:12;
   width:40px;
-  background:rgba(0,0,0,0.25);
-  border-radius:5px 0px 0px 5px;
-  box-shadow:rgba(255,255,255,0.1) 0px 1px;
   }
 
 .palette a {
   display:block;
   width:20px;
   height:20px;
-  padding:10px;
+  padding:10px 10px 9px;
   position:relative;
-  box-shadow:inset rgba(255,255,255,0.1) 0px 1px;
+  background:rgba(48,48,48,0.95);
+  border-bottom:1px solid #555;
   }
 
-.palette a:first-child { box-shadow:none; }
+.palette a:hover { background:rgba(56,56,56,0.95); }
+.palette a:first-child { border-radius:3px 0px 0px 0px; }
+.palette a:last-child { border-radius:0px 0px 0px 3px; }
 
 .palette a.active:after {
   content:'';
