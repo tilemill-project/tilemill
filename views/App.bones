@@ -36,7 +36,7 @@ view.prototype.popupOpen = function(ev) {
 view.prototype.popupClose = function(ev) {
     $(this.el).removeClass('overlay');
     this.$('#popup').removeClass('active');
-    this.$('#drawer .pane').html(templates.Pane());
+    this.$('#popup .pane').html(templates.Pane());
     return false;
 };
 
