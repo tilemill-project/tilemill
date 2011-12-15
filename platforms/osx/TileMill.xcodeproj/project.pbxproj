@@ -528,6 +528,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Externals/Sparkle\"/**";
 				INFOPLIST_FILE = "tilemill-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
@@ -547,6 +548,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Externals/Sparkle\"/**";
 				INFOPLIST_FILE = "tilemill-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
