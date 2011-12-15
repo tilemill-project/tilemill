@@ -64,6 +64,9 @@
     {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSMutableArray *options  = [NSMutableArray array];
+
+        if ([defaults objectForKey:@"SUSendProfileInfo"])
+            [options addObject:[NSString stringWithFormat:@"\"profile\": \"%@\"", ([defaults boolForKey:@"SUSendProfileInfo"] ? @"true" : @"false")]];
         
         if ([defaults objectForKey:@"serverPort"])
             [options addObject:[NSString stringWithFormat:@"\"port\": %i", [defaults integerForKey:@"serverPort"]]];
