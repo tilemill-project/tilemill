@@ -1555,6 +1555,9 @@ tr:hover th,
   }
 
 /* Screen-size adjustments */
+@media (max-width:800px) {
+  ul.projects li { width:100%; }
+}
 @media (min-width:1200px) {
   #drawer { width:55% !important; }
   ul.projects li { width:33.33%; }
@@ -1603,12 +1606,12 @@ tr:hover th,
   -webkit-box-shadow:#ddd 0px 2px 5px;
   }
 
-div.manual { margin-right:200px; }
+div.manual { margin-right:180px; }
 
 .manual .navigation {
   right:20px;
   position:fixed;
-  width:190px;
+  width:170px;
   padding:10px 0px;
   }
 
