@@ -89,14 +89,10 @@ view.prototype.settings = function(ev) {
 view.prototype.exportAdd = function(ev) {
     var target = $(ev.currentTarget);
     var format = target.attr('href').split('#export-').pop();
-    var map = this.views.Map.map;
 
-    map.controls.fullscreen.full();
     this.$('.project').addClass('exporting');
-    this.$('#export > .title').text(target.attr('title'));
     this.exportView = new views.Export({
         el: $('#export'),
-        map: map,
         model: new models.Export({
             format: format,
             project: this.model.id,
@@ -104,9 +100,8 @@ view.prototype.exportAdd = function(ev) {
         }),
         project: this.model,
         success: _(function() {
-            this.exportView.remove();
             this.$('.project').removeClass('exporting');
-            map.controls.fullscreen.original();
+            this.exportView.remove();
 
             // @TODO better API for manipulating UI elements.
             if (!$('#drawer').is('.active')) {
@@ -119,9 +114,8 @@ view.prototype.exportAdd = function(ev) {
             new views.Modal(err);
         }).bind(this),
         cancel: _(function() {
-            this.exportView.remove();
             this.$('.project').removeClass('exporting');
-            map.controls.fullscreen.original();
+            this.exportView.remove();
         }).bind(this)
     });
 };

@@ -7,12 +7,10 @@ view.prototype.events = {
 };
 
 view.prototype.initialize = function(options) {
-    if (!options.map) throw new Error('No map provided.');
     if (!options.model) throw new Error('No export model provided.');
     if (!options.project) throw new Error('No project model provided.');
 
     _(this).bindAll('render', 'remove', 'size', 'zoom', 'save', 'close');
-    this.map = options.map;
     this.project = options.project;
     this.success = options.success || function() {};
     this.cancel = options.cancel || function() {};
@@ -21,7 +19,7 @@ view.prototype.initialize = function(options) {
 };
 
 view.prototype.render = function() {
-    this.$('.content').html(templates.Export(this));
+    $(this.el).html(templates.Export(this));
     this.$('.slider').slider({
         range: true,
         min:0,
@@ -30,8 +28,16 @@ view.prototype.render = function() {
         step:1,
         slide: this.zoom
     });
-    this.map.controls.zoombox.remove();
-    this.map.controls.boxselector = wax.mm.boxselector(this.map, {}, _(function(data) {
+    var center = this.project.get('center');
+    this.map = new com.modestmaps.Map('export-map',
+        new wax.mm.connector(this.project.attributes));
+
+    wax.mm.zoomer(this.map).appendTo(this.map.parent);
+    this.map.setCenterZoom(new com.modestmaps.Location(
+        center[1],
+        center[0]),
+        center[2]);
+    this.boxselector = wax.mm.boxselector(this.map, {}, _(function(data) {
         var s = _(data).chain().pluck('lat').min().value().toFixed(4);
         var n = _(data).chain().pluck('lat').max().value().toFixed(4);
         var w = _(data).chain().pluck('lon').min().value().toFixed(4) % 360;
@@ -87,8 +93,7 @@ view.prototype.size = function(ev) {
 };
 
 view.prototype.remove = function() {
-    this.map.controls.boxselector.remove();
-    this.map.controls.zoombox.add(this.map);
+    $(this.el).html('');
 };
 
 view.prototype.formatThousands = function(num) {
@@ -108,6 +113,24 @@ view.prototype.updateTotal = function(attributes) {
             total += Math.abs((b.maxX - b.minX + 1) * (b.maxY - b.minY + 1));
         }
         this.$('.totaltiles').text(this.formatThousands(total));
+        this.$('.totalsize').text((function(num) {
+            num = num || 0;
+            if (num >= 1e12) {
+                return '1000 GB+';
+            } else if (num >= 1e10) {
+                return '100 GB+';
+            } else if (num >= 1e9) {
+                return '1 GB+';
+            } else if (num >= 1e8) {
+                return '100 MB+';
+            } else if (num >= 1e7) {
+                return '10 MB+';
+            } else if (num >= 1e6) {
+                return '1 MB+';
+            } else {
+                return '1 MB';
+            }
+        })(total * 1000));
     }
 };
 

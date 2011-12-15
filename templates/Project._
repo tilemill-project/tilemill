@@ -37,12 +37,9 @@
 
   <div id='drawer'><div class='pane fill raised'><%= this.Pane() %></div></div>
 
-  <div id='export' class='pane'>
-    <h2 class='title'></h2>
-    <div class='content'></div>
-  </div>
-
   <div class='palette clearfix'>
     <a class='drawer mini' href='#layers'><span class='icon reverse layers'>Layers</span></a>
   </div>
+
+  <div id='export' class='fill'></div>
 </div>

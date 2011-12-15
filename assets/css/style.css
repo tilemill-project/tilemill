@@ -489,40 +489,31 @@ ul.projects li { float:left; width:50%; }
 /**
  * Map fullscreen and project exporting mode.
  */
-.project.exporting .map,
-.project .wax-fullscreen-map {
-  z-index:2;
-  border-right:0px !important;
-  width:100% !important;
+#export { position:absolute; display:none; z-index:100; }
+#export-map {
+  right:280px;
+  background:#fff url(../images/bg.png) 100% 0%;
+  height:auto !important;
   }
 
-.project.exporting .header .actions { display:none; }
+.project.exporting > * { display:none; }
+.project.exporting > #export { display:block; }
 
-.project.exporting #export { right:0px; }
-.project.exporting #drawer.active { left:-50%; }
-
-#export {
-  position:fixed;
-  top:60px;
-  right:-320px;
-  z-index:2;
-  background:#fff;
-  overflow:hidden;
-  border:1px solid #ccc;
-  border-right:0px;
-  width:319px;
-  transition:right .25s;
-  -moz-transition:right .25s;
-  -webkit-transition:right .25s;
-  border-radius:5px 0px 0px 5px;
-  -moz-border-radius:5px 0px 0px 5px;
-  -webkit-border-radius:5px 0px 0px 5px;
+#export ul {
+  width:280px;
+  border-left:1px solid #ccc;
   }
 
-#export .content { padding:0px; }
+#export ul li {
+  padding-left:80px;
+  border-color:#ddd;
+  }
+
+#export ul li.buttons { padding-left:20px; }
+#export ul li label { width:60px; margin-left:-70px; }
+
 #export .help { text-align:center; }
 
-.project.exporting .wax-fullscreen { display:none; }
 .project.exporting .zoom-display { width:59px; }
 .project.exporting .zoomin {
   border-radius:0px 3px 3px 0px;
@@ -532,8 +523,8 @@ ul.projects li { float:left; width:50%; }
 
 #export .key {
   padding:2px 8px;
-  background:#f8f8f8;
-  border-color:#eee #ccc #ccc;
+  background:#fff;
+  border-color:#ddd #ccc #ccc;
   border-style:solid;
   border-width:2px 2px 4px;
   border-radius:2px;
@@ -542,21 +533,16 @@ ul.projects li { float:left; width:50%; }
   }
 
 .bboxForm {
-  margin:10px 0px;
-  background:#eee;
-  border:1px solid #ddd;
+  margin:0px 0px 5px;
   height:78px;
   position:relative;
-  box-shadow:inset #ddd 0px 1px 3px;
-  -moz-box-shadow:inset #ddd 0px 1px 3px;
-  -webkit-box-shadow:inset #ddd 0px 1px 3px;
   }
 
 .bboxForm input[type=text] {
   position:absolute;
   width:60px;
   border:0px;
-  background:#ddd;
+  background:#ccc;
   box-shadow:none;
   text-align:center;
   }
@@ -1102,6 +1088,18 @@ input[type=submit]:active {
     inset rgba(255,255,255,0.2) 0px 10px 20px -5px;
   }
 
+input.cancel,
+input.cancel:hover {
+  background:#eee;
+  color:#999;
+  border-color:#ccc;
+  }
+
+input.cancel:active {
+  background:#ddd;
+  border-color:#999;
+  }
+
 /* Joined buttons */
 .joined > * {
   float:left;
@@ -1155,17 +1153,6 @@ ul.form .buttons input {
   min-width:100px;
   text-align:center;
   font-size:16px;
-  }
-
-ul.form .buttons input.cancel {
-  background:#eee;
-  color:#999;
-  border-color:#ccc;
-  }
-
-ul.form .buttons input.cancel:active {
-  background:#ddd;
-  border-color:#999;
   }
 
 ul.form small.description { display:block; }
