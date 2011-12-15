@@ -271,6 +271,12 @@ small { font-size:11px; }
   border-bottom:1px solid #eee;
   }
 
+.pane > .actions {
+  position:absolute;
+  top:10px;
+  right:50px;
+  }
+
 .pane > a.close {
   position:absolute;
   top:10px;
@@ -580,12 +586,6 @@ ul.layers {
   overflow:hidden;
   max-height:240px;
   min-height:120px;
-  }
-
-a.add-layer {
-  position:absolute;
-  top:-30px;
-  right:50px;
   }
 
 .layers li {

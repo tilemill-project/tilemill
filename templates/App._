@@ -23,15 +23,8 @@
 </div>
 
 <div id='page' class='fill-e'></div>
-
 <div id='modal'></div>
-<div id='popup' class='pane'>
-  <h2 class='title'></h2>
-  <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
-  <div class='content fill-s'></div>
-  <div class='mask'></div>
-</div>
-
+<div id='popup' class='pane'><%= this.Pane() %></div>
 <div class='mask'></div>
 
 </body>

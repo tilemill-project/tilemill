@@ -1,6 +1,7 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
+    'click a[href=#back]': 'back',
     'click a.showall': 'showAll'
 };
 
@@ -10,8 +11,14 @@ view.prototype.initialize = function(options) {
     this.render();
 };
 
+view.prototype.back = function() {
+    $('.palette a[href=#layers]').click();
+    return false;
+};
+
 view.prototype.render = function() {
     var features = this.model.get('features');
+    this.$('.actions').html("<a href='#back' class='button'><span class='icon prev reverse labeled' title='layers'></span> Back</a>");
     this.$('.content').html(templates.Datasource({
         fields: this.model.get('fields'),
         features: _(features).first(this.featureLimit),

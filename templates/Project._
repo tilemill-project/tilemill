@@ -45,12 +45,7 @@
     <div class='mask'></div>
   </div>
 
-  <div id='drawer'><div class='pane fill raised'>
-    <h2 class='title'></h2>
-    <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
-    <div class='content fill-s'></div>
-    <div class='mask'></div>
-  </div></div>
+  <div id='drawer'><div class='pane fill raised'><%= this.Pane() %></div></div>
 
   <div id='export' class='pane'>
     <h2 class='title'></h2>

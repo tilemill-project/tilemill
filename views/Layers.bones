@@ -23,7 +23,8 @@ view.prototype.initialize = function(options) {
 };
 
 view.prototype.render = function() {
-    this.$('.content').html("<a href='#add' class='popup add-layer button'><span class='icon reverse plus labeled'></span> Add layer</a><ul class='layers'></ul>");
+    this.$('.actions').html("<a href='#add' class='popup add-layer button'><span class='icon reverse plus labeled'></span> Add layer</a>");
+    this.$('.content').html("<ul class='layers'></ul>");
     this.model.get('Layer').chain().each(this.makeLayer);
     this.$('ul').sortable({
         axis: 'y',
@@ -106,13 +107,14 @@ view.prototype.layerInspect = function(ev) {
         srs: null
     }));
     model.fetchFeatures({
-        success: function(model) {
+        success: _(function(model) {
             $('#drawer').removeClass('loading');
             new views.Datasource({
                 el: $('#drawer'),
-                model: model
+                model: model,
+                project: this.model
             });
-        },
+        }).bind(this),
         error: function(model, err) {
             $('#drawer').removeClass('loading');
             new views.Modal(err);
