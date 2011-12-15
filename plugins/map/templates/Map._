@@ -1,0 +1,3 @@
+<div id='map' class='fill'>
+  <div class='zoom-display'>Zoom <span class='zoom'></span></div>
+</div>
