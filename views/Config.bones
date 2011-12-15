@@ -12,6 +12,7 @@ view.prototype.initialize = function(options) {
 };
 
 view.prototype.render = function() {
+    $('#popup.active a.close').click();
     $('.bleed .active').removeClass('active');
     $('.bleed .settings').addClass('active');
     this.el.html(templates.Config(this.model));
@@ -30,14 +31,13 @@ view.prototype.bufferSize = function(ev, ui) {
 };
 
 view.prototype.oauth = function(ev) {
-    this.el.html('<iframe class="oauth" width="700" height="300" scrolling="no" src="/oauth/mapbox"></iframe>');
+    $('#popup .content').html('<iframe class="oauth" width="700" height="400" scrolling="no" src="/oauth/mapbox"></iframe>');
     window.onmessage = _(function(msg) {
         this.model.fetch({
             success:this.render,
             error:this.render
         });
     }).bind(this);
-    return false;
 };
 
 view.prototype.disable = function(ev) {

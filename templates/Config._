@@ -31,11 +31,11 @@
       <span style='margin-right:10px'>
       <a target='_blank' href='<%=get('syncURL')%>/<%=get('syncAccount')%>'><%=get('syncURL')%>/<%=get('syncAccount')%></a>
       </span>
-      <a class='button' href='#oauth'>Refresh</a>
+      <a class='button popup' title='Authorize' href='#oauth'>Refresh</a>
       <a class='button' href='#disable'>Disable</a>
     </div>
     <div class='syncOff <%= get('syncAccount') ? 'dependent' : '' %>'>
-      <a class='button' href='#oauth'>Authorize</a>
+      <a class='button popup' title='Authorize' href='#oauth'>Authorize</a>
     </div>
     <div class='description'>
       Upload maps to this account.
