@@ -14,6 +14,8 @@ view.prototype.initialize = function() {
 view.prototype.render = function(init) {
     if (!com.modestmaps) throw new Error('ModestMaps not found.');
 
+    $(this.el).html(templates.Map());
+
     this.map = new com.modestmaps.Map('map',
         new wax.mm.connector(this.model.attributes));
 
@@ -86,15 +88,11 @@ view.prototype.attach = function() {
 };
 
 // Hook in to projet view with an augment.
-views.Project.augment({
-    render: function(p) {
-        p.call(this);
-        this.$('.map').append(templates.Map());
-        return new views.Map({
-            el:this.$('.map'),
-            model:this.model
-        });
-        return this;
-    }
-});
-
+views.Project.augment({ render: function(p) {
+    p.call(this);
+    new views.Map({
+        el:this.$('.map'),
+        model:this.model
+    });
+    return this;
+}});
