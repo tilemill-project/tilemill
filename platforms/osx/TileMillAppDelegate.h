@@ -11,11 +11,14 @@
 @class TileMillBrowserWindowController;
 @class TileMillPrefsWindowController;
 
+void (^requestLoadBlock)(void) = NULL;
+
 @interface TileMillAppDelegate : NSObject <NSApplicationDelegate, TileMillChildProcessDelegate>
 {
     TileMillChildProcess *searchTask;
     TileMillBrowserWindowController *browserController;
     TileMillPrefsWindowController *prefsController;
+    NSURL *initialURL;
     NSString *logPath;
     BOOL shouldAttemptRestart;
     BOOL fatalErrorCaught;
