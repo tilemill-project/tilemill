@@ -6,6 +6,16 @@ process.title = 'tilemill';
 // name.
 process.argv[0] = 'node';
 
+// Default --config flag to user's home .tilemill.json config file.
+// @TODO find a more elegant way to set a default for this value
+// upstream in bones.
+var path = require('path');
+var config = path.join(process.env.HOME, '.tilemill.json');
+if (path.existsSync(config)) {
+    var argv = require('bones/node_modules/optimist').argv;
+    argv.config = argv.config || config;
+}
+
 require('tilelive-mapnik').registerProtocols(require('tilelive'));
 require('mbtiles').registerProtocols(require('tilelive'));
 

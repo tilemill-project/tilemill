@@ -6,17 +6,7 @@ var paths = {
     vendor: path.resolve(__dirname + '/../lib/config.defaults.json')
 };
 
-// Catch & ignore invalid user JSON.
-try {
-    models.Config.defaults = {};
-    models.Config.defaults = JSON.parse(fs.readFileSync(paths.user, 'utf8'));
-    models.Config.defaults = _(models.Config.defaults)
-        .defaults(JSON.parse(fs.readFileSync(paths.vendor, 'utf8')));
-} catch(e) {
-    console.error('Ignoring invalid JSON at %s', paths.user);
-    models.Config.defaults = JSON.parse(fs.readFileSync(paths.vendor, 'utf8'));
-}
-
+models.Config.defaults = JSON.parse(fs.readFileSync(paths.vendor, 'utf8'));
 models.Config.prototype.sync = function(method, model, success, error) {
     if (method === 'delete') return error(new Error('Method not supported.'));
 
@@ -35,14 +25,13 @@ models.Config.prototype.sync = function(method, model, success, error) {
         break;
     case 'create':
     case 'update':
+        // Filter out keys that may not be written.
         var allowedKeys = ['bufferSize', 'files', 'syncAccount', 'syncAccessToken'];
-        var data = model.toJSON();
-
-        // Additional data processing.
-        for (var key in data) {
-            if (!_(allowedKeys).include(key)) delete data[key];
-        }
-        if (data.files) data.files = data.files.replace('~', process.env.HOME);
+        var data = _(model.toJSON()).reduce(function(memo, val, key) {
+            if (key === 'files') val = val.replace('~', process.env.HOME);
+            if (_(allowedKeys).include(key)) memo[key] = val;
+            return memo;
+        }, {});
 
         Step(function() {
             fs.readFile(paths.user, 'utf8', this);
