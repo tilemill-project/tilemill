@@ -486,8 +486,21 @@ ul.projects li { float:left; width:50%; }
 
 .project .editor { border-left:1px solid #ccc; }
 
+.wax-fullscreen-view .project .map {
+  position:fixed;
+  left:60px;
+  right:0px;
+  z-index:100;
+  width:auto !important;
+  }
+
+#map {
+  width:auto !important;
+  height:auto !important;
+  }
+
 /**
- * Map fullscreen and project exporting mode.
+ * Export view
  */
 #export { position:absolute; display:none; z-index:100; }
 #export-map {
@@ -1552,16 +1565,14 @@ tr:hover th,
   ul.projects li { width:33.33%; }
   .project .map { width:55% !important; }
   .project .editor { width:45% !important; }
-  .project.exporting .map,
-  .project .wax-fullscreen-map { width:100% !important; }
+  .wax-fullscreen-view .project .map { width:auto !important; }
 }
 @media (min-width:1400px) {
   #drawer { width:60% !important; }
   ul.projects li { width:25%; }
   .project .map { width:60% !important; }
   .project .editor { width:40% !important; }
-  .project.exporting .map,
-  .project .wax-fullscreen-map { width:100% !important; }
+  .wax-fullscreen-view .project .map { width:auto !important; }
 }
 
 /* Manual */
