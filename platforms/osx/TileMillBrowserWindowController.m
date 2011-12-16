@@ -42,8 +42,6 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 
 - (void)loadRequestURL:(NSURL *)loadURL
 {
-    [self.window makeKeyAndOrderFront:self];
-    
     [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:loadURL 
                                                          cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                      timeoutInterval:kTileMillRequestTimeout]];
@@ -59,7 +57,9 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
     
     if ([[self runJavaScript:@"getLoseUnsavedWork();"] isEqualToString:@"false"])
     {
-        [self.window makeKeyAndOrderFront:self];
+        // show window, i.e., unsaved work, if needed
+        //
+        [self showWindow:self];
         
         return NO;
     }
