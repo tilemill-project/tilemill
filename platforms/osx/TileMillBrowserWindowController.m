@@ -17,6 +17,7 @@
 - (NSString *)runJavaScript:(NSString *)code inBones:(BOOL)useBones;
 
 @property (nonatomic, assign) BOOL initialRequestComplete;
+@property (nonatomic, assign) NSInteger port;
 
 @end
 
@@ -26,6 +27,7 @@
 
 @synthesize webView;
 @synthesize initialRequestComplete;
+@synthesize port;
 
 - (void)awakeFromNib
 {
@@ -40,9 +42,11 @@
 
 #pragma mark -
 
-- (void)loadInitialRequestWithPort:(NSInteger)port
+- (void)loadInitialRequestWithPort:(NSInteger)inPort
 {
-    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld", port]];
+    self.port = inPort;
+    
+    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.port]];
     
     [self loadRequestURL:initialURL];
 }

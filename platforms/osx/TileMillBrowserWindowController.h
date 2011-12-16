@@ -12,11 +12,12 @@
 {
     WebView *webView;
     BOOL initialRequestComplete;
+    NSInteger port;
 }
 
 @property (nonatomic, retain) IBOutlet WebView *webView;
 
-- (void)loadInitialRequestWithPort:(NSInteger)port;
+- (void)loadInitialRequestWithPort:(NSInteger)inPort;
 - (void)loadRequestURL:(NSURL *)loadURL;
 - (BOOL)browserShouldQuit;
 
