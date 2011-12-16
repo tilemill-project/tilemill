@@ -241,14 +241,12 @@
 
 - (IBAction)openHelp:(id)sender
 {
-    if ([self.browserController shouldDiscardUnsavedWork])
-    {
-        [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", self.searchTask.port]]];
+    if ( ! [self.browserController shouldDiscardUnsavedWork])
+        return;
 
-        // give page time to load, then be sure browser window is visible
-        //
-        [self performSelector:@selector(showBrowserWindow:) withObject:self afterDelay:0.25];
-    }
+    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/#!/manual", self.searchTask.port]]];
+    
+    [self.browserController performSelector:@selector(showWindow:) withObject:self afterDelay:0.25];
 }
 
 - (IBAction)openDiscussions:(id)sender
@@ -286,6 +284,8 @@
     
     // go to main Projects view if needed
     //
+    [self.browserController showWindow:self];
+    
     if ( ! [[self.browserController runJavaScript:@"$('div.projects').length"] boolValue])
     {    
         if (requestLoadBlock != NULL)
@@ -319,6 +319,8 @@
 
     // go to main Projects view if needed
     //
+    [self.browserController showWindow:self];
+
     if ( ! [[self.browserController runJavaScript:@"$('div.projects').length"] boolValue])
     {    
         if (requestLoadBlock != NULL)
@@ -330,7 +332,7 @@
                                                                          usingBlock:^(NSNotification *notification)
                                                                          {
                                                                              configClick();
-                                                                             
+
                                                                              [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
                                                                              
                                                                              requestLoadBlock = NULL;
