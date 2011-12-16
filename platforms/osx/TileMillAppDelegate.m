@@ -117,7 +117,7 @@
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-    return ([self.browserController browserShouldQuit] ? NSTerminateNow : NSTerminateCancel);
+    return ([self.browserController shouldDiscardUnsavedWork] ? NSTerminateNow : NSTerminateCancel);
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
@@ -228,11 +228,14 @@
 
 - (IBAction)openHelp:(id)sender
 {
-    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", self.searchTask.port]]];
+    if ([self.browserController shouldDiscardUnsavedWork])
+    {
+        [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", self.searchTask.port]]];
 
-    // give page time to load, then be sure browser window is visible
-    //
-    [self performSelector:@selector(showBrowserWindow:) withObject:self afterDelay:0.25];
+        // give page time to load, then be sure browser window is visible
+        //
+        [self performSelector:@selector(showBrowserWindow:) withObject:self afterDelay:0.25];
+    }
 }
 
 - (IBAction)openDiscussions:(id)sender
@@ -263,7 +266,7 @@
 
 - (IBAction)openNodeAboutView:(id)sender
 {
-    if ( ! [self.browserController browserShouldQuit])
+    if ( ! [self.browserController shouldDiscardUnsavedWork])
         return;
     
     void (^aboutClick)(void) = ^{ [self.browserController runJavaScript:@"$('a[href=#about]').click()"]; };
@@ -296,7 +299,7 @@
 
 - (IBAction)openNodeSettingsView:(id)sender
 {
-    if ( ! [self.browserController browserShouldQuit])
+    if ( ! [self.browserController shouldDiscardUnsavedWork])
         return;
 
     void (^configClick)(void) = ^{ [self.browserController runJavaScript:@"$('a[href=#config]').click()"]; };

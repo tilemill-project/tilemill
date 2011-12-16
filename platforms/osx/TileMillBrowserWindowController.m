@@ -49,7 +49,7 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
                                                      timeoutInterval:kTileMillRequestTimeout]];
 }
 
-- (BOOL)browserShouldQuit
+- (BOOL)shouldDiscardUnsavedWork
 {
     // check for unsaved work
     //

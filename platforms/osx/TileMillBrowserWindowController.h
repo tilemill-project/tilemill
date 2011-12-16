@@ -19,7 +19,7 @@ extern NSString *TileMillBrowserLoadCompleteNotification;
 @property (nonatomic, retain) IBOutlet WebView *webView;
 
 - (void)loadRequestURL:(NSURL *)loadURL;
-- (BOOL)browserShouldQuit;
+- (BOOL)shouldDiscardUnsavedWork;
 - (NSString *)runJavaScript:(NSString *)code;
 - (NSString *)runJavaScript:(NSString *)code inBones:(BOOL)useBones;
 
