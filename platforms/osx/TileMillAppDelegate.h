@@ -19,6 +19,7 @@
     NSString *logPath;
     BOOL shouldAttemptRestart;
     BOOL fatalErrorCaught;
+    NSMutableDictionary *config;
 }
 
 - (IBAction)openDocumentsFolder:(id)sender;
