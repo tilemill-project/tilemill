@@ -10,11 +10,11 @@
 
 #define kTileMillRequestTimeout 300
 
+NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadCompleteNotification";
+
 @interface TileMillBrowserWindowController ()
 
 - (void)promptToSaveRemoteURL:(NSURL *)remoteURL revealingInFinder:(BOOL)shouldReveal;
-- (NSString *)runJavaScript:(NSString *)code;
-- (NSString *)runJavaScript:(NSString *)code inBones:(BOOL)useBones;
 
 @property (nonatomic, assign) BOOL initialRequestComplete;
 
@@ -40,21 +40,16 @@
 
 #pragma mark -
 
-- (void)loadInitialRequestWithPort:(NSInteger)port
-{
-    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld", port]];
-    
-    [self loadRequestURL:initialURL];
-}
-
 - (void)loadRequestURL:(NSURL *)loadURL
 {
+    [self.window makeKeyAndOrderFront:self];
+    
     [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:loadURL 
                                                          cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                      timeoutInterval:kTileMillRequestTimeout]];
 }
 
-- (BOOL)browserShouldQuit
+- (BOOL)shouldDiscardUnsavedWork
 {
     // check for unsaved work
     //
@@ -189,6 +184,11 @@
             scroller.verticalScrollElasticity   = NSScrollElasticityNone;
         });
     }
+}
+
+- (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:TileMillBrowserLoadCompleteNotification object:nil];
 }
 
 #pragma mark -
