@@ -14,10 +14,12 @@ extern NSString *TileMillBrowserLoadCompleteNotification;
 {
     WebView *webView;
     BOOL initialRequestComplete;
+    NSInteger port;
 }
 
 @property (nonatomic, retain) IBOutlet WebView *webView;
 
+- (void)loadInitialRequestWithPort:(NSInteger)inPort;
 - (void)loadRequestURL:(NSURL *)loadURL;
 - (BOOL)shouldDiscardUnsavedWork;
 - (NSString *)runJavaScript:(NSString *)code;

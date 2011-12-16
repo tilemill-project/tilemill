@@ -18,7 +18,6 @@ void (^requestLoadBlock)(void) = NULL;
     TileMillChildProcess *searchTask;
     TileMillBrowserWindowController *browserController;
     TileMillPrefsWindowController *prefsController;
-    NSURL *initialURL;
     NSString *logPath;
     BOOL shouldAttemptRestart;
     BOOL fatalErrorCaught;
@@ -31,5 +30,6 @@ void (^requestLoadBlock)(void) = NULL;
 - (IBAction)openConsole:(id)sender;
 - (IBAction)openPreferences:(id)sender;
 - (IBAction)showBrowserWindow:(id)sender;
+- (NSString *)configurationForKey:(NSString *)key;
 
 @end

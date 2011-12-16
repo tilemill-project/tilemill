@@ -17,6 +17,7 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 - (void)promptToSaveRemoteURL:(NSURL *)remoteURL revealingInFinder:(BOOL)shouldReveal;
 
 @property (nonatomic, assign) BOOL initialRequestComplete;
+@property (nonatomic, assign) NSInteger port;
 
 @end
 
@@ -26,6 +27,7 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 
 @synthesize webView;
 @synthesize initialRequestComplete;
+@synthesize port;
 
 - (void)awakeFromNib
 {
@@ -39,6 +41,15 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 }
 
 #pragma mark -
+
+- (void)loadInitialRequestWithPort:(NSInteger)inPort
+{
+    self.port = inPort;
+    
+    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.port]];
+    
+    [self loadRequestURL:initialURL];
+}
 
 - (void)loadRequestURL:(NSURL *)loadURL
 {

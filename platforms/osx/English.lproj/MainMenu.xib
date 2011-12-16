@@ -1202,6 +1202,22 @@
 					<int key="connectionID">359</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: self.searchTask.launched</string>
+						<reference key="source" ref="255442977"/>
+						<reference key="destination" ref="1067955784"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="255442977"/>
+							<reference key="NSDestination" ref="1067955784"/>
+							<string key="NSLabel">enabled: self.searchTask.launched</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">self.searchTask.launched</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">384</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">orderFrontStandardAboutPanel:</string>
 						<reference key="source" ref="106007410"/>

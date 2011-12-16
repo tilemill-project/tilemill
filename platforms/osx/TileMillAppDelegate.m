@@ -21,7 +21,6 @@
 @property (nonatomic, retain) TileMillChildProcess *searchTask;
 @property (nonatomic, retain) TileMillBrowserWindowController *browserController;
 @property (nonatomic, retain) TileMillPrefsWindowController *prefsController;
-@property (nonatomic, retain) NSURL *initialURL;
 @property (nonatomic, retain) NSString *logPath;
 @property (nonatomic, assign) BOOL shouldAttemptRestart;
 @property (nonatomic, assign) BOOL fatalErrorCaught;
@@ -40,7 +39,6 @@
 @synthesize searchTask;
 @synthesize browserController;
 @synthesize prefsController;
-@synthesize initialURL;
 @synthesize logPath;
 @synthesize shouldAttemptRestart;
 @synthesize fatalErrorCaught;
@@ -51,7 +49,6 @@
     [browserController release];
     [prefsController release];
     [logPath release];
-    [initialURL release];
 
     [super dealloc];
 }
@@ -236,7 +233,7 @@
 
 - (IBAction)openDocumentsFolder:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile:[[NSUserDefaults standardUserDefaults] stringForKey:@"filesPath"]];
+    [[NSWorkspace sharedWorkspace] openFile:[[self configurationForKey:@"files"] stringByExpandingTildeInPath]];
 }
 
 - (IBAction)openHelp:(id)sender
@@ -303,7 +300,7 @@
                                                                              requestLoadBlock = NULL;
                                                                          }];
         
-        [self.browserController loadRequestURL:self.initialURL];
+        [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]]];
     }
 
     else
@@ -338,11 +335,22 @@
                                                                              requestLoadBlock = NULL;
                                                                          }];
         
-        [self.browserController loadRequestURL:self.initialURL];
+        [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]]];
     }
     
     else
         configClick();
+}
+
+- (NSString *)configurationForKey:(NSString *)key
+{
+    NSURL *fetchURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/api/Key/%@", self.searchTask.port, key]];
+    
+    NSError *error = nil;
+    
+    NSString *result = [NSString stringWithContentsOfURL:fetchURL encoding:NSUTF8StringEncoding error:&error];
+    
+    return (error ? nil : result);
 }
 
 #pragma mark -
@@ -360,7 +368,7 @@
                                          defaultButton:@"OK"
                                        alternateButton:nil
                                            otherButton:nil
-                             informativeTextWithFormat:@"TileMill's port is already in use by another application on the system. Please terminate that application and relaunch TileMill."];
+                             informativeTextWithFormat:@"TileMill's port %ld is already in use by another application on the system. Please quit that application and relaunch TileMill.", self.searchTask.port];
         
         [alert runModal];
     
@@ -398,9 +406,7 @@
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
-    self.initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]];
-        
-    [self.browserController loadRequestURL:self.initialURL];
+    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]]];
 }
 
 @end
