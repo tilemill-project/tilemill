@@ -1056,8 +1056,10 @@ input[type=submit] {
     rgba(0,0,0,0.05) 0px 2px 1px;
   color:#fff;
   border-radius:3px;
-  box-sizing:border-box;
   display:inline-block;
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
   }
 
 .button:hover,
