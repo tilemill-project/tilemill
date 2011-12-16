@@ -11,6 +11,8 @@
 @class TileMillBrowserWindowController;
 @class TileMillPrefsWindowController;
 
+void (^requestLoadBlock)(void) = NULL;
+
 @interface TileMillAppDelegate : NSObject <NSApplicationDelegate, TileMillChildProcessDelegate>
 {
     TileMillChildProcess *searchTask;
@@ -19,7 +21,6 @@
     NSString *logPath;
     BOOL shouldAttemptRestart;
     BOOL fatalErrorCaught;
-    NSMutableDictionary *config;
 }
 
 - (IBAction)openDocumentsFolder:(id)sender;
@@ -29,5 +30,6 @@
 - (IBAction)openConsole:(id)sender;
 - (IBAction)openPreferences:(id)sender;
 - (IBAction)showBrowserWindow:(id)sender;
+- (NSString *)configurationForKey:(NSString *)key;
 
 @end

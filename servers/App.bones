@@ -42,6 +42,10 @@ server.prototype.initialize = function(app) {
     this.get('/', this.index);
     this.get('/assets/tilemill/js/abilities.js', this.abilities);
 
+    // Simplified GET endpoint for retrieving config values by key.
+    // Used by the native Cocoa app to retrieve specific settings.
+    this.get('/api/Key/:key', this.getKey);
+
     // Custom Project sync endpoints.
     this.get('/api/Project/:id.xml', this.projectXML);
     this.get('/api/Project/:id.debug', this.projectDebug);
@@ -124,5 +128,14 @@ server.prototype.projectDebug = function(req, res, next) {
 server.prototype.restart = function(req, res, next) {
     setTimeout(function() { res.send({});}, 3000);
     Bones.plugin.command.tileServer();
+};
+
+server.prototype.getKey = function(req, res, next) {
+    var key = req.param('key');
+    if (key in Bones.plugin.config)
+        return res.send(Bones.plugin.config[key].toString());
+    if (key in abilities[key])
+        return res.send(abilities[key].toString());
+    return next(new Error.HTTP(404));
 };
 

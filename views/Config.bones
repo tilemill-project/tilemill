@@ -31,7 +31,7 @@ view.prototype.bufferSize = function(ev, ui) {
 };
 
 view.prototype.oauth = function(ev) {
-    $('#popup .content').html('<iframe class="oauth" width="700" height="400" scrolling="no" src="/oauth/mapbox"></iframe>');
+    this.$('.content').html('<iframe class="oauth" width="700" height="400" scrolling="no" src="/oauth/mapbox"></iframe>');
     window.onmessage = _(function(msg) {
         this.model.fetch({
             success:this.render,
