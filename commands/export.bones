@@ -172,8 +172,8 @@ command.prototype.remaining = function(progress, started) {
 command.prototype.put = function(data, callback) {
     callback = callback || function() {};
     data.status == 'error' ?
-        console.log(JSON.stringify(data)) :
-        console.error(JSON.stringify(data));
+        console.error(JSON.stringify(data)) :
+        console.log(JSON.stringify(data));
 
     if (!this.opts.url) return callback();
     request.put({
