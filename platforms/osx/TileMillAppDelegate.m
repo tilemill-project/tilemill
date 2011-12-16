@@ -10,6 +10,8 @@
 #import "TileMillBrowserWindowController.h"
 #import "TileMillPrefsWindowController.h"
 
+#import "JSONKit.h"
+
 #import "PFMoveApplication.h"
 
 @interface TileMillAppDelegate ()
@@ -45,6 +47,7 @@
     [browserController release];
     [prefsController release];
     [logPath release];
+    [config release];
 
     [super dealloc];
 }
@@ -64,6 +67,9 @@
     {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSMutableArray *options  = [NSMutableArray array];
+
+        if ([defaults objectForKey:@"SUSendProfileInfo"])
+            [options addObject:[NSString stringWithFormat:@"\"profile\": \"%@\"", ([defaults boolForKey:@"SUSendProfileInfo"] ? @"true" : @"false")]];
         
         if ([defaults objectForKey:@"serverPort"])
             [options addObject:[NSString stringWithFormat:@"\"port\": %i", [defaults integerForKey:@"serverPort"]]];
@@ -91,6 +97,34 @@
         }
     }
     
+    // load defaults shared between TileMill core & OS X (see #622)
+    //
+    NSString *jsonDefaults = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config.defaults" ofType:@"json" inDirectory:@"lib"]
+                                                       encoding:NSUTF8StringEncoding
+                                                          error:NULL];
+    
+    NSAssert(jsonDefaults, @"JSON file containing shared defaults not found");
+    id defaultConfig = [jsonDefaults objectFromJSONString];
+    NSAssert([defaultConfig isKindOfClass:[NSDictionary class]], @"JSON file containing shared defaults not formatted as expected");
+    
+    // load user preferences and use them to override defaults
+    //
+    id userConfig;
+    if ( [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]]) {
+        NSString *jsonPrefs = [NSString stringWithContentsOfFile:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]
+                                                           encoding:NSUTF8StringEncoding
+                                                              error:NULL];
+        userConfig = [jsonPrefs objectFromJSONString];
+        NSAssert([userConfig isKindOfClass:[NSDictionary class]], @"JSON file containing user preferences not formatted as expected");
+    }
+    
+    if ([userConfig isKindOfClass:[NSDictionary class]]) {
+        config = [[[NSMutableDictionary alloc] initWithDictionary:defaultConfig] retain];
+        [config addEntriesFromDictionary:userConfig];
+    } else {
+        config = [defaultConfig retain];
+    }
+        
     // setup logging & fire up main functionality
     //
     self.logPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"];
@@ -220,7 +254,7 @@
 
 - (IBAction)openDocumentsFolder:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile:[[NSUserDefaults standardUserDefaults] stringForKey:@"filesPath"]];
+    [[NSWorkspace sharedWorkspace] openFile:[[config valueForKey:@"files"] stringByExpandingTildeInPath]];
 }
 
 - (IBAction)openHelp:(id)sender
