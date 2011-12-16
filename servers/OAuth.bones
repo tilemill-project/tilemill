@@ -4,7 +4,7 @@ var util = require('util');
 var OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 
 server = Bones.Server.extend({});
-server.prototype.initialize = function(app) {
+server.prototype.initialize = function(app, core) {
     var auth = passport.authenticate('mapbox', {
         session: false,
         failureRedirect: '/oauth/mapbox/fail'
@@ -33,6 +33,15 @@ server.prototype.initialize = function(app) {
             error: function() { res.send(body); }
         });
     });
+
+    // Log internal OAuth errors to the console and respond with the usual
+    // response body to end OAuth iframe authorization process.
+    core.error(function(err, req, res, next) {
+        if (err.name !== 'InternalOAuthError') return next(err);
+        console.error(err);
+        res.send(body);
+    });
+
     passport.use(new Strategy());
     passport.serializeUser(function(obj, done) { done(null, obj); });
     passport.deserializeUser(function(obj, done) { done(null, obj); });
@@ -67,4 +76,3 @@ Strategy.prototype.userProfile = function(accessToken, done) {
         }
     });
 };
-

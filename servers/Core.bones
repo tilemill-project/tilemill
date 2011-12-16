@@ -8,7 +8,7 @@ servers['Core'].prototype.start = function(callback) {
 servers['Core'].prototype.initialize = function(app) {
     this.port = app.config.port || this.port;
     this.use(new servers['Middleware'](app));
-    this.use(new servers['OAuth'](app));
+    this.use(new servers['OAuth'](app, this));
     this.use(new servers['App'](app));
     if (env === 'development') this.use(new servers['Debug'](app));
     this.use(new servers['Route'](app));

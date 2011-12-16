@@ -25,8 +25,9 @@ if [[ "$DIST" != "maverick" && "$DIST" != "natty" && "$DIST" != "oneiric" && "$D
   exit
 fi
 
-apt-get install python-software-properties
-apt-add-repository ppa:developmentseed/mapbox
+pkexec /bin/bash -c "apt-get install --yes python-software-properties &&
+    yes | apt-add-repository ppa:developmentseed/mapbox &&
+    apt-get update --yes &&
+    apt-get install --yes tilemill"
 
-apt-get update
-apt-get install tilemill
+read -sp "Press [ENTER] to quit."

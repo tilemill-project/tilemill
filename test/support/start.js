@@ -4,7 +4,13 @@ process.argv[2] = 'start';
 var Step = require('step');
 var exec = require('child_process').exec;
 var path = require('path');
+var fs = require('fs');
+
 process.env.HOME = path.resolve(__dirname + '/../fixtures/files');
+
+// Remove stale config file if present.
+try { fs.unlinkSync(process.env.HOME + '/.tilemill.json'); }
+catch (err) { if (err.code !== 'ENOENT') throw err }
 
 // Load application. This file's purpose is to start TileMill only once and
 // share the server with all tests.
