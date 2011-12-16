@@ -21,6 +21,7 @@
 @property (nonatomic, retain) TileMillChildProcess *searchTask;
 @property (nonatomic, retain) TileMillBrowserWindowController *browserController;
 @property (nonatomic, retain) TileMillPrefsWindowController *prefsController;
+@property (nonatomic, retain) NSURL *initialURL;
 @property (nonatomic, retain) NSString *logPath;
 @property (nonatomic, assign) BOOL shouldAttemptRestart;
 @property (nonatomic, assign) BOOL fatalErrorCaught;
@@ -39,6 +40,7 @@
 @synthesize searchTask;
 @synthesize browserController;
 @synthesize prefsController;
+@synthesize initialURL;
 @synthesize logPath;
 @synthesize shouldAttemptRestart;
 @synthesize fatalErrorCaught;
@@ -49,6 +51,7 @@
     [browserController release];
     [prefsController release];
     [logPath release];
+    [initialURL release];
 
     [super dealloc];
 }
@@ -127,7 +130,7 @@
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-    return ([self.browserController browserShouldQuit] ? NSTerminateNow : NSTerminateCancel);
+    return ([self.browserController shouldDiscardUnsavedWork] ? NSTerminateNow : NSTerminateCancel);
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
@@ -238,11 +241,14 @@
 
 - (IBAction)openHelp:(id)sender
 {
-    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", self.searchTask.port]]];
+    if ([self.browserController shouldDiscardUnsavedWork])
+    {
+        [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", self.searchTask.port]]];
 
-    // give page time to load, then be sure browser window is visible
-    //
-    [self performSelector:@selector(showBrowserWindow:) withObject:self afterDelay:0.25];
+        // give page time to load, then be sure browser window is visible
+        //
+        [self performSelector:@selector(showBrowserWindow:) withObject:self afterDelay:0.25];
+    }
 }
 
 - (IBAction)openDiscussions:(id)sender
@@ -269,6 +275,72 @@
         self.prefsController = [[[TileMillPrefsWindowController alloc] initWithWindowNibName:@"TileMillPrefsWindow"] autorelease];
     
     [self.prefsController showWindow:self];
+}
+
+- (IBAction)openNodeAboutView:(id)sender
+{
+    if ( ! [self.browserController shouldDiscardUnsavedWork])
+        return;
+    
+    void (^aboutClick)(void) = ^{ [self.browserController runJavaScript:@"$('a[href=#about]').click()"]; };
+    
+    // go to main Projects view if needed
+    //
+    if ( ! [[self.browserController runJavaScript:@"$('div.projects').length"] boolValue])
+    {    
+        if (requestLoadBlock != NULL)
+            [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
+        
+        requestLoadBlock = [[NSNotificationCenter defaultCenter] addObserverForName:TileMillBrowserLoadCompleteNotification 
+                                                                             object:nil
+                                                                              queue:nil
+                                                                         usingBlock:^(NSNotification *notification)
+                                                                         {
+                                                                             aboutClick();
+                                                                             
+                                                                             [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
+                                                                             
+                                                                             requestLoadBlock = NULL;
+                                                                         }];
+        
+        [self.browserController loadRequestURL:self.initialURL];
+    }
+
+    else
+        aboutClick();
+}
+
+- (IBAction)openNodeSettingsView:(id)sender
+{
+    if ( ! [self.browserController shouldDiscardUnsavedWork])
+        return;
+
+    void (^configClick)(void) = ^{ [self.browserController runJavaScript:@"$('a[href=#config]').click()"]; };
+
+    // go to main Projects view if needed
+    //
+    if ( ! [[self.browserController runJavaScript:@"$('div.projects').length"] boolValue])
+    {    
+        if (requestLoadBlock != NULL)
+            [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
+
+        requestLoadBlock = [[NSNotificationCenter defaultCenter] addObserverForName:TileMillBrowserLoadCompleteNotification 
+                                                                             object:nil
+                                                                              queue:nil
+                                                                         usingBlock:^(NSNotification *notification)
+                                                                         {
+                                                                             configClick();
+                                                                             
+                                                                             [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
+                                                                             
+                                                                             requestLoadBlock = NULL;
+                                                                         }];
+        
+        [self.browserController loadRequestURL:self.initialURL];
+    }
+    
+    else
+        configClick();
 }
 
 #pragma mark -
@@ -324,7 +396,9 @@
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
-    [self.browserController loadInitialRequestWithPort:self.searchTask.port];
+    self.initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]];
+        
+    [self.browserController loadRequestURL:self.initialURL];
 }
 
 @end

@@ -8,6 +8,8 @@
 
 #import <WebKit/WebKit.h>
 
+extern NSString *TileMillBrowserLoadCompleteNotification;
+
 @interface TileMillBrowserWindowController : NSWindowController
 {
     WebView *webView;
@@ -16,8 +18,9 @@
 
 @property (nonatomic, retain) IBOutlet WebView *webView;
 
-- (void)loadInitialRequestWithPort:(NSInteger)port;
 - (void)loadRequestURL:(NSURL *)loadURL;
-- (BOOL)browserShouldQuit;
+- (BOOL)shouldDiscardUnsavedWork;
+- (NSString *)runJavaScript:(NSString *)code;
+- (NSString *)runJavaScript:(NSString *)code inBones:(BOOL)useBones;
 
 @end
