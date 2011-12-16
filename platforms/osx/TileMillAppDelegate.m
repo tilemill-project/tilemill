@@ -10,8 +10,6 @@
 #import "TileMillBrowserWindowController.h"
 #import "TileMillPrefsWindowController.h"
 
-#import "JSONKit.h"
-
 #import "PFMoveApplication.h"
 
 @interface TileMillAppDelegate ()
@@ -47,7 +45,6 @@
     [browserController release];
     [prefsController release];
     [logPath release];
-    [config release];
 
     [super dealloc];
 }
@@ -97,34 +94,6 @@
         }
     }
     
-    // load defaults shared between TileMill core & OS X (see #622)
-    //
-    NSString *jsonDefaults = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config.defaults" ofType:@"json" inDirectory:@"lib"]
-                                                       encoding:NSUTF8StringEncoding
-                                                          error:NULL];
-    
-    NSAssert(jsonDefaults, @"JSON file containing shared defaults not found");
-    id defaultConfig = [jsonDefaults objectFromJSONString];
-    NSAssert([defaultConfig isKindOfClass:[NSDictionary class]], @"JSON file containing shared defaults not formatted as expected");
-    
-    // load user preferences and use them to override defaults
-    //
-    id userConfig;
-    if ( [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]]) {
-        NSString *jsonPrefs = [NSString stringWithContentsOfFile:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]
-                                                           encoding:NSUTF8StringEncoding
-                                                              error:NULL];
-        userConfig = [jsonPrefs objectFromJSONString];
-        NSAssert([userConfig isKindOfClass:[NSDictionary class]], @"JSON file containing user preferences not formatted as expected");
-    }
-    
-    if ([userConfig isKindOfClass:[NSDictionary class]]) {
-        config = [[[NSMutableDictionary alloc] initWithDictionary:defaultConfig] retain];
-        [config addEntriesFromDictionary:userConfig];
-    } else {
-        config = [defaultConfig retain];
-    }
-        
     // setup logging & fire up main functionality
     //
     self.logPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"];
@@ -254,12 +223,12 @@
 
 - (IBAction)openDocumentsFolder:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile:[[config valueForKey:@"files"] stringByExpandingTildeInPath]];
+    [[NSWorkspace sharedWorkspace] openFile:[[self configurationForKey:@"files"] stringByExpandingTildeInPath]];
 }
 
 - (IBAction)openHelp:(id)sender
 {
-    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", self.searchTask.port]]];
+    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/#!/manual", self.searchTask.port]]];
 
     // give page time to load, then be sure browser window is visible
     //
@@ -292,6 +261,17 @@
     [self.prefsController showWindow:self];
 }
 
+- (NSString *)configurationForKey:(NSString *)key
+{
+    NSURL *fetchURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/api/Key/%@", self.searchTask.port, key]];
+    
+    NSError *error = nil;
+    
+    NSString *result = [NSString stringWithContentsOfURL:fetchURL encoding:NSUTF8StringEncoding error:&error];
+    
+    return (error ? nil : result);
+}
+
 #pragma mark -
 #pragma mark TileMillChildProcessDelegate
 
@@ -307,7 +287,7 @@
                                          defaultButton:@"OK"
                                        alternateButton:nil
                                            otherButton:nil
-                             informativeTextWithFormat:@"TileMill's port is already in use by another application on the system. Please terminate that application and relaunch TileMill."];
+                             informativeTextWithFormat:@"TileMill's port %ld is already in use by another application on the system. Please quit that application and relaunch TileMill.", self.searchTask.port];
         
         [alert runModal];
     

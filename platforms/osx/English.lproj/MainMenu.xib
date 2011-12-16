@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">1938</string>
@@ -1042,6 +1042,22 @@
 					<int key="connectionID">359</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: self.searchTask.launched</string>
+						<reference key="source" ref="255442977"/>
+						<reference key="destination" ref="1067955784"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="255442977"/>
+							<reference key="NSDestination" ref="1067955784"/>
+							<string key="NSLabel">enabled: self.searchTask.launched</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">self.searchTask.launched</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">384</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">openHelp:</string>
 						<reference key="source" ref="1067955784"/>
@@ -1861,7 +1877,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">383</int>
+			<int key="maxID">384</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1907,14 +1923,12 @@
 							<string>openDiscussions:</string>
 							<string>openDocumentsFolder:</string>
 							<string>openHelp:</string>
-							<string>openKnowledgeBase:</string>
+							<string>openOnlineHelp:</string>
 							<string>openPreferences:</string>
-							<string>showAboutPanel:</string>
 							<string>showBrowserWindow:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1932,9 +1946,8 @@
 							<string>openDiscussions:</string>
 							<string>openDocumentsFolder:</string>
 							<string>openHelp:</string>
-							<string>openKnowledgeBase:</string>
+							<string>openOnlineHelp:</string>
 							<string>openPreferences:</string>
-							<string>showAboutPanel:</string>
 							<string>showBrowserWindow:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -1956,15 +1969,11 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">openKnowledgeBase:</string>
+								<string key="name">openOnlineHelp:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">openPreferences:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showAboutPanel:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
