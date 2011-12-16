@@ -58,7 +58,7 @@
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"installBetaBuilds"])
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"installDevBuilds"])
         [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:TileMillDevelopmentAppcastURL]];
 }
 

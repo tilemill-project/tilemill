@@ -337,7 +337,7 @@
 			attributes = {
 				LastUpgradeCheck = 0420;
 			};
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "TileMill" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "tilemill" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -416,7 +416,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "INFO=$( echo $TARGET_BUILD_DIR )/$( echo $INFOPLIST_PATH )\necho $INFO\nTAG=\nCOMMIT=\nCURRENT=\nCURRENT_BUILD=\nGITPATH=/usr/bin:/usr/local/bin:/usr/local/git/bin\nPATH=$PATH:$GITPATH; export PATH\n\nif [ -z $( which git ) ]; then\n  echo \"Unable to find git binary in \\$GITPATH\"\n  exit 1\nfi\n\nSHORT_VERSION=$( git describe --tags )\nVERSION=$( echo $SHORT_VERSION | sed -e 's/^v//' | sed -e 's/-/./' | sed -e 's/-.*//' )\n\necho $VERSION\n\ndefaults write \"$INFO\" CFBundleShortVersionString $SHORT_VERSION\ndefaults write \"$INFO\" CFBundleVersion $VERSION\n";
+			shellScript = "INFO=$( echo $TARGET_BUILD_DIR )/$( echo $INFOPLIST_PATH | sed -e 's/\\.plist$//' )\necho $INFO\nTAG=\nCOMMIT=\nCURRENT=\nCURRENT_BUILD=\nGITPATH=/usr/bin:/usr/local/bin:/usr/local/git/bin\nPATH=$PATH:$GITPATH; export PATH\n\nif [ -z $( which git ) ]; then\n  echo \"Unable to find git binary in \\$GITPATH\"\n  exit 1\nfi\n\nSHORT_VERSION=$( git describe --tags )\nVERSION=$( echo $SHORT_VERSION | sed -e 's/^v//' | sed -e 's/-/./' | sed -e 's/-.*//' )\n\necho $VERSION\n\ndefaults write \"$INFO\" CFBundleShortVersionString $SHORT_VERSION\ndefaults write \"$INFO\" CFBundleVersion $VERSION\n";
 			showEnvVarsInLog = 0;
 		};
 		D7CFB18F13E852550033DFFD /* Copy Node Executable */ = {
@@ -593,7 +593,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "TileMill" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "tilemill" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
