@@ -12,7 +12,7 @@
 
 #import "PFMoveApplication.h"
 
-#import "Sparkle.h"
+#import <Sparkle/Sparkle.h>
 
 #define TileMillDevelopmentAppcastURL @"http://mapbox.com/tilemill/platforms/osx/appcast-dev.xml"
 
