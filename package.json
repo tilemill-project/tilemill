@@ -1,7 +1,7 @@
 {
     "name": "tilemill",
     "version": "0.7.2",
-    "main": "./tilemill.js",
+    "main": "./index.js",
     "description": "A modern map design studio.",
     "keywords": ["map", "design", "cartography"],
     "url": "http://github.com/developmentseed/tilemill",
