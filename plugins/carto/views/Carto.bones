@@ -36,16 +36,7 @@ view.prototype.render = function() {
     return this;
 };
 
-view.plugin = function(project) {
-    $(project.el).delegate('a[href=#carto]', 'click', function(ev) {
-        new view({
-            el: $('#drawer'),
-            _carto_state: project._carto_state
-        });
-    });
-};
-
-// Hook in to projet view with an augment.
+// Hook in to project view with an augment.
 views.Project.augment({
     events: { 'click a[href=#carto]': 'carto' },
     carto: function() {
@@ -56,6 +47,8 @@ views.Project.augment({
     },
     initialize: function(p, o) {
         _(this).bindAll('carto');
+        // Minor state saving for the carto window
+        this._carto_state = {};
         return p.call(this, o);
     },
     render: function(p) {
