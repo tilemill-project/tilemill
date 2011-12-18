@@ -591,7 +591,6 @@ ul.layers {
   position:relative;
   border-bottom:1px solid rgba(0,0,0,0.1);
   padding:5px 70px 4px 30px;
-  font-weight:bold;
   overflow:hidden;
   white-space:nowrap;
   min-width:60px;
