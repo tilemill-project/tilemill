@@ -49,8 +49,7 @@ view.prototype.initialize = function() {
 };
 
 view.prototype.render = function(init) {
-    this.$('.tabs').empty();
-    this.$('.code').empty();
+    $(this.el).append(templates.Editor());
     this.model.get('Stylesheet').chain().each(this.makeStylesheet);
     this.$('.tabs').sortable({
         axis: 'x',
@@ -306,18 +305,10 @@ view.prototype.colors = function(color) {
         }).bind(this));
 }
 
-view.plugin = function(project) {
-    return new views.Stylesheets({
-        el:project.$('.editor'),
-        model:project.model
-    });
-};
-
-// Hook in to projet view with an augment.
+// Hook in to project view with an augment.
 views.Project.augment({
     render: function(p) {
         p.call(this);
-        this.$('.editor').append(templates.Editor());
         return new views.Stylesheets({
             el:this.$('.editor'),
             model:this.model
