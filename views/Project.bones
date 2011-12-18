@@ -34,12 +34,7 @@ view.prototype.initialize = function() {
             clearInterval(Bones.intervals.project);
         }});
     }).bind(this), 1000);
-
     window.onbeforeunload = window.onbeforeunload || this.unload;
-
-    // Minor state saving for the carto window
-    this._carto_state = {};
-    this.views = {};
 
     this.model.bind('error', this.error);
     this.model.bind('save', this.saving);
