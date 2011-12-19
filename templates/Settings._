@@ -99,12 +99,12 @@
     </li>
     <li class='dependent'>
       <label>Teaser<small class='description'>Basic HTML</small></label>
-      <textarea cols='60' rows='2' name='template_teaser'><%= (get('interactivity') || {}).template_teaser %></textarea>
+      <textarea cols='60' rows='4' name='template_teaser'><%= (get('interactivity') || {}).template_teaser %></textarea>
       <div class='preview'></div>
     </li>
     <li class='dependent'>
       <label>Full<small class='description'>Basic HTML</small></label>
-      <textarea cols='60' rows='2' name='template_full'><%= (get('interactivity') || {}).template_full %></textarea>
+      <textarea cols='60' rows='4' name='template_full'><%= (get('interactivity') || {}).template_full %></textarea>
       <div class='preview'></div>
     </li>
     <li class='buttons'>

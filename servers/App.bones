@@ -4,6 +4,13 @@ var path = require('path');
 var env = process.env.NODE_ENV || 'development';
 
 var abilities = {
+    version: (function() {
+        try {
+            return _(fs.readFileSync(path.resolve(__dirname + '/../VERSION'),'utf8').split('\n')).compact();
+        } catch(e) {
+            return ['unknown', 'unknown'];
+        }
+    })(),
     tilemill: JSON.parse(fs.readFileSync(path.resolve(__dirname + '/../package.json'),'utf8')),
     carto: require('carto').tree.Reference.data,
     fonts: mapnik.fonts(),
@@ -31,6 +38,10 @@ server.prototype.initialize = function(app) {
 
     this.get('/', this.index);
     this.get('/assets/tilemill/js/abilities.js', this.abilities);
+
+    // Simplified GET endpoint for retrieving config values by key.
+    // Used by the native Cocoa app to retrieve specific settings.
+    this.get('/api/Key/:key', this.getKey);
 
     // Custom Project sync endpoints.
     this.get('/api/Project/:id.xml', this.projectXML);
@@ -107,3 +118,13 @@ server.prototype.projectDebug = function(req, res, next) {
         error: function(model, resp) { next(resp); }
     });
 };
+
+server.prototype.getKey = function(req, res, next) {
+    var key = req.param('key');
+    if (key in Bones.plugin.config)
+        return res.send(Bones.plugin.config[key].toString());
+    if (key in abilities[key])
+        return res.send(abilities[key].toString());
+    return next(new Error.HTTP(404));
+};
+

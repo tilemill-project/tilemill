@@ -169,7 +169,13 @@ function loadProject(model, callback) {
     },
     function(err, mtime) {
         object._updated = mtime;
-        read(path.join(modelPath, model.id) + '.mml', this);
+        var cb = this;
+        read(path.join(modelPath, 'project.mml'), function(err, stat) {
+            if (! err) return cb(err, stat);
+
+            // If `project.mml` is missing fallback to `PROJECTNAME.mml`
+            read(path.join(modelPath, model.id + '.mml'), cb);
+        });
     },
     function(err, file) {
         if (err) return callback(new Error.HTTP('Project does not exist', 404));
@@ -296,7 +302,7 @@ function saveProject(model, callback) {
         var data = JSON.parse(JSON.stringify(model.toJSON()));
         var files = {};
         var schema = model.schema.properties;
-        files[model.id + '.mml'] = {};
+        files['project.mml'] = {};
 
         data.Stylesheet = _(data.Stylesheet).map(function(s) {
             if (s.id) files[s.id] = s.data;
@@ -306,7 +312,7 @@ function saveProject(model, callback) {
         _(data).chain()
             .keys()
             .filter(function(k) { return schema[k] && !schema[k].ignore })
-            .each(function(k) { files[model.id + '.mml'][k] = data[k]; });
+            .each(function(k) { files['project.mml'][k] = data[k]; });
 
         var group = this.group();
         _(files).each(function(data, filename) {
@@ -319,7 +325,7 @@ function saveProject(model, callback) {
     },
     function(err) {
         if (err) throw err;
-        fs.stat(path.join(modelPath, model.id + '.mml'), this);
+        fs.stat(path.join(modelPath, 'project.mml'), this);
     },
     function(err, stat) {
         var updated = stat && Date.parse(stat.mtime) || (+ new Date());
@@ -455,7 +461,7 @@ function fields(opts) {
     return _(fields).chain()
         .filter(_.isString)
         .map(function(field) {
-            return field.replace(/[\{\{|\}\}]/g, '');
+            return field.replace(/[\^#\/\{\{|\}\}]/g, '');
         })
         .uniq()
         .value();
