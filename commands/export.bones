@@ -387,6 +387,8 @@ command.prototype.upload = function (callback) {
                 freeURL = resp.headers.location.split('?')[0];
                 this();
             }.bind(this);
+            resp.on('data', function(chunk) { chunk += data; });
+            resp.on('close', callback);
             resp.on('end', callback);
         }.bind(this));
 
