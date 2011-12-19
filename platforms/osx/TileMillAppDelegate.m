@@ -57,11 +57,18 @@
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    SUUpdater *updater = [SUUpdater sharedUpdater];
     
-    if ( ! [defaults objectForKey:@"installDevBuilds"]   &&
-         ! [defaults objectForKey:@"SUFeedURL"]          && 
-         ! [[[SUUpdater sharedUpdater] feedURL] isEqual:TileMillProductionAppcastURL])
+    /*
+     * This ensures that fresh installs of dev builds sync up the 
+     * defaults to reflect the dev channel.
+     */
+    
+    if ([[updater feedURL] isEqual:TileMillDevelopmentAppcastURL] && ( ! [defaults objectForKey:@"installDevBuilds"] || ! [defaults objectForKey:@"SUFeedURL"]))
+    {
         [defaults setBool:YES forKey:@"installDevBuilds"];
+        [updater setFeedURL:TileMillDevelopmentAppcastURL];
+    }
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
