@@ -54,6 +54,16 @@
 #pragma mark -
 #pragma mark NSApplicationDelegate
 
+- (void)applicationWillFinishLaunching:(NSNotification *)notification
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ( ! [defaults objectForKey:@"installDevBuilds"]   &&
+         ! [defaults objectForKey:@"SUFeedURL"]          && 
+         ! [[[SUUpdater sharedUpdater] feedURL] isEqual:TileMillProductionAppcastURL])
+        [defaults setBool:YES forKey:@"installDevBuilds"];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
     // offer to move app to Applications folder
