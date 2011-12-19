@@ -14,8 +14,6 @@
 
 #import <Sparkle/Sparkle.h>
 
-#define TileMillDevelopmentAppcastURL @"http://mapbox.com/tilemill/platforms/osx/appcast-dev.xml"
-
 @interface TileMillAppDelegate ()
 
 @property (nonatomic, retain) TileMillChildProcess *searchTask;
@@ -55,12 +53,6 @@
 
 #pragma mark -
 #pragma mark NSApplicationDelegate
-
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
-{
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"installDevBuilds"])
-        [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:TileMillDevelopmentAppcastURL]];
-}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
