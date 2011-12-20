@@ -23,7 +23,7 @@ This page is for **Ubuntu**. We also have instructions for [Mac OS X](/tilemill/
 ### Installation
 1. [Download the TileMill installer]({{site.categories.homepage[0].platforms[1].url}}) for Ubuntu. If the download window appears, choose **Save File**.
   ![](/tilemill/assets/pages/linux-install-1.png)
-2. Select **tilemill-installer-ubuntu.tar.gz** in your **Downloads** folder. Choose **Edit > Extract Here** from the menu.
+2. Select **install-tilemill.tar.gz** in your **Downloads** folder. Choose **Edit > Extract Here** from the menu.
   ![](/tilemill/assets/pages/linux-install-2.png)
 3. Double-click on **install-tilemill.sh** to start the installation process. If prompted, choose **Run in terminal**. Enter your system password when prompted.
   ![](/tilemill/assets/pages/linux-install-3.png)
