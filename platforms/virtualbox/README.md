@@ -84,7 +84,7 @@ Install tilemill:
 
 Test tilemill:
   
-  * Make sure it running at http://localhost:8889/
+  * Make sure it running at http://localhost:20009/
   * Make sure it can write data (indicates proper perms to /usr/share/mapbox)
   * Make sure you can manually add files to /usr/share/mapbox
   
@@ -108,7 +108,7 @@ TileMill VM
 
 This is Ubuntu 32bit machine with TileMill pre-installed.
 
-Start TileMill via the Desktop Icon. Then in FireFox and go to http://localhost:8889/ to start making maps.
+Start TileMill via the Desktop Icon. Then in FireFox and go to http://localhost:20009/ to start making maps.
 
 Note: TileMill can be run either as a server process or as a
 desktop application. This machine runs as a desktop application.
