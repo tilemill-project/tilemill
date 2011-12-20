@@ -1246,7 +1246,7 @@ ul.form .preview {
   box-shadow:
     inset rgba(0,0,0,0.2) 0px 0px 0px 1px,
     inset rgba(255,255,255,0.5) 0px 4px 8px -4px;
-  border-radius:2px;
+  border-radius:3px;
   }
 
 .ui-slider-handle:first-of-type { margin-left:-10px; }
