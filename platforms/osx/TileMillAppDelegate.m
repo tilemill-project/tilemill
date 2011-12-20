@@ -14,8 +14,6 @@
 
 #import <Sparkle/Sparkle.h>
 
-#define TileMillDevelopmentAppcastURL @"http://mapbox.com/tilemill/platforms/osx/appcast-dev.xml"
-
 @interface TileMillAppDelegate ()
 
 @property (nonatomic, retain) TileMillChildProcess *searchTask;
@@ -56,10 +54,21 @@
 #pragma mark -
 #pragma mark NSApplicationDelegate
 
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
+- (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"installDevBuilds"])
-        [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:TileMillDevelopmentAppcastURL]];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    SUUpdater *updater = [SUUpdater sharedUpdater];
+    
+    /*
+     * This ensures that fresh installs of dev builds sync up the 
+     * defaults to reflect the dev channel.
+     */
+    
+    if ([[updater feedURL] isEqual:TileMillDevelopmentAppcastURL] && ( ! [defaults objectForKey:@"installDevBuilds"] || ! [defaults objectForKey:@"SUFeedURL"]))
+    {
+        [defaults setBool:YES forKey:@"installDevBuilds"];
+        [updater setFeedURL:TileMillDevelopmentAppcastURL];
+    }
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
