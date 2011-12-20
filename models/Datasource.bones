@@ -16,6 +16,7 @@ model.prototype.url = function() {
 
     var attr = this.attributes;
     if (this.getFeatures) attr.features = true;
+    if (this.getInfo) attr.info = true;
     return 'http://127.0.0.1:'
         + window.abilities.tilePort
         + '/datasource/'
@@ -25,5 +26,10 @@ model.prototype.url = function() {
 
 model.prototype.fetchFeatures = function(options) {
     this.getFeatures = true;
+    this.fetch(options);
+};
+
+model.prototype.fetchInfo = function(options) {
+    this.getInfo = true;
     this.fetch(options);
 };
