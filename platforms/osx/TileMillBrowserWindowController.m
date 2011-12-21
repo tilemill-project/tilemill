@@ -123,7 +123,13 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 
 - (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id <WebPolicyDecisionListener>)listener
 {
-    if ([[request.URL host] isEqualToString:@"localhost"] && [[request.URL pathComponents] containsObject:@"export"] && [[request.URL pathComponents] containsObject:@"download"] && [[actionInformation objectForKey:@"WebActionNavigationTypeKey"] intValue] == WebNavigationTypeLinkClicked)
+    if (([request.URL.scheme isEqualToString:@"http"] && [request.URL.host isEqualToString:@"localhost"]) || ([request.URL.scheme isEqualToString:@"https"] && [request.URL.host isEqualToString:@"tiles.mapbox.com"] && [request.URL.path isEqualToString:@"/oauth/authorize"])) {
+        // handle everything else ourselves as normal
+        //
+
+        [listener use];
+    }
+    else if ([[request.URL host] isEqualToString:@"localhost"] && [[request.URL pathComponents] containsObject:@"export"] && [[request.URL pathComponents] containsObject:@"download"] && [[actionInformation objectForKey:@"WebActionNavigationTypeKey"] intValue] == WebNavigationTypeLinkClicked)
     {
         // offer to save "downloaded" files to disk
         //
@@ -131,19 +137,13 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
         
         [listener ignore];
     }    
-    else if (( ! [request.URL.scheme isEqualToString:@"http"] || ! [request.URL.host isEqualToString:@"localhost"]) && [[actionInformation objectForKey:@"WebActionNavigationTypeKey"] intValue] == WebNavigationTypeLinkClicked)
+    else
     {
         // open external URLs in the default browser
         //
         [[NSWorkspace sharedWorkspace] openURL:request.URL];
         
         [listener ignore];
-    }
-    else
-    {    
-        // handle everything else ourselves as normal
-        //
-        [listener use];
     }
 }
 

@@ -2,12 +2,11 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click input[type=submit]': 'save',
-    'click a[href=#oauth]': 'oauth',
     'click a[href=#disable]': 'disable'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'bufferSize', 'oauth', 'disable', 'save');
+    _(this).bindAll('render', 'bufferSize', 'disable', 'save');
     this.render();
 };
 
@@ -25,17 +24,6 @@ view.prototype.render = function() {
 
 view.prototype.bufferSize = function(ev, ui) {
     this.$('.bufferSize').text(ui.value);
-};
-
-view.prototype.oauth = function(ev) {
-    this.$('.content').html('<iframe class="oauth" width="700" height="320" scrolling="no" src="/oauth/mapbox"></iframe>');
-    window.onmessage = _(function(msg) {
-        this.model.fetch({
-            success:this.render,
-            error:this.render
-        });
-    }).bind(this);
-    return false;
 };
 
 view.prototype.disable = function(ev) {
