@@ -34,6 +34,7 @@ view.prototype.render = function() {
     this.$('.slider').slider({
         min:0,
         max:1024,
+        range:'min',
         value: this.model.get('bufferSize'),
         step:16,
         slide: this.bufferSize
