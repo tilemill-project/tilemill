@@ -1747,8 +1747,8 @@ ul.grid li {
   }
 
 @media (max-width:600px) { ul.grid li { width:100%; } }
-@media (min-width:800px) { ul.grid li { width:33.33%; } }
-@media (min-width:1000px) { ul.grid li { width:25%; } }
+@media (min-width:1000px) { ul.grid li { width:33.33%; } }
+@media (min-width:1400px) { ul.grid li { width:25%; } }
 
 /* Screen-size adjustments */
 @media (min-width:1200px) {
