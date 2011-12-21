@@ -32,3 +32,9 @@ Bones.Command.options['syncAccessToken'] = {
     'default': defaults.syncAccessToken || ''
 };
 
+Bones.Command.options['disable'] = {
+    'title': 'disable=[plugins]',
+    'description': 'List of plugins to disable.',
+    'default': defaults.disable
+};
+

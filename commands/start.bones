@@ -4,6 +4,7 @@ var path = require('path');
 var Step = require('step');
 var defaults = models.Config.defaults;
 var spawn = require('child_process').spawn;
+var mapnik = require('mapnik');
 
 commands['start'].options['host'] = {
     'title': 'host=[host(s)]',
@@ -46,6 +47,30 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
 
     var settings = Bones.plugin.config;
     settings.files = path.resolve(settings.files);
+    settings.disable = _(settings.disable).isString()
+        ? settings.disable.split(',')
+        : settings.disable;
+
+    Bones.plugin.abilities = {
+        version: (function() {
+            try {
+                return _(fs.readFileSync(path.resolve(__dirname + '/../VERSION'),'utf8').split('\n')).compact();
+            } catch(e) {
+                return ['unknown', 'unknown'];
+            }
+        })(),
+        tilePort: settings.tilePort,
+        tilemill: JSON.parse(fs.readFileSync(path.resolve(__dirname + '/../package.json'),'utf8')),
+        carto: require('carto').tree.Reference.data,
+        fonts: mapnik.fonts(),
+        datasources: mapnik.datasources(),
+        exports: {
+            mbtiles: true,
+            png: true,
+            pdf: mapnik.supports.cairo,
+            svg: mapnik.supports.cairo
+        }
+    };
 
     if (!path.existsSync(settings.files)) {
         console.warn('Creating files dir %s', settings.files);
@@ -75,12 +100,25 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
     (new models.Exports).fetch();
 
     // Load plugins.
-    _([ path.resolve(__dirname + '/../plugins'),
-        path.resolve(path.join(settings.files + '/plugins')) ]).chain()
+    // @TODO we may need to move this to a global bootstrap to allow
+    // other servers/processes to be accessible to plugin code.
+    Bones.plugin.abilities.plugins = _([
+        path.resolve(__dirname + '/../plugins'),
+        path.resolve(path.join(settings.files + '/plugins'))
+    ]).chain()
         .map(function(p) {
             try {
                 return fs.readdirSync(p).map(function(id) {
-                    return { id: id, path: path.join(p, id) };
+                    var pkg = path.join(p, id, 'package.json');
+                    var data = {};
+                    try {
+                        data = JSON.parse(fs.readFileSync(pkg, 'utf8'));
+                    } catch (e) {
+                        data = {};
+                    }
+                    data.id = id;
+                    data.path = path.join(p, id);
+                    return data;
                 });
             } catch(e) {
                 return [];
@@ -88,15 +126,19 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
         })
         .flatten()
         .reduce(function(memo, plugin) {
-            memo[plugin.id] = plugin.path;
+            memo[plugin.id] = plugin;
             return memo;
         }, {})
-        .each(function(p, id) {
-            require('bones').load(p);
-            console.warn('Plugin [%s] %s.',
-                Bones.utils.colorize(id, 'green'),
-                path.dirname(p));
-        });
+        .value();
+    _(Bones.plugin.abilities.plugins).each(function(p) {
+        // Skip disabled plugins.
+        if (_(settings.disable).include(p.id)) return;
+
+        require('bones').load(p.path);
+        console.warn('Plugin [%s] %s.',
+            Bones.utils.colorize(p.name || p.id, 'green'),
+            path.dirname(p.path));
+    });
 
     callback();
 };

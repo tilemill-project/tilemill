@@ -427,7 +427,6 @@ small { font-size:11px; }
  * Projects
  */
 ul.projects { margin:0px -5px; }
-ul.projects li { float:left; width:50%; }
 
 .projects span.actions {
   display:block;
@@ -1577,19 +1576,14 @@ tr:hover th,
   }
 
 /* Screen-size adjustments */
-@media (max-width:800px) {
-  ul.projects li { width:100%; }
-}
 @media (min-width:1200px) {
   #drawer { width:55% !important; }
-  ul.projects li { width:33.33%; }
   .project .map { width:55% !important; }
   .project .editor { width:45% !important; }
   .wax-fullscreen-view .project .map { width:auto !important; }
 }
 @media (min-width:1400px) {
   #drawer { width:60% !important; }
-  ul.projects li { width:25%; }
   .project .map { width:60% !important; }
   .project .editor { width:40% !important; }
   .wax-fullscreen-view .project .map { width:auto !important; }
@@ -1717,3 +1711,53 @@ div.manual { margin-right:180px; }
 
 .manual .navigation a { padding:5px 10px; }
 
+/* Plugins */
+ul.form.sunken { margin:0px 0px 10px; }
+ul.form li.plugins { border:0px; padding:0px; }
+ul.form li.plugins ul { padding:9px 4px 0px; }
+
+.plugin {
+  margin:0px 5px 10px;
+  padding:4px 9px 4px 29px;
+  position:relative;
+  padding-left:25px;
+  }
+
+.plugin .description { display:block; }
+
+.plugin input {
+  position:absolute;
+  left:7px;
+  top:7px;
+  width:14px;
+  height:14px;
+  }
+
+/* Grid list */
+ul.grid li {
+  float:left;
+  padding:0px;
+  border:0px;
+  width:50%;
+  transition:width 200ms;
+  -moz-transition:width 200ms;
+  -webkit-transition:width 200ms;
+  }
+
+@media (max-width:600px) { ul.grid li { width:100%; } }
+@media (min-width:800px) { ul.grid li { width:33.33%; } }
+@media (min-width:1000px) { ul.grid li { width:25%; } }
+
+/* Screen-size adjustments */
+@media (min-width:1200px) {
+  #drawer { width:55% !important; }
+  .project .map { width:55% !important; }
+  .project .editor { width:45% !important; }
+  .wax-fullscreen-view .project .map { width:auto !important; }
+}
+@media (min-width:1400px) {
+  #drawer { width:60% !important; }
+  .project .map { width:60% !important; }
+  .project .editor { width:40% !important; }
+  .wax-fullscreen-view .project .map { width:auto !important; }
+}

@@ -1,4 +1,4 @@
-<ul class='projects'>
+<ul class='projects grid'>
   <li>
   <span class='sunken actions'>
     <a class='button large popup' href='#add'>

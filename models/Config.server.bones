@@ -26,7 +26,13 @@ models.Config.prototype.sync = function(method, model, success, error) {
     case 'create':
     case 'update':
         // Filter out keys that may not be written.
-        var allowedKeys = ['bufferSize', 'files', 'syncAccount', 'syncAccessToken'];
+        var allowedKeys = [
+            'bufferSize',
+            'files',
+            'syncAccount',
+            'syncAccessToken',
+            'disable'
+        ];
         var data = _(model.toJSON()).reduce(function(memo, val, key) {
             if (key === 'files') val = val.replace('~', process.env.HOME);
             if (_(allowedKeys).include(key)) memo[key] = val;

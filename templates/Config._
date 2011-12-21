@@ -6,12 +6,33 @@
 </p>
 </div>
 
-<form><ul class='form raised'>
+<form>
+
+<ul class='form sunken'>
+  <li class='text'>
+    <h2>Plugins</h2>
+  </li>
+  <li class='plugins'><ul class='grid clearfix'>
+  <% _(window.abilities.plugins).each(function(plugin) { %>
+  <li><div class='plugin raised'>
+    <input
+      name='<%=plugin.id%>'
+      type='checkbox'
+      <%if(!_(get('disable')||[]).include(plugin.id))%>checked='checked'<%;%>
+      />
+    <%= plugin.name || plugin.id %>
+    <small class='description'><%= plugin.description || 'No description.' %></small>
+  </div></li>
+  <% }); %>
+  </ul></li>
+</ul>
+
+<ul class='form raised'>
   <li class='text'>
     <h2>Application settings</h2>
   </li>
   <li>
-    <label for='name'>Render buffer</label>
+    <label for='bufferSize'>Render buffer</label>
     <div class='slider'></div>
     <div class='description help'>
       Mapnik render buffer
@@ -19,14 +40,14 @@
     </div>
   </li>
   <li>
-    <label for='description'>Documents</label>
+    <label for='files'>Documents</label>
     <input type='text' name='files' size='40' value='<%= get('files') %>' />
     <div class='description'>
       File path to TileMill projects &amp; exports.
     </div>
   </li>
   <li>
-    <label for='description'>MapBox</label>
+    <label for='syncAccount'>MapBox</label>
     <div class='syncOn <%= get('syncAccount') ? '' : 'dependent' %>'>
       <span style='margin-right:10px'>
       <a target='_blank' href='<%=get('syncURL')%>/<%=get('syncAccount')%>'><%=get('syncURL')%>/<%=get('syncAccount')%></a>
@@ -42,7 +63,8 @@
     </div>
   </li>
   <li class='buttons'>
-    <input type='submit' value='Save' />
-    <input type='button' value='Cancel' class='cancel' />
+    <input type='submit' value='Saved' class='disabled' />
   </li>
-</ul></form>
+</ul>
+
+</form>

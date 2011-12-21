@@ -1,27 +1,6 @@
-var mapnik = require('mapnik');
 var fs = require('fs');
 var path = require('path');
 var env = process.env.NODE_ENV || 'development';
-
-var abilities = {
-    version: (function() {
-        try {
-            return _(fs.readFileSync(path.resolve(__dirname + '/../VERSION'),'utf8').split('\n')).compact();
-        } catch(e) {
-            return ['unknown', 'unknown'];
-        }
-    })(),
-    tilemill: JSON.parse(fs.readFileSync(path.resolve(__dirname + '/../package.json'),'utf8')),
-    carto: require('carto').tree.Reference.data,
-    fonts: mapnik.fonts(),
-    datasources: mapnik.datasources(),
-    exports: {
-        mbtiles: true,
-        png: true,
-        pdf: mapnik.supports.cairo,
-        svg: mapnik.supports.cairo
-    }
-};
 
 server = Bones.Server.extend({});
 
@@ -35,9 +14,6 @@ server.prototype.initialize = function(app) {
         'projectDebug',
         'projectXML'
     );
-
-    // Set tilePort.
-    abilities.tilePort = app.config.tilePort;
 
     this.get('/', this.index);
     this.get('/assets/tilemill/js/abilities.js', this.abilities);
@@ -73,7 +49,7 @@ server.prototype.index = function(req, res, next) {
 };
 
 server.prototype.abilities = function(req, res, next) {
-    var js = 'var abilities = ' + JSON.stringify(abilities) + ';';
+    var js = 'var abilities = ' + JSON.stringify(Bones.plugin.abilities) + ';';
     res.send(js, {'Content-type': 'text/javascript'});
 };
 
@@ -134,8 +110,8 @@ server.prototype.getKey = function(req, res, next) {
     var key = req.param('key');
     if (key in Bones.plugin.config)
         return res.send(Bones.plugin.config[key].toString());
-    if (key in abilities[key])
-        return res.send(abilities[key].toString());
+    if (key in Bones.plugin.abilities[key])
+        return res.send(Bones.plugin.abilities[key].toString());
     return next(new Error.HTTP(404));
 };
 
