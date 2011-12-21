@@ -131,15 +131,15 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
         
         [listener ignore];
     }
-    else if (([request.URL.scheme isEqualToString:@"http"] && [request.URL.host isEqualToString:@"localhost"]) || ([request.URL.scheme isEqualToString:@"https"] && [request.URL.host isEqualToString:@"tiles.mapbox.com"] && [request.URL.path isEqualToString:@"/oauth/authorize"])) {
-        // handle everything else ourselves as normal
+    else if (([request.URL.scheme isEqualToString:@"http"] && [request.URL.host isEqualToString:@"localhost"]) || ([request.URL.scheme isEqualToString:@"https"] && [request.URL.host isEqualToString:@"tiles.mapbox.com"] && [request.URL.path isEqualToString:@"/oauth/authorize"]))
+    {
+        // handle app & OAuth links ourselves
         //
-
         [listener use];
     }
     else
     {
-        // open external URLs in the default browser
+        // open everything else in the default browser
         //
         [[NSWorkspace sharedWorkspace] openURL:request.URL];
         
