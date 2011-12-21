@@ -373,7 +373,7 @@ command.prototype.upload = function (callback) {
                 }
                 if (resp.statusCode !== 303) {
                     var parsed = _({
-                        code:      new RegExp('[^>]+(?=<\\/Code>)', 'g'),
+                        code:     new RegExp('[^>]+(?=<\\/Code>)', 'g'),
                         message:  new RegExp('[^>]+(?=<\\/Message>)', 'g')
                     }).reduce(function(memo, pattern, key) {
                         memo[key] = data.match(pattern) || [];
