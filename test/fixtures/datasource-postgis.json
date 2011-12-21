@@ -5,7 +5,7 @@
         "gid": { "type": "Number" },
         "scalerank": { "type": "Number" }
     },
-    "geometry_type": "multilinestring",
+    "geometry_type": "linestring",
     "id": "postgis",
     "project": "demo_01",
     "type": "vector"
