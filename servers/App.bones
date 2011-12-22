@@ -108,6 +108,8 @@ server.prototype.status = function(req, res, next) {
 
 server.prototype.restart = function(req, res, next) {
     res.send({});
+    // @TODO don't exit if there are exports running?
+    // or... find a way to attach exports to the root process?
     console.warn('Stopping core server...');
     process.exit();
 };
