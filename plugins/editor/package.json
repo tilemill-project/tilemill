@@ -1,4 +1,5 @@
 {
     "name": "editor",
-    "description": "Stylesheet code editor."
+    "description": "Stylesheet code editor.",
+    "engines": {"tilemill":"*"}
 }

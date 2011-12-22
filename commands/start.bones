@@ -5,6 +5,7 @@ var Step = require('step');
 var defaults = models.Config.defaults;
 var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
+var semver = require('semver');
 
 commands['start'].options['host'] = {
     'title': 'host=[host(s)]',
@@ -110,41 +111,45 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
     // other servers/processes to be accessible to plugin code.
     Bones.plugin.abilities.plugins = _([
         path.resolve(__dirname + '/../plugins'),
-        path.resolve(path.join(settings.files + '/plugins'))
+        path.join(process.env.HOME, '.tilemill/node_modules')
     ]).chain()
         .map(function(p) {
             try {
-                return fs.readdirSync(p).map(function(id) {
-                    var pkg = path.join(p, id, 'package.json');
-                    var data = {};
-                    try {
-                        data = JSON.parse(fs.readFileSync(pkg, 'utf8'));
-                    } catch (e) {
-                        data = {};
-                    }
-                    data.id = id;
-                    data.path = path.join(p, id);
+            return fs.readdirSync(p).map(function(dir) {
+                try {
+                var pkg = path.join(p, dir, 'package.json');
+                var data = JSON.parse(fs.readFileSync(pkg, 'utf8'));
+
+                // Engines key missing.
+                if (!data.engines || !data.engines.tilemill) {
+                    console.warn('Plugin [%s] "engines" missing.',
+                        Bones.utils.colorize(data.name, 'red'));
+                    return false;
+                }
+                // Check that TileMill version satisfies plugin requirements.
+                // Pass data through such that the plugin can be shown in the
+                // UI as failing to satisfy requirements.
+                if (!semver.satisfies(Bones.plugin.abilities.tilemill.version, data.engines.tilemill)) {
+                    console.warn('Plugin [%s] requires TileMill %s.',
+                        Bones.utils.colorize(data.name, 'red'),
+                        data.engines.tilemill);
                     return data;
-                });
-            } catch(e) {
-                return [];
-            }
+                }
+                // Load plugin.
+                require('bones').load(path.join(p, dir));
+                console.warn('Plugin [%s] loaded.', Bones.utils.colorize(data.name, 'green'));
+                return data;
+                } catch (e) { console.error(e); return false; }
+            });
+            } catch(e) { return []; }
         })
         .flatten()
+        .compact()
         .reduce(function(memo, plugin) {
-            memo[plugin.id] = plugin;
+            memo[plugin.name] = plugin;
             return memo;
         }, {})
         .value();
-    _(Bones.plugin.abilities.plugins).each(function(p) {
-        // Skip disabled plugins.
-        if (_(settings.disable).include(p.id)) return;
-
-        require('bones').load(p.path);
-        console.warn('Plugin [%s] %s.',
-            Bones.utils.colorize(p.name || p.id, 'green'),
-            path.dirname(p.path));
-    });
 
     callback();
 };
