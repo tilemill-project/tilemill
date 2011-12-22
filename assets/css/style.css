@@ -1648,7 +1648,8 @@ div.manual { margin-right:180px; }
 .manual .md ul ul { margin:0px; }
 
 .manual .md h2 { font-size:16px; }
-.manual .md h3 { font-size:16px; }
+.manual .md h3 { font-size:14px; }
+.manual .md h4 { font-size:13px; }
 
 .manual .md ul li { padding-left:20px; }
 .manual .md ol li {
