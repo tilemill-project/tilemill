@@ -79,7 +79,7 @@
 
     // v0.7.2+ migrations from defaults to dotfile (see #1015)
     //
-    if ( ! [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]])
+    if ( ! [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill/config.json", NSHomeDirectory()]])
     {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSMutableArray *options  = [NSMutableArray array];
@@ -106,7 +106,12 @@
             [contents appendString:[options componentsJoinedByString:@",\n    "]];
             [contents appendString:@"\n}\n"];
             
-            [contents writeToFile:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]
+            if ( ! [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill", NSHomeDirectory()]])
+            {
+                [[NSFileManager defaultManager] createDirectoryAtPath:[NSString stringWithFormat:@"%@/.tilemill", NSHomeDirectory()] withIntermediateDirectories:YES attributes:nil error:nil];
+            }
+
+            [contents writeToFile:[NSString stringWithFormat:@"%@/.tilemill/config.json", NSHomeDirectory()]
                        atomically:YES
                          encoding:NSUTF8StringEncoding
                             error:NULL];
