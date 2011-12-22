@@ -7,5 +7,6 @@
     "sampledata": true,
     "host": false,
     "listenHost": "127.0.0.1",
-    "syncURL": "https://tiles.mapbox.com"
+    "syncURL": "https://tiles.mapbox.com",
+    "hostname": "localhost"
 }

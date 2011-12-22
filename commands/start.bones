@@ -7,12 +7,6 @@ var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
 var semver = require('semver');
 
-commands['start'].options['host'] = {
-    'title': 'host=[host(s)]',
-    'description': 'Accepted hosts.',
-    'default': defaults.host
-};
-
 commands['start'].options['port'] = {
     'title': 'port=[port]',
     'description': 'Server port.',
@@ -23,6 +17,16 @@ commands['start'].options['tilePort'] = {
     'title': 'tilePort=[port]',
     'description': 'Tile server port.',
     'default': defaults.tilePort
+};
+
+commands['start'].options['uiHost'] = {
+    'title': 'uiHost=[host:port]',
+    'default': 'localhost:20009'
+};
+
+commands['start'].options['tileHost'] = {
+    'title': 'tileHost=[host:port]',
+    'default': 'localhost:20008'
 };
 
 commands['start'].options['examples'] = {
@@ -113,12 +117,13 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
         path.resolve(__dirname + '/../plugins'),
         path.join(process.env.HOME, '.tilemill/node_modules')
     ]).chain()
-        .map(function(p) {
+        .map(function(p, index) {
             try {
             return fs.readdirSync(p).map(function(dir) {
                 try {
                 var pkg = path.join(p, dir, 'package.json');
                 var data = JSON.parse(fs.readFileSync(pkg, 'utf8'));
+                data.core = index === 0;
 
                 // Engines key missing.
                 if (!data.engines || !data.engines.tilemill) {

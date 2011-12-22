@@ -1,5 +1,6 @@
 {
     "name": "carto",
     "description": "Carto syntax reference for editing.",
-    "engines": {"tilemill":"*"}
+    "engines": {"tilemill":"*"},
+    "private": true
 }
