@@ -1023,6 +1023,7 @@ li:hover .icon { display:block; }
 .i30.sync     { background-position:-90px 0px; }
 .i30.manual   { background-position:-120px 0px; }
 .i30.settings { background-position:-150px 0px; }
+.i30.plugins  { background-position:-180px 0px; }
 
 /**
  * Form elements
@@ -1049,6 +1050,7 @@ textarea {
   resize:vertical;
   }
 
+.badge,
 .button,
 input[type=button],
 input[type=submit] {
@@ -1071,6 +1073,14 @@ input[type=submit] {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
+  }
+
+.badge {
+  cursor:default;
+  box-shadow:none;
+  color:#888;
+  background:#eee;
+  border-color:#ddd;
   }
 
 .button:hover,
@@ -1738,6 +1748,8 @@ ul.form li.plugins ul { padding:9px 4px 0px; }
   right:9px;
   top:9px;
   }
+
+.plugin .error { color:#c33; }
 
 /* Grid list */
 ul.grid li {

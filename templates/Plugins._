@@ -1,24 +1,38 @@
+<%
+var makePlugin = function(plugin) {
+var installed = !!window.abilities.plugins[plugin.name];
+var compatible = semver.satisfies(window.abilities.tilemill.version, plugin.engines.tilemill);
+%>
+<li><div class='plugin <%= installed ? 'raised' : 'sunken' %>'>
+  <%= plugin.name %>
+  <small class='description'>
+    <%= plugin.description || 'No description.' %><br/>
+    <% if (plugin.core) %>TileMill <%=window.abilities.tilemill.version%><%;%>
+    <% if (!plugin.core) %>Version <%= plugin.version || 'unknown' %><%;%>
+    <% if (!compatible) %>
+    <span class='error'>Incompatible with TileMill <%=window.abilities.tilemill.version%></span>
+    <%;%>
+  </small>
+  <div class='actions'>
+    <% if (plugin.core) { %>
+    <span class='badge'>Core</span>
+    <% } else { %>
+      <% if (installed) %><a class='button' href='#uninstall'>Uninstall</a><% ; %>
+      <% if (!installed && compatible) %><a class='button' href='#install'>Install</a><% ; %>
+    <% } %>
+  </div>
+</div></li>
+<% }; %>
 <ul class='form sunken'>
   <li class='text'>
     <h2>Installed</h2>
   </li>
   <li class='plugins'><ul class='grid clearfix'>
-  <% _(window.abilities.plugins).each(function(plugin) { %>
   <!--
   @TODO
-  - Don't show uninstall button for "core" plugins. (How will we flag core plugins?)
-  - Test each plugin using semver to confirm that it is compatible.
-  - Display message if it's not and allow it to be removed.
   - Check for updated version of each plugin.
   -->
-  <li><div class='plugin raised'>
-    <%= plugin.name %>
-    <small class='description'><%= plugin.description || 'No description.' %></small>
-    <div class='actions'>
-      <a class='button' href='#uninstall'>Uninstall</a>
-    </div>
-  </div></li>
-  <% }); %>
+  <% _(window.abilities.plugins).each(makePlugin); %>
   </ul></li>
 </ul>
 
@@ -32,26 +46,10 @@
   - populate this list by searching npm repo.
   - No need for search, pager, etc. initially. as there will be very few.
   -->
-  <li><div class='plugin sunken'>
-    tilemill-geocoder
-    <small class='description'>No description</small>
-    <div class='actions'>
-      <a class='button' href='#install'>Install</a>
-    </div>
-  </div></li>
-  <li><div class='plugin sunken'>
-    tilemill-google
-    <small class='description'>No description</small>
-    <div class='actions'>
-      <a class='button' href='#install'>Install</a>
-    </div>
-  </div></li>
-  <li><div class='plugin sunken'>
-    tilemill-imagemagick
-    <small class='description'>No description</small>
-    <div class='actions'>
-      <a class='button' href='#install'>Install</a>
-    </div>
-  </div></li>
+  <% _([
+    {name:'tilemill-geocoder', version:"0.0.1", engines:{"tilemill":"0.8.x"}},
+    {name:'tilemill-google', version:"0.0.1", engines:{"tilemill":"0.8.x"}},
+    {name:'tilemill-imagemagick', version:"0.0.1", engines:{"tilemill":"0.8.x"}}
+  ]).each(makePlugin); %>
   </ul></li>
 </ul>

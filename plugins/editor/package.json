@@ -1,5 +1,6 @@
 {
     "name": "editor",
     "description": "Stylesheet code editor.",
-    "engines": {"tilemill":"*"}
+    "engines": {"tilemill":"*"},
+    "private": true
 }
