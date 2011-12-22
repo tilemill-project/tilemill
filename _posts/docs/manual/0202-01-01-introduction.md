@@ -16,10 +16,13 @@ TileMill can also export directly to the SQLite-based [MBTiles](http://www.mbtil
 
 TileMill is a project of [Development Seed](http://www.developmentseed.org) and the source code is [available on GitHub](http://github.com/mapbox/tilemill).
 
-## Further resources
+## Further tools & resources
 
-Learn more about designing maps with TileMill at support.mapbox.com.
+TileMill is a powerful design studio, but in order to use it effectively you will need to have several other types of applications installed alongside it:
 
-- [Preparing your data](http://support.mapbox.com/kb/preparing-your-geographic-data)
-- [TileMill knowledge base](http://support.mapbox.com/kb/tilemill)
+- A **geospatial information system** (GIS) to view and manipulate geospatial data. [QuantumGIS](http://qgis.org) is an excellent free desktop GIS for Mac, Linux, and Windows that recommend and refer to throughout the documentation.
+- A **graphics editor** to create and edit icons, patterns, and textures. [Inkscape](http://inkscape.org) is an excellent free vector graphics editor for Mac, Linux, and Windows. Adobe Illustrator and Fireworks are other options. For bitmap graphics, [GIMP](http://www.gimp.org) is a good cross-platform option. Mac users may also be interested in [Seashore](http://seashore.sourceforge.net) as another free & open-source option.
+- A **spatial database** - specifically, [PostgreSQL](http://postgresql.org) with [PostGIS](http://postgis.refractions.net). This is optional but recommended, especially if you wish to work with OpenStreetMap or other large datasets.
+
+We cover some of the basics needed to use these programs with TileMill in this manual, but for full details you will need to refer to the documentation of each of these individual projects.
 

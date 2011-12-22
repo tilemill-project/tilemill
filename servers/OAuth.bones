@@ -53,7 +53,7 @@ function Strategy() {
         tokenURL:         config.syncURL + '/oauth/access_token',
         clientID:         'tilemill',
         clientSecret:     'tilemill',
-        callbackURL:      'http://localhost:' + config.port + '/oauth/mapbox/token'
+        callbackURL:      'http://' + config.coreUrl + '/oauth/mapbox/token'
     },
     function(accessToken, refreshToken, profile, callback) {
         profile.accessToken = accessToken;
