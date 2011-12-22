@@ -15,10 +15,14 @@ view.prototype.initialize = function(options) {
     this.available.fetch({
         success: _(function(m) {
             this.$('.available').removeClass('loading');
-            m.each(_(function(plugin) {
+            var drawn = m.map(_(function(plugin) {
                 if (this.collection.get(plugin.id)) return;
                 this.$('.available ul.grid').append(templates.Plugin(plugin));
+                return true;
             }).bind(this));
+            if (!_(drawn).compact().length) {
+                this.$('.available ul.grid').replaceWith('<div class="empty description">No plugins found.</div>');
+            }
         }).bind(this),
         error: _(function(m, err) {
             this.$('.available').removeClass('loading');
