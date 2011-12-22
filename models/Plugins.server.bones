@@ -11,13 +11,15 @@ models.Plugins.prototype.sync = function(method, model, success, error) {
         if (err) throw err;
 
         npm.localPrefix = path.join(process.env.HOME, '.tilemill');
-        npm.commands.search(['tilemill'], this);
+        // @TODO determine a reasonable "staleness" value.
+        // Currently set to 0.
+        npm.commands.search(['tilemill'], true, 0, this);
     }, function(err, resp) {
         if (err) throw err;
 
         var group = this.group();
         _(resp).each(function(data) {
-            npm.commands.view([data.name], group());
+            npm.commands.view([data.name], true, group());
         });
     }, function(err, resp) {
         if (err) return error(err);

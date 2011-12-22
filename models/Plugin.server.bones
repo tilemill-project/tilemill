@@ -26,7 +26,7 @@ models.Plugin.prototype.sync = function(method, model, success, error) {
     }, function(err) {
         if (err) throw err;
         npm.localPrefix = path.join(process.env.HOME, '.tilemill');
-        npm.commands.view([model.id], this);
+        npm.commands.view([model.id], true, this);
     }, function(err, resp) {
         if (err) return error(err);
         var resp = (function(resp) {
