@@ -1664,6 +1664,13 @@ div.manual { margin-right:180px; }
   border-radius:3px;
   }
 
+.sunken .sunken {
+  background-color:#eee;
+  box-shadow:
+    inset rgba(255,255,255,1) 0px 1px,
+    rgba(255,255,255,1) 0px 1px;
+  }
+
 .raised {
   border:1px solid #ccc;
   background:#fff;
@@ -1720,19 +1727,16 @@ ul.form li.plugins ul { padding:9px 4px 0px; }
 
 .plugin {
   margin:0px 5px 10px;
-  padding:4px 9px 4px 29px;
+  padding:9px 19px;
   position:relative;
-  padding-left:25px;
   }
 
 .plugin .description { display:block; }
 
-.plugin input {
+.plugin .actions {
   position:absolute;
-  left:7px;
-  top:7px;
-  width:14px;
-  height:14px;
+  right:9px;
+  top:9px;
   }
 
 /* Grid list */

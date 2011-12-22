@@ -16,7 +16,8 @@ controller.prototype.routes = {
     '/project/:id/export/:format': 'projectExport',
     '/manual': 'manual',
     '/manual/:page?': 'manual',
-    '/settings': 'config'
+    '/settings': 'config',
+    '/plugins': 'plugins'
 };
 
 controller.prototype.error = function() {
@@ -85,5 +86,9 @@ controller.prototype.config = function() {
             new views.Modal(err);
         }
     });
+};
+
+controller.prototype.plugins = function() {
+    new views.Plugins({ el: $('#page') });
 };
 

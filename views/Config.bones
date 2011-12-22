@@ -3,7 +3,6 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'keyup input[name=files]': 'files',
     'change input[name=files]': 'files',
-    'click .plugins input': 'plugins',
     'click input[type=submit]': 'save',
     'click a[href=#disable]': 'disable'
 };
@@ -14,20 +13,17 @@ view.prototype.initialize = function(options) {
         'render',
         'changed',
         'files',
-        'plugins',
         'bufferSize',
         'disable',
         'save',
         'restart'
     );
     this.model.bind('change', this.changed);
-    this.model.bind('change:disable', this.restart);
     this.model.bind('change:files', this.restart);
     this.render();
 };
 
 view.prototype.render = function() {
-    $('#popup.active a.close').click();
     $('.bleed .active').removeClass('active');
     $('.bleed .settings').addClass('active');
     this.el.html(templates.Config(this.model));
@@ -53,15 +49,6 @@ view.prototype.saved = function() {
 view.prototype.files = function(ev) {
     this.model.set({files: $(ev.currentTarget).val()});
     return false;
-};
-
-view.prototype.plugins = function(ev) {
-    this.model.set({
-        disable: _(this.$('.plugins input')).reduce(function(memo, el) {
-            if (!$(el).attr('checked')) memo.push($(el).attr('name'));
-            return memo;
-        }, [])
-    });
 };
 
 view.prototype.bufferSize = function(ev, ui) {

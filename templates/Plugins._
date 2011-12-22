@@ -1,0 +1,56 @@
+<ul class='form sunken'>
+  <li class='text'>
+    <h2>Installed</h2>
+  </li>
+  <li class='plugins'><ul class='grid clearfix'>
+  <% _(window.abilities.plugins).each(function(plugin) { %>
+  <!--
+  @TODO
+  - Test each plugin using semver to confirm that it is compatible.
+  - Display message if it's not and allow it to be removed.
+  - Check for updated version of each plugin.
+  -->
+  <li><div class='plugin raised'>
+    <%= plugin.name %>
+    <small class='description'><%= plugin.description || 'No description.' %></small>
+    <div class='actions'>
+      <a class='button' href='#uninstall'>Uninstall</a>
+    </div>
+  </div></li>
+  <% }); %>
+  </ul></li>
+</ul>
+
+<ul class='form sunken'>
+  <li class='text'>
+    <h2>Available</h2>
+  </li>
+  <li class='plugins'><ul class='grid clearfix'>
+  <!--
+  @TODO
+  - populate this list by searching npm repo.
+  - No need for search, pager, etc. initially. as there will be very few.
+  -->
+  <li><div class='plugin sunken'>
+    tilemill-geocoder
+    <small class='description'>No description</small>
+    <div class='actions'>
+      <a class='button' href='#install'>Install</a>
+    </div>
+  </div></li>
+  <li><div class='plugin sunken'>
+    tilemill-google
+    <small class='description'>No description</small>
+    <div class='actions'>
+      <a class='button' href='#install'>Install</a>
+    </div>
+  </div></li>
+  <li><div class='plugin sunken'>
+    tilemill-imagemagick
+    <small class='description'>No description</small>
+    <div class='actions'>
+      <a class='button' href='#install'>Install</a>
+    </div>
+  </div></li>
+  </ul></li>
+</ul>

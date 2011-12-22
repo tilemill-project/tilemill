@@ -6,28 +6,7 @@
 </p>
 </div>
 
-<form>
-
-<ul class='form sunken'>
-  <li class='text'>
-    <h2>Plugins</h2>
-  </li>
-  <li class='plugins'><ul class='grid clearfix'>
-  <% _(window.abilities.plugins).each(function(plugin) { %>
-  <li><div class='plugin raised'>
-    <input
-      name='<%=plugin.id%>'
-      type='checkbox'
-      <%if(!_(get('disable')||[]).include(plugin.id))%>checked='checked'<%;%>
-      />
-    <%= plugin.name || plugin.id %>
-    <small class='description'><%= plugin.description || 'No description.' %></small>
-  </div></li>
-  <% }); %>
-  </ul></li>
-</ul>
-
-<ul class='form raised'>
+<form><ul class='form raised'>
   <li class='text'>
     <h2>Application settings</h2>
   </li>
@@ -65,6 +44,4 @@
   <li class='buttons'>
     <input type='submit' value='Saved' class='disabled' />
   </li>
-</ul>
-
-</form>
+</ul></form>
