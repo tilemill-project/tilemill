@@ -13,9 +13,6 @@ model.prototype.schema = {
         },
         'files': {
             'type': 'string'
-        },
-        'disable': {
-            'type': 'array'
         }
     }
 };
