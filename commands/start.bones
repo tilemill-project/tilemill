@@ -72,6 +72,12 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
         }
     };
 
+    var configDir = path.join(process.env.HOME, '.tilemill');
+    if (!path.existsSync(configDir)) {
+        console.warn('Creating configuration dir %s', configDir);
+        fsutil.mkdirpSync(configDir, 0755);
+    }
+
     if (!path.existsSync(settings.files)) {
         console.warn('Creating files dir %s', settings.files);
         fsutil.mkdirpSync(settings.files, 0755);

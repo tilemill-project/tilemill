@@ -23,7 +23,7 @@ releases:
   - Centerpoint is included in exports if it is valid.
   - More resonable default zoom settings for new projects.
   - Added option to update to development builds.
-  - Moved preferences to `~/.tilemill.json`.
+  - Moved preferences to `~/.tilemill/config.json`.
   - Changed default server port to 20009.
   - Better logging/error reporting from export command.
 
