@@ -1023,6 +1023,7 @@ li:hover .icon { display:block; }
 .i30.sync     { background-position:-90px 0px; }
 .i30.manual   { background-position:-120px 0px; }
 .i30.settings { background-position:-150px 0px; }
+.i30.plugins  { background-position:-180px 0px; }
 
 /**
  * Form elements
