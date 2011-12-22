@@ -28,8 +28,8 @@ server.prototype.initialize = function(app) {
     this.get('/api/Project/:id/:time(\\d+)', this.projectPoll);
     this.del('/api/Project/:id/:layer', this.projectFlush);
 
-    // Tile server restart endpoint.
-    this.post('/api/restart', this.restart);
+    // Server restart endpoint.
+    this.post('/restart', this.restart);
 
     // Add static provider to download exports.
     this.use('/export/download', middleware['static'](
@@ -102,8 +102,9 @@ server.prototype.projectDebug = function(req, res, next) {
 };
 
 server.prototype.restart = function(req, res, next) {
-    setTimeout(function() { res.send({});}, 3000);
-    Bones.plugin.command.tileServer();
+    res.send(200);
+    console.warn('Stopping core server...');
+    process.exit();
 };
 
 server.prototype.getKey = function(req, res, next) {

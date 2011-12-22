@@ -19,6 +19,9 @@ server.prototype.initialize = function() {
     this.all('/datasource/:id', [
         this.cors,
         this.datasource]);
+    this.all('/restart', [
+        this.cors,
+        this.restart]);
     // Special error handler for tile requests.
     this.error(function(err, req, res, next) {
         err.status = err.status || 500;
@@ -132,5 +135,12 @@ server.prototype.cors = function(req, res, next) {
     res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
     if (req.method === 'OPTIONS') return res.end();
     else return next();
+};
+
+server.prototype.restart = function(req, res, next) {
+    if (req.method !== 'POST') return res.send(new Error.HTTP(404));
+    res.send(200);
+    console.warn('Stopping tile server...');
+    process.exit();
 };
 

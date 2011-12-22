@@ -1,5 +1,5 @@
 process.env.NODE_ENV = 'test';
-process.argv[2] = 'start';
+process.argv[2] = 'test';
 
 var Step = require('step');
 var exec = require('child_process').exec;
