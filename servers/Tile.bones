@@ -139,7 +139,7 @@ server.prototype.cors = function(req, res, next) {
 
 server.prototype.restart = function(req, res, next) {
     if (req.method !== 'POST') return res.send(new Error.HTTP(404));
-    res.send(200);
+    res.send({});
     console.warn('Stopping tile server...');
     process.exit();
 };
