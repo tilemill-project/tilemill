@@ -9,16 +9,14 @@ server.prototype.initialize = function() {
     _.bindAll(this, 'fromCache', 'load', 'mbtiles');
     this.port = settings.tilePort || this.port;
     this.enable('jsonp callback');
-    this.all('/tile/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)', [
-        this.cors,
-        this.mbtiles]);
+    this.use(this.cors);
+    this.all('/tile/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)', this.mbtiles);
     this.all('/tile/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)', [
-        this.cors,
         this.fromCache,
         this.load]);
-    this.all('/datasource/:id', [
-        this.cors,
-        this.datasource]);
+    this.all('/datasource/:id', this.datasource);
+    this.get('/status', this.status);
+    this.post('/restart', this.restart);
     // Special error handler for tile requests.
     this.error(function(err, req, res, next) {
         err.status = err.status || 500;
@@ -132,5 +130,15 @@ server.prototype.cors = function(req, res, next) {
     res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
     if (req.method === 'OPTIONS') return res.end();
     else return next();
+};
+
+server.prototype.status = function(req, res, next) {
+    res.send({});
+};
+
+server.prototype.restart = function(req, res, next) {
+    res.send({});
+    console.warn('Stopping tile server...');
+    process.exit();
 };
 

@@ -89,6 +89,9 @@ controller.prototype.config = function() {
 };
 
 controller.prototype.plugins = function() {
-    new views.Plugins({ el: $('#page') });
+    new views.Plugins({
+        el: $('#page'),
+        collection: new models.Plugins(_(window.abilities.plugins).toArray())
+    });
 };
 
