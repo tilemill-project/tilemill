@@ -10,7 +10,7 @@ var mapnik = require('mapnik');
 var EventEmitter = require('events').EventEmitter;
 var millstone = require('millstone');
 var settings = Bones.plugin.config;
-var tileURL = _('http://127.0.0.1:<%=port%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>').template();
+var tileURL = _('http://<%=hostname%>:<%=port%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>').template();
 
 // Project
 // -------
@@ -219,12 +219,14 @@ function loadProject(model, callback) {
         object.tilejson = '2.0.0';
         object.scheme = 'xyz';
         object.tiles = [tileURL({
+            hostname: settings.hostname,
             port: settings.tilePort,
             id: model.id,
             format: object.format || 'png',
             updated: object._updated
         })];
         object.grids = [tileURL({
+            hostname: settings.hostname,
             port: settings.tilePort,
             id: model.id,
             format: 'grid.json',
@@ -319,12 +321,14 @@ function saveProject(model, callback) {
         callback(err, {
             _updated: updated,
             tiles: [tileURL({
+                hostname: settings.hostname,
                 port: settings.tilePort,
                 id: model.id,
                 format: model.get('format') || 'png',
                 updated: updated
             })],
             grids: [tileURL({
+                hostname: settings.hostname,
                 port: settings.tilePort,
                 id: model.id,
                 format: 'grid.json',

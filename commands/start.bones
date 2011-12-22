@@ -13,6 +13,11 @@ commands['start'].options['host'] = {
     'default': defaults.host
 };
 
+commands['start'].options['hostname'] = {
+    'title': 'hostname=[hostname]',
+    'default': defaults.hostname
+};
+
 commands['start'].options['port'] = {
     'title': 'port=[port]',
     'description': 'Server port.',
