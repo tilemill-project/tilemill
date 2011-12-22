@@ -125,10 +125,11 @@ view.prototype.restart = function(ev) {
     var target = $(ev.currentTarget);
     target.addClass('restarting');
     $.ajax({
-        url: '/api/restart',
+        // @TODO need to use tileHost here instead.
+        url: 'http://localhost:'+window.abilities.tilePort+'/restart',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({'bones.token':Backbone.csrf('/api/restart')}),
+        data: JSON.stringify({'bones.token':Backbone.csrf('/restart')}),
         dataType: 'json',
         processData: false,
         success: function(resp) { target.removeClass('restarting') },
