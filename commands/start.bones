@@ -7,17 +7,6 @@ var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
 var semver = require('semver');
 
-commands['start'].options['host'] = {
-    'title': 'host=[host(s)]',
-    'description': 'Accepted hosts.',
-    'default': defaults.host
-};
-
-commands['start'].options['hostname'] = {
-    'title': 'hostname=[hostname]',
-    'default': defaults.hostname
-};
-
 commands['start'].options['port'] = {
     'title': 'port=[port]',
     'description': 'Server port.',
@@ -28,6 +17,16 @@ commands['start'].options['tilePort'] = {
     'title': 'tilePort=[port]',
     'description': 'Tile server port.',
     'default': defaults.tilePort
+};
+
+commands['start'].options['uiHost'] = {
+    'title': 'uiHost=[host:port]',
+    'default': 'localhost:20009'
+};
+
+commands['start'].options['tileHost'] = {
+    'title': 'tileHost=[host:port]',
+    'default': 'localhost:20008'
 };
 
 commands['start'].options['examples'] = {
