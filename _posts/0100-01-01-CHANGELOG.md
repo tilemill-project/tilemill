@@ -13,6 +13,9 @@ permalink: /docs/changelog
 releases:
 
 - version: 0.8.0
+  date: 2011-12-22
+  size: 65764517
+  sign: MC0CFDfyJkCrtSXzuLJzZPT2WZuuQoBPAhUAv+h15+NxowY8w2S9hOrnpv0hj+c=
 
   notes:
   - Added preference pane and about box to main app.
