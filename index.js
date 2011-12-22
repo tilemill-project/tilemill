@@ -10,7 +10,7 @@ process.argv[0] = 'node';
 // @TODO find a more elegant way to set a default for this value
 // upstream in bones.
 var path = require('path');
-var config = path.join(process.env.HOME, '.tilemill.json');
+var config = path.join(process.env.HOME, '.tilemill/config.json');
 if (path.existsSync(config)) {
     var argv = require('bones/node_modules/optimist').argv;
     argv.config = argv.config || config;

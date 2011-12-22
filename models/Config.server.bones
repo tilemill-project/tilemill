@@ -2,7 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var Step = require('step');
 var paths = {
-    user: path.join(process.env.HOME, '.tilemill.json'),
+    user: path.join(process.env.HOME, '.tilemill/config.json'),
     vendor: path.resolve(__dirname + '/../lib/config.defaults.json')
 };
 
