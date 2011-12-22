@@ -71,6 +71,11 @@ view.prototype.npm = function(ev) {
             new views.Modal(err);
         }).bind(this)
     };
+
+    // Clear intervals. We know the server is about to die
+    // so we don't need to display errors about it.
+    _(Bones.intervals||[]).each(clearInterval);
+
     $('body').addClass('loading');
     if ($(ev.currentTarget).hasClass('install')) {
         new models.Plugin({id:id}).save({}, options);
