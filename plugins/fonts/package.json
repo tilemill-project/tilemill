@@ -1,5 +1,6 @@
 {
     "name": "fonts",
     "description": "List of available fonts.",
-    "engines": {"tilemill":"*"}
+    "engines": {"tilemill":"*"},
+    "private": true
 }

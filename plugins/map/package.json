@@ -1,5 +1,6 @@
 {
     "name": "map",
     "description": "Live map preview.",
-    "engines": {"tilemill":"*"}
+    "engines": {"tilemill":"*"},
+    "private": true
 }
