@@ -1,27 +1,6 @@
-var mapnik = require('mapnik');
 var fs = require('fs');
 var path = require('path');
 var env = process.env.NODE_ENV || 'development';
-
-var abilities = {
-    version: (function() {
-        try {
-            return _(fs.readFileSync(path.resolve(__dirname + '/../VERSION'),'utf8').split('\n')).compact();
-        } catch(e) {
-            return ['unknown', 'unknown'];
-        }
-    })(),
-    tilemill: JSON.parse(fs.readFileSync(path.resolve(__dirname + '/../package.json'),'utf8')),
-    carto: require('carto').tree.Reference.data,
-    fonts: mapnik.fonts(),
-    datasources: mapnik.datasources(),
-    exports: {
-        mbtiles: true,
-        png: true,
-        pdf: mapnik.supports.cairo,
-        svg: mapnik.supports.cairo
-    }
-};
 
 server = Bones.Server.extend({});
 
@@ -49,6 +28,9 @@ server.prototype.initialize = function(app) {
     this.get('/api/Project/:id/:time(\\d+)', this.projectPoll);
     this.del('/api/Project/:id/:layer', this.projectFlush);
 
+    // Tile server restart endpoint.
+    this.post('/api/restart', this.restart);
+
     // Add static provider to download exports.
     this.use('/export/download', middleware['static'](
         path.join(this.config.files, 'export'),
@@ -67,7 +49,7 @@ server.prototype.index = function(req, res, next) {
 };
 
 server.prototype.abilities = function(req, res, next) {
-    var js = 'var abilities = ' + JSON.stringify(abilities) + ';';
+    var js = 'var abilities = ' + JSON.stringify(Bones.plugin.abilities) + ';';
     res.send(js, {'Content-type': 'text/javascript'});
 };
 
@@ -119,12 +101,17 @@ server.prototype.projectDebug = function(req, res, next) {
     });
 };
 
+server.prototype.restart = function(req, res, next) {
+    setTimeout(function() { res.send({});}, 3000);
+    Bones.plugin.command.tileServer();
+};
+
 server.prototype.getKey = function(req, res, next) {
     var key = req.param('key');
     if (key in Bones.plugin.config)
         return res.send(Bones.plugin.config[key].toString());
-    if (key in abilities[key])
-        return res.send(abilities[key].toString());
+    if (key in Bones.plugin.abilities[key])
+        return res.send(Bones.plugin.abilities[key].toString());
     return next(new Error.HTTP(404));
 };
 

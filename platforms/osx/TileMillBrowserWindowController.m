@@ -130,20 +130,20 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
         [self promptToSaveRemoteURL:request.URL revealingInFinder:YES];
         
         [listener ignore];
-    }    
-    else if (( ! [request.URL.scheme isEqualToString:@"http"] || ! [request.URL.host isEqualToString:@"localhost"]) && [[actionInformation objectForKey:@"WebActionNavigationTypeKey"] intValue] == WebNavigationTypeLinkClicked)
+    }
+    else if (([request.URL.scheme isEqualToString:@"http"] && [request.URL.host isEqualToString:@"localhost"]) || ([request.URL.scheme isEqualToString:@"https"] && [request.URL.host isEqualToString:@"tiles.mapbox.com"] && [request.URL.path isEqualToString:@"/oauth/authorize"]))
     {
-        // open external URLs in the default browser
+        // handle app & OAuth links ourselves
+        //
+        [listener use];
+    }
+    else
+    {
+        // open everything else in the default browser
         //
         [[NSWorkspace sharedWorkspace] openURL:request.URL];
         
         [listener ignore];
-    }
-    else
-    {    
-        // handle everything else ourselves as normal
-        //
-        [listener use];
     }
 }
 

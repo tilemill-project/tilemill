@@ -1736,5 +1736,5 @@
         }
     ],
     "type": "vector",
-    "geometry_type": "multilinestring"
+    "geometry_type": "linestring"
 }

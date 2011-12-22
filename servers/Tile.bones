@@ -4,14 +4,26 @@ var tilelive = require('tilelive');
 var settings = Bones.plugin.config;
 
 server = Bones.Server.extend({});
-
+server.prototype.port = 20008;
 server.prototype.initialize = function() {
     _.bindAll(this, 'fromCache', 'load', 'mbtiles');
-    this.get('/tile/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)',
-        this.mbtiles);
-    this.get('/tile/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)', [
+    this.port = settings.tilePort || this.port;
+    this.enable('jsonp callback');
+    this.all('/tile/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)', [
+        this.cors,
+        this.mbtiles]);
+    this.all('/tile/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)', [
+        this.cors,
         this.fromCache,
         this.load]);
+    this.all('/datasource/:id', [
+        this.cors,
+        this.datasource]);
+    // Special error handler for tile requests.
+    this.error(function(err, req, res, next) {
+        err.status = err.status || 500;
+        res.send(err.message, err.status);
+    });
 };
 
 server.prototype.load = function(req, res, next) {
@@ -104,5 +116,21 @@ server.prototype.fromCache = function(req, res, next) {
             return next();
         }
     });
+};
+
+server.prototype.datasource = function(req, res, next) {
+    var model = new models.Datasource({id:req.param('id')}, req.query);
+    Bones.utils.fetch({model:model}, function(err) {
+        if (err) return next(err);
+        res.send(model.toJSON());
+    });
+};
+
+server.prototype.cors = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    if (req.method === 'OPTIONS') return res.end();
+    else return next();
 };
 

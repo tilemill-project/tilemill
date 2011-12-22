@@ -1,10 +1,9 @@
 <div class='project'>
+  <div class='map fill-w'></div>
 
-  <div class='bleed'><div class='header'>
-    <div class='breadcrumb'>
-      <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
-      <a href='/#!/project/<%= id %>'><%= get('name') || get('id') %></a>
-    </div>
+  <div class='editor fill-e'>
+    <div class='header'>
+    <h1><%= get('name') || get('id') %></h1>
     <div class='actions joined'>
       <a class='button disabled' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
       <span class='button dropdown' href='#export'>
@@ -32,44 +31,15 @@
       </a>
     </div>
     <span class='icon spinner'></span>
-  </div></div>
-
-  <div class='map fill-w' id='map'>
-    <div class='zoom-display'>Zoom <span class='zoom'></span></div>
-  </div>
-
-  <div class='layers'>
-    <a href='#add' class='popup add button'><span class='icon reverse plus labeled'></span> Add layer</a>
-    <ul></ul>
-  </div>
-
-  <div class='editor fill-e'>
-    <div class='palette clearfix'>
-      <div class='colors clearfix'></div>
-      <div class='ref joined'>
-        <a class='drawer button' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>
-        <a class='drawer button' href='#carto'><span class='icon reverse reference'>Carto reference</span></a>
-      </div>
     </div>
-    <ul class='tabs toggler clearfix'></ul>
-    <a class='popup add button'><span class='icon reverse plus'>Add stylesheet</span></a>
-    <div class='code fill-s'></div>
-    <div class='status fill-s'>
-      <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
-      <div class='content'></div>
-    </div>
-  </div>
-
-  <div id='drawer' class='pane fill-w'>
-    <h2 class='title'></h2>
-    <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
-    <div class='content fill-s'></div>
     <div class='mask'></div>
   </div>
 
-  <div id='export' class='pane'>
-    <h2 class='title'></h2>
-    <div class='content'></div>
+  <div id='drawer'><div class='pane fill raised'><%= this.Pane() %></div></div>
+
+  <div class='palette clearfix'>
+    <a class='drawer mini' href='#layers'><span class='icon reverse layers'>Layers</span></a>
   </div>
 
+  <div id='export' class='fill'></div>
 </div>

@@ -50,8 +50,6 @@ Copyright © 2011</string>
 	<string>NSApplication</string>
 	<key>SUAllowsAutomaticUpdates</key>
 	<false/>
-	<key>SUEnableSystemProfiling</key>
-	<true/>
 	<key>SUFeedURL</key>
 	<string>http://mapbox.com/tilemill/platforms/osx/appcast2.xml</string>
 	<key>SUPublicDSAKeyFile</key>

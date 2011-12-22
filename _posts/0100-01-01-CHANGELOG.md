@@ -12,6 +12,21 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+- version: 0.8.0
+
+  notes:
+  - Added preference pane and about box to main app.
+  - Added ability to authenticate with MapBox to upload directly to your hosting account.
+  - Support for inverted sections in Mustache tooltip templates.
+  - File browser now defaults to the user's home directory.
+  - No longer create a data directory in the MapBox folder.
+  - Centerpoint is included in exports if it is valid.
+  - More resonable default zoom settings for new projects.
+  - Added option to update to development builds.
+  - Moved preferences to `~/.tilemill/config.json`.
+  - Changed default server port to 20009.
+  - Better logging/error reporting from export command.
+
 - version: 0.7.2.86
   dev: true
   date: 2011-12-12

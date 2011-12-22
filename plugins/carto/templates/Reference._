@@ -1,6 +1,6 @@
 <div class='reference'>
 
-<div class='toggler fill-w'>
+<div class='toggler navigation'>
   <a class='active' href='#section-intro'>intro</a>
   <% _(symbolizers).chain().keys().each(function(name) { %>
   <a href='#section-<%= name %>'><%= name %></a>

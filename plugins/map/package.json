@@ -1,0 +1,5 @@
+{
+    "name": "map",
+    "description": "Live map preview.",
+    "engines": {"tilemill":"*"}
+}

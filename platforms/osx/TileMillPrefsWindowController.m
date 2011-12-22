@@ -8,7 +8,44 @@
 
 #import "TileMillPrefsWindowController.h"
 
+#import <Sparkle/Sparkle.h>
+
 @implementation TileMillPrefsWindowController
+
+- (id)initWithWindowNibName:(NSString *)windowNibName
+{
+    self = [super initWithWindowNibName:windowNibName];
+    
+    if (self)
+        [[NSNotificationCenter defaultCenter] addObserverForName:NSUserDefaultsDidChangeNotification
+                                                          object:[NSUserDefaults standardUserDefaults]
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification *notification)
+                                                      {
+                                                          /*
+                                                           * This routine makes sure the feed URL is updated when the dev/live
+                                                           * preference is changed, since they are tied. The feed URL is updated
+                                                           * in the running process, as well as automatically in the user's 
+                                                           * defaults by the Sparkle engine.
+                                                           */
+                                                          
+                                                          NSUserDefaults *defaults = [notification object];
+                                                          SUUpdater *updater = [SUUpdater sharedUpdater];
+                                                          
+                                                          if ([defaults boolForKey:@"installDevBuilds"] && ! [[updater feedURL] isEqual:TileMillDevelopmentAppcastURL])
+                                                              [updater setFeedURL:TileMillDevelopmentAppcastURL];
+                                                          
+                                                          else if ( ! [defaults boolForKey:@"installDevBuilds"] && ! [[updater feedURL] isEqual: TileMillProductionAppcastURL])
+                                                              [updater setFeedURL:TileMillProductionAppcastURL];
+                                                      }];
+
+    return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
+}
 
 - (void)awakeFromNib
 {

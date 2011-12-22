@@ -41,3 +41,16 @@ view.prototype.keydown = function(ev) {
     return false;
 }
 
+// Hook in to projet view with an augment.
+views.Project.augment({
+    events: { 'click a[href=#fonts]': 'fonts' },
+    fonts: function() {
+        new view({ el:$('#drawer') })
+    },
+    render: function(p) {
+        p.call(this);
+        this.$('.palette').prepend("<a class='drawer' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>");
+        return this;
+    }
+});
+

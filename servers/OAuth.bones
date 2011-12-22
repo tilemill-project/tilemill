@@ -9,7 +9,6 @@ server.prototype.initialize = function(app, core) {
         session: false,
         failureRedirect: '/oauth/mapbox/fail'
     });
-    var body = '<script type="text/javascript">parent.postMessage("done", "*");</script>';
     this.use(passport.initialize());
     this.get('/oauth/mapbox', auth);
     this.get('/oauth/mapbox/token', auth, function(req, res) {
@@ -20,8 +19,8 @@ server.prototype.initialize = function(app, core) {
             syncAccount: req.user.id ? req.user.id : '',
             syncAccessToken: req.user.id ? req.user.accessToken : ''
         }, {
-            success: function() { res.send(body); },
-            error: function() { res.send(body); }
+            success: function() { res.redirect('/'); },
+            error: function() { res.redirect('/'); }
         });
     });
     this.get('/oauth/mapbox/fail', function(req, res) {
@@ -29,8 +28,8 @@ server.prototype.initialize = function(app, core) {
             syncAccount: '',
             syncAccessToken: ''
         }, {
-            success: function() { res.send(body); },
-            error: function() { res.send(body); }
+            success: function() { res.redirect('/'); },
+            error: function() { res.redirect('/'); }
         });
     });
 
@@ -39,7 +38,7 @@ server.prototype.initialize = function(app, core) {
     core.error(function(err, req, res, next) {
         if (err.name !== 'InternalOAuthError') return next(err);
         console.error(err);
-        res.send(body);
+        res.redirect('/');
     });
 
     passport.use(new Strategy());
@@ -54,7 +53,7 @@ function Strategy() {
         tokenURL:         config.syncURL + '/oauth/access_token',
         clientID:         'tilemill',
         clientSecret:     'tilemill',
-        callbackURL:      'http://0.0.0.0:' + config.port + '/oauth/mapbox/token'
+        callbackURL:      'http://localhost:' + config.port + '/oauth/mapbox/token'
     },
     function(accessToken, refreshToken, profile, callback) {
         profile.accessToken = accessToken;

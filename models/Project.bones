@@ -251,6 +251,18 @@ model.prototype.validate = function(attr) {
         return new Error('Center must be within zoom range.');
 };
 
+// Wrap save to trigger 'save', 'saved' events.
+model.prototype.save = function(attrs, options) {
+    this.trigger('save');
+    Backbone.Model.prototype.save.call(this, attrs, {
+        success: _(function(m, resp) {
+            this.trigger('saved');
+            options && options.success && options.success(m, resp);
+        }).bind(this),
+        error: options && options.error
+    });
+};
+
 // Single tile thumbnail URL generation. From [OSM wiki][1].
 // [1]: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
 model.prototype.thumb = function() {

@@ -1,6 +1,6 @@
 {
     "name": "tilemill",
-    "version": "0.7.2",
+    "version": "0.8.0",
     "main": "./index.js",
     "description": "A modern map design studio.",
     "keywords": ["map", "design", "cartography"],
@@ -40,7 +40,10 @@
         "node-markdown": "0.1.0",
         "sqlite3": "~2.0.16",
         "passport": "0.1.x",
-        "passport-oauth": "0.1.x"
+        "passport-oauth": "0.1.x",
+        "modestmaps": "https://github.com/stamen/modestmaps-js/tarball/requesterror",
+        "npm": "1.0.x",
+        "semver": "1.0.x"
     },
     "devDependencies": {
         "jshint": "0.2.x"

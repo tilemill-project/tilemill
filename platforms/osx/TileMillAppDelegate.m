@@ -14,8 +14,6 @@
 
 #import <Sparkle/Sparkle.h>
 
-#define TileMillDevelopmentAppcastURL @"http://mapbox.com/tilemill/platforms/osx/appcast-dev.xml"
-
 @interface TileMillAppDelegate ()
 
 @property (nonatomic, retain) TileMillChildProcess *searchTask;
@@ -56,10 +54,21 @@
 #pragma mark -
 #pragma mark NSApplicationDelegate
 
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
+- (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"installDevBuilds"])
-        [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:TileMillDevelopmentAppcastURL]];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    SUUpdater *updater = [SUUpdater sharedUpdater];
+    
+    /*
+     * This ensures that fresh installs of dev builds sync up the 
+     * defaults to reflect the dev channel.
+     */
+    
+    if ([[updater feedURL] isEqual:TileMillDevelopmentAppcastURL] && ( ! [defaults objectForKey:@"installDevBuilds"] || ! [defaults objectForKey:@"SUFeedURL"]))
+    {
+        [defaults setBool:YES forKey:@"installDevBuilds"];
+        [updater setFeedURL:TileMillDevelopmentAppcastURL];
+    }
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
@@ -70,7 +79,7 @@
 
     // v0.7.2+ migrations from defaults to dotfile (see #1015)
     //
-    if ( ! [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]])
+    if ( ! [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill/config.json", NSHomeDirectory()]])
     {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSMutableArray *options  = [NSMutableArray array];
@@ -97,7 +106,12 @@
             [contents appendString:[options componentsJoinedByString:@",\n    "]];
             [contents appendString:@"\n}\n"];
             
-            [contents writeToFile:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]
+            if ( ! [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill", NSHomeDirectory()]])
+            {
+                [[NSFileManager defaultManager] createDirectoryAtPath:[NSString stringWithFormat:@"%@/.tilemill", NSHomeDirectory()] withIntermediateDirectories:YES attributes:nil error:nil];
+            }
+
+            [contents writeToFile:[NSString stringWithFormat:@"%@/.tilemill/config.json", NSHomeDirectory()]
                        atomically:YES
                          encoding:NSUTF8StringEncoding
                             error:NULL];

@@ -108,7 +108,8 @@
 								<object class="NSMenuItem" id="646980520">
 									<reference key="NSMenu" ref="1056235272"/>
 									<string key="NSTitle">Updates Preferences...</string>
-									<string key="NSKeyEquiv"/>
+									<string key="NSKeyEquiv">,</string>
+									<int key="NSKeyEquivModMask">1179648</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1069444490"/>
 									<reference key="NSMixedImage" ref="495418515"/>
@@ -866,7 +867,7 @@
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSMenuItem" id="432784759">
 									<reference key="NSMenu" ref="614323648"/>
-									<string key="NSTitle">TileMill Help</string>
+									<string key="NSTitle">TileMill Manual</string>
 									<string key="NSKeyEquiv">?</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -875,7 +876,7 @@
 								</object>
 								<object class="NSMenuItem" id="724482055">
 									<reference key="NSMenu" ref="614323648"/>
-									<string key="NSTitle">Online Help</string>
+									<string key="NSTitle">Online Resources</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1069444490"/>
@@ -1202,22 +1203,6 @@
 					<int key="connectionID">359</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: self.searchTask.launched</string>
-						<reference key="source" ref="255442977"/>
-						<reference key="destination" ref="1067955784"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="255442977"/>
-							<reference key="NSDestination" ref="1067955784"/>
-							<string key="NSLabel">enabled: self.searchTask.launched</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">self.searchTask.launched</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">384</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">orderFrontStandardAboutPanel:</string>
 						<reference key="source" ref="106007410"/>
@@ -1256,6 +1241,38 @@
 						<reference key="destination" ref="146851623"/>
 					</object>
 					<int key="connectionID">402</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: self.searchTask.launched</string>
+						<reference key="source" ref="255442977"/>
+						<reference key="destination" ref="1067955784"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="255442977"/>
+							<reference key="NSDestination" ref="1067955784"/>
+							<string key="NSLabel">enabled: self.searchTask.launched</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">self.searchTask.launched</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">384</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: self.searchTask.launched</string>
+						<reference key="source" ref="432784759"/>
+						<reference key="destination" ref="1067955784"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="432784759"/>
+							<reference key="NSDestination" ref="1067955784"/>
+							<string key="NSLabel">enabled: self.searchTask.launched</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">self.searchTask.launched</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">433</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2278,7 +2295,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">431</int>
+			<int key="maxID">433</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
