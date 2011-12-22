@@ -1733,7 +1733,10 @@ div.manual { margin-right:180px; }
 /* Plugins */
 ul.form.sunken { margin:0px 0px 10px; }
 ul.form li.plugins { border:0px; padding:0px; }
-ul.form li.plugins ul { padding:9px 4px 0px; }
+ul.form li.plugins ul { min-height:80px; padding:9px 4px 0px; }
+
+ul.form.installed,
+ul.form.available { position:relative; }
 
 .plugin {
   margin:0px 5px 10px;

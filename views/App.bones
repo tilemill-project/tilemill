@@ -124,15 +124,29 @@ view.prototype.dropdown = function(ev) {
 view.prototype.restart = function(ev) {
     var target = $(ev.currentTarget);
     target.addClass('restarting');
+
+    var poll = function() {
+        $.ajax({
+            url: 'http://localhost:'+window.abilities.tilePort+'/status',
+            contentType: 'application/json',
+            dataType: 'json',
+            processData: false,
+            success: function(resp) { target.removeClass('restarting'); },
+            error: function() { setTimeout(poll, 1000); }
+        });
+    };
     $.ajax({
-        url: '/api/restart',
+        url: 'http://localhost:'+window.abilities.tilePort+'/restart',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({'bones.token':Backbone.csrf('/api/restart')}),
+        data: JSON.stringify({'bones.token':Backbone.csrf('/restart')}),
         dataType: 'json',
         processData: false,
-        success: function(resp) { target.removeClass('restarting') },
-        error: function(resp) { target.removeClass('restarting') },
+        success: poll,
+        error: function(err) {
+            $('body').removeClass('loading');
+            new views.Modal(err);
+        }
     });
     return false;
 };
