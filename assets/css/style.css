@@ -1050,6 +1050,7 @@ textarea {
   resize:vertical;
   }
 
+.badge,
 .button,
 input[type=button],
 input[type=submit] {
@@ -1072,6 +1073,14 @@ input[type=submit] {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
+  }
+
+.badge {
+  cursor:default;
+  box-shadow:none;
+  color:#888;
+  background:#eee;
+  border-color:#ddd;
   }
 
 .button:hover,
@@ -1739,6 +1748,8 @@ ul.form li.plugins ul { padding:9px 4px 0px; }
   right:9px;
   top:9px;
   }
+
+.plugin .error { color:#c33; }
 
 /* Grid list */
 ul.grid li {

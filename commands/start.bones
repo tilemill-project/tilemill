@@ -118,12 +118,13 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
         path.resolve(__dirname + '/../plugins'),
         path.join(process.env.HOME, '.tilemill/node_modules')
     ]).chain()
-        .map(function(p) {
+        .map(function(p, index) {
             try {
             return fs.readdirSync(p).map(function(dir) {
                 try {
                 var pkg = path.join(p, dir, 'package.json');
                 var data = JSON.parse(fs.readFileSync(pkg, 'utf8'));
+                data.core = index === 0;
 
                 // Engines key missing.
                 if (!data.engines || !data.engines.tilemill) {
