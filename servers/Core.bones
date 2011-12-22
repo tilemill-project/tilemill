@@ -2,7 +2,11 @@ var env = process.env.NODE_ENV || 'development';
 
 servers['Core'].prototype.port = 20009;
 servers['Core'].prototype.start = function(callback) {
-    this.port && this.listen(this.port, this.plugin.config.listenHost, callback);
+    if (this.plugin.config.socket) {
+        this.listen(this.plugin.config.socket, callback);
+    } else if (this.port) {
+        this.listen(this.port, this.plugin.config.listenHost, callback);
+    }
     return this;
 };
 servers['Core'].prototype.initialize = function(app) {
