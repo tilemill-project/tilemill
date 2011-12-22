@@ -125,6 +125,7 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
                 var pkg = path.join(p, dir, 'package.json');
                 var data = JSON.parse(fs.readFileSync(pkg, 'utf8'));
                 data.core = index === 0;
+                data.id = data.name;
 
                 // Engines key missing.
                 if (!data.engines || !data.engines.tilemill) {
