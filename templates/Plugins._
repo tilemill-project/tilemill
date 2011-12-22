@@ -6,6 +6,7 @@
   <% _(window.abilities.plugins).each(function(plugin) { %>
   <!--
   @TODO
+  - Don't show uninstall button for "core" plugins. (How will we flag core plugins?)
   - Test each plugin using semver to confirm that it is compatible.
   - Display message if it's not and allow it to be removed.
   - Check for updated version of each plugin.
