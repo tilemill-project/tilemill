@@ -102,7 +102,7 @@ server.prototype.projectDebug = function(req, res, next) {
 };
 
 server.prototype.restart = function(req, res, next) {
-    res.send(200);
+    res.send({});
     console.warn('Stopping core server...');
     process.exit();
 };
