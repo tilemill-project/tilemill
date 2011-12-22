@@ -19,14 +19,12 @@ commands['start'].options['tilePort'] = {
     'default': defaults.tilePort
 };
 
-commands['start'].options['uiHost'] = {
-    'title': 'uiHost=[host:port]',
-    'default': 'localhost:20009'
+commands['start'].options['coreUrl'] = {
+    'title': 'coreUrl=[host:port]'
 };
 
-commands['start'].options['tileHost'] = {
-    'title': 'tileHost=[host:port]',
-    'default': 'localhost:20008'
+commands['start'].options['tileUrl'] = {
+    'title': 'tileUrl=[host:port]'
 };
 
 commands['start'].options['examples'] = {
@@ -101,6 +99,10 @@ commands['start'].prototype.bootstrap = function(plugin, callback) {
             }
         }
     });
+
+    // Determine URLs.
+    settings.coreUrl = settings.coreUrl || 'localhost:' + settings.port;
+    settings.tileUrl = settings.tileUrl || 'localhost:' + settings.tilePort;
 
     // Apply server-side mixins/overrides.
     var db = require('backbone-dirty')(settings.files + '/app.db');
