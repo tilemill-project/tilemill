@@ -1,14 +1,12 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'click a.install': 'install',
-    'click a.uninstall': 'uninstall'
+    'click a.install': 'npm',
+    'click a.uninstall': 'npm'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'install', 'uninstall');
-    this.collection.bind('add', this.render);
-    this.collection.bind('remove', this.render);
+    _(this).bindAll('render', 'npm');
     this.available = new models.Plugins;
     this.render();
 
@@ -18,10 +16,7 @@ view.prototype.initialize = function(options) {
         success: _(function(m) {
             this.$('.available').removeClass('loading');
             m.each(_(function(plugin) {
-                if (this.collection.get(plugin.id)) {
-                    plugin.set({installed:true});
-                    return;
-                }
+                if (this.collection.get(plugin.id)) return;
                 this.$('.available ul.grid').append(templates.Plugin(plugin));
             }).bind(this));
         }).bind(this),
@@ -39,41 +34,45 @@ view.prototype.render = function() {
     return this;
 };
 
-view.prototype.install = function(ev) {
+view.prototype.npm = function(ev) {
     var id = $(ev.currentTarget).attr('href').split('#').pop();
-    $('body').addClass('loading');
-    new models.Plugin({id:id}).save({}, {
-        success: _(function(m) {
-            $('body').removeClass('loading');
-            window.abilities.plugins[m.id] = m.toJSON();
-            var available = this.available.get(m.id);
-            if (available) available.set({installed:true});
-            this.collection.add(m);
-        }).bind(this),
+    var poll = function() {
+        $.ajax({
+            url: '/status',
+            contentType: 'application/json',
+            dataType: 'json',
+            processData: false,
+            success: function(resp) { window.location.reload() },
+            error: function() { setTimeout(poll, 1000); }
+        });
+    };
+    var options = {
+        success: function(m) {
+            $.ajax({
+                url: '/restart',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({'bones.token':Backbone.csrf('/restart')}),
+                dataType: 'json',
+                processData: false,
+                success: poll,
+                error: function(err) {
+                    $('body').removeClass('loading');
+                    new views.Modal(err);
+                }
+            });
+        },
         error: _(function(m, err) {
             $('body').removeClass('loading');
             new views.Modal(err);
         }).bind(this)
-    });
-    return false;
-};
-
-view.prototype.uninstall = function(ev) {
-    var id = $(ev.currentTarget).attr('href').split('#').pop();
+    };
     $('body').addClass('loading');
-    new models.Plugin({id:id}).destroy({
-        success: _(function(m) {
-            $('body').removeClass('loading');
-            delete window.abilities.plugins[m.id];
-            var available = this.available.get(m.id);
-            if (available) available.set({installed:false});
-            this.collection.remove(this.collection.get(m.id));
-        }).bind(this),
-        error: _(function(m, err) {
-            $('body').removeClass('loading');
-            new views.Modal(err);
-        }).bind(this)
-    });
+    if ($(ev.currentTarget).hasClass('install')) {
+        new models.Plugin({id:id}).save({}, options);
+    } else {
+        new models.Plugin({id:id}).destroy(options);
+    }
     return false;
 };
 
