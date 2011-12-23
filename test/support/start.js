@@ -18,7 +18,7 @@ require('../..');
 var tilemill = require('bones').plugin;
 tilemill.config.files = './test/fixtures/files';
 tilemill.config.examples = false;
-tilemill.commands.start.augment({
+tilemill.commands.test.augment({
     bootstrap: function(parent, plugin, callback) {
         // Create a clean environment.
         var basedir = path.resolve(__dirname + '/..');
