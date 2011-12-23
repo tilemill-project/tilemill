@@ -2,8 +2,8 @@ var env = process.env.NODE_ENV || 'development';
 
 servers['Core'].prototype.port = 20009;
 servers['Core'].prototype.start = function(callback) {
-    if (this.plugin.config.socket) {
-        this.listen(this.plugin.config.socket, callback);
+    if (this.plugin.config.coreSocket) {
+        this.listen(this.plugin.config.coreSocket, callback);
     } else if (this.port) {
         this.listen(this.port, this.plugin.config.listenHost, callback);
     }
