@@ -1,6 +1,8 @@
 var assert = require('assert');
 
 require('./support/start')(function(command) {
+    command.servers['Core'].close();
+
     exports['test non-existant tile endpoint'] = function() {
         assert.response(command.servers['Tile'],
             { url: '/tile/does_not_exist/0/0/0.png', encoding: 'binary' },
