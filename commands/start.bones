@@ -1,69 +1,37 @@
-var fs = require('fs');
-var fsutil = require('../lib/fsutil');
 var path = require('path');
-var Step = require('step');
-var defaults = models.Config.defaults;
+var spawn = require('child_process').spawn;
 
-commands['start'].options['host'] = {
-    'title': 'host=[host(s)]',
-    'description': 'Accepted hosts.',
-    'default': defaults.host
+commands['start'].prototype.initialize = function(plugin, callback) {
+    Bones.plugin.command = this;
+    Bones.plugin.children = {};
+    process.title = 'tilemill';
+    process.once('SIGUSR2', function() {
+        _(Bones.plugin.children).chain()
+            .pluck('pid')
+            .each(function(pid) { process.kill(pid, 'SIGUSR2') });
+    });
+    this.child('core');
+    this.child('tile');
+    callback && callback();
 };
 
-commands['start'].options['port'] = {
-    'title': 'port=[port]',
-    'description': 'Server port.',
-    'default': defaults.port
-};
-
-commands['start'].options['examples'] = {
-    'title': 'examples=1|0',
-    'description': 'Copy example projects on first start.',
-    'default': defaults.examples
-};
-
-commands['start'].options['sampledata'] = {
-    'title': 'sampledata=1|0',
-    'description': 'Precache sample data for low bandwidth connections.',
-    'default': defaults.sampledata
-};
-
-commands['start'].options['listenHost'] = {
-    'title': 'listenHost=n.n.n.n',
-    'description': 'Bind the server to the given host.',
-    'default': defaults.listenHost
-};
-
-commands['start'].prototype.bootstrap = function(plugin, callback) {
-    var settings = Bones.plugin.config;
-    settings.files = path.resolve(settings.files);
-
-    if (!path.existsSync(settings.files)) {
-        console.warn('Creating files dir %s', settings.files);
-        fsutil.mkdirpSync(settings.files, 0755);
-    }
-    ['export', 'project', 'cache', 'cache/tile'].forEach(function(key) {
-        var dir = path.join(settings.files, key);
-        if (!path.existsSync(dir)) {
-            console.warn('Creating %s dir %s', key, dir);
-            fsutil.mkdirpSync(dir, 0755);
-            if (key === 'project' && settings.examples) {
-                var examples = path.resolve(path.join(__dirname, '..', 'examples'));
-                fsutil.cprSync(examples, dir);
-            } else if (key === 'cache' && settings.sampledata) {
-                var data = path.resolve(path.join(__dirname, '..', 'data'));
-                fsutil.cprSync(data, dir);
-            }
+commands['start'].prototype.child = function(name) {
+    var args = [
+        path.resolve(path.join(__dirname + '/../index.js')),
+        name
+    ];
+    // Pass any args set on main process into children as well.
+    _(require('optimist').argv).forEach(function(val, key) {
+        if (key !== '$0' && key !== '_') {
+            args.push('--' + key);
+            args.push(val);
         }
     });
-
-    // Apply server-side mixins/overrides.
-    var db = require('backbone-dirty')(settings.files + '/app.db');
-    db.dirty.on('error', console.log);
-    Backbone.sync = db.sync;
-
-    // Process any waiting exports.
-    (new models.Exports).fetch();
-    callback();
+    Bones.plugin.children[name] = spawn(process.execPath, args);
+    Bones.plugin.children[name].stdout.pipe(process.stdout);
+    Bones.plugin.children[name].stderr.pipe(process.stderr);
+    Bones.plugin.children[name].once('exit', function(code, signal) {
+        this.child(name);
+    }.bind(this));
 };
 

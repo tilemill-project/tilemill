@@ -8,18 +8,14 @@ model = Backbone.Collection.extend({});
 model.prototype.model = models.Layer;
 
 model.prototype.initialize = function(models, options) {
-    var self = this;
+    var that = this;
+    var change = function() {
+        this.parent.set({ 'Layer': that });
+        this.parent.change();
+    };
     this.parent = options.parent;
-    this.bind('change', function() {
-        this.parent.set({ 'Layer': self });
-        this.parent.change();
-    });
-    this.bind('add', function() {
-        this.parent.set({ 'Layer': self });
-        this.parent.change();
-    });
-    this.bind('remove', function() {
-        this.parent.set({ 'Layer': self });
-        this.parent.change();
-    });
+    this.bind('refresh', change);
+    this.bind('change', change);
+    this.bind('add', change);
+    this.bind('remove', change);
 };

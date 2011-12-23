@@ -1,6 +1,17 @@
-<form class='fill'><ul class='form'>
+<div class='about sunken'>
+<h2><a target='_blank' href='http://tilemill.com'>TileMill</a></h2>
+<p>
+  Version <%=window.abilities.version[0]%> (<%=window.abilities.version[1]%>)<br/>
+  Made by <a target='_blank' href='http://developmentseed.org'>Development Seed</a>. Copyright 2011
+</p>
+</div>
+
+<form><ul class='form raised'>
+  <li class='text'>
+    <h2>Application settings</h2>
+  </li>
   <li>
-    <label for='name'>Render buffer</label>
+    <label for='bufferSize'>Render buffer</label>
     <div class='slider'></div>
     <div class='description help'>
       Mapnik render buffer
@@ -8,30 +19,29 @@
     </div>
   </li>
   <li>
-    <label for='description'>Documents</label>
+    <label for='files'>Documents</label>
     <input type='text' name='files' size='40' value='<%= get('files') %>' />
     <div class='description'>
       File path to TileMill projects &amp; exports.
     </div>
   </li>
   <li>
-    <label for='description'>MapBox</label>
+    <label for='syncAccount'>MapBox</label>
     <div class='syncOn <%= get('syncAccount') ? '' : 'dependent' %>'>
       <span style='margin-right:10px'>
       <a target='_blank' href='<%=get('syncURL')%>/<%=get('syncAccount')%>'><%=get('syncURL')%>/<%=get('syncAccount')%></a>
       </span>
-      <a class='button' href='#oauth'>Refresh</a>
+      <a class='button' href='/oauth/mapbox'>Refresh</a>
       <a class='button' href='#disable'>Disable</a>
     </div>
     <div class='syncOff <%= get('syncAccount') ? 'dependent' : '' %>'>
-      <a class='button' href='#oauth'>Authorize</a>
+      <a class='button' href='/oauth/mapbox'>Authorize</a>
     </div>
     <div class='description'>
       Upload maps to this account.
     </div>
   </li>
   <li class='buttons'>
-    <input type='submit' value='Save' />
-    <input type='button' value='Cancel' class='cancel' />
+    <input type='submit' value='Saved' class='disabled' />
   </li>
 </ul></form>

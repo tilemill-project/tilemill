@@ -1,0 +1,6 @@
+{
+    "name": "editor",
+    "description": "Stylesheet code editor.",
+    "engines": {"tilemill":"*"},
+    "private": true
+}

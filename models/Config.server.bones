@@ -2,7 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var Step = require('step');
 var paths = {
-    user: path.join(process.env.HOME, '.tilemill.json'),
+    user: path.join(process.env.HOME, '.tilemill/config.json'),
     vendor: path.resolve(__dirname + '/../lib/config.defaults.json')
 };
 
@@ -26,7 +26,12 @@ models.Config.prototype.sync = function(method, model, success, error) {
     case 'create':
     case 'update':
         // Filter out keys that may not be written.
-        var allowedKeys = ['bufferSize', 'files', 'syncAccount', 'syncAccessToken'];
+        var allowedKeys = [
+            'bufferSize',
+            'files',
+            'syncAccount',
+            'syncAccessToken'
+        ];
         var data = _(model.toJSON()).reduce(function(memo, val, key) {
             if (key === 'files') val = val.replace('~', process.env.HOME);
             if (_(allowedKeys).include(key)) memo[key] = val;

@@ -36,3 +36,25 @@ view.prototype.render = function() {
     return this;
 };
 
+// Hook in to project view with an augment.
+views.Project.augment({
+    events: { 'click a[href=#carto]': 'carto' },
+    carto: function() {
+        new view({
+            el:$('#drawer'),
+            _carto_state: this._carto_state
+        })
+    },
+    initialize: function(p, o) {
+        _(this).bindAll('carto');
+        // Minor state saving for the carto window
+        this._carto_state = {};
+        return p.call(this, o);
+    },
+    render: function(p) {
+        p.call(this);
+        this.$('.palette').prepend("<a class='drawer' href='#carto'><span class='icon reverse reference'>Carto</span></a>");
+        return this;
+    }
+});
+

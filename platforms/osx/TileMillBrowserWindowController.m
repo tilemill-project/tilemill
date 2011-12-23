@@ -10,13 +10,14 @@
 
 #define kTileMillRequestTimeout 300
 
+NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadCompleteNotification";
+
 @interface TileMillBrowserWindowController ()
 
 - (void)promptToSaveRemoteURL:(NSURL *)remoteURL revealingInFinder:(BOOL)shouldReveal;
-- (NSString *)runJavaScript:(NSString *)code;
-- (NSString *)runJavaScript:(NSString *)code inBones:(BOOL)useBones;
 
 @property (nonatomic, assign) BOOL initialRequestComplete;
+@property (nonatomic, assign) NSInteger port;
 
 @end
 
@@ -26,6 +27,7 @@
 
 @synthesize webView;
 @synthesize initialRequestComplete;
+@synthesize port;
 
 - (void)awakeFromNib
 {
@@ -40,9 +42,11 @@
 
 #pragma mark -
 
-- (void)loadInitialRequestWithPort:(NSInteger)port
+- (void)loadInitialRequestWithPort:(NSInteger)inPort
 {
-    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld", port]];
+    self.port = inPort;
+    
+    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.port]];
     
     [self loadRequestURL:initialURL];
 }
@@ -54,7 +58,7 @@
                                                      timeoutInterval:kTileMillRequestTimeout]];
 }
 
-- (BOOL)browserShouldQuit
+- (BOOL)shouldDiscardUnsavedWork
 {
     // check for unsaved work
     //
@@ -64,7 +68,9 @@
     
     if ([[self runJavaScript:@"getLoseUnsavedWork();"] isEqualToString:@"false"])
     {
-        [self.window makeKeyAndOrderFront:self];
+        // show window, i.e., unsaved work, if needed
+        //
+        [self showWindow:self];
         
         return NO;
     }
@@ -124,20 +130,20 @@
         [self promptToSaveRemoteURL:request.URL revealingInFinder:YES];
         
         [listener ignore];
-    }    
-    else if (( ! [request.URL.scheme isEqualToString:@"http"] || ! [request.URL.host isEqualToString:@"localhost"]) && [[actionInformation objectForKey:@"WebActionNavigationTypeKey"] intValue] == WebNavigationTypeLinkClicked)
+    }
+    else if (([request.URL.scheme isEqualToString:@"http"] && [request.URL.host isEqualToString:@"localhost"]) || ([request.URL.scheme isEqualToString:@"https"] && [request.URL.host isEqualToString:@"tiles.mapbox.com"] && [request.URL.path isEqualToString:@"/oauth/authorize"]))
     {
-        // open external URLs in the default browser
+        // handle app & OAuth links ourselves
+        //
+        [listener use];
+    }
+    else
+    {
+        // open everything else in the default browser
         //
         [[NSWorkspace sharedWorkspace] openURL:request.URL];
         
         [listener ignore];
-    }
-    else
-    {    
-        // handle everything else ourselves as normal
-        //
-        [listener use];
     }
 }
 
@@ -189,6 +195,11 @@
             scroller.verticalScrollElasticity   = NSScrollElasticityNone;
         });
     }
+}
+
+- (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:TileMillBrowserLoadCompleteNotification object:nil];
 }
 
 #pragma mark -

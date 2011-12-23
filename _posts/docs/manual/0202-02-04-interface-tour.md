@@ -6,7 +6,9 @@ tag: manual
 title: Interface tour
 permalink: /docs/manual/interface-tour
 ---
-When TileMill first starts it will display the project browser, where you will see a few example projects to give you an idea of what TileMill can do. If you click on one of the projects you will be taken to the editing interface:
+When TileMill first starts it will display the project browser, where you will see a few example projects to give you an idea of what TileMill can do. If it is your first time running TileMill you might notice some of the map previews take a couple minutes to appear. This is because a number of external data files need to be downloaded (and will be saved so they should not to be downloaded again, unless you remove them from the cache).
+
+If you click on one of the projects you will be taken to the editing interface:
 
 ![Screenshot]({{site.baseurl}}/assets/manual/project.png)
 

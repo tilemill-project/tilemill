@@ -1,8 +1,9 @@
 var assert = require('assert');
 var fs = require('fs');
+var path = require('path');
 
 function readJSON(name) {
-    var json = fs.readFileSync('./test/fixtures/' + name + '.json', 'utf8');
+    var json = fs.readFileSync(path.resolve(__dirname + '/fixtures/' + name + '.json'), 'utf8');
     return JSON.parse(json);
 }
 

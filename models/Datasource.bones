@@ -12,14 +12,24 @@ model.prototype.initialize = function(attributes, options) {
 };
 
 model.prototype.url = function() {
-    var url = '/api/Datasource/' + this.get('id');
+    if (Bones.server) return;
+
     var attr = this.attributes;
     if (this.getFeatures) attr.features = true;
-    if (!Bones.server) url += '?' + $.param(attr);
-    return url;
+    if (this.getInfo) attr.info = true;
+    return 'http://127.0.0.1:'
+        + window.abilities.tilePort
+        + '/datasource/'
+        + this.get('id')
+        + '?' + $.param(attr);
 };
 
 model.prototype.fetchFeatures = function(options) {
     this.getFeatures = true;
+    this.fetch(options);
+};
+
+model.prototype.fetchInfo = function(options) {
+    this.getInfo = true;
     this.fetch(options);
 };

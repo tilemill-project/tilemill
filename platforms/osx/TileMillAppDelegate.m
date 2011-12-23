@@ -10,9 +10,9 @@
 #import "TileMillBrowserWindowController.h"
 #import "TileMillPrefsWindowController.h"
 
-#import "JSONKit.h"
-
 #import "PFMoveApplication.h"
+
+#import <Sparkle/Sparkle.h>
 
 @interface TileMillAppDelegate ()
 
@@ -47,13 +47,29 @@
     [browserController release];
     [prefsController release];
     [logPath release];
-    [config release];
 
     [super dealloc];
 }
 
 #pragma mark -
 #pragma mark NSApplicationDelegate
+
+- (void)applicationWillFinishLaunching:(NSNotification *)notification
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    SUUpdater *updater = [SUUpdater sharedUpdater];
+    
+    /*
+     * This ensures that fresh installs of dev builds sync up the 
+     * defaults to reflect the dev channel.
+     */
+    
+    if ([[updater feedURL] isEqual:TileMillDevelopmentAppcastURL] && ( ! [defaults objectForKey:@"installDevBuilds"] || ! [defaults objectForKey:@"SUFeedURL"]))
+    {
+        [defaults setBool:YES forKey:@"installDevBuilds"];
+        [updater setFeedURL:TileMillDevelopmentAppcastURL];
+    }
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
@@ -63,7 +79,7 @@
 
     // v0.7.2+ migrations from defaults to dotfile (see #1015)
     //
-    if ( ! [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]])
+    if ( ! [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill/config.json", NSHomeDirectory()]])
     {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSMutableArray *options  = [NSMutableArray array];
@@ -90,41 +106,18 @@
             [contents appendString:[options componentsJoinedByString:@",\n    "]];
             [contents appendString:@"\n}\n"];
             
-            [contents writeToFile:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]
+            if ( ! [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill", NSHomeDirectory()]])
+            {
+                [[NSFileManager defaultManager] createDirectoryAtPath:[NSString stringWithFormat:@"%@/.tilemill", NSHomeDirectory()] withIntermediateDirectories:YES attributes:nil error:nil];
+            }
+
+            [contents writeToFile:[NSString stringWithFormat:@"%@/.tilemill/config.json", NSHomeDirectory()]
                        atomically:YES
                          encoding:NSUTF8StringEncoding
                             error:NULL];
         }
     }
     
-    // load defaults shared between TileMill core & OS X (see #622)
-    //
-    NSString *jsonDefaults = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"config.defaults" ofType:@"json" inDirectory:@"lib"]
-                                                       encoding:NSUTF8StringEncoding
-                                                          error:NULL];
-    
-    NSAssert(jsonDefaults, @"JSON file containing shared defaults not found");
-    id defaultConfig = [jsonDefaults objectFromJSONString];
-    NSAssert([defaultConfig isKindOfClass:[NSDictionary class]], @"JSON file containing shared defaults not formatted as expected");
-    
-    // load user preferences and use them to override defaults
-    //
-    id userConfig;
-    if ( [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]]) {
-        NSString *jsonPrefs = [NSString stringWithContentsOfFile:[NSString stringWithFormat:@"%@/.tilemill.json", NSHomeDirectory()]
-                                                           encoding:NSUTF8StringEncoding
-                                                              error:NULL];
-        userConfig = [jsonPrefs objectFromJSONString];
-        NSAssert([userConfig isKindOfClass:[NSDictionary class]], @"JSON file containing user preferences not formatted as expected");
-    }
-    
-    if ([userConfig isKindOfClass:[NSDictionary class]]) {
-        config = [[[NSMutableDictionary alloc] initWithDictionary:defaultConfig] retain];
-        [config addEntriesFromDictionary:userConfig];
-    } else {
-        config = [defaultConfig retain];
-    }
-        
     // setup logging & fire up main functionality
     //
     self.logPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"];
@@ -148,7 +141,7 @@
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-    return ([self.browserController browserShouldQuit] ? NSTerminateNow : NSTerminateCancel);
+    return ([self.browserController shouldDiscardUnsavedWork] ? NSTerminateNow : NSTerminateCancel);
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
@@ -254,16 +247,17 @@
 
 - (IBAction)openDocumentsFolder:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile:[[config valueForKey:@"files"] stringByExpandingTildeInPath]];
+    [[NSWorkspace sharedWorkspace] openFile:[[self configurationForKey:@"files"] stringByExpandingTildeInPath]];
 }
 
 - (IBAction)openHelp:(id)sender
 {
-    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%i/#!/manual", self.searchTask.port]]];
+    if ( ! [self.browserController shouldDiscardUnsavedWork])
+        return;
 
-    // give page time to load, then be sure browser window is visible
-    //
-    [self performSelector:@selector(showBrowserWindow:) withObject:self afterDelay:0.25];
+    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/#!/manual", self.searchTask.port]]];
+    
+    [self.browserController performSelector:@selector(showWindow:) withObject:self afterDelay:0.25];
 }
 
 - (IBAction)openDiscussions:(id)sender
@@ -292,6 +286,87 @@
     [self.prefsController showWindow:self];
 }
 
+- (IBAction)openNodeAboutView:(id)sender
+{
+    if ( ! [self.browserController shouldDiscardUnsavedWork])
+        return;
+    
+    void (^aboutClick)(void) = ^{ [self.browserController runJavaScript:@"$('a[href=#about]').click()"]; };
+    
+    // go to main Projects view if needed
+    //
+    [self.browserController showWindow:self];
+    
+    if ( ! [[self.browserController runJavaScript:@"$('div.projects').length"] boolValue])
+    {    
+        if (requestLoadBlock != NULL)
+            [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
+        
+        requestLoadBlock = [[NSNotificationCenter defaultCenter] addObserverForName:TileMillBrowserLoadCompleteNotification 
+                                                                             object:nil
+                                                                              queue:nil
+                                                                         usingBlock:^(NSNotification *notification)
+                                                                         {
+                                                                             aboutClick();
+                                                                             
+                                                                             [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
+                                                                             
+                                                                             requestLoadBlock = NULL;
+                                                                         }];
+        
+        [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]]];
+    }
+
+    else
+        aboutClick();
+}
+
+- (IBAction)openNodeSettingsView:(id)sender
+{
+    if ( ! [self.browserController shouldDiscardUnsavedWork])
+        return;
+
+    void (^configClick)(void) = ^{ [self.browserController runJavaScript:@"$('a[href=#config]').click()"]; };
+
+    // go to main Projects view if needed
+    //
+    [self.browserController showWindow:self];
+
+    if ( ! [[self.browserController runJavaScript:@"$('div.projects').length"] boolValue])
+    {    
+        if (requestLoadBlock != NULL)
+            [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
+
+        requestLoadBlock = [[NSNotificationCenter defaultCenter] addObserverForName:TileMillBrowserLoadCompleteNotification 
+                                                                             object:nil
+                                                                              queue:nil
+                                                                         usingBlock:^(NSNotification *notification)
+                                                                         {
+                                                                             configClick();
+
+                                                                             [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
+                                                                             
+                                                                             requestLoadBlock = NULL;
+                                                                         }];
+        
+        [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]]];
+    }
+    
+    else
+        configClick();
+}
+
+- (NSString *)configurationForKey:(NSString *)key
+{
+    NSURL *fetchURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/api/Key/%@", self.searchTask.port, key]];
+    
+    NSError *error = nil;
+    
+    NSString *result = [NSString stringWithContentsOfURL:fetchURL encoding:NSUTF8StringEncoding error:&error];
+    
+    return (error ? nil : result);
+}
+
 #pragma mark -
 #pragma mark TileMillChildProcessDelegate
 
@@ -307,7 +382,7 @@
                                          defaultButton:@"OK"
                                        alternateButton:nil
                                            otherButton:nil
-                             informativeTextWithFormat:@"TileMill's port is already in use by another application on the system. Please terminate that application and relaunch TileMill."];
+                             informativeTextWithFormat:@"TileMill's port is already in use by another application on the system. Please quit that application and relaunch TileMill."];
         
         [alert runModal];
     
@@ -345,7 +420,7 @@
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
-    [self.browserController loadInitialRequestWithPort:self.searchTask.port];
+    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]]];
 }
 
 @end
