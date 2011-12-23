@@ -24,7 +24,7 @@ releases:
   - File browser now defaults to the user's home directory.
   - No longer create a data directory in the MapBox folder.
   - Centerpoint is included in exports if it is valid.
-  - More resonable default zoom settings for new projects.
+  - More reasonable default zoom settings for new projects.
   - Added option to update to development builds.
   - Moved preferences to `~/.tilemill/config.json`.
   - Changed default server port to 20009.
