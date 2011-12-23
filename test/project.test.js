@@ -83,8 +83,8 @@ require('./support/start')(function(command) {
             var body = JSON.parse(res.body);
             cleanProject(body);
             assert.deepEqual({
-                tiles: ["http://127.0.0.1:20008/tile/demo_02/{z}/{x}/{y}.png"],
-                grids: ["http://127.0.0.1:20008/tile/demo_02/{z}/{x}/{y}.grid.json"]
+                tiles: ["http://localhost:20008/tile/demo_02/{z}/{x}/{y}.png"],
+                grids: ["http://localhost:20008/tile/demo_02/{z}/{x}/{y}.grid.json"]
             }, body);
 
             assert.response(command.servers['Core'],
