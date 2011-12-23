@@ -1,6 +1,7 @@
 process.env.NODE_ENV = 'test';
 process.argv[2] = 'test';
 
+var Queue = require('../../lib/queue');
 var Step = require('step');
 var exec = require('child_process').exec;
 var path = require('path');
@@ -12,12 +13,31 @@ process.env.HOME = path.resolve(__dirname + '/../fixtures/files');
 try { fs.unlinkSync(process.env.HOME + '/.tilemill.json'); }
 catch (err) { if (err.code !== 'ENOENT') throw err }
 
-// Load application. This file's purpose is to start TileMill only once and
-// share the server with all tests.
+// Load application.
 require('../..');
 var tilemill = require('bones').plugin;
 tilemill.config.files = path.resolve(__dirname + '/../fixtures/files');
 tilemill.config.examples = false;
+
+var queue = new Queue(function(next, done) {
+    var command = tilemill.start(function() {
+        var remaining = 2;
+        command.servers['Core'].close = (function(parent) { return function() {
+            if (remaining-- === 1) done();
+            return parent.apply(this, arguments);
+        }})(command.servers['Core'].close);
+        command.servers['Tile'].close = (function(parent) { return function() {
+            if (remaining-- === 1) done();
+            return parent.apply(this, arguments);
+        }})(command.servers['Tile'].close);
+        next(command);
+    });
+}, 1);
+// @TODO:
+// Not sure why this is necessary. tile.test.js doesn't seem to exit out
+// despite both servers closing.
+queue.on('empty', process.exit);
+
 tilemill.commands.test.augment({
     bootstrap: function(parent, plugin, callback) {
         // Create a clean environment.
@@ -39,13 +59,5 @@ tilemill.commands.test.augment({
     }
 });
 
-var started = false, waiting = [];
-var command = tilemill.start(function() {
-    started = true;
-    for (var fn; fn = waiting.shift();) fn(command);
-});
+module.exports = queue.add;
 
-module.exports = function(cb) {
-    if (started) cb(command);
-    else waiting.push(cb);
-};

@@ -8,6 +8,7 @@ function readJSON(name) {
 }
 
 require('./support/start')(function(command) {
+    command.servers['Tile'].close();
 
     exports['test export job creation'] = function(beforeExit) {
         var completed = false;

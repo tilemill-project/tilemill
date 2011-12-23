@@ -19,6 +19,8 @@ function cleanProject(proj) {
 }
 
 require('./support/start')(function(command) {
+    command.servers['Tile'].close();
+
     exports['test project collection endpoint'] = function() {
         assert.response(command.servers['Core'],
             { url: '/api/Project' },

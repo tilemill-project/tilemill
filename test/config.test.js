@@ -2,6 +2,8 @@ var assert = require('assert');
 var Step = require('step');
 
 require('./support/start')(function(command) {
+command.servers['Tile'].close();
+
 exports['config'] = function() {
 
 var server = command.servers['Core'];
