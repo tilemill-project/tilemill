@@ -35,11 +35,6 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
         [[self window] center];
 }
 
-- (void)dealloc
-{
-    [webView release];
-}
-
 #pragma mark -
 
 - (void)loadInitialRequestWithPort:(NSInteger)inPort
@@ -209,7 +204,7 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 {
     if ([request timeoutInterval] < kTileMillRequestTimeout)
     {
-        NSMutableURLRequest *newRequest = [[request copy] autorelease];
+        NSMutableURLRequest *newRequest = [request copy];
         
         [newRequest setTimeoutInterval:kTileMillRequestTimeout];
         

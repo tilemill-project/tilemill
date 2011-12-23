@@ -16,10 +16,10 @@
 
 @interface TileMillAppDelegate ()
 
-@property (nonatomic, retain) TileMillChildProcess *searchTask;
-@property (nonatomic, retain) TileMillBrowserWindowController *browserController;
-@property (nonatomic, retain) TileMillPrefsWindowController *prefsController;
-@property (nonatomic, retain) NSString *logPath;
+@property (nonatomic, strong) TileMillChildProcess *searchTask;
+@property (nonatomic, strong) TileMillBrowserWindowController *browserController;
+@property (nonatomic, strong) TileMillPrefsWindowController *prefsController;
+@property (nonatomic, strong) NSString *logPath;
 @property (nonatomic, assign) BOOL shouldAttemptRestart;
 @property (nonatomic, assign) BOOL fatalErrorCaught;
 
@@ -40,16 +40,6 @@
 @synthesize logPath;
 @synthesize shouldAttemptRestart;
 @synthesize fatalErrorCaught;
-
-- (void)dealloc
-{
-    [searchTask release];
-    [browserController release];
-    [prefsController release];
-    [logPath release];
-
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark NSApplicationDelegate
@@ -203,7 +193,7 @@
 - (IBAction)showBrowserWindow:(id)sender
 {
     if ( ! self.browserController)
-        self.browserController = [[[TileMillBrowserWindowController alloc] initWithWindowNibName:@"TileMillBrowserWindow"] autorelease];
+        self.browserController = [[TileMillBrowserWindowController alloc] initWithWindowNibName:@"TileMillBrowserWindow"];
     
     [self.browserController showWindow:self];
 }
@@ -281,7 +271,7 @@
 - (IBAction)openPreferences:(id)sender
 {
     if ( ! self.prefsController)
-        self.prefsController = [[[TileMillPrefsWindowController alloc] initWithWindowNibName:@"TileMillPrefsWindow"] autorelease];
+        self.prefsController = [[TileMillPrefsWindowController alloc] initWithWindowNibName:@"TileMillPrefsWindow"];
     
     [self.prefsController showWindow:self];
 }
