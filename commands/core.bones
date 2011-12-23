@@ -11,6 +11,12 @@ command = Bones.Command.extend();
 
 command.description = 'start ui server';
 
+Bones.Command.options['host'] = {
+    'title': 'host=[host(s)]',
+    'description': 'Accepted hosts.',
+    'default': false
+};
+
 Bones.Command.options['port'] = {
     'title': 'port=[port]',
     'description': 'Server port.',

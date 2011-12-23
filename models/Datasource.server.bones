@@ -57,14 +57,16 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             // Process fields and calculate min/max values.
             for (var f in datasource.fields) {
                 var values = _(features).pluck(f);
-                if (datasource.fields[f] === 'String')
-                    values = _(values).map(function(v) { return v.length });
-
-                datasource.fields[f] = {
-                    type: datasource.fields[f],
-                    max: _(values).max(),
-                    min: _(values).min()
-                };
+                var type = datasource.fields[f];
+                datasource.fields[f] = { type: type };
+                if (options.features || options.info) {
+                    datasource.fields[f].max = type === 'String'
+                        ? _(values).max(function(v) { return v.length })
+                        : _(values).max();
+                    datasource.fields[f].min = type === 'String'
+                        ? _(values).min(function(v) { return v.length })
+                        : _(values).min();
+                }
             }
         } catch(err) {
             return error(err);
