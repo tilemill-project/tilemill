@@ -16,10 +16,20 @@ commands['start'].prototype.initialize = function(plugin, callback) {
 };
 
 commands['start'].prototype.child = function(name) {
-    Bones.plugin.children[name] = spawn(process.execPath, [
+    var args = [
         path.resolve(path.join(__dirname + '/../index.js')),
         name
-    ]);
+    ];
+    // Pass any args set on main process into children as well.
+    _(require('optimist').argv).chain().reject(function(val, key) {
+        return key === '$0' || key === '_';
+    }).forEach(function(val, key) {
+        if (key !== '$0' && key !== '_') {
+            args.push('--' + key);
+            args.push(val);
+        }
+    });
+    Bones.plugin.children[name] = spawn(process.execPath, args);
     Bones.plugin.children[name].stdout.pipe(process.stdout);
     Bones.plugin.children[name].stderr.pipe(process.stderr);
     Bones.plugin.children[name].once('exit', function(code, signal) {
