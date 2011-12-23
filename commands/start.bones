@@ -21,9 +21,7 @@ commands['start'].prototype.child = function(name) {
         name
     ];
     // Pass any args set on main process into children as well.
-    _(require('optimist').argv).chain().reject(function(val, key) {
-        return key === '$0' || key === '_';
-    }).forEach(function(val, key) {
+    _(require('optimist').argv).forEach(function(val, key) {
         if (key !== '$0' && key !== '_') {
             args.push('--' + key);
             args.push(val);
