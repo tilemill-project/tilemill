@@ -11,7 +11,11 @@
   </span>
   <h2><%= m.get('filename') %></h2>
   <div class='description'>
-    Started <%= (new Date(m.get('created'))).format('F j h:ia') %>
+    <% if (m.get('created')) { %>
+    Started <%= (new Date(m.get('created'))).format('M j h:ia') %>
+    <% } else if (m.get('status') === 'waiting') { %>
+    Waiting to be processed
+    <% } %>
     <% if (m.get('updated')) { %>
     &mdash; <%= obj.time(m.get('updated') - m.get('created')) %>
     <% } %>

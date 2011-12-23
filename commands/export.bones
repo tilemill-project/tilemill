@@ -108,12 +108,6 @@ command.prototype.initialize = function(plugin, callback) {
     // Set process title.
     process.title = 'tm-' + path.basename(opts.filepath);
 
-    // Catch SIGINT.
-    process.on('SIGINT', function () {
-        console.log('Got SIGINT. Run "kill ' + process.pid + '" to terminate.');
-    });
-    process.on('SIGUSR1', process.exit);
-
     // Upload format does not require loaded project.
     if (opts.format === 'upload') return this[opts.format](callback);
 

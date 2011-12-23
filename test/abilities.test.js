@@ -1,6 +1,8 @@
 var assert = require('assert');
 
 require('./support/start')(function(command) {
+    command.servers['Tile'].close();
+
     exports['test abilities endpoint'] = function() {
         assert.response(command.servers['Core'],
             { url: '/assets/tilemill/js/abilities.js' },

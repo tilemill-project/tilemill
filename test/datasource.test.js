@@ -8,6 +8,7 @@ function readJSON(name) {
 }
 
 require('./support/start')(function(command) {
+    command.servers['Core'].close();
 
     exports['test sqlite datasource'] = function() {
         assert.response(command.servers['Tile'],
