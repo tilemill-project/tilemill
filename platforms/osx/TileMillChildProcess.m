@@ -102,7 +102,7 @@
         if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcess:didSendOutput:)])
             [self.delegate childProcess:self didSendOutput:message];
         
-        if ([message hasPrefix:@"Started"] && ! self.isLaunched)
+        if ([message hasPrefix:@"Started [Server Core"] && ! self.isLaunched)
         {
             self.launched = YES;
             NSScanner *aScanner = [NSScanner scannerWithString:message];
