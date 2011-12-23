@@ -11,11 +11,9 @@ require('./support/start')(function(command) {
 
     exports['test export job creation'] = function(beforeExit) {
         var completed = false;
-        var created = Date.now()
-        var id = String(created);
+        var id = Date.now().toString();
         var job = readJSON('export-job');
         var token = job['bones.token'];
-        job.created = created;
         job.id = id;
 
         assert.response(command.servers['Core'], {
@@ -35,10 +33,12 @@ require('./support/start')(function(command) {
             }, { status: 200 }, function(res) {
                 var body = JSON.parse(res.body);
                 job.status = "processing";
-                delete job['bones.token'];
                 assert.ok(body[0].pid);
+                assert.ok(body[0].created);
+                delete job['bones.token'];
+                delete body[0].created;
                 delete body[0].pid;
-                assert.deepEqual([job], body);
+                assert.deepEqual(job, body[0]);
 
                 job['bones.token'] = token;
                 assert.response(command.servers['Core'], {
