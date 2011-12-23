@@ -12,6 +12,21 @@ commands['start'].prototype.initialize = function(plugin, callback) {
     });
     this.child('core');
     this.child('tile');
+
+    Bones.plugin.children['core'].stderr.on('data', function(d) {
+        if (!d.toString().match(/Started \[Server Core:\d+\]./)) return;
+        console.warn('Starting webkit UI.');
+        var client = path.dirname(require.resolve('topcube')) + "/client.js";
+        Bones.plugin.children['webkit'] = spawn(process.execPath, [
+            client,
+            JSON.stringify(['http://localhost:20009', 800, 600])
+        ]);
+        Bones.plugin.children['webkit'].on('exit', function() {
+            process.kill(Bones.plugin.children.pid, 'SIGINT');
+            process.exit();
+        });
+    });
+
     callback && callback();
 };
 
