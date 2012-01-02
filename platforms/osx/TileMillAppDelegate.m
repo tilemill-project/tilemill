@@ -59,6 +59,10 @@
         [defaults setBool:YES forKey:@"installDevBuilds"];
         [updater setFeedURL:TileMillDevelopmentAppcastURL];
     }
+    
+    // clear shared URL cache (see #1057)
+    //
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
@@ -144,6 +148,10 @@
     // We clean up any orphan processes in [self startTileMill].
     //
     [self stopTileMill];
+    
+    // clear shared URL cache (see #1057)
+    //
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
 #pragma mark -

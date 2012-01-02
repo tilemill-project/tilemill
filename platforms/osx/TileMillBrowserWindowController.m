@@ -33,6 +33,13 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 {
     if ( ! [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"NSWindow Frame %@", [[self window] frameAutosaveName]]])
         [[self window] center];
+    
+    // setup app-oriented caching
+    //
+    WebPreferences *prefs = [[WebPreferences alloc] initWithIdentifier:self.webView.preferencesIdentifier];
+    
+    [prefs setCacheModel:WebCacheModelDocumentViewer];
+    [prefs setUsesPageCache:NO];
 }
 
 #pragma mark -
