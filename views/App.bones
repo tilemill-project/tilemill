@@ -1,6 +1,7 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
+    'click .bleed a': 'unload',
     'click #popup a[href=#close], #popup input.cancel': 'popupClose',
     'click a.popup': 'popupOpen',
     'click #drawer a[href=#close]': 'drawerClose',
@@ -13,6 +14,7 @@ view.prototype.events = {
 
 view.prototype.initialize = function() {
     _(this).bindAll(
+        'unload',
         'popupOpen',
         'popupClose',
         'drawerOpen',
@@ -21,6 +23,10 @@ view.prototype.initialize = function() {
         'keydown',
         'dropdown'
     );
+};
+
+view.prototype.unload = function() {
+    return !window.onbeforeunload || window.onbeforeunload() !== false;
 };
 
 view.prototype.popupOpen = function(ev) {

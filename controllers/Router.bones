@@ -4,7 +4,8 @@ controller.prototype.initialize = function() {
     if (Bones.server) return;
     new views.App({ el: $('body') });
 
-    // Add catchall route to show error page.
+    // Add catchall routes for wrapper goto's, error page.
+    this.route(/[^?]*\?goto=(.*)/, 'goto', this.goto);
     this.route(/^(.*?)/, 'error', this.error);
 };
 
@@ -18,6 +19,11 @@ controller.prototype.routes = {
     '/manual/:page?': 'manual',
     '/settings': 'config',
     '/plugins': 'plugins'
+};
+
+controller.prototype.goto = function(path) {
+    var go = !window.onbeforeunload || window.onbeforeunload() !== false;
+    if (go !== false) window.location.hash = path;
 };
 
 controller.prototype.error = function() {
