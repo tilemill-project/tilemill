@@ -68,7 +68,7 @@ server.prototype.load = function(req, res, next) {
         source[fn](z, x, y, function(err, tile, headers) {
             if (err) return next(new Error.HTTP(err.message, 404));
             if (res.cache) fs.writeFile(res.cache, tile);
-            if (headers) headers['max-age'] = 3600;
+            if (headers) headers['Cache-control'] = 'max-age=3600';
             res.send(tile, headers);
         });
     });
@@ -90,7 +90,7 @@ server.prototype.mbtiles = function(req, res, next) {
         var fn = req.params.format === 'grid.json' ? 'getGrid' : 'getTile';
         source[fn](z, x, y, function(err, tile, headers) {
             if (err) return next(new Error.HTTP(err.message, 404));
-            if (headers) headers['max-age'] = 3600;
+            if (headers) headers['Cache-control'] = 'max-age=3600';
             res.send(tile, headers);
         });
     });
@@ -109,7 +109,7 @@ server.prototype.fromCache = function(req, res, next) {
     res.cache = path.join(settings.files, 'cache', 'tile', filename);
     fs.stat(res.cache, function(err, stat) {
         if (!err && +stat.mtime > req.param('updated')) {
-            return res.sendfile(res.cache);
+            return res.sendfile(res.cache, {maxAge:36e5});
         } else {
             return next();
         }
