@@ -29,6 +29,7 @@ view.prototype.initialize = function() {
     Bones.intervals = Bones.intervals || {};
     if (Bones.intervals.project) clearInterval(Bones.intervals.project);
     Bones.intervals.project = setInterval(_(function() {
+        if (!$('.project').size()) return;
         this.model.poll({ error: function(m, err) {
             new views.Modal(err);
             clearInterval(Bones.intervals.project);
