@@ -181,22 +181,7 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 - (void)webView:(WebView *)sender didCommitLoadForFrame:(WebFrame *)frame
 {
     if ( ! self.initialRequestComplete)
-    {
         self.initialRequestComplete = YES;
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.25 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void)
-        {
-            /*
-             * We do this on a delay so that the first request has time to start
-             * rendering on the page. Otherwise, the scrollbars don't exist yet.
-             */
-
-            NSScrollView *scroller = self.webView.mainFrame.frameView.documentView.enclosingScrollView;
-           
-            scroller.horizontalScrollElasticity = NSScrollElasticityNone;
-            scroller.verticalScrollElasticity   = NSScrollElasticityNone;
-        });
-    }
 }
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
@@ -251,6 +236,14 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
     // don't show a contextual menu
     //
     return [NSArray array];
+}
+
+- (void)webView:(WebView *)sender mouseDidMoveOverElement:(NSDictionary *)elementInformation modifierFlags:(NSUInteger)modifierFlags
+{
+    // continually ensure bounce scrolling is disabled on Lion
+    //
+    self.webView.mainFrame.frameView.documentView.enclosingScrollView.horizontalScrollElasticity = NSScrollElasticityNone;
+    self.webView.mainFrame.frameView.documentView.enclosingScrollView.verticalScrollElasticity   = NSScrollElasticityNone;
 }
 
 @end
