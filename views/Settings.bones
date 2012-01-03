@@ -70,7 +70,6 @@ view.prototype.save = function() {
 
     this.model.save({}, {
         success: _(function(model) {
-            this.model.trigger('save');
             this.$('.close').click();
         }).bind(this),
         error:error
