@@ -1,5 +1,5 @@
 <% var interactivity = get('interactivity') || {}; %>
-<div class='toggler pill joined buttons clearfix beveled fill-n'>
+<div class='toggler pill joined buttons clearfix centered fill-n'>
   <a class='button large active' href='#templates-legend'>Legend</a
   ><a class='button large' href='#templates-teaser'>Teaser</a
   ><a class='button large' href='#templates-full'>Full</a

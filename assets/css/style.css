@@ -805,7 +805,7 @@ ul.layers {
 form.templates { margin:60px 10px 10px; overflow:hidden; }
 form.templates .templates input[type=text],
 form.templates .templates textarea { top:30px; }
-form.templates .templates textarea { resize:none; bottom:150px; }
+form.templates .templates textarea { resize:none; bottom:160px; }
 form.templates .templates-legend textarea { bottom:0px; }
 form.templates .templates { display:none; }
 form.templates .templates.active { display:block; }
@@ -976,6 +976,7 @@ li:hover .icon { display:block; }
 
 /* File icons */
 .filetype.png     { background-position:0px -320px; }
+.filetype.svg     { background-position:0px -320px; }
 .filetype.pdf     { background-position:-40px -320px; }
 .filetype.mbtiles { background-position:-80px -320px; }
 .filetype.zip     { background-position:-120px -320px; }
@@ -998,12 +999,11 @@ li:hover .icon { display:block; }
   background-position:30px 30px;
   }
 
-.i30.editor   { background-position:-30px 0px; }
-.i30.projects { background-position:-60px 0px; }
-.i30.sync     { background-position:-90px 0px; }
-.i30.manual   { background-position:-120px 0px; }
-.i30.settings { background-position:-150px 0px; }
-.i30.plugins  { background-position:-180px 0px; }
+.i30.editor   { background-position:0px 0px; }
+.i30.projects { background-position:-30px 0px; }
+.i30.manual   { background-position:-60px 0px; }
+.i30.settings { background-position:-90px 0px; }
+.i30.plugins  { background-position:-120px 0px; }
 
 /**
  * Form elements
