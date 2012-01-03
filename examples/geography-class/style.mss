@@ -5,7 +5,7 @@
 
 Note that this map doing some rather complex things thus
 slowish rendering should not be surprising. A pre-rendered
-demo is online at <http://mapbox.com/tileset/geography-class>
+demo is online at <http://tiles.mapbox.com/mapbox/map/geography-class>
 
 Hover Interaction & Embedded Data
 ---------------------------------
