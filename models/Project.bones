@@ -5,6 +5,7 @@
 model = Backbone.Model.extend({});
 
 model.prototype.schema = {
+    'id': 'Project',
     'type': 'object',
     'properties': {
         // Mapnik-specific properties.

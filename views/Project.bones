@@ -29,6 +29,7 @@ view.prototype.initialize = function() {
     Bones.intervals = Bones.intervals || {};
     if (Bones.intervals.project) clearInterval(Bones.intervals.project);
     Bones.intervals.project = setInterval(_(function() {
+        if (!$('.project').size()) return;
         this.model.poll({ error: function(m, err) {
             new views.Modal(err);
             clearInterval(Bones.intervals.project);
@@ -46,7 +47,7 @@ view.prototype.initialize = function() {
 
 view.prototype.render = function(init) {
     $('.bleed .active').removeClass('active');
-    $('.bleed .editor').addClass('active').attr('href', '/#!/project/' + this.model.id);
+    $('.bleed .editor').addClass('active').attr('href', '#/project/' + this.model.id);
     $(this.el).html(templates.Project(this.model));
     return this;
 };
@@ -150,10 +151,10 @@ view.prototype.layers = function(ev) {
 view.prototype.unload = function(ev) {
     if (!$('.project').size()) return;
     if ($('.actions a.disabled[href=#save]').size()) return;
-    if (ev.metaKey) return;
+    if (ev && ev.metaKey) return;
 
     var message = 'You have unsaved changes. Are you sure you want to close this project?';
-    if (ev.type === 'beforeunload') return message;
+    if (ev && ev.type === 'beforeunload') return message;
     if (confirm(message)) return true;
     return false;
 };

@@ -9,7 +9,7 @@
   </li>
   <% _(models).each(function(model) { %>
   <li>
-  <a class='raised thumb' href='/#!/project/<%= model.id %>'>
+  <a class='raised thumb' href='#/project/<%= model.id %>'>
     <span class='thumb' style='background-image: url(<%= model.thumb() %>)'></span>
     <%= model.get('name') || model.get('id') %><br/>
     <small class='description'>Updated <%= new Date(model.get('_updated')).format('D M j g:ia') %></small>

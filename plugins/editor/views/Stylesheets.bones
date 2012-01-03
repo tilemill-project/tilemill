@@ -26,20 +26,6 @@ view.prototype.initialize = function() {
         'colorSave',
         'colorClose'
     );
-    Bones.intervals = Bones.intervals || {};
-    if (Bones.intervals.project) clearInterval(Bones.intervals.project);
-    Bones.intervals.project = setInterval(_(function() {
-        this.model.poll({ error: function(m, err) {
-            new views.Modal(err);
-            clearInterval(Bones.intervals.project);
-        }});
-    }).bind(this), 1000);
-
-    window.onbeforeunload = window.onbeforeunload || this.unload;
-
-    // Minor state saving for the carto window
-    this._carto_state = {};
-
     this.model.bind('save', this.save);
     this.model.bind('saved', this.attach);
     this.model.bind('error', this.error);

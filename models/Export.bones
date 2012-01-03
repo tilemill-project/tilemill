@@ -4,6 +4,7 @@
 model = Backbone.Model.extend({});
 
 model.prototype.schema = {
+    'id': 'Export',
     'type': 'object',
     'properties': {
         'id': {
