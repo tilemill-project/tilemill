@@ -48,16 +48,25 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 {
     self.port = inPort;
     
-    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.port]];
+    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/#", self.port]];
     
-    [self loadRequestURL:initialURL];
-}
-
-- (void)loadRequestURL:(NSURL *)loadURL
-{
-    [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:loadURL 
+    [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:initialURL 
                                                          cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                      timeoutInterval:kTileMillRequestTimeout]];
+}
+
+- (void)loadRequestPath:(NSString *)path showingWindow:(BOOL)showWindow
+{
+    NSString *currentURLString = [self.webView stringByEvaluatingJavaScriptFromString:@"location.href"];
+    
+    NSURL *requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@?goto=%@", currentURLString, path]];
+    
+    [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:requestURL 
+                                                         cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                     timeoutInterval:kTileMillRequestTimeout]];
+    
+    if (showWindow)
+        [self performSelector:@selector(showWindow:) withObject:self afterDelay:0.25];
 }
 
 - (BOOL)shouldDiscardUnsavedWork

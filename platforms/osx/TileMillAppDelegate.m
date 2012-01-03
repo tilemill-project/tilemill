@@ -8,7 +8,7 @@
 
 #import "TileMillAppDelegate.h"
 #import "TileMillBrowserWindowController.h"
-#import "TileMillPrefsWindowController.h"
+#import "TileMillSparklePrefsWindowController.h"
 
 #import "PFMoveApplication.h"
 
@@ -18,7 +18,7 @@
 
 @property (nonatomic, strong) TileMillChildProcess *searchTask;
 @property (nonatomic, strong) TileMillBrowserWindowController *browserController;
-@property (nonatomic, strong) TileMillPrefsWindowController *prefsController;
+@property (nonatomic, strong) TileMillSparklePrefsWindowController *sparklePrefsController;
 @property (nonatomic, strong) NSString *logPath;
 @property (nonatomic, assign) BOOL shouldAttemptRestart;
 @property (nonatomic, assign) BOOL fatalErrorCaught;
@@ -36,7 +36,7 @@
 
 @synthesize searchTask;
 @synthesize browserController;
-@synthesize prefsController;
+@synthesize sparklePrefsController;
 @synthesize logPath;
 @synthesize shouldAttemptRestart;
 @synthesize fatalErrorCaught;
@@ -250,12 +250,7 @@
 
 - (IBAction)openHelp:(id)sender
 {
-    if ( ! [self.browserController shouldDiscardUnsavedWork])
-        return;
-
-    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/#!/manual", self.searchTask.port]]];
-    
-    [self.browserController performSelector:@selector(showWindow:) withObject:self afterDelay:0.25];
+    [self.browserController loadRequestPath:@"/manual" showingWindow:YES];
 }
 
 - (IBAction)openDiscussions:(id)sender
@@ -276,82 +271,17 @@
     [[NSWorkspace sharedWorkspace] openFile:self.logPath withApplication:@"Console" andDeactivate:YES];
 }
 
-- (IBAction)openPreferences:(id)sender
+- (IBAction)openSparklePreferences:(id)sender
 {
-    if ( ! self.prefsController)
-        self.prefsController = [[TileMillPrefsWindowController alloc] initWithWindowNibName:@"TileMillPrefsWindow"];
+    if ( ! self.sparklePrefsController)
+        self.sparklePrefsController = [[TileMillSparklePrefsWindowController alloc] initWithWindowNibName:@"TileMillSparklePrefsWindow"];
     
-    [self.prefsController showWindow:self];
-}
-
-- (IBAction)openNodeAboutView:(id)sender
-{
-    if ( ! [self.browserController shouldDiscardUnsavedWork])
-        return;
-    
-    void (^aboutClick)(void) = ^{ [self.browserController runJavaScript:@"$('a[href=#about]').click()"]; };
-    
-    // go to main Projects view if needed
-    //
-    [self.browserController showWindow:self];
-    
-    if ( ! [[self.browserController runJavaScript:@"$('div.projects').length"] boolValue])
-    {    
-        if (requestLoadBlock != NULL)
-            [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
-        
-        requestLoadBlock = [[NSNotificationCenter defaultCenter] addObserverForName:TileMillBrowserLoadCompleteNotification 
-                                                                             object:nil
-                                                                              queue:nil
-                                                                         usingBlock:^(NSNotification *notification)
-                                                                         {
-                                                                             aboutClick();
-                                                                             
-                                                                             [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
-                                                                             
-                                                                             requestLoadBlock = NULL;
-                                                                         }];
-        
-        [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]]];
-    }
-
-    else
-        aboutClick();
+    [self.sparklePrefsController showWindow:self];
 }
 
 - (IBAction)openNodeSettingsView:(id)sender
 {
-    if ( ! [self.browserController shouldDiscardUnsavedWork])
-        return;
-
-    void (^configClick)(void) = ^{ [self.browserController runJavaScript:@"$('a[href=#config]').click()"]; };
-
-    // go to main Projects view if needed
-    //
-    [self.browserController showWindow:self];
-
-    if ( ! [[self.browserController runJavaScript:@"$('div.projects').length"] boolValue])
-    {    
-        if (requestLoadBlock != NULL)
-            [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
-
-        requestLoadBlock = [[NSNotificationCenter defaultCenter] addObserverForName:TileMillBrowserLoadCompleteNotification 
-                                                                             object:nil
-                                                                              queue:nil
-                                                                         usingBlock:^(NSNotification *notification)
-                                                                         {
-                                                                             configClick();
-
-                                                                             [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
-                                                                             
-                                                                             requestLoadBlock = NULL;
-                                                                         }];
-        
-        [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]]];
-    }
-    
-    else
-        configClick();
+    [self.browserController loadRequestPath:@"/settings" showingWindow:YES];
 }
 
 - (NSString *)configurationForKey:(NSString *)key
@@ -418,7 +348,7 @@
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
-    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]]];
+    [self.browserController loadInitialRequestWithPort:self.searchTask.port];
 }
 
 @end

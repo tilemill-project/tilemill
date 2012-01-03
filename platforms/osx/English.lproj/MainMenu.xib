@@ -1145,14 +1145,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">openPreferences:</string>
-						<reference key="source" ref="1067955784"/>
-						<reference key="destination" ref="646980520"/>
-					</object>
-					<int key="connectionID">379</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">openOnlineHelp:</string>
 						<reference key="source" ref="1067955784"/>
 						<reference key="destination" ref="724482055"/>
@@ -1161,19 +1153,27 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">openNodeAboutView:</string>
-						<reference key="source" ref="1067955784"/>
-						<reference key="destination" ref="224242352"/>
-					</object>
-					<int key="connectionID">426</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">openNodeSettingsView:</string>
 						<reference key="source" ref="1067955784"/>
 						<reference key="destination" ref="10041517"/>
 					</object>
 					<int key="connectionID">427</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openNodeSettingsView:</string>
+						<reference key="source" ref="1067955784"/>
+						<reference key="destination" ref="224242352"/>
+					</object>
+					<int key="connectionID">434</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openSparklePreferences:</string>
+						<reference key="source" ref="1067955784"/>
+						<reference key="destination" ref="646980520"/>
+					</object>
+					<int key="connectionID">435</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2011,7 +2011,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">433</int>
+			<int key="maxID">435</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2058,7 +2058,7 @@
 							<string>openDocumentsFolder:</string>
 							<string>openHelp:</string>
 							<string>openOnlineHelp:</string>
-							<string>openPreferences:</string>
+							<string>openSparklePreferences:</string>
 							<string>showBrowserWindow:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -2081,7 +2081,7 @@
 							<string>openDocumentsFolder:</string>
 							<string>openHelp:</string>
 							<string>openOnlineHelp:</string>
-							<string>openPreferences:</string>
+							<string>openSparklePreferences:</string>
 							<string>showBrowserWindow:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -2107,7 +2107,7 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">openPreferences:</string>
+								<string key="name">openSparklePreferences:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
