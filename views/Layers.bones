@@ -95,7 +95,9 @@ view.prototype.layerDelete = function(ev) {
 
 view.prototype.layerInspect = function(ev) {
     $('#drawer .content').empty();
-    $('#drawer').addClass('loading');
+    $('#drawer')
+        .addClass('loading')
+        .addClass('restartable');
     var id = $(ev.currentTarget).attr('href').split('#').pop();
     var layer = this.model.get('Layer').get(id);
     var model = new models.Datasource(_(layer.get('Datasource')).extend({
@@ -108,7 +110,9 @@ view.prototype.layerInspect = function(ev) {
     }));
     model.fetchFeatures({
         success: _(function(model) {
-            $('#drawer').removeClass('loading');
+            $('#drawer')
+                .removeClass('loading')
+                .removeClass('restartable');
             new views.Datasource({
                 el: $('#drawer'),
                 model: model,
@@ -116,6 +120,7 @@ view.prototype.layerInspect = function(ev) {
             });
         }).bind(this),
         error: function(model, err) {
+            if ($('#drawer').hasClass('restarting')) return false;
             $('#drawer').removeClass('loading');
             new views.Modal(err);
         }

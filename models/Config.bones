@@ -3,6 +3,7 @@
 model = Backbone.Model.extend({});
 
 model.prototype.schema = {
+    'id': 'Config',
     'type': 'object',
     'properties': {
         'port': {

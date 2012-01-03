@@ -17,8 +17,8 @@ model.prototype.url = function() {
     var attr = this.attributes;
     if (this.getFeatures) attr.features = true;
     if (this.getInfo) attr.info = true;
-    return 'http://127.0.0.1:'
-        + window.abilities.tilePort
+    return 'http://'
+        + window.abilities.tileUrl
         + '/datasource/'
         + this.get('id')
         + '?' + $.param(attr);

@@ -4,6 +4,7 @@
 model = Backbone.Model.extend({});
 
 model.prototype.schema = {
+    'id': 'Export',
     'type': 'object',
     'properties': {
         'id': {
@@ -63,12 +64,9 @@ model.prototype.schema = {
 };
 
 model.prototype.initialize = function() {
-    if (this.isNew()){
-        this.set({
-            created: +new Date,
-            id: (+new Date) + ''
-        }, {silent: true});
-    }
+    if (this.isNew()) this.set({
+        id: Date.now().toString()
+    }, {silent: true});
 };
 
 model.prototype.url = function() {

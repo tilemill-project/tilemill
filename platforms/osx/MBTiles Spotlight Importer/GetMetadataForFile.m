@@ -45,39 +45,39 @@ Boolean GetMetadataForURL(void *thisInterface,
 {
     Boolean success = NO;
     
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-    FMDatabase *db = [FMDatabase databaseWithPath:[(NSURL *)urlForFile path]];
-    
-    if ([db open])
+    @autoreleasepool
     {
-        NSDictionary *fetches = [NSDictionary dictionaryWithObjectsAndKeys:(NSString *)kMDItemDisplayName, @"name",
-                                                                           (NSString *)kMDItemDescription, @"description",
-                                                                           (NSString *)kMDItemVersion,     @"version",
-                                                                           (NSString *)kMDItemCopyright,   @"attribution",
-                                                                           nil];
+        FMDatabase *db = [FMDatabase databaseWithPath:[(__bridge NSURL *)urlForFile path]];
         
-        for (NSString *key in [fetches allKeys])
+        if ([db open])
         {
-            FMResultSet *result = [db executeQuery:@"select value from metadata where name = ?", key];
+            NSDictionary *fetches = [NSDictionary dictionaryWithObjectsAndKeys:(NSString *)kMDItemDisplayName, @"name",
+                                                                               (NSString *)kMDItemDescription, @"description",
+                                                                               (NSString *)kMDItemVersion,     @"version",
+                                                                               (NSString *)kMDItemCopyright,   @"attribution",
+                                                                               nil];
             
-            if ( ! [db hadError])
+            for (NSString *key in [fetches allKeys])
             {
-                [result next];
-            
-                if ([result stringForColumnIndex:0])
-                    [(NSMutableDictionary *)attributes setObject:[result stringForColumnIndex:0] forKey:[fetches objectForKey:key]];
+                FMResultSet *result = [db executeQuery:@"select value from metadata where name = ?", key];
                 
-                [result close];
+                if ( ! [db hadError])
+                {
+                    [result next];
+                
+                    if ([result stringForColumnIndex:0])
+                        [(__bridge NSMutableDictionary *)attributes setObject:[result stringForColumnIndex:0] forKey:[fetches objectForKey:key]];
+                    
+                    [result close];
+                }
             }
+            [db close];
+            
+            [(__bridge NSMutableDictionary *)attributes setObject:[NSString stringWithFormat:@"MBTiles"] forKey:(NSString *)kMDItemKind];
+            
+            success = YES;
         }
-        [db close];
-        [(NSMutableDictionary *)attributes setObject:[NSString stringWithFormat:@"MBTiles"]
-                                              forKey:(NSString *)kMDItemKind];
-        success = YES;
+        
+        return success;
     }
-    
-    [pool release];
-
-    return success;
 }

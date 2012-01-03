@@ -2,6 +2,8 @@ var assert = require('assert');
 var Step = require('step');
 
 require('./support/start')(function(command) {
+command.servers['Tile'].close();
+
 exports['config'] = function() {
 
 var server = command.servers['Core'];
@@ -32,7 +34,6 @@ Step(function() {
             'cookie': 'bones.token=asdf'
         },
         data: JSON.stringify({
-            'files': '/foo/bar/baz',
             'bufferSize': 1024,
             'bones.token': 'asdf'
         })
@@ -45,7 +46,7 @@ Step(function() {
 // Confirm PUT
 }, function(res) {
     assert.deepEqual(JSON.parse(res.body), {
-        'files': '/foo/bar/baz',
+        'files': '~',
         'bufferSize': 1024,
         'examples': false,
         'host': [],

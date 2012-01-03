@@ -9,16 +9,14 @@ server.prototype.initialize = function() {
     _.bindAll(this, 'fromCache', 'load', 'mbtiles');
     this.port = settings.tilePort || this.port;
     this.enable('jsonp callback');
-    this.all('/tile/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)', [
-        this.cors,
-        this.mbtiles]);
+    this.use(this.cors);
+    this.all('/tile/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)', this.mbtiles);
     this.all('/tile/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)', [
-        this.cors,
         this.fromCache,
         this.load]);
-    this.all('/datasource/:id', [
-        this.cors,
-        this.datasource]);
+    this.all('/datasource/:id', this.datasource);
+    this.get('/status', this.status);
+    this.post('/restart', this.restart);
     // Special error handler for tile requests.
     this.error(function(err, req, res, next) {
         err.status = err.status || 500;
@@ -70,7 +68,7 @@ server.prototype.load = function(req, res, next) {
         source[fn](z, x, y, function(err, tile, headers) {
             if (err) return next(new Error.HTTP(err.message, 404));
             if (res.cache) fs.writeFile(res.cache, tile);
-            if (headers) headers['max-age'] = 3600;
+            if (headers) headers['Cache-control'] = 'max-age=3600';
             res.send(tile, headers);
         });
     });
@@ -92,7 +90,7 @@ server.prototype.mbtiles = function(req, res, next) {
         var fn = req.params.format === 'grid.json' ? 'getGrid' : 'getTile';
         source[fn](z, x, y, function(err, tile, headers) {
             if (err) return next(new Error.HTTP(err.message, 404));
-            if (headers) headers['max-age'] = 3600;
+            if (headers) headers['Cache-control'] = 'max-age=3600';
             res.send(tile, headers);
         });
     });
@@ -111,7 +109,7 @@ server.prototype.fromCache = function(req, res, next) {
     res.cache = path.join(settings.files, 'cache', 'tile', filename);
     fs.stat(res.cache, function(err, stat) {
         if (!err && +stat.mtime > req.param('updated')) {
-            return res.sendfile(res.cache);
+            return res.sendfile(res.cache, {maxAge:36e5});
         } else {
             return next();
         }
@@ -132,5 +130,15 @@ server.prototype.cors = function(req, res, next) {
     res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
     if (req.method === 'OPTIONS') return res.end();
     else return next();
+};
+
+server.prototype.status = function(req, res, next) {
+    res.send({});
+};
+
+server.prototype.restart = function(req, res, next) {
+    res.send({});
+    console.warn('Stopping tile server...');
+    process.exit();
 };
 
