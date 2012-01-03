@@ -250,12 +250,7 @@
 
 - (IBAction)openHelp:(id)sender
 {
-    if ( ! [self.browserController shouldDiscardUnsavedWork])
-        return;
-
-    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/#!/manual", self.searchTask.port]]];
-    
-    [self.browserController performSelector:@selector(showWindow:) withObject:self afterDelay:0.25];
+    [self.browserController loadRequestPath:@"/manual" showingWindow:YES];
 }
 
 - (IBAction)openDiscussions:(id)sender
@@ -284,74 +279,9 @@
     [self.prefsController showWindow:self];
 }
 
-- (IBAction)openNodeAboutView:(id)sender
-{
-    if ( ! [self.browserController shouldDiscardUnsavedWork])
-        return;
-    
-    void (^aboutClick)(void) = ^{ [self.browserController runJavaScript:@"$('a[href=#about]').click()"]; };
-    
-    // go to main Projects view if needed
-    //
-    [self.browserController showWindow:self];
-    
-    if ( ! [[self.browserController runJavaScript:@"$('div.projects').length"] boolValue])
-    {    
-        if (requestLoadBlock != NULL)
-            [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
-        
-        requestLoadBlock = [[NSNotificationCenter defaultCenter] addObserverForName:TileMillBrowserLoadCompleteNotification 
-                                                                             object:nil
-                                                                              queue:nil
-                                                                         usingBlock:^(NSNotification *notification)
-                                                                         {
-                                                                             aboutClick();
-                                                                             
-                                                                             [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
-                                                                             
-                                                                             requestLoadBlock = NULL;
-                                                                         }];
-        
-        [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]]];
-    }
-
-    else
-        aboutClick();
-}
-
 - (IBAction)openNodeSettingsView:(id)sender
 {
-    if ( ! [self.browserController shouldDiscardUnsavedWork])
-        return;
-
-    void (^configClick)(void) = ^{ [self.browserController runJavaScript:@"$('a[href=#config]').click()"]; };
-
-    // go to main Projects view if needed
-    //
-    [self.browserController showWindow:self];
-
-    if ( ! [[self.browserController runJavaScript:@"$('div.projects').length"] boolValue])
-    {    
-        if (requestLoadBlock != NULL)
-            [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
-
-        requestLoadBlock = [[NSNotificationCenter defaultCenter] addObserverForName:TileMillBrowserLoadCompleteNotification 
-                                                                             object:nil
-                                                                              queue:nil
-                                                                         usingBlock:^(NSNotification *notification)
-                                                                         {
-                                                                             configClick();
-
-                                                                             [[NSNotificationCenter defaultCenter] removeObserver:requestLoadBlock];
-                                                                             
-                                                                             requestLoadBlock = NULL;
-                                                                         }];
-        
-        [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]]];
-    }
-    
-    else
-        configClick();
+    [self.browserController loadRequestPath:@"/settings" showingWindow:YES];
 }
 
 - (NSString *)configurationForKey:(NSString *)key
@@ -418,7 +348,7 @@
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 {
-    [self.browserController loadRequestURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/", self.searchTask.port]]];
+    [self.browserController loadInitialRequestWithPort:self.searchTask.port];
 }
 
 @end
