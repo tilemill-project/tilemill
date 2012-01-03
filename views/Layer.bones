@@ -181,6 +181,7 @@ view.prototype.save = function(e) {
     var attr = _($('input[name]:not(.parsable),textarea',form)).reduce(function(memo, el) {
         return deepSet(memo, $(el).attr('name').split('.'), $(el).val());
     }, {});
+
     attr['name'] = (attr['id']||'').replace('#','');
     attr['id'] = (attr['id']||'').replace('#','');
     attr['class'] = (attr['class']||'').replace('.','');

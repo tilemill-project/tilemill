@@ -5,7 +5,7 @@ var enabled = {
     sqlite: isNew() || Datasource.type === 'sqlite',
     postgis: (isNew() && _(window.abilities.datasources).include('postgis')) ||
         Datasource.type === 'postgis',
-    remote: (isNew() && _(window.abilities.datasources).include('jit')) ||
+    jit: (isNew() && _(window.abilities.datasources).include('jit')) ||
         Datasource.type === 'jit'
 };
 var advancedOptions = function(obj) {
@@ -44,8 +44,8 @@ var connectionOptions = function(obj) {
     ><a href='#layer-postgis' class='<%= !enabled.postgis ? 'disabled' : '' %> button large'>
         <span class='icon reverse postgis labeled'></span>
         PostGIS
-    </a><a href='#layer-remote' class='<%= !enabled.remote ? 'disabled' : '' %> button large'>
-        <span class='icon reverse remote labeled'></span>
+    </a><a href='#layer-jit' class='<%= !enabled.jit ? 'disabled' : '' %> button large'>
+        <span class='icon reverse jit labeled'></span>
         Remote
     </a>
   </div>
@@ -140,17 +140,14 @@ var connectionOptions = function(obj) {
     </li>
     <% } %>
 
-    <% if (type === 'remote') { %>
+    <% if (type === 'jit') { %>
     <li class='expand'>
       <label for='url'><span class='required'>*</span> URL</label>
-      <input type='text' class='parsable browsable' name='url' id='url' placeholder='http://localhost:20010/roads.json' value='<%=Datasource.url%>' size='68' />
+      <input type='text' name='Datasource.url' id='url' placeholder='http://localhost:20010/roads.json' value='<%=Datasource.url%>' size='68' />
       <a href='#favorite' class='icon favorite'>Favorite</a>
-      <a href='#open' class='button open'>Browse</a>
       <small class='description'>Provide the root URL of your remote datasource.</small>
-      <div class='browser'></div>
     </li>
     <% } %>
-
 
     <li>
       <label for='srs-name'>SRS</label>
