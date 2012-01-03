@@ -18,7 +18,6 @@ view.prototype.back = function() {
 
 view.prototype.render = function() {
     var features = this.model.get('features');
-    this.$('.actions').html("<a href='#back' class='button'><span class='icon prev reverse labeled' title='layers'></span> Back</a>");
     this.$('.content').html(templates.Datasource({
         fields: this.model.get('fields'),
         features: _(features).first(this.featureLimit),

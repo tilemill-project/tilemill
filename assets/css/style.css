@@ -296,22 +296,18 @@ small { font-size:11px; }
   border-bottom:1px solid #eee;
   }
 
-.pane > .actions {
-  position:absolute;
-  top:10px;
-  right:50px;
-  }
-
 .pane > a.close {
   position:absolute;
   top:10px;
   right:10px;
   }
 
-.pane > .content {
-  top:40px;
-  padding:10px;
-  overflow:auto;
+.pane > .content { top:40px; }
+
+.pane .pane-actions {
+  position:absolute;
+  top:-30px;
+  right:50px;
   }
 
 /**
@@ -799,7 +795,6 @@ ul.layers {
 
 /* Layer form */
 .layer form.active { display:block; }
-.layer .pill { border-radius:0px; }
 
 /* Templates */
 form.templates { margin:60px 10px 10px; overflow:hidden; }
@@ -1124,6 +1119,8 @@ input.cancel:active {
   background:#f4f4f4;
   }
 
+.sunken .pill { background:transparent; }
+
 .pill .button {
   float:none;
   width:100px;
@@ -1288,19 +1285,17 @@ ul.form.expand li.expand {
 
 ul.form .browser {
   display:none;
-  background:#fff;
-  position:absolute;
   top:110px;
-  left:0px;
-  right:0px;
-  bottom:0px;
+  border-radius:0px;
+  -moz-border-radius:0px;
+  -webkit-border-radius:0px;
   }
 
 ul.form.expand .browser { display:block; }
 
 .library .breadcrumb {
   position:absolute;
-  top:30px;
+  top:40px;
   left:10px;
   }
 
@@ -1309,13 +1304,11 @@ ul.form.expand .browser { display:block; }
   padding:5px;
   }
 
-.library .breadcrumb a:active {
-  color:#000;
-}
+.library .breadcrumb a:active { color:#000; }
 
 .library .assets {
   position:absolute;
-  top:60px;
+  top:70px;
   left:10px;
   right:10px;
   bottom:10px;
@@ -1334,8 +1327,8 @@ ul.form.expand .browser { display:block; }
   -webkit-border-radius:3px;
   }
 
-.library .assets a:active { background:#ddd; }
-
+.library .assets a:hover { background:#fff; }
+.library .assets a:active { background:#ccc; }
 
 .library .assets div.description {
   padding-left:10px;
@@ -1359,7 +1352,6 @@ ul.form.expand .browser { display:block; }
   top:5px;
   right:5px;
   }
-
 
 /* Carto reference */
 .reference .page,

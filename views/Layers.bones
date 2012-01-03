@@ -23,8 +23,7 @@ view.prototype.initialize = function(options) {
 };
 
 view.prototype.render = function() {
-    this.$('.actions').html("<a href='#add' class='popup add-layer button'><span class='icon reverse plus labeled'></span> Add layer</a>");
-    this.$('.content').html("<ul class='layers'></ul>");
+    this.$('.content').html(templates.Layers());
     this.model.get('Layer').chain().each(this.makeLayer);
     this.$('ul').sortable({
         axis: 'y',

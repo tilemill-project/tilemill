@@ -7,6 +7,12 @@ obj.escape = function(string) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 }; %>
+<div class='pane-actions'>
+<a href='#back' class='button'>
+  <span class='icon prev reverse labeled' title='layers'></span>
+  Back
+</a>
+</div>
 <div class='features fill'>
 <table>
   <thead>
