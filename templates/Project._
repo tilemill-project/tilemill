@@ -1,7 +1,7 @@
 <div class='project'>
   <div class='map fill-w'></div>
 
-  <div class='editor fill-e'>
+  <div class='workspace fill-e'>
     <div class='header'>
     <h1><%= get('name') || get('id') %></h1>
     <div class='actions joined'>
@@ -32,6 +32,7 @@
     </div>
     <span class='icon spinner'></span>
     </div>
+    <div class='editor'></div>
     <div class='mask'></div>
   </div>
 

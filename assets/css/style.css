@@ -482,13 +482,13 @@ ul.projects { margin:0px -5px; }
 .project .map { background:#fff url(../images/bg.png) 100% 0%; }
 
 .project .map,
-.project .editor {
+.project .workspace {
   top:0px;
   width:50% !important;
   height:auto !important;
   }
 
-.project .editor { border-left:1px solid #ccc; }
+.project .workspace { border-left:1px solid #ccc; }
 
 .wax-fullscreen-view .project .map {
   position:fixed;
@@ -1747,12 +1747,12 @@ ul.grid li {
 @media (min-width:1200px) {
   #drawer { right:45%; }
   .project .map { width:55% !important; }
-  .project .editor { width:45% !important; }
+  .project .workspace { width:45% !important; }
   .wax-fullscreen-view .project .map { width:auto !important; }
 }
 @media (min-width:1400px) {
   #drawer { right:40%; }
   .project .map { width:60% !important; }
-  .project .editor { width:40% !important; }
+  .project .workspace { width:40% !important; }
   .wax-fullscreen-view .project .map { width:auto !important; }
 }

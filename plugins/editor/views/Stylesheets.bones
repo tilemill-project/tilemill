@@ -35,7 +35,7 @@ view.prototype.initialize = function() {
 };
 
 view.prototype.render = function(init) {
-    $(this.el).append(templates.Editor());
+    $(this.el).html(templates.Editor());
     this.model.get('Stylesheet').chain().each(this.makeStylesheet);
     this.$('.tabs').sortable({
         axis: 'x',
