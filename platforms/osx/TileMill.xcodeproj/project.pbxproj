@@ -16,8 +16,8 @@
 		D738213F13EB500D00639A03 /* tilemill.icns in Resources */ = {isa = PBXBuildFile; fileRef = D738213E13EB500C00639A03 /* tilemill.icns */; };
 		D745087913E9EC160020D8CD /* mbtiles.icns in Resources */ = {isa = PBXBuildFile; fileRef = D745087813E9EC160020D8CD /* mbtiles.icns */; };
 		DD05482F14226B8100D7C317 /* tilemill in Resources */ = {isa = PBXBuildFile; fileRef = DD05482E14226B8100D7C317 /* tilemill */; };
-		DD1081DF13F9A5DB001772BE /* TileMillPrefsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD1081DE13F9A5DB001772BE /* TileMillPrefsWindow.xib */; };
-		DD1081EE13F9AA4F001772BE /* TileMillPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1081ED13F9AA4F001772BE /* TileMillPrefsWindowController.m */; };
+		DD1081DF13F9A5DB001772BE /* TileMillSparklePrefsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD1081DE13F9A5DB001772BE /* TileMillSparklePrefsWindow.xib */; };
+		DD1081EE13F9AA4F001772BE /* TileMillSparklePrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1081ED13F9AA4F001772BE /* TileMillSparklePrefsWindowController.m */; };
 		DD35FE0214461B8A00455DAA /* TileMillBrowserWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD35FE0114461B8A00455DAA /* TileMillBrowserWindowController.m */; };
 		DD35FE0414461BA900455DAA /* TileMillBrowserWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD35FE0314461BA900455DAA /* TileMillBrowserWindow.xib */; };
 		DD49236B1403254D0004E12F /* dsa_public.pem in Resources */ = {isa = PBXBuildFile; fileRef = DD49236A1403254D0004E12F /* dsa_public.pem */; };
@@ -114,9 +114,9 @@
 		D738213E13EB500C00639A03 /* tilemill.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = tilemill.icns; sourceTree = "<group>"; };
 		D745087813E9EC160020D8CD /* mbtiles.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = mbtiles.icns; sourceTree = "<group>"; };
 		DD05482E14226B8100D7C317 /* tilemill */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = tilemill; sourceTree = "<group>"; };
-		DD1081DE13F9A5DB001772BE /* TileMillPrefsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileMillPrefsWindow.xib; sourceTree = "<group>"; };
-		DD1081EC13F9AA4F001772BE /* TileMillPrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillPrefsWindowController.h; sourceTree = "<group>"; };
-		DD1081ED13F9AA4F001772BE /* TileMillPrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillPrefsWindowController.m; sourceTree = "<group>"; };
+		DD1081DE13F9A5DB001772BE /* TileMillSparklePrefsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileMillSparklePrefsWindow.xib; sourceTree = "<group>"; };
+		DD1081EC13F9AA4F001772BE /* TileMillSparklePrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = TileMillSparklePrefsWindowController.h; sourceTree = "<group>"; };
+		DD1081ED13F9AA4F001772BE /* TileMillSparklePrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillSparklePrefsWindowController.m; sourceTree = "<group>"; };
 		DD35FE0014461B8A00455DAA /* TileMillBrowserWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillBrowserWindowController.h; sourceTree = "<group>"; };
 		DD35FE0114461B8A00455DAA /* TileMillBrowserWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillBrowserWindowController.m; sourceTree = "<group>"; };
 		DD35FE0314461BA900455DAA /* TileMillBrowserWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileMillBrowserWindow.xib; sourceTree = "<group>"; };
@@ -170,7 +170,7 @@
 			children = (
 				DD1081EF13F9ADD8001772BE /* Main */,
 				080E96DDFE201D6D7F000001 /* Process Management */,
-				DD1081F013F9ADF2001772BE /* Preferences */,
+				DD1081F013F9ADF2001772BE /* Sparkle Preferences */,
 				DD6F0CE613F974D00055EFAE /* Subprojects */,
 				DD820DE313FAC22600685B10 /* Externals */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -237,14 +237,14 @@
 			name = Main;
 			sourceTree = "<group>";
 		};
-		DD1081F013F9ADF2001772BE /* Preferences */ = {
+		DD1081F013F9ADF2001772BE /* Sparkle Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				DD1081EC13F9AA4F001772BE /* TileMillPrefsWindowController.h */,
-				DD1081ED13F9AA4F001772BE /* TileMillPrefsWindowController.m */,
-				DD1081DE13F9A5DB001772BE /* TileMillPrefsWindow.xib */,
+				DD1081EC13F9AA4F001772BE /* TileMillSparklePrefsWindowController.h */,
+				DD1081ED13F9AA4F001772BE /* TileMillSparklePrefsWindowController.m */,
+				DD1081DE13F9A5DB001772BE /* TileMillSparklePrefsWindow.xib */,
 			);
-			name = Preferences;
+			name = "Sparkle Preferences";
 			sourceTree = "<group>";
 		};
 		DD4F9DD91419912E00278ECD /* LetsMove */ = {
@@ -394,7 +394,7 @@
 				D745087913E9EC160020D8CD /* mbtiles.icns in Resources */,
 				D738213C13EB4FE500639A03 /* application.icns in Resources */,
 				D738213F13EB500D00639A03 /* tilemill.icns in Resources */,
-				DD1081DF13F9A5DB001772BE /* TileMillPrefsWindow.xib in Resources */,
+				DD1081DF13F9A5DB001772BE /* TileMillSparklePrefsWindow.xib in Resources */,
 				DD49236B1403254D0004E12F /* dsa_public.pem in Resources */,
 				DD05482F14226B8100D7C317 /* tilemill in Resources */,
 				DD35FE0414461BA900455DAA /* TileMillBrowserWindow.xib in Resources */,
@@ -472,7 +472,7 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				35D15E0E13D25D9D003244AE /* TileMillChildProcess.m in Sources */,
 				35B36EA313D260C6006C72ED /* TileMillAppDelegate.m in Sources */,
-				DD1081EE13F9AA4F001772BE /* TileMillPrefsWindowController.m in Sources */,
+				DD1081EE13F9AA4F001772BE /* TileMillSparklePrefsWindowController.m in Sources */,
 				DD4F9DDC1419914400278ECD /* PFMoveApplication.m in Sources */,
 				DD4F9DE51419923C00278ECD /* NSString+SymlinksAndAliases.m in Sources */,
 				DD35FE0214461B8A00455DAA /* TileMillBrowserWindowController.m in Sources */,

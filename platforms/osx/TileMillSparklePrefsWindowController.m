@@ -1,16 +1,16 @@
 //
-//  TileMillPrefsWindowController.m
+//  TileMillSparklePrefsWindowController.m
 //  TileMill
 //
 //  Created by Justin Miller on 8/15/11.
 //  Copyright 2011 Development Seed. All rights reserved.
 //
 
-#import "TileMillPrefsWindowController.h"
+#import "TileMillSparklePrefsWindowController.h"
 
 #import <Sparkle/Sparkle.h>
 
-@implementation TileMillPrefsWindowController
+@implementation TileMillSparklePrefsWindowController
 
 - (id)initWithWindowNibName:(NSString *)windowNibName
 {

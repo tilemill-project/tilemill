@@ -8,7 +8,7 @@
 
 #import "TileMillAppDelegate.h"
 #import "TileMillBrowserWindowController.h"
-#import "TileMillPrefsWindowController.h"
+#import "TileMillSparklePrefsWindowController.h"
 
 #import "PFMoveApplication.h"
 
@@ -18,7 +18,7 @@
 
 @property (nonatomic, strong) TileMillChildProcess *searchTask;
 @property (nonatomic, strong) TileMillBrowserWindowController *browserController;
-@property (nonatomic, strong) TileMillPrefsWindowController *prefsController;
+@property (nonatomic, strong) TileMillSparklePrefsWindowController *sparklePrefsController;
 @property (nonatomic, strong) NSString *logPath;
 @property (nonatomic, assign) BOOL shouldAttemptRestart;
 @property (nonatomic, assign) BOOL fatalErrorCaught;
@@ -36,7 +36,7 @@
 
 @synthesize searchTask;
 @synthesize browserController;
-@synthesize prefsController;
+@synthesize sparklePrefsController;
 @synthesize logPath;
 @synthesize shouldAttemptRestart;
 @synthesize fatalErrorCaught;
@@ -271,12 +271,12 @@
     [[NSWorkspace sharedWorkspace] openFile:self.logPath withApplication:@"Console" andDeactivate:YES];
 }
 
-- (IBAction)openPreferences:(id)sender
+- (IBAction)openSparklePreferences:(id)sender
 {
-    if ( ! self.prefsController)
-        self.prefsController = [[TileMillPrefsWindowController alloc] initWithWindowNibName:@"TileMillPrefsWindow"];
+    if ( ! self.sparklePrefsController)
+        self.sparklePrefsController = [[TileMillSparklePrefsWindowController alloc] initWithWindowNibName:@"TileMillSparklePrefsWindow"];
     
-    [self.prefsController showWindow:self];
+    [self.sparklePrefsController showWindow:self];
 }
 
 - (IBAction)openNodeSettingsView:(id)sender
