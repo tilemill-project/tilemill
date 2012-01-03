@@ -41,14 +41,14 @@ view.prototype.popupOpen = function(ev) {
 
 view.prototype.popupClose = function(ev) {
     $(this.el).removeClass('overlay');
-    this.$('#popup').removeClass('active');
-    this.$('#popup .pane').html(templates.Pane());
+    this.$('#popup')
+        .removeClass('active')
+        .html(templates.Pane());
     return false;
 };
 
 view.prototype.drawerOpen = function(ev) {
     var target = $(ev.currentTarget);
-    var className = target.is('.mini') ? 'mini' : '';
 
     // Close drawers when the target is active.
     if (target.is('.active')) return this.drawerClose();
@@ -56,15 +56,17 @@ view.prototype.drawerOpen = function(ev) {
     var title = target.text() || target.attr('title');
     this.$('a.drawer.active').removeClass('active');
     target.addClass('active');
-    this.$('#drawer').attr('class', 'active ' + className);
-    this.$('#drawer .pane > .title').text(title);
+    this.$('#drawer')[target.hasClass('mini') ? 'addClass' : 'removeClass']('mini');
+    this.$('#drawer').addClass('active')
+    this.$('#drawer > .title').text(title);
     return false;
 };
 
 view.prototype.drawerClose = function(ev) {
     this.$('a.drawer.active').removeClass('active');
-    this.$('#drawer').removeClass('active');
-    this.$('#drawer .pane').html(templates.Pane());
+    this.$('#drawer')
+        .removeClass('active')
+        .html(templates.Pane());
     return false;
 };
 
@@ -129,15 +131,25 @@ view.prototype.dropdown = function(ev) {
 
 view.prototype.restart = function(ev) {
     var target = $(ev.currentTarget);
-    target.addClass('restarting');
+    var parent = target.parents('.restartable');
+    if (parent.hasClass('restarting')) return false;
 
+    target.addClass('active');
+    parent.addClass('restarting');
     var poll = function() {
         $.ajax({
             url: 'http://localhost:'+window.abilities.tilePort+'/status',
             contentType: 'application/json',
             dataType: 'json',
             processData: false,
-            success: function(resp) { target.removeClass('restarting'); },
+            success: function(resp) {
+                target.removeClass('active');
+                parent
+                    .removeClass('loading')
+                    .removeClass('restarting')
+                    .removeClass('restartable');
+                if (parent.is('#drawer')) $('a[href=#close]',parent).click();
+            },
             error: function() { setTimeout(poll, 1000); }
         });
     };
@@ -150,7 +162,12 @@ view.prototype.restart = function(ev) {
         processData: false,
         success: poll,
         error: function(err) {
-            $('body').removeClass('loading');
+            target.removeClass('active');
+            parent
+                .removeClass('loading')
+                .removeClass('restarting')
+                .removeClass('restartable');
+            if (parent.is('#drawer')) $('a[href=#close]',parent).click();
             new views.Modal(err);
         }
     });

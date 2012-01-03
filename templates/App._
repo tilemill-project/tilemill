@@ -19,7 +19,6 @@
   <a class='manual' href='#/manual'><span class='icon i30 manual'></span>Manual</a>
   <a class='plugins' href='#/plugins'><span class='icon i30 plugins'></span>Plugins</a>
   <a class='settings' href='#/settings'><span class='icon i30 settings'></span>Settings</a>
-  <a class='restart'><span class='icon i30 restart'></span><small class='label'>Restart</small></a>
 </div>
 
 <div id='page' class='fill-e'></div>

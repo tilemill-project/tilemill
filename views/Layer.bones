@@ -178,7 +178,7 @@ view.prototype.autostyle = function() {
 };
 
 view.prototype.saveFile = function(e) {
-    $(this.el).addClass('loading');
+    $(this.el).addClass('loading').addClass('restartable');
     var attr = {
         'name':  this.$('input[name=id]').val().replace('#', ''),
         'id':    this.$('input[name=id]').val().replace('#', ''),
@@ -191,6 +191,7 @@ view.prototype.saveFile = function(e) {
     var autostyle = $(e.target).hasClass('with-style');
     _(attr['Datasource']).defaults(this.parseOptions(this.$('input[name=advanced]').val()));
     var error = _(function(m, e) {
+        if ($(this.el).hasClass('restarting')) return false;
         $(this.el).removeClass('loading');
         new views.Modal(e);
     }).bind(this);
@@ -210,7 +211,7 @@ view.prototype.saveFile = function(e) {
 };
 
 view.prototype.savePostGIS = function(e) {
-    $(this.el).addClass('loading');
+    $(this.el).addClass('loading').addClass('restartable');
     var attr = {
         'name':  this.$('form.layerPostGIS input[name=id]')
             .val().replace('#', ''),
@@ -251,6 +252,7 @@ view.prototype.savePostGIS = function(e) {
         return false;
     }
     var error = _(function(m, e) {
+        if ($(this.el).hasClass('restarting')) return false;
         $(this.el).removeClass('loading');
         new views.Modal(e);
     }).bind(this);
@@ -273,7 +275,7 @@ view.prototype.savePostGIS = function(e) {
 };
 
 view.prototype.saveSqlite = function(e) {
-    $(this.el).addClass('loading');
+    $(this.el).addClass('loading').addClass('restartable');
     var attr = {
         'name':  this.$('form.layerSqlite input[name=id]').val().replace('#', ''),
         'id':    this.$('form.layerSqlite input[name=id]').val().replace('#', ''),
@@ -291,6 +293,7 @@ view.prototype.saveSqlite = function(e) {
     var autostyle = $(e.target).hasClass('with-style');
     _(attr['Datasource']).defaults(this.parseOptions(this.$('form.layerSqlite input[name=advanced]').val()));
     var error = _(function(m, e) {
+        if ($(this.el).hasClass('restarting')) return false;
         $(this.el).removeClass('loading');
         new views.Modal(e);
     }).bind(this);

@@ -35,7 +35,7 @@
     <div class='mask'></div>
   </div>
 
-  <div id='drawer'><div class='pane fill raised'><%= this.Pane() %></div></div>
+  <div id='drawer' class='pane fill raised'><%= this.Pane() %></div>
 
   <div class='palette clearfix'>
     <a class='drawer mini' href='#layers'><span class='icon reverse layers'>Layers</span></a>
