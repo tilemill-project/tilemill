@@ -9,6 +9,7 @@ commands['start'].prototype.initialize = function(plugin, callback) {
         _(Bones.plugin.children).chain()
             .pluck('pid')
             .each(function(pid) { process.kill(pid, 'SIGUSR2') });
+        process.kill(process.pid, 'SIGUSR2');
     });
     this.child('core');
     this.child('tile');
