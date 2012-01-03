@@ -358,13 +358,33 @@ command.prototype.upload = function (callback) {
                 'Content-Length': stat.size + multipartBody.length + terminate.length,
                 'X_FILE_NAME': filename
             }
-        }, function(resp) {
-            if (resp.statusCode !== 303)
-                return this(new Error('S3 is not available. Status ' + resp.statusCode + '.'));
-
-            freeURL = resp.headers.location.split('?')[0];
-            this();
-        }.bind(this))
+        });
+        dest.on('response', function(resp) {
+            var data = '';
+            var callback = function(err) {
+                if (err) {
+                    return this(new Error('Connection terminated. Code ' + err.code));
+                }
+                if (resp.statusCode !== 303) {
+                    var parsed = _({
+                        code:     new RegExp('[^>]+(?=<\\/Code>)', 'g'),
+                        message:  new RegExp('[^>]+(?=<\\/Message>)', 'g')
+                    }).reduce(function(memo, pattern, key) {
+                        memo[key] = data.match(pattern) || [];
+                        return memo;
+                    }, {});
+                    var message = 'Error: S3 upload failed. Status: ' + resp.statusCode;
+                    if (parsed.code[0] && parsed.message[0])
+                        message += ' (' + parsed.code[0] + ' - ' + parsed.message[0] + ')';
+                    return this(new Error(message));
+                }
+                freeURL = resp.headers.location.split('?')[0];
+                this();
+            }.bind(this);
+            resp.on('data', function(chunk) { chunk += data; });
+            resp.on('close', callback);
+            resp.on('end', callback);
+        }.bind(this));
 
         // Write multipart values from memory.
         dest.write(multipartBody, 'ascii');
