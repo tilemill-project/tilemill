@@ -1,5 +1,5 @@
 <div class='library'>
-<div class='libraries toggler joined pill'>
+<div class='libraries toggler joined pill centered'>
   <% if (model.id === 'favoritesPostGIS') { %>
   <a href='#favoritesPostGIS' class='button active'><span class='icon reverse labeled star'></span>Favorites</a>
   <% } else if (model.id === 'sqlite') { %>

@@ -22,6 +22,7 @@ input,
 textarea,
 body { font-family:DroidSans,'Lucida Grande',sans-serif; }
 
+textarea.code,
 code,
 pre,
 div.CodeMirror { font-family:DroidSansMono,monospace; }
@@ -32,8 +33,6 @@ p code {
   background:#f0f8fa;
   padding:2px;
 }
-
-.tokens code { font-size:11px; }
 
 body {
   background:#eee;
@@ -78,6 +77,7 @@ label { font-weight:normal; }
 .required { color:#c30; }
 .description { color:#999; }
 .dependent {display:none; }
+.centered { text-align:center; }
 small { font-size:11px; }
 
 /**
@@ -797,52 +797,30 @@ ul.layers {
 
 .tabs li:hover a.delete { display:block; }
 
-/**
- * "Dock"-style tabs
- */
-.dock { padding-left:60px; }
-
-.dock .icons {
-  width:59px;
-  border-right:1px solid #ddd;
-  background:#eee;
-  }
-
-.dock .icons .icon { margin:0px auto; }
-
-.dock .icons a {
-  display:block;
-  font-size:11px;
-  text-align:center;
-  width:40px;
-  height:40px;
-  border-bottom:1px solid #ddd;
-  border-right:1px solid #ddd;
-  padding:10px 9px 9px 10px;
-  }
-
-.dock .icons a.active {
-  color:#fff;
-  border-color:#999;
-  background:#888;
-  }
-
-.dock form {
-  display:none;
-  overflow:auto;
-  position:absolute;
-  top:0px;
-  left:60px;
-  right:0px;
-  bottom:0px;
-  }
-
-.dock form.active { display:block; }
-
+/* Layer form */
 .layer form.active { display:block; }
-.layer > .pill {
-  padding-bottom:9px;
-  border-bottom:1px solid #eee;
+.layer .pill { border-radius:0px; }
+
+/* Templates */
+form.templates { margin:60px 10px 10px; overflow:hidden; }
+form.templates .templates input[type=text],
+form.templates .templates textarea { top:30px; }
+form.templates .templates textarea { resize:none; bottom:150px; }
+form.templates .templates-legend textarea { bottom:0px; }
+form.templates .templates { display:none; }
+form.templates .templates.active { display:block; }
+form.templates .templates-options {
+  display:none;
+  background:#fff;
+  padding-top:10px;
+  }
+form.templates .templates-options.active { display:block; }
+form.templates .templates-tokens {
+  margin:10px 0px;
+  height:60px;
+  background:#eee;
+  overflow:auto;
+  font-size:10px;
   }
 
 /**
@@ -996,14 +974,6 @@ li:hover .icon { display:block; }
 .reverse.eye            { background-position:-640px -200px; }
 .reverse.upload         { background-position:-680px -200px; }
 
-/* Dock-icon specific reverse styles */
-.dock .active > .icon.legend   { background-position:-280px -200px; }
-.dock .active > .icon.settings { background-position:-260px -200px; }
-.dock .active > .icon.file     { background-position:-540px -200px;}
-.dock .active > .icon.postgis  { background-position:-660px -200px;}
-.dock .active > .icon.sqlite   { background-position:-560px -200px;}
-.dock .active > .icon.tooltip  { background-position:-580px -200px;}
-
 /* File icons */
 .filetype.png     { background-position:0px -320px; }
 .filetype.pdf     { background-position:-40px -320px; }
@@ -1148,14 +1118,17 @@ input.cancel:active {
 .joined > *:only-child { border-radius:3px; }
 
 .pill {
-  padding:10px;
-  text-align:center;
+  white-space:nowrap;
+  padding:10px 10px 9px;
+  border-bottom:1px solid #eee;
+  background:#f4f4f4;
   }
 
 .pill .button {
   float:none;
   width:100px;
-  margin:0px !important;
+  margin-left:0px !important;
+  margin-right:0px !important;
   display:inline-block !important;
   text-align:left !important;
   }
@@ -1198,7 +1171,7 @@ ul.form .buttons input {
   margin:0px 5px;
   min-width:100px;
   text-align:center;
-  font-size:16px;
+  font-size:13px;
   }
 
 ul.form small.description { display:block; }
@@ -1612,7 +1585,7 @@ tr:hover th,
 .prose h5,
 .prose h6 {
   font-weight:bold;
-  font-size:18px;
+  font-size:16px;
   margin:0px 0px 20px;
   }
 

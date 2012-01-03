@@ -30,7 +30,7 @@ var connectionOptions = function(obj) {
 };
 %>
 <div class='fill layer'>
-  <div class='toggler joined pill'>
+  <div class='toggler joined pill centered beveled'>
     <a href='#layer-file' class='<%= !enabled.file ? 'disabled' : '' %> button large'>
         <span class='icon reverse file labeled'></span>
         File

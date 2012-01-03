@@ -27,7 +27,7 @@
         </span>
       </span>
       <a class='popup button' href='#settings'>
-        <span class='icon reverse settings'>Settings</span>
+        <span class='icon reverse settings'>Project settings</span>
       </a>
     </div>
     <span class='icon spinner'></span>
