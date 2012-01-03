@@ -54,6 +54,7 @@ view.prototype.render = function(init) {
 
 view.prototype.attach = function() {
     $(this.el).removeClass('saving');
+    this.$('.workspace .name').text(this.model.get('name'));
     this.$('.actions a[href=#save]').addClass('disabled');
 };
 

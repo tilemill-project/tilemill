@@ -3,7 +3,7 @@
 
   <div class='workspace fill-e'>
     <div class='header'>
-    <h1><%= get('name') || get('id') %></h1>
+    <h1 class='name'><%= get('name') || get('id') %></h1>
     <div class='actions joined'>
       <a class='button disabled' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
       <span class='button dropdown' href='#export'>
