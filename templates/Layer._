@@ -140,7 +140,7 @@
     <li class='buttons'>
       <input type='submit' value='Save' />
       <% if (isNew()) {%>
-      <input type='submit' class='with-style'value='Save &amp; Style' />
+      <input type='submit' class='with-style' value='Save &amp; Style' />
       <% } %>
       <input type='button' value='Cancel' class='cancel' />
     </li>
