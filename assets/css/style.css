@@ -1591,22 +1591,6 @@ tr:hover th,
   border-color:#e0e8ea;
   }
 
-/* Screen-size adjustments */
-@media (min-width:1200px) {
-  #drawer { width:55% !important; }
-  #drawer.mini { width:auto !important; }
-  .project .map { width:55% !important; }
-  .project .editor { width:45% !important; }
-  .wax-fullscreen-view .project .map { width:auto !important; }
-}
-@media (min-width:1400px) {
-  #drawer { width:60% !important; }
-  #drawer.mini { width:auto !important; }
-  .project .map { width:60% !important; }
-  .project .editor { width:40% !important; }
-  .wax-fullscreen-view .project .map { width:auto !important; }
-}
-
 /* Manual */
 .prose a { color:#5ab; }
 
@@ -1777,13 +1761,13 @@ ul.grid li {
 
 /* Screen-size adjustments */
 @media (min-width:1200px) {
-  #drawer { width:55% !important; }
+  #drawer { right:45%; }
   .project .map { width:55% !important; }
   .project .editor { width:45% !important; }
   .wax-fullscreen-view .project .map { width:auto !important; }
 }
 @media (min-width:1400px) {
-  #drawer { width:60% !important; }
+  #drawer { right:40%; }
   .project .map { width:60% !important; }
   .project .editor { width:40% !important; }
   .wax-fullscreen-view .project .map { width:auto !important; }
