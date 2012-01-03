@@ -1,16 +1,16 @@
 <div class='library'>
-<div class='toggler'><div class='libraries joined clear-block'>
+<div class='libraries toggler joined pill'>
   <% if (model.id === 'favoritesPostGIS') { %>
   <a href='#favoritesPostGIS' class='button active'><span class='icon reverse labeled star'></span>Favorites</a>
   <% } else if (model.id === 'sqlite') { %>
-  <a href='#sqlite' class='button active'><span class='icon reverse labeled file'></span>File</a>
-  <a href='#favoritesSqlite' class='button'><span class='icon reverse labeled star'></span>Favorites</a>
+  <a href='#sqlite' class='button active'><span class='icon reverse labeled file'></span>File</a
+  ><a href='#favoritesSqlite' class='button'><span class='icon reverse labeled star'></span>Favorites</a>
   <% } else { %>
-  <a href='#file' class='button active'><span class='icon reverse labeled file'></span>File</a>
-  <a href='#s3' class='button'><span class='icon reverse labeled cloud'></span>MapBox</a>
-  <a href='#favoritesFile' class='button'><span class='icon reverse labeled star'></span>Favorites</a>
+  <a href='#file' class='button active'><span class='icon reverse labeled file'></span>File</a
+  ><a href='#s3' class='button'><span class='icon reverse labeled cloud'></span>MapBox</a
+  ><a href='#favoritesFile' class='button'><span class='icon reverse labeled star'></span>Favorites</a>
   <% } %>
-</div></div>
+</div>
 
 <div class='breadcrumb clearfix'>
 <% if (model.id === 'file' || model.id === 'sqlite') { %>

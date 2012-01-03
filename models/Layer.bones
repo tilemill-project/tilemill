@@ -98,19 +98,3 @@ model.prototype.validateAsync = function(attributes, options) {
     });
 };
 
-model.prototype.advancedDatasourceOptions = function() {
-    var omit = [
-        'type', 'file',
-        'table', 'host', 'port', 'user', 'password', 'dbname',
-        'extent', 'key_field', 'geometry_field', 'type', 'attachdb',
-        'srs', 'id', 'project'
-    ];
-    var advancedOptions = [];
-    _(this.get('Datasource')).each(function(value, key) {
-        if (omit.indexOf(key) === -1) {
-            advancedOptions.push(key + '="' + value + '"');
-        }
-    });
-    return advancedOptions.join(' ');
-}
-

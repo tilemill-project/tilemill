@@ -839,6 +839,12 @@ ul.layers {
 
 .dock form.active { display:block; }
 
+.layer form.active { display:block; }
+.layer > .pill {
+  padding-bottom:9px;
+  border-bottom:1px solid #eee;
+  }
+
 /**
  * CodeMirror
  */
@@ -1141,6 +1147,19 @@ input.cancel:active {
   }
 .joined > *:only-child { border-radius:3px; }
 
+.pill {
+  padding:10px;
+  text-align:center;
+  }
+
+.pill .button {
+  float:none;
+  width:100px;
+  margin:0px !important;
+  display:inline-block !important;
+  text-align:left !important;
+  }
+
 /* Forms */
 ul.form h2 { font-size:16px; }
 
@@ -1298,21 +1317,13 @@ ul.form .browser {
   display:none;
   background:#fff;
   position:absolute;
-  top:130px;
+  top:110px;
   left:0px;
   right:0px;
   bottom:0px;
   }
 
 ul.form.expand .browser { display:block; }
-
-.library .toggler {
-  text-align:center;
-  height:30px;
-  }
-
-.library .joined { display:inline-block }
-.library .joined .button { width:100px; text-align:left; }
 
 .library .breadcrumb {
   position:absolute;

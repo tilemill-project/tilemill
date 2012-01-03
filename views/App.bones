@@ -74,6 +74,7 @@ view.prototype.toggler = function(ev) {
     var link = $(ev.currentTarget);
     var parent = link.parents('.toggler');
     var target = link.attr('href').split('#').pop();
+    if (link.hasClass('disabled')) return false;
 
     $('a', parent).removeClass('active');
     this.$('.' + target).siblings('.active').removeClass('active');

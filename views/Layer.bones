@@ -35,15 +35,9 @@ view.prototype.render = function() {
     // URI is favorited.
     this.$('input[name=file], input[name=connection]').change();
 
-    if (this.model.get('Datasource')) {
-        if (this.model.get('Datasource').type == 'sqlite') {
-            this.$('a[href=#layerSqlite]').click();
-        } else if (this.model.get('Datasource').file) {
-            this.$('a[href=#layerFile]').click();
-        } else if (this.model.get('Datasource').type == 'postgis') {
-            this.$('a[href=#layerPostGIS]').click();
-        }
-    }
+    // Set active tab.
+    var type = this.model.get('Datasource') && this.model.get('Datasource').type;
+    this.$('a[href=#layer-' + (type||'file') + ']').click();
 
     // Autofocus first field for new layers.
     if (!this.model.id) this.$('input[type=text]:first').focus();
@@ -112,25 +106,19 @@ view.prototype.favoriteUpdate = function(ev) {
 
 view.prototype.browse = function(ev) {
     var target = $(ev.currentTarget);
+    var form = target.parents('form');
+    var id = (function(form) {
+        if (form.hasClass('layer-file')) return 'file';
+        if (form.hasClass('layer-sqlite')) return 'sqlite';
+        if (form.hasClass('layer-postgis')) return 'favoritesPostGIS';
+    })(form);
+    var components = $('input.browsable', form).val().split('/');
+    var location = components.slice(0, components.length - 1).join('/');
+
     target
         .toggleClass('active')
         .text(target.hasClass('active') ? 'Done' : 'Browse');
-
-    var id;
-    var form = target.parents('form');
-    if (form.is('.layerFile')) {
-        id = 'file';
-    } else if (form.is('.layerSqlite')) {
-        id = 'sqlite';
-    } else if (form.is('.layerPostGIS')) {
-        id = 'favoritesPostGIS';
-    }
     $('ul.form', form).toggleClass('expand');
-
-    var components = $('input[name=file], input[name=connection]', form)
-        .val()
-        .split('/');
-    var location = components.slice(0, components.length - 1).join('/');
 
     if (target.is('.active')) (new models.Library({
         id:id,
@@ -142,7 +130,7 @@ view.prototype.browse = function(ev) {
                 model: model,
                 favorites: this.favorites,
                 change: function(uri) {
-                    $('input[name=file], input[name=connection]', form).val(uri);
+                    $('input.browsable', form).val(uri);
                     if ($('input[name=id]', form).val() == '') {
                         // Get the 'basename' of the file, minus anything
                         // after the first dot, in alphanumeric
@@ -177,51 +165,31 @@ view.prototype.autostyle = function() {
 view.prototype.save = function(e) {
     var form = $(e.target).parents('form');
     var autostyle = $(e.target).hasClass('with-style');
-    var attr = {
-        'name':  $('input[name=id]', form).val().replace('#', ''),
-        'id':    $('input[name=id]', form).val().replace('#', ''),
-        'srs':   $('input[name=srs]', form).val() || this.model.SRS['900913'],
-        'class': $('input[name=class]', form).val().replace('.', '')
-    };
-
     var parseOptions = function (o) {
-        var options = {};
-        _(o.match(/([\d\w]*)\=(\"[^\"]*\"|[^\s]*)/g)).each(function(pair) {
+        return _(o.match(/([\d\w]*)\=(\"[^\"]*\"|[^\s]*)/g)).reduce(function(memo,pair) {
             pair = pair.replace(/"|'/g, '').split('=');
-            options[pair[0]] = pair[1];
-        });
-        return options;
+            memo[pair[0]] = pair[1];
+            return memo;
+        }, {});
     };
+    var deepSet = function(attr, keys, val) {
+        if (!keys.length) return val;
+        var key = keys.shift();
+        attr[key] = deepSet(attr[key]||{}, keys, val);
+        return attr;
+    };
+    var attr = _($('input[name]:not(.parsable),textarea',form)).reduce(function(memo, el) {
+        return deepSet(memo, $(el).attr('name').split('.'), $(el).val());
+    }, {});
+    attr['name'] = (attr['id']||'').replace('#','');
+    attr['id'] = (attr['id']||'').replace('#','');
+    attr['class'] = (attr['class']||'').replace('.','');
+    attr['srs'] = attr['srs'] || this.model.SRS['900913'];
+    attr['Datasource'] = _(attr['Datasource']||{})
+        .defaults(parseOptions($('input[name=advanced]', form).val()));
 
-    switch (function(form) {
-        if (form.hasClass('layerFile')) return 'file';
-        if (form.hasClass('layerPostGIS')) return 'postgis';
-        if (form.hasClass('layerSqlite')) return 'sqlite';
-    }(form)) {
-    case 'file':
-        attr.Datasource = _({
-            'file': $('input[name=file]', form).val()
-        }).defaults(parseOptions($('input[name=advanced]', form).val()));
-        break;
-    case 'sqlite':
-        attr.Datasource = _({
-            'file': $('input[name=file]', form).val(),
-            'table': $('textarea[name=table]', form).val(),
-            'attachdb': $('input[name=attachdb]', form).val(),
-            'extent': $('input[name=extent]', form).val(),
-            'type': 'sqlite'
-        }).defaults(parseOptions($('input[name=advanced]', form).val()));
-        break;
-    case 'postgis':
-        attr.Datasource = _({
-            'table': $('textarea[name=table]', form).val(),
-            'key_field': $('input[name=key_field]', form).val(),
-            'geometry_field': $('input[name=geometry_field]', form).val(),
-            'extent': $('input[name=extent]', form).val(),
-            'type': 'postgis'
-        }).defaults(parseOptions($('input[name=advanced]', form).val()));
-
-        // Special parsing around PostGIS connection.
+    // Parse PostGIS connection options.
+    if ($('input[name=connection]', form).size()) {
         var allowedArgs = ['user', 'password', 'dbname', 'port', 'host'];
         var connection = parseOptions($('input[name=connection]', form).val());
         for (var key in connection) if (!_(allowedArgs).include(key)) {
@@ -236,13 +204,10 @@ view.prototype.save = function(e) {
             new views.Modal(new Error('dbname is required in PostgreSQL connection string.'));
             return false;
         }
-        _(attr['Datasource']).defaults(connection);
-        break;
+        attr.Datasource = _(attr.Datasource).defaults(connection);
     }
 
-    $(this.el)
-        .addClass('loading')
-        .addClass('restartable');
+    $(this.el).addClass('loading').addClass('restartable');
     var error = _(function(m, e) {
         if ($(this.el).hasClass('restarting')) return false;
         $(this.el).removeClass('loading').removeClass('restartable');
@@ -265,7 +230,7 @@ view.prototype.save = function(e) {
 
 view.prototype.cacheFlush = function(ev) {
     $(this.el).addClass('loading');
-    var url = this.$('form.layerFile input[name=file]').val();
+    var url = this.$('form.layer-file input[name=file]').val();
     this.model.collection.parent.flush(this.model.id, url, {
         success: _(function(m, resp) {
             $(this.el).removeClass('loading');
