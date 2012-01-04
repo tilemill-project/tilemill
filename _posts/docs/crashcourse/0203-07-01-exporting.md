@@ -6,7 +6,7 @@ tag: crashcourse
 title: "Exporting Your Map"
 permalink: /docs/crashcourse/exporting
 prereq:
-- "[Added an earthquake CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
+- "[Added a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
 - "[Added tooltips](/tilemill/docs/crashcourse/tooltips) to your map."
 - "[Added a legend](/tilemill/docs/crashcourse/legends) to your map."
 nextup:

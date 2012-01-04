@@ -8,6 +8,7 @@ permalink: /docs/crashcourse/point-data
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 nextup:
+- "[Map styling](/tilemill/docs/crashcourse/styling/) basics."
 - "[Using conditional styles](/tilemill/docs/crashcourse/conditional-styles/) to control the appearance of points based on data."
 - "[Adding tooltips](/tilemill/docs/crashcourse/tooltips/) to your map."
 - "[Adding a legend](/tilemill/docs/crashcourse/legends/) to your map."
