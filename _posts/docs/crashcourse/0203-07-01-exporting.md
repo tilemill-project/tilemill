@@ -19,9 +19,9 @@ TileMill can export to MBTiles, PNG, PDF, or SVG. [See here](/tilemill/docs/manu
 
 Before exporting your map it is important to consider its final purpose. What you see in the map preview is exactly what will be rendered. It is possible to temporarily hide layers by **commenting out** their symbolizers.
 
-In the [previous tutorials](/tilemill/docs/crashcourse/point-data) you created a map of earthquakes. We plan on overlaying this on top of an existing base map, therefore we don't want TileMill to render the default blue and white world map.
+In the [previous tutorials](/tilemill/docs/crashcourse/point-data) you created a map of earthquakes. We plan on overlaying this on top of an existing base map later, therefore we don't want TileMill to render the default blue and white world map.
 
-1. Comment out the background and base map layer by adding `/*` and `*/` before and after their Carto styling, as shown below. You will notice the section between becomes grayed out.
+1. **Comment out** the background and base map layer by adding `/*` and `*/` before and after their Carto styling, as shown below. You will notice the section between becomes grayed out.
   ![](/tilemill/assets/pages/exporting-10.png)
 2. Click **Save**. The map background is now transparent and you are ready to export.
 3. Click the **Export** button. A drop down menu will appear.
