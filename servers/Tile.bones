@@ -10,8 +10,8 @@ server.prototype.initialize = function() {
     this.port = settings.tilePort || this.port;
     this.enable('jsonp callback');
     this.use(this.cors);
-    this.all('/tile/:id.mbtiles/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)', this.mbtiles);
-    this.all('/tile/:id/:z/:x/:y.:format(png8|png|jpeg[\\d]+|jpeg|grid.json)', [
+    this.all('/tile/:id.mbtiles/:z/:x/:y.:format(png|grid.json)', this.mbtiles);
+    this.all('/tile/:id/:z/:x/:y.:format(png|grid.json)', [
         this.fromCache,
         this.load]);
     this.all('/datasource/:id', this.datasource);

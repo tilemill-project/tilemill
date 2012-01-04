@@ -26,8 +26,7 @@ model.prototype.schema = {
         // https://github.com/mapbox/tilelive-mapnik/issues/4
         'format': {
             'type': 'string',
-            'enum': ['png', 'png24', 'png8', 'jpeg80', 'jpeg85',
-                'jpeg90', 'jpeg95']
+            'pattern': 'png(8|256)?(:.*)?|jpeg|jpeg[\d]{2}'
         },
         'interactivity': {
             'type': ['object', 'boolean']

@@ -1,11 +1,12 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
+    'change select[name=format]': 'formatCustom',
     'click input[type=submit]': 'save'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'save', 'zoom');
+    _(this).bindAll('render', 'save', 'zoom', 'formatCustom');
     this.render();
 };
 
@@ -23,6 +24,9 @@ view.prototype.render = function() {
     // Focus name field for unnamed projects.
     if (!this.model.get('name')) this.$('input[type=text]:first').focus();
 
+    // Update state of custom format field.
+    this.formatCustom();
+
     return this;
 };
 
@@ -31,13 +35,22 @@ view.prototype.zoom = function(ev, ui) {
     this.$('.maxzoom').text(ui.values[1]);
 };
 
+view.prototype.formatCustom = function(ev) {
+    if (this.$('select[name=format]').val() === '') {
+        this.$('.dependent').show();
+    } else {
+        this.$('.dependent').hide();
+    }
+};
+
 view.prototype.save = function() {
     var attr = _({
         'name':          this.$('input[name=name]').val(),
         'description':   this.$('input[name=description]').val(),
         'attribution':   this.$('input[name=attribution]').val(),
         'version':       this.$('input[name=version]').val(),
-        'format':        this.$('select[name=format]').val(),
+        'format':        this.$('select[name=format]').val() ||
+                         this.$('input[name=format_custom]').val(),
         'minzoom':       parseInt(this.$('.slider').slider('values', 0)),
         'maxzoom':       parseInt(this.$('.slider').slider('values', 1)),
         'interactivity': this.$('select[name=layer]').val() ?

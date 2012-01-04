@@ -221,7 +221,7 @@ function loadProject(model, callback) {
         object.tiles = [tileURL({
             url: settings.tileUrl,
             id: model.id,
-            format: object.format || 'png',
+            format: 'png',
             updated: object._updated
         })];
         object.grids = [tileURL({
@@ -321,7 +321,7 @@ function saveProject(model, callback) {
             tiles: [tileURL({
                 url: settings.tileUrl,
                 id: model.id,
-                format: model.get('format') || 'png',
+                format: 'png',
                 updated: updated
             })],
             grids: [tileURL({
