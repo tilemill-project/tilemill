@@ -4,7 +4,7 @@ section: documentation
 category: TileMill
 tag: crashcourse
 title: "Exporting Your Map"
-permalink: /docs/tutorials/exporting
+permalink: /docs/crashcourse/exporting
 prereq:
 - "[Added an earthquake CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
 - "[Added tooltips](/tilemill/docs/crashcourse/tooltips) to your map."
