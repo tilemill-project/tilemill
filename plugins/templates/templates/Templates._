@@ -45,7 +45,7 @@
       </select>
       <small>Layer to use for interaction data</small>
     </div>
-    <div class='templates-tokens code tokens'></div>
+    <div class='templates-tokens code tokens scrolling'></div>
     <div class='description'><small>
       These <a target='blank' href='http://mustache.github.com/'>Mustache</a> tags will be replaced by data.
       You can also use the full

@@ -67,6 +67,8 @@ body.loading > .mask { position:fixed; }
 .fill-w { right:auto; }
 .fill-e { left:auto; }
 
+.scrolling { overflow:auto; }
+
 a {
   color:#222;
   text-decoration:none;
@@ -184,7 +186,6 @@ small { font-size:11px; }
   font-size:13px;
   max-height:250px;
   padding-right:20px;
-  overflow:auto;
   white-space:pre;
   /* http://labnol.blogspot.com/2006/10/html-css-trick-for-displaying-code.html */
   white-space: pre-wrap; /* css-3 */
@@ -814,7 +815,6 @@ form.templates .templates-tokens {
   margin:10px 0px;
   height:60px;
   background:#eee;
-  overflow:auto;
   font-size:10px;
   }
 
@@ -1307,12 +1307,8 @@ ul.form.expand .browser { display:block; }
 .library .breadcrumb a:active { color:#000; }
 
 .library .assets {
-  position:absolute;
   top:70px;
-  left:10px;
-  right:10px;
-  bottom:10px;
-  overflow:auto;
+  padding:0px 10px 10px;
   }
 
 .library .assets a,
@@ -1357,7 +1353,6 @@ ul.form.expand .browser { display:block; }
 .reference .page,
 .fonts .page {
   left:110px;
-  overflow:auto;
   padding:10px;
   }
 

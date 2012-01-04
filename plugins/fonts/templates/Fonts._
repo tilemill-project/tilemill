@@ -22,7 +22,7 @@
   </div>
 </div>
 
-<div class='page fill-e'>
+<div class='page fill-e scrolling'>
 <% _(fonts).each(function(f) { %>
 <a href='#insert' class='font active group-0 group-<%= f.group %>'>
   <input type='text' value='<%= f.name %>' />

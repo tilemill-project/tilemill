@@ -1,4 +1,4 @@
-<form class='fill'><ul class='form'>
+<form class='fill scrolling'><ul class='form'>
   <li>
     <label for='name'>Name</label>
     <input type='text' name='name' size='40' value='<%= get('name') %>' />

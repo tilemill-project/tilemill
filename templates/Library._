@@ -24,7 +24,7 @@
 <% }); %>
 </div>
 
-<div class='assets'>
+<div class='assets fill-s scrolling'>
   <% if (model.get('assets').length === 0) { %>
   <div class='description'>No items found.</div>
   <% } %>

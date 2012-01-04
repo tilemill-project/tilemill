@@ -29,7 +29,7 @@ var connectionOptions = function(obj) {
         .join(' ');
 };
 %>
-<div class='fill layer'>
+<div class='fill layer scrollable'>
   <div class='toggler joined pill centered beveled'>
     <a href='#layer-file' class='<%= !enabled.file ? 'disabled' : '' %> button large'>
         <span class='icon reverse file labeled'></span>
