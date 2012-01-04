@@ -3,15 +3,13 @@ layout: book
 section: documentation
 category: TileMill
 tag: crashcourse
-title: "Adding a CSV layer"
+title: "Adding Data"
 permalink: /docs/crashcourse/point-data
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 nextup:
-- "[Map styling](/tilemill/docs/crashcourse/styling/) basics."
-- "[Using conditional styles](/tilemill/docs/crashcourse/conditional-styles/) to control the appearance of points based on data."
-- "[Adding tooltips](/tilemill/docs/crashcourse/tooltips/) to your map."
-- "[Adding a legend](/tilemill/docs/crashcourse/legends/) to your map."
+- "[Styling](/tilemill/docs/crashcourse/styling/) your point data."
+- "[Adding tooltips and a legend](/tilemill/docs/crashcourse/tooltips/) to your map."
 - "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
 ---
 

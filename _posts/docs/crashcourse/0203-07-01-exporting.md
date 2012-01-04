@@ -7,10 +7,11 @@ title: "Exporting Your Map"
 permalink: /docs/crashcourse/exporting
 prereq:
 - "[Added a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
-- "[Added tooltips](/tilemill/docs/crashcourse/tooltips) to your map."
-- "[Added a legend](/tilemill/docs/crashcourse/legends) to your map."
+- "[Styled](/tilemill/docs/crashcourse/styling/) your point data."
+- "[Added tooltips and a legend](/tilemill/docs/crashcourse/tooltips/) to your map."
 nextup:
-- "[Uploading](/tilemill/docs/crashcourse/uploading/) your map to the web."
+- "[Upload](/hosting/uploading/) your map to the web."
+- "[Sign up](/plans) for a Mapbox hosting account."
 ---
 
 {% include prereq.html %}
@@ -19,7 +20,7 @@ TileMill can export to MBTiles, PNG, PDF, or SVG. [See here](/tilemill/docs/manu
 
 Before exporting your map it is important to consider its final purpose. What you see in the map preview is exactly what will be rendered. It is possible to temporarily hide layers by **commenting out** their symbolizers.
 
-In the [previous tutorials](/tilemill/docs/crashcourse/point-data) you created a map of earthquakes. We plan on overlaying this on top of an existing base map later, therefore we don't want TileMill to render the default blue and white world map.
+Previously, you [created a map of earthquakes](/tilemill/docs/crashcourse/point-data). We plan on overlaying this on top of an existing base map later, therefore we don't want TileMill to render the default blue and white world map.
 
 1. **Comment out** the background and base map layer by adding `/*` and `*/` before and after their Carto styling, as shown below. You will notice the section between becomes grayed out.
   ![](/tilemill/assets/pages/exporting-10.png)
@@ -41,7 +42,8 @@ You will notice the **Size** numbers update as you do this. These numbers indica
 The window will transition back to your project and the exports panel will appear. Here is where you can access and find information about your exported files. The most recent will appear at the top of the list and display its progress as it is being processed.
   ![](/tilemill/assets/pages/exporting-8.png)
 9. When the export process is complete, the progress bar will be replaced by **Upload** and **Save** buttons. **Upload** allows you to directly upload the map to TileStream, while **Save** will save a copy of the file locally to a specified location.
-Click **Upload**.
   ![](/tilemill/assets/pages/exporting-9.png)
+
+### Congragulations!
 
 {% include nextup.html %}
