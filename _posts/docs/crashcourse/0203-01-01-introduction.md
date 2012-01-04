@@ -33,21 +33,21 @@ Here we will show you how to download a common type of data that is supported by
 </ul>
 </li>
 <br>
-<li  class='check'>**Styling Data**  
+<li  class='check'>**Styling Basics**  
 We will show the step-by-step basics of changing default styles and making a truly custom map. We use a CSS-like language called Carto to style your data. If you want a in-depth overview of Carto, see [here]() for the reference manual.
 <ul class='checklist'>
 <li>[Click here](/docs/crashcourse/styling) to get started on styling your map</li>  
 </ul>
 </li>  
 <br>
-<li class='check'>**Adding Components**  
+<li class='check'>**Adding Tooltips and Legends**  
 Making your map interactive or adding a legend is critical to communicating your data. Here we will show you how to add tooltip interactivity and help you explain your map with a legend.  
 <ul class='checklist'>
 <li>[Click here](/docs/crashcourse/) to get started adding interactivity to your map</li>  
 </ul>
 </li>
 <br>
-<li class='check'>**Exporting Maps**  
+<li class='check'>**Exporting Your Map**  
 A designed map can be shared quickly and easily in a number of formats. Here we'll show you how to export to the MBTiles format for uploading on the web. For an overview of all supported formats, see [here]() in our reference manual.
 <ul class='checklist'>
 <li>[Click here]() to get started exporting your styled map</li>
