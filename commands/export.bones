@@ -53,6 +53,8 @@ command.options['log'] = {
 };
 
 command.prototype.initialize = function(plugin, callback) {
+    _(this).bindAll('error', 'put', 'complete');
+
     var opts = plugin.config;
     if (process.env.tilemillConfig)
         _(opts).extend(JSON.parse(process.env.tilemillConfig));
