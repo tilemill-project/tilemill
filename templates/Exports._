@@ -9,7 +9,7 @@
   <span class='icon filetype <%=m.get('format')%>'>
     <span class='icon <%=m.get('status')%>'><%=m.get('status')%></span>
   </span>
-  <h2><%= m.get('filename') %></h2>
+  <h2><%= m.get('filename') || m.id %></h2>
   <div class='description'>
     <% if (m.get('created')) { %>
     Started <%= (new Date(m.get('created'))).format('M j h:ia') %>

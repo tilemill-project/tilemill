@@ -15,7 +15,14 @@ view.prototype.initialize = function(options) {
     this.success = options.success || function() {};
     this.cancel = options.cancel || function() {};
     this.error = options.error || function() {};
-    this.render();
+
+    // @TODO check that an upload model with this ID doesn't already exist and
+    // is available/progressing. (e.g. the singleton 'sync' format model).
+    Bones.utils.fetch({ config: new models.Config() }, _(function(err, models) {
+        if (err) return new views.Modal(err);
+        this.config = models.config;
+        this.render();
+    }).bind(this));
 };
 
 view.prototype.render = function() {
@@ -37,20 +44,22 @@ view.prototype.render = function() {
         center[1],
         center[0]),
         center[2]);
-    this.boxselector = wax.mm.boxselector(this.map, {}, _(function(data) {
-        var s = _(data).chain().pluck('lat').min().value().toFixed(4);
-        var n = _(data).chain().pluck('lat').max().value().toFixed(4);
-        var w = _(data).chain().pluck('lon').min().value().toFixed(4) % 360;
-        var e = _(data).chain().pluck('lon').max().value().toFixed(4) % 360;
-        if (w < -180) w += 360; else if (w > 180) w -= 360;
-        if (e < -180) e += 360; else if (e > 180) e -= 360;
+    if (this.model.get('format') !== 'sync') {
+        this.boxselector = wax.mm.boxselector(this.map, {}, _(function(data) {
+            var s = _(data).chain().pluck('lat').min().value().toFixed(4);
+            var n = _(data).chain().pluck('lat').max().value().toFixed(4);
+            var w = _(data).chain().pluck('lon').min().value().toFixed(4) % 360;
+            var e = _(data).chain().pluck('lon').max().value().toFixed(4) % 360;
+            if (w < -180) w += 360; else if (w > 180) w -= 360;
+            if (e < -180) e += 360; else if (e > 180) e -= 360;
 
-        this.$('input[name=bbox_0]').val(w);
-        this.$('input[name=bbox_1]').val(s);
-        this.$('input[name=bbox_2]').val(e);
-        this.$('input[name=bbox_3]').val(n);
-        this.size();
-    }).bind(this));
+            this.$('input[name=bbox_0]').val(w);
+            this.$('input[name=bbox_1]').val(s);
+            this.$('input[name=bbox_2]').val(e);
+            this.$('input[name=bbox_3]').val(n);
+            this.size();
+        }).bind(this));
+    }
     this.updateTotal();
     return this;
 };
@@ -104,10 +113,18 @@ view.prototype.formatThousands = function(num) {
 };
 
 view.prototype.updateTotal = function(attributes) {
-    if (this.model.get('format') === 'mbtiles') {
+    if (this.model.get('format') === 'mbtiles' ||
+        this.model.get('format') === 'sync') {
         var sm = new SphericalMercator;
         var attr = _(attributes || {}).defaults(this.getAttributes());
         var total = 0;
+
+        // Retrieve defaults from model.
+        attr.minzoom = attr.minzoom || this.project.get('minzoom');
+        attr.maxzoom = attr.maxzoom || this.project.get('maxzoom');
+        attr.bbox = attr.bbox || this.project.get('bounds');
+        console.warn(attr);
+
         for (var z = attr.minzoom; z <= attr.maxzoom; z++) {
             var b = sm.xyz(attr.bbox, z);
             total += Math.abs((b.maxX - b.minX + 1) * (b.maxY - b.minY + 1));
@@ -141,6 +158,8 @@ view.prototype.zoom = function(ev, ui) {
 };
 
 view.prototype.getAttributes = function() {
+    if (this.model.get('format') === 'sync') return {};
+
     var attr = {};
     attr.filename = this.$('input[name=filename]').val()
         + '.' + this.model.get('format');

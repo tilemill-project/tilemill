@@ -15,6 +15,7 @@ controller.prototype.routes = {
     '/project/:id': 'project',
     '/project/:id/export': 'projectExport',
     '/project/:id/export/:format': 'projectExport',
+    '/project/:id/settings': 'projectSettings',
     '/manual': 'manual',
     '/manual/:page?': 'manual',
     '/settings': 'config',
@@ -62,6 +63,12 @@ controller.prototype.projectExport = function(id, format) {
         } else {
             $('.actions a[href=#exports]').click();
         }
+    }).bind(this));
+};
+
+controller.prototype.projectSettings = function(id, format) {
+    this.project(id, _(function() {
+        $('.actions a[href=#settings]').click();
     }).bind(this));
 };
 
