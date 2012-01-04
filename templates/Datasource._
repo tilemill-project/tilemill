@@ -13,7 +13,7 @@ obj.escape = function(string) {
   Back
 </a>
 </div>
-<div class='features fill'>
+<div class='features fill scrolling'>
 <table>
   <thead>
     <tr>

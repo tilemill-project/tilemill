@@ -583,7 +583,6 @@ ul.projects { margin:0px -5px; }
  */
 
 ul.layers {
-  overflow:hidden;
   max-height:240px;
   min-height:120px;
   }
