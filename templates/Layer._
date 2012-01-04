@@ -29,8 +29,8 @@ var connectionOptions = function(obj) {
         .join(' ');
 };
 %>
-<div class='fill layer'>
-  <div class='toggler joined pill'>
+<div class='fill layer scrollable'>
+  <div class='toggler joined pill centered beveled'>
     <a href='#layer-file' class='<%= !enabled.file ? 'disabled' : '' %> button large'>
         <span class='icon reverse file labeled'></span>
         File
@@ -70,7 +70,7 @@ var connectionOptions = function(obj) {
       <small class='cache description hidden'>
         Does the layer data appear stale? <a href='#cacheFlush'>Flush cache</a>
       </small>
-      <div class='browser'></div>
+      <div class='browser sunken fill-s'></div>
     </li>
     <% } %>
 
@@ -83,7 +83,7 @@ var connectionOptions = function(obj) {
       <small class='cache description hidden'>
         Does the layer data appear stale? <a href='#cacheFlush'>Flush cache</a>
       </small>
-      <div class='browser'></div>
+      <div class='browser sunken fill-s'></div>
     </li>
     <li>
       <label for='table'><span class='required' title='This field is required'>*</span> Table or subquery</label>
@@ -110,7 +110,7 @@ var connectionOptions = function(obj) {
       <a href='#favorite' class='icon favorite'>Favorite</a>
       <a href='#open' class='button open'>Browse</a>
       <small class='description'>Provide your PostGIS authentication and connection parameters.</small>
-      <div class='browser'></div>
+      <div class='browser sunken fill-s'></div>
     </li>
     <li>
       <label for='table'><span class='required' title='This field is required'>*</span> Table or subquery</label>

@@ -1,4 +1,4 @@
-<ul class='exports fill'>
+<ul class='exports fill scrolling'>
 
 <% if (!collection.length) { %>
 <li><div class='empty'>No exports found.</div></li>

@@ -1,9 +1,9 @@
 <div class='project'>
   <div class='map fill-w'></div>
 
-  <div class='editor fill-e'>
+  <div class='workspace fill-e'>
     <div class='header'>
-    <h1><%= get('name') || get('id') %></h1>
+    <h1 class='name'><%= get('name') || get('id') %></h1>
     <div class='actions joined'>
       <a class='button disabled' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
       <span class='button dropdown' href='#export'>
@@ -27,11 +27,12 @@
         </span>
       </span>
       <a class='popup button' href='#settings'>
-        <span class='icon reverse settings'>Settings</span>
+        <span class='icon reverse settings'>Project settings</span>
       </a>
     </div>
     <span class='icon spinner'></span>
     </div>
+    <div class='editor'></div>
     <div class='mask'></div>
   </div>
 

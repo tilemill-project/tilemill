@@ -22,6 +22,7 @@ input,
 textarea,
 body { font-family:DroidSans,'Lucida Grande',sans-serif; }
 
+textarea.code,
 code,
 pre,
 div.CodeMirror { font-family:DroidSansMono,monospace; }
@@ -32,8 +33,6 @@ p code {
   background:#f0f8fa;
   padding:2px;
 }
-
-.tokens code { font-size:11px; }
 
 body {
   background:#eee;
@@ -68,6 +67,8 @@ body.loading > .mask { position:fixed; }
 .fill-w { right:auto; }
 .fill-e { left:auto; }
 
+.scrolling { overflow:auto; }
+
 a {
   color:#222;
   text-decoration:none;
@@ -78,6 +79,7 @@ label { font-weight:normal; }
 .required { color:#c30; }
 .description { color:#999; }
 .dependent {display:none; }
+.centered { text-align:center; }
 small { font-size:11px; }
 
 /**
@@ -184,7 +186,6 @@ small { font-size:11px; }
   font-size:13px;
   max-height:250px;
   padding-right:20px;
-  overflow:auto;
   white-space:pre;
   /* http://labnol.blogspot.com/2006/10/html-css-trick-for-displaying-code.html */
   white-space: pre-wrap; /* css-3 */
@@ -296,22 +297,18 @@ small { font-size:11px; }
   border-bottom:1px solid #eee;
   }
 
-.pane > .actions {
-  position:absolute;
-  top:10px;
-  right:50px;
-  }
-
 .pane > a.close {
   position:absolute;
   top:10px;
   right:10px;
   }
 
-.pane > .content {
-  top:40px;
-  padding:10px;
-  overflow:auto;
+.pane > .content { top:40px; }
+
+.pane .pane-actions {
+  position:absolute;
+  top:-30px;
+  right:50px;
   }
 
 /**
@@ -471,10 +468,13 @@ ul.projects { margin:0px -5px; }
   }
 
 .projects a.thumb .icon {
+  opacity:0.5;
   position:absolute;
   right:9px;
   top:19px;
   }
+
+.projects a.thumb .icon:hover { opacity:1; }
 
 /**
  * Project
@@ -482,13 +482,13 @@ ul.projects { margin:0px -5px; }
 .project .map { background:#fff url(../images/bg.png) 100% 0%; }
 
 .project .map,
-.project .editor {
+.project .workspace {
   top:0px;
   width:50% !important;
   height:auto !important;
   }
 
-.project .editor { border-left:1px solid #ccc; }
+.project .workspace { border-left:1px solid #ccc; }
 
 .wax-fullscreen-view .project .map {
   position:fixed;
@@ -586,7 +586,6 @@ ul.projects { margin:0px -5px; }
  */
 
 ul.layers {
-  overflow:hidden;
   max-height:240px;
   min-height:120px;
   }
@@ -787,62 +786,38 @@ ul.layers {
 
 .tabs + a.add { margin:5px 3px 0px; }
 
-.tabs li a.delete {
-  display:none;
+.tabs li a.icon {
+  opacity:0.5;
   position:absolute;
   right:5px;
   top:4px;
   z-index:1;
   }
 
-.tabs li:hover a.delete { display:block; }
+.tabs li a.icon:hover { opacity:1; }
 
-/**
- * "Dock"-style tabs
- */
-.dock { padding-left:60px; }
-
-.dock .icons {
-  width:59px;
-  border-right:1px solid #ddd;
-  background:#eee;
-  }
-
-.dock .icons .icon { margin:0px auto; }
-
-.dock .icons a {
-  display:block;
-  font-size:11px;
-  text-align:center;
-  width:40px;
-  height:40px;
-  border-bottom:1px solid #ddd;
-  border-right:1px solid #ddd;
-  padding:10px 9px 9px 10px;
-  }
-
-.dock .icons a.active {
-  color:#fff;
-  border-color:#999;
-  background:#888;
-  }
-
-.dock form {
-  display:none;
-  overflow:auto;
-  position:absolute;
-  top:0px;
-  left:60px;
-  right:0px;
-  bottom:0px;
-  }
-
-.dock form.active { display:block; }
-
+/* Layer form */
 .layer form.active { display:block; }
-.layer > .pill {
-  padding-bottom:9px;
-  border-bottom:1px solid #eee;
+
+/* Templates */
+form.templates { margin:60px 10px 10px; overflow:hidden; }
+form.templates .templates input[type=text],
+form.templates .templates textarea { top:30px; }
+form.templates .templates textarea { resize:none; bottom:160px; }
+form.templates .templates-legend textarea { bottom:0px; }
+form.templates .templates { display:none; }
+form.templates .templates.active { display:block; }
+form.templates .templates-options {
+  display:none;
+  background:#fff;
+  padding-top:10px;
+  }
+form.templates .templates-options.active { display:block; }
+form.templates .templates-tokens {
+  margin:10px 0px;
+  height:60px;
+  background:#eee;
+  font-size:10px;
   }
 
 /**
@@ -996,16 +971,9 @@ li:hover .icon { display:block; }
 .reverse.eye            { background-position:-640px -200px; }
 .reverse.upload         { background-position:-680px -200px; }
 
-/* Dock-icon specific reverse styles */
-.dock .active > .icon.legend   { background-position:-280px -200px; }
-.dock .active > .icon.settings { background-position:-260px -200px; }
-.dock .active > .icon.file     { background-position:-540px -200px;}
-.dock .active > .icon.postgis  { background-position:-660px -200px;}
-.dock .active > .icon.sqlite   { background-position:-560px -200px;}
-.dock .active > .icon.tooltip  { background-position:-580px -200px;}
-
 /* File icons */
 .filetype.png     { background-position:0px -320px; }
+.filetype.svg     { background-position:0px -320px; }
 .filetype.pdf     { background-position:-40px -320px; }
 .filetype.mbtiles { background-position:-80px -320px; }
 .filetype.zip     { background-position:-120px -320px; }
@@ -1028,12 +996,11 @@ li:hover .icon { display:block; }
   background-position:30px 30px;
   }
 
-.i30.editor   { background-position:-30px 0px; }
-.i30.projects { background-position:-60px 0px; }
-.i30.sync     { background-position:-90px 0px; }
-.i30.manual   { background-position:-120px 0px; }
-.i30.settings { background-position:-150px 0px; }
-.i30.plugins  { background-position:-180px 0px; }
+.i30.editor   { background-position:0px 0px; }
+.i30.projects { background-position:-30px 0px; }
+.i30.manual   { background-position:-60px 0px; }
+.i30.settings { background-position:-90px 0px; }
+.i30.plugins  { background-position:-120px 0px; }
 
 /**
  * Form elements
@@ -1148,14 +1115,19 @@ input.cancel:active {
 .joined > *:only-child { border-radius:3px; }
 
 .pill {
-  padding:10px;
-  text-align:center;
+  white-space:nowrap;
+  padding:10px 10px 9px;
+  border-bottom:1px solid #eee;
+  background:#f4f4f4;
   }
+
+.sunken .pill { background:transparent; }
 
 .pill .button {
   float:none;
   width:100px;
-  margin:0px !important;
+  margin-left:0px !important;
+  margin-right:0px !important;
   display:inline-block !important;
   text-align:left !important;
   }
@@ -1198,7 +1170,7 @@ ul.form .buttons input {
   margin:0px 5px;
   min-width:100px;
   text-align:center;
-  font-size:16px;
+  font-size:13px;
   }
 
 ul.form small.description { display:block; }
@@ -1315,19 +1287,17 @@ ul.form.expand li.expand {
 
 ul.form .browser {
   display:none;
-  background:#fff;
-  position:absolute;
   top:110px;
-  left:0px;
-  right:0px;
-  bottom:0px;
+  border-radius:0px;
+  -moz-border-radius:0px;
+  -webkit-border-radius:0px;
   }
 
 ul.form.expand .browser { display:block; }
 
 .library .breadcrumb {
   position:absolute;
-  top:30px;
+  top:40px;
   left:10px;
   }
 
@@ -1336,17 +1306,11 @@ ul.form.expand .browser { display:block; }
   padding:5px;
   }
 
-.library .breadcrumb a:active {
-  color:#000;
-}
+.library .breadcrumb a:active { color:#000; }
 
 .library .assets {
-  position:absolute;
-  top:60px;
-  left:10px;
-  right:10px;
-  bottom:10px;
-  overflow:auto;
+  top:70px;
+  padding:0px 10px 10px;
   }
 
 .library .assets a,
@@ -1361,8 +1325,8 @@ ul.form.expand .browser { display:block; }
   -webkit-border-radius:3px;
   }
 
-.library .assets a:active { background:#ddd; }
-
+.library .assets a:hover { background:#fff; }
+.library .assets a:active { background:#ccc; }
 
 .library .assets div.description {
   padding-left:10px;
@@ -1387,12 +1351,10 @@ ul.form.expand .browser { display:block; }
   right:5px;
   }
 
-
 /* Carto reference */
 .reference .page,
 .fonts .page {
   left:110px;
-  overflow:auto;
   padding:10px;
   }
 
@@ -1532,13 +1494,13 @@ div.fonts {
   }
 
 .exports .delete {
-  display:none;
+  opacity:0.5;
   position:absolute;
   right:5px;
   top:15px;
   }
 
-.exports li:hover .delete { display:block; }
+.exports li:hover .delete { opacity:1; }
 
 .progress {
   margin-left:0px;
@@ -1612,7 +1574,7 @@ tr:hover th,
 .prose h5,
 .prose h6 {
   font-weight:bold;
-  font-size:18px;
+  font-size:16px;
   margin:0px 0px 20px;
   }
 
@@ -1775,12 +1737,12 @@ ul.grid li {
 @media (min-width:1200px) {
   #drawer { right:45%; }
   .project .map { width:55% !important; }
-  .project .editor { width:45% !important; }
+  .project .workspace { width:45% !important; }
   .wax-fullscreen-view .project .map { width:auto !important; }
 }
 @media (min-width:1400px) {
   #drawer { right:40%; }
   .project .map { width:60% !important; }
-  .project .editor { width:40% !important; }
+  .project .workspace { width:40% !important; }
   .wax-fullscreen-view .project .map { width:auto !important; }
 }
