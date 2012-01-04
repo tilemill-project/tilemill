@@ -20,9 +20,7 @@ Want to get started making maps in minutes? This quick-start guide will walk thr
 
 This crash course will walk you through downloading data and using TileMill. For anyone who is new to mapping, this guide will walk you step-by-step through TileMill and will link you to the reference documentation along the way so you can learn the power in custom map making. For anyone coming from a GIS or cartography background, this guide will help you quickly dive into the core functions of TileMill.  
 
-If you have any questions along the way, check out our public support.  
-
-**Get started now**
+If you have any questions along the way, check out our [public support](http://support.mapbox.com).  
 
 ## What to expect  
 <ul class='checklist' markdown='1'>
