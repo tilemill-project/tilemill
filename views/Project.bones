@@ -105,9 +105,6 @@ view.prototype.exportAdd = function(ev) {
             }
             this.exportList();
         }).bind(this),
-        error: _(function(m, err) {
-            new views.Modal(err);
-        }).bind(this),
         cancel: _(function() {
             this.$('.project').removeClass('exporting');
             this.exportView.remove();
