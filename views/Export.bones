@@ -14,12 +14,17 @@ view.prototype.initialize = function(options) {
     this.project = options.project;
     this.success = options.success || function() {};
     this.cancel = options.cancel || function() {};
-    this.error = options.error || function() {};
 
-    // @TODO check that an upload model with this ID doesn't already exist and
-    // is available/progressing. (e.g. the singleton 'sync' format model).
-    Bones.utils.fetch({ config: new models.Config() }, _(function(err, models) {
-        if (err) return new views.Modal(err);
+    // Check whether an existing export with this ID exists and is in progress.
+    Bones.utils.fetch({
+        existing: new models.Export({id:this.model.id}),
+        config: new models.Config()
+    }, _(function(err, models) {
+        if (models.existing.get('status') === 'processing' ||
+            models.existing.get('status') === 'waiting') {
+            new views.Modal(new Error('Export already in progress.'));
+            return this.cancel();
+        }
         this.config = models.config;
         this.render();
     }).bind(this));
@@ -158,7 +163,10 @@ view.prototype.zoom = function(ev, ui) {
 };
 
 view.prototype.getAttributes = function() {
-    if (this.model.get('format') === 'sync') return {};
+    if (this.model.get('format') === 'sync') return {
+        id: this.project.id,
+        name: (this.project.get('name') || this.project.id)
+    };
 
     var attr = {};
     attr.filename = this.$('input[name=filename]').val()

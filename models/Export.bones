@@ -47,6 +47,9 @@ model.prototype.schema = {
             'minimum': 0,
             'maximum': 1
         },
+        'name': {
+            'type': 'string'
+        },
         'filename': {
             'type': 'string',
             'pattern': '^[A-Za-z0-9\-_.]+$'
