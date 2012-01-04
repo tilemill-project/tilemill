@@ -468,10 +468,13 @@ ul.projects { margin:0px -5px; }
   }
 
 .projects a.thumb .icon {
+  opacity:0.5;
   position:absolute;
   right:9px;
   top:19px;
   }
+
+.projects a.thumb .icon:hover { opacity:1; }
 
 /**
  * Project
@@ -783,15 +786,15 @@ ul.layers {
 
 .tabs + a.add { margin:5px 3px 0px; }
 
-.tabs li a.delete {
-  display:none;
+.tabs li a.icon {
+  opacity:0.5;
   position:absolute;
   right:5px;
   top:4px;
   z-index:1;
   }
 
-.tabs li:hover a.delete { display:block; }
+.tabs li a.icon:hover { opacity:1; }
 
 /* Layer form */
 .layer form.active { display:block; }
@@ -1491,13 +1494,13 @@ div.fonts {
   }
 
 .exports .delete {
-  display:none;
+  opacity:0.5;
   position:absolute;
   right:5px;
   top:15px;
   }
 
-.exports li:hover .delete { display:block; }
+.exports li:hover .delete { opacity:1; }
 
 .progress {
   margin-left:0px;
