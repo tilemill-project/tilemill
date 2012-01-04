@@ -20,8 +20,11 @@ view.prototype.initialize = function(options) {
         existing: new models.Export({id:this.model.id}),
         config: new models.Config()
     }, _(function(err, models) {
-        if (models.existing.get('status') === 'processing' ||
-            models.existing.get('status') === 'waiting') {
+        if (err && err.status !== 404) {
+            new views.Modal(err);
+            return this.cancel();
+        }
+        if (!err && _(['processing','waiting']).include(models.existing.get('status'))) {
             new views.Modal(new Error('Export already in progress.'));
             return this.cancel();
         }
