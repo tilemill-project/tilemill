@@ -32,7 +32,7 @@ commands['start'].prototype.child = function(name) {
     Bones.plugin.children[name].stdout.pipe(process.stdout);
     Bones.plugin.children[name].stderr.pipe(process.stderr);
     Bones.plugin.children[name].once('exit', function(code, signal) {
-        this.child(name);
+        if (code === 0) this.child(name);
     }.bind(this));
 };
 
