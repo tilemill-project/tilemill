@@ -17,6 +17,8 @@ nextup:
 
 Once you have your map looking the way you want, it is time to export. TileMill can export to MBTiles, PNG, PDF, or SVG. [See here](/tilemill/docs/manual/exporting/) for a brief overview of these formats.
 
+In the [previous tutorials](/tilemill/docs/crashcourse/point-data) you created a map of earthquakes. Now, you will export that map.
+
 1. Click the **Export** button. A drop down menu will appear.
   ![](/tilemill/assets/pages/exporting-1.png)
 2. Click **MBTiles**. The window will transition to the export tool.
