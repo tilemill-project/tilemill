@@ -6,11 +6,15 @@ view.prototype.events = {
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'npm');
+    _(this).bindAll('render', 'npm', 'plugins');
+    this.restarting = false;
     this.available = new models.Plugins;
     this.render();
+    this.plugins();
+};
 
-    // Load plugins collection and render them.
+// Load plugins collection and render them.
+view.prototype.plugins = function() {
     this.$('.available').addClass('loading');
     this.available.fetch({
         success: _(function(m) {
@@ -25,6 +29,10 @@ view.prototype.initialize = function(options) {
             }
         }).bind(this),
         error: _(function(m, err) {
+            // If server is restarting, just stop. The page
+            // will refresh anyhow when the server starts back up.
+            if (this.restarting) return;
+
             this.$('.available').removeClass('loading');
             new views.Modal(err);
         }).bind(this)
@@ -39,6 +47,8 @@ view.prototype.render = function() {
 };
 
 view.prototype.npm = function(ev) {
+    this.restarting = true;
+
     var id = $(ev.currentTarget).attr('href').split('#').pop();
     var poll = function() {
         $.ajax({
