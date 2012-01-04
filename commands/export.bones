@@ -146,7 +146,7 @@ command.prototype.initialize = function(plugin, callback) {
         })(model.mml.center, model.mml.bounds, model.mml.minzoom, model.mml.maxzoom);
         if (!validCenter) delete model.mml.center;
 
-        cmd[opts.format](model, this.complete);
+        cmd[opts.format](model, cmd.complete);
     });
 };
 
@@ -156,7 +156,7 @@ command.prototype.complete = function(err, data) {
             process.exit(1);
         });
     } else {
-        data = _(data).defaults({
+        data = _(data||{}).defaults({
             status: 'complete',
             progress: 1,
             updated: +new Date()
