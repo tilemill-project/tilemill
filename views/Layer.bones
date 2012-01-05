@@ -4,6 +4,7 @@ view.prototype.events = {
     'click input[type=submit]': 'save',
     'click a[href=#open]': 'browse',
     'click a[href=#favorite]': 'favoriteToggle',
+    'click a[href=#inspect]': 'inspect',
     'keyup input[name=file], input[name=connection]': 'favoriteUpdate',
     'change input[name=file], input[name=connection]': 'favoriteUpdate',
     'click a[href=#cacheFlush]': 'cacheFlush',
@@ -19,6 +20,7 @@ view.prototype.initialize = function(options) {
         'save',
         'browse',
         'favoriteToggle',
+        'inspect',
         'favoriteUpdate',
         'cacheFlush',
         'nameToSrs',
@@ -75,6 +77,24 @@ view.prototype.favoriteToggle = function(ev) {
         model.save();
         $(ev.currentTarget).addClass('active');
     }
+    return false;
+};
+
+view.prototype.inspect = function(ev) {
+    var form = $(ev.currentTarget).parents('form');
+    var uri = $('input#url', form).val();
+    // @TODO wait for 'success'? Throw errors?
+
+    $.ajax({
+        url: uri,
+        contentType: 'application/json',
+        dataType: 'jsonp',
+        success: function(resp) {
+            $('.inspector', form).html(templates.RemoteDatasource(resp));
+        },
+        error: function() {
+        }
+    });
     return false;
 };
 

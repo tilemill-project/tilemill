@@ -143,9 +143,15 @@ var connectionOptions = function(obj) {
     <% if (type === 'jit') { %>
     <li class='expand'>
       <label for='url'><span class='required'>*</span> URL</label>
-      <input type='text' name='Datasource.url' id='url' placeholder='http://localhost:20010/roads.json' value='<%=Datasource.url%>' size='68' />
+      <input type='text'
+          name='Datasource.url'
+          id='url'
+          placeholder='http://localhost:20010/roads.json'
+          value='<%=Datasource.url%>' size='68' />
       <a href='#favorite' class='icon favorite'>Favorite</a>
+      <a href='#inspect' class='icon inspect'>Inspect</a>
       <small class='description'>Provide the root URL of your remote datasource.</small>
+      <div class='inspector'></div>
     </li>
     <% } %>
 

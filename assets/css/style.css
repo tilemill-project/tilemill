@@ -1268,6 +1268,12 @@ ul.form a.icon.favorite {
 ul.form .cache.hidden { visibility:hidden; }
 ul.form a.icon.favorite.hidden { visibility:hidden; }
 
+/* Remote inspect */
+ul.form a.icon.inspect {
+  display:inline-block;
+  margin-left:-40px;
+  }
+
 ul.form.expand li {
   visibility:hidden;
   overflow:hidden;

@@ -1,0 +1,1 @@
+<strong><%=name %></strong> - <small><%=description %></small> / z<%=minzoom%>-<%=maxzoom%>
