@@ -74,7 +74,7 @@ view.prototype.favoriteToggle = function(ev) {
         model.destroy();
         $(ev.currentTarget).removeClass('active');
     } else if (uri) {
-        var model = new models.Favorite({id:uri});
+        var model = new models.Favorite({ id:uri, created:+new Date });
         this.favorites.add(model);
         model.save();
         $(ev.currentTarget).addClass('active');
