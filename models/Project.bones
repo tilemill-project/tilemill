@@ -305,3 +305,7 @@ model.prototype.flush = function(layer, url, options) {
     });
 };
 
+model.prototype.thumb = function() {
+    return this.get('tiles')[0].replace('{z}/{x}/{y}','thumb');
+};
+
