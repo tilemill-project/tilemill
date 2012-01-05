@@ -309,7 +309,7 @@ model.prototype.flush = function(layer, url, options) {
         dataType: 'json',
         processData: false,
         success: _(function(resp) {
-            this.trigger('change');
+            this.trigger('change', this);
             if (options.success) options.success(this, resp);
         }).bind(this),
         error: _(function(resp) {
