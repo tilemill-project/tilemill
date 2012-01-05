@@ -184,9 +184,14 @@ view.prototype.save = function(e) {
     attr['name'] = (attr['id']||'').replace('#','');
     attr['id'] = (attr['id']||'').replace('#','');
     attr['class'] = (attr['class']||'').replace('.','');
-    attr['srs'] = attr['srs'] || this.model.SRS['900913'];
+    attr['srs'] = attr['srs']||'';
     attr['Datasource'] = _(attr['Datasource']||{})
         .defaults(parseOptions($('input[name=advanced]', form).val()));
+
+    // Database datasources do not have the luxury of SRS autodetection.
+    // Fallback to web mercator if unset.
+    if (attr['type'] === 'sqlite' || attr['type'] === 'postgis')
+        attr['srs'] = attr['srs'] || this.model.SRS['900913'];
 
     // Parse PostGIS connection options.
     if ($('input[name=connection]', form).size()) {
