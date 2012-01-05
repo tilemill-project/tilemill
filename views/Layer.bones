@@ -190,7 +190,7 @@ view.prototype.save = function(e) {
 
     // Database datasources do not have the luxury of SRS autodetection.
     // Fallback to web mercator if unset.
-    if (attr['type'] === 'sqlite' || attr['type'] === 'postgis')
+    if (_(['sqlite', 'postgis']).include(attr['Datasource'].type))
         attr['srs'] = attr['srs'] || this.model.SRS['900913'];
 
     // Parse PostGIS connection options.
