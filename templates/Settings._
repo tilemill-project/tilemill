@@ -24,7 +24,10 @@
       <option value='jpeg85'<% if (get('format') == 'jpeg85') { %> selected='selected' <% } %>>jpeg (85%)</option>
       <option value='jpeg90'<% if (get('format') == 'jpeg90') { %> selected='selected' <% } %>>jpeg (90%)</option>
       <option value='jpeg95'<% if (get('format') == 'jpeg95') { %> selected='selected' <% } %>>jpeg (95%)</option>
+      <option value=''<% if (!_(['png','png8','jpeg80','jpeg85','jpeg90','jpeg95']).include(get('format'))) { %> selected='selected' <% } %>>Custom</option>
     </select>
+    <input class='dependent' type='text' name='format_custom' size='20' value='<%=get('format')%>' />
+    <small class='description help'>Choose an image format or enter a custom Mapnik format string.</small>
   </li>
   <li>
     <label>Zoom levels</label>

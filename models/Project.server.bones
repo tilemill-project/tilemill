@@ -11,6 +11,7 @@ var EventEmitter = require('events').EventEmitter;
 var millstone = require('millstone');
 var settings = Bones.plugin.config;
 var tileURL = _('http://<%=url%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>').template();
+var request = require('request');
 
 // Project
 // -------
@@ -221,7 +222,7 @@ function loadProject(model, callback) {
         object.tiles = [tileURL({
             url: settings.tileUrl,
             id: model.id,
-            format: object.format || 'png',
+            format: 'png',
             updated: object._updated
         })];
         object.grids = [tileURL({
@@ -316,24 +317,44 @@ function saveProject(model, callback) {
     },
     function(err, stat) {
         var updated = stat && Date.parse(stat.mtime) || (+ new Date());
+        var tiles = tileURL({
+            url: settings.tileUrl,
+            id: model.id,
+            format: 'png',
+            updated: updated
+        });
+        var grids = tileURL({
+            url: settings.tileUrl,
+            id: model.id,
+            format: 'grid.json',
+            updated: updated
+        });
         callback(err, {
             _updated: updated,
-            tiles: [tileURL({
-                url: settings.tileUrl,
-                id: model.id,
-                format: model.get('format') || 'png',
-                updated: updated
-            })],
-            grids: [tileURL({
-                url: settings.tileUrl,
-                id: model.id,
-                format: 'grid.json',
-                updated: updated
-            })],
+            tiles: [tiles],
+            grids: [grids],
             template: model.get('interactivity')
                 ? template(model.get('interactivity'))
                 : undefined
         });
+
+        if (err) throw err;
+        // Request and cache a thumbnail tile from the tile server.
+        // Single tile thumbnail URL generation. From [OSM wiki][1].
+        // [1]: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
+        var z = model.get('center')[2];
+        var lat_rad = model.get('center')[1] * Math.PI / 180;
+        var x = parseInt((model.get('center')[0] + 180.0) / 360.0 * Math.pow(2, z));
+        var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2, z));
+        request.get({
+            url: tiles.replace('{z}',z).replace('{x}',x).replace('{y}',y),
+            encoding: 'binary'
+        }, this);
+    }, function(err, res, body) {
+        if (err) throw err;
+        fs.writeFile(path.join(modelPath, '.thumb.png'), body, 'binary', this);
+    }, function(err) {
+        if (err) console.error(err);
     });
 }
 

@@ -2,10 +2,7 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click .actions a[href=#save]': 'save',
-    'click .actions a[href=#export-pdf]': 'exportAdd',
-    'click .actions a[href=#export-svg]': 'exportAdd',
-    'click .actions a[href=#export-png]': 'exportAdd',
-    'click .actions a[href=#export-mbtiles]': 'exportAdd',
+    'click .actions a[href^=#export-]': 'exportAdd',
     'click .actions a[href=#exports]': 'exportList',
     'click a[href=#settings]': 'settings',
     'click a[href=#layers]': 'layers',
@@ -91,6 +88,7 @@ view.prototype.exportAdd = function(ev) {
     this.exportView = new views.Export({
         el: $('#export'),
         model: new models.Export({
+            id: format === 'sync' ? this.model.id : undefined,
             format: format,
             project: this.model.id,
             tile_format: this.model.get('format')
@@ -106,9 +104,6 @@ view.prototype.exportAdd = function(ev) {
                 $('.actions > .dropdown').click();
             }
             this.exportList();
-        }).bind(this),
-        error: _(function(m, err) {
-            new views.Modal(err);
         }).bind(this),
         cancel: _(function() {
             this.$('.project').removeClass('exporting');

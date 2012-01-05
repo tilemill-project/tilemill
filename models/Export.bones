@@ -35,7 +35,7 @@ model.prototype.schema = {
         'format': {
             'type': 'string',
             'required': true,
-            'enum': ['png', 'pdf', 'svg', 'mbtiles', 'upload']
+            'enum': ['png', 'pdf', 'svg', 'mbtiles', 'upload', 'sync']
         },
         'status': {
             'type': 'string',
@@ -46,6 +46,9 @@ model.prototype.schema = {
             'type': 'number',
             'minimum': 0,
             'maximum': 1
+        },
+        'name': {
+            'type': 'string'
         },
         'filename': {
             'type': 'string',

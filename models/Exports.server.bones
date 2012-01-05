@@ -35,8 +35,8 @@ function start(id, callback) {
         args.push(path.join(settings.files, 'export', data.filename));
         // format, don't try to guess extension based on filepath
         args.push('--format=' + data.format);
-        // url, @TODO: need proper host info.
-        args.push('--url=http://localhost:'+settings.port+'/api/Export/'+data.id);
+        // url
+        args.push('--url=http://'+settings.coreUrl+'/api/Export/'+data.id);
         // Log crashes to output directory.
         args.push('--log=1');
 

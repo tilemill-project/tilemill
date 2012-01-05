@@ -4,7 +4,8 @@ view.prototype.initialize = function() {
     _(this).bindAll(
         'render',
         'attach',
-        'mapZoom'
+        'mapZoom',
+        'fullscreen'
     );
     this.model.bind('saved', this.attach);
     this.model.bind('poll', this.attach);
@@ -48,8 +49,22 @@ view.prototype.render = function(init) {
     this.map.addCallback('zoomed', this.mapZoom);
     this.map.addCallback('panned', this.mapZoom);
     this.map.addCallback('extentset', this.mapZoom);
+    this.map.addCallback('resized', this.fullscreen);
     this.mapZoom({element: this.map.div});
     return this;
+};
+
+// Catch resize events and add a fullscreen class to the
+// project element to handle visibility of components.
+// Note that the wax fullscreen control sets a body class that
+// we cannot use here as it can be stale (e.g. user routes away
+// from a fullscreen'd map, leaving a stale class on the body).
+view.prototype.fullscreen = function(e) {
+    if (this.$('#map').hasClass('wax-fullscreen-map')) {
+        $('div.project').addClass('fullscreen');
+    } else {
+        $('div.project').removeClass('fullscreen');
+    }
 };
 
 // Set the model center whenever the map is moved.

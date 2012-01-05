@@ -14,8 +14,23 @@ view.prototype.initialize = function(options) {
     this.project = options.project;
     this.success = options.success || function() {};
     this.cancel = options.cancel || function() {};
-    this.error = options.error || function() {};
-    this.render();
+
+    // Check whether an existing export with this ID exists and is in progress.
+    Bones.utils.fetch({
+        existing: new models.Export({id:this.model.id}),
+        config: new models.Config()
+    }, _(function(err, models) {
+        if (err && err.status !== 404) {
+            new views.Modal(err);
+            return this.cancel();
+        }
+        if (!err && _(['processing','waiting']).include(models.existing.get('status'))) {
+            new views.Modal(new Error('Export already in progress.'));
+            return this.cancel();
+        }
+        this.config = models.config;
+        this.render();
+    }).bind(this));
 };
 
 view.prototype.render = function() {
@@ -37,20 +52,22 @@ view.prototype.render = function() {
         center[1],
         center[0]),
         center[2]);
-    this.boxselector = wax.mm.boxselector(this.map, {}, _(function(data) {
-        var s = _(data).chain().pluck('lat').min().value().toFixed(4);
-        var n = _(data).chain().pluck('lat').max().value().toFixed(4);
-        var w = _(data).chain().pluck('lon').min().value().toFixed(4) % 360;
-        var e = _(data).chain().pluck('lon').max().value().toFixed(4) % 360;
-        if (w < -180) w += 360; else if (w > 180) w -= 360;
-        if (e < -180) e += 360; else if (e > 180) e -= 360;
+    if (this.model.get('format') !== 'sync') {
+        this.boxselector = wax.mm.boxselector(this.map, {}, _(function(data) {
+            var s = _(data).chain().pluck('lat').min().value().toFixed(4);
+            var n = _(data).chain().pluck('lat').max().value().toFixed(4);
+            var w = _(data).chain().pluck('lon').min().value().toFixed(4) % 360;
+            var e = _(data).chain().pluck('lon').max().value().toFixed(4) % 360;
+            if (w < -180) w += 360; else if (w > 180) w -= 360;
+            if (e < -180) e += 360; else if (e > 180) e -= 360;
 
-        this.$('input[name=bbox_0]').val(w);
-        this.$('input[name=bbox_1]').val(s);
-        this.$('input[name=bbox_2]').val(e);
-        this.$('input[name=bbox_3]').val(n);
-        this.size();
-    }).bind(this));
+            this.$('input[name=bbox_0]').val(w);
+            this.$('input[name=bbox_1]').val(s);
+            this.$('input[name=bbox_2]').val(e);
+            this.$('input[name=bbox_3]').val(n);
+            this.size();
+        }).bind(this));
+    }
     this.updateTotal();
     return this;
 };
@@ -104,10 +121,18 @@ view.prototype.formatThousands = function(num) {
 };
 
 view.prototype.updateTotal = function(attributes) {
-    if (this.model.get('format') === 'mbtiles') {
+    if (this.model.get('format') === 'mbtiles' ||
+        this.model.get('format') === 'sync') {
         var sm = new SphericalMercator;
         var attr = _(attributes || {}).defaults(this.getAttributes());
         var total = 0;
+
+        // Retrieve defaults from model.
+        attr.minzoom = attr.minzoom || this.project.get('minzoom');
+        attr.maxzoom = attr.maxzoom || this.project.get('maxzoom');
+        attr.bbox = attr.bbox || this.project.get('bounds');
+        console.warn(attr);
+
         for (var z = attr.minzoom; z <= attr.maxzoom; z++) {
             var b = sm.xyz(attr.bbox, z);
             total += Math.abs((b.maxX - b.minX + 1) * (b.maxY - b.minY + 1));
@@ -141,6 +166,11 @@ view.prototype.zoom = function(ev, ui) {
 };
 
 view.prototype.getAttributes = function() {
+    if (this.model.get('format') === 'sync') return {
+        id: this.project.id,
+        name: (this.project.get('name') || this.project.id)
+    };
+
     var attr = {};
     attr.filename = this.$('input[name=filename]').val()
         + '.' + this.model.get('format');

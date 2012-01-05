@@ -10,7 +10,8 @@
   <% _(models).each(function(model) { %>
   <li>
   <a class='raised thumb' href='#/project/<%= model.id %>'>
-    <span class='thumb' style='background-image: url(<%= model.thumb() %>)'></span>
+    <span class='thumb'></span>
+    <span class='thumb' style='background:url(<%=model.thumb()%>) 50% 50% no-repeat; background-size:cover'></span>
     <%= model.get('name') || model.get('id') %><br/>
     <small class='description'>Updated <%= new Date(model.get('_updated')).format('D M j g:ia') %></small>
     <span id='<%= model.id %>' class='icon delete'>Delete</span>

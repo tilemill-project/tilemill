@@ -12,7 +12,7 @@ command.usage = '<project> <export>';
 
 command.options['format'] = {
     'title': 'format=[format]',
-    'description': 'Export format (png|pdf|svg|mbtiles).'
+    'description': 'Export format (png|pdf|svg|mbtiles|upload|sync).'
 };
 
 command.options['bbox'] = {
@@ -53,6 +53,8 @@ command.options['log'] = {
 };
 
 command.prototype.initialize = function(plugin, callback) {
+    _(this).bindAll('error', 'put', 'complete');
+
     var opts = plugin.config;
     if (process.env.tilemillConfig)
         _(opts).extend(JSON.parse(process.env.tilemillConfig));
@@ -77,7 +79,7 @@ command.prototype.initialize = function(plugin, callback) {
 
     // Format.
     if (!opts.format) opts.format = path.extname(opts.filepath).split('.').pop();
-    if (!_(['pdf', 'svg', 'png', 'mbtiles', 'upload']).include(opts.format))
+    if (!_(['pdf', 'svg', 'png', 'mbtiles', 'upload', 'sync']).include(opts.format))
         return this.error(new Error('Invalid format: ' + opts.format));
 
     // Convert string params into numbers.
@@ -93,7 +95,7 @@ command.prototype.initialize = function(plugin, callback) {
         opts.height = parseInt(opts.height, 10);
 
     // Rename the output filepath using a random hash if file already exists.
-    if (path.existsSync(opts.filepath) && opts.format !== 'upload') {
+    if (path.existsSync(opts.filepath) && !_(['upload','sync']).include(opts.format)) {
         var hash = crypto.createHash('md5')
             .update(+new Date + '')
             .digest('hex')
@@ -109,7 +111,7 @@ command.prototype.initialize = function(plugin, callback) {
     process.title = 'tm-' + path.basename(opts.filepath);
 
     // Upload format does not require loaded project.
-    if (opts.format === 'upload') return this[opts.format](callback);
+    if (opts.format === 'upload') return this[opts.format](this.complete);
 
     // Load project, localize and call export function.
     var cmd = this;
@@ -144,8 +146,23 @@ command.prototype.initialize = function(plugin, callback) {
         })(model.mml.center, model.mml.bounds, model.mml.minzoom, model.mml.maxzoom);
         if (!validCenter) delete model.mml.center;
 
-        cmd[opts.format](model, callback);
+        cmd[opts.format](model, cmd.complete);
     });
+};
+
+command.prototype.complete = function(err, data) {
+    if (err) {
+        this.error(err, function() {
+            process.exit(1);
+        });
+    } else {
+        data = _(data||{}).defaults({
+            status: 'complete',
+            progress: 1,
+            updated: +new Date()
+        });
+        this.put(data, process.exit);
+    }
 };
 
 command.prototype.error = function(err, callback) {
@@ -168,6 +185,9 @@ command.prototype.put = function(data, callback) {
     data.status == 'error' ?
         console.error(JSON.stringify(data)) :
         console.log(JSON.stringify(data));
+
+    // Allow commands to filter.
+    if (this.putFilter) data = this.putFilter(data);
 
     if (!this.opts.url) return callback();
     request.put({
@@ -195,13 +215,9 @@ command.prototype.pdf = function(project, callback) {
     map.extent = sm.convert(project.mml.bounds, '900913');
     try {
         map.renderFileSync(this.opts.filepath, { format: this.opts.format });
-        this.put({
-            status: 'complete',
-            progress: 1,
-            updated: +new Date()
-        }, process.exit);
+        callback();
     } catch(err) {
-        this.error(err);
+        callback(err);
     }
 };
 
@@ -251,6 +267,7 @@ command.prototype.mbtiles = function (project, callback) {
             grids: !!project.mml.interactivity
         });
 
+        var done = false;
         var timeout = setInterval(function progress() {
             var progress = (copy.copied + copy.failed) / copy.total;
             cmd.put({
@@ -265,18 +282,12 @@ command.prototype.mbtiles = function (project, callback) {
             console.log(err);
         });
         copy.on('finished', function() {
-            clearTimeout(timeout);
-            cmd.put({
-                status: 'complete',
-                progress: 1,
-                updated: +new Date()
-            }, process.exit);
+            clearInterval(timeout);
+            callback();
         });
         copy.on('error', function(err) {
-            clearTimeout(timeout);
-            cmd.error(err, function() {
-                process.exit(1);
-            });
+            clearInterval(timeout);
+            callback(err);
         });
     });
 };
@@ -402,7 +413,6 @@ command.prototype.upload = function (callback) {
                 var progress = bytesWritten / stat.size;
                 updated = Date.now();
                 cmd.put({
-                    status: 'complete',
                     progress: progress,
                     status: progress < 1 ? 'processing' : 'complete',
                     remaining: cmd.remaining(progress, started),
@@ -433,18 +443,35 @@ command.prototype.upload = function (callback) {
         });
         request.put({ url:modelURL, json:model }, this);
     }, function(err, res, body) {
-        if (err) return cmd.error(err, function() {
-            process.exit(1);
-        });
+        if (err)
+            return callback(err);
         if (modelURL && res.statusCode !== 200)
-            return cmd.error('Map publish failed: ' + res.statusCode, function() {
-                process.exit(1);
-            });
-        cmd.put({
-            status: 'complete',
-            progress: 1,
-            url: modelURL ? mapURL : freeURL,
-            updated: +new Date()
-        }, process.exit);
+            return callback(new Error('Map publish failed: ' + res.statusCode));
+        callback(null, { url:modelURL ? mapURL : freeURL });
     });
 };
+
+command.prototype.sync = function (project, callback) {
+    var cmd = this;
+    var modifier = 0;
+    cmd.putFilter = function(data) {
+        if (!data.progress) return data;
+        data.progress = (data.progress*0.5) + modifier;
+        return data;
+    };
+    cmd.opts.filepath = _('/tmp/tm-sync-<%=id%>-<%=time%>.mbtiles').template({
+        id: project.id,
+        time: + new Date
+    });
+    Step(function() {
+        cmd.mbtiles(project, this);
+    }, function(err) {
+        if (err) throw err;
+        modifier = 0.5;
+        cmd.upload(this);
+    }, function(err, data) {
+        fs.unlinkSync(cmd.opts.filepath);
+        cmd.complete(err, data);
+    });
+};
+
