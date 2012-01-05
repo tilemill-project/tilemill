@@ -76,8 +76,8 @@ server.prototype.load = function(req, res, next) {
 };
 
 server.prototype.mbtiles = function(req, res, next) {
-    var uri = 'mbtiles://' +
-        path.join(settings.files, 'export', req.param('id') + '.mbtiles');
+    var filepath = path.join(settings.files, 'export', req.param('id') + '.mbtiles');
+    var uri = {protocol:'mbtiles:',pathname:filepath};
     tilelive.load(uri, function(err, source) {
         if (err) return next(err);
 
