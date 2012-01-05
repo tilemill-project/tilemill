@@ -259,7 +259,9 @@ model.prototype.save = function(attrs, options) {
             this.trigger('saved');
             options && options.success && options.success(m, resp);
         }).bind(this),
-        error: options && options.error
+        error: _(function(m, resp) {
+            options && options.error && options.error(m, resp);
+        }).bind(this)
     });
 };
 
@@ -272,8 +274,13 @@ model.prototype.poll = function(options) {
         contentType: 'application/json',
         processData: false,
         success: _(function(resp) {
+            // No data to set.
             if (!_(resp).keys().length) return;
+            // We already have this update.
+            if (resp._updated <= this.get('_updated')) return;
+            // Validate failed.
             if (!this.set(this.parse(resp))) return;
+
             this.trigger('poll', this, resp);
             if (options.success) options.success(this, resp);
         }).bind(this),

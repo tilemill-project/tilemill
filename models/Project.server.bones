@@ -114,7 +114,9 @@ function mtimeProject(model, callback) {
     readdir(modelPath, function(err, files) {
         if (err) return callback(err);
         var max = _(files).chain()
-            .filter(function(stat) { return stat.isFile() })
+            .filter(function(stat) {
+                return stat.basename !== '.thumb.png' && stat.isFile();
+            })
             .pluck('mtime')
             .map(Date.parse)
             .max()
@@ -313,10 +315,10 @@ function saveProject(model, callback) {
     },
     function(err) {
         if (err) throw err;
-        fs.stat(path.join(modelPath, 'project.mml'), this);
+        mtimeProject(model, this);
     },
-    function(err, stat) {
-        var updated = stat && Date.parse(stat.mtime) || (+ new Date());
+    function(err, updated) {
+        if (err) throw err;
         var tiles = tileURL({
             url: settings.tileUrl,
             id: model.id,
