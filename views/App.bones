@@ -139,7 +139,7 @@ view.prototype.restart = function(ev) {
     parent.addClass('restarting');
     var poll = function() {
         $.ajax({
-            url: 'http://localhost:'+window.abilities.tilePort+'/status',
+            url: 'http://'+window.abilities.tileUrl+'/status',
             contentType: 'application/json',
             dataType: 'json',
             processData: false,
@@ -155,7 +155,7 @@ view.prototype.restart = function(ev) {
         });
     };
     $.ajax({
-        url: 'http://localhost:'+window.abilities.tilePort+'/restart',
+        url: 'http://'+window.abilities.tileUrl+'/restart',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({'bones.token':Backbone.csrf('/restart')}),
