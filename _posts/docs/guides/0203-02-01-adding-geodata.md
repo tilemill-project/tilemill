@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: guides
+tag: Guides
 title: "Adding MapBox Geodata"
 permalink: /docs/guides/add-geodata
 prereq:

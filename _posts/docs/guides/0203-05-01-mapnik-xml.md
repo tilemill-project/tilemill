@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: guides
+tag: Guides
 title: Mapnik XML
 permalink: /docs/tutorials/mapnik-xml
 ---

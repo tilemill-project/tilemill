@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: guides
+tag: Guides
 title: "Adding a shapefile layer"
 permalink: /docs/guides/add-shapefile
 prereq:

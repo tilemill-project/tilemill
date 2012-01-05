@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: crash&nbsp;course
+tag: Crash&nbsp;Course
 title: "Crash Course: Overview"
 permalink: /docs/crashcourse/introduction
 nextup:

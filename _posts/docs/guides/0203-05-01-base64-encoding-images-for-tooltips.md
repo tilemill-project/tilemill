@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: guides
+tag: Guides
 title: Images in tooltips
 permalink: /docs/tutorials/images-in-tooltips
 ---

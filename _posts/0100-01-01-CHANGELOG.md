@@ -3,7 +3,7 @@
 ### It is the source file for the HTML changelog as well
 ### as the Sparkle appcast feed.
 ###
-tag: installation
+tag: Installation
 layout: changelog
 section: documentation
 category: TileMill

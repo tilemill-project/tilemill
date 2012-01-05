@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: guides
+tag: Guides
 title: Terrain data
 permalink: /docs/tutorials/terrain-data
 ---
