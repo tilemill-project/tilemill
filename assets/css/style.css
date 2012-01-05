@@ -806,12 +806,16 @@ ul.layers {
 
 /* Templates */
 form.templates { margin:60px 10px 10px; overflow:hidden; }
-form.templates .templates input[type=text],
-form.templates .templates textarea { top:30px; }
-form.templates .templates textarea { resize:none; bottom:160px; }
-form.templates .templates-legend textarea { bottom:0px; }
-form.templates .templates { display:none; }
+form.templates .templates {
+  display:none;
+  padding:30px 0px 0px;
+  bottom:160px;
+  }
 form.templates .templates.active { display:block; }
+form.templates .templates-legend { bottom:0px; }
+form.templates .templates input[type=text],
+form.templates .templates textarea { width:100%; }
+form.templates .templates textarea { height:100%; resize:none; }
 form.templates .templates-options {
   display:none;
   background:#fff;

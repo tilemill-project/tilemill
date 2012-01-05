@@ -6,29 +6,29 @@
   ><a class='button large' href='#templates-location'>Location</a>
 </div>
 <form class='fill templates'>
-  <div class='templates templates-legend active'>
-    <div class='description'>Plain text or HTML map legend.</div>
-    <textarea name='legend' class='fill code'><%=get('legend')%></textarea>
+  <div class='templates fill templates-legend active'>
+    <div class='description fill-n'>Plain text or HTML map legend.</div>
+    <textarea name='legend' class='code'><%=get('legend')%></textarea>
   </div>
-  <div class='templates templates-teaser'>
-    <div class='description'>Content to be shown on hover or first tap (mobile).</div>
+  <div class='templates fill templates-teaser'>
+    <div class='description fill-n'>Content to be shown on hover or first tap (mobile).</div>
     <textarea
       <% if (!interactivity.layer) %>disabled<%;%>
       name='interactivity.template_teaser'
-      class='fill code requires-tokens'><%=interactivity.template_teaser%></textarea>
+      class='code requires-tokens'><%=interactivity.template_teaser%></textarea>
   </div>
-  <div class='templates templates-full'>
-    <div class='description'>Content to be shown on click or second tap (mobile).</div>
+  <div class='templates fill templates-full'>
+    <div class='description fill-n'>Content to be shown on click or second tap (mobile).</div>
     <textarea
       <% if (!interactivity.layer) %>disabled<%;%>
       name='interactivity.template_full'
-      class='fill code requires-tokens'><%=interactivity.template_full%></textarea>
+      class='code requires-tokens'><%=interactivity.template_full%></textarea>
   </div>
-  <div class='templates templates-location'>
-    <div class='description'>URL to open on click.</div>
+  <div class='templates fill templates-location'>
+    <div class='description fill-n'>URL to open on click.</div>
     <input
       <% if (!interactivity.layer) %>disabled<%;%>
-      class='fill-n requires-tokens'
+      class='requires-tokens'
       type='text'
       name='interactivity.template_location'
       value='<%=interactivity.template_location%>'
