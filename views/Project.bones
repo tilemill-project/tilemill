@@ -2,10 +2,7 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click .actions a[href=#save]': 'save',
-    'click .actions a[href=#export-pdf]': 'exportAdd',
-    'click .actions a[href=#export-svg]': 'exportAdd',
-    'click .actions a[href=#export-png]': 'exportAdd',
-    'click .actions a[href=#export-mbtiles]': 'exportAdd',
+    'click .actions a[href^=#export-]': 'exportAdd',
     'click .actions a[href=#exports]': 'exportList',
     'click a[href=#settings]': 'settings',
     'click a[href=#layers]': 'layers',
@@ -29,6 +26,7 @@ view.prototype.initialize = function() {
     Bones.intervals = Bones.intervals || {};
     if (Bones.intervals.project) clearInterval(Bones.intervals.project);
     Bones.intervals.project = setInterval(_(function() {
+        if (!$('.project').size()) return;
         this.model.poll({ error: function(m, err) {
             new views.Modal(err);
             clearInterval(Bones.intervals.project);
@@ -46,13 +44,14 @@ view.prototype.initialize = function() {
 
 view.prototype.render = function(init) {
     $('.bleed .active').removeClass('active');
-    $('.bleed .editor').addClass('active').attr('href', '/#!/project/' + this.model.id);
+    $('.bleed .editor').addClass('active').attr('href', '#/project/' + this.model.id);
     $(this.el).html(templates.Project(this.model));
     return this;
 };
 
 view.prototype.attach = function() {
     $(this.el).removeClass('saving');
+    this.$('.workspace .name').text(this.model.get('name'));
     this.$('.actions a[href=#save]').addClass('disabled');
 };
 
@@ -89,6 +88,7 @@ view.prototype.exportAdd = function(ev) {
     this.exportView = new views.Export({
         el: $('#export'),
         model: new models.Export({
+            id: format === 'sync' ? this.model.id : undefined,
             format: format,
             project: this.model.id,
             tile_format: this.model.get('format')
@@ -104,9 +104,6 @@ view.prototype.exportAdd = function(ev) {
                 $('.actions > .dropdown').click();
             }
             this.exportList();
-        }).bind(this),
-        error: _(function(m, err) {
-            new views.Modal(err);
         }).bind(this),
         cancel: _(function() {
             this.$('.project').removeClass('exporting');
@@ -150,10 +147,10 @@ view.prototype.layers = function(ev) {
 view.prototype.unload = function(ev) {
     if (!$('.project').size()) return;
     if ($('.actions a.disabled[href=#save]').size()) return;
-    if (ev.metaKey) return;
+    if (ev && ev.metaKey) return;
 
     var message = 'You have unsaved changes. Are you sure you want to close this project?';
-    if (ev.type === 'beforeunload') return message;
+    if (ev && ev.type === 'beforeunload') return message;
     if (confirm(message)) return true;
     return false;
 };

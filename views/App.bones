@@ -1,6 +1,17 @@
+Bones.utils.until = function(url, callback) {
+    $.ajax({
+        url: url,
+        success: callback,
+        error: function() { setTimeout(function() {
+            Bones.utils.until(url, callback);
+        }, 500); }
+    });
+};
+
 view = Backbone.View.extend();
 
 view.prototype.events = {
+    'click .bleed a': 'unload',
     'click #popup a[href=#close], #popup input.cancel': 'popupClose',
     'click a.popup': 'popupOpen',
     'click #drawer a[href=#close]': 'drawerClose',
@@ -13,6 +24,7 @@ view.prototype.events = {
 
 view.prototype.initialize = function() {
     _(this).bindAll(
+        'unload',
         'popupOpen',
         'popupClose',
         'drawerOpen',
@@ -21,6 +33,10 @@ view.prototype.initialize = function() {
         'keydown',
         'dropdown'
     );
+};
+
+view.prototype.unload = function() {
+    return !window.onbeforeunload || window.onbeforeunload() !== false;
 };
 
 view.prototype.popupOpen = function(ev) {
@@ -35,14 +51,14 @@ view.prototype.popupOpen = function(ev) {
 
 view.prototype.popupClose = function(ev) {
     $(this.el).removeClass('overlay');
-    this.$('#popup').removeClass('active');
-    this.$('#popup .pane').html(templates.Pane());
+    this.$('#popup')
+        .removeClass('active')
+        .html(templates.Pane());
     return false;
 };
 
 view.prototype.drawerOpen = function(ev) {
     var target = $(ev.currentTarget);
-    var className = target.is('.mini') ? 'mini' : '';
 
     // Close drawers when the target is active.
     if (target.is('.active')) return this.drawerClose();
@@ -50,15 +66,17 @@ view.prototype.drawerOpen = function(ev) {
     var title = target.text() || target.attr('title');
     this.$('a.drawer.active').removeClass('active');
     target.addClass('active');
-    this.$('#drawer').attr('class', 'active ' + className);
-    this.$('#drawer .pane > .title').text(title);
+    this.$('#drawer')[target.hasClass('mini') ? 'addClass' : 'removeClass']('mini');
+    this.$('#drawer').addClass('active')
+    this.$('#drawer > .title').text(title);
     return false;
 };
 
 view.prototype.drawerClose = function(ev) {
     this.$('a.drawer.active').removeClass('active');
-    this.$('#drawer').removeClass('active');
-    this.$('#drawer .pane').html(templates.Pane());
+    this.$('#drawer')
+        .removeClass('active')
+        .html(templates.Pane());
     return false;
 };
 
@@ -66,6 +84,7 @@ view.prototype.toggler = function(ev) {
     var link = $(ev.currentTarget);
     var parent = link.parents('.toggler');
     var target = link.attr('href').split('#').pop();
+    if (link.hasClass('disabled')) return false;
 
     $('a', parent).removeClass('active');
     this.$('.' + target).siblings('.active').removeClass('active');
@@ -123,28 +142,35 @@ view.prototype.dropdown = function(ev) {
 
 view.prototype.restart = function(ev) {
     var target = $(ev.currentTarget);
-    target.addClass('restarting');
+    var parent = target.parents('.restartable');
+    if (parent.hasClass('restarting')) return false;
 
-    var poll = function() {
-        $.ajax({
-            url: 'http://localhost:'+window.abilities.tilePort+'/status',
-            contentType: 'application/json',
-            dataType: 'json',
-            processData: false,
-            success: function(resp) { target.removeClass('restarting'); },
-            error: function() { setTimeout(poll, 1000); }
-        });
-    };
+    target.addClass('active');
+    parent.addClass('restarting');
     $.ajax({
-        url: 'http://localhost:'+window.abilities.tilePort+'/restart',
+        url: 'http://'+window.abilities.tileUrl+'/restart',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({'bones.token':Backbone.csrf('/restart')}),
         dataType: 'json',
         processData: false,
-        success: poll,
+        success: function() {
+            Bones.utils.until('http://'+window.abilities.tileUrl+'/status', function() {
+                target.removeClass('active');
+                parent
+                    .removeClass('loading')
+                    .removeClass('restarting')
+                    .removeClass('restartable');
+                if (parent.is('#drawer')) $('a[href=#close]',parent).click();
+            });
+        },
         error: function(err) {
-            $('body').removeClass('loading');
+            target.removeClass('active');
+            parent
+                .removeClass('loading')
+                .removeClass('restarting')
+                .removeClass('restartable');
+            if (parent.is('#drawer')) $('a[href=#close]',parent).click();
             new views.Modal(err);
         }
     });

@@ -3,7 +3,7 @@
   <ul>
     <% obj.collection.each(function(page) { %>
       <% var className = page.get('id') === model.get('id') ? 'active' : ''; %>
-      <li><a class='<%=className%>' href='/#!/manual/<%= page.id %>'><%= page.get('title') %></a></li>
+      <li><a class='<%=className%>' href='#/manual/<%= page.id %>'><%= page.get('title') %></a></li>
     <% }); %>
   </ul>
   </div>

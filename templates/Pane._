@@ -1,5 +1,5 @@
 <h2 class='title'></h2>
-<div class='actions'></div>
 <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
 <div class='content fill-s'></div>
 <div class='mask'></div>
+<a href='#restart' class='restart large button'><span class='icon reverse close labeled'></span>Cancel</a>

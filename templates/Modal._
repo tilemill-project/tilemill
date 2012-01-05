@@ -6,6 +6,6 @@
   </div>
 <% } else { %>
   <a href='#close' class='close'><span class='icon reverse close'>Close</span></a>
-  <div class='content'><pre><%= content.toString().replace(/</g, '&lt;').replace(/>/g, '&gt;') %></pre></div>
+  <div class='content'><pre class='scrolling'><%= content.toString().replace(/</g, '&lt;').replace(/>/g, '&gt;') %></pre></div>
   <div class='bug'>Is this a bug? <a target='_blank' href='https://github.com/mapbox/tilemill/issues'>Report it on github</a>.</div>
 <% } %>

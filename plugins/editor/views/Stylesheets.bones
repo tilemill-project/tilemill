@@ -5,7 +5,7 @@ view.prototype.events = {
     'click .swatch a[href=#save]': 'colorSave',
     'click .swatch a[href=#close]': 'colorClose',
     'click .editor a.add': 'stylesheetAdd',
-    'click .editor a.delete': 'stylesheetDelete',
+    'click .editor a.icon': 'stylesheetDelete',
     'sortupdate .tabs': 'sortStylesheets',
     'click .status a[href=#close]': 'statusClose'
 };
@@ -26,20 +26,6 @@ view.prototype.initialize = function() {
         'colorSave',
         'colorClose'
     );
-    Bones.intervals = Bones.intervals || {};
-    if (Bones.intervals.project) clearInterval(Bones.intervals.project);
-    Bones.intervals.project = setInterval(_(function() {
-        this.model.poll({ error: function(m, err) {
-            new views.Modal(err);
-            clearInterval(Bones.intervals.project);
-        }});
-    }).bind(this), 1000);
-
-    window.onbeforeunload = window.onbeforeunload || this.unload;
-
-    // Minor state saving for the carto window
-    this._carto_state = {};
-
     this.model.bind('save', this.save);
     this.model.bind('saved', this.attach);
     this.model.bind('error', this.error);
@@ -49,7 +35,7 @@ view.prototype.initialize = function() {
 };
 
 view.prototype.render = function(init) {
-    $(this.el).append(templates.Editor());
+    $(this.el).html(templates.Editor());
     this.model.get('Stylesheet').chain().each(this.makeStylesheet);
     this.$('.tabs').sortable({
         axis: 'x',
@@ -200,7 +186,7 @@ view.prototype.stylesheetDelete = function(ev) {
 };
 
 view.prototype.sortStylesheets = function() {
-    var order = _(this.$('.tabs li a.delete')).chain()
+    var order = _(this.$('.tabs li a.icon')).chain()
         .map(function(el) { return $(el).attr('href').split('#').pop(); })
         .uniq()
         .value();

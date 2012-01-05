@@ -5,6 +5,7 @@
 model = Backbone.Model.extend({});
 
 model.prototype.schema = {
+    'id': 'Project',
     'type': 'object',
     'properties': {
         // Mapnik-specific properties.
@@ -25,8 +26,7 @@ model.prototype.schema = {
         // https://github.com/mapbox/tilelive-mapnik/issues/4
         'format': {
             'type': 'string',
-            'enum': ['png', 'png24', 'png8', 'jpeg80', 'jpeg85',
-                'jpeg90', 'jpeg95']
+            'pattern': 'png(8|256)?(:.*)?|jpeg|jpeg[\d]{2}'
         },
         'interactivity': {
             'type': ['object', 'boolean']
@@ -263,19 +263,6 @@ model.prototype.save = function(attrs, options) {
     });
 };
 
-// Single tile thumbnail URL generation. From [OSM wiki][1].
-// [1]: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
-model.prototype.thumb = function() {
-    var z = this.get('center')[2];
-    var lat_rad = this.get('center')[1] * Math.PI / 180;
-    var x = parseInt((this.get('center')[0] + 180.0) / 360.0 * Math.pow(2, z));
-    var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2, z));
-    return this.get('tiles')[0]
-        .replace('{z}', z)
-        .replace('{x}', x)
-        .replace('{y}', y) + '&cache=true';
-};
-
 // Hit the project poll endpoint.
 model.prototype.poll = function(options) {
     if (Bones.server) throw Error('Client-side method only.');
@@ -309,12 +296,16 @@ model.prototype.flush = function(layer, url, options) {
         dataType: 'json',
         processData: false,
         success: _(function(resp) {
-            this.trigger('change');
+            this.trigger('change', this);
             if (options.success) options.success(this, resp);
         }).bind(this),
         error: _(function(resp) {
             if (options.error) options.error(this, resp);
         }).bind(this)
     });
+};
+
+model.prototype.thumb = function() {
+    return this.get('tiles')[0].replace('{z}/{x}/{y}','thumb');
 };
 

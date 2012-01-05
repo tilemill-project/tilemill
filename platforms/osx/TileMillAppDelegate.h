@@ -9,7 +9,7 @@
 #import "TileMillChildProcess.h"
 
 @class TileMillBrowserWindowController;
-@class TileMillPrefsWindowController;
+@class TileMillSparklePrefsWindowController;
 
 void (^requestLoadBlock)(void) = NULL;
 
@@ -17,7 +17,7 @@ void (^requestLoadBlock)(void) = NULL;
 {
     TileMillChildProcess *searchTask;
     TileMillBrowserWindowController *browserController;
-    TileMillPrefsWindowController *prefsController;
+    TileMillSparklePrefsWindowController *sparklePrefsController;
     NSString *logPath;
     BOOL shouldAttemptRestart;
     BOOL fatalErrorCaught;
@@ -28,7 +28,7 @@ void (^requestLoadBlock)(void) = NULL;
 - (IBAction)openDiscussions:(id)sender;
 - (IBAction)openOnlineHelp:(id)sender;
 - (IBAction)openConsole:(id)sender;
-- (IBAction)openPreferences:(id)sender;
+- (IBAction)openSparklePreferences:(id)sender;
 - (IBAction)showBrowserWindow:(id)sender;
 - (NSString *)configurationForKey:(NSString *)key;
 

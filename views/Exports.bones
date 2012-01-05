@@ -2,7 +2,7 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click a.delete': 'exportDelete',
-    'click a.upload': 'exportPreview'
+    'click a.preview': 'exportPreview'
 };
 
 view.prototype.initialize = function(options) {
@@ -39,8 +39,9 @@ view.prototype.time = function(ms) {
 view.prototype.exportDelete = function(ev) {
     var id = $(ev.currentTarget).attr('href').split('#').pop();
     var model = this.collection.get(id);
+    var name = model.get('name') || model.get('filename');
     new views.Modal({
-        content: 'Are you sure you want to delete "'+ model.get('filename') +'"?',
+        content: 'Are you sure you want to delete "'+name+'"?',
         callback: function() {
             model.destroy({ error: function(m, e) { new views.Modal(e) }});
         },

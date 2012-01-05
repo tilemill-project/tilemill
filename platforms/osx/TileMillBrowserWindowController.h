@@ -17,10 +17,10 @@ extern NSString *TileMillBrowserLoadCompleteNotification;
     NSInteger port;
 }
 
-@property (nonatomic, retain) IBOutlet WebView *webView;
+@property (nonatomic, strong) IBOutlet WebView *webView;
 
 - (void)loadInitialRequestWithPort:(NSInteger)inPort;
-- (void)loadRequestURL:(NSURL *)loadURL;
+- (void)loadRequestPath:(NSString *)path showingWindow:(BOOL)showWindow;
 - (BOOL)shouldDiscardUnsavedWork;
 - (NSString *)runJavaScript:(NSString *)code;
 - (NSString *)runJavaScript:(NSString *)code inBones:(BOOL)useBones;
