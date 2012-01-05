@@ -3,7 +3,7 @@ layout: book
 section: documentation
 category: TileMill
 tag: Guides
-title: Ubuntu service
+title: Running as an Ubuntu service
 permalink: /docs/tutorials/ubuntu-service
 ---
 By default, TileMill runs as a desktop-style application on Ubuntu, but it can also run as a system-wide service managed by [upstart](http://upstart.ubuntu.com/).
