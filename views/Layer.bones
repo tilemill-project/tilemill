@@ -5,6 +5,7 @@ view.prototype.events = {
     'click a[href=#open]': 'browse',
     'click a[href=#favorite]': 'favoriteToggle',
     'click a[href=#inspect]': 'inspect',
+    'click a.remote-item': 'choose',
     'keyup input[name=file], input[name=connection]': 'favoriteUpdate',
     'change input[name=file], input[name=connection]': 'favoriteUpdate',
     'click a[href=#cacheFlush]': 'cacheFlush',
@@ -78,6 +79,13 @@ view.prototype.favoriteToggle = function(ev) {
         $(ev.currentTarget).addClass('active');
     }
     return false;
+};
+
+view.prototype.choose = function(ev) {
+    var form = $(ev.currentTarget).parents('form');
+    var uri = $('input#url', form).val($(ev.currentTarget).attr('href'));
+    ev.stopPropagation();
+    ev.preventDefault();
 };
 
 view.prototype.inspect = function(ev) {
