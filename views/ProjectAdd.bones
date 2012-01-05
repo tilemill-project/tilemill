@@ -33,9 +33,11 @@ view.prototype.save = function() {
     this.model.setDefaults(this.$('input[name=use-default]')[0].checked);
     this.model.save({}, {
         success: _(function(model) {
-            this.model.collection.add(this.model);
-            $(this.el).removeClass('loading');
-            this.$('.close').click();
+            Bones.utils.until(model.thumb(), _(function() {
+                this.model.collection.add(this.model);
+                $(this.el).removeClass('loading');
+                this.$('.close').click();
+            }).bind(this));
         }).bind(this),
         error:error
     });
