@@ -50,7 +50,7 @@ var connectionOptions = function(obj) {
   <% if (type !== 'file') { %><input type='hidden' name='Datasource.type' value='<%=type%>' /><% } %>
   <ul class='form'>
     <li>
-      <label for='id'><span class='required'>*</span> ID</label>
+      <label for='id'>ID</label>
       <input type='text' name='id' value='<%=get('id')%>' size='20'/>
       <span class='description'>select in Carto <code>#id</code></span>
 

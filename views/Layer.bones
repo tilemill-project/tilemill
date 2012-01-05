@@ -4,8 +4,10 @@ view.prototype.events = {
     'click input[type=submit]': 'save',
     'click a[href=#open]': 'browse',
     'click a[href=#favorite]': 'favoriteToggle',
-    'keyup input[name=file], input[name=connection]': 'favoriteUpdate',
-    'change input[name=file], input[name=connection]': 'favoriteUpdate',
+    'keyup input[name$=file], input[name=connection]': 'favoriteUpdate',
+    'change input[name$=file], input[name=connection]': 'favoriteUpdate',
+    'keyup input[name$=file], .layer-postgis textarea': 'placeholderUpdate',
+    'change input[name$=file], .layer-postgis textarea': 'placeholderUpdate',
     'click a[href=#cacheFlush]': 'cacheFlush',
     'change select[name=srs-name]': 'nameToSrs',
     'keyup input[name=srs]': 'srsToName'
@@ -20,9 +22,11 @@ view.prototype.initialize = function(options) {
         'browse',
         'favoriteToggle',
         'favoriteUpdate',
+        'placeholderUpdate',
         'cacheFlush',
         'nameToSrs',
-        'srsToName'
+        'srsToName',
+        'autoname'
     );
     this.favorites = options.favorites;
     this.render();
@@ -33,7 +37,7 @@ view.prototype.render = function() {
 
     // Quick easy way to check and set whether input
     // URI is favorited.
-    this.$('input[name=file], input[name=connection]').change();
+    this.$('input[name$=file], input[name=connection]').change();
 
     // Set active tab.
     var type = this.model.get('Datasource') && this.model.get('Datasource').type;
@@ -62,7 +66,7 @@ view.prototype.srsToName = function(ev) {
 
 view.prototype.favoriteToggle = function(ev) {
     var form = $(ev.currentTarget).parents('form');
-    var uri = $('input[name=file], input[name=connection]', form).val();
+    var uri = $('input[name$=file], input[name=connection]', form).val();
     // @TODO wait for 'success'? Throw errors?
     if (this.favorites.get(uri)) {
         var model = this.favorites.get(uri);
@@ -104,6 +108,26 @@ view.prototype.favoriteUpdate = function(ev) {
     return false;
 };
 
+view.prototype.placeholderUpdate = function(ev) {
+    var target = $(ev.currentTarget);
+    var form = target.parents('form');
+    $('input[name=id]',form).attr('placeholder', this.autoname(target.val()));
+};
+
+// Currently handles URLs and brute forces SQL queries into something usable.
+// @TODO smarter handling for this or abandon the idea if it turns out to be
+// untenable for queries.
+view.prototype.autoname = function(source) {
+    return _(source.split('/'))
+        .last()
+        .split('.')[0]
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g,'')
+        .replace('selectfrom','')
+        .replace('select','')
+        .substr(0,20);
+};
+
 view.prototype.browse = function(ev) {
     var target = $(ev.currentTarget);
     var form = target.parents('form');
@@ -129,17 +153,7 @@ view.prototype.browse = function(ev) {
             new views.Library({
                 model: model,
                 favorites: this.favorites,
-                change: function(uri) {
-                    $('input.browsable', form).val(uri);
-                    if ($('input[name=id]', form).val() == '') {
-                        // Get the 'basename' of the file, minus anything
-                        // after the first dot, in alphanumeric
-                        // and lowercase.
-                        $('input[name=id]', form).val(
-                            _(uri.split('/')).last().split('.')[0]
-                                .replace(/[^a-z0-9]/gi,'').toLowerCase());
-                    }
-                },
+                change: function(uri) { $('input.browsable', form).val(uri).change(); },
                 el: $('.browser', form)
             });
         }).bind(this),
@@ -212,6 +226,10 @@ view.prototype.save = function(e) {
         attr.Datasource = _(attr.Datasource).defaults(connection);
     }
 
+    // Autoname this layer if id is blank.
+    attr['id'] =
+    attr['name'] = attr['id'] || this.autoname(attr['Datasource'].file||attr['Datasource'].table);
+
     $(this.el).addClass('loading').addClass('restartable');
     var error = _(function(m, e) {
         if ($(this.el).hasClass('restarting')) return false;
@@ -235,7 +253,7 @@ view.prototype.save = function(e) {
 
 view.prototype.cacheFlush = function(ev) {
     $(this.el).addClass('loading');
-    var url = this.$('form.layer-file input[name=file]').val();
+    var url = this.$('form.layer-file input[name$=file]').val();
     this.model.collection.parent.flush(this.model.id, url, {
         success: _(function(m, resp) {
             $(this.el).removeClass('loading');
