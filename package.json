@@ -44,7 +44,8 @@
         "modestmaps": "https://github.com/stamen/modestmaps-js/tarball/requesterror",
         "npm": "1.0.x",
         "semver": "1.0.x",
-        "optimist": "0.1.x"
+        "optimist": "0.1.x",
+        "mkdirp": "~0.2.1"
     },
     "devDependencies": {
         "jshint": "0.2.x"
