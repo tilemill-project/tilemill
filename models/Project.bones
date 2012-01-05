@@ -253,16 +253,13 @@ model.prototype.validate = function(attr) {
 
 // Wrap save to trigger 'save', 'saved' events.
 model.prototype.save = function(attrs, options) {
-    this._saving = true;
     this.trigger('save');
     Backbone.Model.prototype.save.call(this, attrs, {
         success: _(function(m, resp) {
-            this._saving = false;
             this.trigger('saved');
             options && options.success && options.success(m, resp);
         }).bind(this),
         error: _(function(m, resp) {
-            this._saving = false;
             options && options.error && options.error(m, resp);
         }).bind(this)
     });
@@ -277,8 +274,11 @@ model.prototype.poll = function(options) {
         contentType: 'application/json',
         processData: false,
         success: _(function(resp) {
-            if (this._saving) return;
+            // No data to set.
             if (!_(resp).keys().length) return;
+            // We already have this update.
+            if (resp._updated <= this.get('_updated')) return;
+            // Validate failed.
             if (!this.set(this.parse(resp))) return;
 
             this.trigger('poll', this, resp);
