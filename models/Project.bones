@@ -263,19 +263,6 @@ model.prototype.save = function(attrs, options) {
     });
 };
 
-// Single tile thumbnail URL generation. From [OSM wiki][1].
-// [1]: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
-model.prototype.thumb = function() {
-    var z = this.get('center')[2];
-    var lat_rad = this.get('center')[1] * Math.PI / 180;
-    var x = parseInt((this.get('center')[0] + 180.0) / 360.0 * Math.pow(2, z));
-    var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2, z));
-    return this.get('tiles')[0]
-        .replace('{z}', z)
-        .replace('{x}', x)
-        .replace('{y}', y) + '&cache=true';
-};
-
 // Hit the project poll endpoint.
 model.prototype.poll = function(options) {
     if (Bones.server) throw Error('Client-side method only.');

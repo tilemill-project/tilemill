@@ -461,10 +461,8 @@ ul.projects { margin:0px -5px; }
   left:4px;
   top:4px;
   position:absolute;
-  background-size:cover;
-  background-position:50% 50%;
-  background-repeat:no-repeat;
   border-radius:2px;
+  background:#fff url(../images/bg.png) 100% 0%;
   box-shadow:inset rgba(0,0,0,0.1) 0px 0px 3px 1px;
   }
 

@@ -2,18 +2,19 @@ var fs = require('fs');
 var path = require('path');
 var tilelive = require('tilelive');
 var settings = Bones.plugin.config;
+var Step = require('step');
+var readdir = require('../lib/fsutil.js').readdir;
 
 server = Bones.Server.extend({});
 server.prototype.port = 20008;
 server.prototype.initialize = function() {
-    _.bindAll(this, 'fromCache', 'load', 'mbtiles');
+    _.bindAll(this, 'thumb', 'load', 'mbtiles');
     this.port = settings.tilePort || this.port;
     this.enable('jsonp callback');
     this.use(this.cors);
     this.all('/tile/:id.mbtiles/:z/:x/:y.:format(png|grid.json)', this.mbtiles);
-    this.all('/tile/:id/:z/:x/:y.:format(png|grid.json)', [
-        this.fromCache,
-        this.load]);
+    this.all('/tile/:id/:z/:x/:y.:format(png|grid.json)', this.load);
+    this.all('/tile/:id/thumb.png', this.thumb);
     this.all('/datasource/:id', this.datasource);
     this.get('/status', this.status);
     this.post('/restart', this.restart);
@@ -96,23 +97,27 @@ server.prototype.mbtiles = function(req, res, next) {
     });
 };
 
-server.prototype.fromCache = function(req, res, next) {
-    if (!req.param('cache')) return next();
-
-    var filename = [
-        req.param('id'),
-        req.param('z'),
-        req.param('x'),
-        req.param('y'),
-        req.param('format')
-    ].join('.');
-    res.cache = path.join(settings.files, 'cache', 'tile', filename);
-    fs.stat(res.cache, function(err, stat) {
-        if (!err && +stat.mtime > req.param('updated')) {
-            return res.sendfile(res.cache, {maxAge:36e5});
-        } else {
-            return next();
-        }
+// Load thumb from project dir. If it does not exist, fallback to
+// legacy cache/tile dir and grab most recent thumb image.
+// @TODO: fallback can be deprecated at 1.0.
+server.prototype.thumb = function(req, res, next) {
+    var thumbPath = path.resolve(path.join(settings.files, 'project', req.param('id'), '.thumb.png'));
+    Step(function() {
+        fs.stat(thumbPath, this);
+    }, function(err) {
+        if (!err) return res.sendfile(thumbPath, {hidden:true,maxAge:36e5});
+        readdir(path.resolve(path.join(settings.files, 'cache', 'tile')), this);
+    }, function(err, files) {
+        if (err) return next(err);
+        if (!files.length) return res.send(404);
+        var file = _(files).chain()
+            .sortBy(function(f) { return -1 * new Date(f.ctime).getTime(); })
+            .pluck('basename')
+            .filter(function(n) { return n.indexOf(req.param('id')+'.') === 0; })
+            .first()
+            .value();
+        if (!file) return res.send(404);
+        res.sendfile(path.resolve(path.join(settings.files, 'cache', 'tile', file)));
     });
 };
 
