@@ -29,13 +29,15 @@ You can prepare your own CSV or you can use [earthquake data from the USGS](http
 2. Enter a name for your project and click **Add**. You can leave the other fields alone for now.
   ![Add project](/tilemill/assets/pages/csv-2.png)
 3. Click on the new project to open it. The project contains a default layer called `#countries` styled with some example Carto code.
-4. To add a CSV layer, click **Add layer**.
+4. To add a CSV layer, first click the **layers button** located on the bottom left to bring up the **Layers** panel.
+  ![Add layer](/tilemill/assets/pages/csv-3.png)
+5. Now click **Add layer**.
   ![Add layer](/tilemill/assets/pages/csv-4.png)
-5. Enter `earthquakes` in the **ID** field. You'll use this ID to to reference this layer in Carto selectors.
-6. Enter the URL `http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M2.5.txt` into the **Datasource** field.
-7. Click the **Save & Style** button. This will add the layer to your project and insert a default Carto rule for the layer.
+6. Enter `earthquakes` in the **ID** field. You'll use this ID to to reference this layer in Carto selectors.
+7. Enter the URL `http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M2.5.txt` into the **Datasource** field.
+8. Click the **Save & Style** button. This will add the layer to your project and insert a default Carto rule for the layer.
   ![Add layer](/tilemill/assets/pages/csv-7.png)
-8. Preview the result in the map preview pane.
+9. Preview the result in the map preview pane.
   ![Styled map](/tilemill/assets/pages/earthquake-map.png)
 
 {% include nextup.html %}
