@@ -36,7 +36,7 @@ You will notice the **Size** numbers update as you do this. These numbers indica
   ![](/tilemill/assets/pages/exporting-7.png)
 The window will transition back to your project and the exports panel will appear. Here is where you can access and find information about your exported files. The most recent will appear at the top of the list and display its progress as it is being processed.
   ![](/tilemill/assets/pages/exporting-8.png)
-7. When the export process is complete, the progress bar will be replaced by **Upload** and **Save** buttons. **Upload** allows you to directly upload the map to [MapBox](/tour/hosting/), while **Save** will save a copy of the file locally to a specified location.
+7. When the export process is complete, the progress bar will be replaced by **Upload** and **Save** buttons. **Upload** allows you to directly upload the map to [MapBox hosting](/tour/hosting/), while **Save** will save a copy of the file locally to a specified location.
   ![](/tilemill/assets/pages/exporting-9.png)
 
 ### Congragulations!  
