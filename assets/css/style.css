@@ -388,7 +388,7 @@ small { font-size:11px; }
 .saving .header .spinner { visibility:visible; }
 
 .header .actions {
-  z-index:1;
+  z-index:2;
   position:fixed;
   top:10px;
   right:10px;
