@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: tutorials
+tag: Guides
 title: Google charts in tooltips
 permalink: /docs/tutorials/google-charts
 code1: "{{{ID}}}"

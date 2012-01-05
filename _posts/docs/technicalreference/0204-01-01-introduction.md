@@ -2,11 +2,11 @@
 layout: book
 section: documentation
 category: TileMill
-tag: manual
+tag: Technical&nbsp;Reference
 title: Introduction
 permalink: /docs/manual
 ---
-## Introduction
+## Technical Reference Manual
 
 TileMill is a tool for cartographers to quickly and easily design maps for the web using custom data. It is built on the powerful open-source map rendering library [Mapnik](http://www.mapnik.org) - the same software [OpenStreetMap](http://www.openstreetmap.org/) and [MapQuest](http://www.mapquest.com) use to make some of their maps. TileMill is not intended to be a general-purpose cartography tool, but rather focuses on streamlining and simplifying a narrow set of use cases.
 

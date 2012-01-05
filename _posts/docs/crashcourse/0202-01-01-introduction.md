@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: crashcourse
+tag: crash&nbsp;course
 title: "Crash Course: Overview"
 permalink: /docs/crashcourse/introduction
 nextup:
@@ -10,7 +10,7 @@ nextup:
 ---
 ## Step-by-step instructions for making maps  
 
-Want to get started making maps in minutes? This quick-start guide will walk through the critical steps to design your maps in TileMill and upload to MapBox Hosting to share on the web. We'll teach you the basics on making incredible maps and show you want you need to know to get mapping quick.  
+Want to get started making maps in minutes? This crash course will walk through the critical steps to design your maps in TileMill. We'll teach you the basics on making incredible maps and show you want you need to know to get mapping quick.  
 
 <ul class='checklist' markdown='1'>
 <li class='check'>

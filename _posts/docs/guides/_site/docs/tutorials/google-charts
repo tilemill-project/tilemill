@@ -1,0 +1,95 @@
+<p>This is a short step-by-step article for building charts and graphs to enhance interactivity in TileMill. In our <a href='http://support.mapbox.com/kb/tilemill/converting-addresses-in-spreadsheets-to-custom-maps-in-tilemill'>accompanying article</a>, we&#8217;ve written about adding identifying information for point data. Here we will walk through using <a href='http://code.google.com/apis/chart/image/'>Google&#8217;s Chart API</a>.</p>
+
+<p>Google&#8217;s Chart API is unique tool that allows you to embed dynamic charts and graphs in the interactive space of TileMill. Little to no programming experience is needed to adjust an existing chart in their gallery or build one from scratch in their interactive chart <a href='http://code.google.com/apis/chart/image/docs/chart_playground.html'>playground</a>.</p>
+
+<h2 id='how_it_works'>How it works</h2>
+
+<p>Here&#8217;s how it works, it&#8217;s simple: the API generates an image based on the data that is sent via an URL request. Within the URL, parameters are set and data variables are defined and returns a PNG image of a chart based on the data. A basic chart consists of only a few components: base URL, chart type, chart size, data values, and data labels. The only steps you need to take are:</p>
+
+<ol>
+<li>Set parameters and define data values</li>
+
+<li>Copy and paste URL into the interactivity window in TileMill</li>
+</ol>
+
+<h2 id='set_parameters_and_define_data'>Set parameters and define data</h2>
+
+<p>Whether you are using a shapefile, geojson file, or a PostGIS database, data variables are defined as tokens, <code>{{{ID}}}</code>, within TileMill and can be inserted into the data values component within the Chart API URL. Let&#8217;s follow this example of a chart for a map we&#8217;ve been working on recently:</p>
+
+<p><img src='/tilemill/assets/pages/googlecharts1.png' alt='' /></p>
+
+<p>Here is the code for this example. Feel free to copy and paste the following code into the chart <a href='http://code.google.com/apis/chart/image/docs/chart_playground.html'>playground</a> to try it out for yourself.</p>
+
+<pre><code>chf=a,s,000000DC|bg,s,3A3A3A
+chxl=1:AmI|Asi|Blk|Hwi|Oth|Wht|+++2orM|++++++++++++|+++++|+His|+Non
+chbh=a,0,1
+chxr=0,1
+chxs=0,FFFFFF,10,0,l,FFFFFF|1,FFFFFF,10,0,l,FFFFFF|2,FFFFFF,10,0,l,FFFFFF
+chxt=y,x,r
+chs=300x165
+cht=bvg
+chco=D9F0D3,7FBF7B
+chds=0,1,0,1
+chd=t:.1,.2,.3,.4,.5,.6,.7,_,_,.8,.9|.3,.4,.5,.6,.7,.8,.9,_,_,.9,.8
+chdl=2000|2010
+chdls=FFFFFF,8
+chg=14.3,9,1,1
+chls=1|1
+chma=0,0,0,10
+chm=b,D9F0D3,0,0,0|b,7FBF7B,0,0,0
+chtt=++Pct+by+Race++++++++++++++++++++++++++++++++++Pct+by+Ethnicity
+chts=FFFFFF,10.5</code></pre>
+
+<p>There are three key parameters for defining and displaying your data in TileMill:</p>
+
+<p><code>chd:</code> , <code>chl:</code> , <code>chds:</code></p>
+
+<p><code>chd:</code> defines the data values. In the example above, the data is hard coded into the the URL as simple text format, <code>chd=t</code>. The Google Charts API accepts data in a number of formats and allows you to easily specify the data variables that contain the values coming from TileMill. Using the simple text format, data variables within TileMill can replace the hard-coded numbers in the above example. This way the chart image will dynamically change based on the data as you mouse-over or click each interactive point of your map. Here&#8217;s how this parameter might look using TileMill variable tokens:</p>
+<pre>chd=t: {{{data1}}},{{{data2}}},{{{data3}}},{{{data4}}},{{{data5}}},{{{data6}}},{{{data7}}},_,_,{{{data8}}},{{{data9}}}|
+{{{data10}}},{{{data11}}},{{{data12}}},{{{data13}}},{{{data14}}},{{{data15}}},{{{data16}}},_,_,{{{data17}}},{{{data18}}}
+</pre>
+<p>Google provides a great overview of the key components <a href='http://code.google.com/apis/chart/image/docs/making_charts.html#chart_elements'>here</a>.</p>
+
+<h2 id='copy_and_paste_into_tilemill'>Copy and paste into TileMill</h2>
+
+<p>After you&#8217;ve set your parameters, defined your data, and defined your labels, you can wrap an HTML image tag around your Image API URL then copy and paste your new code into the interactivity window within TileMill.</p>
+
+<ul>
+<li>Click &#8216;settings &gt; interactivity and then pick the layer from which you want to choose your data</li>
+
+<li>Set <code>Key name</code> to a unique value in your dataset.</li>
+</ul>
+
+<p>Once you&#8217;ve set those fields, you will see two additional fields below. The <code>Teaser</code> field displays content in an overlay on mouse-over, and <code>Full</code> displays content on click. You should also see your data tokens at the bottom of the window.</p>
+
+<p>We&#8217;ll set up the <code>Teaser</code> field in this example to provide an example for fast and dynamic interactivity using charts with a mouse-over. From the above example in the chart playground, you should see a URL that contains all the parameters you just set.</p>
+
+<p>The new HTML image tag with the URL should look something like this:</p>
+<pre>&lt;img src=&quot;http://chart.apis.google.com/chart
+  ?chf=a,s,000000DC|bg,s,3A3A3A
+  &amp;chxl=1:AmI|Asi|Blk|Hwi|Oth|Wht|+++2orM|++++++++++++|+++++|+His|+Non
+  &amp;chbh=a,0,1
+  &amp;chxr=0,1
+  &amp;chxs=0,FFFFFF,10,0,l,FFFFFF|1,FFFFFF,10,0,l,FFFFFF|2,FFFFFF,10,0,l,FFFFFF
+  &amp;chxt=y,x,r
+  &amp;chs=300x165
+  &amp;cht=bvg
+  &amp;chco=D9F0D3,7FBF7B
+  &amp;chds=0,1,0,1
+  &amp;chd=t: {{{data1}}},{{{data2}}},{{{data3}}},{{{data4}}},{{{data5}}},{{{data6}}},{{{data7}}},_,_,{{{data8}}},{{{data9}}}|{{{data10}}},{{{data11}}},{{{data12}}},{{{data13}}},{{{data14}}},{{{data15}}},{{{data16}}},_,_,{{{data17}}},{{{data18}}}
+  &amp;chdl=2000|2010
+  &amp;chdls=FFFFFF,8
+  &amp;chg=14.3,9,1,1
+  &amp;chls=1|1&amp;chma=0,0,0,10
+  &amp;chm=b,D9F0D3,0,0,0|b,7FBF7B,0,0,0
+  &amp;chtt=++Pct+by+Race++++++++++++++++++++++++++++++++++Pct+by+Ethnicity&amp;chts=FFFFFF,10.5&quot; width=&quot;300&quot; height=&quot;165&quot; alt=&quot;Pct Race/Ethnicity&quot; /&gt;
+</pre>
+<p>Then copy your new image tag into the <code>Teaser</code> field.</p>
+
+<p><img src='/tilemill/assets/pages/googlecharts2.png' alt='' /></p>
+
+<h2 id='final_product'>Final Product</h2>
+
+<p>Once you click <code>Save</code>, TileMill will process the settings and mouse-over interactivity will be available for your map. You should now see an interactive pop-up in your preview window.</p>
+
+<p><img src='/tilemill/assets/pages/googlecharts3.png' alt='' /></p>

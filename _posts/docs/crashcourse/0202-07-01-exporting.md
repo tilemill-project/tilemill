@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: crashcourse
+tag: crash&nbsp;course
 title: "Exporting Your Map"
 permalink: /docs/crashcourse/exporting
 prereq:

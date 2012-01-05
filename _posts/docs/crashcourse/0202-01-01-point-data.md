@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: crashcourse
+tag: crash&nbsp;course
 title: "Importing Data"
 permalink: /docs/crashcourse/point-data
 prereq:
