@@ -243,7 +243,8 @@ command.prototype.mbtiles = function (project, callback) {
     }, function(err, s) {
         if (err) throw err;
         source = s;
-        tilelive.load('mbtiles://' + cmd.opts.filepath, this);
+        var uri = {protocol:'mbtiles:',pathname:cmd.opts.filepath};
+        tilelive.load(uri, this);
     }, function(err, s) {
         if (err) throw err;
         sink = s;
