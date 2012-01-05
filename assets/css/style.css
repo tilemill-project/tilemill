@@ -1711,7 +1711,7 @@ ul.grid li {
 @media (min-width:1400px) { ul.grid li { width:25%; } }
 
 /* Screen-size adjustments */
-@media (min-width:1200px) {
+@media (min-width:1300px) {
   #drawer { right:45%; }
   .project .map { width:55% !important; }
   .project .workspace { width:45% !important; }
