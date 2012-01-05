@@ -50,16 +50,6 @@ view.prototype.npm = function(ev) {
     this.restarting = true;
 
     var id = $(ev.currentTarget).attr('href').split('#').pop();
-    var poll = function() {
-        $.ajax({
-            url: '/status',
-            contentType: 'application/json',
-            dataType: 'json',
-            processData: false,
-            success: function(resp) { window.location.reload() },
-            error: function() { setTimeout(poll, 1000); }
-        });
-    };
     var options = {
         success: function(m) {
             $.ajax({
@@ -69,7 +59,11 @@ view.prototype.npm = function(ev) {
                 data: JSON.stringify({'bones.token':Backbone.csrf('/restart')}),
                 dataType: 'json',
                 processData: false,
-                success: poll,
+                success: function() {
+                    Bones.utils.until('/status', function() {
+                        window.location.reload();
+                    });
+                },
                 error: function(err) {
                     $('body').removeClass('loading');
                     new views.Modal(err);

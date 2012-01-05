@@ -1,3 +1,13 @@
+Bones.utils.until = function(url, callback) {
+    $.ajax({
+        url: url,
+        success: callback,
+        error: function() { setTimeout(function() {
+            Bones.utils.until(url, callback);
+        }, 500); }
+    });
+};
+
 view = Backbone.View.extend();
 
 view.prototype.events = {
@@ -137,23 +147,6 @@ view.prototype.restart = function(ev) {
 
     target.addClass('active');
     parent.addClass('restarting');
-    var poll = function() {
-        $.ajax({
-            url: 'http://'+window.abilities.tileUrl+'/status',
-            contentType: 'application/json',
-            dataType: 'json',
-            processData: false,
-            success: function(resp) {
-                target.removeClass('active');
-                parent
-                    .removeClass('loading')
-                    .removeClass('restarting')
-                    .removeClass('restartable');
-                if (parent.is('#drawer')) $('a[href=#close]',parent).click();
-            },
-            error: function() { setTimeout(poll, 1000); }
-        });
-    };
     $.ajax({
         url: 'http://'+window.abilities.tileUrl+'/restart',
         type: 'POST',
@@ -161,7 +154,16 @@ view.prototype.restart = function(ev) {
         data: JSON.stringify({'bones.token':Backbone.csrf('/restart')}),
         dataType: 'json',
         processData: false,
-        success: poll,
+        success: function() {
+            Bones.utils.until('http://'+window.abilities.tileUrl+'/status', function() {
+                target.removeClass('active');
+                parent
+                    .removeClass('loading')
+                    .removeClass('restarting')
+                    .removeClass('restartable');
+                if (parent.is('#drawer')) $('a[href=#close]',parent).click();
+            });
+        },
         error: function(err) {
             target.removeClass('active');
             parent
