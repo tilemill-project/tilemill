@@ -1588,7 +1588,8 @@ div.manual { margin-right:180px; }
 .manual .md ul ul { margin:0px; }
 
 .manual .md h2 { font-size:16px; }
-.manual .md h3 { font-size:16px; }
+.manual .md h3 { font-size:14px; }
+.manual .md h4 { font-size:13px; }
 
 .manual .md ul li { padding-left:20px; }
 .manual .md ol li {
@@ -1710,7 +1711,7 @@ ul.grid li {
 @media (min-width:1400px) { ul.grid li { width:25%; } }
 
 /* Screen-size adjustments */
-@media (min-width:1200px) {
+@media (min-width:1300px) {
   #drawer { right:45%; }
   .project .map { width:55% !important; }
   .project .workspace { width:45% !important; }
