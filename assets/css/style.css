@@ -491,7 +491,8 @@ ul.projects { margin:0px -5px; }
 
 .project .workspace { border-left:1px solid #ccc; }
 
-.wax-fullscreen-view .project .map {
+.project.fullscreen .palette { display:none; }
+.project.fullscreen .map {
   position:fixed;
   left:60px;
   right:0px;
