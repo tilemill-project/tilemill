@@ -93,15 +93,15 @@ CSV format can also be used, but there is an extra step that must be done before
 
 CSV files can be joined in the very same way. This is a commonly used format that can be read by many applications, including Quantum GIS. However, QGIS interprets all CSV columns as strings by default, which is a problem if you intend to use numbers to conditionally style your map.
 
-In order to solve this problem you can create an accompanying .csvt file which allows you to specify column types for your CSV file. To create one open up a new document in any text editor.
+As a solution you can create an accompanying **.csvt** file which allows you to specify column types for your CSV file. To create one open up a new document in any text editor.
 
-The .csvt file contains only one line. Column types are in quotes and separated by commas. The order should be the same as the column order in your CSV.
+The **.csvt** file contains only one line. Column types are in quotes and separated by commas. The order should be the same as the column order in your CSV.
 
 So if your CSV columns looks like this:    
 `geoid,name,population`    
-where the `geoid` and `name` contain strings, and the `population` field contains numbers, your .csvt would look like this:  
+where the `geoid` and `name` contain strings, and the `population` field contains numbers, your **.csvt** would look like this:  
 `"String","String","Real"`
 
-Save the file with the same name as your CSV but with the .csvt extension and keep it in the same folder. That's it. You do not ever have to load the .csvt file, it remains associated with your CSV in the background.
+Save the file with the same name as your CSV but with the **.csvt** extension and keep it in the same folder. That's it. You do not ever have to load the **.csvt** file, it remains associated with your CSV in the background.
 
 {% include nextup.html %}
