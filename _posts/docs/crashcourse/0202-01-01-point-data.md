@@ -2,8 +2,8 @@
 layout: book
 section: documentation
 category: TileMill
-tag: Crash&nbsp;Course
-title: "Importing Data"
+tag: Crash&nbsp;course
+title: "Importing data"
 permalink: /docs/crashcourse/point-data
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."

@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: Crash&nbsp;Course
+tag: Crash&nbsp;course
 title: "Overview"
 permalink: /docs/crashcourse/introduction
 nextup:
@@ -23,16 +23,16 @@ If you have any questions along the way, [start a dicussion with our support tea
 
 ## What to expect
 
-**[Importing Data](/tilemill/docs/crashcourse/point-data)**
+**[Importing data](/tilemill/docs/crashcourse/point-data)**  
   Here we will show you how to download a common type of data that is supported by TileMill. If you want a more in-depth overview of adding layers in our technical reference first, see [here](/tilemill/docs/manual/adding-layers).
 
-**[Styling Data](/tilemill/docs/crashcourse/styling)**
+**[Styling data](/tilemill/docs/crashcourse/styling)**  
   We will show the step-by-step basics of changing default styles and making a truly custom map. We use a CSS-like language called Carto to style your data. If you want a in-depth overview of Carto, check out our [technical reference](/tilemill/docs/manual/carto).
 
-**[Adding Tooltips and Legends](/tilemill/docs/crashcourse/tooltips)**
+**[Adding tooltips and legends](/tilemill/docs/crashcourse/tooltips)**  
   Making your map interactive or adding a legend is critical to communicating your data. Here we will show you how to add tooltip interactivity and help you explain your map with a legend. For an in-depth overview, check out the [technical reference on project settings](/tilemill/docs/manual/project-settings).
 
-**[Exporting Your Map](/tilemill/docs/manual/exporting)**
+**[Exporting your map](/tilemill/docs/manual/exporting)**  
   A designed map can be shared quickly and easily in a number of formats. Here we'll show you how to export to the MBTiles format for uploading on the web. For an in-depth overview of all supported formats, see [here](/tilemill/docs/manual/exporting) in our technical reference.
 
 {% include nextup.html %}
