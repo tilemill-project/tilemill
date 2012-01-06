@@ -58,7 +58,7 @@
 {
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"SULastCheckTime"])
     {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
         
         [formatter setDateStyle:NSDateFormatterLongStyle];
         [formatter setTimeStyle:NSDateFormatterShortStyle];
