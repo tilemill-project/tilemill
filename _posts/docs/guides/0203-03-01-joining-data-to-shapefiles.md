@@ -6,7 +6,7 @@ tag: Guides
 title: "Joining data to shapefiles"
 permalink: /docs/guides/joining-data
 nextup:
-- "[Adding a shapefile layer](tilemill/docs/guides/add-shapefile) to your TileMill project."
+- "[Adding a shapefile layer](/tilemill/docs/guides/add-shapefile/) to your TileMill project."
 ---
 
 This guide will teach you, step-by-step, how to join your data to a shapefile so that you can quickly start making interesting maps. We will be using free, open-source software and public domain files to make it easy for anyone to follow along. At the end, you will have a shapefile with data that you can then import into TileMill.
@@ -99,7 +99,7 @@ The **.csvt** file contains only one line. Column types are in quotes and separa
 
 So if your CSV columns looks like this:    
 `geoid,name,population`    
-where the `geoid` and `name` contain strings, and the `population` field contains numbers, your **.csvt** would look like this:  
+where the `geoid` and `name` contain strings, and the `population` field contains numbers, the content of your **.csvt** would look like this:  
 `"String","String","Real"`
 
 Save the file with the same name as your CSV but with the **.csvt** extension and keep it in the same folder. That's it. You do not ever have to load the **.csvt** file, it remains associated with your CSV in the background.
