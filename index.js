@@ -5,6 +5,9 @@ process.title = 'tilemill';
 // certain node installs (e.g. ubuntu node ppa) do not use `node` as the binary
 // name.
 process.argv[0] = 'node';
+if (process.platform === 'win32') {
+    process.env.HOME = process.env.HOMEPATH;
+}
 
 // Default --config flag to user's home .tilemill.json config file.
 // @TODO find a more elegant way to set a default for this value

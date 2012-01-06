@@ -4,4 +4,4 @@
   Add layer
 </a>
 </div>
-<ul class='layers'></ul>
+<ul class='layers scrolling'></ul>

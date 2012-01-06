@@ -19,8 +19,6 @@ function cleanProject(proj) {
 }
 
 require('./support/start')(function(command) {
-    command.servers['Tile'].close();
-
     exports['test project collection endpoint'] = function() {
         assert.response(command.servers['Core'],
             { url: '/api/Project' },
@@ -28,7 +26,7 @@ require('./support/start')(function(command) {
             function(res) {
                 var body = JSON.parse(res.body);
                 cleanProject(body[0]);
-                assert.deepEqual([readJSON('existing-project')], body);
+                assert.deepEqual(readJSON('existing-project'), body[0]);
             }
         );
     };
@@ -108,6 +106,9 @@ require('./support/start')(function(command) {
                     }, { status: 200 }, function(res) {
                         assert.equal(res.body, '{}');
                         completed = true;
+
+                        // We're done using the tile server at this point.
+                        command.servers['Tile'].close();
                     });
                 }
             );

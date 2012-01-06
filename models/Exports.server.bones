@@ -35,16 +35,16 @@ function start(id, callback) {
         args.push(path.join(settings.files, 'export', data.filename));
         // format, don't try to guess extension based on filepath
         args.push('--format=' + data.format);
-        // url, @TODO: need proper host info.
-        args.push('--url=http://localhost:'+settings.port+'/api/Export/'+data.id);
+        // url
+        args.push('--url=http://'+settings.coreUrl+'/api/Export/'+data.id);
         // Log crashes to output directory.
         args.push('--log=1');
 
         if (data.bbox) args.push('--bbox=' + data.bbox.join(','));
         if (data.width) args.push('--width=' + data.width);
         if (data.height) args.push('--height=' + data.height);
-        if (data.minzoom) args.push('--minzoom=' + data.minzoom);
-        if (data.maxzoom) args.push('--maxzoom=' + data.maxzoom);
+        if (!_(data.minzoom).isUndefined()) args.push('--minzoom=' + data.minzoom);
+        if (!_(data.maxzoom).isUndefined()) args.push('--maxzoom=' + data.maxzoom);
 
         var child = spawn('nice', args, {
             env: _(process.env).extend({

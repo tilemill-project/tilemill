@@ -40,6 +40,10 @@ model.prototype.toLibrary = function(id) {
     };
 };
 
+model.prototype.comparator = function(m) {
+  return -1 * (m.get('created')||0);
+};
+
 // Checks if a given id is a favorite. Adds normalization so PostGIS favorites
 // match regardless of the order of the arguments.
 model.prototype.isFavorite = function(id) {

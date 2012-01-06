@@ -10,6 +10,9 @@ model.prototype.schema = {
         'id': {
             'type': 'string',
             'required': true
+        },
+        'created': {
+            'type': 'integer'
         }
     }
 };

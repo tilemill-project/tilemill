@@ -18,7 +18,7 @@ view.prototype.render = function() {
 };
 
 view.prototype.save = function() {
-    var attr = { id: this.$('input[name=id]').val() };
+    var attr = Bones.utils.form(this.$('.form'), this.model);
     var options = { error: function(m, e) { new views.Modal(e); } };
     if (this.model.set(attr, options)) {
         this.model.collection.add(this.model);

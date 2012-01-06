@@ -4,7 +4,8 @@ view.prototype.initialize = function() {
     _(this).bindAll(
         'render',
         'attach',
-        'mapZoom'
+        'mapZoom',
+        'fullscreen'
     );
     this.model.bind('saved', this.attach);
     this.model.bind('poll', this.attach);
@@ -48,32 +49,35 @@ view.prototype.render = function(init) {
     this.map.addCallback('zoomed', this.mapZoom);
     this.map.addCallback('panned', this.mapZoom);
     this.map.addCallback('extentset', this.mapZoom);
+    this.map.addCallback('resized', this.fullscreen);
     this.mapZoom({element: this.map.div});
     return this;
 };
 
-// Set the model center whenever the map is moved.
-view.prototype.mapZoom = function(e) {
-    var zoom = this.map.getZoom();
-    var lat = this.map.getCenter().lat;
-    var lon = this.map.getCenter().lon % 360;
-    if (lon < -180) lon += 360; else if (lon > 180) lon -= 360;
+// Catch resize events and add a fullscreen class to the
+// project element to handle visibility of components.
+// Note that the wax fullscreen control sets a body class that
+// we cannot use here as it can be stale (e.g. user routes away
+// from a fullscreen'd map, leaving a stale class on the body).
+view.prototype.fullscreen = function(e) {
+    if (this.$('#map').hasClass('wax-fullscreen-map')) {
+        $('div.project').addClass('fullscreen');
+    } else {
+        $('div.project').removeClass('fullscreen');
+    }
+};
 
-    this.model.set({center:[lon, lat, zoom]}, {silent:true});
+// Set zoom display.
+view.prototype.mapZoom = function(e) {
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };
 
 view.prototype.attach = function() {
     this._error = '';
-
-    // @TODO Currently interaction formatter/data is cached
-    // deep in Wax making it difficult to update without simply
-    // creating a new map. Likely requires an upstream fix.
     this.map.provider.options.tiles = this.model.get('tiles');
     this.map.provider.options.minzoom = this.model.get('minzoom');
     this.map.provider.options.maxzoom = this.model.get('maxzoom');
     this.map.setProvider(this.map.provider);
-
     this.map.controls.interaction.remove();
     this.map.controls.interaction = wax.mm.interaction(
         this.map,
@@ -87,7 +91,7 @@ view.prototype.attach = function() {
     }
 };
 
-// Hook in to projet view with an augment.
+// Hook in to project view with an augment.
 views.Project.augment({ render: function(p) {
     p.call(this);
     new views.Map({
