@@ -78,7 +78,8 @@ Backbone.Model.prototype.deepSet = function(key, val, options) {
     }
     var root = key.split('.').shift();
     var attr = options.memo || {};
-    attr[root] = attr[root] || _(this.attributes[root]).clone();
+    if (attr[root] || this.attributes[root])
+        attr[root] = attr[root] || _(this.attributes[root]).clone();
     attr = deepSet(attr, key.split('.'), val);
 
     // Let deepSet be used to generate a merged hash if desired.
