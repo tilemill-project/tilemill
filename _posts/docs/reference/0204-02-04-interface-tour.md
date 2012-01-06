@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: Technical&nbsp;Reference
+tag: Reference
 title: Interface tour
 permalink: /docs/manual/interface-tour
 ---
