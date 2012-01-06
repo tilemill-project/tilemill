@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: Technical&nbsp;Reference
+tag: Reference
 title: Adding layers
 permalink: /docs/manual/adding-layers
 ---

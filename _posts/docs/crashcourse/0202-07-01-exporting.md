@@ -2,8 +2,8 @@
 layout: book
 section: documentation
 category: TileMill
-tag: Crash&nbsp;Course
-title: "Exporting Your Map"
+tag: Crash&nbsp;course
+title: "Exporting your map"
 permalink: /docs/crashcourse/exporting
 prereq:
 - "[Added a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
