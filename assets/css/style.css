@@ -503,44 +503,41 @@ ul.projects { margin:0px -5px; }
   height:auto !important;
   }
 
-/**
- * Export view
- */
-#export { position:absolute; display:none; z-index:100; }
-#export-map {
-  right:280px;
+/* Metadata mode */
+#meta { position:absolute; display:none; z-index:100; }
+#meta-map {
+  right:320px;
   background:#fff url(../images/bg.png) 100% 0%;
   height:auto !important;
   }
 
-.project.exporting > * { display:none; }
-.project.exporting > #export { display:block; }
+.project.meta > * { display:none; }
+.project.meta > #meta { display:block; }
 
-#export ul {
-  width:280px;
+#meta ul {
+  width:320px;
   border-left:1px solid #ccc;
   }
 
-#export ul li {
+#meta ul li {
   padding-left:80px;
   border-color:#ddd;
   }
 
-#export ul li.text { padding-left:20px; }
-#export ul li.buttons { padding-left:20px; }
-#export ul li label { width:60px; margin-left:-70px; }
+#meta ul li.text { padding-left:20px; }
+#meta ul li.buttons { padding-left:20px; }
+#meta ul li label { font-size:11px; width:60px; margin-left:-70px; }
 
-#export .help { text-align:center; }
-#export .syncHelp { display:block; margin:10px 0px; }
+#meta .syncHelp { display:block; margin:10px 0px; }
 
-.project.exporting .zoom-display { width:59px; }
-.project.exporting .zoomin {
+.project.meta .zoom-display { width:59px; }
+.project.meta .zoomin {
   border-radius:0px 3px 3px 0px;
   -moz-border-radius:0px 3px 3px 0px;
   -webkit-border-radius:0px 3px 3px 0px;
   }
 
-#export .key {
+#meta .key {
   padding:2px 8px;
   background:#fff;
   border-color:#ddd #ccc #ccc;
@@ -583,6 +580,39 @@ ul.projects { margin:0px -5px; }
 .bboxForm .s { bottom:0%; }
 .bboxForm .w { left:0%; }
 .bboxForm .e { right:0%; }
+
+.boxselector-box {
+  position:absolute;
+  box-shadow:
+    inset rgba(255,255,255,0.25) 0px 0px 10px,
+    rgba(0,0,0,0.5) 0px 0px 0px 2000px;
+  }
+
+.boxselector-box:after {
+  content:'shift + drag';
+  position:absolute;
+  right:0px;
+  bottom:-20px;
+  background:rgba(0,0,0,.75);
+  color:#ccc;
+  display:block;
+  padding:0px 5px;
+  font-size:11px;
+  white-space:nowrap;
+  border-radius:0px 0px 3px 3px;
+  }
+
+.wax-point-div {
+  text-align:center;
+  font-weight:bold;
+  line-height:35px;
+  font-size:11px;
+  background:url(../images/sprite.png) -240px -320px no-repeat;
+  margin:-36px 0px 0px -20px;
+  width:40px;
+  height:40px;
+  position:absolute;
+  }
 
 /**
  * Layers
@@ -1029,6 +1059,10 @@ textarea {
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
   }
+
+input[type=text].stretch,
+textarea.stretch,
+select.stretch { width:100%; }
 
 textarea {
   height:auto;

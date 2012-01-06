@@ -74,31 +74,41 @@ view.prototype.saving = function(ev) {
 };
 
 view.prototype.settings = function(ev) {
-    new views.Settings({
-        el: $('#popup'),
-        model: this.model
+    this.$('.project').addClass('meta');
+    new views.Metadata({
+        el: $('#meta'),
+        type: 'tiles',
+        model: this.model,
+        project: this.model,
+        title: 'Project settings',
+        success: _(function() {
+            this.$('#meta').empty();
+            this.$('.project').removeClass('meta');
+        }).bind(this),
+        cancel: _(function() {
+            this.$('#meta').empty();
+            this.$('.project').removeClass('meta');
+        }).bind(this)
     });
+    return false;
 };
 
 view.prototype.exportAdd = function(ev) {
-    var target = $(ev.currentTarget);
-    var format = target.attr('href').split('#export-').pop();
-
-    this.$('.project').addClass('exporting');
-    this.exportView = new views.Export({
-        el: $('#export'),
+    this.$('.project').addClass('meta');
+    var format = $(ev.currentTarget).attr('href').split('#export-').pop();
+    new views.Metadata({
+        el: $('#meta'),
+        type: (format === 'sync' || format === 'mbtiles') ? 'tiles' : 'image',
         model: new models.Export({
             id: format === 'sync' ? this.model.id : undefined,
             format: format,
-            project: this.model.id,
-            tile_format: this.model.get('format')
+            project: this.model.id
         }),
         project: this.model,
+        title: $(ev.currentTarget).attr('title'),
         success: _(function() {
-            this.$('.project').removeClass('exporting');
-            this.exportView.remove();
-
-            // @TODO better API for manipulating UI elements.
+            this.$('#meta').empty();
+            this.$('.project').removeClass('meta');
             if (!$('#drawer').is('.active')) {
                 $('a[href=#exports]').click();
                 $('.actions > .dropdown').click();
@@ -106,10 +116,11 @@ view.prototype.exportAdd = function(ev) {
             this.exportList();
         }).bind(this),
         cancel: _(function() {
-            this.$('.project').removeClass('exporting');
-            this.exportView.remove();
+            this.$('#meta').empty();
+            this.$('.project').removeClass('meta');
         }).bind(this)
     });
+    return false;
 };
 
 // Create a global reference to the exports collection on the Bones
