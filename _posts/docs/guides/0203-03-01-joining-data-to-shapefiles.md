@@ -73,7 +73,7 @@ CSV format can also be used, but there is an extra step that must be done before
 
 12. **Join layer** will be your .dbf data layer. In this case `state-popdata`.
 
-13. **Join field** is the key field to be joined on in your .dbf data. In this case `geoid`.
+13. **Join field** is the key field to be joined on in your .dbf data. In this case `GEOID`.
 
 14. **Target field** is the key field to be joined on in your shapefile. In this case `STATE`
 
@@ -82,12 +82,14 @@ CSV format can also be used, but there is an extra step that must be done before
 16. Open the shapefile's **attribute table** once again and check that your data has been properly joined. Note that this join is temporary for now. To make a permanently joined shapefile you must save a new copy.
 
 17. Right click the shapefile and select **Save as…**
+  ![](/tilemill/assets/pages/qgis-joins-7.png)
 
 18. **Format** should be ESRI Shapefile. Everything else can be left as is.
+  ![](/tilemill/assets/pages/qgis-joins-8.png)
 
 19. Choose a filename and location for your new shapefile and click **OK**.
 
-20. This newly created shapefile now has both the geometry and the data included and can be directly imported into TileMill. It should consist of at least four files with the same name but different extensions (.shp, .shx, .dbf, .prj). These must remain together.
+20. This **newly created shapefile** now has both the geometry and the data included and can be directly imported into TileMill. It should consist of at least four files with the same name but different extensions (.shp, .shx, .dbf, .prj). These must remain together.
 
 ###Joining CSV files
 
