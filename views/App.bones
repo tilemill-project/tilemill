@@ -217,8 +217,6 @@ view.prototype.dropdown = function(ev) {
         target.removeClass('active');
         $(app).unbind('click', collapse);
     }
-
-    return false;
 };
 
 view.prototype.restart = function(ev) {
