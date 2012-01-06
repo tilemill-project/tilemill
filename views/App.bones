@@ -16,13 +16,21 @@ Bones.utils.form = function(form, model, options) {
             return memo;
         }, {});
     };
-    var attr = _($('input[name],textarea[name],select[name]',form)).reduce(function(memo, el) {
+    var attr = _($('input[name],textarea[name],select[name],.slider',form)).reduce(function(memo, el) {
         el = $(el);
-        return model.deepSet(
-            el.attr('name'),
-            el.hasClass('parsable') ? parseOptions(el.val()) : el.val(),
-            { memo:memo }
-        );
+        if (el.hasClass('slider')) {
+            return model.deepSet(
+                el.data('key'),
+                el.hasClass('range') ? el.slider('values') : el.slider('value'),
+                { memo:memo }
+            );
+        } else {
+            return model.deepSet(
+                el.attr('name'),
+                el.hasClass('parsable') ? parseOptions(el.val()) : el.val(),
+                { memo:memo }
+            );
+        }
     }, {});
     return attr;
 };
