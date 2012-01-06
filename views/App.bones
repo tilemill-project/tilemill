@@ -8,6 +8,10 @@ Bones.utils.until = function(url, callback) {
     });
 };
 
+Bones.utils.serial = function (steps, callback) {
+    (_(steps).reduceRight(_.wrap, callback))();
+};
+
 Bones.utils.form = function(form, model, options) {
     var parseOptions = function (o) {
         return _(o.match(/([\d\w]*)\=(\"[^\"]*\"|[^\s]*)/g)).reduce(function(memo,pair) {
@@ -18,19 +22,18 @@ Bones.utils.form = function(form, model, options) {
     };
     var attr = _($('input[name],textarea[name],select[name],.slider',form)).reduce(function(memo, el) {
         el = $(el);
-        if (el.hasClass('slider')) {
-            return model.deepSet(
-                el.data('key'),
-                el.hasClass('range') ? el.slider('values') : el.slider('value'),
-                { memo:memo }
-            );
-        } else {
-            return model.deepSet(
-                el.attr('name'),
-                el.hasClass('parsable') ? parseOptions(el.val()) : el.val(),
-                { memo:memo }
-            );
-        }
+        if (el.hasClass('slider')) return model.deepSet(
+            el.data('key'),
+            el.hasClass('range') ? el.slider('values') : el.slider('value'),
+            { memo:memo });
+        if (el.attr('type') === 'checkbox') return model.deepSet(
+            el.attr('name'),
+            el.is(':checked'),
+            { memo:memo });
+        return model.deepSet(
+            el.attr('name'),
+            el.hasClass('parsable') ? parseOptions(el.val()) : el.val(),
+            { memo:memo });
     }, {});
     return attr;
 };
