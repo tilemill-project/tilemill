@@ -10,7 +10,7 @@ nextup:
 ---
 ## Step-by-step instructions for making maps
 
-Want to get started making maps in minutes? This crash course will walk through the critical steps to design your maps in TileMill. We'll teach you the basics on making incredible maps and show you want you need to know to get mapping quick.
+Want to get started making maps in minutes? This crash course will walk through the critical steps to design your maps in TileMill. We'll teach you the basics on making incredible maps and show you what you need to know to get mapping quickly.
 
 <small class='note' markdown='1'>
 <h3>Have you taken the tour?</h3>
