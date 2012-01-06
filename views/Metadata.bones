@@ -211,7 +211,7 @@ view.prototype.save = function() {
     if (attr.center) attr.center = _(attr.center.split(',')).map(parseFloat);
     if (attr.zooms) attr.minzoom = attr.zooms[0];
     if (attr.zooms) attr.maxzoom = attr.zooms[1];
-    if (attr.format) attr.format = attr.format || attr.format_custom;
+    if (attr.format || attr.format_custom) attr.format = attr.format || attr.format_custom;
     if (attr.height) attr.height = parseInt(attr.height,10);
     if (attr.width) attr.width = parseInt(attr.width,10);
     delete attr.zooms;
