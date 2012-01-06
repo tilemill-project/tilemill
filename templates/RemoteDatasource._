@@ -1,9 +1,15 @@
 <% if (typeof type !== 'undefined' && type == 'index') { %>
 <ul>
 <% _(items).each(function(i) { %>
-<a href='<%=i.link%>' class='remote-item'><strong><%=i.name %></strong> - <small><%=i.description %></small> / z<%=i.minzoom%>-<%=i.maxzoom%></a>
+    <li><a href='<%=i.link%>' class='remote-item'>
+        <strong><%=i.name %></strong> -
+        <small><%=i.description %></small>
+        / z<%=i.minzoom%>-<%=i.maxzoom%></a>
+    </li>
 <% }); %>
 </ul>
 <% } else { %>
-<strong><%=name %></strong> - <small><%=description %></small> / z<%=minzoom%>-<%=maxzoom%>
+<strong><%=name %></strong> -
+<small><%=description %></small>
+/ z<%=minzoom%>-<%=maxzoom%>
 <% } %>
