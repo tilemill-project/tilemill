@@ -22,7 +22,7 @@ if (process.platform === 'win32') {
         if (err.code === 'ENOTSUP') {
             fs.symlink = function(from,to,cb) {
                 try {
-                    fs_utils.cprSync(from,to);
+                    require('./lib/fsutils').cprSync(from,to);
                     return cb();
                 } catch (err) {
                     return cb(err);
