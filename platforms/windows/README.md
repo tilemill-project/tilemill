@@ -9,6 +9,18 @@ on windows. It is not meant to be complete or for general use.
  * Visual Studio C++ 2010 (Express works)
  * Mapnik master
 
+## TODO
+
+ * Test NPM within installer
+ * Update Mapnik builds notes (proj-trunk, ms 2010)
+ * Trim installer by adding more excludes
+ * Avoid copying gdal/proj data
+ * Test sqlite/postgis
+ * Statically link libzip to node-zipfile
+ * Avoid need for `vcredist_x86.exe`
+ * Upgrade node to 0.6.7
+ * Test on Windows Vista
+
 ## Setup
 
 1) Compile Mapnik and dependencies as per:
@@ -83,3 +95,6 @@ platforms\windows\run-tilemill
 
 Install nsis and run the installer script in `platforms\windows\installer`.
 
+Destination machines either need VS2010 installed or the "redistributable" runtime:
+
+    http://www.microsoft.com/download/en/details.aspx?id=5555
