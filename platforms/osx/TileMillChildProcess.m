@@ -10,9 +10,9 @@
 
 @interface TileMillChildProcess ()
 
-@property (nonatomic, strong) NSTask *task;
-@property (nonatomic, strong) NSString *basePath;
-@property (nonatomic, strong) NSString *command;
+@property (nonatomic, retain) NSTask *task;
+@property (nonatomic, retain) NSString *basePath;
+@property (nonatomic, retain) NSString *command;
 @property (nonatomic, assign, getter=isLaunched) BOOL launched;
 
 - (void)receivedData:(NSNotification *)notification;
@@ -36,8 +36,8 @@
     
     if (self)
     {
-        basePath = inBasePath;
-        command  = inCommand;
+        basePath = [inBasePath retain];
+        command  = [inCommand retain];
     }
 
     return self;
@@ -46,6 +46,12 @@
 - (void)dealloc
 {
     [self stopProcess];
+
+    [task release];
+    [basePath release];
+    [command release];
+
+    [super dealloc];
 }
 
 #pragma mark -
@@ -55,7 +61,7 @@
     if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidStart:)])
         [self.delegate childProcessDidStart:self];
  
-    self.task = [[NSTask alloc] init];
+    self.task = [[[NSTask alloc] init] autorelease];
     
     [self.task setStandardOutput:[NSPipe pipe]];
     [self.task setStandardError:[self.task standardOutput]];
@@ -91,7 +97,7 @@
     
     if ([data length])
     {
-        NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSString *message = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 
         if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcess:didSendOutput:)])
             [self.delegate childProcess:self didSendOutput:message];

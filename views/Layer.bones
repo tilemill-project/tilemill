@@ -179,56 +179,42 @@ view.prototype.autostyle = function() {
 view.prototype.save = function(e) {
     var form = $(e.target).parents('form');
     var autostyle = $(e.target).hasClass('with-style');
-    var parseOptions = function (o) {
-        return _(o.match(/([\d\w]*)\=(\"[^\"]*\"|[^\s]*)/g)).reduce(function(memo,pair) {
-            pair = pair.replace(/"|'/g, '').split('=');
-            memo[pair[0]] = pair[1];
-            return memo;
-        }, {});
-    };
-    var deepSet = function(attr, keys, val) {
-        if (!keys.length) return val;
-        var key = keys.shift();
-        attr[key] = deepSet(attr[key]||{}, keys, val);
-        return attr;
-    };
-    var attr = _($('input[name]:not(.parsable),textarea',form)).reduce(function(memo, el) {
-        return deepSet(memo, $(el).attr('name').split('.'), $(el).val());
-    }, {});
-    attr['name'] = (attr['id']||'').replace('#','');
-    attr['id'] = (attr['id']||'').replace('#','');
-    attr['class'] = (attr['class']||'').replace('.','');
-    attr['srs'] = attr['srs']||'';
-    attr['Datasource'] = _(attr['Datasource']||{})
-        .defaults(parseOptions($('input[name=advanced]', form).val()));
+    var attr = Bones.utils.form(form, this.model);
 
     // Database datasources do not have the luxury of SRS autodetection.
     // Fallback to web mercator if unset.
-    if (_(['sqlite', 'postgis']).include(attr['Datasource'].type))
-        attr['srs'] = attr['srs'] || this.model.SRS['900913'];
-
+    if (_(['sqlite', 'postgis']).include(attr.Datasource.type)) {
+        attr.srs = attr.srs || this.model.SRS['900913'];
+    } else {
+        attr.srs = attr.srs || '';
+    }
+    // Advanced options.
+    if (attr.advanced) {
+        attr.Datasource = _(attr.Datasource||{}).defaults(attr.advanced);
+        delete attr.advanced;
+    }
     // Parse PostGIS connection options.
-    if ($('input[name=connection]', form).size()) {
+    if (attr.connection) {
         var allowedArgs = ['user', 'password', 'dbname', 'port', 'host'];
-        var connection = parseOptions($('input[name=connection]', form).val());
-        for (var key in connection) if (!_(allowedArgs).include(key)) {
+        for (var key in attr.connection) if (!_(allowedArgs).include(key)) {
             new views.Modal(new Error('Invalid argument ' + key + ' in PostgreSQL connection string.'));
             return false;
         }
-        if (!_(connection).size()) {
+        if (!_(attr.connection).size()) {
             new views.Modal(new Error('Invalid PostgreSQL connection string.'));
             return false;
         }
-        if (!connection.dbname) {
+        if (!attr.connection.dbname) {
             new views.Modal(new Error('dbname is required in PostgreSQL connection string.'));
             return false;
         }
-        attr.Datasource = _(attr.Datasource).defaults(connection);
+        attr.Datasource = _(attr.Datasource||{}).defaults(attr.connection);
+        delete attr.connection;
     }
-
     // Autoname this layer if id is blank.
-    attr['id'] =
-    attr['name'] = attr['id'] || this.autoname(attr['Datasource'].file||attr['Datasource'].table);
+    attr.name =
+    attr.id = (attr.id || this.autoname(attr.Datasource.file||attr.Datasource.table)).replace('#','');
+    attr['class'] = (attr['class'] || '').replace('.','');
 
     $(this.el).addClass('loading').addClass('restartable');
     var error = _(function(m, e) {

@@ -21,9 +21,9 @@
 		DD35FE0214461B8A00455DAA /* TileMillBrowserWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD35FE0114461B8A00455DAA /* TileMillBrowserWindowController.m */; };
 		DD35FE0414461BA900455DAA /* TileMillBrowserWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD35FE0314461BA900455DAA /* TileMillBrowserWindow.xib */; };
 		DD49236B1403254D0004E12F /* dsa_public.pem in Resources */ = {isa = PBXBuildFile; fileRef = DD49236A1403254D0004E12F /* dsa_public.pem */; };
-		DD4F9DDC1419914400278ECD /* PFMoveApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F9DDB1419914400278ECD /* PFMoveApplication.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DD4F9DDC1419914400278ECD /* PFMoveApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F9DDB1419914400278ECD /* PFMoveApplication.m */; };
 		DD4F9DE2141991A400278ECD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F9DE1141991A400278ECD /* Security.framework */; };
-		DD4F9DE51419923C00278ECD /* NSString+SymlinksAndAliases.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F9DE41419923C00278ECD /* NSString+SymlinksAndAliases.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DD4F9DE51419923C00278ECD /* NSString+SymlinksAndAliases.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F9DE41419923C00278ECD /* NSString+SymlinksAndAliases.m */; };
 		DD5904CC147AE1A900BF4AD0 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD5904CB147AE1A900BF4AD0 /* WebKit.framework */; };
 		DD6F0D5D13F981140055EFAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6F0D5C13F981140055EFAE /* Cocoa.framework */; };
 		DD6F0D6113F982770055EFAE /* MBTiles.qlgenerator in Copy QuickLook Plugin */ = {isa = PBXBuildFile; fileRef = DD6F0D4F13F97F120055EFAE /* MBTiles.qlgenerator */; };
@@ -115,7 +115,7 @@
 		D745087813E9EC160020D8CD /* mbtiles.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = mbtiles.icns; sourceTree = "<group>"; };
 		DD05482E14226B8100D7C317 /* tilemill */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = tilemill; sourceTree = "<group>"; };
 		DD1081DE13F9A5DB001772BE /* TileMillSparklePrefsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileMillSparklePrefsWindow.xib; sourceTree = "<group>"; };
-		DD1081EC13F9AA4F001772BE /* TileMillSparklePrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = TileMillSparklePrefsWindowController.h; sourceTree = "<group>"; };
+		DD1081EC13F9AA4F001772BE /* TileMillSparklePrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillSparklePrefsWindowController.h; sourceTree = "<group>"; };
 		DD1081ED13F9AA4F001772BE /* TileMillSparklePrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillSparklePrefsWindowController.m; sourceTree = "<group>"; };
 		DD35FE0014461B8A00455DAA /* TileMillBrowserWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillBrowserWindowController.h; sourceTree = "<group>"; };
 		DD35FE0114461B8A00455DAA /* TileMillBrowserWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillBrowserWindowController.m; sourceTree = "<group>"; };
@@ -518,7 +518,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -529,7 +528,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Externals/Sparkle\"";
 				INFOPLIST_FILE = "tilemill-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -542,7 +540,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -551,7 +548,6 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = tilemill_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Externals/Sparkle\"";
 				INFOPLIST_FILE = "tilemill-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
