@@ -13,7 +13,6 @@ view.prototype.initialize = function(options) {
         'render',
         'changed',
         'files',
-        'bufferSize',
         'disable',
         'save',
         'restart'
@@ -27,14 +26,7 @@ view.prototype.render = function() {
     $('.bleed .active').removeClass('active');
     $('.bleed .settings').addClass('active');
     this.el.html(templates.Config(this.model));
-    this.$('.slider').slider({
-        min:0,
-        max:1024,
-        range:'min',
-        value: this.model.get('bufferSize'),
-        step:16,
-        slide: this.bufferSize
-    });
+    Bones.utils.sliders(this.$('.slider'), this.model);
     return this;
 };
 
@@ -49,11 +41,6 @@ view.prototype.saved = function() {
 view.prototype.files = function(ev) {
     this.model.set({files: $(ev.currentTarget).val()});
     return false;
-};
-
-view.prototype.bufferSize = function(ev, ui) {
-    this.$('.bufferSize').text(ui.value);
-    this.model.set({bufferSize:ui.value});
 };
 
 view.prototype.disable = function(ev) {

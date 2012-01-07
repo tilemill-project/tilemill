@@ -8,6 +8,87 @@ Bones.utils.until = function(url, callback) {
     });
 };
 
+Bones.utils.serial = function (steps, callback) {
+    (_(steps).reduceRight(_.wrap, callback))();
+};
+
+Bones.utils.form = function(form, model, options) {
+    var parseOptions = function (o) {
+        return _(o.match(/([\d\w]*)\=(\"[^\"]*\"|[^\s]*)/g)).reduce(function(memo,pair) {
+            pair = pair.replace(/"|'/g, '').split('=');
+            memo[pair[0]] = pair[1];
+            return memo;
+        }, {});
+    };
+    var attr = _($('input[name],textarea[name],select[name],.slider',form)).reduce(function(memo, el) {
+        el = $(el);
+        if (el.hasClass('slider')) return model.deepSet(
+            el.data('key'),
+            el.hasClass('range') ? el.slider('values') : el.slider('value'),
+            { memo:memo });
+        if (el.attr('type') === 'checkbox') return model.deepSet(
+            el.attr('name'),
+            el.is(':checked'),
+            { memo:memo });
+        return model.deepSet(
+            el.attr('name'),
+            el.hasClass('parsable') ? parseOptions(el.val()) : el.val(),
+            { memo:memo });
+    }, {});
+    return attr;
+};
+
+Bones.utils.sliders = function(el, model, options) {
+    options = options || {};
+    var up = function(ev, ui) {
+        function num(num) {
+            num = num || 0;
+            if (num >= 1e6) {
+                return (num / 1e6).toFixed(1) + 'm';
+            } else if (num >= 1e3) {
+                return (num / 1e3).toFixed(1) + 'k';
+            } else if (num >= 100) {
+                return num.toFixed(0);
+            } else {
+                return num;
+            }
+        };
+        if ($(ev.target).hasClass('range')) {
+            $('.ui-slider-handle:first', ev.target).text(num($(ev.target).slider('values')[0]));
+            $('.ui-slider-handle:last', ev.target).text(num($(ev.target).slider('values')[1]));
+        } else {
+            $('.ui-slider-handle', ev.target).text(num($(ev.target).slider('value')));
+        }
+    };
+    var set = function(ev, ui) {
+        up(ev, ui);
+        var key = $(ev.target).data('key');
+        var val = $(ev.target).hasClass('range')
+            ? $(ev.target).slider('values')
+            : $(ev.target).slider('value');
+        model.deepSet(key, val);
+    };
+    $(el).each(function() {
+        $(this).slider(_({
+            min:$(this).data('min') || 0,
+            max:$(this).data('max') || 0,
+            step:$(this).data('step') || 1,
+            values: $(this).hasClass('range')
+                ? model.deepGet($(this).data('key')) || [
+                    $(this).data('min') || 0,
+                    $(this).data('max') || 0 ]
+                : undefined,
+            value: !$(this).hasClass('range')
+                ? model.deepGet($(this).data('key')) || 0
+                : undefined,
+            range: $(this).hasClass('range') ? true : 'min',
+            change: set,
+            create: up,
+            slide: up
+        }).extend(options));
+    });
+};
+
 view = Backbone.View.extend();
 
 view.prototype.events = {
@@ -136,8 +217,6 @@ view.prototype.dropdown = function(ev) {
         target.removeClass('active');
         $(app).unbind('click', collapse);
     }
-
-    return false;
 };
 
 view.prototype.restart = function(ev) {

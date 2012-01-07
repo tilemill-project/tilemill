@@ -26,10 +26,11 @@
           <% if (window.abilities.exports.mbtiles) { %>
           <a href='#export-mbtiles' title='Export MBTiles'>MBTiles</a>
           <% } %>
+          <a href='<%= url() %>.xml' target='_blank'>Mapnik XML</a>
           <a class='divceil drawer' href='#exports'>View exports</a>
         </span>
       </span>
-      <a class='popup button' href='#settings'>
+      <a class='button' href='#settings'>
         <span class='icon reverse settings'>Project settings</span>
       </a>
     </div>
@@ -45,5 +46,5 @@
     <a class='drawer mini' href='#layers'><span class='icon reverse layers'>Layers</span></a>
   </div>
 
-  <div id='export' class='fill'></div>
+  <div id='meta' class='fill'></div>
 </div>
