@@ -74,8 +74,11 @@ view.prototype.render = function() {
         new com.modestmaps.Location(bounds[1], bounds[0]),
         new com.modestmaps.Location(bounds[3], bounds[2])
     ];
-    this.map = new com.modestmaps.Map('meta-map',
-        new wax.mm.connector(this.project.attributes));
+    // Override project attributes to allow unbounded zooming.
+    var tj = _(this.project.attributes).clone();
+    tj.minzoom = 0;
+    tj.maxzoom = 22;
+    this.map = new com.modestmaps.Map('meta-map', new wax.mm.connector(tj));
 
     wax.mm.zoomer(this.map).appendTo(this.map.parent);
     this.map.setExtent(extent);
