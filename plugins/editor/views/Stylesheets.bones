@@ -4,8 +4,8 @@ view.prototype.events = {
     'click .swatch': 'colorOpen',
     'click .swatch a[href=#save]': 'colorSave',
     'click .swatch a[href=#close]': 'colorClose',
-    'click .editor a.add': 'stylesheetAdd',
-    'click .editor a.icon': 'stylesheetDelete',
+    'click a.add': 'stylesheetAdd',
+    'click a.icon': 'stylesheetDelete',
     'sortupdate .tabs': 'sortStylesheets',
     'click .status a[href=#close]': 'statusClose'
 };

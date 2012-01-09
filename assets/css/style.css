@@ -524,6 +524,8 @@ ul.projects { margin:0px -5px; }
   border-color:#ddd;
   }
 
+#meta ul .i40 { position:absolute; right:10px; }
+
 #meta ul li.text { padding-left:20px; }
 #meta ul li.buttons { padding-left:20px; }
 #meta ul li label { font-size:11px; width:60px; margin-left:-70px; }
@@ -912,12 +914,6 @@ form.templates .templates-tokens {
   background:transparent url(../images/sprite.png) 20px 20px no-repeat;
   }
 
-.filetype {
-  width:40px;
-  height:40px;
-  background-position:40px 40px;
-  }
-
 a:hover .icon,
 li:hover .icon { display:block; }
 
@@ -1008,21 +1004,12 @@ li:hover .icon { display:block; }
 .reverse.eye            { background-position:-640px -200px; }
 .reverse.upload         { background-position:-680px -200px; }
 
-/* File icons */
-.filetype.png     { background-position:0px -320px; }
-.filetype.svg     { background-position:0px -320px; }
-.filetype.pdf     { background-position:-40px -320px; }
-.filetype.mbtiles { background-position:-80px -320px; }
-.filetype.zip     { background-position:-120px -320px; }
-.filetype.upload  { background-position:-200px -320px; }
-.filetype.sync    { background-position:-200px -320px; }
-
 /* Export status icons */
 .icon.processing { background-position:-40px -220px; }
 .icon.complete   { background-position:-60px -220px; }
 .icon.error      { background-position:-80px -220px; }
 .icon.waiting    { background-position:-100px -220px; }
-.filetype .icon  { margin-top:20px; }
+.i40 .icon  { margin-top:20px; }
 
 /* Favorite */
 .icon.favorite   { background-position:-140px -220px; }
@@ -1039,6 +1026,22 @@ li:hover .icon { display:block; }
 .i30.manual   { background-position:-60px 0px; }
 .i30.settings { background-position:-90px 0px; }
 .i30.plugins  { background-position:-120px 0px; }
+
+.icon.i40 {
+  width:40px;
+  height:40px;
+  background-position:40px 40px;
+  }
+
+.i40.png     { background-position:0px -320px; }
+.i40.svg     { background-position:0px -320px; }
+.i40.pdf     { background-position:-40px -320px; }
+.i40.mbtiles { background-position:-80px -320px; }
+.i40.zip     { background-position:-120px -320px; }
+.i40.upload  { background-position:-200px -320px; }
+.i40.sync    { background-position:-200px -320px; }
+.i40.center  { background-position:-240px -320px; }
+.i40.bounds  { background-position:-280px -320px; }
 
 /**
  * Form elements
@@ -1538,7 +1541,7 @@ div.fonts {
   background:#f8f8f8;
   }
 
-.exports .filetype {
+.exports .i40 {
   position:absolute;
   left:5px;
   top:5px;

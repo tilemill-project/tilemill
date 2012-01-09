@@ -6047,8 +6047,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="253.70809"
-     inkscape:cy="134.49001"
+     inkscape:cx="313.15191"
+     inkscape:cy="147.17623"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -6113,7 +6113,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -6136,6 +6136,11 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,80)">
+    <path
+       style="color:#000000;fill:#202020;fill-opacity:0.1254902;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 285 325 L 285 350 L 315 350 L 315 325 L 285 325 z M 290 330 L 310 330 L 310 345 L 290 345 L 290 330 z "
+       transform="translate(0,-80)"
+       id="rect4657" />
     <path
        style="color:#000000;fill:url(#linearGradient4695);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        d="m 260,276 -15,-5 30,0"
@@ -7149,5 +7154,36 @@
        id="path4719"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc" />
+    <path
+       id="path4660"
+       transform="translate(0,-80)"
+       d="m 286.5,326.5 0,22 27,0 0,-22 z m 3.5,3.5 20,0 0,15 -20,0 z"
+       style="color:#000000;fill:#202020;fill-opacity:0.1254902;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccccc" />
+    <path
+       sodipodi:nodetypes="cccccccccc"
+       inkscape:connector-curvature="0"
+       style="color:#000000;fill:#202020;fill-opacity:0.1254902;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 288.5,328.5 0,18 23,0 0,-18 z m 1.5,1.5 20,0 0,15 -20,0 z"
+       transform="translate(0,-80)"
+       id="path4662" />
+    <path
+       id="path4664"
+       transform="translate(0,-80)"
+       d="m 289,329 0,17 22,0 0,-17 z m 1,1 20,0 0,15 -20,0 z"
+       style="color:#000000;fill:#202020;fill-opacity:0.12549020000000000;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccccc" />
+    <path
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 308,261 0,15 3.4375,-3.0625 2.1875,4.8125 2.5625,-1.28125 -2.125,-4.75 L 318,271 308,261 z"
+       id="path6578"
+       inkscape:connector-curvature="0" />
+    <path
+       style="color:#000000;fill:#202020;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 309,263.5 0,10 2.625,-2.1875 L 314,276.5 315,276 312.65625,270.875 315.75,270.25 309,263.5 z"
+       id="path6580"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
