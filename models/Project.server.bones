@@ -265,9 +265,10 @@ function loadProjectAll(model, callback) {
     function(err, models) {
         // Ignore errors from loading individual models (e.g.
         // don't let one bad apple spoil the collection).
-        models = _(models).select(function(model) {
-            return model && model.id
-        });
+        models = _(models).chain()
+            .select(function(model) { return model && model.id })
+            .sortBy(function(model) { return model.id })
+            .value();
         return callback(null, models);
     });
 }
@@ -356,7 +357,7 @@ function saveProject(model, callback) {
         if (err) throw err;
         fs.writeFile(path.join(modelPath, '.thumb.png'), body, 'binary', this);
     }, function(err) {
-        if (err) console.error(err);
+        if (err && err.code !== 'ENOENT') console.error(err);
     });
 }
 

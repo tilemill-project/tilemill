@@ -12,11 +12,7 @@
   </li>
   <li>
     <label for='bufferSize'>Render buffer</label>
-    <div class='slider'></div>
-    <div class='description help'>
-      Mapnik render buffer
-      <span class='bufferSize'><%=get('bufferSize')%></span>px.
-    </div>
+    <div class='slider' data-key='bufferSize' data-step='16' data-min='0' data-max='1024'></div>
   </li>
   <li>
     <label for='files'>Documents</label>

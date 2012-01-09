@@ -67,28 +67,17 @@ view.prototype.fullscreen = function(e) {
     }
 };
 
-// Set the model center whenever the map is moved.
+// Set zoom display.
 view.prototype.mapZoom = function(e) {
-    var zoom = this.map.getZoom();
-    var lat = this.map.getCenter().lat;
-    var lon = this.map.getCenter().lon % 360;
-    if (lon < -180) lon += 360; else if (lon > 180) lon -= 360;
-
-    this.model.set({center:[lon, lat, zoom]}, {silent:true});
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };
 
 view.prototype.attach = function() {
     this._error = '';
-
-    // @TODO Currently interaction formatter/data is cached
-    // deep in Wax making it difficult to update without simply
-    // creating a new map. Likely requires an upstream fix.
     this.map.provider.options.tiles = this.model.get('tiles');
     this.map.provider.options.minzoom = this.model.get('minzoom');
     this.map.provider.options.maxzoom = this.model.get('maxzoom');
     this.map.setProvider(this.map.provider);
-
     this.map.controls.interaction.remove();
     this.map.controls.interaction = wax.mm.interaction(
         this.map,
@@ -102,7 +91,7 @@ view.prototype.attach = function() {
     }
 };
 
-// Hook in to projet view with an augment.
+// Hook in to project view with an augment.
 views.Project.augment({ render: function(p) {
     p.call(this);
     new views.Map({

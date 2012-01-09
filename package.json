@@ -45,7 +45,8 @@
         "npm": "1.0.x",
         "semver": "1.0.x",
         "optimist": "0.1.x",
-        "topcube": "0.0.7"
+        "topcube": "0.0.7",
+        "mkdirp": "~0.2.1"
     },
     "devDependencies": {
         "jshint": "0.2.x"
