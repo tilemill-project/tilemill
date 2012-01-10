@@ -1,3 +1,16 @@
+<%
+function fontFamily(val) {
+    var matches = val.match(/[ ]*(Bold|Semibold|Italic|Oblique|Regular)/);
+    if (!matches) return val;
+    else return val.substr(0, val.indexOf(matches[0]));
+}
+function fontWeight(val) {
+    return /Semibold|Bold/.test(val) ? 'bold' : 'normal';
+}
+function fontStyle(val) {
+    return /Italic|Oblique/i.test(val) ? 'italic' : 'regular';
+}
+%>
 <div class='fonts fill'>
 
 <div class='toggler navigation'>
@@ -25,7 +38,11 @@
 <div class='page fill-e scrolling'>
 <% _(fonts).each(function(f) { %>
 <a href='#insert' class='font active group-0 group-<%= f.group %>'>
-  <input type='text' value='<%= f.name %>' />
+  <input type='text' value='<%= f.name %>' style='
+    font-family:"<%=fontFamily(f.name)%>",sans-serif;
+    font-weight:<%=fontWeight(f.name)%>;
+    font-style:<%=fontStyle(f.name)%>;
+    '/>
   <span class='description'>Copy + paste into editor</span>
 </a>
 <% }); %>
