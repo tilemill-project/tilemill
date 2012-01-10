@@ -3,7 +3,7 @@
 ### It is the source file for the HTML changelog as well
 ### as the Sparkle appcast feed.
 ###
-tag: installation
+tag: Installation
 layout: changelog
 section: documentation
 category: TileMill
@@ -12,10 +12,16 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+- version: 0.8.0.121
+  dev: true
+  date: 2011-12-23
+  size: 68527190
+  sign: MCwCFEh+2SzQwW+STC95ACdR2enIcn+JAhQlv0CElazUN/DXn+T+/gkVASbZ7Q==
+
 - version: 0.8.0
-  date: 2011-12-21
-  size: 58155962
-  sign: MC0CFG+bxn15OLY6hHnapKrMEoxJU8eNAhUAnG2IMPfCkmyQbhGV7xasf9kLpl4=
+  date: 2011-12-22
+  size: 65764517
+  sign: MC0CFDfyJkCrtSXzuLJzZPT2WZuuQoBPAhUAv+h15+NxowY8w2S9hOrnpv0hj+c=
 
   notes:
   - Added preference pane and about box to main app.
