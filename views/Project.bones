@@ -2,10 +2,7 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click .actions a[href=#save]': 'save',
-    'click .actions a[href=#export-pdf]': 'exportAdd',
-    'click .actions a[href=#export-svg]': 'exportAdd',
-    'click .actions a[href=#export-png]': 'exportAdd',
-    'click .actions a[href=#export-mbtiles]': 'exportAdd',
+    'click .actions a[href^=#export-]': 'exportAdd',
     'click .actions a[href=#exports]': 'exportList',
     'click a[href=#settings]': 'settings',
     'click a[href=#layers]': 'layers',
@@ -54,6 +51,7 @@ view.prototype.render = function(init) {
 
 view.prototype.attach = function() {
     $(this.el).removeClass('saving');
+    this.$('.workspace .name').text(this.model.get('name')||this.model.id);
     this.$('.actions a[href=#save]').addClass('disabled');
 };
 
@@ -76,44 +74,53 @@ view.prototype.saving = function(ev) {
 };
 
 view.prototype.settings = function(ev) {
-    new views.Settings({
-        el: $('#popup'),
-        model: this.model
+    this.$('.project').addClass('meta');
+    new views.Metadata({
+        el: $('#meta'),
+        type: 'tiles',
+        model: this.model,
+        project: this.model,
+        title: 'Project settings',
+        success: _(function() {
+            this.$('#meta').empty();
+            this.$('.project').removeClass('meta');
+        }).bind(this),
+        cancel: _(function() {
+            this.$('#meta').empty();
+            this.$('.project').removeClass('meta');
+        }).bind(this)
     });
+    return false;
 };
 
 view.prototype.exportAdd = function(ev) {
-    var target = $(ev.currentTarget);
-    var format = target.attr('href').split('#export-').pop();
-
-    this.$('.project').addClass('exporting');
-    this.exportView = new views.Export({
-        el: $('#export'),
+    this.$('.project').addClass('meta');
+    var format = $(ev.currentTarget).attr('href').split('#export-').pop();
+    new views.Metadata({
+        el: $('#meta'),
+        type: (format === 'sync' || format === 'mbtiles') ? 'tiles' : 'image',
         model: new models.Export({
+            id: format === 'sync' ? this.model.id : undefined,
             format: format,
-            project: this.model.id,
-            tile_format: this.model.get('format')
+            project: this.model.id
         }),
         project: this.model,
+        title: $(ev.currentTarget).attr('title'),
         success: _(function() {
-            this.$('.project').removeClass('exporting');
-            this.exportView.remove();
-
-            // @TODO better API for manipulating UI elements.
+            this.$('#meta').empty();
+            this.$('.project').removeClass('meta');
             if (!$('#drawer').is('.active')) {
                 $('a[href=#exports]').click();
                 $('.actions > .dropdown').click();
             }
             this.exportList();
         }).bind(this),
-        error: _(function(m, err) {
-            new views.Modal(err);
-        }).bind(this),
         cancel: _(function() {
-            this.$('.project').removeClass('exporting');
-            this.exportView.remove();
+            this.$('#meta').empty();
+            this.$('.project').removeClass('meta');
         }).bind(this)
     });
+    return false;
 };
 
 // Create a global reference to the exports collection on the Bones

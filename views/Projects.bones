@@ -24,7 +24,7 @@ view = Backbone.View.extend({
         var id = $(ev.currentTarget).attr('id');
         var model = this.collection.get(id);
         new views.Modal({
-            content: _('Are you sure you want to delete "<%=id%>?"').template({id:id}),
+            content: _('Are you sure you want to delete "<%=get("name")||id%>?"').template(model),
             callback: _(function() {
                 model.destroy({
                     success: _(function() {

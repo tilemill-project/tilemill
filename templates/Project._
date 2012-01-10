@@ -3,7 +3,7 @@
 
   <div class='workspace fill-e'>
     <div class='header'>
-    <h1><%= get('name') || get('id') %></h1>
+    <h1 class='name'><%= get('name') || get('id') %></h1>
     <div class='actions joined'>
       <a class='button disabled' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
       <span class='button dropdown' href='#export'>
@@ -11,6 +11,9 @@
         Export
         <span class='icon reverse right dropdown'></span>
         <span class='menu'>
+          <% if (window.abilities.exports.mbtiles) { %>
+          <a class='divfloor' href='#export-sync' title='Upload to MapBox'>Upload</a>
+          <% } %>
           <% if (window.abilities.exports.png) { %>
           <a href='#export-png' title='Export PNG'>PNG</a>
           <% } %>
@@ -23,10 +26,11 @@
           <% if (window.abilities.exports.mbtiles) { %>
           <a href='#export-mbtiles' title='Export MBTiles'>MBTiles</a>
           <% } %>
-          <a class='divider drawer' href='#exports'>View exports</a>
+          <a href='<%= url() %>.xml' target='_blank'>Mapnik XML</a>
+          <a class='divceil drawer' href='#exports'>View exports</a>
         </span>
       </span>
-      <a class='popup button' href='#settings'>
+      <a class='button' href='#settings'>
         <span class='icon reverse settings'>Project settings</span>
       </a>
     </div>
@@ -42,5 +46,5 @@
     <a class='drawer mini' href='#layers'><span class='icon reverse layers'>Layers</span></a>
   </div>
 
-  <div id='export' class='fill'></div>
+  <div id='meta' class='fill'></div>
 </div>

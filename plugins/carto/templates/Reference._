@@ -7,7 +7,7 @@
   <% }); %>
 </div>
 
-<div class='page prose fill-e'>
+<div class='page prose fill-e scrolling'>
 
 <div class='section section-intro active'>
 

@@ -4,8 +4,8 @@ view.prototype.events = {
     'click .swatch': 'colorOpen',
     'click .swatch a[href=#save]': 'colorSave',
     'click .swatch a[href=#close]': 'colorClose',
-    'click .editor a.add': 'stylesheetAdd',
-    'click .editor a.delete': 'stylesheetDelete',
+    'click a.add': 'stylesheetAdd',
+    'click a.icon': 'stylesheetDelete',
     'sortupdate .tabs': 'sortStylesheets',
     'click .status a[href=#close]': 'statusClose'
 };
@@ -186,7 +186,7 @@ view.prototype.stylesheetDelete = function(ev) {
 };
 
 view.prototype.sortStylesheets = function() {
-    var order = _(this.$('.tabs li a.delete')).chain()
+    var order = _(this.$('.tabs li a.icon')).chain()
         .map(function(el) { return $(el).attr('href').split('#').pop(); })
         .uniq()
         .value();

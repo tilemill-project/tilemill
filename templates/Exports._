@@ -1,4 +1,4 @@
-<ul class='exports fill'>
+<ul class='exports fill scrolling'>
 
 <% if (!collection.length) { %>
 <li><div class='empty'>No exports found.</div></li>
@@ -6,10 +6,10 @@
 
 <% collection.each(function(m) { %>
 <li id='export-<%=m.id%>' class='<%= m.get('status') %>'>
-  <span class='icon filetype <%=m.get('format')%>'>
+  <span class='icon i40 <%=m.get('format')%>'>
     <span class='icon <%=m.get('status')%>'><%=m.get('status')%></span>
   </span>
-  <h2><%= m.get('filename') %></h2>
+  <h2><%= m.get('name') || m.get('filename') %></h2>
   <div class='description'>
     <% if (m.get('created')) { %>
     Started <%= (new Date(m.get('created'))).format('M j h:ia') %>
@@ -27,11 +27,10 @@
     <% } %>
     <% if (m.get('status') === 'complete') { %>
       <div class='joined'>
-      <% if (m.get('format') === 'mbtiles') { %>
-      <a class='button upload popup' href='#<%=m.id%>' title='Upload to MapBox Hosting'><span class='icon reverse labeled upload'></span> Upload</a>
-      <% } %>
-      <% if (m.get('format') === 'upload') { %>
+      <% if (m.get('format') === 'upload' || m.get('format') === 'sync') { %>
       <a class='button' target='_blank' href='<%=m.get('url')%>'><span class='icon reverse labeled cloud'></span> View</a>
+      <% } else if (m.get('format') === 'mbtiles') { %>
+      <a class='button preview popup' href='#<%=m.id%>'><span class='icon reverse labeled export'></span> Save</a>
       <% } else { %>
       <a class='button' href='/export/download/<%=m.get('filename')%>'><span class='icon reverse labeled export'></span> Save</a>
       <% } %>

@@ -6,8 +6,10 @@ view.prototype.events = {
     'click a[href=#favorite]': 'favoriteToggle',
     'click a[href=#inspect]': 'inspect',
     'click a.remote-item': 'choose',
-    'keyup input[name=file], input[name=connection]': 'favoriteUpdate',
-    'change input[name=file], input[name=connection]': 'favoriteUpdate',
+    'keyup input[name$=file], input[name=connection]': 'favoriteUpdate',
+    'change input[name$=file], input[name=connection]': 'favoriteUpdate',
+    'keyup input[name$=file], .layer-postgis textarea': 'placeholderUpdate',
+    'change input[name$=file], .layer-postgis textarea': 'placeholderUpdate',
     'click a[href=#cacheFlush]': 'cacheFlush',
     'change select[name=srs-name]': 'nameToSrs',
     'keyup input[name=srs]': 'srsToName'
@@ -23,9 +25,11 @@ view.prototype.initialize = function(options) {
         'favoriteToggle',
         'inspect',
         'favoriteUpdate',
+        'placeholderUpdate',
         'cacheFlush',
         'nameToSrs',
-        'srsToName'
+        'srsToName',
+        'autoname'
     );
     this.favorites = options.favorites;
     this.render();
@@ -36,7 +40,7 @@ view.prototype.render = function() {
 
     // Quick easy way to check and set whether input
     // URI is favorited.
-    this.$('input[name=file], input[name=connection]').change();
+    this.$('input[name$=file], input[name=connection]').change();
 
     // Set active tab.
     var type = this.model.get('Datasource') && this.model.get('Datasource').type;
@@ -65,7 +69,7 @@ view.prototype.srsToName = function(ev) {
 
 view.prototype.favoriteToggle = function(ev) {
     var form = $(ev.currentTarget).parents('form');
-    var uri = $('input[name=file], input[name=connection]', form).val();
+    var uri = $('input[name$=file], input[name=connection]', form).val();
     // @TODO wait for 'success'? Throw errors?
     if (this.favorites.get(uri)) {
         var model = this.favorites.get(uri);
@@ -73,7 +77,7 @@ view.prototype.favoriteToggle = function(ev) {
         model.destroy();
         $(ev.currentTarget).removeClass('active');
     } else if (uri) {
-        var model = new models.Favorite({id:uri});
+        var model = new models.Favorite({ id:uri, created:+new Date });
         this.favorites.add(model);
         model.save();
         $(ev.currentTarget).addClass('active');
@@ -132,6 +136,26 @@ view.prototype.favoriteUpdate = function(ev) {
     return false;
 };
 
+view.prototype.placeholderUpdate = function(ev) {
+    var target = $(ev.currentTarget);
+    var form = target.parents('form');
+    $('input[name=id]',form).attr('placeholder', this.autoname(target.val()));
+};
+
+// Currently handles URLs and brute forces SQL queries into something usable.
+// @TODO smarter handling for this or abandon the idea if it turns out to be
+// untenable for queries.
+view.prototype.autoname = function(source) {
+    return _(source.split('/'))
+        .last()
+        .split('.')[0]
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g,'')
+        .replace('selectfrom','')
+        .replace('select','')
+        .substr(0,20);
+};
+
 view.prototype.browse = function(ev) {
     var target = $(ev.currentTarget);
     var form = target.parents('form');
@@ -157,17 +181,7 @@ view.prototype.browse = function(ev) {
             new views.Library({
                 model: model,
                 favorites: this.favorites,
-                change: function(uri) {
-                    $('input.browsable', form).val(uri);
-                    if ($('input[name=id]', form).val() == '') {
-                        // Get the 'basename' of the file, minus anything
-                        // after the first dot, in alphanumeric
-                        // and lowercase.
-                        $('input[name=id]', form).val(
-                            _(uri.split('/')).last().split('.')[0]
-                                .replace(/[^a-z0-9]/gi,'').toLowerCase());
-                    }
-                },
+                change: function(uri) { $('input.browsable', form).val(uri).change(); },
                 el: $('.browser', form)
             });
         }).bind(this),
@@ -193,48 +207,42 @@ view.prototype.autostyle = function() {
 view.prototype.save = function(e) {
     var form = $(e.target).parents('form');
     var autostyle = $(e.target).hasClass('with-style');
-    var parseOptions = function (o) {
-        return _(o.match(/([\d\w]*)\=(\"[^\"]*\"|[^\s]*)/g)).reduce(function(memo,pair) {
-            pair = pair.replace(/"|'/g, '').split('=');
-            memo[pair[0]] = pair[1];
-            return memo;
-        }, {});
-    };
-    var deepSet = function(attr, keys, val) {
-        if (!keys.length) return val;
-        var key = keys.shift();
-        attr[key] = deepSet(attr[key]||{}, keys, val);
-        return attr;
-    };
-    var attr = _($('input[name]:not(.parsable),textarea',form)).reduce(function(memo, el) {
-        return deepSet(memo, $(el).attr('name').split('.'), $(el).val());
-    }, {});
+    var attr = Bones.utils.form(form, this.model);
 
-    attr['name'] = (attr['id']||'').replace('#','');
-    attr['id'] = (attr['id']||'').replace('#','');
-    attr['class'] = (attr['class']||'').replace('.','');
-    attr['srs'] = attr['srs'] || this.model.SRS['900913'];
-    attr['Datasource'] = _(attr['Datasource']||{})
-        .defaults(parseOptions($('input[name=advanced]', form).val()));
-
+    // Database datasources do not have the luxury of SRS autodetection.
+    // Fallback to web mercator if unset.
+    if (_(['sqlite', 'postgis']).include(attr.Datasource.type)) {
+        attr.srs = attr.srs || this.model.SRS['900913'];
+    } else {
+        attr.srs = attr.srs || '';
+    }
+    // Advanced options.
+    if (attr.advanced) {
+        attr.Datasource = _(attr.Datasource||{}).defaults(attr.advanced);
+        delete attr.advanced;
+    }
     // Parse PostGIS connection options.
-    if ($('input[name=connection]', form).size()) {
+    if (attr.connection) {
         var allowedArgs = ['user', 'password', 'dbname', 'port', 'host'];
-        var connection = parseOptions($('input[name=connection]', form).val());
-        for (var key in connection) if (!_(allowedArgs).include(key)) {
+        for (var key in attr.connection) if (!_(allowedArgs).include(key)) {
             new views.Modal(new Error('Invalid argument ' + key + ' in PostgreSQL connection string.'));
             return false;
         }
-        if (!_(connection).size()) {
+        if (!_(attr.connection).size()) {
             new views.Modal(new Error('Invalid PostgreSQL connection string.'));
             return false;
         }
-        if (!connection.dbname) {
+        if (!attr.connection.dbname) {
             new views.Modal(new Error('dbname is required in PostgreSQL connection string.'));
             return false;
         }
-        attr.Datasource = _(attr.Datasource).defaults(connection);
+        attr.Datasource = _(attr.Datasource||{}).defaults(attr.connection);
+        delete attr.connection;
     }
+    // Autoname this layer if id is blank.
+    attr.name =
+    attr.id = (attr.id || this.autoname(attr.Datasource.file||attr.Datasource.table)).replace('#','');
+    attr['class'] = (attr['class'] || '').replace('.','');
 
     $(this.el).addClass('loading').addClass('restartable');
     var error = _(function(m, e) {
@@ -259,7 +267,7 @@ view.prototype.save = function(e) {
 
 view.prototype.cacheFlush = function(ev) {
     $(this.el).addClass('loading');
-    var url = this.$('form.layer-file input[name=file]').val();
+    var url = this.$('form.layer-file input[name$=file]').val();
     this.model.collection.parent.flush(this.model.id, url, {
         success: _(function(m, resp) {
             $(this.el).removeClass('loading');
