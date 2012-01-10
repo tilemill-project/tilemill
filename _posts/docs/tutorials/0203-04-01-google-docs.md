@@ -14,13 +14,13 @@ nextup:
 ## Using Google Spreadsheets
 Why use [Google Docs](http://docs.google.com)? Because it's free, has versioning, and allows you to use our nifty [Geocoding and GeoJSON Export scripts](https://github.com/mapbox/geo-googledocs). Importing your data into a Google Docs spreadsheet is relatively pain free. These tutorials will guide you through a few of the more advanced tools offered in Google Docs for pre-TileMill data preparation.
 
-For demonstration purposes we will be using [2010 tornado data](/tilemill/data/2010-tornadoes.csv), originally found at the [NOAA's Storm Prediction Center](http://www.spc.noaa.gov/wcm/).
+For demonstration purposes we will be using [2010 tornado data](/tilemill/assets/pages/2010_tornadoes.csv), originally found at the [NOAA's Storm Prediction Center](http://www.spc.noaa.gov/wcm/).
 
 ### Pivot Tables
-A **pivot table** is summarization tool for your data. It creates a new table that allows you to sort, count, total, or average the selected data. When preparing data for mapping, pivot tables are often used to aggregate a list of data to a specific geographical level, such as countries or states.
+A **pivot table** is a summarization tool for your data. It creates a new table that allows you to sort, count, total, or average the selected data. When preparing data for mapping, pivot tables are often used to aggregate a list of data to a specific geographical level, such as countries or states.
 
 For an quick intro to pivot tables in Google Docs, check out this video:  
-[Pivot Tables in Google Docs](http://www.youtube.com/embed/giuD7KSmock)
+[Pivot Tables in Google Docs](http://www.youtube.com/watch?v=giuD7KSmock)
 
 Take, for example, the tornado CSV. The raw data is a list of all the tornados that occurred in 2010 and their coordinates. Mapping these points is relatively easy and results in an informative and straightforward map. But say we want to do some analysis on this data and map the total number of occurrences per state? Using the **pivot table** tool, we can quickly create a new table based on this calculation.
 
@@ -40,7 +40,7 @@ You now have a new table that shows the number of tornadoes per state in 2010. W
 9. Click **Add field** next to **Values** and choose "fscale".
 10. Choose **Summarize by: MAX**. Added to the table is the highest F-Scale tornado that occurred in each state.
   ![](/tilemill/assets/pages/googledocs-pivot-5.png)
-11. Once your pivot table is complete, **copy and paste** the cells into a new sheet. This creates a permanent copy of the table for you to further manipulate and keeps the pivot table available to use.
+11. Once your pivot table is complete, **copy and paste** the cells into a new sheet. This creates a permanent copy of the table for you to create column headers and further manipulate, and keeps the pivot table available to use.
 
 These steps serve only a basic example of how to use this tool. There are many more things you can accomplish with pivot tables and you may need to make adjustments based on your own data.
 
