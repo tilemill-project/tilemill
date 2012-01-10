@@ -80,8 +80,10 @@ var get = _(project.get).bind(project);
     <small class='description'><span class='totaltiles'>0</span> tiles (<span class='totalsize'>0</span>)</small>
   </li>
   <li>
+    <span class='icon i40 center'></span>
     <label for='center'>Center</label>
-    <input type='text' name='center' class='stretch' value='<%=get('center').join(',')%>' />
+    <input type='text' name='center' size='20' value='<%=get('center').join(',')%>' />
+    <small class='description'>Click to move starting center point.</small>
   </li>
   <% } %>
   <% if (type === 'image') { %>
@@ -92,8 +94,10 @@ var get = _(project.get).bind(project);
   </li>
   <% } %>
   <li>
+    <span class='icon i40 bounds'></span>
     <label for='bounds'>Bounds</label>
-    <input type='text' name='bounds' class='stretch' value='<%=get('bounds').join(',')%>' />
+    <input type='text' name='bounds' size='20' value='<%=get('bounds').join(',')%>' />
+    <small class='description'>Shift + drag to select bounds.</small>
   </li>
   <% if (model !== project) { %>
   <li>

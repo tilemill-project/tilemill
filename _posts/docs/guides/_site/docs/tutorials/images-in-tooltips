@@ -1,0 +1,31 @@
+<p>MBTiles files are sometimes used in mobile applications where internet connections can be expensive, unreliable, or unavailable. When this is the case, you will want to avoid referencing remote images from the tooltips and legends contained in an MBTiles file.</p>
+
+<p>You can store any type of image file in the MBTiles file itself by referencing <a href='http://en.wikipedia.org/wiki/Data_URI_scheme'>a data URI</a> instead of a standard URL or file path. To do this, you will need to base64-encode the image - a process that will take the binary image data and transform it into a string of text and numbers that can be pasted into HTML or CSS code.</p>
+
+<h2 id='preparing_the_code'>Preparing the code</h2>
+
+<p>To include a base64-encoded image in your tooltip or legend, use the following HTML code:</p>
+
+<pre><code>&lt;img src=&#39;data:image/png;base64,[image-data]&#39; /&gt;</code></pre>
+
+<p>Replace the <code>[image-data]</code> part with the code that you&#8217;ll generate in the next step.</p>
+
+<h2 id='encoding_the_image_mac_os_x'>Encoding the image (Mac OS X)</h2>
+
+<p>Encoding the image will require the Terminal application. You&#8217;ll also need to know the file path to your image, or navigate to the folder it is in with the <code>cd</code> command. Then run:</p>
+
+<pre><code>openssl enc -base64 -in /path/to/your_file.png | tr -d &#39;\n&#39; | pbcopy</code></pre>
+
+<p>The base64-encoded image will now be copied to your clipboard. Paste it into the appropriate place in your code and the image should appear in your legend or tooltip.</p>
+
+<h2 id='encoding_the_image_ubuntu_or_other_linux'>Encoding the image (Ubuntu or other Linux)</h2>
+
+<p>The steps on Ubuntu are very similar to Mac OS X, but first we&#8217;re going to install a utility to copy terminal output straight to the clipboard:</p>
+
+<pre><code>sudo apt-get install xclip</code></pre>
+
+<p>Except for the different copy utility, the rest of the command is the same:</p>
+
+<pre><code>openssl -in /path/to/your_file.png enc -base64 | tr -d &#39;\n&#39; | xclip -selection c</code></pre>
+
+<p>The base64-encoded image will now be copied to your clipboard. Paste it into the appropriate place in your code and the image should appear in your legend or tooltip.</p>

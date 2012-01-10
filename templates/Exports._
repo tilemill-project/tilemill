@@ -6,7 +6,7 @@
 
 <% collection.each(function(m) { %>
 <li id='export-<%=m.id%>' class='<%= m.get('status') %>'>
-  <span class='icon filetype <%=m.get('format')%>'>
+  <span class='icon i40 <%=m.get('format')%>'>
     <span class='icon <%=m.get('status')%>'><%=m.get('status')%></span>
   </span>
   <h2><%= m.get('name') || m.get('filename') %></h2>

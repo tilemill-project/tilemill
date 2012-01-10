@@ -1,0 +1,17 @@
+<p>By default, TileMill runs as a desktop-style application on Ubuntu, but it can also run as a system-wide service managed by <a href='http://upstart.ubuntu.com/'>upstart</a>.</p>
+
+<ul>
+<li><strong>Start</strong> TileMill by running <code>sudo start tilemill</code></li>
+
+<li><strong>Stop</strong> TileMill by running <code>sudo stop tilemill</code></li>
+
+<li><strong>Restart</strong> TileMill by running <code>sudo restart tilemill</code></li>
+
+<li><strong>Files</strong> used by TileMill are in <code>/usr/share/mapbox</code></li>
+
+<li><strong>Logs</strong> are written to <code>/var/log/tilemill</code></li>
+
+<li><strong>Preferences</strong> can be changed by editing <code>/usr/share/mapbox/.tilemill.json</code></li>
+</ul>
+
+<p>Once TileMill has started you can access the interface in your web browser at <code>http://localhost:20009</code>.</p>
