@@ -55,7 +55,7 @@ Section "MainSection" SEC01
   SetOverwrite try
 
   ;; Base Installation
-  File /r /x *Recycle.Bin* /x Makefil* /x .git* /x *.vcx* /x *.ipch /x ipch /x AppData /x test /x deps /x include /x expresso /x osx /x ubuntu /x virtualbox /x *.idx /x *.pack /x *.sln /x *.sdf ..\..\..\..\tilemill
+  File /r /x *Recycle.Bin* /x Makefil* /x *.vcx* /x *.ipch /x ipch /x AppData /x deps /x include /x expresso /x osx /x ubuntu /x virtualbox /x *.idx /x *.pack /x *.sln /x *.sdf ..\..\..\..\tilemill
   ;; Setup and un-install scripts.  Execute setup now.
   ;;File "setup.bat"
   ;;ExecWait '"$INSTDIR\setup.bat"'
