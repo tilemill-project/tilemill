@@ -20,7 +20,11 @@ commands['start'].prototype.initialize = function(plugin, callback) {
         var client = path.dirname(require.resolve('topcube')) + "/client.js";
         Bones.plugin.children['webkit'] = spawn(process.execPath, [
             client,
-            JSON.stringify(['http://localhost:20009', 800, 600])
+            JSON.stringify(['http://localhost:20009', 800, 600, {
+                name: 'TileMill',
+                minwidth: 800,
+                minheight: 400
+            }])
         ]);
         Bones.plugin.children['webkit'].stdout.pipe(process.stdout);
         Bones.plugin.children['webkit'].stderr.pipe(process.stderr);
