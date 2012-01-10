@@ -11,18 +11,23 @@ nextup:
 - "[Add a CSV layer](/tilemill/docs/tutorials/point-data) to your TileMill project."
 ---
 
-## Using Google Spreadsheets
+## Using Google Docs
 Why use [Google Docs](http://docs.google.com)? Because it's free, has versioning, and allows you to use our nifty [Geocoding and GeoJSON Export scripts](https://github.com/mapbox/geo-googledocs). Importing your data into a Google Docs spreadsheet is relatively pain free. These tutorials will guide you through a few of the more advanced tools offered in Google Docs for pre-TileMill data preparation.
+
+1. [Pivot Tables](#pivot)
+2. [Geocoding](#geocoding)
+3. [Publishing to CSV](#publish)
 
 For demonstration purposes we will be using [2010 tornado data](/tilemill/assets/pages/2010_tornadoes.csv), originally found at the [NOAA's Storm Prediction Center](http://www.spc.noaa.gov/wcm/).
 
-### Pivot Tables
+<h2 id="pivot">Pivot Tables</h2>
+
 A **pivot table** is a summarization tool for your data. It creates a new table that allows you to sort, count, total, or average the selected data. When preparing data for mapping, pivot tables are often used to aggregate a list of data to a specific geographical level, such as countries or states.
 
 For an quick intro to pivot tables in Google Docs, check out this video:  
 [Pivot Tables in Google Docs](http://www.youtube.com/watch?v=giuD7KSmock)
 
-Take, for example, the tornado CSV. The raw data is a list of all the tornados that occurred in 2010 and their coordinates. Mapping these points is relatively easy and results in an informative and straightforward map. But say we want to do some analysis on this data and map the total number of occurrences per state? Using the **pivot table** tool, we can quickly create a new table based on this calculation.
+Take, for example, this [tornado data](/tilemill/assets/pages/2010_tornadoes.csv). The raw data is a list of all the tornados that occurred in 2010 and their coordinates and other statistics. Mapping these points is relatively easy and results in an informative and straightforward map. But say we want to do some analysis on this data and map the total number of occurrences per state? Using the **pivot table** tool, we can quickly create a new table based on this calculation.
 
 1. **Select** the data you wish to summarize. In this case the entire table.
 2. In the **Data** menu, click **Pivot table report**.
@@ -44,7 +49,7 @@ You now have a new table that shows the number of tornadoes per state in 2010. W
 
 These steps serve only a basic example of how to use this tool. There are many more things you can accomplish with pivot tables and you may need to make adjustments based on your own data.
 
-### Geocoding
+<h2 id="geocoding">Geocoding</h2>
 
 In order to import your CSV or GeoJSON into TIleMill, it must have columns that specify **latitude** and **longitude** coordinates. Quite often your data will have location names, but not coordinates. So how do you get the coordinate of a point based on the name of a location? This exact process is called **geocoding**, and there is a script you can add to your google spreadsheet that will automate this process for you.
 
@@ -65,7 +70,7 @@ This tutorial will guide you through geocoding using this script. For further in
 
 Geocoding is not always 100% accurate. There are times when the service will return a wrong coordinate or a blank, so it is important to double check these values. You might not catch any errors until viewing the data on a map. In these cases you may have to manually adjust the coordinates.
 
-### Publishing a CSV
+<h2 id="publish">Publishing a CSV</h2>
 
 Once your data is ready, you will want to publish it as a **CSV**. TileMill can import a CSV file as long as it has the appropriate **longitude and latitude columns**. **Publishing** with Google Docs will generate a link that you can use to import your data into TileMill. Of course, you can also simply save your spreadsheet to CSV and load that file into TileMill, but publishing gives you the option to forgo a lot of hassle in the future if your data requires updating.
 
