@@ -1791,3 +1791,7 @@ ul.grid li {
   .project .workspace { width:40% !important; }
   .wax-fullscreen-view .project .map { width:auto !important; }
 }
+
+/* Fix for sprite-clipping fail in webkit : | */
+.exports .status a,
+.pane .pane-actions a { position:relative; }
