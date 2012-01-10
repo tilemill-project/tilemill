@@ -1,6 +1,17 @@
 var path = require('path');
 var spawn = require('child_process').spawn;
 
+// Retrieve args to pass to child process here
+// prior to Bones filtering out options.
+var args = _(require('optimist').argv).chain()
+    .map(function(val, key) {
+        if (key === '$0') return;
+        if (key === '_') return;
+        return '--' + key + '=' + val;
+    })
+    .compact()
+    .value();
+
 commands['start'].prototype.initialize = function(plugin, callback) {
     Bones.plugin.command = this;
     Bones.plugin.children = {};
@@ -17,18 +28,10 @@ commands['start'].prototype.initialize = function(plugin, callback) {
 };
 
 commands['start'].prototype.child = function(name) {
-    var args = [
+    Bones.plugin.children[name] = spawn(process.execPath, [
         path.resolve(path.join(__dirname + '/../index.js')),
         name
-    ];
-    // Pass any args set on main process into children as well.
-    _(require('optimist').argv).forEach(function(val, key) {
-        if (key !== '$0' && key !== '_') {
-            args.push('--' + key);
-            args.push(val);
-        }
-    });
-    Bones.plugin.children[name] = spawn(process.execPath, args);
+    ].concat(args));
     Bones.plugin.children[name].stdout.pipe(process.stdout);
     Bones.plugin.children[name].stderr.pipe(process.stderr);
     Bones.plugin.children[name].once('exit', function(code, signal) {
