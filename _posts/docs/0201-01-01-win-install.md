@@ -2,7 +2,7 @@
 section: documentation
 layout: book
 category: TileMill
-tag: installation
+tag: Installation
 title: Installing
 permalink: /docs/win-install
 hidden: true

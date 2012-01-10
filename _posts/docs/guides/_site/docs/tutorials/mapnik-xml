@@ -1,0 +1,19 @@
+<p>Under the hood TileMill handles rendering your maps using <a href='http://mapnik.org'>Mapnik</a>. The way this works is TileMill uses <a href='https://github.com/mapbox/carto'>Carto</a> to compile your CSS styles and layer definitions down to the XML format that Mapnik can read, each time you save your project.</p>
+
+<p>Most users will not need to directly use this underlying Mapnik XML, but it is easy to leverage if you want to move your raw map styles out of TileMill to set up for rendering directly with Mapnik, or other tools that work with Mapnik like <a href='http://tilestache.org/'>TileStache</a> and <a href='https://github.com/onyxfish/invar/'>Invar</a>.</p>
+
+<p>In TileMill &gt;= 0.4.x you can access the Mapnik XML for each project within the advanced section:</p>
+
+<p><img src='/tilemill/assets/pages/mapnikxml.png' alt='' /></p>
+
+<p>You can also script this using the carto command line tool.</p>
+
+<p>You can install carto with <a href='http://npmjs.org/'>npm</a>, which depends on nodejs, by doing:</p>
+<pre>
+npm install -g millstone carto
+</pre>
+<p>Then you can pass the path to your project mml like:</p>
+<pre>
+carto ~/Documents/MapBox/project/mymap/mymap.mml > mapnik.xml
+</pre>
+<p>You can then open the &#8220;mapnik.xml&#8221; document in a text editor and see the many lines of XML that TileMill and Carto so nicely authored for you.</p>
