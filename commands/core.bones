@@ -65,12 +65,6 @@ command.options['listenHost'] = {
     'default': defaults.listenHost
 };
 
-command.options['updates'] = {
-    'title': 'updates=1|0',
-    'description': 'Automatically check for TileMill updates.',
-    'default': true
-};
-
 command.prototype.bootstrap = function(plugin, callback) {
     process.title = 'tilemill-ui';
 
@@ -186,11 +180,11 @@ command.prototype.bootstrap = function(plugin, callback) {
         .value();
 
     // Skip latest TileMill version check if disabled or
-    // we've checked the npm repo in the past 7 days.
-    if (!settings.updates ||
-        (settings.updatesTime &&
-        settings.updatesTime > Date.now() - (864e5 * 7))) return callback();
+    // we've checked the npm repo in the past 24 hours.
+    if (!settings.updates || (settings.updatesTime > Date.now() - 864e5))
+        return callback();
 
+    console.warn('Checking for new version of TileMill...');
     var npm = require('npm');
     Step(function() {
         npm.load({}, this);
@@ -203,6 +197,9 @@ command.prototype.bootstrap = function(plugin, callback) {
         if (err) throw err;
         if (!_(resp).size()) throw new Error('Latest TileMill package not found.');
         if (!_(resp).toArray()[0].version) throw new Error('No version for TileMill package.');
+        console.warn('Latest version of TileMill is %s.', _(resp).toArray()[0].version);
+
+        if (settings.updatesVersion === _(resp).toArray()[0].version) return this();
         new models.Config(_({
             updatesVersion: _(resp).toArray()[0].version,
             updatesTime: Date.now()
