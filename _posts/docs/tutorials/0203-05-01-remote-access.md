@@ -13,7 +13,7 @@ By default, TileMill runs as a desktop-style application on Ubuntu, but it can a
 - **Restart** TileMill by running `sudo restart tilemill`
 - **Files** used by TileMill are in `/usr/share/mapbox`
 - **Logs** are written to `/var/log/tilemill`
-- **Preferences** can be changed by editing `/usr/share/mapbox/.tilemill.json`
+- **Preferences** can be changed by editing `/etc/tilemill/tilemill.config`
 
 Once TileMill has started you can access the interface in your web browser at `http://localhost:20009`.
 
