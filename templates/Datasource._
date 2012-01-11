@@ -44,6 +44,11 @@ obj.escape = function(string) {
     <%= this['DatasourceRows'](obj) %>
   </tbody>
 </table>
+<% if (moreFields.length) { %>
+<div class='description'>
+<%= moreFields.join(', ') %> fields omitted.<br/>Use fewer fields for better performance.
+</div>
+<% } %>
 <% if (more) { %>
 <div class='buttons'><a class='showall button' href='#'><span class='icon reverse plus labeled'></span> Show all</a></div>
 <% } %>

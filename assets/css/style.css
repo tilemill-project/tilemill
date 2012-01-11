@@ -1480,6 +1480,7 @@ td.Number {
 
 th.header { cursor:pointer; }
 
+.features .description,
 .features .buttons {
   text-align:center;
   padding:10px;
