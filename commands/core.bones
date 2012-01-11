@@ -29,6 +29,16 @@ Bones.Command.options['tilePort'] = {
     'default': defaults.tilePort
 };
 
+Bones.Command.options['coreSocket'] = {
+    'title': 'coreSocket=[/path/to/socket]',
+    'description': 'Server port socket, overrides `port` option.',
+};
+
+Bones.Command.options['tileSocket'] = {
+    'title': 'tileSocket=[/path/to/socket]',
+    'description': 'Tile server socket, overrides `tilePort` option.',
+};
+
 Bones.Command.options['coreUrl'] = {
     'title': 'coreUrl=[host:port]'
 };
@@ -71,6 +81,7 @@ command.prototype.bootstrap = function(plugin, callback) {
                 return ['unknown', 'unknown'];
             }
         })(),
+        platform: process.platform,
         coreUrl: settings.coreUrl,
         tileUrl: settings.tileUrl,
         tilePort: settings.tilePort,
