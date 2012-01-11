@@ -439,7 +439,7 @@ models.Project.prototype.localize = function(mml, callback) {
             cache: path.join(settings.files, 'cache')
         }, this);
     }, function(err, localized) {
-        if (err) return callback(err);
+        if (err) throw err;
 
         localizedCache[key].debug.localize = (+new Date) - localizeTime + 'ms';
         localizedCache[key].mml = localized;
@@ -447,11 +447,15 @@ models.Project.prototype.localize = function(mml, callback) {
         compileTime = (+new Date);
         compileStylesheet(localized, this);
     }, function(err, compiled) {
-        if (err) return callback(err);
+        if (err) throw err;
 
         localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
         localizedCache[key].xml = compiled;
         localizedCache[key].emit('load');
+    }, function(err) {
+        if (!err) return;
+        delete localizedCache[key];
+        callback(err);
     });
 };
 
