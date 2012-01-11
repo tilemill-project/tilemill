@@ -37,7 +37,6 @@
     <span class='icon spinner'></span>
     </div>
     <div class='editor'></div>
-    <div class='mask'></div>
   </div>
 
   <div id='drawer' class='pane fill raised'><%= this.Pane() %></div>

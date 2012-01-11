@@ -2,7 +2,7 @@
 <h2><a target='_blank' href='http://tilemill.com'>TileMill</a></h2>
 <p>
   Version <%=window.abilities.version[0]%> (<%=window.abilities.version[1]%>)<br/>
-  Made by <a target='_blank' href='http://developmentseed.org'>Development Seed</a>. Copyright 2011
+  Made by <a target='_blank' href='http://developmentseed.org'>Development Seed</a>. Copyright 2012
 </p>
 </div>
 

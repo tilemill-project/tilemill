@@ -134,17 +134,6 @@ small { font-size:11px; }
   z-index:102;
   }
 
-.pane > a.restart {
-  background-color:#a22;
-  border-color:#822;
-  }
-
-.pane > a.restart:active,
-.pane > a.restart.active {
-  background-color:#822;
-  border-color:#711;
-  }
-
 .restartable > a.restart { display:block; }
 
 /**
@@ -1143,6 +1132,20 @@ input.cancel:hover {
 input.cancel:active {
   background:#ddd;
   border-color:#999;
+  }
+
+.button.destructive,
+.button.restart {
+  background-color:#a22;
+  border-color:#822;
+  }
+
+.button.destructive:active,
+.button.destructive.active,
+.button.restart:active,
+.button.restart.active {
+  background-color:#822;
+  border-color:#711;
   }
 
 /* Joined buttons */
