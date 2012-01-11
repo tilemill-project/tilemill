@@ -2,7 +2,7 @@
 <h2><a target='_blank' href='http://tilemill.com'>TileMill</a></h2>
 <p>
   Version <%=window.abilities.tilemill.version%> (<%=window.abilities.version[0]%>)<br/>
-  Made by <a target='_blank' href='http://developmentseed.org'>Development Seed</a>. Copyright 2012
+  Copyright <a target='_blank' href='http://mapbox.com'>MapBox</a> 2012. Made by <a target='_blank' href='http://developmentseed.org'>Development Seed</a>.
 </p>
 </div>
 
