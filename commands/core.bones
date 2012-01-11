@@ -65,6 +65,12 @@ command.options['listenHost'] = {
     'default': defaults.listenHost
 };
 
+command.options['updates'] = {
+    'title': 'updates=1|0',
+    'description': 'Automatically check for TileMill updates.',
+    'default': true
+};
+
 command.prototype.bootstrap = function(plugin, callback) {
     process.title = 'tilemill-ui';
 
@@ -75,11 +81,13 @@ command.prototype.bootstrap = function(plugin, callback) {
 
     Bones.plugin.abilities = {
         version: (function() {
+            var versions = [
+                JSON.parse(fs.readFileSync(path.resolve(__dirname + '/../package.json'), 'utf8')).version
+            ];
             try {
-                return _(fs.readFileSync(path.resolve(__dirname + '/../VERSION'),'utf8').split('\n')).compact();
-            } catch(e) {
-                return ['unknown', 'unknown'];
-            }
+                versions = versions.concat(fs.readFileSync(path.resolve(__dirname + '/../VERSION'), 'utf8').split('\n'));
+            } catch(e) {}
+            return _(versions).compact();
         })(),
         platform: process.platform,
         coreUrl: settings.coreUrl,
@@ -177,7 +185,36 @@ command.prototype.bootstrap = function(plugin, callback) {
         }, {})
         .value();
 
-    callback();
+    // Skip latest TileMill version check if disabled or
+    // we've checked the npm repo in the past 7 days.
+    if (!settings.updates ||
+        (settings.updatesTime &&
+        settings.updatesTime > Date.now() - (864e5 * 7))) return callback();
+
+    var npm = require('npm');
+    Step(function() {
+        npm.load({}, this);
+    }, function(err) {
+        if (err) throw err;
+
+        npm.localPrefix = path.join(process.env.HOME, '.tilemill');
+        npm.commands.view(['tilemill'], true, this);
+    }, function(err, resp) {
+        if (err) throw err;
+        if (!_(resp).size()) throw new Error('Latest TileMill package not found.');
+        if (!_(resp).toArray()[0].version) throw new Error('No version for TileMill package.');
+        new models.Config(_({
+            updatesVersion: _(resp).toArray()[0].version,
+            updatesTime: Date.now()
+        }).defaults(settings)).save({}, {
+            success: function(m, resp) { this(); }.bind(this),
+            error: function(m, err) { this(err); }.bind(this)
+        });
+    }, function(err) {
+        // Continue despite errors but log them to the console.
+        if (err) console.error(err);
+        callback();
+    });
 };
 
 command.prototype.initialize = function(plugin, callback) {
