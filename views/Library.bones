@@ -28,13 +28,14 @@ view.prototype.render = function() {
     var breadcrumb = [];
     if (this.model.get('location')) {
         var s3 = this.model.get('id') == 's3';
-        breadcrumb = _(this.model.get('location').split('/')).chain()
+        var sep = window.abilities.platform === 'win32' ? '\\' : '/';
+        breadcrumb = _(this.model.get('location').split(sep)).chain()
             .compact()
             .reduce(function(memo, part) {
                 if (!memo.length) {
-                    memo.push((s3 ? '' : '/') + part);
+                    memo.push((s3 ? '' : sep) + part);
                 } else {
-                    memo.push(_(memo).last() + '/' + part);
+                    memo.push(_(memo).last() + sep + part);
                 }
                 return memo;
             }, [])
@@ -42,6 +43,7 @@ view.prototype.render = function() {
     }
 
     var render = $(templates.Library({
+        sep: sep,
         breadcrumb: breadcrumb,
         model:this.model
     }));

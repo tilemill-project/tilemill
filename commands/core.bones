@@ -81,6 +81,7 @@ command.prototype.bootstrap = function(plugin, callback) {
                 return ['unknown', 'unknown'];
             }
         })(),
+        platform: process.platform,
         coreUrl: settings.coreUrl,
         tileUrl: settings.tileUrl,
         tilePort: settings.tilePort,
