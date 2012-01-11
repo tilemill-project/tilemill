@@ -14,20 +14,16 @@ if (process.platform === 'win32') {
     // HOME is undefined on windows
     process.env.HOME = process.env.HOMEPATH;
 
-    // test for symlink support and fallback
-    // to full copying of files if lacking
-    try {
-        fs.symlinkSync('/tmp/from.txt','/tmp/to.txt');
-    } catch (err) {
-        if (err.code === 'ENOTSUP') {
-            fs.symlink = function(from,to,cb) {
-                try {
-                    require('./lib/fsutil').cprSync(from,to);
-                    return cb();
-                } catch (err) {
-                    return cb(err);
-                }
-            }
+    // don't attempt symlink support at all -- just copy.
+    // @TODO write a dotfile next to the copy with the link
+    // "metadata" so we can monkeypatch readlink as well.
+    var cprSync = require('./lib/fsutil').cprSync;
+    fs.symlink = function(from,to,cb) {
+        try {
+            cprSync(from, to);
+            return cb();
+        } catch (err) {
+            return cb(err);
         }
     }
 }
