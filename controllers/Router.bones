@@ -4,6 +4,23 @@ controller.prototype.initialize = function() {
     if (Bones.server) return;
     new views.App({ el: $('body') });
 
+    // Check whether there is a new version of TileMill or not.
+    (new models.Config).fetch({success: function(m) {
+        if (!m.get('updates')) return;
+        if (!semver.gt(m.get('updatesVersion'),
+            window.abilities.tilemill.version)) return;
+        new views.Modal({
+            content:_('\
+                A new version of TileMill is available.<br />\
+                Update to TileMill <%=version%> today.<br/>\
+                <small>You can disable update notifications in the <strong>Settings</strong> panel.</small>\
+            ').template({ version:m.get('updatesVersion') }),
+            affirmative: 'Update',
+            negative: 'Later',
+            callback: function() { window.open('http://tilemill.com') }
+        });
+    }});
+
     // Add catchall routes for wrapper goto's, error page.
     this.route(/[^?]*\?goto=(.*)/, 'goto', this.goto);
     this.route(/^(.*?)/, 'error', this.error);

@@ -1,8 +1,8 @@
 <div class='about sunken'>
 <h2><a target='_blank' href='http://tilemill.com'>TileMill</a></h2>
 <p>
-  Version <%=window.abilities.version[0]%> (<%=window.abilities.version[1]%>)<br/>
-  Made by <a target='_blank' href='http://developmentseed.org'>Development Seed</a>. Copyright 2012
+  Version <%=window.abilities.tilemill.version%> (<%=window.abilities.version[0]%>)<br/>
+  Copyright <a target='_blank' href='http://mapbox.com'>MapBox</a> 2012. Made by <a target='_blank' href='http://developmentseed.org'>Development Seed</a>.
 </p>
 </div>
 
@@ -13,12 +13,15 @@
   <li>
     <label for='bufferSize'>Render buffer</label>
     <div class='slider' data-key='bufferSize' data-step='16' data-min='0' data-max='1024'></div>
+    <div class='description'>
+      Mapnik render buffer in pixels. Increase this value if labels appear cut off at tile edges.
+    </div>
   </li>
   <li>
     <label for='files'>Documents</label>
     <input type='text' name='files' size='40' value='<%= get('files') %>' />
     <div class='description'>
-      File path to TileMill projects &amp; exports.
+      Local file path to TileMill projects &amp; exports.
     </div>
   </li>
   <li>
@@ -27,15 +30,26 @@
       <span style='margin-right:10px'>
       <a target='_blank' href='<%=get('syncURL')%>/<%=get('syncAccount')%>'><%=get('syncURL')%>/<%=get('syncAccount')%></a>
       </span>
-      <a class='button' href='/oauth/mapbox'>Refresh</a>
+      <a class='button' href='/oauth/mapbox'>Reauthorize</a>
       <a class='button' href='#disable'>Disable</a>
     </div>
     <div class='syncOff <%= get('syncAccount') ? 'dependent' : '' %>'>
       <a class='button' href='/oauth/mapbox'>Authorize</a>
     </div>
     <div class='description'>
+      <% if (get('syncAccount')) { %>
       Upload maps to this account.
+      <% } else { %>
+      Authorize TileMill to upload to your MapBox account.
+      <% } %>
     </div>
+  </li>
+  <li>
+    <label for='updates'>Updates</label>
+    <input type='checkbox' name='updates' <% if (get('updates')) %>checked='checked'<% ; %> /> Check for new releases of TileMill.
+    <% if (get('updatesTime')) { %>
+    <span class='description'>Last checked <%= new Date(get('updatesTime')).format('g:ia M j') %>.</span>
+    <% } %>
   </li>
   <li class='buttons'>
     <input type='submit' value='Saved' class='disabled' />
