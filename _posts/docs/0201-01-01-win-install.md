@@ -12,7 +12,7 @@ nextup:
 ---
 This page is for **Windows**. We also have instructions for [Mac OS X](/tilemill/docs/mac-install) and [Ubuntu](/tilemill/docs/linux-install).
 
-TileMill doesn't support Windows just yet, but you can run TileMill using an Ubuntu virtual machine. To make this easy, we provide a VirtualBox image for download.
+Native support for Windows support is [coming soon](http://mapbox.com/tilemill/windows). Until then you can run TileMill using an Ubuntu virtual machine. To make this easy, we provide a VirtualBox image for download.
 
 [VirtualBox](http://www.virtualbox.org) is software that runs on all operating systems and allows you to launch Linux as an application. It is then easy to start and stop Linux as needed and safely and cleanly remove at any time.
 
