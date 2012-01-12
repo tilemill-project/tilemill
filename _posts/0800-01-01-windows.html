@@ -1,0 +1,164 @@
+---
+layout: default
+section: tilemill
+category: homepage
+title: TileMill
+description: Design beautiful maps
+permalink: /windows
+---
+<style>
+.wrapper { background:#e0f0f4; }
+.content hr { background-color:#c0d8e0; }
+.content .box {
+  position:relative;
+  background-color:#fff;
+  padding:20px;
+  margin:0px 0px 20px;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  }
+.content .box.short { min-height:160px; }
+.content .box.tall { min-height:300px; }
+
+.box .more {
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  }
+
+#bleed,
+#bleed .limiter {
+  height:560px;
+  overflow:hidden;
+  }
+
+#bleed {
+  background:#2AC0D7 50% 100% no-repeat;
+  margin:0px 0px 40px;
+  }
+
+#bleed .video {
+  width:640px;
+  padding:20px;
+  background:#222;
+  background:rgba(255,255,255,0.95);
+  color:#fff;
+  margin:0px;
+  position:absolute;
+  right:120px;
+  top:40px;
+  box-shadow:#fff 0px 0px 10px;
+  border-radius:5px 5px 0px 0px;
+  -moz-border-radius:5px 5px 0px 0px;
+  -webkit-border-radius:5px 5px 0px 0px;
+  }
+
+.img100x120 {
+  display:block;
+  width:100px;
+  height:120px;
+  margin:0px 0px 20px;
+  background:url({{site.baseurl}}/assets/pages/tilemill.jpg) 100px 120px no-repeat;
+  }
+
+.imga { background-position:-460px -220px; }
+.imgb { background-position:-570px -220px; }
+
+.img100x120.right { float:right; margin-left:20px; }
+
+input[type=text] {
+  background:#fff;
+  border:1px solid #ccc;
+  padding:5px;
+  height:30px;
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  }
+
+</style>
+
+<div id='bleed' class='mac'><div class='limiter'>
+  <div class='video'>
+    <iframe src="http://player.vimeo.com/video/34644668?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff" width="640" height="360" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+  </div>
+{% for item in page.platforms %}
+<div class='video {{item.id}}'>
+<h1>Download TileMill</h1>
+<h2>for {{item.name}}
+  <small class='inline oslist'>
+  Wrong OS?
+  {% for other in page.platforms %}{% unless other.id == item.id %}
+  <a href='#{{other.id}}'>{{other.id|capitalize}}</a>
+  {% endunless%}{% endfor %}
+  </small>
+</h2>
+<div class='actions'>
+  <span class='triangle ne'></span>
+  <span class='triangle nw'></span>
+  <small class='label'>{{item.help}}</small>
+  <a class='em' href='{{item.url}}' title='{{item.name}}'>
+    <span class='icon download'></span> {{item.file}} <small>{{item.size}}</small>
+  </a>
+</div>
+<small class='centered'>
+  <a href='{{site.baseurl}}/docs/install/'>Installing</a> |
+  <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> |
+  <a href='{{site.baseurl}}/docs/changelog/'>Changelog</a> |
+  <a href='{{site.baseurl}}/docs/manual/'>Manual</a> |
+  <a href='http://support.mapbox.com/discussions/tilemill'>Support</a>
+</small>
+</div>
+{% endfor %}
+</div></div>
+
+<div class='limiter clip'><div class='content prose'>
+
+<div class='clearfix'>
+
+  <div class='col-2'><big>
+    <p>TileMill is an amazing open source map design studio from MapBox and it's coming to Windows in late January.</p>
+  </big></div>
+
+  <div class='col-2'><div class='box short'>
+    <p>Signup to hear as soon as TileMill Windows it's ready. You'll also receive updates about new features, events and tips from MapBox.</p>
+    <!-- Begin MailChimp Signup Form -->
+    <div id="mc_embed_signup" class='centered'>
+      <form action="http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+      <div class="mc-field-group">
+        <label for="mce-EMAIL">Email address </label>
+        <input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL" size='30'>
+      </div>
+        <div id="mce-responses" class="clear">
+          <div class="response" id="mce-error-response" style="display:none"></div>
+          <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>	<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+      </form>
+    </div>
+    <!--End mc_embed_signup-->
+  </div></div>
+
+</div>
+
+<hr/>
+
+<div class='clearfix'>
+
+  <div class='col-2'><div class='box short'>
+    <span class='img100x120 right imgb'></span>
+    <h3>Learn more about TileMill</h3>
+    <p>TileMill is built on a suite of modern open source libraries including <a href='http://mapnik.org'>Mapnik</a>, <a href='http://nodejs.org'>node.js</a>, <a href='http://documentcloud.github.com/backbone'>backbone.js</a>, <a href='http://expressjs.com'>express</a> and <a href='http://codemirror.net'>CodeMirror</a>. Jump on <a href='http://github.com'>GitHub</a> where you can dig into the source code.</p>
+    <small class='more'><a href='http://github.com/mapbox/tilemill'>Visit the TileMill homepage &rarr;</a></small>
+  </div></div>
+
+  <div class='col-2'><div class='box short'>
+    <span class='img100x120 right imga'></span>
+    <h3>Take the MapBox tour</h3>
+    <p>Let us show you how MapBox makes it easy it is to design and host custom maps that are beautiful, interactive and fast.</p>
+    <small class='more'><a href='http://mapbox.com/tour'>Take the MapBox tour &rarr;</a></small>
+  </div></div>
+</div>
+
+</div></div>
+
