@@ -81,7 +81,6 @@ command.prototype.bootstrap = function(plugin, callback) {
                 return ['unknown', 'unknown'];
             }
         })(),
-        updates: settings.updates ? settings.updatesVersion : false,
         platform: process.platform,
         coreUrl: settings.coreUrl,
         tileUrl: settings.tileUrl,
