@@ -21,10 +21,10 @@ platforms:
   url: https://github.com/downloads/mapbox/tilemill/install-tilemill.tar.gz
 - id: windows
   name: Windows
-  help: Read our guide on using TileMill<br/>in a VirtualBox VM in Windows
-  file: VirtualBox VM
+  help: TileMill for Windows is coming<br/>in January 2012.
+  file: Learn more about TileMill
   size: for Windows
-  url: /tilemill/docs/win-install/
+  url: /tilemill/windows/
 ---
 <style>
 .wrapper { background:#e0f0f4; }
@@ -148,28 +148,52 @@ platforms:
 
 .img100x120.right { float:right; margin-left:20px; }
 
+.actions .icon.newsletter {
+  background: url({{site.baseurl}}/assets/pages/followup.png) 0px 8px no-repeat;
+  }
+
 </style>
 
 <div id='bleed' class='mac'><div class='limiter'>
 {% for item in page.platforms %}
 <div class='dlbox {{item.id}}'>
-<h1>Download TileMill</h1>
-<h2>for {{item.name}}
-  <small class='inline oslist'>
-  Wrong OS?
-  {% for other in page.platforms %}{% unless other.id == item.id %}
-  <a href='#{{other.id}}'>{{other.id|capitalize}}</a>
-  {% endunless%}{% endfor %}
-  </small>
-</h2>
-<div class='actions'>
-  <span class='triangle ne'></span>
-  <span class='triangle nw'></span>
-  <small class='label'>{{item.help}}</small>
-  <a class='em' href='{{item.url}}' title='{{item.name}}'>
-    <span class='icon download'></span> {{item.file}} <small>{{item.size}}</small>
-  </a>
-</div>
+  {% if item.id != 'windows' %}
+  <h1>Download TileMill</h1>
+  <h2>for {{item.name}}
+    <small class='inline oslist'>
+    Wrong OS?
+    {% for other in page.platforms %}{% unless other.id == item.id %}
+    <a href='#{{other.id}}'>{{other.id|capitalize}}</a>
+    {% endunless%}{% endfor %}
+    </small>
+  </h2>
+  <div class='actions'>
+    <span class='triangle ne'></span>
+    <span class='triangle nw'></span>
+    <small class='label'>{{item.help}}</small>
+    <a class='em' href='{{item.url}}' title='{{item.name}}'>
+      <span class='icon download'></span> {{item.file}} <small>{{item.size}}</small>
+    </a>
+  </div>
+  {% else %}
+  <h1>TileMill is coming soon</h1>
+  <h2>for {{item.name}}
+    <small class='inline oslist'>
+    Wrong OS?
+    {% for other in page.platforms %}{% unless other.id == item.id %}
+    <a href='#{{other.id}}'>{{other.id|capitalize}}</a>
+    {% endunless%}{% endfor %}
+    </small>
+  </h2>
+  <div class='actions'>
+    <span class='triangle ne'></span>
+    <span class='triangle nw'></span>
+    <small class='label'>{{item.help}}</small>
+    <a class='em' href='{{item.url}}' title='{{item.name}}'>
+      <span class='icon newsletter'></span> {{item.file}} <small>{{item.size}}</small>
+    </a>
+  </div>
+  {% endif %}
 <small class='centered'>
   <a href='{{site.baseurl}}/docs/install/'>Installing</a> |
   <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> |
