@@ -129,6 +129,12 @@
     [self showBrowserWindow:self];
     [self startTileMill];
     
+    // go full screen if last quit that way
+    //
+    if ([self.browserController.window respondsToSelector:@selector(toggleFullScreen:)])
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"startFullScreen"])
+            [self.browserController.window toggleFullScreen:self];
+    
     // remove full screen mode menu item on 10.6
     //
     if ( ! [self.browserController.window respondsToSelector:@selector(toggleFullScreen:)])
@@ -157,6 +163,12 @@
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
+    // remember full screen mode
+    //
+    if ([self.browserController.window respondsToSelector:@selector(toggleFullScreen:)])
+        [[NSUserDefaults standardUserDefaults] setBool:(([self.browserController.window styleMask] & NSFullScreenWindowMask) == NSFullScreenWindowMask) 
+                                                forKey:@"startFullScreen"];
+    
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     self.shouldAttemptRestart = NO;
