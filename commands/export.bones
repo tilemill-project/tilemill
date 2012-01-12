@@ -4,6 +4,7 @@ var path = require('path');
 var request = require('request');
 var crypto = require('crypto');
 var Step = require('step');
+var http = require('http');
 
 command = Bones.Command.extend();
 
@@ -455,12 +456,13 @@ command.prototype.upload = function (callback) {
 command.prototype.sync = function (project, callback) {
     var cmd = this;
     var modifier = 0;
+    var resp;
     cmd.putFilter = function(data) {
         if (!data.progress) return data;
         data.progress = (data.progress*0.5) + modifier;
         return data;
     };
-    cmd.opts.filepath = _('/tmp/tm-sync-<%=id%>-<%=time%>.mbtiles').template({
+    cmd.opts.filepath = _(cmd.opts.files + '/cache/tm-sync-<%=id%>-<%=time%>.mbtiles').template({
         id: project.id,
         time: + new Date
     });
@@ -471,8 +473,11 @@ command.prototype.sync = function (project, callback) {
         modifier = 0.5;
         cmd.upload(this);
     }, function(err, data) {
-        fs.unlinkSync(cmd.opts.filepath);
-        cmd.complete(err, data);
+        if (err) throw err;
+        resp = data;
+        fs.unlink(cmd.opts.filepath, this);
+    }, function(err) {
+        cmd.complete(err, resp);
     });
 };
 

@@ -55,7 +55,7 @@ view.prototype.save = function() {
     this.model.get('Stylesheet').forEach(function(model) {
         if (model.errors) {
             model.errors = [];
-            for (i = 0; i < model.codemirror.getValue().match(/\n/g).length+1; i++) {
+            for (i = 0; i < (model.codemirror.getValue().match(/\n/g)||[]).length+1; i++) {
                 model.codemirror.clearMarker(i);
             }
         }

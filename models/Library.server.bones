@@ -44,21 +44,21 @@ models.Library.prototype.sync = function(method, model, success, error) {
     switch (model.id) {
     case 'file':
     case 'sqlite':
-        // @TODO: disallow .. and other nasty things.
-        var location = model.get('location') || process.env.HOME;
+        var sep = process.platform === 'win32' ? '\\' : '/';
+        var location = (model.get('location') || process.env.HOME)
+            .replace(/^([a-zA-Z]:\\|\/)/, sep);
 
         // Resolve paths relative to project directory.
-        if (location[0] !== '/') {
+        if (!location[0] === sep) {
             location = path.join(config.files, 'project', model.get('project'), location);
         }
 
         path.exists(location, function(exists) {
-            if (!exists) {
-                location = process.env.HOME;
-            }
-            var filepath = path.join('/', location);
-            readdir(filepath, function(err, files) {
-                if (err) return error(err);
+            if (!exists) location = process.env.HOME;
+            readdir(location, function(err, files) {
+                if (err &&
+                    err.code !== 'EACCES' &&
+                    err.code !== 'UNKNOWN') return error(err);
                 var data = {};
                 var ext = model.id === 'file' ? extFile : extSqlite;
                 data.id = model.id;
@@ -73,13 +73,12 @@ models.Library.prototype.sync = function(method, model, success, error) {
                     })
                     .map(function(f) {
                         var asset = { name: f.basename };
-                        var local = path.join(location, f.basename);
-                        var uri = path.join(filepath, f.basename);
+                        var filepath = path.join(location, f.basename);
                         if (f.isFile() && _(ext).include(path.extname(f.basename).toLowerCase())) {
-                            asset.uri = uri;
+                            asset.uri = filepath;
                             return asset;
                         } else if (f.isDirectory()) {
-                            asset.location = local;
+                            asset.location = filepath;
                             return asset;
                         }
                     })

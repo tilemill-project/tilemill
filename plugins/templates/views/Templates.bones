@@ -36,13 +36,13 @@ view.prototype.attach = function() {
             return '<code>{{{' + f + '}}}</code>';
         }).join(' '));
         this.$('.requires-tokens').attr('disabled', false);
-        $(this.el).removeClass('loading');
+        $(this.el).removeClass('loading').removeClass('restartable');
     }).bind(this);
 
     // Cache the datasource model to `this.datasource` so it can
     // be used to live render/preview the formatters.
     if (!this.datasource || this.datasource.id !== layer.get('id')) {
-        $(this.el).addClass('loading');
+        $(this.el).addClass('loading').addClass('restartable');
         var attr = _(layer.get('Datasource')).chain()
             .clone()
             .extend({
@@ -57,7 +57,11 @@ view.prototype.attach = function() {
         this.datasource = new models.Datasource(attr);
         this.datasource.fetchFeatures({
             success: update,
-            error: function(model, err) { new views.Modal(err); }
+            error: _(function(model, err) {
+                if ($(this.el).hasClass('restarting')) return false;
+                $(this.el).removeClass('loading').removeClass('restartable');
+                new views.Modal(err);
+            }).bind(this)
         });
     } else {
         update(this.datasource);
