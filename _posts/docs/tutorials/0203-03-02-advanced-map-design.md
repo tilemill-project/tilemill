@@ -6,7 +6,8 @@ tag: tutorials
 title: "Advanced map design"
 permalink: /docs/tutorials/advanced-map-design
 prereq:
-- "[Added a CSV layer](/tilemill/docs/tutorials/point-data) to your TileMill project."
+- "[Prepared your data](/tilemill/docs/tutorials/google-docs/)."
+- "[Added a CSV layer](/tilemill/docs/tutorials/point-data/) to your TileMill project."
 - "[Used conditional styles](/tilemill/docs/tutorials/conditional-styles/) to control the appearance of points based on data."
 nextup:
 - "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
@@ -86,7 +87,7 @@ We now have two MBTiles with their own interactivity that we can composite toget
 Here is the final map:
 <iframe width='600' height='400' frameBorder='0' src='http://a.tiles.mapbox.com/v3/matt.map-awiyx38h.html#4/40/-96'> </iframe>
 
-And the complete project Carto code:
+And the complete project Carto code for reference:
 
 	Map {
 	  background-color: #b8dee6;
