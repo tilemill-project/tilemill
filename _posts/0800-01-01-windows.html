@@ -22,6 +22,12 @@ permalink: /windows
 .content .box.veryshort { min-height:85px; }
 .content .box.tall { min-height:300px; }
 
+.biglimiter {
+  width: 1200px;
+  margin: 0px auto;
+  position: relative;
+    }
+
 .box .more {
   position:absolute;
   right:10px;
@@ -35,7 +41,7 @@ permalink: /windows
   }
 
 #bleed {
-  background:#4DC2DB url({{site.baseurl}}/assets/pages/windows_splash.jpg) 50% 100% no-repeat;
+  background:#6ccbdf url(/tilemill/assets/pages/windows_splash.jpg) 50% 100% no-repeat;
   margin:0px 0px 40px;
   }
 
@@ -43,16 +49,18 @@ permalink: /windows
   width:640px;
   margin:0px;
   position:absolute;
-  right:120px;
-  top:40px;
+  right:280px;
+  top:40px;  
   }
 
 #bleed .heading {
-  text-align:center;
+  background: url(/tilemill/assets/pages/tilemill_plus_windows.png) left no-repeat;)
+  text-align:left;
+  position: absolute;
+  text-indent: 170px;
+  right: 220px; 
+  top:430px;
   width:640px;
-  position:absolute;
-  right:120px;
-  bottom:40px;
   color:#fff;
   }
 
@@ -61,12 +69,12 @@ permalink: /windows
   width:100px;
   height:120px;
   margin:0px 0px 20px;
-  background:url({{site.baseurl}}/assets/pages/tilemill.jpg) 100px 120px no-repeat;
+  background:url(/tilemill/assets/pages/tilemill.jpg) 100px 120px no-repeat;
   }
 
 
-.imga { background:url({{site.baseurl}}/assets/pages/windows-tour-thumb.png) no-repeat; }
-.imgb { background:url({{site.baseurl}}/assets/pages/windows-tilemill-thumb.png) no-repeat }
+.imga { background:url(/tilemill/assets/pages/windows-tour-thumb.png) no-repeat; }
+.imgb { background:url(/tilemill/assets/pages/windows-tilemill-thumb.png) no-repeat; }
 
 .img100x120.right { float:right; margin-left:20px; }
 
@@ -84,14 +92,14 @@ input[type=text] {
 form .checkbox,
 form div.inline,
 form span.inline {
-  float:left;
-  margin-right:10px;
+  float:right;
+  margin-right:0px;
   }
 
 .button.small {
   height:30px;
   border:0px;
-  padding:0px 25px;
+  padding:0px 20px;
   font-size:14px;
   line-height:30px;
   }
@@ -99,10 +107,10 @@ form span.inline {
 .box .col-2 {
   width:420px;
   }
-
+  
 </style>
 
-<div id='bleed' class='mac'><div class='limiter'>
+<div id='bleed' class='mac'><div class='biglimiter'>
   <div class='video'>
     <iframe src="http://player.vimeo.com/video/34644668?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff" width="640" height="360" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
   </div>
@@ -123,7 +131,7 @@ form span.inline {
     <div class='box veryshort'>
       <div class='col-2'>
         <h3>Get notified</h3>
-        <p>Be the first to hear when TileMill for Windows ready. You'll also receive updates about new features, events and tips from MapBox.</p>
+        <p>Be the first to hear when TileMill for Windows is ready. You'll also receive updates about new features, events and tips from MapBox.</p>
       </div>
 
       <!-- Begin MailChimp Signup Form -->
@@ -135,7 +143,7 @@ form span.inline {
           <input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL">
           <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class='button small'>
         </div>
-          <div id="mce-responses" class="clear">
+          <div id="mce-responses">
             <div class="response" id="mce-error-response" style="display:none"></div>
             <div class="response" id="mce-success-response" style="display:none"></div>
           </div>
@@ -153,15 +161,15 @@ form span.inline {
 
   <div class='col-2'><div class='box short'>
     <span class='img100x120 right imgb'></span>
-    <h3>Learn more about TileMill</h3>
+    <h3><a href="http://mapbox.com/tilemill/">Learn more about TileMill</a></h3>
     <p>Thousands of people use TileMill to design custom maps on Linux and Mac OS X. Learn about the features and find out why TileMill will revolutionize map design on Windows too.</p>
     <small class='more'><a href='{{site.url}}/tilemill'>Visit the TileMill homepage &rarr;</a></small>
   </div></div>
 
   <div class='col-2'><div class='box short'>
     <span class='img100x120 right imga'></span>
-    <h3>Take the MapBox tour</h3>
-    <p>Let us show you how MapBox makes it easy it is to design and host custom maps that are beautiful, interactive and fast.</p>
+    <h3><a href="http://mapbox.com/tour/">Take the MapBox tour</a></h3>
+    <p>Let us show you how MapBox makes it easy to design and host custom maps that are beautiful, interactive and fast.</p>
     <small class='more'><a href='{{site.url}}/tour'>Take the MapBox tour &rarr;</a></small>
   </div></div>
 </div>
