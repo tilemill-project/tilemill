@@ -1,6 +1,6 @@
 <ul class='form sunken installed'>
   <li class='text'>
-    <h2>Installed</h2>
+    <h2>Installed plugins</h2>
   </li>
   <li class='plugins'><ul class='grid clearfix'>
   <!--
@@ -13,7 +13,7 @@
 </ul>
 <ul class='form sunken available'>
   <li class='text'>
-    <h2>Available</h2>
+    <h2>Available plugins</h2>
   </li>
   <li class='plugins'><ul class='grid clearfix'>
   <% var show = available.chain()
