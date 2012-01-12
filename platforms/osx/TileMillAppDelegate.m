@@ -128,6 +128,13 @@
 
     [self showBrowserWindow:self];
     [self startTileMill];
+    
+    // remove full screen mode menu item on 10.6
+    //
+    if ( ! [self.browserController.window respondsToSelector:@selector(toggleFullScreen:)])
+        for (NSMenu *menu in [[NSApp mainMenu] itemArray])
+            if ([menu indexOfItemWithTarget:nil andAction:@selector(toggleFullScreen:)] > -1)
+                [[menu itemAtIndex:[menu indexOfItemWithTarget:nil andAction:@selector(toggleFullScreen:)]] setHidden:YES];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)tilemillAppDelegate
