@@ -19,7 +19,7 @@ permalink: /windows
   -webkit-border-radius:5px;
   }
 .content .box.short { min-height:160px; }
-.content .box.veryshort { min-height:130px; }
+.content .box.veryshort { min-height:85px; }
 .content .box.tall { min-height:300px; }
 
 .box .more {
@@ -47,12 +47,13 @@ permalink: /windows
   top:40px;
   }
 
-#bleed .title {
+#bleed .heading {
   text-align:center;
   width:640px;
   position:absolute;
   right:120px;
   bottom:40px;
+  color:#fff;
   }
 
 .img100x120 {
@@ -89,9 +90,13 @@ form span.inline {
 .button.small {
   height:30px;
   border:0px;
-  padding:0px 15px;
+  padding:0px 25px;
   font-size:14px;
   line-height:30px;
+  }
+
+.box .col-2 {
+  width:420px;
   }
 
 </style>
@@ -100,7 +105,7 @@ form span.inline {
   <div class='video'>
     <iframe src="http://player.vimeo.com/video/34644668?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff" width="640" height="360" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
   </div>
-  <div class='title'>
+  <div class='heading'>
     <h1>TileMill for Windows</h1>
     <h1>January 2012</h1>
   </div>
@@ -109,30 +114,35 @@ form span.inline {
 <div class='limiter clip'><div class='content prose'>
 
 <div class='clearfix'>
+  <p><big class='col-4'>
+  TileMill is an amazing open source map design studio from MapBox and it's coming to Windows in late January. Whether you're a journalist, web designer, researcher,	 or seasoned cartographer, TileMill is the design studio you need to create compelling, interactive maps.</p></big>
+  </big></p>
 
-  <div class='col-2'><big>
-    <p>TileMill is an amazing open source map design studio from MapBox and it's coming to Windows in late January.</p>
-  </big></div>
-
-  <div class='col-2'><div class='box veryshort'>
-    <p>Signup to hear as soon as TileMill Windows it's ready. You'll also receive updates about new features, events and tips from MapBox.</p>
-    <!-- Begin MailChimp Signup Form -->
-    <div id="mc_embed_signup" class=''>
-      <form action="http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
-      <div class="mc-field-group inline">
-        <label for="mce-EMAIL">Email address </label>
-        <input type="hidden" value="1" name="group[7417][4]">
-        <input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL">
-        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class='button small'>
+  <div class='col-4'>
+    <div class='box veryshort'>
+      <div class='col-2'>
+        <h3>Get notified</h3>
+        <p>Be the first to hear when TileMill for Windows ready. You'll also receive updates about new features, events and tips from MapBox.</p>
       </div>
-        <div id="mce-responses" class="clear">
-          <div class="response" id="mce-error-response" style="display:none"></div>
-          <div class="response" id="mce-success-response" style="display:none"></div>
+
+      <!-- Begin MailChimp Signup Form -->
+      <div id="mc_embed_signup" class=''>
+        <form action="http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+        <div class="mc-field-group inline">
+          <label for="mce-EMAIL">Email address </label>
+          <input type="hidden" value="1" name="group[7417][4]">
+          <input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class='button small'>
         </div>
-      </form>
+          <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+          </div>
+        </form>
+      </div>
+      <!--End mc_embed_signup-->
     </div>
-    <!--End mc_embed_signup-->
-  </div></div>
+  </div>
 
 </div>
 
@@ -143,15 +153,15 @@ form span.inline {
   <div class='col-2'><div class='box short'>
     <span class='img100x120 right imgb'></span>
     <h3>Learn more about TileMill</h3>
-    <p>TileMill is built on a suite of modern open source libraries including <a href='http://mapnik.org'>Mapnik</a>, <a href='http://nodejs.org'>node.js</a>, <a href='http://documentcloud.github.com/backbone'>backbone.js</a>, <a href='http://expressjs.com'>express</a> and <a href='http://codemirror.net'>CodeMirror</a>. Jump on <a href='http://github.com'>GitHub</a> where you can dig into the source code.</p>
-    <small class='more'><a href='http://github.com/mapbox/tilemill'>Visit the TileMill homepage &rarr;</a></small>
+    <p>Thousands of people use TileMill to design custom maps on Linux and Mac OS X. Learn about the features and find why TileMill will revolutionize map design on Windows too.</p>
+    <small class='more'><a href='{{site.url}}/tilemill'>Visit the TileMill homepage &rarr;</a></small>
   </div></div>
 
   <div class='col-2'><div class='box short'>
     <span class='img100x120 right imga'></span>
     <h3>Take the MapBox tour</h3>
     <p>Let us show you how MapBox makes it easy it is to design and host custom maps that are beautiful, interactive and fast.</p>
-    <small class='more'><a href='http://mapbox.com/tour'>Take the MapBox tour &rarr;</a></small>
+    <small class='more'><a href='{{site.url}}/tour'>Take the MapBox tour &rarr;</a></small>
   </div></div>
 </div>
 
