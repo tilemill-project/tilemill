@@ -276,7 +276,17 @@ function loadProjectAll(model, callback) {
 // Destroy a project. `rm -rf` equivalent for the project directory.
 function destroyProject(model, callback) {
     var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
-    rm(modelPath, callback);
+    // Workaround to access denied error on Windows when mapnik has
+    // open file handles to a data file in a project that needs to
+    // be deleted. Stopgap is to kill the tileserver, delete the project
+    // and let the tileserver start back up on its own.
+    if (process.platform === 'win32') {
+        request.post({ url:'http://'+settings.tileUrl+'/restart' }, function(err) {
+            rm(modelPath, callback);
+        });
+    } else {
+        rm(modelPath, callback);
+    }
 }
 
 // Save a project. Creates a subdirectory per project and splits out
@@ -439,7 +449,7 @@ models.Project.prototype.localize = function(mml, callback) {
             cache: path.join(settings.files, 'cache')
         }, this);
     }, function(err, localized) {
-        if (err) return callback(err);
+        if (err) throw err;
 
         localizedCache[key].debug.localize = (+new Date) - localizeTime + 'ms';
         localizedCache[key].mml = localized;
@@ -447,11 +457,15 @@ models.Project.prototype.localize = function(mml, callback) {
         compileTime = (+new Date);
         compileStylesheet(localized, this);
     }, function(err, compiled) {
-        if (err) return callback(err);
+        if (err) throw err;
 
         localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
         localizedCache[key].xml = compiled;
         localizedCache[key].emit('load');
+    }, function(err) {
+        if (!err) return;
+        delete localizedCache[key];
+        callback(err);
     });
 };
 

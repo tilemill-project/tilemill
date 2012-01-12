@@ -18,10 +18,15 @@ view.prototype.back = function() {
 
 view.prototype.render = function() {
     var features = this.model.get('features');
+    var fields = _(this.model.get('fields')).reduce(function(memo, v, k) {
+        if (_(memo).keys().length < 50) memo[k] = v;
+        return memo;
+    }, {});
     this.$('.content').html(templates.Datasource({
-        fields: this.model.get('fields'),
+        fields: fields,
         features: _(features).first(this.featureLimit),
-        more: _(features).size() > this.featureLimit
+        more: _(features).size() > this.featureLimit,
+        moreFields: _(_(this.model.get('fields')).keys()).difference(_(fields).keys())
     }));
     return this;
 };

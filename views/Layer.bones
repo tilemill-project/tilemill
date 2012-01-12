@@ -118,8 +118,11 @@ view.prototype.placeholderUpdate = function(ev) {
 // @TODO smarter handling for this or abandon the idea if it turns out to be
 // untenable for queries.
 view.prototype.autoname = function(source) {
-    return _(source.split('/'))
+    return _(source.split('/')).chain()
+        .map(function(chunk) { return chunk.split('\\'); })
+        .flatten()
         .last()
+        .value()
         .split('.')[0]
         .toLowerCase()
         .replace(/[^a-z0-9]/g,'')

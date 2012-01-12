@@ -1,6 +1,7 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
+    'change input[name=updates]': 'updates',
     'keyup input[name=files]': 'files',
     'change input[name=files]': 'files',
     'click input[type=submit]': 'save',
@@ -13,6 +14,7 @@ view.prototype.initialize = function(options) {
         'render',
         'changed',
         'files',
+        'updates',
         'disable',
         'save',
         'restart'
@@ -41,6 +43,10 @@ view.prototype.saved = function() {
 view.prototype.files = function(ev) {
     this.model.set({files: $(ev.currentTarget).val()});
     return false;
+};
+
+view.prototype.updates = function(ev) {
+    this.model.set({updates: $(ev.currentTarget).is(':checked')});
 };
 
 view.prototype.disable = function(ev) {

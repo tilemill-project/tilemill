@@ -61,10 +61,10 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 datasource.fields[f] = { type: type };
                 if (options.features || options.info) {
                     datasource.fields[f].max = type === 'String'
-                        ? _(values).max(function(v) { return v.length })
+                        ? _(values).max(function(v) { return (v||'').length })
                         : _(values).max();
                     datasource.fields[f].min = type === 'String'
-                        ? _(values).min(function(v) { return v.length })
+                        ? _(values).min(function(v) { return (v||'').length })
                         : _(values).min();
                 }
             }

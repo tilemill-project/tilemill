@@ -134,17 +134,6 @@ small { font-size:11px; }
   z-index:102;
   }
 
-.pane > a.restart {
-  background-color:#a22;
-  border-color:#822;
-  }
-
-.pane > a.restart:active,
-.pane > a.restart.active {
-  background-color:#822;
-  border-color:#711;
-  }
-
 .restartable > a.restart { display:block; }
 
 /**
@@ -1135,14 +1124,31 @@ input[type=submit]:active {
 
 input.cancel,
 input.cancel:hover {
-  background:#eee;
-  color:#999;
+  background:#fff;
+  color:#666;
   border-color:#ccc;
   }
+
+#popup input.cancel,
+#drawer input.cancel { background:#eee; }
 
 input.cancel:active {
   background:#ddd;
   border-color:#999;
+  }
+
+.button.destructive,
+.button.restart {
+  background-color:#a22;
+  border-color:#822;
+  }
+
+.button.destructive:active,
+.button.destructive.active,
+.button.restart:active,
+.button.restart.active {
+  background-color:#822;
+  border-color:#711;
   }
 
 /* Joined buttons */
@@ -1477,6 +1483,7 @@ td.Number {
 
 th.header { cursor:pointer; }
 
+.features .description,
 .features .buttons {
   text-align:center;
   padding:10px;
