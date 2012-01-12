@@ -19,6 +19,7 @@ permalink: /windows
   -webkit-border-radius:5px;
   }
 .content .box.short { min-height:160px; }
+.content .box.veryshort { min-height:130px; }
 .content .box.tall { min-height:300px; }
 
 .box .more {
@@ -40,18 +41,18 @@ permalink: /windows
 
 #bleed .video {
   width:640px;
-  padding:20px;
-  background:#222;
-  background:rgba(255,255,255,0.95);
-  color:#fff;
   margin:0px;
   position:absolute;
   right:120px;
   top:40px;
-  box-shadow:#fff 0px 0px 10px;
-  border-radius:5px 5px 0px 0px;
-  -moz-border-radius:5px 5px 0px 0px;
-  -webkit-border-radius:5px 5px 0px 0px;
+  }
+
+#bleed .title {
+  text-align:center;
+  width:640px;
+  position:absolute;
+  right:120px;
+  bottom:40px;
   }
 
 .img100x120 {
@@ -75,6 +76,22 @@ input[type=text] {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
+  width:275px;
+  }
+
+form .checkbox,
+form div.inline,
+form span.inline {
+  float:left;
+  margin-right:10px;
+  }
+
+.button.small {
+  height:30px;
+  border:0px;
+  padding:0px 15px;
+  font-size:14px;
+  line-height:30px;
   }
 
 </style>
@@ -82,6 +99,10 @@ input[type=text] {
 <div id='bleed' class='mac'><div class='limiter'>
   <div class='video'>
     <iframe src="http://player.vimeo.com/video/34644668?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff" width="640" height="360" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+  </div>
+  <div class='title'>
+    <h1>TileMill for Windows</h1>
+    <h1>January 2012</h1>
   </div>
 </div></div>
 
@@ -93,20 +114,21 @@ input[type=text] {
     <p>TileMill is an amazing open source map design studio from MapBox and it's coming to Windows in late January.</p>
   </big></div>
 
-  <div class='col-2'><div class='box short'>
+  <div class='col-2'><div class='box veryshort'>
     <p>Signup to hear as soon as TileMill Windows it's ready. You'll also receive updates about new features, events and tips from MapBox.</p>
     <!-- Begin MailChimp Signup Form -->
-    <div id="mc_embed_signup" class='centered'>
+    <div id="mc_embed_signup" class=''>
       <form action="http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
-      <div class="mc-field-group">
+      <div class="mc-field-group inline">
         <label for="mce-EMAIL">Email address </label>
         <input type="hidden" value="1" name="group[7417][4]">
-        <input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL" size='30'>
+        <input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class='button small'>
       </div>
         <div id="mce-responses" class="clear">
           <div class="response" id="mce-error-response" style="display:none"></div>
           <div class="response" id="mce-success-response" style="display:none"></div>
-        </div>	<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
       </form>
     </div>
     <!--End mc_embed_signup-->
