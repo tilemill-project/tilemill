@@ -12,3 +12,7 @@ set NODE_PATH=addons;%NODE_PATH%
 @rem start http://localhost:20009/
 node index.js
 
+@rem - the pause below prevents the console from
+@rem closing if there is an error - good for dev
+pause
+
