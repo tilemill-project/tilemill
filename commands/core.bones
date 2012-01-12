@@ -75,14 +75,13 @@ command.prototype.bootstrap = function(plugin, callback) {
 
     Bones.plugin.abilities = {
         version: (function() {
-            var versions = [
-                JSON.parse(fs.readFileSync(path.resolve(__dirname + '/../package.json'), 'utf8')).version
-            ];
             try {
-                versions = versions.concat(fs.readFileSync(path.resolve(__dirname + '/../VERSION'), 'utf8').split('\n'));
-            } catch(e) {}
-            return _(versions).compact();
+                return _(fs.readFileSync(path.resolve(__dirname + '/../VERSION'),'utf8').split('\n')).compact();
+            } catch(e) {
+                return ['unknown', 'unknown'];
+            }
         })(),
+        updates: settings.updates ? settings.updatesVersion : false,
         platform: process.platform,
         coreUrl: settings.coreUrl,
         tileUrl: settings.tileUrl,
