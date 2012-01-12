@@ -83,34 +83,6 @@ input[type=text] {
   <div class='video'>
     <iframe src="http://player.vimeo.com/video/34644668?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff" width="640" height="360" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
   </div>
-{% for item in page.platforms %}
-<div class='video {{item.id}}'>
-<h1>Download TileMill</h1>
-<h2>for {{item.name}}
-  <small class='inline oslist'>
-  Wrong OS?
-  {% for other in page.platforms %}{% unless other.id == item.id %}
-  <a href='#{{other.id}}'>{{other.id|capitalize}}</a>
-  {% endunless%}{% endfor %}
-  </small>
-</h2>
-<div class='actions'>
-  <span class='triangle ne'></span>
-  <span class='triangle nw'></span>
-  <small class='label'>{{item.help}}</small>
-  <a class='em' href='{{item.url}}' title='{{item.name}}'>
-    <span class='icon download'></span> {{item.file}} <small>{{item.size}}</small>
-  </a>
-</div>
-<small class='centered'>
-  <a href='{{site.baseurl}}/docs/install/'>Installing</a> |
-  <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> |
-  <a href='{{site.baseurl}}/docs/changelog/'>Changelog</a> |
-  <a href='{{site.baseurl}}/docs/manual/'>Manual</a> |
-  <a href='http://support.mapbox.com/discussions/tilemill'>Support</a>
-</small>
-</div>
-{% endfor %}
 </div></div>
 
 <div class='limiter clip'><div class='content prose'>
@@ -128,6 +100,7 @@ input[type=text] {
       <form action="http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
       <div class="mc-field-group">
         <label for="mce-EMAIL">Email address </label>
+        <input type="hidden" value="1" name="group[7417][4]">
         <input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL" size='30'>
       </div>
         <div id="mce-responses" class="clear">
