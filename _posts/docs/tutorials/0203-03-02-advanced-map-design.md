@@ -25,12 +25,12 @@ Here is the tornado map at zoom level 4 after sizing the markers based on their 
   ![](/tilemill/assets/pages/zoom-styling-1.png)
 And here is the same map at zoom level 7. Notice that the dots did not scale with the rest of the maps and could be considered too small.
   ![](/tilemill/assets/pages/zoom-styling-2.png)
-With some simple Carto, you can solve this by further **conditioning your styles based on the zoom level**.
+With some simple Carto, you can solve this by **conditioning your styles based on the zoom level**.
 
-The highlighted Carto below is saying to TileMill, 'when the zoom level is 7, apply the following style.' You can do this for as many levels as you wish, and include any kind of styling. This is useful for scaling back the number of dots, icons, and labels as you zoom out so as to prevent messes of overlapping items, and creating a greater level of detail as you zoom in.
+The highlighted Carto below is saying to TileMill, 'when the zoom level is 7, apply the following style.' You can do this for as many levels as you wish, and include any kind of styling. This is useful for scaling back the number of dots, icons, and labels as you zoom out, and creating a greater level of detail as you zoom in.
   ![](/tilemill/assets/pages/zoom-styling-3.png)
-The following symbols are allowed when conditioning on zoom levels: `=`, `>`, `>=`, `<`, `<=`  
-You can also group by zoom ranges by setting a beginning and an end, like this:
+The following symbols are allowed when conditional statements: `=`, `!=`, `>`, `>=`, `<`, `<=`  
+You can also group by zoom **ranges** by setting a beginning and an end, like this:
 
     [zoom >= 4][zoom <=8] {
       …styling…
@@ -43,6 +43,22 @@ Take the tornado map for example. At the national level it is quite cluttered an
 With this particular data we were able to aggregate to the state level using a [pivot table](/tilemill/docs/tutorials/google-docs/) and then [geocoded](/tilemill/docs/tutorials/google-docs/) the state points. Add this newly created data to the project as a new layer. Then simply add zoom level conditions after the layer names in your carto code, and continue to style normally.
   ![](/tilemill/assets/pages/zoom-styling-4.png)
   ![](/tilemill/assets/pages/zoom-styling-5.png)
+
+You can also use this same syntax to display or hide places on the map where a field in your data meets a certain criteria. For example, the code below will only show points on the #tornado layer for Oklahoma:
+
+    #tornadoes [state = "OK"] {
+      …styling…
+    }
+
+  ![](/tilemill/assets/pages/zoom-styling-6.png)
+
+The reverse is also possible. Show states that are not Oklahoma:
+
+    #tornadoes [state != "OK"] {
+      …styling…
+    }
+
+  ![](/tilemill/assets/pages/zoom-styling-7.png)
 
 ### Text Labels
 
