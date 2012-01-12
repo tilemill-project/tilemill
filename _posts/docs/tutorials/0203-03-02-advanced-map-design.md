@@ -17,13 +17,9 @@ nextup:
 
 This guide will cover some of the more advanced techniques you can employ in TileMill to take your map to the next level. For demonstration, we will continue to work with the 2010 tornado data from the [preparing data with Google Docs guide](/tilemill/docs/tutorials/google-docs/).
 
-1. [Styling for Zoom Levels](#zoomlevels)
-2. [Text Labels](#labeling)
-3. [Exporting for Compositing](#exporting)
+### Styling for Zoom Levels
 
-<h2 id="zoomlevels">Styling for Zoom Levels</h2>
-
-Interactive maps give users the ability to change the scale by zooming in or out and we must design them accordingly. Assuming you have [imported your point data] and done some [initial styling], it is time to start thinking about how your map will look at different zoom levels.
+Interactive maps give users the ability to change the scale by zooming in or out and we must design them accordingly. Assuming you have [imported your point data](/tilemill/docs/tutorials/point-data/) and done some initial styling, it is time to start thinking about how your map will look at different zoom levels.
 
 Here is the tornado map at zoom level 4 after sizing the markers based on their intensity (f-scale).
   ![](/tilemill/assets/pages/zoom-styling-1.png)
@@ -44,11 +40,11 @@ You can also group by zoom ranges by setting a beginning and an end, like this:
 
 Take the tornado map for example. At the national level it is quite cluttered and hard to decipher individual points where there are clusters. At this zoom level, one option might be to display a scaled dot for each state that represents total number of tornadoes that occurred in that state. Then, as the user zooms in, the state-level layer goes away and the individual tornado points appear.
 
-With this particular data we were able to aggregate to the state level using a [pivot table](/tilemill/docs/tutorials/google-docs/#pivot) and then [geocoded](/tilemill/docs/tutorials/google-docs/#geocoding) the state points. Add this newly created data to the project as a new layer. Then simply add zoom level conditions after the layer names in your carto code, and continue to style normally.
+With this particular data we were able to aggregate to the state level using a [pivot table](/tilemill/docs/tutorials/google-docs/) and then [geocoded](/tilemill/docs/tutorials/google-docs/) the state points. Add this newly created data to the project as a new layer. Then simply add zoom level conditions after the layer names in your carto code, and continue to style normally.
   ![](/tilemill/assets/pages/zoom-styling-4.png)
   ![](/tilemill/assets/pages/zoom-styling-5.png)
 
-<h2 id="labeling">Text Labels</h2>
+### Text Labels
 
 In order to deliver information on a map more immediately, sometimes it is useful to label your data with the actual number or feature that is being represented. This can be combined with the dot or just be a label on its own.
 
@@ -66,7 +62,7 @@ This allows the text and the dots to be displayed together at the same location.
 
 That is all you need to get started with **labels**. The same idea applies to placename labels as well. You can further style them with the `text-` style parameters, changing things like size, color, opacity, placement, and more.
 
-<h2 id="exporting">Exporting for Compositing</h2>
+### Exporting for Compositing
 
 When your map contains multiple levels of data as our tornado map does, it is sometimes wise to export each level separately. This has multiple benefits. Firstly, it compartmentalizes your map so that when updating you may not have to re-export the entire map. Secondly, it gives you greater flexibility when [compositing](http://mapbox.com/hosting/compositing/).
 
