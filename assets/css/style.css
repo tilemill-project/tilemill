@@ -1124,10 +1124,13 @@ input[type=submit]:active {
 
 input.cancel,
 input.cancel:hover {
-  background:#eee;
-  color:#999;
+  background:#fff;
+  color:#666;
   border-color:#ccc;
   }
+
+#popup input.cancel,
+#drawer input.cancel { background:#eee; }
 
 input.cancel:active {
   background:#ddd;
