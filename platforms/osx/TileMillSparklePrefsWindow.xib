@@ -47,7 +47,7 @@
 			<object class="NSWindowTemplate" id="1005">
 				<int key="NSWindowStyleMask">7</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{196, 240}, {456, 174}}</string>
+				<string key="NSWindowRect">{{196, 240}, {475, 174}}</string>
 				<int key="NSWTFlags">544735232</int>
 				<string key="NSWindowTitle">Updates Preferences</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -218,7 +218,7 @@
 						<object class="NSTextField" id="205455758">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{146, 55}, {293, 42}}</string>
+							<string key="NSFrame">{{146, 55}, {312, 42}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="6107379"/>
@@ -248,14 +248,14 @@
 						<object class="NSTextField" id="1068273983">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{258, 23}, {181, 14}}</string>
+							<string key="NSFrame">{{258, 23}, {200, 14}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="290031924">
-								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">272760832</int>
+								<int key="NSCellFlags">67239488</int>
+								<int key="NSCellFlags2">272762880</int>
 								<string key="NSContents">last check date goes here</string>
 								<reference key="NSSupport" ref="26"/>
 								<reference key="NSControlView" ref="1068273983"/>
@@ -330,7 +330,7 @@
 							</object>
 						</object>
 					</object>
-					<string key="NSFrameSize">{456, 174}</string>
+					<string key="NSFrameSize">{475, 174}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="834541364"/>
