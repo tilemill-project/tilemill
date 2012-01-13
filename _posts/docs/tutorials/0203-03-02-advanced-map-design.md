@@ -44,7 +44,7 @@ With this particular data we were able to aggregate to the state level using a [
   ![](/tilemill/assets/pages/zoom-styling-4.png)
   ![](/tilemill/assets/pages/zoom-styling-5.png)
 
-You can also use this same syntax to display or hide places on the map where a field in your data meets a certain criteria. For example, the code below will only show points on the #tornado layer for Oklahoma:
+You can also use this same syntax to display or hide features on the map where a field in your data **meets a certain criteria**. For example, the code below will only show points on the #tornado layer for Oklahoma. "state" is the name of a field in the tornado data that contains state abbreviations.
 
     #tornadoes [state = "OK"] {
       …styling…
@@ -66,8 +66,9 @@ In order to deliver information on a map more immediately, sometimes it is usefu
 
 For our tornado map, we have decided to display the total number of tornadoes inside the state-level dots. To do this we need to add a just a few lines to the layer's carto:
   ![](/tilemill/assets/pages/label-styling-1.png)
+
 1. `::label`  
-This creates a new **symbolizer** for your layer. The name 'label' here is arbitrary, you can call it whatever you like.  
+This creates a new **symbolizer** for your layer. The name 'label' here is arbitrary, you can call it whatever you like. The position of the symbolizer in Carto determines the order of the its rendering. The first code in a Carto layer is rendered first on the map and will be **below** anything that is rendered after it. Therefore, if you need a layer feature to be on **top**, like we do with the labels, it must come last in the code.
 2. `text-name`  
 This denotes the **field** whose text will be displayed.  
 3. `text-face-name`  
@@ -77,6 +78,18 @@ This sets the **font** for the text label. You can view a list of available font
 This allows the text and the dots to be displayed together at the same location. By default this option is set to false, which prevents overlapping items.
 
 That is all you need to get started with **labels**. The same idea applies to placename labels as well. You can further style them with the `text-` style parameters, changing things like size, color, opacity, placement, and more.
+
+### Images as Icons
+
+TileMill supports using **SVG (Scalable Vector Graphic)** images as markers on your map. It is possible that we could use a custom-made tornado icon in place of the circle markers. The first thing you need is the SVG file saved somewhere on your system, preferably in your project folder for the sake of organization (Documents/MapBox/project/project-name/). Then it's all in the Carto.
+  ![](/tilemill/assets/pages/svg-icons-1.png)
+
+1. `point-file`  
+This designates the **path** to the SVG relative to your project folder. In this case the SVG is located in Documents/MapBox/project/2010-tornadoes/icons/.  
+2. `point-allow-overlap`  
+Like other `-allow-overlap` parameters, this allows the images to be displayed even if they will be on top of each other.  
+3. `point-transform`  
+This is the parameter used to **scale** and **move** the image, among other things. A value of `"scale(1)"` will display the image at its original size, while `"scale(0.5)"` will display it at 50%. You can also use this property to move the image vertically and horizontally by using the property `"translate()"`. For example, the value `"translate(20, -40)"` will move the image 20 pixels to the right and 40 pixels up. There are several other properties that you can employ with `point-transform`. [Learn about them on W3](http://www.w3.org/TR/SVG/coords.html#TransformAttribute).
 
 ### Exporting for Compositing
 
@@ -99,7 +112,7 @@ We now have two MBTiles with their own interactivity that we can composite toget
 Here is the final map:
 <iframe width='600' height='400' frameBorder='0' src='http://a.tiles.mapbox.com/v3/matt.map-awiyx38h.html#4/40/-96'> </iframe>
 
-And the complete project Carto code for reference:
+And the final project Carto code for reference:
 
 	Map {
 	  background-color: #b8dee6;
