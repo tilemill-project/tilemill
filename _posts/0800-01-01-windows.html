@@ -44,13 +44,13 @@ permalink: /windows
   margin:0px;
   position:absolute;
   right:140px;
-  top:40px;  
+  top:20px;
   }
 
 #bleed .heading {
   text-align:center;
   position: absolute;
-  top:420px;
+  top:400px;
   width:740px;
   left: 90px;
   color:#fff;
@@ -105,34 +105,31 @@ input[type=button]:hover, .button.small:hover {
   background: #222;
 }
 
-#mc_embed_signup {
-  margin-left: 260px;
-}
-   
 .insplash {
   position: absolute;
-  top: 480px;
-  width: 920px;
+  top: 450px;
+  left:195px;
+  width:540px;
+  text-align:center;
 }
 
-.insplash p{
+.insplash p {
   font-weight: bold;
   text-align: center;
   margin-bottom: 10px;
   }
 
-#mce-EMAIL {
-  line-height: 10px;
-}  
+.field-wrapper,
+#mc_embed_signup input[type='submit'] { float:left; }
 
   #mc_embed_signup div.mce_inline_error {
     font-weight:normal;
     font-size:11px;
     color: #444;
-    height: 40px;
     background:transparent;
     padding:2px 0px;
     margin: 0px;
+    text-align:left;
     }
 
   #mc_embed_signup input.mce_inline_error { border-color:#ddd; }
@@ -143,9 +140,12 @@ input[type=button]:hover, .button.small:hover {
     margin: 0px;
     padding:2px 0px;
     font-size:11px;
-
+    line-height:16px;
     }
-    
+
+  .mc-field-group {
+    margin:0px 0px 0px 80px;
+    }
 </style>
 
 <div id='bleed' class='mac'><div class='limiter'>
@@ -153,17 +153,17 @@ input[type=button]:hover, .button.small:hover {
     <iframe src="http://player.vimeo.com/video/34644668?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff" width="640" height="360" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
   </div>
   <div class='heading'>
-    <h1>TileMill for Windows is Coming January 2012</h1>
+    <h1>TileMill for Windows is coming January 2012.</h1>
   </div>
-  <div class='col-4 insplash'>
+  <div class='insplash'>
         <p>Subscribe to our newsletter and be the first to hear when it's ready.</p>
 
       <!-- Begin MailChimp Signup Form -->
       <div id="mc_embed_signup" class=''>
         <form action="http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
-        <div class="mc-field-group inline">
-          <input type="hidden" value="1" name="group[7417][4]">
-          <input type="text" value="" name="EMAIL" class="required email" placeholder="E-mail Address" id="mce-EMAIL">
+        <div class="mc-field-group clearfix">
+          <input type="hidden" value="1" name="group[7417][2]">
+          <div class='field-wrapper'><input type='text' value='' name='EMAIL' class='required email' id='mce-EMAIL'></div>
           <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class='button small'>
         </div>
           <div id="mce-responses">
@@ -173,7 +173,6 @@ input[type=button]:hover, .button.small:hover {
         </form>
       </div>
       <!--End mc_embed_signup-->
-     
   </div>
 
 </div></div>
