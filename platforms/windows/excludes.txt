@@ -10,6 +10,7 @@
 \expresso\
 \mocha\
 \ipch\
+\include\
 .gitignore
 .svn
 Makefile
