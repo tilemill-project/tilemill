@@ -21,10 +21,6 @@ function start(id, callback) {
         if (err || data.status !== 'waiting') return callback();
 
         var args = [];
-        // nice the export process.
-        args.push('-n19');
-        // node command
-        args.push(process.execPath);
         // tilemill index.js
         args.push(path.resolve(path.join(__dirname + '/../index.js')));
         // export command
@@ -46,7 +42,7 @@ function start(id, callback) {
         if (!_(data.minzoom).isUndefined()) args.push('--minzoom=' + data.minzoom);
         if (!_(data.maxzoom).isUndefined()) args.push('--maxzoom=' + data.maxzoom);
 
-        var child = spawn('nice', args, {
+        var child = spawn(process.execPath, args, {
             env: _(process.env).extend({
                 tilemillConfig:JSON.stringify(settings)
             }),

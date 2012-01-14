@@ -29,6 +29,12 @@ view = Backbone.View.extend({
                 model.destroy({
                     success: _(function() {
                         this.collection.remove(model);
+                        // Reset the project nav item to be disabled if
+                        // set to the project that is being deleted.
+                        if ($('.bleed .editor').attr('href') === '#/project/' + model.id)
+                            $('.bleed .editor')
+                                .removeAttr('href')
+                                .addClass('disabled');
                     }).bind(this),
                     error: _(function(model, err) {
                         new views.Modal(err);

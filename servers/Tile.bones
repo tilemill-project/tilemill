@@ -7,6 +7,16 @@ var readdir = require('../lib/fsutil.js').readdir;
 
 server = Bones.Server.extend({});
 server.prototype.port = 20008;
+server.prototype.start = function(callback) {
+    if (this.plugin.config.tileSocket) {
+        this.port = null;
+        this.listen(this.plugin.config.tileSocket, callback);
+    } else if (this.port) {
+        this.listen(this.port, this.plugin.config.listenHost, callback);
+    }
+    return this;
+};
+
 server.prototype.initialize = function() {
     _.bindAll(this, 'thumb', 'load', 'mbtiles');
     this.port = settings.tilePort || this.port;

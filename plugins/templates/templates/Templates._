@@ -39,7 +39,7 @@
     <div class='description toggler'>
       <select name='interactivity.layer'>
         <option value=''>-- disabled --</option>
-        <% get('Layer').each(function(layer) { %>
+        <% _(get('Layer').toArray().reverse()).each(function(layer) { %>
           <option <% if (interactivity.layer === layer.get('id')) { %>selected='selected'<% } %> value='<%= layer.get('id') %>'><%= layer.get('id') %></option>
         <% }); %>
       </select>

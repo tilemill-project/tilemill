@@ -259,9 +259,7 @@ model.prototype.save = function(attrs, options) {
             this.trigger('saved');
             options && options.success && options.success(m, resp);
         }).bind(this),
-        error: _(function(m, resp) {
-            options && options.error && options.error(m, resp);
-        }).bind(this)
+        error: (options || {}).error
     });
 };
 

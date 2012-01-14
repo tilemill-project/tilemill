@@ -63,7 +63,7 @@
         [formatter setDateStyle:NSDateFormatterLongStyle];
         [formatter setTimeStyle:NSDateFormatterShortStyle];
         
-        return [NSString stringWithFormat:@"Last checked %@", [formatter stringFromDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"SULastCheckTime"]]];
+        return [NSString stringWithFormat:@"Checked %@", [formatter stringFromDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"SULastCheckTime"]]];
     }
 
     return @"Never checked";

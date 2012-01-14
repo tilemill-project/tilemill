@@ -2,7 +2,7 @@
 section: documentation
 layout: book
 category: TileMill
-tag: installation
+tag: Installation
 title: Installing
 permalink: /docs/linux-install
 hidden: true
@@ -36,6 +36,6 @@ If you're terminal savy, you can install TileMill with the following commands:
 
     sudo add-apt-repository ppa:developmentseed/mapbox
     sudo apt-get update
-    sudo install tilemill
+    sudo apt-get install tilemill
 
 {% include nextup.html %}

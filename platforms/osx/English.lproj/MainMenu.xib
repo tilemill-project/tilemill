@@ -665,6 +665,15 @@
 									<reference key="NSOnImage" ref="1069444490"/>
 									<reference key="NSMixedImage" ref="495418515"/>
 								</object>
+								<object class="NSMenuItem" id="1049146182">
+									<reference key="NSMenu" ref="395876340"/>
+									<string key="NSTitle">Enter Full Screen</string>
+									<string key="NSKeyEquiv">f</string>
+									<int key="NSKeyEquivModMask">1310720</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="1069444490"/>
+									<reference key="NSMixedImage" ref="495418515"/>
+								</object>
 								<object class="NSMenuItem" id="304194388">
 									<reference key="NSMenu" ref="395876340"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -1080,6 +1089,14 @@
 					<int key="connectionID">359</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleFullScreen:</string>
+						<reference key="source" ref="106007410"/>
+						<reference key="destination" ref="1049146182"/>
+					</object>
+					<int key="connectionID">437</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: self.searchTask.launched</string>
 						<reference key="source" ref="255442977"/>
@@ -1420,6 +1437,7 @@
 							<reference ref="247744988"/>
 							<reference ref="1030213830"/>
 							<reference ref="304194388"/>
+							<reference ref="1049146182"/>
 						</object>
 						<reference key="parent" ref="479580272"/>
 					</object>
@@ -1814,6 +1832,11 @@
 						<reference key="object" ref="8865381"/>
 						<reference key="parent" ref="1056235272"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">436</int>
+						<reference key="object" ref="1049146182"/>
+						<reference key="parent" ref="395876340"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1898,6 +1921,7 @@
 					<string>407.IBPluginDependency</string>
 					<string>422.IBPluginDependency</string>
 					<string>423.IBPluginDependency</string>
+					<string>436.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
 					<string>56.IBPluginDependency</string>
 					<string>57.IBPluginDependency</string>
@@ -1910,6 +1934,7 @@
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2011,7 +2036,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">435</int>
+			<int key="maxID">437</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
