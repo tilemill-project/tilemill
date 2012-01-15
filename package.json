@@ -45,6 +45,7 @@
         "npm": "1.0.x",
         "semver": "1.0.x",
         "optimist": "0.1.x",
+        "topcube": "https://github.com/mapbox/topcube/tarball/master",
         "mkdirp": "~0.2.1"
     },
     "devDependencies": {

@@ -54,10 +54,12 @@ Bones.utils.sliders = function(el, model, options) {
             }
         };
         if ($(ev.target).hasClass('range')) {
-            $('.ui-slider-handle:first', ev.target).text(num($(ev.target).slider('values')[0]));
-            $('.ui-slider-handle:last', ev.target).text(num($(ev.target).slider('values')[1]));
+            ui.values = ui.values || $(ev.target).slider('values');
+            $('.ui-slider-handle:first', ev.target).text(num(ui.values[0]));
+            $('.ui-slider-handle:last', ev.target).text(num(ui.values[1]));
         } else {
-            $('.ui-slider-handle', ev.target).text(num($(ev.target).slider('value')));
+            ui.value = ui.value || $(ev.target).slider('value');
+            $('.ui-slider-handle', ev.target).text(num(ui.value));
         }
     };
     var set = function(ev, ui) {
