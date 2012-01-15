@@ -52,8 +52,7 @@ command.prototype.initialize = function(plugin, callback) {
 
     if (!plugin.config.server) plugin.children['core'].stderr.on('data', function(d) {
         if (!d.toString().match(/Started \[Server Core:\d+\]./)) return;
-        console.warn('Starting webkit UI.');
-        plugin.children['webkit'] = require('topcube')({
+        var client = require('topcube')({
             url: 'http://' + plugin.config.coreUrl,
             name: 'TileMill',
             width: 800,
@@ -61,6 +60,10 @@ command.prototype.initialize = function(plugin, callback) {
             minwidth: 800,
             minheight: 400
         });
+        if (client) {
+            console.warn('Client window created.');
+            plugin.children['client'] = client;
+        }
     });
 
     callback && callback();
