@@ -1,9 +1,16 @@
 var path = require('path');
 var spawn = require('child_process').spawn;
 var defaults = models.Config.defaults;
+var command = commands['start'];
 
-commands['start'].options['port'] = { 'default': defaults.port };
-commands['start'].options['coreUrl'] = { 'default': defaults.coreUrl };
+command.options['server'] = {
+    'title': 'server=1|0',
+    'description': 'Run TileMill in windowless mode.',
+    'default': defaults.server
+};
+
+command.options['port'] = { 'default': defaults.port };
+command.options['coreUrl'] = { 'default': defaults.coreUrl };
 
 // Retrieve args to pass to child process here
 // prior to Bones filtering out options.
@@ -16,7 +23,7 @@ var args = _(require('optimist').argv).chain()
     .compact()
     .value();
 
-commands['start'].prototype.initialize = function(plugin, callback) {
+command.prototype.initialize = function(plugin, callback) {
     // Process args.
     plugin.config.server = Boolean(plugin.config.server);
 
@@ -59,7 +66,7 @@ commands['start'].prototype.initialize = function(plugin, callback) {
     callback && callback();
 };
 
-commands['start'].prototype.child = function(name) {
+command.prototype.child = function(name) {
     Bones.plugin.children[name] = spawn(process.execPath, [
         path.resolve(path.join(__dirname + '/../index.js')),
         name
