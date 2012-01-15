@@ -38,6 +38,12 @@ Bones.Command.options['updates'] = {
     'default': true
 };
 
+Bones.Command.options['server'] = {
+    'title': 'server=1|0',
+    'description': 'Run TileMill in windowless mode.',
+    'default': defaults.server
+};
+
 Bones.Command.options['updatesTime'] = { 'default': 0 };
 Bones.Command.options['updatesVersion'] = { 'default': '0.0.1' };
 
