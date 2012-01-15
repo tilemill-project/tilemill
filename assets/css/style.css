@@ -341,6 +341,15 @@ small { font-size:11px; }
     inset rgba(255,255,255,0.2) 0px -1px;
   }
 
+.bleed a.disabled,
+.bleed a.disabled:hover {
+  color:#666;
+  background:transparent;
+  box-shadow:none;
+  text-shadow:none;
+  }
+.bleed a.disabled .i30 { opacity:0.2; }
+
 .bleed a .i30 {
   position:absolute;
   left:15px;
