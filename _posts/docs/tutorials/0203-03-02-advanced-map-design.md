@@ -72,8 +72,7 @@ This creates a new **symbolizer** for your layer. The name 'label' here is arbit
 2. `text-name`  
 This denotes the **field** whose text will be displayed.  
 3. `text-face-name`  
-This sets the **font** for the text label. You can view a list of available font's by clicking the **font button** in the lower left.
-  ![](/tilemill/assets/pages/label-styling-2.png)
+This sets the **font** for the text label. You can view a list of available system fonts by clicking the **font button (A)** in the upper right.
 4. `text-allow-overlap`  
 This allows the text and the dots to be displayed together at the same location. By default this option is set to false, which prevents overlapping items.
 
@@ -190,7 +189,7 @@ And the final project Carto code for reference:
 	  }
 	  ::labels {
 	    text-name:"[tornadoes]";
-	    text-face-name:"Aller Regular";
+	    text-face-name:"Arial Bold";
 	    text-allow-overlap:true;
 	    [zoom = 3]{
 	      [tornadoes < 25]{text-opacity:0;}

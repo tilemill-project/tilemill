@@ -27,7 +27,7 @@ Another big advantage with html/css is that you can easily pass the source code 
 Copy and paste the block of code directly into TileMill's legend field. Then follow this guide to tweak the template for your own purposes.
   ![](/tilemill/assets/pages/advanced-legends-3.png)
 
-**1. Horizontal Sequential
+**1. Horizontal Sequential**
   ![](/tilemill/assets/pages/advanced-legends-2.png)
 
     <div class='my-legend'>
