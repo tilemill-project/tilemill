@@ -93,6 +93,7 @@ view.prototype.render = function() {
             if (e < -180) e += 360; else if (e > 180) e -= 360;
             this.$('input[name=bounds]').val([w,s,e,n].join(','));
             if (this.$('input[name=width]').size()) this.updateSize();
+            if (this.$('.slider').size()) this.updateTotal();
         }).bind(this));
         this.boxselector.extent(extent);
     }

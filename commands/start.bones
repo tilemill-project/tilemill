@@ -1,5 +1,16 @@
 var path = require('path');
 var spawn = require('child_process').spawn;
+var defaults = models.Config.defaults;
+var command = commands['start'];
+
+command.options['server'] = {
+    'title': 'server=1|0',
+    'description': 'Run TileMill in windowless mode.',
+    'default': defaults.server
+};
+
+command.options['port'] = { 'default': defaults.port };
+command.options['coreUrl'] = { 'default': defaults.coreUrl };
 
 // Retrieve args to pass to child process here
 // prior to Bones filtering out options.
@@ -12,10 +23,24 @@ var args = _(require('optimist').argv).chain()
     .compact()
     .value();
 
-commands['start'].prototype.initialize = function(plugin, callback) {
+command.prototype.initialize = function(plugin, callback) {
+    // Process args.
+    plugin.config.server = Boolean(plugin.config.server);
+
+    // Default out the coreUrl, needed to point the client
+    // window at the right URL.
+    plugin.config.coreUrl = plugin.config.coreUrl ||
+        'localhost:' + plugin.config.port;
+
     Bones.plugin.command = this;
     Bones.plugin.children = {};
     process.title = 'tilemill';
+    process.on('exit', function() {
+        _(Bones.plugin.children).chain()
+            .pluck('pid')
+            .each(function(pid) { process.kill(pid, 'SIGINT') });
+        process.kill(process.pid, 'SIGINT');
+    });
     process.once('SIGUSR2', function() {
         _(Bones.plugin.children).chain()
             .pluck('pid')
@@ -24,10 +49,27 @@ commands['start'].prototype.initialize = function(plugin, callback) {
     });
     this.child('core');
     this.child('tile');
+
+    if (!plugin.config.server) plugin.children['core'].stderr.on('data', function(d) {
+        if (!d.toString().match(/Started \[Server Core:\d+\]./)) return;
+        var client = require('topcube')({
+            url: 'http://' + plugin.config.coreUrl,
+            name: 'TileMill',
+            width: 800,
+            height: 600,
+            minwidth: 800,
+            minheight: 400
+        });
+        if (client) {
+            console.warn('Client window created.');
+            plugin.children['client'] = client;
+        }
+    });
+
     callback && callback();
 };
 
-commands['start'].prototype.child = function(name) {
+command.prototype.child = function(name) {
     Bones.plugin.children[name] = spawn(process.execPath, [
         path.resolve(path.join(__dirname + '/../index.js')),
         name
