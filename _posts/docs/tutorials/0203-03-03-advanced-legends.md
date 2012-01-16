@@ -145,3 +145,14 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
         color: #777;
         }
     </style>
+
+### The wax-legend class
+
+TileMill legends are contained within an element with the class `wax-legend`. This is why you see it included in each selector in the above style sections. This class is attributed several default styles, including a `max-width` of 280 pixels and a `max-height` of 400 pixels. Under normal circumstances this should be plenty large enough. You'll know they're not if you see a scrollbar in your legend. In case you ever need to change these, here's how.
+
+Inside the `<style></style>` tags add a selector for `wax-legend` and declare the new value(s). For values that are overriding previous declarations, you will likely need to add the `!important` tag. Say you want to increase the width to 300 pixels:
+
+    .wax-legend {
+      max-width: 300px !important;
+      }
+
