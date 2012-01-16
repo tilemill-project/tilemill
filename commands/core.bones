@@ -11,39 +11,33 @@ command = Bones.Command.extend();
 
 command.description = 'start ui server';
 
-Bones.Command.options['host'] = {
-    'title': 'host=[host(s)]',
-    'description': 'Accepted hosts.',
-    'default': false
-};
-
-Bones.Command.options['port'] = {
+command.options['port'] = {
     'title': 'port=[port]',
     'description': 'Server port.',
     'default': defaults.port
 };
 
-Bones.Command.options['tilePort'] = {
+command.options['tilePort'] = {
     'title': 'tilePort=[port]',
     'description': 'Tile server port.',
     'default': defaults.tilePort
 };
 
-Bones.Command.options['coreSocket'] = {
+command.options['coreSocket'] = {
     'title': 'coreSocket=[/path/to/socket]',
     'description': 'Server port socket, overrides `port` option.',
 };
 
-Bones.Command.options['tileSocket'] = {
+command.options['tileSocket'] = {
     'title': 'tileSocket=[/path/to/socket]',
     'description': 'Tile server socket, overrides `tilePort` option.',
 };
 
-Bones.Command.options['coreUrl'] = {
+command.options['coreUrl'] = {
     'title': 'coreUrl=[host:port]'
 };
 
-Bones.Command.options['tileUrl'] = {
+command.options['tileUrl'] = {
     'title': 'tileUrl=[host:port]'
 };
 
@@ -65,10 +59,20 @@ command.options['listenHost'] = {
     'default': defaults.listenHost
 };
 
+command.options['updates'] = {
+    'title': 'updates=1|0',
+    'description': 'Automatically check for TileMill updates.',
+    'default': true
+};
+
+command.options['updatesTime'] = { 'default': 0 };
+command.options['updatesVersion'] = { 'default': '0.0.1' };
+
 command.prototype.bootstrap = function(plugin, callback) {
     process.title = 'tilemill-ui';
 
     var settings = Bones.plugin.config;
+    settings.host = false;
     settings.files = path.resolve(settings.files);
     settings.coreUrl = settings.coreUrl || 'localhost:' + settings.port;
     settings.tileUrl = settings.tileUrl || 'localhost:' + settings.tilePort;
@@ -107,7 +111,7 @@ command.prototype.bootstrap = function(plugin, callback) {
         console.warn('Creating files dir %s', settings.files);
         fsutil.mkdirpSync(settings.files, 0755);
     }
-    ['export', 'project', 'cache', 'cache/tile'].forEach(function(key) {
+    ['export', 'project', 'cache'].forEach(function(key) {
         var dir = path.join(settings.files, key);
         if (!path.existsSync(dir)) {
             console.warn('Creating %s dir %s', key, dir);
@@ -116,8 +120,9 @@ command.prototype.bootstrap = function(plugin, callback) {
                 var examples = path.resolve(path.join(__dirname, '..', 'examples'));
                 fsutil.cprSync(examples, dir);
             } else if (key === 'cache' && settings.sampledata) {
-                var data = path.resolve(path.join(__dirname, '..', 'data'));
-                fsutil.cprSync(data, dir);
+                var shapefile = '82945364-10m-admin-0-countries';
+                var data = path.resolve(path.join(__dirname, '..', 'data', shapefile));
+                fsutil.cprSync(data, path.resolve(path.join(dir, shapefile)));
             }
         }
     });
@@ -197,11 +202,10 @@ command.prototype.bootstrap = function(plugin, callback) {
         if (!_(resp).toArray()[0].version) throw new Error('No version for TileMill package.');
         console.warn('Latest version of TileMill is %s.', _(resp).toArray()[0].version);
 
-        if (settings.updatesVersion === _(resp).toArray()[0].version) return this();
-        new models.Config(_({
+        (new models.Config).save({
             updatesVersion: _(resp).toArray()[0].version,
             updatesTime: Date.now()
-        }).defaults(settings)).save({}, {
+        }, {
             success: function(m, resp) { this(); }.bind(this),
             error: function(m, err) { this(err); }.bind(this)
         });

@@ -32,12 +32,5 @@ Bones.Command.options['syncAccessToken'] = {
     'default': defaults.syncAccessToken || ''
 };
 
-Bones.Command.options['updates'] = {
-    'title': 'updates=1|0',
-    'description': 'Automatically check for TileMill updates.',
-    'default': true
-};
-
-Bones.Command.options['updatesTime'] = { 'default': 0 };
-Bones.Command.options['updatesVersion'] = { 'default': '0.0.1' };
-
+// Host option is unused.
+delete Bones.Command.options.host;

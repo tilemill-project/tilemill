@@ -12,6 +12,21 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+# - version: 0.9.0
+#   date:
+#   size:
+#   sign:
+#
+#   notes:
+#   - Plugin system for UI components.
+#   - Core app & tile servers are now separate processes.
+#   - Redesigned UI with global sidebar navigation.
+#   - Redesigned UI for export and project settings.
+#   - Native webkitgtk based browser window for Linux version.
+#   - Datasource downloads and other mapnik-intensive operations can now be cancelled.
+#   - Upload export command for rendering and uploading at once.
+#   - Project thumbnails are now cached at save time to a `.thumb.png` file local to each project.
+
 - version: 0.8.0.121
   dev: true
   date: 2011-12-23
