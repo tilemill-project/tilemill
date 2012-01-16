@@ -14,7 +14,7 @@
 <body>
 
 <div class='bleed'>
-  <a class='editor'><span class='icon i30 editor'></span>Editor</a>
+  <a class='editor disabled'><span class='icon i30 editor'></span>Editor</a>
   <a class='projects' href='#/'><span class='icon i30 projects'></span>Projects</a>
   <a class='manual' href='#/manual'><span class='icon i30 manual'></span>Manual</a>
   <a class='plugins' href='#/plugins'><span class='icon i30 plugins'></span>Plugins</a>

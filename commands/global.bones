@@ -32,3 +32,5 @@ Bones.Command.options['syncAccessToken'] = {
     'default': defaults.syncAccessToken || ''
 };
 
+// Host option is unused.
+delete Bones.Command.options.host;

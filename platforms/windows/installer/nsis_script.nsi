@@ -55,7 +55,7 @@ Section "MainSection" SEC01
   SetOverwrite try
 
   ;; Base Installation
-  File /r /x *Recycle.Bin* /x Makefil* /x .git* /x *.vcx* /x *.ipch /x ipch /x AppData /x test /x deps /x include /x expresso /x osx /x ubuntu /x virtualbox /x *.idx /x *.pack /x *.sln /x *.sdf ..\..\..\..\tilemill
+  File /r /x *Recycle.Bin* /x installer /x demo /x *.git /x *.git* /x Makefil* /x test /x *.vcx* /x *.ipch /x ipch /x AppData /x deps /x include /x expresso /x osx /x ubuntu /x virtualbox /x *.idx /x *.pack /x *.sln /x *.sdf ..\..\..\..\tilemill\*.*
   ;; Setup and un-install scripts.  Execute setup now.
   ;;File "setup.bat"
   ;;ExecWait '"$INSTDIR\setup.bat"'
@@ -68,7 +68,7 @@ Section -AdditionalIcons
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   ;WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Start TileMill.lnk" "$INSTDIR\tilemill\platforms\windows\run-tilemill.bat"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Start TileMill.lnk" "$INSTDIR\platforms\windows\run-tilemill.bat"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk" "$INSTDIR\uninst.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
@@ -95,7 +95,7 @@ FunctionEnd
 
 Section Uninstall
   Delete "$INSTDIR\uninst.exe"
-  RMDir /r "$INSTDIR\tilemill"
+  RMDir /r "$INSTDIR\*.*"
   RMDir "$INSTDIR"
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
   Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
