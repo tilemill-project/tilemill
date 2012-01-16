@@ -111,7 +111,7 @@ command.prototype.bootstrap = function(plugin, callback) {
         console.warn('Creating files dir %s', settings.files);
         fsutil.mkdirpSync(settings.files, 0755);
     }
-    ['export', 'project', 'cache', 'cache/tile'].forEach(function(key) {
+    ['export', 'project', 'cache'].forEach(function(key) {
         var dir = path.join(settings.files, key);
         if (!path.existsSync(dir)) {
             console.warn('Creating %s dir %s', key, dir);
@@ -120,8 +120,9 @@ command.prototype.bootstrap = function(plugin, callback) {
                 var examples = path.resolve(path.join(__dirname, '..', 'examples'));
                 fsutil.cprSync(examples, dir);
             } else if (key === 'cache' && settings.sampledata) {
-                var data = path.resolve(path.join(__dirname, '..', 'data'));
-                fsutil.cprSync(data, dir);
+                var shapefile = '82945364-10m-admin-0-countries';
+                var data = path.resolve(path.join(__dirname, '..', 'data', shapefile));
+                fsutil.cprSync(data, path.resolve(path.join(dir, shapefile)));
             }
         }
     });
