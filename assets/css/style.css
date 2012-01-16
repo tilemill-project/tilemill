@@ -1410,7 +1410,6 @@ ul.form.expand .browser { display:block; }
   -webkit-border-radius:3px;
   }
 
-.library .assets a:hover { background:#fff; }
 .library .assets a:active { background:#ccc; }
 
 .library .assets div.description {
@@ -1811,4 +1810,5 @@ ul.grid li {
 
 /* Fix for sprite-clipping fail in webkit : | */
 .exports .status a,
+.features .buttons a,
 .pane .pane-actions a { position:relative; }
