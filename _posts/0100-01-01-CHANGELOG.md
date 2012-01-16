@@ -23,6 +23,8 @@ releases:
 #   - Redesigned UI with global sidebar navigation.
 #   - Redesigned UI for export and project settings.
 #   - Native webkitgtk based browser window for Linux version.
+#   - Native CEF (chromium embedded) browser window for Windows version.
+#   - Added `server` commandline/config option for running TileMill without a window.
 #   - Datasource downloads and other mapnik-intensive operations can now be cancelled.
 #   - Upload export command for rendering and uploading at once.
 #   - Project thumbnails are now cached at save time to a `.thumb.png` file local to each project.
