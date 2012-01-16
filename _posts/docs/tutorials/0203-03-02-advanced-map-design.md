@@ -27,9 +27,9 @@ And here is the same map at zoom level 7. Notice that the dots did not scale wit
   ![](/tilemill/assets/pages/zoom-styling-2.png)
 With some simple Carto, you can solve this by **conditioning your styles based on the zoom level**.
 
-The highlighted Carto below is saying to TileMill, 'when the zoom level is 7, apply the following style.' You can do this for as many levels as you wish, and include any kind of styling. This is useful for scaling back the number of dots, icons, and labels as you zoom out, and creating a greater level of detail as you zoom in.
+The highlighted Carto below is saying to TileMill, "when the zoom level is 7, apply the following style." You can do this for as many levels as you wish, and include any kind of styling. This is useful for scaling back the number of dots, icons, and labels as you zoom out, and creating a greater level of detail as you zoom in.
   ![](/tilemill/assets/pages/zoom-styling-3.png)
-The following symbols are allowed when conditional statements: `=`, `!=`, `>`, `>=`, `<`, `<=`  
+The following symbols are allowed in conditional statements: `=`, `!=`, `>`, `>=`, `<`, `<=`  
 You can also group by zoom **ranges** by setting a beginning and an end, like this:
 
     [zoom >= 4][zoom <=8] {
@@ -44,7 +44,7 @@ With this particular data we were able to aggregate to the state level using a [
   ![](/tilemill/assets/pages/zoom-styling-4.png)
   ![](/tilemill/assets/pages/zoom-styling-5.png)
 
-You can also use this same syntax to display or hide features on the map where a field in your data **meets a certain criteria**. For example, the code below will only show points on the #tornado layer for Oklahoma. "state" is the name of a field in the tornado data that contains state abbreviations.
+You can also use this same syntax to single-out features on the map where a field in your data **meets a certain criteria**. For example, the code below will only show points on the #tornado layer for Oklahoma. "state" is the name of a field in the tornado data that contains state abbreviations.
 
     #tornadoes [state = "OK"] {
       …styling…
@@ -97,7 +97,7 @@ When your map contains multiple levels of data as our tornado map does, it is so
 
 Thirdly, **interactivity** can only be active on one layer at a time. This means if we want a hover tooltip for the state-level dots and for the individual dots, we cannot export them together.
 
-When exporting individual pieces of your project, a very helpful tool is the ability to **comment-out** specific Carto code. Anything commented-out will remain in your code, but not render on the map. All this entails is placing `/*` before and `*/` after the code you want to comment-out.
+When exporting individual pieces of your project, a very helpful tool is the ability to **comment-out** specific Carto code. Anything commented-out will remain in your code, but not render on the map. All this entails is placing `/*` before and `*/` after the code you want to comment-out. This is also a way to write comments into the code, hence the name.
 
 We have plans to composite this tornado map with an existing world baselayer available from [Mapbox](http://tiles.mapbox.com/mapbox), so the first thing to do will be to comment-out the default blue and white world base and the state borders.
   ![](/tilemill/assets/pages/exporting-in-pieces-1.png)
