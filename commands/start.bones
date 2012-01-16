@@ -55,7 +55,8 @@ command.prototype.initialize = function(plugin, callback) {
             width: 800,
             height: 600,
             minwidth: 800,
-            minheight: 400
+            minheight: 400,
+            ico: path.resolve(path.join(__dirname + '/../platforms/windows/tilemill.ico'))
         });
         if (client) {
             console.warn('Client window created.');
