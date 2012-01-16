@@ -19,11 +19,11 @@ This guide will cover some of the more advanced techniques you can employ in Til
 
 ### Styling for Zoom Levels
 
-Interactive maps give users the ability to change the scale by zooming in or out and we must design them accordingly. Assuming you have [imported your point data](/tilemill/docs/tutorials/point-data/) and done some initial styling, it is time to start thinking about how your map will look at different zoom levels.
+Interactive maps give users the ability to change the scale by zooming in or out and we must design them accordingly. Assuming you have [imported your point data](/tilemill/docs/tutorials/point-data/) and done some initial styling, it is time to start thinking about how your map will look at different **zoom levels**.
 
-Here is the tornado map at zoom level 4 after sizing the markers based on their intensity (f-scale).
+Here is the tornado map at **zoom level 4** after sizing the markers based on their intensity (f-scale).
   ![](/tilemill/assets/pages/zoom-styling-1.png)
-And here is the same map at zoom level 7. Notice that the dots did not scale with the rest of the maps and could be considered too small.
+And here is the same map at **zoom level 7**. Notice that the dots did not scale with the rest of the maps and could be considered too small.
   ![](/tilemill/assets/pages/zoom-styling-2.png)
 With some simple Carto, you can solve this by **conditioning your styles based on the zoom level**.
 
@@ -88,7 +88,7 @@ This designates the **path** to the SVG relative to your project folder. In this
 2. `point-allow-overlap`  
 Like other `-allow-overlap` parameters, this allows the images to be displayed even if they will be on top of each other.  
 3. `point-transform`  
-This is the parameter used to **scale** and **move** the image, among other things. A value of `"scale(1)"` will display the image at its original size, while `"scale(0.5)"` will display it at 50%. You can also use this property to move the image vertically and horizontally by using the property `"translate()"`. For example, the value `"translate(20, -40)"` will move the image 20 pixels to the right and 40 pixels up. There are several other properties that you can employ with `point-transform`. [Learn about them on W3](http://www.w3.org/TR/SVG/coords.html#TransformAttribute).
+This is the parameter used to **scale** and **move** the image, among other things. A value of `"scale(1)"` will display the image at its original size, while `"scale(0.5)"` and `"scale(2)"` will display it at 50% and 200% respectively. You can also use this property to move the image vertically and horizontally by using the property `"translate()"`. For example, the value `"translate(20, -40)"` will move the image 20 pixels to the right and 40 pixels up. There are several other properties that you can employ with `point-transform`. [Learn about them on W3](http://www.w3.org/TR/SVG/coords.html#TransformAttribute).
 
 ### Exporting for Compositing
 
@@ -100,13 +100,13 @@ When exporting individual pieces of your project, a very helpful tool is the abi
 
 We have plans to composite this tornado map with an existing world baselayer available from [Mapbox](http://tiles.mapbox.com/mapbox), so the first thing to do will be to comment-out the default blue and white world base and the state borders.
   ![](/tilemill/assets/pages/exporting-in-pieces-1.png)
-Notice that the code between the `/*` and `*/` is now greyed-out, and the background of the map is transparent.
+Notice that the code between the `/*` and `*/` is now greyed-out, and the background of the map is **transparent**.
 
 Now we can create a tooltip for the state-level dots, and export. On the export page, be sure to select only the zoom levels for this particular piece of the map.
   ![](/tilemill/assets/pages/exporting-in-pieces-2.png)
 Next we create and switch the tooltip to the individual dots layer, and export. Change the zoom levels and filename accordingly.
   ![](/tilemill/assets/pages/exporting-in-pieces-3.png)
-We now have two MBTiles with their own interactivity that we can composite together with a slick base map.
+We now have two MBTiles with their own interactivity that we can [composite](http://mapbox.com/hosting/compositing/) together with a slick base map.
 
 Here is the final map:
 <iframe width='600' height='400' frameBorder='0' src='http://a.tiles.mapbox.com/v3/matt.map-awiyx38h.html#4/40/-96'> </iframe>
