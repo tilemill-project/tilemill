@@ -23,6 +23,8 @@ Depends: ${shlibs:Depends},
  libsqlite3-0 (>=3.6),
  libsqlite3-dev,
  unzip,
- libmapnik
+ libmapnik,
+ libgtk2.0-dev,
+ libwebkitgtk-dev
 Description: A modern map design studio.
  A modern map design studio powered by open source technology.
