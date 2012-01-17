@@ -35,16 +35,13 @@ command.prototype.initialize = function(plugin, callback) {
     Bones.plugin.command = this;
     Bones.plugin.children = {};
     process.title = 'tilemill';
+    // Kill child processes on exit.
     process.on('exit', function() {
-        _(Bones.plugin.children).chain()
-            .pluck('pid')
-            .each(function(pid) { process.kill(pid, 'SIGINT') });
-        process.kill(process.pid, 'SIGINT');
+        _(Bones.plugin.children).each(function(child) { child.kill(); });
     });
+    // Handle SIGUSR2 for dev integration with nodemon.
     process.once('SIGUSR2', function() {
-        _(Bones.plugin.children).chain()
-            .pluck('pid')
-            .each(function(pid) { process.kill(pid, 'SIGUSR2') });
+        _(Bones.plugin.children).each(function(child) { child.kill('SIGUSR2'); });
         process.kill(process.pid, 'SIGUSR2');
     });
     this.child('core');
