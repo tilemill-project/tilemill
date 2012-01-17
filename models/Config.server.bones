@@ -34,6 +34,7 @@ models.Config.prototype.sync = function(method, model, success, error) {
             'updates',
             'updatesTime',
             'updatesVersion',
+            'profile',
             'guid'
         ];
         var data = _(model.toJSON()).reduce(function(memo, val, key) {
