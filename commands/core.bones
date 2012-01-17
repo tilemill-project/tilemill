@@ -195,11 +195,6 @@ command.prototype.bootstrap = function(plugin, callback) {
     // Config values to save.
     var attr = {};
 
-    // Generate random guid for system profile reporting.
-    if (!settings.guid) attr.guid = crypto.createHash('md5')
-        .update(Date.now() + '')
-        .digest('hex');
-
     // Skip latest TileMill version check if disabled or
     // we've checked the npm repo in the past 24 hours.
     var skip = !settings.updates || (settings.updatesTime > Date.now() - 864e5);
