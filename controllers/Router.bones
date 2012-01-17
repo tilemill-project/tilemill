@@ -6,6 +6,7 @@ controller.prototype.initialize = function() {
 
     // Check whether there is a new version of TileMill or not.
     (new models.Config).fetch({success: function(m) {
+        if (window.abilities.platform === 'darwin') return;
         if (!m.get('updates')) return;
         if (!semver.gt(m.get('updatesVersion'),
             window.abilities.tilemill.version)) return;
