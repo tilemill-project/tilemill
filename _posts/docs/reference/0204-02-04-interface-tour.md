@@ -14,7 +14,7 @@ If you click on one of the projects you will be taken to the editing interface:
 
 1. Main toolbar
 2. Map preview
-3. Layers list
+3. Editing tools
 4. Stylesheet editor
 
 ## Map preview
@@ -65,8 +65,6 @@ If you click on the magnifying glass icon of any layer, a drawer will slide in f
 4. Line numbers
 5. Text area
 6. Color palette
-7. Font reference
-8. Carto reference
 
 
 TileMill provides an integrated code editor for editing the map stylesheets. This editor will make sure you write valid code, coloring correctly formatted text as you write it (syntax highlighting) and highlighting any errors if you try to save an invalid file.
@@ -82,6 +80,12 @@ Stylesheets can be re-ordered by clicking and dragging their tabs within the tab
 **Color palette**
 
 TileMill keeps track of all the colors you use in a project and makes it easy to edit them with a color picker.
+
+## Editing tools
+
+**Interaction editor**
+
+Clicking on the ‘Interaction’ icon will display a panel for adding a legend and interactive tooltips to your map.
 
 **Font reference**
 
