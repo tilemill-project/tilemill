@@ -67,6 +67,12 @@ command.options['updates'] = {
     'default': true
 };
 
+command.options['profile'] = {
+    'title': 'profile=1|0',
+    'description': 'Report system profile anonymously.',
+    'default': true
+};
+
 command.options['updatesTime'] = { 'default': 0 };
 command.options['updatesVersion'] = { 'default': '0.0.1' };
 
