@@ -44,6 +44,7 @@
       <% } %>
     </div>
   </li>
+  <% if (window.abilities.platform !== 'darwin') { %>
   <li>
     <label for='updates'>Updates</label>
     <input type='checkbox' name='updates' <% if (get('updates')) %>checked='checked'<% ; %> /> Check for new releases of TileMill.
@@ -51,6 +52,7 @@
     <span class='description'>Last checked <%= new Date(get('updatesTime')).format('g:ia M j') %>.</span>
     <% } %>
   </li>
+  <% } %>
   <li class='buttons'>
     <input type='submit' value='Saved' class='disabled' />
   </li>
