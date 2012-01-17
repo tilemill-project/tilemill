@@ -46,15 +46,21 @@
   </li>
   <li>
     <label for='profile'>System profile</label>
-    <input type='checkbox' name='profile' <% if (get('profile')) %>checked='checked'<% ; %> /> Submit system profile.
-    <span class='description'>Help improve TileMill by anonymously reporting technical system information such as CPU and memory specifications.</span>
+    <input type='checkbox' name='profile' <% if (get('profile')) %>checked='checked'<% ; %> /> Report system profile anonymously.
+    <div class='description'>
+      Help the TileMill development team by reporting your system profile:<br/>
+      <%= window.abilities.cpus.length + ' x ' + window.abilities.cpus[0].model %><br/>
+      <%= (window.abilities.totalmem / 1e9).toFixed(1) %>GB RAM /
+      <%= window.abilities.platform %> /
+      TileMill <%= window.abilities.tilemill.version %>
+    </div>
   </li>
   <% if (window.abilities.platform !== 'darwin') { %>
   <li>
     <label for='updates'>Updates</label>
     <input type='checkbox' name='updates' <% if (get('updates')) %>checked='checked'<% ; %> /> Check for new releases of TileMill.
     <% if (get('updatesTime')) { %>
-    <span class='description'>Last checked <%= new Date(get('updatesTime')).format('g:ia M j') %>.</span>
+    <div class='description'>Last checked <%= new Date(get('updatesTime')).format('g:ia M j') %>.</div>
     <% } %>
   </li>
   <% } %>
