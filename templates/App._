@@ -10,7 +10,7 @@
   <script src='/assets/tilemill/js/abilities.js' type='text/javascript'></script>
   <script type='text/javascript'>$(Bones.start);</script>
   <meta name='viewport' content='user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0' />
-  <% if (profile) { %>
+  <% if (obj.profile) { %>
   <script type="text/javascript">
 
   var _gaq = _gaq || [];
