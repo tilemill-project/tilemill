@@ -17,6 +17,7 @@ You probably already have a favorite software or database system for data manipu
 For demonstration purposes we will be using [2010 tornado data](/tilemill/assets/pages/2010_tornadoes.csv), originally found at the [NOAA's Storm Prediction Center](http://www.spc.noaa.gov/wcm/).
 
 ### Pivot Tables
+
 A **pivot table** is a summarization tool for your data. It creates a new table that allows you to sort, count, total, or average the selected data. When preparing data for mapping, pivot tables are often used to aggregate a list of data to a specific geographical level, such as countries or states.
 
 <iframe width="560" height="315" src="http://www.youtube.com/embed/giuD7KSmock?rel=0" frameborder="0" allowfullscreen="allowfullscreen"> </iframe>
