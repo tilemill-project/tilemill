@@ -14,7 +14,11 @@
     {% if item.version and item.sign %}
     <item>
         <title>TileMill {{item.version}}</title>
+        {% if item.dev == true %}
+        <sparkle:releaseNotesLink>http://mapbox.com/tilemill/platforms/osx/changelog-dev.html</sparkle:releaseNotesLink>
+        {% else %}
         <sparkle:releaseNotesLink>http://mapbox.com/tilemill/platforms/osx/changelog.html</sparkle:releaseNotesLink>
+        {% endif %}
         <pubDate>{{item.date | date: '%a, %d %b %Y %H:%M:%S -0400'}}</pubDate>
         <enclosure
             url="https://github.com/downloads/mapbox/tilemill/TileMill-{{item.version}}.zip"

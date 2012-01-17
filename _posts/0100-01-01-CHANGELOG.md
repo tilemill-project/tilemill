@@ -29,6 +29,12 @@ releases:
 #   - Upload export command for rendering and uploading at once.
 #   - Project thumbnails are now cached at save time to a `.thumb.png` file local to each project.
 
+- version: 0.8.0.310
+  dev: true
+  date: 2012-01-11
+  size: 71410877
+  sign: MC0CFQDPH3pDCc+OxigU4y6Skl1pmOwU9gIUCsj6sTu6OM5RPsTJIMgTtEO1cJ4=
+
 - version: 0.8.0.121
   dev: true
   date: 2011-12-23
