@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: tutorials
+tag: Tutorials
 title: "Joining data to shapefiles"
 permalink: /docs/tutorials/joining-data
 ---

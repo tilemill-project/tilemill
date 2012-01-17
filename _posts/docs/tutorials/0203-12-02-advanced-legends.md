@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: tutorials
+tag: Tutorials
 title: "Advanced legends"
 permalink: /docs/tutorials/advanced-legends
 ---

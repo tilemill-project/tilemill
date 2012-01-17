@@ -2,7 +2,7 @@
 layout: book
 section: documentation
 category: TileMill
-tag: tutorials
+tag: Tutorials
 title: "Preparing data with Google Docs"
 permalink: /docs/tutorials/google-docs
 prereq:
