@@ -6,6 +6,8 @@ var defaults = models.Config.defaults;
 var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
 var semver = require('semver');
+var os = require('os');
+var crypto = require('crypto');
 
 command = Bones.Command.extend();
 
@@ -86,6 +88,8 @@ command.prototype.bootstrap = function(plugin, callback) {
             }
         })(),
         platform: process.platform,
+        totalmem: os.totalmem(),
+        cpus: os.cpus(),
         coreUrl: settings.coreUrl,
         tileUrl: settings.tileUrl,
         tilePort: settings.tilePort,
@@ -181,6 +185,15 @@ command.prototype.bootstrap = function(plugin, callback) {
             return memo;
         }, {})
         .value();
+
+    if (!settings.guid) {
+        var hash = crypto.createHash('md5')
+            .update(+new Date + '')
+            .digest('hex');
+        (new models.Config).save({
+            guid: hash
+        });
+    }
 
     // Skip latest TileMill version check if disabled or
     // we've checked the npm repo in the past 24 hours.

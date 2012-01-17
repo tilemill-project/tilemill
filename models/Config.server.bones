@@ -33,7 +33,8 @@ models.Config.prototype.sync = function(method, model, success, error) {
             'syncAccessToken',
             'updates',
             'updatesTime',
-            'updatesVersion'
+            'updatesVersion',
+            'guid'
         ];
         var data = _(model.toJSON()).reduce(function(memo, val, key) {
             if (key === 'files') val = val.replace('~', process.env.HOME);
