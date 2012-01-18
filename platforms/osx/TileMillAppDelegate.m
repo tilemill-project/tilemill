@@ -318,33 +318,10 @@
 {
     [self writeToLog:output];
     
-    if ([[NSPredicate predicateWithFormat:@"SELF contains 'EADDRINUSE'"] evaluateWithObject:output])
+    if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
     {
-        // port in use error
-        //
-        NSAlert *alert = [NSAlert alertWithMessageText:@"Port already in use"
-                                         defaultButton:@"Quit TileMill"
-                                       alternateButton:nil
-                                           otherButton:nil
-                             informativeTextWithFormat:@"TileMill's port is already in use by another application on the system. Please quit that application and relaunch TileMill."];
-        
-        [alert runModal];
-        
-        [[NSApplication sharedApplication] terminate:self];
-    }
-    else if (self.fatalErrorCaught)
-    {
-        // generic fatal error
-        //
-        [self presentFatalError];
-    }
-    else if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
-    {
-        // We noticed a fatal error, so let's mark it, but not do
-        // anything yet. Let's get more output so that we can 
-        // further evaluate & act accordingly.
-
         self.fatalErrorCaught = YES;
+        [self presentFatalError];
     }
 }
 
