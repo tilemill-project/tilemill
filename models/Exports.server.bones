@@ -9,8 +9,6 @@ var Step = require('step'),
 
 var queue = new Queue(start, 1);
 function start(id, callback) {
-    queue.concurrency = settings.concurrency || 1;
-
     var model = new models.Export({id:id});
     Step(function() {
         Backbone.sync('read', model,
@@ -72,6 +70,8 @@ function check(data) {
 };
 
 models.Export.prototype.sync = function(method, model, success, error) {
+    queue.concurrency = settings.concurrency || 1;
+
     switch (method) {
     case 'read':
     case 'create':
