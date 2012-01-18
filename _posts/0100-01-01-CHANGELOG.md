@@ -22,12 +22,13 @@ releases:
 #   - Core app & tile servers are now separate processes.
 #   - Redesigned UI with global sidebar navigation.
 #   - Redesigned UI for export and project settings.
-#   - Native webkitgtk based browser window for Linux version.
-#   - Native CEF (chromium embedded) browser window for Windows version.
+#   - Native webkitgtk based browser window for Linux version. (maybe more user-speak here?)
+#   - Native CEF (chromium embedded) browser window for Windows version. (ditto)
 #   - Added `server` commandline/config option for running TileMill without a window.
 #   - Datasource downloads and other mapnik-intensive operations can now be cancelled.
 #   - Upload export command for rendering and uploading at once.
 #   - Project thumbnails are now cached at save time to a `.thumb.png` file local to each project.
+#   - Improvements to full screen mode behavior on Mac OS X 10.7 Lion.
 
 - version: 0.8.0.472
   dev: true
