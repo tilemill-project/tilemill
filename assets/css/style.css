@@ -341,6 +341,15 @@ small { font-size:11px; }
     inset rgba(255,255,255,0.2) 0px -1px;
   }
 
+.bleed a.disabled,
+.bleed a.disabled:hover {
+  color:#666;
+  background:transparent;
+  box-shadow:none;
+  text-shadow:none;
+  }
+.bleed a.disabled .i30 { opacity:0.2; }
+
 .bleed a .i30 {
   position:absolute;
   left:15px;
@@ -479,7 +488,8 @@ ul.projects { margin:0px -5px; }
 .project .workspace { border-left:1px solid #ccc; }
 
 .project.fullscreen .palette { display:none; }
-.project.fullscreen .map {
+.project.fullscreen .map,
+.wax-fullscreen-map {
   position:fixed;
   left:60px;
   right:0px;
@@ -1227,8 +1237,6 @@ ul.form .buttons input {
 ul.form small.description { display:block; }
 ul.form select + span.description,
 ul.form input + span.description { margin-left:10px; }
-ul.form select + span.description,
-ul.form input + div.description { margin-top:10px; }
 ul.form select { width:120px; }
 
 #page ul.form li { background:transparent; }
@@ -1400,7 +1408,6 @@ ul.form.expand .browser { display:block; }
   -webkit-border-radius:3px;
   }
 
-.library .assets a:hover { background:#fff; }
 .library .assets a:active { background:#ccc; }
 
 .library .assets div.description {
@@ -1801,4 +1808,5 @@ ul.grid li {
 
 /* Fix for sprite-clipping fail in webkit : | */
 .exports .status a,
+.features .buttons a,
 .pane .pane-actions a { position:relative; }

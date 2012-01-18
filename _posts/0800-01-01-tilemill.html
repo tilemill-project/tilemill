@@ -21,10 +21,10 @@ platforms:
   url: https://github.com/downloads/mapbox/tilemill/install-tilemill.tar.gz
 - id: windows
   name: Windows
-  help: Read our guide on using TileMill<br/>in a VirtualBox VM in Windows
-  file: VirtualBox VM
+  help: TileMill for Windows is coming<br/>in early 2012.
+  file: Learn more about TileMill
   size: for Windows
-  url: /tilemill/docs/win-install/
+  url: /tilemill/windows/
 ---
 <style>
 .wrapper { background:#e0f0f4; }
@@ -48,15 +48,41 @@ platforms:
   }
 
 #bleed,
+#bleed .screenshot,
 #bleed .limiter {
   height:560px;
+  position:relative;
   overflow:hidden;
   }
 
 #bleed {
-  background:#040812 url({{site.baseurl}}/assets/pages/screenshot.jpg) 50% 100% no-repeat;
+  background:#040812;
   margin:0px 0px 40px;
   }
+
+#bleed .screenshot {
+  background:url({{site.baseurl}}/assets/pages/screenshot.jpg) 50% 100% no-repeat;
+  position:absolute;
+  top:0px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  opacity:0;
+  transition:all 500ms;
+  -moz-transition:all 500ms;
+  -webkit-transition:all 500ms;
+  }
+
+#bleed.mac .screenshot.mac,
+#bleed.linux .screenshot.linux,
+#bleed.windows .screenshot.windows {
+  z-index:100;
+  opacity:1;
+  }
+
+#bleed .screenshot.mac { background-image:url({{site.baseurl}}/assets/pages/screenshot-mac.jpg); }
+#bleed .screenshot.linux { background-image:url({{site.baseurl}}/assets/pages/screenshot-linux.jpg); }
+#bleed .screenshot.windows { background-image:url({{site.baseurl}}/assets/pages/screenshot-windows.jpg); }
 
 #bleed .dlbox {
   width:400px;
@@ -67,7 +93,7 @@ platforms:
   margin:0px;
   position:absolute;
   right:0px;
-  bottom:-400px;
+  bottom:0px;
   box-shadow:#000 0px 0px 10px;
   border-radius:5px 5px 0px 0px;
   -moz-border-radius:5px 5px 0px 0px;
@@ -76,10 +102,6 @@ platforms:
   -moz-transition:bottom 500ms;
   -webkit-transition:bottom 500ms;
   }
-
-#bleed.mac .mac,
-#bleed.windows .windows,
-#bleed.linux .linux { bottom:0px; }
 
 #bleed .actions {
   position:relative;
@@ -148,28 +170,52 @@ platforms:
 
 .img100x120.right { float:right; margin-left:20px; }
 
+.actions .icon.newsletter {
+  background: url({{site.baseurl}}/assets/pages/followup.png) 0px 8px no-repeat;
+  }
+
 </style>
 
-<div id='bleed' class='mac'><div class='limiter'>
+<div id='bleed' class='mac'>
 {% for item in page.platforms %}
-<div class='dlbox {{item.id}}'>
-<h1>Download TileMill</h1>
-<h2>for {{item.name}}
-  <small class='inline oslist'>
-  Wrong OS?
-  {% for other in page.platforms %}{% unless other.id == item.id %}
-  <a href='#{{other.id}}'>{{other.id|capitalize}}</a>
-  {% endunless%}{% endfor %}
-  </small>
-</h2>
-<div class='actions'>
-  <span class='triangle ne'></span>
-  <span class='triangle nw'></span>
-  <small class='label'>{{item.help}}</small>
-  <a class='em' href='{{item.url}}' title='{{item.name}}'>
-    <span class='icon download'></span> {{item.file}} <small>{{item.size}}</small>
-  </a>
-</div>
+<div class='screenshot {{item.id}}'><div class='limiter'><div class='dlbox'>
+  {% if item.id != 'windows' %}
+  <h1>Download TileMill</h1>
+  <h2>for {{item.name}}
+    <small class='inline oslist'>
+    Wrong OS?
+    {% for other in page.platforms %}{% unless other.id == item.id %}
+    <a href='#{{other.id}}'>{{other.id|capitalize}}</a>
+    {% endunless%}{% endfor %}
+    </small>
+  </h2>
+  <div class='actions'>
+    <span class='triangle ne'></span>
+    <span class='triangle nw'></span>
+    <small class='label'>{{item.help}}</small>
+    <a class='em' href='{{item.url}}' title='{{item.name}}'>
+      <span class='icon download'></span> {{item.file}} <small>{{item.size}}</small>
+    </a>
+  </div>
+  {% else %}
+  <h1>TileMill is coming soon</h1>
+  <h2>for {{item.name}}
+    <small class='inline oslist'>
+    Wrong OS?
+    {% for other in page.platforms %}{% unless other.id == item.id %}
+    <a href='#{{other.id}}'>{{other.id|capitalize}}</a>
+    {% endunless%}{% endfor %}
+    </small>
+  </h2>
+  <div class='actions'>
+    <span class='triangle ne'></span>
+    <span class='triangle nw'></span>
+    <small class='label'>{{item.help}}</small>
+    <a class='em' href='{{item.url}}' title='{{item.name}}'>
+      <span class='icon newsletter'></span> {{item.file}} <small>{{item.size}}</small>
+    </a>
+  </div>
+  {% endif %}
 <small class='centered'>
   <a href='{{site.baseurl}}/docs/install/'>Installing</a> |
   <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> |
@@ -177,9 +223,9 @@ platforms:
   <a href='{{site.baseurl}}/docs/manual/'>Manual</a> |
   <a href='http://support.mapbox.com/discussions/tilemill'>Support</a>
 </small>
-</div>
+</div></div></div>
 {% endfor %}
-</div></div>
+</div>
 
 <div class='limiter clip'><div class='content prose'>
 
@@ -296,7 +342,7 @@ Enrich your maps with hover tooltips and clickable pop ups. Reveal details in yo
   </div>
   <div class='col-1'>
   <h3>Is there a Windows version?</h3>
-  <p>Not yet. <a href='http://nodejs.org'>Node.js</a> is expected to have full Windows support in the next stable version. When that happens, we'll evaluate the feasibility of a Windows port. Until then you may want to try the <a href='http://support.mapbox.com/kb/introduction-installation/tilemill-virtualbox-vm'>VirtualBox VM</a> for running TileMill on Windows.</p>
+  <p>TileMill for Windows is <a href='windows'>coming soon</a>. Until then you may want to try the <a href='http://mapbox.com/tilemill/docs/win-install/'>VirtualBox VM</a> for running TileMill on Windows.</p>
   </div>
   <div class='col-1'>
   <h3>Have more questions?</h3>

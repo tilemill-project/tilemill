@@ -24,8 +24,8 @@ view.prototype.render = function() {
         config: this.config
     }));
 
-    if (!com.modestmaps) throw new Error('ModestMaps not found.');
-    this.map = new com.modestmaps.Map('preview',
+    if (!MM) throw new Error('ModestMaps not found.');
+    this.map = new MM.Map('preview',
         new wax.mm.connector(this.preview.attributes));
     wax.mm.interaction(this.map, this.preview.attributes);
     wax.mm.legend(this.map, this.preview.attributes).appendTo(this.map.parent);
@@ -33,7 +33,7 @@ view.prototype.render = function() {
     wax.mm.zoomer(this.map).appendTo(this.map.parent);
 
     var center = this.preview.get('center');
-    this.map.setCenterZoom(new com.modestmaps.Location(
+    this.map.setCenterZoom(new MM.Location(
         center[1],
         center[0]),
         center[2]);

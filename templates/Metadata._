@@ -101,7 +101,7 @@ var get = _(project.get).bind(project);
   </li>
   <% if (model !== project) { %>
   <li>
-    <input type='checkbox' name='_saveProject' value='1' />
+    <input type='checkbox' name='_saveProject' value='1'   <% if (model.get('format') === 'sync') %>checked='checked' disabled='disabled'<%;%>>
     <span class='description'>Save settings to project</span>
   </li>
   <% } %>

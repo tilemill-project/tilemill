@@ -1,9 +1,9 @@
 [Desktop Entry]
 Name=TileMill
 Comment=TileMill Map Design Studio
-Exec=bash -c "echo -e 'TileMill has started. Open your browser and navigate to http://localhost:20009.\n\n * View log at ~/.tilemill.log\n * Customize runtime settings at ~/.tilemill.json\n\nClose this terminal to stop TileMill.' && /usr/bin/nodejs /usr/share/tilemill/index.js >> $HOME/.tilemill.log 2>&1"
+Exec=bash -c "/usr/bin/nodejs /usr/share/tilemill/index.js >> $HOME/.tilemill.log 2>&1"
 Icon=/usr/share/icons/hicolor/scalable/apps/tilemill.svg
-Terminal=true
+Terminal=false
 Type=Application
 Encoding=UTF-8
 Categories=Graphics;Application;Geography;

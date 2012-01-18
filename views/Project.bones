@@ -44,7 +44,10 @@ view.prototype.initialize = function() {
 
 view.prototype.render = function(init) {
     $('.bleed .active').removeClass('active');
-    $('.bleed .editor').addClass('active').attr('href', '#/project/' + this.model.id);
+    $('.bleed .editor')
+        .addClass('active')
+        .removeClass('disabled')
+        .attr('href', '#/project/' + this.model.id);
     $(this.el).html(templates.Project(this.model));
     return this;
 };
