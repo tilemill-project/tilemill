@@ -10,6 +10,6 @@ set PATH=%PATH%;addons\zipfile\lib
 @rem on that PATH that are inside of the node-mapnik dir
 set PATH=%PATH%;addons\mapnik\lib\mapnik\lib
 set NODE_PATH=addons;%NODE_PATH%
-node index.js
+pause
 
 
