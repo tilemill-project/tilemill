@@ -41,7 +41,7 @@
         "sqlite3": "~2.0.16",
         "passport": "0.1.x",
         "passport-oauth": "0.1.x",
-        "modestmaps": "https://github.com/stamen/modestmaps-js/tarball/requesterror",
+        "modestmaps": "1.0.0-alpha",
         "npm": "1.0.x",
         "semver": "1.0.x",
         "optimist": "0.1.x",
