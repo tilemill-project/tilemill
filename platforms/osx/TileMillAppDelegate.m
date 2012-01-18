@@ -23,7 +23,6 @@
 @property (nonatomic, assign) BOOL fatalErrorCaught;
 
 - (void)startTileMill;
-- (void)stopTileMill;
 - (void)writeToLog:(NSString *)message;
 - (void)presentFatalError;
 
@@ -172,7 +171,14 @@
     // This doesn't run when app is forced to quit, so the child process is left running.
     // We clean up any orphan processes in [self startTileMill].
     //
-    [self stopTileMill];
+    if (self.searchTask)
+    {
+        if (self.searchTask.launched)
+            [self.searchTask stopProcess];
+
+        self.searchTask = nil;
+    }
+
     
     // clear shared URL cache (see #1057)
     //
@@ -210,17 +216,6 @@
     [self.searchTask startProcess];
 }
 
-- (void)stopTileMill
-{
-    if (self.searchTask)
-    {
-        if (self.searchTask.launched)
-            [self.searchTask stopProcess];
-        
-        self.searchTask = nil;
-    }
-}
-
 - (IBAction)showBrowserWindow:(id)sender
 {
     if ( ! self.browserController)
@@ -249,7 +244,7 @@
 - (void)presentFatalError
 {
     NSAlert *alert = [NSAlert alertWithMessageText:@"There was a problem trying to start the server process"
-                                     defaultButton:@"OK"
+                                     defaultButton:@"Quit TileMill"
                                    alternateButton:@"Contact Support"
                                        otherButton:nil
                          informativeTextWithFormat:@"TileMill experienced a fatal error while trying to start the server process. Please restart the application. If this persists, please contact support."];
@@ -259,7 +254,7 @@
     if (status == NSAlertAlternateReturn)
         [self openDiscussions:self];
     
-    [self stopTileMill];
+    [[NSApplication sharedApplication] terminate:self];
 }
 
 #pragma mark -
@@ -328,14 +323,14 @@
         // port in use error
         //
         NSAlert *alert = [NSAlert alertWithMessageText:@"Port already in use"
-                                         defaultButton:@"OK"
+                                         defaultButton:@"Quit TileMill"
                                        alternateButton:nil
                                            otherButton:nil
                              informativeTextWithFormat:@"TileMill's port is already in use by another application on the system. Please quit that application and relaunch TileMill."];
         
         [alert runModal];
         
-        [self stopTileMill];
+        [[NSApplication sharedApplication] terminate:self];
     }
     else if (self.fatalErrorCaught)
     {
