@@ -20,7 +20,6 @@
 @property (nonatomic, retain) TileMillBrowserWindowController *browserController;
 @property (nonatomic, retain) TileMillSparklePrefsWindowController *sparklePrefsController;
 @property (nonatomic, retain) NSString *logPath;
-@property (nonatomic, assign) BOOL shouldAttemptRestart;
 @property (nonatomic, assign) BOOL fatalErrorCaught;
 
 - (void)startTileMill;
@@ -38,7 +37,6 @@
 @synthesize browserController;
 @synthesize sparklePrefsController;
 @synthesize logPath;
-@synthesize shouldAttemptRestart;
 @synthesize fatalErrorCaught;
 
 - (void)dealloc
@@ -170,8 +168,6 @@
                                                 forKey:@"startFullScreen"];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    self.shouldAttemptRestart = NO;
 
     // This doesn't run when app is forced to quit, so the child process is left running.
     // We clean up any orphan processes in [self startTileMill].
@@ -205,8 +201,6 @@
     
     if (self.searchTask)
         self.searchTask = nil;
-
-    self.shouldAttemptRestart = YES;
 
     NSString *command = [NSString stringWithFormat:@"%@/index.js", [[NSBundle mainBundle] resourcePath]];
     
@@ -264,8 +258,6 @@
     
     if (status == NSAlertAlternateReturn)
         [self openDiscussions:self];
-    
-    self.shouldAttemptRestart = NO;
     
     [self stopTileMill];
 }
@@ -342,8 +334,6 @@
                              informativeTextWithFormat:@"TileMill's port is already in use by another application on the system. Please quit that application and relaunch TileMill."];
         
         [alert runModal];
-    
-        self.shouldAttemptRestart = NO;
         
         [self stopTileMill];
     }
@@ -360,18 +350,6 @@
         // further evaluate & act accordingly.
 
         self.fatalErrorCaught = YES;
-    }
-}
-
-- (void)childProcessDidFinish:(TileMillChildProcess *)process
-{
-    NSLog(@"Finished");
-    
-    if (self.shouldAttemptRestart)
-    {
-        NSLog(@"Restart");
-
-        [self startTileMill];
     }
 }
 
