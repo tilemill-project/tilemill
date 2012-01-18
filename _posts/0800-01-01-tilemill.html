@@ -48,15 +48,44 @@ platforms:
   }
 
 #bleed,
+#bleed .screenshot,
 #bleed .limiter {
   height:560px;
+  position:relative;
   overflow:hidden;
   }
 
 #bleed {
-  background:#040812 url({{site.baseurl}}/assets/pages/screenshot.jpg) 50% 100% no-repeat;
+  background:#040812;
   margin:0px 0px 40px;
   }
+
+#bleed .screenshot {
+  background:url({{site.baseurl}}/assets/pages/screenshot.jpg) 50% 100% no-repeat;
+  position:absolute;
+  top:0px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  opacity:0;
+  transition:all 500ms;
+  -moz-transition:all 500ms;
+  -webkit-transition:all 500ms;
+  }
+
+#bleed.mac .screenshot.mac,
+#bleed.linux .screenshot.linux,
+#bleed.windows .screenshot.windows {
+  z-index:100;
+  opacity:1;
+  }
+
+/*
+@TODO uncomment when these screenshots are ready!
+#bleed .screenshot.mac { background-image:url({{site.baseurl}}/assets/pages/screenshot-mac.jpg); }
+#bleed .screenshot.linux { background-image:url({{site.baseurl}}/assets/pages/screenshot-linux.jpg); }
+#bleed .screenshot.windows { background-image:url({{site.baseurl}}/assets/pages/screenshot-windows.jpg); }
+*/
 
 #bleed .dlbox {
   width:400px;
@@ -67,7 +96,7 @@ platforms:
   margin:0px;
   position:absolute;
   right:0px;
-  bottom:-400px;
+  bottom:0px;
   box-shadow:#000 0px 0px 10px;
   border-radius:5px 5px 0px 0px;
   -moz-border-radius:5px 5px 0px 0px;
@@ -76,10 +105,6 @@ platforms:
   -moz-transition:bottom 500ms;
   -webkit-transition:bottom 500ms;
   }
-
-#bleed.mac .mac,
-#bleed.windows .windows,
-#bleed.linux .linux { bottom:0px; }
 
 #bleed .actions {
   position:relative;
@@ -154,9 +179,9 @@ platforms:
 
 </style>
 
-<div id='bleed' class='mac'><div class='limiter'>
+<div id='bleed' class='mac'>
 {% for item in page.platforms %}
-<div class='dlbox {{item.id}}'>
+<div class='screenshot {{item.id}}'><div class='limiter'><div class='dlbox'>
   {% if item.id != 'windows' %}
   <h1>Download TileMill</h1>
   <h2>for {{item.name}}
@@ -201,9 +226,9 @@ platforms:
   <a href='{{site.baseurl}}/docs/manual/'>Manual</a> |
   <a href='http://support.mapbox.com/discussions/tilemill'>Support</a>
 </small>
-</div>
+</div></div></div>
 {% endfor %}
-</div></div>
+</div>
 
 <div class='limiter clip'><div class='content prose'>
 
