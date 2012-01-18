@@ -70,6 +70,12 @@ server.prototype.load = function(req, res, next) {
             error: function(model, resp) { next(resp) }
         });
 
+        var ttl = 0, len = source._mml.Layer.length;
+        for (var i = 0; i < len; i++) {
+            var ds = source._mml.Layer[i].Datasource;
+            ttl = (ds.ttl && ttl < ds.ttl) ? ds.ttl : ttl;
+        }
+
         var z = req.params.z,
             x = +req.params.x,
             y = +req.params.y;
@@ -79,7 +85,7 @@ server.prototype.load = function(req, res, next) {
         source[fn](z, x, y, function(err, tile, headers) {
             if (err) return next(new Error.HTTP(err.message, 404));
             if (res.cache) fs.writeFile(res.cache, tile);
-            if (headers) headers['Cache-control'] = 'max-age=3600';
+            if (headers) headers['Cache-control'] = 'max-age='+ (ttl || 3600);
             res.send(tile, headers);
         });
     });
