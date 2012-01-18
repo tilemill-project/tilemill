@@ -1237,8 +1237,6 @@ ul.form .buttons input {
 ul.form small.description { display:block; }
 ul.form select + span.description,
 ul.form input + span.description { margin-left:10px; }
-ul.form select + span.description,
-ul.form input + div.description { margin-top:10px; }
 ul.form select { width:120px; }
 
 #page ul.form li { background:transparent; }

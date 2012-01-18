@@ -12,6 +12,35 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+# - version: 0.9.0
+#   date:
+#   size:
+#   sign:
+#
+#   notes:
+#   - Plugin system for UI components.
+#   - Core app & tile servers are now separate processes.
+#   - Redesigned UI with global sidebar navigation.
+#   - Redesigned UI for export and project settings.
+#   - Native webkitgtk based browser window for Linux version.
+#   - Native CEF (chromium embedded) browser window for Windows version.
+#   - Added `server` commandline/config option for running TileMill without a window.
+#   - Datasource downloads and other mapnik-intensive operations can now be cancelled.
+#   - Upload export command for rendering and uploading at once.
+#   - Project thumbnails are now cached at save time to a `.thumb.png` file local to each project.
+
+- version: 0.8.0.472
+  dev: true
+  date: 2012-01-17
+  size: 76880853
+  sign: MC4CFQDhjCmHBnnXuzEut5rtHfIheQsvUwIVAIwKTSx17+zp1udVCiutw1IJjm4L
+
+- version: 0.8.0.310
+  dev: true
+  date: 2012-01-11
+  size: 71410877
+  sign: MC0CFQDPH3pDCc+OxigU4y6Skl1pmOwU9gIUCsj6sTu6OM5RPsTJIMgTtEO1cJ4=
+
 - version: 0.8.0.121
   dev: true
   date: 2011-12-23
