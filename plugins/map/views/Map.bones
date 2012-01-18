@@ -74,11 +74,13 @@ view.prototype.mapZoom = function(e) {
 
 view.prototype.attach = function() {
     this._error = '';
+
     var layer = this.map.getLayerAt(0);
-    layer.provider.template_provider.options.tiles = this.model.get('tiles');
-    layer.provider.template_provider.options.minzoom = this.model.get('minzoom');
-    layer.provider.template_provider.options.maxzoom = this.model.get('maxzoom');
-    this.map.setLayerAt(0, layer);
+    layer.provider.options.tiles = this.model.get('tiles');
+    layer.provider.options.minzoom = this.model.get('minzoom');
+    layer.provider.options.maxzoom = this.model.get('maxzoom');
+    layer.setProvider(layer.provider);
+
     this.map.controls.interaction.remove();
     this.map.controls.interaction = wax.mm.interaction(
         this.map,
