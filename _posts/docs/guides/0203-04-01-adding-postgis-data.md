@@ -51,7 +51,7 @@ For this example, we'll cover the basics of making a connection to a PostGIS dat
 
 <small class='note' markdown='1'>
 <h3>Note: Indexing and Optimizing PostGIS data</h3>
-To achieve fast and optimized results in TileMill. 
+To achieve fast and optimized results in TileMill, use good database management and index your data tables with both a unique index on your row ID and a gist index on your geometry column.  
 </small>
 
 {% include nextup.html %}

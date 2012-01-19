@@ -3,7 +3,7 @@ layout: book
 section: documentation
 category: TileMill
 tag: Guides
-title: "Adding data from SQLite"
+title: "Creating and Adding SQLite Layers"
 permalink: /docs/guides/add-sqlite
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
@@ -45,7 +45,6 @@ Let's start by adding polygon features of the District of Columbia Census tract 
 1. To begin, we'll work with an existing TileMill project. We've called ours `dc-census`.
 2. Click to add a new layer.
 3. Change the add layer type to `SQLite`. You will see the fields change. 
-![step3b](/tilemill/assets/pages/addsqlite-3b.png)  
 4. Enter `dc` in the **ID** field.
 ![step4b](/tilemill/assets/pages/addsqlite-4b.png)
 5. For the **Datasource** field, click **Browse** to find the SQLite files located on your computer. Browse to the `/Mapbox/Data/` folder.
