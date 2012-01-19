@@ -71,14 +71,14 @@ view.prototype.render = function() {
     var center = this.project.get('center');
     var bounds = this.project.get('bounds');
     var extent = [
-        new com.modestmaps.Location(bounds[1], bounds[0]),
-        new com.modestmaps.Location(bounds[3], bounds[2])
+        new MM.Location(bounds[1], bounds[0]),
+        new MM.Location(bounds[3], bounds[2])
     ];
     // Override project attributes to allow unbounded zooming.
     var tj = _(this.project.attributes).clone();
     tj.minzoom = 0;
     tj.maxzoom = 22;
-    this.map = new com.modestmaps.Map('meta-map', new wax.mm.connector(tj));
+    this.map = new MM.Map('meta-map', new wax.mm.connector(tj));
 
     wax.mm.zoomer(this.map).appendTo(this.map.parent);
     this.map.setExtent(extent);
@@ -115,7 +115,7 @@ view.prototype.render = function() {
             $(loc[0].pointDiv).text('Z'+z);
             first = false;
         }).bind(this));
-        this.pointselector.addLocation(new com.modestmaps.Location(center[1],center[0]));
+        this.pointselector.addLocation(new MM.Location(center[1],center[0]));
     }
 
     // Update state of custom format field.
@@ -176,8 +176,8 @@ view.prototype.updateTotal = function(attributes) {
 // Update size fields based on bbox ratio.
 view.prototype.updateSize = function(ev) {
     var bounds = _(this.$('input[name=bounds]').val().split(',')).map(parseFloat);
-    var nwLoc = new com.modestmaps.Location(bounds[3], bounds[0]);
-    var seLoc = new com.modestmaps.Location(bounds[1], bounds[2]);
+    var nwLoc = new MM.Location(bounds[3], bounds[0]);
+    var seLoc = new MM.Location(bounds[1], bounds[2]);
     var nw = this.map.locationPoint(nwLoc);
     var se = this.map.locationPoint(seLoc);
     var aspect = (Math.round(se.x) - Math.round(nw.x)) /

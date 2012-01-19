@@ -9,8 +9,6 @@ var Step = require('step'),
 
 var queue = new Queue(start, 1);
 function start(id, callback) {
-    queue.concurrency = settings.concurrency || 1;
-
     var model = new models.Export({id:id});
     Step(function() {
         Backbone.sync('read', model,
@@ -49,10 +47,15 @@ function start(id, callback) {
             customFds: [-1, -1, -1],
             setsid: false
         });
-        child.on('exit', callback);
-        pids[child.pid] = true;
+        var pid = child.pid;
+        pids[pid] = true;
+
+        child.on('exit', function(code) {
+            delete pids[pid];
+            callback();
+        });
         (new models.Export(data)).save({
-            pid:child.pid,
+            pid:pid,
             created:Date.now(),
             status:'processing'
         });
@@ -72,6 +75,8 @@ function check(data) {
 };
 
 models.Export.prototype.sync = function(method, model, success, error) {
+    queue.concurrency = settings.concurrency || 1;
+
     switch (method) {
     case 'read':
     case 'create':

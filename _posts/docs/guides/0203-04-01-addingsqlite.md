@@ -34,9 +34,8 @@ Let's start by adding polygon features of the District of Columbia Census tract 
 ![step5a](/tilemill/assets/pages/addsqlite-5a.png)
 6. For a smooth import into a SQLite database, we need to clean up the headers within the CSV. Open the CSV in a text editor. The first line is the header line. Within the header line, remove any periods ("."). Save your changes. 
 ![step6a](/tilemill/assets/pages/addsqlite-6a.png)
-7. Open SQLite Browswer
-Create a new database by selecting, File, New. Save your new database as `dc-census-data.sqlite`. A create table window will pop up and ask you to create a table, click `Cancel` to by-pass this step. 
-8. Click `File` - `Import - `Table from CSV File`. Locate the `all_140_in_11.P1.csv` file and click **Open**. 
+7. Open SQLite Browser and create a new database by choosing **File > New** from the menu. Save your new database as `dc-census-data.sqlite`. A create table window will pop up and ask you to create a table, click `Cancel` to by-pass this step.
+8. Choose **File > Import > Table from CSV File** from the menu. Locate the `all_140_in_11.P1.csv` file and click **Open**.
 9. Enter `data` in the **New table name** field and check the box for **Extract field names from first line**. Click **Create**. Save your changes.  
 ![step9a](/tilemill/assets/pages/addsqlite-9a.png)
 10. Move your newly creating SQLite files to the `/Mapbox/Data/` folder for use in TileMill. 
@@ -54,7 +53,6 @@ Create a new database by selecting, File, New. Save your new database as `dc-cen
 7. For the **Table or subquery** field, enter `( SELECT * from dc_census_tracts )`. This is a query to select the data from table `dc-census-tracts` within your SQLite database. This field acts as a subquery so the information must be entered in a subquery fashion. The name you specify after "AS" is arbitrary and does not affect the `ID` field you gave at the top.
 ![step7b](/tilemill/assets/pages/addsqlite-7b.png)
     We'll skip the **Attach DB** field at the moment, and pick it up below when adding attribute data to your geographic features in the section below.  
-
 8. Select the **Spatial Reference System (SRS)** for your features. This will be the projection your data is in the SQLite database. This example is projected in the WGS84 geographic projection.
 ![step8b](/tilemill/assets/pages/addsqlite-8b.png)
 9. Click **Save and Style** to add your layer with the default Carto settings.

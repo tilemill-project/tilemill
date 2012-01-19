@@ -11,7 +11,7 @@ platforms:
   help: Extract this archive and drag<br />TileMill to your Applications folder.
   file: TileMill-0.8.0.zip
   size: 62.7 MB
-  url: https://github.com/downloads/mapbox/tilemill/TileMill-0.8.0.zip
+  url: http://github.com/downloads/mapbox/tilemill/TileMill-0.8.0.zip
 - id: linux
   name: Ubuntu Linux
   help: Run <code>sudo ./install-tilemill.sh</code><br/>to install packages.
@@ -21,10 +21,10 @@ platforms:
   url: https://github.com/downloads/mapbox/tilemill/install-tilemill.tar.gz
 - id: windows
   name: Windows
-  help: TileMill for Windows is coming<br/>in early 2012.
-  file: Learn more about TileMill
-  size: for Windows
-  url: /tilemill/windows/
+  help: Double-click this installer to set up<br/> TileMill on your computer.
+  file: TileMill-0.8.0.exe
+  size: 60 MB
+  url: http://github.com/downloads/mapbox/tilemill/Install-TileMill-0.8.0.503.exe
 ---
 <style>
 .wrapper { background:#e0f0f4; }
@@ -179,7 +179,6 @@ platforms:
 <div id='bleed' class='mac'>
 {% for item in page.platforms %}
 <div class='screenshot {{item.id}}'><div class='limiter'><div class='dlbox'>
-  {% if item.id != 'windows' %}
   <h1>Download TileMill</h1>
   <h2>for {{item.name}}
     <small class='inline oslist'>
@@ -197,25 +196,6 @@ platforms:
       <span class='icon download'></span> {{item.file}} <small>{{item.size}}</small>
     </a>
   </div>
-  {% else %}
-  <h1>TileMill is coming soon</h1>
-  <h2>for {{item.name}}
-    <small class='inline oslist'>
-    Wrong OS?
-    {% for other in page.platforms %}{% unless other.id == item.id %}
-    <a href='#{{other.id}}'>{{other.id|capitalize}}</a>
-    {% endunless%}{% endfor %}
-    </small>
-  </h2>
-  <div class='actions'>
-    <span class='triangle ne'></span>
-    <span class='triangle nw'></span>
-    <small class='label'>{{item.help}}</small>
-    <a class='em' href='{{item.url}}' title='{{item.name}}'>
-      <span class='icon newsletter'></span> {{item.file}} <small>{{item.size}}</small>
-    </a>
-  </div>
-  {% endif %}
 <small class='centered'>
   <a href='{{site.baseurl}}/docs/install/'>Installing</a> |
   <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> |
