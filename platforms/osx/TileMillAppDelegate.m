@@ -243,7 +243,7 @@
 {
     NSAlert *alert = [NSAlert alertWithMessageText:@"There was a problem trying to start the server process"
                                      defaultButton:@"Quit TileMill"
-                                   alternateButton:@"Contact Support"
+                                   alternateButton:@"Contact Support & Quit"
                                        otherButton:nil
                          informativeTextWithFormat:@"TileMill experienced a fatal error while trying to start the server process. Please restart the application. If this persists, please contact support."];
     
