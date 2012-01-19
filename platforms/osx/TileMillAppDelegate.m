@@ -20,7 +20,6 @@
 @property (nonatomic, retain) TileMillBrowserWindowController *browserController;
 @property (nonatomic, retain) TileMillSparklePrefsWindowController *sparklePrefsController;
 @property (nonatomic, retain) NSString *logPath;
-@property (nonatomic, assign) BOOL fatalErrorCaught;
 
 - (void)startTileMill;
 - (void)writeToLog:(NSString *)message;
@@ -36,7 +35,6 @@
 @synthesize browserController;
 @synthesize sparklePrefsController;
 @synthesize logPath;
-@synthesize fatalErrorCaught;
 
 - (void)dealloc
 {
@@ -319,10 +317,7 @@
     [self writeToLog:output];
     
     if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
-    {
-        self.fatalErrorCaught = YES;
         [self presentFatalError];
-    }
 }
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;

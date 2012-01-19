@@ -20,7 +20,6 @@ void (^requestLoadBlock)(void) = NULL;
     TileMillSparklePrefsWindowController *sparklePrefsController;
     NSString *logPath;
     BOOL shouldAttemptRestart;
-    BOOL fatalErrorCaught;
 }
 
 - (IBAction)openDocumentsFolder:(id)sender;
