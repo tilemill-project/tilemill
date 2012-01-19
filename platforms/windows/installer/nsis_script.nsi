@@ -2,9 +2,9 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "TileMill"
-!define PRODUCT_VERSION "0.8.0-dev"
+!define PRODUCT_VERSION "0.9.0"
 !define PRODUCT_PUBLISHER "MapBox"
-!define PRODUCT_WEB_SITE "http://mapbox.com"
+!define PRODUCT_WEB_SITE "http://mapbox.com/tilemill/docs"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 !define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
@@ -14,7 +14,7 @@
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
+!define MUI_ICON "..\tilemill.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
@@ -32,8 +32,6 @@ var ICONS_GROUP
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
-;!define MUI_FINISHPAGE_RUN "setup.bat"
-;!define MUI_FINISHPAGE_SHOWREADME "readme.txt"
 !insertmacro MUI_PAGE_FINISH
 
 ; Uninstaller pages
@@ -45,21 +43,21 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "TileMill.exe"
+OutFile "Install-TileMill.exe"
 InstallDir "$PROGRAMFILES\TileMill"
-ShowInstDetails show
-ShowUnInstDetails show
 
 Section "MainSection" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite try
 
   ;; Base Installation
-  File /r /x *Recycle.Bin* /x installer /x demo /x *.git /x *.git* /x Makefil* /x test /x *.vcx* /x *.ipch /x ipch /x AppData /x deps /x include /x expresso /x osx /x ubuntu /x virtualbox /x *.idx /x *.pack /x *.sln /x *.sdf ..\..\..\..\tilemill\*.*
-  ;; Setup and un-install scripts.  Execute setup now.
-  ;;File "setup.bat"
-  ;;ExecWait '"$INSTDIR\setup.bat"'
-  ;;SetRebootFlag true
+  File /r /x *Recycle.Bin* /x installer /x demo /x *.git \
+      /x *.git* /x Makefil* /x test /x *.vcx* /x *.ipch \
+	  /x ipch /x AppData /x deps /x include /x expresso \
+	  /x osx /x ubuntu /x virtualbox /x *.idx /x *.pack \
+	  /x *.sln /x *.sdf /x *.lib \
+	  ..\..\..\..\tilemill\*.*
+  ExecWait "$INSTDIR\platforms\windows\vcredist_x86.exe /q /norestart"
 
 SectionEnd
 
@@ -68,15 +66,19 @@ Section -AdditionalIcons
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   ;WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Start TileMill.lnk" "$INSTDIR\platforms\windows\run-tilemill.bat"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk" "$INSTDIR\uninst.exe"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Start TileMill.lnk" "$INSTDIR\platforms\windows\run-tilemill.bat" "" \
+      "$INSTDIR\platforms\windows\tilemill.ico" "" \
+	  SW_SHOWNORMAL \
+      ALT|CONTROL|t "TileMill"
+	  
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk" "$INSTDIR\Uninstall-TileMill.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
 
 Section -Post
-  WriteUninstaller "$INSTDIR\uninst.exe"
+  WriteUninstaller "$INSTDIR\Uninstall-TileMill.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
-  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\Uninstall-TileMill.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
@@ -94,13 +96,15 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
-  Delete "$INSTDIR\uninst.exe"
+  Delete "$INSTDIR\Uninstall-TileMill.exe"
   RMDir /r "$INSTDIR\*.*"
   RMDir "$INSTDIR"
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
   Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Start TileMill.lnk"
   RMDir /r "$SMPROGRAMS\$ICONS_GROUP"
+  !insertmacro MUI_STARTMENU_WRITE_END
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   SetAutoClose true
 SectionEnd
