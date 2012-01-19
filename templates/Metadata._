@@ -99,9 +99,9 @@ var get = _(project.get).bind(project);
     <input type='text' name='bounds' size='20' value='<%=get('bounds').join(',')%>' />
     <small class='description'>Shift + drag to select bounds.</small>
   </li>
-  <% if (model !== project) { %>
+  <% if (model !== project && type === 'tiles') { %>
   <li>
-    <input type='checkbox' name='_saveProject' value='1'   <% if (model.get('format') === 'sync') %>checked='checked' disabled='disabled'<%;%>>
+    <input type='checkbox' name='_saveProject' value='1' <% if (model.get('format') === 'sync') %>checked='checked' disabled='disabled'<%;%>>
     <span class='description'>Save settings to project</span>
   </li>
   <% } %>
