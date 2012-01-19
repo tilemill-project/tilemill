@@ -18,18 +18,19 @@ code1: | `( SELECT * from dc_census_tracts JOIN data on dc_census_tracts.geoid10
 
 In this guide, we will walk through the steps to add a layer from a SQLite database and join additional attribute data to the geographic information. TileMill supports using SQLite databases as geographic datasources and thus offers an alternative to shapefiles. 
 
-If you are not familiar with SQLite, check out their [documentation resources](). SQLite databases can store geographic features along with non-geographic attribute data. SQLite files can be edited with any SQLite client, including free GIS tools like [Quantum GIS](). 
+If you are not familiar with SQLite, check out their [documentation resources](http://www.sqlite.org/docs.html). SQLite databases can store geographic features along with non-geographic attribute data. SQLite files can be edited with any SQLite client, including free GIS tools like [Quantum GIS](http://www.qgis.org/). 
 
-Let's start by adding polygon features of the District of Columbia Census tract boundary downloaded from the U.S. Census Bureau [TIGER/Line database](). The original files were downloaded as shapefiles, but we've used [QGIS]() to convert and save as a SQLite database. We'll begin there and create a new database. 
+Let's start by adding polygon features of the District of Columbia Census tract boundary downloaded from the U.S. Census Bureau [TIGER/Line database](http://www.census.gov/geo/www/tiger/). The original files were downloaded as shapefiles, but we've used [QGIS](http://www.qgis.org/) to convert and save as a SQLite database. We'll begin there and create a new database. 
 
 ## Creating SQLite database files  
 
 1. To begin, download the [District of Columbia Census Tract TIGER/Line shapefile](http://www.census.gov/cgi-bin/geo/shapefiles2010/main) from the U.S. Census Bureau. Select `Census Tracts` and `District of Columbia` for Census Tract (2010). Choose `District of Columbia` in the final menu. A zipped shapefile will be downloaded.
-2. Unzip the shapefile and open it up in [QGIS]().
+2. Unzip the shapefile and open it up in QGIS.
 3. Right-click on the layer named `tl_2010_11001_tract10` within the **Layers** window. Click **Save As**.
 ![step3a](/tilemill/assets/pages/addsqlite-3a.png)
 4. Select **SQLite** for the **Format**, and enter `dc-census-tracts` for the **Save as** name. You can browse to select the directory to save the file. 
 ![step4a](/tilemill/assets/pages/addsqlite-4a.png)
+5. Select 
 5. Download Census Tract data for the District of Columbia from the [CENSUS.IRE.ORG](http://census.ire.org/data/bulkdata.html?state=11&sumlev=140). Select  `P1. Total Population` and download as CSV. 
 ![step5a](/tilemill/assets/pages/addsqlite-5a.png)
 6. For a smooth import into a SQLite database, we need to clean up the headers within the CSV. Open the CSV in a text editor. The first line is the header line. Within the header line, remove any periods ("."). Save your changes. 
