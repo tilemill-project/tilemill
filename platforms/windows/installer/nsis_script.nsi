@@ -57,6 +57,7 @@ Section "MainSection" SEC01
 	  /x osx /x ubuntu /x virtualbox /x *.idx /x *.pack \
 	  /x *.sln /x *.sdf /x *.lib \
 	  ..\..\..\..\tilemill\*.*
+  ExecWait "$INSTDIR\platforms\windows\vcredist_x86.exe /q /norestart"
 
 SectionEnd
 

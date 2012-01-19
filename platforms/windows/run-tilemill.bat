@@ -5,11 +5,10 @@ cd /d %~dp0
 cd ..\..\
 set PROJ_LIB=data\proj\nad
 set GDAL_DATA=data\gdal\data
-set PATH=%PATH%;addons\zipfile\lib
+set PATH=%PATH%;node_modules\zipfile\lib
 @rem - below looks odd, but it puts the mapnik libs
 @rem on that PATH that are inside of the node-mapnik dir
-set PATH=%PATH%;addons\mapnik\lib\mapnik\lib
-set NODE_PATH=addons;%NODE_PATH%
+set PATH=%PATH%;node_modules\mapnik\lib\mapnik\lib
 node index.js 1>>%USERPROFILE%\Documents\tilemill.log 2>&1
 
 
