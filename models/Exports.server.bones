@@ -7,11 +7,10 @@ var Step = require('step'),
     settings = Bones.plugin.config,
     pids = {};
 
-// Queue exports with concurrency 4.
-// @TODO make concurrency configurable?
-var queue = new Queue(start, 4);
-
+var queue = new Queue(start, 1);
 function start(id, callback) {
+    queue.concurrency = settings.concurrency || 1;
+
     var model = new models.Export({id:id});
     Step(function() {
         Backbone.sync('read', model,

@@ -1,18 +1,14 @@
+@echo off
 @rem change into current directory
 cd /d %~dp0
 @rem then move to main tilemill folder
 cd ..\..\
 set PROJ_LIB=data\proj\nad
 set GDAL_DATA=data\gdal\data
-set PATH=%PATH%;addons\zipfile\lib
+set PATH=%PATH%;node_modules\zipfile\lib
 @rem - below looks odd, but it puts the mapnik libs
 @rem on that PATH that are inside of the node-mapnik dir
-set PATH=%PATH%;addons\mapnik\lib\mapnik\lib
-set NODE_PATH=addons;%NODE_PATH%
-@rem start http://localhost:20009/
-node index.js
+set PATH=%PATH%;node_modules\mapnik\lib\mapnik\lib
+node index.js 1>>%USERPROFILE%\Documents\tilemill.log 2>&1
 
-@rem - the pause below prevents the console from
-@rem closing if there is an error - good for dev
-pause
 

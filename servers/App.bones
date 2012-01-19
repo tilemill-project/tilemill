@@ -46,7 +46,7 @@ server.prototype.initialize = function(app) {
 };
 
 server.prototype.index = function(req, res, next) {
-    res.send(templates['App']());
+    res.send(templates['App'](this.config));
 };
 
 server.prototype.abilities = function(req, res, next) {
