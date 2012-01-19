@@ -198,8 +198,11 @@
     
     // Look for orphan node processes from previous crashes.
     //
+    NSPredicate *nodePredicate     = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'node'"];
+    NSPredicate *tilemillPredicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'tilemill'"];
+    
     for (NSRunningApplication *app in [[NSWorkspace sharedWorkspace] runningApplications])
-        if ([[app executableURL] isEqual:nodeExecURL])
+        if ([nodePredicate evaluateWithObject:[[app executableURL] absoluteString]] && [tilemillPredicate evaluateWithObject:[app localizedName]])
             if ( ! [app forceTerminate])
                 [self writeToLog:@"Failed to terminate orphan tilemill process."];
     
