@@ -53,7 +53,6 @@ Let's start by adding polygon features of the District of Columbia Census tract 
 7. For the **Table or subquery** field, enter `( SELECT * from dc_census_tracts )`. This is a query to select the data from table `dc-census-tracts` within your SQLite database. This field acts as a subquery so the information must be entered in a subquery fashion. The name you specify after "AS" is arbitrary and does not affect the `ID` field you gave at the top.
 ![step7b](/tilemill/assets/pages/addsqlite-7b.png)
     We'll skip the **Attach DB** field at the moment, and pick it up below when adding attribute data to your geographic features in the section below.  
-
 8. Select the **Spatial Reference System (SRS)** for your features. This will be the projection your data is in the SQLite database. This example is projected in the WGS84 geographic projection.
 ![step8b](/tilemill/assets/pages/addsqlite-8b.png)
 9. Click **Save and Style** to add your layer with the default Carto settings.
