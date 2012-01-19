@@ -26,7 +26,7 @@
           <% if (window.abilities.exports.mbtiles) { %>
           <a href='#export-mbtiles' title='Export MBTiles'>MBTiles</a>
           <% } %>
-          <a href='<%= url() %>.xml' target='_blank'>Mapnik XML</a>
+          <a href='<%= url() %>.xml'>Mapnik XML</a>
           <a class='divceil drawer' href='#exports'>View exports</a>
         </span>
       </span>
