@@ -189,11 +189,9 @@
 
 - (void)startTileMill
 {
-    NSURL *nodeExecURL = [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""];
-
-    if ( ! nodeExecURL)
+    if ( ! [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""])
     {
-        NSLog(@"node is missing.");
+        [self writeToLog:@"Node executable is missing."];
 
         [self presentFatalError];
     }
