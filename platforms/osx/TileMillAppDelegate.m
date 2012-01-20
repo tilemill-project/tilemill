@@ -20,7 +20,6 @@
 @property (nonatomic, retain) TileMillBrowserWindowController *browserController;
 @property (nonatomic, retain) TileMillSparklePrefsWindowController *sparklePrefsController;
 @property (nonatomic, retain) NSString *logPath;
-@property (nonatomic, assign) BOOL fatalErrorCaught;
 
 - (void)startTileMill;
 - (void)writeToLog:(NSString *)message;
@@ -36,7 +35,6 @@
 @synthesize browserController;
 @synthesize sparklePrefsController;
 @synthesize logPath;
-@synthesize fatalErrorCaught;
 
 - (void)dealloc
 {
@@ -246,7 +244,7 @@
 {
     NSAlert *alert = [NSAlert alertWithMessageText:@"There was a problem trying to start the server process"
                                      defaultButton:@"Quit TileMill"
-                                   alternateButton:@"Contact Support"
+                                   alternateButton:@"Contact Support & Quit"
                                        otherButton:nil
                          informativeTextWithFormat:@"TileMill experienced a fatal error while trying to start the server process. Please restart the application. If this persists, please contact support."];
     
@@ -320,10 +318,7 @@
     [self writeToLog:output];
     
     if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
-    {
-        self.fatalErrorCaught = YES;
         [self presentFatalError];
-    }
 }
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
