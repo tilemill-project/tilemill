@@ -73,6 +73,12 @@ command.options['profile'] = {
     'default': true
 };
 
+command.options['concurrency'] = {
+    'title': 'concurrency=[num]',
+    'description': 'Number of exports that can be run concurrently.',
+    'default': 4
+};
+
 command.options['updatesTime'] = { 'default': 0 };
 command.options['updatesVersion'] = { 'default': '0.0.1' };
 

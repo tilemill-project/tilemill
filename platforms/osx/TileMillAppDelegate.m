@@ -20,11 +20,8 @@
 @property (nonatomic, retain) TileMillBrowserWindowController *browserController;
 @property (nonatomic, retain) TileMillSparklePrefsWindowController *sparklePrefsController;
 @property (nonatomic, retain) NSString *logPath;
-@property (nonatomic, assign) BOOL shouldAttemptRestart;
-@property (nonatomic, assign) BOOL fatalErrorCaught;
 
 - (void)startTileMill;
-- (void)stopTileMill;
 - (void)writeToLog:(NSString *)message;
 - (void)presentFatalError;
 
@@ -38,8 +35,6 @@
 @synthesize browserController;
 @synthesize sparklePrefsController;
 @synthesize logPath;
-@synthesize shouldAttemptRestart;
-@synthesize fatalErrorCaught;
 
 - (void)dealloc
 {
@@ -170,13 +165,18 @@
                                                 forKey:@"startFullScreen"];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    self.shouldAttemptRestart = NO;
 
     // This doesn't run when app is forced to quit, so the child process is left running.
     // We clean up any orphan processes in [self startTileMill].
     //
-    [self stopTileMill];
+    if (self.searchTask)
+    {
+        if (self.searchTask.launched)
+            [self.searchTask stopProcess];
+
+        self.searchTask = nil;
+    }
+
     
     // clear shared URL cache (see #1057)
     //
@@ -187,26 +187,25 @@
 
 - (void)startTileMill
 {
-    NSURL *nodeExecURL = [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""];
-
-    if ( ! nodeExecURL)
+    if ( ! [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""])
     {
-        NSLog(@"node is missing.");
+        [self writeToLog:@"Node executable is missing."];
 
         [self presentFatalError];
     }
     
     // Look for orphan node processes from previous crashes.
     //
+    NSPredicate *nodePredicate     = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'node'"];
+    NSPredicate *tilemillPredicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'tilemill'"];
+    
     for (NSRunningApplication *app in [[NSWorkspace sharedWorkspace] runningApplications])
-        if ([[app executableURL] isEqual:nodeExecURL])
+        if ([nodePredicate evaluateWithObject:[[app executableURL] absoluteString]] && [tilemillPredicate evaluateWithObject:[app localizedName]])
             if ( ! [app forceTerminate])
                 [self writeToLog:@"Failed to terminate orphan tilemill process."];
     
     if (self.searchTask)
         self.searchTask = nil;
-
-    self.shouldAttemptRestart = YES;
 
     NSString *command = [NSString stringWithFormat:@"%@/index.js", [[NSBundle mainBundle] resourcePath]];
     
@@ -214,17 +213,6 @@
     
     [self.searchTask setDelegate:self];
     [self.searchTask startProcess];
-}
-
-- (void)stopTileMill
-{
-    if (self.searchTask)
-    {
-        if (self.searchTask.launched)
-            [self.searchTask stopProcess];
-        
-        self.searchTask = nil;
-    }
 }
 
 - (IBAction)showBrowserWindow:(id)sender
@@ -255,8 +243,8 @@
 - (void)presentFatalError
 {
     NSAlert *alert = [NSAlert alertWithMessageText:@"There was a problem trying to start the server process"
-                                     defaultButton:@"OK"
-                                   alternateButton:@"Contact Support"
+                                     defaultButton:@"Quit TileMill"
+                                   alternateButton:@"Contact Support & Quit"
                                        otherButton:nil
                          informativeTextWithFormat:@"TileMill experienced a fatal error while trying to start the server process. Please restart the application. If this persists, please contact support."];
     
@@ -265,9 +253,7 @@
     if (status == NSAlertAlternateReturn)
         [self openDiscussions:self];
     
-    self.shouldAttemptRestart = NO;
-    
-    [self stopTileMill];
+    [[NSApplication sharedApplication] terminate:self];
 }
 
 #pragma mark -
@@ -331,48 +317,8 @@
 {
     [self writeToLog:output];
     
-    if ([[NSPredicate predicateWithFormat:@"SELF contains 'EADDRINUSE'"] evaluateWithObject:output])
-    {
-        // port in use error
-        //
-        NSAlert *alert = [NSAlert alertWithMessageText:@"Port already in use"
-                                         defaultButton:@"OK"
-                                       alternateButton:nil
-                                           otherButton:nil
-                             informativeTextWithFormat:@"TileMill's port is already in use by another application on the system. Please quit that application and relaunch TileMill."];
-        
-        [alert runModal];
-    
-        self.shouldAttemptRestart = NO;
-        
-        [self stopTileMill];
-    }
-    else if (self.fatalErrorCaught)
-    {
-        // generic fatal error
-        //
+    if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
         [self presentFatalError];
-    }
-    else if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
-    {
-        // We noticed a fatal error, so let's mark it, but not do
-        // anything yet. Let's get more output so that we can 
-        // further evaluate & act accordingly.
-
-        self.fatalErrorCaught = YES;
-    }
-}
-
-- (void)childProcessDidFinish:(TileMillChildProcess *)process
-{
-    NSLog(@"Finished");
-    
-    if (self.shouldAttemptRestart)
-    {
-        NSLog(@"Restart");
-
-        [self startTileMill];
-    }
 }
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;

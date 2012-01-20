@@ -33,7 +33,10 @@ server.prototype.initialize = function(app) {
     this.del('/api/Project/:id/:layer', this.projectFlush);
 
     // Add static provider to download exports.
-    this.use('/export/download', middleware['static'](
+    this.use('/export/download', function(req, res, next) {
+        res.header('Content-Disposition', 'attachment');
+        return next();
+    }, middleware['static'](
         path.join(this.config.files, 'export'),
         { maxAge: env === 'production' ? 3600000 : 0 } // 1 hour
     ));

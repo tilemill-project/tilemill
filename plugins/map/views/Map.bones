@@ -13,11 +13,11 @@ view.prototype.initialize = function() {
 };
 
 view.prototype.render = function(init) {
-    if (!com.modestmaps) throw new Error('ModestMaps not found.');
+    if (!MM) throw new Error('ModestMaps not found.');
 
     $(this.el).html(templates.Map());
 
-    this.map = new com.modestmaps.Map('map',
+    this.map = new MM.Map('map',
         new wax.mm.connector(this.model.attributes));
 
     // Add references to all controls onto the map object.
@@ -33,7 +33,7 @@ view.prototype.render = function(init) {
     // Add image error request handler. "Dedupes" image errors by
     // checking against last received image error so as to not spam
     // the user with the same errors message for every image request.
-    this.map.requestManager.addCallback('requesterror', _(function(manager, url) {
+    this.map.getLayerAt(0).requestManager.addCallback('requesterror', _(function(manager, url) {
         $.ajax(url, { error: _(function(resp) {
             if (resp.responseText === this._error) return;
             this._error = resp.responseText;
@@ -42,7 +42,7 @@ view.prototype.render = function(init) {
     }).bind(this));
 
     var center = this.model.get('center');
-    this.map.setCenterZoom(new com.modestmaps.Location(
+    this.map.setCenterZoom(new MM.Location(
         center[1],
         center[0]),
         center[2]);
@@ -74,10 +74,13 @@ view.prototype.mapZoom = function(e) {
 
 view.prototype.attach = function() {
     this._error = '';
-    this.map.provider.options.tiles = this.model.get('tiles');
-    this.map.provider.options.minzoom = this.model.get('minzoom');
-    this.map.provider.options.maxzoom = this.model.get('maxzoom');
-    this.map.setProvider(this.map.provider);
+
+    var layer = this.map.getLayerAt(0);
+    layer.provider.options.tiles = this.model.get('tiles');
+    layer.provider.options.minzoom = this.model.get('minzoom');
+    layer.provider.options.maxzoom = this.model.get('maxzoom');
+    layer.setProvider(layer.provider);
+
     this.map.controls.interaction.remove();
     this.map.controls.interaction = wax.mm.interaction(
         this.map,

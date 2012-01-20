@@ -22,6 +22,7 @@ view.prototype.render = function() {
             $(this).attr('id', 'manual-' + cleaned);
             this.className = this.nodeName;
         });
+        $('a', html).each(function() { $(this).get(0).target = '_blank'; });
     });
 };
 
