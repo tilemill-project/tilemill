@@ -31,7 +31,7 @@
         "step": "0.0.x",
         "tilelive": "https://github.com/mapbox/tilelive.js/tarball/node-v6",
         "mapnik": "https://github.com/mapnik/node-mapnik/tarball/master",
-        "millstone": "~0.3.0",
+        "millstone": "https://github.com/mapbox/millstone/tarball/node-v6",
         "sphericalmercator": "~1.0.1",
         "tilelive-mapnik": "https://github.com/mapbox/tilelive-mapnik/tarball/node-v6",
         "underscore": "1.1.x",
