@@ -94,7 +94,7 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
     return YES;
 }
 
-- (void)promptToSaveRemoteURL:(NSURL *)remoteURL revealingInFinder:(BOOL)shouldReveal;
+- (void)promptToSaveRemoteURL:(NSURL *)remoteURL revealingInFinder:(BOOL)shouldReveal
 {
     NSSavePanel *savePanel = [NSSavePanel savePanel];
     
@@ -137,55 +137,28 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 #pragma mark -
 #pragma mark WebPolicyDelegate
 
-- (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id <WebPolicyDecisionListener>)listener
+- (void)webView:(WebView *)webView decidePolicyForMIMEType:(NSString *)type request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id <WebPolicyDecisionListener>)listener
 {
-    if ([[request.URL host] isEqualToString:@"localhost"] && [[request.URL pathComponents] containsObject:@"export"] && [[request.URL pathComponents] containsObject:@"download"] && [[actionInformation objectForKey:@"WebActionNavigationTypeKey"] intValue] == WebNavigationTypeLinkClicked)
+    // handle any non-HTML (MBTiles, PNG, Mapnik XML) as downloads
+    //
+    if ( ! [type isEqualToString:@"text/html"])
     {
-        // offer to save "downloaded" files to disk
-        //
         [self promptToSaveRemoteURL:request.URL revealingInFinder:YES];
         
         [listener ignore];
     }
-    else if (([request.URL.scheme isEqualToString:@"http"] && [request.URL.host isEqualToString:@"localhost"]) || ([request.URL.scheme isEqualToString:@"https"] && [request.URL.host isEqualToString:@"tiles.mapbox.com"] && [request.URL.path isEqualToString:@"/oauth/authorize"]))
-    {
-        // handle app & OAuth links ourselves
-        //
-        [listener use];
-    }
     else
     {
-        // open everything else in the default browser
-        //
-        [[NSWorkspace sharedWorkspace] openURL:request.URL];
-        
-        [listener ignore];
+        [listener use];
     }
 }
 
 - (void)webView:(WebView *)webView decidePolicyForNewWindowAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request newFrameName:(NSString *)frameName decisionListener:(id <WebPolicyDecisionListener>)listener
 {
-    if (( ! [request.URL.scheme isEqualToString:@"http"] || ! [request.URL.host isEqualToString:@"localhost"]) && [[actionInformation objectForKey:@"WebActionNavigationTypeKey"] intValue] == WebNavigationTypeLinkClicked)
-    {
-        // open "new window" external links in the default browser
-        //
-        [[NSWorkspace sharedWorkspace] openURL:request.URL];
-    }
-    else if ([request.URL.pathComponents containsObject:@"api"] && [request.URL.pathComponents containsObject:@"Project"] && [request.URL.pathExtension isEqualToString:@"xml"] && [[actionInformation objectForKey:@"WebActionNavigationTypeKey"] intValue] == WebNavigationTypeLinkClicked)
-    {
-        // save Mapnik XML externally
-        //
-        [self promptToSaveRemoteURL:request.URL revealingInFinder:YES];
-    }
-    else
-    {    
-        // handle everything else ourselves manually in the main window
-        //
-        [self.webView.mainFrame loadRequest:request];
-    }
-    
-    // never actually try to open a new window
+    // open all "new window" links in default browser, not in-app
     //
+    [[NSWorkspace sharedWorkspace] openURL:request.URL];
+
     [listener ignore];
 }
 

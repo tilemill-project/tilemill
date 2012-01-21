@@ -20,7 +20,6 @@
 @property (nonatomic, retain) TileMillBrowserWindowController *browserController;
 @property (nonatomic, retain) TileMillSparklePrefsWindowController *sparklePrefsController;
 @property (nonatomic, retain) NSString *logPath;
-@property (nonatomic, assign) BOOL fatalErrorCaught;
 
 - (void)startTileMill;
 - (void)writeToLog:(NSString *)message;
@@ -36,7 +35,6 @@
 @synthesize browserController;
 @synthesize sparklePrefsController;
 @synthesize logPath;
-@synthesize fatalErrorCaught;
 
 - (void)dealloc
 {
@@ -189,19 +187,20 @@
 
 - (void)startTileMill
 {
-    NSURL *nodeExecURL = [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""];
-
-    if ( ! nodeExecURL)
+    if ( ! [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""])
     {
-        NSLog(@"node is missing.");
+        [self writeToLog:@"Node executable is missing."];
 
         [self presentFatalError];
     }
     
     // Look for orphan node processes from previous crashes.
     //
+    NSPredicate *nodePredicate     = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'node'"];
+    NSPredicate *tilemillPredicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'tilemill'"];
+    
     for (NSRunningApplication *app in [[NSWorkspace sharedWorkspace] runningApplications])
-        if ([[app executableURL] isEqual:nodeExecURL])
+        if ([nodePredicate evaluateWithObject:[[app executableURL] absoluteString]] && [tilemillPredicate evaluateWithObject:[app localizedName]])
             if ( ! [app forceTerminate])
                 [self writeToLog:@"Failed to terminate orphan tilemill process."];
     
@@ -245,7 +244,7 @@
 {
     NSAlert *alert = [NSAlert alertWithMessageText:@"There was a problem trying to start the server process"
                                      defaultButton:@"Quit TileMill"
-                                   alternateButton:@"Contact Support"
+                                   alternateButton:@"Contact Support & Quit"
                                        otherButton:nil
                          informativeTextWithFormat:@"TileMill experienced a fatal error while trying to start the server process. Please restart the application. If this persists, please contact support."];
     
@@ -319,10 +318,7 @@
     [self writeToLog:output];
     
     if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
-    {
-        self.fatalErrorCaught = YES;
         [self presentFatalError];
-    }
 }
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
