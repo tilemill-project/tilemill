@@ -7,8 +7,9 @@ title: "Adding a shapefile layer"
 permalink: /docs/guides/add-shapefile
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
+- "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 nextup:
-- "[Using conditional styles](/tilemill/docs/crashcourse/conditional-styles/) to control the appearance of points based on data."
+- "[Using conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
 - "[Adding tooltips](/tilemill/docs/crashcourse/tooltips/) to your map."
 - "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
 ---
@@ -25,7 +26,7 @@ For practice, we'll add a tectonic plates boundary shapefile downloaded from the
 
 1. Start TileMill and click on the **Add project** button.  
 ![Add Project](/tilemill/assets/pages/shapefile-1.png)
-2. Enter your name for your project and click **Add**. You can leave the other fields alone for now.  
+2. Enter a name for your project and click **Add**. You can leave the other fields alone for now.  
 ![Add Project](/tilemill/assets/pages/shapefile-2.png)
 3. Click on the new project to open it. The project contains a default layer called `#countries` styled with some example Carto code.
 4. To add a shapefile layer, click **Add layer**. 

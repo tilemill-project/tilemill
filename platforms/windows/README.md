@@ -8,6 +8,8 @@ on windows. It is not meant to be complete or for general use.
  * Windows XP, Vista, or 7
  * Visual Studio C++ 2010 (Express works)
  * Mapnik master
+ * vcredist_x86.exe from MS for 2010 C++ runtimes
+ * Nsis Firewall plugin: http://wiz0u.free.fr/prog/nsisFirewall/
 
 ## TODO
 
@@ -93,8 +95,12 @@ platforms\windows\run-tilemill
 
 7) Package
 
-Install nsis and run the installer script in `platforms\windows\installer`.
-
-Destination machines either need VS2010 installed or the "redistributable" runtime:
+Download the from 2010 C++ "redistributable" runtime from:
 
     http://www.microsoft.com/download/en/details.aspx?id=5555
+
+And place it in the `platforms/windows` directory.
+
+Download the nsisFirewall and place it in the `platforms/windows/installer` directory.
+
+Install nsis and run the installer script in `platforms\windows\installer`.

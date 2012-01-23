@@ -2,13 +2,13 @@
 layout: book
 section: documentation
 category: TileMill
-tag: Tutorials
+tag: Guides
 title: "Advanced map design"
-permalink: /docs/tutorials/advanced-map-design
+permalink: /docs/guides/advanced-map-design
 prereq:
-- "[Prepared your data](/tilemill/docs/tutorials/google-docs/)."
-- "[Added a CSV layer](/tilemill/docs/tutorials/point-data/) to your TileMill project."
-- "[Used conditional styles](/tilemill/docs/tutorials/conditional-styles/) to control the appearance of points based on data."
+- "[Prepared your data](/tilemill/docs/guides/google-docs/)."
+- "[Added an earthquake CSV layer](/tilemill/docs/crashcourse/point-data) from the Crash Course."
+- "[Used conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
 nextup:
 - "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 ---

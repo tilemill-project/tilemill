@@ -4,7 +4,7 @@ section: documentation
 category: TileMill
 tag: Guides
 title: Using Mapnik XML
-permalink: /docs/tutorials/mapnik-xml
+permalink: /docs/guides/mapnik-xml
 ---
 Under the hood TileMill handles rendering your maps using [Mapnik](http://mapnik.org). The way this works is TileMill uses [Carto](https://github.com/mapbox/carto) to compile your CSS styles and layer definitions down to the XML format that Mapnik can read, each time you save your project.
 

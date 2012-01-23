@@ -4,7 +4,7 @@ section: documentation
 category: TileMill
 tag: Guides
 title: Encoding images for tooltips
-permalink: /docs/tutorials/images-in-tooltips
+permalink: /docs/guides/images-in-tooltips
 ---
 MBTiles files are sometimes used in mobile applications where internet connections can be expensive, unreliable, or unavailable. When this is the case, you will want to avoid referencing remote images from the tooltips and legends contained in an MBTiles file.
 
