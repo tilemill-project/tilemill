@@ -41,6 +41,6 @@ The window will transition back to your project and the exports panel will appea
   ![](/tilemill/assets/pages/exporting-9.png)
 
 ### Congragulations!  
-You have completed your first map in TileMill! Take advantage of our **free 7-day hosting** on MapBox by [uploading it to TileStream](http://tiles.mapbox.com/upload/create/).
+You have completed your first map in TileMill! Take advantage of our **free 7-day hosting** by [uploading it to MapBox](http://tiles.mapbox.com/upload/create/).
 
 {% include nextup.html %}
