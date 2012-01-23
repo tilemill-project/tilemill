@@ -12,7 +12,7 @@ process.argv[0] = 'node';
 if (process.platform === 'win32') {
 
     // HOME is undefined on windows
-    process.env.HOME = process.env.HOMEPATH;
+    process.env.HOME = process.env.USERPROFILE;
 
     // don't attempt symlink support at all -- just copy.
     // @TODO write a dotfile next to the copy with the link

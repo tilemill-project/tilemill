@@ -16,9 +16,9 @@
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-12158002-4']);
   _gaq.push(['_setDomainName', 'none']);
-  _gaq.push(['_setCustomVar', 2, 'Total Memory', window.abilities.totalmem, 1]);
-  _gaq.push(['_setCustomVar', 3, 'CPU', window.abilities.cpus.length + ' x ' + window.abilities.cpus[0].model, 1]);
-  _gaq.push(['_setCustomVar', 4, 'TileMill Version', window.abilities.tilemill.version, 1]);
+  _gaq.push(['_setCustomVar', 1, 'Total Memory', window.abilities.totalmem, 1]);
+  _gaq.push(['_setCustomVar', 1, 'CPU', window.abilities.cpus.length + ' x ' + window.abilities.cpus[0].model, 1]);
+  _gaq.push(['_setCustomVar', 1, 'TileMill Version', window.abilities.tilemill.version, 1]);
   _gaq.push(['_trackPageview']);
 
   (function() {
