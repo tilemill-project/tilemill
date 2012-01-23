@@ -109,7 +109,7 @@ Next we create and switch the tooltip to the individual dots layer, and export. 
 We now have two MBTiles with their own interactivity that we can [composite](http://mapbox.com/hosting/compositing/) together with a slick base map.
 
 Here is the final map:
-<iframe width='600' height='400' frameBorder='0' src='http://a.tiles.mapbox.com/v3/matt.map-awiyx38h.html#4/40/-96'> </iframe>
+<iframe width='600' height='400' frameBorder='0' src='http://a.tiles.mapbox.com/v3/mapbox.map-4qkj96dp.html#4/40/-98'> </iframe>
 
 And the final project Carto code for reference:
 

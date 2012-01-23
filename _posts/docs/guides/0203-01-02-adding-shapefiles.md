@@ -30,7 +30,7 @@ For practice, we'll add a tectonic plates boundary shapefile downloaded from the
 ![Add Project](/tilemill/assets/pages/shapefile-2.png)
 3. Click on the new project to open it. The project contains a default layer called `#countries` styled with some example Carto code.
 4. To add a shapefile layer, click **Add layer**. 
-![Add Layer](/tilemill/assets/pages/shapefile-4.png)
+![Add Layer](/tilemill/assets/pages/csv-4.png)
 5. Enter `plates` in the **ID** field. You'll use this ID to reference this layer in Carto selectors.  
 ![Add Name](/tilemill/assets/pages/shapefile-5.png)
 6. For the **Datasource** field, click **Browse** to find the shapefile located on your computer. You can browse your folders to find the source of your shapefile.  
