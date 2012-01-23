@@ -7,9 +7,9 @@ title: "Tips for Using Color in Maps"
 permalink: /docs/guides/tips-for-color
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
-- "Reviewed [Crash Course](/tilemill/docs/crashcourse/overview/)"
+- "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 nextup:
-- "[Using conditional styles](/tilemill/docs/crashcourse/conditional-styles/) to control the appearance of points based on data."
+- "[Using conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
 - "[Adding tooltips](/tilemill/docs/crashcourse/tooltips/) to your map."
 - "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
 ---

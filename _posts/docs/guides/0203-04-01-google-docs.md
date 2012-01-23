@@ -2,13 +2,13 @@
 layout: book
 section: documentation
 category: TileMill
-tag: Tutorials
+tag: Guides
 title: "Preparing data with Google Docs"
-permalink: /docs/tutorials/google-docs
+permalink: /docs/guides/google-docs
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 nextup:
-- "[Add a CSV layer](/tilemill/docs/tutorials/point-data) to your TileMill project."
+- "[Add a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
 ---
 
 ## Using Google Docs
