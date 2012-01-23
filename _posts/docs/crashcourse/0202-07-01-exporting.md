@@ -6,6 +6,8 @@ tag: Crash&nbsp;course
 title: "Exporting your map"
 permalink: /docs/crashcourse/exporting
 prereq:
+- "[Installed](/tilemill/docs/install) TileMill on your computer."
+- "[Reviewed](/tilemill/docs/crashcourse/introduction/) the Crash Course introduction."
 - "[Added a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
 - "[Styled](/tilemill/docs/crashcourse/styling/) your point data."
 - "[Added tooltips and a legend](/tilemill/docs/crashcourse/tooltips/) to your map."

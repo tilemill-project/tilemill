@@ -33,7 +33,12 @@ Let's start by adding polygon features of the District of Columbia Census tract 
 ![step5a](/tilemill/assets/pages/addsqlite-5a.png)
 6. For a smooth import into a SQLite database, we need to clean up the headers within the CSV. Open the CSV in a text editor. The first line is the header line. Within the header line, remove any periods ("."). Save your changes. 
 ![step6a](/tilemill/assets/pages/addsqlite-6a.png)
-7. To create an SQLite file, we need an editor to create, edit, and browse through SQLite files. There are several free or inexpensive programs. One open source, free program is the *[SQLite Database Browser](http://sourceforge.net/projects/sqlitebrowser/files/sqlitebrowser/1.3/)*. It is available for Mac OSX, Linux, or Windows. Download and install. 
+7. To create an SQLite file, we need an editor to create, edit, and browse through the database files. There are several free or inexpensive programs. One open source, free program is the *[SQLite Database Browser](http://sqlitebrowser.sourceforge.net/)*. It is available for Mac OSX, Linux, or Windows. [Download](http://sourceforge.net/projects/sqlitebrowser/files/sqlitebrowser/1.3/) and install. 
+>
+<small class='note' markdown='1'>
+<h3>Note: Working with SQLite</h3>
+There are many spreadsheet-like GUI editors available for OSX, Linux, and Windows. You can download an editor to work with your SQLite files, or alternatively, you can edit and manipulate SQLite through the [command-line utility](http://www.sqlite.org/sqlite.html) named, `sqlite3` (`sqlite3.exe` on Windows).   
+</small>
 8. Open SQLite Browser and create a new database by choosing **File > New** from the menu. Save your new database as `dc-census-data.sqlite`. A create table window will pop up and ask you to create a table, click `Cancel` to by-pass this step.
 9. Choose **File > Import > Table from CSV File** from the menu. Locate the `all_140_in_11.P1.csv` file and click **Open**.
 10. Enter `data` in the **New table name** field and check the box for **Extract field names from first line**. Click **Create**. Save your changes.  
