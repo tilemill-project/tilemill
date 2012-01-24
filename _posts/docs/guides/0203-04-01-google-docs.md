@@ -81,4 +81,18 @@ Once your data is ready, you will want to publish it as a **CSV**. TileMill can 
 7. Copy the link and paste it in the **Datasource** field when adding the layer in TileMill.
   ![](/tilemill/assets/pages/googledocs-export-5.png)
 
+### Flushing the Cache
+
+TileMill **caches** layer data for better performance, but this can sometimes cause updated data from the same source to not be immediately available. To rectify this we can manually tell TileMill to flush the cache.
+
+Say you make an edit to the previously published spreadsheet. To see those changes immediately take effect in TileMill:
+
+1. Click the **edit** button on the relative layer.
+  ![](/tilemill/assets/pages/googledocs-export-6.png)
+
+2. Click **Flush cache** underneath the datasource field.
+  ![](/tilemill/assets/pages/googledocs-export-7.png)
+
+3. Click **Save**. TileMill will now load the fresh data.
+
 {% include nextup.html %}
