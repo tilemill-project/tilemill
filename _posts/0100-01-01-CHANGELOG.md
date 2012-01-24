@@ -13,9 +13,9 @@ permalink: /docs/changelog
 releases:
 
 - version: 0.9.0
-  date:
-  size:
-  sign:
+  date: 2011-01-24
+  size: 65347719
+  sign: MC4CFQDPatJHVsDgppDQ3bNS9Tw2BugtFAIVAMiRfz1eankHivWHy/+xsWRJnRYO
 
   notes:
   - Plugin system for UI components.
