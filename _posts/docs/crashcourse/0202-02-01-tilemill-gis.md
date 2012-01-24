@@ -9,10 +9,10 @@ prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "[Reviewed](/tilemill/docs/crashcourse/introduction/) the Crash Course introduction."
 nextup:
-- "[Added a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
-- "[Styled](/tilemill/docs/crashcourse/styling/) your point data."
-- "[Added tooltips and a legend](/tilemill/docs/crashcourse/tooltips/) to your map."
-- "[Exported your map](/tilemill/docs/crashcourse/exporting/) to MBTiles format"
+- "[Add a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
+- "[Style](/tilemill/docs/crashcourse/styling/) your point data."
+- "[Add tooltips and a legend](/tilemill/docs/crashcourse/tooltips/) to your map."
+- "[Export your map](/tilemill/docs/crashcourse/exporting/) to MBTiles format"
 ---
 
 {% include prereq.html %}
