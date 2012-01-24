@@ -19,7 +19,7 @@ nextup:
 
 The MapBox GeoData Library is a collection of free datasets that have been optimized to work well with TileMill and offer an excellent source for geographic data. For more details about the MapBox GeoData Library, see our [technical reference](/tilemill/docs/manual/mapbox-geodata). 
 
-For practice, we'll add a layer of populated places around the world.
+For this guide, we'll add a layer of populated places around the world.
 
 1. Start TileMill and click on the **Add project** button.  
 ![Add Project](/tilemill/assets/pages/shapefile-1.png)
@@ -27,7 +27,7 @@ For practice, we'll add a layer of populated places around the world.
 ![Add Project](/tilemill/assets/pages/shapefile-2.png)
 3. Click on the new project to open it. The project contains a default layer called `#countries` styled with some example Carto code.
 4. Click **Add layer**.
-![Add Layer](/tilemill/assets/pages/geodata-1.png)
+![Add Layer](/tilemill/assets/pages/csv-4.png)
 5. Enter `cities` in the **ID** field. You'll use this ID to reference this layer.  
 6. For the **Datasource** field, click **Browse** to navigate to the MapBox GeoData library.  
 7. Click the **MapBox** button to navigate to the library.  

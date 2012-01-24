@@ -17,9 +17,9 @@ code1: | `( SELECT * from dc_census_tracts JOIN data on dc_census_tracts.geoid10
 
 In this guide, we will walk through the steps to add a layer from a SQLite database and join additional attribute data to the geographic information. TileMill supports using SQLite databases as geographic datasources and thus offers an alternative to shapefiles. 
 
-If you are not familiar with SQLite, check out their [documentation resources](http://www.sqlite.org/docs.html). SQLite databases can store geographic features along with non-geographic attribute data. SQLite files can be edited with any SQLite client, including free GIS tools like [Quantum GIS](http://www.qgis.org/). 
+If you are not familiar with SQLite, check out their [documentation resources](http://www.sqlite.org/docs.html). SQLite databases can store geographic features along with non-geographic attribute data. SQLite files can be edited with any SQLite client, including free GIS tools like [Quantum GIS](http://www.qgis.org/) or [SQLite Database Browser](http://sqlitebrowser.sourceforge.net/). See note in Step 7 about downloading a SQLite editor to work with your files.
 
-Let's start by adding polygon features of the District of Columbia Census tract boundary downloaded from the U.S. Census Bureau [TIGER/Line database](http://www.census.gov/geo/www/tiger/shp.html). The original files were downloaded as shapefiles, but we've used [QGIS](http://www.qgis.org/) to convert and save as a SQLite database. We'll begin there and create a new database. 
+We'll begin by adding polygon features of the District of Columbia Census tract boundary downloaded from the U.S. Census Bureau [TIGER/Line database](http://www.census.gov/geo/www/tiger/shp.html). The original files were downloaded as shapefiles, but we've used [QGIS](http://www.qgis.org/) to convert and save as a SQLite database. We'll begin there and create a new database. 
 
 ## Creating SQLite database files  
 
@@ -33,10 +33,10 @@ Let's start by adding polygon features of the District of Columbia Census tract 
 ![step5a](/tilemill/assets/pages/addsqlite-5a.png)
 6. For a smooth import into a SQLite database, we need to clean up the headers within the CSV. Open the CSV in a text editor. The first line is the header line. Within the header line, remove any periods ("."). Save your changes. 
 ![step6a](/tilemill/assets/pages/addsqlite-6a.png)
-7. To create an SQLite file, we need an editor to create, edit, and browse through the database files. There are several free or inexpensive programs. One open source, free program is the *[SQLite Database Browser](http://sqlitebrowser.sourceforge.net/)*. It is available for Mac OSX, Linux, or Windows. [Download](http://sourceforge.net/projects/sqlitebrowser/files/sqlitebrowser/1.3/) and install. 
+7. To work with an SQLite file, we need an editor to create, edit, and browse through the database files. There are several free or inexpensive programs. One open source, free program is the *[SQLite Database Browser](http://sqlitebrowser.sourceforge.net/)*. It is available for Mac OSX, Linux, or Windows. [Download](http://sourceforge.net/projects/sqlitebrowser/files/sqlitebrowser/1.3/), unzip, and run the file to install. 
 >
 <small class='note' markdown='1'>
-<h3>Note: Working with SQLite</h3>
+<h3>Note: SQLite Editors</h3>
 There are many spreadsheet-like GUI editors available for OSX, Linux, and Windows. You can download an editor to work with your SQLite files, or alternatively, you can edit and manipulate SQLite through the [command-line utility](http://www.sqlite.org/sqlite.html) named, `sqlite3` (`sqlite3.exe` on Windows).   
 </small>
 8. Open SQLite Browser and create a new database by choosing **File > New** from the menu. Save your new database as `dc-census-data.sqlite`. A create table window will pop up and ask you to create a table, click `Cancel` to by-pass this step.

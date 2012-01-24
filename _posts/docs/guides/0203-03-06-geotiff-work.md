@@ -45,7 +45,7 @@ The projection we need to warp is Google Web Mercator, which can be referenced b
 >Depending on the size of your file and the resampling method you choose, `gdalwarp` can take a few seconds to a few hours to do its job. With the cubic resampling method on the medium Natural Earth will should a few minutes.  
 3. Once it is complete, you can load it into your TileMill project. Click **Add Layer** and browse to find the location where you stored `natural-earth-2-mercator.tif`. Select **900913** as the SRS projection. 
 4. Select the file and click **Save and Style**. 
-5. To further adjust the resampling interpolation of the image, add the following Carto to your geotiff layer: `raster-scaling: bilinear;` See the Carto reference manual for additional raster-scaling values. 
+5. To further adjust the resampling interpolation of the image, add the following Carto to your geotiff layer: `raster-scaling: bilinear;`. See the Carto reference manual for additional raster-scaling values. 
 ![geotiff](/tilemill/assets/pages/geotiff-process-5.png)
 6. Select **Save** and preview your map in the map preview pane. 
 
