@@ -104,7 +104,7 @@ For this example, we'll cover the basics of creating a simple PostGIS database a
 
 <small class='note' markdown='1'>
 <h3>Note: Indexing and Optimizing PostGIS data</h3>
-To achieve fast and optimized results in TileMill, use good database management and index your data tables with both a unique index on your row ID and a gist index on your geometry column.  
+To achieve fast and optimized results in TileMill, use good database management by indexing your data tables with both a unique index on your row ID and a gist index on your geometry column. See the [Building Indexes](http://postgis.refractions.net/docs/ch04.html#id2628096) section of the PostGIS manual for a beginning reference.   
 </small>
 
 {% include nextup.html %}

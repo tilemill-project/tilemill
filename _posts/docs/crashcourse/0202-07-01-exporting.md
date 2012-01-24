@@ -6,6 +6,8 @@ tag: Crash&nbsp;course
 title: "Exporting your map"
 permalink: /docs/crashcourse/exporting
 prereq:
+- "[Installed](/tilemill/docs/install) TileMill on your computer."
+- "[Reviewed](/tilemill/docs/crashcourse/introduction/) the Crash Course introduction."
 - "[Added a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
 - "[Styled](/tilemill/docs/crashcourse/styling/) your point data."
 - "[Added tooltips and a legend](/tilemill/docs/crashcourse/tooltips/) to your map."
@@ -41,6 +43,6 @@ The window will transition back to your project and the exports panel will appea
   ![](/tilemill/assets/pages/exporting-9.png)
 
 ### Congragulations!  
-You have completed your first map in TileMill! Take advantage of our **free 7-day hosting** on MapBox by [uploading it to TileStream](http://tiles.mapbox.com/upload/create/).
+You have completed your first map in TileMill! Take advantage of our **free 7-day hosting** by [uploading it to MapBox](http://tiles.mapbox.com/upload/create/).
 
 {% include nextup.html %}
