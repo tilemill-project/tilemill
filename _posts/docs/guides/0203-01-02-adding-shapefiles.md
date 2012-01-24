@@ -20,7 +20,7 @@ Before you begin, you will need a shapefile (a set of four files with the extens
 
 There are a number of resources to obtain shapefile data for the area or issue you want to map. You may also have generated your own data in shapefile format and want to map it alongside other data.  
 
-If you need to do additional manipulation or edit your shapefile, you can use free open-source software like [QuantumGIS](http://www.qgis.org/) to work with shapefiles. LibreOffice (or OpenOffice) are also free and allow you to edit the `.dbf` file, or the file with attribute data.  
+If you need to do additional manipulation or edit your shapefile, you can use free open-source software like [QuantumGIS](http://www.qgis.org/) to work with shapefiles. [LibreOffice](http://www.libreoffice.org/) (or OpenOffice) are also free and allow you to edit the `.dbf` file, or the file with attribute data.  
 
 For practice, we'll add a tectonic plates boundary shapefile downloaded from the.  
 
