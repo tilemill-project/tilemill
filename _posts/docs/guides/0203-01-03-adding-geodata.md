@@ -19,7 +19,7 @@ nextup:
 
 The MapBox GeoData Library is a collection of free datasets that have been optimized to work well with TileMill and offer an excellent source for geographic data. For more details about the MapBox GeoData Library, see our [technical reference](/tilemill/docs/manual/mapbox-geodata). 
 
-For practice, we'll add a layer of populated places around the world.
+For this guide, we'll add a layer of populated places around the world.
 
 1. Start TileMill and click on the **Add project** button.  
 ![Add Project](/tilemill/assets/pages/shapefile-1.png)

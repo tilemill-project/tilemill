@@ -20,7 +20,7 @@ nextup:
 
 ## Designing maps
 
-With TileMill, you have **full design control** of the maps you create. Since map design is the key function, to use TileMill effectively it is best to integrate GIS software to manipulate geospatial data. For some spatial data, you may need GIS software like [QuantumGIS](http://www.qgis.org/) or [ESRI ArcGIS](http://www.esri.com/software/arcgis/index.html). Other spatial data can be worked with in Google Docs or Microsoft Excel. Spatial database software like, PostGIS or SQLite, can be used to work with large spatial datasets and integrated into TileMill.  
+With TileMill, you have **full design control** of the maps you create. Since map design is the key function, to use TileMill effectively it is best to integrate GIS software to manipulate geospatial data. For some spatial data, you may need GIS software like [QuantumGIS](http://www.qgis.org/) or [ESRI ArcGIS](http://www.esri.com/software/arcgis/index.html). Other spatial data can be worked with in Google Docs or Microsoft Excel. Spatial database software like, [PostGIS](http://postgis.refractions.net/) or [SQLite](http://sqlite.org), can be used to work with large spatial datasets and integrated into TileMill.  
 
 The main output of TileMill is **tiled maps** - millions of 256px by 256px images that can be loaded quickly in interactive maps. Tiled maps are the basic technology behind the best panning & zooming maps on the web. You can also export PNG and PDF files from TileMill for static output or use in presentations - using the same map styles that power your highly interactive maps.
 

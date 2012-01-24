@@ -17,9 +17,9 @@ code1: | `( SELECT * from dc_census_tracts JOIN data on dc_census_tracts.geoid10
 
 In this guide, we will walk through the steps to add a layer from a SQLite database and join additional attribute data to the geographic information. TileMill supports using SQLite databases as geographic datasources and thus offers an alternative to shapefiles. 
 
-If you are not familiar with SQLite, check out their [documentation resources](http://www.sqlite.org/docs.html). SQLite databases can store geographic features along with non-geographic attribute data. SQLite files can be edited with any SQLite client, including free GIS tools like [Quantum GIS](http://www.qgis.org/). 
+If you are not familiar with SQLite, check out their [documentation resources](http://www.sqlite.org/docs.html). SQLite databases can store geographic features along with non-geographic attribute data. SQLite files can be edited with any SQLite client, including free GIS tools like [Quantum GIS](http://www.qgis.org/) or [SQLite Database Browser](http://sqlitebrowser.sourceforge.net/). See note in Step 7 about downloading a SQLite editor to work with your files.
 
-Let's start by adding polygon features of the District of Columbia Census tract boundary downloaded from the U.S. Census Bureau [TIGER/Line database](http://www.census.gov/geo/www/tiger/shp.html). The original files were downloaded as shapefiles, but we've used [QGIS](http://www.qgis.org/) to convert and save as a SQLite database. We'll begin there and create a new database. 
+We'll begin by adding polygon features of the District of Columbia Census tract boundary downloaded from the U.S. Census Bureau [TIGER/Line database](http://www.census.gov/geo/www/tiger/shp.html). The original files were downloaded as shapefiles, but we've used [QGIS](http://www.qgis.org/) to convert and save as a SQLite database. We'll begin there and create a new database. 
 
 ## Creating SQLite database files  
 
