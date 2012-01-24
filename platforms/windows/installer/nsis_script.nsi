@@ -49,7 +49,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Install-TileMill.exe"
+OutFile "TileMill-${PRODUCT_VERSION}-Installer.exe"
 InstallDir "$PROGRAMFILES\TileMill"
 
 Section "MainSection" SEC01
