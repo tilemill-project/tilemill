@@ -10,8 +10,8 @@ on the [TileMill website](http://mapbox.com/tilemill).
 
 Install expresso and run the tests
 
-   npm install expresso
-   npm test
+    npm install expresso
+    npm test
 
 
 Note: the tests require a running postgres server and a postgis enabled
