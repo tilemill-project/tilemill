@@ -3,7 +3,7 @@ layout: book
 section: documentation
 category: TileMill
 tag: Guides
-title: "Tips for Using Color in Maps"
+title: "Tips for using color in maps"
 permalink: /docs/guides/tips-for-color
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."

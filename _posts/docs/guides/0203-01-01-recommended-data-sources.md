@@ -3,7 +3,7 @@ layout: book
 section: documentation
 category: TileMill
 tag: Guides
-title: "Recommended Data Sources"
+title: "Recommended data sources"
 permalink: /docs/guides/recommended-sources
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
