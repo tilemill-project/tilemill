@@ -95,6 +95,10 @@ platforms\windows\run-tilemill
 
 7) Package
 
+Remove road-trip from examples folder until https://github.com/mapbox/tilemill/issues/1212 is decided upon.
+
+Manually generate the `VERSION` file in the root until https://github.com/mapbox/tilemill/issues/1213 is solved.
+
 Download the from 2010 C++ "redistributable" runtime from:
 
     http://www.microsoft.com/download/en/details.aspx?id=5555
