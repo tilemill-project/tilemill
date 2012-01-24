@@ -22,7 +22,7 @@ There are a number of resources to obtain shapefile data for the area or issue y
 
 If you need to do additional manipulation or edit your shapefile, you can use free open-source software like [QuantumGIS](http://www.qgis.org/) to work with shapefiles. [LibreOffice](http://www.libreoffice.org/) (or OpenOffice) are also free and allow you to edit the `.dbf` file, or the file with attribute data.  
 
-For practice, we'll add a tectonic plates boundary shapefile downloaded from the.  
+For practice, we'll add a tectonic plates boundary shapefile downloaded from the [Institute for Geophysics at University of Texas](http://www.ig.utexas.edu/research/projects/plates/data.htm). 
 
 1. Start TileMill and click on the **Add project** button.  
 ![Add Project](/tilemill/assets/pages/shapefile-1.png)
@@ -33,9 +33,9 @@ For practice, we'll add a tectonic plates boundary shapefile downloaded from the
 ![Add Layer](/tilemill/assets/pages/csv-4.png)
 5. Enter `plates` in the **ID** field. You'll use this ID to reference this layer in Carto selectors.  
 ![Add Name](/tilemill/assets/pages/shapefile-5.png)
-6. For the **Datasource** field, click **Browse** to find the shapefile located on your computer. You can browse your folders to find the source of your shapefile.  
+6. For the **Datasource** field, click **Browse** to find the `trench.shp` shapefile located on your computer. You can browse your folders to find the source of your shapefile.  
+![shapefile](/tilemill/assets/pages/shapefile-6.png)
 7. Click your file to fill in the **Datasource** field and then click **Done** to confirm your selection.  
-![Click Done](/tilemill/assets/pages/shapefile-7.png)
 8. Click the **Save & Style** button. This will add the layer to your project and insert a default Carto rule for the layer.  
 ![Save and Style](/tilemill/assets/pages/shapefile-8.png)
 9. Preview the result in the map preview pane.  

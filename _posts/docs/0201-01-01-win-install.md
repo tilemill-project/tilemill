@@ -14,7 +14,7 @@ This page is for **Windows**. We also have instructions for [Mac OS X](/tilemill
 
 ### Requirements
 <ul class='checklist'>
-  <li class='check'>Windows XP or greater</li>
+  <li class='check'>Windows XP, Vista, or Windows 7</li>
   <li class='check'>2 GB memory</li>
   <li class='check'>Internet connection for remote datasources</li>
 </ul>
