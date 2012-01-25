@@ -46,7 +46,7 @@ These steps serve only a basic example of how to use this tool. There are many m
 
 ### Geocoding
 
-In order to import your CSV or GeoJSON into TIleMill, it must have columns that specify **latitude** and **longitude** coordinates. Quite often your data will have location names, but not coordinates. So how do you get the coordinate of a point based on the name of a location? This exact process is called **geocoding**, and there is a script you can add to your google spreadsheet that will automate this process for you.
+In order to import your CSV or GeoJSON into TileMill, it must have columns that specify **latitude** and **longitude** coordinates. Quite often your data will have location names, but not coordinates. So how do you get the coordinate of a point based on the name of a location? This exact process is called **geocoding**, and there is a script you can add to your google spreadsheet that will automate this process for you.
 
 This tutorial will guide you through geocoding using this script. For further information regarding geocoding services see [this article](http://support.mapbox.com/kb/preparing-your-geographic-data/geocoding-services).
 

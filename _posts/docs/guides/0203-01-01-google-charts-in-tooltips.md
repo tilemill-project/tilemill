@@ -33,7 +33,7 @@ code3: |
 
 This is a short step-by-step article for building charts and graphs to enhance interactivity in TileMill. In our [accompanying article](http://support.mapbox.com/kb/tilemill/converting-addresses-in-spreadsheets-to-custom-maps-in-tilemill), we've written about adding identifying information for point data. Here we will walk through using [Google's Chart API](http://code.google.com/apis/chart/image/).
 
-Google's Chart API is unique tool that allows you to embed dynamic charts and graphs in the interactive space of TileMill. Little to no programming experience is needed to adjust an existing chart in their gallery or build one from scratch in their interactive chart [playground](http://code.google.com/apis/chart/image/docs/chart_playground.html).
+Google's Chart API is a unique tool that allows you to embed dynamic charts and graphs in the interactive space of TileMill. Little to no programming experience is needed to adjust an existing chart in their gallery or build one from scratch in their interactive chart [playground](http://code.google.com/apis/chart/image/docs/chart_playground.html).
 
 ## How it works
 
