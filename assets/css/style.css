@@ -200,6 +200,7 @@ small { font-size:11px; }
 
 #modal .buttons input {
   background:#222;
+  color:#fff;
   border-color:#666;
   line-height:30px;
   height:30px;
