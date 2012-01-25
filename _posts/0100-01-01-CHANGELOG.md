@@ -14,8 +14,8 @@ releases:
 
 - version: 0.9.0
   date: 2012-01-24
-  size: 65347719
-  sign: MC4CFQDPatJHVsDgppDQ3bNS9Tw2BugtFAIVAMiRfz1eankHivWHy/+xsWRJnRYO
+  size: 66944371
+  sign: MCwCFHbWtf6dEIlGYCVMZVk3B9ISEw4OAhQq+nau+8I04XlKkDchR31BIHWPbg==
 
   notes:
   - Plugin system for UI components.
