@@ -6,7 +6,8 @@ tag: Crash&nbsp;course
 title: "Overview"
 permalink: /docs/crashcourse/introduction
 nextup:
-- "[Add a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
+- "[TileMill and GIS](/tilemill/docs/crashcourse/tilemill-gis/)"
+- "[Import data](/tilemill/docs/crashcourse/point-data) into a TileMill project."
 ---
 ## Step-by-step instructions for making maps
 
