@@ -1,8 +1,9 @@
 ---
 ---
-{% for post in site.tags.installation %}
+{% for post in site.tags.Installation %}
 {% if post.permalink == '/docs/changelog' %}
 {% for item in post.releases %}
+{% if item.dev != true or page.dev == true %}
 {% if item.version %}
 <h2>{{item.version}} {% if item.date %}<small>{{item.date|date:'%B %d %Y'}}</small>{% endif %}</h2>
 <ul class='checklist'>
@@ -10,6 +11,7 @@
   <li>{{item | markdownify}}</li>
   {% endfor %}
 </ul>
+{% endif %}
 {% endif %}
 {% endfor %}
 {% endif %}

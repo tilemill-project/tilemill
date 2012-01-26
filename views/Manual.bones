@@ -6,6 +6,9 @@ view.prototype.initialize = function(options) {
 };
 
 view.prototype.render = function() {
+    $('.bleed .active').removeClass('active');
+    $('.bleed .manual').addClass('active');
+
     $(this.el).html(templates.Manual({model: this.model, collection: this.collection}));
     this.$('.md').each(function() {
         var html = $('<div></div>')
@@ -19,6 +22,7 @@ view.prototype.render = function() {
             $(this).attr('id', 'manual-' + cleaned);
             this.className = this.nodeName;
         });
+        $('a', html).each(function() { $(this).get(0).target = '_blank'; });
     });
 };
 

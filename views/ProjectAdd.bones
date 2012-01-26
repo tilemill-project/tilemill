@@ -16,16 +16,7 @@ view.prototype.render = function() {
 };
 
 view.prototype.save = function() {
-    var attr = _({
-        'id':          this.$('input[name=id]').val(),
-        'name':        this.$('input[name=name]').val(),
-        'description': this.$('input[name=description]').val(),
-        'format':      this.$('select[name=format]').val(),
-    }).reduce(function(memo, val, key) {
-        if (key === 'id' || val !== '') memo[key] = val;
-        return memo;
-    }, {});
-
+    var attr = Bones.utils.form(this.$('form'), this.model);
     var error = function(m, e) { new views.Modal(e); };
     if (!this.model.set(attr, {error:error})) return false;
 
@@ -33,9 +24,11 @@ view.prototype.save = function() {
     this.model.setDefaults(this.$('input[name=use-default]')[0].checked);
     this.model.save({}, {
         success: _(function(model) {
-            this.model.collection.add(this.model);
-            $(this.el).removeClass('loading');
-            this.$('.close').click();
+            Bones.utils.until(model.thumb(), _(function() {
+                this.model.collection.add(this.model);
+                $(this.el).removeClass('loading');
+                this.$('.close').click();
+            }).bind(this));
         }).bind(this),
         error:error
     });

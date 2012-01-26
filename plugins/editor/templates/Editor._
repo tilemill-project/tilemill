@@ -1,0 +1,10 @@
+<ul class='tabs toggler clearfix'></ul>
+<a class='popup add button'><span class='icon reverse plus'>Add stylesheet</span></a>
+<div class='code fill-s'></div>
+<div class='colors'></div>
+<div class='status fill-s'>
+  <a href='#close' class='close button'><span class='icon reverse close'>Close</span></a>
+  <div class='content'></div>
+</div>
+<div class='mask'></div>
+

@@ -4,7 +4,26 @@ controller.prototype.initialize = function() {
     if (Bones.server) return;
     new views.App({ el: $('body') });
 
-    // Add catchall route to show error page.
+    // Check whether there is a new version of TileMill or not.
+    (new models.Config).fetch({success: function(m) {
+        if (window.abilities.platform === 'darwin') return;
+        if (!m.get('updates')) return;
+        if (!semver.gt(m.get('updatesVersion'),
+            window.abilities.tilemill.version)) return;
+        new views.Modal({
+            content:_('\
+                A new version of TileMill is available.<br />\
+                Update to TileMill <%=version%> today.<br/>\
+                <small>You can disable update notifications in the <strong>Settings</strong> panel.</small>\
+            ').template({ version:m.get('updatesVersion') }),
+            affirmative: 'Update',
+            negative: 'Later',
+            callback: function() { window.open('http://tilemill.com') }
+        });
+    }});
+
+    // Add catchall routes for wrapper goto's, error page.
+    this.route(/[^?]*\?goto=(.*)/, 'goto', this.goto);
     this.route(/^(.*?)/, 'error', this.error);
 };
 
@@ -14,8 +33,16 @@ controller.prototype.routes = {
     '/project/:id': 'project',
     '/project/:id/export': 'projectExport',
     '/project/:id/export/:format': 'projectExport',
+    '/project/:id/settings': 'projectSettings',
     '/manual': 'manual',
-    '/manual/:page?': 'manual'
+    '/manual/:page?': 'manual',
+    '/settings': 'config',
+    '/plugins': 'plugins'
+};
+
+controller.prototype.goto = function(path) {
+    var go = !window.onbeforeunload || window.onbeforeunload() !== false;
+    if (go !== false) window.location.hash = path;
 };
 
 controller.prototype.error = function() {
@@ -57,6 +84,12 @@ controller.prototype.projectExport = function(id, format) {
     }).bind(this));
 };
 
+controller.prototype.projectSettings = function(id, format) {
+    this.project(id, _(function() {
+        $('.actions a[href=#settings]').click();
+    }).bind(this));
+};
+
 controller.prototype.manual = function(page) {
     Bones.utils.fetch({
         page: new models.Page({ id: page }),
@@ -70,4 +103,26 @@ controller.prototype.manual = function(page) {
             page: page
         });
     });
-}
+};
+
+controller.prototype.config = function() {
+    (new models.Config).fetch({
+        success: function(model, resp) {
+            new views.Config({
+                el: $('#page'),
+                model: model
+            });
+        },
+        error: function(model, err) {
+            new views.Modal(err);
+        }
+    });
+};
+
+controller.prototype.plugins = function() {
+    new views.Plugins({
+        el: $('#page'),
+        collection: new models.Plugins(_(window.abilities.plugins).toArray())
+    });
+};
+

@@ -6,6 +6,7 @@
 model = Backbone.Model.extend({});
 
 model.prototype.schema = {
+    'id': 'Stylesheet',
     'type': 'object',
     'properties': {
         'id': {

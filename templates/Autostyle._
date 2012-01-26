@@ -1,0 +1,24 @@
+<% if (get('geometry') == 'polygon' || get('geometry') == 'multipolygon') { %>
+
+#<%= get('id') %> {
+  line-color:#594;
+  line-width:0.5;
+  polygon-opacity:1;
+  polygon-fill:#ae8;
+}<% } %><% if (get('geometry') == 'point' || get('geometry') == 'multipoint') { %>
+
+#<%= get('id') %> {
+  marker-width:3;
+  marker-fill:#f45;
+  marker-line-color:#813;
+  marker-allow-overlap:true;
+}<% } %><% if (get('geometry') == 'linestring' || get('geometry') == 'multilinestring') { %>
+
+#<%= get('id') %> {
+  line-width:1;
+  line-color:#168;
+}<% } %><% if (get('geometry') == 'raster') { %>
+
+#<%= get('id') %> {
+  raster-opacity:1;
+}<% } %>

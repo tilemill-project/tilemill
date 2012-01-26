@@ -1,6 +1,6 @@
 view = Backbone.View.extend({
     events: {
-        'click .actions a[href=#add]': 'add',
+        'click a[href=#add]': 'add',
         'click .delete': 'del'
     },
     initialize: function() {
@@ -10,6 +10,9 @@ view = Backbone.View.extend({
         this.render();
     },
     render: function() {
+        $('.bleed .active').removeClass('active');
+        $('.bleed .projects').addClass('active');
+
         $(this.el).html(templates.Projects(this.collection));
         return this;
     },
@@ -21,11 +24,17 @@ view = Backbone.View.extend({
         var id = $(ev.currentTarget).attr('id');
         var model = this.collection.get(id);
         new views.Modal({
-            content: _('Are you sure you want to delete "<%=id%>?"').template({id:id}),
+            content: _('Are you sure you want to delete "<%=get("name")||id%>?"').template(model),
             callback: _(function() {
                 model.destroy({
                     success: _(function() {
                         this.collection.remove(model);
+                        // Reset the project nav item to be disabled if
+                        // set to the project that is being deleted.
+                        if ($('.bleed .editor').attr('href') === '#/project/' + model.id)
+                            $('.bleed .editor')
+                                .removeAttr('href')
+                                .addClass('disabled');
                     }).bind(this),
                     error: _(function(model, err) {
                         new views.Modal(err);

@@ -57,6 +57,9 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
     } else if (ch == '#') {
       stream.eatWhile(/[\w\-]/);
       return ret('carto-selector', 'hash');
+    } else if (ch == '.') {
+      stream.eatWhile(/[\w\-]/);
+      return ret('carto-selector', 'hash');
     } else if (/\-|\d/.test(ch)) {
       stream.eatWhile(/[\w.%]/);
       return ret('carto-unit', 'unit');

@@ -1,11 +1,11 @@
 <% if (type === 'confirm') { %>
   <div class='content'><%= content.toString() %></div>
   <div class='buttons'>
-    <input class='ok' type='button' value='<%= affirmative %>' />
-    <input class='cancel' type='button' value='<%= negative %>' />
+    <% if (affirmative) %><input class='ok' type='button' value='<%= affirmative %>' /><% ; %>
+    <% if (negative) %><input class='cancel' type='button' value='<%= negative %>' /><% ; %>
   </div>
 <% } else { %>
   <a href='#close' class='close'><span class='icon reverse close'>Close</span></a>
-  <div class='content'><%= content.toString().replace(/</g, '&lt;').replace(/>/g, '&gt;') %></div>
+  <div class='content'><pre class='scrolling'><%= content.toString().replace(/</g, '&lt;').replace(/>/g, '&gt;') %></pre></div>
   <div class='bug'>Is this a bug? <a target='_blank' href='https://github.com/mapbox/tilemill/issues'>Report it on github</a>.</div>
 <% } %>

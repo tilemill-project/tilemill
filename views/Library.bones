@@ -7,7 +7,7 @@ view.prototype.events = {
 };
 
 view.prototype.initialize = function(options) {
-    if (!options.input) throw new Error('options.input required.')
+    if (!options.change) throw new Error('options.change required.')
     if (!options.favorites) throw new Error('options.favorites required.')
 
     _(this).bindAll(
@@ -17,7 +17,7 @@ view.prototype.initialize = function(options) {
         'libraryURI',
         'libraryUpdate'
     );
-    this.input = options.input;
+    this.change = options.change;
     this.favorites = options.favorites;
     this.favorites.bind('add', this.libraryUpdate);
     this.favorites.bind('remove', this.libraryUpdate);
@@ -27,13 +27,15 @@ view.prototype.initialize = function(options) {
 view.prototype.render = function() {
     var breadcrumb = [];
     if (this.model.get('location')) {
-        breadcrumb = _(this.model.get('location').split('/')).chain()
+        var s3 = this.model.get('id') == 's3';
+        var sep = window.abilities.platform === 'win32' ? '\\' : '/';
+        breadcrumb = _(this.model.get('location').split(sep)).chain()
             .compact()
             .reduce(function(memo, part) {
                 if (!memo.length) {
-                    memo.push('/' + part);
+                    memo.push((s3 ? '' : sep) + part);
                 } else {
-                    memo.push(_(memo).last() + '/' + part);
+                    memo.push(_(memo).last() + sep + part);
                 }
                 return memo;
             }, [])
@@ -41,7 +43,8 @@ view.prototype.render = function() {
     }
 
     var render = $(templates.Library({
-        breadcrumb:breadcrumb,
+        sep: sep,
+        breadcrumb: breadcrumb,
         model:this.model
     }));
     if (this.$('.assets').size()) {
@@ -85,14 +88,16 @@ view.prototype.libraryLocation = function(ev) {
     this.model.set({location:location});
     this.model.fetch({
         success:this.render,
-        error:function(m, err) { new views.Modal(err) }
+        error: function(m, err) {
+            new views.Modal(err)
+        }
     });
     return false;
 };
 
 view.prototype.libraryURI = function(ev) {
     var uri = $(ev.currentTarget).attr('href').split('#').pop();
-    this.input.val(uri).change();
+    this.change(uri);
     return false;
 };
 

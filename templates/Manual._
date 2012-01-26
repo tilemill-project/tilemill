@@ -1,19 +1,11 @@
-<div class='manual'>
-
-  <div class='bleed'><div class='header'>
-    <div class='breadcrumb'>
-      <a class='logo' href='/#!/'><span class='icon'></span> TileMill</a>
-      <a href='/#!/manual'>Manual</a>
-    </div>
-    <div class='actions'>
-    </div>
-  </div></div>
-
-  <div class='navigation'><ul>
+<div class='manual raised'>
+  <div class='navigation'>
+  <ul>
     <% obj.collection.each(function(page) { %>
-      <li><a href='/#!/manual/<%= page.id %>'><%= page.get('title') %></a></li>
+      <% var className = page.get('id') === model.get('id') ? 'active' : ''; %>
+      <li><a class='<%=className%>' href='#/manual/<%= page.id %>'><%= page.get('title') %></a></li>
     <% }); %>
-  </ul></div>
+  </ul>
+  </div>
   <pre class='md prose'><%= obj.model.get('data') %></pre>
-
 </div>

@@ -9,25 +9,26 @@
 #import "TileMillChildProcess.h"
 
 @class TileMillBrowserWindowController;
-@class TileMillPrefsWindowController;
+@class TileMillSparklePrefsWindowController;
+
+void (^requestLoadBlock)(void) = NULL;
 
 @interface TileMillAppDelegate : NSObject <NSApplicationDelegate, TileMillChildProcessDelegate>
 {
     TileMillChildProcess *searchTask;
     TileMillBrowserWindowController *browserController;
-    TileMillPrefsWindowController *prefsController;
+    TileMillSparklePrefsWindowController *sparklePrefsController;
     NSString *logPath;
     BOOL shouldAttemptRestart;
-    BOOL fatalErrorCaught;
 }
 
 - (IBAction)openDocumentsFolder:(id)sender;
 - (IBAction)openHelp:(id)sender;
 - (IBAction)openDiscussions:(id)sender;
-- (IBAction)openKnowledgeBase:(id)sender;
+- (IBAction)openOnlineHelp:(id)sender;
 - (IBAction)openConsole:(id)sender;
-- (IBAction)openPreferences:(id)sender;
+- (IBAction)openSparklePreferences:(id)sender;
 - (IBAction)showBrowserWindow:(id)sender;
-- (IBAction)showAboutPanel:(id)sender;
+- (NSString *)configurationForKey:(NSString *)key;
 
 @end

@@ -1,357 +1,1740 @@
 {
-    "features": [
-        { "featurecla": "Disputed", "gid": 1, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 2, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 3, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 4, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 5, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 6, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 7, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 131, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 8, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 9, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 13, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 60, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 10, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 11, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 12, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 14, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 15, "scalerank": 1 },
-        { "featurecla": "Disputed", "gid": 16, "scalerank": 1 },
-        { "featurecla": "Indefinate", "gid": 17, "scalerank": 1 },
-        { "featurecla": "Indefinate", "gid": 18, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 65, "scalerank": 1 },
-        { "featurecla": "Indefinate", "gid": 19, "scalerank": 1 },
-        { "featurecla": "Indefinate", "gid": 20, "scalerank": 1 },
-        { "featurecla": "Indefinate", "gid": 21, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 93, "scalerank": 1 },
-        { "featurecla": "Indefinate", "gid": 22, "scalerank": 1 },
-        { "featurecla": "Indefinate", "gid": 23, "scalerank": 1 },
-        { "featurecla": "Indefinate", "gid": 24, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 25, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 26, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 27, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 28, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 29, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 30, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 31, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 32, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 33, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 34, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 39, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 40, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 35, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 36, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 37, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 99, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 38, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 41, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 42, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 43, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 45, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 46, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 44, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 47, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 48, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 49, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 50, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 57, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 100, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 51, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 52, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 53, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 54, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 55, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 56, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 58, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 59, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 61, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 86, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 62, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 63, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 64, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 66, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 67, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 87, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 68, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 70, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 299, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 69, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 75, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 101, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 71, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 79, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 300, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 72, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 80, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 81, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 82, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 73, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 74, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 76, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 77, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 78, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 83, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 84, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 85, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 88, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 91, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 89, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 90, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 92, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 301, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 94, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 95, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 96, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 97, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 102, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 103, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 104, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 105, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 302, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 98, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 106, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 107, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 128, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 108, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 109, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 110, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 129, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 130, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 111, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 112, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 113, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 114, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 115, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 116, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 117, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 118, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 119, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 120, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 121, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 122, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 123, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 124, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 125, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 126, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 127, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 132, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 303, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 133, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 134, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 135, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 136, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 137, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 138, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 139, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 304, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 140, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 141, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 142, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 143, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 144, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 170, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 171, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 172, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 145, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 146, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 147, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 148, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 149, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 150, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 151, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 152, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 305, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 153, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 154, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 155, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 156, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 157, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 158, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 159, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 160, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 161, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 162, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 163, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 164, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 165, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 166, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 182, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 167, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 168, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 169, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 173, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 174, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 175, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 176, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 177, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 249, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 178, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 184, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 250, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 179, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 180, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 181, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 183, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 185, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 186, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 265, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 266, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 187, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 188, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 205, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 206, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 189, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 218, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 190, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 191, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 192, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 193, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 194, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 195, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 196, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 197, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 198, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 199, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 200, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 201, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 202, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 219, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 203, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 204, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 220, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 207, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 208, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 209, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 210, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 211, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 212, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 213, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 228, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 214, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 215, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 216, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 217, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 221, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 275, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 222, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 223, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 224, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 234, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 225, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 226, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 227, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 235, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 229, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 230, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 231, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 232, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 233, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 236, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 239, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 240, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 276, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 237, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 241, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 242, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 243, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 244, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 245, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 238, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 277, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 246, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 247, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 248, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 278, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 251, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 252, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 269, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 270, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 253, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 254, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 271, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 272, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 255, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 256, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 257, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 258, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 259, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 260, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 261, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 262, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 263, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 264, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 267, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 273, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 268, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 274, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 285, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 279, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 280, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 281, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 282, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 283, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 284, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 286, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 287, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 288, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 289, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 290, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 291, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 292, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 295, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 293, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 294, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 296, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 297, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 298, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 306, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 307, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 322, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 308, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 326, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 327, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 309, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 310, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 311, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 317, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 312, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 313, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 328, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 314, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 315, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 316, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 329, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 330, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 331, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 318, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 319, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 320, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 321, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 323, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 324, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 325, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 332, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 333, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 337, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 334, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 335, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 336, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 338, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 339, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 340, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 341, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 342, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 343, "scalerank": 1 },
-        { "featurecla": "Treaty", "gid": 344, "scalerank": 1 }
-    ],
-    "fields": {
-        "featurecla": { "max": "Indefinate", "min": "Treaty", "type": "String" },
-        "gid": { "max": 344, "min": 1, "type": "Number" },
-        "scalerank": { "max": 1, "min": 1, "type": "Number" }
-    },
-    "geometry_type": "multilinestring",
     "id": "postgis",
     "project": "demo_01",
-    "type": "vector"
+    "fields": {
+        "gid": {
+            "type": "Number",
+            "max": 343,
+            "min": 1
+        },
+        "scalerank": {
+            "type": "Number",
+            "max": 1,
+            "min": 1
+        },
+        "featurecla": {
+            "type": "String",
+            "max": "Indefinite (please verify)",
+            "min": "Treaty (please verify)"
+        }
+    },
+    "features": [
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 1,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 2,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 3,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 4,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 5,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 6,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 7,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 15,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 47,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 8,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 9,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 14,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 10,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 11,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 12,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 13,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Disputed (please verify)",
+            "gid": 16,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Indefinite (please verify)",
+            "gid": 17,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Indefinite (please verify)",
+            "gid": 18,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Indefinite (please verify)",
+            "gid": 22,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Indefinite (please verify)",
+            "gid": 23,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Indefinite (please verify)",
+            "gid": 19,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Indefinite (please verify)",
+            "gid": 20,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Indefinite (please verify)",
+            "gid": 21,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 64,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 66,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Indefinite (please verify)",
+            "gid": 24,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 25,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 26,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 27,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 28,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 29,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 33,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 30,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 31,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 32,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 39,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 34,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 35,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 36,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 40,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 99,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 37,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 38,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 45,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 41,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 42,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 46,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 43,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 44,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 48,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 49,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 100,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 50,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 51,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 52,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 53,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 54,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 55,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 56,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 57,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 58,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 59,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 60,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 65,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 61,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 62,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 63,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 67,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 68,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 69,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 70,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 71,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 101,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 102,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 103,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 72,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 73,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 74,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 75,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 76,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 77,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 104,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 278,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 78,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 79,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 80,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 81,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 82,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 83,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 84,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 279,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 280,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 85,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 86,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 87,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 281,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 88,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 89,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 115,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 90,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 91,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 92,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 127,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 128,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 93,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 94,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 95,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 282,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 96,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 105,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 129,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 97,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 98,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 130,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 106,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 107,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 113,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 108,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 109,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 114,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 110,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 111,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 112,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 116,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 117,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 118,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 119,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 120,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 121,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 122,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 123,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 124,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 125,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 126,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 131,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 132,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 133,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 134,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 135,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 136,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 137,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 138,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 139,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 140,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 141,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 142,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 143,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 169,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 170,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 171,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 144,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 145,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 146,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 147,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 148,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 149,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 150,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 151,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 152,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 153,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 154,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 155,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 156,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 157,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 158,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 159,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 160,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 161,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 162,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 163,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 164,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 165,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 181,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 166,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 167,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 168,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 172,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 173,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 174,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 175,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 176,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 217,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 177,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 183,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 184,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 178,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 179,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 180,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 182,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 185,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 186,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 187,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 188,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 204,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 189,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 190,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 248,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 191,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 192,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 193,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 194,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 195,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 196,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 197,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 249,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 198,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 199,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 200,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 201,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 206,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 202,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 203,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 207,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 208,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 293,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 205,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 209,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 210,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 211,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 212,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 303,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 213,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 214,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 215,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 216,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 218,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 219,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 227,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 304,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 220,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 305,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 221,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 222,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 223,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 233,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 224,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 225,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 226,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 234,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 228,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 229,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 230,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 231,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 232,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 235,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 238,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 239,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 236,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 240,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 241,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 242,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 243,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 244,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 237,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 245,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 246,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 247,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 250,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 251,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 258,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 259,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 252,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 253,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 260,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 261,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 262,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 263,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 264,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 265,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 254,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 255,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 256,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 257,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 266,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 272,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 273,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 267,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 274,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 275,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 268,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 269,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 270,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 271,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 276,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 277,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 283,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 284,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 285,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 286,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 287,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 288,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 289,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 290,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 306,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 291,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 292,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 294,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 295,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 296,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 312,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 297,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 298,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 299,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 300,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 301,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 302,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 307,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 319,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 308,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 309,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 328,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 329,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 330,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 310,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 311,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 313,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 314,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 315,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 316,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 317,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 318,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 320,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 321,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 322,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 323,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 324,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 325,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 326,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 327,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 331,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 332,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 336,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 333,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 334,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 335,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 337,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 338,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 339,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 340,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 341,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 342,
+            "scalerank": 1
+        },
+        {
+            "featurecla": "Treaty (please verify)",
+            "gid": 343,
+            "scalerank": 1
+        }
+    ],
+    "type": "vector",
+    "geometry_type": "linestring"
 }

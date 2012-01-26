@@ -27,8 +27,9 @@
     </select>
   </li>
   <li>
-    <label for='use-default'>Use Default Data</label>
+    <label for='use-default'>Default data</label>
     <input type='checkbox' name='use-default' checked='checked' />
+    <span class='description'>Include world layer and styles.</span>
   </li>
   <li class='buttons'>
     <input type='submit' value='Add' />

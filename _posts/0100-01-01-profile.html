@@ -1,0 +1,27 @@
+---
+permalink: /platforms/osx/profile.html
+---
+<html><body>
+
+<script type='text/javascript'>
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-12158002-1']);
+    _gaq.push(['_setDomainName', 'mapbox.com']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+    var url   = location.toString();
+    var parts = url.split('?', 2);
+    if (parts[1]) {
+        var query = parts[1].split('&');
+        for (var i = 0; i < query.length; i++) {
+            var segments = query[i].split('=', 2);
+            _gaq.push(['_trackEvent', 'TileMill Mac System Profile', segments[0], segments[1]]);
+        }
+    }
+</script>
+
+</body></html>

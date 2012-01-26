@@ -3,10 +3,7 @@
 ### It is the source file for the HTML changelog as well
 ### as the Sparkle appcast feed.
 ###
-### The 'oldrev' is only needed for 0.5.0/0.5.1 since the
-### Sparkle scheme changed for 0.6.0+ (see #730).
-###
-tag: installation
+tag: Installation
 layout: changelog
 section: documentation
 category: TileMill
@@ -14,6 +11,104 @@ date: 0201-01-30
 title: Changelog
 permalink: /docs/changelog
 releases:
+
+- version: 0.9.0
+  date: 2012-01-24
+  size: 66944371
+  sign: MCwCFHbWtf6dEIlGYCVMZVk3B9ISEw4OAhQq+nau+8I04XlKkDchR31BIHWPbg==
+
+  notes:
+  - Plugin system for UI components.
+  - Core app & tile servers are now separate processes.
+  - Redesigned UI with global sidebar navigation.
+  - Redesigned UI for export and project settings.
+  - Native webkitgtk based browser window for Linux version.
+  - Native CEF (chromium embedded) browser window for Windows version.
+  - Added `server` commandline/config option for running TileMill without a window.
+  - Datasource downloads and other mapnik-intensive operations can now be cancelled.
+  - Upload export command for rendering and uploading at once.
+  - Project thumbnails are now cached at save time to a `.thumb.png` file local to each project.
+  - Improvements to full screen mode behavior on Mac OS X 10.7 Lion.
+
+- version: 0.8.0.472
+  dev: true
+  date: 2012-01-17
+  size: 76880853
+  sign: MC4CFQDhjCmHBnnXuzEut5rtHfIheQsvUwIVAIwKTSx17+zp1udVCiutw1IJjm4L
+
+- version: 0.8.0.310
+  dev: true
+  date: 2012-01-11
+  size: 71410877
+  sign: MC0CFQDPH3pDCc+OxigU4y6Skl1pmOwU9gIUCsj6sTu6OM5RPsTJIMgTtEO1cJ4=
+
+- version: 0.8.0.121
+  dev: true
+  date: 2011-12-23
+  size: 68527190
+  sign: MCwCFEh+2SzQwW+STC95ACdR2enIcn+JAhQlv0CElazUN/DXn+T+/gkVASbZ7Q==
+
+- version: 0.8.0
+  date: 2011-12-22
+  size: 65764517
+  sign: MC0CFDfyJkCrtSXzuLJzZPT2WZuuQoBPAhUAv+h15+NxowY8w2S9hOrnpv0hj+c=
+
+  notes:
+  - Added preference pane and about box to main app.
+  - Added ability to authenticate with MapBox to upload directly to your hosting account.
+  - Support for inverted sections in Mustache tooltip templates.
+  - File browser now defaults to the user's home directory.
+  - No longer create a data directory in the MapBox folder.
+  - Centerpoint is included in exports if it is valid.
+  - More reasonable default zoom settings for new projects.
+  - Added option to update to development builds.
+  - Moved preferences to `~/.tilemill/config.json`.
+  - Changed default server port to 20009.
+  - Better logging/error reporting from export command.
+
+- version: 0.7.2.138
+  dev: true
+  date: 2011-12-16
+  size: 65733750
+  sign: MC0CFFsb8XVpMkV6QLqdBYVIS2auqnPEAhUAsrITOLkRr6VxZAL9Mz85rWAuhKI=
+
+- version: 0.7.2.86
+  dev: true
+  date: 2011-12-12
+  size: 65432672
+  sign: MC4CFQDaC2AahRX82nBst/jhLKjhSAWxeQIVANNP652ch5Nyjkaw+rO8QOV74r0F
+
+- version: 0.7.2
+  date: 2011-12-08
+  size: 66311839
+  sign: MCwCFDWWlHhqrcFhiHgHy37TIRuUtjHdAhRv05/olYM9cMRa+6gsM987fpxiyQ==
+
+  notes:
+  - Fix jitter in Carto editor.
+  - Add support for conditionals in Mustache templates.
+  - Better first run experiance for Ubuntu users.
+
+- version: 0.7.1
+  date: 2011-12-07
+  size: 62158055
+  sign: MC0CFEGZ1Mtuw4vP9bX1tFVNEJhkzYNLAhUAyGRM9UXA/piCPo21kIizDvt0mS0=
+
+  notes:
+  - Introduces Save & Style, an option to automatically add an appropriate
+    style for a layer when you add it to your project.
+  - Updates CodeMirror, fixing a Safari glitch.
+  - Fixes a performance problem related to computing colors
+    while typing stylesheets.
+  - Improves error formatting for technical errors.
+  - Fixes location formatter in exports.
+  - Allows for Linux Mint 11 Katya in Linux install script.
+  - Improves performance of front page listing and project
+    opening.
+  - Improved autocompletion of selectors, properties,
+    and values.
+  - Updated default project and default stylesheet to use
+    Natural Earth 1.4, with proper Sudan borders.
+  - Adjusted Sparkle Mac OS X updating system.
 
 - version: 0.7.0
   date: 2011-11-20
@@ -70,7 +165,6 @@ releases:
   - Fixed bug in Carto where the pound sign in an ID selector was optional.
 
 - version: 0.5.1
-  oldrev: 2917
   date: 2011-09-07
   size: 54341919
   sign: MC4CFQDCvneOlUKcQneRCNIfy/vrs+ZBIQIVAOUD6mzQrITdBNSrv86XJO7WauXt
@@ -83,7 +177,6 @@ releases:
   - Faster rendering thanks to performance improvements in Mapnik.
 
 - version: 0.5.0
-  oldrev: 2875
   date: 2011-08-25
   size: 54966410
   sign: MC0CFQDYZwPKnPQfMz9Sa+6FJr6bVZxu4gIUJFa/5mBuKzqKq4X2bBB6vF0uD7s=
