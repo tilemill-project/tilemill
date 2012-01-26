@@ -11,7 +11,9 @@ Build-Depends: cdbs (>=0.4.42),
  libzip1,
  libzip-dev,
  nodejs-dev,
+ libgtk2.0-0,
  libgtk2.0-dev,
+ libwebkitgtk-1.0-0,
  libwebkitgtk-dev
 Standards-Version: 3.8.3
 Homepage: http://github.com/mapbox/tilemill
@@ -26,7 +28,7 @@ Depends: ${shlibs:Depends},
  libsqlite3-dev,
  unzip,
  libmapnik,
- libgtk2.0,
- libwebkitgtk
+ libgtk2.0-0,
+ libwebkitgtk-1.0-0
 Description: A modern map design studio.
  A modern map design studio powered by open source technology.
