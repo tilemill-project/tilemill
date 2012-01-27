@@ -15,7 +15,7 @@ nextup:
 .summary p {
   }
 
-.icon { 
+.summary .icon { 
   width: 60px;
   height: 60px;
   display: block;
