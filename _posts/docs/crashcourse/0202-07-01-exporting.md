@@ -42,7 +42,7 @@ The window will transition back to your project and the exports panel will appea
 7. When the export process is complete, the progress bar will be replaced by a Save button. This will save a copy of the file locally to a specified location.
   ![](/tilemill/assets/pages/exporting-9.png)
 
-### Congragulations!  
+### Congratulations!
 You just made your first map in TileMill! You can [upload it online with MapBox](http://tiles.mapbox.com/upload/create/) - the first seven days of hosting are free. 
 
 {% include nextup.html %}
