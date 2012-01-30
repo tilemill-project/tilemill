@@ -3,7 +3,7 @@ layout: book
 section: documentation
 category: TileMill
 tag: Crash&nbsp;course
-title: "Importing data"
+title: "Importing a spreadsheet"
 permalink: /docs/crashcourse/point-data
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
@@ -16,9 +16,12 @@ nextup:
 
 {% include prereq.html %}
 
-To import data TileMill requires a CSV file with column headings on the first row. The CSV must have a column with a latitude and longitude geographic coordinate in degrees. We have hard coded TileMill to look at the column headers for any mention of "lat" or "latitude", so something like "geo_longitude" will even work. 
+One of the [many geo formats](http://localhost:4000/tilemill/docs/manual/adding-layers/) that TileMill supports is a spreadsheet, specifically a [comma-separated values (CSV) file](http://en.wikipedia.org/wiki/Comma-separated_values). We want to start with working with a basic spreadsheet to how how easy it is to make a simple point map.  
 
-If your CSV contains place names or addresses instead of lat/lon coordinates, you will have to geocode the data before it will work in TileMill. We have a [handy plugin for Google Docs](http://developmentseed.org/blog/2011/10/12/mapping-google-doc-spreadsheet/) that makes geocoding easy.
+## Your CSV spreadsheet. 
+To import data into TileMill as CSV file you need column headings on the first row. The CSV must have a column with a latitude and longitude geographic coordinate in degrees. We have hard coded TileMill to look at the column headers for any mention of "lat" or "latitude", so something like "geo_longitude" will even work. 
+
+If your CSV contains place names or addresses instead of lat/lon coordinates, you will have to geocode the data before it will work in TileMill. We have a [plugin for Google Docs](http://developmentseed.org/blog/2011/10/12/mapping-google-doc-spreadsheet/) that makes geocoding easy.
 
 In this crash course, we'll use [earthquake data from the USGS](http://earthquake.usgs.gov/earthquakes/catalogs/) to make a map showing points for earthquakes that have occurred. 
 
