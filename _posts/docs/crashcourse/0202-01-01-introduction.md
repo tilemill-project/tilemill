@@ -43,13 +43,13 @@ The crash course starts with a [general intro to TileMill and GIS](/tilemill/doc
 
 <div class='summary'>
 	
-  <p><span class='icon' id='icon1'> </span><strong><a href='/tilemill/docs/crashcourse/point-data'>Importing a spreadsheet</a></strong><br /> We walk through how to import a basic spreadsheet into TileMill. <em>To work with more complex data, like ESRI Shapefile, PostGIS or SQLite and other datasets, check out the section on <a href="/tilemill/docs/manual/adding-layers/">"Adding Layers"</a>.</em></p> 
+  <p><span class='icon' id='icon1'> </span><strong><a href='/tilemill/docs/crashcourse/point-data'>Importing a spreadsheet</a></strong><br /> We walk through how to import a basic spreadsheet into TileMill. <em>To work with more complex data, like ESRI Shapefile, PostGIS or SQLite and other datasets, check out the section on <a href="/tilemill/docs/manual/adding-layers/">Adding layers</a>.</em></p> 
 
   <p><span class='icon' id='icon2'> </span><strong><a href='/tilemill/docs/crashcourse/styling'>Styling data</a></strong><br /> Here we show the basics of using Carto - a CSS-like language - to style your data in TileMill. <em>For an more a in-depth dive into how Carto works, check out the <a href="/tilemill/docs/manual/carto">Carto manual</a></em>.</p> 
 
-  <p><span class='icon' id='icon3'> </span><strong><a href='/tilemill/docs/crashcourse/tooltips'>Adding tooltips and legends</a></strong><br /> Here we show how to add tooltip interactivity and legends to maps. <em>See the section on <a href="/tilemill/docs/manual/project-settings">"Project Settings"</a> for more advanced details on tooltips and legends.</em> </p> 
+  <p><span class='icon' id='icon3'> </span><strong><a href='/tilemill/docs/crashcourse/tooltips'>Adding tooltips and legends</a></strong><br /> Here we show how to add tooltip interactivity and legends to maps. <em>See the section on <a href="/tilemill/docs/manual/project-settings">Project settings</a> for more advanced details on tooltips and legends.</em> </p> 
 
-  <p><span class='icon' id='icon4'> </span><strong><a href='/tilemill/docs/crashcourse/exporting/'>Exporting your map</a></strong><br /> Here we show how to export a map from TileMIll as a fully interactive map that can be shared on the web. <em>For more advanced export options, like to PNG, PDF, or SVG, read our <a href="/tilemill/docs/manual/exporting/">"Exporting" docs</a> for an overview of all supported formats.</em></p> 
+  <p><span class='icon' id='icon4'> </span><strong><a href='/tilemill/docs/crashcourse/exporting/'>Exporting your map</a></strong><br /> Here we show how to export a map from TileMIll as a fully interactive map that can be shared on the web. <em>For more advanced export options, like to PNG, PDF, or SVG, read our <a href="/tilemill/docs/manual/exporting/">Exporting documentation</a> for an overview of all supported formats.</em></p> 
 
 </div>
 
