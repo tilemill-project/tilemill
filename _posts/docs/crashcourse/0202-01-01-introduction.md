@@ -30,6 +30,7 @@ nextup:
 
 </style>
 
+
 ## Step-by-step instructions for making maps
 
 This crash course walks through how to design custom web maps in TileMill. It will help you quickly get familiar with the basics of map design with TileMill, from importing and styling your data to designing and sharing your map. 
@@ -43,16 +44,16 @@ This guide focuses on the core functions of TileMill and links to documentation 
 
 ## What we'll cover
 
-**[Importing data](/tilemill/docs/crashcourse/point-data)**  
-  We walk through how to download data and get it into TileMill. To work with more complex data and datasets, check out the [Adding Layers documentation](/tilemill/docs/manual/adding-layers/). 
+<div class='summary'>
+	
+  <p><span class='icon' id='icon1'> </span><strong><a href='/tilemill/docs/crashcourse/point-data'>Importing data</a></strong><br /> We walk through how to download data and get it into TileMill. To work with more complex data and datasets, check out the [Adding Layers documentation](/tilemill/docs/manual/adding-layers/).</p> 
 
-**[Styling data](/tilemill/docs/crashcourse/styling)**  
-  Here we show the basics of using Carto - a CSS-like language - to style your data and make a truly custom map. For an a in-depth dive into how Carto works, check out the [Carto manual](/tilemill/docs/manual/carto).
+  <p><span class='icon' id='icon2'> </span><strong><a href='/tilemill/docs/crashcourse/styling'>Styling data</a></strong><br /> Here we show the basics of using Carto - a CSS-like language - to style your data and make a truly custom map. For an a in-depth dive into how Carto works, check out the [Carto manual](/tilemill/docs/manual/carto).</p> 
 
-**[Adding tooltips and legends](/tilemill/docs/crashcourse/tooltips)**  
-  Making your map interactive and adding a legend is critical to communicating your data. Here we show how to add tooltip interactivity and legends to maps. The [Project Settings](/tilemill/docs/manual/project-settings) documentation offers more advanced details on this. 
+  <p><span class='icon' id='icon3'> </span><strong><a href='/tilemill/docs/crashcourse/tooltips'>Adding tooltips and legends</a></strong><br /> Making your map interactive and adding a legend is critical to communicating your data. Here we show how to add tooltip interactivity and legends to maps. The [Project Settings](/tilemill/docs/manual/project-settings) documentation offers more advanced details on this. </p> 
 
-**[Exporting your map](/tilemill/docs/crashcourse/exporting/)**  
-  Maps made in TileMill can be shared quickly and easily in a number of formats. Here we show how to export an interactive map to the MBTiles format for uploading on the web. See our [Exporting docs](/tilemill/docs/manual/exporting) for an overview of all supported exporting formats.
+  <p><span class='icon' id='icon4'> </span><strong><a href='/tilemill/docs/crashcourse/exporting/'>Exporting your map</a></strong><br /> Maps made in TileMill can be shared quickly and easily in a number of formats. Here we show how to export an interactive map to the MBTiles format for uploading on the web. See our [Exporting docs](/tilemill/docs/manual/exporting) for an overview of all supported exporting formats.</p> 
+
+</div>
 
 {% include nextup.html %}
