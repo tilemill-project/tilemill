@@ -52,7 +52,7 @@ This guide focuses on the core functions of TileMill and links to documentation 
 
   <p><span class='icon' id='icon3'> </span><strong><a href='/tilemill/docs/crashcourse/tooltips'>Adding tooltips and legends</a></strong><br /> Making your map interactive and adding a legend is critical to communicating your data. Here we show how to add tooltip interactivity and legends to maps. The [Project Settings](/tilemill/docs/manual/project-settings) documentation offers more advanced details on this. </p> 
 
-  <p><span class='icon' id='icon4'> </span><strong><a href='/tilemill/docs/crashcourse/exporting/'>Exporting your map</a></strong><br /> Maps made in TileMill can be shared quickly and easily in a number of formats. Here we show how to export an interactive map to the MBTiles format for uploading on the web. See our [Exporting docs](/tilemill/docs/manual/exporting) for an overview of all supported exporting formats.</p> 
+  <p><span class='icon' id='icon4'> </span><strong><a href='/tilemill/docs/crashcourse/exporting/'>Exporting your map</a></strong><br /> Maps made in TileMill can be shared quickly and easily in a number of formats. Here we show how to export an interactive map to the MBTiles format for uploading on the web. See our [Exporting docs](/tilemill/docs/manual/exporting/) for an overview of all supported exporting formats.</p> 
 
 </div>
 
