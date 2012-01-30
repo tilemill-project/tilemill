@@ -16,7 +16,7 @@ nextup:
 ---
 
 {% include prereq.html %}
-TileMill is desktop application for creating beautiful web maps. It was designed to easily integrate into existing GIS workflows to enhance design capabilities and flexibility. 
+TileMill is a desktop application for creating beautiful web maps. It was designed to easily integrate into existing GIS workflows to enhance design capabilities and flexibility. 
 
 ## Designing maps
 Map design is the core of TileMill. To manipulate geospatial data to be used on TileMill maps, you may need to look outside of tool or integrate it with other GIS software. Some spatial data can be worked with in Google Docs and Microsoft Excel, and for others GIS software like [QuantumGIS](http://www.qgis.org/) or [ESRI ArcGIS](http://www.esri.com/software/arcgis/index.html) may be needed. Spatial database software like [PostGIS](http://postgis.refractions.net/) and [SQLite](http://sqlite.org) can also be used to work with large spatial datasets and integrated into TileMill.  
