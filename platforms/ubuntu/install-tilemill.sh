@@ -25,7 +25,8 @@ if [[ "$DIST" != "natty" && "$DIST" != "oneiric" && "$DIST" != "katya" ]]; then
   exit
 fi
 
-pkexec /bin/bash -c "apt-get install --yes python-software-properties &&
+pkexec /bin/bash -c "apt-get update --yes &&
+    apt-get install --yes python-software-properties &&
     yes | apt-add-repository ppa:developmentseed/mapbox &&
     apt-get update --yes &&
     apt-get install --yes tilemill"
