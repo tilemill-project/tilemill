@@ -38,7 +38,7 @@ nextup:
 [Take the MapBox tour](http://www.mapbox.com/tour) to see what you can do with the toolset.
 </small>
 
-The crash course starts with a [general intro to TileMill and GIS](/tilemill/docs/crashcourse/tilemill-gis). We then focus step-by-step guide walking you though importing and styling data to designing and sharing your map on the web. Here are the key follow along sections: 
+The crash course starts with a [general intro to TileMill and GIS](/tilemill/docs/crashcourse/tilemill-gis). We then focus step-by-step guide walking you though importing and styling data to designing and sharing your map on the web.
 
 
 <div class='summary'>
