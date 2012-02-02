@@ -23,23 +23,39 @@ obj.escape = function(string) {
     </tr>
   </thead>
   <tbody>
-    <tr class='min'>
-      <% _(fields).each(function (field) { %>
+    <tr class='statistics'>
+    <% _(fields).each(function (field) { %>
+        <td>
         <% if (field.type === 'Number') { %>
-        <td class='<%= field.type %>'><span class='description'>min</span> <%= obj.escape(field.min) %></td>
+          <% if (field.statistics) { %>
+              <table>
+                  <% _(field.statistics).each(function(v, k) { %>
+                  <tr>
+                      <td><%= k %></td>
+                      <td><%= obj.escape(v) %></td>
+                  </tr>
+                  <% }); %>
+              </table>
+           <% } else { %>
+              <table><tr><td>min</td>
+                      <td><%= obj.escape(field.min) %></td>
+                  </tr><tr><td>max</td>
+                      <td><%= obj.escape(field.max) %></td>
+                  </tr>
+              </table>
+           <% } %>
         <% } else { %>
-        <td class='<%= field.type %>'><%= obj.escape(field.min) %> <span class='description'>min</span></td>
+            <table><tr>
+                    <td>min</td>
+                    <td><%= obj.escape(field.min) %></td>
+                    </tr><tr>
+                    <td>max</td>
+                    <td><%= obj.escape(field.max) %></td>
+                </tr>
+            </table>
         <% } %>
-      <% }); %>
-    </tr>
-    <tr class='max'>
-      <% _(fields).each(function (field) { %>
-        <% if (field.type === 'Number') { %>
-        <td class='<%= field.type %>'><span class='description'>max</span> <%= obj.escape(field.max) %></td>
-        <% } else { %>
-        <td class='<%= field.type %>'><%= obj.escape(field.max) %> <span class='description'>max</span></td>
-        <% } %>
-      <% }); %>
+        </td>
+    <% }); %>
     </tr>
     <%= this['DatasourceRows'](obj) %>
   </tbody>

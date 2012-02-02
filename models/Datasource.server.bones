@@ -43,7 +43,9 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 }
             }
 
+            var statistics = source.statistics();
             var desc = source.describe();
+
             var datasource = {
                 id: options.id,
                 project: options.project,
@@ -58,7 +60,12 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             for (var f in datasource.fields) {
                 var values = _(features).pluck(f);
                 var type = datasource.fields[f];
-                datasource.fields[f] = { type: type };
+                datasource.fields[f] = {
+                    type: type
+                };
+                if (statistics[f]) {
+                    datasource.fields[f].statistics = statistics[f];
+                }
                 if (options.features || options.info) {
                     datasource.fields[f].max = type === 'String'
                         ? _(values).max(function(v) { return (v||'').length })
