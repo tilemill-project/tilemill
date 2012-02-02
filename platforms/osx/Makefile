@@ -1,21 +1,22 @@
 
 
 TARGET=build/Release/TileMill.app/Contents/Resources/
+JOBS=`sysctl -n hw.ncpu`
 
 build:
-	@xcodebuild -project tilemill.xcodeproj
+	@xcodebuild -jobs $(JOBS) -project TileMill.xcodeproj
 
 clean:
-	@xcodebuild -project tilemill.xcodeproj clean
+	@xcodebuild -jobs $(JOBS) -project TileMill.xcodeproj clean
 
 package: build
 	chmod +x $(TARGET)index.js
 	rm -rf $(TARGET)node_modules/jshint
 	rm -rf $(TARGET)node_modules/expresso
 	rm -rf $(TARGET)test
-	find $(TARGET) -name test -delete
+	find $(TARGET) -name test -exec rm -rf {} \;
 	rm -rf $(TARGET)node_modules/mapnik/{build,examples,src,tests}
-	rm -rf $(TARGET)node_modules/sqlite3/build
+	rm -rf $(TARGET)node_modules/sqlite3/build{build,deps,src}
 	rm -rf $(TARGET)node_modules/tilelive/examples
 	rm -rf $(TARGET)node_modules/millstone/node_modules/srs/{build,tools,deps,src}
 	rm -rf $(TARGET)node_modules/millstone/node_modules/zipfile/{build,deps,src}
@@ -33,4 +34,7 @@ zip: package
 tar: package
 	tar cfj TileMill.tar.bz2 -C build/Release/ TileMill.app
 
-.PHONY: build clean package run zip tar
+sparkle:
+	@./sparkle.sh
+
+.PHONY: build clean package run zip tar sparkle

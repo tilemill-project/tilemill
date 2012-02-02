@@ -68,7 +68,7 @@ Map { background-color:@base; }
   [zoom>8] { line-width:1.2; }
 }
 
-#geo-lines[DISPLAY!='International Date Line - Pre 1995 alignment'] {
+#geo-lines[ScaleRank<10] {
   line-color:#B2A;
   line-dasharray:1,4;
   line-opacity:0.8;

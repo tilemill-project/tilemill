@@ -1,0 +1,119 @@
+<%
+var get = _(project.get).bind(project);
+%>
+<div class='fill-w' id='meta-map'>
+  <div class='zoom-display'>Zoom <span class='zoom'></span></div>
+</div>
+
+<form><ul class='form fill-e scrolling'>
+  <li class='text'>
+    <h2><%= title %></h2>
+
+    <% if (model.get('format') === 'sync') { %>
+    <% if (config.get('syncAccount') && config.get('syncAccessToken')) { %>
+    <% var accountURL = config.get('syncURL') + '/' + config.get('syncAccount'); %>
+    <% var mapURL = config.get('syncURL') + '/' + config.get('syncAccount') + '/map/' + model.get('project'); %>
+      <div class='syncHelp'>
+        Create or update this map at
+        <b><a href='<%= mapURL %>' target='_blank'><%=mapURL%></a></b>
+      </div>
+      <div class='buttons centered'>
+        <a class='button' href='#/settings'>Use another account</a>
+        <a class='button' href='<%= accountURL %>' target='_blank'>My account</a>
+    </div>
+    <% } else { %>
+      <div class='syncHelp'>
+        If you don't have a MapBox account, we'll host your map free for 7 days.
+      </div>
+      <div class='buttons centered'>
+        <a class='button' href='#/settings'>Use my account</a>
+        <a class='button' href='http://mapbox.com/tour/' target='_blank'>Learn more</a>
+      </div>
+    <% } %>
+    <% } %>
+  </li>
+  <% if (type === 'tiles') { %>
+  <li>
+    <label for='name'>Name</label>
+    <input type='text' name='name' class='stretch' value='<%= get('name') %>' />
+  </li>
+  <li>
+    <label for='description'>Description</label>
+    <textarea type='text' name='description' class='stretch' rows='4'><%= get('description') %></textarea>
+  </li>
+  <li>
+    <label for='attribution'>Attribution</label>
+    <input type='text' name='attribution' class='stretch' value='<%= get('attribution') %>' />
+  </li>
+  <li>
+    <label for='version'>Version</label>
+    <input type='text' name='version' size='10' value='<%= get('version') %>' />
+  </li>
+  <% } %>
+  <% if (model === project) { %>
+  <li>
+    <label for='format'>Format</label>
+    <select name='format'>
+      <option value='png'<% if (get('format') == 'png') { %> selected='selected' <% } %>>png (24-bit)</option>
+      <option value='png8'<% if (get('format') == 'png8') { %> selected='selected' <% } %>>png (8-bit)</option>
+      <option value='jpeg80'<% if (get('format') == 'jpeg80') { %> selected='selected' <% } %>>jpeg (80%)</option>
+      <option value='jpeg85'<% if (get('format') == 'jpeg85') { %> selected='selected' <% } %>>jpeg (85%)</option>
+      <option value='jpeg90'<% if (get('format') == 'jpeg90') { %> selected='selected' <% } %>>jpeg (90%)</option>
+      <option value='jpeg95'<% if (get('format') == 'jpeg95') { %> selected='selected' <% } %>>jpeg (95%)</option>
+      <option value=''<% if (!_(['png','png8','jpeg80','jpeg85','jpeg90','jpeg95']).include(get('format'))) { %> selected='selected' <% } %>>Custom</option>
+    </select>
+    <input class='dependent' type='text' name='format_custom' size='10' value='<%=get('format')%>' />
+    <small class='dependent description help'>Enter a custom Mapnik format string.</small>
+  </li>
+  <% } %>
+  <% if (model !== project && model.get('format') !== 'sync') { %>
+  <li>
+    <label>Filename</label>
+    <input type='text' name='filename' value='<%=project.id%>' size='12' />
+    <small>.<%=model.get('format')%></small>
+  </li>
+  <% } %>
+  <% if (type === 'tiles') { %>
+  <li>
+    <label>Zoom</label>
+    <div class='slider range small' data-key='zooms' data-min='0' data-max='22'></div>
+    <small class='description'><span class='totaltiles'>0</span> tiles (<span class='totalsize'>0</span>)</small>
+  </li>
+  <li>
+    <span class='icon i40 center'></span>
+    <label for='center'>Center</label>
+    <input type='text' name='center' size='20' value='<%=get('center').join(',')%>' />
+    <small class='description'>Click to move starting center point.</small>
+  </li>
+  <% } %>
+  <% if (type === 'image') { %>
+  <li>
+    <label>Size</label>
+    <input name='width' type='text' value='400' size='4' /> x
+    <input name='height' type='text' value='400' size='4' />
+  </li>
+  <% } %>
+  <li>
+    <span class='icon i40 bounds'></span>
+    <label for='bounds'>Bounds</label>
+    <input type='text' name='bounds' size='20' value='<%=get('bounds').join(',')%>' />
+    <small class='description'>Shift + drag to select bounds.</small>
+  </li>
+  <% if (model !== project && type === 'tiles') { %>
+  <li>
+    <input type='checkbox' name='_saveProject' value='1' <% if (model.get('format') === 'sync') %>checked='checked' disabled='disabled'<%;%>>
+    <span class='description'>Save settings to project</span>
+  </li>
+  <% } %>
+  <li class='buttons'>
+    <% if (model === project) { %>
+    <input type='hidden' name='_saveProject' value='1' />
+    <input type='submit' value='Save' />
+    <% } else if (model.get('format') === 'sync') { %>
+    <input type='submit' value='Upload' />
+    <% } else { %>
+    <input type='submit' value='Export' />
+    <% } %>
+    <input type='button' value='Cancel' class='cancel' />
+  </li>
+</ul></form>

@@ -9,17 +9,13 @@ model.prototype.model = models.Stylesheet;
 
 model.prototype.initialize = function(models, options) {
     var that = this;
+    var change = function() {
+        this.parent.set({ 'Stylesheet': that });
+        this.parent.change();
+    };
     this.parent = options.parent;
-    this.bind('change', function() {
-        this.parent.set({ 'Stylesheet': that });
-        this.parent.change();
-    });
-    this.bind('add', function() {
-        this.parent.set({ 'Stylesheet': that });
-        this.parent.change();
-    });
-    this.bind('remove', function() {
-        this.parent.set({ 'Stylesheet': that });
-        this.parent.change();
-    });
+    this.bind('refresh', change);
+    this.bind('change', change);
+    this.bind('add', change);
+    this.bind('remove', change);
 };

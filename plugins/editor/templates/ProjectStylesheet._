@@ -1,0 +1,6 @@
+<li>
+  <a class='tab <%= !collection.indexOf(obj) ? 'active' : '' %>' href='#stylesheet-<%= id.replace(/[\.]/g, '-') %>'>
+  <%= id %>
+  </a>
+  <a class='icon close' href='#<%= id %>'></a>
+</li>

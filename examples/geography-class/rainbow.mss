@@ -213,7 +213,7 @@ rate I want a smaller palette :)
   [ADM0_A3='NZL'] { polygon-fill:@orange; }
   [ADM0_A3='OMN'] { polygon-fill:@red; }
   [ADM0_A3='PAK'] { polygon-fill:@purple; }
-  [ADM0_A3='PAN'] { polygon-fill:@purple; }
+  [ADM0_A3='PAN'] { polygon-fill:@green; }
   [ADM0_A3='PCN'] { polygon-fill:@orange; }
   [ADM0_A3='PER'] { polygon-fill:@pink; }
   [ADM0_A3='PHL'] { polygon-fill:@green; }
@@ -232,6 +232,7 @@ rate I want a smaller palette :)
   [ADM0_A3='SAH'] { polygon-fill:@pink; }
   [ADM0_A3='SAU'] { polygon-fill:@orange; }
   [ADM0_A3='SDN'] { polygon-fill:@yellow; }
+  [ADM0_A3='SDS'] { polygon-fill:@red; }
   [ADM0_A3='SEN'] { polygon-fill:@green; }
   [ADM0_A3='SGP'] { polygon-fill:@pink; }
   [ADM0_A3='SGS'] { polygon-fill:@purple; }

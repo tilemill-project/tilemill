@@ -11,8 +11,8 @@ USER="developmentseed"
 : ${PPA:="mapbox-dev"}
 
 CWD=`pwd`
-VERSION=`grep -m1 "$PROJECT ([a-z0-9.-]*)" debian/changelog | sed "s/$PROJECT (\([a-z0-9.-]*\)).*/\1/g"`
-DIST=`grep -m1 "$PROJECT ([a-z0-9.-]*)" debian/changelog | sed "s/$PROJECT ([a-z0-9.-]*) \([a-z]*\);.*/\1/g"`
+VERSION=`grep -m1 "$PROJECT ([a-z0-9~.-]*)" debian/changelog | sed "s/$PROJECT (\([a-z0-9~.-]*\)).*/\1/g"`
+DIST=`grep -m1 "$PROJECT ([a-z0-9~.-]*)" debian/changelog | sed "s/$PROJECT ([a-z0-9~.-]*) \([a-z]*\);.*/\1/g"`
 TAG=`echo $VERSION | sed "s/\([0-9.]*\).*/\1/g"`
 
 if [ -z "$VERSION" ]; then
@@ -43,14 +43,15 @@ if [ ! -f "$CWD/orig/$PROJECT-$TAG.tar.gz" ]; then
   tar cfz "$CWD/orig/$PROJECT-$TAG.tar.gz" "../../" \
   --exclude=.git* \
   --exclude=*.mbtiles \
-  --exclude=*.zip \
   --exclude=*.node \
   --exclude=build \
   --exclude=libzip-0.9.3 \
   --exclude=platforms \
   --exclude=node_modules/jshint \
   --exclude=node_modules/expresso \
+  --exclude=assets/pages \
   --exclude=test \
+  --exclude=sqlite-autoconf \
   --transform "s,^,$PROJECT-$TAG/,"
 fi
 

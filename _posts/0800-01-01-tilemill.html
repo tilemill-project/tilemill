@@ -1,0 +1,351 @@
+---
+layout: default
+section: tilemill
+category: homepage
+title: TileMill
+description: Design beautiful maps
+permalink: /
+platforms:
+- id: mac
+  name: Mac OS X
+  help: Extract this archive and drag<br />TileMill to your Applications folder.
+  file: TileMill-0.9.0.zip
+  size: 62.3 MB
+  url: http://github.com/downloads/mapbox/tilemill/TileMill-0.9.0.zip
+- id: linux
+  name: Ubuntu Linux
+  help: Run <code>sudo ./install-tilemill.sh</code><br/>to install packages.
+  help: Extract this archive and double-click<br/>on <code>install-tilemill.sh</code>.
+  file: install-tilemill.tar.gz
+  size: 30 MB
+  url: https://github.com/downloads/mapbox/tilemill/install-tilemill.tar.gz
+- id: windows
+  name: Windows
+  help: Double-click this installer to set up<br/> TileMill on your computer.
+  file: TileMill-0.9.0-Setup.exe
+  size: 90.7 MB
+  url: http://github.com/downloads/mapbox/tilemill/TileMill-0.9.0-Setup.exe
+---
+<style>
+.wrapper { background:#e0f0f4; }
+.content hr { background-color:#c0d8e0; }
+.content .box {
+  position:relative;
+  background-color:#fff;
+  padding:20px;
+  margin:0px 0px 20px;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  }
+.content .box.short { min-height:160px; }
+.content .box.tall { min-height:300px; }
+
+.box .more {
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  }
+
+#bleed,
+#bleed .screenshot,
+#bleed .limiter {
+  height:560px;
+  position:relative;
+  overflow:hidden;
+  }
+
+#bleed {
+  background:#040812;
+  margin:0px 0px 40px;
+  }
+
+#bleed .screenshot {
+  background:url({{site.baseurl}}/assets/pages/screenshot.jpg) 50% 100% no-repeat;
+  position:absolute;
+  top:0px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  opacity:0;
+  transition:all 500ms;
+  -moz-transition:all 500ms;
+  -webkit-transition:all 500ms;
+  }
+
+#bleed.mac .screenshot.mac,
+#bleed.linux .screenshot.linux,
+#bleed.windows .screenshot.windows {
+  z-index:100;
+  opacity:1;
+  }
+
+#bleed .screenshot.mac { background-image:url({{site.baseurl}}/assets/pages/screenshot-mac.jpg); }
+#bleed .screenshot.linux { background-image:url({{site.baseurl}}/assets/pages/screenshot-linux.jpg); }
+#bleed .screenshot.windows { background-image:url({{site.baseurl}}/assets/pages/screenshot-windows.jpg); }
+
+#bleed .dlbox {
+  width:400px;
+  padding:20px;
+  background:#222;
+  background:rgba(32,32,32,0.95);
+  color:#fff;
+  margin:0px;
+  position:absolute;
+  right:0px;
+  bottom:0px;
+  box-shadow:#000 0px 0px 10px;
+  border-radius:5px 5px 0px 0px;
+  -moz-border-radius:5px 5px 0px 0px;
+  -webkit-border-radius:5px 5px 0px 0px;
+  transition:bottom 500ms;
+  -moz-transition:bottom 500ms;
+  -webkit-transition:bottom 500ms;
+  }
+
+#bleed .actions {
+  position:relative;
+  background:#6c4;
+  margin:20px -30px;
+  padding:10px 20px;
+  border-radius:0px 0px 5px 5px;
+  }
+
+#bleed .actions .triangle {
+  position:absolute;
+  top:-10px;
+  display:block;
+  width:0px;
+  height:0px;
+  border-top:10px solid transparent;
+  }
+
+#bleed .actions .nw { left:0px; border-right:10px solid #4a2; }
+#bleed .actions .ne { right:0px; border-left:10px solid #4a2; }
+
+#bleed .actions small.label {
+  color:#fff;
+  padding:5px 0px;
+  }
+
+.oslist,
+.oslist a { margin:0px 5px; }
+
+.img100x120 {
+  display:block;
+  width:100px;
+  height:120px;
+  margin:0px 0px 20px;
+  background:url({{site.baseurl}}/assets/pages/tilemill.jpg) 100px 120px no-repeat;
+  }
+
+.img160x100 {
+  display:block;
+  width:160px;
+  height:100px;
+  margin:0px 0px 20px;
+  background:url({{site.baseurl}}/assets/pages/tilemill.jpg) 160px 100px no-repeat;
+  }
+
+.img400x160 {
+  display:block;
+  width:400px;
+  height:160px;
+  margin:0px 0px 20px;
+  background:url({{site.baseurl}}/assets/pages/tilemill.jpg) 400px 160px no-repeat;
+  }
+
+.img0 { background-position:0px 0px; }
+.img1 { background-position:-170px 0px; }
+.img2 { background-position:-340px 0px; }
+.img3 { background-position:-510px 0px; }
+.img4 { background-position:0px -110px; }
+.img5 { background-position:-170px -110px; }
+.img6 { background-position:-340px -110px; }
+.img7 { background-position:-510px -110px; }
+.img8 { background-position:0px -220px; }
+.img9 { background-position:0px -390px; }
+.imga { background-position:-460px -220px; }
+.imgb { background-position:-570px -220px; }
+
+.img100x120.right { float:right; margin-left:20px; }
+
+.actions .icon.newsletter {
+  background: url({{site.baseurl}}/assets/pages/followup.png) 0px 8px no-repeat;
+  }
+
+</style>
+
+<div id='bleed' class='mac'>
+{% for item in page.platforms %}
+<div class='screenshot {{item.id}}'><div class='limiter'><div class='dlbox'>
+  <h1>Download TileMill</h1>
+  <h2>for {{item.name}}
+    <small class='inline oslist'>
+    Wrong OS?
+    {% for other in page.platforms %}{% unless other.id == item.id %}
+    <a href='#{{other.id}}'>{{other.id|capitalize}}</a>
+    {% endunless%}{% endfor %}
+    </small>
+  </h2>
+  <div class='actions'>
+    <span class='triangle ne'></span>
+    <span class='triangle nw'></span>
+    <small class='label'>{{item.help}}</small>
+    <a class='em' href='{{item.url}}' title='{{item.name}}'>
+      <span class='icon download'></span> {{item.file}} <small>{{item.size}}</small>
+    </a>
+  </div>
+<small class='centered'>
+  <a href='{{site.baseurl}}/docs/install/'>Installing</a> |
+  <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> |
+  <a href='{{site.baseurl}}/docs/changelog/'>Changelog</a> |
+  <a href='{{site.baseurl}}/docs/manual/'>Manual</a> |
+  <a href='http://support.mapbox.com/discussions/tilemill'>Support</a>
+</small>
+</div></div></div>
+{% endfor %}
+</div>
+
+<div class='limiter clip'><div class='content prose'>
+
+<div class='clearfix'>
+  <p><big class='col-4'>
+  TileMill is an application for making beautiful maps. Whether you're a journalist, web designer, researcher,	 or seasoned cartographer, TileMill is the design studio you need to create compelling, interactive maps.
+  </big></p>
+
+  <div class='col-2'><div class='box short'>
+    <span class='img100x120 right imgb'></span>
+    <h3>Powered by Open Source</h3>
+    <p>TileMill is built on a suite of modern open source libraries including <a href='http://mapnik.org'>Mapnik</a>, <a href='http://nodejs.org'>node.js</a>, <a href='http://documentcloud.github.com/backbone'>backbone.js</a>, <a href='http://expressjs.com'>express</a> and <a href='http://codemirror.net'>CodeMirror</a>. Jump on <a href='http://github.com'>GitHub</a> where you can dig into the source code.</p>
+    <small class='more'><a href='http://github.com/mapbox/tilemill'>Fork me on GitHub &rarr;</a></small>
+  </div></div>
+
+  <div class='col-2'><div class='box short'>
+    <span class='img100x120 right imga'></span>
+    <h3>Mobile ready</h3>
+    <p>Every map you make in TileMill is mobile ready. By leveraging the portable, fast <a href='{{site.url}}/mbtiles-spec/'>MBTiles</a> format, each TileMill map looks and works great on the web and offline.</p>
+    <small class='more'><a href='{{site.url}}/ipad/'>MapBox for iPad &rarr;</a></small>
+  </div></div>
+</div>
+
+<hr/>
+
+<div class='clearfix'>
+  <p class='col-4'><big>
+  Working with GIS data isn't easy. That's why TileMill automates as much as possible for you &mdash; sharing data between projects, downloading and unzipping shapefiles, autodetecting projections, indexing SQLite databases &mdash; so that you can focus on making beautiful maps.
+  </big></p>
+  <div class='col-1'><div class='box tall'>
+    <span class='img160x100 img0'></span>
+    <h3>Datasources</h3>
+    <small>TileMill can read from a wide range of popular file formats and databases: ESRI Shapefile, KML, GeoJSON, GeoTIFF, PostGIS, and SQLite.</small>
+    <small class='more'><a href='{{site.baseurl}}/docs/manual/adding-layers/'>Adding layers &rarr;</a></small>
+  </div></div>
+  <div class='col-1'><div class='box tall'>
+    <span class='img160x100 img1'></span>
+    <h3>Raster support</h3>
+    <small>Show satellite terrain data or make use of your DIY weather balloon aerial photography with TileMill's raster image support.</small>
+    <small class='more'><a href='{{site.baseurl}}/docs/tutorials/terrain-data/'>Mapping terrain data &rarr;</a></small>
+  </div></div>
+  <div class='col-1'><div class='box tall'>
+    <span class='img160x100 img2'></span>
+    <h3>Feature inspection</h3>
+    <small>With a built-in data inspector, you can see details about every lake, country, or road from your datasource.</small>
+    <small class='more'><a href='{{site.baseurl}}/docs/manual/interface-tour/'>Interface tour &rarr;</a></small>
+  </div></div>
+  <div class='col-1'><div class='box tall'>
+    <span class='img160x100 img3'></span>
+    <h3>MapBox Geodata</h3>
+    <small>The built-in MapBox Geodata browser gives you access to dozens of public and open datasources of political, physical and cultural features.</small>
+    <small class='more'><a href='{{site.baseurl}}/docs/manual/mapbox-geodata/'>MapBox Geodata &rarr;</a></small>
+  </div></div>
+</div>
+
+<hr/>
+
+<div class='clearfix'>
+  <p class='col-4'><big>
+  At TileMill's core is the Mapnik rendering engine. Mapnik is a powerful, full-featured library including support for RGBA color, True Type fonts, rasters, patterns, and even SVG transforms. Leverage all of these features using the simple, elegant syntax of the Carto styling language.
+  </big></p>
+  <div class='col-1'><div class='box tall'>
+    <span class='img160x100 img4'></span>
+    <h3>Patterns &amp; textures</h3>
+    <small>Stamp trees across parks, add paper creases to maps. With full alpha-channel support and the ability to add multiple layers and fills TileMill can create richly textured maps.</small>
+  </div></div>
+  <div class='col-1'><div class='box tall'>
+    <span class='img160x100 img5'></span>
+    <h3>Fonts</h3>
+    <small>Use all your TrueType, OpenType and PostScript fonts for custom map typography.</small>
+  </div></div>
+  <div class='col-1'><div class='box tall'>
+    <span class='img160x100 img6'></span>
+    <h3>SVG markers</h3>
+    <small>Use vector SVGs to make your markers smooth at any scale. Advanced SVG transforms give you the ability resize and transform your images right in TileMill.</small>
+  </div></div>
+  <div class='col-1'><div class='box tall'>
+    <span class='img160x100 img7'></span>
+    <h3>Carto</h3>
+    <small>Inspired by CSS, Carto gives you full control over your map design. Mixins, variables, and functions are at your fingertips in the code editor.</small>
+  </div></div>
+</div>
+
+<hr/>
+
+<div class='clearfix'>
+
+<p class='col-4'><big>
+Enrich your maps with hover tooltips and clickable pop ups. Reveal details in your data by embedding numbers, graphs, and images into your map. TileMill leverages UTF-8 grid technology allowing you to leverage interactivity for hundreds of thousands of data points while maintaining high performance.
+</big></p>
+
+<div class='col-2'><div class='box tall'>
+<span class='img400x160 img8'></span>
+<h3>UTF-8 grid technology</h3>
+<small>TileMill leverages the UTF-8 grid standard for describing interactive data for tile images. UTF-8 grid is fast, flexible, and scalable making it perfect for mapping whole countries down to to individual city blocks.</small>
+<small class='more'><a href='{{site.url}}/mbtiles-spec/utfgrid/'>Learn about UTF-8 grids &rarr;</a></small>
+</div></div>
+
+<div class='col-2'><div class='box tall'>
+<span class='img400x160 img9'></span>
+<h3>Embed graphs &amp; images</h3>
+<small>Leverage custom interaction formatters and templates to insert graphs, images, links, and other content into your maps. Interactive content can cover the full spectrum of HTML and CSS.</small>
+<small class='more'><a href='{{site.baseurl}}/docs/tutorials/google-charts/'>How to embed charts in TileMill &rarr;</a></small>
+</div></div>
+
+</div>
+
+<hr/>
+
+<div class='clearfix'>
+  <div class='col-2'>
+  <h3>I have never made a map...</h3>
+  <p>If you have ever written one line of CSS, you'll be right at home with TileMill's map styling language Carto. TileMill comes with well-documented examples that illustrate the basics of layer management, feature styling, and interaction. A <a href='{{site.baseurl}}/docs/manual/'>step-by-step manual</a> can teach you everything you need to know about geodata, projections, and symbolizers.</p>
+  </div>
+  <div class='col-2'>
+  <h3>Have more questions?</h3>
+  <p>Feel free to <a href='{{site.url}}/contact/index.html'>contact us</a> with any questions regarding TileMill or map design in general.</p>
+  </div>
+</div>
+
+</div></div>
+
+<script type='text/javascript'>
+document.getElementById('bleed').className = (function() {
+  if (navigator.appVersion.indexOf('Win') != -1) return 'windows';
+  if (navigator.appVersion.indexOf('Mac') != -1) return 'mac';
+  if (navigator.appVersion.indexOf('X11') != -1 || navigator.appVersion.indexOf('Linux') != -1) return 'linux';
+  return 'mac'; // default to Mac.
+})();
+$(function() {
+  $('.oslist a').click(function() {
+    document.getElementById('bleed').className = $(this).attr('href').split('#').pop();
+    return false;
+  });
+  $('.dlbox .actions a').click(function(ev) {
+    _gaq.push([
+        '_trackEvent',
+        'TileMill Download',
+        $(ev.currentTarget).attr('title')
+    ]);
+  });
+});
+</script>

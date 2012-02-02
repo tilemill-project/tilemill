@@ -6,6 +6,7 @@
 model = Backbone.Model.extend({});
 
 model.prototype.schema = {
+    'id': 'Layer',
     'type': 'object',
     'properties': {
         'name': {
@@ -13,14 +14,14 @@ model.prototype.schema = {
             'required': true,
             'pattern': '^[A-Za-z0-9\-_]+$',
             'title': 'Name',
-            'description': 'Name may include alphanumeric characters, dashes and underscores.'
+            'description': 'Name is required and may only include alphanumeric characters, dashes and underscores.'
         },
         'id': {
             'type': 'string',
             'required': true,
             'pattern': '^[A-Za-z0-9\-_]+$',
             'title': 'ID',
-            'description': 'ID may include alphanumeric characters, dashes and underscores.'
+            'description': 'ID is required and may only include alphanumeric characters, dashes and underscores.'
         },
         'class': {
             'type': 'string',
@@ -33,7 +34,7 @@ model.prototype.schema = {
         },
         'geometry': {
             'type': 'string',
-            'enum': ['polygon', 'point', 'linestring', 'raster', 'unknown']
+            'enum': ['polygon', 'multipolygon', 'point', 'multipoint', 'linestring', 'multilinestring', 'raster', 'unknown']
         },
         'Datasource': {
             'type': 'object',
@@ -47,6 +48,7 @@ model.prototype.schema = {
 model.prototype.initialize = function(attributes) {
     this.set({'Datasource': attributes.Datasource});
 };
+
 // Constant. Hash of simple names to known SRS strings.
 model.prototype.SRS = {
     // note: 900913 should be the same as EPSG 3857

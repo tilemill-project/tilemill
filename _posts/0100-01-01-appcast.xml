@@ -1,0 +1,111 @@
+---
+permalink: /platforms/osx/appcast.xml
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+<channel>
+    <title>TileMill</title>
+    <link>http://mapbox.com/tilemill/platforms/osx/appcast.xml</link>
+    <description>Most recent changes with links to updates.</description>
+    <language>en</language>
+    
+    <item>
+        <title>TileMill 0.5.0</title>
+        <sparkle:releaseNotesLink>http://mapbox.com/tilemill/platforms/osx/changelog.html</sparkle:releaseNotesLink>
+        <pubDate>Thu, 25 Aug 2011 00:00:00 -0400</pubDate>
+        <enclosure
+            url="https://github.com/downloads/mapbox/tilemill/TileMill-0.5.0.zip"
+            type="application/octet-stream"
+            length="54966410"
+            sparkle:version="2875"
+            
+            sparkle:shortVersionString="0.5.0"
+            sparkle:dsaSignature="MC0CFQDYZwPKnPQfMz9Sa+6FJr6bVZxu4gIUJFa/5mBuKzqKq4X2bBB6vF0uD7s=" />
+    </item>
+    
+    <item>
+        <title>TileMill 0.5.1</title>
+        <sparkle:releaseNotesLink>http://mapbox.com/tilemill/platforms/osx/changelog.html</sparkle:releaseNotesLink>
+        <pubDate>Wed, 07 Sep 2011 00:00:00 -0400</pubDate>
+        <enclosure
+            url="https://github.com/downloads/mapbox/tilemill/TileMill-0.5.1.zip"
+            type="application/octet-stream"
+            length="54341919"
+            sparkle:version="2917"
+            
+            sparkle:shortVersionString="0.5.1"
+            sparkle:dsaSignature="MC4CFQDCvneOlUKcQneRCNIfy/vrs+ZBIQIVAOUD6mzQrITdBNSrv86XJO7WauXt" />
+    </item>
+    
+    <item>
+        <title>TileMill 0.6.0</title>
+        <sparkle:releaseNotesLink>http://mapbox.com/tilemill/platforms/osx/changelog.html</sparkle:releaseNotesLink>
+        <pubDate>Tue, 25 Oct 2011 00:00:00 -0400</pubDate>
+        <enclosure
+            url="https://github.com/downloads/mapbox/tilemill/TileMill-0.6.0.zip"
+            type="application/octet-stream"
+            length="61176469"
+            sparkle:version="3060"
+            
+            sparkle:shortVersionString="0.6.0"
+            sparkle:dsaSignature="MC0CFB4RKbv0zmzp8z0s+4QnOLtNEGrvAhUA13NNcox2vTa2yv0FpQLaX3LCMoM=" />
+    </item>
+    
+    <item>
+        <title>TileMill 0.6.1</title>
+        <sparkle:releaseNotesLink>http://mapbox.com/tilemill/platforms/osx/changelog.html</sparkle:releaseNotesLink>
+        <pubDate>Wed, 26 Oct 2011 00:00:00 -0400</pubDate>
+        <enclosure
+            url="https://github.com/downloads/mapbox/tilemill/TileMill-0.6.1.zip"
+            type="application/octet-stream"
+            length="61268451"
+            sparkle:version="3061"
+            
+            sparkle:shortVersionString="0.6.1"
+            sparkle:dsaSignature="MCwCFFKfoN3MIscOoz4i5TsMfYrqizEsAhR2bLWoXnhwYQjQJx9wvNr85FCQMA==" />
+    </item>
+    
+    <item>
+        <title>TileMill 0.6.2</title>
+        <sparkle:releaseNotesLink>http://mapbox.com/tilemill/platforms/osx/changelog.html</sparkle:releaseNotesLink>
+        <pubDate>Tue, 01 Nov 2011 00:00:00 -0400</pubDate>
+        <enclosure
+            url="https://github.com/downloads/mapbox/tilemill/TileMill-0.6.2.zip"
+            type="application/octet-stream"
+            length="61254835"
+            sparkle:version="3062"
+            
+            sparkle:shortVersionString="0.6.2"
+            sparkle:dsaSignature="MC0CFAbq548a+BiNZwA8qTgyLXxymJg3AhUAvTIEXn2OEKc2pFYA4Fsfcm45xBs=" />
+    </item>
+    
+    <item>
+        <title>TileMill 0.7.0</title>
+        <sparkle:releaseNotesLink>http://mapbox.com/tilemill/platforms/osx/changelog.html</sparkle:releaseNotesLink>
+        <pubDate>Sun, 20 Nov 2011 00:00:00 -0400</pubDate>
+        <enclosure
+            url="https://github.com/downloads/mapbox/tilemill/TileMill-0.7.0.zip"
+            type="application/octet-stream"
+            length="58399816"
+            sparkle:version="3070"
+            
+            sparkle:shortVersionString="0.7.0"
+            sparkle:dsaSignature="MC0CFCDhkHU1BTJ32n/AWGv+vDSREAFKAhUAjhIqAUqtqlfhhBltAxJFBa0f/gg=" />
+    </item>
+    
+    <item>
+        <title>TileMill 0.7.1</title>
+        <sparkle:releaseNotesLink>http://mapbox.com/tilemill/platforms/osx/changelog.html</sparkle:releaseNotesLink>
+        <pubDate>Sun, 07 Dec 2011 00:00:00 -0400</pubDate>
+        <enclosure
+            url="https://github.com/downloads/mapbox/tilemill/TileMill-0.7.1.zip"
+            type="application/octet-stream"
+            length="62158055"
+            sparkle:version="3071"
+            
+            sparkle:shortVersionString="0.7.1"
+            sparkle:dsaSignature="MC0CFEGZ1Mtuw4vP9bX1tFVNEJhkzYNLAhUAyGRM9UXA/piCPo21kIizDvt0mS0=" />
+    </item>
+    
+</channel>
+</rss>

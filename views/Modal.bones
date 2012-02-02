@@ -14,12 +14,18 @@ view.prototype._ensureElement = function() {
 view.prototype.initialize = function(options) {
     _(this).bindAll('render', 'ok', 'close');
 
+    options = options || {};
+
     // Attempt to handle jqXHR objects.
     if (options.responseText) {
         try {
-            options = { content: JSON.parse(options.responseText).message };
+            options = {
+              content: JSON.parse(options.responseText).message
+            };
         } catch(e) {
-            options = { content: options.responseText };
+            options = {
+              content: options.responseText
+            };
         }
     } else if (options.status === 0) {
         options = { content: 'No response from server.' };
@@ -29,10 +35,14 @@ view.prototype.initialize = function(options) {
         options = { content: options.toString() };
     }
 
-    options = options || {};
-    options.content = options.content || {};
+    // Modals with a callback are requesting confirmation.
     options.type = options.callback ? 'confirm' : 'message';
-    this.options = options;
+
+    this.options = _(options).defaults({
+        content: {},
+        affirmative: 'Ok',
+        negative: 'Cancel'
+    });
     this.render();
 };
 

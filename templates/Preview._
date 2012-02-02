@@ -1,11 +1,12 @@
-<ul class='form fill'>
-<li class='text'>
-<h2><%= get('id') %></h2>
-<p class='prose'>
-To host these tiles sign up for <a target='_blank' href='http://mapbox.com/tilestream'>TileStream Hosting</a> or setup <a target='_blank' href='http://github.com/mapbox/tilestream'>TileStream</a> on your own server.
-</p>
-</li>
-</ul>
-
-<div id='preview'></div>
-
+<div class='preview'>
+  <ul class='form'><li class='text'>
+    <a class='button large' href='/export/download/<%=model.get('filename')%>'>
+      <span class='icon reverse labeled export'></span>
+      Save MBTiles
+    </a>
+    <span class='prose'>
+      MBTiles can be <a target='_blank' href='http://mapbox.com/tour/hosting/'>hosted on the web</a> or used offline with the <a href='http://mapbox.com/ipad/'>MapBox iPad App</a>.
+    </span>
+  </li></ul>
+  <div class='fill' id='preview'></div>
+</div>

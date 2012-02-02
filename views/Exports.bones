@@ -39,25 +39,24 @@ view.prototype.time = function(ms) {
 view.prototype.exportDelete = function(ev) {
     var id = $(ev.currentTarget).attr('href').split('#').pop();
     var model = this.collection.get(id);
+    var name = model.get('name') || model.get('filename');
     new views.Modal({
-        content: 'Are you sure you want to delete "'+ model.get('filename') +'"?',
+        content: 'Are you sure you want to delete "'+name+'"?',
         callback: function() {
             model.destroy({ error: function(m, e) { new views.Modal(e) }});
-        }
+        },
+        affirmative: 'Delete'
     });
     return false;
 };
 
 view.prototype.exportPreview = function(ev) {
     var id = $(ev.currentTarget).attr('href').split('#').pop();
-    (new models.Preview({id:id})).fetch({
-        success: function(model, resp) {
-            new views.Preview({
-                el: $('#popup'),
-                model:model
-            });
-        },
-        error: function(m, e) { new views.Modal(e) }
+    var model = this.collection.get(id);
+    new views.Preview({
+        el: $('#popup'),
+        model:model,
+        collection: this.collection
     });
 };
 

@@ -1,8 +1,9 @@
 var assert = require('assert');
 var fs = require('fs');
+var path = require('path');
 
 function readJSON(name) {
-    var json = fs.readFileSync('./test/fixtures/' + name + '.json', 'utf8');
+    var json = fs.readFileSync(path.resolve(__dirname + '/fixtures/' + name + '.json'), 'utf8');
     return JSON.parse(json);
 }
 
@@ -25,7 +26,7 @@ require('./support/start')(function(command) {
             function(res) {
                 var body = JSON.parse(res.body);
                 cleanProject(body[0]);
-                assert.deepEqual([readJSON('existing-project')], body);
+                assert.deepEqual(readJSON('existing-project'), body[0]);
             }
         );
     };
@@ -82,8 +83,8 @@ require('./support/start')(function(command) {
             var body = JSON.parse(res.body);
             cleanProject(body);
             assert.deepEqual({
-                tiles: ["/1.0.0/demo_02/{z}/{x}/{y}.png"],
-                grids: ["/1.0.0/demo_02/{z}/{x}/{y}.grid.json"]
+                tiles: ["http://localhost:20008/tile/demo_02/{z}/{x}/{y}.png"],
+                grids: ["http://localhost:20008/tile/demo_02/{z}/{x}/{y}.grid.json"]
             }, body);
 
             assert.response(command.servers['Core'],
@@ -105,6 +106,9 @@ require('./support/start')(function(command) {
                     }, { status: 200 }, function(res) {
                         assert.equal(res.body, '{}');
                         completed = true;
+
+                        // We're done using the tile server at this point.
+                        command.servers['Tile'].close();
                     });
                 }
             );
@@ -131,8 +135,7 @@ require('./support/start')(function(command) {
             var body = JSON.parse(res.body);
             delete body.stack;
             assert.deepEqual({
-                message: "Error: Filename may include alphanumeric characters, dashes and underscores.",
-                status: 409
+                message: "Error: Filename may include alphanumeric characters, dashes and underscores."
             }, body);
             assert['throws'](function() {
                 fs.statSync('./test/fixtures/files/project/Bad !@!ID');
@@ -155,8 +158,7 @@ require('./support/start')(function(command) {
             var body = JSON.parse(res.body);
             delete body.stack;
             assert.deepEqual({
-                message: "Error: style.mss:2:2 Invalid value for background-color, a valid color is expected. blurb was given.",
-                status: 409
+                message: "Error: style.mss:2:2 Invalid value for background-color, a valid color is expected. blurb was given."
             }, body);
         });
     };

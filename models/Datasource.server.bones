@@ -21,10 +21,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             Layer: [{
                 name: options.id,
                 srs: options.srs || '',
-                Datasource: {
-                    file: options.file,
-                    type: options.type
-                }
+                Datasource: options
             }]
         },
         base: path.join(config.files, 'project', options.project),
@@ -34,17 +31,21 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
 
         try {
             mml.Layer[0].Datasource = _(mml.Layer[0].Datasource).defaults(options);
+
+            // Some mapnik datasource accept 'row_limit` (like postgis, shape)
+            // those that do not will be restricted during the featureset loop below
+            var row_limit = 500;
+            //mml.Layer[0].Datasource = _(mml.Layer[0].Datasource).defaults({row_limit:row_limit});
+            //console.log(mml.Layer[0].Datasource);
             var source = new mapnik.Datasource(mml.Layer[0].Datasource);
 
             var features = [];
-            if (options.features) {
+            if (options.features || options.info) {
                 var featureset = source.featureset();
-                for (var i = 0, feat; i < 1000 && (feat = featureset.next(true)); i++) {
-                    var attributes = {};
-                    _(feat.attributes()).each(function (attr, key) {
-                        attributes[key.replace(/['"]/g,'')] = attr;
-                    });
-                    features.push(attributes);
+                for (var i = 0, feat;
+                    i < row_limit && (feat = featureset.next(true));
+                    i++) {
+                    features.push(feat.attributes());
                 }
             }
 
@@ -54,24 +55,24 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 project: options.project,
                 url: options.file,
                 fields: desc.fields,
-                features: features,
+                features: options.features ? features : [],
                 type: desc.type,
                 geometry_type: desc.type === 'raster' ? 'raster' : desc.geometry_type
             };
 
             // Process fields and calculate min/max values.
             for (var f in datasource.fields) {
-                datasource.fields[f] = {
-                    type: datasource.fields[f],
-                    max: _(datasource.features).chain().pluck(f)
-                        .max(function(v) {
-                            return _(v).isString() ? v.length : v;
-                        }).value(),
-                    min: _(datasource.features).chain().pluck(f)
-                        .min(function(v) {
-                            return _(v).isString() ? v.length : v;
-                        }).value()
-                };
+                var values = _(features).pluck(f);
+                var type = datasource.fields[f];
+                datasource.fields[f] = { type: type };
+                if (options.features || options.info) {
+                    datasource.fields[f].max = type === 'String'
+                        ? _(values).max(function(v) { return (v||'').length })
+                        : _(values).max();
+                    datasource.fields[f].min = type === 'String'
+                        ? _(values).min(function(v) { return (v||'').length })
+                        : _(values).min();
+                }
             }
         } catch(err) {
             return error(err);

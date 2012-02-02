@@ -39,13 +39,13 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
   function tokenBase(stream, state) {
     var ch = stream.next();
     if (ch == '@') {
-      stream.eatWhile(/\w/);
+      stream.eatWhile(/\w|\-|\_/);
       return ret('carto-variable', stream.current());
     } else if (ch == '/' && stream.eat('*')) {
       state.tokenize = tokenCComment;
       return tokenCComment(stream, state);
     } else if (ch == '/' && stream.eat('/')) {
-      while (stream.next() !== undefined)
+      stream.skipToEnd();
       return ret("carto-comment", "comment");
     } else if (ch == '=') {
       ret(null, 'compare');
@@ -57,6 +57,9 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
     } else if (ch == '#') {
       stream.eatWhile(/[\w\-]/);
       return ret('carto-selector', 'hash');
+    } else if (ch == '.') {
+      stream.eatWhile(/[\w\-]/);
+      return ret('carto-selector', 'hash');
     } else if (/\-|\d/.test(ch)) {
       stream.eatWhile(/[\w.%]/);
       return ret('carto-unit', 'unit');
@@ -65,7 +68,10 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
     } else if (/[;{}:\[\]]/.test(ch)) {
       return ret(null, ch);
     } else {
-      stream.eatWhile(/[\w\\\-_]/);
+      var current = null;
+      while (current = stream.eat(/[a-zA-Z\\\-_\d\(]/)) {
+        if (current == '(') break;
+      }
       return valid_identifiers[stream.current()] ?
           ret('carto-valid-identifier', 'identifier') :
           ret('carto-identifier', 'identifier');
@@ -107,12 +113,14 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
     token: function(stream, state) {
       if (stream.eatSpace()) return null;
       var style = state.tokenize(stream, state);
-
       var context = state.stack[state.stack.length - 1];
-      if (type == 'hash' && context == 'rule') {
+      if (type == 'hash' && (context == 'rule' || context == 'variable')) {
           style = 'carto-colorcode';
+          if (parserConfig.onColor) {
+              parserConfig.onColor(stream.current());
+          }
       } else if (style == 'carto-identifier') {
-        if (context == 'rule') {
+        if (context == 'rule' || context == 'variable') {
           style = (valid_keywords[stream.current()] || valid_colors[stream.current()]) ?
             'carto-valid-value' :
             'carto-value';
@@ -131,6 +139,12 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
         state.stack.pop();
       } else if (context == '{' && type != 'comment') {
         state.stack.push('rule');
+      }
+
+      if (!context && type[0] == '@') {
+          state.stack.push('variable');
+      } else if (context == 'variable' && type == ';') {
+          state.stack.pop();
       }
 
       return style;

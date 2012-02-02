@@ -1,9 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var defaults = JSON.parse(fs.readFileSync(
-    path.resolve(__dirname + '/../lib/config.defaults.json'),
-    'utf8'
-));
+var defaults = models.Config.defaults;
 
 Bones.Command.options['files'] = {
     'title': 'files=[path]',
@@ -17,3 +14,23 @@ Bones.Command.options['bufferSize'] = {
     'default': defaults.bufferSize
 };
 
+Bones.Command.options['syncURL'] = {
+    'title': 'syncURL=[URL]',
+    'description': 'MapBox sync URL.',
+    'default': defaults.syncURL || ''
+};
+
+Bones.Command.options['syncAccount'] = {
+    'title': 'syncAccount=[account]',
+    'description': 'MapBox account name.',
+    'default': defaults.syncAccount || ''
+};
+
+Bones.Command.options['syncAccessToken'] = {
+    'title': 'syncAccessToken=[token]',
+    'description': 'MapBox access token.',
+    'default': defaults.syncAccessToken || ''
+};
+
+// Host option is unused.
+delete Bones.Command.options.host;

@@ -5,6 +5,7 @@
 model = Backbone.Model.extend({});
 
 model.prototype.schema = {
+    'id': 'Project',
     'type': 'object',
     'properties': {
         // Mapnik-specific properties.
@@ -25,7 +26,7 @@ model.prototype.schema = {
         // https://github.com/mapbox/tilelive-mapnik/issues/4
         'format': {
             'type': 'string',
-            'enum': ['png', 'png24', 'png8', 'jpeg80', 'jpeg85', 'jpeg90', 'jpeg95']
+            'pattern': 'png(8|256)?(:.*)?|jpeg|jpeg[\d]{2}'
         },
         'interactivity': {
             'type': ['object', 'boolean']
@@ -57,9 +58,15 @@ model.prototype.schema = {
             'maxItems': 4,
             'items': [
                 { 'type':'number', 'minimum': -180, 'maximum':180 },
-                { 'type':'number', 'minimum': -85.05112877980659, 'maximum': 85.05112877980659 },
+                {
+                    'type':'number',
+                    'minimum': -85.05112877980659,
+                    'maximum': 85.05112877980659 },
                 { 'type':'number', 'minimum': -180, 'maximum':180 },
-                { 'type':'number', 'minimum': -85.05112877980659, 'maximum': 85.05112877980659 }
+                {
+                    'type':'number',
+                    'minimum': -85.05112877980659,
+                    'maximum': 85.05112877980659 }
             ]
         },
         'center': {
@@ -68,7 +75,10 @@ model.prototype.schema = {
             'maxItems': 3,
             'items': [
                 { 'type':'number', 'minimum':-180, 'maximum':180 },
-                { 'type':'number', 'minimum':-85.05112877980659, 'maximum':85.05112877980659 },
+                {
+                    'type':'number',
+                    'minimum':-85.05112877980659,
+                    'maximum':85.05112877980659 },
                 { 'type':'integer', 'minimum':0, 'maximum':22 }
             ]
         },
@@ -130,6 +140,13 @@ model.prototype.STYLESHEET_DEFAULT = [{
         + '}'
 }];
 
+model.prototype.STYLESHEET_DEFAULT_NODATA = [{
+    id: 'style.mss',
+    data: 'Map {\n'
+        + '  background-color: #b8dee6;\n'
+        + '}\n\n'
+}];
+
 model.prototype.LAYER_DEFAULT = [{
     id: 'countries',
     name: 'countries',
@@ -137,7 +154,7 @@ model.prototype.LAYER_DEFAULT = [{
         + '+lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over',
     geometry: 'polygon',
     Datasource: {
-        file: 'http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-0-countries.zip',
+        file: 'http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.4.0/cultural/10m-admin-0-countries.zip',
         type: 'shape'
     }
 }];
@@ -164,10 +181,17 @@ model.prototype.initialize = function(attributes, options) {
 // stylesheets, etc. Note that we do not use Backbone native initialize()
 // or defaults(), both of which make default values far pervasive than the
 // expected use here.
-model.prototype.setDefaults = function() {
+model.prototype.setDefaults = function(data) {
     var template = {};
-    !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT);
-    !this.get('Layer').length && (template.Layer = this.LAYER_DEFAULT);
+    if (data) {
+        !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT);
+        !this.get('Layer').length && (template.Layer = this.LAYER_DEFAULT);
+        template.minzoom = 0;
+        template.maxzoom = 8;
+    }
+    else {
+        !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT_NODATA);
+    }
     this.set(this.parse(template), { silent: true });
 };
 
@@ -227,17 +251,16 @@ model.prototype.validate = function(attr) {
         return new Error('Center must be within zoom range.');
 };
 
-// Single tile thumbnail URL generation. From [OSM wiki][1].
-// [1]: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
-model.prototype.thumb = function() {
-    var z = this.get('center')[2];
-    var lat_rad = this.get('center')[1] * Math.PI / 180 * -1; // -1 for TMS (flipped from OSM)
-    var x = parseInt((this.get('center')[0] + 180.0) / 360.0 * Math.pow(2, z));
-    var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2, z));
-    return this.get('tiles')[0]
-        .replace('{z}', z)
-        .replace('{x}', x)
-        .replace('{y}', y) + '&cache=true';
+// Wrap save to trigger 'save', 'saved' events.
+model.prototype.save = function(attrs, options) {
+    this.trigger('save');
+    Backbone.Model.prototype.save.call(this, attrs, {
+        success: _(function(m, resp) {
+            this.trigger('saved');
+            options && options.success && options.success(m, resp);
+        }).bind(this),
+        error: (options || {}).error
+    });
 };
 
 // Hit the project poll endpoint.
@@ -249,8 +272,13 @@ model.prototype.poll = function(options) {
         contentType: 'application/json',
         processData: false,
         success: _(function(resp) {
+            // No data to set.
             if (!_(resp).keys().length) return;
+            // We already have this update.
+            if (resp._updated <= this.get('_updated')) return;
+            // Validate failed.
             if (!this.set(this.parse(resp))) return;
+
             this.trigger('poll', this, resp);
             if (options.success) options.success(this, resp);
         }).bind(this),
@@ -273,12 +301,16 @@ model.prototype.flush = function(layer, url, options) {
         dataType: 'json',
         processData: false,
         success: _(function(resp) {
-            this.trigger('change');
+            this.trigger('change', this);
             if (options.success) options.success(this, resp);
         }).bind(this),
         error: _(function(resp) {
             if (options.error) options.error(this, resp);
         }).bind(this)
     });
+};
+
+model.prototype.thumb = function() {
+    return this.get('tiles')[0].replace('{z}/{x}/{y}','thumb');
 };
 

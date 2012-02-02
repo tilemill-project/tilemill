@@ -10,6 +10,8 @@ var mapnik = require('mapnik');
 var EventEmitter = require('events').EventEmitter;
 var millstone = require('millstone');
 var settings = Bones.plugin.config;
+var tileURL = _('http://<%=url%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>').template();
+var request = require('request');
 
 // Project
 // -------
@@ -67,38 +69,18 @@ models.Project.prototype.sync = function(method, model, success, error) {
 
 // Custom validation method that allows for asynchronous processing.
 // Expects options.success and options.error callbacks to be consistent
-// with other Backbone methods. Catches three main types of errors:
-// - localize failure
-// - carto compilation failure
-// - limited mapnik "test render" failure
+// with other Backbone methods. Now reduced to catching only Carto
+// compilation errors.
 models.Project.prototype.validateAsync = function(attributes, options) {
-    var mml = _(attributes).clone();
-
-    // Set _updated to 0 to force a localize cache clear.
-    mml._updated = 0;
-
-    this.localize(mml, function(err) {
+    compileStylesheet(_(attributes).clone(), function(err) {
         if (err) return options.error(this, err);
-
-        var map = new mapnik.Map(1,1);
-        var im = new mapnik.Image(1,1);
-        map.fromString(this.xml, {
-            strict:false,
-            base:path.join(Bones.plugin.config.files, 'project', this.id) + '/'
-        }, function(err, map) {
-            if (err) return options.error(this.err);
-            map.bufferSize = 0;
-            map.extent = [0,0,0,0];
-            map.render(im, {format:'png'}, function(err) {
-                if (err) return options.error(this, err);
-                options.success(this, null);
-            }.bind(this));
-        });
-    }.bind(this));
+        return options.success(this, null);
+    });
 };
 
 // Wrap save to call validateAsync first.
-models.Project.prototype.save = _(Backbone.Model.prototype.save).wrap(function(parent, attrs, options) {
+models.Project.prototype.save = _(Backbone.Model.prototype.save)
+.wrap(function(parent, attrs, options) {
     var err = this.validate(attrs);
     if (err) return options.error(this, err);
 
@@ -124,7 +106,7 @@ function flushProject(model, callback) {
         cache: path.join(settings.files, 'cache')
     };
     millstone.flush(options, callback);
-};
+}
 
 // Get the mtime for a project.
 function mtimeProject(model, callback) {
@@ -132,14 +114,34 @@ function mtimeProject(model, callback) {
     readdir(modelPath, function(err, files) {
         if (err) return callback(err);
         var max = _(files).chain()
-            .filter(function(stat) { return stat.isFile() })
+            .filter(function(stat) {
+                return stat.basename !== '.thumb.png' && stat.isFile();
+            })
             .pluck('mtime')
             .map(Date.parse)
             .max()
             .value();
         callback(null, max);
     });
-};
+}
+
+// Migrate a TileJSON 1.0.0 project to 2.0.0
+function migrate100_200(object) {
+    function formatterToTemplate(formatter) {
+        return formatter.replace(/\[([\w\d]+)\]/g, '{{{$1}}}');
+    }
+    if (object.interactivity) {
+        _([
+          'template_teaser',
+          'template_full',
+          'template_location']).each(function(t) {
+            if (object.interactivity[t]) {
+                object.interactivity[t] = formatterToTemplate(object.interactivity[t]);
+            }
+        });
+    }
+    return object;
+}
 
 // Load a single project model.
 function loadProject(model, callback) {
@@ -150,7 +152,13 @@ function loadProject(model, callback) {
     },
     function(err, mtime) {
         object._updated = mtime;
-        read(path.join(modelPath, model.id) + '.mml', this);
+        var cb = this;
+        read(path.join(modelPath, 'project.mml'), function(err, stat) {
+            if (! err) return cb(err, stat);
+
+            // If `project.mml` is missing fallback to `PROJECTNAME.mml`
+            read(path.join(modelPath, model.id + '.mml'), cb);
+        });
     },
     function(err, file) {
         if (err) return callback(new Error.HTTP('Project does not exist', 404));
@@ -171,11 +179,18 @@ function loadProject(model, callback) {
         }
     },
     function(err, stylesheets) {
-        if (err) throw err;
+        if (err && err.code === 'ENOENT') {
+            stylesheets = _(stylesheets).compact();
+        } else if (err) {
+            return this(err);
+        }
 
         // Embed stylesheet contents at the `Stylesheet` key.
         object.Stylesheet = _(stylesheets).map(function(file) {
-            return { id: file.basename, data: file.data };
+            return {
+                id: file.basename,
+                data: file.data
+            };
         });
 
         // Migrate old properties to tilejson equivalents.
@@ -192,13 +207,34 @@ function loadProject(model, callback) {
             ];
         }
 
+        // TileJSON version migration
+        switch (object.tilejson) {
+            // Current version should be at the top
+            case '2.0.0':
+                break;
+            // version-less object is 1.0.0
+            default:
+                object = migrate100_200(object);
+                break;
+        }
+
         // Generate dynamic properties.
-        object.tilejson = '1.0.0';
-        object.scheme = 'tms';
-        object.tiles = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (object.format || 'png') + '?updated=' + object._updated];
-        object.grids = ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?updated=' + object._updated];
+        object.tilejson = '2.0.0';
+        object.scheme = 'xyz';
+        object.tiles = [tileURL({
+            url: settings.tileUrl,
+            id: model.id,
+            format: 'png',
+            updated: object._updated
+        })];
+        object.grids = [tileURL({
+            url: settings.tileUrl,
+            id: model.id,
+            format: 'grid.json',
+            updated: object._updated
+        })];
         if (object.interactivity) {
-            object.formatter = formatter(object.interactivity);
+            object.template = template(object.interactivity);
             object.interactivity.fields = fields(object);
         }
         this();
@@ -206,7 +242,7 @@ function loadProject(model, callback) {
     function(err) {
         return callback(err, object);
     });
-};
+}
 
 // Load all projects into an array.
 function loadProjectAll(model, callback) {
@@ -229,17 +265,28 @@ function loadProjectAll(model, callback) {
     function(err, models) {
         // Ignore errors from loading individual models (e.g.
         // don't let one bad apple spoil the collection).
-        models = _(models).select(function(model) {
-            return model && model.id
-        });
+        models = _(models).chain()
+            .select(function(model) { return model && model.id })
+            .sortBy(function(model) { return model.id })
+            .value();
         return callback(null, models);
     });
-};
+}
 
 // Destroy a project. `rm -rf` equivalent for the project directory.
 function destroyProject(model, callback) {
     var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
-    rm(modelPath, callback);
+    // Workaround to access denied error on Windows when mapnik has
+    // open file handles to a data file in a project that needs to
+    // be deleted. Stopgap is to kill the tileserver, delete the project
+    // and let the tileserver start back up on its own.
+    if (process.platform === 'win32') {
+        request.post({ url:'http://'+settings.tileUrl+'/restart' }, function(err) {
+            rm(modelPath, callback);
+        });
+    } else {
+        rm(modelPath, callback);
+    }
 }
 
 // Save a project. Creates a subdirectory per project and splits out
@@ -256,7 +303,7 @@ function saveProject(model, callback) {
         var data = JSON.parse(JSON.stringify(model.toJSON()));
         var files = {};
         var schema = model.schema.properties;
-        files[model.id + '.mml'] = {};
+        files['project.mml'] = {};
 
         data.Stylesheet = _(data.Stylesheet).map(function(s) {
             if (s.id) files[s.id] = s.data;
@@ -266,7 +313,7 @@ function saveProject(model, callback) {
         _(data).chain()
             .keys()
             .filter(function(k) { return schema[k] && !schema[k].ignore })
-            .each(function(k) { files[model.id + '.mml'][k] = data[k]; });
+            .each(function(k) { files['project.mml'][k] = data[k]; });
 
         var group = this.group();
         _(files).each(function(data, filename) {
@@ -279,20 +326,50 @@ function saveProject(model, callback) {
     },
     function(err) {
         if (err) throw err;
-        fs.stat(path.join(modelPath, model.id + '.mml'), this);
+        mtimeProject(model, this);
     },
-    function(err, stat) {
-        var updated = stat && Date.parse(stat.mtime) || (+ new Date());
+    function(err, updated) {
+        if (err) throw err;
+        var tiles = tileURL({
+            url: settings.tileUrl,
+            id: model.id,
+            format: 'png',
+            updated: updated
+        });
+        var grids = tileURL({
+            url: settings.tileUrl,
+            id: model.id,
+            format: 'grid.json',
+            updated: updated
+        });
         callback(err, {
             _updated: updated,
-            tiles: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.' + (model.get('format') || 'png') + '?updated=' + updated],
-            grids: ['/1.0.0/' + model.id + '/{z}/{x}/{y}.grid.json' + '?updated=' + updated],
-            formatter: model.get('interactivity')
-                ? formatter(model.get('interactivity'))
+            tiles: [tiles],
+            grids: [grids],
+            template: model.get('interactivity')
+                ? template(model.get('interactivity'))
                 : undefined
         });
+
+        if (err) throw err;
+        // Request and cache a thumbnail tile from the tile server.
+        // Single tile thumbnail URL generation. From [OSM wiki][1].
+        // [1]: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#lon.2Flat_to_tile_numbers_2
+        var z = model.get('center')[2];
+        var lat_rad = model.get('center')[1] * Math.PI / 180;
+        var x = parseInt((model.get('center')[0] + 180.0) / 360.0 * Math.pow(2, z));
+        var y = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * Math.pow(2, z));
+        request.get({
+            url: tiles.replace('{z}',z).replace('{x}',x).replace('{y}',y),
+            encoding: 'binary'
+        }, this);
+    }, function(err, res, body) {
+        if (err) throw err;
+        fs.writeFile(path.join(modelPath, '.thumb.png'), body, 'binary', this);
+    }, function(err) {
+        if (err && err.code !== 'ENOENT') console.error(err);
     });
-};
+}
 
 function compileStylesheet(mml, callback) {
     // Parse project stylesheets for `font-directory` property and register
@@ -324,7 +401,7 @@ function compileStylesheet(mml, callback) {
         if (err) callback(err);
         else callback(null, output);
     });
-};
+}
 
 var localizedCache = {};
 
@@ -372,7 +449,7 @@ models.Project.prototype.localize = function(mml, callback) {
             cache: path.join(settings.files, 'cache')
         }, this);
     }, function(err, localized) {
-        if (err) return callback(err);
+        if (err) throw err;
 
         localizedCache[key].debug.localize = (+new Date) - localizeTime + 'ms';
         localizedCache[key].mml = localized;
@@ -380,11 +457,15 @@ models.Project.prototype.localize = function(mml, callback) {
         compileTime = (+new Date);
         compileStylesheet(localized, this);
     }, function(err, compiled) {
-        if (err) return callback(err);
+        if (err) throw err;
 
         localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
         localizedCache[key].xml = compiled;
         localizedCache[key].emit('load');
+    }, function(err) {
+        if (!err) return;
+        delete localizedCache[key];
+        callback(err);
     });
 };
 
@@ -399,32 +480,29 @@ function fields(opts) {
     // Determine fields that need to be included from templates.
     // @TODO allow non-templated fields to be included.
     var fields = [full, teaser, location]
-        .join(' ').match(/\[([\w\d]+)\]/g);
+        .join(' ').match(/\{\{#?\/?\^?([\w\d\s-:]+)\}\}/g);
 
     // Include `key_field` for PostGIS Layers.
     var layer = opts.interactivity.layer;
     _(opts.Layer).each(function(l) {
         if (l.id !== opts.interactivity.layer) return;
         if (l.Datasource && l.Datasource.key_field)
-            fields.push('[' + l.Datasource.key_field + ']');
+            fields.push('{{{' + l.Datasource.key_field + '}}}');
     });
 
     return _(fields).chain()
         .filter(_.isString)
-        .map(function(field) { return field.replace(/[\[|\]]/g, ''); })
+        .map(function(field) {
+            return field.replace(/[\^#\/\{\{|\}\}]/g, '');
+        })
         .uniq()
         .value();
-};
+}
 
-// Generate formatter function from templates.
-function formatter(opts) {
+// Generate combined template from templates.
+function template(opts) {
     opts = opts || {};
-    var full = opts.template_full || '';
-    var teaser = opts.template_teaser || '';
-    var location = opts.template_location || '';
-    full = _(full.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
-    teaser = _(teaser.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
-    location = _(location.replace(/\[([\w\d]+)\]/g, "<%=obj.$1%>")).template();
-    return _('function(o,d) { return {full:<%=obj.full%>, teaser:<%=obj.teaser%>, location:<%=obj.location%>}[o.format](d); }').template({full:full, teaser:teaser, location:location});
-};
-
+    return '{{#__location__}}' + (opts.template_location || '') + '{{/__location__}}' +
+        '{{#__teaser__}}' + (opts.template_teaser || '') + '{{/__teaser__}}' +
+        '{{#__full__}}' + (opts.template_full || '') + '{{/__full__}}';
+}

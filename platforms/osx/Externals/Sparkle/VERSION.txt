@@ -1,0 +1,5 @@
+Sparkle.framework 1.5b6
+Downloaded 8/19/11
+
+This exists so that TileMill can include a binary build of Sparkle.framework 
+and not have to build it from source each time. 

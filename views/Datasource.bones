@@ -1,6 +1,7 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
+    'click a[href=#back]': 'back',
     'click a.showall': 'showAll'
 };
 
@@ -10,12 +11,22 @@ view.prototype.initialize = function(options) {
     this.render();
 };
 
+view.prototype.back = function() {
+    $('.palette a[href=#layers]').click();
+    return false;
+};
+
 view.prototype.render = function() {
     var features = this.model.get('features');
+    var fields = _(this.model.get('fields')).reduce(function(memo, v, k) {
+        if (_(memo).keys().length < 50) memo[k] = v;
+        return memo;
+    }, {});
     this.$('.content').html(templates.Datasource({
-        fields: this.model.get('fields'),
+        fields: fields,
         features: _(features).first(this.featureLimit),
-        more: _(features).size() > this.featureLimit
+        more: _(features).size() > this.featureLimit,
+        moreFields: _(_(this.model.get('fields')).keys()).difference(_(fields).keys())
     }));
     return this;
 };

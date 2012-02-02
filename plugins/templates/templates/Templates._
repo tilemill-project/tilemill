@@ -1,0 +1,57 @@
+<% var interactivity = get('interactivity') || {}; %>
+<div class='toggler pill joined buttons clearfix centered fill-n'>
+  <a class='button large active' href='#templates-legend'>Legend</a
+  ><a class='button large' href='#templates-teaser'>Teaser</a
+  ><a class='button large' href='#templates-full'>Full</a
+  ><a class='button large' href='#templates-location'>Location</a>
+</div>
+<form class='fill templates'>
+  <div class='templates fill templates-legend active'>
+    <div class='description fill-n'>Plain text or HTML map legend.</div>
+    <textarea name='legend' class='code'><%=get('legend')%></textarea>
+  </div>
+  <div class='templates fill templates-teaser'>
+    <div class='description fill-n'>Content to be shown on hover or first tap (mobile).</div>
+    <textarea
+      <% if (!interactivity.layer) %>disabled<%;%>
+      name='interactivity.template_teaser'
+      class='code requires-tokens'><%=interactivity.template_teaser%></textarea>
+  </div>
+  <div class='templates fill templates-full'>
+    <div class='description fill-n'>Content to be shown on click or second tap (mobile).</div>
+    <textarea
+      <% if (!interactivity.layer) %>disabled<%;%>
+      name='interactivity.template_full'
+      class='code requires-tokens'><%=interactivity.template_full%></textarea>
+  </div>
+  <div class='templates fill templates-location'>
+    <div class='description fill-n'>URL to open on click.</div>
+    <input
+      <% if (!interactivity.layer) %>disabled<%;%>
+      class='requires-tokens'
+      type='text'
+      name='interactivity.template_location'
+      value='<%=interactivity.template_location%>'
+      placeholder='http://www.example.com/regions/{{{name}}}.html' />
+  </div>
+
+  <div class='templates-options templates-full templates-location templates-teaser fill-s'>
+    <div class='description toggler'>
+      <select name='interactivity.layer'>
+        <option value=''>-- disabled --</option>
+        <% _(get('Layer').toArray().reverse()).each(function(layer) { %>
+          <option <% if (interactivity.layer === layer.get('id')) { %>selected='selected'<% } %> value='<%= layer.get('id') %>'><%= layer.get('id') %></option>
+        <% }); %>
+      </select>
+      <small>Layer to use for interaction data</small>
+    </div>
+    <div class='templates-tokens code tokens scrolling'></div>
+    <div class='description'><small>
+      These <a target='blank' href='http://mustache.github.com/'>Mustache</a> tags will be replaced by data.
+      You can also use the full
+      <a target='blank' href='http://mustache.github.com/mustache.5.html'>Mustache template language</a>
+      to customize your tooltips.
+    </small></div>
+  </div>
+</form>
+

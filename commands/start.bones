@@ -1,57 +1,83 @@
-var fs = require('fs');
-var fsutil = require('../lib/fsutil');
 var path = require('path');
-var Step = require('step');
-var defaults = JSON.parse(fs.readFileSync(
-    path.resolve(__dirname + '/../lib/config.defaults.json'),
-    'utf8'
-));
+var spawn = require('child_process').spawn;
+var defaults = models.Config.defaults;
+var command = commands['start'];
 
-commands['start'].options['host'] = {
-    'title': 'host=[host(s)]',
-    'description': 'Accepted hosts.',
-    'default': defaults.host
+command.options['server'] = {
+    'title': 'server=1|0',
+    'description': 'Run TileMill in windowless mode.',
+    'default': defaults.server
 };
 
-commands['start'].options['port'] = {
-    'title': 'port=[port]',
-    'description': 'Server port.',
-    'default': defaults.port
-};
+command.options['port'] = { 'default': defaults.port };
+command.options['coreUrl'] = { 'default': defaults.coreUrl };
 
-commands['start'].options['examples'] = {
-    'title': 'examples=1|0',
-    'description': 'Copy example projects on first start.',
-    'default': defaults.examples
-};
+// Retrieve args to pass to child process here
+// prior to Bones filtering out options.
+var args = _(require('optimist').argv).chain()
+    .map(function(val, key) {
+        if (key === '$0') return;
+        if (key === '_') return;
+        return '--' + key + '=' + val;
+    })
+    .compact()
+    .value();
 
-commands['start'].prototype.bootstrap = function(plugin, callback) {
-    var settings = Bones.plugin.config;
-    settings.files = path.resolve(settings.files);
+command.prototype.initialize = function(plugin, callback) {
+    // Process args.
+    plugin.config.server = Boolean(plugin.config.server);
 
-    if (!path.existsSync(settings.files)) {
-        console.warn('Creating files dir %s', settings.files);
-        fsutil.mkdirpSync(settings.files, 0755);
-    }
-    ['export', 'project', 'data', 'cache', 'cache/tile'].forEach(function(key) {
-        var dir = path.join(settings.files, key);
-        if (!path.existsSync(dir)) {
-            console.warn('Creating %s dir %s', key, dir);
-            fsutil.mkdirpSync(dir, 0755);
-            if (key === 'project' && settings.examples) {
-                var examples = path.resolve(path.join(__dirname, '..', 'examples'));
-                fsutil.cprSync(examples, dir);
-            }
+    // Default out the coreUrl, needed to point the client
+    // window at the right URL.
+    plugin.config.coreUrl = plugin.config.coreUrl ||
+        'localhost:' + plugin.config.port;
+
+    Bones.plugin.command = this;
+    Bones.plugin.children = {};
+    process.title = 'tilemill';
+    // Kill child processes on exit.
+    process.on('exit', function() {
+        _(Bones.plugin.children).each(function(child) { child.kill(); });
+    });
+    // Handle SIGUSR2 for dev integration with nodemon.
+    process.once('SIGUSR2', function() {
+        _(Bones.plugin.children).each(function(child) { child.kill('SIGUSR2'); });
+        process.kill(process.pid, 'SIGUSR2');
+    });
+    this.child('core');
+    this.child('tile');
+
+    if (!plugin.config.server) plugin.children['core'].stderr.on('data', function(d) {
+        if (!d.toString().match(/Started \[Server Core:\d+\]./)) return;
+        var client = require('topcube')({
+            url: 'http://' + plugin.config.coreUrl,
+            name: 'TileMill',
+            width: 800,
+            height: 600,
+            minwidth: 800,
+            minheight: 400,
+            // win32-only options.
+            ico: path.resolve(path.join(__dirname + '/../platforms/windows/tilemill.ico')),
+            'cache-path': path.join(process.env.HOME, '.tilemill/cache-cefclient')
+        });
+        if (client) {
+            console.warn('Client window created.');
+            plugin.children['client'] = client;
         }
     });
 
-    // Apply server-side mixins/overrides.
-    var db = require('backbone-dirty')(settings.files + '/app.db');
-    db.dirty.on('error', console.log);
-    Backbone.sync = db.sync;
+    callback && callback();
+};
 
-    // Process any waiting exports.
-    (new models.Exports).fetch();
-    callback();
+command.prototype.child = function(name) {
+    Bones.plugin.children[name] = spawn(process.execPath, [
+        path.resolve(path.join(__dirname + '/../index.js')),
+        name
+    ].concat(args));
+    Bones.plugin.children[name].stdout.pipe(process.stdout);
+    Bones.plugin.children[name].stderr.pipe(process.stderr);
+    Bones.plugin.children[name].once('exit', function(code, signal) {
+        if (code === 0) this.child(name);
+    }.bind(this));
 };
 

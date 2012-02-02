@@ -1,6 +1,6 @@
 //
 //  main.m
-//  tilemill
+//  TileMill
 //
 //  Created by Dane Springmeyer on 7/28/11.
 //  Copyright Development Seed 2011. All rights reserved.

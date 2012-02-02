@@ -9,14 +9,34 @@ var s3 = require('../lib/s3');
 var config = Bones.plugin.config;
 var url = require('url');
 
-// Extensions supported by TileMill. See `carto/lib/carto/external.js` for
+// Extensions supported by TileMill. See `millstone.resolve()` for
 // the source of this list.
 var extFile = [
     '.zip', '.shp', '.png', '.geotiff', '.geotif', '.tiff',
-    '.tif', '.vrt', '.kml', '.geojson', '.json', '.rss'
+    '.tif', '.vrt', '.kml', '.geojson', '.json', '.rss',
+    '.csv', '.tsv', '.txt'
 ];
 // Sqlite extensions.
-var extSqlite = [ '.sqlite', '.spatialite' ];
+var extSqlite = [ '.sqlite', '.db', '.sqlite3', '.spatialite' ];
+
+var formatFileSize = function(size) {
+    var size = parseInt(size), scaled, suffix;
+    if (size >= 1024*1024*1024) {
+        scaled = size /(1024*1024*1024);
+        suffix = 'GB';
+    } else if (size >= 1024*1024) {
+        scaled = size/(1024*1024);
+        suffix = 'MB';
+    } else if (size >= 1024) {
+        scaled = size/1024;
+        suffix = 'KB';
+    } else {
+        scaled = size;
+        suffix = 'bytes';
+    }
+
+    return Math.round(scaled * 100) / 100 + ' ' + suffix;
+};
 
 models.Library.prototype.sync = function(method, model, success, error) {
     if (method !== 'read') return error(new Error('Method not supported.'));
@@ -24,35 +44,48 @@ models.Library.prototype.sync = function(method, model, success, error) {
     switch (model.id) {
     case 'file':
     case 'sqlite':
-        // @TODO: disallow .. and other nasty things.
-        var location = model.get('location') || '/';
-        var filepath = path.join(config.files, 'data', location);
-        readdir(filepath, function(err, files) {
-            if (err) return error(err);
-            var data = {};
-            var ext = model.id === 'file' ? extFile : extSqlite;
-            data.id = model.id;
-            data.location = location;
-            data.assets = _(files).chain()
-                .sortBy(function(f) {
-                    var pre = f.isDirectory() ? 0 : 1;
-                    return pre + f.basename;
-                })
-                .map(function(f) {
-                    var asset = { name: f.basename };
-                    var local = path.join(location, f.basename);
-                    var uri = path.join(filepath, f.basename);
-                    if (f.isFile() && _(ext).include(path.extname(f.basename).toLowerCase())) {
-                        asset.uri = uri;
-                        return asset;
-                    } else if (f.isDirectory()) {
-                        asset.location = local;
-                        return asset;
-                    }
-                })
-                .compact()
-                .value()
-            return success(data);
+        var sep = process.platform === 'win32' ? '\\' : '/';
+        var location = (model.get('location') || process.env.HOME)
+            .replace(/^([a-zA-Z]:\\|\/)/, sep);
+
+        // Resolve paths relative to project directory.
+        if (!location[0] === sep) {
+            location = path.join(config.files, 'project', model.get('project'), location);
+        }
+
+        path.exists(location, function(exists) {
+            if (!exists) location = process.env.HOME;
+            readdir(location, function(err, files) {
+                if (err &&
+                    err.code !== 'EACCES' &&
+                    err.code !== 'UNKNOWN') return error(err);
+                var data = {};
+                var ext = model.id === 'file' ? extFile : extSqlite;
+                data.id = model.id;
+                data.location = location;
+                data.assets = _(files).chain()
+                    .reject(function(f) { return f.basename[0] === '.'; })
+                    // Reject Icon? files from Mac OS X. See #917.
+                    .reject(function(f) { return f.basename === 'Icon\r'; })
+                    .sortBy(function(f) {
+                        var pre = f.isDirectory() ? 0 : 1;
+                        return pre + f.basename;
+                    })
+                    .map(function(f) {
+                        var asset = { name: f.basename };
+                        var filepath = path.join(location, f.basename);
+                        if (f.isFile() && _(ext).include(path.extname(f.basename).toLowerCase())) {
+                            asset.uri = filepath;
+                            return asset;
+                        } else if (f.isDirectory()) {
+                            asset.location = filepath;
+                            return asset;
+                        }
+                    })
+                    .compact()
+                    .value()
+                return success(data);
+            });
         });
         break;
     case 's3':
@@ -67,7 +100,6 @@ models.Library.prototype.sync = function(method, model, success, error) {
         options.prefix = data.location;
         s3.list(options, function(err, objects) {
             if (err) return error(err);
-
             data.assets = _(objects).chain()
                 .map(function(obj) {
                     if (!obj.Key && !obj.Prefix) return;
@@ -88,7 +120,8 @@ models.Library.prototype.sync = function(method, model, success, error) {
                                 host: options.bucket + '.s3.amazonaws.com',
                                 pathname: filepath
                             }),
-                            name: path.basename(filepath)
+                            name: path.basename(filepath),
+                            size: formatFileSize(obj.Size[0].text)
                         };
                     } else if (!isFile) {
                         return {

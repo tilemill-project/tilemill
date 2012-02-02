@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'tilemill' target in the 'tilemill' project
+// Prefix header for all source files of the 'TileMill' target in the 'TileMill' project
 //
 
 #ifdef __OBJC__

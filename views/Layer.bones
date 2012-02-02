@@ -1,18 +1,16 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'click .layerFile input[type=submit]': 'saveFile',
-    'click .layerPostGIS input[type=submit]': 'savePostGIS',
-    'click .layerSqlite input[type=submit]': 'saveSqlite',
+    'click input[type=submit]': 'save',
     'click a[href=#open]': 'browse',
     'click a[href=#favorite]': 'favoriteToggle',
-    'keyup input[name=file], input[name=connection]': 'favoriteUpdate',
-    'change input[name=file], input[name=connection]': 'favoriteUpdate',
+    'keyup input[name$=file], input[name=connection]': 'favoriteUpdate',
+    'change input[name$=file], input[name=connection]': 'favoriteUpdate',
+    'keyup input[name$=file], .layer-postgis textarea': 'placeholderUpdate',
+    'change input[name$=file], .layer-postgis textarea': 'placeholderUpdate',
     'click a[href=#cacheFlush]': 'cacheFlush',
     'change select[name=srs-name]': 'nameToSrs',
-    'keyup input[name=srs]': 'srsToName',
-    'keyup input[name=file]': 'srsForce',
-    'change input[name=file]': 'srsForce'
+    'keyup input[name=srs]': 'srsToName'
 };
 
 view.prototype.initialize = function(options) {
@@ -20,15 +18,15 @@ view.prototype.initialize = function(options) {
 
     _(this).bindAll(
         'render',
-        'saveFile',
-        'savePostGIS',
+        'save',
         'browse',
         'favoriteToggle',
         'favoriteUpdate',
+        'placeholderUpdate',
         'cacheFlush',
         'nameToSrs',
         'srsToName',
-        'srsForce'
+        'autoname'
     );
     this.favorites = options.favorites;
     this.render();
@@ -39,17 +37,11 @@ view.prototype.render = function() {
 
     // Quick easy way to check and set whether input
     // URI is favorited.
-    this.$('input[name=file], input[name=connection]').change();
+    this.$('input[name$=file], input[name=connection]').change();
 
-    if (this.model.get('Datasource')) {
-        if (this.model.get('Datasource').type == 'sqlite') {
-            this.$('a[href=#layerSqlite]').click();
-        } else if (this.model.get('Datasource').file) {
-            this.$('a[href=#layerFile]').click();
-        } else if (this.model.get('Datasource').type == 'postgis') {
-            this.$('a[href=#layerPostGIS]').click();
-        }
-    }
+    // Set active tab.
+    var type = this.model.get('Datasource') && this.model.get('Datasource').type;
+    this.$('a[href=#layer-' + (type||'file') + ']').click();
 
     // Autofocus first field for new layers.
     if (!this.model.id) this.$('input[type=text]:first').focus();
@@ -72,33 +64,9 @@ view.prototype.srsToName = function(ev) {
     el.siblings('select[name=srs-name]').val(this.model.srsName(srs));
 };
 
-// Force raster and KML sources to use `autodetect` as their SRS. Actual SRS
-// enforcement occurs upstream in `millstone`.
-view.prototype.srsForce = function(ev) {
-    var uri = $(ev.currentTarget).val();
-    var form = $(ev.currentTarget).parents('form');
-    var matches = uri.match(/.(\w+)$/) || [''];
-    switch (matches[0]) {
-    case '.geotiff':
-    case '.geotif':
-    case '.vrt':
-    case '.tiff':
-    case '.tif':
-    case '.kml':
-        $('select[name=srs-name], input[name=srs]', form).attr('disabled', true);
-        $('select[name=srs-name]', form).val('autodetect').change();
-        $('input[name=srs]', form).val('');
-        break;
-    default:
-        $('select[name=srs-name], input[name=srs]', form).attr('disabled', false);
-        $('select[name=srs-name]', form).change();
-        break;
-    }
-};
-
 view.prototype.favoriteToggle = function(ev) {
     var form = $(ev.currentTarget).parents('form');
-    var uri = $('input[name=file], input[name=connection]', form).val();
+    var uri = $('input[name$=file], input[name=connection]', form).val();
     // @TODO wait for 'success'? Throw errors?
     if (this.favorites.get(uri)) {
         var model = this.favorites.get(uri);
@@ -106,7 +74,7 @@ view.prototype.favoriteToggle = function(ev) {
         model.destroy();
         $(ev.currentTarget).removeClass('active');
     } else if (uri) {
-        var model = new models.Favorite({id:uri});
+        var model = new models.Favorite({ id:uri, created:+new Date });
         this.favorites.add(model);
         model.save();
         $(ev.currentTarget).addClass('active');
@@ -132,7 +100,7 @@ view.prototype.favoriteUpdate = function(ev) {
     // Show cache clear link if datasource points to a URL and we're editing
     // an existing layer.
     var cache = target.siblings('.cache');
-    if (this.model.id && uri.match(/^http:\/\//)) {
+    if (this.model.id && uri.match(/^http:\/\/|^https:\/\//)) {
         cache.removeClass('hidden');
     } else {
         cache.addClass('hidden');
@@ -140,29 +108,55 @@ view.prototype.favoriteUpdate = function(ev) {
     return false;
 };
 
+view.prototype.placeholderUpdate = function(ev) {
+    var target = $(ev.currentTarget);
+    var form = target.parents('form');
+    $('input[name=id]',form).attr('placeholder', this.autoname(target.val()));
+};
+
+// Currently handles URLs and brute forces SQL queries into something usable.
+// @TODO smarter handling for this or abandon the idea if it turns out to be
+// untenable for queries.
+view.prototype.autoname = function(source) {
+    return _(source.split('/')).chain()
+        .map(function(chunk) { return chunk.split('\\'); })
+        .flatten()
+        .last()
+        .value()
+        .split('.')[0]
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g,'')
+        .replace('selectfrom','')
+        .replace('select','')
+        .substr(0,20);
+};
+
 view.prototype.browse = function(ev) {
     var target = $(ev.currentTarget);
+    var form = target.parents('form');
+    var id = (function(form) {
+        if (form.hasClass('layer-file')) return 'file';
+        if (form.hasClass('layer-sqlite')) return 'sqlite';
+        if (form.hasClass('layer-postgis')) return 'favoritesPostGIS';
+    })(form);
+    var components = $('input.browsable', form).val().split('/');
+    var location = components.slice(0, components.length - 1).join('/');
+
     target
         .toggleClass('active')
         .text(target.hasClass('active') ? 'Done' : 'Browse');
-
-    var id;
-    var form = target.parents('form');
-    if (form.is('.layerFile')) {
-        id = 'file';
-    } else if (form.is('.layerSqlite')) {
-        id = 'sqlite';
-    } else if (form.is('.layerPostGIS')) {
-        id = 'favoritesPostGIS';
-    }
     $('ul.form', form).toggleClass('expand');
 
-    if (target.is('.active')) (new models.Library({id:id})).fetch({
+    if (target.is('.active')) (new models.Library({
+        id:id,
+        location:location,
+        project: this.model.collection.parent.id
+    })).fetch({
         success: _(function(model, resp) {
             new views.Library({
                 model: model,
                 favorites: this.favorites,
-                input: $('input[name=file], input[name=connection]', form),
+                change: function(uri) { $('input.browsable', form).val(uri).change(); },
                 el: $('.browser', form)
             });
         }).bind(this),
@@ -171,117 +165,84 @@ view.prototype.browse = function(ev) {
     return false;
 };
 
-view.prototype.saveFile = function() {
-    $(this.el).addClass('loading');
-    var attr = {
-        'id':    this.$('input[name=id]').val().replace('#', ''),
-        'name':  this.$('input[name=id]').val().replace('#', ''),
-        'srs':   this.$('input[name=srs]').val(),
-        'class': this.$('input[name=class]').val().replace('.', ''),
-        'Datasource': {
-            'file': this.$('input[name=file]').val()
-        }
-    };
-    var error = _(function(m, e) {
-        $(this.el).removeClass('loading');
-        new views.Modal(e);
-    }).bind(this);
-    this.model.validateAsync(attr, { success:_(function() {
-        $(this.el).removeClass('loading');
-        if (!this.model.set(attr, {error:error})) return;
-        if (!this.model.collection.include(this.model))
-            this.model.collection.add(this.model);
-        this.$('.close').click();
-    }).bind(this), error:error });
-    return false;
+view.prototype.autostyle = function() {
+    var root = this.model.collection.parent;
+    var stylesheets = root.get('Stylesheet');
+    if (stylesheets.length !== 0) {
+        var cm = stylesheets.models[0].codemirror;
+        var coord = cm.coordsFromIndex(Infinity);
+        cm.replaceRange(
+            templates.Autostyle(this.model),
+            coord,
+            coord);
+        $('.actions a[href=#save]').click();
+    }
 };
 
-view.prototype.savePostGIS = function() {
-    $(this.el).addClass('loading');
-    var connection = {};
-    var error;
-    var allowedArgs = ['user', 'password', 'dbname', 'port', 'host'];
-    _(this.$('form.layerPostGIS input[name=connection]').val().split(' '))
-        .each(function(argument) {
-            var pair = argument.split('=');
-            if (pair[0] && pair[1] && allowedArgs.indexOf(pair[0]) !== -1) {
-                connection[pair[0]] = pair[1];
-            } else {
-                error = new Error('Invalid argument ' + pair[0] + ' in PostgreSQL connection string.');
+view.prototype.save = function(e) {
+    var form = $(e.target).parents('form');
+    var autostyle = $(e.target).hasClass('with-style');
+    var attr = Bones.utils.form(form, this.model);
+
+    // Database datasources do not have the luxury of SRS autodetection.
+    // Fallback to web mercator if unset.
+    if (_(['sqlite', 'postgis']).include(attr.Datasource.type)) {
+        attr.srs = attr.srs || this.model.SRS['900913'];
+    } else {
+        attr.srs = attr.srs || '';
+    }
+    // Advanced options.
+    if (attr.advanced) {
+        attr.Datasource = _(attr.Datasource||{}).defaults(attr.advanced);
+        delete attr.advanced;
+    }
+    // Parse PostGIS connection options.
+    if (attr.connection) {
+        var allowedArgs = ['user', 'password', 'dbname', 'port', 'host'];
+        for (var key in attr.connection) if (!_(allowedArgs).include(key)) {
+            new views.Modal(new Error('Invalid argument ' + key + ' in PostgreSQL connection string.'));
+            return false;
+        }
+        if (!_(attr.connection).size()) {
+            new views.Modal(new Error('Invalid PostgreSQL connection string.'));
+            return false;
+        }
+        if (!attr.connection.dbname) {
+            new views.Modal(new Error('dbname is required in PostgreSQL connection string.'));
+            return false;
+        }
+        attr.Datasource = _(attr.Datasource||{}).defaults(attr.connection);
+        delete attr.connection;
+    }
+    // Autoname this layer if id is blank.
+    attr.name =
+    attr.id = (attr.id || this.autoname(attr.Datasource.file||attr.Datasource.table)).replace('#','');
+    attr['class'] = (attr['class'] || '').replace('.','');
+
+    $(this.el).addClass('loading').addClass('restartable');
+    var error = _(function(m, e) {
+        if ($(this.el).hasClass('restarting')) return false;
+        $(this.el).removeClass('loading').removeClass('restartable');
+        new views.Modal(e);
+    }).bind(this);
+    this.model.validateAsync(attr, {
+        success: _(function() {
+            $(this.el).removeClass('loading').removeClass('restartable');
+            if (!this.model.set(attr, {error:error})) return;
+            if (!this.model.collection.include(this.model)) {
+                this.model.collection.add(this.model);
+                if (autostyle) this.autostyle();
             }
-        });
-    if (!error && !_(connection).size()) {
-        error = new Error('Invalid PostgreSQL connection string.');
-    } else if (!error && !connection.dbname) {
-        error = new Error('dbname is required in PostgreSQL connection string.');
-    }
-    if (error) {
-        $(this.el).removeClass('loading');
-        new views.Modal(error);
-        return false;
-    }
-    var attr = {
-        'id':    this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
-        'name':  this.$('form.layerPostGIS input[name=id]').val().replace('#', ''),
-        'srs':   this.$('form.layerPostGIS input[name=srs]').val()
-            || this.model.SRS['900913'],
-        'class': this.$('form.layerPostGIS input[name=class]').val().replace('.', ''),
-        'Datasource': _({
-            'table':    this.$('textarea[name=table]', this.el).val(),
-            'key_field': this.$('input[name=key_field]', this.el).val(),
-            'geometry_field': this.$('input[name=geometry_field]', this.el).val(),
-            'extent':   this.$('input[name=extent]', this.el).val(),
-            'type': 'postgis'
-        }).extend(connection)
-    };
-    var error = _(function(m, e) {
-        $(this.el).removeClass('loading');
-        new views.Modal(e);
-    }).bind(this);
-    this.model.validateAsync(attr, { success:_(function() {
-        $(this.el).removeClass('loading');
-        if (!this.model.set(attr, {error:error})) return;
-        if (!this.model.collection.include(this.model))
-            this.model.collection.add(this.model);
-        this.$('.close').click();
-    }).bind(this), error:error });
-    return false;
-};
-
-view.prototype.saveSqlite = function() {
-    $(this.el).addClass('loading');
-    var attr = {
-        'id':    this.$('form.layerSqlite input[name=id]').val().replace('#', ''),
-        'name':  this.$('form.layerSqlite input[name=id]').val().replace('#', ''),
-        'srs':   this.$('form.layerSqlite input[name=srs]').val()
-            || this.model.SRS['900913'],
-        'class': this.$('form.layerSqlite input[name=class]').val().replace('.', ''),
-        'Datasource': {
-            'file': this.$('form.layerSqlite input[name=file]').val(),
-            'table':     this.$('form.layerSqlite textarea[name=table]', this.el).val(),
-            'attachdb':  this.$('input[name=attachdb]', this.el).val(),
-            'key_field': this.$('input[name=key_field]', this.el).val(),
-            'extent':    this.$('form.layerSqlite input[name=extent]', this.el).val(),
-            'type': 'sqlite'
-        }
-    };
-    var error = _(function(m, e) {
-        $(this.el).removeClass('loading');
-        new views.Modal(e);
-    }).bind(this);
-    this.model.validateAsync(attr, { success:_(function() {
-        $(this.el).removeClass('loading');
-        if (!this.model.set(attr, {error:error})) return;
-        if (!this.model.collection.include(this.model))
-            this.model.collection.add(this.model);
-        this.$('.close').click();
-    }).bind(this), error:error });
+            this.$('.close').click();
+        }).bind(this),
+        error: error
+    });
     return false;
 };
 
 view.prototype.cacheFlush = function(ev) {
     $(this.el).addClass('loading');
-    var url = this.$('form.layerFile input[name=file]').val();
+    var url = this.$('form.layer-file input[name$=file]').val();
     this.model.collection.parent.flush(this.model.id, url, {
         success: _(function(m, resp) {
             $(this.el).removeClass('loading');

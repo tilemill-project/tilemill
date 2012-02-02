@@ -1,0 +1,24 @@
+<%
+var installed = !!window.abilities.plugins[id];
+var compatible = semver.satisfies(window.abilities.tilemill.version, get('engines').tilemill);
+%>
+<li><div class='plugin <%= installed ? 'raised' : 'sunken' %>'>
+  <%= escape('name') %>
+  <small class='description'>
+    <%= escape('description') || 'No description.' %><br/>
+    <% if (get('core')) %>TileMill <%=window.abilities.tilemill.version%><%;%>
+    <% if (!get('core')) %>Version <%= escape('version') || 'unknown' %><%;%>
+    <% if (!compatible) %>
+    <span class='error'>Incompatible with TileMill <%=window.abilities.tilemill.version%></span>
+    <%;%>
+  </small>
+  <div class='actions'>
+    <% if (get('core')) { %>
+    <span class='badge'>Core</span>
+    <% } else { %>
+      <% if (installed) %><a class='button uninstall' href='#<%=id%>'>Uninstall</a><% ; %>
+      <% if (!installed && compatible) %><a class='button install' href='#<%=id%>'>Install</a><% ; %>
+    <% } %>
+  </div>
+</div></li>
+

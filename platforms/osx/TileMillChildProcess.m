@@ -1,6 +1,6 @@
 //
 //  TileMillChildProcess.m
-//  tilemill
+//  TileMill
 //
 //  Created by Will White on 8/2/11.
 //  Copyright 2011 Development Seed. All rights reserved.
@@ -8,81 +8,118 @@
 
 #import "TileMillChildProcess.h"
 
+@interface TileMillChildProcess ()
+
+@property (nonatomic, retain) NSTask *task;
+@property (nonatomic, retain) NSString *basePath;
+@property (nonatomic, retain) NSString *command;
+@property (nonatomic, assign, getter=isLaunched) BOOL launched;
+
+- (void)receivedData:(NSNotification *)notification;
+
+@end
+
+#pragma mark -
+
 @implementation TileMillChildProcess
 
 @synthesize delegate;
+@synthesize task;
+@synthesize basePath;
+@synthesize command;
+@synthesize launched;
+@synthesize port;
 
-- (id)initWithBasePath:(NSString *)bp command:(NSString *)c
+- (id)initWithBasePath:(NSString *)inBasePath command:(NSString *)inCommand
 {
-    if (![super init]) {
-        return nil;
+    self = [super init];
+    
+    if (self)
+    {
+        basePath = [inBasePath retain];
+        command  = [inCommand retain];
     }
-    basePath = [bp retain];
-    command = [c retain];
+
     return self;
 }
 
 - (void)dealloc
 {
-    delegate = nil;
     [self stopProcess];
+
+    [task release];
     [basePath release];
     [command release];
-    [task release];
+
     [super dealloc];
 }
 
-- (void) startProcess
+#pragma mark -
+
+- (void)startProcess
 {
-    [self.delegate childProcessDidStart:self];
-    task = [[NSTask alloc] init];
-    [task setStandardOutput: [NSPipe pipe]];
-    [task setStandardError: [task standardOutput]];
-    [task setCurrentDirectoryPath: basePath];
-    [task setLaunchPath: command];
-    [task setArguments:[NSArray arrayWithObjects:[NSString stringWithFormat:@"--port=%i",       [[NSUserDefaults standardUserDefaults] integerForKey:@"serverPort"]],
-                                                 [NSString stringWithFormat:@"--bufferSize=%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"bufferSize"]],
-                                                 [NSString stringWithFormat:@"--files=\"%@\"",  [[NSUserDefaults standardUserDefaults] stringForKey:@"filesPath"]], 
-                                                 nil]];
+    if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidStart:)])
+        [self.delegate childProcessDidStart:self];
+ 
+    self.task = [[[NSTask alloc] init] autorelease];
+    
+    [self.task setStandardOutput:[NSPipe pipe]];
+    [self.task setStandardError:[self.task standardOutput]];
+    [self.task setCurrentDirectoryPath:self.basePath];
+    [self.task setLaunchPath:self.command];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self 
-        selector:@selector(getData:) 
-        name: NSFileHandleReadCompletionNotification 
-        object: [[task standardOutput] fileHandleForReading]];
-    [[[task standardOutput] fileHandleForReading] readInBackgroundAndNotify];
-    [task launch];    
+                                             selector:@selector(receivedData:) 
+                                                 name:NSFileHandleReadCompletionNotification 
+                                               object:[[self.task standardOutput] fileHandleForReading]];
+    
+    [[[self.task standardOutput] fileHandleForReading] readInBackgroundAndNotify];
+    
+    [self.task launch];    
 }
 
-- (void) stopProcess
+- (void)stopProcess
 {
-    NSData *data;
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleReadCompletionNotification object: [[task standardOutput] fileHandleForReading]];
-    [task terminate];
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:NSFileHandleReadCompletionNotification 
+                                                  object:[[self.task standardOutput] fileHandleForReading]];
 
-    while ((data = [[[task standardOutput] fileHandleForReading] availableData]) && [data length])
-    {
-        [self.delegate childProcess:self didSendOutput:[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]];
-    }
+    [self.task terminate];
+    [self.task waitUntilExit];
 
-    [self.delegate childProcessDidFinish:self];
+    if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidFinish:)])
+        [self.delegate childProcessDidFinish:self];
 }
 
-- (void) getData: (NSNotification *)aNotification
+- (void)receivedData:(NSNotification *)notification
 {
-    NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    
     if ([data length])
     {
         NSString *message = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-        [self.delegate childProcess:self didSendOutput:message];
-        if ([message hasPrefix:@"Started"] && !launched) {
-            launched = YES;
-            [self.delegate childProcessDidSendFirstData:self];
+
+        if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcess:didSendOutput:)])
+            [self.delegate childProcess:self didSendOutput:message];
+        
+        if ([message hasPrefix:@"Started [Server Core"] && ! self.isLaunched)
+        {
+            self.launched = YES;
+            NSScanner *aScanner = [NSScanner scannerWithString:message];
+            NSInteger aPort;
+            [aScanner scanString:@"Started [Server Core:" intoString:NULL];
+            [aScanner scanInteger:&aPort];
+            self.port = aPort;
+            
+            if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidSendFirstData:)])
+                [self.delegate childProcessDidSendFirstData:self];
         }
-    } else {
-        [self stopProcess];
     }
+
+    else
+        [self stopProcess];
     
-    [[aNotification object] readInBackgroundAndNotify];  
+    [[notification object] readInBackgroundAndNotify];  
 }
 
 @end
-

@@ -18,7 +18,7 @@
 		556F6DA013EB83C500198718 /* MBTiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 556F6D9E13EB83C500198718 /* MBTiles.m */; };
 		557C0D2113EC7AC1004FB40C /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 557C0D2013EC7AC1004FB40C /* GeneratePreviewForURL.m */; };
 		557C0D2313EC7AD5004FB40C /* GenerateThumbnailForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 557C0D2213EC7AD5004FB40C /* GenerateThumbnailForURL.m */; };
-		DD6F0D2A13F97BB10055EFAE /* SQLite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6F0D2913F97BB10055EFAE /* SQLite3.framework */; };
+		DD079F091405B2AD006D9A19 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DD079F081405B2AD006D9A19 /* libsqlite3.dylib */; };
 		DD6F0D7713F985D30055EFAE /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = DD6F0D7113F985D30055EFAE /* FMDatabase.h */; };
 		DD6F0D7813F985D30055EFAE /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D7213F985D30055EFAE /* FMDatabase.m */; };
 		DD6F0D7913F985D30055EFAE /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = DD6F0D7313F985D30055EFAE /* FMDatabaseAdditions.h */; };
@@ -42,7 +42,7 @@
 		556F6D9E13EB83C500198718 /* MBTiles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBTiles.m; sourceTree = "<group>"; };
 		557C0D2013EC7AC1004FB40C /* GeneratePreviewForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratePreviewForURL.m; sourceTree = "<group>"; };
 		557C0D2213EC7AD5004FB40C /* GenerateThumbnailForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateThumbnailForURL.m; sourceTree = "<group>"; };
-		DD6F0D2913F97BB10055EFAE /* SQLite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite3.framework; path = Library/Frameworks/SQLite3.framework; sourceTree = SDKROOT; };
+		DD079F081405B2AD006D9A19 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		DD6F0D7113F985D30055EFAE /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = ../../Externals/FMDB/src/FMDatabase.h; sourceTree = "<group>"; };
 		DD6F0D7213F985D30055EFAE /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = ../../Externals/FMDB/src/FMDatabase.m; sourceTree = "<group>"; };
 		DD6F0D7313F985D30055EFAE /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseAdditions.h; path = ../../Externals/FMDB/src/FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -56,11 +56,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD6F0D2A13F97BB10055EFAE /* SQLite3.framework in Frameworks */,
+				5504854D13EAF31D0001DFFD /* CoreFoundation.framework in Frameworks */,
+				5504854B13EAF31D0001DFFD /* CoreServices.framework in Frameworks */,
 				5504856D13EB42A60001DFFD /* Foundation.framework in Frameworks */,
 				5504854713EAF31D0001DFFD /* QuickLook.framework in Frameworks */,
-				5504854B13EAF31D0001DFFD /* CoreServices.framework in Frameworks */,
-				5504854D13EAF31D0001DFFD /* CoreFoundation.framework in Frameworks */,
+				DD079F091405B2AD006D9A19 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +93,7 @@
 				5504854A13EAF31D0001DFFD /* CoreServices.framework */,
 				5504856C13EB42A60001DFFD /* Foundation.framework */,
 				5504854613EAF31D0001DFFD /* QuickLook.framework */,
-				DD6F0D2913F97BB10055EFAE /* SQLite3.framework */,
+				DD079F081405B2AD006D9A19 /* libsqlite3.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -186,6 +186,9 @@
 /* Begin PBXProject section */
 		5504853813EAF31D0001DFFD /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 5504853B13EAF31D0001DFFD /* Build configuration list for PBXProject "MBTilesQuickLook" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -259,7 +262,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -270,12 +273,11 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -285,17 +287,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -303,10 +304,6 @@
 		5504855E13EAF31D0001DFFD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../Library/Developer/Xcode/DerivedData/SQLite3-gzxsffpbpjatysgnfkbezbdmdptz/Build/Products/Debug\"",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MBTilesQuickLook/MBTilesQuickLook-Prefix.pch";
 				INFOPLIST_FILE = "MBTilesQuickLook/MBTilesQuickLook-Info.plist";
@@ -319,10 +316,6 @@
 		5504855F13EAF31D0001DFFD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../Library/Developer/Xcode/DerivedData/SQLite3-gzxsffpbpjatysgnfkbezbdmdptz/Build/Products/Debug\"",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MBTilesQuickLook/MBTilesQuickLook-Prefix.pch";
 				INFOPLIST_FILE = "MBTilesQuickLook/MBTilesQuickLook-Info.plist";
