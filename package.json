@@ -30,7 +30,7 @@
         "request": "1.9.x",
         "step": "0.0.x",
         "tilelive": "~4.0.3",
-        "mapnik": "~0.5.16",
+        "mapnik": "https://github.com/mapnik/node-mapnik/tarball/node_v4",
         "millstone": "~0.3.0",
         "sphericalmercator": "~1.0.1",
         "tilelive-mapnik": "~0.2.0",
