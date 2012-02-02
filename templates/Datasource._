@@ -24,7 +24,7 @@ obj.escape = function(string) {
   </thead>
   <tbody>
     <tr class='min'>
-      <% _(fields).each(function (field) { %>
+      <% _(statistics).each(function (field) { %>
         <% if (field.type === 'Number') { %>
         <td class='<%= field.type %>'><span class='description'>min</span> <%= obj.escape(field.min) %></td>
         <% } else { %>
@@ -33,11 +33,20 @@ obj.escape = function(string) {
       <% }); %>
     </tr>
     <tr class='max'>
-      <% _(fields).each(function (field) { %>
+      <% _(statistics).each(function (field) { %>
         <% if (field.type === 'Number') { %>
         <td class='<%= field.type %>'><span class='description'>max</span> <%= obj.escape(field.max) %></td>
         <% } else { %>
         <td class='<%= field.type %>'><%= obj.escape(field.max) %> <span class='description'>max</span></td>
+        <% } %>
+      <% }); %>
+    </tr>
+    <tr class='mean'>
+      <% _(statistics).each(function (field) { %>
+        <% if (field.type === 'Number') { %>
+        <td class='<%= field.type %>'><span class='description'>mean</span> <%= obj.escape(field.mean) %></td>
+        <% } else { %>
+        <td class='<%= field.type %>'></td>
         <% } %>
       <% }); %>
     </tr>

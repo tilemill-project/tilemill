@@ -50,6 +50,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             }
 
             var desc = source.describe();
+            var statistics = source.statistics();
             var datasource = {
                 id: options.id,
                 project: options.project,
@@ -57,9 +58,11 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 fields: desc.fields,
                 features: options.features ? features : [],
                 type: desc.type,
+                statistics: statistics,
                 geometry_type: desc.type === 'raster' ? 'raster' : desc.geometry_type
             };
 
+            /*
             // Process fields and calculate min/max values.
             for (var f in datasource.fields) {
                 var values = _(features).pluck(f);
@@ -74,6 +77,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                         : _(values).min();
                 }
             }
+            */
         } catch(err) {
             return error(err);
         }
