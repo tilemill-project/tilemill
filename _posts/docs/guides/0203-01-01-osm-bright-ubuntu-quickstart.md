@@ -109,17 +109,17 @@ This will take something like 1 to 10 minutes, depending on the size of extract 
 
 ## Step 3: Set up OSM Bright
 
-In the folder where you extracted osm-bright to, find the file `configure.py` and open it with a text editor (double-click on the file and select 'Display'). You'll need to edit some configuration settings to set up the project correctly.
+In the folder where you extracted OSM Bright to, find the file `configure.py` and open it with a text editor (double-click on the file and select 'Display'). You'll need to edit some configuration settings to set up the project correctly.
 
 Find the line that says `config["postgis"]["user"]     = ""` and change it to `config["postgis"]["user"]     = "postgres"`.
 
 If you've set up PostgreSQL as described in Step 0 this should be all you need to change. Save & quit. (If you've set things up differently you may need to specify a password or different user name.)
 
-Now you need to run the configuration program - double-click on it and select 'Run'.
+Now you need to build a copy of the project with this new configurations - double-click on the `make.py` file and select 'Run'.
 
 **Note:** At this point if you've never run TileMill before you should do that - search for it in the Dash Home and click on the icon. The first time it runs it will set up some folders we need for the next step.
 
-In your file manager, copy the `osm-bright` subdirectory and paste it into `Documents/MapBox/project`. Now open TileMill and the Projects view should show you a new map, "OSM Bright". It will take a bit of time to load at first - the project needs to download about 350 MB of additional data. After some waiting you should see the continents appear on the map. Zoom into the area that your imported data covers and you should see streets and cities appear.
+The make program has created a new folder in your OSM Bright directory called 'build'.In your file manager, copy this 'build' subdirectory and paste it into `Documents/MapBox/project` (you can rename it to something more meaningful if you wish). Now open TileMill and the Projects view should show you a new map, "OSM Bright". It will take a bit of time to load at first - the project needs to download about 350 MB of additional data. After some waiting you should see the continents appear on the map. Zoom into the area that your imported data covers and you should see streets and cities appear.
 
 ## Step 4: Customize your map
 
