@@ -10,7 +10,9 @@ view.prototype.events = {
     'change input[name$=file], .layer-postgis textarea': 'placeholderUpdate',
     'click a[href=#cacheFlush]': 'cacheFlush',
     'change select[name=srs-name]': 'nameToSrs',
-    'keyup input[name=srs]': 'srsToName'
+    'keyup input[name=srs]': 'srsToName',
+    'click a[href=#inspect]': 'inspect',
+    'click a.remote-item': 'choose',
 };
 
 view.prototype.initialize = function(options) {
@@ -22,6 +24,7 @@ view.prototype.initialize = function(options) {
         'browse',
         'favoriteToggle',
         'favoriteUpdate',
+        'inspect',
         'placeholderUpdate',
         'cacheFlush',
         'nameToSrs',
@@ -255,3 +258,28 @@ view.prototype.cacheFlush = function(ev) {
     return false;
 };
 
+// JIT datasource
+view.prototype.choose = function(ev) {
+    var form = $(ev.currentTarget).parents('form');
+    var uri = $('input#url', form).val($(ev.currentTarget).attr('href'));
+    ev.stopPropagation();
+    ev.preventDefault();
+};
+
+view.prototype.inspect = function(ev) {
+    var form = $(ev.currentTarget).parents('form');
+    var uri = $('input#url', form).val();
+    // @TODO wait for 'success'? Throw errors?
+
+    $.ajax({
+        url: uri,
+        contentType: 'application/json',
+        dataType: 'jsonp',
+        success: function(resp) {
+            $('.inspector', form).html(templates.RemoteDatasource(resp));
+        },
+        error: function() {
+        }
+    });
+    return false;
+};

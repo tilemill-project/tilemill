@@ -4,11 +4,13 @@ var enabled = {
     file: isNew() || (Datasource.file && Datasource.type != 'sqlite'),
     sqlite: isNew() || Datasource.type === 'sqlite',
     postgis: (isNew() && _(window.abilities.datasources).include('postgis')) ||
-        Datasource.type === 'postgis'
+        Datasource.type === 'postgis',
+    jit: (isNew() && _(window.abilities.datasources).include('jit')) ||
+        Datasource.type === 'jit'
 };
 var advancedOptions = function(obj) {
     var omit = [
-        'type', 'file',
+        'type', 'file', 'url',
         'table', 'host', 'port', 'user', 'password', 'dbname',
         'extent', 'key_field', 'geometry_field', 'type', 'attachdb',
         'srs', 'id', 'project'
@@ -42,7 +44,10 @@ var connectionOptions = function(obj) {
     ><a href='#layer-postgis' class='<%= !enabled.postgis ? 'disabled' : '' %> button large'>
         <span class='icon reverse postgis labeled'></span>
         PostGIS
-    </a>
+    </a><a href='#layer-jit' class='<%= !enabled.jit ? 'disabled' : '' %> button large'>
+        <span class='icon reverse cloud labeled'></span>
+        Remote
+      </a>
   </div>
 
   <% _(enabled).each(function(val, type) { if (!val) return; %>
@@ -132,6 +137,20 @@ var connectionOptions = function(obj) {
       <label for='extent'>Geometry field</label>
       <input type='text' name='Datasource.geometry_field' value='<%=Datasource.geometry_field%>' />
       <span class='description'>SQL field containing feature geometry</span>
+    </li>
+    <% } %>
+    <% if (type === 'jit') { %>
+    <li class='expand'>
+      <label for='url'><span class='required'>*</span> URL</label>
+      <input type='text'
+          name='Datasource.url'
+          id='url'
+          placeholder='http://ssd.local:20010/view/'
+          value='<%=Datasource.url%>' size='68' />
+      <a href='#favorite' class='icon favorite'>Favorite</a>
+      <a href='#inspect' class='icon inspect'>Inspect</a>
+      <small class='description'>Provide the root URL of your remote datasource.</small>
+      <div class='inspector'></div>
     </li>
     <% } %>
 
