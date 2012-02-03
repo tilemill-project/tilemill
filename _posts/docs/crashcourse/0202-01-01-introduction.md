@@ -17,11 +17,11 @@ Want to get started making maps in minutes? This crash course will walk through 
 [Take the MapBox tour](http://www.mapbox.com/tour) and get to know the features of fast beautiful map making.
 </small>
 
-This crash course will walk you through downloading data and using TileMill. For anyone who is new to mapping, this guide will walk you step-by-step through TileMill and will link you to the reference documentation along the way so you can learn the power in custom map making. For anyone coming from a GIS or cartography background, this guide will help you quickly dive into the core functions of TileMill.
+This crash course will walk you through downloading data and using TileMill. For anyone who is new to mapping, this guide will walk you step-by-step through TileMill and will link you to the reference documentation along the way so you can learn the power in custom map making. For anyone coming from a GIS or cartography background, this guide will help you quickly dive into the core functions of TileMill. 
 
-If you have any questions along the way, [start a dicussion with our support team](http://support.mapbox.com).
+[Begin here](/tilemill/docs/crashcourse/tilemill-gis) for a brief overview of TileMill technology and what it means for creating maps. If you have any questions along the way, [start a discussion with our support team](http://support.mapbox.com).
 
-## What to expect
+## What we'll cover
 
 **[Importing data](/tilemill/docs/crashcourse/point-data)**  
   Here we will show you how to download a common type of data that is supported by TileMill. If you want a more in-depth overview of adding layers in our technical reference first, see [here](/tilemill/docs/manual/adding-layers).

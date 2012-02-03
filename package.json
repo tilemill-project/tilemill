@@ -1,6 +1,6 @@
 {
     "name": "tilemill",
-    "version": "0.9.0-dev",
+    "version": "0.9.0",
     "main": "./index.js",
     "description": "A modern map design studio.",
     "keywords": ["map", "design", "cartography"],
@@ -45,7 +45,7 @@
         "npm": "1.1.x",
         "semver": "1.0.x",
         "optimist": "0.1.x",
-        "topcube": "https://github.com/creationix/topcube/tarball/v0.1.1",
+        "topcube": "https://github.com/springmeyer/topcube/tarball/master",
         "mkdirp": "~0.2.1"
     },
     "devDependencies": {

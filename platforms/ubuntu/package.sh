@@ -49,6 +49,7 @@ if [ ! -f "$CWD/orig/$PROJECT-$TAG.tar.gz" ]; then
   --exclude=platforms \
   --exclude=node_modules/jshint \
   --exclude=node_modules/expresso \
+  --exclude=assets/pages \
   --exclude=test \
   --exclude=sqlite-autoconf \
   --transform "s,^,$PROJECT-$TAG/,"

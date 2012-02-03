@@ -17,6 +17,7 @@ README.md usr/share/tilemill
 _config.yml usr/share/tilemill
 index.js usr/share/tilemill
 package.json usr/share/tilemill
+plugins usr/share/tilemill
 
 # Package helpers
 debian/tilemill.config etc/tilemill

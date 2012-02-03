@@ -2,13 +2,13 @@
 layout: book
 section: documentation
 category: TileMill
-tag: Tutorials
+tag: Guides
 title: "Advanced map design"
-permalink: /docs/tutorials/advanced-map-design
+permalink: /docs/guides/advanced-map-design
 prereq:
-- "[Prepared your data](/tilemill/docs/tutorials/google-docs/)."
-- "[Added a CSV layer](/tilemill/docs/tutorials/point-data/) to your TileMill project."
-- "[Used conditional styles](/tilemill/docs/tutorials/conditional-styles/) to control the appearance of points based on data."
+- "[Prepared your data](/tilemill/docs/guides/google-docs/)."
+- "[Added an earthquake CSV layer](/tilemill/docs/crashcourse/point-data) from the Crash Course."
+- "[Used conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
 nextup:
 - "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 ---
@@ -64,11 +64,11 @@ The reverse is also possible. Show states that are not Oklahoma:
 
 In order to deliver information on a map more immediately, sometimes it is useful to label your data with the actual number or feature that is being represented. This can be combined with the dot or just be a label on its own.
 
-For our tornado map, we have decided to display the total number of tornadoes inside the state-level dots. To do this we need to add a just a few lines to the layer's carto:
+For our tornado map, we have decided to display the total number of tornadoes inside the state-level dots. To do this we need to add just a few lines to the layer's carto:
   ![](/tilemill/assets/pages/label-styling-1.png)
 
 1. `::label`  
-This creates a new **symbolizer** for your layer. The name 'label' here is arbitrary, you can call it whatever you like. The position of the symbolizer in Carto determines the order of the its rendering. The first code in a Carto layer is rendered first on the map and will be **below** anything that is rendered after it. Therefore, if you need a layer feature to be on **top**, like we do with the labels, it must come last in the code.
+This creates a new **symbolizer** for your layer. The name 'label' here is arbitrary, you can call it whatever you like. The position of the symbolizer in Carto determines the order of its rendering. The first code in a Carto layer is rendered first on the map and will be **below** anything that is rendered after it. Therefore, if you need a layer feature to be on **top**, like we do with the labels, it must come last in the code.
 2. `text-name`  
 This denotes the **field** whose text will be displayed.  
 3. `text-face-name`  
@@ -109,7 +109,7 @@ Next we create and switch the tooltip to the individual dots layer, and export. 
 We now have two MBTiles with their own interactivity that we can [composite](http://mapbox.com/hosting/compositing/) together with a slick base map.
 
 Here is the final map:
-<iframe width='600' height='400' frameBorder='0' src='http://a.tiles.mapbox.com/v3/matt.map-awiyx38h.html#4/40/-96'> </iframe>
+<iframe width='600' height='400' frameBorder='0' src='http://a.tiles.mapbox.com/v3/mapbox.map-4qkj96dp.html#4/40/-98'> </iframe>
 
 And the final project Carto code for reference:
 

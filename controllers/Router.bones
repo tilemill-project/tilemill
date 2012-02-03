@@ -22,12 +22,12 @@ controller.prototype.initialize = function() {
         });
     }});
 
-    // Add catchall routes for wrapper goto's, error page.
-    this.route(/[^?]*\?goto=(.*)/, 'goto', this.goto);
+    // Add catchall routes for error page.
     this.route(/^(.*?)/, 'error', this.error);
 };
 
 controller.prototype.routes = {
+    '.*\?goto=*path': 'goto',
     '': 'projects',
     '/': 'projects',
     '/project/:id': 'project',

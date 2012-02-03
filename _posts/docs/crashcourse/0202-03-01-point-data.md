@@ -7,6 +7,7 @@ title: "Importing data"
 permalink: /docs/crashcourse/point-data
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
+- "[Reviewed](/tilemill/docs/crashcourse/introduction/) the Crash Course introduction."
 nextup:
 - "[Styling](/tilemill/docs/crashcourse/styling/) your point data."
 - "[Adding tooltips and a legend](/tilemill/docs/crashcourse/tooltips/) to your map."

@@ -4,7 +4,7 @@ section: documentation
 category: TileMill
 tag: Guides
 title: Google charts in tooltips
-permalink: /docs/tutorials/google-charts
+permalink: /docs/guides/google-charts
 code1: "{{{ID}}}"
 code2: |
   chd=t: {{{data1}}},{{{data2}}},{{{data3}}},{{{data4}}},{{{data5}}},{{{data6}}},{{{data7}}},_,_,{{{data8}}},{{{data9}}}|
@@ -30,9 +30,10 @@ code3: |
     &chtt=++Pct+by+Race++++++++++++++++++++++++++++++++++Pct+by+Ethnicity&chts=FFFFFF,10.5" width="300" height="165" alt="Pct Race/Ethnicity" />
 
 ---
+
 This is a short step-by-step article for building charts and graphs to enhance interactivity in TileMill. In our [accompanying article](http://support.mapbox.com/kb/tilemill/converting-addresses-in-spreadsheets-to-custom-maps-in-tilemill), we've written about adding identifying information for point data. Here we will walk through using [Google's Chart API](http://code.google.com/apis/chart/image/).
 
-Google's Chart API is unique tool that allows you to embed dynamic charts and graphs in the interactive space of TileMill. Little to no programming experience is needed to adjust an existing chart in their gallery or build one from scratch in their interactive chart [playground](http://code.google.com/apis/chart/image/docs/chart_playground.html).
+Google's Chart API is a unique tool that allows you to embed dynamic charts and graphs in the interactive space of TileMill. Little to no programming experience is needed to adjust an existing chart in their gallery or build one from scratch in their interactive chart [playground](http://code.google.com/apis/chart/image/docs/chart_playground.html).
 
 ## How it works
 

@@ -8,6 +8,8 @@ on windows. It is not meant to be complete or for general use.
  * Windows XP, Vista, or 7
  * Visual Studio C++ 2010 (Express works)
  * Mapnik master
+ * vcredist_x86.exe from MS for 2010 C++ runtimes
+ * Nsis Firewall plugin: http://wiz0u.free.fr/prog/nsisFirewall/
 
 ## TODO
 
@@ -58,23 +60,23 @@ npm install express@2.4.7 --force
 # install a jsdom version that works with node-v0.6 before we install bones
 # we force here to skip past contextify failure
 npm install jsdom@0.2.10 --force --no-rollback
-del node_modules\jsdom\node_modules\contextify
+rd /q /s node_modules\jsdom\node_modules\contextify
 
 # force here as the most can go wrong with bones deps and its nice
 # to see blowout right now rather than during the full install
 npm install bones@1.3.22 --force --no-rollback
-del node_modules\bones\node_modules\jsdom
+rd /q /s node_modules\bones\node_modules\jsdom
 
 # remainder of install, forcing to avoid c++ module failures
 npm install --force --no-rollback
 
 # cleanup C++ modules folders and jsdom
-del node_modules\bones\node_modules\jquery\node_modules\jsdom
-del node_modules\sqlite3
-del node_modules\mapnik
-del node_modules\millstone\node_modules\srs
-del node_modules\millstone\node_modules\zipfile
-del node_modules\tilelive-mapnik\node_modules\eio
+rd /q /s node_modules\bones\node_modules\jquery\node_modules\jsdom
+rd /q /s node_modules\sqlite3
+rd /q /s node_modules\mapnik
+rd /q /s node_modules\millstone\node_modules\srs
+rd /q /s node_modules\millstone\node_modules\zipfile
+rd /q /s node_modules\tilelive-mapnik\node_modules\eio
 ```
 
 5) Localize C++ modules
@@ -93,8 +95,16 @@ platforms\windows\run-tilemill
 
 7) Package
 
-Install nsis and run the installer script in `platforms\windows\installer`.
+Remove road-trip from examples folder until https://github.com/mapbox/tilemill/issues/1212 is decided upon.
 
-Destination machines either need VS2010 installed or the "redistributable" runtime:
+Manually generate the `VERSION` file in the root until https://github.com/mapbox/tilemill/issues/1213 is solved.
+
+Download the from 2010 C++ "redistributable" runtime from:
 
     http://www.microsoft.com/download/en/details.aspx?id=5555
+
+And place it in the `platforms/windows` directory.
+
+Download the nsisFirewall and place it in the `platforms/windows/installer` directory.
+
+Install nsis and run the installer script in `platforms\windows\installer`.

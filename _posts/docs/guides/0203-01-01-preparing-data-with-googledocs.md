@@ -2,13 +2,13 @@
 layout: book
 section: documentation
 category: TileMill
-tag: Tutorials
+tag: Guides
 title: "Preparing data with Google Docs"
-permalink: /docs/tutorials/google-docs
+permalink: /docs/guides/google-docs
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 nextup:
-- "[Add a CSV layer](/tilemill/docs/tutorials/point-data) to your TileMill project."
+- "[Add a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
 ---
 
 ## Using Google Docs
@@ -46,7 +46,7 @@ These steps serve only a basic example of how to use this tool. There are many m
 
 ### Geocoding
 
-In order to import your CSV or GeoJSON into TIleMill, it must have columns that specify **latitude** and **longitude** coordinates. Quite often your data will have location names, but not coordinates. So how do you get the coordinate of a point based on the name of a location? This exact process is called **geocoding**, and there is a script you can add to your google spreadsheet that will automate this process for you.
+In order to import your CSV or GeoJSON into TileMill, it must have columns that specify **latitude** and **longitude** coordinates. Quite often your data will have location names, but not coordinates. So how do you get the coordinate of a point based on the name of a location? This exact process is called **geocoding**, and there is a script you can add to your google spreadsheet that will automate this process for you.
 
 This tutorial will guide you through geocoding using this script. For further information regarding geocoding services see [this article](http://support.mapbox.com/kb/preparing-your-geographic-data/geocoding-services).
 
@@ -80,5 +80,19 @@ Once your data is ready, you will want to publish it as a **CSV**. TileMill can 
   ![](/tilemill/assets/pages/googledocs-export-4.png)
 7. Copy the link and paste it in the **Datasource** field when adding the layer in TileMill.
   ![](/tilemill/assets/pages/googledocs-export-5.png)
+
+### Flushing the Cache
+
+TileMill **caches** layer data for better performance, but this can sometimes cause updated data from the same source to not be immediately available. To rectify this we can manually tell TileMill to flush the cache.
+
+Say you make an edit to the previously published spreadsheet. To see those changes immediately take effect in TileMill:
+
+1. Click the **edit** button on the relative layer.
+  ![](/tilemill/assets/pages/googledocs-export-6.png)
+
+2. Click **Flush cache** underneath the datasource field.
+  ![](/tilemill/assets/pages/googledocs-export-7.png)
+
+3. Click **Save**. TileMill will now load the fresh data.
 
 {% include nextup.html %}
