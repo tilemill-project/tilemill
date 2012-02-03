@@ -11,7 +11,8 @@ prereq:
 nextup:
 - "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
 - "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
-code1: | gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3785 -r bilinear -te -20037508.34 -20037508.34 20037508.34 20037508.34 NE2_LR_LC_SR_W.tif natural-earth-2-mercator.tif
+code1: |
+  gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3785 -r bilinear -te -20037508.34 -20037508.34 20037508.34 20037508.34 NE2_LR_LC_SR_W.tif natural-earth-2-mercator.tif
 
 ---
 {% include prereq.html %}
@@ -24,7 +25,7 @@ The projection we need to warp is Google Web Mercator, which can be referenced b
 
 1. In your terminal, navigate to the directory where the geotiff is stored.  
 2. Run the following command:  
-><pre>{{page.code1}}</pre>
+<pre>{{page.code1}}</pre>
 >You will see this output:
 >
 >![output](/tilemill/assets/pages/geotiff-process-2.png)
