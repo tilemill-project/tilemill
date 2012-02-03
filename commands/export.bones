@@ -252,7 +252,7 @@ command.prototype.mbtiles = function (project, callback) {
         sink.startWriting(this);
     }, function(err) {
         if (err) throw err;
-        sink.putInfo(project.mml, this);
+        sink.putInfo(project.tileJSON(), this);
     }, function(err) {
         if (err) return cmd.error(err, function() {
             process.exit(1);

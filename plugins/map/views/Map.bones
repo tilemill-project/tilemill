@@ -18,7 +18,7 @@ view.prototype.render = function(init) {
     $(this.el).html(templates.Map());
 
     this.map = new MM.Map('map',
-        new wax.mm.connector(this.model.attributes));
+        new wax.mm.connector(this.model.tileJSON()));
 
     // Add references to all controls onto the map object.
     // Allows controls to be removed later on.
