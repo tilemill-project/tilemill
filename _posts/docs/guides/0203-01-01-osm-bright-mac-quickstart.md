@@ -10,15 +10,14 @@ prereq:
 nextup:
     - "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
 ---
+
+{% include prereq.html %}
+
 [OSM Bright](https://github.com/mapbox/osm-bright) is a sensible starting point for quickly making beautiful maps in TileMill based on an OpenStreetMap database. This guide aims get you quickly set up with this template and rendering a exporting a customized version of it in under 30 minutes.
 
 ## Step 0: Download & install required software
 
-In order to use OSM Bright on OS X you will need to download & install a number of packages (unless you know you have already installed them).
-
-### TileMill
-
-[Get it here](http://tilemill.com). Unzip the download & drag the app to your Applications folder to install.
+In order to use OSM Bright on OS X you will need to download & install a number of packages in addition to TileMill (unless you know you have already installed them).
 
 ### The GDAL 'complete' framework
 
@@ -85,3 +84,5 @@ If you want, you can render the OSM Bright template without modifications - howe
 The first stylesheet, palette.mss, contains many of the basic color definitions for the map. Here you can easily change the colors of things like roads, land areas, buildings.
 
 For further customizations dig into the remaining stylesheets and refer to the comments and TileMill's built-in Carto guide for and [the Carto section of the manual](/tilemill/docs/manual/carto/) for guidance. When you're done with your customizations, you're ready to export a map. 
+
+{% include nextup.html %}

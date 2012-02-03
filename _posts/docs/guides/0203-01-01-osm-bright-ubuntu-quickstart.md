@@ -6,25 +6,30 @@ tag: Guides
 title: "OSM Bright Ubuntu Quickstart"
 permalink: /docs/guides/osm-bright-ubuntu-quickstart
 prereq:
-    - "[Installed](/tilemill/docs/install) TileMill on your computer."
+- "[Installed](/tilemill/docs/install) TileMill on your computer."
 nextup:
-    - "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
+- "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
 ---
+
+{% include prereq.html %}
+
 [OSM Bright](https://github.com/mapbox/osm-bright) is a sensible starting point for quickly making beautiful maps in TileMill based on an OpenStreetMap database. This guide aims get you quickly set up with this template and rendering a exporting a customized version of it in under 30 minutes.
 
 ## Step 0: Download & install required software
 
-In order to use OSM Bright on Ubuntu you'll need to install a number of packages (unless you know you have already installed them). These instructions were created for Ubuntu 11.10.
-
-### TileMill
-
-[Get it here](http://tilemill.com). Download & extract the package - it contains a small install script that will download & set-up TileMill and all of its dependencies for you. To run it, double-click `install-tilemill.sh`.
+In order to use OSM Bright on Ubuntu you'll need to install a number of packages in addition to TileMill (unless you know you have already installed them).
 
 ### PostgreSQL and PostGIS
 
-Open up a terminal and run the following command to install PostGIS and all of its dependencies, including PostgreSQL:
+Open up a terminal and run the following command to install PostGIS and all of its dependencies, including PostgreSQL. 
+
+For Ubuntu 11.10 'Natty':
 
     sudo apt-get install postgresql postgis
+
+For Ubuntu 11.04 'Maverick':
+
+    sudo apt-get install postgresql postgresql-8.4-postgis
 
 ### Imposm
 
@@ -48,9 +53,13 @@ Download a zip archive of the latest version of OSM Bright from <https://github.
 
 You need to create a database with PostGIS enabled for the OpenStreetMap data, but first you'll need to adjust PostgreSQL's access permissions.
 
-Edit `/etc/postgresql/9.1/main/pg_hba.conf` with root permissions:
+For Ubuntu 11.10:
 
     sudo nano /etc/postgresql/9.1/main/pg_hba.conf
+
+For Ubuntu 11.04:
+
+    sudo nano /etc/postgresql/8.4/main/pg_hba.conf
 
 Page down to the bottom section of the file and adjust all local access permissions to 'trust'. This will allow you to access the PostgreSQL database from the same machine without a password. Your configuration should contain something like this:
 
@@ -71,11 +80,19 @@ Save and exit from `nano` with Ctrl-O then Ctrl-X. In order for this new configu
 
     sudo /etc/init.d/postgresql restart
 
-You should now be able to set up your PostGIS database. Run the following commands in the Terminal:
+You should now be able to set up your PostGIS database. Run the following commands in the Terminal.
+
+For Ubuntu 11.10:
 
     psql -U postgres -c "create database osm;"
     psql -U postgres -d osm -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
     psql -U postgres -d osm -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
+
+For Ubuntu 11.04:
+
+    psql -U postgres -c "create database osm;"
+    psql -U postgres -d osm -f /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
+    psql -U postgres -d osm -f /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
 
 ## Step 2: Download & import OSM data
 
@@ -112,4 +129,4 @@ The first stylesheet, palette.mss, contains many of the basic color definitions 
 
 For further customizations dig into the remaining stylesheets and refer to the comments and TileMill's built-in Carto guide for and [the Carto section of the manual](/tilemill/docs/manual/carto/) for guidance. When you're done with your customizations, you're ready to export a map. 
 
-When you're done with your customizations, you're ready to export a map. Refer to the TileMill crash-course chapter [Exporting a map](http://mapbox.com/tilemill/docs/crashcourse/exporting/) for detailed instructions on how to do this.
+{% include nextup.html %}
