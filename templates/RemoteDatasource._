@@ -1,0 +1,18 @@
+<table>
+    <thead>
+        <tr>
+            <td>name</td>
+            <td>description</td>
+            <td>type</td>
+            <td>zoom range</td>
+        </tr>
+    </thead>
+<% _(items).each(function(i) { %>
+    <tr>
+        <td><a href='<%=i.link%>' class='remote-item'><strong><%=i.name %></strong></a></td>
+        <td><small><%= i.description %></small></td>
+        <td><small><%= i.data.geometry_type %></small></td>
+        <td><%=i.minzoom%>-<%=i.maxzoom%></td>
+    </tr>
+<% }); %>
+</table>

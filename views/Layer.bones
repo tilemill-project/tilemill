@@ -276,6 +276,9 @@ view.prototype.inspect = function(ev) {
         contentType: 'application/json',
         dataType: 'jsonp',
         success: function(resp) {
+            if (resp.type != 'index') {
+                resp.items = [resp];
+            }
             $('.inspector', form).html(templates.RemoteDatasource(resp));
         },
         error: function() {
