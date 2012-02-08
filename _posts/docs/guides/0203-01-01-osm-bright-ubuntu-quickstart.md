@@ -3,7 +3,7 @@ layout: book
 section: documentation
 category: TileMill
 tag: Guides
-title: "OSM Bright Ubuntu Quickstart"
+title: "OSM Bright Ubuntu quickstart"
 permalink: /docs/guides/osm-bright-ubuntu-quickstart
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
@@ -109,17 +109,23 @@ This will take something like 1 to 10 minutes, depending on the size of extract 
 
 ## Step 3: Set up OSM Bright
 
-In the folder where you extracted OSM Bright to, find the file `configure.py` and open it with a text editor (double-click on the file and select 'Display'). You'll need to edit some configuration settings to set up the project correctly.
+You'll need to adjust some settings for things like your PostgreSQL connection information. To do this, open the folder where you've extracted OSM Bright to in your file manager and run through the following steps.
 
-Find the line that says `config["postgis"]["user"]     = ""` and change it to `config["postgis"]["user"]     = "postgres"`.
+1. Make a copy of configure.sample.py and name it configure.py.
+2. Open the new configure.py in a text editor.
+3. Change `config["importer"] = "osm2pgsql"` to `config["importer"] = "imposm"`, unless you prefer to use osm2pgsql and have that set up.
+4. Optionally change the name of your project from the default, 'OSM Bright'.
+5. Adjust the path to point to your MapBox project folder. If your Ubuntu username is 'mary', it should likely be `/home/mary/Documents/MapBox/project/`.
+6. change the line that says `config["postgis"]["user"]     = ""` to `config["postgis"]["user"]     = "postgres"`
+7. Save & close the file.
 
-If you've set up PostgreSQL as described in Step 0 this should be all you need to change. Save & quit. (If you've set things up differently you may need to specify a password or different user name.)
-
-Now you need to build a copy of the project with this new configurations - double-click on the `make.py` file and select 'Run'.
+If you've set up PostgreSQL as described in Step 0 this should be all you need to change. (If you've set things up differently you may need to specify a password or different user name.)
 
 **Note:** At this point if you've never run TileMill before you should do that - search for it in the Dash Home and click on the icon. The first time it runs it will set up some folders we need for the next step.
 
-The make program has created a new folder in your OSM Bright directory called 'build'.In your file manager, copy this 'build' subdirectory and paste it into `Documents/MapBox/project` (you can rename it to something more meaningful if you wish). Now open TileMill and the Projects view should show you a new map, "OSM Bright". It will take a bit of time to load at first - the project needs to download about 350 MB of additional data. After some waiting you should see the continents appear on the map. Zoom into the area that your imported data covers and you should see streets and cities appear.
+Now you can build and install a copy of the project with this new configuration to your MapBox projects directory. Double-click on the `make.py` file and select 'Run'.
+
+If you open TileMill and the Projects view should show you a new map. It will take a bit of time to load at first - the project needs to download about 350 MB of additional data. After some waiting you should see the continents appear on the map. Zoom into the area that your imported data covers and you should see streets and cities appear.
 
 ## Step 4: Customize your map
 

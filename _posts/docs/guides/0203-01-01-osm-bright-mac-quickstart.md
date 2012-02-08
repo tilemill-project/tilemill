@@ -3,7 +3,7 @@ layout: book
 section: documentation
 category: TileMill
 tag: Guides
-title: "OSM Bright Mac OS X Quickstart"
+title: "OSM Bright Mac OS X quickstart"
 permalink: /docs/guides/osm-bright-mac-quickstart
 prereq:
     - "[Installed](/tilemill/docs/install) TileMill on your computer."
@@ -63,19 +63,24 @@ This will take something like 1 to 10 minutes, depending on the size of extract 
 
 ## Step 3: Download & set up OSM Bright
 
-Download a zip archive of the latest version of OSM Bright from <https://github.com/mapbox/osm-bright/zipball/master> and extract it. Find the file `configure.py` in the extracted folder and open it with a text editor. You'll need to edit some configuration settings to set up the project correctly.
+Download a zip archive of the latest version of OSM Bright from <https://github.com/mapbox/osm-bright/zipball/master> and extract it.
 
-Find the part that says `  "importer": "imposm",` and change it to `  "importer": "osm2pgsql",`.
+You'll need to adjust some settings for things like your PostgreSQL connection information. To do this, open the folder where you've extracted OSM Bright to in Finder and run through the following steps.
 
-Next find the line that says `config["postgis"]["user"]     = ""` and change it to `config["postgis"]["user"]     = "postgres"`.
+1. Make a copy of configure.sample.py and name it configure.py.
+2. Open the new configure.py in a text editor.
+3. Optionally change the name of your project from the default, 'OSM Bright'.
+4. Adjust the path to point to your MapBox project folder. If your Mac OS X username is 'mary', it should likely be `/Users/mary/Documents/MapBox/project/`.
+5. change the line that says `config["postgis"]["user"]     = ""` to `config["postgis"]["user"]     = "postgres"`
+6. Save & close the file.
 
 If you've set up PostgreSQL as described in Step 0 this should be all you need to change. Save & quit. (If you've set things up differently you may need to specify a password or different user name.)
 
-Now you need to build a copy of the project with your configuration. You can easily do this by dragging and dropping `make.py` from the Finder onto a Terminal window and hitting return on the keyboard.
-
 **Note:** At this point if you've never run TileMill before you should find it in your Applications folder and run it - the first time it runs it will set up some folders we need for the next step.
 
-The make program has created a new folder in your OSM Bright directory called 'build'. In Finder, copy and paste this 'build' folder into `Documents/MapBox/project` (you can rename it to something more appropriate if you wish). Now open TileMill and the Projects view should show you a new map, "OSM Bright". It will take a bit of time to load at first - the project needs to download about 350 MB of additional data. After some waiting you should see the continents appear on the map. Zoom into the area that your imported data covers and you should see streets and cities appear.
+Now you can build and install a copy of the project with your configuration to your MapBox projects directory. You can easily do this by dragging and dropping `make.py` from the Finder onto a Terminal window and hitting return on the keyboard.
+
+If you open TileMill and the Projects view should show you a new map. It will take a bit of time to load at first - the project needs to download about 350 MB of additional data. After some waiting you should see the continents appear on the map. Zoom into the area that your imported data covers and you should see streets and cities appear.
 
 ## Step 4: Customize your map
 
