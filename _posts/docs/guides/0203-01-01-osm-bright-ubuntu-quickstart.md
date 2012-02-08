@@ -23,11 +23,11 @@ In order to use OSM Bright on Ubuntu you'll need to install a number of packages
 
 Open up a terminal and run the following command to install PostGIS and all of its dependencies, including PostgreSQL. 
 
-For Ubuntu 11.10 'Natty':
+For Ubuntu 11.10 'Oneiric Ocelot':
 
     sudo apt-get install postgresql postgis
 
-For Ubuntu 11.04 'Maverick':
+For Ubuntu 11.04 'Natty Narwhal':
 
     sudo apt-get install postgresql postgresql-8.4-postgis
 
