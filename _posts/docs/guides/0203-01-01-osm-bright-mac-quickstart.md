@@ -78,7 +78,10 @@ If you've set up PostgreSQL as described in Step 0 this should be all you need t
 
 **Note:** At this point if you've never run TileMill before you should find it in your Applications folder and run it - the first time it runs it will set up some folders we need for the next step.
 
-Now you can build and install a copy of the project with your configuration to your MapBox projects directory. You can easily do this by dragging and dropping `make.py` from the Finder onto a Terminal window and hitting return on the keyboard.
+Now you can build and install a copy of the project with this new configuration to your MapBox projects directory. In a terminal, `cd` to the directory where you extracted the project, then run the make program. For example:
+
+    cd ~/Downloads/mapbox-osm-bright-*
+    ./make.py
 
 If you open TileMill and the Projects view should show you a new map. It will take a bit of time to load at first - the project needs to download about 350 MB of additional data. After some waiting you should see the continents appear on the map. Zoom into the area that your imported data covers and you should see streets and cities appear.
 
