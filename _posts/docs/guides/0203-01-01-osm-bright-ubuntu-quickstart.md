@@ -33,7 +33,7 @@ For Ubuntu 11.04 'Natty Narwhal':
 
 ### Imposm
 
-First install Imposm's dependencies with is command:
+First install Imposm's dependencies with this command:
 
     sudo aptitude install build-essential python-dev protobuf-compiler \
         libprotobuf-dev libtokyocabinet-dev python-psycopg2 libgeos-c1
