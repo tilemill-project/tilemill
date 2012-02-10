@@ -30,10 +30,10 @@ Here's a step-by-step walkthrough for creating a basic icon overlay in TileMill 
 
 2. Create a new project in TileMill called maki-overlay. You're going to be making a map of Washington, DC, so adjust your project settings to include zoom levels up to 20, and center the map over the Washington, DC area.
 
-3. Next, you need geodata in order to place icons on your map. [This CSV](#) based on CloudMade's OpenStreetMap POI data should serve you well. Once it's finished downloading, place combined_poi.csv in your project's data folder, then import it as a layer in TileMill. Set the layer ID to 'poi'.
+3. Next, you need geodata in order to place icons on your map. [This CSV](https://github.com/mapbox/tilemill/raw/maki-docs/assets/pages/combined_poi.csv) based on CloudMade's OpenStreetMap POI data should serve you well. Once it's finished downloading, place combined_poi.csv in your project's data folder, then import it as a layer in TileMill. Set the layer ID to 'poi'.
 ![](/tilemill/assets/pages/maki-2.png)
 
-4. Time to lay down the basic styles for your data. Using Carto, select the #POI layer and then use a conditional style to filter for cafes within that layer. You'll need to reference the icon with a URL path, and this this case, you need to move back two steps to the `MapBox/` directory, then move into the `Maki/` folder and specify the icon you want.
+4. Time to write the basic styles for your data. Using Carto, select the #POI layer and then use a conditional style to filter for cafes within that layer. You'll need to reference the icon with a URL path, and this this case, you need to move back two steps to the `MapBox/` directory, then move into the `Maki/` folder and specify the icon you want.
 ![](/tilemill/assets/pages/maki-3.png)
 > Your map should now look like this:
 ![](/tilemill/assets/pages/maki-3-2.png) 
@@ -45,7 +45,7 @@ Here's a step-by-step walkthrough for creating a basic icon overlay in TileMill 
 > Now your map should like this this: 
 ![](/tilemill/assets/pages/maki-5-2.png)
 
-7. It's easy to make your icons interactive based on the data contained in the CSV. Open the interactivity palette, click on the 'Teaser' tab, and then type `{{{name}}}`, which is output markup that will display the content of the 'name' column of the .csv in a pop-up when you hover over an icon.
+7. It's easy to make your icons interactive based on the data contained in the CSV. Open the interactivity palette, click on the 'Teaser' tab, and then type `{{{name}}}`, which is output markup that will display the content of the 'name' column in the .csv in a pop-up when you hover over an icon.
 ![](/tilemill/assets/pages/maki-6.png)
 
 8. Finally, delete the Map #countries styles so the icons are on a transparent background. Your map is now ready to be used as an overlay. Follow instructions to [upload this overlay to MapBox hosting](http://mapbox.com/hosting/uploading/) and [composite it with another map](http://mapbox.com/hosting/compositing/). Composited with [Mapbox Light](https://tiles.mapbox.com/mapbox/map/mapbox-light), your map could look like this:
