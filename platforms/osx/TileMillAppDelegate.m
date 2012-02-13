@@ -213,7 +213,7 @@
     }
     
     if ( ! triedToKillOrphans)
-        NSLog(@"No previous node process cleanups were attempted.");
+        [self writeToLog:@"No previous node process cleanups were attempted."];
     
     if (self.searchTask)
         self.searchTask = nil;
