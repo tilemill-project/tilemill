@@ -57,8 +57,10 @@ command.prototype.initialize = function(plugin, callback) {
             minwidth: 800,
             minheight: 400,
             // win32-only options.
-            ico: path.resolve(path.join(__dirname + '/../platforms/windows/tilemill.ico')),
-            'cache-path': path.join(process.env.HOME, '.tilemill/cache-cefclient')
+            ico: path.resolve(path.join(__dirname + '/../tilemill.ico')),
+            'cache-path': path.join(process.env.HOME, '.tilemill/cache-cefclient'),
+            'log-file': path.join(process.env.HOME, '.tilemill/cefclient.log')
+
         });
         if (client) {
             console.warn('Client window created.');
