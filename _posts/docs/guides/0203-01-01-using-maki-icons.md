@@ -26,7 +26,7 @@ Each symbol comes in three sizes: 24px, 18px, and 12px. They are designed to loo
 
 Here's a step-by-step walkthrough for creating a basic icon overlay in TileMill to composite with any base map.
 
-1. [Download the Maki icon set](https://github.com/mapbox/maki/raw/master/maki.zip), unzip it, and place the Maki folder in your TileMill project directory. You will need to reference the individual icon files later using Carto.
+1. [Download the Maki icon set](https://github.com/mapbox/maki/raw/gh-pages/maki.zip), unzip it, and place the Maki folder in your TileMill project directory. You will need to reference the individual icon files later using Carto.
 
 2. Create a new project in TileMill called maki-overlay. You're going to be making a map of Washington, DC, so adjust your project settings to include zoom levels up to 20, and center the map over the Washington, DC area.
 
