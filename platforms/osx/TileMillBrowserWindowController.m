@@ -45,6 +45,8 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 - (void)dealloc
 {
     [webView release];
+    
+    [super dealloc];
 }
 
 #pragma mark -
