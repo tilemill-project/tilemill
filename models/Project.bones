@@ -310,6 +310,21 @@ model.prototype.flush = function(layer, url, options) {
     });
 };
 
+// Generate a TileJSON representation of the project.
+model.prototype.tileJSON = function() {
+    var keys = ['name', 'description', 'version', 'formatter', 'template',
+        'bounds', 'center', 'minzoom', 'maxzoom', 'legend', 'attribution',
+        'grids', 'tiles'];
+
+    var data = this.toJSON(),
+        ret = {};
+
+    for (var key in data) {
+        if (keys.indexOf(key) !== -1) ret[key] = data[key];
+    }
+    return ret;
+};
+
 model.prototype.thumb = function() {
     return this.get('tiles')[0].replace('{z}/{x}/{y}','thumb');
 };

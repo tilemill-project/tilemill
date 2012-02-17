@@ -17,14 +17,14 @@ view.prototype.render = function(init) {
 
     $(this.el).html(templates.Map());
 
-    this.map = new MM.Map('map',
-        new wax.mm.connector(this.model.attributes));
+    var tilejson = this.model.tileJSON();
+    this.map = new MM.Map('map', new wax.mm.connector(tilejson));
 
     // Add references to all controls onto the map object.
     // Allows controls to be removed later on.
     this.map.controls = {
-        interaction: wax.mm.interaction(this.map, this.model.attributes),
-        legend: wax.mm.legend(this.map, this.model.attributes),
+        interaction: wax.mm.interaction(this.map, tilejson),
+        legend: wax.mm.legend(this.map, tilejson),
         zoombox: wax.mm.zoombox(this.map),
         zoomer: wax.mm.zoomer(this.map).appendTo(this.map.parent),
         fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
@@ -81,13 +81,12 @@ view.prototype.attach = function() {
     layer.provider.options.maxzoom = this.model.get('maxzoom');
     layer.setProvider(layer.provider);
 
+    var tilejson = this.model.tileJSON();
     this.map.controls.interaction.remove();
-    this.map.controls.interaction = wax.mm.interaction(
-        this.map,
-        this.model.attributes);
+    this.map.controls.interaction = wax.mm.interaction(this.map, tilejson);
 
     if (this.model.get('legend')) {
-        this.map.controls.legend.content(this.model.attributes);
+        this.map.controls.legend.content(tilejson);
         this.map.controls.legend.appendTo(this.map.parent);
     } else {
         $(this.map.controls.legend.element()).remove();
