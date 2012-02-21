@@ -7,7 +7,7 @@
     <link>http://mapbox.com/tilemill/platforms/osx/appcast.xml</link>
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
-    {% for post in site.tags.installation %}
+    {% for post in site.tags.Installation %}
     {% if post.permalink == '/docs/changelog' %}
     {% for item in post.releases reversed %}
     {% if item.dev != true or page.dev == true %}

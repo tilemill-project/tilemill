@@ -6,33 +6,53 @@ tag: Crash&nbsp;course
 title: "Overview"
 permalink: /docs/crashcourse/introduction
 nextup:
-- "[Add a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
+- "[TileMill and GIS](/tilemill/docs/crashcourse/tilemill-gis/)"
+- "[Import data](/tilemill/docs/crashcourse/point-data) into a TileMill project."
 ---
-## Step-by-step instructions for making maps
 
-Want to get started making maps in minutes? This crash course will walk through the critical steps to design your maps in TileMill. We'll teach you the basics on making incredible maps and show you what you need to know to get mapping quickly.
+<style type='text/css'>
+
+.summary p {
+  }
+
+.summary .icon { 
+  width: 60px;
+  height: 60px;
+  display: block;
+  float: left;
+  padding: 10px 10px 10px 0;
+  }
+
+#icon1 { background: white url('/tilemill/assets/pages/docs-intro.png') 0px 13px no-repeat;}
+#icon2 { background: white url('/tilemill/assets/pages/docs-intro.png') -166px 13px no-repeat;}
+#icon3 { background: white url('/tilemill/assets/pages/docs-intro.png') -336px 13px no-repeat;}
+#icon4 { background: white url('/tilemill/assets/pages/docs-intro.png') -507px 13px no-repeat;}
+
+</style>
+
+
+## Step-by-step crash course
 
 <small class='note' markdown='1'>
 <h3>Have you taken the tour?</h3>
-[Take the MapBox tour](http://www.mapbox.com/tour) and get to know the features of fast beautiful map making.
+[Take the MapBox tour](http://www.mapbox.com/tour) to see what you can do with the toolset.
 </small>
 
-This crash course will walk you through downloading data and using TileMill. For anyone who is new to mapping, this guide will walk you step-by-step through TileMill and will link you to the reference documentation along the way so you can learn the power in custom map making. For anyone coming from a GIS or cartography background, this guide will help you quickly dive into the core functions of TileMill. 
+The crash course starts with a [general intro to TileMill and GIS](/tilemill/docs/crashcourse/tilemill-gis). We then focus step-by-step guide walking you though importing and styling data to designing and sharing your map on the web.
 
-[Begin here](/tilemill/docs/crashcourse/tilemill-gis) for a brief overview of TileMill technology and what it means for creating maps. If you have any questions along the way, [start a discussion with our support team](http://support.mapbox.com).
 
-## What we'll cover
+<div class='summary'>
+	
+  <p><span class='icon' id='icon1'> </span><strong><a href='/tilemill/docs/crashcourse/point-data'>Importing a spreadsheet</a></strong><br /> We walk through how to import a basic spreadsheet into TileMill. <em>To work with more complex data, like ESRI Shapefile, PostGIS or SQLite and other datasets, check out the section on <a href="/tilemill/docs/manual/adding-layers/">Adding layers</a>.</em></p> 
 
-**[Importing data](/tilemill/docs/crashcourse/point-data)**  
-  Here we will show you how to download a common type of data that is supported by TileMill. If you want a more in-depth overview of adding layers in our technical reference first, see [here](/tilemill/docs/manual/adding-layers).
+  <p><span class='icon' id='icon2'> </span><strong><a href='/tilemill/docs/crashcourse/styling'>Styling data</a></strong><br /> Here we show the basics of using Carto - a CSS-like language - to style your data in TileMill. <em>For an more a in-depth dive into how Carto works, check out the <a href="/tilemill/docs/manual/carto">Carto manual</a></em>.</p> 
 
-**[Styling data](/tilemill/docs/crashcourse/styling)**  
-  We will show the step-by-step basics of changing default styles and making a truly custom map. We use a CSS-like language called Carto to style your data. If you want a in-depth overview of Carto, check out our [technical reference](/tilemill/docs/manual/carto).
+  <p><span class='icon' id='icon3'> </span><strong><a href='/tilemill/docs/crashcourse/tooltips'>Adding tooltips and legends</a></strong><br /> Here we show how to add tooltip interactivity and legends to maps. <em>See the section on <a href="/tilemill/docs/manual/project-settings">Project settings</a> for more advanced details on tooltips and legends.</em> </p> 
 
-**[Adding tooltips and legends](/tilemill/docs/crashcourse/tooltips)**  
-  Making your map interactive or adding a legend is critical to communicating your data. Here we will show you how to add tooltip interactivity and help you explain your map with a legend. For an in-depth overview, check out the [technical reference on project settings](/tilemill/docs/manual/project-settings).
+  <p><span class='icon' id='icon4'> </span><strong><a href='/tilemill/docs/crashcourse/exporting/'>Exporting your map</a></strong><br /> Here we show how to export a map from TileMIll as a fully interactive map that can be shared on the web. <em>For more advanced export options, like to PNG, PDF, or SVG, read our <a href="/tilemill/docs/manual/exporting/">Exporting documentation</a> for an overview of all supported formats.</em></p> 
 
-**[Exporting your map](/tilemill/docs/manual/exporting)**  
-  A designed map can be shared quickly and easily in a number of formats. Here we'll show you how to export to the MBTiles format for uploading on the web. For an in-depth overview of all supported formats, see [here](/tilemill/docs/manual/exporting) in our technical reference.
+</div>
+
+If you have any questions along the way, [start a discussion with our support team](http://support.mapbox.com).
 
 {% include nextup.html %}

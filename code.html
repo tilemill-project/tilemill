@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>TileMill | Code</title>
+  <script type='text/javascript' src='jquery.js'></script>
+  <script type='text/javascript' src='showdown.js'></script>
+  <!--Facebox (http://chriswanstrath.com/facebox/) -->
+  <link rel='stylesheet' media='all' href='facebox/src/facebox.css' />
+  <script type='text/javascript' src='facebox/src/facebox.js'></script>
+  <!-- TileMill -->
+  <link rel='shortcut icon' href='images/favicon.ico' />
+  <link rel='stylesheet' media='all' href='reset.css' />
+  <link rel='stylesheet' media='all' href='style.css' />
+  <script type='text/javascript' src='script.js'></script>
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-88478-19']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+<body>
+<div class='banner'>
+  <div class='header'>
+    <a href='index.html' class='logo'>TileMill</a>
+    <ul class='navigation clearfix'>
+      <li><a href='index.html'>Home</a></li>
+      <li><a href='manual.html'>Manual</a></li>
+      <li><a href='code.html'>Code</a></li>
+    </ul>
+  </div>
+</div>
+<a class='fork' href='http://github.com/mapbox/tilemill'>Fork me on GitHub</a>
+
+<div class='clearfix'>
+<pre class='md column-75'>
+# Code
+
+TileMill is an example of a fully javascript-based web application (both server/client side) that integrates with several external libraries including Mapnik and SQLite. It also takes advantage of several interesting APIs including `node-worker` for spawning separate processes and `backbone.js` on both the client and server. The TileMill source has been annotated using [docco](http://github.com/jashkenas/docco) for interested developers.
+
+TileMill is released under a BSD license. Below are just some of the open source projects leveraged by TileMill:
+
+- [Mapnik](http://www.mapnik.org) provides map rendering.
+- [carto](http://github.com/mapbox/carto) provides MSS-to-Mapnik XML map style compiling.
+- [tilelive.js](http://github.com/mapbox/tilelive.js) provides high-speed tile-rendering.
+- [node.js](http://www.nodejs.org) provides evented server-side javascript.
+- [Express](http://github.com/visionmedia/express) provides a robust HTTP web server.
+- [Backbone](http://github.com/documentcloud/backbone) provides an MVC framework for client-server AJAX.
+- [OpenLayers](http://www.openlayers.org) provides a tile-based map UI.
+- [CodeMirror](http://www.codemirror.net) provides "in-browser code editing made bearable."
+
+For a full list of projects see the [ndistro manifest](https://github.com/mapbox/tilemill/blob/master/.ndistro) in the TileMill repository.
+</pre>
+<pre class='md column-25'>
+# Annotated source
+
+- [tilemill.js](docs/tilemill.html)
+
+### shared
+- [models.js](docs/models.html)
+
+### server
+- [api.js](docs/api.html)
+- [backbone-dirty.js](docs/backbone-dirty.html)
+- [bootstrap.js](docs/bootstrap.html)
+- [export.js](docs/export.html)
+- [export-worker.js](docs/export-worker.html)
+- [library-directory.js](docs/library-directory.html)
+- [library-s3.js](docs/library-s3.html)
+- [models-server.js](docs/models-server.html)
+- [tiles.js](docs/tiles.html)
+
+### client
+- [app.js](docs/app.html)
+- [library.js](docs/library.html)
+- [project.js](docs/project.html)
+- [project-layer.js](docs/project-layer.html)
+- [project-map.js](docs/project-map.html)
+- [project-reference.js](docs/project-reference.html)
+- [project-stylesheet.js](docs/project-stylesheet.html)
+- [project-tools.js](docs/project-tools.html)
+- [utils.js](docs/utils.html)
+</pre>
+</div>
+
+</body>
+</html>
+
