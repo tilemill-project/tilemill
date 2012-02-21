@@ -91,6 +91,7 @@ For Ubuntu 11.10:
 For Ubuntu 11.04:
 
     psql -U postgres -c "create database osm;"
+    psql -U postgres -d osm -c "create language plpgsql;"
     psql -U postgres -d osm -f /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
     psql -U postgres -d osm -f /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
 
