@@ -84,7 +84,7 @@ Step(function() {
         data: JSON.stringify({ 'bones.token': 'asdf' })
     }, { status:409 }, this);
 }, function(res) {
-    assert.equal(res.body, 'Error: Method not supported.');
+    assert.equal(res.body, 'Method not supported.');
 });
 
 }});
