@@ -414,10 +414,32 @@ models.Project.prototype.localize = function(mml, callback) {
         model.xml = localizedCache[key].xml;
         model.mml = localizedCache[key].mml;
         model.debug = localizedCache[key].debug;
+
         callback(null);
     }
 
+    // Check for a project with an expired Datasource.
+    function ttlExpired(l) {
+        var layer = l.mml && l.mml.Layer;
+
+        if (!layer) { return false; }
+
+        // Find the smallest TTL of any of the project has.
+        var smallestTTL = _(layer).chain()
+            .pluck('Datasource')
+            .pluck('ttl')
+            .min()
+            .value();
+
+        // Deal with the fact that _.min([]) returns Infinity, and JS works in ms.
+        smallestTTL = (smallestTTL !== Infinity) || smallestTTL * 1000;
+
+        // check if it needs to be updated.
+        return smallestTTL ? (Date.now() - l.updated) >= smallestTTL : false;
+    }
+
     if (localizedCache[key]) {
+
         if (mml._updated === 0) {
             // Caller may set _updated to 0 to force a cache clear.
             delete localizedCache[key];
@@ -426,7 +448,13 @@ models.Project.prototype.localize = function(mml, callback) {
             delete localizedCache[key];
         } else if (localizedCache[key].mml && localizedCache[key].xml) {
             // This is already loaded.
-            return done();
+            if (ttlExpired(localizedCache[key])) {
+                // This project has a layer which has an expired TTL.
+                delete localizedCache[key];
+            }
+            else {
+                return done();
+            }
         } else {
             return localizedCache[key].once('load', done);
         }
