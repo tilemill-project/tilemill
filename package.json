@@ -22,7 +22,7 @@
     "licenses": [{ "type": "BSD" }],
     "dependencies": {
         "backbone-dirty": "1.1.x",
-        "bones": "~1.3.20",
+        "bones": "https://github.com/developmentseed/bones/tarball/1.3",
         "chrono": "~1.0.1",
         "JSV": "3.5.x",
         "mbtiles": "~0.1.2",
