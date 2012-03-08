@@ -161,7 +161,7 @@ function loadProject(model, callback) {
         });
     },
     function(err, file) {
-        if (err) return callback(new Error.HTTP('Project does not exist', 404));
+        if (err) return callback(new Error.HTTP('Project does not exist: "' + path.join(modelPath, 'project.mml') + '"', 404));
         try {
             object = _(object).extend(JSON.parse(file.data));
         } catch(err) {
