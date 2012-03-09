@@ -19,7 +19,7 @@ function start(id, callback) {
 
         var args = [];
         // tilemill index.js
-        args.push(path.resolve(path.join(__dirname + '/../index.js')));
+        args.push(path.resolve(path.join(__dirname, '../index.js')));
         // export command
         args.push('export');
         // datasource
@@ -29,9 +29,11 @@ function start(id, callback) {
         // format, don't try to guess extension based on filepath
         args.push('--format=' + data.format);
         // url
-        args.push('--url=http://'+settings.coreUrl+'/api/Export/'+data.id);
+        args.push('--url=http://' + settings.coreUrl + '/api/Export/'+data.id);
         // Log crashes to output directory.
         args.push('--log=1');
+        // Don't output progress information.
+        args.push('--quiet');
 
         if (data.bbox) args.push('--bbox=' + data.bbox.join(','));
         if (data.width) args.push('--width=' + data.width);
@@ -44,9 +46,22 @@ function start(id, callback) {
                 tilemillConfig:JSON.stringify(settings)
             }),
             cwd: undefined,
-            customFds: [-1, -1, -1],
             setsid: false
         });
+
+        function forwardOutput(type, output) {
+            var prefix = '[' + data.filename + '] ' + type + ': ';
+            if (output[output.length - 1] === '\n') {
+                output = output.substring(0, output.length - 1);
+            }
+            console.warn(prefix + output.split('\n').join('\n' + prefix));
+        }
+
+        child.stdout.setEncoding('utf8');
+        child.stdout.on('data', forwardOutput.bind(global, 'stdout'));
+        child.stderr.setEncoding('utf8');
+        child.stderr.on('data', forwardOutput.bind(global, 'stderr'));
+
         var pid = child.pid;
         pids[pid] = true;
 
