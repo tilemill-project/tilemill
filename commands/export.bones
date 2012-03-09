@@ -61,9 +61,9 @@ command.options['quiet'] = {
 };
 
 command.options['scheme'] = {
-    'title': 'scheme=[pyramid|file]',
+    'title': 'scheme=[scanline|pyramid|file]',
     'description': 'Enumeration scheme that defines the order in which tiles will be rendered.',
-    'default': 'pyramid'
+    'default': 'scanline'
 };
 
 command.options['job'] = {
