@@ -110,8 +110,6 @@ command.prototype.initialize = function(plugin, callback) {
 
     // Format.
     if (!opts.format) opts.format = path.extname(opts.filepath).split('.').pop();
-    if (!_(['pdf', 'svg', 'png', 'bigtiles', 'mbtiles', 'upload', 'sync']).include(opts.format))
-        return this.error(new Error('Invalid format: ' + opts.format));
 
     // Convert string params into numbers.
     if (!_(opts.bbox).isUndefined())
@@ -128,7 +126,8 @@ command.prototype.initialize = function(plugin, callback) {
         opts.metatile = parseInt(opts.metatile, 10);
 
     // Rename the output filepath using a random hash if file already exists.
-    if (path.existsSync(opts.filepath) && !_(['upload','sync']).include(opts.format)) {
+    if (path.existsSync(opts.filepath) &&
+        _(['png','pdf','svg','mbtiles']).include(opts.format)) {
         var hash = crypto.createHash('md5')
             .update(+new Date + '')
             .digest('hex')
@@ -192,7 +191,22 @@ command.prototype.initialize = function(plugin, callback) {
         })(model.mml.center, model.mml.bounds, model.mml.minzoom, model.mml.maxzoom);
         if (!validCenter) delete model.mml.center;
 
-        cmd[opts.format](model, cmd.complete);
+        switch (opts.format) {
+        case 'png':
+        case 'svg':
+        case 'pdf':
+            cmd.image(model, cmd.complete);
+            break;
+        case 'upload':
+            cmd.upload(model, cmd.complete);
+            break;
+        case 'sync':
+            cmd.sync(model, cmd.complete);
+            break;
+        default:
+            cmd.tilelive(model, cmd.complete);
+            break;
+        }
     });
 };
 
@@ -279,9 +293,7 @@ function formatString(string) {
     });
 }
 
-command.prototype.png =
-command.prototype.svg =
-command.prototype.pdf = function(project, callback) {
+command.prototype.image = function(project, callback) {
     var mapnik = require('mapnik');
     var sm = new (require('sphericalmercator'))();
     var map = new mapnik.Map(this.opts.width, this.opts.height);
@@ -300,11 +312,16 @@ command.prototype.pdf = function(project, callback) {
     }
 };
 
-command.prototype.bigtiles =
-command.prototype.mbtiles = function (project, callback) {
+command.prototype.tilelive = function (project, callback) {
     var cmd = this;
     var tilelive = require('tilelive');
-    require(this.opts.format).registerProtocols(tilelive);
+
+    // Attempt to support additional tilelive protocols.
+    try { require('tilelive-' + this.opts.format).registerProtocols(tilelive); }
+    catch(err) {}
+    try { require(this.opts.format).registerProtocols(tilelive); }
+    catch(err) {}
+
     require('tilelive-mapnik').registerProtocols(tilelive);
 
     var opts = this.opts;
