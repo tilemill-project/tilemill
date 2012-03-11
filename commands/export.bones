@@ -72,6 +72,12 @@ command.options['job'] = {
     'default': false
 };
 
+command.options['list'] = {
+    'title': 'list=[file]',
+    'description': 'Provide a list file for filescheme render.',
+    'default': false
+};
+
 command.options['metatile'] = {
     'title': 'metatile=[num]',
     'description': 'Metatile size.',
@@ -367,6 +373,7 @@ command.prototype.tilelive = function (project, callback) {
         };
 
         var scheme = tilelive.Scheme.create(opts.scheme, {
+            list: opts.list,
             bbox: project.mml.bounds,
             minzoom: project.mml.minzoom,
             maxzoom: project.mml.maxzoom,
