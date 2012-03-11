@@ -274,14 +274,17 @@ function formatDuration(duration) {
            seconds + 's';
 }
 
-function formatNumber(number, decimals) {
-    var num = parseFloat(number).toFixed(decimals || 0).split('.');
-    for (var i = num[0].length - 3; i > 0; i -= 3) {
-        num[0] = num[0].substring(0, i) + ',' + num[0].substring(i);
+function formatNumber(num) {
+    num = num || 0;
+    if (num >= 1e6) {
+        return (num / 1e6).toFixed(2) + 'm';
+    } else if (num >= 1e3) {
+        return (num / 1e3).toFixed(1) + 'k';
+    } else {
+        return num.toFixed(0);
     }
     return num.join('.');
 }
-
 
 function formatString(string) {
     var args = arguments;
@@ -416,7 +419,7 @@ command.prototype.tilelive = function (project, callback) {
         });
 
         if (!cmd.opts.quiet) {
-            util.print(formatString('\r\033[K[%s] %s%% (%s/%s) | %s/s | %s left | uniq: %s (%s%%) | dupe: %s (%s%%) | skip: %s (%s%%) | fail: %s (%s%%)',
+            util.print(formatString('\r\033[K[%s] %s%% %s/%s @ %s/s | %s left | ✓ %s ■ %s □ %s fail %s',
                 formatDuration(stats.date - task.started),
                 ((progress || 0) * 100).toFixed(4),
                 formatNumber(stats.processed),
@@ -424,13 +427,9 @@ command.prototype.tilelive = function (project, callback) {
                 formatNumber(stats.speed),
                 formatDuration(remaining),
                 formatNumber(stats.unique),
-                (((stats.unique / stats.processed) || 0) * 100).toFixed(2),
                 formatNumber(stats.duplicate),
-                (((stats.duplicate / stats.processed) || 0) * 100).toFixed(2),
                 formatNumber(stats.skipped),
-                (((stats.skipped / stats.processed) || 0) * 100).toFixed(2),
-                formatNumber(stats.failed),
-                (((stats.failed / stats.processed) || 0) * 100).toFixed(2)
+                formatNumber(stats.failed)
             ));
         }
     }
