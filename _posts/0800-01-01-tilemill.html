@@ -128,6 +128,97 @@ platforms:
   padding:5px 0px;
   }
 
+#bleed .subscribe {
+  z-index: 1000;
+  position: relative;
+  display: none;
+  color: white;
+  width: 440px;
+  background: #333;
+  background: rgba(51, 51, 51, 0.95);
+  padding: 20px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin: 0 auto;
+  height: 240px;
+  -moz-box-shadow: 0 0 10px #000;
+  -webkit-box-shadow: 0 0 10px #000;
+  box-shadow: 0 0 10px #000;
+  }
+  #bleed .subscribe.active {
+    display: block;
+    }
+
+#subscribe-backdrop {
+  position: absolute;
+  top: 75px;
+  left: 0;
+  z-index: 900;
+  background-color: #000;
+  width: 100%;
+  height: 560px;
+  }
+
+.subscribe.fade {
+  top: 60px;
+  opacity: 0;
+  }
+.subscribe.fade.in {
+  top: 80px;
+  opacity: 1;
+  }
+
+#subscribe-backdrop.fade {
+  opacity: 0;
+  }
+#subscribe-backdrop.fade.in {
+  opacity: 0.65;
+  }
+
+.subscribe .button {
+  width: 160px;
+  font-size: 14px;
+  text-align: left;
+  margin: 0px;
+  border: none;
+  padding: 15px;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  background: #6C4 url(http://mapbox.com/images/followup.png) no-repeat 110px 5px;
+  transition: background .25s;
+  -moz-transition: background .25s;
+  -webkit-transition: background .25s;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  }
+#mc-signup #mce-success-response {
+  background: #333;
+  border: none;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  padding: 60px 20px;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  height: 140px;
+  left: 0;
+  }
+.fade {
+  -webkit-transition: opacity 0.2s linear, top .3s ease-out;
+  -moz-transition: opacity 0.2s linear, top .3s ease-out;
+  -ms-transition: opacity 0.2s linear,top .3s ease-out;
+  -o-transition: opacity 0.2s linear, top .3s ease-out;
+  transition: opacity 0.2s linear, top .3s ease-out;
+  opacity: 0;
+  }
+.fade.in {
+  opacity: 1;
+  }
+
 .oslist,
 .oslist a { margin:0px 5px; }
 
@@ -205,6 +296,27 @@ platforms:
 </small>
 </div></div></div>
 {% endfor %}
+
+<div class='subscribe action fade clearfix'>
+  <h1>Thanks for Downloading</h1>
+  <p><strong>Subscribe to our Newsletter</strong><br>For occasional emails with important news and useful tips.</p>
+  <!-- Begin MailChimp Signup Form -->
+  <div id='mc-signup'>
+    <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
+    <div class='mc-field-group clearfix'>
+      <input type='hidden' value='1' name='group[7417][2]'>
+      <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
+      <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='button'>
+    </div>
+      <div id='mce-responses'>
+        <div class='response' id='mce-error-response' style='display:none'></div>
+        <div class='response' id='mce-success-response' style='display:none'></div>
+      </div>
+    </form>
+  </div>
+  <!--End mc_embed_signup-->
+</div>
+
 </div>
 
 <div class='limiter clip'><div class='content prose'>
@@ -335,17 +447,33 @@ document.getElementById('bleed').className = (function() {
   if (navigator.appVersion.indexOf('X11') != -1 || navigator.appVersion.indexOf('Linux') != -1) return 'linux';
   return 'mac'; // default to Mac.
 })();
+
 $(function() {
   $('.oslist a').click(function() {
     document.getElementById('bleed').className = $(this).attr('href').split('#').pop();
     return false;
   });
+
+  $(mapbox.mailChimp);
+
   $('.dlbox .actions a').click(function(ev) {
     _gaq.push([
-        '_trackEvent',
-        'TileMill Download',
-        $(ev.currentTarget).attr('title')
+      '_trackEvent',
+      'TileMill Download',
+      $(ev.currentTarget).attr('title')
     ]);
+
+    $('<div id="subscribe-backdrop" class="fade" />').appendTo(document.body);
+
+    // Post download: Subscribe action
+    var sub = $('#bleed').find('.subscribe');
+        sub.addClass('active');
+
+    setTimeout(function() {
+      $('#subscribe-backdrop').addClass('in');
+      sub.addClass('in');
+    }, 100);
+
   });
 });
 </script>
