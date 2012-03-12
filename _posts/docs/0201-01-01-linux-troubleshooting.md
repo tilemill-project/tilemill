@@ -3,38 +3,38 @@ section: documentation
 layout: book
 category: TileMill
 tag: Installation
-title: Installing
-permalink: /docs/linux-install
+title: Troubleshooting
+permalink: /docs/linux-troubleshooting
 hidden: true
-nextup:
-- "Make your first map with [CSV data](/tilemill/docs/tutorials/point-data/)."
-- "Read the [TileMill manual](/tilemill/docs/manual/)."
 ---
-This page is for **Ubuntu**. We also have instructions for [Mac OS X](/tilemill/docs/mac-install) and [Windows](/tilemill/docs/win-install).
+If TileMill isn't starting up or performing properly, try these troubleshooting steps. This page is for **Ubuntu**. We also have instructions for [Mac OS X](/tilemill/docs/mac-troubleshooting) and [Windows](/tilemill/docs/win-troubleshooting).
 
-### Requirements
-<ul class='checklist'>
-  <li class='check'>Ubuntu 11.04 or 11.10</li>
-  <li class='check'>2 GB memory</li>
-  <li class='check'>A modern browser (Chrome, Firefox)</li>
-  <li class='check'>Internet connection for remote datasources</li>
-</ul>
+## Update or reinstall TileMill
 
-### Installation
-1. [Download the TileMill installer]({{site.categories.homepage[0].platforms[1].url}}) for Ubuntu. If the download window appears, choose **Save File**.
-  ![](/tilemill/assets/pages/linux-install-1.png)
-2. Select **install-tilemill.tar.gz** in your **Downloads** folder. Choose **Edit > Extract Here** from the menu.
-  ![](/tilemill/assets/pages/linux-install-2.png)
-3. Double-click on **install-tilemill.sh** to start the installation process. If prompted, choose **Run in terminal**. Enter your system password when prompted.
-  ![](/tilemill/assets/pages/linux-install-3.png)
-4. Start TileMill using the Ubuntu launcher (11.10) or by choosing **Applications > Graphics > TileMill** from the menu (11.04).
-  ![](/tilemill/assets/pages/linux-install-4.png)
+Some problems can be fixed by downloading a fresh copy of TileMill and installing again. Open the Terminal and enter the following command to do so.
 
-### Terminal installation
-If you're terminal savy, you can install TileMill with the following commands:
-
-    sudo add-apt-repository ppa:developmentseed/mapbox
-    sudo apt-get update
     sudo apt-get install tilemill
 
-{% include nextup.html %}
+## Reset configuration and plugins
+
+This will reset any customizations you have made to TileMill preferences and will remove any TileMill plugins you have installed.
+
+1. Quit TileMill.
+2. Open the Terminal, type `cd ~/.tilemill`, and press enter.
+3. Remove the `config.json` file and the `node_modules` folder by entering the following commands:
+
+        mv config.json config.json.backup
+        mv node_modules node_modules.backup
+
+## Remove projects and data cache
+
+1. Quit TileMill.
+2. Open your `Documents` directory in the file manager.
+4. Rename the `MapBox` folder to `MapBox-backup` to backup your projects.
+5. Start TileMill again and a fresh `MapBox` directory should be created. If the application now behaves properly, copy the `project` folder from `MapBox-backup` to the newly created `MapBox` folder to restore your projects.
+6. If the problem returns after restoring your projects, check the logs and contact support.
+
+## Check the logs
+
+1. Open the Terminal, type `tail -2000 ~/.tilemill.log`, and press enter.
+2. Copy the log contents and paste it into a [gist](https://gist.github.com/) to share it with [support staff](http://support.mapbox.com/discussions/tilemill).
