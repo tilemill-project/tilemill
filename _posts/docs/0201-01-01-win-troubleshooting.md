@@ -9,6 +9,10 @@ hidden: true
 ---
 If TileMill isn't starting up or performing properly, try these troubleshooting steps. This page is for **Windows**. We also have instructions for [Ubuntu](/tilemill/docs/linux-troubleshooting) and [Mac OS X](/tilemill/docs/mac-troubleshooting).
 
+## Run TileMill as an administrator
+
+Navigate to the TileMill item in the Start menu. Right click on the menu item and choose "Run as administrator".
+
 ## Update or reinstall TileMill
 
 Some problems can be fixed by [downloading](http://mapbox.com/tilemill/) a fresh copy of TileMill and installing it again.
