@@ -38,3 +38,4 @@ This will reset any customizations you have made to TileMill preferences and wil
 
 1. Open the Terminal, type `tail -2000 ~/.tilemill.log`, and press enter.
 2. Copy the log contents and paste it into a [gist](https://gist.github.com/) to share it with [support staff](http://support.mapbox.com/discussions/tilemill).
+
