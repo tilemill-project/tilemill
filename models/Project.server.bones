@@ -420,7 +420,9 @@ models.Project.prototype.localize = function(mml, callback) {
     if (localizedCache[key]) {
         // clear mapnik cache so we respect
         // any changed shapefiles or markers
-        mapnik.clearCache();
+        // TODO - remove this if () once node-mapnik is tagged
+        if (mapnik.clearCache)
+            mapnik.clearCache();
         if (mml._updated === 0) {
             // Caller may set _updated to 0 to force a cache clear.
             delete localizedCache[key];
