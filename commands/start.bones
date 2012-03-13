@@ -79,7 +79,15 @@ command.prototype.child = function(name) {
     Bones.plugin.children[name].stdout.pipe(process.stdout);
     Bones.plugin.children[name].stderr.pipe(process.stderr);
     Bones.plugin.children[name].once('exit', function(code, signal) {
-        if (code === 0) this.child(name);
+        if (code === 0) {
+            // restart server if exit was clean
+            console.warn('Restarting child process: "' + name + '"');
+            this.child(name);
+        } else {
+            console.warn('Error: child process: "' + name + '" failed with ' + signal + ' exiting all processes...');
+            _(Bones.plugin.children).each(function(child) { child.kill(signal); });
+            process.kill(process.pid,signal);
+        }
     }.bind(this));
 };
 
