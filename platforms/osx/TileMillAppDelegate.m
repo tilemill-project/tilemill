@@ -262,7 +262,9 @@
     NSInteger status = [alert runModal];
     
     if (status == NSAlertAlternateReturn)
+    {
         [self openDiscussions:self];
+    }
     
     [[NSApplication sharedApplication] terminate:self];
 }
@@ -330,6 +332,12 @@
     
     if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
         [self presentFatalError];
+}
+
+- (void)childProcess:(TileMillChildProcess *)process didCrash:(NSString *)output
+{
+    [self writeToLog:output];
+    [self presentFatalError];
 }
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;

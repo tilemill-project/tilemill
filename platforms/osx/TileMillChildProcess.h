@@ -15,6 +15,7 @@
 - (void)childProcessDidStart:(TileMillChildProcess *)process;
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 - (void)childProcess:(TileMillChildProcess *)process didSendOutput:(NSString *)output;
+- (void)childProcess:(TileMillChildProcess *)process didCrash:(NSString *)output;
 - (void)childProcessDidFinish:(TileMillChildProcess *)process;
 
 @end

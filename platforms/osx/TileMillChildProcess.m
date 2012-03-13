@@ -75,7 +75,7 @@
     
     [[[self.task standardOutput] fileHandleForReading] readInBackgroundAndNotify];
     
-    [self.task launch];    
+    [self.task launch];
 }
 
 - (void)stopProcess
@@ -84,11 +84,27 @@
                                                     name:NSFileHandleReadCompletionNotification 
                                                   object:[[self.task standardOutput] fileHandleForReading]];
 
+    // @TODO - check if [self.task isRunning] before terminating?
     [self.task terminate];
     [self.task waitUntilExit];
 
+    int status = [self.task terminationStatus];
+    if (status != 0)
+    {
+        NSTaskTerminationReason reason = [self.task terminationReason];
+        // TODO - catch signals and display crash/spin log from DiagosticReports
+        // http://cocoawithlove.com/2010/05/handling-unhandled-exceptions-and.html
+        if (reason == 2) // uncaught signal
+        {
+            if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcess:didCrash:)])
+                [self.delegate childProcess:self didCrash:@"TileMill child process crashed on unhandled signal: please report to: https://github.com/mapbox/tilemill/issues\n"];
+        }
+    }
+
     if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidFinish:)])
+    {
         [self.delegate childProcessDidFinish:self];
+    }
 }
 
 - (void)receivedData:(NSNotification *)notification
@@ -115,9 +131,10 @@
                 [self.delegate childProcessDidSendFirstData:self];
         }
     }
-
     else
+    {
         [self stopProcess];
+    }
     
     [[notification object] readInBackgroundAndNotify];  
 }
