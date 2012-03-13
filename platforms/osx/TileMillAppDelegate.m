@@ -199,10 +199,21 @@
     NSPredicate *nodePredicate     = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'node'"];
     NSPredicate *tilemillPredicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'tilemill'"];
     
+    BOOL triedToKillOrphans;
+    
     for (NSRunningApplication *app in [[NSWorkspace sharedWorkspace] runningApplications])
+    {
         if ([nodePredicate evaluateWithObject:[[app executableURL] absoluteString]] && [tilemillPredicate evaluateWithObject:[app localizedName]])
+        {
             if ( ! [app forceTerminate])
                 [self writeToLog:@"Failed to terminate orphan tilemill process."];
+            
+            triedToKillOrphans = YES;
+        }
+    }
+    
+    if ( ! triedToKillOrphans)
+        [self writeToLog:@"No previous node process cleanups were attempted."];
     
     if (self.searchTask)
         self.searchTask = nil;

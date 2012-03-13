@@ -26,18 +26,18 @@
   </li>
   <li>
     <label for='syncAccount'>MapBox</label>
-    <div class='syncOn <%= get('syncAccount') ? '' : 'dependent' %>'>
+    <div class='syncOn <%= get('syncAccount') && get('syncAccessToken') ? '' : 'dependent' %>'>
       <span style='margin-right:10px'>
       <a target='_blank' href='<%=get('syncURL')%>/<%=get('syncAccount')%>'><%=get('syncURL')%>/<%=get('syncAccount')%></a>
       </span>
       <a class='button' href='/oauth/mapbox'>Reauthorize</a>
       <a class='button' href='#disable'>Disable</a>
     </div>
-    <div class='syncOff <%= get('syncAccount') ? 'dependent' : '' %>'>
+    <div class='syncOff <%= get('syncAccount') && get('syncAccessToken') ? 'dependent' : '' %>'>
       <a class='button' href='/oauth/mapbox'>Authorize</a>
     </div>
     <div class='description'>
-      <% if (get('syncAccount')) { %>
+      <% if (get('syncAccount') && get('syncAccessToken')) { %>
       Upload maps to this account.
       <% } else { %>
       Authorize TileMill to upload to your MapBox account.

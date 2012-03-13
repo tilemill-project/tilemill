@@ -41,37 +41,40 @@ server.prototype.initialize = function(app, core) {
         res.redirect('/');
     });
 
-    passport.use(new Strategy());
+    passport.use(this.strategy());
     passport.serializeUser(function(obj, done) { done(null, obj); });
     passport.deserializeUser(function(obj, done) { done(null, obj); });
 };
 
-// Add passport OAuth2 authorization.
-function Strategy() {
-    OAuth2Strategy.call(this, {
-        authorizationURL: config.syncURL + '/oauth/authorize',
-        tokenURL:         config.syncURL + '/oauth/access_token',
-        clientID:         'tilemill',
-        clientSecret:     'tilemill',
-        callbackURL:      'http://' + config.coreUrl + '/oauth/mapbox/token'
-    },
-    function(accessToken, refreshToken, profile, callback) {
-        profile.accessToken = accessToken;
-        profile.refreshToken = refreshToken;
-        return callback(null, profile);
-    });
-    this.name = 'mapbox';
-}
-util.inherits(Strategy, OAuth2Strategy);
-Strategy.prototype.userProfile = function(accessToken, done) {
-    this._oauth2.get(config.syncURL + '/oauth/user', accessToken, function (err, body) {
-        // oauth2 lib seems to not handle errors in a way where
-        // we can catch and handle them effectively. We attach them
-        // to the profile object here for our own custom handling.
-        if (err) {
-            return done(null, { error:err });
-        } else {
-            return done(null, JSON.parse(body));
-        }
-    });
+server.prototype.strategy = function() {
+    // Add passport OAuth2 authorization.
+    function Strategy() {
+        OAuth2Strategy.call(this, {
+            authorizationURL: config.syncURL + '/oauth/authorize',
+            tokenURL:         config.syncURL + '/oauth/access_token',
+            clientID:         'tilemill',
+            clientSecret:     'tilemill',
+            callbackURL:      'http://' + config.coreUrl + '/oauth/mapbox/token'
+        },
+        function(accessToken, refreshToken, profile, callback) {
+            profile.accessToken = accessToken;
+            profile.refreshToken = refreshToken;
+            return callback(null, profile);
+        });
+        this.name = 'mapbox';
+    }
+    util.inherits(Strategy, OAuth2Strategy);
+    Strategy.prototype.userProfile = function(accessToken, done) {
+        this._oauth2.get(config.syncURL + '/oauth/user', accessToken, function (err, body) {
+            // oauth2 lib seems to not handle errors in a way where
+            // we can catch and handle them effectively. We attach them
+            // to the profile object here for our own custom handling.
+            if (err) {
+                return done(null, { error:err });
+            } else {
+                return done(null, JSON.parse(body));
+            }
+        });
+    };
+    return new Strategy();
 };
