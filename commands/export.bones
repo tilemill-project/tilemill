@@ -98,6 +98,7 @@ command.prototype.initialize = function(plugin, callback) {
         _(opts).extend(JSON.parse(process.env.tilemillConfig));
     opts.files = path.resolve(opts.files);
     opts.project = plugin.argv._[1];
+    if (!plugin.argv._[2]) return plugin.help();
     opts.filepath = path.resolve(plugin.argv._[2]);
     callback = callback || function() {};
     this.opts = opts;
