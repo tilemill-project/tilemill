@@ -27,6 +27,45 @@ platforms:
   url: http://github.com/downloads/mapbox/tilemill/TileMill-0.9.0-Setup.exe
 ---
 <style>
+
+img.envelope {
+  background: transparent;
+  width: 40px;
+  height: 40px;
+  display: block;
+  position: absolute;
+  right: 5px;
+  z-index: 2000;
+  bottom: 15px;
+  }
+
+#bleed input#mc-embedded-subscribe {
+  width: 180px;
+  height: 50px;
+  float: right;
+  margin: 0 0 0 10px;
+  padding: 4px 59px 4px 14px;
+  border: 1px solid #DDD;
+  background: white;
+  position: relative;
+  white-space: nowrap;
+  transition: all 250ms;
+  -moz-transition: all 250ms;
+  -webkit-transition: all 250ms;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  text-align: left;
+  color: #444;
+  font-size: 14px;
+  }
+  #bleed input#mc-embedded-subscribe:hover,
+  #bleed input#mc-embedded-subscribe:active {
+    background-color: #fff;
+    color: #444;
+    border-color: #444;
+    }
+
 .wrapper { background:#e0f0f4; }
 .content hr { background-color:#c0d8e0; }
 .content .box {
@@ -84,7 +123,7 @@ platforms:
 #bleed .screenshot.linux { background-image:url({{site.baseurl}}/assets/pages/screenshot-linux.jpg); }
 #bleed .screenshot.windows { background-image:url({{site.baseurl}}/assets/pages/screenshot-windows.jpg); }
 
-#bleed .subscribe,
+#bleed .mailchimp-subscribe,
 #bleed .dlbox {
   width: 400px;
   padding: 20px;
@@ -93,6 +132,7 @@ platforms:
   position: absolute;
   right: 0;
   height: 140px;
+  z-index: 1000;
   }
 #bleed .dlbox {
   background: #222;
@@ -144,46 +184,17 @@ platforms:
   bottom: 30px;
   left: 60px;
   }
-#bleed .subscribe {
+#bleed .mailchimp-subscribe {
   display: none;
   }
-  #bleed .subscribe.active {
-    z-index: 1000;
+  #bleed .mailchimp-subscribe.active {
     display: block;
     }
-#bleed input.subscribe {
-  width: 180px;
-  height: 50px;
-  float: right;
-  margin-left: 10px;
-  padding: 4px 59px 4px 14px;
-  border: 1px solid #DDD;
-  background: #fff url(http://mapbox.com/images/followup.png) no-repeat 130px -110px;
-  position: relative;
-  white-space: nowrap;
-  transition: all 250ms;
-  -moz-transition: all 250ms;
-  -webkit-transition: all 250ms;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  text-align: left;
-  color: #444;
-  font-size: 14px;
-  }
-  #bleed input.subscribe:hover,
-  #bleed input.subscribe:active {
-    color: #444;
-    border-color: #444;
-    }
-  #bleed input.subscribe:active {
-    background: #fff;
-    }
-.subscribe.fade {
+.mailchimp-subscribe.fade {
   bottom: 60px;
   opacity: 0;
   }
-.subscribe.fade.in {
+.mailchimp-subscribe.fade.in {
   bottom: 80px;
   opacity: 1;
   }
@@ -193,7 +204,7 @@ platforms:
   border: none;
   position: absolute;
   top: 0px;
-  padding: 15px 10pxü !<!: 0 10px;
+  padding: 15px 10px 0 10px;
   font-size: 12px;
   margin: 0;
   -moz-border-radius: 0;
@@ -205,16 +216,16 @@ platforms:
 #mc-signup .mc-field-group {
   margin: 10px 0 0;
   }
+  #mc-signup .mc-field-group #mce-EMAIL {
+    width: 200px;
+    margin-top: 5px;
+    }
 .fade {
   -webkit-transition: opacity 0.2s linear, bottom 0.3s ease-out;
   -moz-transition: opacity 0.2s linear, bottom 0.3s ease-out;
   -ms-transition: opacity 0.2s linear, bottom 0.3s ease-out;
   -o-transition: opacity 0.2s linear, bottom 0.3s ease-out;
   transition: opacity 0.2s linear, bottom 0.3s ease-out;
-  opacity: 0;
-  }
-.fade.in {
-  opacity: 1;
   }
 
 .oslist,
@@ -263,6 +274,9 @@ platforms:
   background: url({{site.baseurl}}/assets/pages/followup.png) 0px 8px no-repeat;
   }
 
+a.highlight {
+    color: #fff;
+    }
 </style>
 
 <div id='bleed' class='mac'>
@@ -296,9 +310,9 @@ platforms:
 {% endfor %}
 
 <div class='limiter'>
-  <div class='subscribe fade clearfix'>
+  <div class='mailchimp-subscribe fade clearfix'>
     <h1>Downloading &hellip;</h1>
-    <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>crash course guide</a> to TileMill and for important news and useful tips subscribe to the newsletter.</small>
+    <small>While you wait, check out the <a class='highlight' href='{{site.baseurl}}/docs/crashcourse/introduction'>crash course guide</a> to TileMill and for important news and useful tips subscribe to the newsletter.</small>
     <!-- Begin MailChimp Signup Form -->
     <div id='mc-signup'>
       <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
@@ -306,6 +320,7 @@ platforms:
         <input type='hidden' value='1' name='group[7417][2]'>
         <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
         <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='subscribe'>
+        <img src='{{site.baseurl}}/assets/pages/subscribe.png' class='envelope' />
       </div>
         <div id='mce-responses'>
           <div class='response' id='mce-error-response' style='display:none'></div>
@@ -458,6 +473,7 @@ $(function() {
 
   var dlbox = $('.dlbox');
   $('.actions a', dlbox).click(function(ev) {
+
     _gaq.push([
       '_trackEvent',
       'TileMill Download',
@@ -469,13 +485,12 @@ $(function() {
     $('small.label, a.em, h1, h2', dlbox).fadeOut(250);
 
     // Animate in subscribe components
-    var sub = $('#bleed').find('.subscribe');
+    var sub = $('#bleed').find('.mailchimp-subscribe');
         sub.addClass('active');
 
     setTimeout(function() {
       sub.addClass('in');
     }, 100);
-
   });
 });
 </script>
