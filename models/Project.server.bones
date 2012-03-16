@@ -33,6 +33,10 @@ models.Project.prototype.sync = function(method, model, success, error) {
         break;
     case 'create':
     case 'update':
+        if (method == 'update') {
+            // clear mapnik's global cache of markers and shapefiles
+            mapnik.clearCache();
+        }
         saveProject(model, function(err, model) {
             return err ? error(err) : success(model);
         });
@@ -418,11 +422,6 @@ models.Project.prototype.localize = function(mml, callback) {
     }
 
     if (localizedCache[key]) {
-        // clear mapnik cache so we respect
-        // any changed shapefiles or markers
-        // TODO - remove this if () once node-mapnik is tagged
-        if (mapnik.clearCache)
-            mapnik.clearCache();
         if (mml._updated === 0) {
             // Caller may set _updated to 0 to force a cache clear.
             delete localizedCache[key];
