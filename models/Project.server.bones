@@ -480,7 +480,7 @@ function fields(opts) {
     // Determine fields that need to be included from templates.
     // @TODO allow non-templated fields to be included.
     var fields = [full, teaser, location]
-        .join(' ').match(/\{\{#?\/?\^?([\w\d\s-:]+)\}\}/g);
+        .join(' ').match(/\{\{#?\/?\^?([\w\d\s-:]+)\}\}/g) || [];
 
     // Include `key_field` for PostGIS Layers.
     var layer = opts.interactivity.layer;
