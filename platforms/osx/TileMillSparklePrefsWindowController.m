@@ -45,6 +45,8 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
+    
+    [super dealloc];
 }
 
 - (void)awakeFromNib
