@@ -57,7 +57,7 @@ If your city is not available here then head to <http://download.geofabrik.de/os
 
 With a PBF file downloaded, you can import it with osm2pgsql. Assuming you downloaded the PBF to your Downloads folder, run the following command in the Terminal:
 
-    osm2pgsql -c -G -U postgres -d osm -S /usr/local/share/osm2pgsql/default.style your_file.osm.pbf
+    osm2pgsql -c -G -U postgres -d osm -S /usr/local/share/osm2pgsql/default.style ~/Downloads/your_file.osm.pbf
 
 This will take something like 1 to 10 minutes, depending on the size of extract you downloaded. (If you downloaded a particularly large extract it may take much longer.) When its finished it will tell you something like "Osm2pgsql took 71s overall".
 
