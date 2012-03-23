@@ -29,6 +29,7 @@
         "sax": "0.1.x",
         "request": "~2.9.153",
         "step": "~0.0.5",
+        "eio": "https://github.com/developmentseed/node-eio/tarball/master",
         "tilelive": "https://github.com/mapbox/tilelive.js/tarball/master",
         "mapnik": "https://github.com/mapnik/node-mapnik/tarball/master",
         "millstone": "https://github.com/mapbox/millstone/tarball/master",
