@@ -1,8 +1,9 @@
 process.env.NODE_ENV = 'test';
 process.argv[2] = 'test';
 
-var Queue = require('../../lib/queue');
-var Step = require('step');
+var http = require('http');
+var util = require('util');
+var assert = require('assert');
 var exec = require('child_process').exec;
 var path = require('path');
 var fs = require('fs');
@@ -11,7 +12,7 @@ var basedir = path.resolve(__dirname + '/..');
 process.env.HOME = path.resolve(__dirname + '/../fixtures/files');
 
 // Remove stale config file if present.
-try { fs.unlinkSync(process.env.HOME + '/.tilemill.json'); }
+try { fs.unlinkSync(process.env.HOME + '/.tilemill/config.json'); }
 catch (err) { if (err.code !== 'ENOENT') throw err }
 
 // Load application.
@@ -20,31 +21,24 @@ var tilemill = require('bones').plugin;
 tilemill.config.files = path.resolve(__dirname + '/../fixtures/files');
 tilemill.config.examples = false;
 
-var queue = new Queue(function(next, done) {
-    // Allow bootstrap functions to be added to the queue.
-    if (next.bootstrap) return next(done);
-
-    var command = tilemill.start(function() {
-        var remaining = 2;
-        command.servers['Core'].close = (function(parent) { return function() {
-            if (remaining-- === 1) done();
-            return parent.apply(this, arguments);
-        }})(command.servers['Core'].close);
-        command.servers['Tile'].close = (function(parent) { return function() {
-            if (remaining-- === 1) done();
-            return parent.apply(this, arguments);
-        }})(command.servers['Tile'].close);
-        next(command);
+module.exports.start = function(done) {
+    // Create a clean environment.
+    var clean = '\
+        rm -f ' + basedir + '/fixtures/files/app.db && \
+        rm -rf ' + basedir + '/fixtures/files/project && \
+        rm -rf ' + basedir + '/fixtures/files/data && \
+        rm -rf ' + basedir + '/fixtures/files/export && \
+        cp -R ' + basedir + '/fixtures/pristine/project ' + basedir + '/fixtures/files';
+    exec(clean, function(err) {
+        if (err) throw err;
+        console.warn('Initialized test fixture');
+        var command = tilemill.start(function() {
+            done(command);
+        });
     });
-}, 1);
-// @TODO:
-// Not sure why this is necessary. tile.test.js doesn't seem to exit out
-// despite both servers closing.
-queue.on('empty', process.exit);
+};
 
-// Insert postgis fixture only once for all tests as they will not be
-// modified. Queued first after which the remaining tests run.
-var postgis = function(callback) {
+module.exports.startPostgis = function(done) {
     var insert = '\
         psql -d postgres -c "DROP DATABASE IF EXISTS tilemill_test;" && \
         createdb -E UTF8 -T template_postgis tilemill_test && \
@@ -52,28 +46,131 @@ var postgis = function(callback) {
     exec(insert, function(err) {
         if (err) throw err;
         console.warn('Inserted postgres fixture.');
-        callback();
+        module.exports.start(done);
     });
 };
-postgis.bootstrap = true;
-queue.add(postgis);
 
-tilemill.commands.test.augment({
-    bootstrap: function(parent, plugin, callback) {
-        // Create a clean environment.
-        var clean = '\
-            rm -f ' + basedir + '/fixtures/files/app.db && \
-            rm -rf ' + basedir + '/fixtures/files/project && \
-            rm -rf ' + basedir + '/fixtures/files/data && \
-            rm -rf ' + basedir + '/fixtures/files/export && \
-            cp -R ' + basedir + '/fixtures/pristine/project ' + basedir + '/fixtures/files';
-        exec(clean, function(err) {
-            if (err) throw err;
-            console.warn('Initialized test fixture');
-            parent.call(this, plugin, callback);
-        }.bind(this));
+/**
+ * Assert response from `server` with
+ * the given `req` object and `res` assertions object.
+ *
+ * @param {Server} server
+ * @param {Object} req
+ * @param {Object|Function} res
+ * @param {String} msg
+ */
+assert.response = function(server, req, res, msg) {
+    // Callback as third or fourth arg
+    var callback = typeof res === 'function'
+        ? res
+        : typeof msg === 'function'
+            ? msg
+            : function() {};
+
+    // Default messate to test title
+    if (typeof msg === 'function') msg = null;
+    msg = msg || '';
+
+    // Issue request
+    var timer,
+        method = req.method || 'GET',
+        status = res.status || res.statusCode,
+        data = req.data || req.body,
+        requestTimeout = req.timeout || 0,
+        encoding = req.encoding || 'utf8';
+
+    var request = http.request({
+        host: '127.0.0.1',
+        port: server.port,
+        path: req.url,
+        method: method,
+        headers: req.headers
+    });
+
+    var check = function() {
+        if (--server.__pending === 0) {
+            server.close();
+            server.__listening = false;
+        }
+    };
+
+    // Timeout
+    if (requestTimeout) {
+        timer = setTimeout(function() {
+            check();
+            delete req.timeout;
+            throw new Error(msg + 'Request timed out after ' + requestTimeout + 'ms.');
+        }, requestTimeout);
     }
-});
 
-module.exports = queue.add;
+    if (data) request.write(data);
+
+    request.on('response', function(response) {
+        response.body = '';
+        response.setEncoding(encoding);
+        response.on('data', function(chunk) { response.body += chunk; });
+        response.on('end', function() {
+            if (timer) clearTimeout(timer);
+            // Assert response body
+            if (res.body !== undefined) {
+                var eql = res.body instanceof RegExp
+                  ? res.body.test(response.body)
+                  : res.body === response.body;
+                assert.ok(
+                    eql,
+                    msg + 'Invalid response body.\n'
+                        + '    Expected: ' + util.inspect(res.body) + '\n'
+                        + '    Got: ' + util.inspect(response.body)
+                );
+            }
+
+            // Assert response status
+            if (typeof status === 'number') {
+                assert.equal(
+                    response.statusCode,
+                    status,
+                    msg + 'Invalid response status code.\n'
+                        + '     Expected: ' + status + '\n'
+                        + '     Got: ' + response.statusCode + ''
+                );
+            }
+
+            // Assert response headers
+            if (res.headers) {
+                var keys = Object.keys(res.headers);
+                for (var i = 0, len = keys.length; i < len; ++i) {
+                    var name = keys[i],
+                        actual = response.headers[name.toLowerCase()],
+                        expected = res.headers[name],
+                        eql = expected instanceof RegExp
+                          ? expected.test(actual)
+                          : expected == actual;
+                        assert.ok(
+                            eql,
+                            msg + 'Invalid response header ' + name + '.\n'
+                                + '    Expected: ' + expected + '\n'
+                                + '    Got: ' + actual
+                        );
+                }
+            }
+            // Callback
+            callback(response);
+        });
+    });
+
+    request.end();
+
+};
+
+/**
+ * Assert that `str` matches `regexp`.
+ *
+ * @param {String} str
+ * @param {RegExp} regexp
+ * @param {String} msg
+ */
+assert.match = function(str, regexp, msg) {
+    msg = msg || util.inspect(str) + ' does not match ' + util.inspect(regexp);
+    assert.ok(regexp.test(str), msg);
+};
 

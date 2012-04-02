@@ -12,7 +12,7 @@
         "SUBREGION": { "type": "Number" },
         "UN": { "type": "Number" }
     },
-    "geometry_type": "polygon",
+    "geometry_type": "multipolygon",
     "id": "world",
     "project": "demo_01",
     "type": "vector",
