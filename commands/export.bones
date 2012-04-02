@@ -405,6 +405,7 @@ command.prototype.tilelive = function (project, callback) {
 
         task.on('finished', function() {
             if (!cmd.opts.quiet) console.warn('\nfinished');
+            callback();
         });
 
         task.start(function(err) {
@@ -615,8 +616,9 @@ command.prototype.sync = function (project, callback) {
         id: project.id,
         time: + new Date
     });
+    cmd.opts.format = 'mbtiles';
     Step(function() {
-        cmd.mbtiles(project, this);
+        cmd.tilelive(project, this);
     }, function(err) {
         if (err) throw err;
         modifier = 0.5;
