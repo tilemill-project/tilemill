@@ -445,12 +445,25 @@ command.prototype.tilelive = function (project, callback) {
 };
 
 command.prototype.upload = function (callback) {
+    if (!this.opts.syncAccount || !this.opts.syncAccessToken)
+        return callback(new Error('MapBox Hosting account must be authorized.'));
+
     var cmd = this;
     var key;
     var bucket;
-    var mapURL = '';
-    var freeURL = '';
-    var modelURL = '';
+    var mapURL = _('<%=base%>/<%=account%>/map/<%=handle%>')
+        .template({
+            base: this.opts.syncURL,
+            account: this.opts.syncAccount,
+            handle: this.opts.project
+        });
+    var modelURL = _('<%=base%>/api/Map/<%=account%>.<%=handle%>?access_token=<%=token%>')
+        .template({
+            base: this.opts.syncURL,
+            account: this.opts.syncAccount,
+            handle: this.opts.project,
+            token: this.opts.syncAccessToken
+        });
     var hash = crypto.createHash('md5')
         .update(+new Date + '')
         .digest('hex')
@@ -460,23 +473,6 @@ command.prototype.upload = function (callback) {
         host: this.opts.mapboxHost || 'api.tiles.mapbox.com',
         pathname: '/v2/'+ hash + '/upload.json'
     });
-
-    // Set URLs for account uploads.
-    if (this.opts.syncAccount && this.opts.syncAccessToken) {
-        mapURL = _('<%=base%>/<%=account%>/map/<%=handle%>')
-            .template({
-                base: this.opts.syncURL,
-                account: this.opts.syncAccount,
-                handle: this.opts.project
-            });
-        modelURL = _('<%=base%>/api/Map/<%=account%>.<%=handle%>?access_token=<%=token%>')
-            .template({
-                base: this.opts.syncURL,
-                account: this.opts.syncAccount,
-                handle: this.opts.project,
-                token: this.opts.syncAccessToken
-            });
-    }
 
     Step(function() {
         request.get({
@@ -541,7 +537,6 @@ command.prototype.upload = function (callback) {
                         message += ' (' + parsed.code[0] + ' - ' + parsed.message[0] + ')';
                     return this(new Error(message));
                 }
-                freeURL = resp.headers.location.split('?')[0];
                 this();
             }.bind(this);
             resp.on('data', function(chunk) { chunk += data; });
@@ -578,12 +573,9 @@ command.prototype.upload = function (callback) {
             .pipe(dest, {end: false});
     }, function(err) {
         if (err) throw err;
-        if (!modelURL) return this(); // Free
-
         request.get(modelURL, this);
     }, function(err, res, body) {
         if (err) throw err;
-        if (!modelURL) return this(); // Free
 
         // Let Step catch thrown errors here.
         var model = _(res.statusCode === 404 ? {} : JSON.parse(body)).extend({
@@ -599,7 +591,7 @@ command.prototype.upload = function (callback) {
             return callback(err);
         if (modelURL && res.statusCode !== 200)
             return callback(new Error('Map publish failed: ' + res.statusCode));
-        callback(null, { url:modelURL ? mapURL : freeURL });
+        callback(null, { url:mapURL });
     });
 };
 
