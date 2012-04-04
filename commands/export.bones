@@ -468,11 +468,9 @@ command.prototype.upload = function (callback) {
         .update(+new Date + '')
         .digest('hex')
         .substring(0, 6);
-    var policyEndpoint = url.format({
-        protocol: 'http:',
-        host: this.opts.mapboxHost || 'api.tiles.mapbox.com',
-        pathname: '/v2/'+ hash + '/upload.json'
-    });
+    var policyEndpoint = url.format(_(url.parse(this.opts.syncAPI)).extend({
+            pathname: '/v2/'+ hash + '/upload.json'
+        }));
 
     Step(function() {
         request.get({

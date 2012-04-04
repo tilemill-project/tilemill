@@ -14,6 +14,12 @@ Bones.Command.options['bufferSize'] = {
     'default': defaults.bufferSize
 };
 
+Bones.Command.options['syncAPI'] = {
+    'title': 'syncAPI=[URL]',
+    'description': 'MapBox API URL.',
+    'default': defaults.syncAPI || ''
+};
+
 Bones.Command.options['syncURL'] = {
     'title': 'syncURL=[URL]',
     'description': 'MapBox sync URL.',
