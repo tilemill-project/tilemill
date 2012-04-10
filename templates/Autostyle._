@@ -8,7 +8,7 @@
 }<% } %><% if (get('geometry') == 'point' || get('geometry') == 'multipoint') { %>
 
 #<%= get('id') %> {
-  marker-width:3;
+  marker-width:6;
   marker-fill:#f45;
   marker-line-color:#813;
   marker-allow-overlap:true;
