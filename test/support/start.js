@@ -67,7 +67,7 @@ assert.response = function(server, req, res, msg) {
             ? msg
             : function() {};
 
-    // Default messate to test title
+    // Default message to test title
     if (typeof msg === 'function') msg = null;
     msg = msg || '';
 
