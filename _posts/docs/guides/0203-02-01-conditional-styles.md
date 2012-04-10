@@ -24,14 +24,14 @@ You can use conditional Carto styles to change the appearance of the points on y
 3. Add the following Carto rule to the bottom of your stylesheet. The `marker-width` property controls the size of the point. This Carto rule sets a larger `marker-width` for features that have a larger `Magnitude` value.
 
         #earthquakes {
-          [Magnitude >= 2.5] { marker-width:3; }
-          [Magnitude >= 3]   { marker-width:4; }
-          [Magnitude >= 3.5] { marker-width:5; }
-          [Magnitude >= 4]   { marker-width:6; }
-          [Magnitude >= 4.5] { marker-width:7; }
-          [Magnitude >= 5]   { marker-width:8; }
-          [Magnitude >= 5.5] { marker-width:9; }
-          [Magnitude >= 6]   { marker-width:10; }
+          [Magnitude >= 2.5] { marker-width:6; }
+          [Magnitude >= 3]   { marker-width:8; }
+          [Magnitude >= 3.5] { marker-width:10; }
+          [Magnitude >= 4]   { marker-width:12; }
+          [Magnitude >= 4.5] { marker-width:14; }
+          [Magnitude >= 5]   { marker-width:16; }
+          [Magnitude >= 5.5] { marker-width:18; }
+          [Magnitude >= 6]   { marker-width:20; }
         }
 
 4. Click the **Save** button to save your project and trigger the map preview to update.

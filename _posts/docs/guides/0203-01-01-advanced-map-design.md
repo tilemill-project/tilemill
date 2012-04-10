@@ -113,110 +113,109 @@ Here is the final map:
 
 And the final project Carto code for reference:
 
-	Map {
-	  background-color: #b8dee6;
-	}
-	
-	#countries {
-	  ::outline {
-	    line-color: #85c5d3;
-	    line-width: 2;
-	    line-join: round;
-	  }
-	  [GEOUNIT != "United States of America"]{polygon-fill: #fff;}
-	}
-	
-	/*Individual tornado points*/
-	#tornadoes [zoom > 5]{
-	  marker-width:3;
-	  marker-fill:#f45;
-	  marker-line-color:#813;
-	  marker-allow-overlap:true;
-	  marker-line-width:0.5;
-	  [zoom = 6]{
-	    [fscale=0]{marker-width:1.25;}
-	    [fscale=1]{marker-width:2;}
-	    [fscale=2]{marker-width:2.75;}
-	    [fscale=3]{marker-width:3.5;}
-	    [fscale=4]{marker-width:4.5;}
-	    [fscale=5]{marker-width:6;}
-	  }
-	  [zoom = 7]{
-	    [fscale=0]{marker-width:2;}
-	    [fscale=1]{marker-width:3;}
-	    [fscale=2]{marker-width:4;}
-	    [fscale=3]{marker-width:5.5;}
-	    [fscale=4]{marker-width:7;}
-	    [fscale=5]{marker-width:9;}
-	  }
-	  [zoom = 8]{
-	    [fscale=0]{marker-width:3;}
-	    [fscale=1]{marker-width:4.5;}
-	    [fscale=2]{marker-width:6;}
-	    [fscale=3]{marker-width:8;}
-	    [fscale=4]{marker-width:11;}
-	    [fscale=5]{marker-width:15;}
-	  }
-	}
-	
-	/*State-level dots and labels*/
-	#tornadoes-state-level [zoom <= 5] {
-	  marker-width:3;
-	  marker-fill:#f45;
-	  marker-line-color:#813;
-	  marker-line-opacity:0;
-	  marker-allow-overlap:true;
-	  [zoom = 3]{
-	    [tornadoes < 10]{marker-width:3;}
-	    [tornadoes >= 10][tornadoes < 25]{marker-width:5;}
-	    [tornadoes >= 25][tornadoes < 50]{marker-width:8;}
-	    [tornadoes >= 50][tornadoes < 100]{marker-width:12;}
-	    [tornadoes >= 100]{marker-width:16;}
-	  }
-	  [zoom = 4]{
-	    [tornadoes < 10]{marker-width:3.5;}
-	    [tornadoes >= 10][tornadoes < 25]{marker-width:6;}
-	    [tornadoes >= 25][tornadoes < 50]{marker-width:10;}
-	    [tornadoes >= 50][tornadoes < 100]{marker-width:16;}
-	    [tornadoes >= 100]{marker-width:22;}
-	  }
-	  [zoom = 5]{
-	    [tornadoes < 10]{marker-width:5;}
-	    [tornadoes >= 10][tornadoes < 25]{marker-width:9;}
-	    [tornadoes >= 25][tornadoes < 50]{marker-width:14;}
-	    [tornadoes >= 50][tornadoes < 100]{marker-width:22;}
-	    [tornadoes >= 100]{marker-width:34;}
-	  }
-	  ::labels {
-	    text-name:"[tornadoes]";
-	    text-face-name:"Arial Bold";
-	    text-allow-overlap:true;
-	    [zoom = 3]{
-	      [tornadoes < 25]{text-opacity:0;}
-	    }
-	    [zoom = 4]{
-	      [tornadoes < 10]{text-opacity:0;}
-	      [tornadoes >= 10][tornadoes < 25]{text-size:8;}
-	      [tornadoes >= 25][tornadoes < 50]{text-size:10;}
-	      [tornadoes >= 50][tornadoes < 100]{text-size:11.5;}
-	      [tornadoes >= 100]{text-size:13;}
-	    }
-	    [zoom = 5]{
-	      [tornadoes < 10]{text-size:8;}
-	      [tornadoes >= 10][tornadoes < 25]{text-size:10;}
-	      [tornadoes >= 25][tornadoes < 50]{text-size:11.5;}
-	      [tornadoes >= 50][tornadoes < 100]{text-size:13;}
-	      [tornadoes >= 100]{text-size:16;}
-	    }
-	  }
-	}
-	
-	/* State borders */
-	#states {
-	  line-color:#ccc;
-	  line-width:0.5;
-	  polygon-opacity:1;
-	  polygon-fill:#fff;
-	}
-
+    Map {
+      background-color: #b8dee6;
+    }
+    
+    #countries {
+      ::outline {
+        line-color: #85c5d3;
+        line-width: 2;
+        line-join: round;
+      }
+      [GEOUNIT != &quot;United States of America&quot;]{polygon-fill: #fff;}
+    }
+    
+    /*Individual tornado points*/
+    #tornadoes [zoom &gt; 5]{
+      marker-width:6;
+      marker-fill:#f45;
+      marker-line-color:#813;
+      marker-allow-overlap:true;
+      marker-line-width:0.5;
+      [zoom = 6]{
+        [fscale=0]{marker-width:2.5;}
+        [fscale=1]{marker-width:4;}
+        [fscale=2]{marker-width:5.5;}
+        [fscale=3]{marker-width:7;}
+        [fscale=4]{marker-width:9;}
+        [fscale=5]{marker-width:12;}
+      }
+      [zoom = 7]{
+        [fscale=0]{marker-width:4;}
+        [fscale=1]{marker-width:6;}
+        [fscale=2]{marker-width:8;}
+        [fscale=3]{marker-width:11;}
+        [fscale=4]{marker-width:14;}
+        [fscale=5]{marker-width:18;}
+      }
+      [zoom = 8]{
+        [fscale=0]{marker-width:6;}
+        [fscale=1]{marker-width:9;}
+        [fscale=2]{marker-width:12;}
+        [fscale=3]{marker-width:16;}
+        [fscale=4]{marker-width:22;}
+        [fscale=5]{marker-width:30;}
+      }
+    }
+    
+    /*State-level dots and labels*/
+    #tornadoes-state-level [zoom &lt;= 5] {
+      marker-width:6;
+      marker-fill:#f45;
+      marker-line-color:#813;
+      marker-line-opacity:0;
+      marker-allow-overlap:true;
+      [zoom = 3]{
+        [tornadoes &lt; 10]{marker-width:6;}
+        [tornadoes &gt;= 10][tornadoes &lt; 25]{marker-width:10;}
+        [tornadoes &gt;= 25][tornadoes &lt; 50]{marker-width:16;}
+        [tornadoes &gt;= 50][tornadoes &lt; 100]{marker-width:24;}
+        [tornadoes &gt;= 100]{marker-width:16;}
+      }
+      [zoom = 4]{
+        [tornadoes &lt; 10]{marker-width:7;}
+        [tornadoes &gt;= 10][tornadoes &lt; 25]{marker-width:12;}
+        [tornadoes &gt;= 25][tornadoes &lt; 50]{marker-width:20;}
+        [tornadoes &gt;= 50][tornadoes &lt; 100]{marker-width:32;}
+        [tornadoes &gt;= 100]{marker-width:44;}
+      }
+      [zoom = 5]{
+        [tornadoes &lt; 10]{marker-width:10;}
+        [tornadoes &gt;= 10][tornadoes &lt; 25]{marker-width:18;}
+        [tornadoes &gt;= 25][tornadoes &lt; 50]{marker-width:28;}
+        [tornadoes &gt;= 50][tornadoes &lt; 100]{marker-width:44;}
+        [tornadoes &gt;= 100]{marker-width:68;}
+      }
+      ::labels {
+        text-name:&quot;[tornadoes]&quot;;
+        text-face-name:&quot;Arial Bold&quot;;
+        text-allow-overlap:true;
+        [zoom = 3]{
+          [tornadoes &lt; 25]{text-opacity:0;}
+        }
+        [zoom = 4]{
+          [tornadoes &lt; 10]{text-opacity:0;}
+          [tornadoes &gt;= 10][tornadoes &lt; 25]{text-size:8;}
+          [tornadoes &gt;= 25][tornadoes &lt; 50]{text-size:10;}
+          [tornadoes &gt;= 50][tornadoes &lt; 100]{text-size:11.5;}
+          [tornadoes &gt;= 100]{text-size:13;}
+        }
+        [zoom = 5]{
+          [tornadoes &lt; 10]{text-size:8;}
+          [tornadoes &gt;= 10][tornadoes &lt; 25]{text-size:10;}
+          [tornadoes &gt;= 25][tornadoes &lt; 50]{text-size:11.5;}
+          [tornadoes &gt;= 50][tornadoes &lt; 100]{text-size:13;}
+          [tornadoes &gt;= 100]{text-size:16;}
+        }
+      }
+    }
+    
+    /* State borders */
+    #states {
+      line-color:#ccc;
+      line-width:0.5;
+      polygon-opacity:1;
+      polygon-fill:#fff;
+    }
 {% include nextup.html %}
