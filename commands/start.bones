@@ -30,7 +30,7 @@ command.prototype.initialize = function(plugin, callback) {
     // Default out the coreUrl, needed to point the client
     // window at the right URL.
     plugin.config.coreUrl = plugin.config.coreUrl ||
-        'localhost:' + plugin.config.port;
+        plugin.config.hostname + ':' + plugin.config.port;
 
     Bones.plugin.command = this;
     Bones.plugin.children = {};
