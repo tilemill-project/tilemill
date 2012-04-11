@@ -67,6 +67,19 @@
     [environment setObject:path_prepend forKey:@"PATH"];
     // clear out NODE_PATH
     [environment setObject:@"" forKey:@"NODE_PATH"];
+
+    // ICU data: https://github.com/mapbox/tilemill/issues/561
+    NSString *icu_data = [NSString stringWithFormat:@"%@/data/icu", [[NSBundle mainBundle] resourcePath]];
+    [environment setObject:icu_data forKey:@"ICU_DATA"];
+
+    // gdal's projection files
+    NSString *gdal_data = [NSString stringWithFormat:@"%@/data/gdal", [[NSBundle mainBundle] resourcePath]];
+    [environment setObject:gdal_data forKey:@"GDAL_DATA"];
+
+    // proj projection files
+    NSString *proj_lib = [NSString stringWithFormat:@"%@/data/proj", [[NSBundle mainBundle] resourcePath]];
+    [environment setObject:proj_lib forKey:@"PROJ_LIB"];
+
     [self.task setEnvironment:environment];
     [self.task setStandardOutput:[NSPipe pipe]];
     [self.task setStandardError:[self.task standardOutput]];
