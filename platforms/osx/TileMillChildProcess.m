@@ -58,7 +58,16 @@
         [self.delegate childProcessDidStart:self];
  
     self.task = [[NSTask alloc] init];
+    NSDictionary *defaultEnvironment = [[NSProcessInfo processInfo] environment];
+    NSMutableDictionary *environment = [[NSMutableDictionary alloc] initWithDictionary:defaultEnvironment];
     
+    // be proactive and make sure the local tilemill directory comes first on PATH
+    // to do all we can to avoid: https://github.com/mapbox/tilemill/issues/1348
+    NSString *path_prepend = [NSString stringWithFormat:@"%@;$PATH", [[NSBundle mainBundle] resourcePath]];
+    [environment setObject:path_prepend forKey:@"PATH"];
+    // clear out NODE_PATH
+    [environment setObject:@"" forKey:@"NODE_PATH"];
+    [self.task setEnvironment:environment];
     [self.task setStandardOutput:[NSPipe pipe]];
     [self.task setStandardError:[self.task standardOutput]];
     [self.task setCurrentDirectoryPath:self.basePath];
