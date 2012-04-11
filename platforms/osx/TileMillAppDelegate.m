@@ -16,10 +16,10 @@
 
 @interface TileMillAppDelegate ()
 
-@property (nonatomic, retain) TileMillChildProcess *searchTask;
-@property (nonatomic, retain) TileMillBrowserWindowController *browserController;
-@property (nonatomic, retain) TileMillSparklePrefsWindowController *sparklePrefsController;
-@property (nonatomic, retain) NSString *logPath;
+@property (nonatomic, strong) TileMillChildProcess *searchTask;
+@property (nonatomic, strong) TileMillBrowserWindowController *browserController;
+@property (nonatomic, strong) TileMillSparklePrefsWindowController *sparklePrefsController;
+@property (nonatomic, strong) NSString *logPath;
 
 - (void)startTileMill;
 - (void)writeToLog:(NSString *)message;
@@ -35,16 +35,6 @@
 @synthesize browserController;
 @synthesize sparklePrefsController;
 @synthesize logPath;
-
-- (void)dealloc
-{
-    [searchTask release];
-    [browserController release];
-    [sparklePrefsController release];
-    [logPath release];
-
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark NSApplicationDelegate
@@ -229,7 +219,7 @@
 - (IBAction)showBrowserWindow:(id)sender
 {
     if ( ! self.browserController)
-        self.browserController = [[[TileMillBrowserWindowController alloc] initWithWindowNibName:@"TileMillBrowserWindow"] autorelease];
+        self.browserController = [[TileMillBrowserWindowController alloc] initWithWindowNibName:@"TileMillBrowserWindow"];
     
     [self.browserController showWindow:self];
 }
@@ -302,7 +292,7 @@
 - (IBAction)openSparklePreferences:(id)sender
 {
     if ( ! self.sparklePrefsController)
-        self.sparklePrefsController = [[[TileMillSparklePrefsWindowController alloc] initWithWindowNibName:@"TileMillSparklePrefsWindow"] autorelease];
+        self.sparklePrefsController = [[TileMillSparklePrefsWindowController alloc] initWithWindowNibName:@"TileMillSparklePrefsWindow"];
 
     [self.sparklePrefsController showWindow:self];
 }

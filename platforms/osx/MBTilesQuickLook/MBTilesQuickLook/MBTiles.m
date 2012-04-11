@@ -39,13 +39,13 @@ const int maxZoomLevel = 23;
 
 + (id)withPath:(NSString*)path
 {
-    return [[[self alloc] initWithPath:path] autorelease];
+    return [[self alloc] initWithPath:path];
 }
 
 + (id)withURL:(CFURLRef)url
 {
     CFStringRef path_ref = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
-    return [[[self alloc] initWithPath:(NSString*)path_ref] autorelease];
+    return [[self alloc] initWithPath:(__bridge NSString*)path_ref];
 }
 
 - (id)initWithPath:(NSString*)aPath
@@ -54,7 +54,6 @@ const int maxZoomLevel = 23;
     if (self) {
         db = [FMDatabase databaseWithPath:(NSString*)aPath];
         if (![db open]) {
-            [db release];
             return nil;
         }
         [self loadInfo];
@@ -169,7 +168,7 @@ const int maxZoomLevel = 23;
 
 - (NSString *) bounds
 {
-    return [[NSString stringWithFormat:@"%f,%f,%f,%f", bounds[0], bounds[1], bounds[2], bounds[3]] retain];
+    return [NSString stringWithFormat:@"%f,%f,%f,%f", bounds[0], bounds[1], bounds[2], bounds[3]];
 }
 
 - (void) setCenter:(NSString *)centerString
@@ -186,7 +185,7 @@ const int maxZoomLevel = 23;
 
 - (NSString *) center
 {
-    return [[NSString stringWithFormat:@"%f,%f,%d", center[1], center[0], centerZoom] retain];
+    return [NSString stringWithFormat:@"%f,%f,%d", center[1], center[0], centerZoom];
 }
 
 - (void) estimateCenter

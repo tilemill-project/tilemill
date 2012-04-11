@@ -42,13 +42,6 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
     [prefs setUsesPageCache:NO];
 }
 
-- (void)dealloc
-{
-    [webView release];
-    
-    [super dealloc];
-}
-
 #pragma mark -
 
 - (void)loadInitialRequestWithPort:(NSInteger)inPort
@@ -185,7 +178,7 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 {
     if ([request timeoutInterval] < kTileMillRequestTimeout)
     {
-        NSMutableURLRequest *newRequest = [[request copy] autorelease];
+        NSMutableURLRequest *newRequest = [request copy];
         
         [newRequest setTimeoutInterval:kTileMillRequestTimeout];
         
