@@ -178,7 +178,7 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 {
     if ([request timeoutInterval] < kTileMillRequestTimeout)
     {
-        NSMutableURLRequest *newRequest = [request copy];
+        NSMutableURLRequest *newRequest = [request mutableCopy];
         
         [newRequest setTimeoutInterval:kTileMillRequestTimeout];
         
