@@ -20,11 +20,11 @@
 		557C0D2313EC7AD5004FB40C /* GenerateThumbnailForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 557C0D2213EC7AD5004FB40C /* GenerateThumbnailForURL.m */; };
 		DD079F091405B2AD006D9A19 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DD079F081405B2AD006D9A19 /* libsqlite3.dylib */; };
 		DD6F0D7713F985D30055EFAE /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = DD6F0D7113F985D30055EFAE /* FMDatabase.h */; };
-		DD6F0D7813F985D30055EFAE /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D7213F985D30055EFAE /* FMDatabase.m */; };
+		DD6F0D7813F985D30055EFAE /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D7213F985D30055EFAE /* FMDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD6F0D7913F985D30055EFAE /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = DD6F0D7313F985D30055EFAE /* FMDatabaseAdditions.h */; };
-		DD6F0D7A13F985D30055EFAE /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D7413F985D30055EFAE /* FMDatabaseAdditions.m */; };
+		DD6F0D7A13F985D30055EFAE /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D7413F985D30055EFAE /* FMDatabaseAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD6F0D7B13F985D30055EFAE /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = DD6F0D7513F985D30055EFAE /* FMResultSet.h */; };
-		DD6F0D7C13F985D30055EFAE /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D7613F985D30055EFAE /* FMResultSet.m */; };
+		DD6F0D7C13F985D30055EFAE /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D7613F985D30055EFAE /* FMResultSet.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -304,8 +304,10 @@
 		5504855E13EAF31D0001DFFD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MBTilesQuickLook/MBTilesQuickLook-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "MBTilesQuickLook/MBTilesQuickLook-Info.plist";
 				INSTALL_PATH = /Library/QuickLook;
 				PRODUCT_NAME = MBTiles;
@@ -316,8 +318,10 @@
 		5504855F13EAF31D0001DFFD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MBTilesQuickLook/MBTilesQuickLook-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "MBTilesQuickLook/MBTilesQuickLook-Info.plist";
 				INSTALL_PATH = /Library/QuickLook;
 				PRODUCT_NAME = MBTiles;

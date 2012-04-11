@@ -40,7 +40,7 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
     
     if ( ! mbtiles) return noErr;
   
-    CFDataRef image = (CFDataRef)[mbtiles centerTile];
+    CFDataRef image = (__bridge CFDataRef)[mbtiles centerTile];
 
     QLThumbnailRequestSetImageWithData(thumbnail, image, NULL);
     

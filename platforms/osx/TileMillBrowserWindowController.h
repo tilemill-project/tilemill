@@ -17,7 +17,7 @@ extern NSString *TileMillBrowserLoadCompleteNotification;
     NSInteger port;
 }
 
-@property (nonatomic, retain) IBOutlet WebView *webView;
+@property (nonatomic, strong) IBOutlet WebView *webView;
 
 - (void)loadInitialRequestWithPort:(NSInteger)inPort;
 - (void)loadRequestPath:(NSString *)path showingWindow:(BOOL)showWindow;
