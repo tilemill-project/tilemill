@@ -401,10 +401,15 @@ function compileStylesheet(mml, callback) {
     // Hard clone the model JSON to avoid any alterations to it.
     // @TODO: is this necessary?
     var data = JSON.parse(JSON.stringify(mml));
-    new carto.Renderer(env).render(data, function(err, output) {
-        if (err) callback(err);
-        else callback(null, output);
-    });
+    // try/catch here as per https://github.com/mapbox/tilemill/issues/1370
+    try {
+        new carto.Renderer(env).render(data, function(err, output) {
+            if (err) callback(err);
+            else callback(null, output);
+        });
+    } catch (err) {
+        callback(err);
+    }
 }
 
 var localizedCache = {};
