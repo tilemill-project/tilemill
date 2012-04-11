@@ -10,7 +10,5 @@
 #define TileMillDevelopmentAppcastURL [NSURL URLWithString:@"http://mapbox.com/tilemill/platforms/osx/appcast-dev.xml"]
 
 @interface TileMillSparklePrefsWindowController : NSWindowController <NSWindowDelegate>
-{
-}
 
 @end

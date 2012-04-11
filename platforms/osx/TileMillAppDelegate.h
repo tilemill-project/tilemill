@@ -14,13 +14,6 @@
 void (^requestLoadBlock)(void) = NULL;
 
 @interface TileMillAppDelegate : NSObject <NSApplicationDelegate, TileMillChildProcessDelegate>
-{
-    TileMillChildProcess *searchTask;
-    TileMillBrowserWindowController *browserController;
-    TileMillSparklePrefsWindowController *sparklePrefsController;
-    NSString *logPath;
-    BOOL shouldAttemptRestart;
-}
 
 - (IBAction)openDocumentsFolder:(id)sender;
 - (IBAction)openHelp:(id)sender;

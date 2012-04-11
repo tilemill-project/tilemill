@@ -23,14 +23,6 @@
 #pragma mark -
 
 @interface TileMillChildProcess : NSObject
-{
-    __unsafe_unretained id <TileMillChildProcessDelegate>delegate;
-    NSTask *task;
-    NSString *basePath;
-    NSString *command;
-    BOOL launched;
-    NSInteger port;
-}
 
 @property (nonatomic, unsafe_unretained) id <TileMillChildProcessDelegate> delegate;
 @property (nonatomic, readonly, assign, getter=isLaunched) BOOL launched;

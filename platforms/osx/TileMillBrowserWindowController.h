@@ -11,11 +11,6 @@
 extern NSString *TileMillBrowserLoadCompleteNotification;
 
 @interface TileMillBrowserWindowController : NSWindowController
-{
-    WebView *webView;
-    BOOL initialRequestComplete;
-    NSInteger port;
-}
 
 @property (nonatomic, strong) IBOutlet WebView *webView;
 
