@@ -81,6 +81,12 @@ view.prototype.attach = function() {
     layer.provider.options.maxzoom = this.model.get('maxzoom');
     layer.setProvider(layer.provider);
 
+    layer.provider.setZoomRange(layer.provider.options.minzoom,
+                          layer.provider.options.maxzoom)
+
+    this.map.setZoomRange(layer.provider.options.minzoom,
+                          layer.provider.options.maxzoom)
+
     this.map.controls.interaction.remove();
     this.map.controls.interaction = wax.mm.interaction(
         this.map,
