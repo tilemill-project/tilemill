@@ -40,7 +40,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             var source = new mapnik.Datasource(mml.Layer[0].Datasource);
 
             var features = [];
-            if (options.features || options.info) {
+            if (!(source.type == "raster") && (options.features || options.info)) {
                 var featureset = source.featureset();
                 for (var i = 0, feat;
                     i < row_limit && (feat = featureset.next(true));
