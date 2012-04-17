@@ -44,7 +44,14 @@ it('GET shapefile datasource', function(done) {
         { status: 200 },
         function(res) {
             var body = JSON.parse(res.body);
-            assert.deepEqual(readJSON('datasource-shp'), body);
+            var expected = readJSON('datasource-shp');
+            assert.deepEqual(expected.fields, body.fields);
+            assert.equal(expected.geometry_type, body.geometry_type);
+            assert.equal(expected.id, body.id);
+            assert.equal(expected.project, body.project);
+            assert.equal(expected.type, body.type);
+            assert.equal(expected.url, body.url);
+            assert.deepEqual(expected.features, body.features);
             done();
         }
     );
@@ -56,7 +63,14 @@ it('GET shapefile datasource with features', function(done) {
         { status: 200 },
         function(res) {
             var body = JSON.parse(res.body);
-            assert.deepEqual(readJSON('datasource-shp-features'), body);
+            var expected = readJSON('datasource-shp-features');
+            assert.deepEqual(expected.fields, body.fields);
+            assert.equal(expected.geometry_type, body.geometry_type);
+            assert.equal(expected.id, body.id);
+            assert.equal(expected.project, body.project);
+            assert.equal(expected.type, body.type);
+            assert.equal(expected.url, body.url);
+            assert.deepEqual(expected.features, body.features);
             done();
         }
     );

@@ -3203,7 +3203,7 @@
         "SUBREGION": { "max": 155, "min": 0, "type": "Number" },
         "UN": { "max": 894, "min": 4, "type": "Number" }
     },
-    "geometry_type": "multipolygon",
+    "geometry_type": "polygon",
     "id": "world",
     "project": "demo_01",
     "type": "vector",
