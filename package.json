@@ -56,7 +56,7 @@
     "scripts": {
         "start": "./index.js",
         "test": "mocha --ignore-leaks --timeout 10000",
-        "postinstall": "GITPATH=/usr/bin:/usr/local/bin:/usr/local/git/bin\nPATH=$PATH:$GITPATH; export PATH\n\nif [ -z $( which git ) ]; then\n  echo \"Unable to find git binary in \\$GITPATH\"\n  exit 1\nfi\n\nSHORT_VERSION=$( git describe --tags )\nVERSION=$( echo $SHORT_VERSION | sed -e 's/^v//' | sed -e 's/-/./' | sed -e 's/-.*//' )\n\necho \"$SHORT_VERSION\n$VERSION\" > VERSION"
+        "postinstall": "node ./lib/gitutil.js"
     },
     "bin": {
         "tilemill": "./index.js"
