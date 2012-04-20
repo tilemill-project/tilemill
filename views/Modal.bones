@@ -28,7 +28,7 @@ view.prototype.initialize = function(options) {
             };
         }
     } else if (options.status === 0) {
-        options = { content: 'No response from server.' };
+        options = { content: 'Error: The TileMill Client could not connect to the TileMill Server. Please check the logs for possible problems. If this problem persists after restarting please report your problem to http://mapbox.com/help' };
     } else if (typeof options === 'string') {
         options = { content: options };
     } else if (options instanceof Error) {
