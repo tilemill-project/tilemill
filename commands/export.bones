@@ -7,6 +7,7 @@ var util = require('util');
 var Step = require('step');
 var http = require('http');
 var chrono = require('chrono');
+var crashutil = require('../lib/crashutil');
 
 command = Bones.Command.extend();
 
@@ -98,17 +99,37 @@ command.prototype.initialize = function(plugin, callback) {
         _(opts).extend(JSON.parse(process.env.tilemillConfig));
     opts.files = path.resolve(opts.files);
     opts.project = plugin.argv._[1];
-    if (!plugin.argv._[2]) return plugin.help();
-    opts.filepath = path.resolve(plugin.argv._[2]);
+    var export_filename = plugin.argv._[2];
+    if (!export_filename) return plugin.help();
+    opts.filepath = path.resolve(export_filename.replace('~',process.env.HOME));
     callback = callback || function() {};
     this.opts = opts;
 
-    // Write crash log
-    if (opts.log) {
-        process.on('uncaughtException', function(err) {
-            fs.writeFileSync(opts.filepath + '.crashlog', err.stack || err.toString());
+    // Note: this is reset again below, to reflect any changes in the output name
+    process.title = 'tm-' + path.basename(opts.filepath);
+
+    // Write export-specific crash log
+    process.on('uncaughtException', function(err) {
+        var crash_log = opts.filepath + '.crashlog';
+        if (opts.log) {
+            console.warn('Export process crashed, log written to: ' + crash_log);
+            fs.writeFileSync(crash_log, err.stack || err.toString());
+        } else {
+            console.warn('Export process crashed, turn on logging to log report in future runs');
+        }
+    });
+
+    process.on('exit', function(code, signal) {
+        console.warn('Exiting process [' + process.title + ']');
+        crashutil.display_crash_log(function(err,logname) {
+            if (err) {
+                console.warn(err.stack || err.toString());
+            }
+            if (logname) {
+                console.warn("C-land crash log at: '" + logname + "'");
+            }
         });
-    }
+    });
 
     // Validation.
     if (!opts.project || !opts.filepath) return plugin.help();
@@ -160,7 +181,7 @@ command.prototype.initialize = function(plugin, callback) {
         Bones.utils.fetch({model:model}, this);
     }, function(err) {
         if (err) return cmd.error(err, function() {
-            process.stderr.write(err.stack + '\n');
+            process.stderr.write(err.stack || err.toString() + '\n');
             process.exit(1);
         });
         if (!cmd.opts.quiet) process.stderr.write(' done.\n');
@@ -174,6 +195,7 @@ command.prototype.initialize = function(plugin, callback) {
         model.localize(model.toJSON(), this);
     }, function(err) {
         if (err) return cmd.error(err, function() {
+            process.stderr.write(err.stack || err.toString() + '\n');
             process.exit(1);
         });
 
@@ -205,9 +227,11 @@ command.prototype.initialize = function(plugin, callback) {
             cmd.image(model, cmd.complete);
             break;
         case 'upload':
+            console.log('uploading new export');
             cmd.upload(model, cmd.complete);
             break;
         case 'sync':
+            console.log('syncing export with existing upload');
             cmd.sync(model, cmd.complete);
             break;
         default:
@@ -219,6 +243,7 @@ command.prototype.initialize = function(plugin, callback) {
 
 command.prototype.complete = function(err, data) {
     if (err) {
+        console.warn(err.stack || err.toString() + '\n');
         this.error(err, function() {
             process.exit(1);
         });
@@ -253,7 +278,9 @@ command.prototype.put = function(data, callback) {
     // Allow commands to filter.
     if (this.putFilter) data = this.putFilter(data);
 
-    if (!this.opts.url) return callback();
+    if (!this.opts.url) {
+        return callback();
+    }
     request.put({
         uri: this.opts.url,
         headers: {

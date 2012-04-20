@@ -1,11 +1,14 @@
-var Step = require('step'),
-    Queue = require('../lib/queue'),
-    fs = require('fs'),
-    path = require('path'),
-    exec = require('child_process').exec,
-    spawn = require('child_process').spawn,
-    settings = Bones.plugin.config,
-    pids = {};
+var Step = require('step');
+var Queue = require('../lib/queue');
+var fs = require('fs');
+var path = require('path');
+var exec = require('child_process').exec;
+var spawn = require('child_process').spawn;
+var settings = Bones.plugin.config;
+var pids = {};
+var pid_errors = {};
+
+var redirect = require('../lib/redirect.js');
 
 var queue = new Queue(start, 1);
 function start(id, callback) {
@@ -49,25 +52,23 @@ function start(id, callback) {
             setsid: false
         });
 
-        function forwardOutput(type, output) {
-            var prefix = '[' + data.filename + '] ' + type + ': ';
-            if (output[output.length - 1] === '\n') {
-                output = output.substring(0, output.length - 1);
-            }
-            console.warn(prefix + output.split('\n').join('\n' + prefix));
-        }
-
-        child.stdout.setEncoding('utf8');
-        child.stdout.on('data', forwardOutput.bind(global, 'stdout'));
-        child.stderr.setEncoding('utf8');
-        child.stderr.on('data', forwardOutput.bind(global, 'stderr'));
+        redirect.onData(child);
 
         var pid = child.pid;
         pids[pid] = true;
 
-        child.on('exit', function(code) {
-            delete pids[pid];
-            callback();
+        child.on('exit', function(code, signal) {
+                if (code !== 0) {
+                    message = "Export died with code: '" + code + "' ";
+                    if (signal) {
+                        message += "(and signal: '" + signal + "') ";
+                    }
+                    console.warn(message);
+                    message += "see tilemill log for details"
+                    pid_errors[pid] = message;
+                }
+                delete pids[pid];
+                callback();
         });
         (new models.Export(data)).save({
             pid:pid,
@@ -83,8 +84,14 @@ function start(id, callback) {
 // 2. when reading models the process health is checked. if the pid
 //    is not found, the model's status should be updated.
 function check(data) {
-    if (data.status === 'processing' && data.pid && !pids[data.pid])
-        return { status: 'error', error: 'Export process died' };
+    if (data.status === 'processing' && data.pid && !pids[data.pid]) {
+        var attr = { status: 'error' };
+        if (pid_errors[data.pid])
+            attr.error = pid_errors[data.pid]
+        else
+            attr.error = 'Export process died'
+        return attr;
+    }
     if (data.status === 'waiting' && !_(queue.queue).include(data.id))
         queue.add(data.id);
 };

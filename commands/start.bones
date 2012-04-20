@@ -1,5 +1,6 @@
 var path = require('path');
 var spawn = require('child_process').spawn;
+var redirect = require('../lib/redirect.js');
 var defaults = models.Config.defaults;
 var command = commands['start'];
 
@@ -36,8 +37,12 @@ command.prototype.initialize = function(plugin, callback) {
     Bones.plugin.children = {};
     process.title = 'tilemill';
     // Kill child processes on exit.
-    process.on('exit', function() {
-        _(Bones.plugin.children).each(function(child) { child.kill(); });
+    process.on('exit', function(code, signal) {
+        console.warn('Exiting [' + process.title + ']');
+        _(Bones.plugin.children).each(function(child) {
+            console.warn('closing child process: ' + child.pid );
+            child.kill();
+        });
     });
     // Handle SIGUSR2 for dev integration with nodemon.
     process.once('SIGUSR2', function() {
@@ -76,8 +81,8 @@ command.prototype.child = function(name) {
         path.resolve(path.join(__dirname + '/../index.js')),
         name
     ].concat(args));
-    Bones.plugin.children[name].stdout.pipe(process.stdout);
-    Bones.plugin.children[name].stderr.pipe(process.stderr);
+
+    redirect.onData(Bones.plugin.children[name]);
     Bones.plugin.children[name].once('exit', function(code, signal) {
         if (code === 0) {
             // restart server if exit was clean
