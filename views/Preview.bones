@@ -27,7 +27,10 @@ view.prototype.render = function() {
     if (!MM) throw new Error('ModestMaps not found.');
     this.map = new MM.Map('preview',
         new wax.mm.connector(this.preview.attributes));
-    wax.mm.interaction(this.map, this.preview.attributes);
+    wax.mm.interaction()
+        .map(this.map)
+        .tilejson(this.preview.attributes)
+        .on(wax.tooltip().parent(this.map.parent).events());;
     wax.mm.legend(this.map, this.preview.attributes).appendTo(this.map.parent);
     wax.mm.zoombox(this.map);
     wax.mm.zoomer(this.map).appendTo(this.map.parent);
@@ -37,6 +40,10 @@ view.prototype.render = function() {
         center[1],
         center[0]),
         center[2]);
+
+    this.map.setZoomRange(
+        this.model.get('minzoom'),
+        this.model.get('maxzoom'));
 
     return this;
 };
