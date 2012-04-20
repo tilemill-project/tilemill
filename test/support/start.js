@@ -131,7 +131,7 @@ assert.response = function(server, req, res, msg) {
                     status,
                     msg + 'Invalid response status code.\n'
                         + '     Expected: ' + status + '\n'
-                        + '     Got: ' + response.statusCode + ''
+                        + '     Got: ' + response.statusCode + '' + response.body
                 );
             }
 
