@@ -38,7 +38,7 @@ models.Config.prototype.sync = function(method, model, success, error) {
             'guid'
         ];
         var data = _(model.toJSON()).reduce(function(memo, val, key) {
-            if (key === 'files') val = val.replace('~', process.env.HOME);
+            if (key === 'files') val = val.replace(/^~/, process.env.HOME);
             if (_(allowedKeys).include(key)) memo[key] = val;
             return memo;
         }, {});

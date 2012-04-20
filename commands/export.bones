@@ -101,7 +101,7 @@ command.prototype.initialize = function(plugin, callback) {
     opts.project = plugin.argv._[1];
     var export_filename = plugin.argv._[2];
     if (!export_filename) return plugin.help();
-    opts.filepath = path.resolve(export_filename.replace('~',process.env.HOME));
+    opts.filepath = path.resolve(export_filename.replace(/^~/,process.env.HOME));
     callback = callback || function() {};
     this.opts = opts;
 
