@@ -87,7 +87,7 @@ command.prototype.bootstrap = function(plugin, callback) {
 
     var settings = Bones.plugin.config;
     settings.host = false;
-    settings.files = path.resolve(settings.files);
+    settings.files = path.resolve(settings.files.replace('~', process.env.HOME));
     settings.coreUrl = settings.coreUrl || 'localhost:' + settings.port;
     settings.tileUrl = settings.tileUrl || 'localhost:' + settings.tilePort;
 
