@@ -43,14 +43,17 @@ command.prototype.initialize = function(plugin, callback) {
             console.warn('[tilemill] Closing child process: ' + key  + " (pid:" + child.pid + ")");
             child.kill();
         });
-        crashutil.display_crash_log(function(err,logname) {
-            if (err) {
-                console.warn(err.stack || err.toString());
-            }
-            if (logname) {
-                console.warn("[tilemill] Please post this crash log: '" + logname + "' to https://github.com/mapbox/tilemill/issues");
-            }
-        });
+        if (code != undefined && code !== 0)
+        {
+            crashutil.display_crash_log(function(err,logname) {
+                if (err) {
+                    console.warn(err.stack || err.toString());
+                }
+                if (logname) {
+                    console.warn("[tilemill] Please post this crash log: '" + logname + "' to https://github.com/mapbox/tilemill/issues");
+                }
+            });
+        }
         console.warn('Exiting [' + process.title + ']');
     });
     // Handle SIGUSR2 for dev integration with nodemon.
