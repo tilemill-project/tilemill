@@ -243,11 +243,13 @@
 
 - (void)presentFatalError
 {
+    NSString *fatal_msg = [NSString stringWithFormat:@"TileMill experienced a fatal error while trying to start. Please check the logs for details:\n\n\t%@\n\nIf this problem persists, please contact support.", self.logPath];
+
     NSAlert *alert = [NSAlert alertWithMessageText:@"There was a problem trying to start the server process"
                                      defaultButton:@"Quit TileMill"
                                    alternateButton:@"Contact Support & Quit"
                                        otherButton:nil
-                         informativeTextWithFormat:@"TileMill experienced a fatal error while trying to start the server process. Please restart the application. If this persists, please contact support."];
+                         informativeTextWithFormat:fatal_msg];
     
     NSInteger status = [alert runModal];
     

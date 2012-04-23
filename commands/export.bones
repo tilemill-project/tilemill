@@ -101,7 +101,7 @@ command.prototype.initialize = function(plugin, callback) {
     opts.project = plugin.argv._[1];
     var export_filename = plugin.argv._[2];
     if (!export_filename) return plugin.help();
-    opts.filepath = path.resolve(export_filename.replace('~',process.env.HOME));
+    opts.filepath = path.resolve(export_filename.replace(/^~/,process.env.HOME));
     callback = callback || function() {};
     this.opts = opts;
 
@@ -112,23 +112,30 @@ command.prototype.initialize = function(plugin, callback) {
     process.on('uncaughtException', function(err) {
         var crash_log = opts.filepath + '.crashlog';
         if (opts.log) {
-            console.warn('Export process crashed, log written to: ' + crash_log);
+            console.warn('Export process died, log written to: ' + crash_log);
             fs.writeFileSync(crash_log, err.stack || err.toString());
         } else {
-            console.warn('Export process crashed, turn on logging to log report in future runs');
+            console.warn('Export process died, turn on logging to log report in future runs');
         }
+        // force exit here because cleanup in tilelive is not working leading to:
+        // Error: SQLITE_IOERR: disk I/O error
+        // https://github.com/mapbox/tilemill/issues/1360
+        process.exit(0);
     });
 
     process.on('exit', function(code, signal) {
         console.warn('Exiting process [' + process.title + ']');
-        crashutil.display_crash_log(function(err,logname) {
-            if (err) {
-                console.warn(err.stack || err.toString());
-            }
-            if (logname) {
-                console.warn("C-land crash log at: '" + logname + "'");
-            }
-        });
+        if (code != undefined && code !== 0)
+        {
+            crashutil.display_crash_log(function(err,logname) {
+                if (err) {
+                    console.warn(err.stack || err.toString());
+                }
+                if (logname) {
+                    console.warn("[tilemill] Please post this crash log: '" + logname + "' to https://github.com/mapbox/tilemill/issues");
+                }
+            });
+        }
     });
 
     // Validation.

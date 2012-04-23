@@ -136,12 +136,12 @@
         if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcess:didSendOutput:)])
             [self.delegate childProcess:self didSendOutput:message];
         
-        if ([message hasPrefix:@"Started [Server Core"] && ! self.isLaunched)
+        if ([message hasPrefix:@"[tilemill] Started [Server Core"] && ! self.isLaunched)
         {
             self.launched = YES;
             NSScanner *aScanner = [NSScanner scannerWithString:message];
             NSInteger aPort;
-            [aScanner scanString:@"Started [Server Core:" intoString:NULL];
+            [aScanner scanString:@"[tilemill] Started [Server Core:" intoString:NULL];
             [aScanner scanInteger:&aPort];
             self.port = aPort;
             

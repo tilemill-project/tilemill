@@ -5,7 +5,7 @@ var defaults = models.Config.defaults;
 Bones.Command.options['files'] = {
     'title': 'files=[path]',
     'description': 'Path to files directory.',
-    'default': defaults.files.replace('~', process.env.HOME)
+    'default': defaults.files.replace(/^~/, process.env.HOME)
 };
 
 Bones.Command.options['bufferSize'] = {
