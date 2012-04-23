@@ -3,7 +3,6 @@ var fsutil = require('../lib/fsutil');
 var path = require('path');
 var Step = require('step');
 var defaults = models.Config.defaults;
-var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
 var semver = require('semver');
 var os = require('os');
