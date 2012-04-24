@@ -619,10 +619,19 @@ command.prototype.upload = function (callback) {
         });
         request.put({ url:modelURL, json:model }, this);
     }, function(err, res, body) {
-        if (err)
+        console.log('publish response: ' + util.inspect(body));
+        if (err) {
             return callback(err);
-        if (modelURL && res.statusCode !== 200)
-            return callback(new Error('Map publish failed: ' + res.statusCode));
+        }
+        if (modelURL && res.statusCode !== 200) {
+            var msg = 'Map publish failed: ';
+            if (body && body.message != undefined) {
+                msg += body.message;
+            } else {
+                msg += res.statusCode;
+            }
+            return callback(new Error(msg));
+        }
         callback(null, { url:mapURL });
     });
 };
