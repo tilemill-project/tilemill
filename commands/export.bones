@@ -624,11 +624,11 @@ command.prototype.upload = function (callback) {
             return callback(err);
         }
         if (modelURL && res.statusCode !== 200) {
-            var msg = 'Map publish failed: ';
+            var msg;
             if (body && body.message != undefined) {
-                msg += body.message;
+                msg = body.message;
             } else {
-                msg += res.statusCode;
+                msg = 'Map publish failed: ' + res.statusCode;
             }
             return callback(new Error(msg));
         }
