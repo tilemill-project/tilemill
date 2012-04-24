@@ -29,10 +29,13 @@ this channel and receive these intermediate updates as well as the stable releas
 To issue a dev channel update:
 
  1. Say the version you want to issue is `v0.9.0-141-g1b9a2ab`. This means that the update
- was issued after the `0.9.0` stable release and (following `git help describe`) the
- corresponding hash for the release is `1b9a2ab` (remove the `g`).
- 1. Make sure the `TileMill-0.9.0.141.zip` is uploaded to GitHub Downloads.
- 1. On your local copy of the repo, `git reset --hard 1b9a2ab`.
+ was issued after the `0.9.0` stable release, contains 141 commits since then, and
+ (following `git help describe`) the corresponding hash for the release is `1b9a2ab`
+ (remove the `g`).
+ 1. Make sure `TileMill-0.9.0.141.zip` is uploaded to GitHub Downloads. You can get this
+ from the build server.
+ 1. On your local copy of the repo, issue a `git reset --hard 1b9a2ab` to help hint to the
+ Sparkle process which commit you want to refer to.
  1. From `platforms/osx` issue a `make sparkle`. It will confirm that you want to push a
  Sparkle update for `TileMill-0.9.0.141`, then pull down the appropriate download. This
  ensures that you don't have to go through the somewhat-lengthy and error-prone release
@@ -52,10 +55,10 @@ To issue a dev channel update:
        size: 82793436
        sign: MC4CFQDzIVUGGWA9LguQtoA0N1QrKSMuBQIVAKa8mlfzFAotbt6wInGGIs4pPe0G
    ```
- 1. Modify `../../CHANGELOG.md` manually and commit & push the changes, updating the 
- Sparkle RSS feed and notifying beta testers.
+ 1. Modify `../../CHANGELOG.md` manually per the instructions.
  1. **IMPORTANT:** Be sure to add a `dev: true` line to the same entry so that the dev
- channel is triggered. If you don't do this, it will go out as a stable release to all
- OS X users of TileMill.
+ channel is triggered. If you don't do this, the update will go out as a stable release
+ to all OS X users of TileMill.
+ 1. Commit & push the changes, updating the Sparkle RSS feed and notifying beta testers.
 
 [1]: http://sparkle.andymatuschak.org/
