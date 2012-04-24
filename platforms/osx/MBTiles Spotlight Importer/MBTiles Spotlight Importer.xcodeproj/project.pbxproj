@@ -16,11 +16,11 @@
 		DD529A1A1301148E00B6E597 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD529A191301148E00B6E597 /* Foundation.framework */; };
 		DD529AE613011A6600B6E597 /* mbtiles.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD529AE513011A6600B6E597 /* mbtiles.icns */; };
 		DD6F0D9C13F987D10055EFAE /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = DD6F0D9613F987D10055EFAE /* FMDatabase.h */; };
-		DD6F0D9D13F987D10055EFAE /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D9713F987D10055EFAE /* FMDatabase.m */; };
+		DD6F0D9D13F987D10055EFAE /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D9713F987D10055EFAE /* FMDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD6F0D9E13F987D10055EFAE /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = DD6F0D9813F987D10055EFAE /* FMDatabaseAdditions.h */; };
-		DD6F0D9F13F987D10055EFAE /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D9913F987D10055EFAE /* FMDatabaseAdditions.m */; };
+		DD6F0D9F13F987D10055EFAE /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D9913F987D10055EFAE /* FMDatabaseAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD6F0DA013F987D10055EFAE /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = DD6F0D9A13F987D10055EFAE /* FMResultSet.h */; };
-		DD6F0DA113F987D10055EFAE /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D9B13F987D10055EFAE /* FMResultSet.m */; };
+		DD6F0DA113F987D10055EFAE /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6F0D9B13F987D10055EFAE /* FMResultSet.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDBBD27D130137040057503D /* schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = C88FB7D7067446EC006EBB30 /* schema.xml */; };
 /* End PBXBuildFile section */
 
@@ -257,8 +257,10 @@
 		70138C850896BE9A00968C2F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Library/Spotlight;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
@@ -270,7 +272,9 @@
 		70138C860896BE9A00968C2F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Library/Spotlight;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
@@ -282,7 +286,7 @@
 		70138C890896BE9A00968C2F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -296,7 +300,7 @@
 		70138C8A0896BE9A00968C2F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

@@ -5,3 +5,4 @@
 /test/fixtures/files
 npm-debug.log
 VERSION
+platforms/osx/Externals/Sparkle/source

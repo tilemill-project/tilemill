@@ -16,10 +16,10 @@
 
 @interface TileMillAppDelegate ()
 
-@property (nonatomic, retain) TileMillChildProcess *searchTask;
-@property (nonatomic, retain) TileMillBrowserWindowController *browserController;
-@property (nonatomic, retain) TileMillSparklePrefsWindowController *sparklePrefsController;
-@property (nonatomic, retain) NSString *logPath;
+@property (nonatomic, strong) TileMillChildProcess *searchTask;
+@property (nonatomic, strong) TileMillBrowserWindowController *browserController;
+@property (nonatomic, strong) TileMillSparklePrefsWindowController *sparklePrefsController;
+@property (nonatomic, strong) NSString *logPath;
 
 - (void)startTileMill;
 - (void)writeToLog:(NSString *)message;
@@ -35,16 +35,6 @@
 @synthesize browserController;
 @synthesize sparklePrefsController;
 @synthesize logPath;
-
-- (void)dealloc
-{
-    [searchTask release];
-    [browserController release];
-    [sparklePrefsController release];
-    [logPath release];
-
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark NSApplicationDelegate
@@ -229,7 +219,7 @@
 - (IBAction)showBrowserWindow:(id)sender
 {
     if ( ! self.browserController)
-        self.browserController = [[[TileMillBrowserWindowController alloc] initWithWindowNibName:@"TileMillBrowserWindow"] autorelease];
+        self.browserController = [[TileMillBrowserWindowController alloc] initWithWindowNibName:@"TileMillBrowserWindow"];
     
     [self.browserController showWindow:self];
 }
@@ -253,16 +243,20 @@
 
 - (void)presentFatalError
 {
+    NSString *fatal_msg = [NSString stringWithFormat:@"TileMill experienced a fatal error while trying to start. Please check the logs for details:\n\n\t%@\n\nIf this problem persists, please contact support.", self.logPath];
+
     NSAlert *alert = [NSAlert alertWithMessageText:@"There was a problem trying to start the server process"
                                      defaultButton:@"Quit TileMill"
                                    alternateButton:@"Contact Support & Quit"
                                        otherButton:nil
-                         informativeTextWithFormat:@"TileMill experienced a fatal error while trying to start the server process. Please restart the application. If this persists, please contact support."];
+                         informativeTextWithFormat:fatal_msg];
     
     NSInteger status = [alert runModal];
     
     if (status == NSAlertAlternateReturn)
+    {
         [self openDiscussions:self];
+    }
     
     [[NSApplication sharedApplication] terminate:self];
 }
@@ -300,7 +294,7 @@
 - (IBAction)openSparklePreferences:(id)sender
 {
     if ( ! self.sparklePrefsController)
-        self.sparklePrefsController = [[[TileMillSparklePrefsWindowController alloc] initWithWindowNibName:@"TileMillSparklePrefsWindow"] autorelease];
+        self.sparklePrefsController = [[TileMillSparklePrefsWindowController alloc] initWithWindowNibName:@"TileMillSparklePrefsWindow"];
 
     [self.sparklePrefsController showWindow:self];
 }
@@ -330,6 +324,12 @@
     
     if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
         [self presentFatalError];
+}
+
+- (void)childProcess:(TileMillChildProcess *)process didCrash:(NSString *)output
+{
+    [self writeToLog:output];
+    [self presentFatalError];
 }
 
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;

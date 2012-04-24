@@ -33,6 +33,10 @@ models.Project.prototype.sync = function(method, model, success, error) {
         break;
     case 'create':
     case 'update':
+        if (method == 'update') {
+            // clear mapnik's global cache of markers and shapefiles
+            mapnik.clearCache();
+        }
         saveProject(model, function(err, model) {
             return err ? error(err) : success(model);
         });
@@ -161,7 +165,7 @@ function loadProject(model, callback) {
         });
     },
     function(err, file) {
-        if (err) return callback(new Error.HTTP('Project does not exist', 404));
+        if (err) return callback(new Error.HTTP('Project does not exist: "' + path.join(modelPath, 'project.mml') + '"', 404));
         try {
             object = _(object).extend(JSON.parse(file.data));
         } catch(err) {
@@ -397,10 +401,15 @@ function compileStylesheet(mml, callback) {
     // Hard clone the model JSON to avoid any alterations to it.
     // @TODO: is this necessary?
     var data = JSON.parse(JSON.stringify(mml));
-    new carto.Renderer(env).render(data, function(err, output) {
-        if (err) callback(err);
-        else callback(null, output);
-    });
+    // try/catch here as per https://github.com/mapbox/tilemill/issues/1370
+    try {
+        new carto.Renderer(env).render(data, function(err, output) {
+            if (err) callback(err);
+            else callback(null, output);
+        });
+    } catch (err) {
+        callback(err);
+    }
 }
 
 var localizedCache = {};

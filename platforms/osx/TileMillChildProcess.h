@@ -15,6 +15,7 @@
 - (void)childProcessDidStart:(TileMillChildProcess *)process;
 - (void)childProcessDidSendFirstData:(TileMillChildProcess *)process;
 - (void)childProcess:(TileMillChildProcess *)process didSendOutput:(NSString *)output;
+- (void)childProcess:(TileMillChildProcess *)process didCrash:(NSString *)output;
 - (void)childProcessDidFinish:(TileMillChildProcess *)process;
 
 @end
@@ -22,16 +23,8 @@
 #pragma mark -
 
 @interface TileMillChildProcess : NSObject
-{
-    id <TileMillChildProcessDelegate>delegate;
-    NSTask *task;
-    NSString *basePath;
-    NSString *command;
-    BOOL launched;
-    NSInteger port;
-}
 
-@property (nonatomic, assign) id <TileMillChildProcessDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id <TileMillChildProcessDelegate> delegate;
 @property (nonatomic, readonly, assign, getter=isLaunched) BOOL launched;
 @property (nonatomic, assign) NSInteger port;
 

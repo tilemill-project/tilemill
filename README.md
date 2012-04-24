@@ -8,9 +8,9 @@ on the [TileMill website](http://mapbox.com/tilemill).
 
 # Running tests
 
-Install expresso and run the tests
+Install mocha and run the tests
 
-    npm install expresso
+    npm install mocha
     npm test
 
 

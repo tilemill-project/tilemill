@@ -32,15 +32,17 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
         try {
             mml.Layer[0].Datasource = _(mml.Layer[0].Datasource).defaults(options);
 
-            // Some mapnik datasource accept 'row_limit` (like postgis, shape)
+            // Some mapnik datasources accept 'row_limit` (like postgis, shape)
             // those that do not will be restricted during the featureset loop below
             var row_limit = 500;
-            //mml.Layer[0].Datasource = _(mml.Layer[0].Datasource).defaults({row_limit:row_limit});
-            //console.log(mml.Layer[0].Datasource);
+            mml.Layer[0].Datasource = _(mml.Layer[0].Datasource).defaults({
+                row_limit: row_limit,
+                autodetect_key_field: true
+                });
             var source = new mapnik.Datasource(mml.Layer[0].Datasource);
 
             var features = [];
-            if (options.features || options.info) {
+            if (!(source.type == "raster") && (options.features || options.info)) {
                 var featureset = source.featureset();
                 for (var i = 0, feat;
                     i < row_limit && (feat = featureset.next(true));

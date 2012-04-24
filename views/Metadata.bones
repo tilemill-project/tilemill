@@ -60,7 +60,12 @@ view.prototype.close = function() {
 };
 
 view.prototype.render = function() {
-    $(this.el).html(templates.Metadata(this));
+    if (this.model.get('format') !== 'sync' ||
+        (this.config.get('syncAccount') && this.config.get('syncAccessToken'))) {
+        $(this.el).html(templates.Metadata(this));
+    } else {
+        $(this.el).html(templates.MetadataSignup(this));
+    }
 
     this.model.set({zooms:[
         this.project.get('minzoom'),
