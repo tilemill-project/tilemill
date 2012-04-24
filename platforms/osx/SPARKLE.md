@@ -35,23 +35,27 @@ To issue a dev channel update:
  1. On your local copy of the repo, `git reset --hard 1b9a2ab`.
  1. From `platforms/osx` issue a `make sparkle`. It will confirm that you want to push a
  Sparkle update for `TileMill-0.9.0.141`, then pull down the appropriate download. This
- ensures that you don't have to go through the somewhat-lengthy release build process
- locally.
+ ensures that you don't have to go through the somewhat-lengthy and error-prone release
+ build process locally.
  1. The command will output something like:
  
-    --(~/src/tilemill/platforms/osx)--($ make sparkle
+     --(~/src/tilemill/platforms/osx)--($ make sparkle
+     
+     Updating Sparkle for TileMill-0.9.0.141. Proceed? y
+     
+     Downloading http://cloud.github.com/downloads/mapbox/tilemill/TileMill-0.9.0.141.zip... done.
+     Zip size is 82793436 bytes.
+     Generating DSA signature... done.
+     
+     Add the following to the CHANGELOG (_posts/0100-01-01-CHANGELOG.md)
+         date: 2012-04-24
+         size: 82793436
+         sign: MC4CFQDzIVUGGWA9LguQtoA0N1QrKSMuBQIVAKa8mlfzFAotbt6wInGGIs4pPe0G
  
-    Updating Sparkle for TileMill-0.9.0.141. Proceed? y
- 
-    Downloading http://cloud.github.com/downloads/mapbox/tilemill/TileMill-0.9.0.141.zip... done.
-    Zip size is 82793436 bytes.
-    Generating DSA signature... done.
- 
-    Add the following to the CHANGELOG (_posts/0100-01-01-CHANGELOG.md)
-        date: 2012-04-24
-        size: 82793436
-        sign: MC4CFQDzIVUGGWA9LguQtoA0N1QrKSMuBQIVAKa8mlfzFAotbt6wInGGIs4pPe0G
+ 1. **IMPORTANT:** Be sure to add a `dev: true` line to the same entry so that the dev
+ channel is triggered. If you don't do this, it will go out as a stable release to all
+ OS X users of TileMill.
  1. Modify `../../CHANGELOG.md` manually and commit & push the changes, updating the 
- Sparkle RSS feed, notifying beta testers.
+ Sparkle RSS feed and notifying beta testers.
 
 [1]: http://sparkle.andymatuschak.org/
