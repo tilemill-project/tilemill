@@ -52,10 +52,10 @@ To issue a dev channel update:
        size: 82793436
        sign: MC4CFQDzIVUGGWA9LguQtoA0N1QrKSMuBQIVAKa8mlfzFAotbt6wInGGIs4pPe0G
    ```
+ 1. Modify `../../CHANGELOG.md` manually and commit & push the changes, updating the 
+ Sparkle RSS feed and notifying beta testers.
  1. **IMPORTANT:** Be sure to add a `dev: true` line to the same entry so that the dev
  channel is triggered. If you don't do this, it will go out as a stable release to all
  OS X users of TileMill.
- 1. Modify `../../CHANGELOG.md` manually and commit & push the changes, updating the 
- Sparkle RSS feed and notifying beta testers.
 
 [1]: http://sparkle.andymatuschak.org/
