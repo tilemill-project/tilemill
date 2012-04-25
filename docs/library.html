@@ -1,0 +1,332 @@
+<!DOCTYPE html>  <html> <head>   <title>library.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.js               </a>                                           <a class="source" href="export.html">                 export.js               </a>                                           <a class="source" href="library.html">                 library.js               </a>                                           <a class="source" href="parsemss.html">                 parsemss.js               </a>                                           <a class="source" href="project-layer.html">                 project-layer.js               </a>                                           <a class="source" href="project-map.html">                 project-map.js               </a>                                           <a class="source" href="project-reference.html">                 project-reference.js               </a>                                           <a class="source" href="project-stylesheet.html">                 project-stylesheet.js               </a>                                           <a class="source" href="project-tools.html">                 project-tools.js               </a>                                           <a class="source" href="project.html">                 project.js               </a>                                           <a class="source" href="utils.html">                 utils.js               </a>                                           <a class="source" href="api.html">                 api.js               </a>                                           <a class="source" href="backbone-dirty.html">                 backbone-dirty.js               </a>                                           <a class="source" href="bootstrap.html">                 bootstrap.js               </a>                                           <a class="source" href="export-worker.html">                 export-worker.js               </a>                                           <a class="source" href="export.html">                 export.js               </a>                                           <a class="source" href="library-directory.html">                 library-directory.js               </a>                                           <a class="source" href="library-s3.html">                 library-s3.js               </a>                                           <a class="source" href="models-server.html">                 models-server.js               </a>                                           <a class="source" href="tiles.html">                 tiles.js               </a>                                           <a class="source" href="models.html">                 models.js               </a>                                           <a class="source" href="tilemill.html">                 tilemill.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               library.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h2>LibraryListView</h2>
+
+<p>Page view. Wrapper around library list views that allows switching between
+various library views through a sidebar menu.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">LibraryListView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;LibraryListView&#39;</span><span class="p">,</span>
+    <span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;click .header a.settings&#39;</span><span class="o">:</span> <span class="s1">&#39;settings&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;click a.add&#39;</span><span class="o">:</span> <span class="s1">&#39;add&#39;</span>
+    <span class="p">},</span>
+    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;render&#39;</span><span class="p">,</span> <span class="s1">&#39;settings&#39;</span><span class="p">,</span> <span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="s1">&#39;loading&#39;</span><span class="p">,</span> <span class="s1">&#39;done&#39;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;remove&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Show the specified active Library or fallback to projects.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">active</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">active</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">active</span><span class="p">).</span><span class="nx">view</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">active</span> <span class="o">===</span> <span class="s1">&#39;exports&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">projects</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;ul.libraries&#39;</span><span class="p">).</span><span class="nx">size</span><span class="p">())</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">ich</span><span class="p">.</span><span class="nx">LibraryListView</span><span class="p">());</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">projects</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LibraryRowView</span><span class="p">({</span>
+                <span class="nx">model</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Library</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Projects&#39;</span><span class="p">,</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;projects&#39;</span> <span class="p">}),</span>
+                <span class="nx">list</span><span class="o">:</span> <span class="k">this</span><span class="p">,</span>
+                <span class="nx">fixed</span><span class="o">:</span> <span class="kc">true</span>
+            <span class="p">});</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LibraryRowView</span><span class="p">({</span>
+                <span class="nx">model</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Library</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Exports&#39;</span><span class="p">,</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;exports&#39;</span> <span class="p">}),</span>
+                <span class="nx">list</span><span class="o">:</span> <span class="k">this</span><span class="p">,</span>
+                <span class="nx">fixed</span><span class="o">:</span> <span class="kc">true</span>
+            <span class="p">});</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;ul.fixed&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">projects</span><span class="p">.</span><span class="nx">el</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;ul.fixed&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">el</span><span class="p">);</span>
+        <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Add a row view for each Library.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">pointer</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">Library</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">Library</span><span class="p">.</span><span class="nx">view</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">Library</span><span class="p">.</span><span class="nx">view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LibraryRowView</span><span class="p">({</span>
+                    <span class="nx">model</span><span class="o">:</span> <span class="nx">Library</span><span class="p">,</span>
+                    <span class="nx">list</span><span class="o">:</span> <span class="nx">that</span>
+                <span class="p">});</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">pointer</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">that</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;ul.libraries&#39;</span><span class="p">).</span><span class="nx">prepend</span><span class="p">(</span><span class="nx">Library</span><span class="p">.</span><span class="nx">view</span><span class="p">.</span><span class="nx">el</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="k">else</span> <span class="p">{</span>
+                    <span class="nx">$</span><span class="p">(</span><span class="nx">pointer</span><span class="p">).</span><span class="nx">after</span><span class="p">(</span><span class="nx">Library</span><span class="p">.</span><span class="nx">view</span><span class="p">.</span><span class="nx">el</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="nx">pointer</span> <span class="o">=</span> <span class="nx">Library</span><span class="p">.</span><span class="nx">view</span><span class="p">.</span><span class="nx">el</span><span class="p">;</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">settings</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">new</span> <span class="nx">SettingsPopupView</span><span class="p">({</span> <span class="nx">model</span><span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">settings</span> <span class="p">});</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">add</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">new</span> <span class="nx">LibraryPopupView</span><span class="p">({</span>
+            <span class="nx">model</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Library</span><span class="p">(),</span>
+            <span class="nx">collection</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">,</span>
+            <span class="nx">add</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">loading</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LoadingView</span><span class="p">({</span><span class="nx">message</span><span class="o">:</span> <span class="nx">message</span><span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.main&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">.</span><span class="nx">el</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="nx">done</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+        <span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h2>LibraryListPopupView</h2>
+
+<p>Popup view for browsing libraries with the intention of adding an asset to
+the input form field specified by <code>options.target</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">LibraryListPopupView</span> <span class="o">=</span> <span class="nx">PopupView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;LibraryListPopupView&#39;</span><span class="p">,</span>
+    <span class="nx">events</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+        <span class="s1">&#39;click a.asset&#39;</span><span class="o">:</span> <span class="s1">&#39;select&#39;</span><span class="p">,</span>
+    <span class="p">},</span> <span class="nx">PopupView</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">events</span><span class="p">),</span>
+    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;select&#39;</span><span class="p">,</span> <span class="s1">&#39;loading&#39;</span><span class="p">,</span> <span class="s1">&#39;done&#39;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="s1">&#39;Libraries&#39;</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="s1">&#39;big&#39;</span><span class="p">;</span>
+        <span class="nx">PopupView</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Show the first Library.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">at</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">view</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">PopupView</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">render</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.popup-content&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">ich</span><span class="p">.</span><span class="nx">LibraryListPopupView</span><span class="p">());</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Add a row view for each Library.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">Library</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">Library</span><span class="p">.</span><span class="nx">view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LibraryRowView</span><span class="p">({</span>
+                <span class="nx">model</span><span class="o">:</span> <span class="nx">Library</span><span class="p">,</span>
+                <span class="nx">list</span><span class="o">:</span> <span class="nx">that</span>
+            <span class="p">});</span>
+            <span class="nx">that</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;ul.libraries&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">Library</span><span class="p">.</span><span class="nx">view</span><span class="p">.</span><span class="nx">el</span><span class="p">);</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">select</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">val</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">));</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">loading</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LoadingView</span><span class="p">({</span><span class="nx">message</span><span class="o">:</span> <span class="nx">message</span><span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.main&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">.</span><span class="nx">el</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="nx">done</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+        <span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h2>LibraryRowView</h2>
+
+<p>An individual library menu item in LibraryListView or LibraryPopupView.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">LibraryRowView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">tagName</span><span class="o">:</span> <span class="s1">&#39;li&#39;</span><span class="p">,</span>
+    <span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;click a.title&#39;</span><span class="o">:</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;click a.delete&#39;</span><span class="o">:</span> <span class="s1">&#39;del&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;click a.edit&#39;</span><span class="o">:</span> <span class="s1">&#39;edit&#39;</span>
+    <span class="p">},</span>
+    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;render&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> <span class="s1">&#39;del&#39;</span><span class="p">,</span> <span class="s1">&#39;edit&#39;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;change&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">list</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">list</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+
+    <span class="p">},</span>
+    <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">ich</span><span class="p">.</span><span class="nx">LibraryRowView</span><span class="p">({</span>
+            <span class="nx">name</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="nx">fixed</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">fixed</span><span class="p">,</span>
+            <span class="nx">type</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span>
+        <span class="p">}));</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">show</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
+            <span class="nx">path</span><span class="p">,</span>
+            <span class="nx">List</span><span class="p">,</span>
+            <span class="nx">ListView</span><span class="p">;</span>
+
+        <span class="nx">that</span><span class="p">.</span><span class="nx">list</span><span class="p">.</span><span class="nx">loading</span><span class="p">(</span><span class="s1">&#39;Loading assets&#39;</span><span class="p">);</span>
+        <span class="nx">that</span><span class="p">.</span><span class="nx">list</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;ul.menu a.active&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">);</span>
+        <span class="nx">that</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;projects&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">path</span> <span class="o">=</span> <span class="s1">&#39;projects&#39;</span><span class="p">;</span>
+            <span class="nx">List</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ProjectList</span><span class="p">();</span>
+            <span class="nx">ListView</span> <span class="o">=</span> <span class="nx">ProjectListView</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;exports&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">path</span> <span class="o">=</span> <span class="s1">&#39;exports&#39;</span><span class="p">;</span>
+            <span class="nx">List</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExportList</span><span class="p">();</span>
+            <span class="nx">ListView</span> <span class="o">=</span> <span class="nx">ExportListView</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">path</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+            <span class="nx">List</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">assets</span><span class="p">;</span>
+            <span class="nx">ListView</span> <span class="o">=</span> <span class="nx">AssetListView</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="nx">List</span><span class="p">.</span><span class="nx">fetch</span><span class="p">({</span>
+            <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">collection</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ListView</span><span class="p">({</span>
+                    <span class="nx">model</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">model</span><span class="p">,</span>
+                    <span class="nx">collection</span><span class="o">:</span> <span class="nx">collection</span>
+                <span class="p">});</span>
+                <span class="nx">that</span><span class="p">.</span><span class="nx">list</span><span class="p">.</span><span class="nx">done</span><span class="p">();</span>
+                <span class="nx">that</span><span class="p">.</span><span class="nx">list</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.main&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">view</span><span class="p">.</span><span class="nx">el</span><span class="p">);</span>
+                <span class="nb">window</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">controller</span><span class="p">.</span><span class="nx">saveLocation</span><span class="p">(</span><span class="s1">&#39;library/&#39;</span> <span class="o">+</span> <span class="nx">path</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">del</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">confirm</span><span class="p">(</span><span class="s1">&#39;Are you sure you want to delete this Library?&#39;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">destroy</span><span class="p">();</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">edit</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">new</span> <span class="nx">LibraryPopupView</span><span class="p">({</span>
+            <span class="nx">model</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">,</span>
+            <span class="nx">collection</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">list</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <h2>LibraryPopupView</h2>
+
+<p>Popup form for adding or editing a Library model.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">LibraryPopupView</span> <span class="o">=</span> <span class="nx">PopupView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">events</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+        <span class="s1">&#39;change select#type&#39;</span><span class="o">:</span> <span class="s1">&#39;dependent&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;submit form&#39;</span><span class="o">:</span> <span class="s1">&#39;submit&#39;</span>
+    <span class="p">},</span> <span class="nx">PopupView</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">events</span><span class="p">),</span>
+    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;dependent&#39;</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+            <span class="nx">type_local</span><span class="o">:</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;local&#39;</span><span class="p">),</span>
+            <span class="nx">type_s3</span><span class="o">:</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;s3&#39;</span><span class="p">),</span>
+        <span class="p">},</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">attributes</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">add</span> <span class="o">?</span> <span class="s1">&#39;Add Library&#39;</span> <span class="o">:</span> <span class="s1">&#39;Edit Library&#39;</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">content</span> <span class="o">=</span> <span class="nx">ich</span><span class="p">.</span><span class="nx">LibraryPopupView</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="nx">PopupView</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">PopupView</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">render</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">dependent</span><span class="p">();</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">dependent</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.dependent&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;field&#39;</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="nx">target</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span> <span class="o">===</span> <span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">submit</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input.text:visible, select:visible&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+            <span class="nx">data</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+        <span class="p">});</span>
+        <span class="kd">var</span> <span class="nx">success</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="p">{</span> <span class="s1">&#39;error&#39;</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">showError</span> <span class="p">});</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">add</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <h2>AssetListView</h2>
+
+<p>List of assets for a library. Displays assets with a simple next/prev pager
+for larger collections.</p>
+
+<ul>
+<li><code>options.collection</code> is an AssetList</li>
+<li><code>options.model</code> is the Provider to which the AssetList belongs</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">AssetListView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;AssetListView&#39;</span><span class="p">,</span>
+    <span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;click a.next&#39;</span><span class="o">:</span> <span class="s1">&#39;next&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;click a.prev&#39;</span><span class="o">:</span> <span class="s1">&#39;prev&#39;</span>
+    <span class="p">},</span>
+    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;render&#39;</span><span class="p">,</span> <span class="s1">&#39;prev&#39;</span><span class="p">,</span> <span class="s1">&#39;next&#39;</span><span class="p">,</span> <span class="s1">&#39;loading&#39;</span><span class="p">,</span> <span class="s1">&#39;done&#39;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">ich</span><span class="p">.</span><span class="nx">AssetListView</span><span class="p">({</span>
+            <span class="nx">name</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="nx">hasNext</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">(),</span>
+            <span class="nx">hasPrev</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">hasPrev</span><span class="p">()</span>
+        <span class="p">}));</span>
+
+        <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">assetRow</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AssetRowView</span><span class="p">({</span>
+                    <span class="nx">model</span><span class="o">:</span> <span class="nx">model</span><span class="p">,</span>
+                    <span class="nx">target</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">target</span>
+                <span class="p">});</span>
+                <span class="nx">that</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;ul.assets&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">assetRow</span><span class="p">.</span><span class="nx">el</span><span class="p">);</span>
+            <span class="p">});</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">that</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;ul.assets&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;&lt;li class=&quot;empty&quot;&gt;No assets found.&lt;/li&gt;&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">next</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">).</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;.disabled&#39;</span><span class="p">))</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">loading</span><span class="p">(</span><span class="s1">&#39;Loading assets&#39;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">nextPage</span><span class="p">({</span>
+            <span class="nx">success</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">done</span><span class="p">,</span>
+            <span class="nx">error</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">done</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">prev</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">).</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;.disabled&#39;</span><span class="p">))</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">loading</span><span class="p">(</span><span class="s1">&#39;Loading assets&#39;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">prevPage</span><span class="p">({</span>
+            <span class="nx">success</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">done</span><span class="p">,</span>
+            <span class="nx">error</span><span class="o">:</span> <span class="nx">that</span><span class="p">.</span><span class="nx">done</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">loading</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LoadingView</span><span class="p">({</span><span class="nx">message</span><span class="o">:</span> <span class="nx">message</span><span class="p">});</span>
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">.</span><span class="nx">el</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="nx">done</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+        <span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">loadingView</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <h2>AssetRowView</h2>
+
+<p>Single asset in an AssetListView.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">AssetRowView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">tagName</span><span class="o">:</span> <span class="s1">&#39;li&#39;</span><span class="p">,</span>
+    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">bindAll</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s1">&#39;render&#39;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">ich</span><span class="p">.</span><span class="nx">AssetRowView</span><span class="p">({</span>
+            <span class="nx">id</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+            <span class="nx">bytes</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;bytes&#39;</span><span class="p">),</span>
+            <span class="nx">url</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">),</span>
+            <span class="nx">type</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">extension</span><span class="p">()</span>
+        <span class="p">}));</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

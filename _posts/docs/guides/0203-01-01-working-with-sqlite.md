@@ -11,7 +11,8 @@ prereq:
 nextup:
 - "[Using conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
 - "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
-code1: | `( SELECT * from dc_census_tracts JOIN data on dc_census_tracts.geoid10 = data.geoid )`  
+code1: |
+  ( SELECT * from dc_census_tracts JOIN data on dc_census_tracts.geoid10 = data.geoid )
 ---
 {% include prereq.html %}
 

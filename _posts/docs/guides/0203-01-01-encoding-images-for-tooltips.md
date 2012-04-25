@@ -34,7 +34,7 @@ The steps on Ubuntu are very similar to Mac OS X, but first we're going to insta
 
 Except for the different copy utility, the rest of the command is the same:
 
-    openssl -in /path/to/your_file.png enc -base64 | tr -d '\n' | xclip -selection c
+    openssl enc -base64 -in /path/to/your_file.png | tr -d '\n' | xclip -selection c
 
 The base64-encoded image will now be copied to your clipboard. Paste it into the appropriate place in your code and the image should appear in your legend or tooltip.
 

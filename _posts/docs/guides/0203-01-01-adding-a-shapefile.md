@@ -22,7 +22,7 @@ There are a number of resources to obtain shapefile data for the area or issue y
 
 If you need to do additional manipulation or edit your shapefile, you can use free open-source software like [QuantumGIS](http://www.qgis.org/) to work with shapefiles. [LibreOffice](http://www.libreoffice.org/) (or OpenOffice) are also free and allow you to edit the `.dbf` file, or the file with attribute data.  
 
-For practice, we'll add a tectonic plates boundary shapefile downloaded from the [Institute for Geophysics at University of Texas](http://www.ig.utexas.edu/research/projects/plates/data.htm). 
+For practice, we'll add a tectonic plates boundary shapefile downloaded from the [Institute for Geophysics at University of Texas](http://www.ig.utexas.edu/research/projects/plates/data.htm). Here is a [direct link to the zip file](ftp://ftp.ig.utexas.edu/pub/LIPS/Data/plate_boundaries/PLATES_PlateBoundary_ArcGIS.zip).
 
 1. Start TileMill and click on the **Add project** button.  
 ![Add Project](/tilemill/assets/pages/shapefile-1.png)
