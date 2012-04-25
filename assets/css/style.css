@@ -1224,6 +1224,7 @@ ul.form li label {
 ul.form .buttons { text-align:center; }
 
 .button.large,
+ul.form .buttons .button,
 ul.form .buttons input {
   display:inline-block;
   padding-top:4px;

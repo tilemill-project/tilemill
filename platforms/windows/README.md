@@ -13,15 +13,8 @@ on windows. It is not meant to be complete or for general use.
 
 ## TODO
 
- * Test NPM within installer
  * Update Mapnik builds notes (proj-trunk, ms 2010)
  * Trim installer by adding more excludes
- * Avoid copying gdal/proj data
- * Test sqlite/postgis
- * Statically link libzip to node-zipfile
- * Avoid need for `vcredist_x86.exe`
- * Upgrade node to 0.6.7
- * Test on Windows Vista
 
 ## Setup
 
@@ -32,7 +25,7 @@ on windows. It is not meant to be complete or for general use.
 2) Compile node v0.6.x.
 
 3) Download from github all node C++ modules required by TileMill. Build
-then by running the `vcbuild.bat` script inside. These include:
+them by running the `vcbuild.bat` script inside. These include:
 
  * node-sqlite (windows branch)
  * node-mapnik (master or latest tag)
@@ -48,30 +41,9 @@ the C++ modules build failures during npm install.
 ```
 git clone https://github.com/mapbox/tilemill.git
 cd tilemill
-git checkout node-v6
-# ideally always using the latest latest npm
-npm install -g npm@alpha
 npm install jshint -g
-
-# we force so that express is installed even though it thinks
-# it will not work with node v0.6 (but it does)
-npm install express@2.4.7 --force
-
-# install a jsdom version that works with node-v0.6 before we install bones
-# we force here to skip past contextify failure
-npm install jsdom@0.2.10 --force --no-rollback
-rd /q /s node_modules\jsdom\node_modules\contextify
-
-# force here as the most can go wrong with bones deps and its nice
-# to see blowout right now rather than during the full install
-npm install bones@1.3.22 --force --no-rollback
-rd /q /s node_modules\bones\node_modules\jsdom
-
-# remainder of install, forcing to avoid c++ module failures
 npm install --force --no-rollback
-
-# cleanup C++ modules folders and jsdom
-rd /q /s node_modules\bones\node_modules\jquery\node_modules\jsdom
+rd /q /s node_modules\bones\node_modules\jquery\node_modules\jsdom\node_modules\contextify
 rd /q /s node_modules\sqlite3
 rd /q /s node_modules\mapnik
 rd /q /s node_modules\millstone\node_modules\srs
@@ -81,10 +53,10 @@ rd /q /s node_modules\tilelive-mapnik\node_modules\eio
 
 5) Localize C++ modules
 
+Run this command:
 
 ```
-cd platforms\windows
-package
+platforms\windows\package
 ```
 
 6) Test running TileMill

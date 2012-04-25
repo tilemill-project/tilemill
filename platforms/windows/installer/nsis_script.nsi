@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "TileMill"
-!define PRODUCT_VERSION "0.9.0"
+!define PRODUCT_VERSION "0.9.1"
 !define PRODUCT_PUBLISHER "MapBox"
 !define PRODUCT_WEB_SITE "http://mapbox.com/tilemill/docs"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -20,7 +20,7 @@ RequestExecutionLevel admin
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "..\tilemill.ico"
+!define MUI_ICON "..\..\..\tilemill.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
@@ -41,7 +41,7 @@ var ICONS_GROUP
 !insertmacro MUI_PAGE_FINISH
 
 ; Uninstaller pages
-!insertmacro MUI_UNPAGE_INSTFILES
+#insertmacro MUI_UNPAGE_INSTFILES
 
 ; Language files
 !insertmacro MUI_LANGUAGE "English"
@@ -49,40 +49,43 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "TileMill-${PRODUCT_VERSION}-Installer.exe"
-InstallDir "$PROGRAMFILES\TileMill"
+OutFile "TileMill-${PRODUCT_VERSION}-Setup.exe"
+InstallDir "$PROGRAMFILES\TileMill-v${PRODUCT_VERSION}"
+
 
 Section "MainSection" SEC01
-  SetOutPath "$INSTDIR"
   SetOverwrite try
+  
+  SetOutPath "$INSTDIR"
+  File ..\..\..\..\TileMill.exe
 
-  ;; Base Installation
+  SetOutPath "$INSTDIR\tilemill"
   File /r /x *Recycle.Bin* /x installer /x demo /x *.git \
       /x *.git* /x Makefil* /x test /x *.vcx* /x *.ipch \
 	  /x ipch /x AppData /x deps /x include /x expresso \
 	  /x osx /x ubuntu /x virtualbox /x *.idx /x *.pack \
 	  /x *.sln /x *.sdf /x *.lib \
 	  ..\..\..\..\tilemill\*.*
-  ExecWait "$INSTDIR\platforms\windows\vcredist_x86.exe /q /norestart"
+  ExecWait "$INSTDIR\tilemill\platforms\windows\vcredist_x86.exe /q /norestart"
 
 SectionEnd
 
 ; Add firewall rule
 Section "Add Windows Firewall Rule"
 	; Add TileMill to the authorized list
-	nsisFirewall::AddAuthorizedApplication "$INSTDIR\node.exe" "Evented I/O for V8 JavaScript"
+	nsisFirewall::AddAuthorizedApplication "$INSTDIR\tilemill\node.exe" "Evented I/O for V8 JavaScript"
 	Pop $0
 	IntCmp $0 0 +3
-		MessageBox MB_OK "A problem happened while adding Node.exe (used by TileMill) to the Firewall exception list (result=$0)"
+		MessageBox MB_OK "Notice: unable to add node.exe (used by TileMill) to the Firewall exception list. This means that you will likely need to allow node.exe access to the firewall upon first run (code=$0)"
 		Return
 SectionEnd
 
 Section -AdditionalIcons
+  SetShellVarContext all
   SetOutPath $INSTDIR
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-  ;WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Start TileMill.lnk" "$INSTDIR\platforms\windows\run-tilemill.bat" "" \
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Start TileMill.lnk" "$INSTDIR\TileMill.exe" "" \
       "$INSTDIR\platforms\windows\tilemill.ico" "" \
 	  SW_SHOWNORMAL \
       ALT|CONTROL|t "TileMill"
@@ -114,14 +117,15 @@ FunctionEnd
 Section Uninstall
    SetShellVarContext all
    ; Remove Node.js from the authorized list
-   nsisFirewall::RemoveAuthorizedApplication "$INSTDIR\node.exe"
+   nsisFirewall::RemoveAuthorizedApplication "$INSTDIR\tilemill\node.exe"
    Pop $0
    IntCmp $0 0 +3
        MessageBox MB_OK "A problem happened while removing Node.exe (used by TileMill) from the Firewall exception list (result=$0)"
        Return
 
   Delete "$INSTDIR\Uninstall-TileMill.exe"
-  RMDir /r "$INSTDIR\*.*"
+  Delete "$INSTDIR\TileMill.exe"
+  RMDir /r "$INSTDIR\tilemill\*.*"
   RMDir "$INSTDIR"
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP

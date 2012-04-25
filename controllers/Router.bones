@@ -34,10 +34,12 @@ controller.prototype.routes = {
     '/project/:id/export': 'projectExport',
     '/project/:id/export/:format': 'projectExport',
     '/project/:id/settings': 'projectSettings',
+    '/oauth/success': 'oauthSuccess',
+    '/oauth/error': 'oauthError',
     '/manual': 'manual',
     '/manual/:page?': 'manual',
     '/settings': 'config',
-    '/plugins': 'plugins'
+    '/plugins': 'plugins',
 };
 
 controller.prototype.goto = function(path) {
@@ -49,13 +51,14 @@ controller.prototype.error = function() {
     new views.Error(new Error('Page not found.'));
 };
 
-controller.prototype.projects = function() {
+controller.prototype.projects = function(next) {
     (new models.Projects()).fetch({
         success: function(collection) {
             new views.Projects({
                 el: $('#page'),
                 collection: collection
             });
+            if (next) next();
         },
         error: function(m, e) { new views.Modal(e); }
     });
@@ -123,6 +126,26 @@ controller.prototype.plugins = function() {
     new views.Plugins({
         el: $('#page'),
         collection: new models.Plugins(_(window.abilities.plugins).toArray())
+    });
+};
+
+controller.prototype.oauthSuccess = function() {
+    this.projects(function() {
+        new views.Modal({
+            content: 'Your MapBox account was authorized successfully.',
+            negative: '',
+            callback: function() {}
+        });
+    });
+};
+
+controller.prototype.oauthError = function() {
+    this.projects(function() {
+        new views.Modal({
+            content: 'An error occurred while authorizing your MapBox account.',
+            negative: '',
+            callback: function() {}
+        });
     });
 };
 

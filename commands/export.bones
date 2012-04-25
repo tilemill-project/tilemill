@@ -3,8 +3,11 @@ var url = require('url');
 var path = require('path');
 var request = require('request');
 var crypto = require('crypto');
+var util = require('util');
 var Step = require('step');
 var http = require('http');
+var chrono = require('chrono');
+var crashutil = require('../lib/crashutil');
 
 command = Bones.Command.extend();
 
@@ -53,6 +56,41 @@ command.options['log'] = {
     'description': 'Write crash logs to destination directory.'
 };
 
+command.options['quiet'] = {
+    'title': 'quiet',
+    'description': 'Suppresses progress output.'
+};
+
+command.options['scheme'] = {
+    'title': 'scheme=[scanline|pyramid|file]',
+    'description': 'Enumeration scheme that defines the order in which tiles will be rendered.',
+    'default': 'scanline'
+};
+
+command.options['job'] = {
+    'title': 'job=[file]',
+    'description': 'Store state in this file. If it exists, that job will be resumed.',
+    'default': false
+};
+
+command.options['list'] = {
+    'title': 'list=[file]',
+    'description': 'Provide a list file for filescheme render.',
+    'default': false
+};
+
+command.options['metatile'] = {
+    'title': 'metatile=[num]',
+    'description': 'Metatile size.',
+    'default': 2
+};
+
+command.options['concurrency'] = {
+    'title': 'concurrency=[num]',
+    'description': 'Number of exports that can be run concurrently.',
+    'default': 4
+};
+
 command.prototype.initialize = function(plugin, callback) {
     _(this).bindAll('error', 'put', 'complete');
 
@@ -61,17 +99,44 @@ command.prototype.initialize = function(plugin, callback) {
         _(opts).extend(JSON.parse(process.env.tilemillConfig));
     opts.files = path.resolve(opts.files);
     opts.project = plugin.argv._[1];
-    opts.filepath = path.resolve(plugin.argv._[2]);
+    var export_filename = plugin.argv._[2];
+    if (!export_filename) return plugin.help();
+    opts.filepath = path.resolve(export_filename.replace(/^~/,process.env.HOME));
     callback = callback || function() {};
     this.opts = opts;
 
-    // Write crash log
-    if (opts.log) {
-        process.on('uncaughtException', function(err) {
-            fs.writeFileSync(opts.filepath + '.crashlog', err.stack || err.toString());
-            process.exit(1);
-        });
-    }
+    // Note: this is reset again below, to reflect any changes in the output name
+    process.title = 'tm-' + path.basename(opts.filepath);
+
+    // Write export-specific crash log
+    process.on('uncaughtException', function(err) {
+        var crash_log = opts.filepath + '.crashlog';
+        if (opts.log) {
+            console.warn('Export process died, log written to: ' + crash_log);
+            fs.writeFileSync(crash_log, err.stack || err.toString());
+        } else {
+            console.warn('Export process died, turn on logging to log report in future runs');
+        }
+        // force exit here because cleanup in tilelive is not working leading to:
+        // Error: SQLITE_IOERR: disk I/O error
+        // https://github.com/mapbox/tilemill/issues/1360
+        process.exit(0);
+    });
+
+    process.on('exit', function(code, signal) {
+        console.warn('Exiting process [' + process.title + ']');
+        if (code != undefined && code !== 0)
+        {
+            crashutil.display_crash_log(function(err,logname) {
+                if (err) {
+                    console.warn(err.stack || err.toString());
+                }
+                if (logname) {
+                    console.warn("[tilemill] Please post this crash log: '" + logname + "' to https://github.com/mapbox/tilemill/issues");
+                }
+            });
+        }
+    });
 
     // Validation.
     if (!opts.project || !opts.filepath) return plugin.help();
@@ -80,8 +145,6 @@ command.prototype.initialize = function(plugin, callback) {
 
     // Format.
     if (!opts.format) opts.format = path.extname(opts.filepath).split('.').pop();
-    if (!_(['pdf', 'svg', 'png', 'mbtiles', 'upload', 'sync']).include(opts.format))
-        return this.error(new Error('Invalid format: ' + opts.format));
 
     // Convert string params into numbers.
     if (!_(opts.bbox).isUndefined())
@@ -94,9 +157,12 @@ command.prototype.initialize = function(plugin, callback) {
         opts.width = parseInt(opts.width, 10);
     if (!_(opts.height).isUndefined())
         opts.height = parseInt(opts.height, 10);
+    if (!_(opts.metatile).isUndefined())
+        opts.metatile = parseInt(opts.metatile, 10);
 
     // Rename the output filepath using a random hash if file already exists.
-    if (path.existsSync(opts.filepath) && !_(['upload','sync']).include(opts.format)) {
+    if (path.existsSync(opts.filepath) &&
+        _(['png','pdf','svg','mbtiles']).include(opts.format)) {
         var hash = crypto.createHash('md5')
             .update(+new Date + '')
             .digest('hex')
@@ -118,15 +184,29 @@ command.prototype.initialize = function(plugin, callback) {
     var cmd = this;
     var model = new models.Project({id:opts.project});
     Step(function() {
+        if (!cmd.opts.quiet) process.stderr.write('Loading project...');
         Bones.utils.fetch({model:model}, this);
     }, function(err) {
-        if (err) throw err;
+        if (err) return cmd.error(err, function() {
+            process.stderr.write(err.stack || err.toString() + '\n');
+            process.exit(1);
+        });
+        if (!cmd.opts.quiet) process.stderr.write(' done.\n');
+        // Set the postgres connection pool size to # of cpus based on
+        // assumption of pool size in tilelive-mapnik.
+        model.get('Layer').each(function(l) {
+            if (l.attributes.Datasource && l.attributes.Datasource.dbname)
+                l.attributes.Datasource.max_size = require('os').cpus().length;
+        });
+        if (!cmd.opts.quiet) process.stderr.write('Localizing project...');
         model.localize(model.toJSON(), this);
     }, function(err) {
         if (err) return cmd.error(err, function() {
+            process.stderr.write(err.stack || err.toString() + '\n');
             process.exit(1);
         });
 
+        if (!cmd.opts.quiet) process.stderr.write(' done.\n');
         model.mml = _(model.mml).extend({
             name: model.mml.name || model.id,
             version: model.mml.version || '1.0.0',
@@ -147,12 +227,30 @@ command.prototype.initialize = function(plugin, callback) {
         })(model.mml.center, model.mml.bounds, model.mml.minzoom, model.mml.maxzoom);
         if (!validCenter) delete model.mml.center;
 
-        cmd[opts.format](model, cmd.complete);
+        switch (opts.format) {
+        case 'png':
+        case 'svg':
+        case 'pdf':
+            cmd.image(model, cmd.complete);
+            break;
+        case 'upload':
+            console.log('uploading new export');
+            cmd.upload(model, cmd.complete);
+            break;
+        case 'sync':
+            console.log('syncing export with existing upload');
+            cmd.sync(model, cmd.complete);
+            break;
+        default:
+            cmd.tilelive(model, cmd.complete);
+            break;
+        }
     });
 };
 
 command.prototype.complete = function(err, data) {
     if (err) {
+        console.warn(err.stack || err.toString() + '\n');
         this.error(err, function() {
             process.exit(1);
         });
@@ -183,14 +281,13 @@ command.prototype.remaining = function(progress, started) {
 
 command.prototype.put = function(data, callback) {
     callback = callback || function() {};
-    data.status == 'error' ?
-        console.error(JSON.stringify(data)) :
-        console.log(JSON.stringify(data));
 
     // Allow commands to filter.
     if (this.putFilter) data = this.putFilter(data);
 
-    if (!this.opts.url) return callback();
+    if (!this.opts.url) {
+        return callback();
+    }
     request.put({
         uri: this.opts.url,
         headers: {
@@ -201,9 +298,46 @@ command.prototype.put = function(data, callback) {
     }, callback);
 };
 
-command.prototype.png =
-command.prototype.svg =
-command.prototype.pdf = function(project, callback) {
+
+function formatDuration(duration) {
+    duration = duration / 1000 | 0;
+    var seconds = duration % 60;
+    duration -= seconds;
+    var minutes = (duration % 3600) / 60;
+    duration -= minutes * 60;
+    var hours = (duration % 86400) / 3600;
+    duration -= hours * 3600;
+    var days = duration / 86400;
+
+    return (days > 0 ? days + 'd ' : '') +
+           (hours > 0 || days > 0 ? hours + 'h ' : '') +
+           (minutes > 0 || hours > 0 || days > 0 ? minutes + 'm ' : '') +
+           seconds + 's';
+}
+
+function formatNumber(num) {
+    num = num || 0;
+    if (num >= 1e6) {
+        return (num / 1e6).toFixed(2) + 'm';
+    } else if (num >= 1e3) {
+        return (num / 1e3).toFixed(1) + 'k';
+    } else {
+        return num.toFixed(0);
+    }
+    return num.join('.');
+}
+
+function formatString(string) {
+    var args = arguments;
+    var pos = 1;
+    return string.replace(/%(.)/g, function(_, chr) {
+        if (chr === 's') return args[pos++];
+        if (chr === 'd') return Number(args[pos++]);
+        return chr;
+    });
+}
+
+command.prototype.image = function(project, callback) {
     var mapnik = require('mapnik');
     var sm = new (require('sphericalmercator'))();
     var map = new mapnik.Map(this.opts.width, this.opts.height);
@@ -222,111 +356,155 @@ command.prototype.pdf = function(project, callback) {
     }
 };
 
-command.prototype.mbtiles = function (project, callback) {
+command.prototype.tilelive = function (project, callback) {
     var cmd = this;
     var tilelive = require('tilelive');
-    require('mbtiles').registerProtocols(tilelive);
+
+    // Attempt to support additional tilelive protocols.
+    try { require('tilelive-' + this.opts.format).registerProtocols(tilelive); }
+    catch(err) {}
+    try { require(this.opts.format).registerProtocols(tilelive); }
+    catch(err) {}
+
     require('tilelive-mapnik').registerProtocols(tilelive);
 
-    var uri = {
-        protocol: 'mapnik:',
-        slashes: true,
-        xml: project.xml,
-        mml: project.mml,
-        pathname: path.join(this.opts.files, 'project', project.id, project.id + '.xml'),
-        query: { bufferSize: this.opts.bufferSize }
-    };
-    var source;
-    var sink;
+    var opts = this.opts;
 
-    Step(function() {
-        tilelive.load(uri, this);
-    }, function(err, s) {
-        if (err) throw err;
-        source = s;
-        var uri = {protocol:'mbtiles:',pathname:cmd.opts.filepath};
-        tilelive.load(uri, this);
-    }, function(err, s) {
-        if (err) throw err;
-        sink = s;
-        sink.startWriting(this);
-    }, function(err) {
-        if (err) throw err;
-        sink.putInfo(project.mml, this);
-    }, function(err) {
-        if (err) return cmd.error(err, function() {
-            process.exit(1);
-        });
+    // Try to load a job file if one was given and it exists.
+    if (opts.job) {
+        opts.job = path.resolve(opts.job);
+        try {
+            var job = fs.readFileSync(opts.job, 'utf8');
+        } catch(err) {
+            if (err.code !== 'EBADF') throw err;
+        }
+    } else {
+        // Generate a job file based on the output filename.
+        var slug = path.basename(opts.filepath, path.extname(opts.filepath));
+        opts.job = path.join(path.dirname(opts.filepath), slug + '.export');
+    }
 
-        var copy = tilelive.copy({
-            source: source,
-            sink: sink,
+    if (job) {
+        job = JSON.parse(job);
+        if (!cmd.opts.quiet) console.warn('Continuing job ' + opts.job);
+        var scheme = tilelive.Scheme.unserialize(job.scheme);
+        var task = new tilelive.CopyTask(job.from, job.to, scheme, opts.job);
+    } else {
+        if (!cmd.opts.quiet) console.warn('Creating new job ' + opts.job);
+
+        var from = {
+            protocol: 'mapnik:',
+            slashes: true,
+            xml: project.xml,
+            mml: project.mml,
+            pathname: path.join(opts.files, 'project', project.id, project.id + '.xml'),
+            query: { bufferSize: opts.bufferSize, metatile: opts.metatile }
+        };
+
+        var to = {
+            protocol: opts.format + ':',
+            pathname: opts.filepath,
+            query: { batch: 100 }
+        };
+
+        var scheme = tilelive.Scheme.create(opts.scheme, {
+            list: opts.list,
             bbox: project.mml.bounds,
-            minZoom: project.mml.minzoom,
-            maxZoom: project.mml.maxzoom,
-            concurrency: 100,
-            tiles: true,
-            grids: !!project.mml.interactivity
+            minzoom: project.mml.minzoom,
+            maxzoom: project.mml.maxzoom,
+            metatile: opts.metatile,
+            concurrency: Math.floor(
+                Math.pow(cmd.opts.metatile, 2) *    // # of tiles in each metatile
+                require('os').cpus().length *       // expect one metatile to occupy each core
+                4 / cmd.opts.concurrency            // overcommit x4 throttle by export concurrency
+            )
+        });
+        var task = new tilelive.CopyTask(from, to, scheme, opts.job);
+    }
+
+
+    var errorfile = path.join(path.dirname(opts.job), path.basename(opts.job) + '-failed');
+    if (!cmd.opts.quiet) console.warn('Writing errors to ' + errorfile);
+
+    fs.open(errorfile, 'a', function(err, fd) {
+        if (err) throw err;
+
+        task.on('error', function(err, tile) {
+            console.warn('\r\033[K' + tile.toString() + ': ' + err.message);
+            fs.write(fd, JSON.stringify(tile) + '\n');
+            report(task.stats.snapshot());
         });
 
-        var done = false;
-        var timeout = setInterval(function progress() {
-            var progress = (copy.copied + copy.failed) / copy.total;
-            cmd.put({
-                status: progress < 1 ? 'processing' : 'complete',
-                progress: progress,
-                remaining: cmd.remaining(progress, copy.started),
-                updated: +new Date(),
-            });
-        }, 5000);
+        task.on('progress', report);
 
-        copy.on('warning', function(err) {
-            console.log(err);
-        });
-        copy.on('finished', function() {
-            clearInterval(timeout);
+        task.on('finished', function() {
+            if (!cmd.opts.quiet) console.warn('\nfinished');
             callback();
         });
-        copy.on('error', function(err) {
-            clearInterval(timeout);
-            callback(err);
+
+        task.start(function(err) {
+            if (err) throw err;
+            task.sink.putInfo(project.mml, function(err) {
+                if (err) throw err;
+            });
         });
     });
+
+    function report(stats) {
+        var progress = stats.processed / stats.total;
+        var remaining = cmd.remaining(progress, task.started);
+        cmd.put({
+            status: progress < 1 ? 'processing' : 'complete',
+            progress: progress,
+            remaining: remaining,
+            updated: +new Date(),
+            rate: stats.speed
+        });
+
+        if (!cmd.opts.quiet) {
+            util.print(formatString('\r\033[K[%s] %s%% %s/%s @ %s/s | %s left | ✓ %s ■ %s □ %s fail %s',
+                formatDuration(stats.date - task.started),
+                ((progress || 0) * 100).toFixed(4),
+                formatNumber(stats.processed),
+                formatNumber(stats.total),
+                formatNumber(stats.speed),
+                formatDuration(remaining),
+                formatNumber(stats.unique),
+                formatNumber(stats.duplicate),
+                formatNumber(stats.skipped),
+                formatNumber(stats.failed)
+            ));
+        }
+    }
 };
 
 command.prototype.upload = function (callback) {
+    if (!this.opts.syncAccount || !this.opts.syncAccessToken)
+        return callback(new Error('MapBox Hosting account must be authorized.'));
+
     var cmd = this;
     var key;
     var bucket;
-    var mapURL = '';
-    var freeURL = '';
-    var modelURL = '';
+    var mapURL = _('<%=base%>/<%=account%>/map/<%=handle%>')
+        .template({
+            base: this.opts.syncURL,
+            account: this.opts.syncAccount,
+            handle: this.opts.project
+        });
+    var modelURL = _('<%=base%>/api/Map/<%=account%>.<%=handle%>?access_token=<%=token%>')
+        .template({
+            base: this.opts.syncURL,
+            account: this.opts.syncAccount,
+            handle: this.opts.project,
+            token: this.opts.syncAccessToken
+        });
     var hash = crypto.createHash('md5')
         .update(+new Date + '')
         .digest('hex')
         .substring(0, 6);
-    var policyEndpoint = url.format({
-        protocol: 'http:',
-        host: this.opts.mapboxHost || 'api.tiles.mapbox.com',
-        pathname: '/v2/'+ hash + '/upload.json'
-    });
-
-    // Set URLs for account uploads.
-    if (this.opts.syncAccount && this.opts.syncAccessToken) {
-        mapURL = _('<%=base%>/<%=account%>/map/<%=handle%>')
-            .template({
-                base: this.opts.syncURL,
-                account: this.opts.syncAccount,
-                handle: this.opts.project
-            });
-        modelURL = _('<%=base%>/api/Map/<%=account%>.<%=handle%>?access_token=<%=token%>')
-            .template({
-                base: this.opts.syncURL,
-                account: this.opts.syncAccount,
-                handle: this.opts.project,
-                token: this.opts.syncAccessToken
-            });
-    }
+    var policyEndpoint = url.format(_(url.parse(this.opts.syncAPI)).extend({
+            pathname: '/v2/'+ hash + '/upload.json'
+        }));
 
     Step(function() {
         request.get({
@@ -391,7 +569,6 @@ command.prototype.upload = function (callback) {
                         message += ' (' + parsed.code[0] + ' - ' + parsed.message[0] + ')';
                     return this(new Error(message));
                 }
-                freeURL = resp.headers.location.split('?')[0];
                 this();
             }.bind(this);
             resp.on('data', function(chunk) { chunk += data; });
@@ -428,12 +605,9 @@ command.prototype.upload = function (callback) {
             .pipe(dest, {end: false});
     }, function(err) {
         if (err) throw err;
-        if (!modelURL) return this(); // Free
-
         request.get(modelURL, this);
     }, function(err, res, body) {
         if (err) throw err;
-        if (!modelURL) return this(); // Free
 
         // Let Step catch thrown errors here.
         var model = _(res.statusCode === 404 ? {} : JSON.parse(body)).extend({
@@ -445,11 +619,20 @@ command.prototype.upload = function (callback) {
         });
         request.put({ url:modelURL, json:model }, this);
     }, function(err, res, body) {
-        if (err)
+        console.log('publish response: ' + util.inspect(body));
+        if (err) {
             return callback(err);
-        if (modelURL && res.statusCode !== 200)
-            return callback(new Error('Map publish failed: ' + res.statusCode));
-        callback(null, { url:modelURL ? mapURL : freeURL });
+        }
+        if (modelURL && res.statusCode !== 200) {
+            var msg;
+            if (body && body.message != undefined) {
+                msg = body.message;
+            } else {
+                msg = 'Map publish failed: ' + res.statusCode;
+            }
+            return callback(new Error(msg));
+        }
+        callback(null, { url:mapURL });
     });
 };
 
@@ -466,8 +649,9 @@ command.prototype.sync = function (project, callback) {
         id: project.id,
         time: + new Date
     });
+    cmd.opts.format = 'mbtiles';
     Step(function() {
-        cmd.mbtiles(project, this);
+        cmd.tilelive(project, this);
     }, function(err) {
         if (err) throw err;
         modifier = 0.5;

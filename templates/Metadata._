@@ -8,9 +8,7 @@ var get = _(project.get).bind(project);
 <form><ul class='form fill-e scrolling'>
   <li class='text'>
     <h2><%= title %></h2>
-
     <% if (model.get('format') === 'sync') { %>
-    <% if (config.get('syncAccount') && config.get('syncAccessToken')) { %>
     <% var accountURL = config.get('syncURL') + '/' + config.get('syncAccount'); %>
     <% var mapURL = config.get('syncURL') + '/' + config.get('syncAccount') + '/map/' + model.get('project'); %>
       <div class='syncHelp'>
@@ -18,18 +16,8 @@ var get = _(project.get).bind(project);
         <b><a href='<%= mapURL %>' target='_blank'><%=mapURL%></a></b>
       </div>
       <div class='buttons centered'>
-        <a class='button' href='#/settings'>Use another account</a>
-        <a class='button' href='<%= accountURL %>' target='_blank'>My account</a>
-    </div>
-    <% } else { %>
-      <div class='syncHelp'>
-        If you don't have a MapBox account, we'll host your map free for 7 days.
+        <a class='button' href='#/settings'>Change account</a>
       </div>
-      <div class='buttons centered'>
-        <a class='button' href='#/settings'>Use my account</a>
-        <a class='button' href='http://mapbox.com/tour/' target='_blank'>Learn more</a>
-      </div>
-    <% } %>
     <% } %>
   </li>
   <% if (type === 'tiles') { %>

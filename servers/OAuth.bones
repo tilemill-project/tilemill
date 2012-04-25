@@ -19,8 +19,8 @@ server.prototype.initialize = function(app, core) {
             syncAccount: req.user.id ? req.user.id : '',
             syncAccessToken: req.user.id ? req.user.accessToken : ''
         }, {
-            success: function() { res.redirect('/'); },
-            error: function() { res.redirect('/'); }
+            success: function() { res.redirect('/#/oauth/success'); },
+            error: function() { res.redirect('/#/oauth/error'); }
         });
     });
     this.get('/oauth/mapbox/fail', function(req, res) {
@@ -28,8 +28,8 @@ server.prototype.initialize = function(app, core) {
             syncAccount: '',
             syncAccessToken: ''
         }, {
-            success: function() { res.redirect('/'); },
-            error: function() { res.redirect('/'); }
+            success: function() { res.redirect('/#/oauth/error'); },
+            error: function() { res.redirect('/#/oauth/error'); }
         });
     });
 

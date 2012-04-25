@@ -23,7 +23,11 @@ view.prototype.render = function(init) {
     // Add references to all controls onto the map object.
     // Allows controls to be removed later on.
     this.map.controls = {
-        interaction: wax.mm.interaction(this.map, this.model.attributes),
+        interaction: wax.mm.interaction()
+            .map(this.map)
+            .tilejson(this.model.attributes)
+            .on(wax.tooltip()
+                .parent(this.map.parent).events()),
         legend: wax.mm.legend(this.map, this.model.attributes),
         zoombox: wax.mm.zoombox(this.map),
         zoomer: wax.mm.zoomer(this.map).appendTo(this.map.parent),
@@ -46,6 +50,9 @@ view.prototype.render = function(init) {
         center[1],
         center[0]),
         center[2]);
+    this.map.setZoomRange(
+        this.model.get('minzoom'),
+        this.model.get('maxzoom'));
     this.map.addCallback('zoomed', this.mapZoom);
     this.map.addCallback('panned', this.mapZoom);
     this.map.addCallback('extentset', this.mapZoom);
@@ -81,10 +88,13 @@ view.prototype.attach = function() {
     layer.provider.options.maxzoom = this.model.get('maxzoom');
     layer.setProvider(layer.provider);
 
-    this.map.controls.interaction.remove();
-    this.map.controls.interaction = wax.mm.interaction(
-        this.map,
-        this.model.attributes);
+    layer.provider.setZoomRange(layer.provider.options.minzoom,
+                          layer.provider.options.maxzoom)
+
+    this.map.setZoomRange(layer.provider.options.minzoom,
+                          layer.provider.options.maxzoom)
+
+    this.map.controls.interaction.tilejson(this.model.attributes);
 
     if (this.model.get('legend')) {
         this.map.controls.legend.content(this.model.attributes);

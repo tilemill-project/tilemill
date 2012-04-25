@@ -45,8 +45,6 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
-    
-    [super dealloc];
 }
 
 - (void)awakeFromNib
@@ -60,7 +58,7 @@
 {
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"SULastCheckTime"])
     {
-        NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         
         [formatter setDateStyle:NSDateFormatterLongStyle];
         [formatter setTimeStyle:NSDateFormatterShortStyle];

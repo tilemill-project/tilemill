@@ -1,7 +1,9 @@
 var path = require('path');
 var spawn = require('child_process').spawn;
+var redirect = require('../lib/redirect.js');
 var defaults = models.Config.defaults;
 var command = commands['start'];
+var crashutil = require('../lib/crashutil');
 
 command.options['server'] = {
     'title': 'server=1|0',
@@ -36,8 +38,23 @@ command.prototype.initialize = function(plugin, callback) {
     Bones.plugin.children = {};
     process.title = 'tilemill';
     // Kill child processes on exit.
-    process.on('exit', function() {
-        _(Bones.plugin.children).each(function(child) { child.kill(); });
+    process.on('exit', function(code, signal) {
+        _(Bones.plugin.children).each(function(child, key) {
+            console.warn('[tilemill] Closing child process: ' + key  + " (pid:" + child.pid + ")");
+            child.kill();
+        });
+        if (code != undefined && code !== 0)
+        {
+            crashutil.display_crash_log(function(err,logname) {
+                if (err) {
+                    console.warn(err.stack || err.toString());
+                }
+                if (logname) {
+                    console.warn("[tilemill] Please post this crash log: '" + logname + "' to https://github.com/mapbox/tilemill/issues");
+                }
+            });
+        }
+        console.warn('Exiting [' + process.title + ']');
     });
     // Handle SIGUSR2 for dev integration with nodemon.
     process.once('SIGUSR2', function() {
@@ -63,7 +80,7 @@ command.prototype.initialize = function(plugin, callback) {
 
         });
         if (client) {
-            console.warn('Client window created.');
+            console.warn('[tilemill] Client window created (pass --server=true to disable this)');
             plugin.children['client'] = client;
         }
     });
@@ -76,10 +93,29 @@ command.prototype.child = function(name) {
         path.resolve(path.join(__dirname + '/../index.js')),
         name
     ].concat(args));
-    Bones.plugin.children[name].stdout.pipe(process.stdout);
-    Bones.plugin.children[name].stderr.pipe(process.stderr);
+
+    redirect.onData(Bones.plugin.children[name]);
     Bones.plugin.children[name].once('exit', function(code, signal) {
-        if (code === 0) this.child(name);
+        if (code === 0) {
+            // restart server if exit was clean
+            console.warn('[tilemill] Restarting child process: "' + name + '"');
+            this.child(name);
+        } else {
+            if (signal) {
+                var msg = '[tilemill] Error: child process: "' + name + '" failed with signal "' + signal + '"';
+                if (code != undefined)
+                    msg += " and code '" + code + "'";
+                console.warn(msg);
+                _(Bones.plugin.children).each(function(child) { child.kill(signal); });
+                process.exit(1);
+            } else {
+                // Note: it would be great, in many cases, to auto-restart here
+                // but we cannot because we will trigger recursion like in cases
+                // of failed startup due to EADDRINUSE
+                console.warn('[tilemill] Error: child process: "' + name + '" failed with code "' + code + '"')
+                _(Bones.plugin.children).each(function(child) { child.kill(); });
+            }
+        }
     }.bind(this));
 };
 

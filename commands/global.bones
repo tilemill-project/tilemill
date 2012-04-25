@@ -5,13 +5,19 @@ var defaults = models.Config.defaults;
 Bones.Command.options['files'] = {
     'title': 'files=[path]',
     'description': 'Path to files directory.',
-    'default': defaults.files.replace('~', process.env.HOME)
+    'default': defaults.files.replace(/^~/, process.env.HOME)
 };
 
 Bones.Command.options['bufferSize'] = {
     'title': 'bufferSize=[number]',
     'description': 'Mapnik render buffer size.',
     'default': defaults.bufferSize
+};
+
+Bones.Command.options['syncAPI'] = {
+    'title': 'syncAPI=[URL]',
+    'description': 'MapBox API URL.',
+    'default': defaults.syncAPI || ''
 };
 
 Bones.Command.options['syncURL'] = {

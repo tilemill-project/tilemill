@@ -58,7 +58,8 @@ models.Library.prototype.sync = function(method, model, success, error) {
             readdir(location, function(err, files) {
                 if (err &&
                     err.code !== 'EACCES' &&
-                    err.code !== 'UNKNOWN') return error(err);
+                    err.code !== 'UNKNOWN' &&
+                    err.code !== 'EPERM') return error(err);
                 var data = {};
                 var ext = model.id === 'file' ? extFile : extSqlite;
                 data.id = model.id;

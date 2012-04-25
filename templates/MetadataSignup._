@@ -1,0 +1,18 @@
+<% var get = _(project.get).bind(project); %>
+<div class='fill-w' id='meta-map'>
+  <div class='zoom-display'>Zoom <span class='zoom'></span></div>
+</div>
+
+<form><ul class='form fill-e scrolling'>
+  <li class='text'>
+    <h2><%= title %></h2>
+
+    <div class='syncHelp'>
+      Sign in to your MapBox account to upload your map to the web.
+    </div>
+  </li>
+  <li class='buttons'>
+    <a class='button' href='/oauth/mapbox'>Next</a>
+    <input type='button' value='Cancel' class='cancel' />
+  </li>
+</ul></form>
