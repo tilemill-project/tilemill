@@ -43,7 +43,7 @@
           <option <% if (interactivity.layer === layer.get('id')) { %>selected='selected'<% } %> value='<%= layer.get('id') %>'><%= layer.get('id') %></option>
         <% }); %>
       </select>
-      <small>Layer to use for interaction data</small>
+      <span id="layer-info"><small>Layer to use for interaction data</small></span>
     </div>
     <div class='templates-tokens code tokens scrolling'></div>
     <div class='description'><small>

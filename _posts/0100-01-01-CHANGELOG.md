@@ -21,7 +21,7 @@ releases:
   - Better error output in logs if a crash occurs during rendering or exports
   - Now using Node v0.6.15 (previous 0.9.0 release used Node v0.4.12)
   - Supports PostGIS 2.0 (Mapnik)
-  - Now autodetects PostGIS primary keys (avoids needing to set Unique Key field) (Mapnik)
+  - Interactivity UI now warns about the need for users to provide a unique key for PostGIS layers.
   - Invalid fonts no longer prevent startup (Mapnik)
   - Better reporting of Carto parse errors to UI
   - Faster exports by detecting solid tiles and avoiding duplicate encoding and storage
