@@ -65,6 +65,12 @@ If you have ssh access to the remote machine and simply want to view your TileMi
     ssh -CA <your user>@<your-remote-ip> -L 20009:localhost:20009 -L 20008:localhost:20008
     # now you can access http://localhost:20009 in your local browser
 
+This connection forwarding will also work with aws machines. For example, if you are using one of the AMIs fro EC2 from http://alestic.com then you can do (exchanging the correct keypair and public DNS):
+
+    ssh -i ec2-keypair.pem -CA ubuntu@ec2.amazonaws.com -L 20009:localhost:20009 -L 20008:localhost:20008
+
+Note: if you see an error like `channel 7: open failed: connect failed: Connection refused` it means you need to start TileMill (on the server) with `server=true`.
+
 ### Configuring to listen for public traffic
 
 For some remote, headless deploys you may wish to have TileMill listen on more than localhost.
