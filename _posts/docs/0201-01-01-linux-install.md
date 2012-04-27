@@ -14,7 +14,7 @@ This page is for **Ubuntu**. We also have instructions for [Mac OS X](/tilemill/
 
 ### Requirements
 <ul class='checklist'>
-  <li class='check'>Ubuntu 10.10, 11.04 or 11.10</li>
+  <li class='check'>Ubuntu 11.04 or 11.10</li>
   <li class='check'>2 GB memory</li>
   <li class='check'>A modern browser (Chrome, Firefox)</li>
   <li class='check'>Internet connection for remote datasources</li>
@@ -27,7 +27,7 @@ This page is for **Ubuntu**. We also have instructions for [Mac OS X](/tilemill/
   ![](/tilemill/assets/pages/linux-install-2.png)
 3. Double-click on **install-tilemill.sh** to start the installation process. If prompted, choose **Run in terminal**. Enter your system password when prompted.
   ![](/tilemill/assets/pages/linux-install-3.png)
-4. Start TileMill using the Ubuntu launcher (11.10) or by choosing **Applications > Graphics > TileMill** from the menu (10.10 & 11.04).
+4. Start TileMill using the Ubuntu launcher (11.10) or by choosing **Applications > Graphics > TileMill** from the menu (11.04).
   ![](/tilemill/assets/pages/linux-install-4.png)
 
 ### Terminal installation

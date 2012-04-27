@@ -1,0 +1,309 @@
+<!DOCTYPE html>  <html> <head>   <title>models-server.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.js               </a>                                           <a class="source" href="export.html">                 export.js               </a>                                           <a class="source" href="library.html">                 library.js               </a>                                           <a class="source" href="parsemss.html">                 parsemss.js               </a>                                           <a class="source" href="project-layer.html">                 project-layer.js               </a>                                           <a class="source" href="project-map.html">                 project-map.js               </a>                                           <a class="source" href="project-reference.html">                 project-reference.js               </a>                                           <a class="source" href="project-stylesheet.html">                 project-stylesheet.js               </a>                                           <a class="source" href="project-tools.html">                 project-tools.js               </a>                                           <a class="source" href="project.html">                 project.js               </a>                                           <a class="source" href="utils.html">                 utils.js               </a>                                           <a class="source" href="api.html">                 api.js               </a>                                           <a class="source" href="backbone-dirty.html">                 backbone-dirty.js               </a>                                           <a class="source" href="bootstrap.html">                 bootstrap.js               </a>                                           <a class="source" href="export-worker.html">                 export-worker.js               </a>                                           <a class="source" href="export.html">                 export.js               </a>                                           <a class="source" href="library-directory.html">                 library-directory.js               </a>                                           <a class="source" href="library-s3.html">                 library-s3.js               </a>                                           <a class="source" href="models-server.html">                 models-server.js               </a>                                           <a class="source" href="tiles.html">                 tiles.js               </a>                                           <a class="source" href="models.html">                 models.js               </a>                                           <a class="source" href="tilemill.html">                 tilemill.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               models-server.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Server-side overrides for the Backbone models defined in <code>shared/models.js</code>.
+Provides model-specific storage overrides.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">),</span>
+    <span class="nx">Backbone</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;backbone-dirty&#39;</span><span class="p">),</span>
+    <span class="nx">settings</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;settings&#39;</span><span class="p">),</span>
+    <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">),</span>
+    <span class="nx">Step</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;step&#39;</span><span class="p">),</span>
+    <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">),</span>
+    <span class="nx">models</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;models&#39;</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Project</h2>
+
+<p>Implement custom sync method for Project model. Writes projects to
+individual directories and splits out Stylesheets from the main project
+MML JSON file.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">models</span><span class="p">.</span><span class="nx">ProjectList</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">sync</span> <span class="o">=</span>
+<span class="nx">models</span><span class="p">.</span><span class="nx">Project</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">sync</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">model</span><span class="p">,</span> <span class="nx">success</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="nx">method</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="s1">&#39;read&#39;</span><span class="o">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">loadProject</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">err</span> <span class="o">?</span> <span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">:</span> <span class="nx">success</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+            <span class="p">});</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">loadProjectAll</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">err</span> <span class="o">?</span> <span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">:</span> <span class="nx">success</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s1">&#39;create&#39;</span><span class="o">:</span>
+    <span class="k">case</span> <span class="s1">&#39;update&#39;</span><span class="o">:</span>
+        <span class="nx">saveProject</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">err</span> <span class="o">?</span> <span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">:</span> <span class="nx">success</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+        <span class="p">});</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s1">&#39;delete&#39;</span><span class="o">:</span>
+        <span class="nx">destroyProject</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">err</span> <span class="o">?</span> <span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">:</span> <span class="nx">success</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+        <span class="p">});</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Load a single project model.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">loadProject</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">modelPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">files</span><span class="p">,</span> <span class="s1">&#39;project&#39;</span><span class="p">,</span> <span class="nx">model</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">modelPath</span><span class="p">,</span> <span class="nx">model</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.mml&#39;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span>
+    <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span> <span class="o">||</span> <span class="o">!</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="s1">&#39;Error reading model file.&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="kd">var</span> <span class="nx">object</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Set the object ID explicitly for multiple-load scenarios where
+model parse()/set() is bypassed.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">object</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">model</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">object</span><span class="p">.</span><span class="nx">Stylesheet</span> <span class="o">&amp;&amp;</span> <span class="nx">object</span><span class="p">.</span><span class="nx">Stylesheet</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">Step</span><span class="p">(</span>
+                <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                    <span class="kd">var</span> <span class="nx">group</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
+                    <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">object</span><span class="p">.</span><span class="nx">Stylesheet</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span>
+                            <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">modelPath</span><span class="p">,</span> <span class="nx">filename</span><span class="p">),</span>
+                            <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span>
+                            <span class="nx">group</span><span class="p">()</span>
+                        <span class="p">);</span>
+                    <span class="p">});</span>
+                <span class="p">},</span>
+                <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">files</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">object</span><span class="p">.</span><span class="nx">Stylesheet</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span>
+                        <span class="nx">object</span><span class="p">.</span><span class="nx">Stylesheet</span><span class="p">,</span>
+                        <span class="kd">function</span><span class="p">(</span><span class="nx">memo</span><span class="p">,</span> <span class="nx">filename</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">files</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+                                <span class="nx">memo</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+                                    <span class="nx">id</span><span class="o">:</span> <span class="nx">filename</span><span class="p">,</span>
+                                    <span class="nx">data</span><span class="o">:</span> <span class="nx">files</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span>
+                                <span class="p">});</span>
+                            <span class="p">}</span>
+                            <span class="k">return</span> <span class="nx">memo</span><span class="p">;</span>
+                        <span class="p">},</span>
+                        <span class="p">[]</span>
+                    <span class="p">);</span>
+                    <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">object</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">object</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Load all projects into an array.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">loadProjectAll</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">basepath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">files</span><span class="p">,</span> <span class="s1">&#39;project&#39;</span><span class="p">);</span>
+    <span class="nx">Step</span><span class="p">(</span>
+        <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">path</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="nx">basepath</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="kd">function</span><span class="p">(</span><span class="nx">exists</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">exists</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">fs</span><span class="p">.</span><span class="nx">mkdir</span><span class="p">(</span><span class="nx">basepath</span><span class="p">,</span> <span class="mi">0777</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">fs</span><span class="p">.</span><span class="nx">readdir</span><span class="p">(</span><span class="nx">basepath</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">files</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="k">this</span><span class="p">(</span><span class="s1">&#39;Error reading model directory.&#39;</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">files</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="k">this</span><span class="p">();</span>
+            <span class="p">}</span>
+            <span class="kd">var</span> <span class="nx">group</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">files</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+                <span class="nx">loadProject</span><span class="p">({</span> <span class="nx">id</span><span class="o">:</span> <span class="nx">id</span> <span class="p">},</span> <span class="nx">group</span><span class="p">());</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">models</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Ignore errors from loading individual models (e.g.
+don't let one bad apple spoil the collection).</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="nx">models</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">models</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">model</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">);</span>
+            <span class="p">});</span>
+            <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">models</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Destroy a project. <code>rm -rf</code> equivalent for the project directory.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">destroyProject</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">rm</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">basePath</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">killswitch</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="nx">Step</span><span class="p">(</span>
+            <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="nx">fs</span><span class="p">.</span><span class="nx">stat</span><span class="p">(</span><span class="nx">basePath</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+            <span class="p">},</span>
+            <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">stat</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">stat</span><span class="p">.</span><span class="nx">isDirectory</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="k">this</span><span class="p">();</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">stat</span><span class="p">.</span><span class="nx">isFile</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="nx">killswitch</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+                    <span class="nx">fs</span><span class="p">.</span><span class="nx">unlink</span><span class="p">(</span><span class="nx">basePath</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="nx">killswitch</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+                    <span class="k">this</span><span class="p">();</span>
+                <span class="p">}</span>
+            <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>The next steps apply only when basePath refers to a directory.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">killswitch</span><span class="p">)</span> <span class="k">return</span> <span class="k">this</span><span class="p">();</span>
+                <span class="nx">fs</span><span class="p">.</span><span class="nx">readdir</span><span class="p">(</span><span class="nx">basePath</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+            <span class="p">},</span>
+            <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">files</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">killswitch</span><span class="p">)</span> <span class="k">return</span> <span class="k">this</span><span class="p">();</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">files</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">this</span><span class="p">();</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="kd">var</span> <span class="nx">group</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">files</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">rm</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">basePath</span><span class="p">,</span> <span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">]),</span> <span class="nx">group</span><span class="p">());</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">killswitch</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">();</span>
+                <span class="nx">fs</span><span class="p">.</span><span class="nx">rmdir</span><span class="p">(</span><span class="nx">basePath</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">);</span>
+    <span class="p">};</span>
+    <span class="kd">var</span> <span class="nx">modelPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">files</span><span class="p">,</span> <span class="s1">&#39;project&#39;</span><span class="p">,</span> <span class="nx">model</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+    <span class="nx">rm</span><span class="p">(</span><span class="nx">modelPath</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Save a project. Creates a subdirectory per project and splits out
+stylesheets into separate files.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">saveProject</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">basePath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">files</span><span class="p">,</span> <span class="s1">&#39;project&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">modelPath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">files</span><span class="p">,</span> <span class="s1">&#39;project&#39;</span><span class="p">,</span> <span class="nx">model</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+    <span class="nx">Step</span><span class="p">(</span>
+        <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">path</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="nx">basePath</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="kd">function</span><span class="p">(</span><span class="nx">exists</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">exists</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">fs</span><span class="p">.</span><span class="nx">mkdir</span><span class="p">(</span><span class="nx">basePath</span><span class="p">,</span> <span class="mi">0777</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">path</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="nx">modelPath</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="kd">function</span><span class="p">(</span><span class="nx">exists</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">exists</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">fs</span><span class="p">.</span><span class="nx">mkdir</span><span class="p">(</span><span class="nx">modelPath</span><span class="p">,</span> <span class="mi">0777</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">fs</span><span class="p">.</span><span class="nx">readdir</span><span class="p">(</span><span class="nx">modelPath</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">files</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Remove any stale files in the project directory.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="kd">var</span> <span class="nx">group</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
+            <span class="kd">var</span> <span class="nx">stylesheets</span> <span class="o">=</span> <span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;Stylesheet&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="p">[];</span>
+            <span class="kd">var</span> <span class="nx">stale</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">filename</span> <span class="o">===</span> <span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39;.mml&#39;</span><span class="p">))</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">pluck</span><span class="p">(</span><span class="nx">stylesheets</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">).</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+            <span class="p">});</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">stale</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">stale</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">fs</span><span class="p">.</span><span class="nx">unlink</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">modelPath</span><span class="p">,</span> <span class="nx">stale</span><span class="p">[</span><span class="nx">i</span><span class="p">]),</span> <span class="nx">group</span><span class="p">());</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">group</span><span class="p">()();</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="kd">function</span><span class="p">()</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Hard clone the model JSON before doing adjustments to the data
+based on writing separate stylesheets.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">()));</span>
+            <span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="p">[];</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">delete</span> <span class="nx">data</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">Stylesheet</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">Stylesheet</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">stylesheet</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">stylesheet</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">files</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+                            <span class="nx">filename</span><span class="o">:</span> <span class="nx">stylesheet</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+                            <span class="nx">data</span><span class="o">:</span> <span class="nx">stylesheet</span><span class="p">.</span><span class="nx">data</span>
+                        <span class="p">});</span>
+                        <span class="nx">data</span><span class="p">.</span><span class="nx">Stylesheet</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">stylesheet</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+                    <span class="p">}</span>
+                <span class="p">});</span>
+            <span class="p">}</span>
+            <span class="nx">files</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+                <span class="nx">filename</span><span class="o">:</span> <span class="nx">model</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39;.mml&#39;</span><span class="p">,</span>
+                <span class="nx">data</span><span class="o">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+            <span class="p">});</span>
+
+            <span class="kd">var</span> <span class="nx">group</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">files</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span>
+                    <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">modelPath</span><span class="p">,</span> <span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">filename</span><span class="p">),</span>
+                    <span class="nx">files</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">data</span><span class="p">,</span>
+                    <span class="nx">group</span><span class="p">()</span>
+                <span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">model</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <h2>Export</h2>
+
+<p>Implement custom sync method for Export model. Removes any files associated
+with the export model at <code>filename</code> when a model is destroyed.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">models</span><span class="p">.</span><span class="nx">Export</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">sync</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">model</span><span class="p">,</span> <span class="nx">success</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="nx">method</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="s1">&#39;delete&#39;</span><span class="o">:</span>
+        <span class="kd">var</span> <span class="nx">filepath</span><span class="p">;</span>
+        <span class="nx">Step</span><span class="p">(</span>
+            <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="nx">Backbone</span><span class="p">.</span><span class="nx">sync</span><span class="p">(</span><span class="s1">&#39;read&#39;</span><span class="p">,</span> <span class="nx">model</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+            <span class="p">},</span>
+            <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">data</span> <span class="o">&amp;&amp;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">filename</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">filepath</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">export_dir</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">filename</span><span class="p">);</span>
+                    <span class="nx">path</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="nx">filepath</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="k">this</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="kd">function</span><span class="p">(</span><span class="nx">remove</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">remove</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">fs</span><span class="p">.</span><span class="nx">unlink</span><span class="p">(</span><span class="nx">filepath</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="k">this</span><span class="p">();</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="nx">Backbone</span><span class="p">.</span><span class="nx">sync</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">model</span><span class="p">,</span> <span class="nx">success</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">);</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="k">default</span><span class="o">:</span>
+        <span class="nx">Backbone</span><span class="p">.</span><span class="nx">sync</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">model</span><span class="p">,</span> <span class="nx">success</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <h2>Cache</h2>
+
+<p>Provides a model instance cache for the server. Used to store and retrieve a
+model instance in memory such that the same model is referenced in separate
+requests as well as in other long-running processes.</p>
+
+<p>The main use-case in TileMill for this instance cache is triggering a model
+<code>delete</code> event when a DELETE request is received. In the case of Exports,
+this event is used to terminate and worker processes associated with the
+Export model being deleted.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">Cache</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">cache</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="p">};</span>
+
+<span class="nx">Cache</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">get</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">type</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">type</span><span class="p">][</span><span class="nx">id</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">type</span><span class="p">][</span><span class="nx">id</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">type</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">type</span><span class="p">]</span> <span class="o">||</span> <span class="p">{}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="k">new</span> <span class="nx">models</span><span class="p">[</span><span class="nx">type</span><span class="p">]({</span><span class="nx">id</span><span class="o">:</span> <span class="nx">id</span><span class="p">}));</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">type</span><span class="p">][</span><span class="nx">id</span><span class="p">];</span>
+<span class="p">};</span>
+
+<span class="nx">Cache</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">set</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">type</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">type</span><span class="p">]</span> <span class="o">||</span> <span class="p">{}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">type</span><span class="p">][</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span> <span class="nx">model</span><span class="p">;</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">type</span><span class="p">][</span><span class="nx">id</span><span class="p">];</span>
+<span class="p">};</span>
+
+<span class="nx">Cache</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">del</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">type</span><span class="p">][</span><span class="nx">id</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">type</span><span class="p">][</span><span class="nx">id</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span> <span class="nx">cache</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Cache</span><span class="p">()</span> <span class="p">},</span> <span class="nx">models</span><span class="p">);</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Facebox 1.2 Programmatic Tests</title>
+  <link href="facebox.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="faceplant.css" media="screen" rel="stylesheet" type="text/css" />
+  <script src="jquery.js" type="text/javascript"></script>
+  <script src="facebox.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    jQuery(document).ready(function($) {
+      $('a[rel*=facebox]').facebox({
+        loading_image : 'loading.gif',
+        close_image   : 'closelabel.gif'
+      }) 
+    })
+  </script>
+  <style type="text/css">
+	.my-groovy-style {
+		color: yellow;
+		background-color: purple;
+	}
+	
+	.my-groovy-style img {
+		width: 100px;
+		height: 100px;
+	}
+  </style>
+</head>
+
+<body>
+	<h1>Programmatic Tests</h1>
+	<a href="javascript: jQuery.facebox('something cool');">Programmatic text.</a><br/>
+	<a href="javascript: jQuery.facebox('something cool', 'my-groovy-style');">Programmatic text with a style.</a><br/>
+
+	<a href="javascript: jQuery.facebox({image:'stairs.jpg'});">Programmatic image.</a><br/>
+	<a href="javascript: jQuery.facebox({image:'stairs.jpg'}, 'my-groovy-style');">Programmatic image with a style.</a><br/>
+
+	<a href="javascript: jQuery.facebox({ajax:'remote.html'});">Programmatic ajax.</a><br/>
+	<a href="javascript: jQuery.facebox({ajax:'remote.html'}, 'my-groovy-style');">Programmatic ajax with a style.</a><br/>
+
+	<a href="javascript: jQuery.facebox({div:'#box'});">Programmatic div.</a><br/>
+	<a href="javascript: jQuery.facebox({div:'#box'}, 'my-groovy-style');">Programmatic div with a style.</a><br/>
+
+	<br/>
+	
+	<div id="box" style="border: solid; width: 150px;">
+		Watch me go into a facebox!
+	</div>
+
+</body>
+</html>
