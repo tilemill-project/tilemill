@@ -23,7 +23,7 @@ These are high level resources you should look at before continuing:
 
 Install some debian packages:
 
-    apt-get install debhelper devscripts dput git-core cdbs pgpgpg
+    sudo apt-get install debhelper devscripts dput git-core cdbs pgpgpg
 
 For more info on these requirements see: https://wiki.ubuntu.com/PackagingGuide/Complete#Packaging_Tools
 
@@ -88,7 +88,7 @@ Add the PPA dependencies and install them:
 
     sudo apt-add-repository ppa:developmentseed/mapbox-dev
     sudo apt-get update
-    sudo apt-get install libmapnik libmapnik-dev nodejs nodejs-dev npm
+    sudo apt-get install libmapnik libmapnik-dev nodejs nodejs-dev npm libwebkit-dev
 
 Now build TileMill:
 
