@@ -248,7 +248,7 @@ small { font-size:11px; }
   -webkit-transition:bottom .25s;
   }
 
-#popup.active { bottom:0%; }
+#popup.active { bottom:2%; }
 #modal.active + #popup {
   z-index:99;
   border-color:#ccc;
