@@ -81,6 +81,8 @@ server.prototype.projectXML = function(req, res, next) {
         success: function(model, resp) {
             model.localize(model.toJSON(), function(err) {
                 if (err) return next(err);
+                // https://github.com/mapbox/tilemill/issues/1421
+                res.header('Content-Disposition', 'attachment');
                 res.send(model.xml, {'content-type': 'text/xml'});
             });
         },
