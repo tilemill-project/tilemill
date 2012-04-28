@@ -122,6 +122,7 @@ of Tilemill.
 
 To create a testing package that will be built and uploaded to "mapbox-dev" PPA do:
 
+    cd platforms/ubuntu
     ./package.sh
 
 Use the -p (production) flag to push a build up to the main "mapbox" PPA:

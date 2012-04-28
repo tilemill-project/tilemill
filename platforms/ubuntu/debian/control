@@ -2,38 +2,34 @@ Source: tilemill
 Section: web
 Priority: extra
 Maintainer: Ian Ward <ian@developmentseed.org>
-Build-Depends: cdbs (>=0.4.42), 
+Uploaders: Dane Springmeyer <dane.springmeyer@gmail.com>
+Build-Depends:
+ cdbs (>=0.4.42),
  debhelper (>= 7),
  libsqlite3-0,
  libsqlite3-dev,
  libmapnik (>=2.1.0),
  libmapnik-dev (>=2.1.0),
- libzip1,
- libzip-dev,
  nodejs-dev (>=0.6.14),
-Recommends:
  libgtk2.0-0,
  libgtk2.0-dev,
- libwebkit-1.0-2, # lucid
- libwebkit-dev, # lucid
- libwebkitgtk-1.0-0, # maverick and above
- libwebkitgtk-dev # maverick and above
-Standards-Version: 3.8.3
+ libwebkitgtk-1.0-0 | libwebkit-1.0-2,
+ libwebkitgtk-dev | libwebkit-dev
+Standards-Version: 3.8.4
 Homepage: http://github.com/mapbox/tilemill
 
 Package: tilemill
 Architecture: any
-Depends: ${shlibs:Depends},
+Depends:
+ ${shlibs:Depends},
  ${misc:Depends},
- curl,
  nodejs (>=0.6.14),
  libsqlite3-0 (>=3.6),
  libsqlite3-dev,
- unzip,
- libmapnik (>=2.1.0)
-Recommends:
+ libmapnik (>=2.1.0),
  libgtk2.0-0,
- libwebkit-1.0-2, # lucid
- libwebkitgtk-1.0-0 # maverick and above
+ libwebkitgtk-1.0-0 | libwebkit-1.0-2
+Suggests:
+ postgis
 Description: A modern map design studio.
  A modern map design studio powered by open source technology.

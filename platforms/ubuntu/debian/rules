@@ -7,12 +7,12 @@ build:
 		if [ -f "$$file/Makefile" ]; then \
 			cd $$file ; \
 			make clean ; \
-			if [ $$(echo "$$file" | grep "sqlite2") ]; then \
-		        ./configure --with-sqlite3=/usr/lib ; \
-			else \
-			    ./configure ; \
-			fi ; \
+			./configure ; \
 			make ; \
+		else \
+			cd $$file ; \
+			node-waf clean ; \
+			node-waf configure build ; \
 		fi ; \
 	done
 
