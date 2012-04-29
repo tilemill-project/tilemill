@@ -117,7 +117,7 @@ command.prototype.initialize = function(plugin, callback) {
                 console.warn('Export process died, log written to: ' + crash_log);
                 fs.writeFileSync(crash_log, err.stack || err.toString());
             } else {
-                console.warn('Export process died, turn on logging to log report in future runs');
+                console.warn('Export process died: ' + err.stack || err.toString());
             }
             // force exit here because cleanup in tilelive is not working leading to:
             // Error: SQLITE_IOERR: disk I/O error
