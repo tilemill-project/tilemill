@@ -251,10 +251,11 @@ command.prototype.initialize = function(plugin, callback) {
 };
 
 command.prototype.complete = function(err, data) {
+    console.log('completing export process');
     if (err) {
         console.warn(err.stack || err.toString() + '\n');
         this.error(err, function() {
-            process.exit(1);
+            process.exit(0);
         });
     } else {
         data = _(data||{}).defaults({
@@ -622,7 +623,7 @@ command.prototype.upload = function (callback) {
         });
         request.put({ url:modelURL, json:model }, this);
     }, function(err, res, body) {
-        console.log('publish response: ' + util.inspect(body));
+        console.log('MapBox Hosting account response: ' + util.inspect(body));
         if (err) {
             return callback(err);
         }
