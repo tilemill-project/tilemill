@@ -58,17 +58,17 @@ function start(id, callback) {
         pids[pid] = true;
 
         child.on('exit', function(code, signal) {
-                if (code !== 0) {
-                    message = "Export died with code: '" + code + "' ";
-                    if (signal) {
-                        message += "(and signal: '" + signal + "') ";
-                    }
-                    console.warn(message);
-                    message += "see tilemill log for details"
-                    pid_errors[pid] = message;
+            if (code !== 0) {
+                message = "Export died with code: '" + code + "' ";
+                if (signal) {
+                    message += "(and signal: '" + signal + "') ";
                 }
-                delete pids[pid];
-                callback();
+                console.warn(message);
+                message += "see tilemill log for details"
+                pid_errors[pid] = message;
+            }
+            delete pids[pid];
+            callback();
         });
         (new models.Export(data)).save({
             pid:pid,
