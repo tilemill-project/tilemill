@@ -43,7 +43,7 @@ command.prototype.initialize = function(plugin, callback) {
             console.warn('[tilemill] Closing child process: ' + key  + " (pid:" + child.pid + ")");
             child.kill();
         });
-        if (code != undefined && code !== 0)
+        if (code !== 0)
         {
             crashutil.display_crash_log(function(err,logname) {
                 if (err) {
