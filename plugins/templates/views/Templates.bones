@@ -27,6 +27,8 @@ view.prototype.attach = function() {
     if (!layer) {
         this.$('.tokens').empty();
         this.$('.requires-tokens').attr('disabled', true);
+        this.$('.description.toggler').removeClass('warning');
+        this.$('#layer-info').html('<small>Layer to use for interaction data</small>');
         return true;
     }
 
@@ -39,11 +41,20 @@ view.prototype.attach = function() {
         $(this.el).removeClass('loading').removeClass('restartable');
     }).bind(this);
 
+    var layer_attr = layer.get('Datasource');
+    if (layer_attr.type === 'postgis' && !layer_attr.key_field) {
+        this.$('#layer-info').html('<span class="warning-text"><strong>Warning</strong>: This PostGIS layer does not have a <strong>Unique key field</strong> defined. This is required for valid MBTiles exports.</span>');
+        this.$('.description.toggler').addClass('warning');
+    } else {
+        this.$('#layer-info').html("<small>Layer to use for interaction data</small>");
+        this.$('.description.toggler').removeClass('warning');
+    }
+
     // Cache the datasource model to `this.datasource` so it can
     // be used to live render/preview the formatters.
     if (!this.datasource || this.datasource.id !== layer.get('id')) {
         $(this.el).addClass('loading').addClass('restartable');
-        var attr = _(layer.get('Datasource')).chain()
+        var attr = _(layer_attr).chain()
             .clone()
             .extend({
                 id: layer.get('id'),

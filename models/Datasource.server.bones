@@ -36,8 +36,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             // those that do not will be restricted during the featureset loop below
             var row_limit = 500;
             mml.Layer[0].Datasource = _(mml.Layer[0].Datasource).defaults({
-                row_limit: row_limit,
-                autodetect_key_field: true
+                row_limit: row_limit
                 });
             var source = new mapnik.Datasource(mml.Layer[0].Datasource);
 

@@ -23,7 +23,7 @@ These are high level resources you should look at before continuing:
 
 Install some debian packages:
 
-    apt-get install debhelper devscripts dput git-core cdbs pgpgpg
+    sudo apt-get install debhelper devscripts dput git-core cdbs pgpgpg
 
 For more info on these requirements see: https://wiki.ubuntu.com/PackagingGuide/Complete#Packaging_Tools
 
@@ -38,8 +38,7 @@ Ensure your launchpad user has access to the PPA's at https://launchpad.net/~dev
 ## Instructions for copying packages
 
 The instructions below require copying of packages between PPA's. We do this to ensure 
-proper dependencies (to avoid other PPA updates conflicting with what tilemill needs for versions)
-and to stage builds for testing.
+proper dependencies (to avoid other PPA updates conflicting with what tilemill needs for versions) and to stage builds for testing.
 
 Here is how to copy packages:
 
@@ -48,12 +47,9 @@ Here is how to copy packages:
 - [chris-lea/node.js](https://launchpad.net/~chris-lea/+archive/node.js/+copy-packages)
 - [mapnik/nightly-trunk](https://launchpad.net/~mapnik/+archive/nightly-trunk/+copy-packages)
 
-2) Select the packages you want to copy by checking their box. Confirm the proper package version
-   and include each supported series.
+2) Select the packages you want to copy by checking their box. Confirm the proper package version and include each supported series.
 
-3) Select the **Destination PPA**. Use MapBox Dev for testing packages. You'll
-   only copy to MapBox when you are ready to publish, and you'll generally want
-   to copy exiting packages from MapBox Dev after testing.
+3) Select the **Destination PPA**. Use MapBox Dev for testing packages. You'll only copy to MapBox when you are ready to publish, and you'll generally want to copy exiting packages from MapBox Dev after testing.
 
 4) The **Destination series** should be set to **The same series**.
 
@@ -92,7 +88,7 @@ Add the PPA dependencies and install them:
 
     sudo apt-add-repository ppa:developmentseed/mapbox-dev
     sudo apt-get update
-    sudo apt-get install libmapnik nodejs
+    sudo apt-get install libmapnik libmapnik-dev nodejs nodejs-dev npm libwebkit-dev
 
 Now build TileMill:
 
@@ -126,6 +122,7 @@ of Tilemill.
 
 To create a testing package that will be built and uploaded to "mapbox-dev" PPA do:
 
+    cd platforms/ubuntu
     ./package.sh
 
 Use the -p (production) flag to push a build up to the main "mapbox" PPA:

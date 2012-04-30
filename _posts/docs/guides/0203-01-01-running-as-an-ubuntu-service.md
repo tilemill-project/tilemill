@@ -17,7 +17,12 @@ TileMill can also be run as a system-wide, server-only service simply by making 
 
 _All default options can be seen in the default config base in `lib/config.defaults.json`._
 
-If `server` is `true` then TileMill will not attempt to launch a native UI process (which it does by default).
+If you try to launch tilemill without providing `server=true` on a machine without a desktop graphics display you will see an error like:
+
+    Error parsing options: Cannot open display:
+    Exiting [tilemill]
+
+If `server` is `true` then TileMill will not attempt to launch a native UI process.
 
 Also, TileMill defaults to reading data from the `~/Documents/MapBox` directory of the user running the process. For a system-wide TileMill service a global location with special permissions should be used.
 
@@ -39,11 +44,12 @@ These commands can be used to manage TileMill through upstart:
 - **Logs** are written to `/var/log/tilemill`
 - **Preferences** can be changed by editing `/etc/tilemill/tilemill.config`
 
+To manually start a TileMill installed from packages you can find the launch script at `/usr/share/tilemill/index.js` and then follow the instructions below for launching the server from a source build.
+
 ### Launching service from source build
 
 If you have installed TileMill from [source](source/) then startup can be done manually like:
 
-    cd tilemill
     ./index.js --server=true # server=true prevents the UI from opening
 
 Or you can add `server: true` to a custom config:
@@ -65,11 +71,18 @@ If you have ssh access to the remote machine and simply want to view your TileMi
     ssh -CA <your user>@<your-remote-ip> -L 20009:localhost:20009 -L 20008:localhost:20008
     # now you can access http://localhost:20009 in your local browser
 
+This connection forwarding will also work with aws machines. For example, if you are using one of the AMIs fro EC2 from http://alestic.com then you can do (exchanging the correct keypair and public DNS):
+
+    ssh -i ec2-keypair.pem -CA ubuntu@ec2.amazonaws.com -L 20009:localhost:20009 -L 20008:localhost:20008
+
+Note: if you see an error like `channel 7: open failed: connect failed: Connection refused` it means you need to start TileMill (on the server) with `server=true`.
+
+
 ### Configuring to listen for public traffic
 
 For some remote, headless deploys you may wish to have TileMill listen on more than localhost.
 
-Of course only take this step if you do not have sensitive data and you are fully aware of the consequences of your maps being public.
+But, be careful. Only take this step if you do not have sensitive data and you are fully aware of the consequences of your maps being public.
 
 The configuration below tells the TileMill core server to listen on the default ports but to also respond to traffic like a normal web server, allowing users to access the application via LAN or the Internet:
 
@@ -77,4 +90,10 @@ The configuration below tells the TileMill core server to listen on the default 
       "listenHost": "0.0.0.0"
       "coreUrl": "<your ip>:20009",
       "tileUrl": "<your ip>:20008",
+      "server": true
     }
+
+Note: the `<your ip>` value above needs to be exchanged either with your IP or hostname. For example, to expose TileMill publically by ip you could do:
+
+    YOUR_IP=`ifconfig eth0 | grep 'inet addr:'| cut -d: -f2 | awk '{ print $1}'`
+    ./index.js --server=true --listenHost=0.0.0.0 --coreUrl=${YOUR_IP}:20009 --tileUrl=${YOUR_IP}:20008
