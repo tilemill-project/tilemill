@@ -7,7 +7,7 @@ var spawn = require('child_process').spawn;
 var settings = Bones.plugin.config;
 var pids = {};
 var pid_errors = {};
-
+var crashutil = require('../lib/crashutil');
 var redirect = require('../lib/redirect.js');
 
 var queue = new Queue(start, 1);
@@ -59,13 +59,21 @@ function start(id, callback) {
 
         child.on('exit', function(code, signal) {
             if (code !== 0) {
-                message = "Export died with code: '" + code + "' ";
+                var message = 'Export process failed';
                 if (signal) {
-                    message += "(and signal: '" + signal + "') ";
+                    message += " with signal '" + signal + "' ";
                 }
                 console.warn(message);
-                message += "see tilemill log for details"
+                message += " (see tilemill log for details)"
                 pid_errors[pid] = message;
+                crashutil.display_crash_log(function(err,logname) {
+                    if (err) {
+                        console.warn(err.stack || err.toString());
+                    }
+                    if (logname) {
+                        console.warn("Please post this crash log: '" + logname + "' to https://github.com/mapbox/tilemill/issues");
+                    }
+                });
             }
             delete pids[pid];
             callback();
