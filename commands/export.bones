@@ -128,7 +128,7 @@ command.prototype.initialize = function(plugin, callback) {
 
     process.on('exit', function(code, signal) {
         console.warn('Exiting process [' + process.title + ']');
-        if (code != undefined && code !== 0)
+        if (code !== 0)
         {
             crashutil.display_crash_log(function(err,logname) {
                 if (err) {
@@ -233,17 +233,19 @@ command.prototype.initialize = function(plugin, callback) {
         case 'png':
         case 'svg':
         case 'pdf':
+            console.log('Rendering file');
             cmd.image(model, cmd.complete);
             break;
         case 'upload':
-            console.log('uploading new export');
+            console.log('Uploading new export');
             cmd.upload(model, cmd.complete);
             break;
         case 'sync':
-            console.log('syncing export with existing upload');
+            console.log('Syncing export with existing upload');
             cmd.sync(model, cmd.complete);
             break;
         default:
+            console.log('Rendering export');
             cmd.tilelive(model, cmd.complete);
             break;
         }
@@ -251,7 +253,7 @@ command.prototype.initialize = function(plugin, callback) {
 };
 
 command.prototype.complete = function(err, data) {
-    console.log('completing export process');
+    console.log('Completing export process');
     if (err) {
         console.warn(err.stack || err.toString() + '\n');
         this.error(err, function() {
