@@ -25,7 +25,7 @@ Open up a terminal and run the following command to install PostGIS and all of i
 
 For Ubuntu 11.10 'Oneiric Ocelot':
 
-    sudo apt-get install postgresql postgis
+    sudo apt-get install postgresql postgresql-9.1-postgis
 
 For Ubuntu 11.04 'Natty Narwhal':
 
