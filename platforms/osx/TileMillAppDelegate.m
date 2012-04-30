@@ -39,6 +39,22 @@
 #pragma mark -
 #pragma mark NSApplicationDelegate
 
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
+{
+    if ([[[filename pathExtension] lowercaseString] isEqualToString:@"mbtiles"])
+    {
+        NSAlert *alert = [NSAlert alertWithMessageText:@"Unable to open MBTiles"
+                                         defaultButton:@"OK"
+                                       alternateButton:nil
+                                           otherButton:nil
+                             informativeTextWithFormat:[NSString stringWithFormat:@"While %@ can export to MBTiles, it is unable to do anything with them itself. Maybe try uploading the file to your MapBox account?", [[NSProcessInfo processInfo] processName]]];
+        
+        [alert runModal];
+    }
+    
+    return NO;
+}
+
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
