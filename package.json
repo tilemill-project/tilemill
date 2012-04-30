@@ -32,7 +32,7 @@
         "step": "~0.0.5",
         "mapnik": "~0.7.1",
         "tilelive": "https://github.com/mapbox/tilelive.js/tarball/master",
-        "mbtiles": "~0.2.5",
+        "mbtiles": "https://github.com/mapbox/node-mbtiles/tarball/master",
         "tilelive-mapnik": "https://github.com/mapbox/tilelive-mapnik/tarball/master",
         "carto": "~0.4.8",
         "millstone": "~0.4.1",
