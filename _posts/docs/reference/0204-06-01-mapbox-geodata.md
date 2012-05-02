@@ -14,7 +14,7 @@ All the data has been reprojected to Google Mercator projection, and is properly
 
 All shapefiles have been indexed using Mapnik's shapeindex tool. (The article [Speed Optimization: Shapefile Indexes][1] explains the benefits of this and how you can make sure your own shapefiles are indexed.)
 
-[1]: http://support.mapbox.com/kb/preparing-your-geographic-data/speed-optimization-shapefile-indexes
+[1]: http://mapbox.com/tilemill/docs/guides/optimizing-shapefiles
 
 ## Natural Earth
 
