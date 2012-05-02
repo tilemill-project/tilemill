@@ -445,6 +445,21 @@ command.prototype.tilelive = function (project, callback) {
 
         task.on('finished', function() {
             if (!cmd.opts.quiet) console.warn('\nfinished');
+            try {
+                fs.close(fd, function(err) {
+                    if (err) throw err;
+                    fs.stat(errorfile, function(err,stats) {
+                        if (err) throw err;
+                        if (stats && stats.size === 0) {
+                            fs.unlink(errorfile, function(err) {
+                                if (err) throw err;
+                            });
+                        }
+                    });
+                });
+            } catch (err) {
+                console.warn(err.toString());
+            }
             callback();
         });
 
