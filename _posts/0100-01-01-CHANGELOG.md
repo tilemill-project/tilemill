@@ -38,6 +38,12 @@ releases:
 #  - Multigeometries are now labeled properly (Mapnik)
 #  - improved support for rendering svg icons from http://www.sjjb.co.uk/mapicons (Mapnik)
 
+- version: 0.9.0.378
+  dev: true
+  date: 2012-05-02
+  size: 85532293
+  sign: MC0CFQCtx51v+JBQN0M2jCqCdrKLcL+GagIUQve5iGQr4memAnYO1mLTNriHVqA=
+
 - version: 0.9.0.141
   dev: true
   date: 2012-04-24
