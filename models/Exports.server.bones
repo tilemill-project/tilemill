@@ -73,11 +73,15 @@ function start(id, callback) {
                     if (logname) {
                         console.warn("Please post this crash log: '" + logname + "' to https://github.com/mapbox/tilemill/issues");
                     }
+                    delete pids[pid];
+                    callback();
                 });
+            } else {
+                delete pids[pid];
+                callback();
             }
-            delete pids[pid];
-            callback();
         });
+
         (new models.Export(data)).save({
             pid:pid,
             created:Date.now(),
@@ -94,10 +98,12 @@ function start(id, callback) {
 function check(data) {
     if (data.status === 'processing' && data.pid && !pids[data.pid]) {
         var attr = { status: 'error' };
-        if (pid_errors[data.pid])
-            attr.error = pid_errors[data.pid]
-        else
+        if (pid_errors[data.pid]) {
+            attr.error = String(pid_errors[data.pid]);
+            delete pid_errors[data.pid];
+        } else {
             attr.error = 'Export process died'
+        }
         return attr;
     }
     if (data.status === 'waiting' && !_(queue.queue).include(data.id))
