@@ -16,16 +16,11 @@ code1: |
   createlang plpgsql dc-census
   psql -d dc-census -f postgis.sql
   psql -d dc-census -f spatial_ref_sys.sql
-code2: |
-  shp2pgsql -c -D -s 4269 -I tl_2010_1101_tract10.shp dc_census_tracts | psql -d dc-census
-code3: |
-  CREATE TABLE dc_census_data (GEOID varchar(11), SUMLEV varchar(3), STATE varchar(2), COUNTY varchar(3), CBSA varchar(5), CSA varchar(3), NECTA integer, CNECTA integer, NAME varchar(30), POP100 integer, HU100 integer, POP1002000 integer, HU1002000 integer, P001001 integer, P0010012000 integer);
-code4: |
-  cat all_140_in_11.P1.csv | psql -d dc-census -c 'COPY dc_census_data FROM STDIN WITH CSV HEADER'
-code5: |
-  SELECT ST_EXTENT(the_geom) from dc_census_tracts
-code6: |
-  SELECT * from dc_census_tracts JOIN data on dc_census_tracts.geoid10 = data.geoid
+code2: | shp2pgsql -c -D -s 4269 -I tl_2010_1101_tract10.shp dc_census_tracts | psql -d dc-census
+code3: | CREATE TABLE dc_census_data (GEOID varchar(11), SUMLEV varchar(3), STATE varchar(2), COUNTY varchar(3), CBSA varchar(5), CSA varchar(3), NECTA integer, CNECTA integer, NAME varchar(30), POP100 integer, HU100 integer, POP1002000 integer, HU1002000 integer, P001001 integer, P0010012000 integer);
+code4: | cat all_140_in_11.P1.csv | psql -d dc-census -c 'COPY dc_census_data FROM STDIN WITH CSV HEADER'
+code5: | SELECT ST_EXTENT(the_geom) from dc_census_tracts
+code6: | SELECT * from dc_census_tracts JOIN data on dc_census_tracts.geoid10 = data.geoid
 
 ---
 
@@ -76,7 +71,7 @@ For this example, we'll cover the basics of creating a simple PostGIS database a
 6. Enter the **Table or subquery** information to access your data. This is a query to select the data from your PostGIS database. This field acts as a subquery so the information must be entered in a subquery fashion: `( SELECT * from dc_census_tracts ) AS tracts`. The name you specify after "AS" is arbitrary and does not affect the `ID` field you gave at the top. Here we've entered, `( SELECT * from dc_census_tracts ) as tracts`, which selects all the columns in the table. To only select the columns you want to call from our database table, omit the `*` and enter the column names directly.
 ![step6](/tilemill/assets/pages/postgis-6b.png)   
 7. Enter the extent of your data. The coordinate system you use should match your data. The correct order is `left bottom right top`. This can be determined easily through a SQL query in your PostGIS database. In our example database, we would run the query:
-<pre>{{page.code5}}</pre>
+><pre>{{page.code5}}</pre>
 >Enter: `-77.119759,38.791645,-76.909393,38.995548`
 ![step7](/tilemill/assets/pages/postgis-7b.png)
 8. Enter the **Unique Key Field** for your database feature. This is the database field containing a unique key for your table or feature. See below for a note about indexing and optimizing your PostGIS database.  
@@ -97,7 +92,7 @@ For this example, we'll cover the basics of creating a simple PostGIS database a
 1. From within the **Editor** window of the `dc-census` project, toggle on the layer selector and click **Edit** next to the `dc-census` layer you just added in the previous section.  
 ![step1c](/tilemill/assets/pages/postgis-1c.png)
 2. Within the **Table or subquery** field, adjust the existing query to be:
-<pre>{{page.code6}}</pre>  
+><pre>{{page.code6}}</pre>  
 >
 >Here we are creating a SQL left join of the attribute data, `dc_census_data` with our geographic feature table, `dc_census_tracts`.  
 ![step4c](/tilemill/assets/pages/postgis-2c.png)
