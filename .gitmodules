@@ -1,0 +1,6 @@
+[submodule "platforms/osx/Externals/FMDB"]
+	path = platforms/osx/Externals/FMDB
+	url = https://github.com/ccgus/fmdb.git
+[submodule "platforms/osx/Externals/JSONKit"]
+	path = platforms/osx/Externals/JSONKit
+	url = https://github.com/johnezang/JSONKit.git
