@@ -104,28 +104,31 @@ command.prototype.initialize = function(plugin, callback) {
     opts.filepath = path.resolve(export_filename.replace(/^~/,process.env.HOME));
     callback = callback || function() {};
     this.opts = opts;
+    var cmd = this;
 
     // Note: this is reset again below, to reflect any changes in the output name
     process.title = 'tm-' + path.basename(opts.filepath);
 
     // Write export-specific crash log
     process.on('uncaughtException', function(err) {
-        var crash_log = opts.filepath + '.crashlog';
-        if (opts.log) {
-            console.warn('Export process died, log written to: ' + crash_log);
-            fs.writeFileSync(crash_log, err.stack || err.toString());
-        } else {
-            console.warn('Export process died, turn on logging to log report in future runs');
-        }
-        // force exit here because cleanup in tilelive is not working leading to:
-        // Error: SQLITE_IOERR: disk I/O error
-        // https://github.com/mapbox/tilemill/issues/1360
-        process.exit(0);
+        cmd.error(err, function() {
+            var crash_log = opts.filepath + '.crashlog';
+            if (opts.log) {
+                console.warn('Export process died, log written to: ' + crash_log);
+                fs.writeFileSync(crash_log, err.stack || err.toString());
+            } else {
+                console.warn('Export process died: ' + err.stack || err.toString());
+            }
+            // force exit here because cleanup in tilelive is not working leading to:
+            // Error: SQLITE_IOERR: disk I/O error
+            // https://github.com/mapbox/tilemill/issues/1360
+            process.exit(0);
+        });
     });
 
     process.on('exit', function(code, signal) {
         console.warn('Exiting process [' + process.title + ']');
-        if (code != undefined && code !== 0)
+        if (code !== 0)
         {
             crashutil.display_crash_log(function(err,logname) {
                 if (err) {
@@ -181,7 +184,6 @@ command.prototype.initialize = function(plugin, callback) {
     if (opts.format === 'upload') return this[opts.format](this.complete);
 
     // Load project, localize and call export function.
-    var cmd = this;
     var model = new models.Project({id:opts.project});
     Step(function() {
         if (!cmd.opts.quiet) process.stderr.write('Loading project...');
@@ -231,17 +233,19 @@ command.prototype.initialize = function(plugin, callback) {
         case 'png':
         case 'svg':
         case 'pdf':
+            console.log('Rendering file');
             cmd.image(model, cmd.complete);
             break;
         case 'upload':
-            console.log('uploading new export');
+            console.log('Uploading new export');
             cmd.upload(model, cmd.complete);
             break;
         case 'sync':
-            console.log('syncing export with existing upload');
+            console.log('Syncing export with existing upload');
             cmd.sync(model, cmd.complete);
             break;
         default:
+            console.log('Rendering export');
             cmd.tilelive(model, cmd.complete);
             break;
         }
@@ -249,15 +253,17 @@ command.prototype.initialize = function(plugin, callback) {
 };
 
 command.prototype.complete = function(err, data) {
+    console.log('Completing export process');
     if (err) {
         console.warn(err.stack || err.toString() + '\n');
         this.error(err, function() {
-            process.exit(1);
+            process.exit(0);
         });
     } else {
         data = _(data||{}).defaults({
             status: 'complete',
             progress: 1,
+            remaining: 0,
             updated: +new Date()
         });
         this.put(data, process.exit);
@@ -454,7 +460,7 @@ command.prototype.tilelive = function (project, callback) {
         var progress = stats.processed / stats.total;
         var remaining = cmd.remaining(progress, task.started);
         cmd.put({
-            status: progress < 1 ? 'processing' : 'complete',
+            status: 'processing',
             progress: progress,
             remaining: remaining,
             updated: +new Date(),
@@ -593,7 +599,7 @@ command.prototype.upload = function (callback) {
                 updated = Date.now();
                 cmd.put({
                     progress: progress,
-                    status: progress < 1 ? 'processing' : 'complete',
+                    status: 'processing',
                     remaining: cmd.remaining(progress, started),
                     updated: updated
                 });
@@ -619,7 +625,7 @@ command.prototype.upload = function (callback) {
         });
         request.put({ url:modelURL, json:model }, this);
     }, function(err, res, body) {
-        console.log('publish response: ' + util.inspect(body));
+        console.log('MapBox Hosting account response: ' + util.inspect(body));
         if (err) {
             return callback(err);
         }

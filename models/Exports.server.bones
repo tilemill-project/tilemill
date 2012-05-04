@@ -7,7 +7,7 @@ var spawn = require('child_process').spawn;
 var settings = Bones.plugin.config;
 var pids = {};
 var pid_errors = {};
-
+var crashutil = require('../lib/crashutil');
 var redirect = require('../lib/redirect.js');
 
 var queue = new Queue(start, 1);
@@ -58,18 +58,30 @@ function start(id, callback) {
         pids[pid] = true;
 
         child.on('exit', function(code, signal) {
-                if (code !== 0) {
-                    message = "Export died with code: '" + code + "' ";
-                    if (signal) {
-                        message += "(and signal: '" + signal + "') ";
-                    }
-                    console.warn(message);
-                    message += "see tilemill log for details"
-                    pid_errors[pid] = message;
+            if (code !== 0) {
+                var message = 'Export process failed';
+                if (signal) {
+                    message += " with signal '" + signal + "' ";
                 }
+                console.warn(message);
+                message += " (see tilemill log for details)"
+                pid_errors[pid] = message;
+                crashutil.display_crash_log(function(err,logname) {
+                    if (err) {
+                        console.warn(err.stack || err.toString());
+                    }
+                    if (logname) {
+                        console.warn("Please post this crash log: '" + logname + "' to https://github.com/mapbox/tilemill/issues");
+                    }
+                    delete pids[pid];
+                    callback();
+                });
+            } else {
                 delete pids[pid];
                 callback();
+            }
         });
+
         (new models.Export(data)).save({
             pid:pid,
             created:Date.now(),
@@ -86,10 +98,12 @@ function start(id, callback) {
 function check(data) {
     if (data.status === 'processing' && data.pid && !pids[data.pid]) {
         var attr = { status: 'error' };
-        if (pid_errors[data.pid])
-            attr.error = pid_errors[data.pid]
-        else
+        if (pid_errors[data.pid]) {
+            attr.error = String(pid_errors[data.pid]);
+            delete pid_errors[data.pid];
+        } else {
             attr.error = 'Export process died'
+        }
         return attr;
     }
     if (data.status === 'waiting' && !_(queue.queue).include(data.id))
