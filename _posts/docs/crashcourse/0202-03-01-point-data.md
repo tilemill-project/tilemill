@@ -16,7 +16,7 @@ nextup:
 
 {% include prereq.html %}
 
-One of the [many geo formats](/tilemill/docs/manual/adding-layers/) that TileMill supports is a spreadsheet, specifically a [comma-separated values (CSV) file](http://en.wikipedia.org/wiki/Comma-separated_values). We want to start by working with a basic spreadsheet to how how easy it is to make a simple point map.  
+One of the [many geo formats](/tilemill/docs/manual/adding-layers/) that TileMill supports is a spreadsheet, specifically a [comma-separated values (CSV) file](http://en.wikipedia.org/wiki/Comma-separated_values). We want to start by working with a basic spreadsheet to how easy it is to make a simple point map.  
 
 ## Your CSV spreadsheet
 To import data into TileMill as a CSV file you need column headings on the first row. The CSV must also contain columns with latitude and longitude geographic coordinates. We have hard coded TileMill to look at the column headers for any mention of "lat" or "latitude", so something like "geo_longitude" will even work. 
