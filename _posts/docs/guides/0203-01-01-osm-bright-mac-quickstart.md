@@ -48,6 +48,7 @@ You need to create a database with PostGIS enabled for the OpenStreetMap data. R
     psql -U postgres -c "create database osm;"
     psql -U postgres -d osm -f /usr/local/pgsql-9.1/share/contrib/postgis-1.5/postgis.sql
     psql -U postgres -d osm -f /usr/local/pgsql-9.1/share/contrib/postgis-1.5/spatial_ref_sys.sql
+    psql -U postgres -d osm -f /usr/local/share/osm2pgsql/900913.sql
 
 ## Step 2: Download & import OSM data
 
@@ -83,7 +84,7 @@ Now you can build and install a copy of the project with this new configuration 
     cd ~/Downloads/mapbox-osm-bright-*
     ./make.py
 
-If you open TileMill and the Projects view should show you a new map. It will take a bit of time to load at first - the project needs to download about 350 MB of additional data. After some waiting you should see the continents appear on the map. Zoom into the area that your imported data covers and you should see streets and cities appear.
+If you open TileMill, the Projects view should show you a new map. It will take a bit of time to load at first - the project needs to download about 350 MB of additional data. After some waiting you should see the continents appear on the map. Zoom into the area that your imported data covers and you should see streets and cities appear.
 
 ## Step 4: Customize your map
 
