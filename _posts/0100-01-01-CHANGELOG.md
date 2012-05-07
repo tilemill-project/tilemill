@@ -13,9 +13,9 @@ permalink: /docs/changelog
 releases:
 
 #- version: 0.9.1
-#  date:
-#  size:
-#  sign:
+#  date: 2012-05-07
+#  size: 83455965
+#  sign: MC4CFQDvaV9w+7IyMfsd3XZnNOadT70jfAIVAJq14ThnQ4CWG4zs1TwB/zWNTLS2
 #
 #  notes:
 #  - Better error output in logs if a crash occurs during rendering or exports
