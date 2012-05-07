@@ -11,8 +11,6 @@ nextup:
 - "[Add a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
 ---
 
-{% include prereq.html %}
-
 ## Using Google Docs
 You probably already have a favorite software or database system for data manipulation. No problem, as long as it gets your data where it needs to be. We do highly recommend using [Google Docs](http://docs.google.com) in conjunction, for it does certain tasks very well. It's also free, has versioning, and allows you to use our nifty [Geocoding and GeoJSON Export scripts](https://github.com/mapbox/geo-googledocs). Importing your data into a Google Spreadsheet is relatively painless. These tutorials will guide you through a few of the more advanced tools offered in Google Spreadsheets for pre-TileMill data preparation.
 
