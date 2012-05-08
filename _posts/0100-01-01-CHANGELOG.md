@@ -27,7 +27,7 @@ releases:
   - Faster exports by detecting solid tiles and avoiding duplicate encoding and storage
   - Faster refresh after saving (Mapnik)
   - Fully 64 bit build on OS X (duel 64/32bit support dropped)
-  - Better support for GDAL rasters: notably larger rasters can be loaded now without hitting 'bad:alloc'
+  - Better support for GDAL rasters - larger rasters can be loaded now without hitting "bad:alloc"
   - Supports zooming up to z22 (fixed by new Mapnik clipping and ModestMaps respecting project settings)
   - Now supports epsg projection syntax: so '+init=epsg:4326' can be used as shorthand for '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs' (proj epsg lookup tables now packaged)
   - Doc fixes to make it clearer how to run as Ubuntu server: http://mapbox.com/tilemill/docs/guides/ubuntu-service/
