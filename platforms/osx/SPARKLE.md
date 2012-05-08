@@ -12,8 +12,8 @@ and replaces the app, prompting a relaunch.
  * A changelog entry for the version in `../../CHANGELOG.md`.
  * A copy of the private key corresponding to `dsa_public.pem` in a secure note in your OS X
    keychain named **TileMill Sparkle Private Key** (*Keychain Access.app > File > New Secure
-   Note Item...*). Running `security find-generic-password -g -s "TileMill Sparkle Private
-   Key"` should yield output.
+   Note Item...*). Running `security find-generic-password -g -s "TileMill Sparkle Private Key"`
+   should yield output.
 
 ## Usage
 
