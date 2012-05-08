@@ -36,7 +36,7 @@ releases:
 #  - PDF/SVG support now supports markers fully (Mapnik)
 #  - Reading interlaced PNG images now works (Mapnik)
 #  - Multigeometries are now labeled properly (Mapnik)
-#  - improved support for rendering svg icons from http://www.sjjb.co.uk/mapicons (Mapnik)
+#  - Improved support for rendering svg icons from http://www.sjjb.co.uk/mapicons (Mapnik)
 
 - version: 0.9.0.378
   dev: true
