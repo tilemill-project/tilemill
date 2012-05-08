@@ -47,9 +47,9 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
     } else if (ch == '/' && stream.eat('/')) {
       stream.skipToEnd();
       return ret("carto-comment", "comment");
+    } else if (ch == '=' && stream.eat('~')) {
+      return ret(null, 'compare');
     } else if (ch == '=') {
-      ret(null, 'compare');
-    } else if ((ch == '~' || ch == '|') && stream.eat('=')) {
       return ret(null, 'compare');
     } else if (ch == '\"' || ch == "'") {
       state.tokenize = tokenString(ch);
