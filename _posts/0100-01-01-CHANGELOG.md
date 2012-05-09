@@ -12,6 +12,14 @@ title: Changelog
 permalink: /docs/changelog
 releases:
 
+#- version:
+#  date:
+#  size:
+#  sign:
+#
+#  notes:
+#  - Improved support for autodetection of geojson from the cartodb api (node-srs)
+
 - version: 0.9.1
   date: 2012-05-07
   size: 83455965
