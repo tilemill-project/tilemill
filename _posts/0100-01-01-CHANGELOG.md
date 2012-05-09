@@ -19,24 +19,24 @@ releases:
 
   notes:
   - Better error output in logs if a crash occurs during rendering or exports
-  - Now using Node v0.6.15 (previous 0.9.0 release used Node v0.4.12)
+  - Now using Node v0.6.17 (previous 0.9.0 release used Node v0.4.12)
   - Supports PostGIS 2.0 (Mapnik)
   - Interactivity UI now warns about the need for users to provide a unique key for PostGIS layers.
   - Invalid fonts no longer prevent startup (Mapnik)
   - Better reporting of Carto parse errors to UI
   - Faster exports by detecting solid tiles and avoiding duplicate encoding and storage
   - Faster refresh after saving (Mapnik)
-  - Fully 64 bit build on OS X (duel 64/32bit support dropped)
-  - Better support for GDAL rasters: notably larger rasters can be loaded now without hitting 'bad:alloc'
+  - Fully 64-bit build on Mac OS X (dual 64/32-bit support dropped)
+  - Better support for GDAL rasters - larger rasters can be loaded now without hitting "bad:alloc"
   - Supports zooming up to z22 (fixed by new Mapnik clipping and ModestMaps respecting project settings)
-  - Now supports epsg projection syntax: so '+init=epsg:4326' can be used as shorthand for '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs' (proj epsg lookup tables now packaged)
-  - Doc fixes to make it clearer how to run as Ubuntu server: http://mapbox.com/tilemill/docs/guides/ubuntu-service/
+  - Now supports epsg projection syntax so that "+init=epsg:4326" can be used as shorthand for "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs" (proj epsg lookup tables now packaged)
+  - Doc fixes to make it clearer how to run a headless [Ubuntu server](http://mapbox.com/tilemill/docs/guides/ubuntu-service)
   - Grid interactivity rendering faster (using async callbacks in node-mapnik)
   - KML now supported in Windows build (Mapnik uses OGR built with expat support)
   - PDF/SVG support now supports markers fully (Mapnik)
   - Reading interlaced PNG images now works (Mapnik)
   - Multigeometries are now labeled properly (Mapnik)
-  - Improved support for rendering svg icons from http://www.sjjb.co.uk/mapicons (Mapnik)
+  - Improved support for rendering svg icons from [sjjb](http://www.sjjb.co.uk/mapicons) (Mapnik)
 
 - version: 0.9.0.378
   dev: true
