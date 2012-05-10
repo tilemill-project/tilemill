@@ -11,6 +11,10 @@ var compatible = semver.satisfies(window.abilities.tilemill.version, get('engine
     <% if (!compatible) %>
     <span class='error'>Incompatible with TileMill <%=window.abilities.tilemill.version%></span>
     <%;%>
+    <% if (get('broken')) %>
+    <span class='error'>Broken, uninstalling is highly recommended</span>
+    <%;%>
+
   </small>
   <div class='actions'>
     <% if (get('core')) { %>

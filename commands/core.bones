@@ -160,34 +160,50 @@ command.prototype.bootstrap = function(plugin, callback) {
         .map(function(p, index) {
             try {
             return fs.readdirSync(p).map(function(dir) {
+                var data;
                 try {
-                var pkg = path.join(p, dir, 'package.json');
-                var data = JSON.parse(fs.readFileSync(pkg, 'utf8'));
-                data.core = index === 0;
-                data.id = data.name;
+                    var pkg = path.join(p, dir, 'package.json');
+                    data = JSON.parse(fs.readFileSync(pkg, 'utf8'));
+                    data.core = index === 0;
+                    data.id = data.name;
 
-                // Engines key missing.
-                if (!data.engines || !data.engines.tilemill) {
-                    console.warn('Plugin [%s] "engines" missing.',
-                        Bones.utils.colorize(data.name, 'red'));
-                    return false;
-                }
-                // Check that TileMill version satisfies plugin requirements.
-                // Pass data through such that the plugin can be shown in the
-                // UI as failing to satisfy requirements.
-                if (!semver.satisfies(Bones.plugin.abilities.tilemill.version, data.engines.tilemill)) {
-                    console.warn('Plugin [%s] requires TileMill %s.',
-                        Bones.utils.colorize(data.name, 'red'),
-                        data.engines.tilemill);
+                    // Engines key missing.
+                    if (!data.engines || !data.engines.tilemill) {
+                        console.warn('Plugin [%s] "engines" missing.',
+                            Bones.utils.colorize(data.name, 'red'));
+                        return false;
+                    }
+                    // Check that TileMill version satisfies plugin requirements.
+                    // Pass data through such that the plugin can be shown in the
+                    // UI as failing to satisfy requirements.
+                    if (!semver.satisfies(Bones.plugin.abilities.tilemill.version, data.engines.tilemill)) {
+                        console.warn('Plugin [%s] requires TileMill %s.',
+                            Bones.utils.colorize(data.name, 'red'),
+                            data.engines.tilemill);
+                        return data;
+                    }
+                    // Load plugin
+                    // NOTE: even broken plugins (ones that throw upon require) will likely get partially loaded here
+                    require('bones').load(path.join(p, dir));
+                    console.warn('Plugin [%s] loaded.', Bones.utils.colorize(data.name, 'green'));
                     return data;
+                } catch (err) {
+                    if (data && data.name) {
+                        // consider, as broken, plugins which partially loaded but threw so that
+                        // the user can know to uninstall them, because unloading is not possible
+                        data.broken = true;
+                        console.error('Plugin [' + data.name + '] unable to be loaded: ' + err.stack || err.toString());
+                        return data;
+                    } else {
+                        console.error(err);
+                        return false;
+                    }
                 }
-                // Load plugin.
-                require('bones').load(path.join(p, dir));
-                console.warn('Plugin [%s] loaded.', Bones.utils.colorize(data.name, 'green'));
-                return data;
-                } catch (e) { console.error(e); return false; }
             });
-            } catch(e) { return []; }
+            } catch(err) {
+                console.warn('WARNING: problem encountered searching for plugins: ' + err.stack || err.toString());
+                return [];
+            }
         })
         .flatten()
         .compact()
