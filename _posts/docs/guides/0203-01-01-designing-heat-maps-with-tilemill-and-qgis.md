@@ -1,3 +1,12 @@
+---
+layout: book
+section: documentation
+category: TileMill
+tag: Guides
+title: "Designing heat maps"
+permalink: /docs/guides/designing-heat-maps
+---
+
 ## Designing Heat Maps with TileMill and QGIS
 
 This is a 10 minute walk through showing how to generate heat maps in QGIS and then display them in TileMill.
