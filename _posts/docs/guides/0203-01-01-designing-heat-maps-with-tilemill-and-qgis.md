@@ -14,13 +14,13 @@ This is a 10 minute walk through showing how to generate heat maps in QGIS and t
 
 ### Working with QGIS
 
-Make sure you are running at least QGIS >= 1.9. At the time of writing this, this is the development release. Mac users can find it at [kyngchaos](http://www.kyngchaos.com/software/qgis). 
+Make sure you are running at least QGIS >= 1.9. At the time of writing, this is the development release. Mac users can find it at [kyngchaos](http://www.kyngchaos.com/software/qgis). 
 
 Next you'll need to enable the Heatmap Plugin. Open the pane below by selecting Plugins > Manage plugins. In the following pane, check the box for the Heatmap Plugin. _Note: This plugin is only available for QGIS 1.9 and above_. You may need to restart QGIS for these changes to take effect. 
 
 ![plugin](http://farm6.staticflickr.com/5325/7173395958_5d4d96aef9_z.jpg)
 
-Now add some point data. Data below is from the DC office of Alcoholic Beverages Regulatory Administration, made available by DC's open data portal [data.dc.gov](http://data.dc.gov/). It can be downloaded [here](http://dcatlas.dcgis.dc.gov/download/ABRALicenseePt.ZIP)[here](http://data.octo.dc.gov/Metadata.aspx?id=293).
+Now add some point data. Data below is from the Washington, DC Alcoholic Beverage Regulation Administration, made available by DC's open data portal [data.dc.gov](http://data.dc.gov/). It can be downloaded [here](http://dcatlas.dcgis.dc.gov/download/ABRALicenseePt.ZIP).
 
 ![abra-qgis](http://farm8.staticflickr.com/7076/7173395998_9f16de7e40_z.jpg)
 
@@ -41,7 +41,9 @@ To render in TileMill, open a new project and load your .tiff as a new layer. Ge
 	  raster-scaling: bilinear;
 	  }
 
-Your map should appear. Just hit upload in the [export](http://mapbox.com/tilemill/docs/crashcourse/exporting/) menu to start sharing your map online. For more info on working with raster data, read docs on [reprojecting geotiffs](http://mapbox.com/tilemill/docs/guides/reprojecting-geotiff/) and [working with terrain data](http://mapbox.com/tilemill/docs/guides/terrain-data/). If you want more inspiration, check out some of previous work like [AJ's](https://twitter.com/#!/aj_ashton) map of [![](http://farm7.staticflickr.com/6100/6286976630_3569786983_o.png)](http://www.flickr.com/photos/developmentseed/6286976630/in/photostream/lightbox/)
+Your map should appear. Just hit upload in the [export](http://mapbox.com/tilemill/docs/crashcourse/exporting/) menu to start sharing your map online. For more info on working with raster data, read docs on [reprojecting GeoTIFFs](http://mapbox.com/tilemill/docs/guides/reprojecting-geotiff/) and [working with terrain data](http://mapbox.com/tilemill/docs/guides/terrain-data/). If you want more inspiration, check out some of previous work like [AJ's](https://twitter.com/#!/aj_ashton) map of the [world population](http://www.flickr.com/photos/developmentseed/6286976630/in/photostream/lightbox/). 
+
+[![](http://farm7.staticflickr.com/6100/6286976630_3569786983_o.png)](http://www.flickr.com/photos/developmentseed/6286976630/in/photostream/lightbox/)
 
 ## Faking it with TileMill
 
@@ -58,6 +60,6 @@ This example uses the original shapefile with just a few lines of [Carto](http:/
 	  marker-line-opacity:0;
 	  marker-allow-overlap:true;
 	}
-_Note: This code also omits any locations listed as 'Retailer B' to get rid of grocery stores to better show where bars and nightlife are in DC_
+_Note: This code also omits any locations listed as 'Retailer B' to get rid of grocery stores to better show where bars and nightlife are in DC._
 
 This approach has the added benefit of retaining the exact locations of individual dots at higher zoom levels, as well as the possibility of feature-specific interactivity. For further styling tips, learn more about [advanced map design](http://mapbox.com/tilemill/docs/guides/advanced-map-design/).  
