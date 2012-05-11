@@ -45,7 +45,7 @@ Your map should appear. Just hit upload in the [export](http://mapbox.com/tilemi
 
 [![](http://farm7.staticflickr.com/6100/6286976630_3569786983_o.png)](http://www.flickr.com/photos/developmentseed/6286976630/in/photostream/lightbox/)
 
-## Faking it with TileMill
+### Faking it with TileMill
 
 TileMill won't generate rasterized heatmaps like the QGIS plugin can, but you can approximate the effect with a few Carto tricks to take advantage of aggregated opacity: low opacity of individual points means that overlap in dense areas has a stronger, more saturated color value. 
 
