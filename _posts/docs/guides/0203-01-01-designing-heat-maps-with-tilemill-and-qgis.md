@@ -41,13 +41,13 @@ To render in TileMill, open a new project and load your .tiff as a new layer. Ge
 	  raster-scaling: bilinear;
 	  }
 
-Your map should appear. Just hit upload in the [export](http://mapbox.com/tilemill/docs/crashcourse/exporting/) menu to start sharing your map online. For more info on working with raster data, read docs on [reprojecting geotiffs](http://mapbox.com/tilemill/docs/guides/reprojecting-geotiff/) and [working with terrain data](http://mapbox.com/tilemill/docs/guides/terrain-data/). If you want more inspiration, check out some of previous work like [AJ's](https://twitter.com/#!/aj_ashton) map of [![](http://farm7.staticflickr.com/6100/6286976630_3569786983_o.png)](http://www.flickr.com/photos/developmentseed/6286976630/in/photostream/lightbox/).
+Your map should appear. Just hit upload in the [export](http://mapbox.com/tilemill/docs/crashcourse/exporting/) menu to start sharing your map online. For more info on working with raster data, read docs on [reprojecting geotiffs](http://mapbox.com/tilemill/docs/guides/reprojecting-geotiff/) and [working with terrain data](http://mapbox.com/tilemill/docs/guides/terrain-data/). If you want more inspiration, check out some of previous work like [AJ's](https://twitter.com/#!/aj_ashton) map of [![](http://farm7.staticflickr.com/6100/6286976630_3569786983_o.png)](http://www.flickr.com/photos/developmentseed/6286976630/in/photostream/lightbox/)
 
 ## Faking it with TileMill
 
 TileMill won't generate rasterized heatmaps like the QGIS plugin can, but you can approximate the effect with a few Carto tricks to take advantage of aggregated opacity: low opacity of individual points means that overlap in dense areas has a stronger, more saturated color value. 
 
-<iframe width='450' height='650' frameBorder='0' src='http://a.tiles.mapbox.com/v3/villeda.map-kahz7z2b.html#12/38.905/-77.003'> </iframe>
+<iframe width='650' height='450' frameBorder='0' src='http://a.tiles.mapbox.com/v3/villeda.map-kahz7z2b.html#12/38.905/-77.003'> </iframe>
 
 This example uses the original shapefile with just a few lines of [Carto](http://mapbox.com/carto/):
 
