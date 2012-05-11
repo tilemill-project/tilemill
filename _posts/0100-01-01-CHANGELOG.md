@@ -19,6 +19,10 @@ releases:
 #
 #  notes:
 #  - Improved support for autodetection of geojson from the cartodb api (node-srs)
+#  - Added support for using escaped URLs to remove datasources (like cartodb)
+#  - Added support for regex in carto filters like `#world[name =~ "A.*"]`
+#  - Added support for quotes in carto filter values like `#world[name2="Sa'ad"]`
+#  - Carto parsing now provides better errors for unmatched parens
 
 - version: 0.9.1
   date: 2012-05-07
