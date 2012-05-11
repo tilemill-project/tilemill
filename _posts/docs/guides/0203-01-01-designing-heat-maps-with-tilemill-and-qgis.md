@@ -12,7 +12,7 @@ permalink: /docs/guides/designing-heat-maps
 
 This is a 10 minute walk through showing how to generate heat maps in QGIS and then display them in TileMill.
 
-# Working with QGIS
+### Working with QGIS
 
 Make sure you are running at least QGIS >= 1.9. At the time of writing this, this is the development release. Mac users can find it at [kyngchaos](http://www.kyngchaos.com/software/qgis). 
 
