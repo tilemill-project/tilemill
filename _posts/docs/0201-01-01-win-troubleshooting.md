@@ -9,6 +9,16 @@ hidden: true
 ---
 If TileMill isn't starting up or performing properly, try these troubleshooting steps. This page is for **Windows**. We also have instructions for [Ubuntu](/tilemill/docs/linux-troubleshooting) and [Mac OS X](/tilemill/docs/mac-troubleshooting).
 
+## Check for, and stop, any runaway processes
+
+If TileMill crashes it is possible that some of its internal processes may continue running. While this is a top priority to fix in upcoming releases so that it never occurs, in the meantime users may need to know how to manually stop these "runaway" processes.
+
+A startup error about ports not being available is a common symptom of runaway processes.
+
+To stop them open the "Task Manager". You can do this either by right-clicking on the bottom menu bar, or by searching for "task manager" in the Start menu search input.
+
+Within the Task Manager click on the "Image Name" column to sort by process name. Click to highlight any processes named "node" or "tilemill", then click the "End Process" button in the lower right of the Task Manager (or via the right click menu).
+
 ## Run TileMill as an administrator
 
 Navigate to the TileMill item in the Start menu. Right click on the menu item and choose "Run as administrator".
