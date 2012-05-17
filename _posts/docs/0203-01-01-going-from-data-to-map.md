@@ -28,7 +28,7 @@ of countries.
 
 You'll need to preprocess this data for it to be usable by TileMill or any
 other geospatial software. Usually this data starts out in a spreadsheet,
-so that's where we'll start. For turn addresses into useful data, you can use
+so that's where we'll start. For turning addresses into useful data, you can use
 [geo-googledocs](http://mapbox.com/blog/mapping-google-doc-spreadsheet/) to
 run a [geocoder](http://en.wikipedia.org/wiki/Geocoder) over each address,
 finding its latitude and longitude. [Our documentation on processing data with
@@ -40,7 +40,7 @@ Geographic points are like [euclidean points](http://ds.io/IJnRdl) -
 they have no area. Points at addresses are simply a single position
 at that address.
 
-There are several ways to represent points, and these depend on
+There are several ways to display points, and these depend on
 what they represent and what you want to present:
 
 ### Density
@@ -55,7 +55,7 @@ Heat maps are most appropriate for data that affects a certain radius
 and has falloff: for instance, light pollution, radio waves, or
 incidences of crime. Some heat maps are _weighted_ - certain values
 make the map more colorful or darker than others - but typically they
-simply represent density.
+represent density.
 
 [Binning is another option for representing point density](http://indiemaps.com/blog/2011/10/hexbins/).
 It can end with a cleaner look than heatmaps, and you can adjust
@@ -66,7 +66,7 @@ is affected - like a neighborhood or block size.
 
 Absolute value means a value that comes from zero and represents something
 that happened 'at' a point. For instance, a map of political donations by
-individual donors which shows dollar amounts shows absolute value.
+individual donors with relative circle size by dollar amounts shows absolute value.
 
 ![](http://mapbox.com/tilemill/assets/pages/conditional-style-1.png)
 
@@ -87,7 +87,7 @@ population density or percentage support for a political candidate.
 Population density is _per-square-mile_ and political support
 is _per-average-citizen_: using a choropleth map to show
 total population would be inappropriate, because larger countries
-would be overemphasized and the map becomes a simple proxy for
+would be over-emphasized and the map becomes a simple proxy for
 showing country size via population.
 
 ### Absolute value
