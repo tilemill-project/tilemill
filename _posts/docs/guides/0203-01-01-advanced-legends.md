@@ -38,9 +38,9 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
   ![](/tilemill/assets/pages/advanced-legends-2.png)
 
     <div class='my-legend'>
-    <div class='title'>The Title or Explanation of your Map</div>
-    <div class='scale'>
-      <ul class='labels'>
+    <div class='legend-title'>The Title or Explanation of your Map</div>
+    <div class='legend-scale'>
+      <ul class='legend-labels'>
         <li><span style='background:#F1EEF6;'></span>0 - 20%</li>
         <li><span style='background:#BDC9E1;'></span>40%</li>
         <li><span style='background:#74A9CF;'></span>60%</li>
@@ -48,23 +48,23 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
         <li><span style='background:#045A8D;'></span>100%</li>
       </ul>
     </div>
-    <div class='source'>Source: <a href="#link to source">Name of source</a></div>
+    <div class='legend-source'>Source: <a href="#link to source">Name of source</a></div>
     </div>
     
     <style type='text/css'>
-      .wax-legend .title {
+      .wax-legend .legend-title {
         text-align: left;
         margin-bottom: 8px;
         font-weight: bold;
         font-size: 90%;
         }
-      .wax-legend .scale ul {
+      .wax-legend .legend-scale ul {
         margin: 0;
         padding: 0;
         float: left;
         list-style: none;
         }
-      .wax-legend .scale ul li {
+      .wax-legend .legend-scale ul li {
         display: block;
         float: left;
         width: 50px;
@@ -73,20 +73,17 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
         font-size: 80%;
         list-style: none;
         }
-      .wax-legend ul.labels li span {
+      .wax-legend ul.legend-labels li span {
+        display: block;
+        float: left;
         height: 15px;
         width: 50px;
         }
-      .wax-legend ul li span {
-        display: block;
-        float: left;
-        }
-      .wax-legend .source {
+      .wax-legend .legend-source {
         font-size: 70%;
         color: #999;
         clear: both;
         }
-      .wax-attribution a,
       .wax-legend a {
         color: #777;
         }
@@ -96,9 +93,9 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
   ![](/tilemill/assets/pages/advanced-legends-1.png)
 
     <div class='my-legend'>
-    <div class='title'>The Title or Explanation of your Map</div>
-    <div class='scale'>
-      <ul class='labels'>
+    <div class='legend-title'>The Title or Explanation of your Map</div>
+    <div class='legend-scale'>
+      <ul class='legend-labels'>
         <li><span style='background:#8DD3C7;'></span>One</li>
         <li><span style='background:#FFFFB3;'></span>Two</li>
         <li><span style='background:#BEBADA;'></span>Three</li>
@@ -106,31 +103,32 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
         <li><span style='background:#80B1D3;'></span>etc</li>
       </ul>
     </div>
-    <div class='source'>Source: <a href="#link to source">Name of source</a></div>
+    <div class='legend-source'>Source: <a href="#link to source">Name of source</a></div>
     </div>
     
     <style type='text/css'>
-      .wax-legend .title {
+      .wax-legend .legend-title {
         text-align: left;
         margin-bottom: 5px;
         font-weight: bold;
         font-size: 90%;
         }
-      .wax-legend .scale ul {
+      .wax-legend .legend-scale ul {
         margin: 0;
         margin-bottom: 5px;
         padding: 0;
         float: left;
         list-style: none;
         }
-      .wax-legend .scale ul li {
+      .wax-legend .legend-scale ul li {
         font-size: 80%;
         list-style: none;
         margin-left: 0;
         line-height: 18px;
         margin-bottom: 2px;
         }
-      .wax-legend ul.labels li span {
+      .wax-legend ul.legend-labels li span {
+        display: block;
         float: left;
         height: 16px;
         width: 30px;
@@ -138,16 +136,11 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
         margin-left: 0;
         border: 1px solid #999;
         }
-      .wax-legend ul li span {
-        display: block;
-        margin-left: 0;
-        }
-      .wax-legend .source {
+      .wax-legend .legend-source {
         font-size: 70%;
         color: #999;
         clear: both;
         }
-      .wax-attribution a,
       .wax-legend a {
         color: #777;
         }
