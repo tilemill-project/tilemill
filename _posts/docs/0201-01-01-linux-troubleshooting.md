@@ -34,6 +34,18 @@ This will reset any customizations you have made to TileMill preferences and wil
 5. Start TileMill again and a fresh `MapBox` directory should be created. If the application now behaves properly, copy the `project` folder from `MapBox-backup` to the newly created `MapBox` folder to restore your projects.
 6. If the problem returns after restoring your projects, check the logs and contact support.
 
+## Remove old Mapnik version or other Mapnik PPA
+
+TileMill depends on a custom Mapnik build that sits beside TileMill in its [Ubuntu PPA](https://launchpad.net/~developmentseed/+archive/mapbox). If you have any other version of Mapnik installed this will prevent TileMill from working properly (unless you have built TileMill from source).
+
+See the version of Mapnik you have installed by doing:
+
+<pre>
+apt-cache policy libmapnik
+</pre>
+
+The installed version should match the name of the Mapnik package at the [TileMill PPA](https://launchpad.net/~developmentseed/+archive/mapbox).
+
 ## Check the logs
 
 1. Open the Terminal, type `tail -2000 ~/.tilemill.log`, and press enter.
