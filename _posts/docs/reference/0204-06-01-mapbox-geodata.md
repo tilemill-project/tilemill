@@ -6,21 +6,31 @@ tag: Reference
 title: MapBox geodata
 permalink: /docs/manual/mapbox-geodata
 ---
-The MapBox GeoData Library is a collection of free datasets that have been optimized to work well with TileMill. The library is browsable from the TileMill interface through the Add Layer dialog - click on the 'browse' button next to the file field, then click the 'MapBox' button with the cloud icon.
+The MapBox GeoData Library is a collection of free datasets that have been optimized
+to work well with TileMill. The library is browsable from the TileMill interface through
+the Add Layer dialog - click on the 'browse' button next to the file field,
+then click the 'MapBox' button with the cloud icon.
 
 All text within the data has been converted to UTF-8 which is the preferred encoding for working with data in TileMill.
 
-All the data has been reprojected to Google Mercator projection, and is properly auto-detected as such by TileMill. All geometry data has also been cropped (where necessary) to fit within the Google Mercator square Earth bounding box of 180.0° east/west and 85.05112877980659° north/south.
+All the data has been reprojected to Google Mercator projection, and is properly
+auto-detected as such by TileMill. All geometry data has also been cropped (where necessary)
+to fit within the Google Mercator square Earth bounding box of 180.0° east/west and 85.05112877980659° north/south.
 
-All shapefiles have been indexed using Mapnik's shapeindex tool. (The article [Speed Optimization: Shapefile Indexes][1] explains the benefits of this and how you can make sure your own shapefiles are indexed.)
+All shapefiles have been indexed using Mapnik's shapeindex tool. (The article
+[Speed Optimization: Shapefile Indexes][1] explains the benefits of this and how you can make sure your own shapefiles are indexed.)
 
 [1]: http://mapbox.com/tilemill/docs/guides/optimizing-shapefiles
 
 ## Natural Earth
 
-Natural Earth is a public domain world-wide dataset available from <http://naturalearthdata.com>. It is designed to be consistent with itself across themes and appropriate at scales down to 1:10 million. (In TileMill it works well from zoom level 0 up to about 7 or 8.)
+Natural Earth is a public domain world-wide dataset available from [http://naturalearthdata.com](http://naturalearthdata.com).
+It is designed to be consistent with itself across themes and appropriate at scales down to 1:10 million.
+(In TileMill it works well from zoom level 0 up to about 7 or 8.)
 
-Many Natural Earth files contain a "ScaleRank" column. The values in these columns can be taken as hints about the approximate zoom-level at which it makes sense to start showing these features. Similarly, some files contain a "LabelRank" column which hints an appropriate zoom level to show a label for that feature.
+Many Natural Earth files contain a "ScaleRank" column. The values in these columns can be taken as
+hints about the approximate zoom-level at which it makes sense to start showing these features.
+Similarly, some files contain a "LabelRank" column which hints an appropriate zoom level to show a label for that feature.
 
 ### Cultural themes
 
