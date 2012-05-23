@@ -43,14 +43,14 @@ footer:
   <meta name='robots' content='{% if page.hidden %}noindex{% else %}index{% endif %}'/>
   <meta name="viewport" content="width=1000">
   {% if page.description %}<meta name='description' content='{{page.description | strip_html}}'/>{% endif %}
-  <title>{% if page.url == '/index.html' %}{{page.title}}{% else %}{{page.title}} | MapBox{% endif %}</title>
+  <title>{% if page.url == '/' %}{{page.title}} | Fast and beautiful maps{% else %}{{page.title}} | MapBox{% endif %}</title>
   <link rel='stylesheet' href='{{site.url}}/css/site.css' type='text/css'/>
   <!--[if IE]><link rel='stylesheet' href='{{site.url}}/css/site-ie.css' type='text/css'/><![endif]-->
   <link rel='shortcut icon' href='{{site.url}}/images/favicon.ico' type='image/x-icon' />
   <link rel='alternate' type='application/rss+xml' title='RSS' href='{{site.url}}/blog/blog.rss' />
   <script src='{{site.url}}/js/site.js'></script>
 </head>
-<body class='{{page.class}}'><div class='wrapper'>
+<body class='{{page.class}}'><div class='{% if page.bleed %}wrapper-bleed{% else %}wrapper{% endif %}'>
 <div class='branding'><div class='limiter'>
   <a class='logo' href='{{site.url}}/'>MapBox</a>
   <ul class='menu'>
@@ -82,6 +82,7 @@ footer:
 
 <div class='push'></div></div>
 
+{% unless page.bleed %}
 <div class='footer'><div class='limiter'>
 
 <div class='links'>
@@ -97,6 +98,7 @@ footer:
 </a>
 
 </div></div>
+{% endunless %}
 
 <script type='text/javascript'>
 var _gaq = _gaq || [];

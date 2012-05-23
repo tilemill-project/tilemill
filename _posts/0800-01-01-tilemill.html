@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: product
 section: tilemill
 category: homepage
 title: TileMill
@@ -39,38 +39,13 @@ img.envelope {
   bottom: 15px;
   }
 
-#bleed input#mc-embedded-subscribe {
-  width: 180px;
-  height: 50px;
-  margin: 0 0 0 10px;
-  padding: 4px 59px 4px 14px;
-  border: 1px solid #DDD;
-  background: white;
-  position: relative;
-  bottom: 35px; left: 230px;
-  white-space: nowrap;
-  transition: all 250ms;
-  -moz-transition: all 250ms;
-  -webkit-transition: all 250ms;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  text-align: left;
-  color: #444;
-  font-size: 14px;
-  }
-  #bleed input#mc-embedded-subscribe:hover,
-  #bleed input#mc-embedded-subscribe:active {
-    background-color: #fff;
-    color: #444;
-    border-color: #444;
-    }
-
-.wrapper { background:#e0f0f4; }
-.content hr { background-color:#c0d8e0; }
+.content { color:#fff; }
+.content a { color:#6bc; }
+.content small { color:#ccc; }
+.content hr { background-color:#444; }
 .content .box {
   position:relative;
-  background-color:#fff;
+  background:#444 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
   padding:20px;
   margin:0px 0px 20px;
   border-radius:5px;
@@ -87,29 +62,27 @@ img.envelope {
   }
 
 #bleed,
-#bleed .screenshot,
-#bleed .limiter {
-  height:560px;
+#bleed .screenshot {
+  border-radius:5px;
+  height:480px;
+  width:960px;
   position:relative;
   overflow:hidden;
-  }
-
-#bleed {
-  background:#040812;
-  margin:0px 0px 40px;
+  background:#444;
+  margin:0px auto 40px;
   }
 
 #bleed .screenshot {
-  background:url({{site.baseurl}}/assets/pages/screenshot.jpg) 50% 100% no-repeat;
+  background:url({{site.baseurl}}/assets/pages/screenshot.jpg) 0px 100% no-repeat;
   position:absolute;
   top:0px;
   left:0px;
   right:0px;
   bottom:0px;
   opacity:0;
-  transition:all 500ms;
-  -moz-transition:all 500ms;
-  -webkit-transition:all 500ms;
+  transition:all 500ms linear;
+  -moz-transition:all 500ms linear;
+  -webkit-transition:all 500ms linear;
   }
 
 #bleed.mac .screenshot.mac,
@@ -125,116 +98,73 @@ img.envelope {
 
 #bleed .mailchimp-subscribe,
 #bleed .dlbox {
-  width: 400px;
-  padding: 20px;
-  color: white;
-  margin: 0;
-  position: absolute;
-  right: 0;
-  height: 140px;
-  z-index: 1000;
-  }
-#bleed .dlbox {
-  background: #222;
-  background: rgba(32,32,32,0.95);
-  box-shadow: #000 0 0 10px;
-  border-radius: 5px 5px 0 0;
-  -moz-border-radius: 5px 5px 0 0;
-  -webkit-border-radius: 5px 5px 0 0;
-  transition:bottom 500ms;
-  -moz-transition:bottom 500ms;
-  -webkit-transition:bottom 500ms;
-  bottom: 0;
-  height: 220px;
-  }
-#bleed .actions {
-  position: absolute;
-  background: #6C4;
-  margin: 0 -30px;
-  padding: 10px 20px;
-  border-radius: 0 0 5px 5px;
-  bottom: 65px;
-  width: 420px;
-  }
-#bleed .actions .triangle {
-  position: absolute;
-  top: -10px;
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  }
-#mc-signup {
-  position: absolute;
-  width: 420px;
-  bottom: -15px;
-  height: 70px;
-  right: 10px;
-  }
-#bleed .actions .nw { left: 0; border-right: 10px solid #4a2; }
-#bleed .actions .ne { right: 0; border-left: 10px solid #4a2; }
-
-#bleed .actions small.label {
+  padding:20px;
+  height:50px;
   color:#fff;
-  padding: 5px 0;
-  float: left;
+  background:#333 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
+  border-radius:5px 5px 0px 0px;
   }
-#bleed small.centered {
-  position: absolute;
-  bottom: 30px;
-  left: 60px;
-  }
+
 #bleed .mailchimp-subscribe {
-  display: none;
+  position:absolute;
+  left:0px;
+  right:0px;
+  top:0px;
+  z-index:-1000;
   }
-  #bleed .mailchimp-subscribe.active {
-    display: block;
-    }
-.mailchimp-subscribe.fade {
-  bottom: 60px;
-  opacity: 0;
+
+#bleed.subscribe .mailchimp-subscribe { z-index:1000; opacity:1; }
+
+#bleed .ribbon {
+  border-radius:5px 0px 0px 5px;
+  background: #222 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
+  padding:10px 20px;
+  position:absolute;
+  right:0px;
+  top:10px;
   }
-.mailchimp-subscribe.fade.in {
-  bottom: 80px;
-  opacity: 1;
+#bleed .ribbon small.label {
+  color:#fff;
+  padding:5px;
+  float:left;
   }
+.dlbox small a { margin:0px 5px; }
+.dlbox small.oslist {
+  padding-right:10px;
+  border-right:1px solid #555;
+  display:inline-block;
+  }
+.dlbox small.links {
+  padding-left:10px;
+  display:inline-block;
+  }
+
 #mc-signup #mce-error-response,
 #mc-signup #mce-success-response {
-  background: #6C4;
-  border: none;
-  position: absolute;
-  top: 0px;
-  padding: 15px 10px 0 10px;
-  font-size: 12px;
-  margin: 0;
-  -moz-border-radius: 0;
-  -webkit-border-radius: 0;
-  border-radius: 0;
-  z-index: 5000;
-  height: 53px;
-  }
-#mc-signup .mc-field-group {
-  margin: 10px 0 0;
-  }
-  #mc-signup .mc-field-group #mce-EMAIL {
-    width: 200px;
-    margin-top: 5px;
-    }
-.fade {
-  -webkit-transition: opacity 0.2s linear, bottom 0.3s ease-out;
-  -moz-transition: opacity 0.2s linear, bottom 0.3s ease-out;
-  -ms-transition: opacity 0.2s linear, bottom 0.3s ease-out;
-  -o-transition: opacity 0.2s linear, bottom 0.3s ease-out;
-  transition: opacity 0.2s linear, bottom 0.3s ease-out;
+  border-radius:5px 0px 0px 5px;
+  background: #222 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
+  padding:12px 20px 13px;
+  height:45px;
+  line-height:15px;
+  overflow:hidden;
+  position:absolute;
+  right:0px;
+  top:0px;
+  left:0px;
+  bottom:0px;
+  font-size:12px;
   }
 
-.oslist,
-.oslist a { margin:0px 5px; }
+#bleed form { padding:10px 0px; }
+#bleed form div { display:inline; }
+#bleed form label { position:absolute; }
+#bleed form input { vertical-align:middle; }
 
 .img100x120 {
   display:block;
   width:100px;
   height:120px;
+  border-radius:5px;
   margin:0px 0px 20px;
   background:url({{site.baseurl}}/assets/pages/tilemill.jpg) 100px 120px no-repeat;
   }
@@ -269,63 +199,48 @@ img.envelope {
 .imgb { background-position:-570px -220px; }
 
 .img100x120.right { float:right; margin-left:20px; }
-
-.actions .icon.newsletter {
-  background: url({{site.baseurl}}/assets/pages/followup.png) 0px 8px no-repeat;
-  }
 </style>
 
-<div id='bleed' class='mac'>
+<div id='bleed' class='mac subscribe'>
 {% for item in page.platforms %}
-<div class='screenshot {{item.id}}'><div class='limiter'><div class='dlbox'>
-  <h1>Download TileMill</h1>
-  <h2>for {{item.name}}
-    <small class='inline oslist'>
+<div class='screenshot {{item.id}}'><div class='dlbox'>
+  <h2>Download TileMill for {{item.name}}</h2>
+  <small class='oslist'>
     Wrong OS?
     {% for other in page.platforms %}{% unless other.id == item.id %}
     <a href='#{{other.id}}'>{{other.id|capitalize}}</a>
     {% endunless%}{% endfor %}
-    </small>
-  </h2>
-  <div class='actions'>
-    <span class='triangle ne'></span>
-    <span class='triangle nw'></span>
+  </small><small class='links'>
+    <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a>
+    <a href='{{site.baseurl}}/docs/changelog/'>Changelog</a>
+  </small>
+  <div class='actions ribbon'>
     <small class='label'>{{item.help}}</small>
     <a class='em' href='{{item.url}}' title='{{item.name}}'>
       <span class='icon download'></span> {{item.file}} <small>{{item.size}}</small>
     </a>
   </div>
-<small class='centered'>
-  <a href='{{site.baseurl}}/docs/install/'>Installing</a> |
-  <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> |
-  <a href='{{site.baseurl}}/docs/changelog/'>Changelog</a> |
-  <a href='{{site.baseurl}}/docs/manual/'>Manual</a> |
-  <a href='http://support.mapbox.com/discussions/tilemill'>Support</a>
-</small>
-</div></div></div>
+</div></div>
 {% endfor %}
 
-<div class='limiter'>
-  <div class='mailchimp-subscribe fade clearfix'>
-    <h1>Downloading &hellip;</h1>
-    <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>crash course guide</a> to TileMill and for important news and useful tips subscribe to the newsletter.</small>
-    <!-- Begin MailChimp Signup Form -->
-    <div id='mc-signup'>
-      <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
-      <div class='mc-field-group clearfix'>
-        <input type='hidden' value='1' name='group[17][8]'>
-        <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
-        <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='subscribe'>
-        <img src='{{site.baseurl}}/assets/pages/subscribe.png' class='envelope' />
-      </div>
-        <div id='mce-responses'>
-          <div class='response' id='mce-error-response' style='display:none'></div>
-          <div class='response' id='mce-success-response' style='display:none'></div>
-        </div>
-      </form>
+<div class='mailchimp-subscribe fade clearfix'>
+  <h2>Downloading &hellip;</h2>
+  <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>Crash course</a> to TileMill. For news &amp; updates subscribe to our newsletter.</small>
+  <!-- Begin MailChimp Signup Form -->
+  <div class='ribbon' id='mc-signup'>
+    <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
+    <div class='mc-field-group clearfix'>
+      <input type='hidden' value='1' name='group[17][8]'>
+      <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
+      <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='subscribe'>
     </div>
-    <!--End mc_embed_signup-->
+    <div id='mce-responses'>
+      <div class='response' id='mce-error-response' style='display:none'></div>
+      <div class='response' id='mce-success-response' style='display:none'></div>
+    </div>
+    </form>
   </div>
+  <!--End mc_embed_signup-->
 </div>
 
 </div>
@@ -467,26 +382,13 @@ $(function() {
 
   $(mapbox.mailChimp);
 
-  var dlbox = $('.dlbox');
-  $('.actions a', dlbox).click(function(ev) {
-
+  $('.dlbox .actions a').click(function(ev) {
     _gaq.push([
       '_trackEvent',
       'TileMill Download',
       $(ev.currentTarget).attr('title')
     ]);
-
-    // Post download: Subscribe action
-    // Fade out download components
-    $('small.label, a.em, h1, h2', dlbox).fadeOut(250);
-
-    // Animate in subscribe components
-    var sub = $('#bleed').find('.mailchimp-subscribe');
-        sub.addClass('active');
-
-    setTimeout(function() {
-      sub.addClass('in');
-    }, 100);
+    $('#bleed').addClass('subscribe');
   });
 });
 </script>
