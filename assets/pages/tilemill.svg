@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.48.2 r9819"
    sodipodi:docname="tilemill.svg"
-   inkscape:export-filename="/home/devseed/tilemill/assets/pages/tilemill.png"
+   inkscape:export-filename="./tilemill.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -393,8 +393,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="423.47259"
-     inkscape:cy="432.36946"
+     inkscape:cx="468.05129"
+     inkscape:cy="248.48112"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false">
@@ -414,7 +414,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -423,6 +423,20 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-502.36218)">
+    <rect
+       y="722.36218"
+       x="460"
+       height="120"
+       width="100"
+       id="rect3921"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.50000000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3919"
+       width="100"
+       height="120"
+       x="570"
+       y="722.36218" />
     <rect
        y="502.36218"
        x="510"
@@ -819,7 +833,7 @@
        id="rect4192" />
     <g
        id="g4989"
-       transform="translate(50,0)">
+       transform="matrix(0.8,0,0,0.8,143,157.47244)">
       <rect
          y="722.36218"
          x="410"
@@ -837,7 +851,7 @@
     </g>
     <g
        id="g5011"
-       transform="translate(60,0)">
+       transform="translate(60,1)">
       <rect
          style="opacity:0.98999999;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.9723736px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
          id="rect4219-1"
