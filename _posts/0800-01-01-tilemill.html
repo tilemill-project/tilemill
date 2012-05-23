@@ -115,7 +115,7 @@ img.envelope {
 
 #bleed.subscribe .mailchimp-subscribe { z-index:1000; opacity:1; }
 
-#bleed .actions {
+#bleed .ribbon {
   border-radius:5px 0px 0px 5px;
   background: #222 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
   padding:10px 20px;
@@ -123,7 +123,7 @@ img.envelope {
   right:0px;
   top:10px;
   }
-#bleed .actions small.label {
+#bleed .ribbon small.label {
   color:#fff;
   padding:5px;
   float:left;
@@ -214,7 +214,7 @@ img.envelope {
     <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a>
     <a href='{{site.baseurl}}/docs/changelog/'>Changelog</a>
   </small>
-  <div class='actions'>
+  <div class='actions ribbon'>
     <small class='label'>{{item.help}}</small>
     <a class='em' href='{{item.url}}' title='{{item.name}}'>
       <span class='icon download'></span> {{item.file}} <small>{{item.size}}</small>
@@ -227,7 +227,7 @@ img.envelope {
   <h2>Downloading &hellip;</h2>
   <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>Crash course</a> to TileMill. For news &amp; updates subscribe to our newsletter.</small>
   <!-- Begin MailChimp Signup Form -->
-  <div class='actions' id='mc-signup'>
+  <div class='ribbon' id='mc-signup'>
     <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
     <div class='mc-field-group clearfix'>
       <input type='hidden' value='1' name='group[17][8]'>
@@ -382,8 +382,7 @@ $(function() {
 
   $(mapbox.mailChimp);
 
-  var dlbox = $('.dlbox');
-  $('.actions a', dlbox).click(function(ev) {
+  $('.dlbox .actions a').click(function(ev) {
     _gaq.push([
       '_trackEvent',
       'TileMill Download',
