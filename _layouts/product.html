@@ -1,0 +1,71 @@
+---
+layout: default
+---
+<style type='text/css'>
+.hero { background-color:#fff; }
+.wrapper { background:#555 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat; }
+
+.sections {
+  background:#444 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
+  line-height:30px;
+  box-shadow:inset rgba(0,0,0,0.2) 0px 10px 20px -10px;
+  padding:20px 0px 60px;
+  margin:0px 0px -40px;
+  }
+
+.sections a {
+  font-size:12px;
+  float:left;
+  padding:0px 10px;
+  position:relative;
+  color:#6bc;
+  border-radius:5px;
+  }
+
+.sections a.home {
+  font-size:14px;
+  padding:0px 10px 0px 28px;
+  margin:0px 10px 0px 0px;
+  background:#3bb2d0;
+  color:#fff;
+  box-shadow:inset rgba(0,0,0,0.1) 0px -20px 20px -10px;
+  }
+
+.sections a.home .icon {
+  display:block;
+  width:20px;
+  height:20px;
+  left:5px;
+  top:5px;
+  position:absolute;
+  background-position:-160px 0px;
+  }
+
+.sections a.button {
+  position:absolute;
+  right:0px;
+  top:0px;
+  color:#fff;
+  }
+
+.sections form input[type=text] { width:200px; }
+
+.book-page {
+  margin-right:-20px;
+  background:#fff;
+  padding:19px;
+  border:1px solid #ccc;
+  border-radius:5px;
+  }
+</style>
+
+<div class='sections'><div class='limiter clearfix'>
+  <a href='/tilemill/' class='home'><span class='icon'></span> TileMill</a>
+  <a href='/tilemill/docs/install'>Installation</a>
+  <a href='/tilemill/docs/crashcourse/introduction'>Crash course</a>
+  <a href='/tilemill/docs/guides/add-shapefile'>Guides</a>
+  <a href='http://support.mapbox.com/discussions/tilemill'>Support</a>
+  <a class='button big'>Fork me on GitHub</a>
+</div></div>
+
+{{content}}
