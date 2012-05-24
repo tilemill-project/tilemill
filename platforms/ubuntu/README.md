@@ -15,8 +15,9 @@ Debian packages, Launchpad PPA's, and a bit of elbow grease are the tools.
 
 These are high level resources you should look at before continuing:
 
+* http://blog.launchpad.net/ppa/personal-package-archives-for-everyone
 * https://wiki.ubuntu.com/PackagingGuide/Complete
-* http://www.debian.org/doc/manuals/maint-guide/
+* http://www.debian.org/doc/manuals/maint-guide
 
 
 ## Initial Setup
@@ -27,8 +28,11 @@ Install some debian packages:
 
 For more info on these requirements see: https://wiki.ubuntu.com/PackagingGuide/Complete#Packaging_Tools
 
-Then create your PGP key and upload to launchpad. You can do this through the GUI tool "Passwords and Keys". 
+Then create your PGP key and upload to launchpad. You can do this through the GUI tool "Passwords and Keys" or using `gpg --gen-key`.
+
 Make sure to create entropy as the key is created by moving your mouse around or typing.
+
+If you are on a headless server you can fake entropy by using `rng-tools` and setting your device to `/dev/urandom` (in `/etc/default/rng-tools`).
 
 For more info on creating your key see: https://help.launchpad.net/YourAccount/ImportingYourPGPKey
 
