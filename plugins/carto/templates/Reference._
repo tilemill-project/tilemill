@@ -100,12 +100,18 @@
 <p>Different properties in carto accept different types of values - colors, dimensions, and more.</p>
 
 <h4>Colors</h4>
+
+<p>Carto accepts a variety of syntaxes for colors - HTML-style hex values,
+rgb, rgba, and hsl. It also supports the predefined HTML colors names, like
+<code>yellow</code> and <code>blue</code>.</p>
+
 <pre class='carto-snippet'>
 #line {
   line-color: #ff0;
   line-color: #ffff00;
   line-color: rgb(255, 255, 0);
   line-color: rgba(255, 255, 0, 1);
+  line-color: hsl(100, 50%, 50%);
   line-color: yellow;
 }</pre>
 

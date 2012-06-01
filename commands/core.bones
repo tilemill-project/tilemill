@@ -201,7 +201,6 @@ command.prototype.bootstrap = function(plugin, callback) {
                 }
             });
             } catch(err) {
-                console.warn('WARNING: problem encountered searching for plugins: ' + err.stack || err.toString());
                 return [];
             }
         })

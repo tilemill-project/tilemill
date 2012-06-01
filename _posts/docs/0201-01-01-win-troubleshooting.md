@@ -37,6 +37,16 @@ This will reset any customizations you have made to TileMill preferences and wil
 5. Start TileMill again and a fresh `MapBox` directory should be created. If the application now behaves properly, copy the `project` folder from `MapBox-backup` to the newly created `MapBox` folder to restore your projects.
 6. If the problem returns after restoring your projects, check the logs and contact support.
 
+## Check for, and stop, any runaway processes
+
+If TileMill crashes it is possible that some of its internal processes may continue running. While this is a top priority to fix in upcoming releases so that it never occurs, in the meantime users may need to know how to manually stop these "runaway" processes.
+
+A startup error about ports not being available is a common symptom of runaway processes.
+
+To stop them open the "Task Manager". You can do this either by right-clicking on the bottom menu bar, or by searching for "task manager" in the Start menu search input.
+
+Within the Task Manager click on the "Image Name" column to sort by process name. Click to highlight any processes named "node" or "tilemill", then click the "End Process" button in the lower right of the Task Manager (or via the right click menu).
+
 ## Check the logs
 
 1. Right click on the "Start" button and choose "Open Windows Explorer" from the menu.
