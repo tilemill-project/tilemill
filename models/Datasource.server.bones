@@ -38,6 +38,17 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             mml.Layer[0].Datasource = _(mml.Layer[0].Datasource).defaults({
                 row_limit: row_limit
                 });
+
+            // simplistic validation that subselects have the key_field string present
+            // not a proper parser, but this is not the right place to be parsing SQL
+            // https://github.com/mapbox/tilemill/issues/1509
+            if (mml.Layer[0].Datasource.table !== undefined
+                && mml.Layer[0].Datasource.key_field !== undefined
+                && mml.Layer[0].Datasource.table.match(/select /i)
+                && mml.Layer[0].Datasource.table.search(mml.Layer[0].Datasource.key_field) == -1) {
+                    return error(new Error("Your SQL subquery needs to contain the custom key_field supplied: '" + mml.Layer[0].Datasource.key_field + "'"));
+            }
+
             var source = new mapnik.Datasource(mml.Layer[0].Datasource);
 
             var features = [];
