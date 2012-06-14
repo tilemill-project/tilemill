@@ -41,8 +41,7 @@ If TileMill crashes it is possible that some of its internal processes may conti
 
 A startup error about ports not being available is a common symptom of runaway processes.
 
-To stop them open the "Activity Monitor.app". This application is located in `/Applications/Utilities/Activity Monit
-or.app`.
+To stop them open the "Activity Monitor.app". This application is located in `/Applications/Utilities/Activity Monitor.app`.
 
 After opening Activity Monitor you should see a listing of all running processes in an "Activity Monitor" window. If you do not see this then choose Window > Activity Monitor from the applications top menu.
 
