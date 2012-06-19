@@ -20,7 +20,7 @@ A simple wrapper around tilemill for OSX.
 
 Compile and run the OSX App:
 
-    cd platforms/osxm
+    cd platforms/osx
     make && make run
 
 # Standalone packaging
