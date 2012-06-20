@@ -1,9 +1,10 @@
-<li>
+<li class='status-<%= get('status') %>'>
   <span class='handle fill-w'>
     <a title='<%= get('geometry') %>' class='icon geometry geometry-<%= get('geometry') %>'></a>
   </span>
   <label><%= ["<span class='punc'>#</span>" + id].concat(get('class') && get('class').split(' ') || []).join("<span class='punc'>.</span>") %></label>
   <span class='actions fill-e'>
+    <a title='Toggle visibility of <%= id %>' class='icon visibility' href='#<%= id %>'>Hide <%= id %></a>
     <% if (get('geometry') !== 'raster') { %>
       <a title='Features (<%= id %>)' class='icon inspect drawer' href='#<%= id %>'>Features (<%= id %>)</a>
     <% } %>

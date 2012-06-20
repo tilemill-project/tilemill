@@ -639,12 +639,15 @@ ul.layers {
 .layers li {
   position:relative;
   border-bottom:1px solid rgba(0,0,0,0.1);
-  padding:5px 70px 4px 30px;
+  padding:5px 90px 4px 30px;
   overflow:hidden;
   white-space:nowrap;
   min-width:60px;
   max-width:240px;
   }
+
+.layers li.status-off { color:#999; }
+.layers li.status-off .icon.geometry { opacity:0.5; }
 
 .layers .ui-sortable-helper {
   background:#fe8;
@@ -948,6 +951,7 @@ li:hover .icon { display:block; }
 .icon.edit           { background-position:0px -180px; }
 .icon.inspect        { background-position:-20px -180px; }
 .icon.delete         { background-position:-60px -180px; }
+.icon.visibility     { background-position:-640px -180px; }
 .icon.color-picker   { background-position:-40px -180px; }
 .icon.close          { background-position:-80px -180px; }
 .icon.fonts          { background-position:-100px -180px; }

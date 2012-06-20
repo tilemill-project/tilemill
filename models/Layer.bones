@@ -32,6 +32,10 @@ model.prototype.schema = {
         'srs': {
             'type': 'string'
         },
+        'status': {
+            'type': 'string',
+            'enum': ['on', 'off']
+        },
         'geometry': {
             'type': 'string',
             'enum': ['polygon', 'multipolygon', 'point', 'multipoint', 'linestring', 'multilinestring', 'raster', 'unknown']
@@ -46,7 +50,11 @@ model.prototype.schema = {
 // @TODO either as a feature or a bug, object attributes are not set
 // automatically when passed to the constructor. We set it manually here.
 model.prototype.initialize = function(attributes) {
-    this.set({'Datasource': attributes.Datasource});
+    status = this.get('status') || 'on';
+    this.set({
+        'status': status,
+        'Datasource': attributes.Datasource
+    });
 };
 
 // Constant. Hash of simple names to known SRS strings.
