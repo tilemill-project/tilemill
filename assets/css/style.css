@@ -1566,6 +1566,7 @@ div.fonts {
 .exports li.error {
   color:#999;
   background:#f8f8f8;
+  height: 40px;
   }
 
 .exports .i40 {
