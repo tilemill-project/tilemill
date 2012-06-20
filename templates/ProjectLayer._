@@ -4,10 +4,10 @@
   </span>
   <label><%= ["<span class='punc'>#</span>" + id].concat(get('class') && get('class').split(' ') || []).join("<span class='punc'>.</span>") %></label>
   <span class='actions fill-e'>
-    <a title='Toggle visibility of <%= id %>' class='icon visibility' href='#<%= id %>'>Hide <%= id %></a>
     <% if (get('geometry') !== 'raster') { %>
       <a title='Features (<%= id %>)' class='icon inspect drawer' href='#<%= id %>'>Features (<%= id %>)</a>
     <% } %>
+    <a title='Toggle visibility of <%= id %>' class='icon visibility' href='#<%= id %>'>Hide <%= id %></a>
     <a title='Edit <%= id %>' class='icon edit popup' href='#<%= id %>'>Edit <%= id %></a>
     <a title='Delete <%= id %>' class='icon delete' href='#<%= id %>'>Delete <%= id %></a>
   </span>
