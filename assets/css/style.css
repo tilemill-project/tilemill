@@ -324,6 +324,8 @@ small { font-size:11px; }
   z-index:11;
   background:#444;
   box-shadow:inset rgba(0,0,0,0.1) -1px 0px;
+	-webkit-user-select: none;
+	user-select: none;
   }
 
 .bleed a {
@@ -439,7 +441,11 @@ small { font-size:11px; }
 /**
  * Projects
  */
-ul.projects { margin:0px -5px; }
+ul.projects {
+	margin:0px -5px;
+	-webkit-user-select: none;
+	user-select: none;
+	}
 
 .projects span.actions {
   display:block;
@@ -1206,6 +1212,11 @@ input.cancel:active {
   }
 
 /* Forms */
+.form {
+	-webkit-user-select: none;
+	user-select: none;
+	}
+
 ul.form h2 { font-size:16px; }
 
 ul.form li {
@@ -1675,6 +1686,8 @@ div.manual { margin-right:180px; }
   position:fixed;
   width:170px;
   padding:10px 0px;
+	-webkit-user-select: none;
+	user-select: none;
   }
 
 .manual pre { font-size:13px; }
@@ -1698,6 +1711,8 @@ div.manual { margin-right:180px; }
   background:#ddd url(/assets/tilemill/images/tilemill.png) 20px 50% no-repeat;
   margin:0px 0px 10px;
   padding:19px 19px 19px 79px;
+	-webkit-user-select: none;
+	user-select: none;
   }
 
 .about h2 { font-size:16px; }
