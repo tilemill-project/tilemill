@@ -8,7 +8,7 @@ var tile;
 var attr = function(body) {
     var data = JSON.parse(body);
     return _(data).reduce(function(memo, val, key) {
-        if ('files examples host port sampledata listenHost bufferSize'.indexOf(key) >= 0) {
+        if ('files examples host port sampledata listenHost'.indexOf(key) >= 0) {
             memo[key] = val;
         }
         return memo;
@@ -42,8 +42,7 @@ it('GET should return JSON', function(done) {
                 'host': [],
                 'port': 20009,
                 'sampledata': true,
-                'listenHost': '127.0.0.1',
-                'bufferSize': 128
+                'listenHost': '127.0.0.1'
             });
             done();
         }
@@ -59,7 +58,7 @@ it('PUT should update config', function(done) {
                 'cookie': 'bones.token=asdf'
             },
             data: JSON.stringify({
-                'bufferSize': 1024,
+                'port': 20010,
                 'bones.token': 'asdf'
             })
         },
@@ -81,8 +80,7 @@ it('GET should return updated config', function(done) {
                 'host': [],
                 'port': 20009,
                 'sampledata': true,
-                'listenHost': '127.0.0.1',
-                'bufferSize': 1024
+                'listenHost': '127.0.0.1'
             });
             done();
         }
@@ -98,13 +96,13 @@ it('PUT should 409 on invalid config', function(done) {
                 'cookie': 'bones.token=asdf'
             },
             data: JSON.stringify({
-                'bufferSize': 'asdf',
+                'port': 'asdf',
                 'bones.token': 'asdf'
             })
         },
         { status:409 },
         function(res) {
-            assert.equal(res.body, 'Instance is not a required type (bufferSize)');
+            assert.equal(res.body, 'Instance is not a required type (port)');
             done();
         }
     );

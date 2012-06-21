@@ -45,8 +45,7 @@ server.prototype.load = function(req, res, next) {
         slashes: true,
         pathname: path.join(settings.files, 'project', id, id + '.xml'),
         query: {
-            updated:req.query.updated,
-            bufferSize:settings.bufferSize
+            updated:req.query.updated
         },
         // Need not be set for a cache hit. Once the cache is
         // warmed the project need not be loaded/localized again.
