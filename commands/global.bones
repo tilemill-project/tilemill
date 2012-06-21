@@ -8,12 +8,6 @@ Bones.Command.options['files'] = {
     'default': defaults.files.replace(/^~/, process.env.HOME)
 };
 
-Bones.Command.options['bufferSize'] = {
-    'title': 'bufferSize=[number]',
-    'description': 'Mapnik render buffer size.',
-    'default': defaults.bufferSize
-};
-
 Bones.Command.options['syncAPI'] = {
     'title': 'syncAPI=[URL]',
     'description': 'MapBox API URL.',

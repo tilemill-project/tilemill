@@ -352,7 +352,6 @@ command.prototype.image = function(project, callback) {
         strict: false,
         base: path.join(this.opts.files, 'project', project.id) + '/'
     });
-    map.bufferSize = this.opts.bufferSize;
     map.extent = sm.convert(project.mml.bounds, '900913');
     try {
         map.renderFileSync(this.opts.filepath, { format: this.opts.format });
@@ -404,7 +403,7 @@ command.prototype.tilelive = function (project, callback) {
             xml: project.xml,
             mml: project.mml,
             pathname: path.join(opts.files, 'project', project.id, project.id + '.xml'),
-            query: { bufferSize: opts.bufferSize, metatile: opts.metatile }
+            query: { metatile: opts.metatile }
         };
 
         var to = {
