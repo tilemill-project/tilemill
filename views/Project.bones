@@ -114,7 +114,6 @@ view.prototype.exportAdd = function(ev) {
             this.$('.project').removeClass('meta');
             if (!$('#drawer').is('.active')) {
                 $('a[href=#exports]').click();
-                $('.actions > .dropdown').click();
             }
             this.exportList();
         }).bind(this),
