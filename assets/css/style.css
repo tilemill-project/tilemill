@@ -471,6 +471,10 @@ ul.projects {
     rgba(0,0,0,0.1) 0px 1px 3px;
   }
 
+.projects a.thumb:active {
+		box-shadow: inset 0 0 5px 2px #ccc;
+	}
+
 .projects a.thumb .thumb {
   width:50px;
   height:50px;
