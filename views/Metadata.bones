@@ -67,10 +67,13 @@ view.prototype.render = function() {
         $(this.el).html(templates.MetadataSignup(this));
     }
 
-    this.model.set({zooms:[
-        this.project.get('minzoom'),
-        this.project.get('maxzoom')
-    ]}, {silent:true});
+    this.model.set({
+        zooms: [
+            this.project.get('minzoom'),
+            this.project.get('maxzoom')
+        ],
+        metatile: this.project.get('metatile')
+    }, {silent:true});
     Bones.utils.sliders(this.$('.slider'), this.model);
 
     var center = this.project.get('center');

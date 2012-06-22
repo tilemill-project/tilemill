@@ -81,8 +81,7 @@ command.options['list'] = {
 
 command.options['metatile'] = {
     'title': 'metatile=[num]',
-    'description': 'Metatile size.',
-    'default': 2
+    'description': 'Metatile size.'
 };
 
 command.options['scale'] = {
@@ -222,7 +221,8 @@ command.prototype.initialize = function(plugin, callback) {
             minzoom: !_(opts.minzoom).isUndefined() ? opts.minzoom : model.get('minzoom'),
             maxzoom: !_(opts.maxzoom).isUndefined() ? opts.maxzoom : model.get('maxzoom'),
             bounds: !_(opts.bbox).isUndefined() ? opts.bbox : model.get('bounds'),
-            scale: !_(opts.scale).isUndefined() ? opts.scale : model.get('scale')
+            scale: !_(opts.scale).isUndefined() ? opts.scale : model.get('scale'),
+            metatile: !_(opts.metatile).isUndefined() ? opts.metatile : model.get('metatile')
         });
 
         // Unset map center if outside bounds.
@@ -412,7 +412,7 @@ command.prototype.tilelive = function (project, callback) {
             mml: project.mml,
             pathname: path.join(opts.files, 'project', project.id, project.id + '.xml'),
             query: {
-                metatile: opts.metatile,
+                metatile: project.mml.metatile,
                 scale: project.mml.scale
             }
         };
