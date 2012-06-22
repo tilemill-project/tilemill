@@ -23,6 +23,7 @@
     "grids": [ "http://localhost:20008/tile/demo_02/{z}/{x}/{y}.grid.json" ],
     "tiles": [ "http://localhost:20008/tile/demo_02/{z}/{x}/{y}.png" ],
     "scale": 1,
+    "metatile": 2,
     "id": "demo_02",
     "interactivity": false,
     "maxzoom": 22,
