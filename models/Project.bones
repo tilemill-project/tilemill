@@ -25,6 +25,10 @@ model.prototype.schema = {
             'type': 'float',
             'required': true
         },
+        'metatile': {
+            'type': 'integer',
+            'required': true
+        },
 
         // TileMill-specific properties. @TODO these need a home, see
         // https://github.com/mapbox/tilelive-mapnik/issues/4
@@ -174,7 +178,8 @@ model.prototype.defaults = {
         + '+lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over',
     'Stylesheet': [],
     'Layer': [],
-    'scale': 1
+    'scale': 1,
+    'metatile': 2
 };
 
 // Set model options to `this.options`.
