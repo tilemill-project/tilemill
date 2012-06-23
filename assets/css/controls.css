@@ -74,6 +74,19 @@
   -webkit-box-shadow:rgba(0,0,0,0.1) 0px 1px 3px;
   }
 
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+  only screen and (-o-min-device-pixel-ratio: 3/2),
+  only screen and (min--moz-device-pixel-ratio: 1.5),
+  only screen and (min-device-pixel-ratio: 1.5) {
+    .wax-tooltip .close,
+    .wax-fullscreen,
+    .zoomer {
+      background-image:url(../images/controls_2x.png);
+      background-size: 120px 30px;
+    }
+}
+
 .zoomout {
   background-position:-61px -1px;
   border-radius:3px 0px 0px 3px;
