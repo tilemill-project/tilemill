@@ -925,16 +925,6 @@ form.templates .templates-tokens {
   background:transparent url(../images/sprite.png) 20px 20px no-repeat;
   }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-  only screen and (-o-min-device-pixel-ratio: 3/2),
-  only screen and (min--moz-device-pixel-ratio: 1.5),
-  only screen and (min-device-pixel-ratio: 1.5) {
-    .icon {
-      background-image:url(../images/sprite_2x.png);
-      background-size: 800px 480px;
-    }
-}
-
 a:hover .icon,
 li:hover .icon { display:block; }
 
@@ -1710,17 +1700,6 @@ div.manual { margin-right:180px; }
   padding:19px 19px 19px 79px;
   }
 
-
-  @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-    only screen and (-o-min-device-pixel-ratio: 3/2),
-    only screen and (min--moz-device-pixel-ratio: 1.5),
-    only screen and (min-device-pixel-ratio: 1.5) {
-      .about {
-        background-image:url(/assets/tilemill/images/tilemill_2x.png);
-        background-size: 40px 45px;
-      }
-  }
-
 .about h2 { font-size:16px; }
 
 .sunken {
@@ -1845,3 +1824,35 @@ ul.grid li {
 .exports .status a,
 .features .buttons a,
 .pane .pane-actions a { position:relative; }
+
+/* Swap retina graphics */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+  only screen and (-o-min-device-pixel-ratio: 3/2),
+  only screen and (min--moz-device-pixel-ratio: 1.5),
+  only screen and (min-device-pixel-ratio: 1.5) {
+
+  .icon,
+  .wax-point-div,
+  .swatch,
+  .swatch .color,
+  #colorpicker .caret,
+  .palette a.active:after {
+    background-image:url(../images/sprite_2x.png);
+    background-size: 800px 480px;
+  }
+
+  .about {
+    background-image:url(/assets/tilemill/images/tilemill_2x.png);
+    background-size: 40px 45px;
+  }
+
+  .loading:after {
+    background-image:url(../images/spinner-reverse_2x.gif);
+    background-size: 20px 20px;
+  }
+
+  .header .spinner {
+    background-image:url(../images/spinner_2x.gif);
+    background-size: 20px 20px;
+  }
+}
