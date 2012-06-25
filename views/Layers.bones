@@ -98,13 +98,11 @@ view.prototype.layerToggleStatus = function(ev) {
     var id = $(ev.currentTarget).attr('href').split('#').pop();
     var model = this.model.get('Layer').get(id);
     if (model.get('status') == 'off') {
-        model.set({ 'status': 'on' });
+        model.unset('status');
         $(ev.currentTarget).closest('li').removeClass('status-off');
-        $(ev.currentTarget).closest('li').addClass('status-on');
     } else {
         // default to hiding, since the default state of a layer is 'on'
         model.set({ 'status': 'off' });
-        $(ev.currentTarget).closest('li').removeClass('status-on');
         $(ev.currentTarget).closest('li').addClass('status-off');
     }
     return false;

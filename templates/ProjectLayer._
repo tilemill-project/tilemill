@@ -1,4 +1,4 @@
-<li class='status-<%= get('status') %>'>
+<li<% if (get('status') === 'off') { %> class='status-off'<% } %>>
   <span class='handle fill-w'>
     <a title='<%= get('geometry') %>' class='icon geometry geometry-<%= get('geometry') %>'></a>
   </span>
