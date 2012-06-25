@@ -14,7 +14,7 @@
    height="480"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.2 r9819"
+   inkscape:version="0.48.3.1 r9886"
    version="1.0"
    sodipodi:docname="sprite.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
@@ -6047,18 +6047,18 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="313.15191"
-     inkscape:cy="147.17623"
+     inkscape:cx="399.7709"
+     inkscape:cy="236.05647"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:snap-bbox="true"
-     showguides="false"
+     showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="1343"
      inkscape:window-height="817"
      inkscape:window-x="10"
-     inkscape:window-y="5"
+     inkscape:window-y="27"
      inkscape:window-maximized="0"
      inkscape:snap-nodes="true"
      inkscape:bbox-nodes="false"
@@ -6113,7 +6113,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -7185,5 +7185,25 @@
        d="m 309,263.5 0,10 2.625,-2.1875 L 314,276.5 315,276 312.65625,270.875 315.75,270.25 309,263.5 z"
        id="path6580"
        inkscape:connector-curvature="0" />
+    <rect
+       style="color:#000000;fill:#202020;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4871"
+       width="2"
+       height="2"
+       x="649"
+       y="189"
+       transform="translate(0,-80)" />
+    <path
+       style="color:#000000;fill:#202020;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.05500000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;opacity:0.6"
+       d="M 710 185 C 706 185 705 188 702 190 C 703.16821 190.7788 704.0181 191.71661 704.875 192.5625 L 707.0625 190.5 C 707.03382 190.33342 707 190.17477 707 190 C 707 188.34313 708.34313 187 710 187 C 710.21746 187 710.42067 187.01855 710.625 187.0625 L 712.34375 185.4375 C 711.67688 185.16516 710.92678 185 710 185 z M 714.84375 187.1875 L 712.84375 189.125 C 712.9314 189.40682 713 189.68934 713 190 C 713 191.65687 711.65687 193 710 193 C 709.64446 193 709.31647 192.92602 709 192.8125 L 707.3125 194.40625 C 708.05778 194.77039 708.91076 195 710 195 C 714 195 715 192 718 190 C 716.7091 189.1394 715.79238 188.09972 714.84375 187.1875 z "
+       transform="translate(0,-80)"
+       id="path4887" />
+    <path
+       style="fill:none;stroke:#202020;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 715.5,184.5 -11,10.5"
+       id="path4891"
+       inkscape:connector-curvature="0"
+       transform="translate(0,-80)"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>

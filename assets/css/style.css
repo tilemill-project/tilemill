@@ -648,6 +648,7 @@ ul.layers {
 
 .layers li.status-off { color:#999; }
 .layers li.status-off .icon.geometry { opacity:0.5; }
+.layers li.status-off .icon.visibility { background-position:-700px -180px; }
 
 .layers .ui-sortable-helper {
   background:#fe8;
