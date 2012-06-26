@@ -103,13 +103,3 @@ view.prototype.attach = function() {
         $(this.map.controls.legend.element()).remove();
     }
 };
-
-// Hook in to project view with an augment.
-views.Project.augment({ render: function(p) {
-    p.call(this);
-    new views.Map({
-        el:this.$('.map'),
-        model:this.model
-    });
-    return this;
-}});

@@ -5,7 +5,8 @@ view.prototype.events = {
     'click a.add-layer': 'layerAdd',
     'click a.edit': 'layerEdit',
     'click a.inspect': 'layerInspect',
-    'click a.delete': 'layerDelete'
+    'click a.delete': 'layerDelete',
+    'click a.extent': 'layerExtent'
 };
 
 view.prototype.initialize = function(options) {
@@ -15,6 +16,7 @@ view.prototype.initialize = function(options) {
         'layerInspect',
         'layerEdit',
         'layerDelete',
+        'layerExtent',
         'makeLayer',
         'sortLayers'
     );
@@ -91,6 +93,14 @@ view.prototype.layerDelete = function(ev) {
     });
     return false;
 };
+
+view.prototype.layerExtent = function(ev) {
+    var id = $(ev.currentTarget).attr('href').split('#').pop();
+    var extent = this.model.get('Layer').get(id).get('extent');
+    this.options.map.map.setExtent(
+            new MM.Extent(extent[3], extent[0], extent[1], extent[2]));
+    return false;
+}
 
 view.prototype.layerInspect = function(ev) {
     $('#drawer .content').empty();

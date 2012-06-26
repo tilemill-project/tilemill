@@ -49,6 +49,13 @@ view.prototype.render = function(init) {
         .removeClass('disabled')
         .attr('href', '#/project/' + this.model.id);
     $(this.el).html(templates.Project(this.model));
+
+    // Create map
+    this.map = new views.Map({
+        el: this.$('.map'),
+        model: this.model
+    });
+
     return this;
 };
 
@@ -150,7 +157,8 @@ view.prototype.exportList = function(ev) {
 view.prototype.layers = function(ev) {
     new views.Layers({
         el: $('#drawer'),
-        model: this.model
+        model: this.model,
+        map: this.map
     });
 };
 

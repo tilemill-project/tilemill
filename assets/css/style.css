@@ -947,6 +947,7 @@ li:hover .icon { display:block; }
 
 .icon.edit           { background-position:0px -180px; }
 .icon.inspect        { background-position:-20px -180px; }
+.icon.extent         { background-position:-20px -180px; }
 .icon.delete         { background-position:-60px -180px; }
 .icon.color-picker   { background-position:-40px -180px; }
 .icon.close          { background-position:-80px -180px; }

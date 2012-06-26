@@ -61,6 +61,16 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 }
             }
 
+            // Convert datasource extent to lon/lat when saving
+            // Gets skipped when model is created to inspect features (no srs)
+            var extent;
+            if (mml.Layer[0].srs !== 'null') {
+                var layerProj = new mapnik.Projection(mml.Layer[0].srs),
+                    unProj = new mapnik.Projection('+proj=longlat +ellps=WGS84 +no_defs'),
+                    trans = new mapnik.ProjTransform(layerProj, unProj),
+                    extent = trans.forward(source.extent());
+            }
+
             var desc = source.describe();
             var datasource = {
                 id: options.id,
@@ -69,8 +79,10 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 fields: desc.fields,
                 features: options.features ? features : [],
                 type: desc.type,
-                geometry_type: desc.type === 'raster' ? 'raster' : desc.geometry_type
+                geometry_type: desc.type === 'raster' ? 'raster' : desc.geometry_type,
+                extent: extent
             };
+
 
             // Process fields and calculate min/max values.
             for (var f in datasource.fields) {
