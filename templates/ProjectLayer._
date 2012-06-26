@@ -7,6 +7,7 @@
     <% if (get('geometry') !== 'raster') { %>
       <a title='Features (<%= id %>)' class='icon inspect drawer' href='#<%= id %>'>Features (<%= id %>)</a>
     <% } %>
+    <a title='Zoom to extent (<%= id %>)' class='icon extent' href='#<%= id%>'>Zoom to <%= id %></a>
     <a title='Edit <%= id %>' class='icon edit popup' href='#<%= id %>'>Edit <%= id %></a>
     <a title='Delete <%= id %>' class='icon delete' href='#<%= id %>'>Delete <%= id %></a>
   </span>

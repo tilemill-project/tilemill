@@ -106,13 +106,3 @@ view.prototype.attach = function() {
     this.map.draw();
     this.mapZoom();
 };
-
-// Hook in to project view with an augment.
-views.Project.augment({ render: function(p) {
-    p.call(this);
-    new views.Map({
-        el:this.$('.map'),
-        model:this.model
-    });
-    return this;
-}});
