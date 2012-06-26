@@ -946,7 +946,6 @@ li:hover .icon { display:block; }
   }
 
 .icon.edit           { background-position:0px -180px; }
-.icon.inspect        { background-position:-20px -180px; }
 .icon.extent         { background-position:-20px -180px; }
 .icon.delete         { background-position:-60px -180px; }
 .icon.color-picker   { background-position:-40px -180px; }
@@ -980,6 +979,7 @@ li:hover .icon { display:block; }
 .icon.cloud             { background-position:-620px -180px; }
 .icon.eye               { background-position:-640px -180px; }
 .icon.upload            { background-position:-680px -180px; }
+.icon.inspect           { background-position:-700px -180px; }
 
 .reverse.edit           { background-position:0px -200px; }
 .reverse.inspect        { background-position:-20px -200px; }

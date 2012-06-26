@@ -14,7 +14,7 @@
    height="480"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.2 r9819"
+   inkscape:version="0.48.3.1 r9886"
    version="1.0"
    sodipodi:docname="sprite.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
@@ -6046,20 +6046,20 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="313.15191"
-     inkscape:cy="147.17623"
+     inkscape:zoom="16"
+     inkscape:cx="698.82417"
+     inkscape:cy="277.88665"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:snap-bbox="true"
      showguides="false"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1343"
-     inkscape:window-height="817"
-     inkscape:window-x="10"
-     inkscape:window-y="5"
-     inkscape:window-maximized="0"
+     inkscape:window-width="1366"
+     inkscape:window-height="744"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
      inkscape:snap-nodes="true"
      inkscape:bbox-nodes="false"
      inkscape:snap-bbox-edge-midpoints="false"
@@ -7042,7 +7042,7 @@
     <path
        id="path3927"
        d="m 685,124 0,12 10,0 0,-9 -2.5,0 0,-3 -7.5,0 z m 8,0 0,2 2,0 -2,-2 z m -3,3 3,3 -2,0 0,4 -2,0 0,-4 -2,0 3,-3 z"
-       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.055;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.05500000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        inkscape:connector-curvature="0" />
     <path
        id="path8822"
@@ -7185,5 +7185,15 @@
        d="m 309,263.5 0,10 2.625,-2.1875 L 314,276.5 315,276 312.65625,270.875 315.75,270.25 309,263.5 z"
        id="path6580"
        inkscape:connector-curvature="0" />
+    <path
+       style="fill:#202020;fill-opacity:1"
+       d="M 705 184 C 704.446 184 704 184.446 704 185 L 704 187 L 706.5 187 L 711.5 187 L 716 187 L 716 185 C 716 184.446 715.554 184 715 184 L 705 184 z M 704 188 L 704 190 L 706 190 L 706 188 L 704 188 z M 707 188 L 707 190 L 711 190 L 711 188 L 707 188 z M 712 188 L 712 190 L 716 190 L 716 188 L 712 188 z M 704 191 L 704 193 L 706 193 L 706 191 L 704 191 z M 707 191 L 707 193 L 711 193 L 711 191 L 707 191 z M 712 191 L 712 193 L 716 193 L 716 191 L 712 191 z M 704 194 L 704 195 C 704 195.554 704.446 196 705 196 L 706 196 L 706 194 L 704 194 z M 707 194 L 707 196 L 711 196 L 711 194 L 707 194 z M 712 194 L 712 196 L 715 196 C 715.554 196 716 195.554 716 195 L 716 194 L 712 194 z "
+       transform="translate(0,-80)"
+       id="rect4871" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1"
+       d="m 705,124 c -0.554,0 -1,0.446 -1,1 l 0,2 2.5,0 5,0 4.5,0 0,-2 c 0,-0.554 -0.446,-1 -1,-1 l -10,0 z m -1,4 0,2 2,0 0,-2 -2,0 z m 3,0 0,2 4,0 0,-2 -4,0 z m 5,0 0,2 4,0 0,-2 -4,0 z m -8,3 0,2 2,0 0,-2 -2,0 z m 3,0 0,2 4,0 0,-2 -4,0 z m 5,0 0,2 4,0 0,-2 -4,0 z m -8,3 0,1 c 0,0.554 0.446,1 1,1 l 1,0 0,-2 -2,0 z m 3,0 0,2 4,0 0,-2 -4,0 z m 5,0 0,2 3,0 c 0.554,0 1,-0.446 1,-1 l 0,-1 -4,0 z"
+       id="rect4871-2" />
   </g>
 </svg>
