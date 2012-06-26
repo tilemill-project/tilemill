@@ -8,5 +8,6 @@
     "geometry_type": "linestring",
     "id": "postgis",
     "project": "demo_01",
-    "type": "vector"
+    "type": "vector",
+    "extent":[-137.55088970390102,-52.986907341349465,140.97763013616188,70.07531103545583]
 }

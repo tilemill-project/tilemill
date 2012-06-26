@@ -51,7 +51,9 @@
         "mkdirp": "~0.3.0"
     },
     "devDependencies": {
-        "jshint": "0.2.x"
+        "jshint": "0.2.x",
+        "mocha": "*",
+        "difflet": "0.2.x"
     },
     "scripts": {
         "start": "./index.js",
