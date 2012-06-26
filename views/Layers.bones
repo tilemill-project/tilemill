@@ -96,9 +96,33 @@ view.prototype.layerDelete = function(ev) {
 
 view.prototype.layerExtent = function(ev) {
     var id = $(ev.currentTarget).attr('href').split('#').pop();
-    var extent = this.model.get('Layer').get(id).get('extent');
-    this.options.map.map.setExtent(
-            new MM.Extent(extent[3], extent[0], extent[1], extent[2]));
+    var layer = this.model.get('Layer').get(id);
+    var extent = layer.get('extent');
+
+    var setExtent = _(function(extent) {
+        this.options.map.map.setExtent(
+                new MM.Extent(extent[3], extent[0], extent[1], extent[2]));
+        }).bind(this);
+
+    if (extent) {
+        setExtent(extent);
+    } else {
+        // Extent not yet set (layer saved prior to 0.9.2). Setting it.
+        var model = new models.Datasource(_(layer.get('Datasource')).extend({
+            id: layer.get('id'),
+            project: this.model.get('id'),
+            srs: layer.get('srs')
+        }));
+        model.fetch({
+            success: function(model, resp) {
+                layer.set({extent: resp.extent});
+                setExtent(resp.extent);
+            },
+            error: function(err) {
+                new views.Modal(err);
+            }
+        });
+    }
     return false;
 }
 
