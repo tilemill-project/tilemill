@@ -102,6 +102,9 @@ view.prototype.attach = function() {
     } else {
         $(this.map.controls.legend.element()).remove();
     }
+
+    this.map.draw();
+    this.mapZoom();
 };
 
 // Hook in to project view with an augment.
