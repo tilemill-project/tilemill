@@ -99,7 +99,7 @@ view.prototype.events = {
     'click a.popup': 'popupOpen',
     'click #drawer a[href=#close]': 'drawerClose',
     'click a.drawer': 'drawerOpen',
-    'click .button.dropdown, .button.dropdown a': 'dropdown',
+    'click .button.dropdown': 'dropdown',
     'click .toggler a': 'toggler',
     'click a.restart': 'restart',
     'keydown': 'keydown'
@@ -214,10 +214,12 @@ view.prototype.dropdown = function(ev) {
     if (!target.hasClass('active')) {
         target.addClass('active');
         $(app).bind('click', collapse);
+        target.children('.menu').bind('click', collapse);
     }
     function collapse(ev) {
         target.removeClass('active');
         $(app).unbind('click', collapse);
+        target.children('.menu').bind('click', collapse);
     }
 };
 

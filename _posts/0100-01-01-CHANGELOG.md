@@ -24,8 +24,9 @@ releases:
 #  - Added support for quotes in carto filter values like `#world[name2="Sa'ad"]`
 #  - Carto parsing now provides better errors for unmatched parens
 #  - The raster-mode now supports all SVG compositing operations (but uses dashes instead of underscores - so grain_merge is now grain-merge) (Mapnik)
-#  - 32 bits of precision now supported for the primary key of interactive datasources (Mapnik)
 #  - Support for OS X 10.8 (Mountain Lion)
+#  - Interactivity now works on features that have negative or zero primary key values
+#  - Column names in CSV datasources named 'lng' are now automatically recognized as the longitude column
 
 - version: 0.9.1
   date: 2012-05-07
