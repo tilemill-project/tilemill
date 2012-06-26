@@ -87,6 +87,20 @@ var get = _(project.get).bind(project);
     <input type='text' name='bounds' size='20' value='<%=get('bounds').join(',')%>' />
     <small class='description'>Shift + drag to select bounds.</small>
   </li>
+  <% if (model === project) { %>
+  <li>
+    <label for='scale'>Scale factor</label>
+    <div class='slider' data-key='scale' data-step='0.1' data-min='1' data-max='5'></div>
+    <small class='description'>Factor to scale map by.</small>
+  </li>
+  <% } %>
+  <% if (type === 'tiles') { %>
+  <li>
+    <label for='scale'>MetaTile size</label>
+    <div class='slider' data-key='metatile' data-step='1' data-min='1' data-max='15'></div>
+    <small class='description'></small>
+  </li>
+  <% } %>
   <% if (model !== project && type === 'tiles') { %>
   <li>
     <input type='checkbox' name='_saveProject' value='1' <% if (model.get('format') === 'sync') %>checked='checked' disabled='disabled'<%;%>>

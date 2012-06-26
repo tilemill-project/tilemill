@@ -37,6 +37,10 @@ model.prototype.schema = {
             'required': true,
             'enum': ['png', 'pdf', 'svg', 'mbtiles', 'upload', 'sync']
         },
+        'metatile': {
+            'type': 'integer',
+            'required': true
+        },
         'status': {
             'type': 'string',
             'required': true,
