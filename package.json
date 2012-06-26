@@ -30,7 +30,6 @@
         "sax": "0.1.x",
         "request": "~2.9.153",
         "step": "~0.0.5",
-        "mapnik": "https://github.com/mapnik/mapnik-reference/tarball/master",
         "mapnik": "https://github.com/mapnik/node-mapnik/tarball/master",
         "tilelive": "~4.3.0",
         "mbtiles": "~0.2.6",
