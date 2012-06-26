@@ -27,7 +27,6 @@ models.Config.prototype.sync = function(method, model, success, error) {
     case 'update':
         // Filter out keys that may not be written.
         var allowedKeys = [
-            'bufferSize',
             'files',
             'syncAccount',
             'syncAccessToken',
