@@ -7,6 +7,7 @@ view.prototype.events = {
     'click a.inspect': 'layerInspect',
     'click a.delete': 'layerDelete',
     'click a.visibility': 'layerToggleStatus',
+    'click a.extent': 'layerExtent'
 };
 
 view.prototype.initialize = function(options) {
@@ -17,6 +18,7 @@ view.prototype.initialize = function(options) {
         'layerEdit',
         'layerDelete',
         'layerToggleStatus',
+        'layerExtent',
         'makeLayer',
         'sortLayers'
     );
@@ -108,6 +110,38 @@ view.prototype.layerToggleStatus = function(ev) {
     return false;
 };
 
+view.prototype.layerExtent = function(ev) {
+    var id = $(ev.currentTarget).attr('href').split('#').pop();
+    var layer = this.model.get('Layer').get(id);
+    var extent = layer.get('extent');
+
+    var setExtent = _(function(extent) {
+        this.options.map.map.setExtent(
+                new MM.Extent(extent[3], extent[0], extent[1], extent[2]));
+        }).bind(this);
+
+    if (extent) {
+        setExtent(extent);
+    } else {
+        // Extent not yet set (layer saved prior to 0.9.2). Setting it.
+        var model = new models.Datasource(_(layer.get('Datasource')).extend({
+            id: layer.get('id'),
+            project: this.model.get('id'),
+            srs: layer.get('srs')
+        }));
+        model.fetch({
+            success: function(model, resp) {
+                layer.set({extent: resp.extent});
+                setExtent(resp.extent);
+            },
+            error: function(err) {
+                new views.Modal(err);
+            }
+        });
+    }
+    return false;
+}
+
 view.prototype.layerInspect = function(ev) {
     $('#drawer .content').empty();
     $('#drawer')
@@ -118,10 +152,7 @@ view.prototype.layerInspect = function(ev) {
     var model = new models.Datasource(_(layer.get('Datasource')).extend({
         id: layer.get('id'),
         project: this.model.get('id'),
-        // millstone will not allow `srs` be undefined for inspection so we set
-        // it to null. We could use the layer's SRS, but this likely has fewer
-        // side effects.
-        srs: null
+        srs: layer.get('srs')
     }));
     model.fetchFeatures({
         success: _(function(model) {
