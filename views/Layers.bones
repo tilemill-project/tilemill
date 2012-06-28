@@ -88,6 +88,16 @@ view.prototype.layerDelete = function(ev) {
         callback: _(function() {
             var model = this.model.get('Layer').get(id);
             this.model.get('Layer').remove(model);
+
+            // Disable interactivity if on for this layer
+            var interactivity = this.model.get('interactivity');
+            if (interactivity.layer == id) {
+                interactivity.layer = "";
+                this.model.set({
+                    interactivity: interactivity
+                });
+            }
+
         }).bind(this),
         affirmative: 'Delete'
     });
