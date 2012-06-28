@@ -25,7 +25,7 @@ For this guide, we'll add a layer of populated places around the world.
 ![Add Project](/tilemill/assets/pages/shapefile-1.png)
 2. Enter a name for your project and click **Add**. You can leave the other fields alone for now.  
 ![Add Project](/tilemill/assets/pages/shapefile-2.png)
-3. Click on the new project to open it. The project contains a default layer called `#countries` styled with some example Carto code.
+3. Click on the new project to open it. The project contains a default layer called `#countries` styled with some example CartoCSS code.
 4. Click **Add layer**.
 ![Add Layer](/tilemill/assets/pages/csv-4.png)
 5. Enter `cities` in the **ID** field. You'll use this ID to reference this layer.  
@@ -35,7 +35,7 @@ For this guide, we'll add a layer of populated places around the world.
 8. Select the geodata file you would like to add to your project. Here we will navigate to `natural-earth-1.4.0` - `cultural/` - `10m-populated-places-simple.zip`.  
 ![Select](/tilemill/assets/pages/geodata-5.png)
 9. Click **Done** to confirm your selection.  
-10. Click the **Save & Style** button to add the layer to your project and insert a default Carto rule for the layer.  
+10. Click the **Save & Style** button to add the layer to your project and insert a default CartoCSS rule for the layer.  
 ![Save and Style](/tilemill/assets/pages/geodata-7.png)
 11. Preview the result in the map preview pane.  
 ![Preview](/tilemill/assets/pages/geodata-8.png)  

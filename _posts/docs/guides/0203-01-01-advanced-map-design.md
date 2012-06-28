@@ -25,9 +25,9 @@ Here is the tornado map at **zoom level 4** after sizing the markers based on th
   ![](/tilemill/assets/pages/zoom-styling-1.png)
 And here is the same map at **zoom level 7**. Notice that the dots did not scale with the rest of the maps and could be considered too small.
   ![](/tilemill/assets/pages/zoom-styling-2.png)
-With some simple Carto, you can solve this by **conditioning your styles based on the zoom level**.
+With some simple CartoCSS, you can solve this by **conditioning your styles based on the zoom level**.
 
-The highlighted Carto below is saying to TileMill, "when the zoom level is 7, apply the following style." You can do this for as many levels as you wish, and include any kind of styling. This is useful for scaling back the number of dots, icons, and labels as you zoom out, and creating a greater level of detail as you zoom in.
+The highlighted CartoCSS below is saying to TileMill, "when the zoom level is 7, apply the following style." You can do this for as many levels as you wish, and include any kind of styling. This is useful for scaling back the number of dots, icons, and labels as you zoom out, and creating a greater level of detail as you zoom in.
   ![](/tilemill/assets/pages/zoom-styling-3.png)
 The following symbols are allowed in conditional statements: `=`, `!=`, `>`, `>=`, `<`, `<=`  
 You can also group by zoom **ranges** by setting a beginning and an end, like this:
@@ -40,7 +40,7 @@ You can also group by zoom **ranges** by setting a beginning and an end, like th
 
 Take the tornado map for example. At the national level it is quite cluttered and hard to decipher individual points where there are clusters. At this zoom level, one option might be to display a scaled dot for each state that represents total number of tornadoes that occurred in that state. Then, as the user zooms in, the state-level layer goes away and the individual tornado points appear.
 
-With this particular data we were able to aggregate to the state level using a [pivot table](/tilemill/docs/tutorials/google-docs/) and then [geocoded](/tilemill/docs/tutorials/google-docs/) the state points. Add this newly created data to the project as a new layer. Then simply add zoom level conditions after the layer names in your carto code, and continue to style normally.
+With this particular data we were able to aggregate to the state level using a [pivot table](/tilemill/docs/tutorials/google-docs/) and then [geocoded](/tilemill/docs/tutorials/google-docs/) the state points. Add this newly created data to the project as a new layer. Then simply add zoom level conditions after the layer names in your CartoCSS code, and continue to style normally.
   ![](/tilemill/assets/pages/zoom-styling-4.png)
   ![](/tilemill/assets/pages/zoom-styling-5.png)
 
@@ -64,11 +64,11 @@ The reverse is also possible. Show states that are not Oklahoma:
 
 In order to deliver information on a map more immediately, sometimes it is useful to label your data with the actual number or feature that is being represented. This can be combined with the dot or just be a label on its own.
 
-For our tornado map, we have decided to display the total number of tornadoes inside the state-level dots. To do this we need to add just a few lines to the layer's carto:
+For our tornado map, we have decided to display the total number of tornadoes inside the state-level dots. To do this we need to add just a few lines to the layer's CartoCSS:
   ![](/tilemill/assets/pages/label-styling-1.png)
 
 1. `::label`  
-This creates a new **symbolizer** for your layer. The name 'label' here is arbitrary, you can call it whatever you like. The position of the symbolizer in Carto determines the order of its rendering. The first code in a Carto layer is rendered first on the map and will be **below** anything that is rendered after it. Therefore, if you need a layer feature to be on **top**, like we do with the labels, it must come last in the code.
+This creates a new **symbolizer** for your layer. The name 'label' here is arbitrary, you can call it whatever you like. The position of the symbolizer in CartoCSS determines the order of its rendering. The first code in a CartoCSS layer is rendered first on the map and will be **below** anything that is rendered after it. Therefore, if you need a layer feature to be on **top**, like we do with the labels, it must come last in the code.
 2. `text-name`  
 This denotes the **field** whose text will be displayed.  
 3. `text-face-name`  
@@ -80,7 +80,7 @@ That is all you need to get started with **labels**. The same idea applies to pl
 
 ### Images as Icons
 
-TileMill supports using **SVG (Scalable Vector Graphic)** images as markers on your map. It is possible that we could use a custom-made tornado icon in place of the circle markers. The first thing you need is the SVG file saved somewhere on your system, preferably in your project folder for the sake of organization (Documents/MapBox/project/project-name/). Then it's all in the Carto.
+TileMill supports using **SVG (Scalable Vector Graphic)** images as markers on your map. It is possible that we could use a custom-made tornado icon in place of the circle markers. The first thing you need is the SVG file saved somewhere on your system, preferably in your project folder for the sake of organization (Documents/MapBox/project/project-name/). Then it's all in the CartoCSS.
   ![](/tilemill/assets/pages/svg-icons-1.png)
 
 1. `point-file`  
@@ -96,7 +96,7 @@ When your map contains multiple levels of data as our tornado map does, it is so
 
 Thirdly, **interactivity** can only be active on one layer at a time. This means if we want a hover tooltip for the state-level dots and for the individual dots, we cannot export them together.
 
-When exporting individual pieces of your project, a very helpful tool is the ability to **comment-out** specific Carto code. Anything commented-out will remain in your code, but not render on the map. All this entails is placing `/*` before and `*/` after the code you want to comment-out. This is also a way to write comments into the code, hence the name.
+When exporting individual pieces of your project, a very helpful tool is the ability to **comment-out** specific CartoCSS code. Anything commented-out will remain in your code, but not render on the map. All this entails is placing `/*` before and `*/` after the code you want to comment-out. This is also a way to write comments into the code, hence the name.
 
 We have plans to composite this tornado map with an existing world baselayer available from [Mapbox](http://tiles.mapbox.com/mapbox), so the first thing to do will be to comment-out the default blue and white world base and the state borders.
   ![](/tilemill/assets/pages/exporting-in-pieces-1.png)
@@ -111,7 +111,7 @@ We now have two MBTiles with their own interactivity that we can [composite](htt
 Here is the final map:
 <iframe width='600' height='400' frameBorder='0' src='http://a.tiles.mapbox.com/v3/mapbox.map-4qkj96dp.html#4/40/-98'> </iframe>
 
-And the final project Carto code for reference:
+And the final project CartoCSS code for reference:
 
     Map {
       background-color: #b8dee6;

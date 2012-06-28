@@ -26,6 +26,6 @@ The main output of TileMill is tiled maps - millions of 256 px by 256 px images 
 ## MBTiles
 These map tiles are stored in a package file, called an [MBTiles file](http://mapbox.com/mbtiles-spec). This allows them to be compressed, copied, and transferred easily from place to place. Unlike most tiled maps, the maps you make in TileMill can be interactive - hovering and clicking on map tiles can trigger popups and even site navigation. The interactivity data is also compressed and stored in MBTiles files.
 
-Unlike static maps, tiled maps tend to have many layers of detail - you’ll want to choose what features to show and hide at each zoom level. TileMill’s styling language Carto makes this easy, and it's fast to learn how to use it with a built-in reference, autocomplete, and error highlighting - and even easier if you’re already comfortable with CSS.
+Unlike static maps, tiled maps tend to have many layers of detail - you’ll want to choose what features to show and hide at each zoom level. TileMill’s styling language CartoCSS makes this easy, and it's fast to learn how to use it with a built-in reference, autocomplete, and error highlighting - and even easier if you’re already comfortable with CSS.
 
 {% include nextup.html %}

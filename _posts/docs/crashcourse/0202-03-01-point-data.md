@@ -29,14 +29,14 @@ In this crash course, we'll use [earthquake data from the USGS](http://earthquak
   ![Add project](/tilemill/assets/pages/csv-1.png)
 2. Enter a "Filename" for your project and click "Add". You can leave the other fields alone for now.
   ![Add project](/tilemill/assets/pages/csv-2.png)
-3. Click on the new project to open it. The project contains a default layer called `#countries` styled with some example Carto code.
+3. Click on the new project to open it. The project contains a default layer called `#countries` styled with some example CartoCSS code.
 4. To add a CSV layer, first click the "Layers" button located on the bottom left to bring up the Layers panel.
   ![Add layer](/tilemill/assets/pages/csv-3.png)
 5. Now click "Add layer".
   ![Add layer](/tilemill/assets/pages/csv-4.png)
-6. Enter `earthquakes` in the "ID" field. You'll use this ID to to reference this layer in Carto selectors.
+6. Enter `earthquakes` in the "ID" field. You'll use this ID to to reference this layer in CartoCSS selectors.
 7. Enter the URL `http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M2.5.txt` into the "Datasource" field.
-8. Click the "Save & Style" button. This will add the layer to your project and insert a default Carto rule for the layer.
+8. Click the "Save & Style" button. This will add the layer to your project and insert a default CartoCSS rule for the layer.
   ![Add layer](/tilemill/assets/pages/csv-7.png)
 9. Preview the result in the map preview pane.
   ![Styled map](/tilemill/assets/pages/earthquake-map.png)
