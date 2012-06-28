@@ -6,6 +6,7 @@ view.prototype.events = {
     'click a.edit': 'layerEdit',
     'click a.inspect': 'layerInspect',
     'click a.delete': 'layerDelete',
+    'click a.visibility': 'layerToggleStatus',
     'click a.extent': 'layerExtent'
 };
 
@@ -16,6 +17,7 @@ view.prototype.initialize = function(options) {
         'layerInspect',
         'layerEdit',
         'layerDelete',
+        'layerToggleStatus',
         'layerExtent',
         'makeLayer',
         'sortLayers'
@@ -91,6 +93,20 @@ view.prototype.layerDelete = function(ev) {
         }).bind(this),
         affirmative: 'Delete'
     });
+    return false;
+};
+ 
+view.prototype.layerToggleStatus = function(ev) {
+    var id = $(ev.currentTarget).attr('href').split('#').pop();
+    var model = this.model.get('Layer').get(id);
+    if (model.get('status') == 'off') {
+        model.unset('status');
+        $(ev.currentTarget).closest('li').removeClass('status-off');
+    } else {
+        // default to hiding, since the default state of a layer is 'on'
+        model.set({ 'status': 'off' });
+        $(ev.currentTarget).closest('li').addClass('status-off');
+    }
     return false;
 };
 
