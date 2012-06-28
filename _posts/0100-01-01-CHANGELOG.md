@@ -30,6 +30,7 @@ releases:
 #  - Added ability to zoom to layer extents
 #  - Fixed a bug where interactivity templates broke when they ended in a number value
 #  - Added ability to toggle layer visibility
+#  - Version update checking no longer blocks application startup.
 
 - version: 0.9.1
   date: 2012-05-07

@@ -212,41 +212,7 @@ command.prototype.bootstrap = function(plugin, callback) {
         }, {})
         .value();
 
-    // Config values to save.
-    var attr = {};
-
-    // Skip latest TileMill version check if disabled or
-    // we've checked the npm repo in the past 24 hours.
-    var skip = !settings.updates || (settings.updatesTime > Date.now() - 864e5);
-    var npm = require('npm');
-    Step(function() {
-        if (skip) return this();
-
-        console.warn('Checking for new version of TileMill...');
-        npm.load({}, this);
-    }, function(err) {
-        if (skip || err) return this(err);
-
-        npm.localPrefix = path.join(process.env.HOME, '.tilemill');
-        npm.commands.view(['tilemill'], true, this);
-    }, function(err, resp) {
-        if (skip || err) return this(err);
-
-        if (!_(resp).size()) throw new Error('Latest TileMill package not found.');
-        if (!_(resp).toArray()[0].version) throw new Error('No version for TileMill package.');
-        console.warn('Latest version of TileMill is %s.', _(resp).toArray()[0].version);
-        attr.updatesVersion = _(resp).toArray()[0].version;
-        attr.updatesTime = Date.now();
-        this();
-    }, function(err) {
-        // Continue despite errors but log them to the console.
-        if (err) console.error(err);
-        // Save any config attributes.
-        if (_(attr).keys().length) (new models.Config).save(attr, {
-            error: function(m, err) { console.error(err); }
-        });
-        callback();
-    });
+    callback();
 };
 
 command.prototype.initialize = function(plugin, callback) {
