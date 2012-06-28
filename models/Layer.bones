@@ -32,6 +32,10 @@ model.prototype.schema = {
         'srs': {
             'type': 'string'
         },
+        'status': {
+            'type': 'string',
+            'enum': ['on', 'off']
+        },
         'geometry': {
             'type': 'string',
             'enum': ['polygon', 'multipolygon', 'point', 'multipoint', 'linestring', 'multilinestring', 'raster', 'unknown']
