@@ -4,7 +4,7 @@
     "main": "./index.js",
     "description": "A modern map design studio.",
     "keywords": ["map", "design", "cartography"],
-    "url": "http://github.com/developmentseed/tilemill",
+    "url": "http://github.com/mapbox/tilemill",
     "repository": {
         "type": "git",
         "url": "git://github.com/mapbox/tilemill.git"
