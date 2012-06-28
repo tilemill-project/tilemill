@@ -29,6 +29,7 @@ releases:
 #  - Column names in CSV datasources named 'lng' are now automatically recognized as the longitude column
 #  - Added ability to zoom to layer extents
 #  - Fixed a bug where interactivity templates broke when they ended in a number value
+#  - Version update checking no longer blocks application startup.
 
 - version: 0.9.1
   date: 2012-05-07
