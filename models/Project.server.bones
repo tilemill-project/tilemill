@@ -237,8 +237,8 @@ function loadProject(model, callback) {
             format: 'grid.json',
             updated: object._updated
         })];
+        object.template = template(object.interactivity);
         if (object.interactivity) {
-            object.template = template(object.interactivity);
             object.interactivity.fields = fields(object);
         }
         this();
@@ -350,9 +350,7 @@ function saveProject(model, callback) {
             _updated: updated,
             tiles: [tiles],
             grids: [grids],
-            template: model.get('interactivity')
-                ? template(model.get('interactivity'))
-                : undefined
+            template: template(model.get('interactivity'))
         });
 
         if (err) throw err;
@@ -511,7 +509,9 @@ function fields(opts) {
 
 // Generate combined template from templates.
 function template(opts) {
-    opts = opts || {};
+    if (!opts || !opts.layer || (!opts.template_teaser && !opts.template_full && !opts.template_location))
+        return "";
+
     return '{{#__location__}}' + (opts.template_location || '') + '{{/__location__}}' +
         '{{#__teaser__}}' + (opts.template_teaser || '') + '{{/__teaser__}}' +
         '{{#__full__}}' + (opts.template_full || '') + '{{/__full__}}';
