@@ -32,6 +32,7 @@ releases:
 #  - Added ability to toggle layer visibility
 #  - Version update checking no longer blocks application startup.
 #  - marker-width and marker-height are now expressions
+#  - building-height is now an expression
 
 - version: 0.9.1
   date: 2012-05-07
