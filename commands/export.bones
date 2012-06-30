@@ -525,7 +525,8 @@ command.prototype.upload = function (callback) {
     Step(function() {
         request.get({
             uri: policyEndpoint,
-            headers: { 'Host': url.parse(policyEndpoint).host }
+            headers: { 'Host': url.parse(policyEndpoint).host },
+            proxy: process.env.HTTP_PROXY
         }, this);
     }, function(err, resp, body) {
         if (err) throw err;
@@ -556,16 +557,26 @@ command.prototype.upload = function (callback) {
             .join(''));
         var terminate = new Buffer('\r\n--' + boundary + '--', 'ascii');
 
-        var dest = http.request({
-            host: bucket + '.s3.amazonaws.com',
-            path: '/',
+        var opts = {
             method: 'POST',
             headers: {
                 'Content-Type': 'multipart/form-data; boundary=' + boundary,
                 'Content-Length': stat.size + multipartBody.length + terminate.length,
                 'X_FILE_NAME': filename
             }
-        });
+        };
+        if (process.env.HTTP_PROXY) {
+            var proxy = url.parse(process.env.HTTP_PROXY);
+            opts.host = proxy.hostname;
+            opts.port = proxy.port;
+            opts.path = 'http://' + bucket + '.s3.amazonaws.com';
+            opts.headers.Host = 'http://' + bucket + '.s3.amazonaws.com';
+        } else {
+            opts.host = bucket + '.s3.amazonaws.com';
+            opts.path = '/';
+        }
+        var dest = http.request(opts);
+
         dest.on('response', function(resp) {
             var data = '';
             var callback = function(err) {
@@ -621,7 +632,10 @@ command.prototype.upload = function (callback) {
             .pipe(dest, {end: false});
     }, function(err) {
         if (err) throw err;
-        request.get(modelURL, this);
+        request.get({
+            uri: modelURL,
+            proxy: process.env.HTTP_PROXY
+        }, this);
     }, function(err, res, body) {
         if (err) throw err;
 
@@ -633,7 +647,11 @@ command.prototype.upload = function (callback) {
             status: 'pending',
             url: 'http://' + bucket + '.s3.amazonaws.com/' + key
         });
-        request.put({ url:modelURL, json:model }, this);
+        request.put({
+            url: modelURL,
+            json: model,
+            proxy: process.env.HTTP_PROXY
+        }, this);
     }, function(err, res, body) {
         console.log('MapBox Hosting account response: ' + util.inspect(body));
         if (err) {
