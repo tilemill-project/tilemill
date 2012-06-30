@@ -89,6 +89,7 @@ command.prototype.bootstrap = function(plugin, callback) {
     settings.files = path.resolve(settings.files.replace(/^~/, process.env.HOME));
     settings.coreUrl = settings.coreUrl || 'localhost:' + settings.port;
     settings.tileUrl = settings.tileUrl || 'localhost:' + settings.tilePort;
+    settings.httpProxy = process.env.HTTP_PROXY = settings.httpProxy || process.env.HTTP_PROXY;
 
     Bones.plugin.abilities = {
         version: (function() {
