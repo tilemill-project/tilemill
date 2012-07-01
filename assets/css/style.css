@@ -639,7 +639,7 @@ ul.layers {
 .layers li {
   position:relative;
   border-bottom:1px solid rgba(0,0,0,0.1);
-  padding:5px 90px 4px 30px;
+  padding:5px 130px 4px 30px;
   overflow:hidden;
   white-space:nowrap;
   min-width:60px;
