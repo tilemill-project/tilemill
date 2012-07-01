@@ -37,6 +37,9 @@ command.prototype.initialize = function(plugin, callback) {
     plugin.config.coreUrl = plugin.config.coreUrl ||
         'localhost:' + plugin.config.port;
 
+    // Set proxy env variable before spawning children
+    process.env.HTTP_PROXY = plugin.config.httpProxy || process.env.HTTP_PROXY;
+
     Bones.plugin.command = this;
     Bones.plugin.children = {};
     process.title = 'tilemill';
