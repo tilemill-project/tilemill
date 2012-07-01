@@ -99,6 +99,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
         data.assets = [];
         options.bucket = 'mapbox-geodata';
         options.prefix = data.location;
+        options.proxy = Bones.plugin.config.httpProxy;
         s3.list(options, function(err, objects) {
             if (err) return error(err);
             data.assets = _(objects).chain()
