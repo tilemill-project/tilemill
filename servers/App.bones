@@ -146,7 +146,7 @@ server.prototype.updatesVersion = function(req, res, next) {
         if (skip) return this();
 
         console.warn('Checking for new version of TileMill...');
-        npm.load({proxy: process.env.HTTP_PROXY}, this);
+        npm.load({proxy: Bones.plugin.config.httpProxy}, this);
     }, function(err) {
         if (skip || err) return this(err);
 
