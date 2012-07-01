@@ -501,6 +501,7 @@ command.prototype.upload = function (callback) {
     var cmd = this;
     var key;
     var bucket;
+    var proxy = Bones.plugin.config.httpProxy || process.env.HTTP_PROXY;
     var mapURL = _('<%=base%>/<%=account%>/map/<%=handle%>')
         .template({
             base: this.opts.syncURL,
@@ -526,7 +527,7 @@ command.prototype.upload = function (callback) {
         request.get({
             uri: policyEndpoint,
             headers: { 'Host': url.parse(policyEndpoint).host },
-            proxy: process.env.HTTP_PROXY
+            proxy: proxy
         }, this);
     }, function(err, resp, body) {
         if (err) throw err;
@@ -565,10 +566,10 @@ command.prototype.upload = function (callback) {
                 'X_FILE_NAME': filename
             }
         };
-        if (process.env.HTTP_PROXY) {
-            var proxy = url.parse(process.env.HTTP_PROXY);
-            opts.host = proxy.hostname;
-            opts.port = proxy.port;
+        if (proxy) {
+            var parsed = url.parse(proxy);
+            opts.host = parsed.hostname;
+            opts.port = parsed.port;
             opts.path = 'http://' + bucket + '.s3.amazonaws.com';
             opts.headers.Host = 'http://' + bucket + '.s3.amazonaws.com';
         } else {
@@ -634,7 +635,7 @@ command.prototype.upload = function (callback) {
         if (err) throw err;
         request.get({
             uri: modelURL,
-            proxy: process.env.HTTP_PROXY
+            proxy: proxy
         }, this);
     }, function(err, res, body) {
         if (err) throw err;
@@ -650,7 +651,7 @@ command.prototype.upload = function (callback) {
         request.put({
             url: modelURL,
             json: model,
-            proxy: process.env.HTTP_PROXY
+            proxy: proxy
         }, this);
     }, function(err, res, body) {
         console.log('MapBox Hosting account response: ' + util.inspect(body));
