@@ -224,8 +224,13 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 {
     // continually ensure bounce scrolling is disabled on Lion
     //
-    self.webView.mainFrame.frameView.documentView.enclosingScrollView.horizontalScrollElasticity = NSScrollElasticityNone;
-    self.webView.mainFrame.frameView.documentView.enclosingScrollView.verticalScrollElasticity   = NSScrollElasticityNone;
+    NSScrollView *enclosingScrollView = self.webView.mainFrame.frameView.documentView.enclosingScrollView;
+    
+    if ([enclosingScrollView respondsToSelector:@selector(setHorizontalScrollElasticity:)])
+    {
+        enclosingScrollView.horizontalScrollElasticity = NSScrollElasticityNone;
+        enclosingScrollView.verticalScrollElasticity   = NSScrollElasticityNone;
+    }
 }
 
 @end

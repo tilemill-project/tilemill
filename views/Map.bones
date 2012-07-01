@@ -50,8 +50,8 @@ view.prototype.render = function(init) {
     // Add image error request handler. "Dedupes" image errors by
     // checking against last received image error so as to not spam
     // the user with the same errors message for every image request.
-    this.map.getLayerAt(0).requestManager.addCallback('requesterror', _(function(manager, url) {
-        $.ajax(url, { error: _(function(resp) {
+    this.map.getLayerAt(0).requestManager.addCallback('requesterror', _(function(manager, msg) {
+        $.ajax(msg.url, { error: _(function(resp) {
             if (resp.responseText === this._error) return;
             this._error = resp.responseText;
             new views.Modal(resp);
