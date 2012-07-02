@@ -159,7 +159,9 @@ command.prototype.bootstrap = function(plugin, callback) {
     ]).chain()
         .map(function(p, index) {
             try {
-            return fs.readdirSync(p).map(function(dir) {
+            return fs.readdirSync(p).filter(function(d) {
+                return d[0] !== '.';
+            }).map(function(dir) {
                 var data;
                 try {
                     var pkg = path.join(p, dir, 'package.json');
