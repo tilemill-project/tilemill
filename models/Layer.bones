@@ -43,6 +43,9 @@ model.prototype.schema = {
         'Datasource': {
             'type': 'object',
             'required': true
+        },
+        'advanced': {
+            'type': 'object'
         }
     }
 };
