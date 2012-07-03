@@ -11,6 +11,9 @@ model.prototype.schema = {
         },
         'files': {
             'type': 'string'
+        },
+        'httpProxy': {
+            'type': 'string'
         }
     }
 };
