@@ -33,6 +33,10 @@ releases:
 #  - Version update checking no longer blocks application startup.
 #  - marker-width and marker-height are now expressions
 #  - building-height is now an expression
+#  - Added ability to trigger opening http links by clicking on features using 'location' template
+#  - Added ability to set the metatile size in the project settings
+#  - Added ability to set a map scaling factor in the project settings
+#  - Added support for http proxies
 
 - version: 0.9.1
   date: 2012-05-07
