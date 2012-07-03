@@ -6,7 +6,9 @@ models.Plugins.prototype.sync = function(method, model, success, error) {
     if (method !== 'read') return error(new Error('Unsupported method.'));
 
     Step(function() {
-        npm.load({}, this);
+        var opts = {};
+        if (Bones.plugin.config.httpProxy) opts.proxy = Bones.plugin.config.httpProxy;
+        npm.load(opts, this);
     }, function(err) {
         if (err) throw err;
 

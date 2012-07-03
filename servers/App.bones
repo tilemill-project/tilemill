@@ -146,7 +146,8 @@ server.prototype.updatesVersion = function(req, res, next) {
         if (skip) return this();
 
         console.warn('Checking for new version of TileMill...');
-        npm.load({}, this);
+        var opts = settings.httpProxy ? {proxy: settings.httpProxy} : {};
+        npm.load(opts, this);
     }, function(err) {
         if (skip || err) return this(err);
 
