@@ -200,10 +200,16 @@ view.prototype.save = function(e) {
         attr.srs = attr.srs || '';
     }
     // Advanced options.
-    if (attr.advanced) {
-        attr.Datasource = _(attr.Datasource||{}).defaults(attr.advanced);
-        delete attr.advanced;
-    }
+    var regular = _(['type', 'file','table', 'host', 'port', 'user', 
+        'password', 'dbname', 'extent', 'key_field', 'geometry_field',
+        'type', 'attachdb', 'srs', 'id', 'project']);
+
+    var result = {};
+    _(attr.Datasource || {}).each(function(v, k) {
+        if (regular.include(k)) result[k] = v;
+    })
+    attr.Datasource = _.extend(result, attr.advanced);
+
     // Parse PostGIS connection options.
     if (attr.connection) {
         var allowedArgs = ['user', 'password', 'dbname', 'port', 'host'];

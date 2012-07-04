@@ -5,7 +5,9 @@ view.prototype.events = {
     'click a.add-layer': 'layerAdd',
     'click a.edit': 'layerEdit',
     'click a.inspect': 'layerInspect',
-    'click a.delete': 'layerDelete'
+    'click a.delete': 'layerDelete',
+    'click a.visibility': 'layerToggleStatus',
+    'click a.extent': 'layerExtent'
 };
 
 view.prototype.initialize = function(options) {
@@ -15,6 +17,8 @@ view.prototype.initialize = function(options) {
         'layerInspect',
         'layerEdit',
         'layerDelete',
+        'layerToggleStatus',
+        'layerExtent',
         'makeLayer',
         'sortLayers'
     );
@@ -86,11 +90,67 @@ view.prototype.layerDelete = function(ev) {
         callback: _(function() {
             var model = this.model.get('Layer').get(id);
             this.model.get('Layer').remove(model);
+
+            // Disable interactivity if on for this layer
+            var interactivity = this.model.get('interactivity');
+            if (interactivity.layer == id) {
+                interactivity.layer = "";
+                this.model.set({
+                    interactivity: interactivity
+                });
+            }
+
         }).bind(this),
         affirmative: 'Delete'
     });
     return false;
 };
+ 
+view.prototype.layerToggleStatus = function(ev) {
+    var id = $(ev.currentTarget).attr('href').split('#').pop();
+    var model = this.model.get('Layer').get(id);
+    if (model.get('status') == 'off') {
+        model.unset('status');
+        $(ev.currentTarget).closest('li').removeClass('status-off');
+    } else {
+        // default to hiding, since the default state of a layer is 'on'
+        model.set({ 'status': 'off' });
+        $(ev.currentTarget).closest('li').addClass('status-off');
+    }
+    return false;
+};
+
+view.prototype.layerExtent = function(ev) {
+    var id = $(ev.currentTarget).attr('href').split('#').pop();
+    var layer = this.model.get('Layer').get(id);
+    var extent = layer.get('extent');
+
+    var setExtent = _(function(extent) {
+        this.options.map.map.setExtent(
+                new MM.Extent(extent[3], extent[0], extent[1], extent[2]));
+        }).bind(this);
+
+    if (extent) {
+        setExtent(extent);
+    } else {
+        // Extent not yet set (layer saved prior to 0.9.2). Setting it.
+        var model = new models.Datasource(_(layer.get('Datasource')).extend({
+            id: layer.get('id'),
+            project: this.model.get('id'),
+            srs: layer.get('srs')
+        }));
+        model.fetch({
+            success: function(model, resp) {
+                layer.set({extent: resp.extent});
+                setExtent(resp.extent);
+            },
+            error: function(err) {
+                new views.Modal(err);
+            }
+        });
+    }
+    return false;
+}
 
 view.prototype.layerInspect = function(ev) {
     $('#drawer .content').empty();
@@ -102,10 +162,7 @@ view.prototype.layerInspect = function(ev) {
     var model = new models.Datasource(_(layer.get('Datasource')).extend({
         id: layer.get('id'),
         project: this.model.get('id'),
-        // millstone will not allow `srs` be undefined for inspection so we set
-        // it to null. We could use the layer's SRS, but this likely has fewer
-        // side effects.
-        srs: null
+        srs: layer.get('srs')
     }));
     model.fetchFeatures({
         success: _(function(model) {

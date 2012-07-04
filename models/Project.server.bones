@@ -10,7 +10,7 @@ var mapnik = require('mapnik');
 var EventEmitter = require('events').EventEmitter;
 var millstone = require('millstone');
 var settings = Bones.plugin.config;
-var tileURL = _('http://<%=url%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>&scale=<%=scale%>').template();
+var tileURL = _('http://<%=url%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>').template();
 var request = require('request');
 
 // Project
@@ -229,18 +229,16 @@ function loadProject(model, callback) {
             url: settings.tileUrl,
             id: model.id,
             format: 'png',
-            scale: 1,
             updated: object._updated
         })];
         object.grids = [tileURL({
             url: settings.tileUrl,
             id: model.id,
             format: 'grid.json',
-            scale: 1,
             updated: object._updated
         })];
+        object.template = template(object.interactivity);
         if (object.interactivity) {
-            object.template = template(object.interactivity);
             object.interactivity.fields = fields(object);
         }
         this();
@@ -340,23 +338,19 @@ function saveProject(model, callback) {
             url: settings.tileUrl,
             id: model.id,
             format: 'png',
-            scale: 1,
             updated: updated
         });
         var grids = tileURL({
             url: settings.tileUrl,
             id: model.id,
             format: 'grid.json',
-            scale: 1,
             updated: updated
         });
         callback(err, {
             _updated: updated,
             tiles: [tiles],
             grids: [grids],
-            template: model.get('interactivity')
-                ? template(model.get('interactivity'))
-                : undefined
+            template: template(model.get('interactivity'))
         });
 
         if (err) throw err;
@@ -515,7 +509,9 @@ function fields(opts) {
 
 // Generate combined template from templates.
 function template(opts) {
-    opts = opts || {};
+    if (!opts || !opts.layer || (!opts.template_teaser && !opts.template_full && !opts.template_location))
+        return "";
+
     return '{{#__location__}}' + (opts.template_location || '') + '{{/__location__}}' +
         '{{#__teaser__}}' + (opts.template_teaser || '') + '{{/__teaser__}}' +
         '{{#__full__}}' + (opts.template_full || '') + '{{/__full__}}';

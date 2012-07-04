@@ -32,6 +32,10 @@ model.prototype.schema = {
         'srs': {
             'type': 'string'
         },
+        'status': {
+            'type': 'string',
+            'enum': ['on', 'off']
+        },
         'geometry': {
             'type': 'string',
             'enum': ['polygon', 'multipolygon', 'point', 'multipoint', 'linestring', 'multilinestring', 'raster', 'unknown']
@@ -39,6 +43,9 @@ model.prototype.schema = {
         'Datasource': {
             'type': 'object',
             'required': true
+        },
+        'advanced': {
+            'type': 'object'
         }
     }
 };
@@ -92,6 +99,7 @@ model.prototype.validateAsync = function(attributes, options) {
     (new models.Datasource(attr)).fetch({
         success: _(function(model, resp) {
             if (resp.geometry_type) this.set({geometry:resp.geometry_type});
+            this.set({extent: resp.extent});
             options.success(model, resp);
         }).bind(this),
         error: options.error

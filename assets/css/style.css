@@ -639,12 +639,16 @@ ul.layers {
 .layers li {
   position:relative;
   border-bottom:1px solid rgba(0,0,0,0.1);
-  padding:5px 70px 4px 30px;
+  padding:5px 130px 4px 30px;
   overflow:hidden;
   white-space:nowrap;
   min-width:60px;
   max-width:240px;
   }
+
+.layers li.status-off { color:#999; }
+.layers li.status-off .icon.geometry { opacity:0.5; }
+.layers li.status-off .icon.visibility { background-position:-700px -180px; }
 
 .layers .ui-sortable-helper {
   background:#fe8;
@@ -946,8 +950,9 @@ li:hover .icon { display:block; }
   }
 
 .icon.edit           { background-position:0px -180px; }
-.icon.inspect        { background-position:-20px -180px; }
+.icon.extent         { background-position:-20px -180px; }
 .icon.delete         { background-position:-60px -180px; }
+.icon.visibility     { background-position:-640px -180px; }
 .icon.color-picker   { background-position:-40px -180px; }
 .icon.close          { background-position:-80px -180px; }
 .icon.fonts          { background-position:-100px -180px; }
@@ -979,6 +984,8 @@ li:hover .icon { display:block; }
 .icon.cloud             { background-position:-620px -180px; }
 .icon.eye               { background-position:-640px -180px; }
 .icon.upload            { background-position:-680px -180px; }
+.icon.inspect           { background-position:-720px -180px; }
+.icon.inspect           { background-position:-720px -180px; }
 
 .reverse.edit           { background-position:0px -200px; }
 .reverse.inspect        { background-position:-20px -200px; }

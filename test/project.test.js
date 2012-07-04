@@ -1,6 +1,7 @@
 var assert = require('assert');
 var fs = require('fs');
 var path = require('path');
+var diff = require('difflet')({ indent : 2 });
 var core;
 var tile;
 
@@ -101,10 +102,11 @@ it('PUT should create a project', function(done) {
         function(res) {
             var body = JSON.parse(res.body);
             cleanProject(body);
-            assert.deepEqual({
+            var expected = {
                 tiles: ["http://localhost:20008/tile/demo_02/{z}/{x}/{y}.png"],
                 grids: ["http://localhost:20008/tile/demo_02/{z}/{x}/{y}.grid.json"]
-            }, body);
+            };
+            assert.deepEqual(expected, body, diff.compare(expected, body));
             done();
         }
     );
@@ -117,7 +119,8 @@ it('GET should load created project', function(done) {
         function(res) {
             var body = JSON.parse(res.body);
             cleanProject(body);
-            assert.deepEqual(readJSON('created-project'), body);
+            var expected = readJSON('created-project');
+            assert.deepEqual(expected, body, diff.compare(expected, body));
             done();
         }
     );

@@ -4,10 +4,12 @@ var Step = require('step');
 var semver = require('semver');
 
 models.Plugin.prototype.sync = function(method, model, success, error) {
+    var opts = {};
+    if (Bones.plugin.config.httpProxy) opts.proxy = Bones.plugin.config.httpProxy;
     // Deletion is a special case. We don't need to validate
     // version, package info.
     if (method === 'delete') return Step(function() {
-        npm.load({}, this);
+        npm.load(opts, this);
     }, function(err) {
         if (err) throw err;
         npm.localPrefix = path.join(process.env.HOME, '.tilemill');
@@ -22,7 +24,7 @@ models.Plugin.prototype.sync = function(method, model, success, error) {
 
     var version = Bones.plugin.abilities.tilemill.version;
     Step(function() {
-        npm.load({}, this);
+        npm.load(opts, this);
     }, function(err) {
         if (err) throw err;
         npm.localPrefix = path.join(process.env.HOME, '.tilemill');

@@ -3,6 +3,8 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'change input[name=updates]': 'updates',
     'change input[name=profile]': 'profile',
+    'change input[name=httpProxy]': 'proxy',
+    'keyup input[name=httpProxy]': 'proxy',
     'keyup input[name=files]': 'files',
     'change input[name=files]': 'files',
     'click input[type=submit]': 'save',
@@ -18,10 +20,12 @@ view.prototype.initialize = function(options) {
         'updates',
         'disable',
         'save',
-        'restart'
+        'restart',
+        'proxy'
     );
     this.model.bind('change', this.changed);
     this.model.bind('change:files', this.restart);
+    this.model.bind('change:httpProxy', this.restart);
     this.render();
 };
 
@@ -43,6 +47,11 @@ view.prototype.saved = function() {
 
 view.prototype.files = function(ev) {
     this.model.set({files: $(ev.currentTarget).val()});
+    return false;
+};
+
+view.prototype.proxy = function(ev) {
+    this.model.set({httpProxy: $(ev.currentTarget).val()});
     return false;
 };
 

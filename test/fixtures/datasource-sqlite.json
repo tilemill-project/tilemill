@@ -30,5 +30,11 @@
     },
     "features": [],
     "type": "vector",
-    "geometry_type": "polygon"
+    "geometry_type": "polygon",
+    "extent" : [
+      -70.06163470944716,
+      12.41753750275562,
+      74.89230718349421,
+      38.47367493851016
+    ]
 }

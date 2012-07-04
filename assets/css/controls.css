@@ -29,7 +29,8 @@
 
 .wax-tooltip .close,
 .wax-fullscreen,
-.zoomer {
+.zoomer,
+.scaler {
   text-indent:-9999px;
   overflow:hidden;
   display:block;
@@ -62,7 +63,8 @@
   }
 
 .wax-fullscreen,
-.zoomer {
+.zoomer,
+.scaler {
   left:10px;
   top:10px;
   z-index:2;
@@ -73,19 +75,6 @@
   -moz-box-shadow:rgba(0,0,0,0.1) 0px 1px 3px;
   -webkit-box-shadow:rgba(0,0,0,0.1) 0px 1px 3px;
   }
-
-
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-  only screen and (-o-min-device-pixel-ratio: 3/2),
-  only screen and (min--moz-device-pixel-ratio: 1.5),
-  only screen and (min-device-pixel-ratio: 1.5) {
-    .wax-tooltip .close,
-    .wax-fullscreen,
-    .zoomer {
-      background-image:url(../images/controls_2x.png);
-      background-size: 120px 30px;
-    }
-}
 
 .zoomout {
   background-position:-61px -1px;
@@ -106,6 +95,17 @@
   -moz-border-radius:0px 3px 3px 0px;
   -webkit-border-radius:0px 3px 3px 0px;
   }
+
+.scaler {
+  left:68px;
+  }
+  .scaler.scale-retina {
+    background-position: -121px -1px;
+    }
+  .scaler.scale-normal {
+    background-position: -151px -1px;
+    }
+
 
 .zoombox-box {
   margin:0;
@@ -147,3 +147,24 @@
   -webkit-border-radius:0px 0px 3px 3px;
   }
 
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+  only screen and (-o-min-device-pixel-ratio: 3/2),
+  only screen and (min--moz-device-pixel-ratio: 1.5),
+  only screen and (min-device-pixel-ratio: 1.5) {
+    .wax-tooltip .close,
+    .wax-fullscreen,
+    .zoomer,
+    .scaler {
+      background-image:url(../images/controls_2x.png);
+      background-size: 180px 30px;
+    }
+
+    .wax-fullscreen {
+      left:97px;
+    }
+
+    .zoom-display {
+      width:117px;
+    }
+}

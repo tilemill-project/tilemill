@@ -24,8 +24,21 @@ releases:
 #  - Added support for quotes in carto filter values like `#world[name2="Sa'ad"]`
 #  - Carto parsing now provides better errors for unmatched parens
 #  - The raster-mode now supports all SVG compositing operations (but uses dashes instead of underscores - so grain_merge is now grain-merge) (Mapnik)
-#  - 32 bits of precision now supported for the primary key of interactive datasources (Mapnik)
 #  - Support for OS X 10.8 (Mountain Lion)
+#  - Interactivity now works on features that have negative or zero primary key values
+#  - Column names in CSV datasources named 'lng' are now automatically recognized as the longitude column
+#  - Added ability to zoom to layer extents
+#  - Fixed a bug where interactivity templates broke when they ended in a number value
+#  - Added ability to toggle layer visibility
+#  - Version update checking no longer blocks application startup.
+#  - marker-width and marker-height are now expressions
+#  - building-height is now an expression
+#  - Added ability to trigger opening http links by clicking on features using 'location' template
+#  - Added ability to set the metatile size in the project settings
+#  - Added ability to set a map scaling factor in the project settings
+#  - Added support for http proxies
+#  - Added support for remote icons like `point-file: url('http://a.tiles.mapbox.com/v3/marker/pin-l-campsite+000000.png');` (millstone)
+#  - Improved support for handling remote csv and kml files (millstone)
 
 - version: 0.9.1
   date: 2012-05-07

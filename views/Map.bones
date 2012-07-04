@@ -1,3 +1,18 @@
+function scaler(map) {
+    return {
+        scale: window.devicePixelRatio,
+        el: $('<a href="#" class="scaler scale-normal">retina</a>'),
+        toggle: function() {
+            this.scale = this.scale == 1 ? window.devicePixelRatio : 1;
+        },
+        appendTo: function(target) {
+            this.el.appendTo(target);
+            return this;
+        }
+    };
+}
+
+
 view = Backbone.View.extend();
 
 view.prototype.initialize = function() {
@@ -20,6 +35,20 @@ view.prototype.render = function(init) {
     this.map = new MM.Map('map',
         new wax.mm.connector(this.model.attributes));
 
+    // Adapted location interaction - opens in new tab
+    function locationOn(o) {
+        if ((o.e.type === 'mousemove' || !o.e.type)) {
+            return;
+        } else {
+            var loc = o.formatter({ format: 'location' }, o.data);
+            if (loc) {
+                window.open(loc);
+            }
+        }
+    }
+
+    var scaleControl = scaler(this.map);
+
     // Add references to all controls onto the map object.
     // Allows controls to be removed later on.
     this.map.controls = {
@@ -27,18 +56,33 @@ view.prototype.render = function(init) {
             .map(this.map)
             .tilejson(this.model.attributes)
             .on(wax.tooltip()
-                .parent(this.map.parent).events()),
+                .parent(this.map.parent).events())
+            .on({on: locationOn}),
         legend: wax.mm.legend(this.map, this.model.attributes),
         zoombox: wax.mm.zoombox(this.map),
         zoomer: wax.mm.zoomer(this.map).appendTo(this.map.parent),
-        fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent)
+        fullscreen: wax.mm.fullscreen(this.map).appendTo(this.map.parent),
+        scaler: scaleControl.appendTo(this.map.parent)
     };
+
+    var view = this;
+    this.map.controls.scaler.el.click(function(e) {
+        scaleControl.toggle();
+        if (scaleControl.scale == 1) {
+            scaleControl.el.removeClass('scale-normal').addClass('scale-retina');
+        } else {
+            scaleControl.el.removeClass('scale-retina').addClass('scale-normal');
+        }
+        view.attach();
+        return false;
+    });
+
 
     // Add image error request handler. "Dedupes" image errors by
     // checking against last received image error so as to not spam
     // the user with the same errors message for every image request.
-    this.map.getLayerAt(0).requestManager.addCallback('requesterror', _(function(manager, url) {
-        $.ajax(url, { error: _(function(resp) {
+    this.map.getLayerAt(0).requestManager.addCallback('requesterror', _(function(manager, msg) {
+        $.ajax(msg.url, { error: _(function(resp) {
             if (resp.responseText === this._error) return;
             this._error = resp.responseText;
             new views.Modal(resp);
@@ -83,7 +127,10 @@ view.prototype.attach = function() {
     this._error = '';
 
     var layer = this.map.getLayerAt(0);
-    layer.provider.options.tiles = this.model.get('tiles');
+    var scale = this.map.controls.scaler.scale;
+    layer.provider.options.tiles = _.map(this.model.get('tiles'), function(url) {
+        return url + '&scale=' + scale;
+    });
     layer.provider.options.minzoom = this.model.get('minzoom');
     layer.provider.options.maxzoom = this.model.get('maxzoom');
     layer.setProvider(layer.provider);
@@ -102,14 +149,7 @@ view.prototype.attach = function() {
     } else {
         $(this.map.controls.legend.element()).remove();
     }
-};
 
-// Hook in to project view with an augment.
-views.Project.augment({ render: function(p) {
-    p.call(this);
-    new views.Map({
-        el:this.$('.map'),
-        model:this.model
-    });
-    return this;
-}});
+    this.map.draw();
+    this.mapZoom();
+};
