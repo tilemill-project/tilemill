@@ -10,7 +10,7 @@ var mapnik = require('mapnik');
 var EventEmitter = require('events').EventEmitter;
 var millstone = require('millstone');
 var settings = Bones.plugin.config;
-var tileURL = _('http://<%=url%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>').template();
+var tileURL = _('http://<%=url%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>&scale=<%=scale%>').template();
 var request = require('request');
 
 // Project
@@ -229,12 +229,14 @@ function loadProject(model, callback) {
             url: settings.tileUrl,
             id: model.id,
             format: 'png',
+            scale: 1,
             updated: object._updated
         })];
         object.grids = [tileURL({
             url: settings.tileUrl,
             id: model.id,
             format: 'grid.json',
+            scale: 1,
             updated: object._updated
         })];
         if (object.interactivity) {
@@ -338,12 +340,14 @@ function saveProject(model, callback) {
             url: settings.tileUrl,
             id: model.id,
             format: 'png',
+            scale: 1,
             updated: updated
         });
         var grids = tileURL({
             url: settings.tileUrl,
             id: model.id,
             format: 'grid.json',
+            scale: 1,
             updated: updated
         });
         callback(err, {
