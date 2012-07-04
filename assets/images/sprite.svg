@@ -18,9 +18,9 @@
    version="1.0"
    sodipodi:docname="sprite.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="./sprite.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="./sprite_2x.png"
+   inkscape:export-xdpi="180"
+   inkscape:export-ydpi="180">
   <defs
      id="defs4">
     <linearGradient
@@ -6046,19 +6046,19 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="313.15191"
-     inkscape:cy="147.17623"
+     inkscape:zoom="16"
+     inkscape:cx="716.49143"
+     inkscape:cy="239.68656"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:snap-bbox="true"
      showguides="false"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1343"
-     inkscape:window-height="817"
-     inkscape:window-x="10"
-     inkscape:window-y="5"
+     inkscape:window-width="1842"
+     inkscape:window-height="1156"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:snap-nodes="true"
      inkscape:bbox-nodes="false"
@@ -6113,24 +6113,10 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     inkscape:groupmode="layer"
-     id="layer2"
-     inkscape:label="Ground"
-     style="display:none"
-     sodipodi:insensitive="true">
-    <rect
-       style="opacity:0.98999999;color:#000000;fill:#a3a3a3;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="rect4961"
-       width="800"
-       height="480"
-       x="0"
-       y="0" />
-  </g>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
@@ -7185,5 +7171,40 @@
        d="m 309,263.5 0,10 2.625,-2.1875 L 314,276.5 315,276 312.65625,270.875 315.75,270.25 309,263.5 z"
        id="path6580"
        inkscape:connector-curvature="0" />
+    <path
+       style="fill:#202020;fill-opacity:1;stroke:none"
+       d="M 734 184 L 734 186 L 732 186 L 732 188 L 730 188 L 730 190 L 728 190 L 728 192 L 726 192 L 726 194 L 724 194 L 724 196 L 736 196 L 736 194 L 736 192 L 736 190 L 736 188 L 736 186 L 736 184 L 734 184 z "
+       transform="translate(0,-80)"
+       id="rect4931" />
+    <path
+       id="path5094"
+       d="m 734,124 0,2 -2,0 0,2 -2,0 0,2 -2,0 0,2 -2,0 0,2 -2,0 0,2 12,0 0,-2 0,-2 0,-2 0,-2 0,-2 0,-2 -2,0 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#202020;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m 703,196 13,-13 0,13 z"
+       id="path5118"
+       inkscape:connector-curvature="0"
+       transform="translate(0,-80)" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5122"
+       d="m 703,136 13,-13 0,13 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:none" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Ground"
+     style="display:none"
+     sodipodi:insensitive="true">
+    <rect
+       style="opacity:0.98999999;color:#000000;fill:#a3a3a3;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4961"
+       width="800"
+       height="480"
+       x="0"
+       y="0" />
   </g>
 </svg>
