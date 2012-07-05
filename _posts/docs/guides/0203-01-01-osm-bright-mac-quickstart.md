@@ -48,6 +48,9 @@ You need to create a database with PostGIS enabled for the OpenStreetMap data. R
     psql -U postgres -c "create database osm;"
     psql -U postgres -d osm -f /usr/local/pgsql-9.1/share/contrib/postgis-1.5/postgis.sql
     psql -U postgres -d osm -f /usr/local/pgsql-9.1/share/contrib/postgis-1.5/spatial_ref_sys.sql
+
+Also, some postgis versions may lack an important projection file in the `spatial_ref_sys` table. So, run the below command as well (but do not worry if you get an error that says "duplicate key value", just ignore that as it means you already have the proper projection):
+
     psql -U postgres -d osm -f /usr/local/share/osm2pgsql/900913.sql
 
 ## Step 2: Download & import OSM data

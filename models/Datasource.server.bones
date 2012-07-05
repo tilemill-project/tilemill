@@ -38,6 +38,17 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             mml.Layer[0].Datasource = _(mml.Layer[0].Datasource).defaults({
                 row_limit: row_limit
                 });
+
+            // simplistic validation that subselects have the key_field string present
+            // not a proper parser, but this is not the right place to be parsing SQL
+            // https://github.com/mapbox/tilemill/issues/1509
+            if (mml.Layer[0].Datasource.table !== undefined
+                && mml.Layer[0].Datasource.key_field !== undefined
+                && mml.Layer[0].Datasource.table.match(/select /i)
+                && mml.Layer[0].Datasource.table.search(mml.Layer[0].Datasource.key_field) == -1) {
+                    return error(new Error("Your SQL subquery needs to contain the custom key_field supplied: '" + mml.Layer[0].Datasource.key_field + "'"));
+            }
+
             var source = new mapnik.Datasource(mml.Layer[0].Datasource);
 
             var features = [];
@@ -50,6 +61,17 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 }
             }
 
+            // Convert datasource extent to lon/lat when saving
+            var layerProj = new mapnik.Projection(mml.Layer[0].srs),
+                unProj = new mapnik.Projection('+proj=longlat +ellps=WGS84 +no_defs'),
+                trans = new mapnik.ProjTransform(layerProj, unProj),
+                extent = trans.forward(source.extent());
+            // clamp to valid extents
+            (extent[0] < -180) && (extent[0] = -180);
+            (extent[1] < -85.051) && (extent[1] = -85.051);
+            (extent[2] > 180) && (extent[2] = 180);
+            (extent[3] > 85.051) && (extent[3] = 85.051);
+
             var desc = source.describe();
             var datasource = {
                 id: options.id,
@@ -58,8 +80,10 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 fields: desc.fields,
                 features: options.features ? features : [],
                 type: desc.type,
-                geometry_type: desc.type === 'raster' ? 'raster' : desc.geometry_type
+                geometry_type: desc.type === 'raster' ? 'raster' : desc.geometry_type,
+                extent: extent
             };
+
 
             // Process fields and calculate min/max values.
             for (var f in datasource.fields) {

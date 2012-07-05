@@ -9,10 +9,10 @@ model.prototype.schema = {
         'port': {
             'type': 'integer'
         },
-        'bufferSize': {
-            'type': 'integer'
-        },
         'files': {
+            'type': 'string'
+        },
+        'httpProxy': {
             'type': 'string'
         }
     }

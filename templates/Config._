@@ -11,13 +11,6 @@
     <h2>Application settings</h2>
   </li>
   <li>
-    <label for='bufferSize'>Render buffer</label>
-    <div class='slider' data-key='bufferSize' data-step='16' data-min='0' data-max='1024'></div>
-    <div class='description'>
-      Mapnik render buffer in pixels. Increase this value if labels appear cut off at tile edges.
-    </div>
-  </li>
-  <li>
     <label for='files'>Documents</label>
     <input type='text' name='files' size='40' value='<%= get('files') %>' />
     <div class='description'>
@@ -42,6 +35,13 @@
       <% } else { %>
       Authorize TileMill to upload to your MapBox account.
       <% } %>
+    </div>
+  </li>
+  <li>
+    <label for='httpProxy'>HTTP Proxy</label>
+    <input type='text' name='httpProxy' size='40' value='<%= get('httpProxy') %>' />
+    <div class='description'>
+      HTTP proxy to be used when connecting to the Internet.
     </div>
   </li>
   <li>

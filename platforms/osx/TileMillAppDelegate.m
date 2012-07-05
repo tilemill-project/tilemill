@@ -98,9 +98,6 @@
         if ([defaults objectForKey:@"filesPath"])
             [options addObject:[NSString stringWithFormat:@"\"files\": \"%@\"", [defaults objectForKey:@"filesPath"]]];
 
-        if ([defaults objectForKey:@"bufferSize"])
-            [options addObject:[NSString stringWithFormat:@"\"bufferSize\": %i", [defaults integerForKey:@"bufferSize"]]];
-        
         if ([defaults objectForKey:@"listenAllInterfaces"])
             [options addObject:[NSString stringWithFormat:@"\"listenHost\": \"%@\"", ([defaults boolForKey:@"listenAllInterfaces"] ? @"0.0.0.0" : @"127.0.0.1")]];
         

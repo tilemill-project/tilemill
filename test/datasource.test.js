@@ -1,6 +1,7 @@
 var assert = require('assert');
 var fs = require('fs');
 var path = require('path');
+var diff = require('difflet')({ indent : 2 });
 var core;
 var tile;
 
@@ -27,12 +28,12 @@ after(function(done) {
 
 it('GET sqlite', function(done) {
     assert.response(tile,
-        { url: '/datasource/world?file=' + encodeURIComponent(__dirname + '/fixtures/countries.sqlite') + '&table=countries&id=world&type=sqlite&project=demo_01&srs=null' },
+        { url: '/datasource/world?file=' + encodeURIComponent(__dirname + '/fixtures/countries.sqlite') + '&table=countries&id=world&type=sqlite&project=demo_01&srs=%2Bproj%3Dmerc+%2Ba%3D6378137+%2Bb%3D6378137+%2Blat_ts%3D0.0+%2Blon_0%3D0.0+%2Bx_0%3D0.0+%2By_0%3D0+%2Bk%3D1.0+%2Bunits%3Dm+%2Bnadgrids%3D%40null+%2Bwktext+%2Bno_defs+%2Bover' },
         { status: 200 },
         function(res) {
             var body = JSON.parse(res.body), datasource = readJSON('datasource-sqlite');
             datasource.url = __dirname + '/fixtures/countries.sqlite';
-            assert.deepEqual(datasource, body);
+            assert.deepEqual(datasource, body, diff.compare(datasource, body));
             done();
         }
     );
@@ -82,7 +83,8 @@ it('GET postgis datasource', function(done) {
         { status: 200 },
         function(res) {
             var body = JSON.parse(res.body);
-            assert.deepEqual(readJSON('datasource-postgis'), body);
+            var datasource = readJSON('datasource-postgis');
+            assert.deepEqual(datasource, body, diff.compare(datasource, body));
             done();
         }
     );
@@ -94,7 +96,9 @@ it('GET postgis datasource with features', function(done) {
         { status: 200 },
         function(res) {
             var body = JSON.parse(res.body);
-            assert.deepEqual(readJSON('datasource-postgis-features'), body);
+            var datasource = readJSON('datasource-postgis-features');
+            assert.deepEqual(datasource.fields, body.fields, diff.compare(datasource.fields, body.fields));
+            assert.deepEqual(datasource.features, body.features, diff.compare(datasource.features, body.features));
             done();
         }
     );

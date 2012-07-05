@@ -18,4 +18,5 @@ servers['Core'].prototype.initialize = function(app) {
     if (env === 'development') this.use(new servers['Debug'](app));
     this.use(new servers['Route'](app));
     this.use(new servers['Asset'](app));
+    this.enable('jsonp callback');
 };

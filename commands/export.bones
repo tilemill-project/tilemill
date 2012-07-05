@@ -81,8 +81,12 @@ command.options['list'] = {
 
 command.options['metatile'] = {
     'title': 'metatile=[num]',
-    'description': 'Metatile size.',
-    'default': 2
+    'description': 'Metatile size.'
+};
+
+command.options['scale'] = {
+    'title': 'scale=[num]',
+    'description': 'Scale factor'
 };
 
 command.options['concurrency'] = {
@@ -162,6 +166,8 @@ command.prototype.initialize = function(plugin, callback) {
         opts.height = parseInt(opts.height, 10);
     if (!_(opts.metatile).isUndefined())
         opts.metatile = parseInt(opts.metatile, 10);
+    if (!_(opts.scale).isUndefined())
+        opts.scale = parseInt(opts.scale, 10);
 
     // Rename the output filepath using a random hash if file already exists.
     if (path.existsSync(opts.filepath) &&
@@ -214,7 +220,9 @@ command.prototype.initialize = function(plugin, callback) {
             version: model.mml.version || '1.0.0',
             minzoom: !_(opts.minzoom).isUndefined() ? opts.minzoom : model.get('minzoom'),
             maxzoom: !_(opts.maxzoom).isUndefined() ? opts.maxzoom : model.get('maxzoom'),
-            bounds: !_(opts.bbox).isUndefined() ? opts.bbox : model.get('bounds')
+            bounds: !_(opts.bbox).isUndefined() ? opts.bbox : model.get('bounds'),
+            scale: !_(opts.scale).isUndefined() ? opts.scale : model.get('scale'),
+            metatile: !_(opts.metatile).isUndefined() ? opts.metatile : model.get('metatile')
         });
 
         // Unset map center if outside bounds.
@@ -352,7 +360,6 @@ command.prototype.image = function(project, callback) {
         strict: false,
         base: path.join(this.opts.files, 'project', project.id) + '/'
     });
-    map.bufferSize = this.opts.bufferSize;
     map.extent = sm.convert(project.mml.bounds, '900913');
     try {
         map.renderFileSync(this.opts.filepath, { format: this.opts.format });
@@ -404,7 +411,10 @@ command.prototype.tilelive = function (project, callback) {
             xml: project.xml,
             mml: project.mml,
             pathname: path.join(opts.files, 'project', project.id, project.id + '.xml'),
-            query: { bufferSize: opts.bufferSize, metatile: opts.metatile }
+            query: {
+                metatile: project.mml.metatile,
+                scale: project.mml.scale
+            }
         };
 
         var to = {
@@ -491,6 +501,7 @@ command.prototype.upload = function (callback) {
     var cmd = this;
     var key;
     var bucket;
+    var proxy = Bones.plugin.config.httpProxy || process.env.HTTP_PROXY;
     var mapURL = _('<%=base%>/<%=account%>/map/<%=handle%>')
         .template({
             base: this.opts.syncURL,
@@ -515,7 +526,8 @@ command.prototype.upload = function (callback) {
     Step(function() {
         request.get({
             uri: policyEndpoint,
-            headers: { 'Host': url.parse(policyEndpoint).host }
+            headers: { 'Host': url.parse(policyEndpoint).host },
+            proxy: proxy
         }, this);
     }, function(err, resp, body) {
         if (err) throw err;
@@ -546,16 +558,27 @@ command.prototype.upload = function (callback) {
             .join(''));
         var terminate = new Buffer('\r\n--' + boundary + '--', 'ascii');
 
-        var dest = http.request({
-            host: bucket + '.s3.amazonaws.com',
-            path: '/',
+        var opts = {
             method: 'POST',
             headers: {
                 'Content-Type': 'multipart/form-data; boundary=' + boundary,
                 'Content-Length': stat.size + multipartBody.length + terminate.length,
                 'X_FILE_NAME': filename
             }
-        });
+        };
+        if (proxy) {
+            var parsed = url.parse(proxy);
+            opts.host = parsed.hostname;
+            opts.port = parsed.port;
+            opts.auth = parsed.auth;
+            opts.path = 'http://' + bucket + '.s3.amazonaws.com';
+            opts.headers.Host = 'http://' + bucket + '.s3.amazonaws.com';
+        } else {
+            opts.host = bucket + '.s3.amazonaws.com';
+            opts.path = '/';
+        }
+        var dest = http.request(opts);
+
         dest.on('response', function(resp) {
             var data = '';
             var callback = function(err) {
@@ -611,7 +634,10 @@ command.prototype.upload = function (callback) {
             .pipe(dest, {end: false});
     }, function(err) {
         if (err) throw err;
-        request.get(modelURL, this);
+        request.get({
+            uri: modelURL,
+            proxy: proxy
+        }, this);
     }, function(err, res, body) {
         if (err) throw err;
 
@@ -623,7 +649,11 @@ command.prototype.upload = function (callback) {
             status: 'pending',
             url: 'http://' + bucket + '.s3.amazonaws.com/' + key
         });
-        request.put({ url:modelURL, json:model }, this);
+        request.put({
+            url: modelURL,
+            json: model,
+            proxy: proxy
+        }, this);
     }, function(err, res, body) {
         console.log('MapBox Hosting account response: ' + util.inspect(body));
         if (err) {

@@ -153,18 +153,20 @@
                 insert(completions[0]); return true;
             }
 
+            completions.sort();
+
             // Build the select widget
             var pos = editor.cursorCoords();
 
             sel.innerHTML = '';
             sel.multiple = true;
-            for (var i = 0; i < Math.min(completions.length, 10); ++i) {
+            for (var i = 0; i < completions.length; ++i) {
                 var opt = sel.appendChild(document.createElement('option'));
                 opt.appendChild(document.createTextNode(completions[i]));
             }
             sel.firstChild.selected = true;
             sel.selectedIndex = 0;
-            sel.size = Math.min(10, completions.length);
+            sel.size = completions.length;
             sel.style.height = '100px';
 
             widget.className = 'completions';
