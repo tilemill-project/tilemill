@@ -33,7 +33,7 @@ if (process.platform === 'win32') {
 // upstream in bones.
 var path = require('path');
 var config = path.join(process.env.HOME, '.tilemill/config.json');
-if (path.existsSync(config)) {
+if (fs.existsSync(config)) {
     var argv = require('optimist').argv;
     argv.config = argv.config || config;
 }
