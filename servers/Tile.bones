@@ -40,14 +40,22 @@ server.prototype.load = function(req, res, next) {
     // contains the mtime with _updated.
     var load = this.load;
     var id = req.params.id;
+    var tileSize = 256;
+    var scale = (req.project && req.project.attributes.scale) || 1;
+    if (req.query.scale) {
+        scale *= parseFloat(req.query.scale);
+        tileSize *= parseFloat(req.query.scale);
+    }
+
     var uri = {
         protocol: 'mapnik:',
         slashes: true,
         pathname: path.join(settings.files, 'project', id, id + '.xml'),
         query: {
-            updated:req.query.updated,
-            scale: req.project && req.project.attributes.scale,
-            metatile: req.project && req.project.attributes.metatile
+            updated: req.query.updated,
+            scale: scale,
+            metatile: req.project && req.project.attributes.metatile,
+            tileSize: tileSize
         },
         // Need not be set for a cache hit. Once the cache is
         // warmed the project need not be loaded/localized again.
