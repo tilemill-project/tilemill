@@ -38,7 +38,7 @@ command.prototype.initialize = function(plugin, callback) {
         'localhost:' + plugin.config.port;
 
     // Set proxy env variable before spawning children
-    process.env.HTTP_PROXY = plugin.config.httpProxy || process.env.HTTP_PROXY;
+    if (plugin.config.httpProxy) process.env.HTTP_PROXY = plugin.config.httpProxy;
 
     Bones.plugin.command = this;
     Bones.plugin.children = {};
