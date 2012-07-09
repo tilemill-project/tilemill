@@ -5,13 +5,20 @@ var OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 
 server = Bones.Server.extend({});
 server.prototype.initialize = function(app, core) {
+    var back = function(req, res, next) {
+        if (req.query.error == 'access_denied') {
+            res.redirect('/');
+        } else {
+            next();
+        }
+    }
     var auth = passport.authenticate('mapbox', {
         session: false,
         failureRedirect: '/oauth/mapbox/fail'
     });
     this.use(passport.initialize());
     this.get('/oauth/mapbox', auth);
-    this.get('/oauth/mapbox/token', auth, function(req, res) {
+    this.get('/oauth/mapbox/token', back, auth, function(req, res) {
         // The user ID is *required* here. If it is not provided
         // (see error "handling" or lack thereof in Strategy#userProfile
         // below) we basically treat it as an error condition.
