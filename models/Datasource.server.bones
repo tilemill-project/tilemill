@@ -45,8 +45,9 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             if (mml.Layer[0].Datasource.table !== undefined
                 && mml.Layer[0].Datasource.key_field !== undefined
                 && mml.Layer[0].Datasource.table.match(/select /i)
+                && mml.Layer[0].Datasource.table.indexOf('*') == -1
                 && mml.Layer[0].Datasource.table.search(mml.Layer[0].Datasource.key_field) == -1) {
-                    return error(new Error("Your SQL subquery needs to contain the custom key_field supplied: '" + mml.Layer[0].Datasource.key_field + "'"));
+                    return error(new Error("Your SQL subquery needs to explicitly include the custom key_field: '" + mml.Layer[0].Datasource.key_field + "' or use 'select *' to request all fields"));
             }
 
             var source = new mapnik.Datasource(mml.Layer[0].Datasource);
