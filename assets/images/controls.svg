@@ -9,11 +9,11 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="180"
+   width="120"
    height="30"
    id="svg3025"
    version="1.1"
-   inkscape:version="0.48.2 r9819"
+   inkscape:version="0.48.1 r9760"
    sodipodi:docname="controls.svg"
    inkscape:export-filename="/home/devseed/pro/node_modules/tilestream/assets/images/controls.png"
    inkscape:export-xdpi="90"
@@ -28,46 +28,18 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="146.4977"
-     inkscape:cy="13.336927"
+     inkscape:cx="-100.34729"
+     inkscape:cy="-26.5937"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="true"
-     showguides="true"
-     inkscape:guide-bbox="true"
-     inkscape:window-width="1379"
-     inkscape:window-height="856"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1">
+     showgrid="false">
     <inkscape:grid
        type="xygrid"
        id="grid3033"
        empspacing="5"
        visible="true"
        enabled="true"
-       snapvisiblegridlinesonly="true"
-       dotted="true" />
-    <sodipodi:guide
-       orientation="1,0"
-       position="30,50"
-       id="guide2987" />
-    <sodipodi:guide
-       orientation="1,0"
-       position="60,25"
-       id="guide2989" />
-    <sodipodi:guide
-       orientation="1,0"
-       position="90,25"
-       id="guide2991" />
-    <sodipodi:guide
-       orientation="1,0"
-       position="120,25"
-       id="guide2993" />
-    <sodipodi:guide
-       orientation="1,0"
-       position="150,25"
-       id="guide3004" />
+       snapvisiblegridlinesonly="true" />
   </sodipodi:namedview>
   <metadata
      id="metadata3030">
@@ -110,15 +82,5 @@
        id="path6407"
        d="m 110,1032.3622 0,5 -2,-2 -5,5 2,2 -5,0 0,-5 2,2 5,-5 -2,-2 z"
        style="color:#000000;fill:#202020;fill-opacity:0.87843137;fill-rule:nonzero;stroke:none;stroke-width:0.99999994;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    <path
-       inkscape:connector-curvature="0"
-       style="fill:#202020;fill-opacity:1;stroke:none"
-       d="m 169,1031.3622 0,2 -2,0 0,2 -2,0 0,2 -2,0 0,2 -2,0 0,2 -2,0 0,2 12,0 0,-2 0,-2 0,-2 0,-2 0,-2 0,-2 -2,0 z"
-       id="rect4931" />
-    <path
-       style="fill:#202020;fill-opacity:1;stroke:none"
-       d="m 129,1043.3622 12,-12 0,12 z"
-       id="path5118"
-       inkscape:connector-curvature="0" />
   </g>
 </svg>
