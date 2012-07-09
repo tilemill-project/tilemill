@@ -7,7 +7,7 @@ server = Bones.Server.extend({});
 server.prototype.initialize = function(app, core) {
     var back = function(req, res, next) {
         if (req.query.error == 'access_denied') {
-            res.redirect('/');
+            res.redirect('/#/settings');
         } else {
             next();
         }
