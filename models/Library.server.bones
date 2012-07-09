@@ -49,7 +49,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
             .replace(/^([a-zA-Z]:\\|\/)/, sep);
 
         // Resolve paths relative to project directory.
-        if (!location[0] === sep) {
+        if (location[0] !== sep) {
             location = path.join(config.files, 'project', model.get('project'), location);
         }
 
