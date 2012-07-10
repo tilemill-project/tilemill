@@ -41,15 +41,23 @@ var formatFileSize = function(size) {
 models.Library.prototype.sync = function(method, model, success, error) {
     if (method !== 'read') return error(new Error('Method not supported.'));
 
+
     switch (model.id) {
     case 'file':
     case 'sqlite':
-        var sep = process.platform === 'win32' ? '\\' : '/';
-        var location = (model.get('location') || process.env.HOME)
-            .replace(/^([a-zA-Z]:\\|\/)/, sep);
+
+        function isRelative(loc) {
+            if (process.platform === 'win32') {
+                return loc[0] !== '\\' && loc.match(/^[a-zA-Z]:\\/) == null;
+            } else {
+                return loc[0] !== '/';
+            }
+        }
+
+        var location = (model.get('location') || process.env.HOME);
 
         // Resolve paths relative to project directory.
-        if (location[0] !== sep) {
+        if (isRelative(location)) {
             location = path.join(config.files, 'project', model.get('project'), location);
         }
 
