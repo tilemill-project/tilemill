@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
+// node v6 -> v8 compatibility
+var existsSync = require('fs').existsSync || require('path').existsSync;
 
 process.title = 'tilemill';
 
@@ -31,9 +33,8 @@ if (process.platform === 'win32') {
 // Default --config flag to user's home .tilemill.json config file.
 // @TODO find a more elegant way to set a default for this value
 // upstream in bones.
-var path = require('path');
 var config = path.join(process.env.HOME, '.tilemill/config.json');
-if (path.existsSync(config)) {
+if (existsSync(config)) {
     var argv = require('optimist').argv;
     argv.config = argv.config || config;
 }

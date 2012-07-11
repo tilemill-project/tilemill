@@ -8,6 +8,8 @@ var Step = require('step');
 var http = require('http');
 var chrono = require('chrono');
 var crashutil = require('../lib/crashutil');
+// node v6 -> v8 compatibility
+var existsSync = require('fs').existsSync || require('path').existsSync;
 
 command = Bones.Command.extend();
 
@@ -147,7 +149,7 @@ command.prototype.initialize = function(plugin, callback) {
 
     // Validation.
     if (!opts.project || !opts.filepath) return plugin.help();
-    if (!path.existsSync(path.dirname(opts.filepath)))
+    if (!existsSync(path.dirname(opts.filepath)))
         return this.error(new Error('Export path does not exist: ' + path.dirname(opts.filepath)));
 
     // Format.
@@ -170,7 +172,7 @@ command.prototype.initialize = function(plugin, callback) {
         opts.scale = parseInt(opts.scale, 10);
 
     // Rename the output filepath using a random hash if file already exists.
-    if (path.existsSync(opts.filepath) &&
+    if (existsSync(opts.filepath) &&
         _(['png','pdf','svg','mbtiles']).include(opts.format)) {
         var hash = crypto.createHash('md5')
             .update(+new Date + '')

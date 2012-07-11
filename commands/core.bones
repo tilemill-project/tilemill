@@ -7,6 +7,8 @@ var mapnik = require('mapnik');
 var semver = require('semver');
 var os = require('os');
 var crypto = require('crypto');
+// node v6 -> v8 compatibility
+var existsSync = require('fs').existsSync || require('path').existsSync;
 
 command = Bones.Command.extend();
 
@@ -117,18 +119,18 @@ command.prototype.bootstrap = function(plugin, callback) {
     };
 
     var configDir = path.join(process.env.HOME, '.tilemill');
-    if (!path.existsSync(configDir)) {
+    if (!existsSync(configDir)) {
         console.warn('Creating configuration dir %s', configDir);
         fsutil.mkdirpSync(configDir, 0755);
     }
 
-    if (!path.existsSync(settings.files)) {
+    if (!existsSync(settings.files)) {
         console.warn('Creating files dir %s', settings.files);
         fsutil.mkdirpSync(settings.files, 0755);
     }
     ['export', 'project', 'cache'].forEach(function(key) {
         var dir = path.join(settings.files, key);
-        if (!path.existsSync(dir)) {
+        if (!existsSync(dir)) {
             console.warn('Creating %s dir %s', key, dir);
             fsutil.mkdirpSync(dir, 0755);
             if (key === 'project' && settings.examples) {

@@ -8,6 +8,9 @@ var rm = require('../lib/fsutil').rm;
 var s3 = require('../lib/s3');
 var config = Bones.plugin.config;
 var url = require('url');
+// node v6 -> v8 compatibility
+var existsAsync = require('fs').exists || require('path').exists;
+
 
 // Extensions supported by TileMill. See `millstone.resolve()` for
 // the source of this list.
@@ -61,7 +64,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
             location = path.join(config.files, 'project', model.get('project'), location);
         }
 
-        path.exists(location, function(exists) {
+        existsAsync(location, function(exists) {
             if (!exists) location = process.env.HOME;
             readdir(location, function(err, files) {
                 if (err &&
