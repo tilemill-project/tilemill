@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
+var path = require('path');
 // node v6 -> v8 compatibility
 var existsSync = require('fs').existsSync || require('path').existsSync;
 
