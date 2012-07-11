@@ -1,6 +1,7 @@
 var npm = require('npm');
 var path = require('path');
 var Step = require('step');
+var semver = require('semver');
 
 models.Plugins.prototype.sync = function(method, model, success, error) {
     if (method !== 'read') return error(new Error('Unsupported method.'));
@@ -30,7 +31,10 @@ models.Plugins.prototype.sync = function(method, model, success, error) {
         // - Filters packages to ones with tilemill as an engine
         success(resp
             .map(function(p) { for (var key in p) return p[key] })
-            .filter(function(p) { return p.engines && p.engines.tilemill })
+            .filter(function(p) {
+                return p.engines && p.engines.tilemill &&
+                semver.satisfies(Bones.plugin.abilities.tilemill.version, p.engines.tilemill);
+            })
             .map(function(p) { p.id = p.name; return p; }));
     });
 };

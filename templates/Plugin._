@@ -1,6 +1,7 @@
 <%
 var installed = !!window.abilities.plugins[id];
 var compatible = semver.satisfies(window.abilities.tilemill.version, get('engines').tilemill);
+var upgradable = installed && get('latest') && semver.gt(get('latest'), get('version'));
 %>
 <li><div class='plugin <%= installed ? 'raised' : 'sunken' %>'>
   <%= escape('name') %>
@@ -20,6 +21,7 @@ var compatible = semver.satisfies(window.abilities.tilemill.version, get('engine
     <% if (get('core')) { %>
     <span class='badge'>Core</span>
     <% } else { %>
+      <% if (upgradable) %><a class='button upgrade' href='#<%=id%>'>Upgrade</a><% ; %>
       <% if (installed) %><a class='button uninstall' href='#<%=id%>'>Uninstall</a><% ; %>
       <% if (!installed && compatible) %><a class='button install' href='#<%=id%>'>Install</a><% ; %>
     <% } %>
