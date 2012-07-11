@@ -2,7 +2,8 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click a.install': 'npm',
-    'click a.uninstall': 'npm'
+    'click a.uninstall': 'npm',
+    'click a.upgrade': 'npm'
 };
 
 view.prototype.initialize = function(options) {
@@ -19,14 +20,14 @@ view.prototype.plugins = function() {
     this.available.fetch({
         success: _(function(m) {
             this.$('.available').removeClass('loading');
-            var drawn = m.map(_(function(plugin) {
-                if (this.collection.get(plugin.id)) return;
-                this.$('.available ul.grid').append(templates.Plugin(plugin));
-                return true;
-            }).bind(this));
-            if (!_(drawn).compact().length) {
-                this.$('.available ul.grid').replaceWith('<div class="empty description">No plugins found.</div>');
-            }
+            // Add latest version info the install plugins
+            this.collection.map(function(i) {
+                var avail = m.get(i.id);
+                if (avail) i.set({ latest: avail.get('dist-tags').latest});
+                return m;
+            });
+            // Re-render entire pane to add upgrade buttons
+            this.el.html(templates.Plugins(this));
         }).bind(this),
         error: _(function(m, err) {
             // If server is restarting, just stop. The page
@@ -81,7 +82,7 @@ view.prototype.npm = function(ev) {
     _(Bones.intervals||[]).each(clearInterval);
 
     $('body').addClass('loading');
-    if ($(ev.currentTarget).hasClass('install')) {
+    if ($(ev.currentTarget).hasClass('install') || $(ev.currentTarget).hasClass('upgrade')) {
         new models.Plugin({id:id}).save({}, options);
     } else {
         new models.Plugin({id:id}).destroy(options);
