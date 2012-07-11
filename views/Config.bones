@@ -8,7 +8,8 @@ view.prototype.events = {
     'keyup input[name=files]': 'files',
     'change input[name=files]': 'files',
     'click input[type=submit]': 'save',
-    'click a[href=#disable]': 'disable'
+    'click a[href=#disable]': 'disable',
+    'click a[href="/oauth/mapbox"]': 'proxyWarning'
 };
 
 view.prototype.initialize = function(options) {
@@ -96,4 +97,13 @@ view.prototype.restart = function() {
     this._restart = true;
 };
 
-
+view.prototype.proxyWarning = function() {
+    // Work around for lack of proxy support in topcube
+    if (this.model.get('httpProxy') && !this.model.get('server')) {
+        var view = new views.Modal({content: 'Unable to authorize with HTTP proxy.'});
+        var msg = 'To authorize, open this link in a proxy enabled browser: <br> ' + window.location.origin + '/oauth/mapbox';
+        view.el.children('.content').append($('<a href="/oauth/mapbox" target="_blank">'+msg+'</a>'));
+        view.el.children('.bug').remove();
+        return false;
+    }
+}
