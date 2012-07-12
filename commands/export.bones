@@ -364,7 +364,10 @@ command.prototype.image = function(project, callback) {
     });
     map.extent = sm.convert(project.mml.bounds, '900913');
     try {
-        map.renderFileSync(this.opts.filepath, { format: this.opts.format });
+        map.renderFileSync(this.opts.filepath, {
+            format: this.opts.format,
+            scale: project.mml.scale
+        });
         callback();
     } catch(err) {
         callback(err);
