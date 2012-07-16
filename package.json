@@ -17,7 +17,8 @@
         "Dmitri Gaskin <dmitrig01>",
         "AJ Ashton <ajashton>",
         "Tristen Brown <tristen>",
-        "Young Hahn <yhahn>"
+        "Young Hahn <yhahn>",
+        "Ansis Brammanis <aibram>"
     ],
     "licenses": [{ "type": "BSD" }],
     "dependencies": {
