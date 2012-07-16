@@ -11,7 +11,7 @@ prereq:
 ---
 {% include prereq.html %}
 
-You have a lot of options making a data-driven map, based on you want
+You have a lot of options for making a data-driven map, based on you want
 to convey, what data is available, and what kind of data it is. The popular
 symbolization styles like choropleth maps, point density, and scaled points
 all have advantages and disadvantages, and certain uses that are more
