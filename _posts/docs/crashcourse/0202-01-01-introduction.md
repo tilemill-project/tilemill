@@ -1,6 +1,6 @@
 ---
 layout: book
-section: documentation
+section: tilemill
 category: TileMill
 tag: Crash&nbsp;course
 title: "Overview"
@@ -48,7 +48,7 @@ This guide focuses on the core functions of TileMill and links to documentation 
 	
   <p><span class='icon' id='icon1'> </span><strong><a href='/tilemill/docs/crashcourse/point-data'>Importing data</a></strong><br /> We walk through how to download data and get it into TileMill. To work with more complex data and datasets, check out the <a href="/tilemill/docs/manual/adding-layers/">Adding Layers documentation</a>.</p> 
 
-  <p><span class='icon' id='icon2'> </span><strong><a href='/tilemill/docs/crashcourse/styling'>Styling data</a></strong><br /> Here we show the basics of using Carto - a CSS-like language - to style your data and make a truly custom map. For an a in-depth dive into how Carto works, check out the <a href="/tilemill/docs/manual/carto">Carto manual</a>.</p> 
+  <p><span class='icon' id='icon2'> </span><strong><a href='/tilemill/docs/crashcourse/styling'>Styling data</a></strong><br /> Here we show the basics of using CartoCSS to style your data and make a truly custom map. For an a in-depth dive into how Carto works, check out the <a href="/tilemill/docs/manual/carto">Carto manual</a>.</p> 
 
   <p><span class='icon' id='icon3'> </span><strong><a href='/tilemill/docs/crashcourse/tooltips'>Adding tooltips and legends</a></strong><br /> Making your map interactive and adding a legend is critical to communicating your data. Here we show how to add tooltip interactivity and legends to maps. The <a href="/tilemill/docs/manual/project-settings">Project Settings</a> documentation offers more advanced details on this. </p> 
 

@@ -1,6 +1,6 @@
 ---
 layout: book
-section: documentation
+section: tilemill
 category: TileMill
 tag: Guides
 title: "Using Maki Icons"
@@ -26,14 +26,14 @@ Each symbol comes in three sizes: 24px, 18px, and 12px. They are designed to loo
 
 Here's a step-by-step walkthrough for creating a basic icon overlay in TileMill to composite with any base map.
 
-1. [Download the Maki icon set](http://mapbox.com/maki/maki-icon-source/maki.zip), unzip it, and place the Maki folder in your TileMill project directory. You will need to reference the individual icon files later using Carto.
+1. [Download the Maki icon set](https://nodeload.github.com/mapbox/maki/zipball/gh-pages), unzip it, and place the Maki folder in your TileMill project directory. You will need to reference the individual icon files later using CartoCSS.
 
 2. Create a new project in TileMill called maki-overlay. You're going to be making a map of Washington, DC, so adjust your project settings to include zoom levels up to 20, and center the map over the Washington, DC area.
 
 3. Next, you need geodata in order to place icons on your map. [This CSV](https://github.com/mapbox/tilemill/raw/maki-docs/assets/pages/combined_poi.csv) based on CloudMade's OpenStreetMap POI data should serve you well. Once it's finished downloading, place combined_poi.csv in your project's data folder, then import it as a layer in TileMill. Set the layer ID to `poi`.
 ![Data Import](/tilemill/assets/pages/maki-2.png)
 
-4. Time to write the basic styles for your data. Using Carto, select the #POI layer and then use a conditional style to filter for cafes within that layer. You'll need to reference the icon with a URL path. Here's what your Carto should look like:
+4. Time to write the basic styles for your data. Using CartoCSS, select the #POI layer and then use a conditional style to filter for cafes within that layer. You'll need to reference the icon with a URL path. Here's what your CartoCSS should look like:
 
         #poi [category='Cafe'] { point-file: url(maki/cafe-18.png); }
 
@@ -46,7 +46,7 @@ Here's a step-by-step walkthrough for creating a basic icon overlay in TileMill 
         #poi [category='Cafe'][zoom >= 17] {point-file: url(maki/cafe-18.png); }
         #poi [category='Cafe'][zoom >= 19] {point-file: url(maki/cafe-24.png); }
 
-6. Explore the data by clicking on the magnifying glass in the layers palette and experiment with your conditional statements. On my map, I decided to show pubs in addition to cafes, so my carto now looks like this:
+6. Explore the data by clicking on the magnifying glass in the layers palette and experiment with your conditional statements. On my map, I decided to show pubs in addition to cafes, so my CartoCSS now looks like this:
 
         #poi [category='Cafe'][zoom <= 16] {point-file: url(maki/cafe-12.png); }
         #poi [category='Cafe'][zoom >= 17] {point-file: url(maki/cafe-18.png); }

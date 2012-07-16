@@ -1,6 +1,6 @@
 ---
 layout: book
-section: documentation
+section: tilemill
 category: TileMill
 tag: Guides
 title: "OSM Bright Mac OS X quickstart"
@@ -99,6 +99,6 @@ If you want, you can render the OSM Bright template without modifications - howe
 
 The first stylesheet, palette.mss, contains many of the basic color definitions for the map. Here you can easily change the colors of things like roads, land areas, buildings.
 
-For further customizations dig into the remaining stylesheets and refer to the comments and TileMill's built-in Carto guide for and [the Carto section of the manual](/tilemill/docs/manual/carto/) for guidance. When you're done with your customizations, you're ready to export a map. 
+For further customizations dig into the remaining stylesheets and refer to the comments and TileMill's built-in CartoCSS guide for and [the CartoCSS section of the manual](/tilemill/docs/manual/carto/) for guidance. When you're done with your customizations, you're ready to export a map. 
 
 {% include nextup.html %}

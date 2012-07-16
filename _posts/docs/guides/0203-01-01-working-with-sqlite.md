@@ -1,6 +1,6 @@
 ---
 layout: book
-section: documentation
+section: tilemill
 category: TileMill
 tag: Guides
 title: "Working with SQLite"
@@ -61,7 +61,7 @@ There are many spreadsheet-like GUI editors available for OSX, Linux, and Window
 >
 >Select **Custom** and enter `+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs`.
 ![step8b](/tilemill/assets/pages/addsqlite-8b.png)
-9. Click **Save and Style** to add your layer with the default Carto settings.
+9. Click **Save and Style** to add your layer with the default CartoCSS settings.
 10. Preview the result in the map preview pane.
 
 ## Add attribute data (SQLite Join)

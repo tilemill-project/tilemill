@@ -1,6 +1,6 @@
 ---
 layout: book
-section: documentation
+section: tilemill
 category: TileMill
 tag: Guides
 title: "Designing heat maps"
@@ -47,11 +47,11 @@ Your map should appear. Just hit upload in the [export](http://mapbox.com/tilemi
 
 ### Faking it with TileMill
 
-TileMill won't generate rasterized heatmaps like the QGIS plugin can, but you can approximate the effect with a few Carto tricks to take advantage of aggregated opacity: low opacity of individual points means that overlap in dense areas has a stronger, more saturated color value. 
+TileMill won't generate rasterized heatmaps like the QGIS plugin can, but you can approximate the effect with a few CartoCSS tricks to take advantage of aggregated opacity: low opacity of individual points means that overlap in dense areas has a stronger, more saturated color value. 
 
 <iframe width='650' height='450' frameBorder='0' src='http://a.tiles.mapbox.com/v3/villeda.map-kahz7z2b.html#12/38.905/-77.003'> </iframe>
 
-This example uses the original shapefile with just a few lines of [Carto](http://mapbox.com/carto/):
+This example uses the original shapefile with just a few lines of [CartoCSS](http://mapbox.com/carto/):
 
 	#abralicenseept [DESCRIPTIO != 'Retailer B']{
 	  marker-width:4;

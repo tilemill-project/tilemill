@@ -1,5 +1,5 @@
 ---
-section: documentation
+section: tilemill
 layout: book
 category: TileMill
 tag: Installation

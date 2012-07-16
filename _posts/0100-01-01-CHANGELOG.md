@@ -5,7 +5,7 @@
 ###
 tag: Installation
 layout: changelog
-section: documentation
+section: tilemill
 category: TileMill
 date: 0201-01-30
 title: Changelog

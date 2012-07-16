@@ -1,5 +1,5 @@
 ---
-section: documentation
+section: tilemill
 layout: os-redirect
 category: TileMill
 tag: Installation
