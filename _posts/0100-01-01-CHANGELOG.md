@@ -49,6 +49,10 @@ releases:
   size: 82180159
   sign: MC0CFQCW31iTecBAL7eje0qLHul8EvJmcwIUNdG/txBOZlalbs/Y4dePxJGbe0E=
 
+  notes:
+  - Development snapshot of TileMill 0.10.0-pre
+  - Available only if "Install Developer Builds" is checked in "Updates Preferences"
+
 - version: 0.9.1
   date: 2012-05-07
   size: 83455965
