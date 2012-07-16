@@ -1,6 +1,6 @@
 ---
 layout: book
-section: documentation
+section: tilemill
 category: TileMill
 tag: Guides
 title: "Working with PostGIS"
@@ -82,7 +82,7 @@ For this example, we'll cover the basics of creating a simple PostGIS database a
 >
 >Select **Custom** and enter `+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs`.
 ![step10](/tilemill/assets/pages/postgis-10b.png)  
-11. Click **Save and Style** to save your connection and style with the default Carto settings.  
+11. Click **Save and Style** to save your connection and style with the default CartoCSS settings.  
 ![step11](/tilemill/assets/pages/postgis-11b.png)  
 12. Preview the result in the map preview pane.
 ![step12](/tilemill/assets/pages/postgis-12b.png)  

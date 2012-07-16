@@ -1236,6 +1236,7 @@ ul.form li label {
   width:100px;
   margin-left:-110px;
   text-align:right;
+  white-space:nowrap;
   }
 
 ul.form .buttons { text-align:center; }

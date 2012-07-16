@@ -364,7 +364,10 @@ command.prototype.image = function(project, callback) {
     });
     map.extent = sm.convert(project.mml.bounds, '900913');
     try {
-        map.renderFileSync(this.opts.filepath, { format: this.opts.format });
+        map.renderFileSync(this.opts.filepath, {
+            format: this.opts.format,
+            scale: project.mml.scale
+        });
         callback();
     } catch(err) {
         callback(err);
@@ -574,7 +577,9 @@ command.prototype.upload = function (callback) {
             opts.port = parsed.port;
             opts.path = 'http://' + bucket + '.s3.amazonaws.com';
             opts.headers.Host = 'http://' + bucket + '.s3.amazonaws.com';
-            opts.headers['proxy-authorization'] = 'Basic ' + new Buffer(parsed.auth).toString('base64')
+            if (parsed.auth) {
+                opts.headers['proxy-authorization'] = 'Basic ' + new Buffer(parsed.auth).toString('base64')
+            }
         } else {
             opts.host = bucket + '.s3.amazonaws.com';
             opts.path = '/';
