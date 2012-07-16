@@ -43,6 +43,12 @@ releases:
 #  - Added ability to upgrade plugins
 #  - Fixed a bug where compatible plugin versions did not show up if there were newer incompatible versions
 
+- version: 0.9.1.213
+  dev: true
+  date: 2012-07-16
+  size: 82180159
+  sign: MC0CFQCW31iTecBAL7eje0qLHul8EvJmcwIUNdG/txBOZlalbs/Y4dePxJGbe0E=
+
 - version: 0.9.1
   date: 2012-05-07
   size: 83455965
