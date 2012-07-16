@@ -96,7 +96,7 @@ var get = _(project.get).bind(project);
   <% } %>
   <% if (type === 'tiles') { %>
   <li>
-    <label for='scale'>MetaTile size</label>
+    <label for='metatile'>MetaTile size</label>
     <div class='slider' data-key='metatile' data-step='1' data-min='1' data-max='15'></div>
     <small class='description'></small>
   </li>

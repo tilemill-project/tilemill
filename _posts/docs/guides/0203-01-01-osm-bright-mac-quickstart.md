@@ -43,11 +43,15 @@ Note: OSM Bright can also be used with Imposm, but this is slightly more complic
 
 ## Step 1: Set up a database for your OSM data
 
-You need to create a database with PostGIS enabled for the OpenStreetMap data. Run the following commands in the Terminal:
+You need to create a database with PostGIS enabled for the OpenStreetMap data. Run the following commands in the Terminal only if you have PostGIS v1.5 installed:
 
     psql -U postgres -c "create database osm;"
     psql -U postgres -d osm -f /usr/local/pgsql-9.1/share/contrib/postgis-1.5/postgis.sql
     psql -U postgres -d osm -f /usr/local/pgsql-9.1/share/contrib/postgis-1.5/spatial_ref_sys.sql
+    
+NOTE: If you have installed PostGIS v2.0 run the following command instead:
+
+	psql -U postgres -d osm -c "CREATE EXTENSION postgis"
 
 Also, some postgis versions may lack an important projection file in the `spatial_ref_sys` table. So, run the below command as well (but do not worry if you get an error that says "duplicate key value", just ignore that as it means you already have the proper projection):
 

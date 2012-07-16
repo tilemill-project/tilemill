@@ -8,6 +8,8 @@ var Step = require('step');
 var http = require('http');
 var chrono = require('chrono');
 var crashutil = require('../lib/crashutil');
+// node v6 -> v8 compatibility
+var existsSync = require('fs').existsSync || require('path').existsSync;
 
 command = Bones.Command.extend();
 
@@ -147,7 +149,7 @@ command.prototype.initialize = function(plugin, callback) {
 
     // Validation.
     if (!opts.project || !opts.filepath) return plugin.help();
-    if (!path.existsSync(path.dirname(opts.filepath)))
+    if (!existsSync(path.dirname(opts.filepath)))
         return this.error(new Error('Export path does not exist: ' + path.dirname(opts.filepath)));
 
     // Format.
@@ -170,7 +172,7 @@ command.prototype.initialize = function(plugin, callback) {
         opts.scale = parseInt(opts.scale, 10);
 
     // Rename the output filepath using a random hash if file already exists.
-    if (path.existsSync(opts.filepath) &&
+    if (existsSync(opts.filepath) &&
         _(['png','pdf','svg','mbtiles']).include(opts.format)) {
         var hash = crypto.createHash('md5')
             .update(+new Date + '')
@@ -362,7 +364,10 @@ command.prototype.image = function(project, callback) {
     });
     map.extent = sm.convert(project.mml.bounds, '900913');
     try {
-        map.renderFileSync(this.opts.filepath, { format: this.opts.format });
+        map.renderFileSync(this.opts.filepath, {
+            format: this.opts.format,
+            scale: project.mml.scale
+        });
         callback();
     } catch(err) {
         callback(err);
@@ -570,9 +575,11 @@ command.prototype.upload = function (callback) {
             var parsed = url.parse(proxy);
             opts.host = parsed.hostname;
             opts.port = parsed.port;
-            opts.auth = parsed.auth;
             opts.path = 'http://' + bucket + '.s3.amazonaws.com';
             opts.headers.Host = 'http://' + bucket + '.s3.amazonaws.com';
+            if (parsed.auth) {
+                opts.headers['proxy-authorization'] = 'Basic ' + new Buffer(parsed.auth).toString('base64')
+            }
         } else {
             opts.host = bucket + '.s3.amazonaws.com';
             opts.path = '/';

@@ -314,6 +314,13 @@ function saveProject(model, callback) {
             return s.id || s;
         });
 
+        data.Layer = _(data.Layer).map(function(l) {
+            if (l.Datasource.file && !l.Datasource.file.indexOf(modelPath)) {
+                l.Datasource.file = path.relative(modelPath, l.Datasource.file);
+            }
+            return l;
+        });
+
         _(data).chain()
             .keys()
             .filter(function(k) { return schema[k] && !schema[k].ignore })

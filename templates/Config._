@@ -39,7 +39,7 @@
   </li>
   <li>
     <label for='httpProxy'>HTTP Proxy</label>
-    <input type='text' name='httpProxy' size='40' value='<%= get('httpProxy') %>' />
+    <input type='text' name='httpProxy' size='40' placeholder='http://user:pass@hostname:port' value='<%= get('httpProxy') %>' />
     <div class='description'>
       HTTP proxy to be used when connecting to the Internet.
     </div>

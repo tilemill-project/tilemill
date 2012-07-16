@@ -17,10 +17,12 @@
   </li>
   <li class='plugins'><ul class='grid clearfix'>
   <% var show = available.chain()
-    .filter(function(m) { return !m.get('installed') })
+    .filter(function(m) { return !window.abilities.plugins[m.id] })
     .map(templates.Plugin)
-    .value(); %>
-  <%= show.join('') %>
+    .value();
+    show = show.length ? show.join('') : available.length ? '<div class="empty description">No plugins found.</div>' : '';
+    %>
+  <%= show %>
   </ul></li>
   <div class='mask'></div>
 </ul>

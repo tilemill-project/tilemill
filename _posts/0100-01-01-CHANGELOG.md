@@ -39,6 +39,9 @@ releases:
 #  - Added support for http proxies
 #  - Added support for remote icons like `point-file: url('http://a.tiles.mapbox.com/v3/marker/pin-l-campsite+000000.png');` (millstone)
 #  - Improved support for handling remote csv and kml files (millstone)
+#  - Added more raster resampling methods like windowed filters of 'blackman' and 'hanning'
+#  - Added ability to upgrade plugins
+#  - Fixed a bug where compatible plugin versions did not show up if there were newer incompatible versions
 
 - version: 0.9.1
   date: 2012-05-07
