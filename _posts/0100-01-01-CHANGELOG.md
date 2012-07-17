@@ -269,16 +269,13 @@ releases:
   - Fix for frequent "Forbidden" errors in Safari.
   - Automatic updates for Mac OS X app.
 
-
 - version: 0.4.2
   notes:
   - Bugfixes.
 
-
 - version: 0.4.1
   notes:
   - Bugfixes.
-
 
 - version: 0.4.0
   notes:
@@ -286,18 +283,15 @@ releases:
   - app.db file from previous versions is not compatible with 0.4
   - Default files directory is now ~/Documents/MapBox
 
-
 - version: 0.3.0
   notes:
   - Basic PostGIS layer support
   - New opacity features in Carto
   - Fix bug that prevent rendering non-interactive tilesets in some cases
 
-
 - version: 0.2.1
   notes:
   - Fix bug with S3 bucket listing
-
 
 - version: 0.2.0
   notes:
@@ -306,7 +300,6 @@ releases:
   - Use Modest Maps for map preview
   - Improved performance
   - Bug fixes
-
 
 - version: 0.1.4
   notes:
