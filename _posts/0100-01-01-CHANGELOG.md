@@ -46,8 +46,8 @@ releases:
 - version: 0.9.1.213
   dev: true
   date: 2012-07-16
-  size: 82180159
-  sign: MC0CFQCW31iTecBAL7eje0qLHul8EvJmcwIUNdG/txBOZlalbs/Y4dePxJGbe0E=
+  size: 82080336
+  sign: MCwCFGdG5k5WTaO3Ilg7jh4VE9TmZAcaAhQ8OM3V910YKD9m6DsNOBGdJnqquw==
 
   notes:
   - Development snapshot of TileMill 0.10.0-pre
@@ -273,16 +273,13 @@ releases:
   - Fix for frequent "Forbidden" errors in Safari.
   - Automatic updates for Mac OS X app.
 
-
 - version: 0.4.2
   notes:
   - Bugfixes.
 
-
 - version: 0.4.1
   notes:
   - Bugfixes.
-
 
 - version: 0.4.0
   notes:
@@ -290,18 +287,15 @@ releases:
   - app.db file from previous versions is not compatible with 0.4
   - Default files directory is now ~/Documents/MapBox
 
-
 - version: 0.3.0
   notes:
   - Basic PostGIS layer support
   - New opacity features in Carto
   - Fix bug that prevent rendering non-interactive tilesets in some cases
 
-
 - version: 0.2.1
   notes:
   - Fix bug with S3 bucket listing
-
 
 - version: 0.2.0
   notes:
@@ -310,7 +304,6 @@ releases:
   - Use Modest Maps for map preview
   - Improved performance
   - Bug fixes
-
 
 - version: 0.1.4
   notes:

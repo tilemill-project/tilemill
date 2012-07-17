@@ -29,7 +29,7 @@ run: package
 	open ./build/Release/TileMill.app
 
 zip: package
-	cd build/Release/; zip -9qr ../../TileMill.zip TileMill.app/
+	cd build/Release/; ditto -c -k --sequesterRsrc --keepParent --zlibCompressionLevel 9 TileMill.app/ ../../TileMill.zip
 
 tar: package
 	tar cfj TileMill.tar.bz2 -C build/Release/ TileMill.app
