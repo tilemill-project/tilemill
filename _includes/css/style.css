@@ -496,3 +496,13 @@ li.grid .text .title {
 h1 a {
   color: #444;
   }
+
+.footer {
+  clear:both;
+  background:#444 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
+  font-size:12px;
+  color:#ccc;
+  margin:20px 0px 0px;
+  padding:20px 0px;
+  text-align:center;
+  }

@@ -13,7 +13,7 @@
   }
 
 body {
-  background:#fff;
+  background:#555 url(bg-dot-rev.png) 50% 0% repeat;
   color:#444;
   }
 
@@ -215,56 +215,6 @@ img.centered,
 .branding .auth a.username {
   max-width:160px;
   border-right:1px solid #ccc;
-  }
-
-/* ### "Sticky" footer ### */
-html, body { height:100%; }
-
-.wrapper {
-  min-height:100%;
-  height: auto !important;
-  height: 100%;
-  margin:0px 0px -90px;
-  }
-.push { height:90px; }
-
-.footer {
-  padding-top:30px;
-  font-size:12px;
-  height:60px;
-  }
-
-.footer .limiter {
-  background:#d0e8f0;
-  width:880px;
-  font-size:12px;
-  padding:20px;
-  border-radius:5px 5px 0px 0px;
-  -moz-border-radius:5px 5px 0px 0px;
-  -webkit-border-radius:5px 5px 0px 0px;
-  }
-
-.footer .links * { margin-right:15px; }
-
-.footer .ds {
-  color:#222;
-  right:10px;
-  bottom:0px;
-  position:absolute;
-  text-align:right;
-  padding:20px 110px 20px 0px;
-  }
-.footer .ds span { display:block; }
-
-.footer .office {
-  position:absolute;
-  bottom:0px;
-  right:0px;
-  width:100px;
-  height:50px;
-  text-indent:-9999px;
-  overflow:hidden;
-  background:url(sprite.png) 0px -50px no-repeat;
   }
 
 /* ### 'Hero' header ### */
