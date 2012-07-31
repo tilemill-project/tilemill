@@ -23,7 +23,7 @@ releases:
 #  - Added support for regex in carto filters like `#world[name =~ "A.*"]`
 #  - Added support for quotes in carto filter values like `#world[name2="Sa'ad"]`
 #  - Carto parsing now provides better errors for unmatched parens
-#  - The raster-mode now supports all SVG compositing operations (but uses dashes instead of underscores - so grain_merge is now grain-merge) (Mapnik)
+#  - The raster-mode property has been renamed to raster-comp-op and now supports all SVG compositing operations (but uses dashes instead of underscores - so grain_merge is now grain-merge) (Mapnik)
 #  - Support for OS X 10.8 (Mountain Lion)
 #  - Interactivity now works on features that have negative or zero primary key values
 #  - Column names in CSV datasources named 'lng' are now automatically recognized as the longitude column
@@ -42,6 +42,14 @@ releases:
 #  - Added more raster resampling methods like windowed filters of 'blackman' and 'hanning'
 #  - Added ability to upgrade plugins
 #  - Fixed a bug where compatible plugin versions did not show up if there were newer incompatible versions
+
+
+#- version: 0.9.1.x
+#  dev: true
+#
+#  notes:
+#  - Development snapshot of TileMill 0.10.0-pre
+#  - The 0.9.1.213 dev build newly supported the experimental 'composite-operation' keyword which has now been renamed to 'comp-op'
 
 - version: 0.9.1.213
   dev: true
