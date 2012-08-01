@@ -49,6 +49,6 @@ echo "done."
 echo
 
 echo "Add the following to the CHANGELOG (_posts/0100-01-01-CHANGELOG.md)"
-echo "    date: $( date "+%Y-%m-%d" )"
-echo "    size: $zipsize"
-echo "    sign: $signature"
+echo "  date: $( date "+%Y-%m-%d" )"
+echo "  size: $zipsize"
+echo "  sign: $signature"
