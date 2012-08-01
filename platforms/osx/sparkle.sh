@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# ensure that coreutils from homebrew
+# is not preferred otherwise stat will break
+export PATH=/usr/bin/:$PATH
+
 urlbase="http://cloud.github.com/downloads/mapbox/tilemill/TileMill-==TAG==.zip"
 privatekeyname="TileMill Sparkle Private Key"
 
