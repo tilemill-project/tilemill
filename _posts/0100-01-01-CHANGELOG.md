@@ -44,12 +44,14 @@ releases:
 #  - Fixed a bug where compatible plugin versions did not show up if there were newer incompatible versions
 
 
-#- version: 0.9.1.x
-#  dev: true
-#
-#  notes:
-#  - Development snapshot of TileMill 0.10.0-pre
-#  - The 0.9.1.213 dev build newly supported the experimental 'composite-operation' keyword which has now been renamed to 'comp-op'
+- version: 0.9.1.247
+  dev: true
+  date: 2012-07-31
+  size: 81976072
+  sign: MC4CFQC4/NVVDbDiZPcQCf2UTV5pSkXfJwIVAM29+CqLnP98nV9+aGXDl4OJSuAt
+  notes:
+  - Development snapshot of TileMill 0.10.0-pre
+  - The 0.9.1.213 dev build newly supported the experimental 'composite-operation' keyword which has now been renamed to 'comp-op'
 
 - version: 0.9.1.213
   dev: true
