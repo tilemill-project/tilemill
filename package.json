@@ -44,7 +44,7 @@
         "sqlite3": "~2.1.5",
         "passport": "0.1.x",
         "passport-oauth": "0.1.x",
-        "modestmaps": "3.3.3",
+        "modestmaps": "3.3.5",
         "npm": "~1.1.35",
         "semver": "1.0.x",
         "optimist": "~0.3.1",
