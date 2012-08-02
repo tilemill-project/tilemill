@@ -25,6 +25,7 @@ releases:
 #  - Carto parsing now provides better errors for unmatched parens
 #  - The raster-mode property has been renamed to raster-comp-op and now supports all SVG compositing operations (but uses dashes instead of underscores - so grain_merge is now grain-merge) (Mapnik)
 #  - Support for OS X 10.8 (Mountain Lion)
+#  - OS X app is now signed with Developer ID (Gatekeeper)
 #  - Interactivity now works on features that have negative or zero primary key values
 #  - Column names in CSV datasources named 'lng' are now automatically recognized as the longitude column
 #  - Added ability to zoom to layer extents
