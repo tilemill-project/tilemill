@@ -29,9 +29,9 @@ run: package
 	open ./build/Release/TileMill.app
 
 sign: package
-	@security default-keychain -s /Library/Keychains/System.keychain
-	@codesign --verbose -f -s "Developer ID Application: Development Seed" --keychain /Library/Keychains/System.keychain $(TARGET)/../..
-	@security default-keychain -s $HOME/Library/Keychains/login.keychain
+	@security unlock-keychain -p $( cat $HOME/.keychain )
+	@codesign --verbose -f -s "Developer ID Application: Development Seed" $(TARGET)/../..
+	@security lock-keychain
 
 zip: sign
 	cd build/Release/; ditto -c -k --sequesterRsrc --keepParent --zlibCompressionLevel 9 TileMill.app/ ../../TileMill.zip
