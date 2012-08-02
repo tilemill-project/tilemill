@@ -116,7 +116,7 @@
             [contents writeToFile:[NSString stringWithFormat:@"%@/.tilemill/config.json", NSHomeDirectory()]
                        atomically:YES
                          encoding:NSUTF8StringEncoding
-                            error:NULL];
+                            error:nil];
         }
     }
     
@@ -240,12 +240,8 @@
 - (void)writeToLog:(NSString *)message
 {
     if ( ! [[NSFileManager defaultManager] fileExistsAtPath:self.logPath])
-    {
-        NSError *error = nil;
-        
-        if ( ! [@"" writeToFile:self.logPath atomically:YES encoding:NSUTF8StringEncoding error:&error])
+        if ( ! [@"" writeToFile:self.logPath atomically:YES encoding:NSUTF8StringEncoding error:nil])
             NSLog(@"Error creating log file at %@.", self.logPath);
-    }
     
     NSFileHandle *logFile = [NSFileHandle fileHandleForWritingAtPath:logPath];
     
@@ -262,10 +258,8 @@
                                        otherButton:nil
                          informativeTextWithFormat:@"TileMill experienced a fatal error while trying to start. Please check the logs for details:\n\n\t%@\n\nIf this problem persists, please contact support.", self.logPath];
     
-    if (status == NSAlertAlternateReturn)
-    {
+    if ([alert runModal] == NSAlertAlternateReturn)
         [self openDiscussions:self];
-    }
     
     [[NSApplication sharedApplication] terminate:self];
 }
@@ -317,11 +311,7 @@
 {
     NSURL *fetchURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/api/Key/%@", self.searchTask.port, key]];
     
-    NSError *error = nil;
-    
-    NSString *result = [NSString stringWithContentsOfURL:fetchURL encoding:NSUTF8StringEncoding error:&error];
-    
-    return (error ? nil : result);
+    return [NSString stringWithContentsOfURL:fetchURL encoding:NSUTF8StringEncoding error:nil];
 }
 
 #pragma mark -
