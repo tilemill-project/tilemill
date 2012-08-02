@@ -47,7 +47,7 @@
                                          defaultButton:@"OK"
                                        alternateButton:nil
                                            otherButton:nil
-                             informativeTextWithFormat:[NSString stringWithFormat:@"While %@ can export to MBTiles, it is unable to do anything with them itself. Maybe try uploading the file to your MapBox account?", [[NSProcessInfo processInfo] processName]]];
+                             informativeTextWithFormat:@"While %@ can export to MBTiles, it is unable to do anything with them itself. Maybe try uploading the file to your MapBox account?", [[NSProcessInfo processInfo] processName]];
         
         [alert runModal];
     }
@@ -93,7 +93,7 @@
             [options addObject:[NSString stringWithFormat:@"\"profile\": \"%@\"", ([defaults boolForKey:@"SUSendProfileInfo"] ? @"true" : @"false")]];
         
         if ([defaults objectForKey:@"serverPort"])
-            [options addObject:[NSString stringWithFormat:@"\"port\": %i", [defaults integerForKey:@"serverPort"]]];
+            [options addObject:[NSString stringWithFormat:@"\"port\": %li", [defaults integerForKey:@"serverPort"]]];
         
         if ([defaults objectForKey:@"filesPath"])
             [options addObject:[NSString stringWithFormat:@"\"files\": \"%@\"", [defaults objectForKey:@"filesPath"]]];
@@ -256,15 +256,11 @@
 
 - (void)presentFatalError
 {
-    NSString *fatal_msg = [NSString stringWithFormat:@"TileMill experienced a fatal error while trying to start. Please check the logs for details:\n\n\t%@\n\nIf this problem persists, please contact support.", self.logPath];
-
     NSAlert *alert = [NSAlert alertWithMessageText:@"There was a problem trying to start the server process"
                                      defaultButton:@"Quit TileMill"
                                    alternateButton:@"Contact Support & Quit"
                                        otherButton:nil
-                         informativeTextWithFormat:fatal_msg];
-    
-    NSInteger status = [alert runModal];
+                         informativeTextWithFormat:@"TileMill experienced a fatal error while trying to start. Please check the logs for details:\n\n\t%@\n\nIf this problem persists, please contact support.", self.logPath];
     
     if (status == NSAlertAlternateReturn)
     {
