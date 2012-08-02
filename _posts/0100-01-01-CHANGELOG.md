@@ -2,6 +2,7 @@
 ### This changelog is in YAML format and is a Jekyll post.
 ### It is the source file for the HTML changelog as well
 ### as the Sparkle appcast feed.
+### NOTE - do not use colon otherwise you'll get an error like private method gsub called for #
 ###
 tag: Installation
 layout: changelog
@@ -50,8 +51,8 @@ releases:
   sign: MC0CFQCSmh8ULR585Y3ajCI5kHKrclosHAIULum/ZhrtQvYcftH6JHGdhUh4zLw=
   notes:
   - Development snapshot of TileMill 0.10.0-pre
-  - Mapnik updates since 247: https://github.com/mapnik/mapnik/compare/39a1477eb...e62739d14
-  - TileMill updates since 247: https://github.com/mapbox/tilemill/compare/66ab53a19...754818b365
+  - Mapnik updates since 247 - https://github.com/mapnik/mapnik/compare/39a1477eb...e62739d14
+  - TileMill updates since 247 - https://github.com/mapbox/tilemill/compare/66ab53a19...754818b365
 
 - version: 0.9.1.247
   dev: true
