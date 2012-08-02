@@ -46,15 +46,13 @@
 - (void)dealloc
 {
     [self stopProcess];
-
-
 }
 
 #pragma mark -
 
 - (void)startProcess
 {
-    if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidStart:)])
+    if ([self.delegate respondsToSelector:@selector(childProcessDidStart:)])
         [self.delegate childProcessDidStart:self];
  
     self.task = [[NSTask alloc] init];
@@ -102,12 +100,12 @@
         // http://cocoawithlove.com/2010/05/handling-unhandled-exceptions-and.html
         if (reason == 2) // uncaught signal
         {
-            if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcess:didCrash:)])
+            if ([self.delegate respondsToSelector:@selector(childProcess:didCrash:)])
                 [self.delegate childProcess:self didCrash:@"TileMill child process crashed on unhandled signal: please report to: https://github.com/mapbox/tilemill/issues\n"];
         }
     }
 
-    if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidFinish:)])
+    if ([self.delegate respondsToSelector:@selector(childProcessDidFinish:)])
     {
         [self.delegate childProcessDidFinish:self];
     }
@@ -121,7 +119,7 @@
     {
         NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
-        if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcess:didSendOutput:)])
+        if ([self.delegate respondsToSelector:@selector(childProcess:didSendOutput:)])
             [self.delegate childProcess:self didSendOutput:message];
         
         if ([message hasPrefix:@"[tilemill] Started [Server Core"] && ! self.isLaunched)
@@ -133,7 +131,7 @@
             [aScanner scanInteger:&aPort];
             self.port = aPort;
             
-            if ([(id <NSObject>)self.delegate respondsToSelector:@selector(childProcessDidSendFirstData:)])
+            if ([self.delegate respondsToSelector:@selector(childProcessDidSendFirstData:)])
                 [self.delegate childProcessDidSendFirstData:self];
         }
     }

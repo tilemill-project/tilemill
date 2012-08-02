@@ -8,7 +8,7 @@
 
 @class TileMillChildProcess;
 
-@protocol TileMillChildProcessDelegate
+@protocol TileMillChildProcessDelegate <NSObject>
 
 @optional
 
