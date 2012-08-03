@@ -45,6 +45,16 @@ releases:
 #  - Added ability to upgrade plugins
 #  - Fixed a bug where compatible plugin versions did not show up if there were newer incompatible versions
 
+- version: 0.9.1.276
+  dev: true
+  date: 2012-08-03
+  size: 81943211
+  sign: MC4CFQC+hYVSiaU51n8iKaTx1kzkyTsx2gIVAOiKxz6shYoCf4Xf91vD0O/UoH1S
+  notes:
+  - Development snapshot of TileMill 0.10.0-pre
+  - [Mapnik updates since 247](https://github.com/mapnik/mapnik/compare/e62739d14...b43697fd5de)
+  - [TileMill updates since 247](https://github.com/mapbox/tilemill/compare/754818b365...1b6ba21f75)
+
 - version: 0.9.1.267
   dev: true
   date: 2012-08-02
