@@ -3,7 +3,6 @@
 cd /d %~dp0
 @rem then move to main tilemill folder
 cd ..\..\
-set PATH=addons\mapnik\lib\mapnik\lib;addons\zipfile\lib;%PATH%
-set NODE_PATH=addons;%NODE_PATH%
+set PATH=node_modules\mapnik\lib\mapnik\lib;node_modules\zipfile\lib;%PATH%
 @rem start /min cmd /C "node .\index.js 1>>"%USERPROFILE%"\tilemill.log 2>&1"
 node.exe .\index.js
