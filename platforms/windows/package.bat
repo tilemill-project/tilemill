@@ -66,5 +66,5 @@ xcopy /i /s %DEVROOT%\proj\nad %MAPNIK_DATA_DEST%\proj
 rd /q /s %MAPNIK_DATA_DEST%\gdal
 xcopy /i /s %DEVROOT%\gdal\data %MAPNIK_DATA_DEST%\gdal
 
-rd /q /s node.exe
+del /q node.exe
 xcopy %NODEEXE% %TILEMILL_DIR%\node.exe
