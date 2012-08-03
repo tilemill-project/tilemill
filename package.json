@@ -34,7 +34,7 @@
         "mapnik": "~0.7.7",
         "tilelive": "~4.3.0",
         "mbtiles": "~0.2.6",
-        "tilelive-mapnik": "~0.4.3",
+        "tilelive-mapnik": "~0.4.4",
         "carto": "~0.9.0",
         "millstone": "https://github.com/mapbox/millstone/tarball/master",
         "sphericalmercator": "~1.0.2",
