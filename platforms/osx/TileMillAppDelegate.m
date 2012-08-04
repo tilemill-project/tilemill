@@ -47,7 +47,7 @@
                                          defaultButton:@"OK"
                                        alternateButton:nil
                                            otherButton:nil
-                             informativeTextWithFormat:[NSString stringWithFormat:@"While %@ can export to MBTiles, it is unable to do anything with them itself. Maybe try uploading the file to your MapBox account?", [[NSProcessInfo processInfo] processName]]];
+                             informativeTextWithFormat:@"While %@ can export to MBTiles, it is unable to do anything with them itself. Maybe try uploading the file to your MapBox account?", [[NSProcessInfo processInfo] processName]];
         
         [alert runModal];
     }
@@ -93,7 +93,7 @@
             [options addObject:[NSString stringWithFormat:@"\"profile\": \"%@\"", ([defaults boolForKey:@"SUSendProfileInfo"] ? @"true" : @"false")]];
         
         if ([defaults objectForKey:@"serverPort"])
-            [options addObject:[NSString stringWithFormat:@"\"port\": %i", [defaults integerForKey:@"serverPort"]]];
+            [options addObject:[NSString stringWithFormat:@"\"port\": %li", [defaults integerForKey:@"serverPort"]]];
         
         if ([defaults objectForKey:@"filesPath"])
             [options addObject:[NSString stringWithFormat:@"\"files\": \"%@\"", [defaults objectForKey:@"filesPath"]]];
@@ -116,7 +116,7 @@
             [contents writeToFile:[NSString stringWithFormat:@"%@/.tilemill/config.json", NSHomeDirectory()]
                        atomically:YES
                          encoding:NSUTF8StringEncoding
-                            error:NULL];
+                            error:nil];
         }
     }
     
@@ -240,12 +240,8 @@
 - (void)writeToLog:(NSString *)message
 {
     if ( ! [[NSFileManager defaultManager] fileExistsAtPath:self.logPath])
-    {
-        NSError *error = nil;
-        
-        if ( ! [@"" writeToFile:self.logPath atomically:YES encoding:NSUTF8StringEncoding error:&error])
+        if ( ! [@"" writeToFile:self.logPath atomically:YES encoding:NSUTF8StringEncoding error:nil])
             NSLog(@"Error creating log file at %@.", self.logPath);
-    }
     
     NSFileHandle *logFile = [NSFileHandle fileHandleForWritingAtPath:logPath];
     
@@ -256,20 +252,14 @@
 
 - (void)presentFatalError
 {
-    NSString *fatal_msg = [NSString stringWithFormat:@"TileMill experienced a fatal error while trying to start. Please check the logs for details:\n\n\t%@\n\nIf this problem persists, please contact support.", self.logPath];
-
     NSAlert *alert = [NSAlert alertWithMessageText:@"There was a problem trying to start the server process"
                                      defaultButton:@"Quit TileMill"
                                    alternateButton:@"Contact Support & Quit"
                                        otherButton:nil
-                         informativeTextWithFormat:fatal_msg];
+                         informativeTextWithFormat:@"TileMill experienced a fatal error while trying to start. Please check the logs for details:\n\n\t%@\n\nIf this problem persists, please contact support.", self.logPath];
     
-    NSInteger status = [alert runModal];
-    
-    if (status == NSAlertAlternateReturn)
-    {
+    if ([alert runModal] == NSAlertAlternateReturn)
         [self openDiscussions:self];
-    }
     
     [[NSApplication sharedApplication] terminate:self];
 }
@@ -321,11 +311,7 @@
 {
     NSURL *fetchURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/api/Key/%@", self.searchTask.port, key]];
     
-    NSError *error = nil;
-    
-    NSString *result = [NSString stringWithContentsOfURL:fetchURL encoding:NSUTF8StringEncoding error:&error];
-    
-    return (error ? nil : result);
+    return [NSString stringWithContentsOfURL:fetchURL encoding:NSUTF8StringEncoding error:nil];
 }
 
 #pragma mark -

@@ -436,7 +436,8 @@
 /* ---- ONE WAY ARROWS ---- */
 
 .highway.fill::oneway_arrow[zoom>15][ONEWAY='yes'] {
-  marker-type:arrow;
+  marker-file:"shape://arrow";
+  marker-placement:line;
   marker-line-width:1;
   marker-line-opacity:0.5;
   marker-line-color:#fff;

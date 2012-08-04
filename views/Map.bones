@@ -85,6 +85,7 @@ view.prototype.fullscreen = function(e) {
     } else {
         $('div.project').removeClass('fullscreen');
     }
+    this.map.draw();
 };
 
 // Set zoom display.

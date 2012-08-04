@@ -14,9 +14,6 @@ TileMill can also be run as a system-wide, server-only service simply by making 
       "server": true
     }
 
-
-_All default options can be seen in the default config base in `lib/config.defaults.json`._
-
 If you try to launch tilemill without providing `server=true` on a machine without a desktop graphics display you will see an error like:
 
     Error parsing options: Cannot open display:
@@ -28,12 +25,14 @@ Also, TileMill defaults to reading data from the `~/Documents/MapBox` directory 
 
 ### Launching service using Upstart
 
-If you have installed TileMill from packages (`apt-get install tilemill`) then [upstart](http://upstart.ubuntu.com/) can be used to launch TileMill easily as the `mapbox` user using a default config (`/etc/tilemill/tilemill.config`) of:
+If you have installed TileMill from packages (`apt-get install tilemill`) then [upstart](http://upstart.ubuntu.com/) can be used to launch TileMill as the `mapbox` user using a the package-installed config of:
 
     {
       "files": "/usr/share/mapbox",
       "server": true
     }
+
+_This config file is installed at `/etc/tilemill/tilemill.config`_
 
 These commands can be used to manage TileMill through upstart:
 
@@ -52,7 +51,11 @@ If you have installed TileMill from [source](source/) then startup can be done m
 
     ./index.js --server=true # server=true prevents the UI from opening
 
-Or you can add `server: true` to a custom config:
+Upon the first run of TileMill, a config file will be created in your user's home directory, if one does not already exist and if you are not pointing to a custom config location in the command line arguments.
+
+_All default options can be seen (BUT DO NOT EDIT THESE) in the default config base in `lib/config.defaults.json`._
+
+You can add `server: true` to a custom config and read it instead:
 
     echo '{"server":true}' > myconfig.json
     ./index.js --config=myconfig.json
@@ -88,12 +91,18 @@ The configuration below tells the TileMill core server to listen on the default 
 
     {
       "listenHost": "0.0.0.0"
-      "coreUrl": "<your ip>:20009",
-      "tileUrl": "<your ip>:20008",
+      "coreUrl": "<TILEMILL_HOST>:20009",
+      "tileUrl": "<TILEMILL_HOST>:20008",
       "server": true
     }
 
-Note: the `<your ip>` value above needs to be exchanged either with your IP or hostname. For example, to expose TileMill publically by ip you could do:
+Note: the `<TILEMILL_HOST>` value above needs to be exchanged either with your IP or hostname. For example, to expose TileMill publicly by hostname you could do:
 
-    YOUR_IP=`ifconfig eth0 | grep 'inet addr:'| cut -d: -f2 | awk '{ print $1}'`
-    ./index.js --server=true --listenHost=0.0.0.0 --coreUrl=${YOUR_IP}:20009 --tileUrl=${YOUR_IP}:20008
+    TILEMILL_HOST="example.com"
+    ./index.js --server=true --listenHost=0.0.0.0 --coreUrl=${TILEMILL_HOST}:20009 --tileUrl=${TILEMILL_HOST}:20008
+
+
+And to expose by raw ip you could do:
+
+    TILEMILL_HOST=`ifconfig eth0 | grep 'inet addr:'| cut -d: -f2 | awk '{ print $1}'`
+    ./index.js --server=true --listenHost=0.0.0.0 --coreUrl=${TILEMILL_HOST}:20009 --tileUrl=${TILEMILL_HOST}:20008

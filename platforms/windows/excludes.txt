@@ -11,6 +11,14 @@
 \mocha\
 \ipch\
 \include\
+\obj\
+*.exp
+*.lib
+*.pdb
+binding.sln
+*gypi
+*.vcxproj
+*.vcxproj.filters
 .gitignore
 .svn
 Makefile

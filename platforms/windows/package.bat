@@ -1,7 +1,7 @@
 set DEVROOT=c:\dev2
 @rem place c++ addons outside of node_modules for now
 @rem to make it easier to remove/recreate node_modules
-set DEST=addons
+set DEST=node_modules
 set MAPNIK_INSTALL=c:\mapnik-2.0
 set NODEEXE=c:\node\Release\node.exe
 set MAPNIK_DEST=%DEST%\mapnik\lib\mapnik
@@ -18,6 +18,14 @@ cd ..\..\
 set TILEMILL_DIR=%CD%
 
 mkdir %DEST%
+
+@rem nuke any failed c++ module installs
+rd /q /s node_modules\bones\node_modules\jquery\node_modules\jsdom\node_modules\contextify
+@rem rd /q /s node_modules\sqlite3
+rd /q /s node_modules\mapnik
+rd /q /s node_modules\millstone\node_modules\srs
+rd /q /s node_modules\millstone\node_modules\zipfile
+rd /q /s node_modules\tilelive-mapnik\node_modules\eio
 
 @rem remove then re-copy node-mapnik
 rd /q /s %DEST%\mapnik
@@ -58,5 +66,5 @@ xcopy /i /s %DEVROOT%\proj\nad %MAPNIK_DATA_DEST%\proj
 rd /q /s %MAPNIK_DATA_DEST%\gdal
 xcopy /i /s %DEVROOT%\gdal\data %MAPNIK_DATA_DEST%\gdal
 
-rd /q /s node.exe
+del /q node.exe
 xcopy %NODEEXE% %TILEMILL_DIR%\node.exe

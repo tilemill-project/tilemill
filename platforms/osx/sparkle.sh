@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# ensure that coreutils from homebrew
+# is not preferred otherwise stat will break
+export PATH=/usr/bin/:$PATH
+
 urlbase="http://cloud.github.com/downloads/mapbox/tilemill/TileMill-==TAG==.zip"
 privatekeyname="TileMill Sparkle Private Key"
 
@@ -45,6 +49,6 @@ echo "done."
 echo
 
 echo "Add the following to the CHANGELOG (_posts/0100-01-01-CHANGELOG.md)"
-echo "    date: $( date "+%Y-%m-%d" )"
-echo "    size: $zipsize"
-echo "    sign: $signature"
+echo "  date: $( date "+%Y-%m-%d" )"
+echo "  size: $zipsize"
+echo "  sign: $signature"

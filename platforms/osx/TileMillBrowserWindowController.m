@@ -197,7 +197,7 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
                                      defaultButton:@"OK" 
                                    alternateButton:nil 
                                        otherButton:nil 
-                         informativeTextWithFormat:message];
+                         informativeTextWithFormat:@"%@", message];
     
     [alert runModal];
 }
@@ -208,7 +208,7 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
                                      defaultButton:@"OK" 
                                    alternateButton:@"Cancel" 
                                        otherButton:nil 
-                         informativeTextWithFormat:message];
+                         informativeTextWithFormat:@"%@", message];
     
     return ([alert runModal] == NSAlertDefaultReturn ? YES : NO);
 }

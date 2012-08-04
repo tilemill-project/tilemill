@@ -28,13 +28,16 @@ package: build
 run: package
 	open ./build/Release/TileMill.app
 
-zip: package
+sign: package
+	@codesign --verbose --keychain /Library/Keychains/System.keychain -f -s "Developer ID Application: Development Seed" $(TARGET)/../..
+
+zip: sign
 	cd build/Release/; ditto -c -k --sequesterRsrc --keepParent --zlibCompressionLevel 9 TileMill.app/ ../../TileMill.zip
 
-tar: package
-	tar cfj TileMill.tar.bz2 -C build/Release/ TileMill.app
+tar: sign
+	tar cfj TileMill.tar.bz2 -C build/Release/TileMill.app
 
 sparkle:
 	@./sparkle.sh
 
-.PHONY: build clean package run zip tar sparkle
+.PHONY: build clean package run sign zip tar sparkle

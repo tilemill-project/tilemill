@@ -22,7 +22,7 @@ on windows. It is not meant to be complete or for general use.
 
     https://github.com/mapnik/mapnik-packaging/tree/master/windows
 
-2) Compile node v0.6.x.
+2) Compile the latest Node.js binary for VS 2010.
 
 3) Download from github all node C++ modules required by TileMill. Build
 them by running the `vcbuild.bat` script inside. These include:
@@ -35,20 +35,11 @@ them by running the `vcbuild.bat` script inside. These include:
 
 4) Then we can install TileMill
 
-We have to force things to work with node-v6 and to work around
-the C++ modules build failures during npm install.
-
 ```
 git clone https://github.com/mapbox/tilemill.git
 cd tilemill
-npm install jshint -g
-npm install --force --no-rollback
-rd /q /s node_modules\bones\node_modules\jquery\node_modules\jsdom\node_modules\contextify
-rd /q /s node_modules\sqlite3
-rd /q /s node_modules\mapnik
-rd /q /s node_modules\millstone\node_modules\srs
-rd /q /s node_modules\millstone\node_modules\zipfile
-rd /q /s node_modules\tilelive-mapnik\node_modules\eio
+npm install jshint mocha -g
+platforms\windows\build.bat
 ```
 
 5) Localize C++ modules

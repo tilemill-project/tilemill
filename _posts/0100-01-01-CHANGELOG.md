@@ -2,6 +2,7 @@
 ### This changelog is in YAML format and is a Jekyll post.
 ### It is the source file for the HTML changelog as well
 ### as the Sparkle appcast feed.
+### NOTE - do not use colon otherwise you'll get an error like private method gsub called for #
 ###
 tag: Installation
 layout: changelog
@@ -23,8 +24,9 @@ releases:
 #  - Added support for regex in carto filters like `#world[name =~ "A.*"]`
 #  - Added support for quotes in carto filter values like `#world[name2="Sa'ad"]`
 #  - Carto parsing now provides better errors for unmatched parens
-#  - The raster-mode now supports all SVG compositing operations (but uses dashes instead of underscores - so grain_merge is now grain-merge) (Mapnik)
+#  - The raster-mode property has been renamed to raster-comp-op and now supports all SVG compositing operations (but uses dashes instead of underscores - so grain_merge is now grain-merge) (Mapnik)
 #  - Support for OS X 10.8 (Mountain Lion)
+#  - OS X app is now signed with Developer ID (Gatekeeper)
 #  - Interactivity now works on features that have negative or zero primary key values
 #  - Column names in CSV datasources named 'lng' are now automatically recognized as the longitude column
 #  - Added ability to zoom to layer extents
@@ -42,6 +44,35 @@ releases:
 #  - Added more raster resampling methods like windowed filters of 'blackman' and 'hanning'
 #  - Added ability to upgrade plugins
 #  - Fixed a bug where compatible plugin versions did not show up if there were newer incompatible versions
+
+- version: 0.9.1.276
+  dev: true
+  date: 2012-08-03
+  size: 81943211
+  sign: MC4CFQC+hYVSiaU51n8iKaTx1kzkyTsx2gIVAOiKxz6shYoCf4Xf91vD0O/UoH1S
+  notes:
+  - Development snapshot of TileMill 0.10.0-pre
+  - [Mapnik updates since 247](https://github.com/mapnik/mapnik/compare/e62739d14...b43697fd5de)
+  - [TileMill updates since 247](https://github.com/mapbox/tilemill/compare/754818b365...1b6ba21f75)
+
+- version: 0.9.1.267
+  dev: true
+  date: 2012-08-02
+  size: 81944423
+  sign: MC0CFQCSmh8ULR585Y3ajCI5kHKrclosHAIULum/ZhrtQvYcftH6JHGdhUh4zLw=
+  notes:
+  - Development snapshot of TileMill 0.10.0-pre
+  - [Mapnik updates since 247](https://github.com/mapnik/mapnik/compare/39a1477eb...e62739d14)
+  - [TileMill updates since 247](https://github.com/mapbox/tilemill/compare/66ab53a19...754818b365)
+
+- version: 0.9.1.247
+  dev: true
+  date: 2012-07-31
+  size: 81976072
+  sign: MC4CFQC4/NVVDbDiZPcQCf2UTV5pSkXfJwIVAM29+CqLnP98nV9+aGXDl4OJSuAt
+  notes:
+  - Development snapshot of TileMill 0.10.0-pre
+  - The 0.9.1.213 dev build newly supported the experimental 'composite-operation' keyword which has now been renamed to 'comp-op'
 
 - version: 0.9.1.213
   dev: true
