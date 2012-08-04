@@ -3,7 +3,6 @@ layout: default
 ---
 <style type='text/css'>
 .hero { background-color:#fff; }
-.wrapper { background:#555 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat; }
 
 .sections {
   background:#444 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
@@ -41,10 +40,13 @@ layout: default
   background-position:-160px 0px;
   }
 
-.sections a.button {
-  position:absolute;
-  right:0px;
-  top:0px;
+.sections .buttons { position:absolute; right:0px; top:0px; }
+
+.sections .buttons a {
+  font-size:12px;
+  margin-right:1px;
+  min-width:110px;
+  text-align:center;
   color:#fff;
   }
 
@@ -65,7 +67,10 @@ layout: default
   <a href='/tilemill/docs/crashcourse/introduction'>Crash course</a>
   <a href='/tilemill/docs/guides/add-shapefile'>Guides</a>
   <a href='http://support.mapbox.com/discussions/tilemill'>Support</a>
-  <a class='button big' href='https://github.com/mapbox/tilemill'>Fork me on GitHub</a>
+  <div class='buttons'>
+    <a class='button big' href='http://mapbox.com' style='background-color:#333'>Made by MapBox</a>
+    <a class='button big' href='https://github.com/mapbox/tilemill'>Fork me on GitHub</a>
+  </div>
 </div></div>
 
 {{content}}
