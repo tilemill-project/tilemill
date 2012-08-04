@@ -1,0 +1,371 @@
+/* ### base.css ### */
+/* Style shared between mapbox.com & tiles.mapbox.com */
+
+@font-face {
+  font-family:DroidSans;
+  src:url('../fonts/DroidSans.woff') format('woff');
+  }
+
+@font-face {
+  font-family:DroidSans;
+  font-weight:bold;
+  src:url('../fonts/DroidSansBold.woff') format('woff');
+  }
+
+body {
+  background:#555 url(bg-dot-rev.png) 50% 0% repeat;
+  color:#444;
+  }
+
+body,
+input,
+textarea { font:normal 14px/20px DroidSans,Arial,sans-serif; }
+
+pre,
+code { font:normal 12px/20px "Droid Sans Mono","Andale Mono",monospace; }
+
+h1, h2, h3, h4, h5, h6 { font-weight:normal; }
+
+a {
+  color:#489;
+  text-decoration:none;
+  }
+
+p { margin:0px 0px 20px; }
+hr { margin:0px 0px 20px; border:0px; height:1px; background:#ccc; }
+
+small {
+  color:#888;
+  display:block;
+  font-size:12px;
+  font-weight:normal;
+  letter-spacing:0px;
+  }
+
+small.inline { display:inline; }
+
+label {
+  display:block;
+  min-height:20px;
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:0px;
+  }
+
+big, p.big {
+  font-size:20px;
+  line-height:30px;
+  display:block;
+  }
+
+h1 {
+  font-size:40px;
+  line-height:50px;
+  letter-spacing:-2px;
+  }
+
+h2 {
+  font-size:20px;
+  font-weight:bold;
+  line-height:20px;
+  margin:0px 0px 10px;
+  }
+
+iframe { display:block; }
+
+.more { text-align:right; }
+
+.limiter {
+  width:920px;
+  margin:0px auto;
+  position:relative;
+  }
+
+.title {
+  position:relative;
+  border-top:1px solid #ccc;
+  padding:19px 0px 0px;
+  }
+
+.title.empty,
+.title.limiter.empty { padding:0px; }
+
+.centered { text-align:center; }
+img.centered,
+.prose img.centered { margin-left:auto; margin-right:auto; }
+
+.clip { overflow:hidden; }
+.hidden { display:none; }
+.invisible {
+  width:1px;
+  height:1px;
+  margin:-1px 0px 0px -1px;
+  text-indent:-9999px;
+  overflow:hidden;
+  }
+
+/* ### Header */
+.branding .limiter { height:40px; }
+.branding {
+  background:#fff;
+  padding:10px 0px;
+  left:0px;
+  right:0px;
+  height:30px;
+  line-height:30px;
+  }
+
+.branding .logo,
+.branding .menu,
+.branding .auth {
+  position:absolute;
+  top:0px;
+  }
+
+/* ### Logo + Menu ### */
+.branding .logo { left:0px; top:-10px; }
+.branding .menu { top:0px; right:0px; }
+.branding a { color:#000; }
+
+.branding .logo {
+  width:140px;
+  height:40px;
+  text-indent:-9999px;
+  overflow:hidden;
+  background:url(sprite.png) no-repeat;
+  }
+
+.branding .menu li,
+.branding .menu li a { float:left; }
+.branding .menu li a {
+  white-space:nowrap;
+  position:relative;
+  z-index:0;
+  padding:0px 10px 0px 28px;
+  margin:0px 1px 0px 0px;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  transition:all 200ms;
+  -moz-transition:all 200ms;
+  -webkit-transition:all 200ms;
+  }
+
+.branding .menu .icon {
+  display:block;
+  width:20px;
+  height:20px;
+  left:5px;
+  top:5px;
+  position:absolute;
+  background:url(sprite.png) 30px 30px no-repeat;
+  }
+
+.branding .menu .maps .icon   { background-position:-220px 0px; }
+.branding .menu .tilemill .icon { background-position:-160px 0px; }
+.branding .menu .tour .icon   { background-position:-180px 0px; }
+.branding .menu .help .icon   { background-position:-200px 0px; }
+.branding .menu .plans .icon  { background-position:-240px 0px; }
+
+.branding .menu li a:hover {
+  background:#ffe8e0;
+  color:#000;
+  }
+
+.branding .menu .active a,
+.branding .menu .active a:hover {
+  background:#d22;
+  color:#fff;
+  box-shadow:inset rgba(0,0,0,0.1) 0px -20px 20px -10px;
+  }
+
+.branding .menu .plans a { color:#280; }
+.branding .menu .plans a:hover { background:#dcf8c0; }
+.branding .menu .plans.active a,
+.branding .menu .plans.active a:hover {
+  background:#6c4;
+  color:#fff;
+  }
+
+/* ### Auth login link ### */
+.branding .auth {
+  top:4px;
+  left:140px;
+  height:20px;
+  line-height:20px;
+  border:1px solid #ccc;
+  white-space:nowrap;
+  border-radius:4px;
+  }
+
+.branding .auth a,
+.branding .auth a:hover {
+  float:left;
+  color:#222;
+  margin:0px;
+  background-color:#fff;
+  box-shadow:inset rgba(0,0,0,0.05) 0px -20px 20px -10px;
+  }
+
+.branding .auth a:active {
+  box-shadow:
+    inset rgba(0,0,0,0.4) 0px 1px 3px,
+    inset rgba(0,0,0,0.1) 0px -20px 20px -10px; }
+
+.branding .auth a.username {
+  max-width:160px;
+  border-right:1px solid #ccc;
+  }
+
+/* ### 'Hero' header ### */
+.hero {
+  width:958px;
+  height:558px;
+  border:1px solid #ccc;
+  margin:0px auto 40px;
+  position:relative;
+  border-radius:5px;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
+  }
+
+/* ### Checklist ### */
+ul.checklist li,
+.prose ul.checklist li {
+  background:url(sprite.png) -380px -120px no-repeat;
+  margin:0px;
+  padding-left:30px;
+  list-style:none;
+  }
+
+ul.checklist li *,
+.prose ul.checklist li * { margin:0px; }
+
+ul.checklist li.check,
+.prose ul.checklist li.check { background-position:-380px 0px; }
+
+ul.checklist li.hr,
+.prose ul.checklist li.hr {
+  padding:0px;
+  margin:9px 0px 10px;
+  background:transparent;
+  height:0px;
+  border-top:1px solid #ccc;
+  }
+
+/* sub/superscripts */
+sup,
+sub {
+  height: 0;
+  line-height: 1;
+  vertical-align: baseline;
+  _vertical-align: bottom;
+  position: relative;
+  font-size: 75%;
+  }
+
+sup {
+  bottom: 1ex;
+  }
+
+sub {
+  top: .5ex;
+  }
+
+/* Buttons */
+.badge,
+.button,
+.buttons a,
+input[type=button],
+input[type=submit] {
+  text-decoration:none !important;
+  color:#fff;
+  display:inline-block;
+  vertical-align:middle;
+  padding:0px 10px;
+  font-size:12px;
+  letter-spacing:0px;
+  line-height:20px;
+  height:20px;
+  border:0px;
+  overflow:hidden;
+  white-space:nowrap;
+  border-radius:3px;
+  box-shadow: inset rgba(0,0,0,0.1) 0px -20px 20px -10px;
+  }
+
+.button,
+.buttons a,
+input[type=button],
+input[type=submit] {
+  background-color:#6c4;
+  cursor:pointer;
+  margin:0px 10px 0px 0px;
+  }
+
+.button:hover,
+.buttons a:hover,
+input[type=button]:hover,
+input[type=submit]:hover {
+  box-shadow:
+    inset rgba(0,0,0,0.1) 0px -20px 20px -10px,
+    inset rgba(0,0,0,0.1) 0px 0px 0px 100px;
+  }
+
+.button:active,
+.buttons a:active,
+input[type=button]:active,
+input[type=submit]:active {
+  background-color:#444;
+  box-shadow:
+    inset rgba(0,0,0,0.4) 0px 1px 3px,
+    inset rgba(0,0,0,0.1) 0px -20px 20px -10px;
+  }
+
+.badge.labeled,
+.button.labeled { padding-left:5px; }
+
+.buttons { white-space:nowrap; }
+
+.buttons a {
+  border-radius:0px;
+  border-right-width:0px;
+  margin-right:1px;
+  }
+
+.buttons a:first-child { border-radius:3px 0px 0px 3px; }
+.buttons a:last-child { border-radius:0px 3px 3px 0px; }
+.buttons a:only-child { border-radius:3px; }
+
+.badge .icon,
+.button .icon,
+.buttons a .icon { float:left; margin:0px; }
+
+.button.big,
+input[type=submit],
+input[type=button] {
+  line-height:30px;
+  height:30px;
+  font-size:14px;
+  }
+
+/* Base icon class */
+.icon {
+  display:block;
+  width:20px;
+  height:20px;
+  background:url(sprite.png) 20px 20px no-repeat;
+  text-indent:-9999px;
+  overflow:hidden;
+  }
+
+/* Greater specificity to tolerate declarations of .icon on subsites */
+.branding .icon.account { background:url(sprite.png) -300px 0px no-repeat; }
+
+/* BLEED layout */
+.wrapper-bleed {
+  min-height:100%;
+  height: auto !important;
+  height: 100%;
+  margin:0px 0px 0px;
+  }

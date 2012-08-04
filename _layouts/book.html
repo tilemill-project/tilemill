@@ -29,13 +29,4 @@ layout: product
 </div></div>
 </div></div>
 
-<div class='pager'>
-  {% if page.previous and page.previous.category == page.category %}
-  <a class='prev' href='{{site.baseurl}}{{page.previous.url}}'><span class='icon next'>Prev</span></a>
-  {% endif %}
-  {% if page.next and page.next.category == page.category %}
-  <a class='next' href='{{site.baseurl}}{{page.next.url}}'><span class='icon prev'>Next</span></a>
-  {% endif %}
-</div>
-
 <script type='text/javascript'>$(mapbox.book);</script>
