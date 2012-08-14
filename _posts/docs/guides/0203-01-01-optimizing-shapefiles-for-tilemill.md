@@ -15,7 +15,7 @@ Downloading shapefiles across resources on the web will invariably be formatted 
 
 To get started, let's download the ESRI shapefiles provide here: a collection of Shapefiles from Toronto [http://toronto.ca/open](http://toronto.ca/open/catalogue.htm).
 
-Note for beginners: "ESRI shapefile" a popular format that is comprised of at least three separate files that must be kept together. Generally when using them with TileMill they are kept together in a zip archive. To manipulate them, we're going to unzip them and once we have formatted the data for our purposes the files will be archived again and imported into TileMill. See [the TileMill manual for more details](http://tilemill.com/pages/manual.html#esri-shapefile).
+Note for beginners: "ESRI shapefile" a popular format that is comprised of at least three separate files that must be kept together. Generally when using them with TileMill they are kept together in a zip archive. To manipulate them, we're going to unzip them and once we have formatted the data for our purposes the files will be archived again and imported into TileMill. See [the TileMill manual for more details](http://mapbox.com/tilemill/docs/manual/adding-layers/).
   
 ##Tools
 
