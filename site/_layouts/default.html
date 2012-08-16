@@ -32,11 +32,11 @@ footer:
 <head>
   <meta charset='UTF-8'/>
   <meta name='robots' content='{% if page.hidden %}noindex{% else %}index{% endif %}'/>
-  <meta name="viewport" content="width=1000">
+  <meta name="viewport" content='initial-scale=1,maximum-scale=1,user-scalable=no'>
   {% if page.description %}<meta name='description' content='{{page.description | strip_html}}'/>{% endif %}
   <title>{% if page.url == '/' %}{{page.title}} | Fast and beautiful maps{% else %}{{page.title}} | MapBox{% endif %}</title>
-  <link rel='stylesheet' href='{{site.baseurl}}/assets/pages/site.css' type='text/css'/>
-  <!--[if IE]><link rel='stylesheet' href='{{site.baseurl}}/assets/pages/site-ie.css' type='text/css'/><![endif]-->
+  <link rel='stylesheet' href='{{site.baseurl}}/css/site.css' type='text/css'/>
+  <!--[if IE]><link rel='stylesheet' href='{{site.baseurl}}/css/site-ie.css' type='text/css'/><![endif]-->
   <link rel='shortcut icon' href='{{site.baseurl}}/assets/pages/images/favicon.ico' type='image/x-icon' />
   <script src='{{site.baseurl}}/assets/pages/site.js'></script>
 </head>
