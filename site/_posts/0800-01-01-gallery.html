@@ -1,0 +1,234 @@
+---
+permalink: /gallery
+layout: default
+maps:
+- id: mapbox.mapbox-streets
+  name: MapBox Streets
+  creator: MapBox
+  description: A global map with street level detail.
+  classes: locator
+  matte: 72b5e5
+  center: -73.988,40.728,12
+- id: kkaefer.iceland
+  name: Ìsland
+  creator: Konstantin Käfer
+  description: A stylish elevation map of Iceland.
+  matte: 17292d
+  center: -16.9,64.7,7
+  features:
+  - Patterns
+  - Texture
+  - Custom typography
+- id: dhcole.popup
+  name: Popup
+  creator: Dave Cole
+  description: Population density visualized in 3d.
+  matte: '000000'
+- id: examples.map-4l7djmvo
+  name: MapBox Terrain
+  creator: MapBox
+  matte: 89c1dc
+  center: -122.025,36.983,12
+- id: dhcole.map-6ssdy5ac
+  name: 3D Buildings
+  creator: Dave Cole
+  description: 3D building map of New York City.
+  matte: 72b5e5
+- id: bclc-apec.map-rslgvy56
+  name: Earthquake Risk Zones
+  creator: PRCC Disaster Data
+  mattde: 313131
+- id: tmcw.shadowplay
+  name: Shadow Play
+  creator: Tom MacWright
+  center: -45.00,36.95,3
+  matte: '000000'
+- id: mapbox.natural-earth-2
+  creator: MapBox
+  center: -130.34,52.08,4
+  matte: 5d8eb6
+- id: tristen.city_of_toronto
+  name: Toronto
+  creator: Tristen Brown
+  matte: 415355
+- id: villeda.simard-forests
+  creator: Ian Villeda
+  matte: '000000'
+  center: -59.985,-7.471,4
+- id: villeda.dc-footprints
+  creator: Ian Villeda
+  matte: ffffff
+  center: -77.0235,38.8936,15
+- id: dhcole.dots-and-lines
+  creator: Dave Cole
+  matte: ffffff
+- id: mapbox.baltimore-retro
+  creator: MapBox
+  matte: ffffff
+  center: -76.5987,39.2807,15
+- id: tmcw.rrrr2
+  creator: Tom MacWright
+  matte: 2e2532
+  center: -77.0373,38.9259,14
+- id: colemanm.persia-1891
+  creator: Coleman McCormick
+  center: 54.415,32.210,7
+  matte: edd5ae
+- id: occupy.occupy-streets
+  creator: Occupy
+  matte: 424242
+- id: colemanm.blue-marble-8bit
+  creator: Coleman McCormick
+  matte: 000009
+- id: newamerica.motw_poverty
+  creator: The New America Foundation
+  center: -97.583,38.769,5
+  matte: b7dee5
+- id: mapbox.afghanistan-winter
+  creator: MapBox
+  matte: d6d0b0
+  center: 69.1926,34.5327,10
+- id: mapbox.blue-marble-topo-bathy-jul
+  name: Blue Marble Topo
+  creator: MapBox
+  description: A high-level topographic and bathymetric map.
+  matte: 020514
+  center: -99.05,58.77,4
+- id: aj.population-fire
+  creator: AJ Ashton
+  matte: 080c16
+  center: 1.41,47.99,4
+---
+<script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.4/mapbox.js'></script>
+<link href='http://api.tiles.mapbox.com/mapbox.js/v0.6.4/mapbox.css' rel='stylesheet' />
+
+<style>
+  .pager-box a {
+    border-color: #28353d;
+    margin-bottom: 0;
+  }
+  .pager-box {
+    background: #28353d;
+  }
+  .right {
+    position: absolute;
+    top: 160px;
+    right: 0px;
+  }
+
+  .footer, .footer-copyright {
+    display: none;
+  }
+
+  #map {
+    position: absolute;
+    top: 160px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+  }
+
+  body, .wrapper {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+  }
+
+  .desc-box {
+    border-bottom: 1px solid #28353d;
+    padding: 20px;
+    width: 100%;
+    float: left;
+  }
+  
+  .desc-box h2 {
+    margin: 0 0 5px 0;
+  }
+  .desc-box ul {
+    margin: 5px 0 5px 0;
+  }
+
+
+
+</style>
+
+<div id="map" class="fillE"></div>
+<div id="mapdescription" class="clearfix cell3 right"></div>
+<script type='text/template' id='gallery-template'>
+  <div class="pager-box">
+    <a class="cell6" href="#<%=prev%>"><span class="icon reverse prev"></span> PREV</a>
+    <a class="cell6" href="#<%=next%>">NEXT <span class="icon reverse next"></span></a>
+  </div>
+  <div class="fillD desc-box cell12">
+    <h2><%=name%></h2>
+    <small>by <%=creator%></small>
+  </div>
+  <div class="fillD desc-box cell12">
+    <h4><%=description%></h4>
+    <ul class="checklist">
+      <% _.each(features, function(feature) { %>
+        <li class="check"><%=feature%></li>
+      <%});%>
+    </ul>
+  </div>
+</script>
+
+<script>
+  (function () {
+    var maps = _([{% for map in page.maps %}
+    { {% if map.creator %}creator: '{{map.creator}}',{% endif %}
+      {% if map.name %}name: '{{map.name}}',{% endif %}
+      {% if map.description %}description: '{{map.description}}',{% endif %}
+      {% if map.classes %}classes: '{{map.classes}}',{% endif %}
+      {% if map.matte %}matte: '{{map.matte}}',{% endif %}
+      {% if map.center %}center: [{{map.center}}],{% endif %}
+      {% if map.features %}
+      features: _([{% for feature in map.features %} '{{feature}}',{% endfor %} false]).compact(),
+      {% endif %}
+      id: '{{map.id}}'
+    },{% endfor %}
+    false]).compact();
+    var template = _.template(document.getElementById('gallery-template').innerHTML);
+    var gallerymap;
+
+    function setMap(id) {
+      var i = _.indexOf(maps, _.find(maps, function(d) {
+        return d.id === id;
+      }));
+      
+      if (i < 0) i = 0;
+      var d = maps[i];
+
+      if (gallerymap) {
+        gallerymap.destroy();
+        $('#map').html('');
+      }
+
+      mapbox.auto('map', d.id, function(m, tj) {
+        m.ui.legend.remove();
+        gallerymap = m;
+        m.parent.style.background = d.matte ? '#' + d.matte : '';
+        if (d.center) {
+          m.centerzoom({ lat: d.center[1], lon: d.center[0]}, d.center[2]);
+        }
+
+        d.next = maps[(i + 1) % maps.length].id;
+        d.prev = maps[(i - 1 + maps.length) % maps.length].id;
+        d.description = d.description || tj.description || '';
+        d.name = d.name || tj.name;
+        d.features = d.features || [];
+        $('#mapdescription').html(template(d));
+
+        $('#mapdescription a').bind('click', function(e) {
+          setMap($(e.srcElement).attr('href').replace('#', ''));
+        });
+      });
+    }
+
+    setMap(window.location.hash.substring(1));
+
+  })();
+</script>
+

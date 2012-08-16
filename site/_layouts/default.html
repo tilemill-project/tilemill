@@ -1,4 +1,31 @@
 ---
+navigation:
+  - title: Map Gallery
+    path: /gallery
+    category: gallery
+  - title: Changelog
+    path: /changelog
+  - title: Help
+    path: /help
+footer:
+  tilemill:
+    - title: Home
+      path: /home
+    - title: Gallery
+      path: /gallery
+    - title: Changelog
+      path: /changelog
+  help:
+    - title: Installation
+      path: /docs/install
+    - title: Crash course
+      path: /docs/crashcourse/introduction
+    - title: Guide
+      path: /docs/guide
+    - title: Reference
+      path: /docs/reference
+    - title: Support
+      path: /docs/support
 ---
 <!DOCTYPE html >
 <html>
@@ -15,8 +42,105 @@
 </head>
 <body class='{{page.class}}'>
 
-<div class='wrapper'>{{content}}</div>
-<div class='footer'>&copy; MapBox</div>
+  <div class='branding pad3h clearfix fillE'>
+    <div class='cell8'>
+      <a id='mapbox-logo' class='logo' href='{{site.url}}/'>MapBox</a>
+      {% if page.section %}
+      <a class='section-title' href='{{site.url}}/{{page.section|downcase}}'>{{page.section}}</a>
+      {% endif %}
+    </div>
+    <ul class='menu cell4'>
+      {% for item in page.navigation %}
+      {% if item.path contains 'http' %}
+        {% capture url %}{{item.path}}{% endcapture %}
+      {% else %}
+        {% capture url %}{{site.url}}{{item.path}}/{% endcapture %}
+      {% endif %}
+      {% if item.category contains page.category or item.category contains page.section or item.path == page.url %}
+        {% capture class %}{{item.class}} active{% endcapture %}
+      {% else %}
+        {% capture class %}{{item.class}}{% endcapture %}
+      {% endif %}
+      {% if page.variation == 1 and item.variation1 %}
+        {% capture title %}{{item.variation1}}{% endcapture %}
+      {% elsif page.variation == 2 and item.variation2 %}
+        {% capture title %}{{item.variation2}}{% endcapture %}
+      {% else %}
+        {% capture title %}{{item.title}}{% endcapture %}
+      {% endif %}
+      <li class='{{class}}'>
+        <a id='nav-{{item.title | downcase | replace:' ','-'}}' href='{{url}}'>{{title}}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="wrapper">{{ content }}</div>
+
+  {% unless page.class contains 'fullscreen' %}
+  <div class='footer clearfix fillD'>
+    <div class='cell3 pad3 newsletter'>
+      <a class='button big follow' href='http://twitter.com/mapbox' target='_blank'><span class='icon reverse twitter'></span>Follow us</a>
+      <a class='button big contact' href='{{base}}/contact'><span class='icon reverse contact'></span>Contact us</a>
+      <small>Subscribe to our newsletter</small>
+      <!-- Begin MailChimp Signup Form -->
+      <div id='mc-signup'>
+        <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
+          <div class='mc-field-group clearfix'>
+            <input type='hidden' value='1' name='group[7417][2]'>
+            <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
+            <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='button big icon reverse mail'>
+          </div>
+          <div id='mce-responses'>
+            <div class='response' id='mce-error-response' style='display:none'></div>
+            <div class='response' id='mce-success-response' style='display:none'></div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class='cell2 pad3'>
+    <h3>TileMill</h3>
+    <div class='links'>
+      {% for item in page.footer.tilemill %}
+      <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
+      {% endfor %}
+    </div>
+  </div>
+  <div class='cell2 pad3'>
+    <h3>Help</h3>
+    <div class='links'>
+      {% for item in page.footer.help %}
+      <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
+      {% endfor %}
+    </div>
+  </div>
+  <div class='cell5 pad3 blogposts'>
+    <h3>Recent MapBox blog posts</h3>
+    <div class='links'>
+    {% for item in site.categories.blog limit:4 %}
+    <a href='{{base}}{{item.url}}/'>
+      <small class='date'>{{item.date | date:"%b %d %Y"}}</small>
+      {{item.title}}
+    </a>
+    {% endfor %}
+    </div>
+    <a href='{{base}}/blog/'>Read more <span class='icon next blue'></span></a>
+  </div>
+</div>
+
+<div class='fillE footer-copyright'>
+  <a href='{{base}}/tos'>Terms of service</a> +
+  <a href='{{base}}/privacy'>Privacy policy</a>
+  &copy; MapBox
+</div>
+{% endunless %}
+
+<div class="auth">
+  <a href="https://github.com/mapbox/tilemill">
+    <span class="icon reverse github"></span> Fork me on GitHub
+  </a>
+</div>
 
 <script type='text/javascript'>
 var _gaq = _gaq || [];

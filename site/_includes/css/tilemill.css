@@ -1,0 +1,54 @@
+.branding .menu {
+  display: block;
+}
+
+.branding {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.branding .menu li {
+  margin-left: 5%;
+  width: 30%;
+}
+.branding .menu li a {
+  color: white;
+}
+
+.footer h3 {
+  color: white;
+}
+
+#mce-EMAIL {
+  border-radius: 4px 0 0 4px;
+}
+
+.auth a {
+  background: #3c4e5a;
+  color: white;
+}
+
+.auth a, .auth a:first-child, .auth a:last-child {
+  border-radius: 0px 0px 4px 4px;
+}
+
+.wrapper * {
+  box-sizing: border-box;
+  -moz-box-sizing:border-box;
+}
+
+.wrapper {
+  padding: 0;
+}
+
+
+.fillD {
+  background:#3c4e5a url(../img/dotgrid-pattern.png);
+  color:#fff;
+  box-shadow: none;
+}
+
+.fillE {
+  background: #28353d url(../img/dotgrid-pattern.png);
+  color: #fff;
+}
