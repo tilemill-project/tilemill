@@ -519,10 +519,8 @@ body.reverse big em {
 /* doc page prerequisites */
 .prose .note,
 .prose .docbox {
-  padding:9px 14px;
-  border:1px solid #ddd;
-  border-radius:5px;
-  background:#f4f4f4;
+  padding:10px 10px;
+  background:#f8f8f8;
   margin:0px 0px 20px;
   }
 .prose .note *,
@@ -531,7 +529,6 @@ body.reverse big em {
 .prose .note {
   color:#222;
   background:#fec;
-  border-color:#edb;
   }
 
 /* Special sauce */
@@ -562,23 +559,24 @@ pre::-webkit-scrollbar-thumb:horizontal { width:25px; }
 pre:hover::-webkit-scrollbar { background:#eee; }
 pre:hover::-webkit-scrollbar-thumb { background:#666; }
 
-/* ### Book nav ### */
-.book {
+/* ### Legacy book nav ### */
+.limiter .book {
   background:#f4f4f4;
   float:right;
   width:200px;
   margin-right:40px;
   border-radius:5px;
   }
-  .book h3 {
-    margin:0px;
-    padding:10px 10px 10px 14px;
-    border-bottom:1px solid #ddd;
-    }
+
+.limiter .book h3 {
+  margin:0px;
+  padding:10px 10px 10px 14px;
+  border-bottom:1px solid #ddd;
+  }
 
 .book a.category { color:#444; }
 
-.book li a {
+.limiter .book li a {
   display:block;
   position:relative;
   background:#fff;
@@ -589,18 +587,18 @@ pre:hover::-webkit-scrollbar-thumb { background:#666; }
   -webkit-transition:all 200ms;
   }
 
-.book li:first-child a { border-radius:5px 5px 0px 0px; }
-.book h3 + ul li:first-child a { border-radius:0px; }
-.book li:last-child a { border-radius:0px 0px 5px 5px; }
-.book li a.active {
+.limiter .book li:first-child a { border-radius:5px 5px 0px 0px; }
+.limiter .book h3 + ul li:first-child a { border-radius:0px; }
+.limiter .book li:last-child a { border-radius:0px 0px 5px 5px; }
+.limiter .book li a.active {
   background:#3c4e5a;
   color:#fff;
   border-color:#28353d;
   }
 
-.book a.active small { color:#ade; }
+.limiter .book a.active small { color:#ade; }
 
-.book a.active .icon {
+.limiter .book a.active .icon {
   display:block;
   width:20px;
   height:20px;
@@ -609,18 +607,18 @@ pre:hover::-webkit-scrollbar-thumb { background:#666; }
   top:5px;
   background:url(../images/sprite.png) -100px -160px no-repeat;
   }
-.book li.tag a {
+.limiter .book li.tag a {
   color:#888;
   background:transparent url(../images/sprite.png) -375px -110px no-repeat;
   padding-left:29px;
   border-bottom:1px solid #ddd;
   }
-.book li.tag a.expanded {
+.limiter .book li.tag a.expanded {
   color:#444;
   background-color:#fff;
   border-bottom:1px solid #f4f4f4;
   }
-.book li.tagged a {
+.limiter .book li.tagged a {
   padding-top:0px;
   padding-bottom:0px;
   margin:0px;
@@ -629,7 +627,7 @@ pre:hover::-webkit-scrollbar-thumb { background:#666; }
   font-size:12px;
   overflow:hidden;
   }
-.book li.expanded a {
+.limiter .book li.expanded a {
   padding-top:5px;
   padding-bottom:4px;
   border-bottom:1px solid #f4f4f4;
