@@ -1,7 +1,7 @@
 ---
-layout: book
-section: tilemill
-category: TileMill
+layout: docs
+section: help
+category: installation
 tag: Guides
 title: "Going from Data to Map"
 permalink: /docs/guides/data-to-map

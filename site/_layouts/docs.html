@@ -5,7 +5,7 @@ class: box
 ---
 <link rel='stylesheet' href='http://mapbox.com/css/developers.css' />
 <style type='text/css'>
-.doc-subnav a { width:33%; }
+.doc-subnav a { width:25%; }
 .ad-support { text-align:right; }
 .ad-support a { margin-top:10px; }
 @media (max-width:640px) { .ad-support { text-align:center; } }
@@ -20,6 +20,7 @@ class: box
     -->
   </div>
   <div class='cell6 doc-subnav clearfix'>
+    <a href='{{site.url}}{{site.baseurl}}/docs/install' {% if page.category == 'installation' %}class='active'{% endif %}>Installation</a>
     <a href='{{site.url}}{{site.baseurl}}/docs/crashcourse/introduction' {% if page.category == 'crashcourse' %}class='active'{% endif %}>Crashcourse</a>
     <a href='{{site.url}}{{site.baseurl}}/docs/guides/add-shapefile' {% if page.category == 'guides' %}class='active'{% endif %}>Guides</a>
     <a href='{{site.url}}{{site.baseurl}}/docs/manual/' {% if page.category == 'reference' %}class='active'{% endif %}>Reference</a>
