@@ -1,7 +1,7 @@
 ---
-layout: book
-section: tilemill
-category: TileMill
+layout: docs
+section: help
+category: crashcourse
 tag: Crash&nbsp;course
 title: "Exporting a map"
 permalink: /docs/crashcourse/exporting

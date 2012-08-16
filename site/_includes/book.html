@@ -1,0 +1,12 @@
+<div class='book'>
+  <ul>
+    {% assign tags = '' %}
+    {% for item in site.categories[page.category] reversed %}
+    {% unless item.hidden %}
+    <li {% if item.tagsdsf %}class='tagged {% if item.tag == page.tag %}expanded{% endif %} {{item.tag|downcase}}'{% endif %}>
+    <a {% if page.url == item.url %}class='active'{% endif %} href='{{site.baseurl}}{{item.url}}'>{% if page.url == item.url %}<span class='icon'> </span>{% endif %}{{item.title}}</a>
+    </li>
+    {% endunless %}
+    {% endfor %}
+  </ul>
+</div>

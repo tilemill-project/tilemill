@@ -1,7 +1,7 @@
 ---
-layout: book
-section: tilemill
-category: TileMill
+layout: docs
+section: help
+category: crashcourse
 tag: Crash&nbsp;course
 title: "TileMill and GIS"
 permalink: /docs/crashcourse/tilemill-gis
