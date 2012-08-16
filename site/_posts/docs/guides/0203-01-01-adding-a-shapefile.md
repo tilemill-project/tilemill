@@ -1,7 +1,7 @@
 ---
-layout: book
-section: tilemill
-category: TileMill
+layout: docs
+section: help
+category: guides
 tag: Guides
 title: "Adding a shapefile layer"
 permalink: /docs/guides/add-shapefile

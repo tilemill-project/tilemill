@@ -1,7 +1,7 @@
 ---
-layout: book
-section: tilemill
-category: TileMill
+layout: docs
+section: help
+category: guides
 tag: Guides
 title: "Tips for using color in maps"
 permalink: /docs/guides/tips-for-color

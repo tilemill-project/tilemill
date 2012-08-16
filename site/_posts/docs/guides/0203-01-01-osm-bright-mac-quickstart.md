@@ -1,7 +1,7 @@
 ---
-layout: book
-section: tilemill
-category: TileMill
+layout: docs
+section: help
+category: guides
 tag: Guides
 title: "OSM Bright Mac OS X quickstart"
 permalink: /docs/guides/osm-bright-mac-quickstart

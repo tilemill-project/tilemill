@@ -1,0 +1,69 @@
+---
+layout: default
+section: help
+class: box
+---
+<link rel='stylesheet' href='http://mapbox.com/css/developers.css' />
+<style type='text/css'>
+.doc-subnav a { width:25%; }
+.ad-support { text-align:right; }
+.ad-support a { margin-top:10px; }
+@media (max-width:640px) { .ad-support { text-align:center; } }
+</style>
+
+{% if page.section == 'help' %}
+<div class='clearfix doc-header pad3 fillL'>
+  <div class='cell6'>
+    <h2>TileMill</h2>
+    <p>MapBox core technologies and API.</p>
+    <!--
+    -->
+  </div>
+  <div class='cell6 doc-subnav clearfix'>
+    <a href='{{site.url}}{{site.baseurl}}/docs/install' {% if page.category == 'installation' %}class='active'{% endif %}>Installation</a>
+    <a href='{{site.url}}{{site.baseurl}}/docs/crashcourse/introduction' {% if page.category == 'crashcourse' %}class='active'{% endif %}>Crashcourse</a>
+    <a href='{{site.url}}{{site.baseurl}}/docs/guides/add-shapefile' {% if page.category == 'guides' %}class='active'{% endif %}>Guides</a>
+    <a href='{{site.url}}{{site.baseurl}}/docs/manual/' {% if page.category == 'reference' %}class='active'{% endif %}>Reference</a>
+  </div>
+</div>
+{% endif %}
+
+<div class='doc-page pad3c fillM clearfix'>
+<div class='fillW clearfix'>
+  <div class='cell9 doc-content doc prose pad2 float-right'>
+    <h1 id='{{page.title|downcase|replace:' ','_'}}'>{{page.title}}</h1>
+    {{content}}
+  </div>
+  <div class='cell3 float-right'>
+    {% if page.private %}
+      <div class='doc-private'><h3>Private</h3>{{page.private}}</div>
+    {% elsif page.navigation %}
+      <div class='doc-nav'>
+      {% for heading in page.navigation %}
+        <h3><a href='#{{heading[0]|downcase|replace:' ','_'}}'>{{heading[0]}}</a></h3>
+        <ul class='anchors'>
+        {% for item in heading[1] %}
+          {% if item.hash %}
+          <li><a href='#{{item.hash}}'>{{item.text}}</a></li>
+          {% else %}
+          <li><a href='#{{item|downcase|replace:' ','_'}}'>{{item}}</a></li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      {% endfor %}
+      </div>
+    {% else %}
+      <div class='doc-nav'>
+      {% include book.html %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+</div>
+
+<script type='text/javascript'>
+$(mapbox.book);
+$('h1[id], h2[id], h3[id], h4[id]').click(function(ev) {
+  window.location.hash = $(ev.currentTarget).attr('id');
+});
+</script>
