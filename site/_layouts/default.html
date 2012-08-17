@@ -1,6 +1,6 @@
 ---
 navigation:
-  - title: Map Gallery
+  - title: Gallery
     path: /gallery
     category: gallery
   - title: Changelog
@@ -43,13 +43,11 @@ footer:
 <body class='{{page.class}}'>
 
   <div class='branding pad3h clearfix fillE'>
-    <div class='cell8'>
-      <a id='mapbox-logo' class='logo' href='{{site.url}}/'>MapBox</a>
-      {% if page.section %}
-      <a class='section-title' href='{{site.url}}/{{page.section|downcase}}'>{{page.section}}</a>
-      {% endif %}
+    <div class='cell6 logos'>
+      <a id='tilemill-logo' class='logo' href='{{site.url}}/'>TileMill</a>
+      <small class='attribution'><span class='mobile-hide'>an open source project</span> by <a href='http://mapbox.com/' class='small-mapbox'>MapBox</a></small>
     </div>
-    <ul class='menu cell4'>
+    <ul class='menu cell6'>
       {% for item in page.navigation %}
       {% if item.path contains 'http' %}
         {% capture url %}{{item.path}}{% endcapture %}
@@ -73,6 +71,9 @@ footer:
       </li>
       {% endfor %}
     </ul>
+    <div class='forkme'>
+      <a href='https://github.com/mapbox/tilemill'><span class='icon reverse github'></span>Fork me on GitHub</a>
+    </div>
   </div>
 
   <div class="wrapper">{{ content }}</div>
@@ -135,12 +136,6 @@ footer:
   &copy; MapBox
 </div>
 {% endunless %}
-
-<div class="auth">
-  <a href="https://github.com/mapbox/tilemill">
-    <span class="icon reverse github"></span> Fork me on GitHub
-  </a>
-</div>
 
 <script type='text/javascript'>
 var _gaq = _gaq || [];
