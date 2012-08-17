@@ -8,11 +8,16 @@ class: box
 .doc-subnav a { width:25%; }
 .ad-support { text-align:right; }
 .ad-support a { margin-top:10px; }
+.doc-content { border-color: #333; }
+.doc-content .note, .doc-content .docbox { color: white; background:#28353D; }
+.doc-page div{ background: #3C4E5A; }
+.doc-subnav a { background: #3C4E5A; color: white; }
+.doc-subnav a.active { background: #3887BE; color: white; }
 @media (max-width:640px) { .ad-support { text-align:center; } }
 </style>
 
 {% if page.section == 'help' %}
-<div class='clearfix doc-header pad3 fillL'>
+<div class='clearfix doc-header pad3 fillD'>
   <div class='cell6'>
     <h2>TileMill</h2>
     <p>MapBox core technologies and API.</p>
@@ -28,8 +33,8 @@ class: box
 </div>
 {% endif %}
 
-<div class='doc-page pad3c fillM clearfix'>
-<div class='fillW clearfix'>
+<div class='doc-page pad3c fillE clearfix'>
+<div class='clearfix'>
   <div class='cell9 doc-content doc prose pad2 float-right'>
     <h1 id='{{page.title|downcase|replace:' ','_'}}'>{{page.title}}</h1>
     {{content}}
