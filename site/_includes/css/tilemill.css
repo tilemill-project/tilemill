@@ -1,54 +1,99 @@
-.branding .menu {
-  display: block;
-}
-
-.branding {
-  padding-top: 50px;
-  padding-bottom: 50px;
-}
-
-.branding .menu li {
-  margin-left: 5%;
-  width: 30%;
-}
-.branding .menu li a {
-  color: white;
-}
-
-.footer h3 {
-  color: white;
-}
-
-#mce-EMAIL {
-  border-radius: 4px 0 0 4px;
-}
-
-.auth a {
-  background: #3c4e5a;
-  color: white;
-}
-
-.auth a, .auth a:first-child, .auth a:last-child {
-  border-radius: 0px 0px 4px 4px;
-}
+/* ### General Styles ### */
 
 .wrapper * {
   box-sizing: border-box;
   -moz-box-sizing:border-box;
-}
+  }
 
-.wrapper {
-  padding: 0;
-}
+.wrapper { padding: 0;}
 
 
 .fillD {
   background:#3c4e5a url(../img/dotgrid-pattern.png);
   color:#fff;
   box-shadow: none;
-}
+  }
 
 .fillE {
   background: #28353d url(../img/dotgrid-pattern.png);
   color: #fff;
-}
+  }
+
+/* ### Header ### */
+
+.branding .menu { display: block;}
+
+.branding .logos { position: relative;}
+.branding .logo#tilemill-logo {
+  background: url(../img/tilemill-sprite.png) 0 0 no-repeat;
+  }
+
+.branding .attribution {
+  position: absolute;
+  left: 55px;
+  top: 45px;
+  color: white;
+  }
+  .branding .attribution .small-mapbox {
+    display: inline-block;
+    background: url(../img/tilemill-sprite.png) 2px -74px no-repeat;
+    width: 70px;
+    text-indent: -9999px;
+    overflow: hidden;
+    }
+    .branding .attribution .small-mapbox:hover { background-position-x: -78px;}
+
+.branding {
+  position: relative;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  z-index: 100;
+  }
+
+.branding .menu li {
+  margin-left: 5%;
+  width: 30%;
+  }
+.branding .menu li a {color: white;}
+
+.forkme {
+  position: absolute;
+  z-index: 1000;
+  right: 0px;
+  top: 0;
+  line-height: 20px;
+  font-size: 12px;
+  white-space: nowrap;
+  transition: right 100ms;
+  -webkit-transition: right 100ms;
+  }
+  .forkme a {
+    text-align: center;
+    float: left;
+    overflow: hidden;
+    min-width: 159px;
+    padding: 5px 10px 5px 5px;
+    height: 30px;
+    background: #3c4e5a;
+    color: white;
+    border-radius: 0px 0px 0px 4px;
+    }
+    .forkme a:hover { background: #3BB2D0;}
+
+@media only screen and (max-width: 640px) {
+  .branding { padding-bottom:10px;}
+  .branding .logo { 
+    margin: 0 auto 10px;
+    display: block;
+    }
+  .branding .attribution { 
+  width: 90px;
+  left: 50px;
+  right: 0;
+  margin: 0px auto;
+  }
+  .mobile-hide { display: none;}
+  }
+
+/* ### Footer ### */
+.footer h3 { color: white;}
