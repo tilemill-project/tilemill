@@ -6,7 +6,8 @@ navigation:
   - title: Changelog
     path: /changelog
   - title: Help
-    path: /help
+    path: /docs
+    category: help
 footer:
   tilemill:
     - title: Home
@@ -52,7 +53,7 @@ footer:
       {% if item.path contains 'http' %}
         {% capture url %}{{item.path}}{% endcapture %}
       {% else %}
-        {% capture url %}{{site.url}}{{item.path}}/{% endcapture %}
+        {% capture url %}{{site.url}}{{site.baseurl}}{{item.path}}/{% endcapture %}
       {% endif %}
       {% if item.category contains page.category or item.category contains page.section or item.path == page.url %}
         {% capture class %}{{item.class}} active{% endcapture %}
