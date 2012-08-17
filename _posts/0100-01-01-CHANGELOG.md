@@ -44,7 +44,7 @@ releases:
 #  - Added more raster resampling methods like windowed filters of 'blackman' and 'hanning'
 #  - Added ability to upgrade plugins
 #  - Fixed a bug where compatible plugin versions did not show up if there were newer incompatible versions
-#  - TileMill on Linux now supports reading CSVs with a WKT column that can encode any type of geometry (OS X and Windows has always supported this)
+#  - TileMill now supports reading CSVs with a column named either 'WKT' or 'GEOJSON' and encoded as either Well Known Text or GeoJSON, respectively. This allows CSV files to support more geometry types than just points.
 
 - version: 0.9.1.276
   dev: true
