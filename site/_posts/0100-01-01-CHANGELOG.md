@@ -10,7 +10,7 @@ section: tilemill
 category: TileMill
 date: 0201-01-30
 title: Changelog
-permalink: /docs/changelog
+permalink: /changelog
 releases:
 
 #- version:

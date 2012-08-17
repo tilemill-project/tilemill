@@ -1,13 +1,24 @@
 ---
-layout: book
+layout: default
 ---
+<div class="changelog cell12 pad3 fillD">
 {% for item in page.releases %}
   {% if item.dev != true %}
   <h2>{{item.version}} {% if item.date %}<small>{{item.date|date:'%B %d %Y'}}</small>{% endif %}</h2>
+  <div class="release cell12 pad3 fillE">
   <ul class='checklist'>
     {% for item in item.notes %}
     <li>{{item | markdownify}}</li>
     {% endfor %}
   </ul>
+  </div>
   {% endif %}
 {% endfor %}
+</div>
+<style>
+  .changelog .release {
+    margin-bottom: 50px;
+    background-image: none;
+  }
+  .changelog code { background: inherit }
+</style>
