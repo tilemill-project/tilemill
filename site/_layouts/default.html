@@ -6,11 +6,12 @@ navigation:
   - title: Changelog
     path: /changelog
   - title: Help
-    path: /help
+    path: /docs
+    category: help
 footer:
   tilemill:
     - title: Home
-      path: /home
+      path: 
     - title: Gallery
       path: /gallery
     - title: Changelog
@@ -21,11 +22,11 @@ footer:
     - title: Crash course
       path: /docs/crashcourse/introduction
     - title: Guide
-      path: /docs/guide
+      path: /docs/guides/add-shapefile
     - title: Reference
-      path: /docs/reference
+      path: /docs/manual
     - title: Support
-      path: /docs/support
+      path: http://support.mapbox.com
 ---
 <!DOCTYPE html >
 <html>
@@ -52,7 +53,7 @@ footer:
       {% if item.path contains 'http' %}
         {% capture url %}{{item.path}}{% endcapture %}
       {% else %}
-        {% capture url %}{{site.url}}{{item.path}}/{% endcapture %}
+        {% capture url %}{{site.url}}{{site.baseurl}}{{item.path}}/{% endcapture %}
       {% endif %}
       {% if item.category contains page.category or item.category contains page.section or item.path == page.url %}
         {% capture class %}{{item.class}} active{% endcapture %}
@@ -104,7 +105,7 @@ footer:
     <h3>TileMill</h3>
     <div class='links'>
       {% for item in page.footer.tilemill %}
-      <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
+      <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{{site.url}}{{site.baseurl}}{{item.path}}/'>{{item.title}}</a>
       {% endfor %}
     </div>
   </div>
@@ -112,19 +113,19 @@ footer:
     <h3>Help</h3>
     <div class='links'>
       {% for item in page.footer.help %}
-      <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
+      <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='
+        {% if item.path contains 'http' %}
+        {{ item.path }}
+        {% else %}
+        {{site.url}}{{site.baseurl}}{{item.path}}/
+        {% endif %}'>{{item.title}}</a>
       {% endfor %}
     </div>
   </div>
   <div class='cell5 pad3 blogposts'>
     <h3>Recent MapBox blog posts</h3>
     <div class='links'>
-    {% for item in site.categories.blog limit:4 %}
-    <a href='{{base}}{{item.url}}/'>
-      <small class='date'>{{item.date | date:"%b %d %Y"}}</small>
-      {{item.title}}
-    </a>
-    {% endfor %}
+    <script src="http://mapbox.com/snippets/blog-list.js"></script>
     </div>
     <a href='{{base}}/blog/'>Read more <span class='icon next blue'></span></a>
   </div>
