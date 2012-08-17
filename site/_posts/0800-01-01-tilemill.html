@@ -52,7 +52,7 @@ platforms:
 .heading .icon.enrich { background-position-x:-40px; }
 .heading .icon.share  { background-position-x:-60px; }
 
-.full { 
+.full {
   position: relative;
   border-top: 1px solid #28353D;
   min-height: 300px;
@@ -70,7 +70,11 @@ platforms:
 .footer-actions { height: 200px;}
 
 @media only screen and (max-width: 640px) {
-  .full .cell6 { border: none; }
+  .full .cell6:first-child {
+    border-right: none;
+    position: relative;
+    border-bottom: 1px solid #28353D;
+    }
   }
 
 </style>
