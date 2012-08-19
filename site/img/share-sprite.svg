@@ -11,10 +11,10 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="670"
-   height="340.00049"
+   height="690"
    id="svg8913"
    version="1.1"
-   inkscape:version="0.48.2 r9819"
+   inkscape:version="0.48.1 r9760"
    sodipodi:docname="share-sprite.svg"
    inkscape:export-filename="/Users/saman/work_repos/tilemill/site/img/share-sprite.png"
    inkscape:export-xdpi="89.99987"
@@ -25,7 +25,7 @@
        inkscape:collect="always"
        xlink:href="#pattern21716"
        id="pattern9425"
-       patternTransform="translate(-218.75001,1911.2919)" />
+       patternTransform="translate(-218.75001,1911.2923)" />
     <clipPath
        clipPathUnits="userSpaceOnUse"
        id="clipPath12417">
@@ -213,20 +213,6 @@
          offset="1"
          id="stop3810" />
     </linearGradient>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath9365">
-      <rect
-         style="color:#000000;fill:#3c4e5a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         id="rect9367"
-         width="1020"
-         height="420"
-         x="-710"
-         y="2920"
-         inkscape:export-filename="/Users/saman/work_repos/mapbox.github.com/images/_source/mapbox-overhaul/renders/mobile.png"
-         inkscape:export-xdpi="90"
-         inkscape:export-ydpi="90" />
-    </clipPath>
     <pattern
        patternTransform="translate(-75.00001,1952.6378)"
        id="pattern9391"
@@ -309,12 +295,12 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="398.14796"
-     inkscape:cy="208.14743"
+     inkscape:cx="235.24416"
+     inkscape:cy="87.013025"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:snap-nodes="false"
+     showgrid="true"
+     inkscape:snap-nodes="true"
      inkscape:snap-bbox="true"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -336,11 +322,11 @@
        snapvisiblegridlinesonly="true" />
     <sodipodi:guide
        orientation="0,1"
-       position="450,340.00059"
+       position="450,690.00057"
        id="guide9429" />
     <sodipodi:guide
        orientation="0,1"
-       position="520,0.00059296875"
+       position="520,350.00057"
        id="guide9451" />
   </sodipodi:namedview>
   <metadata
@@ -359,7 +345,17 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(110,-4672.3623)">
+     transform="translate(110,-4672.3628)">
+    <rect
+       style="color:#000000;fill:none;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect15906"
+       width="670"
+       height="690"
+       x="-110"
+       y="4672.3628"
+       inkscape:export-filename="/Users/saman/work_repos/mapbox.github.com/images/_source/mapbox-overhaul/renders/mobile.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <g
        style="display:inline"
        id="g6585"
@@ -417,7 +413,18 @@
        style="display:inline"
        id="g13197"
        transform="translate(462,1672.3622)"
-       clip-path="url(#clipPath9365)">
+       clip-path="none">
+      <rect
+         style="opacity:0.6;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0024153;marker:none;visibility:visible;display:inline;overflow:visible;filter:url(#filter3921);enable-background:accumulate"
+         id="rect3899"
+         width="313.00003"
+         height="600.47522"
+         x="37"
+         y="60"
+         rx="49.658657"
+         ry="49.580486"
+         clip-path="url(#clipPath3893)"
+         transform="matrix(0.99680501,0,0,0.99837662,-569.38179,2990.5974)" />
       <image
          style="display:inline"
          y="3017.5"
@@ -427,17 +434,6 @@
          height="680"
          width="494"
          clip-path="url(#clipPath13561)" />
-      <rect
-         style="opacity:0.6;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0024153;marker:none;visibility:visible;display:inline;overflow:visible;filter:url(#filter3921);enable-background:accumulate"
-         id="rect3899"
-         width="313.00003"
-         height="616"
-         x="37"
-         y="60"
-         rx="49.658657"
-         ry="49.580486"
-         clip-path="url(#clipPath3893)"
-         transform="matrix(0.99680501,0,0,0.99837662,-569.38179,2990.5974)" />
       <rect
          ry="3.5"
          rx="3.4999998"
@@ -626,13 +622,6 @@
          id="rect3011"
          style="color:#000000;fill:none;stroke:#000000;stroke-width:0.99999928;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
       <rect
-         y="3148"
-         x="-511"
-         height="17"
-         width="267"
-         id="rect12828"
-         style="color:#000000;fill:#b3b3b3;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-      <rect
          style="opacity:0.4;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
          id="rect12830"
          width="269"
@@ -644,18 +633,14 @@
          id="g12832"
          style="display:inline">
         <path
-           inkscape:connector-curvature="0"
+           style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+           d="m 303,151 0,10 17,0 0,-3 2,0 0,-4 -2,0 0,-3 -17,0 z m 1,1 15,0 0,8 -15,0 0,-8 z"
+           transform="translate(-918,19.0001)"
            id="path12834"
-           d="m -615,170 0,10 17,0 0,-3 2,0 0,-4 -2,0 0,-3 -17,0 z"
-           style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-        <path
-           inkscape:connector-curvature="0"
-           id="path12836"
-           d="m -599,171 0,8 -15,0 0,-8 z"
-           style="color:#000000;fill:#97998a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+           inkscape:connector-curvature="0" />
         <path
            style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-           d="m -600,171.59375 0,6.8125 -13,0 0,-6.8125 z"
+           d="m -600,172.00059 0,5.99882 -13,0 0,-5.99882 z"
            id="path12838"
            inkscape:connector-curvature="0" />
       </g>
@@ -709,6 +694,20 @@
            x="-474.20947"
            id="tspan12854"
            sodipodi:role="line">AT&amp;T</tspan></text>
+      <rect
+         style="color:#000000;fill:none;stroke:none;stroke-width:1.39130473;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect15911"
+         width="670"
+         height="469.99991"
+         x="-572"
+         y="3000.0005" />
     </g>
+    <rect
+       style="color:#000000;fill:none;stroke:none;stroke-width:1.39130473;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect15908"
+       width="670"
+       height="470"
+       x="-110"
+       y="4672.3628" />
   </g>
 </svg>
