@@ -164,6 +164,7 @@ maps:
     <h2><%=name%></h2>
     <small>by <%=creator%></small>
   </div>
+  <% if (description || features.length) { %>
   <div class="fillD desc-box cell12">
     <h4><%=description%></h4>
     <ul class="checklist">
@@ -172,6 +173,7 @@ maps:
       <%});%>
     </ul>
   </div>
+  <% } %>
 </script>
 
 <script>
