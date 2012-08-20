@@ -34,6 +34,9 @@ platforms:
   background: url(img/hero-tilemill.png) 0 bottom no-repeat;
   height: 660px;
   float: right;
+  animation: fadeIn 500ms ease 1500ms both;
+  -moz-animation: fadeIn 500ms ease 1500ms both;
+  -webkit-animation: fadeIn 500ms ease 1500ms both;
   }
 
 .heading { height: 80px;}
@@ -55,7 +58,18 @@ platforms:
     .heading .icon.enrich { background-position-x:-40px; }
     .heading .icon.share  { background-position-x:-60px; }
 
-#hero .intro { padding-bottom: 20px;}
+#hero .intro { 
+  padding-bottom: 20px;
+  animation: fadeInRight 500ms ease 500ms both;
+  -moz-animation: fadeInRight 500ms ease 500ms both;
+  -webkit-animation: fadeInRight 500ms ease 500ms both;
+  }
+
+.download {
+  animation: fadeIn 500ms ease 1000ms both;
+  -moz-animation: fadeIn 500ms ease 1000ms both;
+  -webkit-animation: fadeIn 500ms ease 1000ms both;
+  }
 .download ul.oslist { 
   box-shadow: rgba(0,0,0,0.05) 0px 0px 0px 5px;
   border-radius: 4px;
