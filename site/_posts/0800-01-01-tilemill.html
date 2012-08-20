@@ -14,7 +14,7 @@ platforms:
   size: 79.6 MB
   url: http://github.com/downloads/mapbox/tilemill/TileMill-0.9.1.zip
 - id: linux
-  name: Ubuntu Linux
+  name: Linux
   help: Run <code>sudo ./install-tilemill.sh</code><br/>to install packages.
   help: Extract this archive and double-click<br/>on <code>install-tilemill.sh</code>.
   file: install-tilemill.tar.gz
@@ -28,26 +28,13 @@ platforms:
   url: http://github.com/downloads/mapbox/tilemill/TileMill-v0.9.1-Setup.exe
 ---
 <style type='text/css'>
-#hero { min-height: 600px; }
+#hero { min-height: 660px; }
 
 #hero .tilemill-screenshot {
   background: url(img/hero-tilemill.png) 0 bottom no-repeat;
-  height: 600px;
+  height: 660px;
+  float: right;
   }
-
-#hero #download .download-button {
-  display: none;
-  }
-
-  #hero #download.mac .download-button.mac {
-    display: block;
-    }
-  #hero #download.linux .download-button.linux {
-    display: block;
-    }
-  #hero #download.windows .download-button.windows {
-    display: block;
-    }
 
 .heading { height: 80px;}
   .heading h3 { 
@@ -68,10 +55,68 @@ platforms:
     .heading .icon.enrich { background-position-x:-40px; }
     .heading .icon.share  { background-position-x:-60px; }
 
-.oslist .button.big {
-float: left;
-width: 33.3333%;
-}
+#hero .intro { padding-bottom: 20px;}
+.download ul.oslist { 
+  box-shadow: rgba(0,0,0,0.05) 0px 0px 0px 5px;
+  border-radius: 4px;
+  }
+.download ul.oslist li .button.big {
+  float: left;
+  width: 33.3333%;
+  border-radius: 0;
+  background: #3c4e5a;
+  border-right: 1px solid #28353d;
+  box-shadow: none;
+  font-size: 12px;
+  font-family: 'Opensans',Arial,sans-serif;
+  text-transform: none;
+  min-width: 0;
+  }
+  .download ul.oslist li:last-child .button.big { border-right: none; }
+  .download ul.oslist li#mac .button.big { border-radius: 4px 0 0 4px;}
+  .download ul.oslist li#windows .button.big { border-radius: 0 4px 4px 0;}
+
+.download.mac ul.oslist li#mac .button.big{ background: #597486;}
+.download.linux ul.oslist li#linux .button.big{ background: #597486;}
+.download.windows ul.oslist li#windows .button.big{ background: #597486;}
+
+.download-button {
+  margin: 20px 0;
+  border-radius: 4px;
+  box-shadow: rgba(0,0,0,0.05) 0px 0px 0px 5px;
+  display: none;
+  }
+  .download.mac .download-button.mac {
+    display: block;
+    }
+  .download.linux .download-button.linux {
+    display: block;
+    }
+  .download.windows .download-button.windows {
+    display: block;
+    }
+  .download-button small, .download-button h3 { color: white;}
+  .download-button h3 { 
+    text-shadow: rgba(0,0,0,0.2) 0px -1px;
+    margin-bottom: 0;
+    }
+  .download-button .details { 
+    background: #3887be;
+    border: 1px solid #3887be;
+    border-right: none;
+    border-radius: 0 4px 4px 0;
+    }
+      .download-button:hover .details { 
+      background: #3bb2d0;
+      border-color: #3bb2d0;
+      }
+  .download-button .label { 
+    position: relative;
+    border: 1px solid #3175a5;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    }
+  .download-button:hover .label { border-color: #3bb2d0; }
 /* ### Borders + special tour section layout stuff ### */
 
 .full {
@@ -148,9 +193,16 @@ width: 33.3333%;
   }
   #share .illustration.mapbox { background-position: -410px -40px;}
 
-.footer-actions { height: 200px;}
+.footer-actions h1{ padding-bottom: 0;}
 
 @media only screen and (max-width: 640px) {
+  #hero { min-height: inherit; padding-bottom: 0;}
+  #hero .tilemill-screenshot { 
+    height: 320px;
+    background-position-y: top;
+    }
+  .download { display: none;}
+  .footer-actions { display: none;}
   .full > .cell6 { min-height: inherit;}
   .full:before { display: none;}
   .illustration {
@@ -166,34 +218,42 @@ width: 33.3333%;
   margin-top: -40px;
   background-position-y: -420px;
   }
+  .footer .cell3:first-child {
+    border-top: 1px solid #28353D;
+  }
 }
 
 </style>
 
-<div id='hero'>
-  <div class='pad3 cell7'>
+<div id='hero' class='clearfix'>
+  <div class='pad3 cell6 intro'>
     <h1>Make beautiful interactive maps</h1>
     <p>Whether you're a journalist, web designer, researcher,  or seasoned cartographer, TileMill is the design studio you need to create stunning interactive maps.</p>
-    <div id='download' class='callout cell5 pad3 fillE'>
-      <ul class='oslist'>
-      {% for item in page.platforms %}
-        <li id='{{item.id}}'><a href='#' class='button big'>{{item.name}}</a></li>
-      {% endfor %}
-      </ul>
-      {% for item in page.platforms %}
-      <a href='{{item.url}}' class='download-button {{item.id}}'>
-        <div class='label'><span>{{item.name}}</span>Download</div>
-        <div class='details'><span class='filename'>{{item.file}}</span>{{item.size}}</div>
-      </a>
-      {% endfor %}
-      <small class='links'>
-        <a href='#'>Upgrade notes</a>
-        <a href='#'>Changelog</a>
-      </small>
-      <div class='instructions'></div>
-    </div>
   </div>
-  <div class='cell5 tilemill-screenshot'></div>
+  <div class='cell6 tilemill-screenshot'></div>
+  <div class='download callout cell6 pad3 fillE'>
+    <ul class='oslist clearfix'>
+    {% for item in page.platforms %}
+      <li id='{{item.id}}'><a href='#' class='button big'>{{item.name}}</a></li>
+    {% endfor %}
+    </ul>
+    {% for item in page.platforms %}
+    <a href='{{item.url}}' class='download-button clearfix {{item.id}}'>
+      <div class='label cell5 pad1'>
+        <small>{{item.name}}</small>
+        <h3 class='label-title'>Download</h3>
+      </div>
+      <div class='details cell7 pad1'>
+        <small class='filename'>{{item.file}}</small>
+        <h3 class='label-title'>{{item.size}}</h3>
+      </div>
+    </a>
+    {% endfor %}
+    <small class='links'>
+      <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>
+    </small>
+    <div class='instructions'></div>
+  </div>
 
 <!-- <div class='mailchimp-subscribe fade clearfix'>
   <h2>Downloading &hellip;</h2>
@@ -337,30 +397,53 @@ width: 33.3333%;
 </div>
 
 <div class='clearfix footer-actions fillE'>
-  <h1>Download now</h1>
+  <h1 class='pad3 centered'>Download now</h1>
+    <div class='download callout margin3 cell6 pad3 fillE'>
+    <ul class='oslist clearfix'>
+    {% for item in page.platforms %}
+      <li id='{{item.id}}'><a href='#' class='button big'>{{item.name}}</a></li>
+    {% endfor %}
+    </ul>
+    {% for item in page.platforms %}
+    <a href='{{item.url}}' class='download-button clearfix {{item.id}}'>
+      <div class='label cell5 pad1'>
+        <small>{{item.name}}</small>
+        <h3 class='label-title'>Download</h3>
+      </div>
+      <div class='details cell7 pad1'>
+        <small class='filename'>{{item.file}}</small>
+        <h3 class='label-title'>{{item.size}}</h3>
+      </div>
+    </a>
+    {% endfor %}
+    <small class='links'>
+      <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>
+    </small>
+    <div class='instructions'></div>
+  </div>
 </div>
 
 <script type='text/javascript'>
 
-document.getElementById('download').className = (function() {
+$('.download').addClass((function() {
   if (navigator.appVersion.indexOf('Win') != -1) return 'windows';
   if (navigator.appVersion.indexOf('Mac') != -1) return 'mac';
   if (navigator.appVersion.indexOf('X11') != -1 || navigator.appVersion.indexOf('Linux') != -1) return 'linux';
   return 'mac'; // default to Mac.
-})();
+})());
 
 $('.oslist li#mac a').click(function() {	
-    $('#download').addClass('mac').removeClass('windows').removeClass('linux');
+    $('.download').addClass('mac').removeClass('windows').removeClass('linux');
     return false;
   });
 
 $('.oslist li#windows a').click(function() {	
-    $('#download').addClass('windows').removeClass('mac').removeClass('linux');
+    $('.download').addClass('windows').removeClass('mac').removeClass('linux');
     return false;
   });
 
 $('.oslist li#linux a').click(function() {	
-    $('#download').addClass('linux').removeClass('windows').removeClass('mac');
+    $('.download').addClass('linux').removeClass('windows').removeClass('mac');
     return false;
   });
 

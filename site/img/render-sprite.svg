@@ -123,8 +123,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="142.91179"
-     inkscape:cy="246.3879"
+     inkscape:cx="309.67242"
+     inkscape:cy="342.32483"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -132,8 +132,8 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="795"
-     inkscape:window-height="642"
+     inkscape:window-width="1398"
+     inkscape:window-height="859"
      inkscape:window-x="110"
      inkscape:window-y="40"
      inkscape:window-maximized="0"
@@ -174,7 +174,8 @@
        rx="0"
        ry="0" />
     <g
-       id="g8655">
+       id="g8655"
+       transform="translate(20,0)">
       <path
          inkscape:connector-curvature="0"
          style="color:#000000;fill:#28353d;fill-opacity:1;stroke:none;stroke-width:0.99999994;marker:none;visibility:visible;display:inline;overflow:visible;filter:url(#filter28122);enable-background:accumulate"

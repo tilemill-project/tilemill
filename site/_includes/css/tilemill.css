@@ -90,6 +90,7 @@
     margin: 0 auto 10px;
     display: block;
     }
+  .footer .cell3 { border-color: #28353D; }
   .branding .attribution { 
   width: 90px;
   left: 50px;
@@ -97,6 +98,10 @@
   margin: 0px auto;
   }
   .mobile-hide { display: none;}
+}
+
+@media only screen and (max-width: 770px) {
+  .footer .cell5.blogposts { border-color: #28353D; }
   }
 
 /* ### Footer ### */
