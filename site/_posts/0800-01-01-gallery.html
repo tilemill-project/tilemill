@@ -146,9 +146,11 @@ maps:
     <h2><%=name%></h2>
     <small>by <%=creator%></small>
   </div>
+  <% if (description || features.length) { %>
   <div class="fillD desc-box cell12">
-    <small><%=description%></small>
-   </div>
+    <h4><%=description%></h4>
+  </div>
+  <% } %>
 </script>
 
 <script>
