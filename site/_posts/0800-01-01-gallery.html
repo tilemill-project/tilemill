@@ -15,59 +15,49 @@ maps:
   description: A stylish elevation map of Iceland.
   matte: 17292d
   center: -16.9,64.7,7
-  features:
-  - Patterns
-  - Texture
-  - Custom typography
 - id: dhcole.popup
   name: Popup
   creator: Dave Cole
   description: Population density visualized in 3d.
   matte: '000000'
-- id: examples.map-4l7djmvo
-  name: MapBox Terrain
-  creator: MapBox
-  matte: 89c1dc
-  center: -122.025,36.983,12
-- id: dhcole.map-6ssdy5ac
-  name: 3D Buildings
-  creator: Dave Cole
-  description: 3D building map of New York City.
-  matte: 72b5e5
 - id: bclc-apec.map-rslgvy56
   name: Earthquake Risk Zones
   creator: PRCC Disaster Data
+  description: Earthquake risks mapped against active USAID projects in the pacific rim region.
   mattde: 313131
 - id: tmcw.shadowplay
   name: Shadow Play
   creator: Tom MacWright
+  description: 
   center: -45.00,36.95,3
   matte: '000000'
 - id: mapbox.natural-earth-2
   creator: MapBox
-  center: -130.34,52.08,4
+  description: A high-level topographic and bathymetric map.
+  center: 80,0,4
   matte: 5d8eb6
+- id: aj.Sketchy2
+  creator: AJ Ashton
+  name: Pirate Map
+  description: A distressed and stylized treasure map.
+  center: -81.52,22.187,4
+  matte: ECE3CC
 - id: tristen.city_of_toronto
   name: Toronto
   creator: Tristen Brown
   matte: 415355
 - id: villeda.simard-forests
   creator: Ian Villeda
+  description: A visualization of global tree canopy height, made with data from NASA.
   matte: '000000'
   center: -59.985,-7.471,4
-- id: villeda.dc-footprints
-  creator: Ian Villeda
-  matte: ffffff
-  center: -77.0235,38.8936,15
-- id: dhcole.dots-and-lines
-  creator: Dave Cole
-  matte: ffffff
 - id: mapbox.baltimore-retro
   creator: MapBox
   matte: ffffff
   center: -76.5987,39.2807,15
 - id: tmcw.rrrr2
   creator: Tom MacWright
+  description: Running routes and heart rate visualized on top of MapBox Streets.
   matte: 2e2532
   center: -77.0373,38.9259,14
 - id: colemanm.persia-1891
@@ -84,16 +74,6 @@ maps:
   creator: The New America Foundation
   center: -97.583,38.769,5
   matte: b7dee5
-- id: mapbox.afghanistan-winter
-  creator: MapBox
-  matte: d6d0b0
-  center: 69.1926,34.5327,10
-- id: mapbox.blue-marble-topo-bathy-jul
-  name: Blue Marble Topo
-  creator: MapBox
-  description: A high-level topographic and bathymetric map.
-  matte: 020514
-  center: -99.05,58.77,4
 - id: aj.population-fire
   creator: AJ Ashton
   matte: 080c16
@@ -138,19 +118,21 @@ maps:
   }
 
   .desc-box {
-    border-bottom: 1px solid #28353d;
     padding: 20px;
     width: 100%;
     float: left;
-  }
-  
-  .desc-box h2 {
-    margin: 0 0 5px 0;
-  }
-  .desc-box ul {
-    margin: 5px 0 5px 0;
-  }
+    border-top: 1px solid #28353d;
+    }
+    .desc-box h2 {
+      margin: 0 0 5px 0;
+      }
 
+.map-tooltip { 
+  color: #3C4E5A;
+  bottom: 30px; left: 20px; right: auto; top: auto;
+  }
+  .map-tooltip p { font: normal 12px/1.6667em Opensans,Arial,sans-serif; }
+  .map-tooltip h1, .map-tooltip h2, .map-tooltip h3, .map-tooltip h4 { font: bold 15px/1.6667em Opensans,Arial,sans-serif;}
 </style>
 
 <div id="map" class="fillE"></div>
@@ -165,13 +147,8 @@ maps:
     <small>by <%=creator%></small>
   </div>
   <div class="fillD desc-box cell12">
-    <h4><%=description%></h4>
-    <ul class="checklist">
-      <% _.each(features, function(feature) { %>
-        <li class="check"><%=feature%></li>
-      <%});%>
-    </ul>
-  </div>
+    <small><%=description%></small>
+   </div>
 </script>
 
 <script>
@@ -183,9 +160,6 @@ maps:
       {% if map.classes %}classes: '{{map.classes}}',{% endif %}
       {% if map.matte %}matte: '{{map.matte}}',{% endif %}
       {% if map.center %}center: [{{map.center}}],{% endif %}
-      {% if map.features %}
-      features: _([{% for feature in map.features %} '{{feature}}',{% endfor %} false]).compact(),
-      {% endif %}
       id: '{{map.id}}'
     },{% endfor %}
     false]).compact();
@@ -217,7 +191,6 @@ maps:
         d.prev = maps[(i - 1 + maps.length) % maps.length].id;
         d.description = d.description || tj.description || '';
         d.name = d.name || tj.name;
-        d.features = d.features || [];
         $('#mapdescription').html(template(d));
 
         $('#mapdescription a').bind('click', function(e) {
