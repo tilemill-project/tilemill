@@ -28,12 +28,26 @@ platforms:
   url: http://github.com/downloads/mapbox/tilemill/TileMill-v0.9.1-Setup.exe
 ---
 <style type='text/css'>
-#hero {min-height: 600px;}
+#hero { min-height: 600px; }
 
 #hero .tilemill-screenshot {
   background: url(img/hero-tilemill.png) 0 bottom no-repeat;
   height: 600px;
   }
+
+#hero #download .download-button {
+  display: none;
+  }
+
+  #hero #download.mac .download-button.mac {
+    display: block;
+    }
+  #hero #download.linux .download-button.linux {
+    display: block;
+    }
+  #hero #download.windows .download-button.windows {
+    display: block;
+    }
 
 .heading { height: 80px;}
   .heading h3 { 
@@ -54,6 +68,10 @@ platforms:
     .heading .icon.enrich { background-position-x:-40px; }
     .heading .icon.share  { background-position-x:-60px; }
 
+.oslist .button.big {
+float: left;
+width: 33.3333%;
+}
 /* ### Borders + special tour section layout stuff ### */
 
 .full {
@@ -156,16 +174,18 @@ platforms:
   <div class='pad3 cell7'>
     <h1>Make beautiful interactive maps</h1>
     <p>Whether you're a journalist, web designer, researcher,  or seasoned cartographer, TileMill is the design studio you need to create stunning interactive maps.</p>
-    <div class='callout download'>
-      <ul class='os-toggle'>
-        <li><a>Mac OS X</a></li>
-        <li><a>Linux</a></li>
-        <li><a>Windows</a></li>
+    <div id='download' class='callout cell5 pad3 fillE'>
+      <ul class='oslist'>
+      {% for item in page.platforms %}
+        <li id='{{item.id}}'><a href='#' class='button big'>{{item.name}}</a></li>
+      {% endfor %}
       </ul>
-      <a href='http://github.com/downloads/mapbox/tilemill/TileMill-0.9.1.zi' class='download'>
-        <div class='label'><span class='os'>Mac OS X</span>Download</div>
-        <div class='details'><span class='filename'></span>79.6 MB</div>
+      {% for item in page.platforms %}
+      <a href='{{item.url}}' class='download-button {{item.id}}'>
+        <div class='label'><span>{{item.name}}</span>Download</div>
+        <div class='details'><span class='filename'>{{item.file}}</span>{{item.size}}</div>
       </a>
+      {% endfor %}
       <small class='links'>
         <a href='#'>Upgrade notes</a>
         <a href='#'>Changelog</a>
@@ -174,6 +194,24 @@ platforms:
     </div>
   </div>
   <div class='cell5 tilemill-screenshot'></div>
+
+<!-- <div class='mailchimp-subscribe fade clearfix'>
+  <h2>Downloading &hellip;</h2>
+  <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>Crash course</a> to TileMill. For news &amp; updates subscribe to our newsletter.</small>
+  <div class='ribbon' id='mc-signup'>
+    <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
+    <div class='mc-field-group clearfix'>
+      <input type='hidden' value='1' name='group[17][8]'>
+      <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
+      <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='subscribe'>
+    </div>
+    <div id='mce-responses'>
+      <div class='response' id='mce-error-response' style='display:none'></div>
+      <div class='response' id='mce-success-response' style='display:none'></div>
+    </div>
+    </form>
+  </div>
+</div> -->
 </div>
 
 <div id='manage' class='fillE'>
@@ -301,3 +339,52 @@ platforms:
 <div class='clearfix footer-actions fillE'>
   <h1>Download now</h1>
 </div>
+
+<script type='text/javascript'>
+
+document.getElementById('download').className = (function() {
+  if (navigator.appVersion.indexOf('Win') != -1) return 'windows';
+  if (navigator.appVersion.indexOf('Mac') != -1) return 'mac';
+  if (navigator.appVersion.indexOf('X11') != -1 || navigator.appVersion.indexOf('Linux') != -1) return 'linux';
+  return 'mac'; // default to Mac.
+})();
+
+$('.oslist li#mac a').click(function() {	
+    $('#download').addClass('mac').removeClass('windows').removeClass('linux');
+    return false;
+  });
+
+$('.oslist li#windows a').click(function() {	
+    $('#download').addClass('windows').removeClass('mac').removeClass('linux');
+    return false;
+  });
+
+$('.oslist li#linux a').click(function() {	
+    $('#download').addClass('linux').removeClass('windows').removeClass('mac');
+    return false;
+  });
+
+</script>
+
+<!--
+<script type='text/javascript'>
+
+$(function() {
+  $('.oslist a').click(function() {
+    document.getElementById('bleed').className = $(this).attr('href').split('#').pop();
+    return false;
+  });
+
+  $(mapbox.mailChimp);
+
+  $('.dlbox .actions a').click(function(ev) {
+    _gaq.push([
+      '_trackEvent',
+      'TileMill Download',
+      $(ev.currentTarget).attr('title')
+    ]);
+    $('#bleed').addClass('subscribe');
+  });
+});
+</script>
+-->
