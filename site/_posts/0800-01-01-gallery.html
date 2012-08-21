@@ -31,6 +31,11 @@ maps:
   description: 
   center: -45.00,36.95,3
   matte: '000000'
+- id: tmcw.rrrr2
+  creator: Tom MacWright
+  description: Running routes and heart rate visualized on top of MapBox Streets.
+  matte: 2e2532
+  center: -77.0373,38.9259,14
 - id: mapbox.natural-earth-2
   creator: MapBox
   description: A high-level topographic and bathymetric map.
@@ -39,7 +44,6 @@ maps:
 - id: aj.Sketchy2
   creator: AJ Ashton
   name: Pirate Map
-  description: A distressed and stylized treasure map.
   center: -81.52,22.187,4
   matte: ECE3CC
 - id: tristen.city_of_toronto
@@ -55,11 +59,6 @@ maps:
   creator: MapBox
   matte: ffffff
   center: -76.5987,39.2807,15
-- id: tmcw.rrrr2
-  creator: Tom MacWright
-  description: Running routes and heart rate visualized on top of MapBox Streets.
-  matte: 2e2532
-  center: -77.0373,38.9259,14
 - id: colemanm.persia-1891
   creator: Coleman McCormick
   center: 54.415,32.210,7
@@ -78,6 +77,11 @@ maps:
   creator: AJ Ashton
   matte: 080c16
   center: 1.41,47.99,4
+- id: herwig.map-olatzdh8
+  creator: Chris Herwig
+  matte: E8E8E8
+  center: -73.951,40.803,13
+  description: Stop and frisk frequency contour map of New York City
 ---
 <script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.4/mapbox.js'></script>
 <link href='http://api.tiles.mapbox.com/mapbox.js/v0.6.4/mapbox.css' rel='stylesheet' />
@@ -121,18 +125,31 @@ maps:
     padding: 20px;
     width: 100%;
     float: left;
-    border-top: 1px solid #28353d;
     }
+    .desc-box.caption { border-top: 1px solid #28353d;}
     .desc-box h2 {
       margin: 0 0 5px 0;
       }
-
+    .desc-box h2, .desc-box small {
+            animation: fadeInRight 500ms ease 500ms both;
+       -moz-animation: fadeInRight 500ms ease 500ms both;
+    -webkit-animation: fadeInRight 500ms ease 500ms both;
+    }
 .map-tooltip { 
   color: #3C4E5A;
   bottom: 30px; left: 20px; right: auto; top: auto;
   }
   .map-tooltip p { font: normal 12px/1.6667em Opensans,Arial,sans-serif; }
   .map-tooltip h1, .map-tooltip h2, .map-tooltip h3, .map-tooltip h4 { font: bold 15px/1.6667em Opensans,Arial,sans-serif;}
+  
+@media only screen and (max-width: 640px) {
+  .desc-box.caption { display: none;}
+  .desc-box h2 { white-space: nowrap;}
+  .pager-box a { height: 60px; padding: 20px; width: 50%; margin: 0;}
+  .pager-box a:first-child { border-right: 1px solid #3C4E5A;}
+  .right { top: 190px; }
+  .zoomer { top: 205px;}
+}
 </style>
 
 <div id="map" class="fillE"></div>
@@ -147,8 +164,8 @@ maps:
     <small>by <%=creator%></small>
   </div>
   <% if (description) { %>
-  <div class="fillD desc-box cell12">
-    <h4><%=description%></h4>
+  <div class="fillD desc-box caption cell12">
+    <small><%=description%></small>
   </div>
   <% } %>
 </script>
