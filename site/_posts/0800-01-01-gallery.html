@@ -146,7 +146,7 @@ maps:
     <h2><%=name%></h2>
     <small>by <%=creator%></small>
   </div>
-  <% if (description || features.length) { %>
+  <% if (description) { %>
   <div class="fillD desc-box cell12">
     <h4><%=description%></h4>
   </div>
@@ -191,7 +191,7 @@ maps:
 
         d.next = maps[(i + 1) % maps.length].id;
         d.prev = maps[(i - 1 + maps.length) % maps.length].id;
-        d.description = d.description || tj.description || '';
+        d.description = d.description;
         d.name = d.name || tj.name;
         $('#mapdescription').html(template(d));
 
