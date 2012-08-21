@@ -85,6 +85,10 @@ platforms:
   font-family: 'Opensans',Arial,sans-serif;
   text-transform: none;
   min-width: 0;
+  transition: background 500ms;
+  -moz-transition: background 500ms;
+  -webkit-transition: background 500ms;
+  -o-transition: background 500ms;
   }
   .download ul.oslist li:last-child .button.big { border-right: none; }
   .download ul.oslist li#mac .button.big { border-radius: 4px 0 0 4px;}
@@ -109,16 +113,21 @@ platforms:
   .download.windows .download-button.windows {
     display: block;
     }
-  .download-button small, .download-button h3 { color: white;}
+  .download-button small, .download-button h3 { 
+    color: white;
+            animation: fadeIn 500ms ease 100ms both;
+       -moz-animation: fadeIn 500ms ease 100ms both;
+    -webkit-animation: fadeIn 500ms ease 100ms both;
+    }
   .download-button h3 { 
     text-shadow: rgba(0,0,0,0.2) 0px -1px;
     margin-bottom: 0;
     }
   .download-button .details { 
-    background: #3887be;
     border: 1px solid #3887be;
     border-right: none;
     border-radius: 0 4px 4px 0;
+    background-color:#3887BE;
     }
       .download-button:hover .details { 
       background: #3bb2d0;
