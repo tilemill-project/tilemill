@@ -262,18 +262,17 @@ platforms:
 /* ### MailChimp ### */
 .download .mailchimp-subscribe {
   opacity: 0;
-  height: 0;
-  left:0px;
-  right:0px;
-  top:0px;
-  z-index:-1000;
+  display: none;
   }
 .download .mailchimp-subscribe .cell6:first-child { padding-right: 10px; }
 .download .mailchimp-subscribe .cell6:last-child { padding-left: 10px; }
 .download .mailchimp-subscribe .cell6 small {margin-bottom: 10px; }
 
 .download.subscribe .mailchimp-subscribe { 
-  z-index:1000; opacity:1; height: auto; 
+  opacity:1;
+  display: block;
+  height: auto;
+  margin-bottom: 20px;
   animation: fadeIn 500ms ease 500ms both;
   -moz-animation: fadeIn 500ms ease 500ms both;
   -webkit-animation: fadeIn 500ms ease 500ms both;  
@@ -342,7 +341,7 @@ platforms:
     </a>
     {% endfor %}
 
-    <div class='mailchimp-subscribe cell12'>
+    <div class='mailchimp-subscribe cell12 clearfix'>
       <div class='cell6'>
         <h3>Downloading&hellip;</h3>
         <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
@@ -519,7 +518,7 @@ platforms:
     </a>
     {% endfor %}
 
-    <div class='mailchimp-subscribe cell12'>
+    <div class='mailchimp-subscribe cell12 clearfix'>
       <div class='cell6'>
         <h3>Downloading&hellip;</h3>
         <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
