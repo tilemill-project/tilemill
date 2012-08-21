@@ -117,7 +117,7 @@ view.prototype.makeStylesheet = function(model) {
             _.debounce(self.colors, 500);
         },
         onGutterClick: _(function(editor, line, ev) {
-            if (model.errors[line]) {
+            if (model.errors && model.errors[line]) {
                 this.$('.status').addClass('active');
                 this.$('.status .content').text(model.errors[line]);
                 return false;
