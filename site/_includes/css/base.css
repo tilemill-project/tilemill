@@ -512,7 +512,7 @@ img.centered,
   }
 
 /* ### MailChimp Newsletter Signup ### */
-.footer .mc-field-group {
+#mc-signup .mc-field-group {
   width:150px;
   white-space:nowrap;
   box-shadow:rgba(0,0,0,0.05) 0px 0px 0px 5px;
@@ -521,30 +521,30 @@ img.centered,
   margin-top: 20px;
   }
 
-.footer .mc-field-group .field-wrapper,
-.footer .mc-field-group .button { float:left; }
+#mc-signup .mc-field-group .field-wrapper,
+#mc-signup .mc-field-group .button { float:left; }
 
-.footer .mc-field-group .field-wrapper,
-.footer .mc-field-group input[type=text] {
+#mc-signup .mc-field-group .field-wrapper,
+#mc-signup .mc-field-group input[type=text] {
   width:110px;
   height:40px;
   }
 
-.footer .mc-field-group input[type=text] {
+#mc-signup .mc-field-group input[type=text] {
   padding:10px 5px;
   -webkit-appearance: none;
-  border-radius:0;
+  border-radius:4px 0 0 4px;
   }
 
-.footer .mc-field-group label.error {
+#mc-signup .mc-field-group label.error {
   margin:5px;
   font-size:10px;
   line-height:10px;
   }
 
-.footer .mc-field-group .button,
-.footer .mc-field-group .button:hover,
-.footer .mc-field-group .button:active {
+#mc-signup .mc-field-group .button,
+#mc-signup .mc-field-group .button:hover,
+#mc-signup .mc-field-group .button:active {
   /* IE8 doesn't seem to calculate the width of border-box accurately
    * to submit button elements. Easy enough to switch back to support. */
   box-sizing:content-box;
@@ -559,10 +559,8 @@ img.centered,
   border-radius:0px 4px 4px 0px;
   }
 
-.footer .mc-field-group .button:hover,
-.footer .mc-field-group .button:active { border-color:#3bb2d0; }
-
-.footer #mc-embedded-subscribe { background-position-y: -141px; }
+#mc-signup .mc-field-group .button:hover,
+#mc-signup .mc-field-group .button:active { border-color:#3bb2d0; }
 
 /* ### Twitter follow ### */
 .footer .button.follow,

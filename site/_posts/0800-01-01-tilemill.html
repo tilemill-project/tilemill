@@ -142,7 +142,9 @@ platforms:
     border-radius: 4px 0 0 4px;
     }
   .download-button:hover .label { border-color: #3bb2d0; }
-
+  .download-button:active .details {
+    box-shadow: inset rgba(0,0,0,0.4) 0px 1px 3px, inset rgba(0,0,0,0.1) 0px -20px 20px -10px;
+    }
 .download-button .instructions { 
   display: none;
   position: absolute;
@@ -160,6 +162,7 @@ platforms:
   padding: 20px;
   display: block;
   border-radius: 4px;
+  box-shadow: 0 0 35px 0px rgba(0,0,0,.5);
   transition: opacity 500ms;
   -moz-transition: opacity 500ms;
   -webkit-transition: opacity 500ms;
@@ -257,26 +260,22 @@ platforms:
 .footer-actions h1{ padding-bottom: 0;}
 
 /* ### MailChimp ### */
-
-#hero .mailchimp-subscribe,
-#hero .dlbox {
-  padding:20px;
-  height:50px;
-  color:#fff;
-  background:#333 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
-  border-radius:5px 5px 0px 0px;
-  }
-
-#hero .mailchimp-subscribe {
+.download .mailchimp-subscribe {
+  opacity: 0;
   position:absolute;
   left:0px;
   right:0px;
   top:0px;
   z-index:-1000;
   }
+.download .mailchimp-subscribe .cell6:first-child { padding-right: 10px; }
+.download .mailchimp-subscribe .cell6:last-child { padding-left: 10px; }
+.download .mailchimp-subscribe .cell6 small {margin-bottom: 10px; }
 
-#hero.subscribe .mailchimp-subscribe { z-index:1000; opacity:1; }
+.download.subscribe .mailchimp-subscribe { z-index:1000; opacity:1; }
+.footer-actions .download .mailchimp-subscribe {top: -80px; height: 300px;}
 
+#hero .download.subscribe .download-button { display: none;}
 
 @media only screen and (max-width: 640px) {
   #hero { min-height: inherit; padding-bottom: 0;}
@@ -336,28 +335,40 @@ platforms:
       <div class='instructions'><small><span class='arrow'></span>{{item.help}}</small></div>
     </a>
     {% endfor %}
+
+    <div class='mailchimp-subscribe clearfix callout cell12 pad3 fillE'>
+      <div class='cell6'>
+        <h3>Downloading&hellip;</h3>
+        <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.</small>
+        <small class='links'>
+          <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>
+        </small>
+      </div>
+      <div class='cell6'>
+        <h3>Newsletter</h3>
+        <small>For news &amp; updates subscribe now:</small>
+        <!-- Begin MailChimp Signup Form -->
+        <div id='mc-signup'>
+          <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
+            <div class='mc-field-group clearfix'>
+              <input type='hidden' value='1' name='group[7417][2]'>
+              <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
+              <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='button big icon reverse mail'><span class='reverse mail'></span>
+            </div>
+            <div id='mce-responses'>
+              <div class='response' id='mce-error-response' style='display:none'></div>
+              <div class='response' id='mce-success-response' style='display:none'></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  
     <small class='links'>
       <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>
     </small>
-  </div>
 
-<!-- <div class='mailchimp-subscribe fade clearfix'>
-  <h2>Downloading &hellip;</h2>
-  <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>Crash course</a> to TileMill. For news &amp; updates subscribe to our newsletter.</small>
-  <div class='ribbon' id='mc-signup'>
-    <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
-    <div class='mc-field-group clearfix'>
-      <input type='hidden' value='1' name='group[17][8]'>
-      <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
-      <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='subscribe'>
-    </div>
-    <div id='mce-responses'>
-      <div class='response' id='mce-error-response' style='display:none'></div>
-      <div class='response' id='mce-success-response' style='display:none'></div>
-    </div>
-    </form>
   </div>
-</div> -->
 </div>
 
 <div id='manage' class='fillE'>
@@ -503,6 +514,35 @@ platforms:
       <div class='instructions'><small><span class='arrow'></span>{{item.help}}</small></div>
     </a>
     {% endfor %}
+
+    <div class='mailchimp-subscribe clearfix callout cell12 pad3 fillE'>
+      <div class='cell6'>
+        <h3>Downloading&hellip;</h3>
+        <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.</small>
+        <small class='links'>
+          <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>
+        </small>
+      </div>
+      <div class='cell6'>
+        <h3>Newsletter</h3>
+        <small>For news &amp; updates subscribe now:</small>
+        <!-- Begin MailChimp Signup Form -->
+        <div id='mc-signup'>
+          <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
+            <div class='mc-field-group clearfix'>
+              <input type='hidden' value='1' name='group[7417][2]'>
+              <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
+              <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='button big icon reverse mail'><span class='reverse mail'></span>
+            </div>
+            <div id='mce-responses'>
+              <div class='response' id='mce-error-response' style='display:none'></div>
+              <div class='response' id='mce-success-response' style='display:none'></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <small class='links'>
       <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>
     </small>
@@ -533,27 +573,13 @@ $('.oslist li#linux a').click(function() {
     return false;
   });
 
-</script>
-
-<!--
-<script type='text/javascript'>
-
-$(function() {
-  $('.oslist a').click(function() {
-    document.getElementById('bleed').className = $(this).attr('href').split('#').pop();
-    return false;
-  });
-
   $(mapbox.mailChimp);
-
-  $('.dlbox .actions a').click(function(ev) {
+  $('.download-button').click(function(ev) {
     _gaq.push([
       '_trackEvent',
       'TileMill Download',
       $(ev.currentTarget).attr('title')
     ]);
-    $('#bleed').addClass('subscribe');
+    $('.download').addClass('subscribe');
   });
-});
 </script>
--->
