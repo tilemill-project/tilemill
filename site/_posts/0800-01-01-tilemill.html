@@ -262,7 +262,7 @@ platforms:
 /* ### MailChimp ### */
 .download .mailchimp-subscribe {
   opacity: 0;
-  position:absolute;
+  height: 0;
   left:0px;
   right:0px;
   top:0px;
@@ -272,10 +272,17 @@ platforms:
 .download .mailchimp-subscribe .cell6:last-child { padding-left: 10px; }
 .download .mailchimp-subscribe .cell6 small {margin-bottom: 10px; }
 
-.download.subscribe .mailchimp-subscribe { z-index:1000; opacity:1; }
-.footer-actions .download .mailchimp-subscribe {top: -80px; height: 300px;}
+.download.subscribe .mailchimp-subscribe { 
+  z-index:1000; opacity:1; height: auto; 
+  animation: fadeIn 500ms ease 500ms both;
+  -moz-animation: fadeIn 500ms ease 500ms both;
+  -webkit-animation: fadeIn 500ms ease 500ms both;  
+  }
 
-#hero .download.subscribe .download-button { display: none;}
+#hero .download.subscribe .download-button,
+#hero .download.subscribe ul.oslist,
+.footer-actions .download.subscribe .download-button,
+.footer-actions .subscribe ul.oslist { display: none;}
 
 @media only screen and (max-width: 640px) {
   #hero { min-height: inherit; padding-bottom: 0;}
@@ -307,7 +314,6 @@ platforms:
     border-top: 1px solid #28353D;
   }
 }
-
 </style>
 
 <div id='hero' class='clearfix'>
@@ -336,12 +342,10 @@ platforms:
     </a>
     {% endfor %}
 
-    <div class='mailchimp-subscribe clearfix callout cell12 pad3 fillE'>
+    <div class='mailchimp-subscribe cell12'>
       <div class='cell6'>
         <h3>Downloading&hellip;</h3>
-        <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.</small>
-        <small class='links'>
-          <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>
+        <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
         </small>
       </div>
       <div class='cell6'>
@@ -515,12 +519,10 @@ platforms:
     </a>
     {% endfor %}
 
-    <div class='mailchimp-subscribe clearfix callout cell12 pad3 fillE'>
+    <div class='mailchimp-subscribe cell12'>
       <div class='cell6'>
         <h3>Downloading&hellip;</h3>
-        <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.</small>
-        <small class='links'>
-          <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>
+        <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
         </small>
       </div>
       <div class='cell6'>
