@@ -542,6 +542,8 @@ img.centered,
   line-height:10px;
   }
 
+#mc-signup .mc-field-group .response { margin-top: 10px; }
+
 #mc-signup .mc-field-group .button,
 #mc-signup .mc-field-group .button:hover,
 #mc-signup .mc-field-group .button:active {

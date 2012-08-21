@@ -3,16 +3,13 @@ layout: docs
 section: help
 category: crashcourse
 tag: Crash&nbsp;course
-title: "TileMill and GIS"
+title: "2. TileMill and GIS"
 permalink: /docs/crashcourse/tilemill-gis
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "[Reviewed](/tilemill/docs/crashcourse/introduction/) the Crash Course introduction."
 nextup:
 - "[Import data](/tilemill/docs/crashcourse/point-data) into a TileMill project."
-- "[Style](/tilemill/docs/crashcourse/styling/) your point data."
-- "[Add tooltips and a legend](/tilemill/docs/crashcourse/tooltips/) to your map."
-- "[Export your map](/tilemill/docs/crashcourse/exporting/) to MBTiles format"
 ---
 
 {% include prereq.html %}
