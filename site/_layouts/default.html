@@ -45,7 +45,7 @@ footer:
 
   <div class='branding pad3h clearfix fillE'>
     <div class='cell6 logos'>
-      <a id='tilemill-logo' class='logo' href='{{site.url}}/'>TileMill</a>
+      <a id='tilemill-logo' class='logo' href='{{site.baseurl}}/'>TileMill</a>
       <small class='attribution'><span class='mobile-hide'>an open source project</span> by <a href='http://mapbox.com/' class='small-mapbox'>MapBox</a></small>
     </div>
     <ul class='menu cell6'>
@@ -53,7 +53,7 @@ footer:
       {% if item.path contains 'http' %}
         {% capture url %}{{item.path}}{% endcapture %}
       {% else %}
-        {% capture url %}{{site.url}}{{site.baseurl}}{{item.path}}/{% endcapture %}
+        {% capture url %}{{site.baseurl}}{{item.path}}/{% endcapture %}
       {% endif %}
       {% if item.category contains page.category or item.category contains page.section or item.path == page.url %}
         {% capture class %}{{item.class}} active{% endcapture %}
@@ -114,7 +114,7 @@ footer:
         {% if item.path contains 'http' %}
         {{ item.path }}
         {% else %}
-        {{site.url}}{{site.baseurl}}{{item.path}}/
+        {{site.baseurl}}{{item.path}}/
         {% endif %}'>{{item.title}}</a>
       {% endfor %}
     </div>

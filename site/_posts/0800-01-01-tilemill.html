@@ -116,9 +116,9 @@ platforms:
     }
   .download-button small, .download-button h3 { 
     color: white;
-            animation: fadeIn 500ms ease 100ms both;
-       -moz-animation: fadeIn 500ms ease 100ms both;
-    -webkit-animation: fadeIn 500ms ease 100ms both;
+            animation: fadeIn 500ms ease 250ms both;
+       -moz-animation: fadeIn 500ms ease 250ms both;
+    -webkit-animation: fadeIn 500ms ease 250ms both;
     }
   .download-button h3 { 
     text-shadow: rgba(0,0,0,0.2) 0px -1px;
@@ -255,6 +255,28 @@ platforms:
   #share .illustration.mapbox { background-position: -410px -40px;}
 
 .footer-actions h1{ padding-bottom: 0;}
+
+/* ### MailChimp ### */
+
+#hero .mailchimp-subscribe,
+#hero .dlbox {
+  padding:20px;
+  height:50px;
+  color:#fff;
+  background:#333 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
+  border-radius:5px 5px 0px 0px;
+  }
+
+#hero .mailchimp-subscribe {
+  position:absolute;
+  left:0px;
+  right:0px;
+  top:0px;
+  z-index:-1000;
+  }
+
+#hero.subscribe .mailchimp-subscribe { z-index:1000; opacity:1; }
+
 
 @media only screen and (max-width: 640px) {
   #hero { min-height: inherit; padding-bottom: 0;}

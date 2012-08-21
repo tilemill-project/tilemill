@@ -60,30 +60,6 @@
   }
 .branding .menu li a {color: white;}
 
-.forkme {
-  position: absolute;
-  z-index: 1000;
-  right: 0px;
-  top: 0;
-  line-height: 20px;
-  font-size: 12px;
-  white-space: nowrap;
-  transition: right 100ms;
-  -webkit-transition: right 100ms;
-  }
-  .forkme a {
-    text-align: center;
-    float: left;
-    overflow: hidden;
-    min-width: 159px;
-    padding: 5px 10px 5px 5px;
-    height: 30px;
-    background: #3c4e5a;
-    color: white;
-    border-radius: 0px 0px 0px 4px;
-    }
-    .forkme a:hover { background: #3BB2D0;}
-
 @media only screen and (max-width: 640px) {
   .branding { padding-bottom:10px;}
   .branding .logo { 
