@@ -66,6 +66,7 @@ platforms:
   }
 
 .download {
+  position: relative;
   animation: fadeIn 500ms ease 1000ms both;
   -moz-animation: fadeIn 500ms ease 1000ms both;
   -webkit-animation: fadeIn 500ms ease 1000ms both;
@@ -140,6 +141,42 @@ platforms:
     border-radius: 4px 0 0 4px;
     }
   .download-button:hover .label { border-color: #3bb2d0; }
+
+.download-button .instructions { 
+  display: none;
+  position: absolute;
+  right: -140px;
+  width: 160px;
+  top: 70px;
+  }
+  .download-button:hover .instructions { 
+    display: block;
+    }
+  .download-button .instructions small { 
+  color: #3C4E5A;
+  background: white;
+  opacity: 0;
+  padding: 20px;
+  display: block;
+  border-radius: 4px;
+  transition: opacity 500ms;
+  -moz-transition: opacity 500ms;
+  -webkit-transition: opacity 500ms;
+  -o-transition: opacity 500ms;
+  }
+  .download-button:hover .instructions small { opacity: 1;}
+  .download-button .instructions .arrow { 
+    width: 0; 
+    height: 0; 
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent; 
+    border-right:10px solid white;
+    position: absolute;
+    left: -10px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    }
 /* ### Borders + special tour section layout stuff ### */
 
 .full {
@@ -227,6 +264,9 @@ platforms:
   .download { display: none;}
   .footer-actions { display: none;}
   .full > .cell6 { min-height: inherit;}
+  .full > .cell6:last-child { border-top: 1px solid #28353D;}
+  .fillE .full > .cell6:last-child { border-color: #3C4E5A;}
+  .full.single > .cell6:last-child { border-top: none;}
   .full:before { display: none;}
   .illustration {
     margin: 0 auto 30px;
@@ -270,12 +310,12 @@ platforms:
         <small class='filename'>{{item.file}}</small>
         <h3 class='label-title'>{{item.size}}</h3>
       </div>
+      <div class='instructions'><small><span class='arrow'></span>{{item.help}}</small></div>
     </a>
     {% endfor %}
     <small class='links'>
       <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>
     </small>
-    <div class='instructions'></div>
   </div>
 
 <!-- <div class='mailchimp-subscribe fade clearfix'>
@@ -421,7 +461,7 @@ platforms:
 
 <div class='clearfix footer-actions fillE'>
   <h1 class='pad3 centered'>Download now</h1>
-    <div class='download callout margin3 cell6 pad3 fillE'>
+    <div class='download callout margin3 cell6 pad3'>
     <ul class='oslist clearfix'>
     {% for item in page.platforms %}
       <li id='{{item.id}}'><a href='#' class='button big'>{{item.name}}</a></li>
@@ -437,12 +477,12 @@ platforms:
         <small class='filename'>{{item.file}}</small>
         <h3 class='label-title'>{{item.size}}</h3>
       </div>
+      <div class='instructions'><small><span class='arrow'></span>{{item.help}}</small></div>
     </a>
     {% endfor %}
     <small class='links'>
       <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>
     </small>
-    <div class='instructions'></div>
   </div>
 </div>
 
