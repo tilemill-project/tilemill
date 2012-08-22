@@ -1,0 +1,83 @@
+/* ### General Styles ### */
+
+.wrapper * {
+  box-sizing: border-box;
+  -moz-box-sizing:border-box;
+  }
+
+.wrapper { padding: 0;}
+
+
+.fillD {
+  background:#3c4e5a url(../img/dotgrid-pattern.png);
+  color:#fff;
+  box-shadow: none;
+  }
+
+.fillE {
+  background: #28353d url(../img/dotgrid-pattern.png);
+  color: #fff;
+  }
+
+/* ### Header ### */
+
+.branding .menu { display: block;}
+.branding .menu li a:hover { 
+  background: rgba(0,0,0,0.1);
+  box-shadow: rgba(0,0,0,0.1) 0px 0px 0px 5px;
+  }
+
+.branding .logos { position: relative;}
+
+.branding .attribution {
+  position: absolute;
+  left: 55px;
+  top: 45px;
+  color: white;
+  }
+  .branding .attribution .small-mapbox {
+    display: inline-block;
+    background: url(../img/tilemill-sprite.png);
+    background-position:2px -74px;
+    background-repeat:no-repeat;
+    width: 70px;
+    text-indent: -9999px;
+    overflow: hidden;
+    }
+    .branding .attribution .small-mapbox:hover { background-position-x: -78px;}
+
+.branding {
+  position: relative;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  z-index: 100;
+  }
+
+.branding .menu li {
+  margin-left: 5%;
+  width: 30%;
+  }
+.branding .menu li a {color: white;}
+
+@media only screen and (max-width: 640px) {
+  .branding { padding-bottom:10px;}
+  .branding .logo { 
+    margin: 0 auto 10px;
+    display: block;
+    }
+  .footer .cell3 { border-color: #28353D; }
+  .branding .attribution { 
+  width: 90px;
+  left: 50px;
+  right: 0;
+  margin: 0px auto;
+  }
+  .mobile-hide { display: none;}
+}
+
+@media only screen and (max-width: 770px) {
+  .footer .cell5.blogposts { border-color: #28353D; }
+  }
+
+/* ### Footer ### */
+.footer h3 { color: white;}

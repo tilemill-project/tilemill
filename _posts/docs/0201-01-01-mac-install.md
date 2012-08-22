@@ -1,7 +1,7 @@
 ---
-section: tilemill
-layout: book
-category: TileMill
+section: help
+layout: docs
+category: installation
 tag: Installation
 title: Installing
 permalink: /docs/mac-install

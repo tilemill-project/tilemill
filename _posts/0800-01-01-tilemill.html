@@ -1,8 +1,9 @@
 ---
-layout: product
+layout: default
 section: tilemill
 category: homepage
 title: TileMill
+class: fillD box
 description: Design beautiful maps
 permalink: /
 platforms:
@@ -13,7 +14,7 @@ platforms:
   size: 79.6 MB
   url: http://github.com/downloads/mapbox/tilemill/TileMill-0.9.1.zip
 - id: linux
-  name: Ubuntu Linux
+  name: Linux
   help: Run <code>sudo ./install-tilemill.sh</code><br/>to install packages.
   help: Extract this archive and double-click<br/>on <code>install-tilemill.sh</code>.
   file: install-tilemill.tar.gz
@@ -26,369 +27,610 @@ platforms:
   size: 89.4 MB
   url: http://github.com/downloads/mapbox/tilemill/TileMill-v0.9.1-Setup.exe
 ---
-<style>
+<style type='text/css'>
+#hero { min-height:660px; }
 
-img.envelope {
-  background: transparent;
-  width: 40px;
-  height: 40px;
-  display: block;
+#hero .tilemill-screenshot {
+  background:url({{site.baseurl}}/img/hero-tilemill.png) 0 bottom no-repeat;
+  height:660px;
+  float:right;
+  -webkit-animation:fadeIn 500ms ease 1500ms both;
+     -moz-animation:fadeIn 500ms ease 1500ms both;
+          animation:fadeIn 500ms ease 1500ms both;
+  }
+
+.heading { height: 80px;}
+  .heading h3 {
+    display: inline-block;
+    padding: 10px;
+    margin-top: 20px;
+    width: 160px;
+    color: white;
+    }
+  .heading .icon {
+    background-image:url({{site.baseurl}}/img/tilemill-sprite.png);
+    background-position-y: -110px;
+    margin-right: 2px;
+    }
+    .heading .icon.manage { background-position-x:0; }
+    .heading .icon.render { background-position-x:-20px; }
+    .heading .icon.enrich { background-position-x:-40px; }
+    .heading .icon.share  { background-position-x:-60px; }
+
+#hero .intro {
+  padding-bottom: 20px;
+  -webkit-animation:fadeInRight 500ms ease 500ms both;
+     -moz-animation:fadeInRight 500ms ease 500ms both;
+          animation:fadeInRight 500ms ease 500ms both;
+  }
+
+.download {
+  position: relative;
+  -webkit-animation:fadeIn 500ms ease 1000ms both;
+     -moz-animation:fadeIn 500ms ease 1000ms both;
+          animation:fadeIn 500ms ease 1000ms both;
+  }
+.download ul.oslist {
+  box-shadow:rgba(0,0,0,0.05) 0 0 0 5px;
+  border-radius:4px;
+  }
+.download ul.oslist li .button.big {
+  float: left;
+  width: 33.3333%;
+  border-radius: 0;
+  background: #3c4e5a;
+  border-right: 1px solid #28353d;
+  box-shadow: none;
+  font-size: 12px;
+  font-family: 'Opensans',Arial,sans-serif;
+  text-transform: none;
+  min-width: 0;
+  transition: background 500ms;
+  -moz-transition: background 500ms;
+  -webkit-transition: background 500ms;
+  -o-transition: background 500ms;
+  }
+  .download ul.oslist li:last-child .button.big { border-right: none; }
+  .download ul.oslist li#mac .button.big { border-radius: 4px 0 0 4px;}
+  .download ul.oslist li#windows .button.big { border-radius: 0 4px 4px 0;}
+
+.download.mac ul.oslist li#mac .button.big{ background: #597486;}
+.download.linux ul.oslist li#linux .button.big{ background: #597486;}
+.download.windows ul.oslist li#windows .button.big{ background: #597486;}
+
+.download-button {
+  margin: 20px 0;
+  border-radius: 4px;
+  box-shadow: rgba(0,0,0,0.05) 0px 0px 0px 5px;
+  display: none;
+  }
+  .download.mac .download-button.mac {
+    display: block;
+    }
+  .download.linux .download-button.linux {
+    display: block;
+    }
+  .download.windows .download-button.windows {
+    display: block;
+    }
+  .download-button small, .download-button h3 {
+    color: white;
+            animation: fadeIn 500ms ease 250ms both;
+       -moz-animation: fadeIn 500ms ease 250ms both;
+    -webkit-animation: fadeIn 500ms ease 250ms both;
+    }
+  .download-button h3 {
+    text-shadow: rgba(0,0,0,0.2) 0px -1px;
+    margin-bottom: 0;
+    }
+  .download-button .details {
+    border: 1px solid #3887be;
+    border-right: none;
+    border-radius: 0 4px 4px 0;
+    background-color:#3887BE;
+    white-space: nowrap;
+    }
+      .download-button:hover .details {
+      background: #3bb2d0;
+      border-color: #3bb2d0;
+      }
+  .download-button .label {
+    position: relative;
+    border: 1px solid #3175a5;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    }
+  .download-button:hover .label { border-color: #3bb2d0; }
+  .download-button:active .details {
+    box-shadow: inset rgba(0,0,0,0.4) 0px 1px 3px, inset rgba(0,0,0,0.1) 0px -20px 20px -10px;
+    }
+.download-button .instructions {
+  display: none;
   position: absolute;
-  right: 5px;
-  z-index: 2000;
-  bottom: 15px;
+  right: -140px;
+  width: 160px;
+  top: 70px;
+  }
+  .download-button:hover .instructions {
+    display: block;
+    }
+  .download-button .instructions small {
+  color: #3C4E5A;
+  background: white;
+  opacity: 0;
+  padding: 20px;
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 0 35px 0px rgba(0,0,0,.5);
+  transition: opacity 500ms;
+  -moz-transition: opacity 500ms;
+  -webkit-transition: opacity 500ms;
+  -o-transition: opacity 500ms;
+  }
+  .download-button:hover .instructions small { opacity: 1;}
+  .download-button .instructions .arrow {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right:10px solid white;
+    position: absolute;
+    left: -10px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    }
+/* ### Borders + special tour section layout stuff ### */
+
+.full {
+  position: relative;
+  border-top: 1px solid #28353D;
+  }
+  .fillE .full { border-color: #3C4E5A; }
+  .full:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    right: 50%;
+    height: 100%;
+    border-right: 1px solid #28353D;
+    z-index: 9999;
+    }
+  .fillE .full:before { border-color: #3C4E5A; }
+  .full.single:before { display: none; }
+
+/* ### Illustrations ###  */
+
+.full > .cell6 {
+  overflow: hidden;
+  position: relative;
+  min-height: 340px;
   }
 
-.content { color:#fff; }
-.content a { color:#6bc; }
-.content small { color:#ccc; }
-.content hr { background-color:#444; }
-.content .box {
-  position:relative;
-  background:#444 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
-  padding:20px;
-  margin:0px 0px 20px;
-  border-radius:5px;
-  -moz-border-radius:5px;
-  -webkit-border-radius:5px;
-  }
-.content .box.short { min-height:160px; }
-.content .box.tall { min-height:300px; }
-
-.box .more {
-  position:absolute;
-  right:10px;
-  bottom:10px;
+.illustration {
+  height: 260px;
+  width: 260px;
+  position: absolute;
+  margin-left: 50%;
   }
 
-#bleed,
-#bleed .screenshot {
-  border-radius:5px;
-  height:480px;
-  width:960px;
-  position:relative;
-  overflow:hidden;
-  background:#444;
-  margin:0px auto 40px;
+.single .illustration {
+  width: 450px;
+  height: 280px;
+  right: 20px;
   }
 
-#bleed .screenshot {
-  background:url({{site.baseurl}}/assets/pages/screenshot.jpg) 0px 100% no-repeat;
-  position:absolute;
-  top:0px;
-  left:0px;
-  right:0px;
-  bottom:0px;
-  opacity:0;
-  transition:all 500ms linear;
-  -moz-transition:all 500ms linear;
-  -webkit-transition:all 500ms linear;
+.illo-container {
+  height: 380px;
   }
 
-#bleed.mac .screenshot.mac,
-#bleed.linux .screenshot.linux,
-#bleed.windows .screenshot.windows {
-  z-index:100;
+#manage .illustration {
+  background:url({{site.baseurl}}/img/manage-sprite.png) 0 20px no-repeat;
+  }
+   #manage .illustration.browse { background-position: 0 -280px;}
+   #manage .illustration.raster { background-position: -280px -280px;}
+
+#render .illustration {
+  background:url({{site.baseurl}}/img/render-sprite.png) 0 20px no-repeat;
+  }
+   #render .illustration.textures { background-position: 0 -280px; }
+        #render .illustration.svg { background-position: -280px -280px;}
+  #render .illustration.carto {
+    background-position: 0 -540px;
+    width: 480px;
+    height: 380px;
+    }
+
+#enrich .illustration {
+  background:url({{site.baseurl}}/img/enrich-sprite.png) 0 0 no-repeat;
+  }
+  #enrich .illustration.embed { background-position: -280px 0;}
+
+#share .illustration {
+  background:url({{site.baseurl}}/img/share-sprite.png) 0 0 no-repeat;
+  }
+  #share .illustration.publish {
+  height: 100%;
+  width: 380px;
+  top: 0;
+  }
+  #share .illustration.mapbox { background-position: -410px -40px;}
+
+#open-source .illustration.github {
+  background:url({{site.baseurl}}/img/open-source.png) 0 0 no-repeat;
+  width: 480px;
+  height: 380px;
+  }
+
+.footer-actions h1{
+  border-top: 1px solid #3C4E5A;
+  padding-bottom: 0;}
+
+/* ### MailChimp ### */
+.download .mailchimp-subscribe {
+  opacity: 0;
+  display: none;
+  }
+.download .mailchimp-subscribe .cell6:first-child { padding-right: 10px; }
+.download .mailchimp-subscribe .cell6:last-child { padding-left: 10px; }
+.download .mailchimp-subscribe .cell6 small {margin-bottom: 10px; }
+
+.download.subscribe .mailchimp-subscribe {
   opacity:1;
+  display: block;
+  height: auto;
+  margin-bottom: 20px;
+  animation: fadeIn 500ms ease 500ms both;
+  -moz-animation: fadeIn 500ms ease 500ms both;
+  -webkit-animation: fadeIn 500ms ease 500ms both;
   }
 
-#bleed .screenshot.mac { background-image:url({{site.baseurl}}/assets/pages/screenshot-mac.jpg); }
-#bleed .screenshot.linux { background-image:url({{site.baseurl}}/assets/pages/screenshot-linux.jpg); }
-#bleed .screenshot.windows { background-image:url({{site.baseurl}}/assets/pages/screenshot-windows.jpg); }
+#hero .download.subscribe .download-button,
+#hero .download.subscribe ul.oslist,
+.footer-actions .download.subscribe .download-button,
+.footer-actions .subscribe ul.oslist { display: none;}
 
-#bleed .mailchimp-subscribe,
-#bleed .dlbox {
-  padding:20px;
-  height:50px;
-  color:#fff;
-  background:#333 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
-  border-radius:5px 5px 0px 0px;
-  }
+@media
+only screen and (max-width: 640px) {
+  #hero { min-height: inherit; padding-bottom: 0;}
+  #hero .tilemill-screenshot {
+    height: 320px;
+    background-position-y: top;
+    }
+  .download { display: none;}
+  .footer-actions { display: none;}
+  .full > .cell6 { min-height: inherit;}
+  .full > .cell6:last-child { border-top: 1px solid #28353D;}
+  .fillE .full > .cell6:last-child { border-color: #3C4E5A;}
+  .full.single > .cell6:last-child { border-top: none;}
+  .full:before { display: none;}
+  .illustration {
+    margin: 0 auto 30px;
+    position: relative;
+    }
+  .single .illustration {
+    right: 0;
+    margin-bottom: 20px;
+    }
+  #share .illustration.publish {
+    height: 260px;
+    margin-top: -40px;
+    background-position-y: -420px;
+    }
+  .footer .cell3:first-child {
+    border-top: 1px solid #28353D;
+    }
+}
 
-#bleed .mailchimp-subscribe {
-  position:absolute;
-  left:0px;
-  right:0px;
-  top:0px;
-  z-index:-1000;
-  }
+@media
+only screen and (-webkit-min-device-pixel-ratio : 2),
+only screen and (min-device-pixel-ratio : 2) {
+  #hero .tilemill-screenshot {
+    background-image: url({{site.baseurl}}/img/hero-tilemill@2x.png);
+    background-size: 906px 654px;
+    }
+  .heading .icon {
+    background-image:url({{site.baseurl}}/img/tilemill-sprite@2x.png);
+    background-size: 150px 130px;
+    }
+  #render .illustration {
+    background:url({{site.baseurl}}/img/render-sprite@2x.png);
+    background-size: 540px 900px;
+    }
+  #manage .illustration {
+    background-image:url({{site.baseurl}}/img/manage-sprite@2x.png);
+    background-size: 540px 540px;
+    }
+  #enrich .illustration {
+    background-image:url({{site.baseurl}}/img/enrich-sprite@2x.png);
+    background-size: 540px 260px;
+    }
+  #share .illustration {
+    background-image:url({{site.baseurl}}/img/share-sprite@2x.png);
+    background-size: 670px 690px;
+    }
+  #open-source .illustration.github {
+    background-image:url({{site.baseurl}}/img/open-source@2x.png);
+    background-size: 500px 360px;
+    }
+}
 
-#bleed.subscribe .mailchimp-subscribe { z-index:1000; opacity:1; }
-
-#bleed .ribbon {
-  border-radius:5px 0px 0px 5px;
-  background: #222 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
-  padding:10px 20px;
-  position:absolute;
-  right:0px;
-  top:10px;
-  }
-#bleed .ribbon small.label {
-  color:#fff;
-  padding:5px;
-  float:left;
-  }
-.dlbox small a { margin:0px 5px; }
-.dlbox small.oslist {
-  padding-right:10px;
-  border-right:1px solid #555;
-  display:inline-block;
-  }
-.dlbox small.links {
-  padding-left:10px;
-  display:inline-block;
-  }
-
-#mc-signup #mce-error-response,
-#mc-signup #mce-success-response {
-  border-radius:5px 0px 0px 5px;
-  background: #222 url({{site.baseurl}}/assets/pages/bg-dot-rev.png) 50% 0% repeat;
-  padding:12px 20px 13px;
-  height:45px;
-  line-height:15px;
-  overflow:hidden;
-  position:absolute;
-  right:0px;
-  top:0px;
-  left:0px;
-  bottom:0px;
-  font-size:12px;
-  }
-
-#bleed form { padding:10px 0px; }
-#bleed form div { display:inline; }
-#bleed form label { position:absolute; }
-#bleed form input { vertical-align:middle; }
-
-.img100x120 {
-  display:block;
-  width:100px;
-  height:120px;
-  border-radius:5px;
-  margin:0px 0px 20px;
-  background:url({{site.baseurl}}/assets/pages/tilemill.jpg) 100px 120px no-repeat;
-  }
-
-.img160x100 {
-  display:block;
-  width:160px;
-  height:100px;
-  margin:0px 0px 20px;
-  background:url({{site.baseurl}}/assets/pages/tilemill.jpg) 160px 100px no-repeat;
-  }
-
-.img400x160 {
-  display:block;
-  width:400px;
-  height:160px;
-  margin:0px 0px 20px;
-  background:url({{site.baseurl}}/assets/pages/tilemill.jpg) 400px 160px no-repeat;
-  }
-
-.img0 { background-position:0px 0px; }
-.img1 { background-position:-170px 0px; }
-.img2 { background-position:-340px 0px; }
-.img3 { background-position:-510px 0px; }
-.img4 { background-position:0px -110px; }
-.img5 { background-position:-170px -110px; }
-.img6 { background-position:-340px -110px; }
-.img7 { background-position:-510px -110px; }
-.img8 { background-position:0px -220px; }
-.img9 { background-position:0px -390px; }
-.imga { background-position:-460px -220px; }
-.imgb { background-position:-570px -220px; }
-
-.img100x120.right { float:right; margin-left:20px; }
 </style>
 
-<div id='bleed' class='mac subscribe'>
-{% for item in page.platforms %}
-<div class='screenshot {{item.id}}'><div class='dlbox'>
-  <h2>Download TileMill for {{item.name}}</h2>
-  <small class='oslist'>
-    Wrong OS?
-    {% for other in page.platforms %}{% unless other.id == item.id %}
-    <a href='#{{other.id}}'>{{other.id|capitalize}}</a>
-    {% endunless%}{% endfor %}
-  </small><small class='links'>
-    <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a>
-    <a href='{{site.baseurl}}/docs/changelog/'>Changelog</a>
-  </small>
-  <div class='actions ribbon'>
-    <small class='label'>{{item.help}}</small>
-    <a class='em' href='{{item.url}}' title='{{item.name}}'>
-      <span class='icon download'></span> {{item.file}} <small>{{item.size}}</small>
+<div id='hero' class='clearfix'>
+  <div class='pad3 cell6 intro'>
+    <h1>Make beautiful interactive maps</h1>
+    <p>Whether you're a journalist, web designer, researcher,  or seasoned cartographer, TileMill is the design studio you need to create stunning interactive maps.</p>
+  </div>
+  <div class='cell6 tilemill-screenshot'></div>
+  <div class='download callout cell6 pad3 fillE'>
+    <ul class='oslist clearfix'>
+    {% for item in page.platforms %}
+      <li id='{{item.id}}'><a href='#' class='button big'>{{item.name}}</a></li>
+    {% endfor %}
+    </ul>
+    {% for item in page.platforms %}
+    <a href='{{item.url}}' class='download-button clearfix {{item.id}}'>
+      <div class='label cell5 pad1'>
+        <small>{{item.name}}</small>
+        <h3 class='label-title'>Download</h3>
+      </div>
+      <div class='details cell7 pad1'>
+        <small class='filename'>{{item.file}}</small>
+        <h3 class='label-title'>{{item.size}}</h3>
+      </div>
+      <div class='instructions'><small><span class='arrow'></span>{{item.help}}</small></div>
     </a>
-  </div>
-</div></div>
-{% endfor %}
+    {% endfor %}
 
-<div class='mailchimp-subscribe fade clearfix'>
-  <h2>Downloading &hellip;</h2>
-  <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>Crash course</a> to TileMill. For news &amp; updates subscribe to our newsletter.</small>
-  <!-- Begin MailChimp Signup Form -->
-  <div class='ribbon' id='mc-signup'>
-    <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
-    <div class='mc-field-group clearfix'>
-      <input type='hidden' value='1' name='group[17][8]'>
-      <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
-      <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='subscribe'>
+    <div class='mailchimp-subscribe cell12 clearfix'>
+      <div class='cell6'>
+        <h3>Downloading&hellip;</h3>
+        <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
+        </small>
+      </div>
+      <div class='cell6'>
+        <h3>Newsletter</h3>
+        <small>For news &amp; updates subscribe now:</small>
+        <!-- Begin MailChimp Signup Form -->
+        <div id='mc-signup'>
+          <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
+            <div class='mc-field-group clearfix'>
+              <input type='hidden' value='1' name='group[7417][2]'>
+              <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
+              <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='button big icon reverse mail'><span class='reverse mail'></span>
+            </div>
+            <div id='mce-responses'>
+              <div class='response' id='mce-error-response' style='display:none'></div>
+              <div class='response' id='mce-success-response' style='display:none'></div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div id='mce-responses'>
-      <div class='response' id='mce-error-response' style='display:none'></div>
-      <div class='response' id='mce-success-response' style='display:none'></div>
+
+    <small class='links'>
+      <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>
+    </small>
+
+  </div>
+</div>
+
+<div id='manage' class='fillE'>
+  <div class='heading centered'>
+    <h3 class='label-title'><span class='icon manage'>&nbsp;</span>Manage data</h3>
+  </div>
+  <div class='clearfix full single'>
+    <div class='cell6 pad3 float-right'>
+      <h2>Load data from a wide range of sources</h2>
+      <p>Compatible datasources include ESRI Shapefile, KML, GeoJSON, GeoTIFF, PostGIS, CSV, and SQLite. Inspect, order, and layer your sources to build complex maps.</p>
+      <a href='{{site.baseurl}}/docs/manual/interface-tour/'>Interface tour<span class='icon next blue'>&nbsp;</span></a>
     </div>
-    </form>
+    <div class='cell6 '>
+      <div class='illustration sources'></div>
+    </div>
   </div>
-  <!--End mc_embed_signup-->
-</div>
-
-</div>
-
-<div class='limiter clip'><div class='content prose'>
-
-<div class='clearfix'>
-  <p><big class='col-4'>
-  TileMill is an application for making beautiful maps. Whether you're a journalist, web designer, researcher,	 or seasoned cartographer, TileMill is the design studio you need to create compelling, interactive maps.
-  </big></p>
-
-  <div class='col-2'><div class='box short'>
-    <span class='img100x120 right imgb'></span>
-    <h3>Powered by Open Source</h3>
-    <p>TileMill is built on a suite of modern open source libraries including <a href='http://mapnik.org'>Mapnik</a>, <a href='http://nodejs.org'>node.js</a>, <a href='http://documentcloud.github.com/backbone'>backbone.js</a>, <a href='http://expressjs.com'>express</a> and <a href='http://codemirror.net'>CodeMirror</a>. Jump on <a href='http://github.com'>GitHub</a> where you can dig into the source code.</p>
-    <small class='more'><a href='http://github.com/mapbox/tilemill'>Fork me on GitHub &rarr;</a></small>
-  </div></div>
-
-  <div class='col-2'><div class='box short'>
-    <span class='img100x120 right imga'></span>
-    <h3>Mobile ready</h3>
-    <p>Every map you make in TileMill is mobile ready. By leveraging the portable, fast <a href='{{site.url}}/mbtiles-spec/'>MBTiles</a> format, each TileMill map looks and works great on the web and offline.</p>
-    <small class='more'><a href='{{site.url}}/ipad/'>MapBox for iPad &rarr;</a></small>
-  </div></div>
-</div>
-
-<hr/>
-
-<div class='clearfix'>
-  <p class='col-4'><big>
-  Working with GIS data isn't easy. That's why TileMill automates as much as possible for you &mdash; sharing data between projects, downloading and unzipping shapefiles, autodetecting projections, indexing SQLite databases &mdash; so that you can focus on making beautiful maps.
-  </big></p>
-  <div class='col-1'><div class='box tall'>
-    <span class='img160x100 img0'></span>
-    <h3>Datasources</h3>
-    <small>TileMill can read from a wide range of popular file formats and databases: ESRI Shapefile, KML, GeoJSON, GeoTIFF, PostGIS, and SQLite.</small>
-    <small class='more'><a href='{{site.baseurl}}/docs/manual/adding-layers/'>Adding layers &rarr;</a></small>
-  </div></div>
-  <div class='col-1'><div class='box tall'>
-    <span class='img160x100 img1'></span>
-    <h3>Raster support</h3>
-    <small>Show satellite terrain data or make use of your DIY weather balloon aerial photography with TileMill's raster image support.</small>
-    <small class='more'><a href='{{site.baseurl}}/docs/tutorials/terrain-data/'>Mapping terrain data &rarr;</a></small>
-  </div></div>
-  <div class='col-1'><div class='box tall'>
-    <span class='img160x100 img2'></span>
-    <h3>Feature inspection</h3>
-    <small>With a built-in data inspector, you can see details about every lake, country, or road from your datasource.</small>
-    <small class='more'><a href='{{site.baseurl}}/docs/manual/interface-tour/'>Interface tour &rarr;</a></small>
-  </div></div>
-  <div class='col-1'><div class='box tall'>
-    <span class='img160x100 img3'></span>
-    <h3>MapBox Geodata</h3>
-    <small>The built-in MapBox Geodata browser gives you access to dozens of public and open datasources of political, physical and cultural features.</small>
-    <small class='more'><a href='{{site.baseurl}}/docs/manual/mapbox-geodata/'>MapBox Geodata &rarr;</a></small>
-  </div></div>
-</div>
-
-<hr/>
-
-<div class='clearfix'>
-  <p class='col-4'><big>
-  At TileMill's core is the Mapnik rendering engine. Mapnik is a powerful, full-featured library including support for RGBA color, True Type fonts, rasters, patterns, and even SVG transforms. Leverage all of these features using the simple, elegant syntax of the CartoCSS styling language.
-  </big></p>
-  <div class='col-1'><div class='box tall'>
-    <span class='img160x100 img4'></span>
-    <h3>Patterns &amp; textures</h3>
-    <small>Stamp trees across parks, add paper creases to maps. With full alpha-channel support and the ability to add multiple layers and fills TileMill can create richly textured maps.</small>
-  </div></div>
-  <div class='col-1'><div class='box tall'>
-    <span class='img160x100 img5'></span>
-    <h3>Fonts</h3>
-    <small>Use all your TrueType, OpenType and PostScript fonts for custom map typography.</small>
-  </div></div>
-  <div class='col-1'><div class='box tall'>
-    <span class='img160x100 img6'></span>
-    <h3>SVG markers</h3>
-    <small>Use vector SVGs to make your markers smooth at any scale. Advanced SVG transforms give you the ability resize and transform your images right in TileMill.</small>
-  </div></div>
-  <div class='col-1'><div class='box tall'>
-    <span class='img160x100 img7'></span>
-    <h3>CartoCSS</h3>
-    <small>Inspired by CSS, CartoCSS gives you full control over your map design. Mixins, variables, and functions are at your fingertips in the code editor.</small>
-  </div></div>
-</div>
-
-<hr/>
-
-<div class='clearfix'>
-
-<p class='col-4'><big>
-Enrich your maps with hover tooltips and clickable pop ups. Reveal details in your data by embedding numbers, graphs, and images into your map. TileMill leverages UTF-8 grid technology allowing you to leverage interactivity for hundreds of thousands of data points while maintaining high performance.
-</big></p>
-
-<div class='col-2'><div class='box tall'>
-<span class='img400x160 img8'></span>
-<h3>UTF-8 grid technology</h3>
-<small>TileMill leverages the UTF-8 grid standard for describing interactive data for tile images. UTF-8 grid is fast, flexible, and scalable making it perfect for mapping whole countries down to to individual city blocks.</small>
-<small class='more'><a href='{{site.url}}/mbtiles-spec/utfgrid/'>Learn about UTF-8 grids &rarr;</a></small>
-</div></div>
-
-<div class='col-2'><div class='box tall'>
-<span class='img400x160 img9'></span>
-<h3>Embed graphs &amp; images</h3>
-<small>Leverage custom interaction formatters and templates to insert graphs, images, links, and other content into your maps. Interactive content can cover the full spectrum of HTML and CSS.</small>
-<small class='more'><a href='{{site.baseurl}}/docs/tutorials/google-charts/'>How to embed charts in TileMill &rarr;</a></small>
-</div></div>
-
-</div>
-
-<hr/>
-
-<div class='clearfix'>
-  <div class='col-2'>
-  <h3>I have never made a map...</h3>
-  <p>If you have ever written one line of CSS, you'll be right at home with TileMill's map styling language CartoCSS. TileMill comes with well-documented examples that illustrate the basics of layer management, feature styling, and interaction. A <a href='{{site.baseurl}}/docs/manual/'>step-by-step manual</a> can teach you everything you need to know about geodata, projections, and symbolizers.</p>
-  </div>
-  <div class='col-2'>
-  <h3>Have more questions?</h3>
-  <p>Feel free to <a href='{{site.url}}/contact/index.html'>contact us</a> with any questions regarding TileMill or map design in general.</p>
+  <div class='clearfix full'>
+    <div class='cell6 pad3'>
+      <div class='illustration browse'></div>
+      <div class='cell6'>
+        <h2>Browse public data</h2>
+        <p>Access dozens of useful public datasources with the built-in MapBox Geodata browser.</p>
+      </div>
+    </div>
+    <div class='cell6 pad3'>
+      <div class='illustration raster'></div>
+      <div class='cell6'>
+        <h2>Raster support</h2>
+        <p>Show satellite data or map your DIY weather balloon aerial photography.</p>
+      </div>
+    </div>
   </div>
 </div>
 
-</div></div>
+<div id='render'>
+  <div class='heading centered'>
+    <h3 class='label-title'><span class='icon render'>&nbsp;</span>Render + style</h3>
+  </div>
+  <div class='clearfix full single'>
+    <div class='cell6 pad3 float-right'>
+      <h2>State of the art rendering</h2>
+      <p>At TileMill's core is Mapnik, a powerful, full-featured library including support for RGBA color, True Type fonts, rasters, patterns, and even SVG transforms.</p>
+      <a href='{{site.baseurl}}/gallery/'>Map gallery<span class='icon next blue'>&nbsp;</span></a>
+    </div>
+    <div class='cell6 '>
+      <div class='illustration rendering'></div>
+    </div>
+  </div>
+  <div class='clearfix full'>
+    <div class='cell6 pad3'>
+      <div class='illustration textures'></div>
+      <div class='cell6'>
+        <h2>Textures</h2>
+        <p>With full alpha-channel support and the ability to add multiple layers and fills TileMill can create richly textured maps.</p>
+      </div>
+    </div>
+    <div class='cell6 pad3'>
+      <div class='illustration svg'></div>
+      <div class='cell6'>
+        <h2>SVG Markers</h2>
+        <p>Resize and transform scalable vector SVG markers right in TileMill.</p>
+      </div>
+    </div>
+  </div>
+  <div class='clearfix full single'>
+    <div class='cell6 pad3 float-right'>
+      <h2>Style maps with Carto</h2>
+      <p>Inspired by CSS, Carto gives you full control over design. Mixins, variables, and functions are at your fingertips in the code editor.</p>
+      <a href='{{site.baseurl}}/docs/manual/carto/'>Carto guide<span class='icon next blue'>&nbsp;</span></a>
+    </div>
+    <div class='cell6  illo-container'>
+      <div class='illustration carto'></div>
+    </div>
+  </div>
+</div>
+
+<div id='enrich' class='fillE'>
+  <div class='heading centered'>
+    <h3 class='label-title'><span class='icon enrich'>&nbsp;</span>Enrich</h3>
+  </div>
+  <div class='clearfix full'>
+    <div class='cell6 pad3'>
+      <div class='illustration interaction'></div>
+      <div class='cell6'>
+        <h2>Add interaction</h2>
+        <p>Create hover tooltips and clickable pop ups with UTF-8 grid technology.</p>
+        <a href='{{site.baseurl}}/docs/crashcourse/tooltips/'>Tooltips and legends in TileMill<span class='icon next blue'>&nbsp;</span></a>
+      </div>
+    </div>
+    <div class='cell6 pad3'>
+      <div class='illustration embed'></div>
+      <div class='cell6'>
+        <h2>Embed graphics or images</h2>
+        <p>Insert interactive graphs, images, links, and other content into your maps.</p>
+        <a href='{{site.baseurl}}/docs/tutorials/google-charts/'>Charts in TileMill<span class='icon next blue'>&nbsp;</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id='share'>
+  <div class='heading centered'>
+    <h3 class='label-title'><span class='icon share'>&nbsp;</span>Share</h3>
+  </div>
+  <div class='clearfix full'>
+    <div class='cell6 pad3'>
+      <div class='illustration publish'></div>
+      <div class='cell6'>
+        <h2>Publish to the web and mobile</h2>
+        <p>Export to the MBTiles format and every map you make in TileMill is desktop and mobile ready.</p>
+      </div>
+    </div>
+    <div class='cell6 pad3'>
+      <div class='illustration mapbox'></div>
+      <div class='cell6'>
+        <h2>Integrate with MapBox</h2>
+        <p>It's just one click to automatically render and upload maps to your MapBox account.</p>
+        <a href='http://mapbox.com/'>About MapBox<span class='icon next blue'>&nbsp;</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id='open-source'>
+  <div class='clearfix full single fillE'>
+    <div class='cell6 pad3 float-right'>
+      <h2>Powered by Open Source</h2>
+      <p>TileMill is built on a suite of open source libraries including <a href='http://mapnik.org'>Mapnik</a>, <a href='http://nodejs.org'>node.js</a>, <a href='http://documentcloud.github.com/backbone'>backbone.js</a>, <a href='http://expressjs.com'>express</a> and <a href='http://codemirror.net'>CodeMirror</a>. Visit <a href='http://github.com'>GitHub</a> and dig into the source code.</p>
+      <a href='http://github.com/mapbox/tilemill'><span class='icon blue github'>&nbsp;</span>Fork me on GitHub</a>
+    </div>
+    <div class='cell6 illo-container'>
+      <div class='illustration github'></div>
+    </div>
+  </div>
+</div>
+
+<div class='clearfix footer-actions fillE'>
+  <h1 class='pad3 centered'>Download now</h1>
+    <div class='download callout margin3 cell6 pad3'>
+    <ul class='oslist clearfix'>
+    {% for item in page.platforms %}
+      <li id='{{item.id}}'><a href='#' class='button big'>{{item.name}}</a></li>
+    {% endfor %}
+    </ul>
+    {% for item in page.platforms %}
+    <a href='{{item.url}}' class='download-button clearfix {{item.id}}'>
+      <div class='label cell5 pad1'>
+        <small>{{item.name}}</small>
+        <h3 class='label-title'>Download</h3>
+      </div>
+      <div class='details cell7 pad1'>
+        <small class='filename'>{{item.file}}</small>
+        <h3 class='label-title'>{{item.size}}</h3>
+      </div>
+      <div class='instructions'><small><span class='arrow'>&nbsp;</span>{{item.help}}</small></div>
+    </a>
+    {% endfor %}
+
+    <div class='mailchimp-subscribe cell12 clearfix'>
+      <div class='cell6'>
+        <h3>Downloading&hellip;</h3>
+        <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
+        </small>
+      </div>
+      <div class='cell6'>
+        <h3>Newsletter</h3>
+        <small>For news &amp; updates subscribe now:</small>
+        <!-- Begin MailChimp Signup Form -->
+        <div id='mc-signup'>
+          <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
+            <div class='mc-field-group clearfix'>
+              <input type='hidden' value='1' name='group[7417][2]'>
+              <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
+              <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='button big icon reverse mail'><span class='reverse mail'></span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <small class='links'>
+      <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>
+    </small>
+  </div>
+</div>
 
 <script type='text/javascript'>
-document.getElementById('bleed').className = (function() {
+
+$('.download').addClass((function() {
   if (navigator.appVersion.indexOf('Win') != -1) return 'windows';
   if (navigator.appVersion.indexOf('Mac') != -1) return 'mac';
   if (navigator.appVersion.indexOf('X11') != -1 || navigator.appVersion.indexOf('Linux') != -1) return 'linux';
   return 'mac'; // default to Mac.
-})();
+})());
 
-$(function() {
-  $('.oslist a').click(function() {
-    document.getElementById('bleed').className = $(this).attr('href').split('#').pop();
+$('.oslist li#mac a').click(function() {	
+    $('.download').addClass('mac').removeClass('windows').removeClass('linux');
+    return false;
+  });
+
+$('.oslist li#windows a').click(function() {	
+    $('.download').addClass('windows').removeClass('mac').removeClass('linux');
+    return false;
+  });
+
+$('.oslist li#linux a').click(function() {	
+    $('.download').addClass('linux').removeClass('windows').removeClass('mac');
     return false;
   });
 
   $(mapbox.mailChimp);
-
-  $('.dlbox .actions a').click(function(ev) {
+  $('.download-button').click(function(ev) {
     _gaq.push([
       '_trackEvent',
       'TileMill Download',
       $(ev.currentTarget).attr('title')
     ]);
-    $('#bleed').addClass('subscribe');
+    $('.download').addClass('subscribe');
   });
-});
 </script>

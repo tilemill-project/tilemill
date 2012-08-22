@@ -1,7 +1,7 @@
 ---
-layout: book
-section: tilemill
-category: TileMill
+layout: docs
+section: help
+category: guides
 tag: Guides
 title: "Adding color to Maki icons"
 permalink: /docs/guides/adding-colors-to-maki-icons

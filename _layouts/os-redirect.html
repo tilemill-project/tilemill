@@ -1,7 +1,8 @@
 ---
-layout: book
+layout: default
 ---
 
+<div class="fillD pad3">
 <p>
   Attempting to redirect to the page for your platform.
   If the redirect fails, pick your platform:
@@ -12,6 +13,7 @@ layout: book
   <li><a href="{{ page.redirect_mac }}">Mac</a></li>
   <li><a href="{{ page.redirect_linux }}">Linux</a></li>
 </ul>
+</div>
 
 <script type="text/javascript">
   if (navigator.appVersion.indexOf("Win") != -1) {window.location = '{{ page.redirect_win }}'}

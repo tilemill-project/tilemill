@@ -1,7 +1,7 @@
 ---
-layout: book
-section: tilemill
-category: TileMill
+layout: docs
+section: help
+category: guides
 tag: Guides
 title: "Optimizing shapefiles"
 permalink: /docs/guides/optimizing-shapefiles
