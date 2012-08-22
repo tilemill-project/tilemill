@@ -845,6 +845,7 @@ input[type=button]:hover {
 .reverse.fullscreen { background-position:-780px -140px; }
 
 .blue.next          { background-position:-600px -160px; }
+.blue.github        { background-position:-740px -160px; }
 
 /* ### Box: pager ### */
 .pager-box { background:#e4e4e4; }

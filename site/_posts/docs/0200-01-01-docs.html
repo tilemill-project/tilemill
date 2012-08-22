@@ -34,7 +34,7 @@ a.method {
   top:-5px; left:0px;
   width:60px;
   height:60px;
-  background:url('{{site.baseurl}}/img/tilemill-help-sprite.png') 60px 60px no-repeat;
+  background:url({{site.baseurl}}/img/tilemill-help-sprite.png) 60px 60px no-repeat;
   }
 
 .help-graphic.install { background-position:0px 0px; }
@@ -45,6 +45,14 @@ a.method {
 .help-graphic.guides   { background-position:-350px 0px; }
 .help-graphic.reference   { background-position:-420px 0px; }
 
+@media
+  only screen and (max-width: 640px) and (-webkit-min-device-pixel-ratio : 2),
+  only screen and (max-width: 640px) and (min-device-pixel-ratio : 2) {
+  .help-graphic {
+    background-image:url({{site.baseurl}}/img/tilemill-help-sprite@2x.png);
+    background-size:480px 60px;
+    }
+}
 </style>
 
 <h1>Overview</h1>

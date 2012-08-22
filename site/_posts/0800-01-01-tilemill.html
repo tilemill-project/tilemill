@@ -257,7 +257,7 @@ platforms:
   }
   #share .illustration.mapbox { background-position: -410px -40px;}
 
-#open-source .illustration.github { 
+#open-source .illustration.github {
   background:url({{site.baseurl}}/img/open-source.png) 0 0 no-repeat;
   width: 480px;
   height: 380px;
@@ -291,7 +291,8 @@ platforms:
 .footer-actions .download.subscribe .download-button,
 .footer-actions .subscribe ul.oslist { display: none;}
 
-@media only screen and (max-width: 640px) {
+@media
+only screen and (max-width: 640px) {
   #hero { min-height: inherit; padding-bottom: 0;}
   #hero .tilemill-screenshot { 
     height: 320px;
@@ -313,14 +314,48 @@ platforms:
     margin-bottom: 20px;
     }
   #share .illustration.publish { 
-  height: 260px;
-  margin-top: -40px;
-  background-position-y: -420px;
-  }
+    height: 260px;
+    margin-top: -40px;
+    background-position-y: -420px;
+    }
   .footer .cell3:first-child {
     border-top: 1px solid #28353D;
-  }
+    }
 }
+
+@media
+only screen and (-webkit-min-device-pixel-ratio : 2),
+only screen and (min-device-pixel-ratio : 2) {
+  #hero .tilemill-screenshot {
+    background-image: url({{site.baseurl}}/img/hero-tilemill@2x.png);
+    background-size:906px 654px;
+    }
+  .heading .icon {
+    background-image:url({{site.baseurl}}/img/tilemill-sprite@2x.png);
+    background-size:150px 130px;
+    }
+  #manage .illustration {
+    background-image:url({{site.baseurl}}/img/manage-sprite@2x.png);
+    background-size:540px 540px;
+    }
+  #render .illustration {
+    background:url({{site.baseurl}}/img/render-sprite@2x.png);
+    background-size:540px 900px;
+    }
+  #enrich .illustration {
+    background-image:url({{site.baseurl}}/img/enrich-sprite@2x.png);
+    background-size:540px 260px;
+    }
+  #share .illustration {
+    background-image:url({{site.baseurl}}/img/share-sprite@2x.png);
+    background-size:670px 690px;
+    }
+  #open-source .illustration.github {
+    background-image:url({{site.baseurl}}/img/mobile-sprite@2x.png);
+    background-size:500px 360px;
+    }
+}
+
 </style>
 
 <div id='hero' class='clearfix'>
