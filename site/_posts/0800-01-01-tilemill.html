@@ -221,7 +221,7 @@ platforms:
   right: 20px;
   }
 
-.carto-container { 
+.illo-container { 
   height: 380px;
   }
 
@@ -256,8 +256,15 @@ platforms:
   top: 0;
   }
   #share .illustration.mapbox { background-position: -410px -40px;}
+  #share .illustration.opensource { 
+    background-position: 0 -680px;
+    width: 480px;
+    height: 380px;
+    }
 
-.footer-actions h1{ padding-bottom: 0;}
+.footer-actions h1{ 
+  border-top: 1px solid #3C4E5A;
+  padding-bottom: 0;}
 
 /* ### MailChimp ### */
 .download .mailchimp-subscribe {
@@ -442,7 +449,7 @@ platforms:
       <p>Inspired by CSS, Carto gives you full control over design. Mixins, variables, and functions are at your fingertips in the code editor.</p>
       <a href='#'>Carto guide<span class='icon next blue'></span></a>
     </div>
-    <div class='cell6  carto-container'>
+    <div class='cell6  illo-container'>
       <div class='illustration carto'></div>
     </div>
   </div>
@@ -492,6 +499,16 @@ platforms:
         <p>It's just one click to automatically render and upload maps to your MapBox account.</p>
         <a href='#'>About MapBox<span class='icon next blue'></span></a>
       </div>
+    </div>
+  </div>
+  <div class='clearfix full single fillE'>
+    <div class='cell6 pad3 float-right'>
+      <h2>Powered by Open Source</h3>
+      <p>TileMill is built on a suite of open source libraries including <a href="http://mapnik.org">Mapnik</a>, <a href="http://nodejs.org">node.js</a>, <a href="http://documentcloud.github.com/backbone">backbone.js</a>, <a href="http://expressjs.com">express</a> and <a href="http://codemirror.net">CodeMirror</a>. Visit <a href="http://github.com">GitHub</a> and dig into the source code.</p>
+      <a href="http://github.com/mapbox/tilemill"><span class='icon blue github'></span>Fork me on GitHub</a>
+    </div>
+    <div class='cell6 illo-container'>
+      <div class='illustration opensource'></div>
     </div>
   </div>
 </div>
