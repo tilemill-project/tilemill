@@ -296,7 +296,7 @@ img.centered,
   }
 
 .branding .logo {
-  background:transparent url(../img/sprite.png) no-repeat 0 -60px;
+  background:transparent url(../img/tilemill-sprite.png) no-repeat 0 0;
   display:inline-block;
   vertical-align:middle;
   height:60px;

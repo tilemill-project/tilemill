@@ -28,9 +28,6 @@
   }
 
 .branding .logos { position: relative;}
-.branding .logo#tilemill-logo {
-  background: url(../img/tilemill-sprite.png) 0 0 no-repeat;
-  }
 
 .branding .attribution {
   position: absolute;
@@ -40,7 +37,9 @@
   }
   .branding .attribution .small-mapbox {
     display: inline-block;
-    background: url(../img/tilemill-sprite.png) 2px -74px no-repeat;
+    background: url(../img/tilemill-sprite.png);
+    background-position:2px -74px;
+    background-repeat:no-repeat;
     width: 70px;
     text-indent: -9999px;
     overflow: hidden;
