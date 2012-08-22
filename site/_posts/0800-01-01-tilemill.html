@@ -256,11 +256,12 @@ platforms:
   top: 0;
   }
   #share .illustration.mapbox { background-position: -410px -40px;}
-  #share .illustration.opensource { 
-    background-position: 0 -680px;
-    width: 480px;
-    height: 380px;
-    }
+
+#open-source .illustration.github { 
+  background:url({{site.baseurl}}/img/open-source.png) 0 0 no-repeat;
+  width: 480px;
+  height: 380px;
+  }
 
 .footer-actions h1{ 
   border-top: 1px solid #3C4E5A;
@@ -501,6 +502,9 @@ platforms:
       </div>
     </div>
   </div>
+</div>
+
+<div id='open-source'>
   <div class='clearfix full single fillE'>
     <div class='cell6 pad3 float-right'>
       <h2>Powered by Open Source</h3>
@@ -508,7 +512,7 @@ platforms:
       <a href="http://github.com/mapbox/tilemill"><span class='icon blue github'></span>Fork me on GitHub</a>
     </div>
     <div class='cell6 illo-container'>
-      <div class='illustration opensource'></div>
+      <div class='illustration github'></div>
     </div>
   </div>
 </div>

@@ -371,7 +371,7 @@ img.centered,
 .auth {
   position:absolute;
   z-index:1000;
-  right:40px;
+  right:0;
   top:0;
   line-height:20px;
   font-size:12px;
@@ -393,8 +393,7 @@ img.centered,
   }
   .auth a:hover { background: #3BB2D0; }
 .auth > a:first-child { border-radius:0px 0px 0px 4px; }
-.auth > a:last-child { border-radius:0px 0px 4px 0px; }
-
+.auth > a:last-child { margin-right: 0; }
 .auth a.fillL { background-color:#f8f8f8; }
 .auth a.small { min-width:59px; padding:5px 10px; }
 
@@ -443,8 +442,17 @@ img.centered,
 
 .auth.anon a,
 .auth.anon a:first-child,
-.auth.anon a:last-child { border-radius:0px 0px 4px 4px; }
+.auth.anon a:last-child { border-radius:0px 0px 0px 4px; }
 .auth.anon a { background-color:#f8f8f8; color:#444; }
+
+/* ### MapBox minibranding logo ### */
+.auth .minibrand {
+  display:inline-block;
+  width:65px; height:20px;
+  text-indent:-999px;
+  overflow:hidden;
+  background:transparent url(../img/sprite.png) no-repeat 0px -180px;
+  }
 
 @media only screen and (max-width: 640px) {
   .branding { padding-top:40px; }
@@ -561,8 +569,10 @@ img.centered,
   border-radius:0px 4px 4px 0px;
   }
 
-#mc-signup .mc-field-group .button:hover,
-#mc-signup .mc-field-group .button:active { border-color:#3bb2d0; }
+.footer .mc-field-group .button:hover,
+.footer .mc-field-group .button:active { border-color:#3bb2d0; }
+
+.footer #mc-embedded-subscribe { background-position-y: -141px; }
 
 /* ### Twitter follow ### */
 .footer .button.follow,
@@ -738,6 +748,7 @@ input[type=button]:hover {
   only screen and (-webkit-min-device-pixel-ratio : 2),
   only screen and (min-device-pixel-ratio : 2) {
   .branding .logo,
+  .auth .minibrand,
   .map-fullscreen-map .map-fullscreen,
   .map-fullscreen:active,
   .map-fullscreen,
@@ -787,6 +798,8 @@ input[type=button]:hover {
 .icon.contact       { background-position:-680px -120px; }
 .icon.search        { background-position:-700px -120px; }
 .icon.github        { background-position:-740px -120px; }
+.icon.mobile        { background-position:-760px -120px; }
+.icon.fullscreen    { background-position:-780px -120px; }
 
 .reverse.edit       { background-position:0px -140px; }
 .reverse.close      { background-position:-20px -140px; }
@@ -828,9 +841,10 @@ input[type=button]:hover {
 .reverse.contact    { background-position:-680px -140px; }
 .reverse.search     { background-position:-700px -140px; }
 .reverse.github     { background-position:-740px -140px; }
+.reverse.mobile     { background-position:-760px -140px; }
+.reverse.fullscreen { background-position:-780px -140px; }
 
 .blue.next          { background-position:-600px -160px; }
-.blue.github        { background-position:-740px -160px; }
 
 /* ### Box: pager ### */
 .pager-box { background:#e4e4e4; }
@@ -939,26 +953,24 @@ body.fullscreen .wrapper {
 /* ### Checklist styles ### */
 ul.checklist li,
 .prose ul.checklist li {
-  background:url(../img/sprite.png) -780px -120px no-repeat;
   margin:0px;
   padding-left:30px;
   list-style:none;
+  position:relative;
   }
 
-ul.checklist li *,
-.prose ul.checklist li * { margin:0px; }
-
-ul.checklist li.check,
-.prose ul.checklist li.check { background-position:-780px 0px; }
-
-ul.checklist li.hr,
-.prose ul.checklist li.hr {
-  padding:0px;
-  margin:9px 0px 10px;
-  background:transparent;
-  height:0px;
-  border-top:1px solid #ccc;
+ul.checklist li:after,
+.prose ul.checklist li:after {
+  content:'';
+  display:block;
+  position:absolute;
+  top:0px; left:0px;
+  background:url(../img/sprite.png) -160px -180px no-repeat;
+  width:20px; height:20px;
   }
+
+ul.checklist li.check:after,
+.prose ul.checklist li.check:after { background-position:-140px -180px; }
 
 /* ### Legacy ### */
 .wrapper { padding-bottom:40px; }
@@ -969,15 +981,6 @@ ul.checklist li.hr,
   margin:0px auto;
   position:relative;
   }
-
-.title {
-  position:relative;
-  border-top:1px solid #ccc;
-  padding:19px 0px 0px;
-  }
-
-.title.empty,
-.title.limiter.empty { padding:0px; }
 
 .hero {
   width:958px;
