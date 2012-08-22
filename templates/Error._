@@ -1,4 +1,0 @@
-<div class='error'>
-  <div class='empty'><%= content.toString() %></div>
-</div>
-

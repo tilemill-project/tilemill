@@ -1,6 +1,0 @@
-{
-    "name": "templates",
-    "description": "Legend and tooltip template editor.",
-    "engines": {"tilemill":"*"},
-    "private": true
-}

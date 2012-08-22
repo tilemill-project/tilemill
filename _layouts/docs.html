@@ -1,0 +1,85 @@
+---
+layout: default
+section: help
+class: box
+---
+<link rel='stylesheet' href='http://mapbox.com/css/developers.css' />
+<style type='text/css'>
+.ad-support { text-align:right; }
+.ad-support a { margin-top:10px; }
+.doc-content { border-color: #4F5F69; }
+.doc-page{ background: #4F5F69 url({{site.baseurl}}/img/dotgrid-pattern.png);}
+.doc-page div{ background: #FFF; }
+.doc-subnav { margin-top: 0;}
+.doc-subnav a { 
+  background: none; /* IE fix */
+  background: rgba(0,0,0,0.1);  
+  color: white; 
+  width:25%; }
+  }
+.doc-subnav a.active { background: #3887BE; color: white; }
+@media (max-width:640px) { 
+  .ad-support { text-align:center; } 
+  .doc-header h2 { padding-bottom: 20px; }
+}
+</style>
+
+{% if page.section == 'help' %}
+<div class='clearfix doc-header pad3 fillD'>
+  <div class='cell4'>
+    <h2>Help</h2>
+  </div>
+  <div class='cell8 doc-subnav clearfix'>
+    <a href='{{site.baseurl}}/docs/install' {% if page.category == 'installation' %}class='active'{% endif %}>Installation</a>
+    <a href='{{site.baseurl}}/docs/crashcourse/introduction' {% if page.category == 'crashcourse' %}class='active'{% endif %}>Crashcourse</a>
+    <a href='{{site.baseurl}}/docs/guides/add-shapefile' {% if page.category == 'guides' %}class='active'{% endif %}>Guides</a>
+    <a href='{{site.baseurl}}/docs/manual/' {% if page.category == 'reference' %}class='active'{% endif %}>Reference</a>
+  </div>
+</div>
+{% endif %}
+
+<div class='doc-page pad3c clearfix'>
+<div class='clearfix'>
+  {% if page.title == 'TileMill' %}
+  <div class='cell12 doc-content doc prose pad2 float-right'>
+    {{content}}
+  </div>	
+  {% else %}
+  <div class='cell9 doc-content doc prose pad2 float-right'>
+    <h1 id='{{page.title|downcase|replace:' ','_'}}'>{{page.title}}</h1>
+    {{content}}
+  </div>
+  <div class='cell3 float-right'>
+    {% if page.private %}
+      <div class='doc-private'><h3>Private</h3>{{page.private}}</div>
+    {% elsif page.navigation %}
+      <div class='doc-nav'>
+      {% for heading in page.navigation %}
+        <h3><a href='#{{heading[0]|downcase|replace:' ','_'}}'>{{heading[0]}}</a></h3>
+        <ul class='anchors'>
+        {% for item in heading[1] %}
+          {% if item.hash %}
+          <li><a href='#{{item.hash}}'>{{item.text}}</a></li>
+          {% else %}
+          <li><a href='#{{item|downcase|replace:' ','_'}}'>{{item}}</a></li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      {% endfor %}
+      </div>
+    {% else %}
+      <div class='doc-nav'>
+      {% include book.html %}
+      </div>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+</div>
+
+<script type='text/javascript'>
+$(mapbox.book);
+$('h1[id], h2[id], h3[id], h4[id]').click(function(ev) {
+  window.location.hash = $(ev.currentTarget).attr('id');
+});
+</script>

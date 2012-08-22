@@ -1,7 +1,7 @@
 ---
-layout: book
-section: tilemill
-category: TileMill
+layout: docs
+section: help
+category: guides
 tag: Guides
 title: Running as an Ubuntu service
 permalink: /docs/guides/ubuntu-service

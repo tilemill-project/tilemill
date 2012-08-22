@@ -1,7 +1,7 @@
 ---
-layout: book
-section: tilemill
-category: TileMill
+layout: docs
+section: help
+category: reference
 tag: Reference
 title: Interface tour
 permalink: /docs/manual/interface-tour

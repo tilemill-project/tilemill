@@ -1,0 +1,105 @@
+---
+layout: docs
+section: help
+category: help
+hidden: true
+title: TileMill
+permalink: /docs
+---
+<style type='text/css'>
+.guide-section { 
+  margin:0px -40px; 
+  border-top:1px solid #ddd; 
+  }
+
+@media (max-width:640px) { .guide-section { margin:0px -20px; } }
+
+a.method {
+  display:block;
+  color:#3c4e5a;
+  position:relative;
+  padding-left:80px;
+  min-height:60px;
+  margin:0px 0px 20px;
+  }
+
+.method h3 {
+  margin:0px;
+  color: #3887be;
+  }
+  .method h3:hover { color: #3bb2d0;}
+
+.help-graphic {
+  position:absolute;
+  top:-5px; left:0px;
+  width:60px;
+  height:60px;
+  background:url({{site.baseurl}}/img/tilemill-help-sprite.png) 60px 60px no-repeat;
+  }
+
+.help-graphic.install { background-position:0px 0px; }
+.help-graphic.import { background-position:-70px 0px; }
+.help-graphic.style  { background-position:-140px 0px; }
+.help-graphic.interactivity  { background-position:-210px 0px; }
+.help-graphic.export   { background-position:-280px 0px; }
+.help-graphic.guides   { background-position:-350px 0px; }
+.help-graphic.reference   { background-position:-420px 0px; }
+
+@media
+  only screen and (max-width: 640px) and (-webkit-min-device-pixel-ratio : 2),
+  only screen and (max-width: 640px) and (min-device-pixel-ratio : 2) {
+  .help-graphic {
+    background-image:url({{site.baseurl}}/img/tilemill-help-sprite@2x.png);
+    background-size:480px 60px;
+    }
+}
+</style>
+
+<h1>Overview</h1>
+
+<div class="guide-section pad3">
+    <h2>Installation</h2>
+  <a class='method' href='{{site.baseurl}}/docs/install'>
+    <span class='help-graphic install'></span>
+    <h3>Install TileMill</h3>
+    <p>Get help installing and troubleshooting the TileMill desktop application.</p>
+  </a>
+</div>
+
+<div class="guide-section pad3">
+    <h2>Crash course</h2>
+  <a class='method' href='{{site.baseurl}}/docs/crashcourse/point-data/'>
+    <span class='help-graphic import'></span>
+    <h3>Import Data</h3>
+    <p>Turn a basic spreadsheet into a point map.</p>
+  </a>
+  <a class='method' href='{{site.baseurl}}/docs/crashcourse/styling/'>
+    <span class='help-graphic style'></span>
+    <h3>Style Your data</h3>
+    <p>Use the Carto styling language to adjust colors, sizes, and shapes.</p>
+  </a>
+  <a class='method' href='{{site.baseurl}}/docs/crashcourse/tooltips/'>
+    <span class='help-graphic interactivity'></span>
+    <h3>Add interactivity</h3>
+    <p>Make your map more compelling with tooltips and legends.</p>
+  </a>
+  <a class='method' href='{{site.baseurl}}/docs/crashcourse/exporting/'>
+    <span class='help-graphic export'></span>
+    <h3>Export a map</h3>
+    <p>Export maps to MBTiles, PNG, PDF, SVG, or Mapnik XML formats.</p>
+  </a>
+</div>
+
+<div class="guide-section pad3">
+  <a class='method' href='{{site.baseurl}}/docs/guides/add-shapefile/'>
+    <span class='help-graphic guides'></span>
+    <h3>Guides</h3>
+    <p>In-depth tutorials for styling maps, adding interactivity, and working with data.</p>
+  </a>
+  <a class='method' href='{{site.baseurl}}/docs/manual/'>
+    <span class='help-graphic reference'></span>
+    <h3>Reference</h3>
+    <p>Read the full manual that comes packaged with the TileMill application, including carto syntax documentation and an interface guide. </p>
+  </a>
+</div>
+<a href='http://support.mapbox.com'>Visit the support forums</a> if you have any questions or need additional help.
