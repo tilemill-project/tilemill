@@ -25,3 +25,4 @@ baseurl: /tilemill
 permalink: /:categories/:title
 title: TileMill
 url: http://mapbox.com
+source: site
