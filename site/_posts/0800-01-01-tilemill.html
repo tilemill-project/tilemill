@@ -41,12 +41,11 @@ platforms:
 
 .heading { height: 80px;}
   .heading h3 { 
-    background: rgba(0,0,0,0.1);
     display: inline-block;
     padding: 10px;
-    border-radius: 4px;
     margin-top: 20px;
     width: 160px;
+    color: white;
     }
   .heading .icon {
     background-image:url({{site.baseurl}}/img/tilemill-sprite.png);
@@ -322,39 +321,40 @@ only screen and (max-width: 640px) {
     border-top: 1px solid #28353D;
     }
 }
+
 @media
 only screen and (-webkit-min-device-pixel-ratio : 2),
 only screen and (min-device-pixel-ratio : 2) {
   #hero .tilemill-screenshot {
-    background-image:url({{site.baseurl}}/img/hero-tilemill@2x.png);
-    background-size: 906px 654px;
+    background-image: url({{site.baseurl}}/img/hero-tilemill@2x.png);
+    background-size:906px 654px;
     }
-  .branding .logo#tilemill-logo,
   .heading .icon {
     background-image:url({{site.baseurl}}/img/tilemill-sprite@2x.png);
-    background-size: 150px 130px;
+    background-size:150px 130px;
     }
   #manage .illustration {
     background-image:url({{site.baseurl}}/img/manage-sprite@2x.png);
-    background-size: 540px 540px;
+    background-size:540px 540px;
     }
   #render .illustration {
     background:url({{site.baseurl}}/img/render-sprite@2x.png);
-    background-size: 540px 900px;
+    background-size:540px 900px;
     }
   #enrich .illustration {
     background-image:url({{site.baseurl}}/img/enrich-sprite@2x.png);
-    background-size: 540px 260px;
+    background-size:540px 260px;
     }
   #share .illustration {
     background-image:url({{site.baseurl}}/img/share-sprite@2x.png);
-    background-size: 670px 690px;
+    background-size:670px 690px;
     }
   #open-source .illustration.github {
     background-image:url({{site.baseurl}}/img/mobile-sprite@2x.png);
-    background-size: 500px 360px;
+    background-size:500px 360px;
     }
-  }
+}
+
 </style>
 
 <div id='hero' class='clearfix'>
@@ -424,7 +424,7 @@ only screen and (min-device-pixel-ratio : 2) {
     <div class='cell6 pad3 float-right'>
       <h2>Load data from a wide range of sources</h2>
       <p>Compatible datasources include ESRI Shapefile, KML, GeoJSON, GeoTIFF, PostGIS, CSV, and SQLite. Inspect, order, and layer your sources to build complex maps.</p>
-      <a href='#'>Interface tour<span class='icon next blue'></span></a>
+      <a href='{{site.baseurl}}/docs/manual/interface-tour/'>Interface tour<span class='icon next blue'></span></a>
     </div>
     <div class='cell6 '>
       <div class='illustration sources'></div>
@@ -434,8 +434,8 @@ only screen and (min-device-pixel-ratio : 2) {
     <div class='cell6 pad3'>
       <div class='illustration browse'></div>
       <div class='cell6'>
-        <h2>Browse data</h2>
-        <p>Use the built-in MapBox Geodata browser to access to dozens of useful public datasources, or use your own datasources.</p>
+        <h2>Browse public data</h2>
+        <p>Access dozens of useful public datasources with the built-in MapBox Geodata browser.</p>
       </div>
     </div>
     <div class='cell6 pad3'>
@@ -456,7 +456,7 @@ only screen and (min-device-pixel-ratio : 2) {
     <div class='cell6 pad3 float-right'>
       <h2>State of the art rendering</h2>
       <p>At TileMill's core is Mapnik, a powerful, full-featured library including support for RGBA color, True Type fonts, rasters, patterns, and even SVG transforms.</p>
-      <a href='#'>Map gallery<span class='icon next blue'></span></a>
+      <a href='{{site.baseurl}}/gallery/'>Map gallery<span class='icon next blue'></span></a>
     </div>
     <div class='cell6 '>
       <div class='illustration rendering'></div>
@@ -482,7 +482,7 @@ only screen and (min-device-pixel-ratio : 2) {
     <div class='cell6 pad3 float-right'>
       <h2>Style maps with Carto</h2>
       <p>Inspired by CSS, Carto gives you full control over design. Mixins, variables, and functions are at your fingertips in the code editor.</p>
-      <a href='#'>Carto guide<span class='icon next blue'></span></a>
+      <a href='{{site.baseurl}}/docs/manual/carto/'>Carto guide<span class='icon next blue'></span></a>
     </div>
     <div class='cell6  illo-container'>
       <div class='illustration carto'></div>
@@ -500,7 +500,7 @@ only screen and (min-device-pixel-ratio : 2) {
       <div class='cell6'>
         <h2>Add interaction</h2>
         <p>Create hover tooltips and clickable pop ups with UTF-8 grid technology.</p>
-        <a href='#'>UTF grids<span class='icon next blue'></span></a>
+        <a href='{{site.baseurl}}/docs/crashcourse/tooltips/'>Tooltips and legends in TileMill<span class='icon next blue'></span></a>
       </div>
     </div>
     <div class='cell6 pad3'>
@@ -508,7 +508,7 @@ only screen and (min-device-pixel-ratio : 2) {
       <div class='cell6'>
         <h2>Embed graphics or images</h2>
         <p>Insert interactive graphs, images, links, and other content into your maps.</p>
-        <a href='#'>Charts in TileMill<span class='icon next blue'></span></a>
+        <a href='{{site.baseurl}}/docs/tutorials/google-charts/'>Charts in TileMill<span class='icon next blue'></span></a>
       </div>
     </div>
   </div>
@@ -524,7 +524,6 @@ only screen and (min-device-pixel-ratio : 2) {
       <div class='cell6'>
         <h2>Publish to the web and mobile</h2>
         <p>Export to the MBTiles format and every map you make in TileMill is desktop and mobile ready.</p>
-        <a href='#'>About MBTiles<span class='icon next blue'></span></a>
       </div>
     </div>
     <div class='cell6 pad3'>
@@ -532,7 +531,7 @@ only screen and (min-device-pixel-ratio : 2) {
       <div class='cell6'>
         <h2>Integrate with MapBox</h2>
         <p>It's just one click to automatically render and upload maps to your MapBox account.</p>
-        <a href='#'>About MapBox<span class='icon next blue'></span></a>
+        <a href='http://mapbox.com/'>About MapBox<span class='icon next blue'></span></a>
       </div>
     </div>
   </div>
