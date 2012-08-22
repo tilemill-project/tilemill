@@ -787,12 +787,15 @@ ul.team {
 @media
   only screen and (-webkit-min-device-pixel-ratio : 2),
   only screen and (min-device-pixel-ratio : 2) {
-    .branding .attribution .small-mapbox,
-    .branding a#tilemill-logo,
     .icon {
+      background-image:url(../img/sprite@2x.png); 	
+      background-size:800px 300px;
+      }
+    .branding .attribution .small-mapbox,
+    .branding a#tilemill-logo {
       background-image:url(../img/tilemill-sprite@2x.png);
       background-size: 150px 130px;
-    }
+      }
 }
 
 /* ### Marker Styling for Maps ### */
