@@ -160,8 +160,8 @@ maps:
 <div id="mapdescription" class="clearfix cell3 right"></div>
 <script type='text/template' id='gallery-template'>
   <div class="pager-box">
-    <a class="cell6" href="#<%=prev%>"><span class="icon reverse prev"></span> PREV</a>
-    <a class="cell6" href="#<%=next%>">NEXT <span class="icon reverse next"></span></a>
+    <a class="cell6 prev" href="#<%=prev%>"><span class="icon reverse prev"></span> PREV</a>
+    <a class="cell6 next" href="#<%=next%>">NEXT <span class="icon reverse next"></span></a>
   </div>
   <div class="fillD desc-box cell12">
     <h2><%=name%></h2>
@@ -216,8 +216,11 @@ maps:
         d.name = d.name || tj.name;
         $('#mapdescription').html(template(d));
 
-        $('#mapdescription a').bind('click', function(e) {
-          setMap($(e.srcElement).attr('href').replace('#', ''));
+        $('#mapdescription a.next').bind('click', function(e) {
+          setMap(d.next);
+        });
+        $('#mapdescription a.prev').bind('click', function(e) {
+          setMap(d.prev);
         });
       });
     }
