@@ -370,7 +370,7 @@ only screen and (min-device-pixel-ratio : 2) {
     {% endfor %}
     </ul>
     {% for item in page.platforms %}
-    <a href='{{item.url}}' class='download-button clearfix {{item.id}}'>
+    <a href='{{item.url}}' class='download-button clearfix {{item.id}}' title='{{item.name}}'>
       <div class='label cell5 pad1'>
         <small>{{item.name}}</small>
         <h3 class='label-title'>Download</h3>
@@ -559,7 +559,7 @@ only screen and (min-device-pixel-ratio : 2) {
     {% endfor %}
     </ul>
     {% for item in page.platforms %}
-    <a href='{{item.url}}' class='download-button clearfix {{item.id}}'>
+    <a href='{{item.url}}' class='download-button clearfix {{item.id}}' title='{{item.name}}'>
       <div class='label cell5 pad1'>
         <small>{{item.name}}</small>
         <h3 class='label-title'>Download</h3>
