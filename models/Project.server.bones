@@ -315,8 +315,13 @@ function saveProject(model, callback) {
         });
 
         data.Layer = _(data.Layer).map(function(l) {
-            if (l.Datasource.file && !l.Datasource.file.indexOf(modelPath)) {
-                l.Datasource.file = path.relative(modelPath, l.Datasource.file);
+            if (l.Datasource.file) {
+                l.Datasource.file = l.Datasource.file.trim();
+                if (!l.Datasource.file.indexOf(modelPath)) {
+                    l.Datasource.file = path.relative(modelPath, l.Datasource.file);
+                } else {
+                    l.Datasource.file = l.Datasource.file.replace(/^~/, process.env.HOME);
+                }
             }
             return l;
         });
