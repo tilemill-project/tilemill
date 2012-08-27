@@ -97,6 +97,11 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 if (options.features || options.info) {
                     datasource.fields[f].max = type === 'String'
                         ? _(values).max(function(v) { return (v||'').length })
+                        ? (function() {
+                            var val = _(values).max(function(v) { return (v||'').length });
+                            return val.length > 55 ?
+                              val.slice(0, 55 - 3) + '...' : val;
+                        })()
                         : _(values).max();
                     datasource.fields[f].min = type === 'String'
                         ? _(values).min(function(v) { return (v||'').length })
