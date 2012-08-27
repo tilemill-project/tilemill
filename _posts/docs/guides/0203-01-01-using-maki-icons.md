@@ -30,7 +30,7 @@ Here's a step-by-step walkthrough for creating a basic icon overlay in TileMill 
 
 2. Create a new project in TileMill called maki-overlay. You're going to be making a map of Washington, DC, so adjust your project settings to include zoom levels up to 20, and center the map over the Washington, DC area.
 
-3. Next, you need geodata in order to place icons on your map. [This CSV](https://github.com/mapbox/tilemill/raw/maki-docs/assets/pages/combined_poi.csv) based on CloudMade's OpenStreetMap POI data should serve you well. Once it's finished downloading, place combined_poi.csv in your project's data folder, then import it as a layer in TileMill. Set the layer ID to `poi`.
+3. Next, you need geodata in order to place icons on your map. [This CSV](https://github.com/mapbox/tilemill/raw/gh-pages/assets/pages/combined_poi.csv) based on CloudMade's OpenStreetMap POI data should serve you well. Once it's finished downloading, place combined_poi.csv in your project's data folder, then import it as a layer in TileMill. Set the layer ID to `poi`.
 ![Data Import](/tilemill/assets/pages/maki-2.png)
 
 4. Time to write the basic styles for your data. Using CartoCSS, select the #POI layer and then use a conditional style to filter for cafes within that layer. You'll need to reference the icon with a URL path. Here's what your CartoCSS should look like:
