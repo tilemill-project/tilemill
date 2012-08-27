@@ -96,7 +96,6 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 datasource.fields[f] = { type: type };
                 if (options.features || options.info) {
                     datasource.fields[f].max = type === 'String'
-                        ? _(values).max(function(v) { return (v||'').length })
                         ? (function() {
                             var val = _(values).max(function(v) { return (v||'').length });
                             return val.length > 55 ?
