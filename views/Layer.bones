@@ -242,6 +242,7 @@ view.prototype.save = function(e) {
     this.model.validateAsync(attr, {
         success: _(function() {
             $(this.el).removeClass('loading').removeClass('restartable');
+            attr.Datasource.extent = attr.Datasource.extent || this.model.get('extent').join(",");
             if (!this.model.set(attr, {error:error})) return;
             if (!this.model.collection.include(this.model)) {
                 this.model.collection.add(this.model);
