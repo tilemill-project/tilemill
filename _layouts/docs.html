@@ -73,7 +73,7 @@ class: box
   </div>
   <div class='cell9 doc-content prose'>
     <div class='doc pad2'>
-      <h1 id='{{page.title|downcase|replace:' ','_'}}'>{{page.title}}</h1>
+      <h1 id='{{page.title|downcase|replace:' ', '_'}}'>{{page.title}}</h1>
       {{content}}
     </div>
   </div>
@@ -83,7 +83,7 @@ class: box
 
 <script type='text/javascript'>
 $(mapbox.book);
-$('h1[id], h2[id], h3[id], h4[id]').click(function(ev) {
+$('h1[id], h2[id], h3[id], h4[id]').attr('title', 'Link to this section').click(function(ev) {
   window.location.hash = $(ev.currentTarget).attr('id');
 });
 </script>

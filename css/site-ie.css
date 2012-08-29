@@ -1,7 +1,0 @@
-.book li.tagged { display:none; }
-.book li.expanded { display:block; }
-
-.hero.mapbox .devices img.first,
-.hero.mapbox .devices img.second,
-.hero.mapbox .devices img.third   { display: none; }
-.hero.mapbox .devices img.fourth  { display: block; }

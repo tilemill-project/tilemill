@@ -4,29 +4,28 @@
   box-sizing: border-box;
   -moz-box-sizing:border-box;
   }
-
 .wrapper { padding: 0;}
-
 
 .fillD {
   background:#3c4e5a url(../img/dotgrid-pattern.png);
   color:#fff;
   box-shadow: none;
   }
-
 .fillE {
   background: #28353d url(../img/dotgrid-pattern.png);
   color: #fff;
   }
 
-/* ### Header ### */
+.branding .logo {
+  background: transparent url(../img/tilemill-sprite.png) no-repeat 0 0;
+  }
 
+/* ### Header ### */
 .branding .menu { display: block;}
 .branding .menu li a:hover { 
   background: rgba(0,0,0,0.1);
   box-shadow: rgba(0,0,0,0.1) 0px 0px 0px 5px;
   }
-
 .branding .logos { position: relative;}
 
 .branding .attribution {
@@ -52,7 +51,6 @@
   padding-bottom: 50px;
   z-index: 100;
   }
-
 .branding .menu li {
   margin-left: 5%;
   width: 30%;
