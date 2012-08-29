@@ -101,12 +101,12 @@ Go to <http://metro.teczno.com> and look for your city. If it's available, downl
 
 If your city is not available here then head to <http://download.geofabrik.de/osm/> and look for a region that would contain your city (for example, there are individual states and provinces available for many countries). Download the **.osm.pbf** version of the file.
 
-With a PBF file downloaded, you can import it with osm2pgsql. Assuming you downloaded the PBF to your Downloads folder, run the following command in the Terminal:
+With a PBF file downloaded, you can import it with Imposm. Assuming you downloaded the PBF to your Downloads folder, run the following command in the Terminal:
 
     imposm -U postgres -d osm -m /path/to/osm-bright/imposm-mapping.py \
         --read --write --optimize --deploy-production-tables <data.osm.pbf>
 
-This will take something like 1 to 10 minutes, depending on the size of extract you downloaded. (If you downloaded a particularly large extract it may take much longer.) When its finished it will tell you something like "Osm2pgsql took 71s overall".
+This will take something like 1 to 10 minutes, depending on the size of extract you downloaded. (If you downloaded a particularly large extract it may take much longer.) It will output a series of messages explaining the steps it is taking, the last of which will be something like "imposm took 1 m 11s".
 
 ## Step 3: Set up OSM Bright
 
