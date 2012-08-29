@@ -3,7 +3,7 @@
     {% assign tags = '' %}
     {% for item in site.categories[page.category] reversed %}
     {% unless item.hidden %}
-    <li><a {% if page.url == item.url %}class='active'{% endif %} href='{{site.baseurl}}{{item.url}}'>{{item.title}}</a></li>
+    <li><a {% if item.title == page.title | downcase %}class='active'{% endif %} href='{{site.baseurl}}{{item.url}}'>{{item.title}}</a></li>
     {% endunless %}
     {% endfor %}
   </ul>
