@@ -99,7 +99,7 @@ model.prototype.validateAsync = function(attributes, options) {
     (new models.Datasource(attr)).fetch({
         success: _(function(model, resp) {
             if (resp.geometry_type) this.set({geometry:resp.geometry_type});
-            this.set({extent: resp.extent});
+            this.set({extent: resp.unproj_extent});
             options.success(model, resp);
         }).bind(this),
         error: options.error
