@@ -57,11 +57,25 @@ view.prototype.extentSelect = function(ev) {
     var name = el.val();
     $('input[name="Datasource.extent"]').val('');
     if (name == 'auto') {
-        $('input[name="Datasource.extent"]').css('display', 'none');
         $('a[href="#extentCacheFlush"]').css('display', 'inline-block');
+        $('small[for=auto]').css('display', 'block');
     } else {
-        $('input[name="Datasource.extent"]').css('display', 'inline');
         $('a[href="#extentCacheFlush"]').css('display', 'none');
+        $('small[for=auto]').css('display', 'none');
+    }
+
+    if (name == 'custom') {
+        $('input[name="Datasource.extent"]').css('display', 'inline');
+        $('small[for=custom]').css('display', 'block');
+    } else {
+        $('input[name="Datasource.extent"]').css('display', 'none');
+        $('small[for=custom]').css('display', 'none');
+    }
+
+    if (name == 'dynamic') {
+        $('small[for=dynamic]').css('display', 'block');
+    } else {
+        $('small[for=dynamic]').css('display', 'none');
     }
 };
 
