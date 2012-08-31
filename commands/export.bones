@@ -576,7 +576,7 @@ command.prototype.upload = function (callback) {
             opts.host = parsed.hostname;
             opts.port = parsed.port;
             opts.path = 'http://' + bucket + '.s3.amazonaws.com';
-            opts.headers.Host = 'http://' + bucket + '.s3.amazonaws.com';
+            opts.headers.Host = bucket + '.s3.amazonaws.com';
             if (parsed.auth) {
                 opts.headers['proxy-authorization'] = 'Basic ' + new Buffer(parsed.auth).toString('base64')
             }

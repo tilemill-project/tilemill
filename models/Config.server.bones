@@ -72,3 +72,8 @@ models.Config.prototype.sync = function(method, model, success, error) {
     }
 };
 
+models.Config.prototype.validate = function(attr) {
+    if (attr.httpProxy && attr.httpProxy.indexOf('http://') !== 0) {
+        return "HTTP Proxy must start with http://";
+    }
+}
