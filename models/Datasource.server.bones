@@ -98,7 +98,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                     datasource.fields[f].max = type === 'String'
                         ? (function() {
                             var val = _(values).max(function(v) { return (v||'').length });
-                            return val.length > 55 ?
+                            return (val && val.length > 55) ?
                               val.slice(0, 55 - 3) + '...' : val;
                         })()
                         : _(values).max();
