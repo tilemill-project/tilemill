@@ -11,7 +11,7 @@ var advancedOptions = function(obj) {
         'type', 'file',
         'table', 'host', 'port', 'user', 'password', 'dbname',
         'extent', 'key_field', 'geometry_field', 'type', 'attachdb',
-        'srs', 'id', 'project'
+        'srs', 'id', 'project', 'extent_cache'
     ];
     var options = [];
     return _(obj).chain()
@@ -119,11 +119,6 @@ var connectionOptions = function(obj) {
       </div>
     </li>
     <li>
-      <label for='extent'>Extent</label>
-      <input type='text' name='Datasource.extent' value='<%=Datasource.extent%>' />
-      <span class='description'>limit the query by this bounding box</span>
-    </li>
-    <li>
       <label for='extent'>Unique key field</label>
       <input type='text' name='Datasource.key_field' value='<%=Datasource.key_field%>' />
       <span class='description'>SQL field containing a unique key for each feature</span>
@@ -132,6 +127,32 @@ var connectionOptions = function(obj) {
       <label for='extent'>Geometry field</label>
       <input type='text' name='Datasource.geometry_field' value='<%=Datasource.geometry_field%>' />
       <span class='description'>SQL field containing feature geometry</span>
+    </li>
+    <li>
+      <label for='extent'>Extent</label>
+      <select name='Datasource.extent_cache'>
+        <option value='auto' <% if (Datasource.extent_cache === 'auto' || !Datasource.extent_cache) { %>selected='selected'<% } %>>
+          Pre-calculate
+        </option>
+        <option value='dynamic' <% if (Datasource.extent_cache === 'dynamic') { %>selected='selected'<% } %>>
+          Dynamic
+        </option>
+        <option value='custom' <% if (Datasource.extent_cache === 'custom') { %>selected='selected'<% } %>>
+          Custom
+        </option>
+      </select>
+      <input type='text' name='Datasource.extent' <% if (Datasource.extent_cache === 'auto' || !Datasource.extent_cache ) { %>style="display:none"<% } %>
+          value='<%=Datasource.extent%>' size='40' placeholder='' />
+      <a href='#extentCacheFlush' class='button open' <% if (Datasource.extent_cache === 'custom') { %>style="display:none"<% } %>'>Clear cache</a>
+      <small for='auto' class='description'<% if (Datasource.extent_cache !== 'auto' && Datasource.extent_cache) { %>style="display:none"<% }%>>
+          Auto-calculate and cache the extent to limit the query by.
+      </small>
+      <small for='dynamic'class='description' <% if (Datasource.extent_cache !== 'dynamic') { %>style="display:none"<% } %>>
+          Dynamically calculate extent for each map save (can be slow).
+      </small>
+      <small for='custom' class='description' <% if (Datasource.extent_cache !== 'custom') { %>style="display:none"<% } %>>
+          Limit the query with a custom 'minx,miny,maxx,maxy' in the projection of the data.
+      </small>
     </li>
     <% } %>
 

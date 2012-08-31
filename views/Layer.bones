@@ -9,6 +9,8 @@ view.prototype.events = {
     'keyup input[name$=file], .layer-postgis textarea': 'placeholderUpdate',
     'change input[name$=file], .layer-postgis textarea': 'placeholderUpdate',
     'click a[href=#cacheFlush]': 'cacheFlush',
+    'change select[name=Datasource.extent_cache]': 'extentSelect',
+    'click a[href=#extentCacheFlush]': 'extentCacheFlush',
     'change select[name=srs-name]': 'nameToSrs',
     'keyup input[name=srs]': 'srsToName'
 };
@@ -24,6 +26,8 @@ view.prototype.initialize = function(options) {
         'favoriteUpdate',
         'placeholderUpdate',
         'cacheFlush',
+        'extentSelect',
+        'extentCacheFlush',
         'nameToSrs',
         'srsToName',
         'autoname'
@@ -46,6 +50,38 @@ view.prototype.render = function() {
     // Autofocus first field for new layers.
     if (!this.model.id) this.$('input[type=text]:first').focus();
     return this;
+};
+
+view.prototype.extentSelect = function(ev) {
+    var el = $(ev.currentTarget);
+    var name = el.val();
+    $('input[name="Datasource.extent"]').val('');
+    if (name == 'auto') {
+        $('a[href="#extentCacheFlush"]').css('display', 'inline-block');
+        $('small[for=auto]').css('display', 'block');
+    } else {
+        $('a[href="#extentCacheFlush"]').css('display', 'none');
+        $('small[for=auto]').css('display', 'none');
+    }
+
+    if (name == 'custom') {
+        $('input[name="Datasource.extent"]').css('display', 'inline');
+        $('small[for=custom]').css('display', 'block');
+    } else {
+        $('input[name="Datasource.extent"]').css('display', 'none');
+        $('small[for=custom]').css('display', 'none');
+    }
+
+    if (name == 'dynamic') {
+        $('small[for=dynamic]').css('display', 'block');
+    } else {
+        $('small[for=dynamic]').css('display', 'none');
+    }
+};
+
+view.prototype.extentCacheFlush = function(ev) {
+    $('input[name="Datasource.extent"]').val('');
+    return false;
 };
 
 view.prototype.nameToSrs = function(ev) {
@@ -202,7 +238,7 @@ view.prototype.save = function(e) {
     // Advanced options.
     var regular = _(['type', 'file','table', 'host', 'port', 'user', 
         'password', 'dbname', 'extent', 'key_field', 'geometry_field',
-        'type', 'attachdb', 'srs', 'id', 'project']);
+        'type', 'attachdb', 'srs', 'id', 'project', 'extent_cache']);
 
     var result = {};
     _(attr.Datasource || {}).each(function(v, k) {
@@ -240,9 +276,11 @@ view.prototype.save = function(e) {
         new views.Modal(e);
     }).bind(this);
     this.model.validateAsync(attr, {
-        success: _(function() {
+        success: _(function(model, resp) {
             $(this.el).removeClass('loading').removeClass('restartable');
-            attr.Datasource.extent = attr.Datasource.extent || this.model.get('extent').join(",");
+            if (attr.Datasource && attr.Datasource.extent_cache === 'auto') {
+                attr.Datasource.extent = resp.extent;
+            }
             if (!this.model.set(attr, {error:error})) return;
             if (!this.model.collection.include(this.model)) {
                 this.model.collection.add(this.model);

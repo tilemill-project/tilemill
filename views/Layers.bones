@@ -141,8 +141,8 @@ view.prototype.layerExtent = function(ev) {
         }));
         model.fetch({
             success: function(model, resp) {
-                layer.set({extent: resp.extent});
-                setExtent(resp.extent);
+                layer.set({extent: resp.unproj_extent});
+                setExtent(resp.unproj_extent);
             },
             error: function(err) {
                 new views.Modal(err);
