@@ -58,8 +58,8 @@ releases:
   - Markers grid rendering has been improved
   - Numerous Mapnik fixes to compositing operations, alpha handling, and clipping behavior
   - Mapnik 2.1 is [now being used](http://mapnik.org/news/2012/08/24/release-2.1.0/)
-  - [Mapnik updates since 276](https://github.com/mapnik/mapnik/compare/b43697fd5de...d054178a75c)
-  - [TileMill updates since 276](https://github.com/mapbox/tilemill/compare/1b6ba21f75...75a7e9fa4a)
+  - Mapnik [updates since 276](https://github.com/mapnik/mapnik/compare/b43697fd5de...d054178a75c)
+  - TileMill [updates since 276](https://github.com/mapbox/tilemill/compare/1b6ba21f75...75a7e9fa4a)
 
 - version: 0.9.1.276
   dev: true
