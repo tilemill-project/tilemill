@@ -45,6 +45,22 @@ releases:
 #  - Added ability to upgrade plugins
 #  - Fixed a bug where compatible plugin versions did not show up if there were newer incompatible versions
 
+- version: 0.9.1.302
+  dev: true
+  date: 2012-08-31
+  size: 81080340
+  sign: MC4CFQCW1hdDNq/DY+3m7k9ldmupjZ/mOgIVANAabRI+ZASlVddHzxO4ZswNm/NS
+  notes:
+  - Development snapshot of TileMill 0.10.0-pre
+  - Various fixes to CSV reading support
+  - PostGIS extent can be auto-calculated
+  - Proxy support was improved
+  - Markers grid rendering has been improved
+  - Numerous Mapnik fixes to compositing operations, alpha handling, and clipping behavior
+  - Mapnik 2.1 is [now being used](http://mapnik.org/news/2012/08/24/release-2.1.0/)
+  - [Mapnik updates since 276](https://github.com/mapnik/mapnik/compare/b43697fd5de...d054178a75c)
+  - [TileMill updates since 276](https://github.com/mapbox/tilemill/compare/1b6ba21f75...75a7e9fa4a)
+
 - version: 0.9.1.276
   dev: true
   date: 2012-08-03
