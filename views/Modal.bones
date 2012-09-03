@@ -18,13 +18,16 @@ view.prototype.initialize = function(options) {
 
     // Attempt to handle jqXHR objects.
     if (options.responseText) {
+        console.log(options.responseText);
         try {
+            var message = JSON.parse(options.responseText).message
+            if (message == undefined) throw new Error("");
             options = {
-              content: JSON.parse(options.responseText).message
+              content: message
             };
         } catch(e) {
             options = {
-              content: options.responseText
+              content: "TileMill Server returned: " + options.responseText
             };
         }
     } else if (options.status === 0) {
