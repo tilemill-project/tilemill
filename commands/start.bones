@@ -53,7 +53,7 @@ command.prototype.initialize = function(plugin, callback) {
         {
             crashutil.display_crash_log(function(err,logname) {
                 if (err) {
-                    console.warn(err.stack || err.toString());
+                    console.warn('Fatal error: ' + err.stack || err.toString());
                 }
                 if (logname) {
                     console.warn("[tilemill] Please post this crash log: '" + logname + "' to https://github.com/mapbox/tilemill/issues");

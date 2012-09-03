@@ -199,7 +199,7 @@ command.prototype.bootstrap = function(plugin, callback) {
                         console.error('Plugin [' + data.name + '] unable to be loaded: ' + err.stack || err.toString());
                         return data;
                     } else {
-                        console.error(err);
+                        console.error('Plugin loading error: ' + err.stack || err.message);
                         return false;
                     }
                 }
