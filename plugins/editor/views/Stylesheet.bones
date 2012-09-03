@@ -19,7 +19,11 @@ view.prototype.render = function() {
 
 view.prototype.save = function() {
     var attr = Bones.utils.form(this.$('.form'), this.model);
-    var options = { error: function(m, e) { new views.Modal(e); } };
+    var options = { error: function(m, resp) {
+            console.log('error saving project: ' + m.id);
+            new views.Modal(resp);
+        }
+    };
     if (this.model.set(attr, options)) {
         this.model.collection.add(this.model);
         this.$('.close').click();

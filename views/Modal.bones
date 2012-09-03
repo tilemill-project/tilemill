@@ -28,7 +28,12 @@ view.prototype.initialize = function(options) {
             };
         }
     } else if (options.status === 0) {
-        options = { content: 'Could not connect to the TileMill Server. Please check the logs for details. If this problem persists please contact support at: http://support.mapbox.com/discussions/tilemill' };
+        var content = '';
+        if (options.err_message) {
+           content += options.err_message + ' : ';
+        }
+        content += 'Unable to reach the TileMill Server. Please check the logs for details. If this problem persists please contact support at: http://support.mapbox.com/discussions/tilemill';
+        options = { content: content };
     } else if (typeof options === 'string') {
         options = { content: options };
     } else if (options instanceof Error) {

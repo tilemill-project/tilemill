@@ -69,24 +69,36 @@ view.prototype.save = function() {
 //
 // and highlight the line number and stylesheet appropriately if
 // found. Otherwise, display error in a modal.
-view.prototype.error = function(model, err) {
-    if (err.responseText) err = JSON.parse(err.responseText).message;
-    var err = _(err.toString().split('\n')).compact();
-    for (var i = 0; i < err.length; i++) {
-        var match = err[i].match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/);
-        if (match) {
-            var stylesheet = this.model.get('Stylesheet').get(match[2]),
-                id = 'stylesheet-' + stylesheet.id.replace(/[\.]/g, '-'),
-                lineNum = parseInt(match[3]) - 1;
-
-            this.$('.tabs a[href=#' + id + ']').addClass('error');
-            stylesheet.errors = stylesheet.errors || [];
-            stylesheet.errors[lineNum] = match[5];
-            stylesheet.codemirror.setMarker(lineNum, '%N%', 'error');
-        } else {
-            new views.Modal(err[i]);
-            break;
+view.prototype.error = function(model, resp) {
+    console.log('parsing carto erro')
+    if (resp.responseText) {
+        // this assume Carto.js specific error array format response
+        var err_message = JSON.parse(resp.responseText).message;
+        var err_group = _(err_message.toString().split('\n')).compact();
+        if (err_group.length == 0)
+            console.log('here no error');
+        for (var i = 0; i < err_group.length; i++) {
+            var match = err_group[i].match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/);
+            if (match) {
+                var stylesheet = this.model.get('Stylesheet').get(match[2]),
+                    id = 'stylesheet-' + stylesheet.id.replace(/[\.]/g, '-'),
+                    lineNum = parseInt(match[3]) - 1;
+                this.$('.tabs a[href=#' + id + ']').addClass('error');
+                stylesheet.errors = stylesheet.errors || [];
+                stylesheet.errors[lineNum] = match[5];
+                stylesheet.codemirror.setMarker(lineNum, '%N%', 'error');
+            } else {
+                console.log('here1')
+                new views.Modal(err_group[i]);
+                break;
+            }
         }
+    } else {
+        // will hit this if the server is offline and the user tries to save
+        // We attach a error message to this resp object so that that the Modal can display it
+        console.log('here2')
+        resp.err_message = 'Could not save project "' + model.id + '"';
+        new views.Modal(resp);
     }
 };
 
