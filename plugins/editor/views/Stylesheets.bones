@@ -70,13 +70,10 @@ view.prototype.save = function() {
 // and highlight the line number and stylesheet appropriately if
 // found. Otherwise, display error in a modal.
 view.prototype.error = function(model, resp) {
-    console.log('parsing carto erro')
     if (resp.responseText) {
         // this assume Carto.js specific error array format response
         var err_message = JSON.parse(resp.responseText).message;
         var err_group = _(err_message.toString().split('\n')).compact();
-        if (err_group.length == 0)
-            console.log('here no error');
         for (var i = 0; i < err_group.length; i++) {
             var match = err_group[i].match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/);
             if (match) {
@@ -87,8 +84,16 @@ view.prototype.error = function(model, resp) {
                 stylesheet.errors = stylesheet.errors || [];
                 stylesheet.errors[lineNum] = match[5];
                 stylesheet.codemirror.setMarker(lineNum, '%N%', 'error');
+                var error_message = match[5] + ' (line ' + lineNum + ')';
+                if (err_group.length == 1) {
+                    this.$('.status').addClass('active');
+                    this.$('.status .content').text(error_message);
+                }
+                else if (err_group.length > 1) {
+                    this.$('.status').addClass('active');
+                    this.$('.status .content').text("Click line number to see each error");
+                }
             } else {
-                console.log('here1')
                 new views.Modal(err_group[i]);
                 break;
             }
@@ -96,7 +101,6 @@ view.prototype.error = function(model, resp) {
     } else {
         // will hit this if the server is offline and the user tries to save
         // We attach a error message to this resp object so that that the Modal can display it
-        console.log('here2')
         resp.err_message = 'Could not save project "' + model.id + '"';
         new views.Modal(resp);
     }
