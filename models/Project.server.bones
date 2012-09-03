@@ -165,11 +165,13 @@ function loadProject(model, callback) {
         });
     },
     function(err, file) {
-        if (err) return callback(new Error.HTTP('Project does not exist: "' + path.join(modelPath, 'project.mml') + '"', 404));
+        var projectName = path.join(modelPath, 'project.mml');
+        if (err) return callback(new Error.HTTP('Project does not exist: "' + projectName + '"', 404));
         try {
             object = _(object).extend(JSON.parse(file.data));
         } catch(err) {
-            throw err;
+            var err_message = 'Could not open project.mml file for "' + model.id + '". Error was: \n\n"' + err.message + '"\n\n(in ' + projectName + ')';
+            return callback(new Error(err_message));
         }
 
         object.id = model.id;
