@@ -31,7 +31,7 @@ This page is for **Ubuntu**. We also have instructions for [Mac OS X](/tilemill/
   ![](/tilemill/assets/pages/linux-install-4.png)
 
 ### Terminal installation
-If you're terminal savy, you can install TileMill with the following commands:
+If you're terminal savvy, you can install TileMill with the following commands:
 
     sudo add-apt-repository ppa:developmentseed/mapbox
     sudo apt-get update
