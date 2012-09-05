@@ -82,11 +82,15 @@ view.prototype.render = function() {
         new MM.Location(bounds[1], bounds[0]),
         new MM.Location(bounds[3], bounds[2])
     ];
-    // Override project attributes to allow unbounded zooming.
     var tj = _(this.project.attributes).clone();
     tj.minzoom = 0;
     tj.maxzoom = 22;
     this.map = new MM.Map('meta-map', new wax.mm.connector(tj));
+    
+    // Override project attributes to allow unbounded zooming.
+    this.map.setZoomRange(
+        tj.minzoom,
+        tj.maxzoom);
 
     wax.mm.zoomer(this.map).appendTo(this.map.parent);
     this.map.setExtent(extent);
