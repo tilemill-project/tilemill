@@ -106,8 +106,9 @@ releases:
   sign: MC4CFQDvaV9w+7IyMfsd3XZnNOadT70jfAIVAJq14ThnQ4CWG4zs1TwB/zWNTLS2
 
   notes:
-  - Better error output in logs if a crash occurs during rendering or exports
   - Now using Node v0.6.17 (previous 0.9.0 release used Node v0.4.12)
+  - Now using Mapnik 2.1.0-pre at 113f3937cf (previous 0.9.0 release used Mapnik 2.1.0-pre at b8632c20)
+  - Better error output in logs if a crash occurs during rendering or exports
   - Supports PostGIS 2.0 (Mapnik)
   - Interactivity UI now warns about the need for users to provide a unique key for PostGIS layers.
   - Invalid fonts no longer prevent startup (Mapnik)
