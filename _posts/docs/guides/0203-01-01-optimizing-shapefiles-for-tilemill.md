@@ -63,7 +63,7 @@ The output of that command gives us this:
 The important line here is the `Layer SRS WKT` value, which is a [well-known text](http://en.wikipedia.org/wiki/Well-known_text) definition of the SRS. The first value is a description: `NAD_1927_UTM_Zone_17N`, which is different from our base layer that has a value of `Google_Maps_Global_Mercator`. GDAL provides an extremely helpful command that will quickly convert this shape file into a new, specified srs. Here's that command:
 
   `ogr2ogr formatted_neighbourhoods.shp Neighbourhoods.shp -t_srs EPSG:900913`  
-<small>To expand on this command we first state our `output filename` followed by the `input filename` (the file we wish to manipulate). `-t_srs` is the reproject/transform on output and `ESPG:900913` is the code for the SRS we wish to set.</smalL>  
+<small>To expand on this command we first state our `output filename` followed by the `input filename` (the file we wish to manipulate). `-t_srs` is the reproject/transform on output and `ESPG:900913` is the code for the SRS we wish to set.</small>  
   
 Now if we run `ogrinfo formatted_neighbourhoods.shp -al -so` our new file looks like this:
 
