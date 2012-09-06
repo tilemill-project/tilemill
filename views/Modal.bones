@@ -27,7 +27,7 @@ view.prototype.initialize = function(options) {
             };
         } catch(e) {
             options = {
-              content: "TileMill Server returned: " + options.responseText
+              content: options.responseText
             };
         }
     } else if (options.status === 0) {
@@ -35,7 +35,7 @@ view.prototype.initialize = function(options) {
         if (options.err_message) {
            content += options.err_message + ' : ';
         }
-        content += 'Unable to reach the TileMill Server. Please check the logs for details. If this problem persists please contact support at: http://support.mapbox.com/discussions/tilemill';
+        content += 'Unable to reach the local TileMill Server. Check the logs for details. If this problem persists please contact support at: http://support.mapbox.com/discussions/tilemill';
         options = { content: content };
     } else if (typeof options === 'string') {
         options = { content: options };
