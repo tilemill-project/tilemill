@@ -74,6 +74,7 @@ view.prototype.error = function(model, resp) {
         // this assume Carto.js specific error array format response
         var err_message = JSON.parse(resp.responseText).message;
         var err_group = _(err_message.toString().split('\n')).compact();
+        var lines = []
         for (var i = 0; i < err_group.length; i++) {
             var match = err_group[i].match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/);
             if (match) {
@@ -82,20 +83,20 @@ view.prototype.error = function(model, resp) {
                     lineNum = parseInt(match[3]) - 1;
                 this.$('.tabs a[href=#' + id + ']').addClass('error');
                 stylesheet.errors = stylesheet.errors || [];
-                stylesheet.errors[lineNum] = match[5];
+                lines.push(lineNum+1);
+                stylesheet.errors[lineNum] = match[5] + ' (line ' + (lineNum+1) + ')';
                 stylesheet.codemirror.setMarker(lineNum, '%N%', 'error');
-                var error_message = match[5] + ' (line ' + lineNum + ')';
                 if (err_group.length == 1) {
                     this.$('.status').addClass('active');
-                    this.$('.status .content').text(error_message);
-                }
-                else if (err_group.length > 1) {
-                    this.$('.status').addClass('active');
-                    this.$('.status .content').text("Click line number to see each error");
+                    this.$('.status .content').text(stylesheet.errors[lineNum]);
                 }
             } else {
                 new views.Modal(err_group[i]);
                 break;
+            }
+            if (lines.length > 1) {
+                this.$('.status').addClass('active');
+                this.$('.status .content').text("Click lines " + lines + " to see each error");
             }
         }
     } else {
