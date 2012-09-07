@@ -17,12 +17,14 @@
   }
 
 .branding .logo {
-  background: transparent url(../img/tilemill-sprite.png) no-repeat 0 0;
+  background-image: url(../img/tilemill-sprite.png);
+  background-position: 0 0;
+  background-repeat: no-repeat;
   }
 
 /* ### Header ### */
 .branding .menu { display: block;}
-.branding .menu li a:hover { 
+.branding .menu li a:hover {
   background: rgba(0,0,0,0.1);
   box-shadow: rgba(0,0,0,0.1) 0px 0px 0px 5px;
   }
@@ -59,12 +61,12 @@
 
 @media only screen and (max-width: 640px) {
   .branding { padding-bottom:10px;}
-  .branding .logo { 
+  .branding .logo {
     margin: 0 auto 10px;
     display: block;
     }
   .footer .cell3 { border-color: #28353D; }
-  .branding .attribution { 
+  .branding .attribution {
   width: 90px;
   left: 50px;
   right: 0;
@@ -79,3 +81,13 @@
 
 /* ### Footer ### */
 .footer h3 { color: white;}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio : 2),
+only screen and (min-device-pixel-ratio : 2) {
+  .branding .logo,
+  .branding .attribution .small-mapbox {
+    background-image: url(../img/tilemill-sprite@2x.png);
+    background-size: 150px 130px;
+  }
+}

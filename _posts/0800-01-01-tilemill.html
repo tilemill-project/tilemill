@@ -14,7 +14,7 @@ platforms:
   size: 79.6 MB
   url: http://github.com/downloads/mapbox/tilemill/TileMill-0.9.1.zip
 - id: linux
-  name: Ubuntu Desktop
+  name: Ubuntu
   help: Extract this archive and double-click<br/>on <code>install-tilemill.sh</code>.
   file: install-tilemill.tar.gz
   size: 30 MB
@@ -47,7 +47,7 @@ platforms:
     color: white;
     }
   .heading .icon {
-    background-image:url({{site.baseurl}}/img/tilemill-sprite.png);
+    background-image: url({{site.baseurl}}/img/tilemill-sprite.png);
     background-position-y: -110px;
     margin-right: 2px;
     }
@@ -608,17 +608,17 @@ $('.download').addClass((function() {
   return 'mac'; // default to Mac.
 })());
 
-$('.oslist li#mac a').click(function() {	
+$('.oslist li#mac a').click(function() {
     $('.download').addClass('mac').removeClass('windows').removeClass('linux');
     return false;
   });
 
-$('.oslist li#windows a').click(function() {	
+$('.oslist li#windows a').click(function() {
     $('.download').addClass('windows').removeClass('mac').removeClass('linux');
     return false;
   });
 
-$('.oslist li#linux a').click(function() {	
+$('.oslist li#linux a').click(function() {
     $('.download').addClass('linux').removeClass('windows').removeClass('mac');
     return false;
   });
