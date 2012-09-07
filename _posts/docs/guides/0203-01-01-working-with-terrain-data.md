@@ -150,13 +150,14 @@ Which gives us:
 
 ## Combining the final result in TileMill
 
-To combine these geotiffs in TileMill, we'll make use of the 'multiply' image blending mode. Assuming you have added your three geotiffs as layers with appropriate IDs, the following style will work. You can adjust the opacity of the hillshade and slope layers to tweak the style.
+To combine these geotiffs in TileMill, we'll make use of the 'multiply' image blending mode using the `raster-comp-op` property, which stands for "compositing operation". Assuming you have added your three geotiffs as layers with appropriate IDs, the following style will work. You can adjust the opacity of the hillshade and slope layers to tweak the style.
 
     #color-relief,
     #slope-shade,
     #hill-shade {
         raster-scaling: bilinear;
-        raster-mode: multiply;
+        // note: in TileMill 0.9.x and earlier this is called raster-mode
+        raster-comp-op: multiply;
     }
     
     #hill-shade { raster-opacity: 0.6; }
@@ -167,3 +168,6 @@ The end result is something like this, ready to be combined with your vector dat
 
 ![combined-dc.png](/tilemill/assets/pages/combined-dc.png)
 
+## Raster performance
+
+If your rasters are many MBs in size, then an important optimization is to build image pyramids, or overviews. This can be done with the `gdaladdo` tool or in QGIS. Building overviews does not impact the resolution of the original image, but it rather inserts new reduced resolution image references inside the original file that will be used in place of the full resolution data at low zoom levels. Any processing of the original image will likely drop any internal overviews previously built, so make sure to rebuild them if needed. You can use the `gdalinfo` tool to check if your tiff has overviews by ensuring the output has the 'Overviews' keyword reported for each band. 
