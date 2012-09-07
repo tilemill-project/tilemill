@@ -310,6 +310,7 @@ model.prototype.pollTileServer = function(options) {
             contentType: 'application/json',
             processData: false,
             success: _(function(resp) {
+                resp.status_url = project_status_url;
                 if (options.success) options.success(this, resp);
             }).bind(this),
             error: _(function(resp) {

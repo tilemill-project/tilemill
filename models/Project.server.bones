@@ -473,7 +473,7 @@ models.Project.prototype.localize = function(mml, callback) {
     var compileTime;
     Step(function() {
         localizeTime = (+new Date);
-        project_tile_status[model.id] = 'resolving';
+        project_tile_status[model.id] = 'patience, loading project';
         millstone.resolve({
             mml: mml,
             base: path.join(settings.files, 'project', model.id),
@@ -486,11 +486,12 @@ models.Project.prototype.localize = function(mml, callback) {
         localizedCache[key].mml = localized;
 
         compileTime = (+new Date);
-        project_tile_status[model.id] = 'compiling';
+        project_tile_status[model.id] = 'compiling css';
         compileStylesheet(localized, this);
     }, function(err, compiled) {
         if (err) throw err;
-        project_tile_status[model.id] = 'loaded';
+        // clear the status, indicated it is finished loading
+        delete project_tile_status[model.id];
         localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
         localizedCache[key].xml = compiled;
         localizedCache[key].emit('load');

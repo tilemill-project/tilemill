@@ -24,6 +24,7 @@ view.prototype.initialize = function() {
         'unload'
     );
     Bones.intervals = Bones.intervals || {};
+
     if (Bones.intervals.project) clearInterval(Bones.intervals.project);
     Bones.intervals.project = setInterval(_(function() {
         if (!$('.project').size()) return;
@@ -32,6 +33,30 @@ view.prototype.initialize = function() {
             clearInterval(Bones.intervals.project);
         }});
     }).bind(this), 1000);
+    this.dots = '.'
+    if (Bones.intervals.projectTile) clearInterval(Bones.intervals.projectTile);
+    Bones.intervals.projectTile = setInterval(_(function() {
+        if (!$('.project').size()) return;
+        this.model.pollTileServer({
+            success: _(function(m, resp) {
+                if (resp && resp.status) {
+                    var name = resp.status+this.dots;
+                    $('.workspace .status').text(name);
+                    this.dots += '.'
+                    if (this.dots.split('.').length > 5)
+                       this.dots = '.';
+                } else {
+                    $('.workspace .status').text('');
+                    clearInterval(Bones.intervals.projectTile);
+                }
+            }).bind(this),
+            error: _(function(m, resp) {
+                $('.workspace .status').text('');
+                clearInterval(Bones.intervals.projectTile);
+            }).bind(this)
+        });
+    }).bind(this), 1500);
+
     window.onbeforeunload = window.onbeforeunload || this.unload;
 
     this.model.bind('error', this.error);

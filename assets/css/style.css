@@ -387,6 +387,10 @@ small { font-size:11px; }
 
 .header h1 { font-size:16px; }
 
+.header .name { font-size:16px; }
+
+.header .status { padding: 10px; font-size:12px; }
+
 .header .spinner {
   position:fixed;
   right:215px;
