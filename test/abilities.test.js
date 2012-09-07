@@ -36,6 +36,7 @@ it('GET should return JSON', function(done) {
                 "background-image",
                 "srs",
                 "buffer-size",
+                "maximum-extent",
                 "base",
                 "paths-from-xml",
                 "minimum-version",
