@@ -40,6 +40,10 @@ command.prototype.initialize = function(plugin, callback) {
     // Set proxy env variable before spawning children
     if (plugin.config.httpProxy) process.env.HTTP_PROXY = plugin.config.httpProxy;
 
+    // munge verbose setting into what bones/millstone expects
+    if (plugin.config.verbose == 'on') process.env.NODE_ENV = 'development';
+    else process.env.NODE_ENV = 'production';
+
     Bones.plugin.command = this;
     Bones.plugin.children = {};
     process.title = 'tilemill';

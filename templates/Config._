@@ -64,6 +64,13 @@
     <% } %>
   </li>
   <% } %>
+  <li>
+    <label for='verbose'>Logging</label>
+    <input type='checkbox' name='verbose' <% if (get('verbose') == 'on') %>checked='checked'<% ; %> /> Use verbose logging
+    <div class='description'>
+      Check this to see more output in your logs about what TileMill processes are doing
+    </div>
+  </li>
   <li class='buttons'>
     <input type='submit' value='Saved' class='disabled' />
   </li>

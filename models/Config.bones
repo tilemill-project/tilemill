@@ -14,6 +14,10 @@ model.prototype.schema = {
         },
         'httpProxy': {
             'type': 'string'
+        },
+        'verbose': {
+            'type': 'string',
+            'enum': ['on', 'off'],
         }
     }
 };

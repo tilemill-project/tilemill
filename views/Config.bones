@@ -3,6 +3,7 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'change input[name=updates]': 'updates',
     'change input[name=profile]': 'profile',
+    'change input[name=verbose]': 'verbose',
     'change input[name=httpProxy]': 'proxy',
     'keyup input[name=httpProxy]': 'proxy',
     'keyup input[name=files]': 'files',
@@ -22,11 +23,13 @@ view.prototype.initialize = function(options) {
         'disable',
         'save',
         'restart',
-        'proxy'
+        'proxy',
+        'verbose'
     );
     this.model.bind('change', this.changed);
     this.model.bind('change:files', this.restart);
     this.model.bind('change:httpProxy', this.restart);
+    this.model.bind('change:verbose', this.restart);
     this.render();
 };
 
@@ -62,6 +65,11 @@ view.prototype.updates = function(ev) {
 
 view.prototype.profile = function(ev) {
     this.model.set({profile: $(ev.currentTarget).is(':checked')});
+};
+
+view.prototype.verbose = function(ev) {
+    var value = $(ev.currentTarget).is(':checked') ? 'on' : 'off';
+    this.model.set({verbose: value});
 };
 
 view.prototype.disable = function(ev) {

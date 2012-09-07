@@ -35,7 +35,8 @@ models.Config.prototype.sync = function(method, model, success, error) {
             'updatesVersion',
             'profile',
             'guid',
-            'httpProxy'
+            'httpProxy',
+            'verbose'
         ];
         var data = _(model.toJSON()).reduce(function(memo, val, key) {
             if (key === 'files') val = val.replace(/^~/, process.env.HOME);
@@ -52,7 +53,6 @@ models.Config.prototype.sync = function(method, model, success, error) {
             // Catch & blow away invalid user JSON.
             try { current = JSON.parse(current); }
             catch (e) { current = {}; }
-
             data = _(current).extend(data);
             fs.writeFile(paths.user, JSON.stringify(data, null, 2), this);
         // May contain sensitive info. Set secure permissions.

@@ -32,5 +32,11 @@ Bones.Command.options['syncAccessToken'] = {
     'default': defaults.syncAccessToken || ''
 };
 
+Bones.Command.options['verbose'] = {
+    'title': 'verbose=on|off',
+    'description': 'verbose logging',
+    'default': defaults.verbose
+};
+
 // Host option is unused.
 delete Bones.Command.options.host;
