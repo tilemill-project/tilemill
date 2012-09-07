@@ -298,6 +298,29 @@ model.prototype.poll = function(options) {
     });
 };
 
+// Hit the project poll endpoint for the tileserver instance
+model.prototype.pollTileServer = function(options) {
+    if (Bones.server) throw Error('Client-side method only.');
+    if (this.get('tiles') && this.get('tiles').length) {
+        var tiles_url = this.get('tiles')[0];
+        var project_status_url = tiles_url.slice(0,tiles_url.indexOf('{z}')) + 'project-status';
+        $.ajax({
+            url: project_status_url,
+            type: 'GET',
+            contentType: 'application/json',
+            processData: false,
+            success: _(function(resp) {
+                if (options.success) options.success(this, resp);
+            }).bind(this),
+            error: _(function(resp) {
+                if (options.error) options.error(this, resp);
+            }).bind(this)
+        });
+    } else {
+        options.success(this, {});
+    }
+};
+
 // Hit the project flush endpoint.
 model.prototype.flush = function(layer, url, options) {
     if (Bones.server) throw Error('Client-side method only.');

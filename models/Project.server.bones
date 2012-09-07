@@ -13,6 +13,10 @@ var settings = Bones.plugin.config;
 var tileURL = _('http://<%=url%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>').template();
 var request = require('request');
 
+// object tracks status of tileserver's status localizing a project
+// key:model.id value:friendly message about activity or ''
+var project_tile_status = {};
+
 // Project
 // -------
 // Implement custom sync method for Project model. Writes projects to
@@ -60,6 +64,10 @@ models.Project.prototype.sync = function(method, model, success, error) {
                 success({});
             }
         });
+        break;
+    // simple status poll, designed to get tileserver instance status
+    case 'status':
+        success({status:project_tile_status[model.id]});
         break;
     // Custom sync method to flush the cache for a specific model. Requires
     // `model.options.layer` to be set.
@@ -465,6 +473,7 @@ models.Project.prototype.localize = function(mml, callback) {
     var compileTime;
     Step(function() {
         localizeTime = (+new Date);
+        project_tile_status[model.id] = 'resolving';
         millstone.resolve({
             mml: mml,
             base: path.join(settings.files, 'project', model.id),
@@ -477,10 +486,11 @@ models.Project.prototype.localize = function(mml, callback) {
         localizedCache[key].mml = localized;
 
         compileTime = (+new Date);
+        project_tile_status[model.id] = 'compiling';
         compileStylesheet(localized, this);
     }, function(err, compiled) {
         if (err) throw err;
-
+        project_tile_status[model.id] = 'loaded';
         localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
         localizedCache[key].xml = compiled;
         localizedCache[key].emit('load');

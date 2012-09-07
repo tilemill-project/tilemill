@@ -18,13 +18,14 @@ server.prototype.start = function(callback) {
 };
 
 server.prototype.initialize = function() {
-    _.bindAll(this, 'thumb', 'load', 'mbtiles');
+    _.bindAll(this, 'thumb', 'projectStatus', 'load', 'mbtiles');
     this.port = settings.tilePort || this.port;
     this.enable('jsonp callback');
     this.use(this.cors);
     this.all('/tile/:id.mbtiles/:z/:x/:y.:format(png|grid.json)', this.mbtiles);
     this.all('/tile/:id/:z/:x/:y.:format(png|grid.json)', this.load);
     this.all('/tile/:id/thumb.png', this.thumb);
+    this.get('/tile/:id/project-status', this.projectStatus);
     this.all('/datasource/:id', this.datasource);
     this.get('/status', this.status);
     this.post('/restart', this.restart);
@@ -33,6 +34,13 @@ server.prototype.initialize = function() {
         err.status = err.status || 500;
         res.send(err.message, err.status);
     });
+};
+
+server.prototype.projectStatus = function(req, res, next) {
+    var model = new models.Project({
+        id: req.param('id')
+    });
+    model.sync('status', model, res.send.bind(res), next);
 };
 
 server.prototype.load = function(req, res, next) {
