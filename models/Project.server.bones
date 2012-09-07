@@ -490,7 +490,7 @@ models.Project.prototype.localize = function(mml, callback) {
         compileStylesheet(localized, this);
     }, function(err, compiled) {
         if (err) throw err;
-        // clear the status, indicated it is finished loading
+        // clear the status, indicating project is finished loading
         delete project_tile_status[model.id];
         localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
         localizedCache[key].xml = compiled;

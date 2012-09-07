@@ -5,7 +5,7 @@
     <div class='header'>
     <div>
        <span class='name'><%= get('name') || get('id') %></span>
-       <span class='status' title="check the logs for more details"></span>
+       <span class='project-status' title="check the logs for more details"></span>
     </div>
     <div class='actions joined'>
       <a class='button disabled' href='#save'><span class='icon reverse edit labeled'></span> Save</a>

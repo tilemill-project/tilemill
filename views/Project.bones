@@ -41,17 +41,17 @@ view.prototype.initialize = function() {
             success: _(function(m, resp) {
                 if (resp && resp.status) {
                     var name = resp.status+this.dots;
-                    $('.workspace .status').text(name);
+                    $('.workspace .project-status').text(name);
                     this.dots += '.'
                     if (this.dots.split('.').length > 5)
                        this.dots = '.';
                 } else {
-                    $('.workspace .status').text('');
+                    $('.workspace .project-status').text('');
                     clearInterval(Bones.intervals.projectTile);
                 }
             }).bind(this),
             error: _(function(m, resp) {
-                $('.workspace .status').text('');
+                $('.workspace .project-status').text('');
                 clearInterval(Bones.intervals.projectTile);
             }).bind(this)
         });
