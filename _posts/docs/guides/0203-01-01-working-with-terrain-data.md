@@ -85,7 +85,9 @@ Run this command to generate the shaded relief image:
 
     gdaldem hillshade -co compress=lzw dc-3785.tif dc-hillshade-3785.tif
 
-The `-co compress=lzw` option will compress the TIFF. If you're not concerned about disk space you can leave that part out. Our output looks like this:
+The `-co compress=lzw` option will compress the TIFF. If you're not concerned about disk space you can leave that part out. If you are using GDAL 1.8.0 or later you may also want to add the option `-compute_edges` in order to avoid a black pixel border around the edge of the image.
+
+Our output looks like this:
 
 ![Result, scaled and cropped](/tilemill/assets/pages/hillshade-dc.png)
 
