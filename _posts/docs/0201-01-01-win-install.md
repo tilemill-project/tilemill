@@ -3,14 +3,16 @@ section: help
 layout: docs
 category: installation
 tag: Installation
-title: Installing
+title: Installing on Windows
 permalink: /docs/win-install
 hidden: true
 nextup:
 - "Make your first map with [CSV data](/tilemill/docs/tutorials/point-data/)."
 - "Read the [TileMill manual](/tilemill/docs/manual/)."
 ---
-This page is for **Windows**. We also have instructions for [Mac OS X](/tilemill/docs/mac-install) and [Ubuntu](/tilemill/docs/linux-install).
+This page is for installing on **Windows**.
+
+We also have instructions for [Mac OS X](/tilemill/docs/mac-install), [Ubuntu](/tilemill/docs/linux-install), and [other platforms](/tilemill/docs/source).
 
 ### Requirements
 <ul class='checklist'>

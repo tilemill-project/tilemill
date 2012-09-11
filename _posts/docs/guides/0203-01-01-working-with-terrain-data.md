@@ -34,8 +34,6 @@ Data collected from NASA's [Shuttle Radar Topography Mission][1] is a high quali
 [1]: http://www2.jpl.nasa.gov/srtm/
 [2]: http://srtm.csi.cgiar.org/
 
-We have also processed and combined CGIAR's cleaned up SRTM data and, with their permission, make it available as an Amazon Web Services *Elastic Block Store* (EBS) snapshot. If you have an AWS account, you can create an EBS volume from snapshot `snap-1861c070`, attach it to an EC2 instance, and work with it in the cloud instead of downloading hundreds of gigabytes of data.
-
 #### ASTER
 
 Aster is another global DEM datasource. It has better coverage of the earth's surface than SRTM, and is slightly higher-resolution, but contains more errors than CGIAR's clean SRTM set. Errors are usually in the form of spikes or pits, and can be significant.
@@ -87,7 +85,9 @@ Run this command to generate the shaded relief image:
 
     gdaldem hillshade -co compress=lzw dc-3785.tif dc-hillshade-3785.tif
 
-The `-co compress=lzw` option will compress the TIFF. If you're not concerned about disk space you can leave that part out. Our output looks like this:
+The `-co compress=lzw` option will compress the TIFF. If you're not concerned about disk space you can leave that part out. If you are using GDAL 1.8.0 or later you may also want to add the option `-compute_edges` in order to avoid a black pixel border around the edge of the image.
+
+Our output looks like this:
 
 ![Result, scaled and cropped](/tilemill/assets/pages/hillshade-dc.png)
 
@@ -150,13 +150,14 @@ Which gives us:
 
 ## Combining the final result in TileMill
 
-To combine these geotiffs in TileMill, we'll make use of the 'multiply' image blending mode. Assuming you have added your three geotiffs as layers with appropriate IDs, the following style will work. You can adjust the opacity of the hillshade and slope layers to tweak the style.
+To combine these geotiffs in TileMill, we'll make use of the 'multiply' image blending mode using the `raster-comp-op` property, which stands for "compositing operation". Assuming you have added your three geotiffs as layers with appropriate IDs, the following style will work. You can adjust the opacity of the hillshade and slope layers to tweak the style.
 
     #color-relief,
     #slope-shade,
     #hill-shade {
         raster-scaling: bilinear;
-        raster-mode: multiply;
+        // note: in TileMill 0.9.x and earlier this is called raster-mode
+        raster-comp-op: multiply;
     }
     
     #hill-shade { raster-opacity: 0.6; }
@@ -167,3 +168,6 @@ The end result is something like this, ready to be combined with your vector dat
 
 ![combined-dc.png](/tilemill/assets/pages/combined-dc.png)
 
+## Raster performance
+
+If your rasters are many MBs in size, then an important optimization is to build image pyramids, or overviews. This can be done with the `gdaladdo` tool or in QGIS. Building overviews does not impact the resolution of the original image, but it rather inserts new reduced resolution image references inside the original file that will be used in place of the full resolution data at low zoom levels. Any processing of the original image will likely drop any internal overviews previously built, so make sure to rebuild them if needed. You can use the `gdalinfo` tool to check if your tiff has overviews by ensuring the output has the 'Overviews' keyword reported for each band. 

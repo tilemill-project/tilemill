@@ -11,7 +11,7 @@ prereq:
 nextup:
 - "[Using conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
 - "[Adding tooltips](/tilemill/docs/crashcourse/tooltips/) to your map."
-- "[Adding a legend](/tilemill/docs/crashcourse/legends/) to your map."
+- "[Adding a legend](/tilemill/docs/crashcourse/tooltips/#legends) to your map."
 - "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
 ---
 

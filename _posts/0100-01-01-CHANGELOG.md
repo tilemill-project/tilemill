@@ -45,6 +45,22 @@ releases:
 #  - Added ability to upgrade plugins
 #  - Fixed a bug where compatible plugin versions did not show up if there were newer incompatible versions
 
+- version: 0.9.1.302
+  dev: true
+  date: 2012-08-31
+  size: 81080340
+  sign: MC4CFQCW1hdDNq/DY+3m7k9ldmupjZ/mOgIVANAabRI+ZASlVddHzxO4ZswNm/NS
+  notes:
+  - Development snapshot of TileMill 0.10.0-pre
+  - Various fixes to CSV reading support
+  - PostGIS extent can be auto-calculated
+  - Proxy support was improved
+  - Markers grid rendering has been improved
+  - Numerous Mapnik fixes to compositing operations, alpha handling, and clipping behavior
+  - Mapnik 2.1 is [now being used](http://mapnik.org/news/2012/08/24/release-2.1.0/)
+  - Mapnik [updates since 276](https://github.com/mapnik/mapnik/compare/b43697fd5de...d054178a75c)
+  - TileMill [updates since 276](https://github.com/mapbox/tilemill/compare/1b6ba21f75...75a7e9fa4a)
+
 - version: 0.9.1.276
   dev: true
   date: 2012-08-03
@@ -90,8 +106,9 @@ releases:
   sign: MC4CFQDvaV9w+7IyMfsd3XZnNOadT70jfAIVAJq14ThnQ4CWG4zs1TwB/zWNTLS2
 
   notes:
-  - Better error output in logs if a crash occurs during rendering or exports
   - Now using Node v0.6.17 (previous 0.9.0 release used Node v0.4.12)
+  - Now using Mapnik 2.1.0-pre at 113f3937cf (previous 0.9.0 release used Mapnik 2.1.0-pre at b8632c20)
+  - Better error output in logs if a crash occurs during rendering or exports
   - Supports PostGIS 2.0 (Mapnik)
   - Interactivity UI now warns about the need for users to provide a unique key for PostGIS layers.
   - Invalid fonts no longer prevent startup (Mapnik)
