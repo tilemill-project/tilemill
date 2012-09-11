@@ -34,8 +34,6 @@ Data collected from NASA's [Shuttle Radar Topography Mission][1] is a high quali
 [1]: http://www2.jpl.nasa.gov/srtm/
 [2]: http://srtm.csi.cgiar.org/
 
-We have also processed and combined CGIAR's cleaned up SRTM data and, with their permission, make it available as an Amazon Web Services *Elastic Block Store* (EBS) snapshot. If you have an AWS account, you can create an EBS volume from snapshot `snap-1861c070`, attach it to an EC2 instance, and work with it in the cloud instead of downloading hundreds of gigabytes of data.
-
 #### ASTER
 
 Aster is another global DEM datasource. It has better coverage of the earth's surface than SRTM, and is slightly higher-resolution, but contains more errors than CGIAR's clean SRTM set. Errors are usually in the form of spikes or pits, and can be significant.
