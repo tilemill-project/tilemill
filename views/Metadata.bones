@@ -234,7 +234,7 @@ view.prototype.save = function() {
     delete attr.format_custom;
     delete attr._saveProject;
     attr = _(attr).reduce(function(memo, val, key) {
-        var allowEmpty = ['description', 'attribution', 'version'];
+        var allowEmpty = ['description', 'attribution'];
         if (val !== '' || _(allowEmpty).include(key)) memo[key] = val;
         return memo;
     }, {});
