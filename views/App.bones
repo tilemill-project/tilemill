@@ -14,7 +14,7 @@ Bones.utils.serial = function (steps, callback) {
 
 Bones.utils.form = function(form, model, options) {
     var parseOptions = function (o) {
-        return _(o.match(/([\d\w]*)\=(\"[^\"]*\"|[^\s]*)/g)).reduce(function(memo,pair) {
+        return _(o.match(/([\d\w-]*)\=(\"[^\"]*\"|[^\s]*)/g)).reduce(function(memo,pair) {
             pair = pair.replace(/"|'/g, '').split('=');
             memo[pair[0]] = pair[1];
             return memo;
