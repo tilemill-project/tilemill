@@ -76,6 +76,10 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             (unproj_extent[2] > 180) && (unproj_extent[2] = 180);
             (unproj_extent[3] > 85.051) && (unproj_extent[3] = 85.051);
 
+            if (unproj_extent[2] < unproj_extent[0] || unproj_extent[3] < unproj_extent[1]) {
+                throw new Error("Extent out of bounds. Check SRS for layer '" + options.id + "'.");
+            }
+
             var desc = source.describe();
             var datasource = {
                 id: options.id,
