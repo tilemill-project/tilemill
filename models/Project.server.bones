@@ -481,7 +481,7 @@ models.Project.prototype.localize = function(mml, callback) {
             if (millstone.downloads) {
                 var num_downloads = Object.keys(millstone.downloads).length;
                 if (num_downloads) {
-                    project_tile_status[model.id] = 'Currently downloading ' + num_downloads + ' resource' + (num_downloads > 1 ? 's' : '');
+                    project_tile_status[model.id] = 'caching ' + num_downloads + ' resource' + (num_downloads > 1 ? 's' : '');
                 }
             }
         },1000);
