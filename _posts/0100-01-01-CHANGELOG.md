@@ -49,6 +49,7 @@ releases:
 #  - Symlinks are now used on Windows Vista and above to speed up project loading and data handling efficiency
 #  - Data now should automatically update when a project is saved on Windows (no longer a need to rename the #id or filename)
 #  - SVG/PDF export with labels should work again on Windows
+#  - Support for filtering by geometry type like `#countries['mapnik::geometry_type'=polygon]`. Both `point`, `polygon`, `linestring`, and `collection` are supported keywords that match geometry types. Collection means that a feature stores mixed types, like both a `point` and a `polygon`.
 
 
 - version: 0.9.1.276
