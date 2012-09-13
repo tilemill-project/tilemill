@@ -51,21 +51,27 @@ models.Library.prototype.sync = function(method, model, success, error) {
 
         function isRelative(loc) {
             if (process.platform === 'win32') {
-                return loc[0] !== '\\' && loc.match(/^[a-zA-Z]:\\/) == null;
+                return loc[0] !== '\\' && loc.match(/^[a-zA-Z]:\\/) === null;
             } else {
                 return loc[0] !== '/';
             }
         }
 
-        var location = (model.get('location') || process.env.HOME);
+        var sep = process.platform === 'win32' ? '\\' : '/';
+        // TODO - this is not ideal: https://github.com/mapbox/tilemill/issues/1673
+        var location = (model.get('location') || process.env.HOME).replace(/^([a-zA-Z]:\\|\/)/, sep);;
 
         // Resolve paths relative to project directory.
         if (isRelative(location)) {
+            if (env == 'development') console.log('[tilemill] [library] detected relative path: ' + location);
             location = path.join(config.files, 'project', model.get('project'), location);
         }
 
         existsAsync(location, function(exists) {
-            if (!exists) location = process.env.HOME;
+            if (!exists) {
+                if (env == 'development') console.log('[tilemill] [library] path ' + location + ' not found defaulting to home directory ' + process.env.HOME);
+                location = process.env.HOME;
+            }
             readdir(location, function(err, files) {
                 if (err &&
                     err.code !== 'EACCES' &&
