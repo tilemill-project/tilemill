@@ -34,6 +34,7 @@ view.prototype.initialize = function() {
         }});
     }).bind(this), 1000);
     this.dots = '.'
+    this.project_checks = 0;
     if (Bones.intervals.projectTile) clearInterval(Bones.intervals.projectTile);
     Bones.intervals.projectTile = setInterval(_(function() {
         if (!$('.project').size()) return;
@@ -47,7 +48,8 @@ view.prototype.initialize = function() {
                        this.dots = '.';
                 } else {
                     $('.workspace .project-status').text('');
-                    clearInterval(Bones.intervals.projectTile);
+                    this.project_checks++;
+                    if (this.project_checks > 2) clearInterval(Bones.intervals.projectTile);
                 }
             }).bind(this),
             error: _(function(m, resp) {
@@ -55,7 +57,7 @@ view.prototype.initialize = function() {
                 clearInterval(Bones.intervals.projectTile);
             }).bind(this)
         });
-    }).bind(this), 1500);
+    }).bind(this), 1000);
 
     window.onbeforeunload = window.onbeforeunload || this.unload;
 

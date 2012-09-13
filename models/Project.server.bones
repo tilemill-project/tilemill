@@ -471,15 +471,25 @@ models.Project.prototype.localize = function(mml, callback) {
 
     var localizeTime;
     var compileTime;
+    var resolveInterval = {};
     Step(function() {
         localizeTime = (+new Date);
         project_tile_status[model.id] = 'patience, loading project';
+        setInterval(function() {
+            if (millstone.downloads) {
+                var num_downloads = Object.keys(millstone.downloads).length;
+                if (num_downloads) {
+                    project_tile_status[model.id] = 'Currently downloading ' + num_downloads + ' resource' + (num_downloads > 1 ? 's' : '');
+                }
+            }
+        },1000);
         millstone.resolve({
             mml: mml,
             base: path.join(settings.files, 'project', model.id),
             cache: path.join(settings.files, 'cache')
         }, this);
     }, function(err, localized) {
+        clearInterval(resolveInterval);
         if (err) throw err;
 
         localizedCache[key].debug.localize = (+new Date) - localizeTime + 'ms';

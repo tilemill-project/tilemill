@@ -389,7 +389,7 @@ small { font-size:11px; }
 
 .header .name { font-size:16px; }
 
-.header .project-status { padding: 10px; font-size:12px; }
+.header .project-status { color: #62A0AF; padding: 10px; font-size:12px; }
 
 .header .spinner {
   position:fixed;
