@@ -13,22 +13,8 @@ process.title = 'tilemill';
 process.argv[0] = 'node';
 
 if (process.platform === 'win32') {
-
     // HOME is undefined on windows
     process.env.HOME = process.env.USERPROFILE;
-
-    // don't attempt symlink support at all -- just copy.
-    // @TODO write a dotfile next to the copy with the link
-    // "metadata" so we can monkeypatch readlink as well.
-    var cprSync = require('./lib/fsutil').cprSync;
-    fs.symlink = function(from,to,cb) {
-        try {
-            cprSync(from, to);
-            return cb();
-        } catch (err) {
-            return cb(err);
-        }
-    }
 }
 
 // Default --config flag to user's home .tilemill.json config file.
