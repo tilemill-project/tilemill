@@ -77,7 +77,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             (unproj_extent[3] > 85.051) && (unproj_extent[3] = 85.051);
 
             if (unproj_extent[2] < unproj_extent[0] || unproj_extent[3] < unproj_extent[1]) {
-                throw new Error("Extent out of bounds. Check SRS for layer '" + options.id + "'.");
+                throw new Error("Detected out of bounds geographic extent (" + unproj_extent + ") for layer '" + options.id + "'. Please ensure that the SRS for this layer is correct. Its native extent is '" + source.extent() + "'");
             }
 
             var desc = source.describe();
