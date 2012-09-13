@@ -294,13 +294,15 @@ function destroyProject(model, callback) {
     // open file handles to a data file in a project that needs to
     // be deleted. Stopgap is to kill the tileserver, delete the project
     // and let the tileserver start back up on its own.
-    if (process.platform === 'win32') {
+    // NOTE: appears no longer needed with node v0.8.9
+	/*if (process.platform === 'win32') {
         request.post({ url:'http://'+settings.tileUrl+'/restart' }, function(err) {
             rm(modelPath, callback);
         });
     } else {
+	*/
         rm(modelPath, callback);
-    }
+    //}
 }
 
 // Save a project. Creates a subdirectory per project and splits out
