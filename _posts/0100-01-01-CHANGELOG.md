@@ -48,6 +48,7 @@ releases:
 #  - New Verbose mode for getting more detailed information in the TileMill logs of project loading status
 #  - Symlinks are now used on Windows Vista and above to speed up project loading and data handling efficiency
 #  - Data now should automatically update when a project is saved on Windows (no longer a need to rename the #id or filename)
+#  - SVG/PDF export with labels should work again on Windows
 
 
 - version: 0.9.1.276
