@@ -44,6 +44,12 @@ releases:
 #  - Added more raster resampling methods like windowed filters of 'blackman' and 'hanning'
 #  - Added ability to upgrade plugins
 #  - Fixed a bug where compatible plugin versions did not show up if there were newer incompatible versions
+#  - TileMill now supports reading CSVs with a column named either 'WKT' or 'GEOJSON' and encoded as either Well Known Text or GeoJSON, respectively. This allows CSV files to support more geometry types than just points.
+#  - New Verbose mode for getting more detailed information in the TileMill logs of project loading status
+#  - Symlinks are now used on Windows Vista and above to speed up project loading and data handling efficiency
+#  - Data now should automatically update when a project is saved on Windows (no longer a need to rename the #id or filename)
+#  - SVG/PDF export with labels should work again on Windows
+#  - Support for filtering by geometry type like `#countries['mapnik::geometry_type'=polygon]`. Both `point`, `polygon`, `linestring`, and `collection` are supported keywords that match geometry types. Collection means that a feature stores mixed types, like both a `point` and a `polygon`.
 
 - version: 0.9.1.302
   dev: true
