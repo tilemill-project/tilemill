@@ -321,8 +321,11 @@
 {
     [self writeToLog:output];
     
-    if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output])
+    if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output] ||
+        [[NSPredicate predicateWithFormat:@"SELF contains 'Error(\"Cannot find module'"] evaluateWithObject:output]
+        )
         [self presentFatalError];
+
 }
 
 - (void)childProcess:(TileMillChildProcess *)process didCrash:(NSString *)output

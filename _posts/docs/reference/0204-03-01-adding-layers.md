@@ -1,7 +1,7 @@
 ---
-layout: book
-section: tilemill
-category: TileMill
+layout: docs
+section: help
+category: reference
 tag: Reference
 title: Adding layers
 permalink: /docs/manual/adding-layers

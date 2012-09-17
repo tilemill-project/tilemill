@@ -30,18 +30,27 @@ If you do not have a `template_postgis` create one like:
 For more info see: http://postgis.refractions.net/documentation/manual-1.5/ch02.html#id2619431
 
 
-# Viewing docs locally
+# Documentation
 
-## Install jekyll
+Tilemill documentation is kept in the gh-pages branch, which is independently managed and not merged with master.
+
+Tilemill's in-app reference available as the "Manual" is a very small subset of docs for offline usage and is manually
+sync'ed from the gh-pages branch.
+
+To view all the TileMill documentation locally, first checkout the gh-pages branch:
+
+    git checkout gh-pages
+
+Then install Jekyll:
 
     sudo gem install jekyll
 
-## Run jekyll
+And run Jekyll:
 
     jekyll
 
-## View the site at:
+Once Jekyll has started you should be able to view the docs in a browser at:
 
-    http://localhost:4000/tilemill/docs/
+    http://localhost:4000/tilemill/
     
     

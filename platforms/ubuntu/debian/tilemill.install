@@ -2,14 +2,12 @@
 ## files
 LICENSE.md usr/share/tilemill
 README.md usr/share/tilemill
-_config.yml usr/share/tilemill
 index.js usr/share/tilemill
 package.json usr/share/tilemill
 VERSION usr/share/tilemill
 tilemill.ico usr/share/tilemill
 
 ## directories
-_layouts usr/share/tilemill
 _posts usr/share/tilemill
 assets usr/share/tilemill
 commands usr/share/tilemill
