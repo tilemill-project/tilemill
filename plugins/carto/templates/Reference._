@@ -17,7 +17,7 @@
 
 <h2>Selectors</h2>
 
-<p><a href='http://www.tilemill.com'>TileMill</a> supports the <a href="https://github.com/mapbox/carto">carto</a> map styling language. It should be familiar to CSS users and easy to pick up for everyone else.</p>
+<p><a target='_blank' href='http://www.tilemill.com'>TileMill</a> supports the <a target='_blank' href="https://github.com/mapbox/carto">carto</a> map styling language. It should be familiar to CSS users and easy to pick up for everyone else.</p>
 
 <p>A simple carto style looks like</p>
 
@@ -150,7 +150,7 @@ Map { background-color: @green; }
 
 <h2>Color functions</h2>
 
-<p>Carto inherits color manipulation functions from <a href='http://lesscss.org' target='_blank'>less.js</a>.</p>
+<p>Carto inherits color manipulation functions from <a target='_blank' href='http://lesscss.org' target='_blank'>less.js</a>.</p>
 
 <pre class='carto-snippet'>
 // lighten or darken a color by 10%
