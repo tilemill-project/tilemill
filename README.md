@@ -52,5 +52,20 @@ And run Jekyll:
 Once Jekyll has started you should be able to view the docs in a browser at:
 
     http://localhost:4000/tilemill/
-    
-    
+
+
+# Syncing manual
+
+To sync the manual with gh-pages updates do:
+
+    export TILEMILL_SOURCES=`pwd`
+    cd ../
+    git clone --depth=1 -b gh-pages https://github.com/mapbox/tilemill tilemill-gh-pages
+    cd ${TILEMILL_SOURCES}
+    export TILEMILL_GHPAGES=../tilemill-gh-pages
+    rm -rf ${TILEMILL_SOURCES}/assets/manual
+    mkdir -p ${TILEMILL_SOURCES}/assets/manual
+    cp -r ${TILEMILL_GHPAGES}/assets/manual/* ${TILEMILL_SOURCES}/assets/manual/
+    rm -rf ${TILEMILL_SOURCES}/_posts/docs/reference
+    mkdir -p ${TILEMILL_SOURCES}/_posts/docs/reference
+    cp -r ${TILEMILL_GHPAGES}/_posts/docs/reference/* ${TILEMILL_SOURCES}/_posts/docs/reference/
