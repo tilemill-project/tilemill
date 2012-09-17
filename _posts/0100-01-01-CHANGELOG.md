@@ -13,11 +13,11 @@ title: Changelog
 permalink: /changelog
 releases:
 
-#- version:
-#  date:
-#  size:
-#  sign:
-#
+#- version: 0.10.0
+#  date: 2012-09-17
+#  size: 61721185
+#  sign: MC0CFQDQT6m1Ia1zgQ3Twz89C+vG7mKy3QIUJrKSBgmQLrlhte3zBxaOa8eXHAA=
+
 #  notes:
 #  - Improved support for autodetection of geojson from the cartodb api (node-srs)
 #  - Added support for using escaped URLs to remove datasources (like cartodb)
