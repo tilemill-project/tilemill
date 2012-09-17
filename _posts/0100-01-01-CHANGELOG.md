@@ -51,6 +51,17 @@ releases:
 #  - SVG/PDF export with labels should work again on Windows
 #  - Support for filtering by geometry type like `#countries['mapnik::geometry_type'=polygon]`. Both `point`, `polygon`, `linestring`, and `collection` are supported keywords that match geometry types. Collection means that a feature stores mixed types, like both a `point` and a `polygon`.
 
+- version: 0.9.1.350
+  dev: true
+  date: 2012-09-17
+  size: 61720731
+  sign: MC0CFBm+WUfNenkZ3VCNXzrMpqJdNBhSAhUA2x4oAY4V4SNdLEAK6kpEOszub7M=
+  notes:
+  - New Project status reporting and verbose mode
+  - Various Millstone fixes.
+  - Mapnik [updates since 302](https://github.com/mapnik/mapnik/compare/d054178a75c...2d5287c298)
+  - TileMill [updates since 302](https://github.com/mapbox/tilemill/compare/75a7e9fa4a...761968af68)
+
 - version: 0.9.1.302
   dev: true
   date: 2012-08-31
