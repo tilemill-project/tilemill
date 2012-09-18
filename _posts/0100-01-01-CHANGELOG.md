@@ -15,8 +15,8 @@ releases:
 
 #- version: 0.10.0
 #  date: 2012-09-17
-#  size: 61721185
-#  sign: MC0CFQDQT6m1Ia1zgQ3Twz89C+vG7mKy3QIUJrKSBgmQLrlhte3zBxaOa8eXHAA=
+#  size: 61721032
+#  sign: MCwCFH2IL/KIjgGnhj+c6vy3gVOuVCfKAhRAVM8UZMnKknNoXEjINyXOQ8vVcw==
 
 #  notes:
 #  - Improved support for autodetection of geojson from the cartodb api (node-srs)
