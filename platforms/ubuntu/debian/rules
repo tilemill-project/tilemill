@@ -15,8 +15,7 @@ build:
 			node-waf configure build ; \
 		fi ; \
 	done
-	cd ./node_modules/sqlite3
-	./node_modules/.bin/node-gyp rebuild
+	cd ./node_modules/sqlite3; node ./node_modules/node-gyp/bin/node-gyp.js rebuild --verbose --nodedir=node_root_dir/;
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 

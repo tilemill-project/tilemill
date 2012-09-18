@@ -102,6 +102,9 @@ Grab local copy of node-gyp to be able to rebuild node-sqlite3 on launchpad
 
     cd ./node_modules/sqlite3
     npm install node-gyp
+    cp -r /home/ubuntu/.node-gyp/0.8.9/ node_root_dir
+    rm -rf /home/ubuntu/.node-gyp/
+    ./node_modules/node-gyp/bin/node-gyp.js rebuild --nodedir=node_root_dir/
     cd ../../
 
 ### Package and upload
