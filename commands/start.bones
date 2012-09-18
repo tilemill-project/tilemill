@@ -41,8 +41,12 @@ command.prototype.initialize = function(plugin, callback) {
     if (plugin.config.httpProxy) process.env.HTTP_PROXY = plugin.config.httpProxy;
 
     // munge verbose setting into what bones/millstone expects
-    if (plugin.config.verbose == 'on') process.env.NODE_ENV = 'development';
-    else process.env.NODE_ENV = 'production';
+    if (plugin.config.verbose == 'on') {
+        process.env.NODE_ENV = 'development';
+    } else  {
+        // beware, do not set to 'production': https://github.com/mapbox/tilemill/issues/1697
+        process.env.NODE_ENV = 'normal'; // NOTE: normal is arbitrary, just needs to be not 'development'
+    }
 
     Bones.plugin.command = this;
     Bones.plugin.children = {};
