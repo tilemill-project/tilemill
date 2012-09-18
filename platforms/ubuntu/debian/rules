@@ -16,7 +16,7 @@ build:
 		fi ; \
 	done
 	cd ./node_modules/sqlite3
-	./node_modules/.bin/node-gyp rebuild
+	./node_modules/node-gyp/bin/node-gyp.js rebuild
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 
