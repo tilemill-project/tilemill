@@ -98,6 +98,12 @@ Now build TileMill:
 
     npm install
 
+Grab local copy of node-gyp to be able to rebuild node-sqlite3 on launchpad
+
+    cd ./node_modules/sqlite3
+    npm install node-gyp
+    cd ../../
+
 ### Package and upload
 
 Now we need to create a package for every ubuntu distribution and upload it to launchpad.
