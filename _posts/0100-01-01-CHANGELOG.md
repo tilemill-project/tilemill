@@ -14,7 +14,7 @@ permalink: /changelog
 releases:
 
 - version: 0.10.0
-  date: 2012-09-17
+  date: 2012-09-19
   size: 61721032
   sign: MCwCFH2IL/KIjgGnhj+c6vy3gVOuVCfKAhRAVM8UZMnKknNoXEjINyXOQ8vVcw==
 
