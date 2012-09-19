@@ -13,43 +13,47 @@ title: Changelog
 permalink: /changelog
 releases:
 
-#- version: 0.10.0
-#  date: 2012-09-17
-#  size: 61721032
-#  sign: MCwCFH2IL/KIjgGnhj+c6vy3gVOuVCfKAhRAVM8UZMnKknNoXEjINyXOQ8vVcw==
+- version: 0.10.0
+  date: 2012-09-17
+  size: 61721032
+  sign: MCwCFH2IL/KIjgGnhj+c6vy3gVOuVCfKAhRAVM8UZMnKknNoXEjINyXOQ8vVcw==
 
-#  notes:
-#  - Improved support for autodetection of geojson from the cartodb api (node-srs)
-#  - Added support for using escaped URLs to remove datasources (like cartodb)
-#  - Added support for regex in carto filters like `#world[name =~ "A.*"]`
-#  - Added support for quotes in carto filter values like `#world[name2="Sa'ad"]`
-#  - Carto parsing now provides better errors for unmatched parens
-#  - The raster-mode property has been renamed to raster-comp-op and now supports all SVG compositing operations (but uses dashes instead of underscores - so grain_merge is now grain-merge) (Mapnik)
-#  - Support for OS X 10.8 (Mountain Lion)
-#  - OS X app is now signed with Developer ID (Gatekeeper)
-#  - Interactivity now works on features that have negative or zero primary key values
-#  - Column names in CSV datasources named 'lng' are now automatically recognized as the longitude column
-#  - Added ability to zoom to layer extents
-#  - Fixed a bug where interactivity templates broke when they ended in a number value
-#  - Added ability to toggle layer visibility
-#  - Version update checking no longer blocks application startup.
-#  - marker-width and marker-height are now expressions
-#  - building-height is now an expression
-#  - Added ability to trigger opening http links by clicking on features using 'location' template
-#  - Added ability to set the metatile size in the project settings
-#  - Added ability to set a map scaling factor in the project settings
-#  - Added support for http proxies
-#  - Added support for remote icons like `point-file: url('http://a.tiles.mapbox.com/v3/marker/pin-l-campsite+000000.png');` (millstone)
-#  - Improved support for handling remote csv and kml files (millstone)
-#  - Added more raster resampling methods like windowed filters of 'blackman' and 'hanning'
-#  - Added ability to upgrade plugins
-#  - Fixed a bug where compatible plugin versions did not show up if there were newer incompatible versions
-#  - TileMill now supports reading CSVs with a column named either 'WKT' or 'GEOJSON' and encoded as either Well Known Text or GeoJSON, respectively. This allows CSV files to support more geometry types than just points.
-#  - New Verbose mode for getting more detailed information in the TileMill logs of project loading status
-#  - Symlinks are now used on Windows Vista and above to speed up project loading and data handling efficiency
-#  - Data now should automatically update when a project is saved on Windows (no longer a need to rename the #id or filename)
-#  - SVG/PDF export with labels should work again on Windows
-#  - Support for filtering by geometry type like `#countries['mapnik::geometry_type'=polygon]`. Both `point`, `polygon`, `linestring`, and `collection` are supported keywords that match geometry types. Collection means that a feature stores mixed types, like both a `point` and a `polygon`.
+  notes:
+  - Support for Mapnik compositing at style level `comp-op` and feature level `polygon-comp-op` (porter-duff plus many more custom blend modes are supported)
+  - Support for Mapnik image-filters like blur, emboss, and sharpen
+  - Ability to turn on and off geometry clipping at feature level
+  - Ability to smooth lines with `line-smooth`;
+  - `marker-width` and `marker-height` are now expressions
+  - `building-height` is now an expression
+  - Added support for regex in carto filters like `#world[name =~ "A.*"]`
+  - Added support for quotes in carto filter values like `#world[name2="Sa'ad"]`
+  - Carto parsing now provides better errors for unmatched parens
+  - Improved support for autodetection of geojson from the cartodb api (node-srs)
+  - Added support for escaped URLs to remote datasources (for cartodb)
+  - The raster-mode property has been renamed to raster-comp-op and now supports all SVG compositing operations (but uses dashes instead of underscores - so grain_merge is now grain-merge) (Mapnik)
+  - Support for OS X 10.8 (Mountain Lion)
+  - OS X app is now signed with Developer ID (Gatekeeper)
+  - Interactivity now works on features that have negative or zero primary key values
+  - Fixed a bug where interactivity templates broke when they ended in a number value
+  - Version update checking no longer blocks application startup.
+  - Column names in CSV datasources named 'lng' are now automatically recognized as the longitude column
+  - Added ability to zoom to layer extents
+  - Added ability to toggle layer visibility
+  - Added ability to trigger opening http links by clicking on features using 'location' template
+  - Added ability to set the metatile size in the project settings
+  - Added ability to set the Map `buffer-size` size in CartoCSS
+  - Added support for http proxies
+  - Added support for remote icons (millstone)
+  - Improved support for handling remote csv and kml files (millstone)
+  - Added more raster resampling methods like windowed filters of 'blackman' and 'hanning'
+  - Added ability to upgrade plugins
+  - Fixed a bug where compatible plugin versions did not show up if there were newer incompatible versions
+  - TileMill now supports reading CSVs with a column named either 'WKT' or 'GEOJSON' and encoded as either Well Known Text or GeoJSON, respectively. This allows CSV files to support more geometry types than just points.
+  - New Verbose mode for getting more detailed information in the TileMill logs of project loading status
+  - Symlinks are now used on Windows Vista and above to speed up project loading and data handling efficiency
+  - Data now should automatically update when a project is saved on Windows (no longer a need to rename the #id or filename)
+  - SVG/PDF export with labels should work again on Windows
+  - Support for filtering by geometry type like `#countries['mapnik::geometry_type'=polygon]`. Both `point`, `polygon`, `linestring`, and `collection` are supported keywords that match geometry types. Collection means that a feature stores mixed types, like both a `point` and a `polygon`.
 
 - version: 0.9.1.350
   dev: true
