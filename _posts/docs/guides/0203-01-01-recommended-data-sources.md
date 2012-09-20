@@ -23,7 +23,8 @@ Looking for a place to start finding additional data? A variety of data sources 
 - [CGIAR World Digital Elevation Model](http://www.cgiar-csi.org/data/elevation/item/45-srtm-90m-digital-elevation-database-v41) (available as an [EBS Snapshot](http://support.mapbox.com/kb/tilemill/cgiar-world-digital-elevation-model-ebs-snapshot))
 - [Natural Earth](http://www.naturalearthdata.com/)
 - [NOAA Global Shorelines](http://www.ngdc.noaa.gov/mgg/shorelines/gshhs.html)
-- [OpenStreetMap extracts from CloudMade](http://downloads.cloudmade.com/)
+- [OpenStreetMap metro area extracts from Michal Migurski](http://metro.teczno.com/)
+- [OpenStreetMap regional extracts from Geofabrik](http://download.geofabrik.de/)
 - [GADM Global Administrative Areas](http://gadm.org/)
 
 ## National Governments & Agencies
