@@ -46,6 +46,7 @@ models.Project.prototype.sync = function(method, model, success, error) {
         });
         break;
     case 'delete':
+        mapnik.clearCache();
         destroyProject(model, function(err) {
             return err ? error(err) : success({});
         });
@@ -290,19 +291,20 @@ function loadProjectAll(model, callback) {
 // Destroy a project. `rm -rf` equivalent for the project directory.
 function destroyProject(model, callback) {
     var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
-    // Workaround to access denied error on Windows when mapnik has
-    // open file handles to a data file in a project that needs to
-    // be deleted. Stopgap is to kill the tileserver, delete the project
-    // and let the tileserver start back up on its own.
-    // NOTE: appears no longer needed with node v0.8.9
-	/*if (process.platform === 'win32') {
+	if (process.platform === 'win32') {
+        // https://github.com/mapbox/tilemill/issues/1121
+        // Workaround to access denied error on Windows when mapnik has
+        // open file handles to a data file in a project that needs to
+        // be deleted. Stopgap is to kill the tileserver, delete the project
+        // and let the tileserver start back up on its own.
+        // NOTE: not needed with symlinks but millstone does not always use symlinks
+        // so we need this on win32 as per https://github.com/mapbox/millstone/issues/71
         request.post({ url:'http://'+settings.tileUrl+'/restart' }, function(err) {
             rm(modelPath, callback);
         });
     } else {
-	*/
         rm(modelPath, callback);
-    //}
+    }
 }
 
 // Save a project. Creates a subdirectory per project and splits out
