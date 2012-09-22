@@ -22,7 +22,7 @@ command.options['format'] = {
 };
 
 command.options['bbox'] = {
-    'title': 'bbox=[bbox]',
+    'title': 'bbox=[xmin,ymin,xmax,ymax]',
     'description': 'Comma separated coordinates of bounding box to export.'
 };
 
