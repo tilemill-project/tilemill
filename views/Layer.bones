@@ -213,7 +213,7 @@ view.prototype.autostyle = function() {
     var root = this.model.collection.parent;
     var stylesheets = root.get('Stylesheet');
     if (stylesheets.length !== 0) {
-        var cm = stylesheets.models[0].codemirror;
+        var cm = stylesheets.models[$('.tabs .tab.active').parent().index()].codemirror;
         var coord = cm.coordsFromIndex(Infinity);
         cm.replaceRange(
             templates.Autostyle(this.model),
