@@ -49,8 +49,13 @@
     <input type='checkbox' name='profile' <% if (get('profile')) %>checked='checked'<% ; %> /> Report system profile anonymously.
     <div class='description'>
       Help the TileMill development team by reporting your system profile:<br/>
+      <% if(window.abilities.platform !== 'darwin'){ %>
       <%= window.abilities.cpus.length + ' x ' + window.abilities.cpus[0].model %><br/>
       <%= (window.abilities.totalmem / 1e9).toFixed(1) %>GB RAM /
+      <% } else { %>
+      <%= window.abilities.cpus[0].model + ' / ' + window.abilities.cpus.length + '&times;' + (window.abilities.cpus[0].speed/1000).toFixed(1) %>GHz<br/>
+      <%= (window.abilities.totalmem / 1073741824).toFixed(1) %>GB RAM /
+      <% } %>
       <%= window.abilities.platform %> /
       TileMill <%= window.abilities.tilemill.version %>
     </div>
