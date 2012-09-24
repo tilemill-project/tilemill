@@ -19,6 +19,8 @@ view.prototype.plugins = function() {
     this.$('.available').addClass('loading');
     this.available.fetch({
         success: _(function(m) {
+            // Stop if plugins page is no longer current page
+            if ($('#page').find('.plugins').length === 0) return;
             this.$('.available').removeClass('loading');
             // Add latest version info the install plugins
             this.collection.map(function(i) {
