@@ -63,13 +63,13 @@ models.Library.prototype.sync = function(method, model, success, error) {
 
         // Resolve paths relative to project directory.
         if (isRelative(location)) {
-            if (env == 'development') console.log('[tilemill] [library] detected relative path: ' + location);
+            if (process.env.NODE_ENV === 'development') console.log('[tilemill] [library] detected relative path: ' + location);
             location = path.join(config.files, 'project', model.get('project'), location);
         }
 
         existsAsync(location, function(exists) {
             if (!exists) {
-                if (env == 'development') console.log('[tilemill] [library] path ' + location + ' not found defaulting to home directory ' + process.env.HOME);
+                if (process.env.NODE_ENV === 'development') console.log('[tilemill] [library] path ' + location + ' not found defaulting to home directory ' + process.env.HOME);
                 location = process.env.HOME;
             }
             readdir(location, function(err, files) {
