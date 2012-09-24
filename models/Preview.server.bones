@@ -11,6 +11,7 @@ models.Preview.prototype.sync = function(method, model, success, error) {
         source.getInfo(function(err, info) {
             if (err) return error(err);
             info.tiles = ['http://' + settings.tileUrl + '/tile/' + model.id + '/{z}/{x}/{y}.png?' + (+new Date)];
+            info.grids = ['http://' + settings.tileUrl + '/tile/' + model.id + '/{z}/{x}/{y}.grid.json?' + (+new Date)];
             success(_(info).extend({id: model.id }));
         });
     });
