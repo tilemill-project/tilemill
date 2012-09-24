@@ -30,7 +30,7 @@ view.prototype.render = function() {
     wax.mm.interaction()
         .map(this.map)
         .tilejson(this.preview.attributes)
-        .on(wax.tooltip().parent(this.map.parent).events());;
+        .on(wax.tooltip().parent(this.map.parent).events());
     wax.mm.legend(this.map, this.preview.attributes).appendTo(this.map.parent);
     wax.mm.zoombox(this.map);
     wax.mm.zoomer(this.map).appendTo(this.map.parent);

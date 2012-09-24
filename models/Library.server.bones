@@ -59,7 +59,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
 
         var sep = process.platform === 'win32' ? '\\' : '/';
         // TODO - this is not ideal: https://github.com/mapbox/tilemill/issues/1673
-        var location = (model.get('location') || process.env.HOME).replace(/^([a-zA-Z]:\\|\/)/, sep);;
+        var location = (model.get('location') || process.env.HOME).replace(/^([a-zA-Z]:\\|\/)/, sep);
 
         // Resolve paths relative to project directory.
         if (isRelative(location)) {
