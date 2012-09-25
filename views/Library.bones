@@ -85,6 +85,7 @@ view.prototype.libraryUpdate = function() {
 
 view.prototype.libraryLocation = function(ev) {
     var location = $(ev.currentTarget).attr('href').split('#').pop();
+    this.change(location);
     this.model.set({location:location});
     this.model.fetch({
         success:this.render,
