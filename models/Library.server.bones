@@ -10,17 +10,20 @@ var config = Bones.plugin.config;
 var url = require('url');
 // node v6 -> v8 compatibility
 var existsAsync = require('fs').exists || require('path').exists;
+var millstone = require('millstone');
 
 
-// Extensions supported by TileMill. See `millstone.resolve()` for
-// the source of this list.
-var extFile = [
-    '.zip', '.shp', '.png', '.geotiff', '.geotif', '.tiff',
-    '.tif', '.vrt', '.kml', '.geojson', '.json', '.rss',
-    '.csv', '.tsv', '.txt'
-];
+// File based extensions supported by TileMill.
+var extFile = [];
 // Sqlite extensions.
-var extSqlite = [ '.sqlite', '.db', '.sqlite3', '.spatialite' ];
+var extSqlite = [];
+Object.keys(millstone.valid_ds_extensions).forEach(function(i){
+    if (millstone.valid_ds_extensions[i] == 'sqlite') {
+         extSqlite.push(i);
+    } else {
+         extFile.push(i);
+    }
+});
 
 var formatFileSize = function(size) {
     var size = parseInt(size), scaled, suffix;
@@ -60,6 +63,8 @@ models.Library.prototype.sync = function(method, model, success, error) {
         var sep = process.platform === 'win32' ? '\\' : '/';
         // TODO - this is not ideal: https://github.com/mapbox/tilemill/issues/1673
         var location = (model.get('location') || process.env.HOME).replace(/^([a-zA-Z]:\\|\/)/, sep);
+
+        location = location.replace(/^~/, process.env.HOME);
 
         // Resolve paths relative to project directory.
         if (isRelative(location)) {
