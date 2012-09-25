@@ -170,5 +170,5 @@ only try each label at one position:
 After integrating this style into a more complete OSM stylesheet you can see
 that most of the point labels are now avoiding the roads.
 
-![](/tilemill/assets/pages/advanced_labels_ldir.png)
+![](/tilemill/assets/pages/labels-ldir.png)
 
