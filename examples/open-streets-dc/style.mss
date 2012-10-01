@@ -5,21 +5,17 @@ Open Streets, DC
 
 *An example of street-level map design.*
 
-Data used by this map is © OpenStreetMap contributors, 
-CC-BY-SA. See <http://openstreetmap.org> for more info.
+Data used by this map is © OpenStreetMap contributors and
+distributed under the terms of the Open Database License.
+See <http://www.openstreetmap.org/copyright> for details.
 
-This map makes use of OpenStreetMap-based shapefiles
+Pattern images derived from designs by Subtle Patterns and 
+licensed CC-BY-SA. See <http://subtlepatterns.com> for details.
+
+The shapefiles used in this project are based on those
 provided by Mike Migurski at <http://metro.teczno.com>.
-You can swap out the DC data with any other shapefiles 
-provided by CloudMade to get a map of your area.
-
-Data was clipped to the DC boundary with the following command:
-
-    for i in *.shp; do
-        ogr2ogr -clipsrc DcQuadPly_900913.shp \
-        $(echo $i | sed 's/[a-z\-]*\.//') $i
-    done
-
+You can swap out the DC data for any other city there by
+downloading the Imposm shapefile package.
 
 ***********************************************************/
 
@@ -36,6 +32,9 @@ Map {
 #water {
   polygon-fill:@water;
   polygon-gamma:0.5; // reduces gaps between shapes
+  polygon-pattern-file:url(images/water.png);
+  polygon-pattern-comp-op:color-burn;
+  polygon-pattern-alignment:global; // keeps it seamless
 }
 
 #landusages[zoom>6] {

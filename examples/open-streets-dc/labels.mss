@@ -9,27 +9,27 @@
   text-name:"''";
   [type='motorway'][zoom>=12] {
     text-name:"[name]";
-    text-fill:spin(darken(@motorway,70),-15);
-    text-halo-fill:lighten(@motorway,8);
+    text-fill:spin(darken(@motorway,50),-15);
+    text-halo-fill:lighten(@motorway,15);
     [zoom>=13] { text-size:11; }
     [zoom>=15] { text-size:12; }
   }
   [type='trunk'][zoom>=12] {
     text-name:"[name]";
-    text-fill:spin(darken(@trunk,70),-15);
-    text-halo-fill:lighten(@trunk,8);
+    text-fill:spin(darken(@trunk,50),-15);
+    text-halo-fill:lighten(@trunk,15);
     [zoom>=15] { text-size:11; }
   }
   [type='primary'][zoom>=13] {
     text-name:"[name]";
-    text-fill:spin(darken(@primary,70),-15);
-    text-halo-fill:lighten(@primary,8);
+    text-fill:spin(darken(@primary,50),-15);
+    text-halo-fill:lighten(@primary,15);
     [zoom>=15] { text-size:11; }
   }
   [type='secondary'][zoom>=13] {
     text-name:"[name]";
-    text-fill:spin(darken(@secondary,70),-15);
-    text-halo-fill:lighten(@secondary,8);
+    text-fill:spin(darken(@secondary,50),-15);
+    text-halo-fill:lighten(@secondary,15);
     [zoom>=15] { text-size:11; }
   }
   [type='residential'][zoom>=15],
