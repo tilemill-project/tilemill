@@ -8,45 +8,58 @@ Open Streets, DC
 Data used by this map is © OpenStreetMap contributors, 
 CC-BY-SA. See <http://openstreetmap.org> for more info.
 
-This map makes use of OpenStreetMap shapefile extracts
-provided by CloudMade at <http://downloads.cloudmade.com>.
+This map makes use of OpenStreetMap-based shapefiles
+provided by Mike Migurski at <http://metro.teczno.com>.
 You can swap out the DC data with any other shapefiles 
 provided by CloudMade to get a map of your area.
 
-To prepare a CloudMade shapefiles zip package for TileMill,
-download it and run the following commands:
+Data was clipped to the DC boundary with the following command:
 
-    unzip your_area.shapefiles.zip
-    cd your_area.shapefiles
-    shapeindex *.shp
-    for i in *.shp; do \
-        zip `basename $i .shp` `basename $i shp`*; done
+    for i in *.shp; do
+        ogr2ogr -clipsrc DcQuadPly_900913.shp \
+        $(echo $i | sed 's/[a-z\-]*\.//') $i
+    done
+
 
 ***********************************************************/
 
 /* ---- PALETTE ---- */
 
 @water:#c0d8ff;
-@forest:#cea;
-@land:#fff;
+@park:#cea;
+@land:#f3faff;
 
 Map {
   background-color:@land;
 }
 
-.natural[TYPE='water'],
-.water {
+#water {
   polygon-fill:@water;
+  polygon-gamma:0.5; // reduces gaps between shapes
 }
 
-.natural[TYPE='forest'] {
-  polygon-fill:@forest;
+#landusages[zoom>6] {
+  [type='forest'],
+  [type='wood'] {
+    polygon-fill:@park;
+    polygon-pattern-file:url(images/wood.png);
+    polygon-pattern-comp-op:multiply;
+  }
+  [type='cemetery'],
+  [type='common'],
+  [type='golf_course'],
+  [type='park'],
+  [type='pitch'],
+  [type='recreation_ground'],
+  [type='village_green'] {
+    polygon-fill:@park;
+  }
 }
 
-/* These are not used, but if customizing this style you may
-wish to use OSM's land shapefiles. See the wiki for info:
-<http://wiki.openstreetmap.org/wiki/Mapnik#World_boundaries> */
-#shoreline_300[zoom<11],
-#processed_p[zoom>=11] {
-  polygon-fill: @land;
+#landusages[zoom>=12] {
+  [type='school'],
+  [type='college'],
+  [type='university'] {
+    polygon-fill: #f8e8c8;
+  }
 }
