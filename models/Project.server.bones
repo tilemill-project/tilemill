@@ -429,10 +429,14 @@ function compileStylesheet(mml, callback) {
     // try/catch here as per https://github.com/mapbox/tilemill/issues/1370
     try {
         new carto.Renderer(env).render(data, function(err, output) {
-            if (err) callback(err);
-            else callback(null, output);
+            if (err) {
+                callback(err);
+            } else {
+                callback(null, output);
+            }
         });
     } catch (err) {
+        if (process.env.NODE_ENV === 'development') console.log('[tilemill] Error compiling CartoCSS: ' + err.stack || err.toString());
         callback(err);
     }
 }

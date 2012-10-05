@@ -30,7 +30,10 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
         base: path.join(config.files, 'project', options.project),
         cache: path.join(config.files, 'cache')
     }, function(err, mml) {
-        if (err) return error(err);
+        if (err) {
+            if (process.env.NODE_ENV === 'development') console.log('[tilemill] problem loading datasource ' + err.stack || err.message);
+            return error(err);
+        }
 
         try {
             mml.Layer[0].Datasource = _(mml.Layer[0].Datasource).defaults(options);
