@@ -274,10 +274,11 @@ function loadProjectAll(model, callback) {
         if (files.length === 0) return this(null, []);
         var group = this.group();
         _(files).chain()
-            .filter(function(file) { return file.isDirectory() })
+            .filter(function(file) { return (file.isDirectory() && file.basename[0] !== '.');  })
             .each(function(file) { loadProject({id:file.basename}, group()) });
     },
     function(err, models) {
+        if (err && process.env.NODE_ENV === 'development') console.log('[tilemill] skipped loading project: ' + err.stack || err.toString());
         // Ignore errors from loading individual models (e.g.
         // don't let one bad apple spoil the collection).
         models = _(models).chain()
