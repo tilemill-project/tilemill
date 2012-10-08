@@ -499,7 +499,10 @@ models.Project.prototype.localize = function(mml, callback) {
         }, this);
     }, function(err, localized) {
         clearInterval(resolveInterval);
-        if (err) throw err;
+        if (err) {
+            delete project_tile_status[model.id];
+            throw err;
+        }
 
         localizedCache[key].debug.localize = (+new Date) - localizeTime + 'ms';
         localizedCache[key].mml = localized;
@@ -508,9 +511,9 @@ models.Project.prototype.localize = function(mml, callback) {
         project_tile_status[model.id] = 'compiling css';
         compileStylesheet(localized, this);
     }, function(err, compiled) {
-        if (err) throw err;
         // clear the status, indicating project is finished loading
         delete project_tile_status[model.id];
+        if (err) throw err;
         localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
         localizedCache[key].xml = compiled;
         localizedCache[key].emit('load');
