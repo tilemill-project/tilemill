@@ -175,12 +175,30 @@ view.prototype.updateTotal = function(attributes) {
     })(total));
     this.$('.totalsize').text((function(num) {
         num = num || 0;
-        if (num >= 1e12) return '1000 GB+';
-        if (num >= 1e10) return '100 GB+';
-        if (num >= 1e9) return '1 GB+';
-        if (num >= 1e8) return '100 MB+';
-        if (num >= 1e7) return '10 MB+';
-        if (num >= 1e6) return '1 MB+';
+        if (num >= 1e12) {
+            this.$('.totalsize').addClass('warning-red');
+            return '1000 GB+ reducing zoom level recommended';
+        }
+        if (num >= 1e10) {
+            this.$('.totalsize').addClass('warning-red');
+            return '100 GB+ reducing zoom level recommended';
+        }
+        if (num >= 1e9) {
+            this.$('.totalsize').addClass('warning-red');
+            return '1 GB+ reducing zoom level recommended';
+        }
+        if (num >= 1e8) {
+            this.$('.totalsize').removeClass('warning-red');
+            return '100 MB+';
+        }
+        if (num >= 1e7) {
+            this.$('.totalsize').removeClass('warning-red');
+            return '10 MB+';
+        }
+        if (num >= 1e6) {
+            this.$('.totalsize').removeClass('warning-red');
+            return '1 MB+';
+        }
         return '1 MB';
     })(total * 1000));
 };
