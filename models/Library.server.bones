@@ -102,6 +102,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
                         }
                     })
                     .compact()
+                    .sortBy(function(f) {return f.name.toLowerCase(); })
                     .value()
                 return success(data);
             });
