@@ -288,6 +288,11 @@ view.prototype.save = function(e) {
             if (attr.Datasource && attr.Datasource.extent_cache === 'auto') {
                 attr.Datasource.extent = resp.extent;
             }
+            if (resp.sticky_options) {
+                Object.keys(resp.sticky_options).forEach(function(opt) {
+                    attr.Datasource[opt] = resp.sticky_options[opt];
+                });
+            }
             if (!this.model.set(attr, {error:error})) return;
             if (!this.model.collection.include(this.model)) {
                 this.model.collection.add(this.model);
