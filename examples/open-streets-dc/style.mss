@@ -29,7 +29,8 @@ Map {
   background-color:@land;
 }
 
-#water {
+#water,
+#ocean {
   polygon-fill:@water;
   polygon-gamma:0.5; // reduces gaps between shapes
   polygon-pattern-file:url(images/water.png);
