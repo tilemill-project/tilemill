@@ -184,7 +184,7 @@ it('PUT should fail with invalid stylesheet', function(done) {
         var body = JSON.parse(res.body);
         delete body.stack;
         assert.deepEqual({
-            message: "style.mss:2:2 Invalid value for background-color, a valid color is expected. blurb was given."
+            message: "style.mss:2:2 Invalid value for background-color, the type color is expected. blurb (of type keyword)  was given."
         }, body);
         done();
     });
