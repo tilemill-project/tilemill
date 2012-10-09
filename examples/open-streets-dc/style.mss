@@ -5,48 +5,62 @@ Open Streets, DC
 
 *An example of street-level map design.*
 
-Data used by this map is © OpenStreetMap contributors, 
-CC-BY-SA. See <http://openstreetmap.org> for more info.
+Data used by this map is © OpenStreetMap contributors and
+distributed under the terms of the Open Database License.
+See <http://www.openstreetmap.org/copyright> for details.
 
-This map makes use of OpenStreetMap shapefile extracts
-provided by CloudMade at <http://downloads.cloudmade.com>.
-You can swap out the DC data with any other shapefiles 
-provided by CloudMade to get a map of your area.
+Pattern images derived from designs by Subtle Patterns and 
+licensed CC-BY-SA. See <http://subtlepatterns.com> for details.
 
-To prepare a CloudMade shapefiles zip package for TileMill,
-download it and run the following commands:
-
-    unzip your_area.shapefiles.zip
-    cd your_area.shapefiles
-    shapeindex *.shp
-    for i in *.shp; do \
-        zip `basename $i .shp` `basename $i shp`*; done
+The shapefiles used in this project are based on those
+provided by Mike Migurski at <http://metro.teczno.com>.
+You can swap out the DC data for any other city there by
+downloading the Imposm shapefile package.
 
 ***********************************************************/
 
 /* ---- PALETTE ---- */
 
 @water:#c0d8ff;
-@forest:#cea;
-@land:#fff;
+@park:#cea;
+@land:#f5fdf0;
+@school:#f8e8c8;
 
 Map {
   background-color:@land;
 }
 
-.natural[TYPE='water'],
-.water {
+#water,
+#ocean {
   polygon-fill:@water;
+  polygon-gamma:0.5; // reduces gaps between shapes
+  polygon-pattern-file:url(images/water.png);
+  polygon-pattern-comp-op:color-burn;
+  polygon-pattern-alignment:global; // keeps it seamless
 }
 
-.natural[TYPE='forest'] {
-  polygon-fill:@forest;
+#landusages[zoom>6] {
+  [type='forest'],
+  [type='wood'] {
+    polygon-fill:@park;
+    polygon-pattern-file:url(images/wood.png);
+    polygon-pattern-comp-op:multiply;
+  }
+  [type='cemetery'],
+  [type='common'],
+  [type='golf_course'],
+  [type='park'],
+  [type='pitch'],
+  [type='recreation_ground'],
+  [type='village_green'] {
+    polygon-fill:@park;
+  }
 }
 
-/* These are not used, but if customizing this style you may
-wish to use OSM's land shapefiles. See the wiki for info:
-<http://wiki.openstreetmap.org/wiki/Mapnik#World_boundaries> */
-#shoreline_300[zoom<11],
-#processed_p[zoom>=11] {
-  polygon-fill: @land;
+#landusages[zoom>=12] {
+  [type='school'],
+  [type='college'],
+  [type='university'] {
+    polygon-fill: @school;
+  }
 }
