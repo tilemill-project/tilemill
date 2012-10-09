@@ -94,11 +94,12 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
     return function(stream, state) {
       var escaped = false, ch;
       while ((ch = stream.next()) !== undefined) {
-        if (ch == quote && !escaped)
+        if (ch == quote && !escaped) {
+          if (!escaped) state.tokenize = tokenBase;
           break;
+        }
         escaped = !escaped && ch == '\\';
       }
-      if (!escaped) state.tokenize = tokenBase;
       return ret('carto-string', 'string');
     };
   }
