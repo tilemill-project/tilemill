@@ -4,7 +4,8 @@
 @secondary: @primary;
 @road:      #ccc;
 @track:     @road;
-@footway:   @park * 0.9;
+@footway:   #ac9;
+@cycleway:  #9ca;
 
 #roads::line {
   [zoom>=12][zoom<=13] {
@@ -31,7 +32,6 @@
   [zoom>=14] {
     [type='track'],
     [type='footway'],
-    [type='cycleway'],
     [type='bridleway'] {
       line-color:@footway;
       line-dasharray:4,1;
@@ -47,6 +47,14 @@
       [zoom=16] { line-width:2; }
       [zoom=17] { line-width:3; }
       [zoom>17] { line-width:4; }
+    }
+    [type='cycleway'] {
+      line-color: @cycleway;
+      line-dasharray:4,1;
+      line-cap:butt;
+      [zoom=16] { line-width:1.2; }
+      [zoom=17] { line-width:1.6; }
+      [zoom>17] { line-width:2; }
     }
   }
 }

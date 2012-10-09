@@ -224,7 +224,8 @@
   ],
   "scale": 1,
   "metatile": 2,
-  "legend": "<!-- This legend uses Unicode box-drawing characters to approxmate line styles. -->\n<span style='color:#F56544'>━</span> Motorways <br />\n<span style='color:#FFC53C'>━</span> Main roads <br />\n<span style='color:#ccc'>━</span> Other roads <br />\n<span style='color:#69B'>┉</span> Bike paths <br />\n<span style='color:#6B9'>┉</span> Foot paths <br />\n<span style='color:#cea'>▉</span> Park <br />\n<span style='color:#f8e8c8'>▉</span> School <br />\n<span style='color:#c0d8ff'>▉</span> Water",
+  "_basemap": "",
+  "legend": "<!-- This legend uses Unicode box-drawing characters to approxmate line styles. -->\n<span style='color:#F56544'>━</span> Motorways <br />\n<span style='color:#FFC53C'>━</span> Main roads <br />\n<span style='color:#ccc'>━</span> Other roads <br />\n<span style='color:#AC9'>┉</span> Bike paths <br />\n<span style='color:#9CA'>┉</span> Foot paths <br />\n<span style='color:#cea'>▉</span> Park <br />\n<span style='color:#f8e8c8'>▉</span> School <br />\n<span style='color:#c0d8ff'>▉</span> Water",
   "name": "Open Streets, DC",
   "description": "An example of street-level map design.",
   "attribution": "Data used by this map is © OpenStreetMap contributors,  CC-BY-SA. See <http://openstreetmap.org> for more info."
