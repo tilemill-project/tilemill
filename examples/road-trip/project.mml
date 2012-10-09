@@ -157,7 +157,6 @@
   ],
   "scale": 1,
   "metatile": 2,
-  "_basemap": "http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets.jsonp",
   "name": "Road Trip",
   "description": "A map of the United States inspired by the impossible-to-fold maps in your glovebox.",
   "attribution": "",
