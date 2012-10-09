@@ -219,11 +219,13 @@ view.prototype.autostyle = function() {
     var stylesheets = root.get('Stylesheet');
     if (stylesheets.length !== 0) {
         var cm = stylesheets.models[$('.tabs .tab.active').parent().index()].codemirror;
-        var coord = cm.coordsFromIndex(Infinity);
-        cm.replaceRange(
-            templates.Autostyle(this.model),
-            coord,
-            coord);
+        if (cm) {
+            var coord = cm.coordsFromIndex(Infinity);
+            cm.replaceRange(
+                templates.Autostyle(this.model),
+                coord,
+                coord);
+        }
         $('.actions a[href=#save]').click();
     }
 };
