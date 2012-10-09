@@ -69,6 +69,8 @@ body.loading > .mask { position:fixed; }
 
 .scrolling { overflow:auto; }
 
+.warning-red {color:red;}
+
 .warning {
   padding:4px;
   border:1px solid #DC3F19;
