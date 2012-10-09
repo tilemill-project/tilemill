@@ -41,12 +41,14 @@ models.Project.prototype.sync = function(method, model, success, error) {
             // clear mapnik's global cache of markers and shapefiles
             mapnik.clearCache();
         }
+        delete project_tile_status[model.id];
         saveProject(model, function(err, model) {
             return err ? error(err) : success(model);
         });
         break;
     case 'delete':
         mapnik.clearCache();
+        delete project_tile_status[model.id];
         destroyProject(model, function(err) {
             return err ? error(err) : success({});
         });
