@@ -182,9 +182,13 @@ view.prototype.browse = function(ev) {
         if (form.hasClass('layer-sqlite')) return 'sqlite';
         if (form.hasClass('layer-postgis')) return 'favoritesPostGIS';
     })(form);
-    var sep = window.abilities.platform === 'win32' ? '\\' : '/';
-    var components = $('input.browsable', form).val().split(sep);
-    var location = components.slice(0, components.length - 1).join(sep);
+    var location = $('input.browsable', form).val();
+    // detect if the path is a file so we can browse its directory
+    if (location != '.' && location.match(/\.([0-9a-z]+)(?:[\?#]|$)/i)) {
+        var sep = window.abilities.platform === 'win32' ? '\\' : '/';
+        var components = location.split(sep);
+        location = components.slice(0, components.length - 1).join(sep);
+    }
 
     target
         .toggleClass('active')
