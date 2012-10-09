@@ -24,6 +24,7 @@ downloading the Imposm shapefile package.
 @water:#c0d8ff;
 @park:#cea;
 @land:#f5fdf0;
+@school:#f8e8c8;
 
 Map {
   background-color:@land;
@@ -60,6 +61,6 @@ Map {
   [type='school'],
   [type='college'],
   [type='university'] {
-    polygon-fill: #f8e8c8;
+    polygon-fill: @school;
   }
 }
