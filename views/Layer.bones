@@ -220,7 +220,8 @@ view.prototype.autostyle = function() {
     if (stylesheets.length !== 0) {
         var cm = stylesheets.models[$('.tabs .tab.active').parent().index()].codemirror;
         if (cm) {
-            var coord = cm.coordsFromIndex(Infinity);
+            // codemirror >= 2.2 uses posFromIndex
+            var coord = cm.posFromIndex ? cm.posFromIndex(Infinity) : cm.coordsFromIndex(Infinity);
             cm.replaceRange(
                 templates.Autostyle(this.model),
                 coord,
