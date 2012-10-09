@@ -23,7 +23,7 @@ downloading the Imposm shapefile package.
 
 @water:#c0d8ff;
 @park:#cea;
-@land:#f3faff;
+@land:#f5fdf0;
 
 Map {
   background-color:@land;
