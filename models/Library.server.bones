@@ -4,6 +4,7 @@ var path = require('path');
 var read = require('../lib/fsutil').read;
 var readdir = require('../lib/fsutil').readdir;
 var mkdirp = require('../lib/fsutil').mkdirp;
+var winDrives = require('../lib/fsutil').winDrives;
 var rm = require('../lib/fsutil').rm;
 var s3 = require('../lib/s3');
 var config = Bones.plugin.config;
@@ -54,16 +55,33 @@ models.Library.prototype.sync = function(method, model, success, error) {
 
         function isRelative(loc) {
             if (process.platform === 'win32') {
-                return loc[0] !== '\\' && loc.match(/^[a-zA-Z]:\\/) === null;
+                return loc[0] !== '\\' && loc[0] !== '/' && loc.match(/^[a-zA-Z]:/) === null;
             } else {
                 return loc[0] !== '/';
             }
         }
 
         var sep = process.platform === 'win32' ? '\\' : '/';
-        // TODO - this is not ideal: https://github.com/mapbox/tilemill/issues/1673
-        var location = (model.get('location') || process.env.HOME).replace(/^([a-zA-Z]:\\|\/)/, sep);
-
+        var location = (model.get('location') || process.env.HOME);
+        location = location.replace(/^~/, process.env.HOME);
+        if (process.platform === 'win32') {
+            //https://github.com/mapbox/tilemill/issues/1679
+            location = location.replace(/^\\([a-zA-Z]:)/, "$1");
+            if (location == '/') {
+                var data = {};
+                data.id = model.id;
+                data.location = location;
+                data.assets = _(winDrives()).chain()
+                    .map(function(f) {
+                        var asset = { name: f };
+                        asset.location = f;
+                        return asset;
+                    })
+                    .sortBy(function(f) {return f.name.toLowerCase(); })
+                    .value();
+                return success(data);
+            }
+        }
         location = location.replace(/^~/, process.env.HOME);
 
         // Resolve paths relative to project directory.
