@@ -274,10 +274,11 @@ function loadProjectAll(model, callback) {
         if (files.length === 0) return this(null, []);
         var group = this.group();
         _(files).chain()
-            .filter(function(file) { return file.isDirectory() })
+            .filter(function(file) { return (file.isDirectory() && file.basename[0] !== '.');  })
             .each(function(file) { loadProject({id:file.basename}, group()) });
     },
     function(err, models) {
+        if (err && process.env.NODE_ENV === 'development') console.log('[tilemill] skipped loading project: ' + err.stack || err.toString());
         // Ignore errors from loading individual models (e.g.
         // don't let one bad apple spoil the collection).
         models = _(models).chain()
@@ -429,10 +430,14 @@ function compileStylesheet(mml, callback) {
     // try/catch here as per https://github.com/mapbox/tilemill/issues/1370
     try {
         new carto.Renderer(env).render(data, function(err, output) {
-            if (err) callback(err);
-            else callback(null, output);
+            if (err) {
+                callback(err);
+            } else {
+                callback(null, output);
+            }
         });
     } catch (err) {
+        if (process.env.NODE_ENV === 'development') console.log('[tilemill] Error compiling CartoCSS: ' + err.stack || err.toString());
         callback(err);
     }
 }
@@ -494,7 +499,10 @@ models.Project.prototype.localize = function(mml, callback) {
         }, this);
     }, function(err, localized) {
         clearInterval(resolveInterval);
-        if (err) throw err;
+        if (err) {
+            delete project_tile_status[model.id];
+            throw err;
+        }
 
         localizedCache[key].debug.localize = (+new Date) - localizeTime + 'ms';
         localizedCache[key].mml = localized;
@@ -503,9 +511,9 @@ models.Project.prototype.localize = function(mml, callback) {
         project_tile_status[model.id] = 'compiling css';
         compileStylesheet(localized, this);
     }, function(err, compiled) {
-        if (err) throw err;
         // clear the status, indicating project is finished loading
         delete project_tile_status[model.id];
+        if (err) throw err;
         localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
         localizedCache[key].xml = compiled;
         localizedCache[key].emit('load');

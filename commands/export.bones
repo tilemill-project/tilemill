@@ -433,9 +433,9 @@ command.prototype.tilelive = function (project, callback) {
             bbox: project.mml.bounds,
             minzoom: project.mml.minzoom,
             maxzoom: project.mml.maxzoom,
-            metatile: opts.metatile,
+            metatile: project.mml.metatile,
             concurrency: Math.floor(
-                Math.pow(cmd.opts.metatile, 2) *    // # of tiles in each metatile
+                Math.pow(project.mml.metatile, 2) * // # of tiles in each metatile
                 require('os').cpus().length *       // expect one metatile to occupy each core
                 4 / cmd.opts.concurrency            // overcommit x4 throttle by export concurrency
             )
