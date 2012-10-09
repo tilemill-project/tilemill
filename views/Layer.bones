@@ -183,11 +183,12 @@ view.prototype.browse = function(ev) {
         if (form.hasClass('layer-postgis')) return 'favoritesPostGIS';
     })(form);
     var location = $('input.browsable', form).val();
-    // detect if the path is a file so we can browse its directory
-    if (location != '.' && location.match(/\.([0-9a-z]+)(?:[\?#]|$)/i)) {
+    if (location) {  // detect if the path is a file so we can browse its directory
         var sep = window.abilities.platform === 'win32' ? '\\' : '/';
         var components = location.split(sep);
-        location = components.slice(0, components.length - 1).join(sep);
+        if (components && (components[components.length - 1][0] != '.') && location.match(/\.([0-9a-z]+)(?:[\?#]|$)/i)) {
+            location = components.slice(0, components.length - 1).join(sep);
+        }
     }
 
     target
