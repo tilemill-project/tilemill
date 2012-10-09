@@ -8,6 +8,26 @@
 @cycleway:  #9ca;
 
 #roads::line {
+  [zoom>=8][zoom<=12] {
+    [type='motorway'] { line-color:@motorway; }
+    [type='trunk'] { line-color:@trunk; }
+    [type='motorway'],
+    [type='trunk'] {
+      line-cap:round;
+      line-join:round;
+      [zoom=11] { line-width:2; }
+    }
+  }
+  [zoom=11] {
+    [type='primary'] { line-color:@primary; }
+    [type='secondary'] { line-color:@secondary; }
+    [type='primary'],
+    [type='secondary'] {
+      line-cap:round;
+      line-join:round;
+      [zoom=11] { line-width:1.5; }
+    }
+  }
   [zoom>=12][zoom<=13] {
     [type='motorway_link'],
     [type='trunk_link'],
