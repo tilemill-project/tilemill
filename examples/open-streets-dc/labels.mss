@@ -2,41 +2,41 @@
 
 /* ---- HIGHWAY ---- */
 
-.highway-label {
+#road-label {
   text-face-name:@font_reg;
   text-halo-radius:1;
   text-placement:line;
   text-name:"''";
-  [TYPE='motorway'][zoom>=12] {
-    text-name:"[NAME]";
-    text-fill:spin(darken(@motorway,70),-15);
-    text-halo-fill:lighten(@motorway,8);
+  [type='motorway'][zoom>=12] {
+    text-name:"[name]";
+    text-fill:spin(darken(@motorway,50),-15);
+    text-halo-fill:lighten(@motorway,15);
     [zoom>=13] { text-size:11; }
     [zoom>=15] { text-size:12; }
   }
-  [TYPE='trunk'][zoom>=12] {
-    text-name:"[NAME]";
-    text-fill:spin(darken(@trunk,70),-15);
-    text-halo-fill:lighten(@trunk,8);
+  [type='trunk'][zoom>=12] {
+    text-name:"[name]";
+    text-fill:spin(darken(@trunk,50),-15);
+    text-halo-fill:lighten(@trunk,15);
     [zoom>=15] { text-size:11; }
   }
-  [TYPE='primary'][zoom>=13] {
-    text-name:"[NAME]";
-    text-fill:spin(darken(@primary,70),-15);
-    text-halo-fill:lighten(@primary,8);
+  [type='primary'][zoom>=13] {
+    text-name:"[name]";
+    text-fill:spin(darken(@primary,50),-15);
+    text-halo-fill:lighten(@primary,15);
     [zoom>=15] { text-size:11; }
   }
-  [TYPE='secondary'][zoom>=13] {
-    text-name:"[NAME]";
-    text-fill:spin(darken(@secondary,70),-15);
-    text-halo-fill:lighten(@secondary,8);
+  [type='secondary'][zoom>=13] {
+    text-name:"[name]";
+    text-fill:spin(darken(@secondary,50),-15);
+    text-halo-fill:lighten(@secondary,15);
     [zoom>=15] { text-size:11; }
   }
-  [TYPE='residential'][zoom>=15],
-  [TYPE='road'][zoom>=15],
-  [TYPE='tertiary'][zoom>=15],
-  [TYPE='unclassified'][zoom>=15] {
-    text-name:"[NAME]";
+  [type='residential'][zoom>=15],
+  [type='road'][zoom>=15],
+  [type='tertiary'][zoom>=15],
+  [type='unclassified'][zoom>=15] {
+    text-name:"[name]";
     text-fill:#444;
     text-halo-fill:#fff;
   }
@@ -44,9 +44,9 @@
 
 /* ---- LOCATION ---- */
 
-.location[PLACE='city'][zoom>6][zoom<14] {
+#places[type='city'][zoom>6][zoom<14] {
   text-face-name:@font_reg;
-  text-name:"[NAME]";
+  text-name:"[name]";
   text-fill:#444;
   text-halo-fill:rgba(255,255,255,0.8);
   text-halo-radius:2;
@@ -65,9 +65,9 @@
   }
 }
 
-.location[PLACE='town'][zoom>6][zoom<15] {
+#places[type='town'][zoom>6][zoom<15] {
   text-face-name:@font_reg;
-  text-name:"[NAME]";
+  text-name:"[name]";
   text-fill:#444;
   text-halo-fill:rgba(255,255,255,0.8);
   text-halo-radius:2;
@@ -91,30 +91,32 @@
   }
 }
 
-.location[PLACE='hamlet'][zoom>14][zoom<18],
-.location[PLACE='suburb'][zoom>14][zoom<18] {
+#places[type='hamlet'][zoom>13][zoom<18],
+#places[type='suburb'][zoom>13][zoom<18],
+#places[type='neighbourhood'][zoom>14][zoom<18] {
   text-face-name:@font_reg;
-  text-name:"[NAME]";
+  text-name:"[name]";
   text-fill:#555;
   text-halo-fill:rgba(255,255,255,0.8);
   text-halo-radius:2;
   text-wrap-width:100;
+  text-wrap-before:true;
   [zoom=15] {
     text-size:11;
-    text-character-spacing:2;
+    text-character-spacing:1;
     text-wrap-width:50;
-    text-line-spacing:2;
+    text-line-spacing:1;
   }
   [zoom=16] {
     text-size:13;
-    text-character-spacing:4;
+    text-character-spacing:2;
     text-wrap-width:80;
-    text-line-spacing:4;
+    text-line-spacing:2;
   }
   [zoom=17] {
     text-size:15;
-    text-character-spacing:8;
+    text-character-spacing:4;
     text-wrap-width:100;
-    text-line-spacing:8;
+    text-line-spacing:4;
   }
 }

@@ -6,3 +6,6 @@
 npm-debug.log
 VERSION
 platforms/osx/Externals/Sparkle/source
+examples/geography-class/layers
+examples/road-trip/layers
+examples/control-room/layers
