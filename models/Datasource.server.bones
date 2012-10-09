@@ -35,6 +35,12 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             return error(err);
         }
 
+        // "Sticky" options are those that should be passed to the layer model
+        // when it saves the datasource in the mml that is later used for rendering
+        // NOTE: 'row_limit' is not a sticky option intentially - it needs to get thrown away because we only
+        // want to limit datasource queries for attribute data and not for rendering
+        var sticky_options = {};
+
         try {
             mml.Layer[0].Datasource = _(mml.Layer[0].Datasource).defaults(options);
 
@@ -56,7 +62,35 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                     return error(new Error("Your SQL subquery needs to explicitly include the custom key_field: '" + mml.Layer[0].Datasource.key_field + "' or use 'select *' to request all fields"));
             }
 
-            var source = new mapnik.Datasource(mml.Layer[0].Datasource);
+            var source;
+
+            // https://github.com/mapbox/tilemill/issues/1754
+            if (mml.Layer[0].Datasource.type == 'ogr') {
+                try {
+                    source = new mapnik.Datasource(mml.Layer[0].Datasource);
+                } catch (err) {
+                    var rethrow = true;
+                    if (!mml.Layer[0].Datasource.layer_by_index
+                        && !mml.Layer[0].Datasource.layer
+                        && err.message
+                        && err.message.indexOf('OGR Plugin: missing <layer>') != -1) {
+                        var layers = err.message.split("are: ")[1];
+                        var layer_names = _(layers.trim().split(/[\s,]+/)).compact();
+                        if (layer_names.length > 1) {
+                            var better_error = new Error("This datasource has multiple layers:\n" + layer_names + '\n(pass layer=<name> to the Advanced input to pick one)');
+                            throw better_error;
+                        } else {
+                            rethrow = false;
+                            sticky_options.layer_by_index = 0;
+                            mml.Layer[0].Datasource.layer_by_index = 0;
+                            source = new mapnik.Datasource(mml.Layer[0].Datasource);
+                        }
+                    }
+                    if (rethrow) throw err;
+                }
+            } else {
+                source = new mapnik.Datasource(mml.Layer[0].Datasource);
+            }
 
             var features = [];
             if (!(source.type == "raster") && (options.features || options.info)) {
@@ -93,6 +127,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 type: desc.type,
                 geometry_type: desc.type === 'raster' ? 'raster' : desc.geometry_type,
                 unproj_extent: unproj_extent,
+                sticky_options:sticky_options,
                 extent: source.extent().join(',')
             };
 
