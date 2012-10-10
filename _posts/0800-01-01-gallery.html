@@ -13,13 +13,13 @@ maps:
   name: Ísland
   creator: Konstantin Käfer
   matte: 17292d
-  center: -16.9,64.7,8
+  center: -20.9,64.7,8
 - id: dhcole.popup
   name: Popup
   creator: Dave Cole
   description: Population density visualized in 3d.
   matte: '000000'
-  center: -97.583,38.769,5
+  center: 11.00,15.769,6
 - id: bclc-apec.map-rslgvy56
   name: Earthquake Risk Zones
   creator: PRCC Disaster Data
@@ -68,7 +68,7 @@ maps:
   creator: Occupy
   description: A network map of all occupy movement locations.
   matte: 424242
-  center: 10.000,80.000,4
+  center: 10.000,55.000,4
 - id: colemanm.blue-marble-8bit
   creator: Coleman McCormick
   matte: 000009
@@ -95,7 +95,6 @@ maps:
   body {overflow: visible;}
   .branding.fillE {
   margin: 0 auto;
-  background:rgba(40,53,61,.5) url(../img/dotgrid-pattern.png);
   }
   .branding.fillE.noshow { opacity: 0;}
 .zoomer,
@@ -313,7 +312,7 @@ maps:
           $('#mapdescription').html(playTemplate(d));
           playBack = setInterval(function () {
             setMap(d.next, 'play');
-          }, 7000);
+          }, 10000);
         } else {
           $('#mapdescription').html(template(d));
         }
