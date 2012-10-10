@@ -15,6 +15,7 @@ process.argv[0] = 'node';
 if (process.platform === 'win32') {
     // HOME is undefined on windows
     process.env.HOME = process.env.USERPROFILE;
+    process.env.PATH = "node_modules/mapnik/lib/mapnik/lib;node_modules/zipfile/lib;"+process.env.PATH;
 }
 
 // Default --config flag to user's home .tilemill.json config file.
