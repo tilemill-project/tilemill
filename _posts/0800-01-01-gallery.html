@@ -91,9 +91,14 @@ maps:
 
 <style type='text/css'>
   body {max-width: none;}
-  .branding.fillE {     background:rgba(40,53,61,.5) url(../img/dotgrid-pattern.png);
-
+  .branding.fillE {
+  opacity: 0;
+  transition: opacity 500ms;
+  -moz-transition: opacity 500ms;
+  -webkit-transition: opacity 500ms;
+  -o-transition: opacity 500ms;
   }
+  .branding.fillE.visible { opacity: 1;}
 
   .pager-box a {
     border-color: #28353d;
@@ -258,6 +263,25 @@ maps:
     }
 
     setMap(window.location.hash.substring(1));
+
+  var locked,
+      fadeOut;
+      b = $('.branding');
+
+  $('body').mousemove(function() {
+    if (fadeOut) clearInterval(fadeOut);
+    locked = false;
+    b.addClass('visible');
+     fadeOut = setInterval(function() {
+      if (!locked) b.removeClass('visible');
+      locked = true;
+   }, 3000);
+  });
+
+/*  $(document).keydown(function(e) {
+    stopLoop();
+    if (e.keyCode == 65) return playLoop(); // 'a'
+  });*/
 
   })();
 
