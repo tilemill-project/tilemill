@@ -1,6 +1,5 @@
 auto: true
 server: true
-server_port: 4001
 exclude:
 - .gitignore
 - .gitmodules
