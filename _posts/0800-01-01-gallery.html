@@ -27,7 +27,7 @@ maps:
 - id: tmcw.shadowplay
   name: Shadow Play
   creator: Tom MacWright
-  description: 
+  description:
   center: -45.00,36.95,3
   matte: '000000'
 - id: tmcw.rrrr2
@@ -90,12 +90,18 @@ maps:
 <link href='http://api.tiles.mapbox.com/mapbox.js/v0.6.4/mapbox.css' rel='stylesheet' />
 
 <style type='text/css'>
+  body {max-width: none;}
+  .branding.fillE {     background:rgba(40,53,61,.5) url(../img/dotgrid-pattern.png);
+
+  }
+
   .pager-box a {
     border-color: #28353d;
     margin-bottom: 0;
   }
   .pager-box {
     background: #28353d;
+    z-index: 2;
   }
   .right {
     position: absolute;
@@ -109,11 +115,12 @@ maps:
 
   #map {
     position: absolute;
-    top: 160px;
+    top: 0px;
     left: 0px;
     right: 0px;
     bottom: 0px;
   }
+  .zoomer { top: 170px;}
 
   body, .wrapper {
     position: absolute;
@@ -129,22 +136,30 @@ maps:
     width: 100%;
     float: left;
     }
-    .desc-box.caption { border-top: 1px solid #28353d;}
+    .desc-box.main-desc { position: relative; z-index: 2;}
+    .desc-box.caption {
+      position: relative;
+      border-top: 1px solid #28353d;
+            animation: fadeInDown 500ms ease 1000ms both;
+       -moz-animation: fadeInDown 500ms ease 1000ms both;
+    -webkit-animation: fadeInDown 500ms ease 1000ms both;
+    z-index: 1;
+    }
     .desc-box h2 {
       margin: 0 0 5px 0;
       }
-    .desc-box h2, .desc-box small {
-            animation: fadeInRight 500ms ease 500ms both;
-       -moz-animation: fadeInRight 500ms ease 500ms both;
-    -webkit-animation: fadeInRight 500ms ease 500ms both;
+    .desc-box.main-desc h2, .desc-box.main-desc small {
+              animation: fadeInRight 500ms ease 500ms both;
+         -moz-animation: fadeInRight 500ms ease 500ms both;
+      -webkit-animation: fadeInRight 500ms ease 500ms both;
     }
-.map-tooltip { 
+.map-tooltip {
   color: #3C4E5A;
   bottom: 30px; left: 20px; right: auto; top: auto;
   }
   .map-tooltip p { font: normal 12px/1.6667em Opensans,Arial,sans-serif; }
   .map-tooltip h1, .map-tooltip h2, .map-tooltip h3, .map-tooltip h4 { font: bold 15px/1.6667em Opensans,Arial,sans-serif;}
-  
+
 @media only screen and (max-width: 640px) {
   .desc-box.caption { display: none;}
   .desc-box h2 { white-space: nowrap;}
@@ -154,6 +169,23 @@ maps:
   .zoomer { top: 205px;}
   #map { min-height: 500px;}
 }
+
+@-webkit-keyframes fadeInDown {
+  0%  { opacity:0; -webkit-transform:translateY(-100px); }
+  100%  { opacity:1; -webkit-transform:translateY(0); }
+  }
+@-moz-keyframes fadeInDown {
+  0%  { opacity:0; -moz-transform:translateY(-100px); }
+  100%  { opacity:1; -moz-transform:translateY(0); }
+  }
+@-o-keyframes fadeInDown {
+  0%  { opacity:0; -o-transform:translateY(-100px); }
+  100%  { opacity:1; -o-transform:translateY(0); }
+  }
+@keyframes fadeInDown {
+  0%  { opacity:0; transform:translateY(-100px); }
+  100%  { opacity:1; transform:translateY(0); }
+  }
 </style>
 
 <div id="map" class="fillE"></div>
@@ -163,7 +195,7 @@ maps:
     <a class="cell6 prev" href="#<%=prev%>"><span class="icon reverse prev"></span> PREV</a>
     <a class="cell6 next" href="#<%=next%>">NEXT <span class="icon reverse next"></span></a>
   </div>
-  <div class="fillD desc-box cell12">
+  <div class="fillD desc-box main-desc cell12">
     <h2><%=name%></h2>
     <small>by <%=creator%></small>
   </div>
@@ -193,7 +225,7 @@ maps:
       var i = _.indexOf(maps, _.find(maps, function(d) {
         return d.id === id;
       }));
-      
+
       if (i < 0) i = 0;
       var d = maps[i];
 
@@ -228,5 +260,6 @@ maps:
     setMap(window.location.hash.substring(1));
 
   })();
+
 </script>
 
