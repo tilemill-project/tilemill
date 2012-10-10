@@ -9,7 +9,7 @@ They are a work in progress. Please ask questions to fill in holes.
 
 1. Test, do dev builds, make sure all dependencies are tagged and stable versions are good
 
-1. Increment the version in package.json
+1. Increment the version in `package.json`, `platforms/windows/installer/nsis_script.nsi`, and `platforms/ubuntu/debian/changelog`
 
 1. Tag tilemill:
 
