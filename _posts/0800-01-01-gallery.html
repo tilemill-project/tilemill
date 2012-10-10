@@ -86,21 +86,24 @@ maps:
   center: -73.951,40.803,13
   description: Stop and frisk frequency contour map of New York City
 ---
-<script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.4/mapbox.js'></script>
-<link href='http://api.tiles.mapbox.com/mapbox.js/v0.6.4/mapbox.css' rel='stylesheet' />
+<script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.6/mapbox.js'></script>
+<link href='http://api.tiles.mapbox.com/mapbox.js/v0.6.6/mapbox.css' rel='stylesheet' />
 
 <style type='text/css'>
   body {overflow: visible;}
   .branding.fillE {
   margin: 0 auto;
   background:rgba(40,53,61,.5) url(../img/dotgrid-pattern.png);
-  opacity: 1;
-  transition: opacity 500ms;
-  -moz-transition: opacity 500ms;
-  -webkit-transition: opacity 500ms;
-  -o-transition: opacity 500ms;
   }
   .branding.fillE.noshow { opacity: 0;}
+.zoomer,
+#mapdescription {
+  z-index:9000;
+  -webkit-transition: top 500ms;
+     -moz-transition: top 500ms;
+       -o-transition: top 500ms;
+          transition: top 500ms;
+  }
 
 .icon.reverse.play {
   border-top: 6px solid transparent;
@@ -112,6 +115,10 @@ maps:
   margin-left: 7px;
   margin-right: 7px;
   }
+.pager-box a.pause {
+  background-color:#3bb2d0;
+  }
+
   .pager-box a {
     border-color: #28353d;
     margin-bottom: 0;
@@ -204,6 +211,19 @@ maps:
   0%  { opacity:0; transform:translateY(-100px); }
   100%  { opacity:1; transform:translateY(0); }
   }
+
+/* Playback enabled styling */
+.headerless .branding,
+.headerless .auth {
+  display:none;
+  }
+.headerless #mapdescription {
+  top:0;
+  }
+.headerless .zoomer {
+  top:20px;
+  }
+
 </style>
 
 <div id="map" class="fillE"></div>
@@ -212,7 +232,23 @@ maps:
   <div class="pager-box clearfix">
     <a class="cell4 prev" href="#<%=prev%>"><span class="icon reverse prev"></span> prev</a>
     <a class="cell4 next" href="#<%=next%>">next <span class="icon reverse next"></span></a>
-    <a class="cell4 play" href="#">play <span class="icon reverse play"></span></a>
+    <a class="cell4 play" href="#<%=next%>">play <span class="icon reverse play"></span></a>
+  </div>
+  <div class="fillD desc-box main-desc cell12">
+    <h2><%=name%></h2>
+    <small>by <%=creator%></small>
+  </div>
+  <% if (description) { %>
+  <div class="fillD desc-box caption cell12">
+    <small><%=description%></small>
+  </div>
+  <% } %>
+</script>
+<script type='text/template' id='gallery-template-play'>
+  <div class="pager-box clearfix">
+    <a class="cell4 prev" href="#<%=prev%>"><span class="icon reverse prev"></span> prev</a>
+    <a class="cell4 next" href="#<%=next%>">next <span class="icon reverse next"></span></a>
+    <a class="cell4 pause" href="#">pause</a>
   </div>
   <div class="fillD desc-box main-desc cell12">
     <h2><%=name%></h2>
@@ -226,7 +262,8 @@ maps:
 </script>
 
 <script>
-  (function () {
+  (function() {
+    var playBack;
     var maps = _([{% for map in page.maps %}
     { {% if map.creator %}creator: '{{map.creator}}',{% endif %}
       {% if map.name %}name: '{{map.name}}',{% endif %}
@@ -238,9 +275,12 @@ maps:
     },{% endfor %}
     false]).compact();
     var template = _.template(document.getElementById('gallery-template').innerHTML);
+    var playTemplate = _.template(document.getElementById('gallery-template-play').innerHTML);
     var gallerymap;
 
-    function setMap(id) {
+    function setMap(id, mode) {
+      if (playBack) clearInterval(playBack);
+
       var i = _.indexOf(maps, _.find(maps, function(d) {
         return d.id === id;
       }));
@@ -262,43 +302,37 @@ maps:
         }
 
         d.next = maps[(i + 1) % maps.length].id;
+        d.current = maps[i % maps.length].id;
         d.prev = maps[(i - 1 + maps.length) % maps.length].id;
         d.description = d.description;
         d.name = d.name || tj.name;
-        $('#mapdescription').html(template(d));
 
-        $('#mapdescription a.next').bind('click', function(e) {
-          setMap(d.next);
+        if (mode === 'play') {
+          $('#mapdescription').html(playTemplate(d));
+          playBack = setInterval(function () {
+            setMap(d.next, 'play');
+          }, 7000);
+        } else {
+          $('#mapdescription').html(template(d));
+        }
+
+        // UI Events
+        $('#mapdescription').find('a.next').on('click', function(e) { setMap(d.next); });
+        $('#mapdescription').find('a.prev').on('click', function(e) { setMap(d.prev); });
+
+        $('#mapdescription').find('a.play').on('click', function(e) {
+          setMap(d.next, 'play');
+          $('body').addClass('headerless');
         });
-        $('#mapdescription a.prev').bind('click', function(e) {
-          setMap(d.prev);
+
+        $('#mapdescription').find('a.pause').on('click', function(e) {
+          setMap(d.current);
+          $('body').removeClass('headerless');
         });
       });
     }
 
     setMap(window.location.hash.substring(1));
-
-/*
-  var locked,
-      fadeOut;
-      b = $('.branding');
-
-  $('pager-box').click(function() {
-    if (fadeOut) clearInterval(fadeOut);
-    locked = false;
-    b.addClass('noshow');
-     fadeOut = setInterval(function() {
-      if (!locked) b.removeClass('noshow');
-      locked = true;
-   }, 3000);
-  });
-
-  $(document).keydown(function(e) {
-    stopLoop();
-    if (e.keyCode == 65) return playLoop(); // 'a'
-  });*/
-
 })();
-
 </script>
 
