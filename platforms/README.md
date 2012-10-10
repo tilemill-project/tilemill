@@ -9,6 +9,8 @@ They are a work in progress. Please ask questions to fill in holes.
 
 1. Test, do dev builds, make sure all dependencies are tagged and stable versions are good
 
+1. Increment the version in package.json
+
 1. Tag tilemill:
 
     VERSION="0.10.1"
@@ -23,3 +25,5 @@ They are a work in progress. Please ask questions to fill in holes.
 1. Publish TileMill to npm (which is what windows and linux use to indicated update availability)
 
 1. Write blog post, update download links, changelog and upgrade notes like #1702
+
+1. Ensure key plugins are republished to support the new version
