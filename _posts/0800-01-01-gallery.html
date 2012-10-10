@@ -98,13 +98,13 @@ maps:
   background:rgba(40,53,61,.5) url(../img/dotgrid-pattern.png);
   }
   .branding.fillE.noshow { opacity: 0;}
+
 .zoomer,
 #mapdescription {
-  z-index:9000;
-  -webkit-transition: top 500ms;
-     -moz-transition: top 500ms;
-       -o-transition: top 500ms;
-          transition: top 500ms;
+  -webkit-transition:top 500ms;
+     -moz-transition:top 500ms;
+       -o-transition:top 500ms;
+          transition:top 500ms;
   }
 
 .icon.reverse.play {
@@ -117,7 +117,7 @@ maps:
   margin-left: 7px;
   margin-right: 7px;
   }
-.pager-box a.pause {
+.pager-box a.cancel {
   background-color:#3bb2d0;
   }
 
@@ -167,18 +167,18 @@ maps:
     .desc-box.caption {
       position: relative;
       border-top: 1px solid #28353d;
-            animation: fadeInDown 500ms ease 1000ms both;
-       -moz-animation: fadeInDown 500ms ease 1000ms both;
     -webkit-animation: fadeInDown 500ms ease 1000ms both;
+       -moz-animation: fadeInDown 500ms ease 1000ms both;
+            animation: fadeInDown 500ms ease 1000ms both;
     z-index: 1;
     }
     .desc-box h2 {
       margin: 0 0 5px 0;
       }
     .desc-box.main-desc h2, .desc-box.main-desc small {
-              animation: fadeInRight 500ms ease 500ms both;
-         -moz-animation: fadeInRight 500ms ease 500ms both;
       -webkit-animation: fadeInRight 500ms ease 500ms both;
+         -moz-animation: fadeInRight 500ms ease 500ms both;
+              animation: fadeInRight 500ms ease 500ms both;
     }
 .map-tooltip {
   color: #3C4E5A;
@@ -223,9 +223,8 @@ maps:
   top:0;
   }
 .headerless .zoomer {
-  top:20px;
+  top:10px;
   }
-
 </style>
 
 <div id="map" class="fillE"></div>
@@ -250,7 +249,7 @@ maps:
   <div class="pager-box clearfix">
     <a class="cell4 prev" href="#<%=prev%>"><span class="icon reverse prev"></span> prev</a>
     <a class="cell4 next" href="#<%=next%>">next <span class="icon reverse next"></span></a>
-    <a class="cell4 pause" href="#">pause</a>
+    <a class="cell4 cancel" href="#<%=next%>">cancel</a>
   </div>
   <div class="fillD desc-box main-desc cell12">
     <h2><%=name%></h2>
@@ -282,6 +281,7 @@ maps:
 
     function setMap(id, mode) {
       if (playBack) clearInterval(playBack);
+      var context = $('#mapdescription');
 
       var i = _.indexOf(maps, _.find(maps, function(d) {
         return d.id === id;
@@ -310,31 +310,52 @@ maps:
         d.name = d.name || tj.name;
 
         if (mode === 'play') {
-          $('#mapdescription').html(playTemplate(d));
+          context.html(playTemplate(d));
           playBack = setInterval(function () {
             setMap(d.next, 'play');
+            window.location.hash = '#' + d.next;
           }, 7000);
+
+          // Pausing playback on map interaction
+          m.addCallback('panned', function(){ pause(); });
+          m.addCallback('zoomed', function(){ pause(); });
         } else {
-          $('#mapdescription').html(template(d));
+          context.html(template(d));
         }
 
-        // UI Events
-        $('#mapdescription').find('a.next').on('click', function(e) { setMap(d.next); });
-        $('#mapdescription').find('a.prev').on('click', function(e) { setMap(d.prev); });
+        // Bound UI Events
+        $('a.next', context).on('click', function(e) {
+          setMap(d.next);
+          $('body').removeClass('headerless');
+        });
 
-        $('#mapdescription').find('a.play').on('click', function(e) {
+        $('a.prev', context).on('click', function(e) {
+          setMap(d.prev);
+          $('body').removeClass('headerless');
+        });
+
+        $('a.play', context).on('click', function(e) {
           setMap(d.next, 'play');
           $('body').addClass('headerless');
         });
 
-        $('#mapdescription').find('a.pause').on('click', function(e) {
-          setMap(d.current);
-          $('body').removeClass('headerless');
+        $('a.cancel', context).on('click', function(e) {
+          if ($(this).hasClass('unpause')) {
+            setMap(d.next, 'play');
+            $('a.cancel', context).removeClass('unpause').text('cancel');
+          } else {
+            setMap(d.current);
+            $('body').removeClass('headerless');
+          }
         });
+
+        function pause() {
+          clearInterval(playBack);
+          $('a.cancel', context).addClass('unpause').text('unpause');
+        };
       });
     }
 
     setMap(window.location.hash.substring(1));
 })();
 </script>
-
