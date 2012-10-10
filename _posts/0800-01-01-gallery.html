@@ -13,12 +13,13 @@ maps:
   name: Ísland
   creator: Konstantin Käfer
   matte: 17292d
-  center: -16.9,64.7,7
+  center: -20.9,64.7,8
 - id: dhcole.popup
   name: Popup
   creator: Dave Cole
   description: Population density visualized in 3d.
   matte: '000000'
+  center: 11.00,15.769,6
 - id: bclc-apec.map-rslgvy56
   name: Earthquake Risk Zones
   creator: PRCC Disaster Data
@@ -27,7 +28,7 @@ maps:
 - id: tmcw.shadowplay
   name: Shadow Play
   creator: Tom MacWright
-  description: 
+  description:
   center: -45.00,36.95,3
   matte: '000000'
 - id: tmcw.rrrr2
@@ -35,7 +36,7 @@ maps:
   name: Running Map
   description: Running routes and heart rate visualized on top of MapBox Streets.
   matte: 2e2532
-  center: -77.0373,38.9259,14
+  center: -77.0373,38.9259,15
 - id: mapbox.natural-earth-2
   creator: MapBox
   description: A high-level topographic and bathymetric map.
@@ -54,11 +55,11 @@ maps:
   creator: Ian Villeda
   description: A visualization of global tree canopy height, made with data from NASA.
   matte: '000000'
-  center: -59.985,-7.471,4
+  center: -59.985,-7.471,5
 - id: mapbox.baltimore-retro
   creator: MapBox
   matte: ffffff
-  center: -76.5987,39.2807,15
+  center: -76.5987,39.2807,16
 - id: colemanm.persia-1891
   creator: Coleman McCormick
   center: 54.415,32.210,7
@@ -67,13 +68,14 @@ maps:
   creator: Occupy
   description: A network map of all occupy movement locations.
   matte: 424242
+  center: 10.000,55.000,4
 - id: colemanm.blue-marble-8bit
   creator: Coleman McCormick
   matte: 000009
 - id: newamerica.motw_poverty
   name: Poverty change in America
   creator: The New America Foundation
-  center: -97.583,38.769,5
+  center: -97.583,38.769,6
   matte: b7dee5
 - id: aj.population-fire
   creator: AJ Ashton
@@ -83,19 +85,48 @@ maps:
   name: Stop and Frisk in NYC
   creator: Chris Herwig
   matte: E8E8E8
-  center: -73.951,40.803,13
+  center: -73.951,40.803,14
   description: Stop and frisk frequency contour map of New York City
 ---
-<script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.4/mapbox.js'></script>
-<link href='http://api.tiles.mapbox.com/mapbox.js/v0.6.4/mapbox.css' rel='stylesheet' />
+<script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.6/mapbox.js'></script>
+<link href='http://api.tiles.mapbox.com/mapbox.js/v0.6.6/mapbox.css' rel='stylesheet' />
 
 <style type='text/css'>
+  body {overflow: visible;}
+  .branding.fillE {
+  margin: 0 auto;
+  }
+  .branding.fillE.noshow { opacity: 0;}
+
+.zoomer,
+#mapdescription {
+  -webkit-transition:top 500ms;
+     -moz-transition:top 500ms;
+       -o-transition:top 500ms;
+          transition:top 500ms;
+  }
+
+.icon.reverse.play {
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid white;
+  height: 0;
+  width: 0;
+  margin-top: 3px;
+  margin-left: 7px;
+  margin-right: 7px;
+  }
+.pager-box a.cancel {
+  background-color:#3bb2d0;
+  }
+
   .pager-box a {
     border-color: #28353d;
     margin-bottom: 0;
   }
   .pager-box {
     background: #28353d;
+    z-index: 2;
   }
   .right {
     position: absolute;
@@ -108,12 +139,14 @@ maps:
   }
 
   #map {
-    position: absolute;
-    top: 160px;
+    max-width: none;
+    position: fixed !important;
+    top: 0px;
     left: 0px;
     right: 0px;
     bottom: 0px;
   }
+  .zoomer { top: 170px;}
 
   body, .wrapper {
     position: absolute;
@@ -129,22 +162,30 @@ maps:
     width: 100%;
     float: left;
     }
-    .desc-box.caption { border-top: 1px solid #28353d;}
+    .desc-box.main-desc { position: relative; z-index: 2;}
+    .desc-box.caption {
+      position: relative;
+      border-top: 1px solid #28353d;
+    -webkit-animation: fadeInDown 500ms ease 1000ms both;
+       -moz-animation: fadeInDown 500ms ease 1000ms both;
+            animation: fadeInDown 500ms ease 1000ms both;
+    z-index: 1;
+    }
     .desc-box h2 {
       margin: 0 0 5px 0;
       }
-    .desc-box h2, .desc-box small {
-            animation: fadeInRight 500ms ease 500ms both;
-       -moz-animation: fadeInRight 500ms ease 500ms both;
-    -webkit-animation: fadeInRight 500ms ease 500ms both;
+    .desc-box.main-desc h2, .desc-box.main-desc small {
+      -webkit-animation: fadeInRight 500ms ease 500ms both;
+         -moz-animation: fadeInRight 500ms ease 500ms both;
+              animation: fadeInRight 500ms ease 500ms both;
     }
-.map-tooltip { 
+.map-tooltip {
   color: #3C4E5A;
   bottom: 30px; left: 20px; right: auto; top: auto;
   }
   .map-tooltip p { font: normal 12px/1.6667em Opensans,Arial,sans-serif; }
   .map-tooltip h1, .map-tooltip h2, .map-tooltip h3, .map-tooltip h4 { font: bold 15px/1.6667em Opensans,Arial,sans-serif;}
-  
+
 @media only screen and (max-width: 640px) {
   .desc-box.caption { display: none;}
   .desc-box h2 { white-space: nowrap;}
@@ -154,16 +195,62 @@ maps:
   .zoomer { top: 205px;}
   #map { min-height: 500px;}
 }
+
+@-webkit-keyframes fadeInDown {
+  0%  { opacity:0; -webkit-transform:translateY(-100px); }
+  100%  { opacity:1; -webkit-transform:translateY(0); }
+  }
+@-moz-keyframes fadeInDown {
+  0%  { opacity:0; -moz-transform:translateY(-100px); }
+  100%  { opacity:1; -moz-transform:translateY(0); }
+  }
+@-o-keyframes fadeInDown {
+  0%  { opacity:0; -o-transform:translateY(-100px); }
+  100%  { opacity:1; -o-transform:translateY(0); }
+  }
+@keyframes fadeInDown {
+  0%  { opacity:0; transform:translateY(-100px); }
+  100%  { opacity:1; transform:translateY(0); }
+  }
+
+/* Playback enabled styling */
+.headerless .branding,
+.headerless .auth {
+  display:none;
+  }
+.headerless #mapdescription {
+  top:0;
+  }
+.headerless .zoomer {
+  top:10px;
+  }
 </style>
 
 <div id="map" class="fillE"></div>
-<div id="mapdescription" class="clearfix cell3 right"></div>
+<div id="mapdescription" class="clearfix cell4 right"></div>
 <script type='text/template' id='gallery-template'>
-  <div class="pager-box">
-    <a class="cell6 prev" href="#<%=prev%>"><span class="icon reverse prev"></span> PREV</a>
-    <a class="cell6 next" href="#<%=next%>">NEXT <span class="icon reverse next"></span></a>
+  <div class="pager-box clearfix">
+    <a class="cell4 prev" href="#<%=prev%>"><span class="icon reverse prev"></span> prev</a>
+    <a class="cell4 next" href="#<%=next%>">next <span class="icon reverse next"></span></a>
+    <a class="cell4 play" href="#<%=next%>">play <span class="icon reverse play"></span></a>
   </div>
-  <div class="fillD desc-box cell12">
+  <div class="fillD desc-box main-desc cell12">
+    <h2><%=name%></h2>
+    <small>by <%=creator%></small>
+  </div>
+  <% if (description) { %>
+  <div class="fillD desc-box caption cell12">
+    <small><%=description%></small>
+  </div>
+  <% } %>
+</script>
+<script type='text/template' id='gallery-template-play'>
+  <div class="pager-box clearfix">
+    <a class="cell4 prev" href="#<%=prev%>"><span class="icon reverse prev"></span> prev</a>
+    <a class="cell4 next" href="#<%=next%>">next <span class="icon reverse next"></span></a>
+    <a class="cell4 cancel" href="#<%=next%>">cancel</a>
+  </div>
+  <div class="fillD desc-box main-desc cell12">
     <h2><%=name%></h2>
     <small>by <%=creator%></small>
   </div>
@@ -175,7 +262,8 @@ maps:
 </script>
 
 <script>
-  (function () {
+  (function() {
+    var playBack;
     var maps = _([{% for map in page.maps %}
     { {% if map.creator %}creator: '{{map.creator}}',{% endif %}
       {% if map.name %}name: '{{map.name}}',{% endif %}
@@ -187,13 +275,17 @@ maps:
     },{% endfor %}
     false]).compact();
     var template = _.template(document.getElementById('gallery-template').innerHTML);
+    var playTemplate = _.template(document.getElementById('gallery-template-play').innerHTML);
     var gallerymap;
 
-    function setMap(id) {
+    function setMap(id, mode) {
+      if (playBack) clearInterval(playBack);
+      var context = $('#mapdescription');
+
       var i = _.indexOf(maps, _.find(maps, function(d) {
         return d.id === id;
       }));
-      
+
       if (i < 0) i = 0;
       var d = maps[i];
 
@@ -211,22 +303,57 @@ maps:
         }
 
         d.next = maps[(i + 1) % maps.length].id;
+        d.current = maps[i % maps.length].id;
         d.prev = maps[(i - 1 + maps.length) % maps.length].id;
         d.description = d.description;
         d.name = d.name || tj.name;
-        $('#mapdescription').html(template(d));
 
-        $('#mapdescription a.next').bind('click', function(e) {
+        if (mode === 'play') {
+          context.html(playTemplate(d));
+          playBack = setInterval(function () {
+            setMap(d.next, 'play');
+            window.location.hash = '#' + d.next;
+          }, 10000);
+          // Pausing playback on map interaction
+          m.addCallback('panned', function(){ pause(); });
+          m.addCallback('zoomed', function(){ pause(); });
+        } else {
+          context.html(template(d));
+        }
+
+        // Bound UI Events
+        $('a.next', context).on('click', function(e) {
           setMap(d.next);
+          $('body').removeClass('headerless');
         });
-        $('#mapdescription a.prev').bind('click', function(e) {
+
+        $('a.prev', context).on('click', function(e) {
           setMap(d.prev);
+          $('body').removeClass('headerless');
         });
+
+        $('a.play', context).on('click', function(e) {
+          setMap(d.next, 'play');
+          $('body').addClass('headerless');
+        });
+
+        $('a.cancel', context).on('click', function(e) {
+          if ($(this).hasClass('unpause')) {
+            setMap(d.next, 'play');
+            $('a.cancel', context).removeClass('unpause').text('cancel');
+          } else {
+            setMap(d.current);
+            $('body').removeClass('headerless');
+          }
+        });
+
+        function pause() {
+          clearInterval(playBack);
+          $('a.cancel', context).addClass('unpause').text('unpause');
+        };
       });
     }
 
     setMap(window.location.hash.substring(1));
-
-  })();
+})();
 </script>
-
