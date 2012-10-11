@@ -19,31 +19,31 @@ releases:
   sign: MC4CFQCv7b/Bm5GW3D4mxltyES0AJ++WkgIVAJyz95B3ZUnTznGE6czgQ2Ao0120
 
   notes:
-  - TileMill: Fixed file handling behavior on windows to avoid symlink errors when run as non-admin
-  - TileMill: autostyle now works against active stylesheet
-  - TileMill: fixed crash when using relative paths to layers (like in open-streets-dc project)
-  - TileMill: Enabled interactivity display in mbtiles export preview window
-  - TileMill: Fixed tabs switching on plugins load
-  - TileMill: Fixed handling of metatile setting in exports (ce6e7fc45e7517cba34f2075442d268d2b253db4)
-  - Carto: Allows text-face-name properties to be unquoted
-  - Carto: Detects inline Format XML tags in text-name and passes such output straight to XML for advanced text names.
-  - Carto: Fixes bugs around concatenation of strings in expressions
-  - Carto: Fixes parsing of comments in between selectors
-  - Carto: Fixes parsing of whitespace in calls
-  - Carto: Improved error messages for unknown properties - advises user on the property name most closely matching the incorrect input.
-  - Carto: Improved errors for calls, advises user on number of arguments
-  - Millstone: Will now throw if files do not exist (instead of throwing on missing/unknown srs)
-  - Millstone: Fixed support for loading layer datasource files from alternative windows drives
-  - Millstone: Moved to no-symlink/no-copy behavior on all windows versions
-  - Millstone: Updated node-srs version
-  - Millstone: Improved handling of known file extensions to better support guessing extensions via headers
-  - Millstone: Fixed handling of sqlite attach with absolute paths
-  - Millstone: Fixed missing error handling when localizing Carto URIs
-  - Mapnik: Fixed handling of raster alpha blending with high quality resampling methods like bilinear
-  - Mapnik: Reduced memory allocations for reading rasters for better raster rendering performance
-  - Mapnik: Fixed RGB-HSV conversion used in `saturation` compositing operation
-  - Mapnik: Improved support for CSV files with mixed newlines
-  - Mapnik: CSV parsing speed up by avoiding adding WKT/JSON geometry data to attributes
+  - TileMill - Fixed file handling behavior on windows to avoid symlink errors when run as non-admin
+  - TileMill - autostyle now works against active stylesheet
+  - TileMill - fixed crash when using relative paths to layers (like in open-streets-dc project)
+  - TileMill - Enabled interactivity display in mbtiles export preview window
+  - TileMill - Fixed tabs switching on plugins load
+  - TileMill - Fixed handling of metatile setting in exports (ce6e7fc45e7517cba34f2075442d268d2b253db4)
+  - Carto - Allows text-face-name properties to be unquoted
+  - Carto - Detects inline Format XML tags in text-name and passes such output straight to XML for advanced text names.
+  - Carto - Fixes bugs around concatenation of strings in expressions
+  - Carto - Fixes parsing of comments in between selectors
+  - Carto - Fixes parsing of whitespace in calls
+  - Carto - Improved error messages for unknown properties - advises user on the property name most closely matching the incorrect input.
+  - Carto - Improved errors for calls, advises user on number of arguments
+  - Millstone - Will now throw if files do not exist (instead of throwing on missing/unknown srs)
+  - Millstone - Fixed support for loading layer datasource files from alternative windows drives
+  - Millstone - Moved to no-symlink/no-copy behavior on all windows versions
+  - Millstone - Updated node-srs version
+  - Millstone - Improved handling of known file extensions to better support guessing extensions via headers
+  - Millstone - Fixed handling of sqlite attach with absolute paths
+  - Millstone - Fixed missing error handling when localizing Carto URIs
+  - Mapnik - Fixed handling of raster alpha blending with high quality resampling methods like bilinear
+  - Mapnik - Reduced memory allocations for reading rasters for better raster rendering performance
+  - Mapnik - Fixed RGB-HSV conversion used in `saturation` compositing operation
+  - Mapnik - Improved support for CSV files with mixed newlines
+  - Mapnik - CSV parsing speed up by avoiding adding WKT/JSON geometry data to attributes
 
 - version: 0.10.0
   date: 2012-09-19
