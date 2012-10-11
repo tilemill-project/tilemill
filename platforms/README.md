@@ -13,8 +13,10 @@ They are a work in progress. Please ask questions to fill in holes.
 
 1. Tag tilemill:
 
-    VERSION="0.10.1"
-    git tag v$VERSION -m "tagging v$VERSION"
+```
+VERSION="0.10.1"
+git tag v$VERSION -m "tagging v$VERSION"
+```
 
 1. OSX builds: use mini build machine, simply tweak the [build script](https://github.com/mapbox/tilemill-builder-osx) to checkout a tilemill tag (instead of master) and run the tweaked script manually. Download .zip to local machine, upload to github downloads page, then go back into local source tilemill checkout, run `make sparkle` and then use that to update the `_posts/0100-01-01-CHANGELOG.md`.
 
