@@ -12,7 +12,7 @@ maps:
 - id: kkaefer.iceland
   name: Ísland
   creator: Konstantin Käfer
-  matte: 17292d
+  matte: 64b5c9
   center: -20.9,64.7,8
 - id: dhcole.popup
   name: Popup
@@ -24,7 +24,7 @@ maps:
   name: Earthquake Risk Zones
   creator: PRCC Disaster Data
   description: Earthquake risks mapped against active USAID projects in the pacific rim region.
-  mattde: 313131
+  matte: 343434
 - id: tmcw.shadowplay
   name: Shadow Play
   creator: Tom MacWright
@@ -58,7 +58,7 @@ maps:
   center: -59.985,-7.471,5
 - id: mapbox.baltimore-retro
   creator: MapBox
-  matte: ffffff
+  matte: 90c8c2
   center: -76.5987,39.2807,16
 - id: colemanm.persia-1891
   creator: Coleman McCormick
@@ -146,6 +146,38 @@ maps:
     right: 0px;
     bottom: 0px;
   }
+  .headerless #map > div {
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+          animation: fadeInDown 1000ms ease 1000ms both;
+    -moz-animation: fadeInDown 1000ms ease 1000ms both;
+    -webkit-animation: fadeInDown 1000ms ease 1000ms both;
+  }
+
+  #map img {
+    animation: fadeIn 150ms ease both;
+    -moz-animation: fadeIn 150ms ease both;
+    -webkit-animation: fadeIn 150ms ease both;
+    }
+
+-webkit-keyframes fadeInDown {
+  0%    { opacity: 0; -webkit-transform: translateY(-300px); }
+  100%  { opacity:1; -webkit-transform:translateY(0); }
+  }
+@-moz-keyframes fadeInDown {
+  0%    { opacity:0; -moz-transform:translateY(-300px); }
+  100%  { opacity:1; -moz-transform:translateY(0); }
+  }
+@-o-keyframes fadeInDown {
+  0%    { opacity:0; -o-transform:translateY(-300px); }
+  100%  { opacity:1; -o-transform:translateY(0); }
+  }
+@keyframes fadeInDown {
+  0%    { opacity:0; transform:translateY(-300px); }
+  100%  { opacity:1; transform:translateY(0); }
+  }
+
   .zoomer { top: 170px;}
 
   body, .wrapper {
@@ -166,9 +198,9 @@ maps:
     .desc-box.caption {
       position: relative;
       border-top: 1px solid #28353d;
-    -webkit-animation: fadeInDown 500ms ease 1000ms both;
-       -moz-animation: fadeInDown 500ms ease 1000ms both;
-            animation: fadeInDown 500ms ease 1000ms both;
+    -webkit-animation: fadeInDown 500ms ease 500ms both;
+       -moz-animation: fadeInDown 500ms ease 500ms both;
+            animation: fadeInDown 500ms ease 500ms both;
     z-index: 1;
     }
     .desc-box h2 {
