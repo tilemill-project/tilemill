@@ -150,9 +150,15 @@ maps:
     top: auto !important;
     left: auto !important;
     right: auto !important;
-          animation: fadeInDown 1000ms ease 1000ms both;
+    animation: fadeInDown 1000ms ease 1000ms both;
     -moz-animation: fadeInDown 1000ms ease 1000ms both;
     -webkit-animation: fadeInDown 1000ms ease 1000ms both;
+  }
+
+  .headerless #map .map-tooltip {
+          animation: none;
+     -moz-animation: none;
+  -webkit-animation: none;
   }
 
   #map img {
@@ -356,12 +362,10 @@ maps:
         // Bound UI Events
         $('a.next', context).on('click', function(e) {
           setMap(d.next);
-          $('body').removeClass('headerless');
         });
 
         $('a.prev', context).on('click', function(e) {
           setMap(d.prev);
-          $('body').removeClass('headerless');
         });
 
         $('a.play', context).on('click', function(e) {
