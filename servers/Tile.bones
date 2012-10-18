@@ -45,7 +45,9 @@ server.prototype.projectStatus = function(req, res, next) {
 
 server.prototype.load = function(req, res, next) {
     // This is the cache key in tilelive-mapnik, so make sure it
-    // contains the mtime with _updated.
+    // contains the mtime with _updated. These attributes should be
+    // known via the request and not by loading the project. They are
+    // used in tilelive-mapnik to generate the tilelive source cache key.
     var load = this.load;
     var id = req.params.id;
     var uri = {
@@ -54,8 +56,8 @@ server.prototype.load = function(req, res, next) {
         pathname: path.join(settings.files, 'project', id, id + '.xml'),
         query: {
             updated:req.query.updated,
-            scale: req.query.scale|0 || (req.project && req.project.attributes.scale),
-            metatile: req.query.metatile|0 || (req.project && req.project.attributes.metatile)
+            scale: req.query.scale|0 || 1,
+            metatile: req.query.metatile|0 || 2
         },
         // Need not be set for a cache hit. Once the cache is
         // warmed the project need not be loaded/localized again.
