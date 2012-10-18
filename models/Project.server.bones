@@ -371,13 +371,17 @@ function saveProject(model, callback) {
             url: settings.tileUrl,
             id: model.id,
             format: 'png',
-            updated: updated
+            updated: updated,
+            metatile: model.get('metatile'),
+            scale: model.get('scale')
         });
         var grids = tileURL({
             url: settings.tileUrl,
             id: model.id,
             format: 'grid.json',
-            updated: updated
+            updated: updated,
+            metatile: model.get('metatile'),
+            scale: model.get('scale')
         });
         callback(err, {
             _updated: updated,
