@@ -13,6 +13,11 @@ title: Changelog
 permalink: /changelog
 releases:
 
+# - version: 0.10.2
+#
+#  notes:
+#  - TileMill - Fixed performance of map loading (previous 0.10.x versions saw slowdown with large styles)
+
 - version: 0.10.1
   date: 2012-10-10
   size: 65709334
