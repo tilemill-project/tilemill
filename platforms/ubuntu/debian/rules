@@ -1,5 +1,8 @@
 #!/usr/bin/make -f
 
+build-arch: build
+build-indep: build
+
 files = $(shell find `pwd` -name wscript | sed 's,/wscript,/,g')
 
 build:
