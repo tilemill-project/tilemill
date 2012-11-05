@@ -12,6 +12,7 @@ var millstone = require('millstone');
 var settings = Bones.plugin.config;
 var tileURL = _('http://<%=url%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>&metatile=<%=metatile%>&scale=<%=scale%>').template();
 var request = require('request');
+var existsSync = require('fs').existsSync || require('path').existsSync;
 
 // object tracks status of tileserver's status localizing a project
 // key:model.id value:friendly message about activity or ''
@@ -280,7 +281,12 @@ function loadProjectAll(model, callback) {
         if (files.length === 0) return this(null, []);
         var group = this.group();
         _(files).chain()
-            .filter(function(file) { return (file.isDirectory() && file.basename[0] !== '.');  })
+            .filter(function(file) {
+                var modelPath = path.join(basepath, file.basename);
+                return ((file.isDirectory() && file.basename[0] !== '.')
+                         && (existsSync(path.join(modelPath, 'project.mml')) ||
+                             existsSync(path.join(modelPath, file.basename + '.mml'))));
+            })
             .each(function(file) { loadProject({id:file.basename}, group()) });
     },
     function(err, models) {
