@@ -40,6 +40,10 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
     
     [prefs setCacheModel:WebCacheModelDocumentViewer];
     [prefs setUsesPageCache:NO];
+
+    // enable text undo/redo
+    //
+    self.webView.editingDelegate = self;
 }
 
 #pragma mark -
