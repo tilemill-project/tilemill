@@ -14,7 +14,7 @@ obj.escape = function(string) {
 </a>
 </div>
 <div class='features fill scrolling'>
-<table>
+<table id='features'>
   <thead>
     <tr>
       <% _(fields).each(function (field, name) { %>
