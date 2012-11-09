@@ -74,7 +74,7 @@ view.prototype.error = function(model, resp) {
         // this assume Carto.js specific error array format response
         var err_message = JSON.parse(resp.responseText).message;
         var err_group = _(err_message.toString().split('\n')).compact();
-        var lines = []
+        var lines = [];
         for (var i = 0; i < err_group.length; i++) {
             var match = err_group[i].match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/);
             if (match) {
