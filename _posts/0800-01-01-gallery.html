@@ -225,13 +225,17 @@ maps:
   .map-tooltip h1, .map-tooltip h2, .map-tooltip h3, .map-tooltip h4 { font: bold 15px/1.6667em Opensans,Arial,sans-serif;}
 
 @media only screen and (max-width: 640px) {
+  .wrapper { height: 800px;}
   .desc-box.caption { display: none;}
   .desc-box h2 { white-space: nowrap;}
-  .pager-box a { height: 60px; padding: 20px; width: 50%; margin: 0;}
-  .pager-box a:first-child { border-right: 1px solid #3C4E5A;}
+  .pager-box a { height: 60px; padding: 20px; width: 33.3333%; margin: 0;}
+  .pager-box a { border-left: 1px solid #3C4E5A;}
+  .pager-box a:first-child { border-left: 0;}
   .right { top: 190px; }
   .zoomer { top: 205px;}
-  #map { min-height: 500px;}
+  #map { 
+    min-height: 500px;
+  }
 }
 
 @-webkit-keyframes fadeInDown {
