@@ -18,6 +18,7 @@ We also have instructions for [Ubuntu](/tilemill/docs/linux-install), [Windows](
 <ul class='checklist'>
   <li class='check'>Mac OS X 10.6+</li>
   <li class='check'>2 GB memory</li>
+  <li class='check'>64-bit processor</li>
   <li class='check'>Internet connection for remote datasources</li>
 </ul>
 
