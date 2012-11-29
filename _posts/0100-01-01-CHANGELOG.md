@@ -17,6 +17,7 @@ releases:
 #
 #  notes:
 #  - TileMill - Fixed performance of map loading (previous 0.10.x versions saw slowdown with large styles)
+#  - Millstone - Fixed handling of shapefiles zipped by Mac OS X users
 
 - version: 0.10.1
   date: 2012-10-10
