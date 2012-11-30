@@ -39,7 +39,7 @@ models.Project.prototype.sync = function(method, model, success, error) {
     case 'create':
     case 'update':
         mapnik.clearCache();
-        request.post({ url:'http://'+settings.tileUrl+'/clear-mapnik-cache' }, function(err) {
+        request.get({ url:'http://'+settings.tileUrl+'/clear-mapnik-cache' }, function(err) {
             if (err) return error(err);
             delete project_tile_status[model.id];
             saveProject(model, function(err, model) {
