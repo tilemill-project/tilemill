@@ -4,6 +4,7 @@ var tilelive = require('tilelive');
 var settings = Bones.plugin.config;
 var Step = require('step');
 var readdir = require('../lib/fsutil.js').readdir;
+var mapnik = require('mapnik');
 
 server = Bones.Server.extend({});
 server.prototype.port = 20008;
@@ -29,6 +30,7 @@ server.prototype.initialize = function() {
     this.all('/datasource/:id', this.datasource);
     this.get('/status', this.status);
     this.post('/restart', this.restart);
+    this.get('/clear-mapnik-cache', this.clearMapnikCache);
     // Special error handler for tile requests.
     this.error(function(err, req, res, next) {
         err.status = err.status || 500;
@@ -41,6 +43,11 @@ server.prototype.projectStatus = function(req, res, next) {
         id: req.param('id')
     });
     model.sync('status', model, res.send.bind(res), next);
+};
+
+server.prototype.clearMapnikCache = function(req, res, next) {
+    mapnik.clearCache();
+    res.send({});
 };
 
 server.prototype.load = function(req, res, next) {

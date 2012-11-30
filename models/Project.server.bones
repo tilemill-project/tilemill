@@ -38,13 +38,13 @@ models.Project.prototype.sync = function(method, model, success, error) {
         break;
     case 'create':
     case 'update':
-        if (method == 'update') {
-            // clear mapnik's global cache of markers and shapefiles
-            mapnik.clearCache();
-        }
-        delete project_tile_status[model.id];
-        saveProject(model, function(err, model) {
-            return err ? error(err) : success(model);
+        mapnik.clearCache();
+        request.post({ url:'http://'+settings.tileUrl+'/clear-mapnik-cache' }, function(err) {
+            if (err) return error(err);
+            delete project_tile_status[model.id];
+            saveProject(model, function(err, model) {
+                return err ? error(err) : success(model);
+            });
         });
         break;
     case 'delete':
