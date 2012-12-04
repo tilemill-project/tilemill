@@ -15,7 +15,7 @@ var millstone = require('millstone');
 
 
 // File based extensions supported by TileMill.
-var extFile = [];
+var extFile = ['.zip'];
 // Sqlite extensions.
 var extSqlite = [];
 Object.keys(millstone.valid_ds_extensions).forEach(function(i){
