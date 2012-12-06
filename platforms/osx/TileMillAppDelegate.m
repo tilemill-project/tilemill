@@ -309,7 +309,7 @@
 
 - (NSString *)configurationForKey:(NSString *)key
 {
-    NSURL *fetchURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/api/Key/%@", self.searchTask.port, key]];
+    NSURL *fetchURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://127.0.0.1:%ld/api/Key/%@", self.searchTask.port, key]];
     
     return [NSString stringWithContentsOfURL:fetchURL encoding:NSUTF8StringEncoding error:nil];
 }

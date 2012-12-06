@@ -52,7 +52,7 @@ NSString *TileMillBrowserLoadCompleteNotification = @"TileMillBrowserLoadComplet
 {
     self.port = inPort;
     
-    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%ld/#", self.port]];
+    NSURL *initialURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://127.0.0.1:%ld/#", self.port]];
     
     [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:initialURL 
                                                          cachePolicy:NSURLRequestUseProtocolCachePolicy
