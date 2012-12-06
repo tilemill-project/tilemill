@@ -25,6 +25,7 @@ releases:
 #  - Millstone - Improved error reporting when layer data files cannot be found
 #  - Millstone - Added support for referencing (and downloading) remote images symbols that do not have a file extension in their url.
 #  - CartoCSS - Various improved error reporting fixes
+#  - CartoCSS - Fixed regex nesting inheritance
 
 - version: 0.10.1
   date: 2012-10-10
