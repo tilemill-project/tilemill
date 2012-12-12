@@ -16,7 +16,8 @@ releases:
 # - version: 0.10.2
 #
 #  notes:
-#  - TileMill/node-mapnik - null values in feature attributes are now correctly reported as `null` (rather than `undefined`). This helps users filter properly in their CartoCSS styles since this works `#layer[attr=null];` but not `#layer[attr=undefined];`
+#  - TileMill/Mapnik - filtering out all values not equal to null is now possible like: `#layer[attr!=null];`
+#  - TileMill/node-mapnik - null values in feature attributes are now correctly reported as `null` in the data table (rather than `undefined`). This helps users filter properly in their CartoCSS styles since this works `#layer[attr=null];` but not `#layer[attr=undefined];`
 #  - TileMill - Fixed performance of map loading (previous 0.10.x versions saw slowdown with large styles)
 #  - TileMill - Files cached by Mapnik are now cleared when a project is saved (like shapefile references and symbol files) allowing for better usability (can re-load files easier) and reduced memory usage (shapefiles no longer uses are dropped from memory)
 #  - Tilemill - Added menu-based support for text undo/redo
