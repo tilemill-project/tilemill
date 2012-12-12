@@ -30,6 +30,8 @@ releases:
 #  - CartoCSS - Fixed regex nesting inheritance
 #  - Mapnik - added `marker-multi-policy` option to control marker rendering on multigeometries
 #  - Mapnik - Fixed handling of ArcGIS/FME produced pointzm (3d) shapefiles
+#  - Mapnik - Improved handling of shapefiles with null geometries
+#  - Mapnik - Improved robustness of shapefile reader in the face of corrupt shapefiles (whose offsets do not match between the .shp and .shx)
 
 - version: 0.10.1
   date: 2012-10-10
