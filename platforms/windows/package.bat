@@ -47,17 +47,17 @@ chdir /d %TILEMILL_DIR%
 
 @rem - handle mapnik itself
 rd /q /s %MAPNIK_DEST%
-xcopy /i /s %MAPNIK_INSTALL% %MAPNIK_DEST%
+xcopy /i /s /exclude:platforms\windows\excludes.txt %MAPNIK_INSTALL% %MAPNIK_DEST%
 
 @rem - move all other C++ addons into place
 rd /q /s %DEST%\zipfile
 xcopy /i /s /exclude:platforms\windows\excludes.txt %DEVROOT%\node-zipfile %DEST%\zipfile
 rd /q /s %DEST%\srs
 xcopy /i /s /exclude:platforms\windows\excludes.txt %DEVROOT%\node-srs %DEST%\srs
-rd /q /s %DEST%\sqlite3
-xcopy /i /s /exclude:platforms\windows\excludes.txt %DEVROOT%\node-sqlite3 %DEST%\sqlite3
-rd /q /s %DEST%\contextify
-xcopy /i /s /exclude:platforms\windows\excludes.txt %DEVROOT%\contextify %DEST%\contextify
+@rem rd /q /s %DEST%\sqlite3
+@rem xcopy /i /s /exclude:platforms\windows\excludes.txt %DEVROOT%\node-sqlite3 %DEST%\sqlite3
+@rem rd /q /s %DEST%\contextify
+@rem xcopy /i /s /exclude:platforms\windows\excludes.txt %DEVROOT%\contextify %DEST%\contextify
 
 @rem - move icu, proj, and gdal data into node-mapnik folder
 rd /q /s %MAPNIK_DATA_DEST%\proj
