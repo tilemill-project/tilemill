@@ -17,10 +17,10 @@ cd /d %~dp0
 cd ..\..\
 set TILEMILL_DIR=%CD%
 
-mkdir %DEST%
+@rem mkdir %DEST%
 
 @rem nuke any failed c++ module installs
-rd /q /s node_modules\bones\node_modules\jquery\node_modules\jsdom\node_modules\contextify
+@rem rd /q /s node_modules\bones\node_modules\jquery\node_modules\jsdom\node_modules\contextify
 @rem rd /q /s node_modules\sqlite3
 rd /q /s node_modules\mapnik
 rd /q /s node_modules\millstone\node_modules\srs
@@ -28,7 +28,6 @@ rd /q /s node_modules\millstone\node_modules\zipfile
 rd /q /s node_modules\tilelive-mapnik\node_modules\eio
 
 @rem remove then re-copy node-mapnik
-rd /q /s %DEST%\mapnik
 xcopy /i /s /exclude:platforms\windows\excludes.txt %DEVROOT%\node-mapnik %DEST%\mapnik
 
 @rem fixup paths to plugins making them relative 
