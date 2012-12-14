@@ -11,6 +11,8 @@ view.prototype.events = {
     'click a[href=#cacheFlush]': 'cacheFlush',
     'change select[name=Datasource.extent_cache]': 'extentSelect',
     'click a[href=#extentCacheFlush]': 'extentCacheFlush',
+    'change select[name=srs]': 'extentCacheFlush',
+    'change select[name=srs]': 'extentCacheFlush',
     'change select[name=srs-name]': 'nameToSrs',
     'keyup input[name=srs]': 'srsToName'
 };
@@ -80,6 +82,7 @@ view.prototype.extentSelect = function(ev) {
 };
 
 view.prototype.extentCacheFlush = function(ev) {
+    console.log('clearing extent cache');
     $('input[name="Datasource.extent"]').val('');
     return false;
 };

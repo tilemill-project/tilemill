@@ -154,6 +154,7 @@ command.prototype.initialize = function(plugin, callback) {
 
     // Format.
     if (!opts.format) opts.format = path.extname(opts.filepath).split('.').pop();
+    console.log(opts.format);
 
     // Convert string params into numbers.
     if (!_(opts.bbox).isUndefined())
