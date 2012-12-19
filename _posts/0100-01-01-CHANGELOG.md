@@ -16,6 +16,7 @@ releases:
 # - version: 0.10.2
 #
 #  notes:
+#  - TileMill/Mapnik - added support for filtering on 64 bit integers in datasource attributes
 #  - TileMill/Mapnik - filtering out all values not equal to null is now possible like: `#layer[attr!=null];`
 #  - TileMill/node-mapnik - null values in feature attributes are now correctly reported as `null` in the data table (rather than `undefined`). This helps users filter properly in their CartoCSS styles since this works `#layer[attr=null];` but not `#layer[attr=undefined];`
 #  - TileMill - Fixed performance of map loading (previous 0.10.x versions saw slowdown with large styles)
