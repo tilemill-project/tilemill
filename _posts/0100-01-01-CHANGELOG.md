@@ -29,6 +29,7 @@ releases:
 #  - Millstone - Added support for referencing (and downloading) remote images symbols that do not have a file extension in their url.
 #  - CartoCSS - Various improved error reporting fixes
 #  - CartoCSS - Fixed regex nesting inheritance
+#  - Mapnik - Fixed possible high CPU hang on reading malformed GeoJSON
 #  - Mapnik - added `marker-multi-policy` option to control marker rendering on multigeometries
 #  - Mapnik - Fixed handling of ArcGIS/FME produced pointzm (3d) shapefiles
 #  - Mapnik - Improved handling of shapefiles with null geometries
