@@ -167,13 +167,17 @@ view.prototype.toggler = function(ev) {
     var link = $(ev.currentTarget);
     var parent = link.parents('.toggler');
     var target = link.attr('href').split('#').pop();
+    var targetSelector = '.' + target;
+    // mapnik-reference comes with a "*" simbolizer which ends in
+    // a "section-*" class name, but "*" is a metacharacter for jQuery
+    targetSelector = targetSelector.replace('*', '\\*');
     if (link.hasClass('disabled')) return false;
 
     $('a', parent).removeClass('active');
-    this.$('.' + target).siblings('.active').removeClass('active');
+    this.$(targetSelector).siblings('.active').removeClass('active');
 
     link.addClass('active');
-    this.$('.' + target).addClass('active');
+    this.$(targetSelector).addClass('active');
     return false;
 };
 
