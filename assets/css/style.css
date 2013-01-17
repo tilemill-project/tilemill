@@ -445,7 +445,7 @@ small { font-size:11px; }
 /**
  * Projects
  */
-ul.projects { margin:0px -5px; }
+ul.projects { margin: 10px 5px 0px 5px; }
 
 .projects span.actions {
   display:block;
@@ -486,10 +486,20 @@ ul.projects { margin:0px -5px; }
   opacity:0.5;
   position:absolute;
   right:9px;
-  top:19px;
+  top:9px;
   }
 
 .projects a.thumb .icon:hover { opacity:1; }
+
+.projects .description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+a#newproject {margin-left: 0px;}
 
 /**
  * Project

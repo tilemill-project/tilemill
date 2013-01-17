@@ -1,21 +1,25 @@
-<ul class='projects grid'>
-  <li>
-  <span class='sunken actions'>
-    <a class='button large popup' href='#add'>
-      <span class='icon plus reverse labeled'></span>
-      New project
-    </a>
-  </span>
-  </li>
-  <% _(models).each(function(model) { %>
-  <li>
-  <a class='raised thumb' href='#/project/<%= model.id %>'>
-    <span class='thumb'></span>
-    <span class='thumb' style='background:url(<%=model.thumb()%>) 50% 50% no-repeat; background-size:cover'></span>
-    <%= model.get('name') || model.get('id') %><br/>
-    <small class='description'>Updated <%= new Date(model.get('_updated')).format('D M j g:ia') %></small>
-    <span id='<%= model.id %>' class='icon delete'>Delete</span>
-  </a>
-  </li>
-  <% }); %>
+<ul class="form sunken">
+    <li class='text'>
+      <h2>Projects</h2>
+    </li>
+    <ul class='projects grid clearfix'>
+    <% _(models).each(function(model) { %>
+    <li class="project">
+      <a class='raised thumb' href='#/project/<%= model.id %>'>
+        <span class='thumb'></span>
+        <span class='thumb' style='background:url(<%=model.thumb()%>) 50% 50% no-repeat; background-size:cover'></span>
+        <%= model.get('name') || model.get('id') %>
+        <span id='<%= model.id %>' class='icon delete'>Delete</span>
+        <!-- Substituted last updated with Project description -->
+        <!-- <small class='description'>Updated <%= new Date(model.get('_updated')).format('D M j g:ia') %></small>-->
+         <small class='description'><%= model.get('description')%></small>      
+      </a>
+    </li>
+    <% }); %>
+  </ul>
 </ul>
+
+<a class='button large popup' id="newproject" href='#add'>
+    <span class='icon plus reverse labeled'></span>
+    New project
+</a>
