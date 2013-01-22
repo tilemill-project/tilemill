@@ -22,3 +22,7 @@ build:
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 
+nodeVersion = $(shell dpkg -p nodejs | grep Version: | awk '{print $$2}')
+mapnikVersion = $(shell dpkg -p libmapnik | grep Version: | awk '{print $$2}')
+
+DEB_DH_GENCONTROL_ARGS_ALL = -- -Vtilemill:Depends="nodejs (=$(nodeVersion)), libmapnik (=$(mapnikVersion))"
