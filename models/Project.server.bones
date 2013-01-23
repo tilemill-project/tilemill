@@ -500,7 +500,7 @@ models.Project.prototype.localize = function(mml, callback) {
     Step(function() {
         localizeTime = (+new Date);
         project_tile_status[model.id] = 'patience, loading project';
-        setInterval(function() {
+        resolveInterval = setInterval(function() {
             if (millstone.downloads) {
                 var num_downloads = Object.keys(millstone.downloads).length;
                 if (num_downloads) {
@@ -528,8 +528,10 @@ models.Project.prototype.localize = function(mml, callback) {
         compileStylesheet(localized, this);
     }, function(err, compiled) {
         // clear the status, indicating project is finished loading
-        delete project_tile_status[model.id];
-        if (err) throw err;
+        if (project_tile_status[model.id]) delete project_tile_status[model.id];
+        if (err) {
+            throw err;
+        }
         localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
         localizedCache[key].xml = compiled;
         localizedCache[key].emit('load');
