@@ -22,6 +22,7 @@ releases:
 #  - TileMill - Fixed performance of map loading (previous 0.10.x versions saw slowdown with large styles)
 #  - TileMill - Files cached by Mapnik are now cleared when a project is saved (like shapefile references and symbol files) allowing for better usability (can re-load files easier) and reduced memory usage (shapefiles no longer uses are dropped from memory)
 #  - Tilemill - Added menu-based support for text undo/redo
+#  - Millstone - Added support for re-downloading remote zip archives that may have been only downloaded partially previously
 #  - Millstone - Fixed handling of files with mixed or uppercase extensions like `test.CSV` or `aerial.geoTIFF`
 #  - Millstone - Fixed handling of zip archives created by Mac OS X users (that contain special __MACOSX hidden directory)
 #  - Millstone - You can now reference zip archives locally (not just as remote downloads)
