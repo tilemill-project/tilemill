@@ -8,17 +8,19 @@ permalink: /docs/guides/reprojecting-geotiff
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/overview/)"
+- "[Set up GDAL](/tilemill/docs/guides/gdal) for processing raster data in the terminal."
 nextup:
 - "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
 - "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
-code1: | gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3785 -r bilinear -te -20037508.34 -20037508.34 20037508.34 20037508.34 NE2_LR_LC_SR_W.tif natural-earth-2-mercator.tif
+code1: |
+    gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3785 -r bilinear -te -20037508.34 -20037508.34 20037508.34 20037508.34 NE2_LR_LC_SR_W.tif natural-earth-2-mercator.tif
 
 ---
 {% include prereq.html %}
 
 ## Reproject and add a GeoTIFF raster  
 
-While TileMill's renderer does support reprojecting raster data sources on-the-fly, this can slow down your map preview and exports significantly. For this reason it is recommended that you ensure the file is warped to the proper projection before importing it into your TileMill project. This can be done with the `gdalwarp` command that comes with the [GDAL](http://www.gdal.org/) library (which is installed with TileMill).
+While TileMill's renderer does support reprojecting raster data sources on-the-fly, this can slow down your map preview and exports significantly. For this reason it is recommended that you ensure the file is warped to the proper projection before importing it into your TileMill project. This can be done with the `gdalwarp` command that comes with the [GDAL](/tilemill/docs/guides/gdal) library (which is installed with TileMill).
 
 The projection we need to warp is Google Web Mercator, which can be referenced by the code 'EPSG:3785'. You will also need to know the original projection of the geotiff you are converting. As an example, we'll work with the medium-sized 'Natural Earth II with Shaded Relief and Water' geotiff [available from Natural Earth](http://www.naturalearthdata.com/downloads/10m-natural-earth-2/10m-natural-earth-ii-with-shaded-relief-and-water/), which is projected to WGS 84 (aka 'EPSG:4326').
 
