@@ -6,9 +6,9 @@ tag: Guides
 title: "OSM Bright Mac OS X quickstart"
 permalink: /docs/guides/osm-bright-mac-quickstart
 prereq:
-- "[Installed](/tilemill/docs/install) TileMill on your computer."
+    - "[Installed](/tilemill/docs/install) TileMill on your computer."
 nextup:
-- "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
+    - "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
 ---
 
 {% include prereq.html %}

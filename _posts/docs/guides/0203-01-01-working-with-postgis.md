@@ -16,16 +16,11 @@ code1: |
   createlang plpgsql dc-census
   psql -d dc-census -f postgis.sql
   psql -d dc-census -f spatial_ref_sys.sql
-code2: |
-  shp2pgsql -c -D -s 4269 -I tl_2010_1101_tract10.shp dc_census_tracts | psql -d dc-census
-code3: |
-  CREATE TABLE dc_census_data (GEOID varchar(11), SUMLEV varchar(3), STATE varchar(2), COUNTY varchar(3), CBSA varchar(5), CSA varchar(3), NECTA integer, CNECTA integer, NAME varchar(30), POP100 integer, HU100 integer, POP1002000 integer, HU1002000 integer, P001001 integer, P0010012000 integer);
-code4: |
-  cat all_140_in_11.P1.csv | psql -d dc-census -c 'COPY dc_census_data FROM STDIN WITH CSV HEADER'
-code5: |
-  SELECT ST_EXTENT(the_geom) from dc_census_tracts
-code6: |
-  SELECT * from dc_census_tracts JOIN data on dc_census_tracts.geoid10 = data.geoid
+code2: | shp2pgsql -c -D -s 4269 -I tl_2010_1101_tract10.shp dc_census_tracts | psql -d dc-census
+code3: | CREATE TABLE dc_census_data (GEOID varchar(11), SUMLEV varchar(3), STATE varchar(2), COUNTY varchar(3), CBSA varchar(5), CSA varchar(3), NECTA integer, CNECTA integer, NAME varchar(30), POP100 integer, HU100 integer, POP1002000 integer, HU1002000 integer, P001001 integer, P0010012000 integer);
+code4: | cat all_140_in_11.P1.csv | psql -d dc-census -c 'COPY dc_census_data FROM STDIN WITH CSV HEADER'
+code5: | SELECT ST_EXTENT(the_geom) from dc_census_tracts
+code6: | SELECT * from dc_census_tracts JOIN data on dc_census_tracts.geoid10 = data.geoid
 
 ---
 
