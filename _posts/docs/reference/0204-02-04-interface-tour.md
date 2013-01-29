@@ -37,23 +37,29 @@ When you save a project TileMill also saves the position and scale you were view
 ![Screenshot]({{site.baseurl}}/assets/manual/tools.png)
 
 1. Add layer button
-2. Geometry icon
+2. Geometry icon & drag handle
 3. IDs and classes
 4. Inspect layer data
-5. Edit layer
-6. Delete layer
+5. Zoom map view to layer extent
+6. Toggle layer visibility
+7. Edit layer settings
+8. Delete layer
 
-Clicking the add layer button opens a dialog where you can choose a shapefile, KML file, GeoJSON file, or GeoTIFF to add to the project. Each layer must have one ID (indicated by the `#` prefix), and may optionally have one or more classes (indicated by a `.` prefix). These are defined when the layer is added but can be changed any time by clicking the ‘Edit layer’ icon.
+Clicking the add layer button (1) opens a dialog where you can choose a shapefile, KML file, GeoJSON file, or GeoTIFF to add to the project. Each layer must have one ID (indicated by the `#` prefix), and may optionally have one or more classes (indicated by a `.` prefix). These are defined when the layer is added but can be changed any time by clicking the ‘Edit layer’ icon.
 
-A layer can be easily reordered by clicking on the draggable geometry icon and moving it above or below another layer. Overlapping areas of layers will be rendered such that the highest layer on the list will cover layers beneath it.
+A layer can be easily reordered by clicking on the draggable geometry icon (2) and moving it above or below another layer. Overlapping areas of layers will be rendered such that the highest layer on the list will cover layers beneath it.
 
 For the purposes of styling, a layer can be one of four types of geometries - point, line, polygon, or raster. This is indicated by the geometry icon. Certain types of styles are only applicable to certain types of layers, so it’s good to know what each one is.
+
+Clicking the magnifying glass icon (5) will adjust the map preview so that the entire contents of that layer are within the view. (Depending on your styling rules you may not actually be able to see the data.)
+
+To hide a layer without deleting it, click the eye icon (6) and save your project. A layer can be completely removed by clicking the trash can icon (7) and saving the project.
 
 ## Layer data inspector
 
 ![Screenshot]({{site.baseurl}}/assets/manual/inspector.png)
 
-If you click on the magnifying glass icon of any layer, a drawer will slide in from the left and a table of data will appear. (It may take a few seconds for the data to show up if you are inspecting a complex file.)
+If you click on the data table icon of any layer, a drawer will slide in from the left and a table of data will appear. (It may take a few seconds for the data to show up if you are inspecting a complex file.)
 
 ## Code editor
 
