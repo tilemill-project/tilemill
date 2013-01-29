@@ -104,7 +104,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
 
             // Convert datasource extent to lon/lat when saving
             var layerProj = new mapnik.Projection(mml.Layer[0].srs),
-                unProj = new mapnik.Projection('+proj=longlat +ellps=WGS84 +no_defs'),
+                unProj = new mapnik.Projection('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'),
                 trans = new mapnik.ProjTransform(layerProj, unProj),
                 unproj_extent = trans.forward(source.extent());
             // clamp to valid unproj_extents
