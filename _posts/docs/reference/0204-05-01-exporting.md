@@ -34,7 +34,7 @@ PDF and SVG provide vector-based exports of your map, which are useful if you're
 
 ## Mapnik XML export
 
-TileMill's __Mapnik XML__ export option is aimed at advanced users who are familiar with [Mapnik](http://mapnik.org/), the software that TileMill uses under the hood to handles rendering your maps using [Mapnik](http://mapnik.org).
+TileMill's __Mapnik XML__ export option is aimed at advanced users who are familiar with [Mapnik](http://mapnik.org/), the software that TileMill uses under the hood to handles rendering your maps.
 
 TileMill uses [CartoCSS](https://github.com/mapbox/carto) to translate your CSS styles and layer definitions into the XML format that Mapnik can read each time you save your project. Most users will not need to directly use this underlying Mapnik XML, but it is easy to leverage if you want to move your raw map styles out of TileMill to set up for rendering directly with Mapnik, or other tools that work with Mapnik like [TileStache](http://tilestache.org/) and [Invar](https://github.com/onyxfish/invar/).
 
