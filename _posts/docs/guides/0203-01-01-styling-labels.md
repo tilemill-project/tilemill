@@ -128,8 +128,7 @@ For example we could alter our compound label example to separate the two fields
       text-wrap-character: '_';
     }
 
-<!-- TODO: ## Label Prioritization -->
-
 ## Further Reading
 
-Styling labels is one of the most complex aspects of cartography with TileMill and CartoCSS. This page has only covered a small portion of the text styling options available. See the [CartoCSS Reference](/carto/api/2.1.0/#text) for a full list of text properties and brief descriptions of what they do. Also see the [Advanced labels guide](/tilemill/docs/guides/labels-advanced/) for tips on achieving visually-pleasing results for placement of point labels.
+Styling labels is one of the most complex aspects of cartography with TileMill and CartoCSS. This page has only covered a small portion of the text styling options available. See the [CartoCSS Reference](/carto/api/2.1.0/#text) for a full list of text properties and brief descriptions of what they do. It's also good to understand [symbol ordering](/tilemill/docs/guides/symbol-ordering/) when styling labels to have control over which labels are prioritized over others. See the [Advanced labels guide](/tilemill/docs/guides/labels-advanced/) for tips on achieving visually-pleasing results for placement of point labels.
+
