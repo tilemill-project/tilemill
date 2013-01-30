@@ -1,0 +1,135 @@
+---
+layout: docs
+section: help
+category: guides
+tag: Guides
+title: 'Styling Labels'
+permalink: /docs/guides/styling-labels
+prereq:
+- '[Installed](/tilemill/docs/install) TileMill on your computer.'
+- 'Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)'
+
+---
+{% include prereq.html %}
+
+## Basic Point Labels
+
+In CartoCSS, labelling is handled by a variety of properties beginning with `text-`. For each text-related style there are two required properties: `text-name`, which specifies what text goes in the labels, and `text-face-name`, which specifies the typeface(s) will be used to draw the label. (You can see which typefaces are available in the font browser - click the 'A' icon on the left button bar.)
+
+The `text-name` property can pull text from your layer's data fields. If your layer contains a column called `NAME`, a simple label style would look like this:
+
+<img src='/tilemill/assets/pages/styling-labels-1.png' style='float:right;margin-top:0px;margin-left:20px;' />
+
+    #cities {
+      text-name: [NAME];
+      text-face-name: 'Droid Sans Regular';
+    }
+
+
+The color and size of these labels will be the defaults - black and 10 pixels respectively. These can be adjusted with the `text-fill` and `text-size` properties.
+
+<img src='/tilemill/assets/pages/styling-labels-2.png' style='float:right;margin-top:0px;margin-left:20px;' />
+
+    #cities {
+      text-name: [NAME];
+      text-face-name: 'Droid Sans Regular';
+      text-fill: #036;
+      text-size: 20;
+    }
+
+To separate your text from the background, it is often useful to add an outline or _halo_ around the text. You can control the color with `text-halo-fill` and the width of the halo (in pixels) is controlled with `text-halo-radius`. In the example below, we are using the `fadeout` color function to make the white halo 30% transparent.
+
+<img src='/tilemill/assets/pages/styling-labels-3.png' style='float:right;margin-top:0px;margin-left:20px;' />
+
+    #cities {
+      text-name: [NAME];
+      text-face-name: 'Droid Sans Regular';
+      text-fill: #036;
+      text-size: 20;
+      text-halo-fill: fadeout(white, 30%);
+      text-halo-radius: 2.5;
+    }
+
+## Text Along Lines
+
+You can also use CartoCSS to style labels that follow a line such as a road or a river. To do this we need to adjust the `text-placement` property. Its default is `point`; we'll change it to `line`. We've also added a simple style to visualize the line itself.
+
+<img src='/tilemill/assets/pages/styling-labels-4.png' style='float:right;margin-top:0px;margin-left:20px;' />
+
+    #rivers {
+      line-color: #85c5d3;
+      text-name: [NAME];
+      text-face-name: 'Droid Sans Regular';
+      text-fill: #036;
+      text-size: 20;
+      text-placement: line;
+    }
+
+For rivers it is nice to have the label offset parallel to the line of the river. This can be easily done with the `text-dy` property to specify how large (in pixels) this offset should be. (`dy` refers to a <b>d</b>isplacement along the __y__ axis.)
+
+We'll also adjust the `text-max-char-angle-delta` property. This allows us to specify the maximum line angle (in degrees) that the text should try to wrap around. The default is 22.5°; setting it lower will make the labels appear along straighter parts of the line.
+
+<img src='/tilemill/assets/pages/styling-labels-5.png' style='float:right;margin-top:0px;margin-left:20px;' />
+
+    #rivers {
+      line-color: #85c5d3;
+      text-name: [NAME];
+      text-face-name: 'Droid Sans Regular';
+      text-fill: #036;
+      text-size: 20;
+      text-placement: line;
+      text-dy: 12;
+      text-max-char-angle-delta: 15;
+    }
+
+## Compound Labels
+
+Labels aren't limited to pulling text from just one column. You can combine data from many columns as well as arbitrary text to construct your `text-name`. For example you could include the state/province separated by a comma and a space.
+
+    #cities {
+      text-name: [NAME] + ', ' + [ADM1NAME];
+      text-face-name: 'Droid Sans Regular';
+      text-size: 20;
+    }
+
+Other potential uses:
+
+- Multilingual labels: `[name] + '(' + [name_en] + ')'`
+- Numeric units: `[elevation] + 'm'`
+- Clever [unicode icons](http://copypastecharacter.com/symbols): `'⚑ ' + [embassy_name]` or `'⚓ ' + [harbour_name]`
+
+## Multi-line labels
+
+You can wrap long labels onto multiple lines with the `text-wrap-width` property which specifies at what pixel width labels should start wrapping. By default the first word that crosses the wrap-width threshold will not wrap - to change this you can set `text-wrap-before` to `true`.
+
+<img src='/tilemill/assets/pages/styling-labels-6.png' style='float:right;margin-top:0px;margin-left:20px;' />
+
+    #cities {
+      text-name: [NAME] + ', ' + [ADM1NAME];
+      text-face-name: 'Droid Sans Regular';
+      text-size: 20;
+      text-wrap-width: 100;
+      text-wrap-before: true;
+    }
+
+Note that text wrapping not yet supported with `text-placement: line`.
+
+You may have a specific point where you want the line breaks to happen. You can use the `text-wrap-character` to cause labels to wrap on a character other than a space. With a properly constructed dataset this can give you better control over your labels.
+
+For example we could alter our compound label example to separate the two fields only with an underscore. Setting the wrap character to `_` (and also setting a very low wrap width to force wrapping) ensures that the two fields will always be written on their own lines.
+
+<img src='/tilemill/assets/pages/styling-labels-7.png' style='float:right;margin-top:0px;margin-left:20px;' />
+
+    #cities {
+      text-name: [NAME] + '_' + [ADM1NAME];
+      text-face-name: 'Droid Sans Regular';
+      text-size: 20;
+      text-wrap-width: 1;
+      text-wrap-character: '_';
+    }
+
+<!-- TODO: ## Label Prioritization -->
+
+## Further Reading
+
+Styling labels is one of the most complex aspects of cartography with TileMill and CartoCSS. This page has only covered a small portion of the text styling options available. See the [CartoCSS Reference](/carto/api/2.1.0/#text) for a full list of text properties and brief descriptions of what they do. Also see the [Advanced labels guide](/tilemill/docs/guides/labels-advanced/) for tips on achieving visually-pleasing results for placement of point labels.
