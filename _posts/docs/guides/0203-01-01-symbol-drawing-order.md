@@ -15,15 +15,15 @@ Objects in TileMill are drawn using a [Painter's Algorithm](http://en.wikipedia.
 
 ## Order vs. Priority
 
-For things like lines and areas, objects that are drawn first are less likely to be visible. Objects high in the stack might completely obscure other objects, thus you might associate these with a high 'priority' or 'importance'.
+For things like lines and areas, objects that are drawn first are less likely to be fully visible. Objects high in the stack might completely obscure other objects, thus you might associate these with a high 'priority' or 'importance'.
 
-However for things like text, markers, and icons that have their _allow-overlap_ properties set to false (the default) things work a bit differently. Objects that are drawn first are __more__ likely to be visible; instead of letting things sit on top of each other, overlapping objects are simply skipped. Since no-overlap objects higher in the stack are less likely to be drawn, you might associate these with a low 'priority' or 'importance'.
+However for things like text, markers, and icons that have their _allow-overlap_ properties set to false (the default) things work a bit differently. Objects that are drawn first are __more__ likely to be visible; instead of letting things sit on top of each other, overlapping objects are simply skipped. Since such objects higher in the stack are less likely to be drawn, you might associate these with a low 'priority' or 'importance'.
 
 ## Layer Ordering
 
-Layers are the most basic and explicit way of controlling the order of elements on a map. Layers are rendered in order starting at the bottom of the [layers list](/tilemill/docs/manual/interface-tour/#layers_list) moving up. You can adjust the position of each layer in the stack by clicking and draggin on its geometry icon.
+Layers are the most basic and explicit way of controlling the order of elements on a map in TileMill. Layers are rendered in order starting at the bottom of the [layers list](/tilemill/docs/manual/interface-tour/#layers_list) moving up. You can adjust the position of each layer in the stack by clicking and draggin on its geometry icon.
 
-If you look at the example projects that come with TileMill, you can see that the basic parts of the map (eg. landcover, water) are in layers at the bottom of the list. The things that shouldn't be covered up by anything else (eg. labels, icons) are in layers at the top of the list.
+If you look at the example projects that come with TileMill, you can see that the basic parts of the map (eg. landuse areas, water) are in layers at the bottom of the list. The things that shouldn't be covered up by anything else (eg. labels, icons) are in layers at the top of the list.
 
 ## Attachment Ordering
 
@@ -73,6 +73,8 @@ Each object in each attachment may have multiple *symbolizers* applied to it. Th
 
 In this style, the outline will be drawn below the fill:
 
+<img src='/tilemill/assets/pages/symbol-order-1.png' style='float:right;margin-top:0px;margin-left:20px;' />
+
     #layer {
       line-width: 6;
       polygon-fill: #aec;
@@ -80,6 +82,8 @@ In this style, the outline will be drawn below the fill:
     }
 
 In this style, the line is drawn on top of the fill:
+
+<img src='/tilemill/assets/pages/symbol-order-2.png' style='float:right;margin-top:0px;margin-left:20px;' />
 
     #layer {
       polygon-fill: #aec;
