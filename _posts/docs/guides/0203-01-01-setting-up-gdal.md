@@ -7,7 +7,6 @@ title: Setting up GDAL
 permalink: /docs/guides/gdal
 prereq:
 - "[Installed TileMill](/tilemill/docs/install) on your computer."
----
 nextup:
 - "Run through [Crash Course](/tilemill/docs/crashcourse/overview/)."
 - "[Working with GeoTIFFs](/tilemill/docs/guides/reprojecting-geotiff)."
