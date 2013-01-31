@@ -5,7 +5,11 @@ category: guides
 tag: Guides
 title: Running as an Ubuntu service
 permalink: /docs/guides/ubuntu-service
+prereq:
+- "[Installed TileMill](/tilemill/docs/install) on your computer."
 ---
+{% include prereq.html %}
+
 By default, TileMill runs as a desktop-style application on Ubuntu. See the [Usage manual page](/tilemill/docs/manual/usage/) for details on the desktop setup.
 
 TileMill can also be run as a system-wide, server-only service simply by making a single modification to the default config options.
