@@ -7,7 +7,6 @@ title: "Advanced legends"
 permalink: /docs/guides/advanced-legends
 prereq:
 - "[Reviewed](/tilemill/docs/crashcourse/introduction) the Crash Course."
-- "[Used conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
 nextup:
 - "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 ---
