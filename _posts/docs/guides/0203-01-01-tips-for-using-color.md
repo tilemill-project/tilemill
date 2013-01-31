@@ -8,10 +8,6 @@ permalink: /docs/guides/tips-for-color
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
-nextup:
-- "[Using conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
-- "[Adding tooltips](/tilemill/docs/crashcourse/tooltips/) to your map."
-- "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
 ---
 {% include prereq.html %}
 
@@ -71,5 +67,3 @@ Pochade is a color picking program that allows you to determine the RGB value an
 
 ### ColorSchemer Studio  
 ColorSchemer Studio provides three main features: (1) a color class generator (up to 254 - many more than Color Brewer) based on two colors of your choice, (2) a 'PhotoSchemer', which allows you to upload a photo and determine up to ten different colors on your chosen photo and (3) integration with colourlovers, including a color browser and the ability to load colors into the first tool to manipulate on your own. ColorSchemer is a powerful tool for your desktop, available for the slightly higher price of $49.99.  
-
-{% include nextup.html %}
