@@ -6,7 +6,7 @@ tag: Guides
 title: "Advanced legends"
 permalink: /docs/guides/advanced-legends
 prereq:
-- "[Reviewed](/tilemill/docs/crashcourse/introduction) the Crash Course."
+- "[Reviewed](/tilemill/docs/crashcourse/introduction) the Crash Course, particularly the [legends](/tilemill/docs/crashcourse/tooltips/#legends) section."
 nextup:
 - "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 ---
