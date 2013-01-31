@@ -5,9 +5,12 @@ category: guides
 tag: Guides
 title: "Optimizing shapefiles"
 permalink: /docs/guides/optimizing-shapefiles
+prereq:
+- "[Set up GDAL](/tilemill/docs/guides/gdal)"
 nextup:
 - "[Add a shapefile](/tilemill/docs/guides/add-shapefile/) in TileMill."
 ---
+{% include prereq.html %}
 
 In this guide we will be downloading shapefiles from a single source, manipulating these to match a same map projection and optimizing these for performance in TileMill. To demonstrate how to alter a shapefile to use only what we need from it, I'll cover how to create a custom layer from an existing source in step 3.
 
@@ -19,7 +22,7 @@ Note for beginners: "ESRI shapefile" a popular format that is comprised of at le
   
 ##Tools
 
-1. [GDAL](http://gdal.org), an open source set of command line tools that let you quickly manipulate geospatial data. This will allow us to keep our shapefiles consistent by formatting them to the same spatial reference.
+1. [GDAL](/tilemill/docs/guides/gdal/), an open source set of command line tools that let you quickly manipulate geospatial data. This will allow us to keep our shapefiles consistent by formatting them to the same spatial reference.
 
 2. [Quantum GIS](http://qgis.org), an open source [Geographic Information System](http://en.wikipedia.org/wiki/Geographic_information_system). For our purposes this will let us quickly load in shapefiles to preview the ones we want to use and create a custom one for our use in a map.
 
