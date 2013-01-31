@@ -46,7 +46,7 @@ You can make your dash patterns as complex as you want, with the limitation that
     
 ## Caps & Joins
 
-With thicker line widths you'll notice long points at sharp angles and odd gaps on small polygons
+With thicker line widths you'll notice long points at sharp angles and odd gaps on small polygons.
 
 <img src='/tilemill/assets/pages/styling-lines-4.png' class='fig-right' />
 
@@ -76,6 +76,81 @@ For dashed lines, line-caps are applied to each dash and their additional length
       line-dasharray: 10, 4;
     }
 
-<!-- TODO: ## Roads with casing -->
+## Compound line styles
+
+### Roads
+
+For certain types of line styles you will need to style and overlap multiple line styles. For example, a road with casing:
+
+<img src='/tilemill/assets/pages/styling-lines-7.png' class='fig-right' />
+
+    #roads[Type='Major Highway'] {
+      ::case {
+        line-width: 5;
+        line-color:#d83;
+      }
+      ::fill {
+        line-width: 2.5;
+        line-color:#fe3;
+      }
+    }
+
+Dealing with multiple road classes, things get a little more complicated. You can either group your styles by class or group them by attachment. Here we've grouped by class (filtering on the `Type` column).
+
+<img src='/tilemill/assets/pages/styling-lines-8.png' class='fig-right' />
+
+    #roads {
+      [Type='Major Highway'] {
+        ::case {
+          line-width: 5;
+          line-color:#d83;
+        }
+        ::fill {
+          line-width: 2.5;
+          line-color:#fe3;
+        }
+      }
+      [Type='Secondary Highway'] {
+        ::case {
+          line-width: 4.5;
+          line-color:#ca8;
+        }
+        ::fill {
+          line-width: 2;
+          line-color:#ffa;
+        }
+      }
+    }
+
+### Railroads
+
+A common way of symbolizing railroad lines is with regular hatches on a thin line. This can be done with two line attachments - one thin and solid, the other thick and dashed. The dash should be short with wide spacing.
+
+<img src='/tilemill/assets/pages/styling-lines-9.png' class='fig-right' />
+
+    #railroads {
+      ::line, ::hatch { line-color: #777; }
+      ::line { line-width:1; }
+      ::hatch {
+        line-width: 4;
+        line-dasharray: 1, 24;
+      }
+    }
+
+Another common railroad line style is similat, but with a thin dash and a thick outline. Make sure you define the `::dash` after the `::line` so that it appears on top correctly.
+
+<img src='/tilemill/assets/pages/styling-lines-10.png' class='fig-right' />
+
+    #railroads {
+      ::line {
+        line-width: 5;
+        line-color: #777;
+      }
+      ::dash {
+        line-color: #fff;
+        line-width: 2.5;
+        line-dasharray: 6, 6;
+      }
+    }
 
 <!-- TODO: ## Tunnels and railroads -->
