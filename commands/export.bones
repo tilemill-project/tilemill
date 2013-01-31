@@ -156,9 +156,19 @@ command.prototype.initialize = function(plugin, callback) {
     if (!opts.format) opts.format = path.extname(opts.filepath).split('.').pop();
     console.log(opts.format);
 
+    var bboxes = [ ];
     // Convert string params into numbers.
-    if (!_(opts.bbox).isUndefined())
+    if (!_(opts.bbox).isUndefined()) {
         opts.bbox = _(opts.bbox.split(',')).map(parseFloat);
+
+        bboxes = [ opts.bbox.slice(0) ];
+        if (opts.bbox[2] < opts.bbox[0]) {
+            // Bounding box crosses the anti-meridian, fun
+            bboxes.push(bboxes[0].slice(0));
+            bboxes[0][2] = 180;
+            bboxes[1][0] = -180;
+        }
+    }
     if (!_(opts.minzoom).isUndefined())
         opts.minzoom = parseInt(opts.minzoom, 10);
     if (!_(opts.maxzoom).isUndefined())
@@ -192,76 +202,104 @@ command.prototype.initialize = function(plugin, callback) {
     // Upload format does not require loaded project.
     if (opts.format === 'upload') return this[opts.format](this.complete);
 
-    // Load project, localize and call export function.
-    var model = new models.Project({id:opts.project});
-    Step(function() {
-        if (!cmd.opts.quiet) process.stderr.write('Loading project...');
-        Bones.utils.fetch({model:model}, this);
-    }, function(err) {
-        if (err) return cmd.error(err, function() {
-            process.stderr.write(err.stack || err.toString() + '\n');
-            process.exit(1);
-        });
-        if (!cmd.opts.quiet) process.stderr.write(' done.\n');
-        // Set the postgres connection pool size to # of cpus based on
-        // assumption of pool size in tilelive-mapnik.
-        model.get('Layer').each(function(l) {
-            if (l.attributes.Datasource && l.attributes.Datasource.dbname)
-                l.attributes.Datasource.max_size = require('os').cpus().length;
-        });
-        if (!cmd.opts.quiet) process.stderr.write('Localizing project...');
-        model.localize(model.toJSON(), this);
-    }, function(err) {
-        if (err) return cmd.error(err, function() {
-            process.stderr.write(err.stack || err.toString() + '\n');
-            process.exit(1);
-        });
-
-        if (!cmd.opts.quiet) process.stderr.write(' done.\n');
-        model.mml = _(model.mml).extend({
-            name: model.mml.name || model.id,
-            version: model.mml.version || '1.0.0',
-            minzoom: !_(opts.minzoom).isUndefined() ? opts.minzoom : model.get('minzoom'),
-            maxzoom: !_(opts.maxzoom).isUndefined() ? opts.maxzoom : model.get('maxzoom'),
-            bounds: !_(opts.bbox).isUndefined() ? opts.bbox : model.get('bounds'),
-            scale: !_(opts.scale).isUndefined() ? opts.scale : model.get('scale'),
-            metatile: !_(opts.metatile).isUndefined() ? opts.metatile : model.get('metatile')
-        });
-
-        // Unset map center if outside bounds.
-        var validCenter = (function(center, bounds, minzoom, maxzoom) {
-            if (center[0] < bounds[0] ||
-                center[0] > bounds[2] ||
-                center[1] < bounds[1] ||
-                center[1] > bounds[3]) return false;
-            if (center[2] < minzoom) return false;
-            if (center[2] > maxzoom) return false;
-            return true;
-        })(model.mml.center, model.mml.bounds, model.mml.minzoom, model.mml.maxzoom);
-        if (!validCenter) delete model.mml.center;
-
-        switch (opts.format) {
-        case 'png':
-        case 'svg':
-        case 'pdf':
-            console.log('Rendering file');
-            cmd.image(model, cmd.complete);
-            break;
-        case 'upload':
-            console.log('Uploading new export');
-            cmd.upload(model, cmd.complete);
-            break;
-        case 'sync':
-            console.log('Syncing export with existing upload');
-            cmd.sync(model, cmd.complete);
-            break;
-        default:
-            console.log('Rendering export');
-            cmd.tilelive(model, cmd.complete);
-            break;
+    // bboxIndex is the index into bboxes or null if the project bbox should be used.
+    function beginExport(bboxIndex) {
+        if ( bboxIndex && bboxIndex >= bboxes.length) {
+            throw new Error("Attempted to begin export with invalid bboxIndex: " + bboxIndex);
         }
-    });
+        // Load project, localize and call export function.
+        var model = new models.Project({id:opts.project});
+        Step(function() {
+            if (!cmd.opts.quiet) process.stderr.write('Loading project...');
+            Bones.utils.fetch({model:model}, this);
+        }, function(err) {
+            if (err) return cmd.error(err, function() {
+                process.stderr.write(err.stack || err.toString() + '\n');
+                process.exit(1);
+            });
+            if (!cmd.opts.quiet) process.stderr.write(' done.\n');
+            // Set the postgres connection pool size to # of cpus based on
+            // assumption of pool size in tilelive-mapnik.
+            model.get('Layer').each(function(l) {
+                if (l.attributes.Datasource && l.attributes.Datasource.dbname)
+                    l.attributes.Datasource.max_size = require('os').cpus().length;
+            });
+            if (!cmd.opts.quiet) process.stderr.write('Localizing project...');
+            model.set({'_updated': 0}); // Force cache clear
+            model.localize(model.toJSON(), this);
+        }, function(err) {
+            if (err) return cmd.error(err, function() {
+                process.stderr.write(err.stack || err.toString() + '\n');
+                process.exit(1);
+            });
+
+            if (!cmd.opts.quiet) process.stderr.write(' done.\n');
+            model.mml = _(model.mml).extend({
+                name: model.mml.name || model.id,
+                version: model.mml.version || '1.0.0',
+                minzoom: !_(opts.minzoom).isUndefined() ? opts.minzoom : model.get('minzoom'),
+                maxzoom: !_(opts.maxzoom).isUndefined() ? opts.maxzoom : model.get('maxzoom'),
+                _bbox: bboxIndex === null ? model.get('bounds') : bboxes[bboxIndex],
+                scale: !_(opts.scale).isUndefined() ? opts.scale : model.get('scale'),
+                metatile: !_(opts.metatile).isUndefined() ? opts.metatile : model.get('metatile')
+            });
+
+            // Unset map center if outside bounds.
+            var validCenter = (function(center, bounds, minzoom, maxzoom) {
+                if (center[0] < bounds[0] ||
+                    center[0] > bounds[2] ||
+                    center[1] < bounds[1] ||
+                    center[1] > bounds[3]) return false;
+                if (center[2] < minzoom) return false;
+                if (center[2] > maxzoom) return false;
+                return true;
+            })(model.mml.center, model.mml._bbox, model.mml.minzoom, model.mml.maxzoom);
+            if (!validCenter) delete model.mml.center;
+
+            function onComplete(err, data) {
+                if (bboxIndex === null || bboxIndex + 1 >= bboxes.length) {
+                    cmd.complete(err, data);
+                } else {
+                    if (err) {
+                        console.warn(err.stack || err.toString() + '\n');
+                    } else {
+                        if (data) {
+                            this.put(data, function() {
+                                beginExport(bboxIndex+1);
+                            });
+                        } else {
+                            beginExport(bboxIndex+1);
+                        }
+                    }
+                }
+            }
+
+            switch (opts.format) {
+            case 'png':
+            case 'svg':
+            case 'pdf':
+                console.log('Rendering file');
+                cmd.image(model, onComplete);
+                break;
+            case 'upload':
+                console.log('Uploading new export');
+                cmd.upload(model, onComplete);
+                break;
+            case 'sync':
+                console.log('Syncing export with existing upload');
+                cmd.sync(model, onComplete);
+                break;
+            default:
+                console.log('Rendering export');
+                cmd.tilelive(model, onComplete);
+                break;
+            }
+        });
+    }
+
+    beginExport( bboxes.length > 0 ? 0 : null );
 };
+
 
 command.prototype.complete = function(err, data) {
     console.log('Completing export process');
@@ -387,7 +425,7 @@ command.prototype.tilelive = function (project, callback) {
 
     require('tilelive-mapnik').registerProtocols(tilelive);
 
-    var opts = this.opts;
+    var opts = $.extend({}, this.opts);
 
     // Try to load a job file if one was given and it exists.
     if (opts.job) {
@@ -420,7 +458,10 @@ command.prototype.tilelive = function (project, callback) {
             query: {
                 metatile: project.mml.metatile,
                 scale: project.mml.scale
-            }
+            },
+            // Add a hash with the bounding box to prevent issues with the cache and
+            // previously exported bounds.
+            hash: "bbox=" + project.mml._bbox.join(',')
         };
 
         var to = {
@@ -431,7 +472,7 @@ command.prototype.tilelive = function (project, callback) {
 
         var scheme = tilelive.Scheme.create(opts.scheme, {
             list: opts.list,
-            bbox: project.mml.bounds,
+            bbox: project.mml._bbox,
             minzoom: project.mml.minzoom,
             maxzoom: project.mml.maxzoom,
             metatile: project.mml.metatile,
