@@ -61,9 +61,9 @@ Note that all styles are nested inside attachments. If you don't explicitly defi
 
 Within each attachment, the order that your data is stored/retrieved in is also significant.
 
-When styling city labels, for example, it's good to ensure that the order of your data makes sense for label prioritization. Data coming from an SQL database should `ORDER BY` a population column or some other prioritization field in the select statement.
+When styling city labels, for example, it's good to ensure that the order of your data makes sense for label prioritization. For data coming from an SQL database you should `ORDER BY` a population column or some other prioritization field in the select statement.
 
-Data coming from files is read from the beginning of the file to the end and cannot be re-ordered on-the-fly by TileMill. You'll want to pre-process such files to make sure the ordering makes sense.
+Data coming from files are read from the beginning of the file to the end and cannot be re-ordered on-the-fly by TileMill. You'll want to pre-process such files to make sure the ordering makes sense.
 
 You can do this from the terminal with `ogr2ogr` (see [Setting up GDAL](/tilemill/docs/guides/gdal/)). This example rearranges all the objects in `cities.shp` based on the `population` field in descending order (highest population first).
 
