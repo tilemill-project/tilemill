@@ -391,117 +391,147 @@ command.prototype.tilelive = function (project, callback) {
 
     require('tilelive-mapnik').registerProtocols(tilelive);
 
-    var opts = this.opts;
+    // Copy the bounds so that we can modify them if we need to split the export
+    var bboxes = [ project.mml.bounds.slice(0) ];
+    if (project.mml.bounds[2] < project.mml.bounds[0]) {
+        bboxes.push(bboxes[0].slice(0));
+        bboxes[0][2] = 180;
+        bboxes[1][0] = -180;
 
-    // Try to load a job file if one was given and it exists.
-    if (opts.job) {
-        opts.job = path.resolve(opts.job);
-        try {
-            var job = fs.readFileSync(opts.job, 'utf8');
-        } catch(err) {
-            if (err.code !== 'EBADF') throw err;
+        // If we don't set the bounds to the whole world tilestream will not be able to display the files
+        // because the center of the bounds will be outside the bounds.
+        project.mml.bounds = [ -180, project.mml.bounds[1], 180, project.mml.bounds[3] ];
+    }
+
+    function exportTiles(bboxIndex) {
+        if (bboxIndex >= bboxes.length) {
+            return callback();
         }
-    } else {
-        // Generate a job file based on the output filename.
-        var slug = path.basename(opts.filepath, path.extname(opts.filepath));
-        opts.job = path.join(path.dirname(opts.filepath), slug + '.export');
-    }
+        var opts = $.extend({}, cmd.opts);
 
-    if (job) {
-        job = JSON.parse(job);
-        if (!cmd.opts.quiet) console.warn('Continuing job ' + opts.job);
-        var scheme = tilelive.Scheme.unserialize(job.scheme);
-        var task = new tilelive.CopyTask(job.from, job.to, scheme, opts.job);
-    } else {
-        if (!cmd.opts.quiet) console.warn('Creating new job ' + opts.job);
-
-        var from = {
-            protocol: 'mapnik:',
-            slashes: true,
-            xml: project.xml,
-            mml: project.mml,
-            pathname: path.join(opts.files, 'project', project.id, project.id + '.xml'),
-            query: {
-                metatile: project.mml.metatile,
-                scale: project.mml.scale
+        // Try to load a job file if one was given and it exists.
+        if (opts.job) {
+            opts.job = path.resolve(opts.job);
+            try {
+                var job = fs.readFileSync(opts.job, 'utf8');
+            } catch(err) {
+                if (err.code !== 'EBADF') throw err;
             }
-        };
+        } else {
+            // Generate a job file based on the output filename.
+            var slug = path.basename(opts.filepath, path.extname(opts.filepath));
+            opts.job = path.join(path.dirname(opts.filepath), slug + '.export');
+        }
 
-        var to = {
-            protocol: opts.format + ':',
-            pathname: opts.filepath,
-            query: { batch: 100 }
-        };
+        if (job) {
+            job = JSON.parse(job);
+            if (!cmd.opts.quiet) console.warn('Continuing job ' + opts.job);
+            bboxIndex = job.from.bboxIndex;
+            // If we don't reset the filepath here the next bbox exported will be exported using a filepath with a hash
+            // instead of into the same file.
+            cmd.opts.filepath = job.to.pathname;
+            var scheme = tilelive.Scheme.unserialize(job.scheme);
+            var task = new tilelive.CopyTask(job.from, job.to, scheme, opts.job);
+        } else {
+            if (!cmd.opts.quiet) console.warn('Creating new job ' + opts.job);
 
-        var scheme = tilelive.Scheme.create(opts.scheme, {
-            list: opts.list,
-            bbox: project.mml.bounds,
-            minzoom: project.mml.minzoom,
-            maxzoom: project.mml.maxzoom,
-            metatile: project.mml.metatile,
-            concurrency: Math.floor(
-                Math.pow(project.mml.metatile, 2) * // # of tiles in each metatile
-                require('os').cpus().length *       // expect one metatile to occupy each core
-                4 / cmd.opts.concurrency            // overcommit x4 throttle by export concurrency
-            )
-        });
-        var task = new tilelive.CopyTask(from, to, scheme, opts.job);
-    }
+            var from = {
+                protocol: 'mapnik:',
+                slashes: true,
+                xml: project.xml,
+                mml: project.mml,
+                pathname: path.join(opts.files, 'project', project.id, project.id + '.xml'),
+                query: {
+                    metatile: project.mml.metatile,
+                    scale: project.mml.scale
+                },
+                // Add a hash with the bounding box to prevent tilelive pulling data from the cache
+                // that has the previously exported bounds.
+                hash: "bbox=" + bboxes[bboxIndex].join(','),
+                bboxIndex: bboxIndex
+            };
+
+            var to = {
+                protocol: opts.format + ':',
+                pathname: opts.filepath,
+                query: { batch: 100 }
+            };
+
+            var scheme = tilelive.Scheme.create(opts.scheme, {
+                list: opts.list,
+                bbox: bboxes[bboxIndex],
+                minzoom: project.mml.minzoom,
+                maxzoom: project.mml.maxzoom,
+                metatile: project.mml.metatile,
+                concurrency: Math.floor(
+                    Math.pow(project.mml.metatile, 2) * // # of tiles in each metatile
+                    require('os').cpus().length *       // expect one metatile to occupy each core
+                    4 / cmd.opts.concurrency            // overcommit x4 throttle by export concurrency
+                )
+            });
+            var task = new tilelive.CopyTask(from, to, scheme, opts.job);
+        }
 
 
-    var errorfile = path.join(path.dirname(opts.job), path.basename(opts.job) + '-failed');
-    if (!cmd.opts.quiet) console.warn('Writing errors to ' + errorfile);
+        var errorfile = path.join(path.dirname(opts.job), path.basename(opts.job) + '-failed');
+        if (!cmd.opts.quiet) console.warn('Writing errors to ' + errorfile);
 
-    fs.open(errorfile, 'a', function(err, fd) {
-        if (err) throw err;
-
-        task.on('error', function(err, tile) {
-            console.warn('\r\033[K' + tile.toString() + ': ' + err.message);
-            fs.write(fd, JSON.stringify(tile) + '\n');
-            report(task.stats.snapshot());
-        });
-
-        task.on('progress', report);
-
-        task.on('finished', function() {
-            if (!cmd.opts.quiet) console.warn('\nfinished');
-            callback();
-        });
-
-        task.start(function(err) {
+        fs.open(errorfile, 'a', function(err, fd) {
             if (err) throw err;
-            task.sink.putInfo(project.mml, function(err) {
+
+            task.on('error', function(err, tile) {
+                console.warn('\r\033[K' + tile.toString() + ': ' + err.message);
+                fs.write(fd, JSON.stringify(tile) + '\n');
+                report(task.stats.snapshot());
+            });
+
+            task.on('progress', report);
+
+            task.on('finished', function() {
+                if (!cmd.opts.quiet) console.warn('\nfinished');
+                cmd.opts.job = false;
+                exportTiles(bboxIndex + 1);
+            });
+
+            task.start(function(err) {
                 if (err) throw err;
+                task.sink.putInfo(project.mml, function(err) {
+                    if (err) throw err;
+                });
             });
         });
-    });
 
-    function report(stats) {
-        var progress = stats.processed / stats.total;
-        var remaining = cmd.remaining(progress, task.started);
-        cmd.put({
-            status: 'processing',
-            progress: progress,
-            remaining: remaining,
-            updated: +new Date(),
-            rate: stats.speed
-        });
+        function report(stats) {
+            var progress = stats.processed / stats.total;
+            var remaining = cmd.remaining(progress, task.started);
+            cmd.put({
+                status: 'processing',
+                progress: progress,
+                remaining: remaining,
+                updated: +new Date(),
+                rate: stats.speed
+            });
 
-        if (!cmd.opts.quiet) {
-            util.print(formatString('\r\033[K[%s] %s%% %s/%s @ %s/s | %s left | ✓ %s ■ %s □ %s fail %s',
-                formatDuration(stats.date - task.started),
-                ((progress || 0) * 100).toFixed(4),
-                formatNumber(stats.processed),
-                formatNumber(stats.total),
-                formatNumber(stats.speed),
-                formatDuration(remaining),
-                formatNumber(stats.unique),
-                formatNumber(stats.duplicate),
-                formatNumber(stats.skipped),
-                formatNumber(stats.failed)
-            ));
+            if (!cmd.opts.quiet) {
+                util.print(formatString('\r\033[K[%s] Part(%s/%s) %s%% %s/%s @ %s/s | %s left | ✓ %s ■ %s □ %s fail %s',
+                    formatDuration(stats.date - task.started),
+                    bboxIndex + 1,
+                    bboxes.length,
+                    ((progress || 0) * 100).toFixed(4),
+                    formatNumber(stats.processed),
+                    formatNumber(stats.total),
+                    formatNumber(stats.speed),
+                    formatDuration(remaining),
+                    formatNumber(stats.unique),
+                    formatNumber(stats.duplicate),
+                    formatNumber(stats.skipped),
+                    formatNumber(stats.failed)
+                ));
+            }
         }
     }
+
+    exportTiles(0);
 };
 
 command.prototype.upload = function (callback) {

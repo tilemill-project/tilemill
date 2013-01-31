@@ -86,7 +86,7 @@ view.prototype.render = function() {
     tj.minzoom = 0;
     tj.maxzoom = 22;
     this.map = new MM.Map('meta-map', new wax.mm.connector(tj));
-    
+
     // Override project attributes to allow unbounded zooming.
     this.map.setZoomRange(
         tj.minzoom,
@@ -299,7 +299,12 @@ view.prototype.save = function() {
     delete attr.filename;
     delete attr.width;
     delete attr.height;
-    if (!this.project.set(attr, {error:error})) return false;
+    if (!this.project.set(attr, {error: function(m, e) {
+        if (e.message === "Bounds W must be less than E.") {
+            e.message = "Cannot save to project if export crosses the Anti-Meridian";
+        }
+        error(m, e);
+    }})) return false;
     Bones.utils.serial([
     _(function(next) {
         this.model.save({}, { success:next, error:this.error });

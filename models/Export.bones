@@ -91,7 +91,8 @@ model.prototype.validate = function(attr) {
     var error = this.validateAttributes(attr);
     if (error) return error;
 
-    if (attr.bbox && attr.bbox[0] >= attr.bbox[2])
+    var format = this.get('format') || attr.format;
+    if (format !== 'mbtiles' && attr.bbox && attr.bbox[0] >= attr.bbox[2])
         return new Error('Bounds W must be less than E.');
     if (attr.bbox && attr.bbox[1] >= attr.bbox[3])
         return new Error('Bounds S must be less than N.');
