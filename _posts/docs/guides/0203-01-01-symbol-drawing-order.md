@@ -29,6 +29,8 @@ If you look at the example projects that come with TileMill, you can see that th
 
 Within a layer, styles can be broken up into 'attachments' with the `::` syntax. Think of attachments like sub-layers.
 
+<img src='/tilemill/assets/pages/symbol-order-0.png' style='float:right;margin-top:0px;margin-left:20px;' />
+
     #layer {
       ::outline {
         line-width: 6;
@@ -43,6 +45,8 @@ Within a layer, styles can be broken up into 'attachments' with the `::` syntax.
 Attachments are drawn in the order they are first defined, so in the example above the `::outline` lines will be drawn below the `::inline` lines.
 
 Note that all styles are nested inside attachments. If you don't explicitly define one, a default attachment still exists. Thus the following style produces the same result as the one above.
+
+<img src='/tilemill/assets/pages/symbol-order-0.png' style='float:right;margin-top:0px;margin-left:20px;' />
 
     #layer {
       ::outline {
@@ -91,4 +95,14 @@ In this style, the line is drawn on top of the fill:
       line-width: 6;
     }
 
-Note that this symbolizer ordering happens after all other types of ordering - so an outline might be on top of one polygon but beneath a neighboring polygon. If you want to ensure lines are always below fills, use separate attachments.
+It's also possible to create multiple symbols of the same type within an attachment using named *instances*. Like attachments, their names are arbitrary.
+
+<img src='/tilemill/assets/pages/symbol-order-3.png' style='float:right;margin-top:0px;margin-left:20px;' />
+
+    #layer {
+      bottomline/line-width: 6;
+      middleline/line-width: 4;
+      middleline/line-color: white;
+      topline/line-color: red;
+    }
+Note that symbolizer ordering happens after all other types of ordering - so an outline might be on top of one polygon but beneath a neighboring polygon. If you want to ensure lines are always below fills, use separate attachments.
