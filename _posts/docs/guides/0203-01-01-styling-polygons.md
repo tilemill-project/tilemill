@@ -3,17 +3,45 @@ layout: docs
 section: help
 category: guides
 tag: Guides
-title: "Patterns and Textures"
-permalink: /docs/guides/patterns
+title: "Styling Polygons"
+permalink: /docs/guides/styling-polygons
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 ---
 {% include prereq.html %}
 
-With TileMill, you can easily fill areas with textures and patterns by bringing in external images. You might create the patterns yourself in image editing software such as [GIMP](http://gimp.org) or [Inkscape](http://inkscape.org), or find ready-made images from resource websites such as [Subtle Patterns](http://subtlepatterns.com/thumbnail-view/) or [Free Seamless Textures](http://freeseamlesstextures.com/).
+Polygons are areas that can be filled with a solid color or a pattern, and also given an outline. When you start a new TileMill project with the 'Include world layer and styles' option checked (the default) you'll already have a basic polygon layer and style ready. The fill color of the polygons is defined by the `polygon-fill` property, and it has some line styles as well.
 
-## Adding a pattern
+<small class='note' markdown='1'>
+__Tip:__ everything covered in the [Styling Lines](/tilemill/docs/guides/styling-lines/) guide can also be applied to polygon layers.
+</small>
+
+## Basic Styling
+
+If you want to  adjust the opacity of a polygon-fill you can use the `polygon-opacity` property. This is a number between 0 and 1 - 0 being fully transparent and 1 being fully opaque. With 75% opacity we can see both the map background and the lines that have been drawn beneath the polygons.
+
+<img src='/tilemill/assets/pages/styling-polygons-2.png' class='fig-right' />
+
+    #countries {
+      polygon-fill: #fff;
+      polygon-opacity: 0.75;
+    }
+
+### Gaps and Gamma
+
+When you have a layer containing polygons that should fit together seamlessly, you might notice subtle gaps between them at certain scales. You can use the `polygon-gamma` style to help reduce this effect. Gamma takes a value between 0 and 1 - the default is 1, so try lowering it to hide the gaps. Be careful about setting it too low, though. You'll get jagged edges and possibly even stranger artifacts.
+
+![](/tilemill/assets/pages/styling-polygons-3.png)
+
+    #countries {
+      polygon-fill: #fff;
+      polygon-gamma: 0.5;
+    }
+
+## Patterns and Textures
+
+With TileMill, you can easily fill areas with textures and patterns by bringing in external images. You might create the patterns yourself in image editing software such as [GIMP](http://gimp.org) or [Inkscape](http://inkscape.org), or find ready-made images from resource websites such as [Subtle Patterns](http://subtlepatterns.com/thumbnail-view/) or [Free Seamless Textures](http://freeseamlesstextures.com/).
 
 You can add a pattern style from any local file or web URL using the `polygon-pattern-file` style. Here is a simple diagonal stripe pattern you can use to try out - you can reference it from CartoCSS as in the snippet below.
 
@@ -29,17 +57,19 @@ For organization it's a good idea to save and store images resources like this o
 
 Images are stored inside the TileMill project they can be *relatively referenced*, meaning you don't need to specify the full path of the file location. Your style would simply be `polygon-pattern-file: url("images/water.png");`. Doing this also makes the TileMill project more portable, for example if you want move it to a different computer.
 
-### As a background-image
+<small class='note' markdown='1'>
+__Tip:__ If you want to add a pattern image to the background of the whole map, use the `background-image` property on the `Map` object:
 
-The background of your map can also have a pattern with the `background-image` property:
-
-    Map {
-      background-image: url("http://tilemill.com/assets/pages/pattern-stripe.png");
-    }
+    Map { background-image: url("pattern.png"); }
 
 Like all other properties on the `Map` object, background-image has a global effect - it cannot be filtered or changed depending on zoom level.
+</small>
 
-## Ensuring seamlessness
+### Combining patterns & fills
+
+Using transparency or [compositing operations](/tilemill/docs/guides/comp-op/) it is possible to get a lot of variety out of a single pattern image.
+
+### Ensuring seamlessness
 
 There are two types of pattern alignment: local (the default) and global (specified with `polygon-pattern-alignment: global;`).
 
