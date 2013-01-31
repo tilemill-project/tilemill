@@ -239,7 +239,7 @@ command.prototype.initialize = function(plugin, callback) {
                 version: model.mml.version || '1.0.0',
                 minzoom: !_(opts.minzoom).isUndefined() ? opts.minzoom : model.get('minzoom'),
                 maxzoom: !_(opts.maxzoom).isUndefined() ? opts.maxzoom : model.get('maxzoom'),
-                _bbox: bboxIndex === null ? model.get('bounds') : bboxes[bboxIndex],
+                bbox: bboxIndex === null ? model.get('bounds') : bboxes[bboxIndex],
                 scale: !_(opts.scale).isUndefined() ? opts.scale : model.get('scale'),
                 metatile: !_(opts.metatile).isUndefined() ? opts.metatile : model.get('metatile')
             });
@@ -253,7 +253,7 @@ command.prototype.initialize = function(plugin, callback) {
                 if (center[2] < minzoom) return false;
                 if (center[2] > maxzoom) return false;
                 return true;
-            })(model.mml.center, model.mml._bbox, model.mml.minzoom, model.mml.maxzoom);
+            })(model.mml.center, model.mml.bbox, model.mml.minzoom, model.mml.maxzoom);
             if (!validCenter) delete model.mml.center;
 
             function onComplete(err, data) {
@@ -401,7 +401,7 @@ command.prototype.image = function(project, callback) {
         strict: false,
         base: path.join(this.opts.files, 'project', project.id) + '/'
     });
-    map.extent = sm.convert(project.mml.bounds, '900913');
+    map.extent = sm.convert(project.mml.bbox, '900913');
     try {
         map.renderFileSync(this.opts.filepath, {
             format: this.opts.format,
@@ -461,7 +461,7 @@ command.prototype.tilelive = function (project, callback) {
             },
             // Add a hash with the bounding box to prevent issues with the cache and
             // previously exported bounds.
-            hash: "bbox=" + project.mml._bbox.join(',')
+            hash: "bbox=" + project.mml.bbox.join(',')
         };
 
         var to = {
@@ -472,7 +472,7 @@ command.prototype.tilelive = function (project, callback) {
 
         var scheme = tilelive.Scheme.create(opts.scheme, {
             list: opts.list,
-            bbox: project.mml._bbox,
+            bbox: project.mml.bbox,
             minzoom: project.mml.minzoom,
             maxzoom: project.mml.maxzoom,
             metatile: project.mml.metatile,
