@@ -18,7 +18,7 @@ In CartoCSS, labelling is handled by a variety of properties beginning with `tex
 
 The `text-name` property can pull text from your layer's data fields. If your layer contains a column called `NAME`, a simple label style would look like this:
 
-<img src='/tilemill/assets/pages/styling-labels-1.png' style='float:right;margin-top:0px;margin-left:20px;' />
+<img src='/tilemill/assets/pages/styling-labels-1.png' class='fig-right' />
 
     #cities {
       text-name: [NAME];
@@ -28,7 +28,7 @@ The `text-name` property can pull text from your layer's data fields. If your la
 
 The color and size of these labels will be the defaults - black and 10 pixels respectively. These can be adjusted with the `text-fill` and `text-size` properties.
 
-<img src='/tilemill/assets/pages/styling-labels-2.png' style='float:right;margin-top:0px;margin-left:20px;' />
+<img src='/tilemill/assets/pages/styling-labels-2.png' class='fig-right' />
 
     #cities {
       text-name: [NAME];
@@ -39,7 +39,7 @@ The color and size of these labels will be the defaults - black and 10 pixels re
 
 To separate your text from the background, it is often useful to add an outline or _halo_ around the text. You can control the color with `text-halo-fill` and the width of the halo (in pixels) is controlled with `text-halo-radius`. In the example below, we are using the `fadeout` color function to make the white halo 30% transparent.
 
-<img src='/tilemill/assets/pages/styling-labels-3.png' style='float:right;margin-top:0px;margin-left:20px;' />
+<img src='/tilemill/assets/pages/styling-labels-3.png' class='fig-right' />
 
     #cities {
       text-name: [NAME];
@@ -54,7 +54,7 @@ To separate your text from the background, it is often useful to add an outline 
 
 You can also use CartoCSS to style labels that follow a line such as a road or a river. To do this we need to adjust the `text-placement` property. Its default is `point`; we'll change it to `line`. We've also added a simple style to visualize the line itself.
 
-<img src='/tilemill/assets/pages/styling-labels-4.png' style='float:right;margin-top:0px;margin-left:20px;' />
+<img src='/tilemill/assets/pages/styling-labels-4.png' class='fig-right' />
 
     #rivers {
       line-color: #85c5d3;
@@ -69,7 +69,7 @@ For rivers it is nice to have the label offset parallel to the line of the river
 
 We'll also adjust the `text-max-char-angle-delta` property. This allows us to specify the maximum line angle (in degrees) that the text should try to wrap around. The default is 22.5°; setting it lower will make the labels appear along straighter parts of the line.
 
-<img src='/tilemill/assets/pages/styling-labels-5.png' style='float:right;margin-top:0px;margin-left:20px;' />
+<img src='/tilemill/assets/pages/styling-labels-5.png' class='fig-right' />
 
     #rivers {
       line-color: #85c5d3;
@@ -102,7 +102,7 @@ Other potential uses:
 
 You can wrap long labels onto multiple lines with the `text-wrap-width` property which specifies at what pixel width labels should start wrapping. By default the first word that crosses the wrap-width threshold will not wrap - to change this you can set `text-wrap-before` to `true`.
 
-<img src='/tilemill/assets/pages/styling-labels-6.png' style='float:right;margin-top:0px;margin-left:20px;' />
+<img src='/tilemill/assets/pages/styling-labels-6.png' class='fig-right' />
 
     #cities {
       text-name: [NAME] + ', ' + [ADM1NAME];
@@ -118,7 +118,7 @@ You may have a specific point where you want the line breaks to happen. You can 
 
 For example we could alter our compound label example to separate the two fields only with an underscore. Setting the wrap character to `_` (and also setting a very low wrap width to force wrapping) ensures that the two fields will always be written on their own lines.
 
-<img src='/tilemill/assets/pages/styling-labels-7.png' style='float:right;margin-top:0px;margin-left:20px;' />
+<img src='/tilemill/assets/pages/styling-labels-7.png' class='fig-right' />
 
     #cities {
       text-name: [NAME] + '_' + [ADM1NAME];

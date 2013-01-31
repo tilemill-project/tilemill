@@ -29,7 +29,7 @@ If you look at the example projects that come with TileMill, you can see that th
 
 Within a layer, styles can be broken up into 'attachments' with the `::` syntax. Think of attachments like sub-layers.
 
-<img src='/tilemill/assets/pages/symbol-order-0.png' style='float:right;margin-top:0px;margin-left:20px;' />
+<img src='/tilemill/assets/pages/symbol-order-0.png' class='fig-right' />
 
     #layer {
       ::outline {
@@ -46,7 +46,7 @@ Attachments are drawn in the order they are first defined, so in the example abo
 
 Note that all styles are nested inside attachments. If you don't explicitly define one, a default attachment still exists. Thus the following style produces the same result as the one above.
 
-<img src='/tilemill/assets/pages/symbol-order-0.png' style='float:right;margin-top:0px;margin-left:20px;' />
+<img src='/tilemill/assets/pages/symbol-order-0.png' class='fig-right' />
 
     #layer {
       ::outline {
@@ -77,7 +77,7 @@ Each object in each attachment may have multiple *symbolizers* applied to it. Th
 
 In this style, the outline will be drawn below the fill:
 
-<img src='/tilemill/assets/pages/symbol-order-1.png' style='float:right;margin-top:0px;margin-left:20px;' />
+<img src='/tilemill/assets/pages/symbol-order-1.png' class='fig-right' />
 
     #layer {
       line-width: 6;
@@ -87,7 +87,7 @@ In this style, the outline will be drawn below the fill:
 
 In this style, the line is drawn on top of the fill:
 
-<img src='/tilemill/assets/pages/symbol-order-2.png' style='float:right;margin-top:0px;margin-left:20px;' />
+<img src='/tilemill/assets/pages/symbol-order-2.png' class='fig-right' />
 
     #layer {
       polygon-fill: #aec;
@@ -97,7 +97,7 @@ In this style, the line is drawn on top of the fill:
 
 It's also possible to create multiple symbols of the same type within an attachment using named *instances*. Like attachments, their names are arbitrary.
 
-<img src='/tilemill/assets/pages/symbol-order-3.png' style='float:right;margin-top:0px;margin-left:20px;' />
+<img src='/tilemill/assets/pages/symbol-order-3.png' class='fig-right' />
 
     #layer {
       bottomline/line-width: 6;
