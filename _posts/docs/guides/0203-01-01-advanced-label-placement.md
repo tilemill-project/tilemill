@@ -8,7 +8,7 @@ permalink: /docs/guides/labels-advanced
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
-- "Practiced basic [label styling](/tilemill/docs/guides/styling-labels/)
+- "Practiced basic [label styling](/tilemill/docs/guides/styling-labels/)"
 - "Become familiar with [PostgreSQL and PostGIS](/tilemill/docs/guides/postgis-work)"
 ---
 
