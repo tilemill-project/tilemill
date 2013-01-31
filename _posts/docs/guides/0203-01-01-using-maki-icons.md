@@ -7,14 +7,12 @@ title: "Using Maki Icons"
 permalink: /docs/guides/using-maki-icons
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
-- "[Reviewed](/tilemill/docs/crashcourse/introduction) the Crash Course."
-- "[Used conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
+- "[Reviewed](/tilemill/docs/crashcourse/introduction) the Crash Course, in particular [using conditional styles](/tilemill/docs/guides/conditional-styles/)."
 nextup:
-- "[Add some color](/tilemill/docs/guides/adding-colors-to-maki-icons/) to your Maki icons.
+- "[Add some color](/tilemill/docs/guides/adding-colors-to-maki-icons/) to your Maki icons."
 - "[Use MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 ---
-
-
+{% include prereq.html %}
 
 ### About Maki
 [Maki](http://mapbox.com/maki) is a point of interest (POI) icon set for TileMill. On a typical base map, POIs provide context by highlighting things like schools, businesses, and parks. Maki icons are clean, clear, recognizable, and work well with a wide range of map types. 

@@ -9,8 +9,8 @@ prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 nextup:
-- "Try out [styling lines](/tilemill/docs/guides/styling-lines/)
-- "Learn about [styling labels](/tilemill/docs/guides/styling-labels)
+- "Try out [styling lines](/tilemill/docs/guides/styling-lines/)"
+- "Learn about [styling labels](/tilemill/docs/guides/styling-labels)"
 ---
 
 {% include prereq.html %}

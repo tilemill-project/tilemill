@@ -137,7 +137,7 @@ A common way of symbolizing railroad lines is with regular hatches on a thin lin
       }
     }
 
-Another common railroad line style is similat, but with a thin dash and a thick outline. Make sure you define the `::dash` after the `::line` so that it appears on top correctly.
+Another common railroad line style is similar, but with a thin dash and a thick outline. Make sure you define the `::dash` after the `::line` so that it appears on top correctly.
 
 <img src='/tilemill/assets/pages/styling-lines-10.png' class='fig-right' />
 

@@ -9,7 +9,7 @@ prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 nextup:
-- "Learn more about [styling lines](/tilemill/docs/guides/styling-lines/)
+- "Learn more about [styling lines](/tilemill/docs/guides/styling-lines/)"
 ---
 
 {% include prereq.html %}
@@ -38,4 +38,5 @@ For practice, we'll add a tectonic plates boundary shapefile downloaded from the
 ![Save and Style](/tilemill/assets/pages/shapefile-8.png)
 9. Preview the result in the map preview pane.  
 ![Preview](/tilemill/assets/pages/shapefile-9.png)
+
 {% include nextup.html %}
