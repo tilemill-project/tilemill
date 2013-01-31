@@ -10,7 +10,8 @@ prereq:
 - "[Reviewed](/tilemill/docs/crashcourse/introduction) the Crash Course."
 - "[Used conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
 nextup:
-- "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
+- "[Add some color](/tilemill/docs/guides/adding-colors-to-maki-icons/) to your Maki icons.
+- "[Use MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 ---
 
 
