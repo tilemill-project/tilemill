@@ -9,10 +9,8 @@ prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 nextup:
-- "[Using conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
-- "[Adding tooltips](/tilemill/docs/crashcourse/tooltips/) to your map."
-- "[Adding a legend](/tilemill/docs/crashcourse/tooltips/#legends) to your map."
-- "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
+- "Try out [styling lines](/tilemill/docs/guides/styling-lines/)
+- "Learn about [styling labels](/tilemill/docs/guides/styling-labels)
 ---
 
 {% include prereq.html %}
