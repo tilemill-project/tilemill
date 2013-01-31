@@ -7,12 +7,8 @@ title: "Recommended data sources"
 permalink: /docs/guides/recommended-sources
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
-- "Reviewed [Crash Course](/tilemill/docs/crashcourse/overview/)"
 nextup:
-- "[Using conditional styles](/tilemill/docs/crashcourse/conditional-styles/) to control the appearance of points based on data."
-- "[Adding tooltips](/tilemill/docs/crashcourse/tooltips/) to your map."
-- "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
-
+- "Run through [Crash Course](/tilemill/docs/crashcourse/overview/)."
 ---
 {% include prereq.html %}
 
