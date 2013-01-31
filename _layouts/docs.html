@@ -27,7 +27,9 @@ class: box
   .doc-header h2 { padding-bottom: 20px; }
   .doc-subnav li { width:100%; margin-bottom:1px; }
 }
-.doc .fig-right { float:right; margin-top:0px; margin-left:10px; }
+@media (min-width:960px) {
+  .doc .fig-right { float:right; margin-top:0px; margin-left:10px; }
+}
 </style>
 
 {% if page.section == 'help' %}
