@@ -210,7 +210,6 @@ command.prototype.initialize = function(plugin, callback) {
                 l.attributes.Datasource.max_size = require('os').cpus().length;
         });
         if (!cmd.opts.quiet) process.stderr.write('Localizing project...');
-        model.set({'_updated': 0}); // Force cache clear
         model.localize(model.toJSON(), this);
     }, function(err) {
         if (err) return cmd.error(err, function() {
