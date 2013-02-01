@@ -156,19 +156,9 @@ command.prototype.initialize = function(plugin, callback) {
     if (!opts.format) opts.format = path.extname(opts.filepath).split('.').pop();
     console.log(opts.format);
 
-    var bboxes = [ ];
     // Convert string params into numbers.
-    if (!_(opts.bbox).isUndefined()) {
+    if (!_(opts.bbox).isUndefined())
         opts.bbox = _(opts.bbox.split(',')).map(parseFloat);
-
-        bboxes = [ opts.bbox.slice(0) ];
-        if (opts.bbox[2] < opts.bbox[0]) {
-            // Bounding box crosses the anti-meridian, fun
-            bboxes.push(bboxes[0].slice(0));
-            bboxes[0][2] = 180;
-            bboxes[1][0] = -180;
-        }
-    }
     if (!_(opts.minzoom).isUndefined())
         opts.minzoom = parseInt(opts.minzoom, 10);
     if (!_(opts.maxzoom).isUndefined())
@@ -202,104 +192,77 @@ command.prototype.initialize = function(plugin, callback) {
     // Upload format does not require loaded project.
     if (opts.format === 'upload') return this[opts.format](this.complete);
 
-    // bboxIndex is the index into bboxes or null if the project bbox should be used.
-    function beginExport(bboxIndex) {
-        if ( bboxIndex && bboxIndex >= bboxes.length) {
-            throw new Error("Attempted to begin export with invalid bboxIndex: " + bboxIndex);
-        }
-        // Load project, localize and call export function.
-        var model = new models.Project({id:opts.project});
-        Step(function() {
-            if (!cmd.opts.quiet) process.stderr.write('Loading project...');
-            Bones.utils.fetch({model:model}, this);
-        }, function(err) {
-            if (err) return cmd.error(err, function() {
-                process.stderr.write(err.stack || err.toString() + '\n');
-                process.exit(1);
-            });
-            if (!cmd.opts.quiet) process.stderr.write(' done.\n');
-            // Set the postgres connection pool size to # of cpus based on
-            // assumption of pool size in tilelive-mapnik.
-            model.get('Layer').each(function(l) {
-                if (l.attributes.Datasource && l.attributes.Datasource.dbname)
-                    l.attributes.Datasource.max_size = require('os').cpus().length;
-            });
-            if (!cmd.opts.quiet) process.stderr.write('Localizing project...');
-            model.set({'_updated': 0}); // Force cache clear
-            model.localize(model.toJSON(), this);
-        }, function(err) {
-            if (err) return cmd.error(err, function() {
-                process.stderr.write(err.stack || err.toString() + '\n');
-                process.exit(1);
-            });
-
-            if (!cmd.opts.quiet) process.stderr.write(' done.\n');
-            model.mml = _(model.mml).extend({
-                name: model.mml.name || model.id,
-                version: model.mml.version || '1.0.0',
-                minzoom: !_(opts.minzoom).isUndefined() ? opts.minzoom : model.get('minzoom'),
-                maxzoom: !_(opts.maxzoom).isUndefined() ? opts.maxzoom : model.get('maxzoom'),
-                bbox: bboxIndex === null ? model.get('bounds') : bboxes[bboxIndex],
-                scale: !_(opts.scale).isUndefined() ? opts.scale : model.get('scale'),
-                metatile: !_(opts.metatile).isUndefined() ? opts.metatile : model.get('metatile')
-            });
-
-            // Unset map center if outside bounds.
-            var validCenter = (function(center, bounds, minzoom, maxzoom) {
-                if (center[0] < bounds[0] ||
-                    center[0] > bounds[2] ||
-                    center[1] < bounds[1] ||
-                    center[1] > bounds[3]) return false;
-                if (center[2] < minzoom) return false;
-                if (center[2] > maxzoom) return false;
-                return true;
-            })(model.mml.center, model.mml.bbox, model.mml.minzoom, model.mml.maxzoom);
-            if (!validCenter) delete model.mml.center;
-
-            function onComplete(err, data) {
-                if (bboxIndex === null || bboxIndex + 1 >= bboxes.length) {
-                    cmd.complete(err, data);
-                } else {
-                    if (err) {
-                        console.warn(err.stack || err.toString() + '\n');
-                    } else {
-                        if (data) {
-                            this.put(data, function() {
-                                beginExport(bboxIndex+1);
-                            });
-                        } else {
-                            beginExport(bboxIndex+1);
-                        }
-                    }
-                }
-            }
-
-            switch (opts.format) {
-            case 'png':
-            case 'svg':
-            case 'pdf':
-                console.log('Rendering file');
-                cmd.image(model, onComplete);
-                break;
-            case 'upload':
-                console.log('Uploading new export');
-                cmd.upload(model, onComplete);
-                break;
-            case 'sync':
-                console.log('Syncing export with existing upload');
-                cmd.sync(model, onComplete);
-                break;
-            default:
-                console.log('Rendering export');
-                cmd.tilelive(model, onComplete);
-                break;
-            }
+    // Load project, localize and call export function.
+    var model = new models.Project({id:opts.project});
+    Step(function() {
+        if (!cmd.opts.quiet) process.stderr.write('Loading project...');
+        Bones.utils.fetch({model:model}, this);
+    }, function(err) {
+        if (err) return cmd.error(err, function() {
+            process.stderr.write(err.stack || err.toString() + '\n');
+            process.exit(1);
         });
-    }
+        if (!cmd.opts.quiet) process.stderr.write(' done.\n');
+        // Set the postgres connection pool size to # of cpus based on
+        // assumption of pool size in tilelive-mapnik.
+        model.get('Layer').each(function(l) {
+            if (l.attributes.Datasource && l.attributes.Datasource.dbname)
+                l.attributes.Datasource.max_size = require('os').cpus().length;
+        });
+        if (!cmd.opts.quiet) process.stderr.write('Localizing project...');
+        model.set({'_updated': 0}); // Force cache clear
+        model.localize(model.toJSON(), this);
+    }, function(err) {
+        if (err) return cmd.error(err, function() {
+            process.stderr.write(err.stack || err.toString() + '\n');
+            process.exit(1);
+        });
 
-    beginExport( bboxes.length > 0 ? 0 : null );
+        if (!cmd.opts.quiet) process.stderr.write(' done.\n');
+        model.mml = _(model.mml).extend({
+            name: model.mml.name || model.id,
+            version: model.mml.version || '1.0.0',
+            minzoom: !_(opts.minzoom).isUndefined() ? opts.minzoom : model.get('minzoom'),
+            maxzoom: !_(opts.maxzoom).isUndefined() ? opts.maxzoom : model.get('maxzoom'),
+            bounds: !_(opts.bbox).isUndefined() ? opts.bbox : model.get('bounds'),
+            scale: !_(opts.scale).isUndefined() ? opts.scale : model.get('scale'),
+            metatile: !_(opts.metatile).isUndefined() ? opts.metatile : model.get('metatile')
+        });
+
+        // Unset map center if outside bounds.
+        var validCenter = (function(center, bounds, minzoom, maxzoom) {
+            if (center[0] < bounds[0] ||
+                center[0] > bounds[2] ||
+                center[1] < bounds[1] ||
+                center[1] > bounds[3]) return false;
+            if (center[2] < minzoom) return false;
+            if (center[2] > maxzoom) return false;
+            return true;
+        })(model.mml.center, model.mml.bounds, model.mml.minzoom, model.mml.maxzoom);
+        if (!validCenter) delete model.mml.center;
+
+        switch (opts.format) {
+        case 'png':
+        case 'svg':
+        case 'pdf':
+            console.log('Rendering file');
+            cmd.image(model, cmd.complete);
+            break;
+        case 'upload':
+            console.log('Uploading new export');
+            cmd.upload(model, cmd.complete);
+            break;
+        case 'sync':
+            console.log('Syncing export with existing upload');
+            cmd.sync(model, cmd.complete);
+            break;
+        default:
+            console.log('Rendering export');
+            cmd.tilelive(model, cmd.complete);
+            break;
+        }
+    });
 };
-
 
 command.prototype.complete = function(err, data) {
     console.log('Completing export process');
@@ -401,7 +364,7 @@ command.prototype.image = function(project, callback) {
         strict: false,
         base: path.join(this.opts.files, 'project', project.id) + '/'
     });
-    map.extent = sm.convert(project.mml.bbox, '900913');
+    map.extent = sm.convert(project.mml.bounds, '900913');
     try {
         map.renderFileSync(this.opts.filepath, {
             format: this.opts.format,
@@ -425,120 +388,139 @@ command.prototype.tilelive = function (project, callback) {
 
     require('tilelive-mapnik').registerProtocols(tilelive);
 
-    var opts = $.extend({}, this.opts);
+    // Copy the bounds so that we can modify them if we need to split the export
+    var bboxes = [ project.mml.bounds.slice(0) ];
+    if (project.mml.bounds[2] < project.mml.bounds[0]) {
+        bboxes.push(bboxes[0].slice(0));
+        bboxes[0][2] = 180;
+        bboxes[1][0] = -180;
 
-    // Try to load a job file if one was given and it exists.
-    if (opts.job) {
-        opts.job = path.resolve(opts.job);
-        try {
-            var job = fs.readFileSync(opts.job, 'utf8');
-        } catch(err) {
-            if (err.code !== 'EBADF') throw err;
+        // If we don't set the bounds to the whole world tilestream will not be able to display the files
+        // because the center of the bounds will be outside the bounds.
+        project.mml.bounds = [ -180, project.mml.bounds[1], 180, project.mml.bounds[3] ];
+    }
+
+    function exportTiles(bboxIndex) {
+        if (bboxIndex >= bboxes.length) {
+            return callback();
         }
-    } else {
-        // Generate a job file based on the output filename.
-        var slug = path.basename(opts.filepath, path.extname(opts.filepath));
-        opts.job = path.join(path.dirname(opts.filepath), slug + '.export');
-    }
+        var opts = $.extend({}, cmd.opts);
 
-    if (job) {
-        job = JSON.parse(job);
-        if (!cmd.opts.quiet) console.warn('Continuing job ' + opts.job);
-        var scheme = tilelive.Scheme.unserialize(job.scheme);
-        var task = new tilelive.CopyTask(job.from, job.to, scheme, opts.job);
-    } else {
-        if (!cmd.opts.quiet) console.warn('Creating new job ' + opts.job);
+        // Try to load a job file if one was given and it exists.
+        if (opts.job) {
+            opts.job = path.resolve(opts.job);
+            try {
+                var job = fs.readFileSync(opts.job, 'utf8');
+            } catch(err) {
+                if (err.code !== 'EBADF') throw err;
+            }
+        } else {
+            // Generate a job file based on the output filename.
+            var slug = path.basename(opts.filepath, path.extname(opts.filepath));
+            opts.job = path.join(path.dirname(opts.filepath), slug + '.export');
+        }
 
-        var from = {
-            protocol: 'mapnik:',
-            slashes: true,
-            xml: project.xml,
-            mml: project.mml,
-            pathname: path.join(opts.files, 'project', project.id, project.id + '.xml'),
-            query: {
+        if (job) {
+            job = JSON.parse(job);
+            if (!cmd.opts.quiet) console.warn('Continuing job ' + opts.job);
+            var scheme = tilelive.Scheme.unserialize(job.scheme);
+            var task = new tilelive.CopyTask(job.from, job.to, scheme, opts.job);
+        } else {
+            if (!cmd.opts.quiet) console.warn('Creating new job ' + opts.job);
+
+            var from = {
+                protocol: 'mapnik:',
+                slashes: true,
+                xml: project.xml,
+                mml: project.mml,
+                pathname: path.join(opts.files, 'project', project.id, project.id + '.xml'),
+                query: {
+                    metatile: project.mml.metatile,
+                    scale: project.mml.scale
+                },
+                // Add a hash with the bounding box to prevent tilelive pulling data from the cache
+                // that has the previously exported bounds.
+                hash: "bbox=" + bboxes[bboxIndex].join(',')
+            };
+
+            var to = {
+                protocol: opts.format + ':',
+                pathname: opts.filepath,
+                query: { batch: 100 }
+            };
+
+            var scheme = tilelive.Scheme.create(opts.scheme, {
+                list: opts.list,
+                bbox: bboxes[bboxIndex],
+                minzoom: project.mml.minzoom,
+                maxzoom: project.mml.maxzoom,
                 metatile: project.mml.metatile,
-                scale: project.mml.scale
-            },
-            // Add a hash with the bounding box to prevent issues with the cache and
-            // previously exported bounds.
-            hash: "bbox=" + project.mml.bbox.join(',')
-        };
-
-        var to = {
-            protocol: opts.format + ':',
-            pathname: opts.filepath,
-            query: { batch: 100 }
-        };
-
-        var scheme = tilelive.Scheme.create(opts.scheme, {
-            list: opts.list,
-            bbox: project.mml.bbox,
-            minzoom: project.mml.minzoom,
-            maxzoom: project.mml.maxzoom,
-            metatile: project.mml.metatile,
-            concurrency: Math.floor(
-                Math.pow(project.mml.metatile, 2) * // # of tiles in each metatile
-                require('os').cpus().length *       // expect one metatile to occupy each core
-                4 / cmd.opts.concurrency            // overcommit x4 throttle by export concurrency
-            )
-        });
-        var task = new tilelive.CopyTask(from, to, scheme, opts.job);
-    }
+                concurrency: Math.floor(
+                    Math.pow(project.mml.metatile, 2) * // # of tiles in each metatile
+                    require('os').cpus().length *       // expect one metatile to occupy each core
+                    4 / cmd.opts.concurrency            // overcommit x4 throttle by export concurrency
+                )
+            });
+            var task = new tilelive.CopyTask(from, to, scheme, opts.job);
+        }
 
 
-    var errorfile = path.join(path.dirname(opts.job), path.basename(opts.job) + '-failed');
-    if (!cmd.opts.quiet) console.warn('Writing errors to ' + errorfile);
+        var errorfile = path.join(path.dirname(opts.job), path.basename(opts.job) + '-failed');
+        if (!cmd.opts.quiet) console.warn('Writing errors to ' + errorfile);
 
-    fs.open(errorfile, 'a', function(err, fd) {
-        if (err) throw err;
-
-        task.on('error', function(err, tile) {
-            console.warn('\r\033[K' + tile.toString() + ': ' + err.message);
-            fs.write(fd, JSON.stringify(tile) + '\n');
-            report(task.stats.snapshot());
-        });
-
-        task.on('progress', report);
-
-        task.on('finished', function() {
-            if (!cmd.opts.quiet) console.warn('\nfinished');
-            callback();
-        });
-
-        task.start(function(err) {
+        fs.open(errorfile, 'a', function(err, fd) {
             if (err) throw err;
-            task.sink.putInfo(project.mml, function(err) {
+
+            task.on('error', function(err, tile) {
+                console.warn('\r\033[K' + tile.toString() + ': ' + err.message);
+                fs.write(fd, JSON.stringify(tile) + '\n');
+                report(task.stats.snapshot());
+            });
+
+            task.on('progress', report);
+
+            task.on('finished', function() {
+                if (!cmd.opts.quiet) console.warn('\nfinished');
+                exportTiles(bboxIndex + 1);
+            });
+
+            task.start(function(err) {
                 if (err) throw err;
+                task.sink.putInfo(project.mml, function(err) {
+                    if (err) throw err;
+                });
             });
         });
-    });
 
-    function report(stats) {
-        var progress = stats.processed / stats.total;
-        var remaining = cmd.remaining(progress, task.started);
-        cmd.put({
-            status: 'processing',
-            progress: progress,
-            remaining: remaining,
-            updated: +new Date(),
-            rate: stats.speed
-        });
+        function report(stats) {
+            var progress = stats.processed / stats.total;
+            var remaining = cmd.remaining(progress, task.started);
+            cmd.put({
+                status: 'processing',
+                progress: progress,
+                remaining: remaining,
+                updated: +new Date(),
+                rate: stats.speed
+            });
 
-        if (!cmd.opts.quiet) {
-            util.print(formatString('\r\033[K[%s] %s%% %s/%s @ %s/s | %s left | ✓ %s ■ %s □ %s fail %s',
-                formatDuration(stats.date - task.started),
-                ((progress || 0) * 100).toFixed(4),
-                formatNumber(stats.processed),
-                formatNumber(stats.total),
-                formatNumber(stats.speed),
-                formatDuration(remaining),
-                formatNumber(stats.unique),
-                formatNumber(stats.duplicate),
-                formatNumber(stats.skipped),
-                formatNumber(stats.failed)
-            ));
+            if (!cmd.opts.quiet) {
+                util.print(formatString('\r\033[K[%s] %s%% %s/%s @ %s/s | %s left | ✓ %s ■ %s □ %s fail %s',
+                    formatDuration(stats.date - task.started),
+                    ((progress || 0) * 100).toFixed(4),
+                    formatNumber(stats.processed),
+                    formatNumber(stats.total),
+                    formatNumber(stats.speed),
+                    formatDuration(remaining),
+                    formatNumber(stats.unique),
+                    formatNumber(stats.duplicate),
+                    formatNumber(stats.skipped),
+                    formatNumber(stats.failed)
+                ));
+            }
         }
     }
+
+    exportTiles(0);
 };
 
 command.prototype.upload = function (callback) {
