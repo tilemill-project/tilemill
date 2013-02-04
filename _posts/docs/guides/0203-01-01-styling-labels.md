@@ -128,6 +128,29 @@ For example we could alter our compound label example to separate the two fields
       text-wrap-character: '_';
     }
 
+## Layering Labels
+
+If you are applying label styles to layers that also have line or polygon styles you might notice some unexpected overlapping where the labels aren't necessarily on top.
+
+For simple stylesheets you can control this by making sure your geometry styles and you text styles are in separate attachments:
+
+    #layer {
+      ::shape {
+        polygon-fill: #ace;
+        line-color: #68a;
+      }
+      ::label {
+        text-name: [name];
+        text-face-name: 'Arial Regular';
+      }
+    }
+
+However in many cases you'll need to create a label layer that is separate from the layer you use for line and polygon styling. As an example of this, you can look at the _Open Streets DC_ project that comes with TileMill.
+
+![](/tilemill/assets/pages/styling-labels-8.png)
+
+The layers `roads` and `roads-label` reference the same data, but are separated for correct ordering. For more details on how object stacking works in TileMill, see the [Symbol Drawing Order](/tilemill/docs/guides/symbol-drawing-order/) guide.
+
 ## Further Reading
 
 Styling labels is one of the most complex aspects of cartography with TileMill and CartoCSS. This page has only covered a small portion of the text styling options available. See the [CartoCSS Reference](/carto/api/2.1.0/#text) for a full list of text properties and brief descriptions of what they do. It's also good to understand [symbol ordering](/tilemill/docs/guides/symbol-ordering/) when styling labels to have control over which labels are prioritized over others. See the [Advanced labels guide](/tilemill/docs/guides/labels-advanced/) for tips on achieving visually-pleasing results for placement of point labels.
