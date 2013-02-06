@@ -82,7 +82,7 @@ We'll also adjust the `text-max-char-angle-delta` property. This allows us to sp
       text-max-char-angle-delta: 15;
     }
 
-## Compound Labels
+## Adding custom text
 
 Labels aren't limited to pulling text from just one column. You can combine data from many columns as well as arbitrary text to construct your `text-name`. For example you could include the state/province separated by a comma and a space.
 
@@ -97,6 +97,17 @@ Other potential uses:
 - Multilingual labels: `[name] + '(' + [name_en] + ')'`
 - Numeric units: `[elevation] + 'm'`
 - Clever [unicode icons](http://copypastecharacter.com/symbols): `'⚑ ' + [embassy_name]` or `'⚓ ' + [harbour_name]`
+
+You can also assign arbitrary text to labels that does not come from a data field. Due to a backwards-compatibility issue, you will need to quote such text twice for this to work correctly.
+
+    #parks {
+      text-name: "'Park'";
+      text-face-name: 'Droid Sans Regular';
+    }
+
+If you need to include quotation marks in your custom quoted text, you will need to *escape* them with a backslash. For example, for the custom text **City's "Best" Coffee**:
+
+    text-name: "'City\'s \"Best\" Coffee'";
 
 ## Multi-line labels
 
