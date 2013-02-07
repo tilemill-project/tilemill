@@ -58,11 +58,7 @@ For organization it's a good idea to save and store images resources like this o
 Images are stored inside the TileMill project they can be *relatively referenced*, meaning you don't need to specify the full path of the file location. Your style would simply be `polygon-pattern-file: url("images/water.png");`. Doing this also makes the TileMill project more portable, for example if you want move it to a different computer.
 
 <small class='note' markdown='1'>
-__Tip:__ If you want to add a pattern image to the background of the whole map, use the `background-image` property on the `Map` object:
-
-    Map { background-image: url("pattern.png"); }
-
-Like all other properties on the `Map` object, background-image has a global effect - it cannot be filtered or changed depending on zoom level.
+__Tip:__ If you want to add a pattern image to the background of the whole map, use the [background-image](/carto/api/2.1.0/#background-image) property on the 'Map' object, eg: `Map { background-image: url("pattern.png"); }`. Like all other properties on the Map object, background-image has a global effect - it cannot be filtered or changed depending on zoom level.
 </small>
 
 ### Combining patterns & fills
