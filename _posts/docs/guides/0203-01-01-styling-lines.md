@@ -21,9 +21,9 @@ Line styles can be applied to both line and polygon layers. The simplest line st
       line-width: 0.75;
       line-color: #426;
     }
-    
+
 ## Dashed lines
-    
+ 
 Simple dashed lines can be created with the `line-dasharray` property. The value of this property is a comma-separated list of pixel widths that will alternatively be applied to dashes and spaces. This style draws a line with 10 pixel dashes separated by 4 pixel spaces:
 
 <img src='/tilemill/assets/pages/styling-lines-2.png' class='fig-right' />
@@ -33,7 +33,7 @@ Simple dashed lines can be created with the `line-dasharray` property. The value
       line-color: #426;
       line-dasharray: 10, 4;
     }
-    
+ 
 You can make your dash patterns as complex as you want, with the limitation that the dasharray values must all be whole numbers.
 
 <img src='/tilemill/assets/pages/styling-lines-3.png' class='fig-right' />
@@ -43,7 +43,7 @@ You can make your dash patterns as complex as you want, with the limitation that
       line-color: #426;
       line-dasharray: 10, 3, 2, 3;
     }
-    
+ 
 ## Caps & Joins
 
 With thicker line widths you'll notice long points at sharp angles and odd gaps on small polygons.
@@ -153,4 +153,52 @@ Another common railroad line style is similar, but with a thin dash and a thick 
       }
     }
 
-<!-- TODO: ## Tunnels and railroads -->
+<!--### Tunnels
+
+A simple tunnel style can be created by modifying a regular road style and making the background line dashed. 
+
+    #roads {
+      [tunnel='true'] {
+        ::case {
+          line-width: 8;
+          line-color:#888;
+          line-dasharray: 4, 3;
+        }
+        ::fill {
+          line-width: 5;
+          line-color:#fff;
+        }
+      }
+      [tunnel='false'] {
+        ::case {
+          line-width: 8;
+          line-color:#888;
+        }
+        ::fill {
+          line-width: 5;
+          line-color:#fff;
+        }
+      }
+    }-->
+
+## Line patterns with Images
+
+Certain types of line pattens are too complex to be easily achieved with regular compound line styles. TileMill allows you to use repeated images alongside or in place of your other line styles. As an example we'll make a pattern that we'll use to represent a cliff. To do this you'll need to work with external graphics software - we'll be using [Inkscape](http://inkscape.org) in this example.
+
+In Inkscape (or whatever you are using), create a new document. The size should be rather small - the height of the image will be the width of the line pattern and the width of the image will be repeated along the length of the line. Our example is 30x16 pixels.
+
+![](/tilemill/assets/pages/styling-lines-11.png)
+
+Note how the centerline of the pattern is centered on the image (with empty space at the top) for correct alignment with the line data.
+
+To use the image from Inkscape, export it as a PNG file. Line patterns just need a single CartoCSS style to be added to your TileMill project:
+
+<img src='/tilemill/assets/pages/styling-lines-12.png' class='fig-right' />
+
+    #cliff {
+      line-pattern-file: url(cliff.png);
+    }
+
+For some types of patterns, such as the cliff in this example, the direction of the pattern is important. The bottom of line pattern images will be on the right side of lines. The left side of the image will be at the beginning of the line.
+
+
