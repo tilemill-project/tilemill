@@ -8,6 +8,10 @@ permalink: /docs/guides/styling-labels
 prereq:
 - '[Installed](/tilemill/docs/install) TileMill on your computer.'
 - 'Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)'
+nextup:
+- 'Get tips on achieving visually-pleasing results for placement of point labels in the [Advanced labels guide](/tilemill/docs/guides/labels-advanced/).' 
+- 'Explore the full list of available label styling properties in the [CartoCSS Reference](/carto/api/2.1.0/#text).'
+- 'Learn about [symbol ordering](/tilemill/docs/guides/symbol-ordering/) to control which labels are prioritized over others.'
 
 ---
 {% include prereq.html %}
@@ -162,7 +166,4 @@ However in many cases you'll need to create a label layer that is separate from 
 
 The layers `roads` and `roads-label` reference the same data, but are separated for correct ordering. For more details on how object stacking works in TileMill, see the [Symbol Drawing Order](/tilemill/docs/guides/symbol-drawing-order/) guide.
 
-## Further Reading
-
-Styling labels is one of the most complex aspects of cartography with TileMill and CartoCSS. This page has only covered a small portion of the text styling options available. See the [CartoCSS Reference](/carto/api/2.1.0/#text) for a full list of text properties and brief descriptions of what they do. It's also good to understand [symbol ordering](/tilemill/docs/guides/symbol-ordering/) when styling labels to have control over which labels are prioritized over others. See the [Advanced labels guide](/tilemill/docs/guides/labels-advanced/) for tips on achieving visually-pleasing results for placement of point labels.
-
+{% include nextup.html %}
