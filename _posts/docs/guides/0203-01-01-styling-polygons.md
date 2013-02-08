@@ -57,9 +57,21 @@ For organization it's a good idea to save and store images resources like this o
 
 Images are stored inside the TileMill project they can be *relatively referenced*, meaning you don't need to specify the full path of the file location. Your style would simply be `polygon-pattern-file: url("images/water.png");`. Doing this also makes the TileMill project more portable, for example if you want move it to a different computer.
 
-<small class='note' markdown='1'>
-__Tip:__ If you want to add a pattern image to the background of the whole map, use the [background-image](/carto/api/2.1.0/#background-image) property on the 'Map' object, eg: `Map { background-image: url("pattern.png"); }`. Like all other properties on the Map object, background-image has a global effect - it cannot be filtered or changed depending on zoom level.
-</small>
+### Global patterns
+
+If you want to add a pattern image to the background of the whole map, you can use the [background-image](/carto/api/2.1.0/#background-image) property on the 'Map' object.
+
+    Map {
+      background-image: url("pattern.png");
+    }
+
+Like all other properties on the Map object, background-image has a global effect - it cannot be filtered or changed depending on zoom level.
+
+If you want to control the a background pattern by zoom level you can add a layer to your project that contains an earth-sized polygon for you to style. MapBox provides such a data file in the [MapBox GeoData Library](). Browse to the `natural-earth-1.4.0/physical` directory and it is the first file in the list - __10m-900913-bounding-box.zip__.
+
+![](/tilemill/assets/pages/styling-polygons-4.png)
+
+You can style this layer like any polygon with a pattern or a solid fill and different styles for different scales. You can also put it above other layers and style it with a transparent pattern to create textured overlays (as in the 'Geography Class' example project).
 
 ### Combining patterns & fills
 
