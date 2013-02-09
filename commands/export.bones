@@ -18,7 +18,7 @@ command.usage = '<project> <export>';
 
 command.options['format'] = {
     'title': 'format=[format]',
-    'description': 'Export format (png|pdf|svg|mbtiles|upload|sync).'
+    'description': 'Export format (png|jpeg|tiff|pdf|svg|mbtiles|upload|sync).'
 };
 
 command.options['bbox'] = {
@@ -174,7 +174,7 @@ command.prototype.initialize = function(plugin, callback) {
 
     // Rename the output filepath using a random hash if file already exists.
     if (existsSync(opts.filepath) &&
-        _(['png','pdf','svg','mbtiles']).include(opts.format)) {
+        _(['png','jpeg','jpg','tiff','tif','pdf','svg','mbtiles']).include(opts.format)) {
         var hash = crypto.createHash('md5')
             .update(+new Date + '')
             .digest('hex')
@@ -242,6 +242,10 @@ command.prototype.initialize = function(plugin, callback) {
 
         switch (opts.format) {
         case 'png':
+        case 'jpeg':
+        case 'jpg':
+        case 'tiff':
+        case 'tif':
         case 'svg':
         case 'pdf':
             console.log('Rendering file');
