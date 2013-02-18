@@ -18,7 +18,7 @@ command.usage = '<project> <export>';
 
 command.options['format'] = {
     'title': 'format=[format]',
-    'description': 'Export format (png|pdf|svg|mbtiles|upload|sync).'
+    'description': 'Export format (png|jpeg|tiff|pdf|svg|mbtiles|upload|sync).'
 };
 
 command.options['bbox'] = {
@@ -104,7 +104,7 @@ command.prototype.initialize = function(plugin, callback) {
     if (process.env.tilemillConfig)
         _(opts).extend(JSON.parse(process.env.tilemillConfig));
     opts.files = path.resolve(opts.files);
-    opts.project = plugin.argv._[1].toString();
+    opts.project = plugin.argv._[1] && plugin.argv._[1].toString();
     var export_filename = plugin.argv._[2];
     if (!export_filename) return plugin.help();
     opts.filepath = path.resolve(export_filename.replace(/^~/,process.env.HOME));
@@ -174,7 +174,7 @@ command.prototype.initialize = function(plugin, callback) {
 
     // Rename the output filepath using a random hash if file already exists.
     if (existsSync(opts.filepath) &&
-        _(['png','pdf','svg','mbtiles']).include(opts.format)) {
+        _(['png','jpeg','jpg','tiff','tif','pdf','svg','mbtiles']).include(opts.format)) {
         var hash = crypto.createHash('md5')
             .update(+new Date + '')
             .digest('hex')
@@ -242,6 +242,10 @@ command.prototype.initialize = function(plugin, callback) {
 
         switch (opts.format) {
         case 'png':
+        case 'jpeg':
+        case 'jpg':
+        case 'tiff':
+        case 'tif':
         case 'svg':
         case 'pdf':
             console.log('Rendering file');

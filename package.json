@@ -34,7 +34,7 @@
         "mapnik": "~0.7.22",
         "tilelive": "~4.3.3",
         "mbtiles": "~0.2.8",
-        "tilelive-mapnik": "~0.4.4",
+        "tilelive-mapnik": "~0.5.0",
         "carto": "~0.9.4",
         "millstone": "~0.5.15",
         "sphericalmercator": "~1.0.2",
