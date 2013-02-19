@@ -426,6 +426,10 @@ command.prototype.tilelive = function (project, callback) {
         if (job) {
             job = JSON.parse(job);
             if (!cmd.opts.quiet) console.warn('Continuing job ' + opts.job);
+            bboxIndex = job.from.bboxIndex;
+            // If we don't reset the filepath here the next bbox exported will be exported using a filepath with a hash
+            // instead of into the same file.
+            cmd.opts.filepath = job.to.pathname;
             var scheme = tilelive.Scheme.unserialize(job.scheme);
             var task = new tilelive.CopyTask(job.from, job.to, scheme, opts.job);
         } else {
@@ -443,7 +447,8 @@ command.prototype.tilelive = function (project, callback) {
                 },
                 // Add a hash with the bounding box to prevent tilelive pulling data from the cache
                 // that has the previously exported bounds.
-                hash: "bbox=" + bboxes[bboxIndex].join(',')
+                hash: "bbox=" + bboxes[bboxIndex].join(','),
+                bboxIndex: bboxIndex
             };
 
             var to = {
@@ -484,6 +489,7 @@ command.prototype.tilelive = function (project, callback) {
 
             task.on('finished', function() {
                 if (!cmd.opts.quiet) console.warn('\nfinished');
+                cmd.opts.job = false;
                 exportTiles(bboxIndex + 1);
             });
 
