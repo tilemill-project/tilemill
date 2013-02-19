@@ -513,8 +513,10 @@ command.prototype.tilelive = function (project, callback) {
             });
 
             if (!cmd.opts.quiet) {
-                util.print(formatString('\r\033[K[%s] %s%% %s/%s @ %s/s | %s left | ✓ %s ■ %s □ %s fail %s',
+                util.print(formatString('\r\033[K[%s] Part(%s/%s) %s%% %s/%s @ %s/s | %s left | ✓ %s ■ %s □ %s fail %s',
                     formatDuration(stats.date - task.started),
+                    bboxIndex + 1,
+                    bboxes.length,
                     ((progress || 0) * 100).toFixed(4),
                     formatNumber(stats.processed),
                     formatNumber(stats.total),
