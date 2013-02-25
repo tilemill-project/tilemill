@@ -113,6 +113,8 @@ command.prototype.bootstrap = function(plugin, callback) {
         exports: {
             mbtiles: true,
             png: true,
+            tiff: true,
+            jpeg: true,
             pdf: mapnik.supports.cairo,
             svg: mapnik.supports.cairo
         }

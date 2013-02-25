@@ -86,7 +86,7 @@ view.prototype.render = function() {
     tj.minzoom = 0;
     tj.maxzoom = 22;
     this.map = new MM.Map('meta-map', new wax.mm.connector(tj));
-    
+
     // Override project attributes to allow unbounded zooming.
     this.map.setZoomRange(
         tj.minzoom,
@@ -281,6 +281,8 @@ view.prototype.save = function() {
         }, {error:error})) return false;
         break;
     case 'png':
+    case 'tiff':
+    case 'jpeg':
     case 'pdf':
     case 'svg':
         if (!this.model.set({
