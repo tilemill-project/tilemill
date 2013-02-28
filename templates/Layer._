@@ -86,10 +86,12 @@ var connectionOptions = function(obj) {
       <div class='browser sunken fill-s'></div>
     </li>
     <li>
-      <label for='table'><span class='required' title='This field is required'>*</span> Table or subquery</label>
+      <label for='table'><span class='required' title='This field is required'>*</span> Table or <br />subquery</label>
       <div class='inline'>
         <textarea name='Datasource.table' cols='68' rows='4'><%=Datasource.table%></textarea>
       </div>
+      <small class='description'>Table name, or query like: <code>(select * from planet_osm_line where highway like 'path') as paths</code></small>
+
     </li>
     <li>
       <label for='attachdb'>Attach DB</label>
@@ -113,10 +115,11 @@ var connectionOptions = function(obj) {
       <div class='browser sunken fill-s'></div>
     </li>
     <li>
-      <label for='table'><span class='required' title='This field is required'>*</span> Table or subquery</label>
+      <label for='table'><span class='required' title='This field is required'>*</span> Table or<br /> subquery</label>
       <div class='inline'>
         <textarea name='Datasource.table' cols='68' rows='4'><%=Datasource.table%></textarea>
       </div>
+      <small class='description'>Table name, or query like: <code>(select * from planet_osm_line where highway like 'path') as paths</code></small>
     </li>
     <li>
       <label for='extent'>Unique key field</label>
