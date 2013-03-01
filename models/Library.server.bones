@@ -138,7 +138,11 @@ models.Library.prototype.sync = function(method, model, success, error) {
         options.prefix = data.location;
         options.proxy = Bones.plugin.config.httpProxy;
         s3.list(options, function(err, objects) {
-            if (err) return error(err);
+            if (err) {
+                var msg = "Could not access remote MapBox geodata repository: connecting requires working internet connection";
+                if (err.message) msg += ": " + err.message;
+                return error(new Error(msg));
+            }
             data.assets = _(objects).chain()
                 .map(function(obj) {
                     if (!obj.Key && !obj.Prefix) return;
