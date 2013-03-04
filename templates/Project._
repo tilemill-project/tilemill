@@ -20,6 +20,12 @@
           <% if (window.abilities.exports.png) { %>
           <a href='#export-png' title='Export PNG'>PNG</a>
           <% } %>
+          <% if (window.abilities.exports.jpeg) { %>
+          <a href='#export-jpeg' title='Export JPEG'>JPEG</a>
+          <% } %>
+          <% if (window.abilities.exports.tiff) { %>
+          <a href='#export-tiff' title='Export TIFF'>TIFF</a>
+          <% } %>
           <% if (window.abilities.exports.pdf) { %>
           <a href='#export-pdf' title='Export PDF'>PDF</a>
           <% } %>
