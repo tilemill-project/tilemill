@@ -13,52 +13,42 @@ nextup:
 
 {% include prereq.html %}
 
-[OSM Bright](https://github.com/mapbox/osm-bright) is a sensible starting point for quickly making beautiful maps in TileMill based on an OpenStreetMap database. This guide aims get you quickly set up with this template and rendering a exporting a customized version of it in under 30 minutes.
+[OSM Bright](https://github.com/mapbox/osm-bright) is a starting point for quickly making street-level maps in TileMill based on an OpenStreetMap database. This guide aims get you quickly set up with this template and rendering a exporting a customized version of it in under 30 minutes.
 
 ## Step 0: Download & install required software
 
 In order to use OSM Bright on OS X you will need to download & install a number of packages in addition to TileMill (unless you know you have already installed them).
 
-### The GDAL 'complete' framework
+### Postgres.app
 
-This is a requirement of PostGIS. [Get the package here](http://www.kyngchaos.com/software/frameworks#gdal_complete). Open the DMG and run the "GDAL Complete.pkg" installer. There is no need to install the included NumPy package.
+[Download it here](http://postgresapp.com/). Unzip the download and drag the app into your Applications folder.
 
-### PostgreSQL and PostGIS
+After installation you'll want to make sure that the command line tools that come with Postgres.app are available. Run these two commands in the Terminal:
 
-[Get the packages here](http://www.kyngchaos.com/software:postgres). Open the DMGs and run the "PostgreSQL.pkg" and "PostGIS.pkg" installers. Note - you need the full 'PostgreSQL' package, not the 'Client-only' package. You can also ignore the WKTRaster and pgRouting packages.
+    echo 'export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"' >> ~/.profile
+    source ~/.profile
 
-After installation you'll need to override the OS X system 'psql' command with the new version you just installed. Run this in the Terminal:
-
-    alias psql=/usr/local/pgsql-9.1/bin/psql
-
-To make this alias persistent across Terminal sessions you should include it in your `.bash_profile` by running this command:
-
-    echo "alias psql=/usr/local/pgsql-9.1/bin/psql" >> ~/.bash_profile
+You should make sure that the app works correctly by running it. When it's running there will be an elephant icon visible on your menu bar. You might want to select the option to have this start automatically every time you start your computer.
 
 ### osm2pgsql
 
-[Get it here](http://dbsgeo.com/downloads/#osm2pgsql). Open the DMG and run the pkg installer. There is no need to install the included GEOS and PROJ frameworks.
+[Get it here](http://dbsgeo.com/downloads/#osm2pgsql). Open the DMG and run the pkg installer. Make sure to also install the included GEOS and PROJ frameworks.
 
 Note: OSM Bright can also be used with Imposm, but this is slightly more complicated to install on Mac OS X. Feel free to use it as an alternative if you already have it or if you are comfortable with installation systems like Homebrew and easy\_install. Refer to the import command in the OSM Bright README. 
 
 ## Step 1: Set up a database for your OSM data
 
-You need to create a database with PostGIS enabled for the OpenStreetMap data. First, create a database named 'osm' by running the following command in the Terminal:
+You need to create a database with PostGIS enabled for the OpenStreetMap data. First, make sure Postgres is running and open `psql` by clicking on the Postgres.app menu bar icon and selecting 'psql'. This will open a PostgreSQL terminal. Run these commands:
 
-    psql -U postgres -c "create database osm;"
+    create database osm;
+    \connect osm
+    create extension postgis;
 
-Then, if you installed __PostGIS 2.0__, enable it on your new database by running the following command:
+If at this point you get an error about a missing JPEG library, open a new tab (**⌘t**) and type this command:
 
-    psql -U postgres -d osm -c "CREATE EXTENSION postgis;"
+    sudo ln -s /Applications/Postgres.app/Contents/MacOS/lib/libjpeg.8.dylib /usr/lib/
 
-Otherwise if you have __PostGIS 1.5__, enable it on the database by running these commands instead:
-
-    psql -U postgres -d osm -f /usr/local/pgsql-9.1/share/contrib/postgis-1.5/postgis.sql
-    psql -U postgres -d osm -f /usr/local/pgsql-9.1/share/contrib/postgis-1.5/spatial_ref_sys.sql
-
-Also, some postgis versions may lack an important projection file in the `spatial_ref_sys` table. So, run the below command as well (but do not worry if you get an error that says "duplicate key value", just ignore that as it means you already have the proper projection):
-
-    psql -U postgres -d osm -f /usr/local/share/osm2pgsql/900913.sql
+Switch back to your other tab and try the `create extension postgis;` command again.
 
 ## Step 2: Download & import OSM data
 
@@ -66,9 +56,9 @@ Go to <http://metro.teczno.com> and look for your city. If it's available, downl
 
 If your city is not available here then head to <http://download.geofabrik.de/osm/> and look for a region that would contain your city (for example, there are individual states and provinces available for many countries). Download the **.osm.pbf** version of the file.
 
-With a PBF file downloaded, you can import it with osm2pgsql. Assuming you downloaded the PBF to your Downloads folder, run the following command in the Terminal:
+With a PBF file downloaded, you can import it with osm2pgsql. Assuming you downloaded the PBF to your Downloads folder, run the following command in the Terminal (making sure to replace `your_file.osm.pbf` with the actual name of your file):
 
-    osm2pgsql -c -G -U postgres -d osm -S /usr/local/share/osm2pgsql/default.style ~/Downloads/your_file.osm.pbf
+    osm2pgsql -c -G -d osm -S /usr/local/share/osm2pgsql/default.style ~/Downloads/your_file.osm.pbf
 
 This will take something like 1 to 10 minutes, depending on the size of extract you downloaded. (If you downloaded a particularly large extract it may take much longer.) When its finished it will tell you something like "Osm2pgsql took 71s overall".
 
@@ -79,13 +69,8 @@ Download a zip archive of the latest version of OSM Bright from <https://github.
 You'll need to adjust some settings for things like your PostgreSQL connection information. To do this, open the folder where you've extracted OSM Bright to in Finder and run through the following steps.
 
 1. Make a copy of configure.sample.py and name it configure.py.
-2. Open the new configure.py in a text editor.
-3. Optionally change the name of your project from the default, 'OSM Bright'.
-4. Adjust the path to point to your MapBox project folder. If your Mac OS X username is 'mary', it should likely be `/Users/mary/Documents/MapBox/project/`.
-5. change the line that says `config["postgis"]["user"]     = ""` to `config["postgis"]["user"]     = "postgres"`
-6. Save & close the file.
-
-If you've set up PostgreSQL as described in Step 0 this should be all you need to change. Save & quit. (If you've set things up differently you may need to specify a password or different user name.)
+2. Optionally change the name of your project or any other settings by editing 'configure.py' (but the defaults should be fine).
+3. Save & close the file.
 
 **Note:** At this point if you've never run TileMill before you should find it in your Applications folder and run it - the first time it runs it will set up some folders we need for the next step.
 
