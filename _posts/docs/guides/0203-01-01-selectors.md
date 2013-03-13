@@ -3,8 +3,8 @@ layout: docs
 section: help
 category: guides
 tag: Guides
-title: "Selectors and Filters"
-permalink: /docs/guides/selectors-filters
+title: "Selectors"
+permalink: /docs/guides/selectors
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
@@ -15,9 +15,11 @@ nextup:
 ---
 {% include prereq.html %}
 
-CartoCSS styles are constructed by applying blocks of style rules to groups of objects.
+CartoCSS styles are constructed by applying blocks of style rules to groups of objects. Style blocks are bounded by curly braces (`{}`) and contain various style properties and values. _Selectors_ are what allow you restrict these styles to specific layers or groups of objects within layers.
 
-## Simple selectors
+## Simple Selectors
+
+### By ID
 
 <img src='/tilemill/assets/pages/layer-id.png' class='fig-right' />
 
@@ -32,6 +34,8 @@ You can separate multiple layer IDs with commas to select them for a single styl
       // styles will apply to all the objects in both layers
     }
 
+### By Class
+
 <img src='/tilemill/assets/pages/layer-class.png' class='fig-right' />
 
 You can also assign classes to layers to select multiple layers more simply. Classes are defined in each layer's configuration window and show up in the layers list folowing a dot (`.`). Multiple classes can be assigned to a single layer - separate them with spaces in the Class field.
@@ -41,15 +45,15 @@ You can also assign classes to layers to select multiple layers more simply. Cla
       // with a class of 'roads'
     }
 
-## Filters
+## Filter Selectors
 
 You can modify selections with _filters_ that reduce the number of objects a style applies to based on certain criteria. For example, you might have all your roads in a single layer, but you could use filters to specify different line colors for different road classifications.
 
 Filters let your style read into the various text and numeric properties attached to each object in a layer. (You can browse this data by clicking on the table icon for a given layer.)
 
-Filters are written inside square brackets after an ID or Class selector. They consist of a key, an operator, and a value.
+Filters are written inside square brackets either right after an ID or Class selector, or nested inside a larger style block. (While it's possible to use filter selectors on their own, it's almost always the case that you will want to use them in combination with an ID or class selector.)
 
-### Zoom filters
+### Zoom level filters
 
 One of the most common filters doesn't read into the data itself, but is a special filter to restrict styles to certain zoom levels. For example, this style will only apply when your map is zoomed all the way out to zoom level 0:
 
@@ -71,7 +75,7 @@ You can nest filters to better organize your styles. For example, this style wil
       [zoom=10] { line-width: 5; }
     }
 
-### Numeric Filters
+### Numeric value comparison filters
 
 The same comparison operators available for the zoom filter can also be used for any numeric column in your data. For example, you might have a `population` column in a file full of city points. You could create a style that only labels cities with a population of more than 1 million.
 
@@ -95,7 +99,7 @@ As with zoom levels, you can select data based on numeric ranges.
 
     #cities[population>100000][population<2000000] { /* styles */ }
 
-### Text filters
+### Basic text comparison filters
 
 You can also filter on columns that contain text. Filter on exact matches with the equals operator (`=`) or get the inverse results with the not-equal operator (`!=`). Unlike zoom and numeric values, text values must be quoted with either double or single quotes.
 
@@ -117,7 +121,7 @@ To select everything that is not a ferry route, you could use this filter:
 
     #roads[Type!="Ferry Route"] { /* style */ }
 
-#### Regular expression matching
+### Regular expression filters
 
 <small class='note' markdown='1'>
 __Note:__ This is an advanced feature that may have negative performance implications.
