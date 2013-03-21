@@ -37,6 +37,6 @@ If you're terminal savvy, you can install TileMill with the following commands:
 
     sudo add-apt-repository ppa:developmentseed/mapbox
     sudo apt-get update
-    sudo apt-get install tilemill
+    sudo apt-get install tilemill libmapnik nodejs
 
 {% include nextup.html %}
