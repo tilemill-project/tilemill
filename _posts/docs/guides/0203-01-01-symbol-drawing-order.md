@@ -105,4 +105,31 @@ It's also possible to create multiple symbols of the same type within an attachm
       middleline/line-color: white;
       topline/line-color: red;
     }
+
 Note that symbolizer ordering happens after all other types of ordering - so an outline might be on top of one polygon but beneath a neighboring polygon. If you want to ensure lines are always below fills, use separate attachments.
+
+## Watch out for specificity
+
+One quirk of the way CartoCSS currently works is that *specificity* can affect attachment ordering. That is, one attachment might unexpectedly be drawn on top of a later-defined attachment if it has a *more specific* selector.
+
+    #layer {
+      ::attachment1[zoom>5] {
+        line-width: 3;
+      }
+      ::attachment2 {
+        polygon-fill: blue;
+      }
+    }
+
+You might expect the above code to draw `attachment1` below `attachment2`, but because `attachment1` is paired with an additional filter, it is *more specific* and thus is drawn on top. Currently the only workaround for this without splitting the style into multiple layers is to make sure `attachment2` has equal or greater specificity:
+
+    #layer {
+      ::attachment1[zoom>5] {
+        line-width: 3;
+      }
+      ::attachment2[zoom>=0][zoom<=20] {
+        polygon-fill: blue;
+      }
+    }
+
+Future versions of CartoCSS may change this behavior, possibly by introducing a more explicit way of defining attachment ordering (such as a CSS-style `z-order` property).
