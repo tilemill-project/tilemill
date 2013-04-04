@@ -61,6 +61,10 @@ To hide a layer without deleting it, click the eye icon (6) and save your projec
 
 If you click on the data table icon of any layer, a drawer will slide in from the left and a table of data will appear. (It may take a few seconds for the data to show up if you are inspecting a complex file.)
 
+![Screenshot]({{site.baseurl}}/assets/manual/inspector-hover.png)
+
+Hover your cursor for a moment over a field name in the table to reveal the datatype of the column. In this case hovering over `ne_10m_adm` shows a `String` type field.
+
 ## Code editor
 
 ![Screenshot]({{site.baseurl}}/assets/manual/editor.png)
