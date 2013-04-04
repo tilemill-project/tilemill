@@ -58,7 +58,7 @@
     },
     "scripts": {
         "start": "./index.js",
-        "test": "mocha --ignore-leaks --timeout 10000",
+        "test": "mocha --timeout 10000",
         "postinstall": "node ./lib/gitutil.js"
     },
     "bin": {
