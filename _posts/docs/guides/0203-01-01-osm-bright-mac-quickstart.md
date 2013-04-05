@@ -32,7 +32,12 @@ You should make sure that the app works correctly by running it. When it's runni
 
 ### osm2pgsql
 
-[Get it here](http://dbsgeo.com/downloads/#osm2pgsql). Open the DMG and run the pkg installer. Make sure to also install the included GEOS and PROJ frameworks.
+[Get it here](http://dbsgeo.com/downloads/#osm2pgsql). Open the .zip and follow the instructions for manually installing the `osm2pgsql` command and the `default.style` into `/usr/local/bin` and `/usr/local/share/osm2pgsql/` respectively.
+
+After installation you'll want to make sure that the `osm2pgsql` command is available without having to type the full path to where you installed it. If just typing `osm2pgsql` in a terminal gives the error `-bash: osm2pgsql: command not found` then you can run these commands in the Terminal:
+
+    echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.profile
+    source ~/.profile
 
 Note: OSM Bright can also be used with Imposm, but this is slightly more complicated to install on Mac OS X. Feel free to use it as an alternative if you already have it or if you are comfortable with installation systems like Homebrew and easy\_install. Refer to the import command in the OSM Bright README. 
 
