@@ -27,7 +27,7 @@ releases:
   - TileMill/Mapnik - added support for new raster-colorizer
   - TileMill/Mapnik - added support for new `colorize-alpha` image filter
   - TileMill/Mapnik - added support for filtering on 64 bit integers in datasource attributes
-  - TileMill/Mapnik - filtering out all values not equal to null is now possible like: `#layer[attr!=null];`
+  - TileMill/Mapnik - filtering out all values not equal to null is now possible like `#layer[attr!=null];`
   - TileMill/node-mapnik - null values in feature attributes are now correctly reported as `null` in the data table (rather than `undefined`). This helps users filter properly in their CartoCSS styles since this works `#layer[attr=null];` but not `#layer[attr=undefined];`
   - TileMill - Fixed performance of map loading (previous 0.10.x versions saw slowdown with large styles)
   - TileMill - Files cached by Mapnik are now cleared when a project is saved (like shapefile references and symbol files) allowing for better usability (can re-load files easier) and reduced memory usage (shapefiles no longer uses are dropped from memory)
