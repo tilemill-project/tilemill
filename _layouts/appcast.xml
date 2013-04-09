@@ -21,7 +21,11 @@
         {% endif %}
         <pubDate>{{item.date | date: '%a, %d %b %Y %H:%M:%S -0400'}}</pubDate>
         <enclosure
+            {% if item.tag %}
+            url="http://tilemill.s3.amazonaws.com/dev/TileMill-{{item.tag}}.zip"
+            {% else %}
             url="https://github.com/downloads/mapbox/tilemill/TileMill-{{item.version}}.zip"
+            {% endif %}
             type="application/octet-stream"
             length="{{item.size}}"
             sparkle:version="{{item.version}}"

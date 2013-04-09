@@ -18,6 +18,7 @@ releases:
 #  notes:
 
 - version: 0.10.1.59
+  tag: v0.10.1-59-g338d40a
   dev: true
   date: 2013-04-08
   size: 66256340
