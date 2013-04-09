@@ -34,7 +34,7 @@ releases:
   - Tilemill - Added menu-based support for text undo/redo
   - Millstone - Added support for re-downloading remote zip archives that may have been only downloaded partially previously
   - Millstone - Fixed handling of files with mixed or uppercase extensions like `test.CSV` or `aerial.geoTIFF`
-  - Millstone - Fixed handling of zip archives created by Mac OS X users (that contain special __MACOSX hidden directory)
+  - Millstone - Fixed handling of zip archives created by Mac OS X users (that contain the special `MACOSX` hidden directory)
   - Millstone - You can now reference zip archives locally (not just as remote downloads)
   - Millstone - You can now reference any files inside zip archives (not just shapefiles)
   - Millstone - Improved error reporting when layer data files cannot be found
