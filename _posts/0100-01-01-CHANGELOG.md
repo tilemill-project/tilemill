@@ -16,28 +16,39 @@ releases:
 # - version: 0.10.2
 #
 #  notes:
-#  - TileMill/Mapnik - added support for filtering on 64 bit integers in datasource attributes
-#  - TileMill/Mapnik - filtering out all values not equal to null is now possible like: `#layer[attr!=null];`
-#  - TileMill/node-mapnik - null values in feature attributes are now correctly reported as `null` in the data table (rather than `undefined`). This helps users filter properly in their CartoCSS styles since this works `#layer[attr=null];` but not `#layer[attr=undefined];`
-#  - TileMill - Fixed performance of map loading (previous 0.10.x versions saw slowdown with large styles)
-#  - TileMill - Files cached by Mapnik are now cleared when a project is saved (like shapefile references and symbol files) allowing for better usability (can re-load files easier) and reduced memory usage (shapefiles no longer uses are dropped from memory)
-#  - Tilemill - Added menu-based support for text undo/redo
-#  - Millstone - Added support for re-downloading remote zip archives that may have been only downloaded partially previously
-#  - Millstone - Fixed handling of files with mixed or uppercase extensions like `test.CSV` or `aerial.geoTIFF`
-#  - Millstone - Fixed handling of zip archives created by Mac OS X users (that contain special __MACOSX hidden directory)
-#  - Millstone - You can now reference zip archives locally (not just as remote downloads)
-#  - Millstone - You can now reference any files inside zip archives (not just shapefiles)
-#  - Millstone - Improved error reporting when layer data files cannot be found
-#  - Millstone - Added support for referencing (and downloading) remote images symbols that do not have a file extension in their url.
-#  - CartoCSS - Various improved error reporting fixes
-#  - CartoCSS - Fixed regex nesting inheritance
-#  - Mapnik - Fixed possible odd colored artifacts in high quality raster resampling methods like spline and lanczos
-#  - Mapnik - Fixed possible blurred renderings when reprojecting rasters on the fly
-#  - Mapnik - Fixed possible high CPU hang on reading malformed GeoJSON
-#  - Mapnik - added `marker-multi-policy` option to control marker rendering on multigeometries
-#  - Mapnik - Fixed handling of ArcGIS/FME produced pointzm (3d) shapefiles
-#  - Mapnik - Improved handling of shapefiles with null geometries
-#  - Mapnik - Improved robustness of shapefile reader in the face of corrupt shapefiles (whose offsets do not match between the .shp and .shx)
+
+- version: 0.10.1.59
+  dev: true
+  date: 2013-04-08
+  size: 66256340
+  sign: MCwCFFdiXcNJuP1CxjkNgVtUXJ2Jm74UAhQhkXsnkYRrVGwTX9/0auKE0A6fMw==
+
+  notes:
+  - TileMill/Mapnik - added support for new raster-colorizer
+  - TileMill/Mapnik - added support for new `colorize-alpha` image filter
+  - TileMill/Mapnik - added support for filtering on 64 bit integers in datasource attributes
+  - TileMill/Mapnik - filtering out all values not equal to null is now possible like: `#layer[attr!=null];`
+  - TileMill/node-mapnik - null values in feature attributes are now correctly reported as `null` in the data table (rather than `undefined`). This helps users filter properly in their CartoCSS styles since this works `#layer[attr=null];` but not `#layer[attr=undefined];`
+  - TileMill - Fixed performance of map loading (previous 0.10.x versions saw slowdown with large styles)
+  - TileMill - Files cached by Mapnik are now cleared when a project is saved (like shapefile references and symbol files) allowing for better usability (can re-load files easier) and reduced memory usage (shapefiles no longer uses are dropped from memory)
+  - Tilemill - Added menu-based support for text undo/redo
+  - Millstone - Added support for re-downloading remote zip archives that may have been only downloaded partially previously
+  - Millstone - Fixed handling of files with mixed or uppercase extensions like `test.CSV` or `aerial.geoTIFF`
+  - Millstone - Fixed handling of zip archives created by Mac OS X users (that contain special __MACOSX hidden directory)
+  - Millstone - You can now reference zip archives locally (not just as remote downloads)
+  - Millstone - You can now reference any files inside zip archives (not just shapefiles)
+  - Millstone - Improved error reporting when layer data files cannot be found
+  - Millstone - Added support for referencing (and downloading) remote images symbols that do not have a file extension in their url.
+  - CartoCSS - Major improvements in parsing and compiling speeds
+  - CartoCSS - Various improved error reporting fixes
+  - CartoCSS - Fixed regex nesting inheritance
+  - Mapnik - Fixed possible odd colored artifacts in high quality raster resampling methods like spline and lanczos
+  - Mapnik - Fixed possible blurred renderings when reprojecting rasters on the fly
+  - Mapnik - Fixed possible high CPU hang on reading malformed GeoJSON
+  - Mapnik - added `marker-multi-policy` option to control marker rendering on multigeometries
+  - Mapnik - Fixed handling of ArcGIS/FME produced pointzm (3d) shapefiles
+  - Mapnik - Improved handling of shapefiles with null geometries
+  - Mapnik - Improved robustness of shapefile reader in the face of corrupt shapefiles (whose offsets do not match between the .shp and .shx)
 
 - version: 0.10.1
   date: 2012-10-10
