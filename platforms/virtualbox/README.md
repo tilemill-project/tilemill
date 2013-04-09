@@ -75,9 +75,9 @@ Now you can ssh in from the host to finish setup. From host do:
 
 Install tilemill:
 
-    wget https://github.com/downloads/mapbox/tilemill/install-tilemill.sh
-    chmod +x install-tilemill.sh
-    sudo ./install-tilemill.sh
+    sudo add-apt-repository ppa:developmentseed/mapbox
+    sudo apt-get update
+    sudo apt-get install tilemill
 
 
 # Testing and configuration
