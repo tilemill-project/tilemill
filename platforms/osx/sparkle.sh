@@ -4,13 +4,13 @@
 # is not preferred otherwise stat will break
 export PATH=/usr/bin/:$PATH
 
-urlbase="http://cloud.github.com/downloads/mapbox/tilemill/TileMill-==TAG==.zip"
+urlbase="http://tilemill.s3.amazonaws.com/dev/TileMill-==TAG==.zip"
 privatekeyname="TileMill Sparkle Private Key"
 
 tag=$( git describe --tags )
 version=$( echo $tag | sed -e 's/^v//' | sed -e 's/-/./' | sed -e 's/-.*//' )
 echo
-read -n 1 -p "Updating Sparkle for TileMill-$version. Proceed? " proceed
+read -n 1 -p "Updating Sparkle for TileMill-$tag. Proceed? " proceed
 if [ $proceed != "y" ] && [ $proceed != "Y" ]; then
   clear
   exit 1
@@ -18,16 +18,16 @@ fi
 echo
 echo
 
-zipurl=$( echo $urlbase | sed -e s/==TAG==/$version/ )
+zipurl=$( echo $urlbase | sed -e s/==TAG==/$tag/ )
 echo -n "Downloading $zipurl... "
-curl -L -s $zipurl > /tmp/TileMill-$version.zip
+curl -L -s $zipurl > /tmp/TileMill-$tag.zip
 if [ $? != 0 ]; then
   echo "Unable to download $zipurl. Aborting."
   exit 1
 fi
 echo "done."
 
-zipfile="/tmp/TileMill-$version.zip"
+zipfile="/tmp/TileMill-$tag.zip"
 if [ ! -f $zipfile ]; then
   echo "Unable to stat downloaded $zipfile. Aborting."
   exit 1
@@ -49,6 +49,9 @@ echo "done."
 echo
 
 echo "Add the following to the CHANGELOG (_posts/0100-01-01-CHANGELOG.md)"
+echo "- version: $version"
+echo "  tag: $tag"
+echo "  dev: true"
 echo "  date: $( date "+%Y-%m-%d" )"
 echo "  size: $zipsize"
 echo "  sign: $signature"
