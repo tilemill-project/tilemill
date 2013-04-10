@@ -7,7 +7,7 @@ title: "Working with GeoTIFFs"
 permalink: /docs/guides/reprojecting-geotiff
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
-- "Reviewed [Crash Course](/tilemill/docs/crashcourse/overview/)"
+- "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 - "[Set up GDAL](/tilemill/docs/guides/gdal) for processing raster data in the terminal."
 nextup:
 - "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."

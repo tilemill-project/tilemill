@@ -8,7 +8,7 @@ permalink: /docs/guides/recommended-sources
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 nextup:
-- "Run through [Crash Course](/tilemill/docs/crashcourse/overview/)."
+- "Run through [Crash Course](/tilemill/docs/crashcourse/introduction/)."
 ---
 {% include prereq.html %}
 

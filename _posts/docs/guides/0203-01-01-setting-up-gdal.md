@@ -8,7 +8,7 @@ permalink: /docs/guides/gdal
 prereq:
 - "[Installed TileMill](/tilemill/docs/install) on your computer."
 nextup:
-- "Run through [Crash Course](/tilemill/docs/crashcourse/overview/)."
+- "Run through [Crash Course](/tilemill/docs/crashcourse/introduction/)."
 - "[Working with GeoTIFFs](/tilemill/docs/guides/reprojecting-geotiff)."
 - "[Working with Terrain Data](/tilemill/docs/guides/terrain-data)."
 ---
