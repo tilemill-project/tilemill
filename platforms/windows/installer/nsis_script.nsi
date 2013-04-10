@@ -88,10 +88,7 @@ Section -AdditionalIcons
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Start ${PRODUCT_NAME}.lnk" "$INSTDIR\TileMill.exe" "" \
-      "$INSTDIR\${CODE_ROOT}\tilemill.ico" "" \
-	  SW_SHOWNORMAL \
-      ALT|CONTROL|t "${SEMVER}"
-	  
+      "$INSTDIR\${CODE_ROOT}\tilemill.ico"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall TileMill.lnk" "$INSTDIR\Uninstall-TileMill.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
