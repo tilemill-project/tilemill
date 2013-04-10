@@ -489,7 +489,19 @@ ul.projects { margin:0px -5px; }
   top:19px;
   }
 
+.projects a.thumb .icon.info {
+  top:30px;
+}
+
 .projects a.thumb .icon:hover { opacity:1; }
+
+.projects a.thumb small.description {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 20px;
+  height: 40px;
+}
 
 /**
  * Project

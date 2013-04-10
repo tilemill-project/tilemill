@@ -1,10 +1,12 @@
 view = Backbone.View.extend({
     events: {
         'click a[href=#add]': 'add',
-        'click .delete': 'del'
+        'click .delete': 'del',
+        'mouseover .info': 'description',
+        'mouseleave .info': 'info'
     },
     initialize: function() {
-        _(this).bindAll('render', 'add', 'del');
+        _(this).bindAll('render', 'add', 'del', 'description', 'info');
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
         this.render();
@@ -44,5 +46,16 @@ view = Backbone.View.extend({
             affirmative: 'Delete'
         });
         return false;
+    },
+    description: function(ev){
+        $(ev.currentTarget).siblings('.name').hide();
+        $(ev.currentTarget).siblings('.last_update').hide();
+        $(ev.currentTarget).siblings('.description').show();
+
+    },
+    info: function(ev){
+        $(ev.currentTarget).siblings('.description').hide();
+        $(ev.currentTarget).siblings('.name').show();
+        $(ev.currentTarget).siblings('.last_update').show();
     }
 });
