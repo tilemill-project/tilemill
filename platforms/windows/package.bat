@@ -3,7 +3,7 @@ set DEVROOT=c:\dev2
 @rem to make it easier to remove/recreate node_modules
 set DEST=node_modules
 set MAPNIK_INSTALL=c:\mapnik-2.0
-set NODEEXE=c:\node\Release\node.exe
+set NODEEXE="C:\Program Files (x86)\nodejs\node.exe"
 set MAPNIK_DEST=%DEST%\mapnik\lib\mapnik
 set MAPNIK_DATA_DEST=%DEST%\mapnik\lib\mapnik\share
 mkdir %MAPNIK_DATA_DEST%
