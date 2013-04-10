@@ -32,7 +32,7 @@ You should make sure that the app works correctly by running it. When it's runni
 
 ### osm2pgsql
 
-[Get it here](http://dbsgeo.com/downloads/#osm2pgsql). Open the .zip and follow the instructions for manually installing the `osm2pgsql` command and the `default.style` into `/usr/local/bin` and `/usr/local/share/osm2pgsql/` respectively.
+[Get it here](http://dbsgeo.com/downloads/#osm2pgsql). Follow any instructions that come with the installer.
 
 After installation you'll want to make sure that the `osm2pgsql` command is available without having to type the full path to where you installed it. If just typing `osm2pgsql` in a terminal gives the error `-bash: osm2pgsql: command not found` then you can run these commands in the Terminal:
 
@@ -43,7 +43,7 @@ Note: OSM Bright can also be used with Imposm, but this is slightly more complic
 
 ## Step 1: Set up a database for your OSM data
 
-You need to create a database with PostGIS enabled for the OpenStreetMap data. First, make sure Postgres is running and open `psql` by clicking on the Postgres.app menu bar icon and selecting 'psql'. This will open a PostgreSQL terminal. Run these commands:
+You need to create a database with PostGIS enabled for the OpenStreetMap data. First, make sure Postgres is running and open `psql` by clicking on the Postgres.app menu bar icon and selecting 'psql' (if you do not see this option then upgrade your Postgres.app). This will open a PostgreSQL terminal. Run these commands:
 
     create database osm;
     \connect osm
