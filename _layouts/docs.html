@@ -11,17 +11,19 @@ class: box
 .doc-page{ background: #4F5F69 url({{site.baseurl}}/img/dotgrid-pattern.png);}
 .doc-page div{ background: #FFF; }
 .doc-subnav { margin-top: 0;}
-.doc-subnav li {
-  width:20%;
-  }
+.doc-subnav li { width:20%;}
   .doc-subnav li a {
     text-overflow: ellipsis;
     overflow: hidden;
+    white-space: nowrap;
     background: none; /* IE fix */
     background: rgba(0,0,0,0.1);
     color: white;
     }
-.doc-subnav a.active { background: #3887BE; color: white; }
+.doc-subnav a.active {
+  background: #3887BE;
+  color: white;
+}
 @media (max-width:640px) {
   .ad-support { text-align:center; }
   .doc-header h2 { padding-bottom: 20px; }
@@ -52,7 +54,7 @@ class: box
   {% if page.title == 'TileMill' %}
   <div class='cell12 doc-content doc prose pad2'>
     {{content}}
-  </div>	
+  </div>
   {% else %}
   <div class='cell3'>
     {% if page.private %}

@@ -53,11 +53,10 @@
   padding-bottom: 50px;
   z-index: 100;
   }
-.branding .menu li {
-  margin-left: 5%;
-  width: 30%;
-  }
-.branding .menu li a {color: white;}
+.branding .menu li a {
+  color: white;
+  width: 33.3333%;
+}
 
 @media only screen and (max-width: 640px) {
   .branding { padding-bottom:10px;}
