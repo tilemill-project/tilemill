@@ -167,7 +167,13 @@ models.Exports.prototype.sync = function(method, model, success, error) {
             return memo;
         }, {}), this);
     }, function(err, models) {
-        if (err) return error(err);
+        if (err && process.env.NODE_ENV === 'development') console.log('[tilemill] skipped loading export model: ' + err.stack || err.toString());
+        // Ignore errors from loading individual models (e.g.
+        // don't let one bad apple spoil the collection).
+        models = _(models).chain()
+            .select(function(model) { return model && model.id })
+            .sortBy(function(model) { return model.id })
+            .value();
         success(_(models).map(function(m) { return m.toJSON() }));
     });
 };
