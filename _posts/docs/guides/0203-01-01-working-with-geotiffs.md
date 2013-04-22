@@ -13,7 +13,7 @@ nextup:
 - "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
 - "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 code1: |
-    gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3785 -r bilinear -te -20037508.34 -20037508.34 20037508.34 20037508.34 NE2_LR_LC_SR_W.tif natural-earth-2-mercator.tif
+    gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r bilinear -te -20037508.34 -20037508.34 20037508.34 20037508.34 NE2_LR_LC_SR_W.tif natural-earth-2-mercator.tif
 
 ---
 {% include prereq.html %}
@@ -22,7 +22,7 @@ code1: |
 
 While TileMill's renderer does support reprojecting raster data sources on-the-fly, this can slow down your map preview and exports significantly. For this reason it is recommended that you ensure the file is warped to the proper projection before importing it into your TileMill project. This can be done with the `gdalwarp` command that comes with the [GDAL](/tilemill/docs/guides/gdal) library.
 
-The projection we need to warp is Google Web Mercator, which can be referenced by the code 'EPSG:3785'. You will also need to know the original projection of the geotiff you are converting. As an example, we'll work with the medium-sized 'Natural Earth II with Shaded Relief and Water' geotiff [available from Natural Earth](http://www.naturalearthdata.com/downloads/10m-natural-earth-2/10m-natural-earth-ii-with-shaded-relief-and-water/), which is projected to WGS 84 (aka 'EPSG:4326').
+The projection we need to warp is Google Web Mercator, which can be referenced by the code 'EPSG:3857'. You will also need to know the original projection of the geotiff you are converting. As an example, we'll work with the medium-sized 'Natural Earth II with Shaded Relief and Water' geotiff [available from Natural Earth](http://www.naturalearthdata.com/downloads/10m-natural-earth-2/10m-natural-earth-ii-with-shaded-relief-and-water/), which is projected to WGS 84 (aka 'EPSG:4326').
 
 1. In your terminal, navigate to the directory where the geotiff is stored.  
 2. Run the following command:  
@@ -34,7 +34,7 @@ Let's go through what each piece of that command means. A full description of th
  
 `-s_srs` means "source spatial reference system" - this is the projection that the flle you are starting with is stored in, which in the case of Natural Earth is `EPSG:4326`.  
 
-`-t_srs` means "target spatial reference system" - this is the projection that you want to convert the datasource to. For any raster file you want to use with TileMill this should be `EPSG:3785`.  
+`-t_srs` means "target spatial reference system" - this is the projection that you want to convert the datasource to. For any raster file you want to use with TileMill this should be `EPSG:3857`.  
 
 `-r bilinear` is telling the program what resampling interpolation method to use. If you want the command to run faster and don't mind a rougher-looking output, choose `near` instead of `bilinear`. If you don't mind waiting longer for very high-quality output, choose `lanczos`.  
 
