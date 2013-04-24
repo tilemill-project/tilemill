@@ -65,5 +65,5 @@
         "tilemill": "./index.js"
     },
     "engineStrict": true,
-    "engines": { "node": "0.6.x || 0.8.x" }
+    "engines": { "node": "0.6.x || 0.8.x || 0.10.x" }
 }
