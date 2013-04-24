@@ -32,7 +32,7 @@ You should make sure that the app works correctly by running it. When it's runni
 
 ### osm2pgsql
 
-[Get it here](http://dbsgeo.com/downloads/#osm2pgsql). Follow any instructions that come with the installer.
+[Get it here](http://cl.ly/201r35290x0e). Follow any instructions that come with the installer.
 
 After installation you'll want to make sure that the `osm2pgsql` command is available without having to type the full path to where you installed it. If just typing `osm2pgsql` in a terminal gives the error `-bash: osm2pgsql: command not found` then you can run these commands in the Terminal:
 
