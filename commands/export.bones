@@ -11,6 +11,11 @@ var crashutil = require('../lib/crashutil');
 // node v6 -> v8 compatibility
 var existsSync = require('fs').existsSync || require('path').existsSync;
 
+var mapnik = require('mapnik');
+if (mapnik.register_default_fonts) mapnik.register_default_fonts();
+if (mapnik.register_system_fonts) mapnik.register_system_fonts();
+
+
 command = Bones.Command.extend();
 
 command.description = 'export project';
@@ -359,7 +364,6 @@ function formatString(string) {
 }
 
 command.prototype.image = function(project, callback) {
-    var mapnik = require('mapnik');
     var sm = new (require('sphericalmercator'))();
     var map = new mapnik.Map(this.opts.width, this.opts.height);
 

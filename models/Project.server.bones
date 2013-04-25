@@ -7,6 +7,9 @@ var mkdirp = require('../lib/fsutil.js').mkdirp;
 var rm = require('../lib/fsutil.js').rm;
 var carto = require('carto');
 var mapnik = require('mapnik');
+if (mapnik.register_default_fonts) mapnik.register_default_fonts();
+if (mapnik.register_system_fonts) mapnik.register_system_fonts();
+
 var EventEmitter = require('events').EventEmitter;
 var millstone = require('millstone');
 var settings = Bones.plugin.config;

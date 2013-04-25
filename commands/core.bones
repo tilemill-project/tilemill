@@ -4,6 +4,9 @@ var path = require('path');
 var Step = require('step');
 var defaults = models.Config.defaults;
 var mapnik = require('mapnik');
+if (mapnik.register_default_fonts) mapnik.register_default_fonts();
+if (mapnik.register_system_fonts) mapnik.register_system_fonts();
+
 var semver = require('semver');
 var os = require('os');
 var crypto = require('crypto');
