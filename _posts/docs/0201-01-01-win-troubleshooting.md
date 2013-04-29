@@ -52,4 +52,4 @@ Within the Task Manager click on the "Image Name" column to sort by process name
 1. Right click on the "Start" button and choose "Open Windows Explorer" from the menu.
 2. Naviate to `C:\Users` or `C:\Documents and Settings` depending on your Windows version.
 3. Open the folder for you Windows user.
-4. Inspect the `tilemill.log` file or attach it to a [support dicussion](http://support.mapbox.com/discussions/tilemill).
+4. Inspect the `tilemill.log` file or attach it to a [support discussion](http://support.mapbox.com/discussions/tilemill).
