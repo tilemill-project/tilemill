@@ -11,7 +11,7 @@ prereq:
 nextup:
 - 'Get tips on achieving visually-pleasing results for placement of point labels in the [Advanced labels guide](/tilemill/docs/guides/labels-advanced/).' 
 - 'Explore the full list of available label styling properties in the [CartoCSS Reference](/carto/api/2.1.0/#text).'
-- 'Learn about [symbol ordering](/tilemill/docs/guides/symbol-ordering/) to control which labels are prioritized over others.'
+- 'Learn about [symbol ordering](/tilemill/docs/guides/symbol-drawing-order/) to control which labels are prioritized over others.'
 
 ---
 {% include prereq.html %}
