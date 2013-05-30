@@ -3,6 +3,7 @@
 ### It is the source file for the HTML changelog as well
 ### as the Sparkle appcast feed.
 ### NOTE - do not use colon otherwise you'll get an error like private method gsub called for #
+### NOTE - do not start note entries with the ` character it. It causes an error that prevents page build. #
 ###
 tag: Installation
 layout: changelog
@@ -93,8 +94,8 @@ releases:
   - Support for Mapnik image-filters like blur, emboss, and sharpen
   - Ability to turn on and off geometry clipping at feature level
   - Ability to smooth lines with `line-smooth`;
-  - `marker-width` and `marker-height` are now expressions
-  - `building-height` is now an expression
+  - Turned `marker-width` and `marker-height` into expressions
+  - Turned `building-height` into an expression
   - Added support for regex in carto filters like `#world[name =~ "A.*"]`
   - Added support for quotes in carto filter values like `#world[name2="Sa'ad"]`
   - Carto parsing now provides better errors for unmatched parens

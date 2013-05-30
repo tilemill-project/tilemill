@@ -1,8 +1,4 @@
-auto: true
-server: true
-exclude:
-- .gitignore
-- .gitmodules
+exclude: [.gitignore, .gitmodules]
 baseurl: /tilemill
 permalink: /:categories/:title
 title: TileMill
