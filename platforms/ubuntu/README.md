@@ -92,7 +92,7 @@ Add the PPA dependencies and install them:
 
     sudo apt-add-repository ppa:developmentseed/mapbox-dev
     sudo apt-get update
-    sudo apt-get install libmapnik libmapnik-dev nodejs nodejs-dev npm libwebkit-dev
+    sudo apt-get install libmapnik libmapnik-dev nodejs libwebkit-dev
 
 Now build TileMill:
 
