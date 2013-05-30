@@ -41,13 +41,19 @@ models.Project.prototype.sync = function(method, model, success, error) {
         break;
     case 'create':
     case 'update':
-        mapnik.clearCache();
+        // disabled until https://github.com/mapbox/tilemill/issues/1851 is resolved
+        /*mapnik.clearCache();
         request.get({ url:'http://'+settings.tileUrl+'/clear-mapnik-cache' }, function(err) {
             if (err) return error(err);
             delete project_tile_status[model.id];
             saveProject(model, function(err, model) {
                 return err ? error(err) : success(model);
             });
+        });
+        */
+        delete project_tile_status[model.id];
+        saveProject(model, function(err, model) {
+            return err ? error(err) : success(model);
         });
         break;
     case 'delete':
