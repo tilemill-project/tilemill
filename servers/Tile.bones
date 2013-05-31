@@ -145,7 +145,8 @@ server.prototype.thumb = function(req, res, next) {
             .first()
             .value();
         if (!file) return res.send(404);
-        res.sendfile(path.resolve(path.join(settings.files, 'cache', 'tile', file)));
+        var file_to_send = path.resolve(path.join(settings.files, 'cache', 'tile', file));
+        res.sendfile(path.basename(file_to_send), {root:path.dirname(file_to_send)});
     });
 };
 
