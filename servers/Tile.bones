@@ -133,7 +133,7 @@ server.prototype.thumb = function(req, res, next) {
     Step(function() {
         fs.stat(thumbPath, this);
     }, function(err) {
-        if (!err) return res.sendfile(thumbPath, {hidden:true,maxAge:36e5});
+        if (!err) return res.sendfile(path.basename(thumbPath), {hidden:true,maxAge:36e5,root: path.dirname(thumbPath)});
         readdir(path.resolve(path.join(settings.files, 'cache', 'tile')), this);
     }, function(err, files) {
         if (err) return next(err);
