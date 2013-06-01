@@ -1,17 +1,20 @@
 ---
+published: "true"
 layout: docs
 section: help
 category: guides
 tag: Guides
 title: Setting up GDAL
 permalink: /docs/guides/gdal
-prereq:
-- "[Installed TileMill](/tilemill/docs/install) on your computer."
-nextup:
-- "Run through [Crash Course](/tilemill/docs/crashcourse/introduction/)."
-- "[Working with GeoTIFFs](/tilemill/docs/guides/reprojecting-geotiff)."
-- "[Working with Terrain Data](/tilemill/docs/guides/terrain-data)."
+prereq: 
+  - "[Installed TileMill](/tilemill/docs/install) on your computer."
+nextup: 
+  - "Run through [Crash Course](/tilemill/docs/crashcourse/introduction/)."
+  - "[Working with GeoTIFFs](/tilemill/docs/guides/reprojecting-geotiff)."
+  - "[Working with Terrain Data](/tilemill/docs/guides/terrain-data)."
+
 ---
+
 {% include prereq.html %}
 
 Some of the data processing tasks required for effective cartography in TileMill require the use of external tools. GDAL is a geographic library that provides a powerful set of tools for working with a wide variety of raster and vector geographic data.
