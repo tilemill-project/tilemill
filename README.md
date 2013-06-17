@@ -2,9 +2,16 @@ TileMill is a modern map design studio powered by open source technology.
 Installation instructions, development docs and other information are available
 on the [TileMill website](http://mapbox.com/tilemill).
 
+# Depends
+
+- Mapnik v2.2.0
+- Node.js v0.8.x or v0.10.x
+- Protobuf: libprotobuf-lite and protoc
+
+For details follow:
+
 - [Install packages](http://mapbox.com/tilemill/docs/install/)
 - [Build from source](http://mapbox.com/tilemill/docs/source/)
-
 
 # Running tests
 
@@ -32,9 +39,9 @@ For more info see: http://postgis.net/docs/manual-1.5/ch02.html
 
 # Documentation
 
-Tilemill documentation is kept in the gh-pages branch, which is independently managed and not merged with master.
+TileMill documentation is kept in the gh-pages branch, which is independently managed and not merged with master.
 
-Tilemill's in-app reference available as the "Manual" is a very small subset of docs for offline usage and is manually
+TileMill's in-app reference available as the "Manual" is a very small subset of docs for offline usage and is manually
 sync'ed from the gh-pages branch.
 
 To view all the TileMill documentation locally, first checkout the gh-pages branch:
