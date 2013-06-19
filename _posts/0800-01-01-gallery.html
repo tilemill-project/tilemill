@@ -121,16 +121,18 @@ maps:
   }
 
   .pager-box a {
-    border-color: #28353d;
     margin-bottom: 0;
   }
+    .pager-box a:last-child {
+      border-right-width: 0;
+    }
   .pager-box {
     z-index: 2;
     border-bottom: 1px solid #28353d;
   }
   .right {
     position: absolute;
-    top: 160px;
+    top: 80px;
     right: 0px;
   }
 
@@ -184,7 +186,7 @@ maps:
   100%  { opacity:1; transform:translateY(0); }
   }
 
-  .zoomer { top: 170px;}
+  .zoomer { top: 90px;}
 
   body, .wrapper {
     position: absolute;
@@ -231,7 +233,7 @@ maps:
   .pager-box a { height: 60px; padding: 20px; width: 33.3333%; margin: 0;}
   .pager-box a { border-left: 1px solid #3C4E5A;}
   .pager-box a:first-child { border-left: 0;}
-  .right { top: 190px; }
+  .right { top: 180px; }
   .zoomer { top: 205px;}
   #map {
     min-height: 500px;

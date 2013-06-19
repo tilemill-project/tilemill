@@ -1,9 +1,9 @@
 ---
 navigation:
-  - title:  Map Gallery
+  - title: Gallery
     path: /gallery
     category: gallery
-  - title: Changelog
+  - title: Changes
     path: /changelog
   - title: Help
     path: /docs
@@ -44,14 +44,14 @@ footer:
   <link rel='shortcut icon' href='{{site.url}}/img/favicon.ico' type='image/x-icon' />
   <script src='{{site.url}}/js/site.js'></script>
 </head>
-<body class='{{page.class}}'>
+<body class='{{page.class}} simple'>
 
   <div class='branding pad3h clearfix fillE'>
-    <div class='cell6 logos'>
+    <div class='cell5 logos'>
       <a id='tilemill-logo' class='logo' href='{{site.baseurl}}/'>TileMill</a>
       <small class='attribution'><span class='mobile-hide'>an open source project</span> by <a href='http://mapbox.com/' class='small-mapbox'>MapBox</a></small>
     </div>
-    <ul class='menu cell6'>
+    <ul class='menu cell4'>
       {% for item in page.navigation %}
       {% if item.path contains 'http' %}
         {% capture url %}{{item.path}}{% endcapture %}
@@ -80,7 +80,7 @@ footer:
   <div class="wrapper">{{ content }}</div>
 
   {% unless page.class contains 'fullscreen' %}
-  <div class='footer clearfix fillD'>
+  <div class='footer clearfix fillL'>
     <div class='cell3 pad3 newsletter'>
       <a class='button big follow' href='http://twitter.com/mapbox' target='_blank'><span class='icon reverse twitter'></span>Follow us</a>
       <a class='button big contact' href='{{base}}/contact'><span class='icon reverse contact'></span>Contact us</a>

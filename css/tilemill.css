@@ -6,16 +6,6 @@
   }
 .wrapper { padding: 0;}
 
-.fillD {
-  background:#3c4e5a url(../img/dotgrid-pattern.png);
-  color:#fff;
-  box-shadow: none;
-  }
-.fillE {
-  background: #28353d url(../img/dotgrid-pattern.png);
-  color: #fff;
-  }
-
 .branding .logo {
   background-image: url(../img/tilemill-sprite.png);
   background-position: 0 0;
@@ -26,14 +16,19 @@
 .branding .menu { display: block;}
 .branding .menu li a:hover {
   background: rgba(0,0,0,0.1);
-  box-shadow: rgba(0,0,0,0.1) 0px 0px 0px 5px;
   }
+.branding .menu li.active a,
+.branding .menu li.active a:hover {
+  background: rgba(0,0,0,0.2);
+  color: white;
+}
+
 .branding .logos { position: relative;}
 
 .branding .attribution {
   position: absolute;
-  left: 55px;
-  top: 45px;
+  left: 60px;
+  top: 40px;
   color: white;
   }
   .branding .attribution .small-mapbox {
@@ -49,8 +44,6 @@
 
 .branding {
   position: relative;
-  padding-top: 50px;
-  padding-bottom: 50px;
   z-index: 100;
   }
 .branding .menu li a {
@@ -79,7 +72,7 @@
   }
 
 /* ### Footer ### */
-.footer h3 { color: white;}
+.footer h3 { color: #3c4e5a;}
 
 @media
 only screen and (-webkit-min-device-pixel-ratio : 2),
