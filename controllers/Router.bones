@@ -22,7 +22,7 @@ controller.prototype.initialize = function() {
                             ').template({ version:data.updatesVersion }),
                     affirmative: 'Update',
                 negative: 'Later',
-                callback: function() { window.open('http://tilemill.com') }
+                callback: function() { window.open('http://mapbox.github.io/tilemill/') }
             });
         }
     });
