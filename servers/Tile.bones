@@ -63,7 +63,7 @@ server.prototype.load = function(req, res, next) {
         pathname: path.join(settings.files, 'project', id, id + '.xml'),
         query: {
             updated:req.query.updated,
-            scale: req.query.scale|0 || 1,
+            scale: +req.query.scale || 1.0,
             metatile: req.query.metatile|0 || 2
         },
         // Need not be set for a cache hit. Once the cache is

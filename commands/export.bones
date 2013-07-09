@@ -93,7 +93,7 @@ command.options['metatile'] = {
 
 command.options['scale'] = {
     'title': 'scale=[num]',
-    'description': 'Scale factor'
+    'description': 'Scale factor (default is 1.0)'
 };
 
 command.options['concurrency'] = {
@@ -175,7 +175,7 @@ command.prototype.initialize = function(plugin, callback) {
     if (!_(opts.metatile).isUndefined())
         opts.metatile = parseInt(opts.metatile, 10);
     if (!_(opts.scale).isUndefined())
-        opts.scale = parseInt(opts.scale, 10);
+        opts.scale = +opts.scale;
 
     // Rename the output filepath using a random hash if file already exists.
     if (existsSync(opts.filepath) &&
