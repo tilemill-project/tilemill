@@ -31,9 +31,16 @@ it('GET sqlite', function(done) {
         { url: '/datasource/world?file=' + encodeURIComponent(__dirname + '/fixtures/countries.sqlite') + '&table=countries&id=world&type=sqlite&project=demo_01&srs=%2Bproj%3Dmerc+%2Ba%3D6378137+%2Bb%3D6378137+%2Blat_ts%3D0.0+%2Blon_0%3D0.0+%2Bx_0%3D0.0+%2By_0%3D0+%2Bk%3D1.0+%2Bunits%3Dm+%2Bnadgrids%3D%40null+%2Bwktext+%2Bno_defs+%2Bover' },
         { status: 200 },
         function(res) {
-            var body = JSON.parse(res.body), datasource = readJSON('datasource-sqlite');
+            var body = JSON.parse(res.body);
+            var datasource = readJSON('datasource-sqlite');
             datasource.url = __dirname + '/fixtures/countries.sqlite';
-            assert.deepEqual(datasource, body, diff.compare(datasource, body));
+            assert.equal(datasource.id, body.id);
+            assert.equal(datasource.project, body.project);
+            assert.deepEqual(datasource.fields, body.fields);
+            assert.deepEqual(datasource.features, body.features);
+            assert.equal(datasource.type, body.type);
+            assert.equal(datasource.geometry_type, body.geometry_type);
+            assert.equal(datasource.extent, body.extent);
             done();
         }
     );
@@ -45,14 +52,13 @@ it('GET shapefile datasource', function(done) {
         { status: 200 },
         function(res) {
             var body = JSON.parse(res.body);
-            var expected = readJSON('datasource-shp');
-            assert.deepEqual(expected.fields, body.fields);
-            assert.equal(expected.geometry_type, body.geometry_type);
-            assert.equal(expected.id, body.id);
-            assert.equal(expected.project, body.project);
-            assert.equal(expected.type, body.type);
-            assert.equal(expected.url, body.url);
-            assert.deepEqual(expected.features, body.features);
+            var datasource = readJSON('datasource-shp');
+            assert.equal(datasource.id, body.id);
+            assert.equal(datasource.project, body.project);
+            assert.deepEqual(datasource.fields, body.fields);
+            assert.deepEqual(datasource.features, body.features);
+            assert.equal(datasource.type, body.type);
+            assert.equal(datasource.geometry_type, body.geometry_type);
             done();
         }
     );
@@ -64,14 +70,13 @@ it('GET shapefile datasource with features', function(done) {
         { status: 200 },
         function(res) {
             var body = JSON.parse(res.body);
-            var expected = readJSON('datasource-shp-features');
-            assert.deepEqual(expected.fields, body.fields);
-            assert.equal(expected.geometry_type, body.geometry_type);
-            assert.equal(expected.id, body.id);
-            assert.equal(expected.project, body.project);
-            assert.equal(expected.type, body.type);
-            assert.equal(expected.url, body.url);
-            assert.deepEqual(expected.features, body.features);
+            var datasource = readJSON('datasource-shp-features');
+            assert.equal(datasource.id, body.id);
+            assert.equal(datasource.project, body.project);
+            assert.deepEqual(datasource.fields, body.fields);
+            assert.deepEqual(datasource.features, body.features);
+            assert.equal(datasource.type, body.type);
+            assert.equal(datasource.geometry_type, body.geometry_type);
             done();
         }
     );
@@ -84,7 +89,13 @@ it('GET postgis datasource', function(done) {
         function(res) {
             var body = JSON.parse(res.body);
             var datasource = readJSON('datasource-postgis');
-            assert.deepEqual(datasource, body, diff.compare(datasource, body));
+            assert.equal(datasource.id, body.id);
+            assert.equal(datasource.project, body.project);
+            assert.deepEqual(datasource.fields, body.fields);
+            assert.deepEqual(datasource.features, body.features);
+            assert.equal(datasource.type, body.type);
+            assert.equal(datasource.geometry_type, body.geometry_type);
+            assert.equal(datasource.extent, body.extent);
             done();
         }
     );
