@@ -7,6 +7,7 @@ on the [TileMill website](http://mapbox.com/tilemill).
 - Mapnik v2.2.0
 - Node.js v0.8.x or v0.10.x
 - Protobuf: libprotobuf-lite and protoc
+- GDAL: libgdal and gdal-config
 
 For details follow:
 
