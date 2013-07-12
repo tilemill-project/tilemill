@@ -20,11 +20,13 @@ if [ -z "$DIST" ]; then
   exit
 fi
 
-if [[ "$DIST" != "lucid" && "$DIST" != "maverick" && "$DIST" != "natty" && "$DIST" != "oneiric" && "$DIST" != "precise" && "$DIST" != "quantal" && "$DIST" != "isadora" && "$DIST" != "julia" && "$DIST" != "katya" && "$DIST" != "lisa" && "$DIST" != "maya" ]]; then
+if [[ "$DIST" != "raring" && "$DIST" != "lucid" && "$DIST" != "maverick" && "$DIST" != "natty" && "$DIST" != "oneiric" && "$DIST" != "precise" && "$DIST" != "quantal" && "$DIST" != "isadora" && "$DIST" != "julia" && "$DIST" != "katya" && "$DIST" != "lisa" && "$DIST" != "maya" ]]; then
   echo "Your distribution $DIST is not supported."
   exit
 fi
 
+# TODO - remove the libmapnik and nodejs lines below once
+# https://github.com/mapbox/tilemill/issues/1700 is fully solved
 pkexec /bin/bash -c "apt-get install --yes python-software-properties &&
     yes | apt-add-repository ppa:developmentseed/mapbox &&
     apt-get update --yes &&
