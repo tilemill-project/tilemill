@@ -10,10 +10,12 @@ prereq:
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 - "[Set up GDAL](/tilemill/docs/guides/gdal/) for processing raster data in the terminal."
 nextup:
-- "[Pansharpening](/tilemill/docs/guides/gdal)"
+- "[Pansharpening](/tilemill/docs/guides/pansharpening)"
 ---
 
 {% include prereq.html %}
+
+**Note:** This guide uses the rule `raster-colorizer` which is currently only in the [dev build of TileMill](http://www.mapbox.com/tilemill/docs/releases/#past_releases_and_development_builds)
 
 
 Following a similar process to [Single-band colorizing](/docs/guides/single-band-colorizing), we can perform color correction for 3-band natural-color RGB aerial or satellite imagery from within TileMill. Performing the color modifications from within TileMill is much easier and offers greater customization than my previous methods offered.

@@ -10,10 +10,12 @@ prereq:
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 - "[Set up GDAL](/tilemill/docs/guides/gdal/) for processing raster data in the terminal."
 nextup:
-- "[Pansharpening](/tilemill/docs/guides/gdal)"
+- "[Pansharpening](/tilemill/docs/guides/pansharpening)"
 ---
 
 {% include prereq.html %}
+
+**Note:** This guide uses the rule `raster-colorizer` which is currently only in the [dev build of TileMill](http://www.mapbox.com/tilemill/docs/releases/#past_releases_and_development_builds)
 
 Single band raster data traditionally rendered as black and white in TileMill, but it's no longer so black and white.
 

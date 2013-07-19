@@ -11,17 +11,19 @@ prereq:
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 - "[Set up GDAL](/tilemill/docs/guides/gdal/) for processing raster data in the terminal."
 nextup:
-- "[Pansharpening](/tilemill/docs/guides/gdal)"
+- "[Pansharpening](/tilemill/docs/guides/pansharpening)"
 ---
 
 {% include prereq.html %}
+
+**Note:** This guide uses the rule `raster-colorizer` which is currently only in the [dev build of TileMill](http://www.mapbox.com/tilemill/docs/releases/#past_releases_and_development_builds)
 
 ## Discrete Raster Data: Land Cover
 
 Contextually styling a discrete raster data set -- a task once completed over several steps across different applications --  can be completed within TileMill, our open source design studio. When you contextually style raster data, you bind a color value to particular pixel values, which is great for highlighting urban areas using a bright color, making no-data pixels appear transparent, and grouping similar categories, like types of tree cover, into larger categories and making them all green.
 
 
-Here we will make a custom land cover map layer from a raster dataset. This guide uses [this one available from the Japan Aerospace Exploration Agency](http://www.eorc.jaxa.jp/ALOS/lulc/lulc_jindex.htm).
+Here we will make a custom land cover map layer from a raster dataset. This guide uses [this one available from the Japan Aerospace Exploration Agency](http://www.eorc.jaxa.jp/ALOS/lulc/lulc_jindex.htm). Here is a [direct link to the zip file](http://www.eorc.jaxa.jp/ALOS/lulc/data/ver1302_LC_GeoTiff.tar.gz).
 
 The only pre-processing required is to reproject the dataset to Google Mercator projection, using an application like <code>gdalwarp</code>. All styling of the raster data can be accomplished from within TileMill using [CartoCSS](http://mapbox.com/tilemill/docs/manual/carto/).
 
@@ -29,11 +31,37 @@ The only pre-processing required is to reproject the dataset to Google Mercator 
 
 After downloading and uncompressing the GeoTiff data, warp each image to the proper projection as we did to the [Natural Earth GeoTiff](http://www.mapbox.com/tilemill/docs/guides/reprojecting-geotiff/#reproject_and_add_a_geotiff_raster).
 
+1. Warp all the images and move the projected ones to a directory called target (using Terminal):
+
+	```
+	ls *.tif > abc
+	mkdir target
+	while read line
+	do
+	file=$(echo $line |awk -F. '{ print $1 }')
+	gdalwarp -t_srs EPSG:3857 $line target/$file.tif
+	done < abc
+	```
+
+2. Change into that directory:
+
+    cd target/
+	
 ## Build a Virtual Dataset ##
 
-This section is useful for when wanting to create a mosaic. If we are in the directory with all the TIF files we can make a [virtual mosaic](http://www.gdal.org/gdalbuildvrt.html) by running:
+This section is useful for when wanting to create a mosaic.
 
-	gdalbuildvrt example.vrt *.tif
+GDAL's VRT is set to use relative paths. We want absolute paths so we will create a [virtual mosaic](http://www.gdal.org/gdalbuildvrt.html).
+
+1. Change to the appropriate directory:
+
+	```cd /path/to/output/vrt/```
+	
+2. Create the virtual mosaic:
+
+	```gdalbuildvrt example.vrt /absolute/path/to/input/gdalrasters/*.tif```
+	
+[Link to the workaround](https://github.com/mapbox/tilemill/issues/1361)
 
 ## Importing and Styling in TileMill ##
 
