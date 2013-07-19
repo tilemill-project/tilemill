@@ -46,7 +46,8 @@ ImageMagick is not geo-aware, and this is what it reports as it sees, and does n
 
 ![](http://farm8.staticflickr.com/7302/9078517530_5016b82237_o.jpg)
 
-## Truer color ##  By changing the brightness and contrast we can adjust the image to something that is closer to true color. One method is to use the `-sigmoidal-contrast` flag for `convert`, which takes a two-part argument: a scale factor for the contrast, plus the brightness value in the input image that should end up at 50% (midtone) in the output image. Run:
+## Truer color ##
+By changing the brightness and contrast we can adjust the image to something that is closer to true color. One method is to use the `-sigmoidal-contrast` flag for `convert`, which takes a two-part argument: a scale factor for the contrast, plus the brightness value in the input image that should end up at 50% (midtone) in the output image. Run:
 
 	convert -sigmoidal-contrast 50x16% RGB.tif RGB-corrected.tif
 
@@ -88,7 +89,7 @@ The processed image is a 16-bit TIFF without geodata, but we’d like an 8-bit T
 
 	convert -depth 8 RGB-corrected.tif RGB-corrected-8bit.tif
 
-Since we were careful not to make any modifications that affected the spatial characteristics of the data (_right?_), we can copy the geographical information back from one of the projected but not manipulated bands. `listgeo` works well for this:
+Since we were careful not to make any modifications that affected the spatial characteristics of the data (*right?*), we can copy the geographical information back from one of the projected but not manipulated bands. `listgeo` works well for this:
 
 	listgeo -tfw 4-projected.tif
 
