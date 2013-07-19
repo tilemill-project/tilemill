@@ -3,8 +3,8 @@ layout: docs
 section: help
 category: guides
 tag: Guides
-title: "Single-band Colorizing"
-permalink: /docs/guides/single-band-colorizing
+title: "Colorizing Single-band Raster Data"
+permalink: /docs/guides/colorizing-single-band-raster-data
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
@@ -35,7 +35,7 @@ Next, use the ```raster-colorizer``` functionality to color each class a differe
 
 ![](http://farm9.staticflickr.com/8386/8518337209_51e27be3a5_z.jpg)
 
-[![](http://farm9.staticflickr.com/8507/8519450546_d6c5299ef4_o.png)](http://a.tiles.mapbox.com/v3/herwig.map-xlbdx3ht.html)
+![](http://farm9.staticflickr.com/8507/8519450546_d6c5299ef4_o.png)
 
 *2010 NightTime Lights*
 
@@ -74,9 +74,7 @@ Next, use the ```raster-colorizer``` functionality to color each class a differe
 
 ### Finished Map
 
-[![](http://farm9.staticflickr.com/8107/8519450576_a2e35a1404_o.jpg)](http://a.tiles.mapbox.com/v3/herwig.map-xlbdx3ht.html#5.00/51.110/10.961)
-
-*[2010 Nighttime Lights](http://a.tiles.mapbox.com/v3/herwig.map-xlbdx3ht.html)*
+![](http://farm9.staticflickr.com/8107/8519450576_a2e35a1404_o.jpg)
 
 {% include prereq.html %}
 

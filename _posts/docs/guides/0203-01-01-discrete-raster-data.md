@@ -31,37 +31,23 @@ The only pre-processing required is to reproject the dataset to Google Mercator 
 
 After downloading and uncompressing the GeoTiff data, warp each image to the proper projection as we did to the [Natural Earth GeoTiff](http://www.mapbox.com/tilemill/docs/guides/reprojecting-geotiff/#reproject_and_add_a_geotiff_raster).
 
-1. Warp all the images and move the projected ones to a directory called target (using Terminal):
 
-	```
-	ls *.tif > abc
-	mkdir target
-	while read line
-	do
-	file=$(echo $line |awk -F. '{ print $1 }')
-	gdalwarp -t_srs EPSG:3857 $line target/$file.tif
-	done < abc
-	```
+Warp all the images and move the reprojected ones to a directory called target (using Terminal):
 
-2. Change into that directory:
+    ls *.tif > abc
+    mkdir target
+    while read line
+    do
+    file=$(echo $line |awk -F. '{ print $1 }')
+    gdalwarp -t_srs EPSG:3857 $line target/$file.tif
+    done < abc
 
-    cd target/
-	
+
 ## Build a Virtual Dataset ##
 
-This section is useful for when wanting to create a mosaic.
+Since TileMill natively supports GDAL's [Virtual Raster (VRT) format](http://www.gdal.org/gdal_vrttut.html), we can take advantage of a VRT rather than creating a new GeoTIFF mosaic. [`gdalbuildvrt`](http://www.gdal.org/gdalbuildvrt.html) creates a single XML file from the source images that is read as a single mosaic image in TileMill. **Make sure you use absolute paths for the source images when you use `gdalbuildvrt`.**
 
-GDAL's VRT is set to use relative paths. We want absolute paths so we will create a [virtual mosaic](http://www.gdal.org/gdalbuildvrt.html).
-
-1. Change to the appropriate directory:
-
-	```cd /path/to/output/vrt/```
-	
-2. Create the virtual mosaic:
-
-	```gdalbuildvrt example.vrt /absolute/path/to/input/gdalrasters/*.tif```
-	
-[Link to the workaround](https://github.com/mapbox/tilemill/issues/1361)
+    $ gdalbuildvrt mosaic.vrt /absolute/path/to/input/tiffs/*.tif
 
 ## Importing and Styling in TileMill ##
 
@@ -72,7 +58,7 @@ Now all that remains is to translate the land use data key into cartocss style r
 
 ```stop(``` +  pixel value + ```,``` + color to assign + ```)```
 
-[![Japan Land Use | Mapnik raster-colorizer by MapBox](http://farm9.staticflickr.com/8385/8495388263_1a2c4eceb4_o.png)](http://a.tiles.mapbox.com/v3/herwig.japan-land,herwig.map-behmiof5.html#7.00/42.832/141.993)
+![Japan Land Use | Mapnik raster-colorizer by MapBox](http://farm9.staticflickr.com/8385/8495388263_1a2c4eceb4_o.png)
 
 
 
@@ -114,8 +100,8 @@ Now all that remains is to translate the land use data key into cartocss style r
 ### Finished Map
 
 
-[![Japan Land Cover | Mapnik raster-colorizer by MapBox](http://farm9.staticflickr.com/8094/8495387917_8425ce6b97_o.jpg)](http://a.tiles.mapbox.com/v3/herwig.japan-land,herwig.map-behmiof5.html#7.00/42.832/141.993)
+![Japan Land Cover | Mapnik raster-colorizer by MapBox](http://farm9.staticflickr.com/8094/8495387917_8425ce6b97_o.jpg)
 
-*[Japan Land Cover Finished map](http://a.tiles.mapbox.com/v3/herwig.japan-land,herwig.map-behmiof5.html#7.00/42.832/141.993)*
+*Japan Land Cover Finished map*
 
 {% include nextup.html %}
