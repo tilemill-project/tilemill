@@ -9,13 +9,13 @@ prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 - "[Set up GDAL](/tilemill/docs/guides/gdal/) for processing raster data in the terminal."
-- "[libgeotiff](http://trac.osgeo.org/geotiff/), to work with geotags (the tools used here are sometimes pagaged as 'geotiff-bin')"
-- "[ImageMagick](http://www.imagemagick.org/script/index.php), an image processing package"
 nextup:
 - "[Pansharpening](/tilemill/docs/guides/gdal)"
 ---
 
 {% include prereq.html %}
+
+**Note** you will also need [libgeotiff](http://trac.osgeo.org/geotiff/), to work with geotags (the tools used here are sometimes pagaged as 'geotiff-bin') and [ImageMagick](http://www.imagemagick.org/script/index.php), an image processing package to complete the sections below.
 
 ## Getting a scene ##
 Download a scene from [EarthExplorer](http://earthexplorer.usgs.gov/), [LandsatLook](http://landsatlook.usgs.gov/), or [GLOVIS](http://glovis.usgs.gov/). You can use [this helpful guide](http://earthobservatory.nasa.gov/blogs/elegantfigures/2013/05/31/a-quick-guide-to-earth-explorer-for-landsat-8/) to EarthExplorer (credit: [Robert Simmon](http://www.nasa.gov/centers/goddard/about/people/RSimmon.html)), Note: If you find a lot of cloudy scenes for your area of interest, you can use a cloud coverage filter in the "Additional Criteria tab".
