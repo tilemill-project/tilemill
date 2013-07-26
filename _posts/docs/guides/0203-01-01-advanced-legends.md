@@ -51,19 +51,19 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
     </div>
     
     <style type='text/css'>
-      .wax-legend .legend-title {
+      .my-legend .legend-title {
         text-align: left;
         margin-bottom: 8px;
         font-weight: bold;
         font-size: 90%;
         }
-      .wax-legend .legend-scale ul {
+      .my-legend .legend-scale ul {
         margin: 0;
         padding: 0;
         float: left;
         list-style: none;
         }
-      .wax-legend .legend-scale ul li {
+      .my-legend .legend-scale ul li {
         display: block;
         float: left;
         width: 50px;
@@ -72,18 +72,18 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
         font-size: 80%;
         list-style: none;
         }
-      .wax-legend ul.legend-labels li span {
+      .my-legend ul.legend-labels li span {
         display: block;
         float: left;
         height: 15px;
         width: 50px;
         }
-      .wax-legend .legend-source {
+      .my-legend .legend-source {
         font-size: 70%;
         color: #999;
         clear: both;
         }
-      .wax-legend a {
+      .my-legend a {
         color: #777;
         }
     </style>
@@ -106,27 +106,27 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
     </div>
     
     <style type='text/css'>
-      .wax-legend .legend-title {
+      .my-legend .legend-title {
         text-align: left;
         margin-bottom: 5px;
         font-weight: bold;
         font-size: 90%;
         }
-      .wax-legend .legend-scale ul {
+      .my-legend .legend-scale ul {
         margin: 0;
         margin-bottom: 5px;
         padding: 0;
         float: left;
         list-style: none;
         }
-      .wax-legend .legend-scale ul li {
+      .my-legend .legend-scale ul li {
         font-size: 80%;
         list-style: none;
         margin-left: 0;
         line-height: 18px;
         margin-bottom: 2px;
         }
-      .wax-legend ul.legend-labels li span {
+      .my-legend ul.legend-labels li span {
         display: block;
         float: left;
         height: 16px;
@@ -135,23 +135,18 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
         margin-left: 0;
         border: 1px solid #999;
         }
-      .wax-legend .legend-source {
+      .my-legend .legend-source {
         font-size: 70%;
         color: #999;
         clear: both;
         }
-      .wax-legend a {
+      .my-legend a {
         color: #777;
         }
     </style>
 
-### The wax-legend class
+### The legend class
 
-TileMill legends are contained within an element with the class `wax-legend`. This is why you see it included in each selector in the above style sections. This class is attributed several default styles, including a `max-width` of 280 pixels and a `max-height` of 400 pixels. Under normal circumstances this should be plenty large enough. You'll know they're not if you see a scrollbar in your legend. In case you ever need to change these, here's how.
-
-Inside the `<style></style>` tags add a selector for `wax-legend` and declare the new value(s). For values that are overriding previous declarations, you will likely need to add the `!important` tag. Say you want to increase the width to 300 pixels:
-
-    .wax-legend {
-      max-width: 300px !important;
-      }
-
+You should assign a unique class name to the `div` element surrounding your
+legend's markup. You can reference this class name in the selectors for the
+legend's CSS, as the above examples demonstrate.
