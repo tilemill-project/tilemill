@@ -2,6 +2,8 @@ TileMill is a modern map design studio powered by open source technology.
 Installation instructions, development docs and other information are available
 on the [TileMill website](http://mapbox.com/tilemill).
 
+[![Dependencies](https://david-dm.org/mapbox/tilemill.png)](https://david-dm.org/mapbox/tilemill)
+
 # Depends
 
 - Mapnik v2.2.0
