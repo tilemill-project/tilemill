@@ -85,6 +85,6 @@ Here's what the code looks like:
 
 ### After Pansharpening ###
 
-[![Salajar Island, After Pansharpening](http://farm9.staticflickr.com/8076/8262801140_438f6efa89_b.jpg)](http://a.tiles.mapbox.com/v3/geoeye.map-0zmhzttc.html#17.00/-6.32086/120.47532)
+![Salajar Island, After Pansharpening](http://farm9.staticflickr.com/8076/8262801140_438f6efa89_b.jpg) 
 
 {% include prereq.html %}

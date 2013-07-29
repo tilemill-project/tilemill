@@ -15,12 +15,7 @@ nextup:
 
 {% include prereq.html %}
 
-TileMill's ability to map 3D complex structures continues to improve. You can read about our [experiments in the 3rd dimension](http://mapbox.com/blog/experiments-3rd-dimension/) using Mapnik's [Building Symbolizer](https://github.com/mapnik/mapnik/wiki/BuildingSymbolizer) to render building polygons with a height attribute in TileMill.
-
-<iframe width='100%' height='400' src='http://a.tiles.mapbox.com/v3/herwig.map-kkqtksw8.html#18.00/38.89370/-77.02824'> </iframe>
-
-*DC Buildings*
-<!--more-->
+TileMill's ability to map 3D complex structures continues to improve. This guide builds on our [experiments in the 3rd dimension](http://mapbox.com/blog/experiments-3rd-dimension/) blog post using Mapnik's [Building Symbolizer](https://github.com/mapnik/mapnik/wiki/BuildingSymbolizer) to render building polygons with a height attribute in TileMill.
 
 The District of Columbia, as part of its open government data program, publishes a [building polygons](http://dcatlas.dcgis.dc.gov/metadata/BldgPly.html) dataset and a [3D Buildings](http://dcatlas.dcgis.dc.gov/metadata/BldgPly_3D.html) dataset. The main differences between the two datasets are the level of detail and the geometry type. I'm going to be working with the 3D Buildings layer, which contains highly detailed structures and uses [ESRI's Multipatch Geometry Type](http://www.esri.com/library/whitepapers/pdfs/multipatch-geometry-type.pdf).
 
@@ -40,7 +35,7 @@ Because the Multipatch geometry type is not as broadly supported in [GDAL](http:
 
 By including the <code>-nlt</code> option, we ensure that the new PostGIS table's geometry column contains latitude, longitude, and altitude for each multipolygon. This allows us to use [PostGIS' 3D Spatial Functions](http://postgis.net/docs/manual-2.0/PostGIS_Special_Functions_Index.html#PostGIS_3D_Functions).
 
-As explained in the [TileMill 3D blog post](http://mapbox.com/blog/experiments-3rd-dimension/) by Dave Cole, we use CartoCSS to control how TileMill renders the buildings. First, we need to pull out the altitude value from each geometry, and add it to a new column in our table for TileMill. It's easy to add a height column to the table using the PostGIS [ST_ZMax()](http://postgis.net/docs/manual-2.0/ST_ZMax.html) function. We found the buildings rendered most accurately when we divided the altitude by 2. Below is the script to create a table ready for loading in TileMill.
+As explained in the [TileMill 3D blog post](http://mapbox.com/blog/experiments-3rd-dimension/) by Dave Cole, we use CartoCSS to control how TileMill renders the buildings. First, we need to pull out the altitude value from each geometry, and add it to a new column in our table for TileMill. It's easy to add a height column to the table using the PostGIS [ST_ZMax()](http://postgis.net/docs/manual-2.0/ST_ZMax.html) function. We found the buildings rendered most accurately when we divided the altitude by 2. Below is the SQL script to create a table ready for loading in TileMill.
 
     DROP TABLE tilemill_buildings;
     CREATE TABLE tilemill_buildings
@@ -59,7 +54,7 @@ As explained in the [TileMill 3D blog post](http://mapbox.com/blog/experiments-3
 
 The last `ORDER BY` part is important, controlling the order in which TileMill renders each building/element. From here, it's a matter of loading the layer in TileMill, and styling with CartoCSS.
 
-[![DC Buildings | TileMill Building Symbolizer](http://farm9.staticflickr.com/8509/8486512820_78b8f449da_o.png)](http://tiles.mapbox.com/herwig/map/map-onzoztaf#17.00/38.91619/-77.04398)
+![DC Buildings | TileMill Building Symbolizer](http://farm9.staticflickr.com/8509/8486512820_78b8f449da_o.png)
 
 
     @polygon:rgb(100,100,100);
@@ -89,13 +84,13 @@ The last `ORDER BY` part is important, controlling the order in which TileMill r
       }
     }
 
-[![DC Buildings | TileMill Building Symbolizer](http://farm9.staticflickr.com/8517/8485364827_2a81a7d918_o.png)](http://tiles.mapbox.com/herwig/map/map-onzoztaf#17.00/38.91619/-77.04398)
+![DC Buildings | TileMill Building Symbolizer](http://farm9.staticflickr.com/8517/8485364827_2a81a7d918_o.png)
 
 ### Building Skeletons ###
 
-These [DC Building  Skeletons](https://tiles.mapbox.com/herwig/map/map-okz7199j#17.00/38.88536/-77.02362) visualize what's going on in TileMill as it renders these incredibly complex structures.
+These DC Building  Skeletons help visualize what's going on in TileMill as it renders these incredibly complex structures.
 
-[![Building Skeletons in TileMill](http://farm9.staticflickr.com/8366/8485445163_9891fd62df_o.png)](https://tiles.mapbox.com/herwig/map/map-okz7199j#17.00/38.88409/-77.01628)
+![Building Skeletons in TileMill](http://farm9.staticflickr.com/8366/8485445163_9891fd62df_o.png)
 
     @building:rgba(0,255,255,1);
     @under:rgb(0,0,0);
@@ -146,9 +141,6 @@ These [DC Building  Skeletons](https://tiles.mapbox.com/herwig/map/map-okz7199j#
 
 Each rendered building is actually a collection of many smaller polygons, each with individual geometry and elevation values, that are sequentially rendered on top of one another.
 
-[![DC Building Skeletons | TileMill Building Symbolizer](http://farm9.staticflickr.com/8376/8486426452_1f6537c29a_o.png)](http://a.tiles.mapbox.com/v3/herwig.map-okz7199j.html#17.00/38.88570/-77.02521)
-
-
-Check out the full-screen [DC 3D Buildings](https://tiles.mapbox.com/herwig/map/map-onzoztaf#17.00/38.89409/-77.03063) and [DC Building Skeletons](https://tiles.mapbox.com/herwig/map/map-okz7199j) maps hosted on MapBox.
+![DC Building Skeletons | TileMill Building Symbolizer](http://farm9.staticflickr.com/8376/8486426452_1f6537c29a_o.png)
 
 {% include prereq.html %}
