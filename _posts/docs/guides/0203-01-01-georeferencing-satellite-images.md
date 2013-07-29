@@ -36,11 +36,11 @@ Below, we go over the steps of how to take a non-georeferenced JPEG image and tu
 
 4\. In the Georeferencer window in QGIS, choose a recognizable location on the source image. Select the **Add a Point** tool (Command + A), and add a point on the source image over the location. Here we are using the corner of 15th Street NW and Madison Dr. NW, across from the Washington Monument.
 
-5\. Search for the same location on the map shown in your custom MapBox Satellite layer, keeping the point of interest in the center of the screen.  Here's a screenshot of the area on the source image, and its [equivalent location on MapBox Satellite](http://a.tiles.mapbox.com/v3/herwig.map-v0r9hagu.html#17.00/38.89030/-77.03294).
+5\. Search for the same location on the map shown in your custom MapBox Satellite layer, keeping the point of interest in the center of the screen.  Here's a screenshot of the area on the source image.
 
 ![QGIS | POI Matching](http://farm9.staticflickr.com/8046/8380963926_b3a0689e17_b.jpg)
 
-[![MapBox Satellite POI matching](http://farm9.staticflickr.com/8196/8383025229_89875305ce_b.jpg)](http://a.tiles.mapbox.com/v3/herwig.map-v0r9hagu.html#17.00/38.89030/-77.03294)
+![MapBox Satellite POI matching](http://farm9.staticflickr.com/8196/8383025229_89875305ce_b.jpg)
 
 
 *MapBox Satellite*
@@ -74,7 +74,6 @@ Here's our final processing script, which incorporates the QGIS-generated ground
     #!/bin/bash
      
     ADDO="2 4 8 16 32 64 128 256 512 1024 2048 4096 8192"
-    export GDAL_CACHEMAX=1000
     
     gdal_translate \
       -of GTiff \
@@ -140,12 +139,12 @@ Here's our final processing script, which incorporates the QGIS-generated ground
     
 
 
-The script produces a conventional GeoTIFF, which we can render in [TileMill](http://mapbox.com/tilemill/), and upload to MapBox hosting. We can check the spatial accuracy of the georeferencing against our [MapBox Satellite layer](mapbox.com/blog/mapbox-satellite/) using the Reference Layer Plugin from within TileMill. 
+The script produces a conventional GeoTIFF, which we can render in [TileMill](http://mapbox.com/tilemill/), and upload to MapBox hosting. 
 
 
 ![TileMill | Georeferenced Image](http://farm9.staticflickr.com/8502/8380218977_f45a5a7532_o.png)
 
-Now we have geospatially enabled imagery from the 2009 Inauguration that we can compare with our MapBox Satellite imagery layer. 
+We can check the spatial accuracy of the georeferencing against our [MapBox Satellite layer](mapbox.com/blog/mapbox-satellite/) using the Reference Layer Plugin from within TileMill. 
 
 
 {% include prereq.html %}
