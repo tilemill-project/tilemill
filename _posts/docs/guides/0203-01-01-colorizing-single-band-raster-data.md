@@ -9,8 +9,6 @@ prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 - "[Set up GDAL](/tilemill/docs/guides/gdal/) for processing raster data in the terminal."
-nextup:
-- "[Pansharpening](/tilemill/docs/guides/pansharpening)"
 ---
 
 {% include prereq.html %}
@@ -24,6 +22,7 @@ Single band raster data traditionally rendered as black and white in TileMill, b
 
 See our blog post on [processing DNB raster data from NASA and NOAA's Suomi NPP spacecraft](http://mapbox.com/blog/nighttime-lights-nasa-noaa/) to create a nighttime lights map, showing lights visible from space at night. Thanks to <code>raster-colorizer</code>, we can now generate the same map with half as many lines of code, in a fraction of the time, by performing all of the false color steps from within TileMill, rather than a [combination of command line tools and virtual rasters (VRT)](https://gist.github.com/hrwgc/4694661).
 
+To take advantage of the `raster-colorizer` functionality in TileMill, be sure to set `band=1` in the `Advanced` input area of TileMill's "Add Layer" window.
 
 ## Lights of the Night ##
 
