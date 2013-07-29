@@ -10,8 +10,6 @@ prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 - "[Set up GDAL](/tilemill/docs/guides/gdal/) for processing raster data in the terminal."
-nextup:
-- "[Pansharpening](/tilemill/docs/guides/pansharpening)"
 ---
 
 {% include prereq.html %}
@@ -51,6 +49,7 @@ Since TileMill natively supports GDAL's [Virtual Raster (VRT) format](http://www
 
 ## Importing and Styling in TileMill ##
 
+While in the TileMill Add Layer window, input `band=1` in the **Advanced** input area. If you omit this step, the colorizer will not function properly.
 
 Since we're using a land cover geotiff with specific pixel values mapping directly to land cover classifications we want to use ```raster-colorizer-default-mode: exact``` meaning stops will map to exact pixel values, and no other color values will be assigned through interpolation.
 
