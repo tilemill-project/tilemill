@@ -44,7 +44,7 @@ For more info see: http://postgis.net/docs/manual-1.5/ch02.html
 
 TileMill documentation is kept in the gh-pages branch, which is independently managed and not merged with master.
 
-TileMill's in-app reference available as the "Manual" is a very small subset of docs for offline usage and is manually
+TileMill's in-app reference available as the "Manual" (see below for syncing details) is a very small subset of docs for offline usage and is manually
 sync'ed from the gh-pages branch.
 
 To view all the TileMill documentation locally, first checkout the gh-pages branch:
@@ -76,6 +76,8 @@ To sync the manual with gh-pages updates do:
     rm -rf ${TILEMILL_SOURCES}/assets/manual
     mkdir -p ${TILEMILL_SOURCES}/assets/manual
     cp -r ${TILEMILL_GHPAGES}/assets/manual/* ${TILEMILL_SOURCES}/assets/manual/
+    git add ${TILEMILL_SOURCES}/assets/manual/*
     rm -rf ${TILEMILL_SOURCES}/_posts/docs/reference
     mkdir -p ${TILEMILL_SOURCES}/_posts/docs/reference
     cp -r ${TILEMILL_GHPAGES}/_posts/docs/reference/* ${TILEMILL_SOURCES}/_posts/docs/reference/
+    git add ${TILEMILL_SOURCES}/_posts/docs/reference/*

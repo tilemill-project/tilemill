@@ -9,6 +9,8 @@ They are a work in progress. Please ask questions to fill in holes.
 
 1. Test, do dev builds, make sure all dependencies are tagged and stable versions are good
 
+1. Sync the `_posts/assets/manual` and `_posts/docs/reference` files from `gh-pages` to `master` (See the `Syncing Manual` section of main readme for details)
+
 1. Increment the version in `package.json`, `platforms/windows/installer/nsis_script.nsi`, and `platforms/ubuntu/debian/changelog`
 
 1. Tag tilemill:
