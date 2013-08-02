@@ -10,7 +10,7 @@ By default TileMill manages project files, data and other configuration in a `Ma
 
 - **Mac OS X:** The `MapBox` directory should be in your user account's `Documents` directory.
 
-- **Ubuntu:** The `MapBox` directory is located at `/usr/share/mapbox`. You may want to symlink this to your user's home directory for easier access.
+- **Ubuntu:** The `MapBox` directory should be in your user account's `Documents` directory.
 
 ## Directory overview
 
