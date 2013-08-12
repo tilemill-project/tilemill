@@ -13,6 +13,18 @@ prereq:
 
 Objects in TileMill are drawn using a [Painter's Algorithm](http://en.wikipedia.org/wiki/Painter's_algorithm), meaning everything is drawn in a specific order, and things that are drawn first might be covered by things that are drawn later. 
 
+## Overview
+
+The order in which objects are drawn depends on the following conditions. See the sections that follow for more details.
+
+1. Layers: "Higher" layers obscure "lower" ones.
+1. Stylesheets are applied from left to right.
+1. Rules within a Stylesheet are applied from top to bottom. This means two things:
+    a. objects matched by later rules will be drawn over those defined by earlier rules; and
+    b. attachments may be redefined by later rules.
+1. Attachments (eg,  `::glow { ... }`) within a Stylesheet are applied from top to bottom.
+1. Lastly, all else being equal, objects are drawn in the order in which they are found, such as in PostGIS.
+
 ## Order vs. Priority
 
 For things like lines and areas, objects that are drawn first are less likely to be fully visible. Objects high in the stack might completely obscure other objects, thus you might associate these with a high 'priority' or 'importance'.

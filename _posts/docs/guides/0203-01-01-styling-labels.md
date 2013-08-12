@@ -8,6 +8,7 @@ permalink: /docs/guides/styling-labels
 prereq:
 - '[Installed](/tilemill/docs/install) TileMill on your computer.'
 - 'Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)'
+- 'Are aware of [Symbol Ordering](/tilemill/docs/guides/symbol-drawing-order/) to know how to troubleshoot when labels are not placed on top'
 nextup:
 - 'Get tips on achieving visually-pleasing results for placement of point labels in the [Advanced labels guide](/tilemill/docs/guides/labels-advanced/).' 
 - 'Explore the full list of available label styling properties in the [CartoCSS Reference](/carto/api/2.1.0/#text).'
