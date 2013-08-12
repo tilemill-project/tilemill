@@ -147,7 +147,7 @@ For example we could alter our compound label example to separate the two fields
 
 If you are applying label styles to layers that also have line or polygon styles you might notice some unexpected overlapping where the labels aren't necessarily on top.
 
-For simple stylesheets you can control this by making sure your geometry styles and you text styles are in separate attachments:
+For simple stylesheets you can control this by making sure your geometry styles and your text styles are in separate attachments:
 
     #layer {
       ::shape {
