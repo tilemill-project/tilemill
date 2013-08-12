@@ -686,9 +686,8 @@ command.prototype.upload = function (callback) {
         }, this);
     }, function(err, res, body) {
         if (err) throw err;
-
         // Let Step catch thrown errors here.
-        var model = _(res.statusCode === 404 ? {} : JSON.parse(body)).extend({
+        var model = _((res.statusCode === 404 || (typeof(body) != 'object')) ? {} : JSON.parse(body)).extend({
             id: cmd.opts.syncAccount + '.' + cmd.opts.project,
             _type: 'tileset',
             created: +new Date,
