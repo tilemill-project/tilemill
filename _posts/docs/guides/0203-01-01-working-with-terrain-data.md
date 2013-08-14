@@ -71,7 +71,7 @@ For our example we'll be working with some NED data of the District of Columbia 
 
 In the case of reprojecting elevation data, the `-r bilinear` option is important because other resampling methods tend to produce odd stripes or grids in the resulting image.
 
-[4]: http://support.mapbox.com/kb/tilemill/reprojecting-a-geotiff-for-tilemill
+[4]: /tilemill/docs/guides/reprojecting-geotiff/
 
 #### Creating hillshades
 
