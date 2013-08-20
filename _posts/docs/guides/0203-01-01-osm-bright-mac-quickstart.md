@@ -19,16 +19,48 @@ nextup:
 
 In order to use OSM Bright on OS X you will need to download & install a number of packages in addition to TileMill (unless you know you have already installed them).
 
-### Postgres.app
+### PostGIS
 
-[Download it here](http://postgresapp.com/). Unzip the download and drag the app into your Applications folder.
+There are a several possible routes for installing PostGIS on OS X, including installing with [homebrew](http://brew.sh) or downloading packages from <http://postgresapp.com> or <http://www.kyngchaos.com/software:postgres>.
 
-After installation you'll want to make sure that the command line tools that come with Postgres.app are available. Run these two commands in the Terminal:
+If you are already familiar with `homebrew` then we recommend using that for installing PostgreSQL and PostGIS. Otherwise we recommend using the packages from KyngChaos. We do not recommend PostgresApp at this time because the current release (`v9.2.4`) includes a [broken PostGIS installation due to a missing libtiff library](https://github.com/PostgresApp/PostgresApp/issues/111).
 
-    echo 'export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"' >> ~/.profile
-    source ~/.profile
+#### Installing PostgreSQL/PostGIS with homebrew
 
-You should make sure that the app works correctly by running it. When it's running there will be an elephant icon visible on your menu bar. You might want to select the option to have this start automatically every time you start your computer.
+First make sure your homebrew install is up to date:
+
+    brew update
+
+Then install postgis like:
+
+    brew install postgis
+
+After installation you'll need to override the OS X system 'psql' command with the new version you just installed. Run this in the Terminal:
+
+    alias psql=/usr/local/opt/postgresql/bin/psql
+
+To make this alias persistent across Terminal sessions you should include it in your `.bash_profile` by running this command:
+
+    echo "alias psql=/usr/local/opt/postgresql/bin/psql" >> ~/.bash_profile
+
+
+#### Installing PostgreSQL/PostGIS from KyngChaos
+
+##### The GDAL 'complete' framework
+
+This is a requirement of PostGIS from KyngChaos. [Get the package here](http://www.kyngchaos.com/software/frameworks#gdal_complete). Open the DMG and run the "GDAL Complete.pkg" installer. There is no need to install the included NumPy package.
+
+##### PostgreSQL and PostGIS
+
+[Get the KyngChaos 'Postgres 9.2' packages here](http://www.kyngchaos.com/software:postgres). Open the DMGs and run the "PostgreSQL.pkg" and "PostGIS.pkg" installers. Note - you need the full 'PostgreSQL' package, not the 'Client-only' package. You can also ignore the WKTRaster and pgRouting packages.
+
+After installation you'll need to override the OS X system 'psql' command with the new version you just installed. Run this in the Terminal:
+
+    alias psql=/usr/local/pgsql-9.2/bin/psql
+
+To make this alias persistent across Terminal sessions you should include it in your `.bash_profile` by running this command:
+
+    echo "alias psql=/usr/local/pgsql-9.2/bin/psql" >> ~/.bash_profile
 
 ### osm2pgsql
 
