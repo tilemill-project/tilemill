@@ -3,7 +3,7 @@
 //  TileMill
 //
 //  Created by Justin Miller on 10/12/11.
-//  Copyright (c) 2011 Development Seed. All rights reserved.
+//  Copyright (c) 2011-2013 MapBox, Inc. All rights reserved.
 //
 
 #import <WebKit/WebKit.h>

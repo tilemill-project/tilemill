@@ -3,7 +3,7 @@
 //  TileMill
 //
 //  Created by Justin Miller on 8/15/11.
-//  Copyright 2011 Development Seed. All rights reserved.
+//  Copyright 2011-2013 MapBox, Inc. All rights reserved.
 //
 
 #define TileMillProductionAppcastURL  [NSURL URLWithString:@"http://mapbox.com/tilemill/platforms/osx/appcast2.xml"]
