@@ -17,6 +17,9 @@ releases:
 # - version: 0.10.2
 #
 #  notes:
+#  - OS X: added support for Notification Center during exports
+#  - OS X: added dock icon badge during exports
+#  - OS X: added support for 10.9 Mavericks & App Nap
 
 - version: 0.10.1.59
   tag: v0.10.1-59-g338d40a
