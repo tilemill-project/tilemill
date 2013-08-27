@@ -10,6 +10,15 @@
           animation:fadeIn 500ms ease 1500ms both;
   }
 
+.icon.play:before {
+  border-top:6px solid rgba(0,0,0,0);
+  border-bottom:6px solid rgba(0,0,0,0);
+  border-left:6px solid #3887BE;
+  height:0;
+  width:0;
+  margin:6px;
+  }
+
 .heading { height: 80px;}
 .heading h3 {
   display: inline-block;

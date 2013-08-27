@@ -15,9 +15,9 @@ section: help
 {% endif %}
 
 <div class='doc-page pad4c fill-grey clearfix'>
-<div class='clearfix'>
+<div class='clearfix fill-white'>
   {% if page.title == 'TileMill' %}
-  <div class='col12 doc-content doc prose fill-white'>
+  <div class='col12 doc-content doc prose'>
     {{content}}
   </div>
   {% else %}
@@ -27,16 +27,16 @@ section: help
     {% elsif page.navigation %}
       <div class='doc-nav'>
       {% for heading in page.navigation %}
-        <ul class='nav anchors'>
-          <li><a href='#{{heading[0]|downcase|replace:' ','_'}}'>{{heading[0]}}</a></li>
+        <nav class='v anchors'>
+          <a href='#{{heading[0]|downcase|replace:' ','_'}}'><strong>{{heading[0]}}</strong></a>
           {% for item in heading[1] %}
           {% if item.hash %}
-          <li><a href='#{{item.hash}}'>{{item.text}}</a></li>
+          <a href='#{{item.hash}}'>{{item.text}}</a>
           {% else %}
-          <li><a href='#{{item|downcase|replace:' ','_'}}'>{{item}}</a></li>
+          <a href='#{{item|downcase|replace:' ','_'}}'>{{item}}</a>
           {% endif %}
           {% endfor %}
-        </ul>
+        </nav>
       {% endfor %}
       </div>
     {% else %}
