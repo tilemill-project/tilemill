@@ -1,16 +1,16 @@
 ---
 layout: default
 ---
-<div class='changelog col12 pad4c fill-denim'>
+<div class='changelog col12 pad4c fill-grey'>
 {% for item in page.releases %}
   {% if item.dev != true %}
-  <h2>{{item.version}} {% if item.date %}<small>{{item.date|date:'%B %d %Y'}}</small>{% endif %}</h2>
-  <div class='release col12 pad4 doc doc-content prose'>
-  <ul class='checklist'>
-    {% for item in item.notes %}
-    <li class='check'>{{item | markdownify}}</li>
-    {% endfor %}
-  </ul>
+  <div class='col12 pad4 prose fill-white keyline-top'>
+    <h2>{{item.version}} {% if item.date %}<small>{{item.date|date:'%B %d %Y'}}</small>{% endif %}</h2>
+    <ul class='checklist'>
+      {% for item in item.notes %}
+      <li class='check'>{{item | markdownify}}</li>
+      {% endfor %}
+    </ul>
   </div>
   {% endif %}
 {% endfor %}

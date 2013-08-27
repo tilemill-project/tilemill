@@ -374,13 +374,6 @@ only screen and (min-device-pixel-ratio : 2) {
   }
 }
 
-  .changelog { border-bottom: 1px solid #28353D;}
-  .changelog .release {
-    margin-bottom: 50px;
-    background: #fff;
-    color: #3c4e5a;
-  }
-  .changelog code { background: inherit }
   h2 small { font: normal 12px/1.6667em Opensans,Arial,sans-serif; }
 @media
 only screen and (max-width: 640px) { h2 { padding: 20px;}}
