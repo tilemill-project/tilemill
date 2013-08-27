@@ -11,7 +11,7 @@
 @interface TileMillDatabaseWatcher ()
 
 @property (nonatomic, strong) NSFileHandle *fileHandle;
-@property (nonatomic, strong) NSMutableArray *exports;
+@property (nonatomic, strong) NSMutableDictionary *exports;
 
 @end
 
@@ -47,7 +47,7 @@
 
             [self.fileHandle seekToEndOfFile];
 
-            self.exports = [NSMutableArray array];
+            self.exports = [NSMutableDictionary dictionary];
 
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(processData:)
@@ -65,10 +65,8 @@
 
     if (info)
     {
-        if ([self.exports containsObject:info[@"key"]] && [info[@"val"][@"status"] isEqualToString:@"complete"])
+        if ([[self.exports allKeys] containsObject:info[@"key"]] && [info[@"val"][@"status"] isEqualToString:@"complete"])
         {
-            [self.exports removeObject:info[@"key"]];
-
             // notify user on 10.8+
             //
             if (NSClassFromString(@"NSUserNotification"))
@@ -80,10 +78,31 @@
 
                 [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
             }
+
+            // end background activity on 10.9+
+            //
+            if (NSSelectorFromString(@"beginActivityWithOptions:reason:"))
+            {
+                [[NSProcessInfo processInfo] endActivity:info[@"val"][@"NSProcessInfo"]];
+            }
+
+            [self.exports removeObjectForKey:info[@"key"]];
         }
-        else if ( ! [self.exports containsObject:info[@"key"]])
+        else if ( ! [[self.exports allKeys] containsObject:info[@"key"]])
         {
-            [self.exports addObject:info[@"key"]];
+            NSMutableDictionary *details = [NSMutableDictionary dictionaryWithDictionary:info[@"val"]];
+
+            // begin background activity on 10.9+
+            //
+            if (NSSelectorFromString(@"beginActivityWithOptions:reason:"))
+            {
+                id <NSObject>activity = [[NSProcessInfo processInfo] beginActivityWithOptions:NSActivityUserInitiatedAllowingIdleSystemSleep
+                                                                                       reason:[NSString stringWithFormat:@"exporting %@ for %@", info[@"val"][@"filename"], info[@"val"][@"project"]]];
+
+                [details setObject:activity forKey:@"NSProcessInfo"];
+            }
+
+            [self.exports setObject:details forKey:info[@"key"]];
         }
 
         [[NSApp dockTile] setBadgeLabel:([self.exports count] ? [NSString stringWithFormat:@"%lu", [self.exports count]] : nil)];
