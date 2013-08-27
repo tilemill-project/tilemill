@@ -85,6 +85,29 @@
 
             [self.exports removeObjectForKey:info[@"key"]];
         }
+        else if ([[self.exports allKeys] containsObject:info[@"key"]] && [info[@"val"][@"status"] isEqualToString:@"error"])
+        {
+            // notify user on 10.8+
+            //
+            if (NSClassFromString(@"NSUserNotification"))
+            {
+                NSUserNotification *userNotification = [NSUserNotification new];
+
+                userNotification.title    = [NSString stringWithFormat:@"Export failed for %@", info[@"val"][@"project"]];
+                userNotification.subtitle = [NSString stringWithFormat:@"Error during export of %@", info[@"val"][@"filename"]];
+
+                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
+            }
+
+            // end background activity on 10.9+
+            //
+            if (NSSelectorFromString(@"beginActivityWithOptions:reason:"))
+            {
+                [[NSProcessInfo processInfo] endActivity:info[@"val"][@"NSProcessInfo"]];
+            }
+
+            [self.exports removeObjectForKey:info[@"key"]];
+        }
         else if ( ! [[self.exports allKeys] containsObject:info[@"key"]])
         {
             NSMutableDictionary *details = [NSMutableDictionary dictionaryWithDictionary:info[@"val"]];
