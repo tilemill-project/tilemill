@@ -68,6 +68,18 @@
         if ([self.exports containsObject:info[@"key"]] && [info[@"val"][@"status"] isEqualToString:@"complete"])
         {
             [self.exports removeObject:info[@"key"]];
+
+            // notify user on 10.8+
+            //
+            if (NSClassFromString(@"NSUserNotification"))
+            {
+                NSUserNotification *userNotification = [NSUserNotification new];
+
+                userNotification.title    = [NSString stringWithFormat:@"Export complete for %@", info[@"val"][@"project"]];
+                userNotification.subtitle = info[@"val"][@"filename"];
+
+                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
+            }
         }
         else if ( ! [self.exports containsObject:info[@"key"]])
         {
