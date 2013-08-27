@@ -9,6 +9,7 @@
 #import "TileMillAppDelegate.h"
 #import "TileMillBrowserWindowController.h"
 #import "TileMillSparklePrefsWindowController.h"
+#import "TileMillDatabaseWatcher.h"
 
 #import "PFMoveApplication.h"
 
@@ -19,6 +20,7 @@
 @property (nonatomic, strong) TileMillChildProcess *searchTask;
 @property (nonatomic, strong) TileMillBrowserWindowController *browserController;
 @property (nonatomic, strong) TileMillSparklePrefsWindowController *sparklePrefsController;
+@property (nonatomic, strong) TileMillDatabaseWatcher *databaseWatcher;
 @property (nonatomic, strong) NSString *logPath;
 
 - (void)startTileMill;
@@ -34,6 +36,7 @@
 @synthesize searchTask;
 @synthesize browserController;
 @synthesize sparklePrefsController;
+@synthesize databaseWatcher;
 @synthesize logPath;
 
 #pragma mark -
@@ -126,7 +129,9 @@
 
     [self showBrowserWindow:self];
     [self startTileMill];
-    
+
+    self.databaseWatcher = [TileMillDatabaseWatcher new];
+
     // go full screen if last quit that way
     //
     if ([self.browserController.window respondsToSelector:@selector(toggleFullScreen:)])

@@ -16,6 +16,7 @@
 		D738213F13EB500D00639A03 /* tilemill.icns in Resources */ = {isa = PBXBuildFile; fileRef = D738213E13EB500C00639A03 /* tilemill.icns */; };
 		D745087913E9EC160020D8CD /* mbtiles.icns in Resources */ = {isa = PBXBuildFile; fileRef = D745087813E9EC160020D8CD /* mbtiles.icns */; };
 		DD05482F14226B8100D7C317 /* tilemill in Resources */ = {isa = PBXBuildFile; fileRef = DD05482E14226B8100D7C317 /* tilemill */; };
+		DD0A9E8117CC1F16009BA944 /* TileMillDatabaseWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = DD0A9E8017CC1F16009BA944 /* TileMillDatabaseWatcher.m */; };
 		DD1081DF13F9A5DB001772BE /* TileMillSparklePrefsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD1081DE13F9A5DB001772BE /* TileMillSparklePrefsWindow.xib */; };
 		DD1081EE13F9AA4F001772BE /* TileMillSparklePrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1081ED13F9AA4F001772BE /* TileMillSparklePrefsWindowController.m */; };
 		DD35FE0214461B8A00455DAA /* TileMillBrowserWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD35FE0114461B8A00455DAA /* TileMillBrowserWindowController.m */; };
@@ -114,6 +115,8 @@
 		D738213E13EB500C00639A03 /* tilemill.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = tilemill.icns; sourceTree = "<group>"; };
 		D745087813E9EC160020D8CD /* mbtiles.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = mbtiles.icns; sourceTree = "<group>"; };
 		DD05482E14226B8100D7C317 /* tilemill */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = tilemill; sourceTree = "<group>"; };
+		DD0A9E7F17CC1F16009BA944 /* TileMillDatabaseWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillDatabaseWatcher.h; sourceTree = "<group>"; };
+		DD0A9E8017CC1F16009BA944 /* TileMillDatabaseWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillDatabaseWatcher.m; sourceTree = "<group>"; };
 		DD1081DE13F9A5DB001772BE /* TileMillSparklePrefsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileMillSparklePrefsWindow.xib; sourceTree = "<group>"; };
 		DD1081EC13F9AA4F001772BE /* TileMillSparklePrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMillSparklePrefsWindowController.h; sourceTree = "<group>"; };
 		DD1081ED13F9AA4F001772BE /* TileMillSparklePrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMillSparklePrefsWindowController.m; sourceTree = "<group>"; };
@@ -153,6 +156,8 @@
 			children = (
 				35D15E0C13D25D9D003244AE /* TileMillChildProcess.h */,
 				35D15E0D13D25D9D003244AE /* TileMillChildProcess.m */,
+				DD0A9E7F17CC1F16009BA944 /* TileMillDatabaseWatcher.h */,
+				DD0A9E8017CC1F16009BA944 /* TileMillDatabaseWatcher.m */,
 			);
 			name = "Process Management";
 			sourceTree = "<group>";
@@ -472,6 +477,7 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				35D15E0E13D25D9D003244AE /* TileMillChildProcess.m in Sources */,
 				35B36EA313D260C6006C72ED /* TileMillAppDelegate.m in Sources */,
+				DD0A9E8117CC1F16009BA944 /* TileMillDatabaseWatcher.m in Sources */,
 				DD1081EE13F9AA4F001772BE /* TileMillSparklePrefsWindowController.m in Sources */,
 				DD4F9DDC1419914400278ECD /* PFMoveApplication.m in Sources */,
 				DD4F9DE51419923C00278ECD /* NSString+SymlinksAndAliases.m in Sources */,
