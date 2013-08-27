@@ -64,10 +64,12 @@
     {
         if ([[self.exports allKeys] containsObject:info[@"key"]] && [info[@"val"][@"status"] isEqualToString:@"complete"])
         {
-            // notify user on 10.8+
+            // export complete
             //
             if (NSClassFromString(@"NSUserNotification"))
             {
+                // notify user on 10.8+
+                //
                 NSUserNotification *userNotification = [NSUserNotification new];
 
                 userNotification.title    = [NSString stringWithFormat:@"Export complete for %@", info[@"val"][@"project"]];
@@ -76,10 +78,10 @@
                 [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
             }
 
-            // end background activity on 10.9+
-            //
             if ([NSProcessInfo instancesRespondToSelector:@selector(endActivity:)])
             {
+                // end background activity on 10.9+
+                //
                 [[NSProcessInfo processInfo] endActivity:info[@"val"][@"NSProcessInfo"]];
             }
 
@@ -87,10 +89,12 @@
         }
         else if ([[self.exports allKeys] containsObject:info[@"key"]] && [info[@"val"][@"status"] isEqualToString:@"error"])
         {
-            // notify user on 10.8+
+            // export error
             //
             if (NSClassFromString(@"NSUserNotification"))
             {
+                // notify user on 10.8+
+                //
                 NSUserNotification *userNotification = [NSUserNotification new];
 
                 userNotification.title    = [NSString stringWithFormat:@"Export failed for %@", info[@"val"][@"project"]];
@@ -99,10 +103,10 @@
                 [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
             }
 
-            // end background activity on 10.9+
-            //
             if ([NSProcessInfo instancesRespondToSelector:@selector(endActivity:)])
             {
+                // end background activity on 10.9+
+                //
                 [[NSProcessInfo processInfo] endActivity:info[@"val"][@"NSProcessInfo"]];
             }
 
@@ -110,12 +114,14 @@
         }
         else if ( ! [[self.exports allKeys] containsObject:info[@"key"]])
         {
+            // new export
+            //
             NSMutableDictionary *details = [NSMutableDictionary dictionaryWithDictionary:info[@"val"]];
 
-            // begin background activity on 10.9+
-            //
             if ([NSProcessInfo instancesRespondToSelector:@selector(beginActivityWithOptions:reason:)])
             {
+                // begin background activity on 10.9+
+                //
                 id <NSObject>activity = [[NSProcessInfo processInfo] beginActivityWithOptions:NSActivityUserInitiatedAllowingIdleSystemSleep
                                                                                        reason:[NSString stringWithFormat:@"exporting %@ for %@", info[@"val"][@"filename"], info[@"val"][@"project"]]];
 
@@ -125,6 +131,8 @@
             [self.exports setObject:details forKey:info[@"key"]];
         }
 
+        // badge dock with export count
+        //
         [[NSApp dockTile] setBadgeLabel:([self.exports count] ? [NSString stringWithFormat:@"%lu", [self.exports count]] : nil)];
     }
 
