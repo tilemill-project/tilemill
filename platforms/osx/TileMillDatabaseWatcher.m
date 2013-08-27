@@ -27,7 +27,7 @@
     self = [super init];
 
     if (self)
-        [self performSelector:@selector(beginWatching:) withObject:nil afterDelay:10.0];
+        [self performSelector:@selector(beginWatching:) withObject:nil afterDelay:5.0];
 
     return self;
 }
@@ -58,7 +58,14 @@
 
 - (void)processData:(NSNotification *)notification
 {
-    NSDictionary *info = [NSJSONSerialization JSONObjectWithData:[self.fileHandle availableData] options:0 error:nil];
+    [self.fileHandle waitForDataInBackgroundAndNotify];
+
+    NSData *availableData = [self.fileHandle availableData];
+
+    if ([availableData isEqual:[NSData data]])
+        return;
+
+    NSDictionary *info = [NSJSONSerialization JSONObjectWithData:availableData options:0 error:nil];
 
     if (info)
     {
@@ -112,7 +119,7 @@
 
             [self.exports removeObjectForKey:info[@"key"]];
         }
-        else if ( ! [[self.exports allKeys] containsObject:info[@"key"]])
+        else if ( ! [[self.exports allKeys] containsObject:info[@"key"]] && ([info[@"val"][@"status"] isEqualToString:@"waiting"] || [info[@"val"][@"status"] isEqualToString:@"processing"]))
         {
             // new export
             //
@@ -133,10 +140,9 @@
 
         // badge dock with export count
         //
-        [[NSApp dockTile] setBadgeLabel:([self.exports count] ? [NSString stringWithFormat:@"%lu", [self.exports count]] : nil)];
+        if ([[[NSApp dockTile] badgeLabel] integerValue] != [self.exports count])
+            [[NSApp dockTile] setBadgeLabel:([self.exports count] ? [NSString stringWithFormat:@"%lu", [self.exports count]] : nil)];
     }
-
-    [self.fileHandle waitForDataInBackgroundAndNotify];
 }
 
 - (void)dealloc
