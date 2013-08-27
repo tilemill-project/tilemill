@@ -34,28 +34,25 @@
 
 - (void)beginWatching:(id)sender
 {
-    NSString *configPath = [NSString stringWithFormat:@"%@/.tilemill/config.json", NSHomeDirectory()];
-    NSDictionary *config = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:configPath] options:0 error:nil];
+    NSString *configPath   = [NSString stringWithFormat:@"%@/.tilemill/config.json", NSHomeDirectory()];
+    NSDictionary *config   = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:configPath] options:0 error:nil];
+    NSString *configPrefix = ([config valueForKey:@"files"] ? [config valueForKey:@"files"] : [NSHomeDirectory() stringByAppendingString:@"/Documents/MapBox"]);
+    NSString *databasePath = [NSString stringWithFormat:@"%@/app.db", configPrefix];
 
-    if (config)
+    if ([[NSFileManager defaultManager] fileExistsAtPath:databasePath])
     {
-        NSString *databasePath = [NSString stringWithFormat:@"%@/app.db", [config valueForKey:@"files"]];
+        self.fileHandle = [NSFileHandle fileHandleForReadingAtPath:databasePath];
 
-        if ([[NSFileManager defaultManager] fileExistsAtPath:databasePath])
-        {
-            self.fileHandle = [NSFileHandle fileHandleForReadingAtPath:databasePath];
+        [self.fileHandle seekToEndOfFile];
 
-            [self.fileHandle seekToEndOfFile];
+        self.exports = [NSMutableDictionary dictionary];
 
-            self.exports = [NSMutableDictionary dictionary];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(processData:)
+                                                     name:NSFileHandleDataAvailableNotification
+                                                   object:self.fileHandle];
 
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(processData:)
-                                                         name:NSFileHandleDataAvailableNotification
-                                                       object:self.fileHandle];
-
-            [self.fileHandle waitForDataInBackgroundAndNotify];
-        }
+        [self.fileHandle waitForDataInBackgroundAndNotify];
     }
 }
 
