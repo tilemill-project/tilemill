@@ -78,7 +78,7 @@
 
             // end background activity on 10.9+
             //
-            if (NSSelectorFromString(@"beginActivityWithOptions:reason:"))
+            if ([NSProcessInfo instancesRespondToSelector:@selector(endActivity:)])
             {
                 [[NSProcessInfo processInfo] endActivity:info[@"val"][@"NSProcessInfo"]];
             }
@@ -101,7 +101,7 @@
 
             // end background activity on 10.9+
             //
-            if (NSSelectorFromString(@"beginActivityWithOptions:reason:"))
+            if ([NSProcessInfo instancesRespondToSelector:@selector(endActivity:)])
             {
                 [[NSProcessInfo processInfo] endActivity:info[@"val"][@"NSProcessInfo"]];
             }
@@ -114,7 +114,7 @@
 
             // begin background activity on 10.9+
             //
-            if (NSSelectorFromString(@"beginActivityWithOptions:reason:"))
+            if ([NSProcessInfo instancesRespondToSelector:@selector(beginActivityWithOptions:reason:)])
             {
                 id <NSObject>activity = [[NSProcessInfo processInfo] beginActivityWithOptions:NSActivityUserInitiatedAllowingIdleSystemSleep
                                                                                        reason:[NSString stringWithFormat:@"exporting %@ for %@", info[@"val"][@"filename"], info[@"val"][@"project"]]];
