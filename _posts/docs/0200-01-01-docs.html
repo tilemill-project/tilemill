@@ -6,59 +6,10 @@ hidden: true
 title: TileMill
 permalink: /docs
 ---
-<style type='text/css'>
-.guide-section {
-  margin:0px -20px;
-  border-top:1px solid #ddd;
-  }
 
-@media (max-width:640px) { .guide-section { margin:0px -20px; } }
-
-a.method {
-  display:block;
-  color:#3c4e5a;
-  position:relative;
-  padding-left:80px;
-  min-height:60px;
-  margin:0px 0px 20px;
-  }
-
-.method h3 {
-  margin:0px;
-  color: #3887be;
-  }
-  .method h3:hover { color: #3bb2d0;}
-
-.help-graphic {
-  position:absolute;
-  top:-5px; left:0px;
-  width:60px;
-  height:60px;
-  background:url({{site.baseurl}}/img/tilemill-help-sprite.png) 60px 60px no-repeat;
-  }
-
-.help-graphic.install { background-position:0px 0px; }
-.help-graphic.import { background-position:-70px 0px; }
-.help-graphic.style  { background-position:-140px 0px; }
-.help-graphic.interactivity  { background-position:-210px 0px; }
-.help-graphic.export   { background-position:-280px 0px; }
-.help-graphic.guides   { background-position:-350px 0px; }
-.help-graphic.reference   { background-position:-420px 0px; }
-
-@media
-  only screen and (max-width: 640px) and (-webkit-min-device-pixel-ratio : 2),
-  only screen and (max-width: 640px) and (min-device-pixel-ratio : 2) {
-  .help-graphic {
-    background-image:url({{site.baseurl}}/img/tilemill-help-sprite@2x.png);
-    background-size:480px 60px;
-    }
-}
-</style>
-
-<h1>Overview</h1>
-
-<div class="guide-section pad3">
-    <h2>Installation</h2>
+<div class='guide-section pad4 keyline-top'>
+  <h1>Overview</h1>
+  <h2>Installation</h2>
   <a class='method' href='{{site.baseurl}}/docs/install'>
     <span class='help-graphic install'></span>
     <h3>Install TileMill</h3>
@@ -66,7 +17,7 @@ a.method {
   </a>
 </div>
 
-<div class="guide-section pad3">
+<div class='guide-section pad4 keyline-top'>
     <h2>Crash course</h2>
   <a class='method' href='{{site.baseurl}}/docs/crashcourse/point-data/'>
     <span class='help-graphic import'></span>
@@ -90,7 +41,7 @@ a.method {
   </a>
 </div>
 
-<div class="guide-section pad3">
+<div class='guide-section pad4 keyline-top'>
   <a class='method' href='{{site.baseurl}}/docs/guides/add-shapefile/'>
     <span class='help-graphic guides'></span>
     <h3>Guides</h3>
@@ -102,4 +53,7 @@ a.method {
     <p>Read the full manual that comes packaged with the TileMill application, including carto syntax documentation and an interface guide. </p>
   </a>
 </div>
-<a href='http://support.mapbox.com'>Visit the support forums</a> if you have any questions or need additional help.
+
+<div class='col12 center small pad2 keyline-top'>
+  <a href='http://support.mapbox.com'>Visit the support forums</a> if you have any questions or need additional help.
+</div>

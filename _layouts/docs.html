@@ -2,25 +2,22 @@
 layout: default
 section: help
 ---
+
 {% if page.section == 'help' %}
-<div class='clearfix doc-header pad4 fill-denim'>
+<div class='clearfix doc-header pad4 fill-light'>
   <div class='col3'>
     <h2>Help</h2>
   </div>
-  <ul class='col9 doc-subnav clearfix'>
-    <li><a href='{{site.baseurl}}/docs/install' {% if page.category == 'installation' %}class='active'{% endif %}>Installation</a></li>
-    <li><a href='{{site.baseurl}}/docs/crashcourse/introduction' {% if page.category == 'crashcourse' %}class='active'{% endif %}>Crashcourse</a></li>
-    <li><a href='{{site.baseurl}}/docs/guides/add-shapefile' {% if page.category == 'guides' %}class='active'{% endif %}>Guides</a></li>
-    <li><a href='{{site.baseurl}}/docs/manual/' {% if page.category == 'reference' %}class='active'{% endif %}>Reference</a></li>
-    <li><a href='{{site.url}}/carto'>CartoCSS Reference</a></li>
-  </ul>
+  <nav class='col9 pill clearfix five-links'>
+    <a href='{{site.baseurl}}/docs/install' class='button{% if page.category == 'installation' %} active{% endif %}'>Installation</a><a href='{{site.baseurl}}/docs/crashcourse/introduction' class='button{% if page.category == 'crashcourse' %} active{% endif %}'>Crashcourse</a><a href='{{site.baseurl}}/docs/guides/add-shapefile' class='button{% if page.category == 'guides' %} active{% endif %}'>Guides</a><a href='{{site.baseurl}}/docs/manual/' class='button{% if page.category == 'reference' %} active{% endif %}'>Reference</a><a href='{{site.url}}/carto' class='button' >CartoCSS Reference</a></li>
+  </nav>
 </div>
 {% endif %}
 
-<div class='doc-page pad4c clearfix'>
+<div class='doc-page pad4c fill-grey clearfix'>
 <div class='clearfix'>
   {% if page.title == 'TileMill' %}
-  <div class='col12 doc-content doc prose pad2'>
+  <div class='col12 doc-content doc prose fill-white'>
     {{content}}
   </div>
   {% else %}

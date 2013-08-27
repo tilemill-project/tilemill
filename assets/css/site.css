@@ -11,26 +11,26 @@
   }
 
 .heading { height: 80px;}
-  .heading h3 {
-    display: inline-block;
-    padding: 10px;
-    margin-top: 20px;
-    line-height:20px;
-    width: 160px;
-    color:#fff;
-    }
-  .heading .ico:before {
-    background:transparent url(../../img/tilemill-sprite.png) no-repeat 0 -110px;
-    content:'';
-    width:20px;
-    height:20px;
-    display:inline-block;
-    vertical-align:top;
-    }
-    .heading .ico.manage:before { background-position:0 -110px; }
-    .heading .ico.render:before { background-position:-20px -110px; }
-    .heading .ico.enrich:before { background-position:-40px -110px; }
-    .heading .ico.share:before  { background-position:-60px -110px; }
+.heading h3 {
+  display: inline-block;
+  padding: 10px;
+  margin-top: 20px;
+  line-height:20px;
+  width: 160px;
+  color:#fff;
+  }
+.heading .ico:before {
+  background:transparent url(../../img/tilemill-sprite.png) no-repeat 0 -110px;
+  content:'';
+  width:20px;
+  height:20px;
+  display:inline-block;
+  vertical-align:top;
+  }
+  .heading .ico.manage:before { background-position:0 -110px; }
+  .heading .ico.render:before { background-position:-20px -110px; }
+  .heading .ico.enrich:before { background-position:-40px -110px; }
+  .heading .ico.share:before  { background-position:-60px -110px; }
 
 #hero .intro {
   padding-bottom: 20px;
@@ -361,8 +361,51 @@ only screen and (min-device-pixel-ratio : 2) {
   .footer .col5.blogposts { border-color: #28353D; }
   }
 
+/* ### Docs Landing Page ### */
+a.method {
+  display:block;
+  color:#3c4e5a;
+  position:relative;
+  padding-left:80px;
+  min-height:60px;
+  margin:0px 0px 20px;
+  }
+
+.method h3 {
+  margin:0px;
+  color: #3887be;
+  }
+  .method h3:hover { color: #3bb2d0;}
+
+.help-graphic {
+  position:absolute;
+  top:-5px; left:0px;
+  width:60px;
+  height:60px;
+  background:url(../../img/tilemill-help-sprite.png) 60px 60px no-repeat;
+  }
+
+.help-graphic.install { background-position:0px 0px; }
+.help-graphic.import { background-position:-70px 0px; }
+.help-graphic.style  { background-position:-140px 0px; }
+.help-graphic.interactivity  { background-position:-210px 0px; }
+.help-graphic.export   { background-position:-280px 0px; }
+.help-graphic.guides   { background-position:-350px 0px; }
+.help-graphic.reference   { background-position:-420px 0px; }
+
+@media
+  only screen and (max-width: 640px) and (-webkit-min-device-pixel-ratio : 2),
+  only screen and (max-width: 640px) and (min-device-pixel-ratio : 2) {
+  .help-graphic {
+    background-image:url({{site.baseurl}}/img/tilemill-help-sprite@2x.png);
+    background-size:480px 60px;
+    }
+}
+
 /* ### Footer ### */
 .footer h3 { color: #3c4e5a;}
+
+.five-links a { width:20%; }
 
 @media
 only screen and (-webkit-min-device-pixel-ratio : 2),
@@ -380,25 +423,10 @@ only screen and (max-width: 640px) { h2 { padding: 20px;}}
 
 .ad-support { text-align:right; }
 .ad-support a { margin-top:10px; }
-.doc-page div{ background: #FFF; }
-.doc-subnav { margin-top: 0;}
-.doc-subnav li { width:20%;}
-  .doc-subnav li a {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    background: none; /* IE fix */
-    background: rgba(0,0,0,0.1);
-    color: white;
-    }
-.doc-subnav a.active {
-  background: #3887BE;
-  color: white;
-}
 @media (max-width:640px) {
+  .five-links a { width:100%; }
   .ad-support { text-align:center; }
   .doc-header h2 { padding-bottom: 20px; }
-  .doc-subnav li { width:100%; margin-bottom:1px; }
 }
 @media (min-width:960px) {
   .doc .fig-right { float:right; margin-top:0px; margin-left:10px; }
