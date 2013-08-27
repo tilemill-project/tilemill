@@ -1,45 +1,13 @@
 ---
 layout: default
 section: help
-class: box
 ---
-<link rel='stylesheet' href='http://mapbox.com/css/developers.css' />
-<style type='text/css'>
-.ad-support { text-align:right; }
-.ad-support a { margin-top:10px; }
-.doc-content { border-color: #4F5F69; }
-.doc-page{ background: #4F5F69 url({{site.baseurl}}/img/dotgrid-pattern.png);}
-.doc-page div{ background: #FFF; }
-.doc-subnav { margin-top: 0;}
-.doc-subnav li { width:20%;}
-  .doc-subnav li a {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    background: none; /* IE fix */
-    background: rgba(0,0,0,0.1);
-    color: white;
-    }
-.doc-subnav a.active {
-  background: #3887BE;
-  color: white;
-}
-@media (max-width:640px) {
-  .ad-support { text-align:center; }
-  .doc-header h2 { padding-bottom: 20px; }
-  .doc-subnav li { width:100%; margin-bottom:1px; }
-}
-@media (min-width:960px) {
-  .doc .fig-right { float:right; margin-top:0px; margin-left:10px; }
-}
-</style>
-
 {% if page.section == 'help' %}
-<div class='clearfix doc-header pad3 fillD'>
-  <div class='cell3'>
+<div class='clearfix doc-header pad4 fill-denim'>
+  <div class='col3'>
     <h2>Help</h2>
   </div>
-  <ul class='cell9 doc-subnav clearfix'>
+  <ul class='col9 doc-subnav clearfix'>
     <li><a href='{{site.baseurl}}/docs/install' {% if page.category == 'installation' %}class='active'{% endif %}>Installation</a></li>
     <li><a href='{{site.baseurl}}/docs/crashcourse/introduction' {% if page.category == 'crashcourse' %}class='active'{% endif %}>Crashcourse</a></li>
     <li><a href='{{site.baseurl}}/docs/guides/add-shapefile' {% if page.category == 'guides' %}class='active'{% endif %}>Guides</a></li>
@@ -49,14 +17,14 @@ class: box
 </div>
 {% endif %}
 
-<div class='doc-page pad3c clearfix'>
+<div class='doc-page pad4c clearfix'>
 <div class='clearfix'>
   {% if page.title == 'TileMill' %}
-  <div class='cell12 doc-content doc prose pad2'>
+  <div class='col12 doc-content doc prose pad2'>
     {{content}}
   </div>
   {% else %}
-  <div class='cell3'>
+  <div class='col3'>
     {% if page.private %}
       <div class='doc-private'><h3>Private</h3>{{page.private}}</div>
     {% elsif page.navigation %}
@@ -80,7 +48,7 @@ class: box
       </div>
     {% endif %}
   </div>
-  <div class='cell9 doc-content prose'>
+  <div class='col9 doc-content keyline-left prose'>
     <div class='doc pad2'>
       <h1 id='{{page.title|downcase|replace:' ', '_'}}'>{{page.title}}</h1>
       {{content}}
@@ -90,3 +58,4 @@ class: box
 </div>
 </div>
 
+{% include tilemill-footer.html %}

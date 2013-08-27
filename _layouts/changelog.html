@@ -1,12 +1,11 @@
 ---
 layout: default
 ---
-<link rel='stylesheet' href='http://mapbox.com/css/developers.css' />
-<div class='changelog cell12 pad3c fillD'>
+<div class='changelog col12 pad4c fill-denim'>
 {% for item in page.releases %}
   {% if item.dev != true %}
   <h2>{{item.version}} {% if item.date %}<small>{{item.date|date:'%B %d %Y'}}</small>{% endif %}</h2>
-  <div class='release cell12 pad3 doc doc-content prose'>
+  <div class='release col12 pad4 doc doc-content prose'>
   <ul class='checklist'>
     {% for item in item.notes %}
     <li class='check'>{{item | markdownify}}</li>
@@ -16,15 +15,3 @@ layout: default
   {% endif %}
 {% endfor %}
 </div>
-<style>
-  .changelog { border-bottom: 1px solid #28353D;}
-  .changelog .release {
-    margin-bottom: 50px;
-    background: #fff;
-    color: #3c4e5a;
-  }
-  .changelog code { background: inherit }
-  h2 small { font: normal 12px/1.6667em Opensans,Arial,sans-serif; }
-@media
-only screen and (max-width: 640px) { h2 { padding: 20px;}}
-</style>

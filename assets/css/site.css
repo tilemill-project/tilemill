@@ -1,0 +1,412 @@
+/* ### Frontpage ### */
+#hero { min-height:660px; }
+
+#hero .tilemill-screenshot {
+  background:url(../../img/hero-tilemill.png) 0 bottom no-repeat;
+  height:660px;
+  float:right;
+  -webkit-animation:fadeIn 500ms ease 1500ms both;
+     -moz-animation:fadeIn 500ms ease 1500ms both;
+          animation:fadeIn 500ms ease 1500ms both;
+  }
+
+.heading { height: 80px;}
+  .heading h3 {
+    display: inline-block;
+    padding: 10px;
+    margin-top: 20px;
+    line-height:20px;
+    width: 160px;
+    color:#fff;
+    }
+  .heading .ico:before {
+    background:transparent url(../../img/tilemill-sprite.png) no-repeat 0 -110px;
+    content:'';
+    width:20px;
+    height:20px;
+    display:inline-block;
+    vertical-align:top;
+    }
+    .heading .ico.manage:before { background-position:0 -110px; }
+    .heading .ico.render:before { background-position:-20px -110px; }
+    .heading .ico.enrich:before { background-position:-40px -110px; }
+    .heading .ico.share:before  { background-position:-60px -110px; }
+
+#hero .intro {
+  padding-bottom: 20px;
+  -webkit-animation:fadeInRight 500ms ease 500ms both;
+     -moz-animation:fadeInRight 500ms ease 500ms both;
+          animation:fadeInRight 500ms ease 500ms both;
+  }
+
+.download {
+  position: relative;
+  -webkit-animation:fadeIn 500ms ease 1000ms both;
+     -moz-animation:fadeIn 500ms ease 1000ms both;
+          animation:fadeIn 500ms ease 1000ms both;
+  }
+.download ul.oslist {
+  box-shadow:rgba(0,0,0,0.05) 0 0 0 5px;
+  border-radius:4px;
+  }
+.download ul.oslist li .button.big {
+  float: left;
+  width: 33.3333%;
+  border-radius: 0;
+  margin: 0;
+  background: #3c4e5a;
+  border-right: 1px solid #28353d;
+  box-shadow: none;
+  font-size: 12px;
+  font-family: 'Opensans',Arial,sans-serif;
+  text-transform: none;
+  min-width: 0;
+  transition: background 500ms;
+  -moz-transition: background 500ms;
+  -webkit-transition: background 500ms;
+  -o-transition: background 500ms;
+  }
+  .download ul.oslist li:last-child .button.big { border-right: none; }
+  .download ul.oslist li#mac .button.big { border-radius: 4px 0 0 4px;}
+  .download ul.oslist li#windows .button.big { border-radius: 0 4px 4px 0;}
+
+.download.mac ul.oslist li#mac .button.big{ background: #597486;}
+.download.linux ul.oslist li#linux .button.big{ background: #597486;}
+.download.windows ul.oslist li#windows .button.big{ background: #597486;}
+
+.download-button {
+  margin: 20px 0;
+  border-radius: 4px;
+  box-shadow: rgba(0,0,0,0.05) 0px 0px 0px 5px;
+  display: none;
+  }
+  .download.mac .download-button.mac {
+    display: block;
+    }
+  .download.linux .download-button.linux {
+    display: block;
+    }
+  .download.windows .download-button.windows {
+    display: block;
+    }
+  .download-button small, .download-button h3 {
+    color: white;
+            animation: fadeIn 500ms ease 250ms both;
+       -moz-animation: fadeIn 500ms ease 250ms both;
+    -webkit-animation: fadeIn 500ms ease 250ms both;
+    }
+  .download-button h3 {
+    text-shadow: rgba(0,0,0,0.2) 0px -1px;
+    margin-bottom: 0;
+    }
+  .download-button .details {
+    border: 1px solid #3887be;
+    border-right: none;
+    border-radius: 0 4px 4px 0;
+    background-color:#3887BE;
+    white-space: nowrap;
+    }
+      .download-button:hover .details {
+      background: #3bb2d0;
+      border-color: #3bb2d0;
+      }
+  .download-button .label {
+    position: relative;
+    border: 1px solid #3175a5;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    }
+  .download-button:hover .label { border-color: #3bb2d0; }
+  .download-button:active .details {
+    box-shadow: inset rgba(0,0,0,0.4) 0px 1px 3px, inset rgba(0,0,0,0.1) 0px -20px 20px -10px;
+    }
+.download-button .instructions {
+  display: none;
+  position: absolute;
+  right: -140px;
+  width: 160px;
+  top: 70px;
+  }
+  .download-button:hover .instructions {
+    display: block;
+    }
+  .download-button .instructions small {
+  color: #3C4E5A;
+  background: white;
+  opacity: 0;
+  padding: 20px;
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 0 35px 0px rgba(0,0,0,.5);
+  transition: opacity 500ms;
+  -moz-transition: opacity 500ms;
+  -webkit-transition: opacity 500ms;
+  -o-transition: opacity 500ms;
+  }
+  .download-button:hover .instructions small { opacity: 1;}
+  .download-button .instructions .arrow {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right:10px solid white;
+    position: absolute;
+    left: -10px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    }
+/* ### Borders + special tour section layout stuff ### */
+
+.full {
+  position: relative;
+  border-top: 1px solid #28353D;
+  }
+  .fillE .full { border-color: #3C4E5A; }
+  .full:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    right: 50%;
+    height: 100%;
+    border-right: 1px solid #28353D;
+    z-index: 9999;
+    }
+  .fillE .full:before { border-color: #3C4E5A; }
+  .full.single:before { display: none; }
+
+/* ### Illustrations ###  */
+
+.full > .col6 {
+  overflow: hidden;
+  position: relative;
+  min-height: 340px;
+  }
+
+.illustration {
+  height: 260px;
+  width: 260px;
+  position: absolute;
+  margin-left: 50%;
+  }
+
+.single .illustration {
+  width: 450px;
+  height: 280px;
+  right: 20px;
+  }
+
+.illo-container {
+  height: 380px;
+  }
+
+#manage .illustration {
+  background:url(../../img/manage-sprite.png) 0 20px no-repeat;
+  }
+   #manage .illustration.browse { background-position: 0 -280px;}
+   #manage .illustration.raster { background-position: -280px -280px;}
+
+#render .illustration {
+  background:url(../../img/render-sprite.png) 0 20px no-repeat;
+  }
+   #render .illustration.textures { background-position: 0 -280px; }
+        #render .illustration.svg { background-position: -280px -280px;}
+  #render .illustration.carto {
+    background-position: 0 -540px;
+    width: 480px;
+    height: 380px;
+    }
+
+#enrich .illustration {
+  background:url(../../img/enrich-sprite.png) 0 0 no-repeat;
+  }
+  #enrich .illustration.embed { background-position: -280px 0;}
+
+#share .illustration {
+  background:url(../../img/share-sprite.png) 0 0 no-repeat;
+  }
+  #share .illustration.publish {
+  height: 100%;
+  width: 380px;
+  top: 0;
+  }
+  #share .illustration.mapbox { background-position: -410px -40px;}
+
+#open-source .illustration.github {
+  background:url(../../img/open-source.png) 0 0 no-repeat;
+  width: 480px;
+  height: 380px;
+  }
+
+.footer-actions h1{
+  border-top: 1px solid #3C4E5A;
+  padding-bottom: 0;}
+
+/* ### MailChimp ### */
+.download .mailchimp-subscribe {
+  opacity: 0;
+  display: none;
+  }
+.download .mailchimp-subscribe .col6:first-child { padding-right: 10px; }
+.download .mailchimp-subscribe .col6:last-child { padding-left: 10px; }
+.download .mailchimp-subscribe .col6 small {margin-bottom: 10px; }
+
+.download.subscribe .mailchimp-subscribe {
+  opacity:1;
+  display: block;
+  height: auto;
+  margin-bottom: 20px;
+  animation: fadeIn 500ms ease 500ms both;
+  -moz-animation: fadeIn 500ms ease 500ms both;
+  -webkit-animation: fadeIn 500ms ease 500ms both;
+  }
+
+#hero .download.subscribe .download-button,
+#hero .download.subscribe ul.oslist,
+.footer-actions .download.subscribe .download-button,
+.footer-actions .subscribe ul.oslist { display: none;}
+
+@media
+only screen and (max-width: 640px) {
+  #hero { min-height: inherit; padding-bottom: 0;}
+  #hero .tilemill-screenshot {
+    height: 320px;
+    background-position-y: top;
+    }
+  .download { display: none;}
+  .footer-actions { display: none;}
+  .full > .col6 { min-height: inherit;}
+  .full > .col6:last-child { border-top: 1px solid #28353D;}
+  .fillE .full > .col6:last-child { border-color: #3C4E5A;}
+  .full.single > .col6:last-child { border-top: none;}
+  .full:before { display: none;}
+  .illustration {
+    margin: 0 auto 30px;
+    position: relative;
+    }
+  .single .illustration {
+    right: 0;
+    margin-bottom: 20px;
+    }
+  #share .illustration.publish {
+    height: 260px;
+    margin-top: -40px;
+    background-position-y: -420px;
+    }
+  .footer .col3:first-child {
+    border-top: 1px solid #28353D;
+    }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio : 2),
+only screen and (min-device-pixel-ratio : 2) {
+  .heading .ico {
+    background-image:url(../../img/tilemill-sprite@2x.png);
+    background-size: 150px 130px;
+    }
+  #render .illustration {
+    background:url(../../img/render-sprite@2x.png);
+    background-size: 540px 900px;
+    }
+  #manage .illustration {
+    background-image:url(../../img/manage-sprite@2x.png);
+    background-size: 540px 540px;
+    }
+  #enrich .illustration {
+    background-image:url(../../img/enrich-sprite@2x.png);
+    background-size: 540px 260px;
+    }
+  #share .illustration {
+    background-image:url(../../img/share-sprite@2x.png);
+    background-size: 670px 690px;
+    }
+  #open-source .illustration.github {
+    background-image:url(../../img/open-source@2x.png);
+    background-size: 500px 360px;
+    }
+}
+
+/* ### General Styles ### */
+.branding .logo {
+  background:transparent url(../../img/tilemill-sprite.png) no-repeat 0 0;
+  }
+.branding .attribution {
+  position:absolute;
+  left:100px;
+  top:50px;
+  }
+  .branding .attribution .small-mapbox {
+    display: inline-block;
+    background: url(../../img/tilemill-sprite.png);
+    background-position:2px -74px;
+    background-repeat:no-repeat;
+    width: 70px;
+    text-indent: -9999px;
+    overflow: hidden;
+    }
+
+@media only screen and (max-width: 640px) {
+  .footer .col3 { border-color: #28353D; }
+  .branding .attribution {
+  width: 90px;
+  left: 50px;
+  right: 0;
+  margin: 0px auto;
+  }
+  .mobile-hide { display: none;}
+}
+
+@media only screen and (max-width: 770px) {
+  .footer .col5.blogposts { border-color: #28353D; }
+  }
+
+/* ### Footer ### */
+.footer h3 { color: #3c4e5a;}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio : 2),
+only screen and (min-device-pixel-ratio : 2) {
+  .branding .logo,
+  .branding .attribution .small-mapbox {
+    background-image: url(../../img/tilemill-sprite@2x.png);
+    background-size: 150px 130px;
+  }
+}
+
+  .changelog { border-bottom: 1px solid #28353D;}
+  .changelog .release {
+    margin-bottom: 50px;
+    background: #fff;
+    color: #3c4e5a;
+  }
+  .changelog code { background: inherit }
+  h2 small { font: normal 12px/1.6667em Opensans,Arial,sans-serif; }
+@media
+only screen and (max-width: 640px) { h2 { padding: 20px;}}
+
+.ad-support { text-align:right; }
+.ad-support a { margin-top:10px; }
+.doc-page div{ background: #FFF; }
+.doc-subnav { margin-top: 0;}
+.doc-subnav li { width:20%;}
+  .doc-subnav li a {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    background: none; /* IE fix */
+    background: rgba(0,0,0,0.1);
+    color: white;
+    }
+.doc-subnav a.active {
+  background: #3887BE;
+  color: white;
+}
+@media (max-width:640px) {
+  .ad-support { text-align:center; }
+  .doc-header h2 { padding-bottom: 20px; }
+  .doc-subnav li { width:100%; margin-bottom:1px; }
+}
+@media (min-width:960px) {
+  .doc .fig-right { float:right; margin-top:0px; margin-left:10px; }
+}
