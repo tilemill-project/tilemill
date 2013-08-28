@@ -58,4 +58,12 @@ To further adjust the resampling interpolation of the image, add the following C
 
 ![geotiff](/tilemill/assets/pages/geotiff-process-5.png)
 
+## Adding a non-Mercator GeoTIFF to TileMill
+
+If you're working with a small GeoTIFF or just want to quickly preview something that is not already projected to Web Mercator, you can skip the initial reprojection step and add the file directly to TileMill. To do this you will need to know the spatial reference system (SRS) of your file so you can tell TileMill.
+
+Click the **Add Layer** button, browse to the location of your GeoTIFF, and select it. If your GeoTIFF is projected to WGS84 (aka 'EPSG:4326'), select 'WGS84' from the **SRS** dropdown. If your file is in a different projection, select 'Custom'.
+
+You'll now need to enter the custom SRS. If the prokjection has an EPSG code that you know, you can enter it as `+init=EPSG:1234` (replacing `1234` with the actual code). Otherwise, you can search for your projection on [spatialreference.org](http://spatialreference.org/). Select the 'Proj4' version of the projection and paste that into the custom SRS field.
+
 {% include nextup.html %}
