@@ -1,10 +1,10 @@
-<div class='book'>
-  <ul>
+<div class='pad2y'>
+  <nav class='v'>
     {% assign tags = '' %}
     {% for item in site.categories[page.category] reversed %}
     {% unless item.hidden %}
-    <li><a {% if item.title == page.title | downcase %}class='active'{% endif %} href='{{site.baseurl}}{{item.url}}'>{{item.title}}</a></li>
+    <a class='pad1y2x {% if item.title == page.title | downcase %} active{% endif %}' href='{{site.baseurl}}{{item.url}}'>{{item.title}}</a>
     {% endunless %}
     {% endfor %}
-  </ul>
+  </nav>
 </div>

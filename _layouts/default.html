@@ -9,27 +9,35 @@ navigation:
     path: /docs
     category: help
 footer:
-  tilemill:
-    - title: Home
-      path:
-    - title: Map gallery
-      path: /gallery
-    - title: Changelog
-      path: /changelog
-  help:
-    - title: Installation
-      path: /docs/install
-    - title: Crash course
-      path: /docs/crashcourse/introduction
-    - title: Guide
-      path: /docs/guides/add-shapefile
-    - title: Reference
-      path: /docs/manual
-    - title: CartoCSS reference
-      path: http://mapbox.com/carto
-    - title: Support
-      path: http://support.mapbox.com
+  mapbox:
+    - title: Tour
+      path: /tour
+    - title: About
+      path: /about
+    - title: Plans
+      path: /plans
+    - title: Premium
+      path: /plans/premium
+    - title: Blog
+      path: /blog
+    - title: Status
+      path: /status
+  resources:
+    - title: Help
+      path: /help
+    - title: Developers
+      path: /developers
+    - title: Mobile
+      path: /mobile
+    - title: Showcase
+      path: /showcase
+  tools:
+    - title: TileMill
+      path: /tilemill
+    - title: Maki
+      path: /maki
 ---
+
 <!DOCTYPE html >
 <html>
 <head>
@@ -38,100 +46,102 @@ footer:
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'>
   {% if page.description %}<meta name='description' content='{{page.description | strip_html}}'/>{% endif %}
   <title>{% if page.url == '/' %}{{page.title}} | Fast and beautiful maps{% else %}{{page.title}} | MapBox{% endif %}</title>
-  <link rel='stylesheet' href='{{site.url}}/css/site.css' type='text/css'/>
-  <!--[if IE]><link rel='stylesheet' href='{{site.url}}/css/site-ie.css' type='text/css'/><![endif]-->
-  <link rel='stylesheet' href='{{site.baseurl}}/css/tilemill.css' type='text/css'/>
   <link rel='shortcut icon' href='{{site.url}}/img/favicon.ico' type='image/x-icon' />
+  <!--[if IE]><link rel='stylesheet' href='{{site.url}}/css/site-ie.css' type='text/css'/><![endif]-->
+
+  <link href='//mapbox.com/base/latest/base.css' rel='stylesheet' />
+  <link href='{{site.baseurl}}/assets/css/site.css' rel='stylesheet' />
   <script src='{{site.url}}/js/site.js'></script>
 </head>
 <body class='{{page.class}} simple'>
+<div class='branding pad4x clearfix fill-denim'>
+  <div class='col3 logos'>
+    <a id='tilemill-logo' class='logo' href='{{site.baseurl}}/'>TileMill</a>
+    <small class='attribution quiet'><span class='mobile-hide'>an open source project</span> by <a href='http://mapbox.com/'>MapBox</a></small>
+  </div>
+  <ul class='menu col6'>
+    {% for item in page.navigation %}
+    {% if item.path contains 'http' %}
+      {% capture url %}{{item.path}}{% endcapture %}
+    {% else %}
+      {% capture url %}{{site.baseurl}}{{item.path}}/{% endcapture %}
+    {% endif %}
+    {% if item.category contains page.category or item.category contains page.section or item.path == page.url %}
+      {% capture class %}{{item.class}} active{% endcapture %}
+    {% else %}
+      {% capture class %}{{item.class}}{% endcapture %}
+    {% endif %}
+    {% if page.variation == 1 and item.variation1 %}
+      {% capture title %}{{item.variation1}}{% endcapture %}
+    {% elsif page.variation == 2 and item.variation2 %}
+      {% capture title %}{{item.variation2}}{% endcapture %}
+    {% else %}
+      {% capture title %}{{item.title}}{% endcapture %}
+    {% endif %}
+    <li class='{{class}}'>
+      <a id='nav-{{item.title | downcase | replace:' ','-'}}' href='{{url}}'>{{title}}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 
-  <div class='branding pad3h clearfix fillE'>
-    <div class='cell5 logos'>
-      <a id='tilemill-logo' class='logo' href='{{site.baseurl}}/'>TileMill</a>
-      <small class='attribution'><span class='mobile-hide'>an open source project</span> by <a href='http://mapbox.com/' class='small-mapbox'>MapBox</a></small>
+{{content}}
+
+{% unless page.class contains 'fullscreen' %}
+<div class='footer fill-light clearfix small'>
+  <div class='col3 pad4 newsletter'>
+    <a class='button icon twitter' href='http://twitter.com/mapbox' target='_blank'>Follow us</a>
+    <a class='button icon contact' href='{{base}}/contact'>Contact us</a>
+
+    <small>Subscribe to our newsletter</small>
+    <!-- Begin MailChimp Signup Form -->
+    <div id='mc-signup'>
+      <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
+        <div class='mc-field-group clearfix'>
+          <input type='hidden' value='1' name='group[7417][2]'>
+          <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
+          <input type='submit' value='' name='subscribe' id='mc-embedded-subscribe' class='button icon mail'>
+        </div>
+        <div id='mce-responses'>
+          <div class='response' id='mce-error-response' style='display:none'></div>
+          <div class='response' id='mce-success-response' style='display:none'></div>
+        </div>
+      </form>
     </div>
-    <ul class='menu cell4'>
-      {% for item in page.navigation %}
-      {% if item.path contains 'http' %}
-        {% capture url %}{{item.path}}{% endcapture %}
-      {% else %}
-        {% capture url %}{{site.baseurl}}{{item.path}}/{% endcapture %}
-      {% endif %}
-      {% if item.category contains page.category or item.category contains page.section or item.path == page.url %}
-        {% capture class %}{{item.class}} active{% endcapture %}
-      {% else %}
-        {% capture class %}{{item.class}}{% endcapture %}
-      {% endif %}
-      {% if page.variation == 1 and item.variation1 %}
-        {% capture title %}{{item.variation1}}{% endcapture %}
-      {% elsif page.variation == 2 and item.variation2 %}
-        {% capture title %}{{item.variation2}}{% endcapture %}
-      {% else %}
-        {% capture title %}{{item.title}}{% endcapture %}
-      {% endif %}
-      <li class='{{class}}'>
-        <a id='nav-{{item.title | downcase | replace:' ','-'}}' href='{{url}}'>{{title}}</a>
-      </li>
-      {% endfor %}
-    </ul>
   </div>
 
-  <div class="wrapper">{{ content }}</div>
-
-  {% unless page.class contains 'fullscreen' %}
-  <div class='footer clearfix fillL'>
-    <div class='cell3 pad3 newsletter'>
-      <a class='button big follow' href='http://twitter.com/mapbox' target='_blank'><span class='icon reverse twitter'></span>Follow us</a>
-      <a class='button big contact' href='{{base}}/contact'><span class='icon reverse contact'></span>Contact us</a>
-      <small>Subscribe to our newsletter</small>
-      <!-- Begin MailChimp Signup Form -->
-      <div id='mc-signup'>
-        <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
-          <div class='mc-field-group clearfix'>
-            <input type='hidden' value='1' name='group[7417][2]'>
-            <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
-            <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='button big icon reverse mail'>
-          </div>
-          <div id='mce-responses'>
-            <div class='response' id='mce-error-response' style='display:none'></div>
-            <div class='response' id='mce-success-response' style='display:none'></div>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div class='cell2 pad3'>
-    <h3>TileMill</h3>
-    <div class='links'>
-      {% for item in page.footer.tilemill %}
-      <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{{site.url}}{{site.baseurl}}{{item.path}}/'>{{item.title}}</a>
+  <div class='col2 pad4'>
+    <h3 class='title'>MapBox</h3>
+    <p class='links'>
+      {% for item in page.footer.mapbox %}
+      <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
       {% endfor %}
-    </div>
+    </p>
   </div>
-  <div class='cell2 pad3'>
-    <h3>Help</h3>
-    <div class='links'>
-      {% for item in page.footer.help %}
-      <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='
-        {% if item.path contains 'http' %}
-        {{ item.path }}
-        {% else %}
-        {{site.baseurl}}{{item.path}}/
-        {% endif %}'>{{item.title}}</a>
+  <div class='col2 pad4'>
+    <h3 class='title'>Resources</h3>
+    <p class='links'>
+      {% for item in page.footer.resources %}
+      <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
       {% endfor %}
-    </div>
+    </p>
+    <h3 class='title'>Tools</h3>
+    <p class='links'>
+      {% for item in page.footer.tools %}
+      <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
+      {% endfor %}
+    </p>
   </div>
-  <div class='cell5 pad3 blogposts'>
-    <h3>Recent MapBox blog posts</h3>
-    <div class='links'>
-    <script src="http://mapbox.com/snippets/blog-list.js"></script>
-    </div>
-    <a href='{{base}}/blog/'>Read more <span class='icon next blue'></span></a>
+  <div class='col5 pad4 blogposts'>
+    <h3 class='title'>Recent blog posts</h3>
+    <p class='links'>
+      <script src='http://mapbox.com/snippets/blog-list.js'></script>
+    </p>
+    <a id='read-more' href='{{site.url}}/blog/' class='rcon next'>Read more</a>
   </div>
 </div>
 
-<div class='fillE footer-copyright'>
+<div class='footer-copyright dark fill-denim center pad2 small'>
   <a href='{{base}}/tos'>Terms of service</a> +
   <a href='{{base}}/privacy'>Privacy policy</a>
   &copy; MapBox
@@ -140,7 +150,7 @@ footer:
 
 <script src='https://tiles.mapbox.com/snippets/user.js'></script>
 
-<script type='text/javascript'>
+<script>
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-12158002-1']);
 _gaq.push(['_setDomainName', '.mapbox.com']);
