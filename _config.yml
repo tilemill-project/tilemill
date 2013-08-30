@@ -1,5 +1,6 @@
 exclude: [.gitignore, .gitmodules]
 baseurl: /tilemill
+markdown: rdiscount
 permalink: /:categories/:title
 title: TileMill
 url: http://mapbox.com

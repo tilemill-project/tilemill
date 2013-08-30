@@ -1,77 +1,42 @@
 ---
 layout: default
 section: help
-class: box
 ---
-<link rel='stylesheet' href='http://mapbox.com/css/developers.css' />
-<style type='text/css'>
-.ad-support { text-align:right; }
-.ad-support a { margin-top:10px; }
-.doc-content { border-color: #4F5F69; }
-.doc-page{ background: #4F5F69 url({{site.baseurl}}/img/dotgrid-pattern.png);}
-.doc-page div{ background: #FFF; }
-.doc-subnav { margin-top: 0;}
-.doc-subnav li { width:20%;}
-  .doc-subnav li a {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    background: none; /* IE fix */
-    background: rgba(0,0,0,0.1);
-    color: white;
-    }
-.doc-subnav a.active {
-  background: #3887BE;
-  color: white;
-}
-@media (max-width:640px) {
-  .ad-support { text-align:center; }
-  .doc-header h2 { padding-bottom: 20px; }
-  .doc-subnav li { width:100%; margin-bottom:1px; }
-}
-@media (min-width:960px) {
-  .doc .fig-right { float:right; margin-top:0px; margin-left:10px; }
-}
-</style>
 
 {% if page.section == 'help' %}
-<div class='clearfix doc-header pad3 fillD'>
-  <div class='cell3'>
+<div class='clearfix doc-header pad4 fill-light'>
+  <div class='col3'>
     <h2>Help</h2>
   </div>
-  <ul class='cell9 doc-subnav clearfix'>
-    <li><a href='{{site.baseurl}}/docs/install' {% if page.category == 'installation' %}class='active'{% endif %}>Installation</a></li>
-    <li><a href='{{site.baseurl}}/docs/crashcourse/introduction' {% if page.category == 'crashcourse' %}class='active'{% endif %}>Crashcourse</a></li>
-    <li><a href='{{site.baseurl}}/docs/guides/add-shapefile' {% if page.category == 'guides' %}class='active'{% endif %}>Guides</a></li>
-    <li><a href='{{site.baseurl}}/docs/manual/' {% if page.category == 'reference' %}class='active'{% endif %}>Reference</a></li>
-    <li><a href='{{site.url}}/carto'>CartoCSS Reference</a></li>
-  </ul>
+  <nav class='col9 pill clearfix five-links'>
+    <a href='{{site.baseurl}}/docs/install' class='button{% if page.category == 'installation' %} active{% endif %}'>Installation</a><a href='{{site.baseurl}}/docs/crashcourse/introduction' class='button{% if page.category == 'crashcourse' %} active{% endif %}'>Crashcourse</a><a href='{{site.baseurl}}/docs/guides/add-shapefile' class='button{% if page.category == 'guides' %} active{% endif %}'>Guides</a><a href='{{site.baseurl}}/docs/manual/' class='button{% if page.category == 'reference' %} active{% endif %}'>Reference</a><a href='{{site.url}}/carto' class='button' >CartoCSS Reference</a></li>
+  </nav>
 </div>
 {% endif %}
 
-<div class='doc-page pad3c clearfix'>
-<div class='clearfix'>
+<div class='doc-page pad4c fill-grey clearfix'>
+<div class='clearfix fill-white'>
   {% if page.title == 'TileMill' %}
-  <div class='cell12 doc-content doc prose pad2'>
+  <div class='col12 doc-content doc prose'>
     {{content}}
   </div>
   {% else %}
-  <div class='cell3'>
+  <div class='col3'>
     {% if page.private %}
       <div class='doc-private'><h3>Private</h3>{{page.private}}</div>
     {% elsif page.navigation %}
       <div class='doc-nav'>
       {% for heading in page.navigation %}
-        <ul class='nav anchors'>
-          <li><a href='#{{heading[0]|downcase|replace:' ','_'}}'>{{heading[0]}}</a></li>
+        <nav class='v anchors'>
+          <a href='#{{heading[0]|downcase|replace:' ','_'}}'><strong>{{heading[0]}}</strong></a>
           {% for item in heading[1] %}
           {% if item.hash %}
-          <li><a href='#{{item.hash}}'>{{item.text}}</a></li>
+          <a href='#{{item.hash}}'>{{item.text}}</a>
           {% else %}
-          <li><a href='#{{item|downcase|replace:' ','_'}}'>{{item}}</a></li>
+          <a href='#{{item|downcase|replace:' ','_'}}'>{{item}}</a>
           {% endif %}
           {% endfor %}
-        </ul>
+        </nav>
       {% endfor %}
       </div>
     {% else %}
@@ -80,8 +45,8 @@ class: box
       </div>
     {% endif %}
   </div>
-  <div class='cell9 doc-content prose'>
-    <div class='doc pad2'>
+  <div class='col9 doc-content keyline-left prose'>
+    <div class='doc pad4'>
       <h1 id='{{page.title|downcase|replace:' ', '_'}}'>{{page.title}}</h1>
       {{content}}
     </div>
@@ -90,3 +55,4 @@ class: box
 </div>
 </div>
 
+{% include tilemill-footer.html %}

@@ -91,7 +91,7 @@ maps:
 <script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.6/mapbox.js'></script>
 <link href='http://api.tiles.mapbox.com/mapbox.js/v0.6.6/mapbox.css' rel='stylesheet' />
 
-<style type='text/css'>
+<style>
   body {overflow: visible;}
   .branding.fillE {
   margin: 0 auto;
@@ -115,20 +115,6 @@ maps:
   margin-top: 3px;
   margin-left: 7px;
   margin-right: 7px;
-  }
-.pager-box a.cancel {
-  background-color:#3bb2d0;
-  }
-
-  .pager-box a {
-    margin-bottom: 0;
-  }
-    .pager-box a:last-child {
-      border-right-width: 0;
-    }
-  .pager-box {
-    z-index: 2;
-    border-bottom: 1px solid #28353d;
   }
   .right {
     position: absolute;
@@ -188,15 +174,6 @@ maps:
 
   .zoomer { top: 90px;}
 
-  body, .wrapper {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    z-index: 0;
-  }
-
   .desc-box {
     padding: 20px;
     width: 100%;
@@ -204,8 +181,7 @@ maps:
     }
     .desc-box.main-desc { position: relative; z-index: 2;}
     .desc-box.caption {
-      position: relative;
-      border-top: 1px solid #28353d;
+    position: relative;
     -webkit-animation: fadeInDown 500ms ease 500ms both;
        -moz-animation: fadeInDown 500ms ease 500ms both;
             animation: fadeInDown 500ms ease 500ms both;
@@ -230,9 +206,6 @@ maps:
   .wrapper { height: 800px;}
   .desc-box.caption { display: none;}
   .desc-box h2 { white-space: nowrap;}
-  .pager-box a { height: 60px; padding: 20px; width: 33.3333%; margin: 0;}
-  .pager-box a { border-left: 1px solid #3C4E5A;}
-  .pager-box a:first-child { border-left: 0;}
   .right { top: 180px; }
   .zoomer { top: 205px;}
   #map {
@@ -270,36 +243,36 @@ maps:
   }
 </style>
 
-<div id="map" class="fillE"></div>
-<div id="mapdescription" class="clearfix cell4 right"></div>
+<div id='map' class='fill-grey'></div>
+<div id='mapdescription' class='clearfix col4 right'></div>
 <script type='text/template' id='gallery-template'>
-  <div class="pager-box clearfix">
-    <a class="cell4 prev" href="#<%=prev%>"><span class="icon reverse prev"></span> prev</a>
-    <a class="cell4 next" href="#<%=next%>">next <span class="icon reverse next"></span></a>
-    <a class="cell4 play" href="#<%=next%>">play <span class="icon reverse play"></span></a>
+  <div class='clearfix fill-white keyline-bottom keyline-top'>
+    <a class='pad2y4x col4 prev icon prev' href='#<%=prev%>'>prev</a>
+    <a class='pad2y4x col4 next rcon next keyline-left keyline-right' href='#<%=next%>'>next</a>
+    <a class='pad2y4x col4 play' href='#<%=next%>'>play<span class='icon play'></span></a>
   </div>
-  <div class="fillD desc-box main-desc cell12">
+  <div class='desc-box main-desc col12 fill-white'>
     <h2><%=name%></h2>
     <small>by <%=creator%></small>
   </div>
   <% if (description) { %>
-  <div class="fillD desc-box caption cell12">
+  <div class='desc-box caption keyline-top col12 fill-light'>
     <small><%=description%></small>
   </div>
   <% } %>
 </script>
 <script type='text/template' id='gallery-template-play'>
-  <div class="pager-box clearfix">
-    <a class="cell4 prev" href="#<%=prev%>"><span class="icon reverse prev"></span> prev</a>
-    <a class="cell4 next" href="#<%=next%>">next <span class="icon reverse next"></span></a>
-    <a class="cell4 cancel" href="#<%=next%>">cancel</a>
+  <div class='clearfix fill-white keyline-bottom keyline-top'>
+    <a class='pad2y4x col4 prev icon prev' href='#<%=prev%>'>prev</a>
+    <a class='pad2y4x col4 next rcon next keyline-left keyline-right' href='#<%=next%>'>next</a>
+    <a class='pad2y4x col4 cancel' href='#<%=next%>'>cancel</a>
   </div>
-  <div class="fillD desc-box main-desc cell12">
+  <div class='desc-box main-desc fill-light col12'>
     <h2><%=name%></h2>
     <small>by <%=creator%></small>
   </div>
   <% if (description) { %>
-  <div class="fillD desc-box caption cell12">
+  <div class='desc-box caption keyline-top fill-light col12'>
     <small><%=description%></small>
   </div>
   <% } %>
