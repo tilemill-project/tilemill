@@ -15,9 +15,8 @@ name and flag of the country you are hovering over appear
 in the top right. You can pull any attributes from a data
 layer to form tooltips like this. Here, we are pulling a 
 text attribute and a base64-encoded PNG image from a GeoJSON
-file of country polygons. Click on the settings wrench at the
-top right, then on the 'Tooltips' tab to see how this was
-set up.
+file of country polygons. Click on the ☝ icon in the Editing
+tools in the lower left menu bar.
 
 Layers overview
 ---------------
