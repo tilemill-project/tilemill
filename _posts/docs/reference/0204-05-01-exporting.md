@@ -72,7 +72,7 @@ Usage:
 
 Options:
 
-<table>
+<table style='table-layout:auto'>
 <tr><td><strong>--format=</strong>[format]                 </td><td>Export format (png|jpeg|tiff|pdf|svg|mbtiles|upload|sync). (Default: undefined)</td></tr>
 <tr><td><strong>--bbox=</strong>[xmin,ymin,xmax,ymax]      </td><td>Comma separated coordinates of bounding box to export. (Default: undefined)</td></tr>
 <tr><td><strong>--minzoom=</strong>[zoom]                  </td><td>MBTiles: minimum zoom level to export. (Default: undefined)</td></tr>
