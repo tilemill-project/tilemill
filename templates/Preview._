@@ -5,7 +5,7 @@
       Save MBTiles
     </a>
     <span class='prose'>
-      MBTiles can be <a target='_blank' href='http://mapbox.com/tour/hosting/'>hosted on the web</a> or used offline with the <a href='http://mapbox.com/ipad/'>MapBox iPad App</a>.
+      MBTiles can be <a target='_blank' href='http://mapbox.com/tour/hosting/'>hosted on the web</a> or used offline with the <a target='_blank' href='http://mapbox.com/mapbox-ios-sdk/'>MapBox iOS SDK</a>.
     </span>
   </li></ul>
   <div class='fill' id='preview'></div>
