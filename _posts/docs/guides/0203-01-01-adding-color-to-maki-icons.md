@@ -44,12 +44,12 @@ icons a green color:
 
 ![Changing color](/tilemill/assets/pages/adding-colors-to-maki-icons-3.png)
 
-<small class='note' markdown='1'>
+<div class='note' markdown='1'>
 <h3>Selecting all icons at once</h3>
 Using the __Find tool (ctrl+f)__ you can select all of the icons at
 once. By default the icon fills are set to __#444444__ add this value
 into the _Style:_ input and press _Find_.
-</small>
+</div>
 
 ### 3. Batch export the icons
 
@@ -59,9 +59,9 @@ into the _Style:_ input and press _Find_.
 
 The icons will batch render themselves as .png's in the same directory the .svg is located in.
 
-<small class='note' markdown='1'>
+<div class='note' markdown='1'>
 <h3>Note</h3>
 For export purposes, each icon set is grouped by a unique id. If you would like to retain the naming of the icons the sets should not be ungrouped. You can view the naming of each id by right clicking on an object.
-</small>
+</div>
 
 {% include nextup.html %}
