@@ -36,7 +36,7 @@ If you want to follow along with the same example data we're going to use, downl
 
 Use the [marker-file](http://www.mapbox.com/carto/api/2.1.0/#marker-file) CartoCSS property to add Maki icons to the map. You'll need to use [selection filters](/tilemill/docs/guides/selectors/#basic_text_comparison_filters) to limit your style to a particular category for each icon. Here's an example styling cafes from the example CSV above:
 
-        #poi[category='Cafe'] { marker-file: url(maki/cafe-18.svg); }
+    #poi[category='Cafe'] { marker-file: url(maki/cafe-18.svg); }
 
 ![First Map Preview](/tilemill/assets/pages/maki-3-2.png) 
 
@@ -44,9 +44,9 @@ Use the [marker-file](http://www.mapbox.com/carto/api/2.1.0/#marker-file) CartoC
 
 Take advantage of Maki's size variations to scale the icons based on your map's zoom level. To do this, you need to add [zoom level filters](/tilemill/docs/guides/selectors/#zoom_level_filters) to adjust which image TileMill shows for each zoom level. Usually point of interest icons are only visible at higher zoom levels, as they start to clutter maps as you zoom out. For this example, lets leave them visible as a frame of reference because there's not much of a base map.
 
-        #poi[category='Cafe'][zoom <= 16] { marker-file: url(maki/cafe-12.svg); }
-        #poi[category='Cafe'][zoom >= 17] { marker-file: url(maki/cafe-18.svg); }
-        #poi[category='Cafe'][zoom >= 19] { marker-file: url(maki/cafe-24.svg); }
+    #poi[category='Cafe'][zoom <= 16] { marker-file: url(maki/cafe-12.svg); }
+    #poi[category='Cafe'][zoom >= 17] { marker-file: url(maki/cafe-18.svg); }
+    #poi[category='Cafe'][zoom >= 19] { marker-file: url(maki/cafe-24.svg); }
 
 Explore the data by clicking on the table icon in the layers palette and experiment with your conditional statements. As you add more icon types, it might make sense to organize your CartoCSS using nested style blocks:
 
