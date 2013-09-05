@@ -11,12 +11,11 @@ nextup:
 - "[Add a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
 ---
 
-## Using Google Docs
 You probably already have a favorite software or database system for data manipulation. No problem, as long as it gets your data where it needs to be. We do highly recommend using [Google Docs](http://docs.google.com) in conjunction, for it does certain tasks very well. It's also free, has versioning, and allows you to use our nifty [Geocoding and GeoJSON Export scripts](https://github.com/mapbox/geo-googledocs). Importing your data into a Google Spreadsheet is relatively painless. These tutorials will guide you through a few of the more advanced tools offered in Google Spreadsheets for pre-TileMill data preparation.
 
 For demonstration purposes we will be using [2010 tornado data](/tilemill/assets/pages/2010_tornadoes.csv), originally found at the [NOAA's Storm Prediction Center](http://www.spc.noaa.gov/wcm/).
 
-### Pivot Tables
+## Pivot Tables
 
 A **pivot table** is a summarization tool for your data. It creates a new table that allows you to sort, count, total, or average the selected data. When preparing data for mapping, pivot tables are often used to aggregate a list of data to a specific geographical level, such as countries or states.
 
@@ -44,7 +43,7 @@ You now have a new table that shows the number of tornadoes per state in 2010. W
 
 These steps serve only a basic example of how to use this tool. There are many more things you can accomplish with pivot tables and you may need to make adjustments based on your own data.
 
-### Geocoding
+## Geocoding
 
 In order to import your CSV or GeoJSON into TileMill, it must have columns that specify **latitude** and **longitude** coordinates. Quite often your data will have location names, but not coordinates. So how do you get the coordinate of a point based on the name of a location? This exact process is called **geocoding**, and there is a script you can add to your google spreadsheet that will automate this process for you.
 
@@ -81,7 +80,7 @@ Once your data is ready, you will want to publish it as a **CSV**. TileMill can 
 7. Copy the link and paste it in the **Datasource** field when adding the layer in TileMill.
   ![](/tilemill/assets/pages/googledocs-export-5.png)
 
-### Flushing the Cache
+## Flushing the Cache
 
 TileMill **caches** layer data for better performance, but this can sometimes cause updated data from the same source to not be immediately available. To rectify this we can manually tell TileMill to flush the cache.
 

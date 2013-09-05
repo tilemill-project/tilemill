@@ -7,12 +7,9 @@ title: "Designing heat maps"
 permalink: /docs/guides/designing-heat-maps
 ---
 
-
-## Designing Heat Maps with TileMill and QGIS
-
 This is a 10 minute walk through showing how to generate heat maps in QGIS and then display them in TileMill.
 
-### Working with QGIS
+## Working with QGIS
 
 Make sure you are running at least QGIS >= 1.9. At the time of writing, this is the development release. Mac users can find it at [kyngchaos](http://www.kyngchaos.com/software/qgis). 
 
@@ -45,7 +42,7 @@ Your map should appear. Just hit upload in the [export](http://mapbox.com/tilemi
 
 [![](http://farm7.staticflickr.com/6100/6286976630_3569786983_o.png)](http://www.flickr.com/photos/developmentseed/6286976630/in/photostream/lightbox/)
 
-### Faking it with TileMill
+## Faking it with TileMill
 
 TileMill won't generate rasterized heatmaps like the QGIS plugin can, but you can approximate the effect with a few CartoCSS tricks to take advantage of aggregated opacity: low opacity of individual points means that overlap in dense areas has a stronger, more saturated color value. 
 
