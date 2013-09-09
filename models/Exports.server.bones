@@ -28,7 +28,11 @@ function start(id, callback) {
         // datasource
         args.push(data.project);
         // filepath
-        args.push(path.join(settings.files, 'export', data.filename));
+        if (data.filename) {
+            args.push(path.join(settings.files, 'export', data.filename));
+        } else {
+            args.push(path.join(settings.files, 'export'));
+        }
         // format, don't try to guess extension based on filepath
         args.push('--format=' + data.format);
         // url
