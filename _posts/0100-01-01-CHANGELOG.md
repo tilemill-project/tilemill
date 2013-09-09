@@ -14,12 +14,27 @@ title: Changelog
 permalink: /changelog
 releases:
 
-# - version: 0.10.2
-#
-#  notes:
-#  - OS X: added support for Notification Center during exports
-#  - OS X: added dock icon badge during exports
-#  - OS X: added support for 10.9 Mavericks & App Nap
+#   - OS X: added support for 10.9 Mavericks & App Nap
+
+- version: 0.10.1.113
+  tag: v0.10.1-113-g1a83a15
+  dev: true
+  date: 2013-09-09
+  size: 65993023
+
+  notes:
+  - OS X - added support for Notification Center during exports
+  - OS X - added dock icon badge during exports
+  - Now using Node.js v0.10.18 internally
+  - CartoCSS - Fixed detection of 'zoom' keyword such that spaces are allowed now and fields with 'zoom' as part of the name
+  - CartoCSS - New support for 'direct-image-filters', 'scale-hsla', 'background-image-opacity', 'background-image-comp-op', and 'line-pattern-offset'
+  - Mapnik - faster loading of SVG files
+  - Mapnik - Fixed regression in handling F type dbf fields
+  - Mapnik - Fixed handling of SVG files which contain empty 'g'
+  - Mapnik - Fixed handling of marker-ignore-placement when marker-placement is 'line'
+  - Mapnik - Added Map level background-image-comp-op to control the compositing operation used to blend the background-image onto the background-color. Has no meaning if background-color or background-image are not set.
+  - Mapnik - Added Map level background-image-opacity to dynamically set the opacity of the background-image
+  - Mapnik - Fixed missing support for using PathExpression in marker-file
 
 - version: 0.10.1.59
   tag: v0.10.1-59-g338d40a
