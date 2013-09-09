@@ -686,19 +686,24 @@ command.prototype.upload = function (callback) {
         }, this);
     }, function(err, res, body) {
         if (err) throw err;
-        // Let Step catch thrown errors here.
-        var model = _((res.statusCode === 404 || (typeof(body) != 'object')) ? {} : JSON.parse(body)).extend({
-            id: cmd.opts.syncAccount + '.' + cmd.opts.project,
-            _type: 'tileset',
-            created: +new Date,
-            status: 'pending',
-            url: 'http://' + bucket + '.s3.amazonaws.com/' + key
-        });
-        request.put({
-            url: modelURL,
-            json: model,
-            proxy: proxy
-        }, this);
+        var model;
+        try {
+            model = _(res.statusCode === 404 ? {} : JSON.parse(body)).extend({
+                id: cmd.opts.syncAccount + '.' + cmd.opts.project,
+                _type: 'tileset',
+                created: +new Date,
+                status: 'pending',
+                url: 'http://' + bucket + '.s3.amazonaws.com/' + key
+            });
+            request.put({
+                url: modelURL,
+                json: model,
+                proxy: proxy
+            }, this);
+        } catch (err) {
+            // catch and re-throw so that body is defined in debug output below
+            if (err) this(err,res,body);
+        }
     }, function(err, res, body) {
         console.log('MapBox Hosting account response: ' + util.inspect(body));
         if (err) {
