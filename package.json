@@ -41,7 +41,7 @@
         "underscore": "~1.5.1",
         "wax": "6.4.2",
         "node-markdown": "~0.1.1",
-        "sqlite3": "~2.1.12",
+        "sqlite3": "https://github.com/developmentseed/node-sqlite3/tarball/master",
         "passport": "0.1.x",
         "passport-oauth": "0.1.x",
         "modestmaps": "3.3.5",
