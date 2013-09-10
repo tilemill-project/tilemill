@@ -14,31 +14,31 @@ title: Changelog
 permalink: /changelog
 releases:
 
-- version: 0.10.1.113
-  tag: v0.10.1-113-g1a83a15
-  dev: true
-  date: 2013-09-09
-  size: 66070202
-
-  notes:
-  - OS X - Added support for 10.9 Mavericks & App Nap
-  - OS X - Added support for Notification Center during exports
-  - OS X - Added dock icon badge during exports
-  - TileMill - Now using Node.js v0.10.18
-  - TileMill - Dropped support for OS X 10.6
-  - TileMill - Now built using clang++, libc++, and -std=c++11 for better performance
-  - CartoCSS - Fixed detection of 'zoom' keyword such that spaces are allowed now and fields with 'zoom' as part of the name
-  - CartoCSS - New support for 'direct-image-filters', 'scale-hsla', 'background-image-opacity', 'background-image-comp-op', and 'line-pattern-offset'
-  - Mapnik - Faster loading of SVG files
-  - Mapnik - Fixed regression in handling F type dbf fields
-  - Mapnik - Fixed handling of SVG files which contain empty 'g'
-  - Mapnik - Fixed handling of marker-ignore-placement when marker-placement is 'line'
-  - Mapnik - Added Map level background-image-comp-op to control the compositing operation used to blend the background-image onto the background-color. Has no meaning if background-color or background-image are not set.
-  - Mapnik - Added Map level background-image-opacity to dynamically set the opacity of the background-image
-  - Mapnik - Fixed missing support for using PathExpression in 'marker-file'
-  - Millstone - Fixed zipfile support to ensure .shp file is preferred over .txt file in archive
-  - Millstone - Fixed handling of zip archives with more than one shapefile
-  - Millstone - Increased download pool size from 5 to 10 for faster fetching of multiple resources
+# - version: 0.10.1.113
+#  tag: v0.10.1-113-g1a83a15
+#  dev: true
+#  date: 2013-09-09
+#  size: 66070202
+#
+#  notes:
+#  - OS X - Added support for 10.9 Mavericks & App Nap
+#  - OS X - Added support for Notification Center during exports
+#  - OS X - Added dock icon badge during exports
+#  - TileMill - Now using Node.js v0.10.18
+#  - TileMill - Dropped support for OS X 10.6
+#  - TileMill - Now built using clang++, libc++, and -std=c++11 for better performance
+#  - CartoCSS - Fixed detection of 'zoom' keyword such that spaces are allowed now and fields with 'zoom' as part of the name
+#  - CartoCSS - New support for 'direct-image-filters', 'scale-hsla', 'background-image-opacity', 'background-image-comp-op', and 'line-pattern-offset'
+#  - Mapnik - Faster loading of SVG files
+#  - Mapnik - Fixed regression in handling F type dbf fields
+#  - Mapnik - Fixed handling of SVG files which contain empty 'g'
+#  - Mapnik - Fixed handling of marker-ignore-placement when marker-placement is 'line'
+#  - Mapnik - Added Map level background-image-comp-op to control the compositing operation used to blend the background-image onto the background-color. Has no meaning if background-color or background-image are not set.
+#  - Mapnik - Added Map level background-image-opacity to dynamically set the opacity of the background-image
+#  - Mapnik - Fixed missing support for using PathExpression in 'marker-file'
+#  - Millstone - Fixed zipfile support to ensure .shp file is preferred over .txt file in archive
+#  - Millstone - Fixed handling of zip archives with more than one shapefile
+#  - Millstone - Increased download pool size from 5 to 10 for faster fetching of multiple resources
 
 - version: 0.10.1.59
   tag: v0.10.1-59-g338d40a
