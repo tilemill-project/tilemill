@@ -18,7 +18,7 @@ releases:
   tag: v0.10.1-113-g1a83a15
   dev: true
   date: 2013-09-09
-  size: 65993023
+  size: 66070202
 
   notes:
   - OS X - Added support for 10.9 Mavericks & App Nap
