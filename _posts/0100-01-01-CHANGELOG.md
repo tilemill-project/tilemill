@@ -14,8 +14,6 @@ title: Changelog
 permalink: /changelog
 releases:
 
-#   - OS X: added support for 10.9 Mavericks & App Nap
-
 - version: 0.10.1.113
   tag: v0.10.1-113-g1a83a15
   dev: true
@@ -25,6 +23,7 @@ releases:
   notes:
   - OS X - added support for Notification Center during exports
   - OS X - added dock icon badge during exports
+  - OS X - added support for 10.9 Mavericks & App Nap
   - Now using Node.js v0.10.18 internally
   - CartoCSS - Fixed detection of 'zoom' keyword such that spaces are allowed now and fields with 'zoom' as part of the name
   - CartoCSS - New support for 'direct-image-filters', 'scale-hsla', 'background-image-opacity', 'background-image-comp-op', and 'line-pattern-offset'

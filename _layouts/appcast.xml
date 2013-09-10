@@ -11,7 +11,7 @@
     {% if post.permalink == '/changelog' %}
     {% for item in post.releases reversed %}
     {% if item.dev != true or page.dev == true %}
-    {% if item.version and item.sign %}
+    {% if item.version and item.date %}
     <item>
         <title>TileMill {{item.version}}</title>
         {% if item.dev == true %}
@@ -29,7 +29,8 @@
             type="application/octet-stream"
             length="{{item.size}}"
             sparkle:version="{{item.version}}"
-            sparkle:dsaSignature="{{item.sign}}" />
+            {% if item.sign %} sparkle:dsaSignature="{{item.sign}}"{% endif %}
+            />
     </item>
     {% endif %}
     {% endif %}
