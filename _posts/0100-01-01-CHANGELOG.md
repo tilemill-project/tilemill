@@ -14,6 +14,16 @@ title: Changelog
 permalink: /changelog
 releases:
 
+- version: 0.10.1.120
+  tag: v0.10.1-120-g182c947
+  dev: true
+  date: 2013-09-12
+  size: 92397428
+  sign: MC0CFFcJYM/uvUCnEZnsqmvwh1ZonT/jAhUAkxGkYxXWERmn3uWtWFprCCkdlow=
+
+  notes:
+  - Mapnik - Fixed a regression involving map-buffer-size
+
 - version: 0.10.1.113
   tag: v0.10.1-113-g1a83a15
   dev: true
