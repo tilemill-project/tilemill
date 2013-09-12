@@ -34,6 +34,8 @@ it('GET should return JSON', function(done) {
             assert.deepEqual([
                 "background-color",
                 "background-image",
+                "background-image-comp-op",
+                "background-image-opacity",
                 "srs",
                 "buffer-size",
                 "maximum-extent",
