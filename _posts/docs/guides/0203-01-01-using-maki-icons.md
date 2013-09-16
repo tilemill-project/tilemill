@@ -94,6 +94,6 @@ It's easy to make your icons interactive based on the data contained in the CSV.
 
 If you delete or comment-out the `Map` and `#countries` styles, your icons will be on a transparent background and can be used as an overlay on another layer. Follow instructions to [upload this overlay to MapBox hosting](/hosting/uploading/) and [composite it with another map](/hosting/compositing/).
 
-<iframe width='600' height='400' frameBorder='0' src='http://a.tiles.mapbox.com/v3/saman.map-mpr6vgy4.html#17/38.907/-77.041'> </iframe>
+<iframe width='600' height='400' frameBorder='0' src='https://a.tiles.mapbox.com/v3/saman.map-mpr6vgy4.html#17/38.907/-77.041'> </iframe>
 
 {% include nextup.html %}
