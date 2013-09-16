@@ -127,7 +127,7 @@ In the upload screen, we draw some reasonable boundaries and pick a center point
 
 Once the tiles have rendered and uploaded, we have a browsable map hosted on MapBox:
 
-<iframe width='744' height='491' frameBorder='0' src='http://a.tiles.mapbox.com/v3/char.panama-canal.html#12/9.15/-79.85' ></iframe>
+<iframe width='744' height='491' frameBorder='0' src='https://a.tiles.mapbox.com/v3/char.panama-canal.html#12/9.15/-79.85' ></iframe>
 
 ## Conclusions ##
 We’ve downloaded Landsat 8 data, color-corrected it, pulled it into TileMill for use with other map resources, and uploaded it as a live map layer on MapBox. I hope this has encouraged you to make use of Landsat 8 data – and given you a head start on working with imagery from other sources.
