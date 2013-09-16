@@ -46,7 +46,7 @@ Your map should appear. Just hit upload in the [export](http://mapbox.com/tilemi
 
 TileMill won't generate rasterized heatmaps like the QGIS plugin can, but you can approximate the effect with a few CartoCSS tricks to take advantage of aggregated opacity: low opacity of individual points means that overlap in dense areas has a stronger, more saturated color value. 
 
-<iframe width='650' height='450' frameBorder='0' src='http://a.tiles.mapbox.com/v3/villeda.map-kahz7z2b.html#12/38.905/-77.003'> </iframe>
+<iframe width='650' height='450' frameBorder='0' src='https://a.tiles.mapbox.com/v3/villeda.map-kahz7z2b.html#12/38.905/-77.003'> </iframe>
 
 This example uses the original shapefile with just a few lines of [CartoCSS](http://mapbox.com/carto/):
 
