@@ -123,12 +123,18 @@ command.prototype.initialize = function(plugin, callback) {
     // Write export-specific crash log
     process.on('uncaughtException', function(err) {
         cmd.error(err, function() {
-            var crash_log = opts.filepath + '.crashlog';
-            if (opts.log) {
-                console.warn('Export process died, log written to: ' + crash_log);
-                fs.writeFileSync(crash_log, err.stack || err.toString());
-            } else {
-                console.warn('Export process died: ' + err.stack || err.toString());
+            // try/catch here to avoid recursion
+            // https://github.com/mapbox/tilemill/issues/2072
+            try {
+                var crash_log = opts.filepath + '.crashlog';
+                if (opts.log) {
+                    console.warn('Export process died, log written to: ' + crash_log);
+                    fs.writeFileSync(crash_log, err.stack || err.toString());
+                } else {
+                    console.warn('Export process died: ' + err.stack || err.toString());
+                }
+            } catch(e) {
+                console.error('Export process died: ' + err.stack || err.toString())
             }
             // force exit here because cleanup in tilelive is not working leading to:
             // Error: SQLITE_IOERR: disk I/O error
