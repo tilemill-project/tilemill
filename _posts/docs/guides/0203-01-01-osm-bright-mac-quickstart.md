@@ -21,11 +21,22 @@ In order to use OSM Bright on OS X you will need to download & install a number 
 
 ### PostGIS
 
-There are a several possible routes for installing PostGIS on OS X, including installing with [homebrew](http://brew.sh) or downloading packages from <http://postgresapp.com> or <http://www.kyngchaos.com/software:postgres>.
+There are a several ways to install PostGIS on OS X, including using the pre-built packages from <http://postgresapp.com> or <http://www.kyngchaos.com/software:postgres> and building from scratch with [homebrew](http://brew.sh).
 
-If you are already familiar with `homebrew` then we recommend using that for installing PostgreSQL and PostGIS. Otherwise we recommend using the packages from KyngChaos. We do not recommend PostgresApp at this time because the current release (`v9.2.4`) includes a [broken PostGIS installation due to a missing libtiff library](https://github.com/PostgresApp/PostgresApp/issues/111).
+We prefer <http://postgresapp.com> since its standalone `.app` based package and graphical tools make it the most approachable for those new to postgres. However if you are familiar with `homebrew` and prefer source compiles then `brew install postgis` can work great. Consider the `KyngChaos` approach an excellent fallback if the other methods do not work.
+
+#### Installing Postgres.app
+
+[Download it here](http://postgresapp.com/). Unzip the download and drag the app into your Applications folder.
+
+After installation you'll want to make sure that the command line tools that come with Postgres.app are available. Run these two commands in the Terminal:
+
+    echo 'export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"' >> ~/.bash_profile
+    source ~/.bash_profile
 
 #### Installing PostgreSQL/PostGIS with homebrew
+
+Skip this step if you already installed `Postgres.app`.
 
 First make sure your homebrew install is up to date:
 
@@ -45,6 +56,8 @@ To make this alias persistent across Terminal sessions you should include it in 
 
 
 #### Installing PostgreSQL/PostGIS from KyngChaos
+
+Skip this step if you already installed `Postgres.app`.
 
 ##### The GDAL 'complete' framework
 
@@ -68,8 +81,8 @@ To make this alias persistent across Terminal sessions you should include it in 
 
 After installation you'll want to make sure that the `osm2pgsql` command is available without having to type the full path to where you installed it. If just typing `osm2pgsql` in a terminal gives the error `-bash: osm2pgsql: command not found` then you can run these commands in the Terminal:
 
-    echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.profile
-    source ~/.profile
+    echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.bash_profile
+    source ~/.bash_profile
 
 Note: OSM Bright can also be used with Imposm, but this is slightly more complicated to install on Mac OS X. Feel free to use it as an alternative if you already have it or if you are comfortable with installation systems like Homebrew and easy\_install. Refer to the import command in the OSM Bright README. 
 
