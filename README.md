@@ -36,6 +36,15 @@ If you do not have a `template_postgis` create one like:
     psql -d template_postgis -f $POSTGIS_PATH/postgis.sql
     psql -d template_postgis -f $POSTGIS_PATH/spatial_ref_sys.sql
 
+If you experience failing tests here are two tips:
+
+1. Debug the project data by running TileMill with
+
+    ./index.js --files=./test/fixtures/files/
+
+2. Try clearing the cache of test data:
+
+    rm -rf ./test/fixtures/files/
 
 For more info see: http://postgis.net/docs/manual-1.5/ch02.html
 
