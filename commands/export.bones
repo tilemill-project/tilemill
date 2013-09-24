@@ -8,6 +8,7 @@ var Step = require('step');
 var http = require('http');
 var chrono = require('chrono');
 var crashutil = require('../lib/crashutil');
+var os = require('os');
 // node v6 -> v8 compatibility
 var existsSync = require('fs').existsSync || require('path').existsSync;
 
@@ -214,11 +215,17 @@ command.prototype.initialize = function(plugin, callback) {
             process.exit(1);
         });
         if (!cmd.opts.quiet) process.stderr.write(' done.\n');
-        // Set the postgres connection pool size to # of cpus based on
+        // Set the postgres connection pool size to 2 * # of cpus based on
         // assumption of pool size in tilelive-mapnik.
         model.get('Layer').each(function(l) {
-            if (l.attributes.Datasource && l.attributes.Datasource.dbname)
-                l.attributes.Datasource.max_size = require('os').cpus().length;
+            if (l.attributes.Datasource && l.attributes.Datasource.dbname) {
+                var target_size = os.cpus().length * 2;
+                if (l.attributes.Datasource.max_size === undefined ||
+                    l.attributes.Datasource.max_size < target_size) {
+                    l.attributes.Datasource.max_size = target_size;
+                    console.log('setting PostGIS max_size='+target_size+' for ' + l.id);
+                }
+            }
         });
         if (!cmd.opts.quiet) process.stderr.write('Localizing project...');
         model.localize(model.toJSON(), this);
