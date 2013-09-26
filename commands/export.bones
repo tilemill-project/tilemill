@@ -24,7 +24,7 @@ command.usage = '<project> <export>';
 
 command.options['format'] = {
     'title': 'format=[format]',
-    'description': 'Export format (png|jpeg|tiff|pdf|svg|mbtiles|upload|sync).'
+    'description': 'Export format (png|jpeg|webp|tiff|pdf|svg|mbtiles|upload|sync).'
 };
 
 command.options['bbox'] = {
@@ -166,7 +166,7 @@ command.prototype.initialize = function(plugin, callback) {
 
     // Format.
     if (!opts.format) opts.format = path.extname(opts.filepath).split('.').pop();
-    console.log(opts.format);
+    console.log('Exporting format: ' + opts.format);
 
     // Convert string params into numbers.
     if (!_(opts.bbox).isUndefined())
@@ -186,13 +186,14 @@ command.prototype.initialize = function(plugin, callback) {
 
     // Rename the output filepath using a random hash if file already exists.
     if (existsSync(opts.filepath) &&
-        _(['png','jpeg','jpg','tiff','tif','pdf','svg','mbtiles']).include(opts.format)) {
+        _(['png','jpeg','jpg','wepb','tiff','tif','pdf','svg','mbtiles']).include(opts.format)) {
         var hash = crypto.createHash('md5')
             .update(+new Date + '')
             .digest('hex')
             .substring(0, 6);
         var ext = path.extname(opts.filepath);
         opts.filepath = opts.filepath.replace(ext, '_' + hash + ext);
+        console.log('found previous export with same name, so renamed to: ' + path.basename(opts.filepath));
 
         // Update filename in TileMill.
         this.put({ filename: path.basename(opts.filepath), status: 'processing' });
@@ -262,12 +263,13 @@ command.prototype.initialize = function(plugin, callback) {
         case 'png':
         case 'jpeg':
         case 'jpg':
+        case 'webp':
         case 'tiff':
         case 'tif':
         case 'svg':
         case 'pdf':
-            console.log('Rendering file');
-            cmd.image(model, cmd.complete);
+            console.log('Rendering single static map');
+            cmd.static_map(model, cmd.complete);
             break;
         case 'upload':
             console.log('Uploading new export');
@@ -376,7 +378,7 @@ function formatString(string) {
     });
 }
 
-command.prototype.image = function(project, callback) {
+command.prototype.static_map = function(project, callback) {
     var sm = new (require('sphericalmercator'))();
     var map = new mapnik.Map(this.opts.width, this.opts.height);
 

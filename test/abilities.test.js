@@ -44,13 +44,7 @@ it('GET should return JSON', function(done) {
                 "minimum-version",
                 "font-directory"
             ], Object.keys(abilities.carto.symbolizers.map));
-
-            assert.deepEqual({
-                mbtiles: true,
-                png: true,
-                pdf: true,
-                svg: true
-            }, abilities.exports);
+            assert.equal(true,abilities.exports.mbtiles);
             done();
         }
     );

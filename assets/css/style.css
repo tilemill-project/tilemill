@@ -1057,7 +1057,10 @@ li:hover .icon { display:block; }
   }
 
 .i40.png     { background-position:0px -320px; }
-.i40.svg     { background-position:0px -320px; }
+.i40.jpeg    { background-position:0px -320px; }
+.i40.tiff    { background-position:0px -320px; }
+.i40.webp    { background-position:0px -320px; }
+.i40.svg     { background-position:-40px -320px; }
 .i40.pdf     { background-position:-40px -320px; }
 .i40.mbtiles { background-position:-80px -320px; }
 .i40.zip     { background-position:-120px -320px; }

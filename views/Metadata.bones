@@ -280,9 +280,7 @@ view.prototype.save = function() {
             maxzoom: attr.maxzoom
         }, {error:error})) return false;
         break;
-    case 'png':
-    case 'pdf':
-    case 'svg':
+    default:
         if (!this.model.set({
             filename: attr.filename,
             bbox: attr.bounds,

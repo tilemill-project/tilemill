@@ -115,9 +115,14 @@ command.prototype.bootstrap = function(plugin, callback) {
         datasources: mapnik.datasources(),
         exports: {
             mbtiles: true,
-            png: true,
-            pdf: mapnik.supports.cairo,
-            svg: mapnik.supports.cairo
+            png: mapnik.supports.png,
+            jpeg: mapnik.supports.jpeg,
+            webp: mapnik.supports.webp,
+            tiff: mapnik.supports.tiff,
+            grid: mapnik.supports.grid,
+            proj4: mapnik.supports.proj4,
+            pdf: mapnik.supports.cairo_pdf || mapnik.supports.cairo,
+            svg: mapnik.supports.cairo_svg || mapnik.supports.cairo
         }
     };
 
