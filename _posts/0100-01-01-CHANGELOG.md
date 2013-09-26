@@ -14,6 +14,12 @@ title: Changelog
 permalink: /changelog
 releases:
 
+
+#- version: TBD
+#
+#  notes:
+#  - TileMill.app - fixed ability to run app as alternative user
+
 - version: 0.10.1.120
   tag: v0.10.1-120-g182c947
   dev: true
