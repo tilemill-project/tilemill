@@ -18,7 +18,20 @@ releases:
 #- version: TBD
 #
 #  notes:
-#  - TileMill.app - fixed ability to run app as alternative user
+#  - TileMill - Restored support for sampling the running processes with Activity Monitor / dtrace
+#  - TileMill - Fixed temporarily broken upload support in previous dev build (v0.10.1.120)
+#  - TileMill - Restored OS X 10.6 support
+#  - TileMill - Updated to use node-mapnik@v1.2.0
+#  - Carto - Fixed support for `direct-image-filters`
+#  - Carto - Fixed error message when invalid value is passed to `text-name` (@strk)
+#  - Carto - Fixed support for `text-name: "";` (@yohanboniface)
+#  - Mapnik - Fixed support for unicode regex - avoiding error in previous dev build of 'Could not initialize ICU resources'
+#  - Mapnik - Fixed support for fast, memory mapped reading of shapefiles - accidentally disabled in previous dev build (v0.10.1.120)
+#  - TileMill.app - Fixed ability to run app as alternative user
+#  - TileMill - Fixed potential hang when the exports directory does not exist
+#  - Millstone - Fixed bug where options where discarded when requesting the same download from more than once instance (@strk)
+#  - Millstone - Fixed double unzipping bug
+#  - Millstone - Fixed handling of zipfile download metadata (@dboze)
 
 - version: 0.10.1.120
   tag: v0.10.1-120-g182c947
