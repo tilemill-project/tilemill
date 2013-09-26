@@ -35,7 +35,7 @@ command.prototype.initialize = function(plugin, callback) {
     // Default out the coreUrl, needed to point the client
     // window at the right URL.
     plugin.config.coreUrl = plugin.config.coreUrl ||
-        'localhost:' + plugin.config.port;
+        '127.0.0.1:' + plugin.config.port;
 
     // Set proxy env variable before spawning children
     if (plugin.config.httpProxy) process.env.HTTP_PROXY = plugin.config.httpProxy;
