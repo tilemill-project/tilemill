@@ -22,6 +22,8 @@ releases:
 #  - TileMill - Fixed temporarily broken upload support in previous dev build (v0.10.1.120)
 #  - TileMill - Restored OS X 10.6 support
 #  - TileMill - Updated to use node-mapnik@v1.2.0
+#  - TileMill - Now using `127.0.0.1` instead of `localhost` for url access to accomodate systems where they are not equivalent
+#  - TileMill - Added support for new static image exports - `jpeg`, `tiff`, and `webp`.
 #  - Carto - Fixed support for `direct-image-filters`
 #  - Carto - Fixed error message when invalid value is passed to `text-name` (@strk)
 #  - Carto - Fixed support for `text-name: "";` (@yohanboniface)
