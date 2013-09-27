@@ -127,7 +127,7 @@ model.prototype.schema = {
             'required': true,
             'pattern': '^[A-Za-z0-9\-_]+$',
             'title': 'Filename',
-            'description': 'Filename may include alphanumeric characters, dashes and underscores.',
+            'description': 'Filename may only include alphanumeric characters, dashes and underscores.',
             'ignore': true
         }
     }

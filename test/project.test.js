@@ -160,7 +160,7 @@ it('PUT should fail with invalid id', function(done) {
         var body = JSON.parse(res.body);
         delete body.stack;
         assert.deepEqual({
-            message: "Filename may include alphanumeric characters, dashes and underscores."
+            message: "Filename may only include alphanumeric characters, dashes and underscores."
         }, body);
         assert['throws'](function() {
             fs.statSync('./test/fixtures/files/project/Bad !@!ID');
