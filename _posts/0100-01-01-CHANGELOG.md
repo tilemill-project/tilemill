@@ -18,6 +18,7 @@ releases:
 #- version: TBD
 #
 #  notes:
+#  - TileMill - Boosted rendering performance by increasing threadpool size to 1.5 * CPUs
 #  - TileMill - Restored support for sampling the running processes with Activity Monitor / dtrace
 #  - TileMill - Fixed temporarily broken upload support in previous dev build (v0.10.1.120)
 #  - TileMill - Restored OS X 10.6 support
