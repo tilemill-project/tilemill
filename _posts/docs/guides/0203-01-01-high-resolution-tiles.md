@@ -14,13 +14,13 @@ prereq:
 
 <!-- WIP, feel free to chip in -->
 
-TileMill includes a number of features that make it easy to create high-resolution versions of map designs, for example to display on Apple Retina displays. Doing this will keep your maps crisp and readable on phones, tablets, and other devices with very high pixel density. With two versions of the same map, you can use client-side code (eg MapBox.js) to detect which of tiles it should use depending on the device it detects itself being displayed on.
+TileMill includes a number of features that make it easy to create high-resolution versions of map designs, for example to display on Apple Retina displays. Providing an alternative, high-resolution tileset will allow you to keep your maps looking crisp and readable on phones, tablets, and other devices with very high pixel density. You can use client-side code (eg. MapBox.js) to detect devices that report high pixel density and display your high-resolution version, while falling back to normal tiles for all other clients.
 
 To create a higher-resolution set of tiles, go to your TileMill project's settings (via the wrench icon at the top-right) and look for the slider named **Scale Factor**. Increasing this will increase the thickness of lines, scale of icons, and size of text. It will also adjust zoom level filters to help account for these changes (keeping similar feature density, relative sizes, etc).
 
 ## Clipped labels and markers
 
-Increasing the Scale Factor also increases the likelihood of clipped labels and markers. To help avoid this, add a `buffer-size` property to your project's `Map` object. The default value is `128`, so try doubling that to start. Eg:
+Increasing the **Scale Factor** also increases the likelihood of clipped labels and markers. To help avoid this, add a `buffer-size` property to your project's `Map` object. The default value is `128`, so try doubling that to start. Eg:
 
     Map {
         background-color: #fff;
