@@ -18,6 +18,7 @@ releases:
 #- version: TBD
 #
 #  notes:
+#  - TileMill - Boosted reprojection speed for source data in WGS 84 / epsg 4326
 #  - TileMill - Boosted rendering performance by increasing threadpool size to 1.5 * CPUs
 #  - TileMill - Restored support for sampling the running processes with Activity Monitor / dtrace
 #  - TileMill - Fixed temporarily broken upload support in previous dev build (v0.10.1.120)
@@ -35,6 +36,8 @@ releases:
 #  - Millstone - Fixed bug where options where discarded when requesting the same download from more than once instance (@strk)
 #  - Millstone - Fixed double unzipping bug
 #  - Millstone - Fixed handling of zipfile download metadata (@dboze)
+#  - node-srs - Now will transform all projections using `+init` syntax to use `+proj` syntax to avoid Mapnik needing to do this
+#  - node-srs - Now will auto-detect various variant forms of epsg 4326 and make them consistent to ensure fastest reprojection in Mapnik
 
 - version: 0.10.1.120
   tag: v0.10.1-120-g182c947
