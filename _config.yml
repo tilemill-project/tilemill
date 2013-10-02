@@ -2,4 +2,4 @@ exclude: [.gitignore, .gitmodules]
 baseurl: /tilemill
 permalink: /:categories/:title
 title: TileMill
-url: https://www.mapbox.com
+url: //www.mapbox.com
