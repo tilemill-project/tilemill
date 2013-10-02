@@ -59,6 +59,7 @@
         "topcube": "https://github.com/creationix/topcube/tarball/master"
     },
     "scripts": {
+        "preinstall": "node ./configure.js",
         "start": "./index.js",
         "test": "mocha --timeout 10000",
         "postinstall": "node ./lib/gitutil.js"
