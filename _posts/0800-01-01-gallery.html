@@ -311,7 +311,7 @@ maps:
         $('#map').html('');
       }
 
-      mapbox.auto('map', d.id, function(m, tj) {
+      mapbox.auto('map', 'https://a.tiles.mapbox.com/v3/' + d.id + '.jsonp?secure', function(m, tj) {
         m.ui.legend.remove();
         gallerymap = m;
         m.parent.style.background = d.matte ? '#' + d.matte : '';
