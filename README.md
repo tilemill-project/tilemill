@@ -1,4 +1,5 @@
-TileMill is a modern map design studio powered by open source technology.
+TileMill is a modern map design studio powered by Node.js and Mapnik.
+
 Installation instructions, development docs and other information are available
 on the [TileMill website](http://mapbox.com/tilemill).
 
@@ -6,10 +7,9 @@ on the [TileMill website](http://mapbox.com/tilemill).
 
 # Depends
 
-- Mapnik v2.2.0
-- Node.js v0.8.x or v0.10.x
+- Mapnik v2.3.0
+- Node.js v0.10.x or v0.8.x
 - Protobuf: libprotobuf-lite and protoc
-- GDAL: libgdal and gdal-config
 
 For details follow:
 
