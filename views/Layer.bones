@@ -164,7 +164,8 @@ view.prototype.placeholderUpdate = function(ev) {
 // untenable for queries.
 view.prototype.autoname = function(source) {
     var sep = window.abilities.platform === 'win32' ? '\\' : '/';
-    return _(source.split(sep)).chain()
+
+    var cleanname = _(source.split(sep)).chain()
         .map(function(chunk) { return chunk.split('\\'); })
         .flatten()
         .last()
@@ -175,6 +176,24 @@ view.prototype.autoname = function(source) {
         .replace('selectfrom','')
         .replace('select','')
         .substr(0,20);
+
+    if (!cleanname) {
+        return "";
+    }
+
+    var attr = Bones.utils.form(this.model);
+
+    attr.name =
+    attr.id = cleanname;
+
+    var count = 2;
+    while (this.model.validate(attr)) {
+        attr.name =
+        attr.id = cleanname + count;
+        count++;
+    }
+
+    return attr.id;
 };
 
 view.prototype.browse = function(ev) {
