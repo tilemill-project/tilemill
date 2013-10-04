@@ -18,6 +18,7 @@ releases:
 #- version: TBD
 #
 #  notes:
+#  - TileMill - Layer auto-naming now avoids conflicts with previously created layers by appending a unique number (@Ryanl92)
 #  - TileMill - PNG format now defaults to more space efficient 256 color paletted png, aka. `png8:m=h`
 #  - TileMill - Added support for seamless blurring with `agg-stack-blur` (Map `buffer-size` may need increased slightly for fully seamless blurring)
 #  - TileMill - Fixed crash on Windows when exporting PDF/SVG with text labels
