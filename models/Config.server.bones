@@ -5,7 +5,7 @@ var paths = {
     user: path.join(process.env.HOME, '.tilemill/config.json'),
     vendor: path.resolve(__dirname + '/../lib/config.defaults.json')
 };
-
+var create_files = require('../lib/create_files');
 models.Config.defaults = JSON.parse(fs.readFileSync(paths.vendor, 'utf8'));
 models.Config.prototype.sync = function(method, model, success, error) {
     if (method === 'delete') return error(new Error('Method not supported.'));
@@ -45,6 +45,16 @@ models.Config.prototype.sync = function(method, model, success, error) {
         }, {});
 
         Step(function() {
+            // validate that the 'files' option is okay to write to
+            // https://github.com/mapbox/tilemill/issues/2024
+            try {
+                create_files.init_dirs(['export','cache'],data);
+                this();
+            } catch (err) {
+                throw new Error('The Documents path "' + data.files + '" cannot be written to, please choose a valid location (' + err.message + ')');
+            }
+        }, function(err) {
+            if (err) throw err;
             fs.readFile(paths.user, 'utf8', this);
         // Write changes to user config file.
         }, function(err, current) {

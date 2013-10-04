@@ -282,7 +282,7 @@ function loadProjectAll(model, callback) {
         mkdirp(basepath, 0777, this);
     },
     function(err) {
-        if (err) return callback(err);
+        if (err) return callback(new Error("TileMill cannot write to projects root: '" + basepath + "'' (" + err.message + ")"));
         readdir(basepath, this);
     },
     function(err, files) {

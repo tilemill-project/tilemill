@@ -1,5 +1,6 @@
 var fs = require('fs');
 var fsutil = require('../lib/fsutil');
+var create_files = require('../lib/create_files');
 var path = require('path');
 var Step = require('step');
 var defaults = models.Config.defaults;
@@ -132,30 +133,19 @@ command.prototype.bootstrap = function(plugin, callback) {
         fsutil.mkdirpSync(configDir, 0755);
     }
 
-    if (!existsSync(settings.files)) {
-        console.warn('Creating files dir %s', settings.files);
-        fsutil.mkdirpSync(settings.files, 0755);
+    // try/catch here to allow TileMill to start even if the app cannot write to
+    // its (potentiall invalid) docs location so that user can still edit the settings
+    // to get out of problem without hand editing the config.json
+    // https://github.com/mapbox/tilemill/issues/2024
+    try {
+        create_files.init_dirs(['export', 'project', 'cache'],settings);
+        // Apply server-side mixins/overrides.
+        var db = require('backbone-dirty')(settings.files + '/app.db');
+        db.dirty.on('error', console.log);
+        Backbone.sync = db.sync;
+    } catch (err) {
+        console.error(err);
     }
-    ['export', 'project', 'cache'].forEach(function(key) {
-        var dir = path.join(settings.files, key);
-        if (!existsSync(dir)) {
-            console.warn('Creating %s dir %s', key, dir);
-            fsutil.mkdirpSync(dir, 0755);
-            if (key === 'project' && settings.examples) {
-                var examples = path.resolve(path.join(__dirname, '..', 'examples'));
-                fsutil.cprSync(examples, dir);
-            } else if (key === 'cache' && settings.sampledata) {
-                var shapefile = '82945364-10m-admin-0-countries';
-                var data = path.resolve(path.join(__dirname, '..', 'data', shapefile));
-                fsutil.cprSync(data, path.resolve(path.join(dir, shapefile)));
-            }
-        }
-    });
-
-    // Apply server-side mixins/overrides.
-    var db = require('backbone-dirty')(settings.files + '/app.db');
-    db.dirty.on('error', console.log);
-    Backbone.sync = db.sync;
 
     // Process any waiting exports.
     (new models.Exports).fetch();
