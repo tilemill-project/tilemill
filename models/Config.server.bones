@@ -47,11 +47,15 @@ models.Config.prototype.sync = function(method, model, success, error) {
         Step(function() {
             // validate that the 'files' option is okay to write to
             // https://github.com/mapbox/tilemill/issues/2024
-            try {
-                create_files.init_dirs(['export','cache'],data);
+            if (data.files) {
+                try {
+                    create_files.init_dirs(['export','cache'],data);
+                    this();
+                } catch (err) {
+                    throw new Error('The Documents path "' + data.files + '" cannot be written to, please choose a valid location (' + err.message + ')');
+                }
+            } else {
                 this();
-            } catch (err) {
-                throw new Error('The Documents path "' + data.files + '" cannot be written to, please choose a valid location (' + err.message + ')');
             }
         }, function(err) {
             if (err) throw err;
