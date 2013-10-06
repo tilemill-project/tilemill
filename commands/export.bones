@@ -7,6 +7,7 @@ var util = require('util');
 var Step = require('step');
 var http = require('http');
 var chrono = require('chrono');
+var carto = require('carto');
 var crashutil = require('../lib/crashutil');
 var os = require('os');
 // node v6 -> v8 compatibility
@@ -40,6 +41,11 @@ command.options['minzoom'] = {
 command.options['maxzoom'] = {
     'title': 'maxzoom=[zoom]',
     'description': 'MBTiles: maximum zoom level to export.'
+};
+
+command.options['static_zoom'] = {
+    'title': 'static_zoom=[zoom]',
+    'description': 'Image: explicity set the zoom level of the static map.'
 };
 
 command.options['width'] = {
@@ -183,6 +189,11 @@ command.prototype.initialize = function(plugin, callback) {
         opts.metatile = parseInt(opts.metatile, 10);
     if (!_(opts.scale).isUndefined())
         opts.scale = +opts.scale;
+
+    // convert static_map fixed_zoom to scale_denominator
+    if (!_(opts.static_zoom).isUndefined()) {
+        opts.scale_denominator = carto.tree.Zoom.ranges[opts.static_zoom];
+    }
 
     // Rename the output filepath using a random hash if file already exists.
     if (existsSync(opts.filepath) &&
@@ -390,7 +401,8 @@ command.prototype.static_map = function(project, callback) {
     try {
         map.renderFileSync(this.opts.filepath, {
             format: this.opts.format,
-            scale: project.mml.scale
+            scale: project.mml.scale,
+            scale_denominator: this.opts.scale_denominator || 0.0
         });
         callback();
     } catch(err) {

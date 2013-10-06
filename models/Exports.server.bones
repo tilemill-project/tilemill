@@ -41,10 +41,10 @@ function start(id, callback) {
         args.push('--log=1');
         // Don't output progress information.
         args.push('--quiet');
-
         if (data.bbox) args.push('--bbox=' + data.bbox.join(','));
         if (data.width) args.push('--width=' + data.width);
         if (data.height) args.push('--height=' + data.height);
+        if (!_(data.static_zoom).isUndefined()) args.push('--static_zoom=' + data.static_zoom);
         if (!_(data.minzoom).isUndefined()) args.push('--minzoom=' + data.minzoom);
         if (!_(data.maxzoom).isUndefined()) args.push('--maxzoom=' + data.maxzoom);
         if (!_(data.metatile).isUndefined()) args.push('--metatile=' + data.metatile);

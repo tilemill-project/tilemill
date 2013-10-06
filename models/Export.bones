@@ -28,6 +28,9 @@ model.prototype.schema = {
         'height': {
             'type': 'integer'
         },
+        'static_zoom': {
+            'type': 'integer'
+        },
         'project': {
             'type': 'string',
             'required': true

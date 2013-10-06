@@ -3,6 +3,7 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'slidechange .slider': 'updateTotal',
     'change select[name=format]': 'updateCustom',
+    'change select[name=static_zoom]': 'updateZoom',
     'keyup input[name=bounds],\
         input[name=width],\
         input[name=height]': 'updateSize',
@@ -150,6 +151,20 @@ view.prototype.mapZoom = function(e) {
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };
 
+view.prototype.updateZoom = function(ev) {
+    var static_zoom = this.$('select[name=static_zoom]').val();
+    var bounds = _(this.$('input[name=bounds]').val().split(',')).map(parseFloat);
+    var nwLoc = new MM.Location(bounds[3], bounds[0]);
+    var seLoc = new MM.Location(bounds[1], bounds[2]);
+    var extent = [nwLoc, seLoc];
+    if (static_zoom) {
+        this.map.setExtent(extent);
+        this.map.setZoom(this.$('select[name=static_zoom]').val());
+    } else {
+        this.map.setExtent(extent);
+    }
+};
+
 view.prototype.updateCustom = function(ev) {
     if (this.$('select[name=format]').val() === '') {
         this.$('.dependent').show();
@@ -248,6 +263,7 @@ view.prototype.save = function() {
     if (attr.format || attr.format_custom) attr.format = attr.format || attr.format_custom;
     if (attr.height) attr.height = parseInt(attr.height,10);
     if (attr.width) attr.width = parseInt(attr.width,10);
+    if (attr.static_zoom) attr.static_zoom = parseInt(attr.static_zoom,10);
     delete attr.zooms;
     delete attr.format_custom;
     delete attr._saveProject;
@@ -285,7 +301,8 @@ view.prototype.save = function() {
             filename: attr.filename,
             bbox: attr.bounds,
             width: attr.width,
-            height: attr.height
+            height: attr.height,
+            static_zoom: attr.static_zoom
         }, {error:error})) return false;
         break;
     }
@@ -297,6 +314,7 @@ view.prototype.save = function() {
     delete attr.filename;
     delete attr.width;
     delete attr.height;
+    delete attr.static_zoom;
     if (!this.project.set(attr, {error: function(m, e) {
         if (e.message === "Bounds W must be less than E.") {
             e.message = "Cannot save to project if export crosses the Anti-Meridian";
