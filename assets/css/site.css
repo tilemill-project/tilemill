@@ -337,32 +337,32 @@ only screen and (min-device-pixel-ratio : 2) {
 }
 
 /* ### General Styles ### */
-.branding .logo {
+#nav {
+  padding-left:160px;
+  text-align:left;
+  }
+#nav .logos {
+  text-align:left;
+  position:absolute;
+  left:0px;
+  top:10px;
+  }
+#tilemill-logo {
+  width:160px;
+  height:60px;
+  display:block;
+  text-indent:-999px;
+  overflow:hidden;
   background:transparent url(../../img/tilemill-sprite.png) no-repeat 0 0;
   }
-.branding .attribution {
+#nav .logos .attribution {
   position:absolute;
-  left:100px;
-  top:50px;
+  left:60px;
+  top:40px;
+  white-space:nowrap;
   }
-  .branding .attribution .small-mapbox {
-    display: inline-block;
-    background: url(../../img/tilemill-sprite.png);
-    background-position:2px -74px;
-    background-repeat:no-repeat;
-    width: 70px;
-    text-indent: -9999px;
-    overflow: hidden;
-    }
 
 @media only screen and (max-width: 640px) {
-  .footer .col3 { border-color: #28353D; }
-  .branding .attribution {
-  width: 90px;
-  left: 50px;
-  right: 0;
-  margin: 0px auto;
-  }
   .mobile-hide { display: none;}
 }
 
