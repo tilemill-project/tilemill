@@ -10,6 +10,7 @@ var chrono = require('chrono');
 var carto = require('carto');
 var crashutil = require('../lib/crashutil');
 var _ = require('underscore');
+var sm = new (require('sphericalmercator'))();
 var os = require('os');
 // node v6 -> v8 compatibility
 var existsSync = require('fs').existsSync || require('path').existsSync;
@@ -391,15 +392,13 @@ function formatString(string) {
 }
 
 command.prototype.static_map = function(project, callback) {
-    var sm = new (require('sphericalmercator'))();
-    var map = new mapnik.Map(this.opts.width, this.opts.height);
-
-    map.fromStringSync(project.xml, {
-        strict: false,
-        base: path.join(this.opts.files, 'project', project.id) + '/'
-    });
-    map.extent = sm.convert(project.mml.bounds, '900913');
     try {
+        var map = new mapnik.Map(this.opts.width, this.opts.height);
+        map.fromStringSync(project.xml, {
+            strict: false,
+            base: path.join(this.opts.files, 'project', project.id) + '/'
+        });
+        map.extent = sm.convert(bbox, '900913');
         map.renderFileSync(this.opts.filepath, {
             format: this.opts.format,
             scale: project.mml.scale,
