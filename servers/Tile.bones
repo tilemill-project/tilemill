@@ -5,6 +5,8 @@ var settings = Bones.plugin.config;
 var Step = require('step');
 var readdir = require('../lib/fsutil.js').readdir;
 var mapnik = require('mapnik');
+var sm = new (require('sphericalmercator'))();
+var carto = require('carto');
 
 server = Bones.Server.extend({});
 server.prototype.port = 20008;
@@ -19,13 +21,14 @@ server.prototype.start = function(callback) {
 };
 
 server.prototype.initialize = function() {
-    _.bindAll(this, 'thumb', 'projectStatus', 'load', 'mbtiles');
+    _.bindAll(this, 'thumb', 'projectStatus', 'load', 'mbtiles', 'image');
     this.port = settings.tilePort || this.port;
     this.enable('jsonp callback');
     this.use(this.cors);
     this.all('/tile/:id.mbtiles/:z/:x/:y.:format(png|grid.json)', this.mbtiles);
     this.all('/tile/:id/:z/:x/:y.:format(png|grid.json)', this.load);
     this.all('/tile/:id/thumb.png', this.thumb);
+    this.all('/tile/:id/image', this.image);
     this.get('/tile/:id/project-status', this.projectStatus);
     this.all('/datasource/:id', this.datasource);
     this.get('/status', this.status);
@@ -37,6 +40,41 @@ server.prototype.initialize = function() {
         res.send(err.message, err.status);
     });
 };
+
+server.prototype.image = function(req, res, next) {
+    var id = req.params.id;
+    (new models.Project({id:req.param('id')})).fetch({
+        success: function(model, resp) {
+            model.localize(resp, function(err) {
+                if (err) return next(err);
+                try {
+                    var im = new mapnik.Image(+req.query.width,+req.query.height);
+                    var map = new mapnik.Map(im.width(),im.height());
+                    var bbox = _(req.query.bbox.split(',')).map(parseFloat);
+                    map.fromStringSync(model.xml, {
+                        strict: false,
+                        base: path.join(settings.files, 'project', id) + '/'
+                    });
+                    map.extent = sm.convert(bbox, '900913');
+                    var opts = {
+                        scale_denominator: carto.tree.Zoom.ranges[req.query.static_zoom] || 0.0,
+                        scale: model.mml.scale
+                    }
+                    map.render(im,opts,function(err,im){
+                        if (err) return next(err);
+                        im.encode('png24',function(err,tile) {
+                            if (err) return next(err);
+                            res.send(tile,{ 'Content-Type': 'image/png' });
+                        });
+                    });
+                } catch (err) {
+                    return next(err);
+                }
+            });
+        },
+        error: function(model, resp) { next(resp) }
+    });
+}
 
 server.prototype.projectStatus = function(req, res, next) {
     var model = new models.Project({

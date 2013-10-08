@@ -1,9 +1,8 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'slidechange .slider': 'updateTotal',
-    'change select[name=format]': 'updateCustom',
-    'change select[name=static_zoom]': 'updateZoom',
+    'slidechange .slider': 'updateSlider',
+    'change select[name=format]': 'updateCustomFormat',
     'keyup input[name=bounds],\
         input[name=width],\
         input[name=height]': 'updateSize',
@@ -24,8 +23,10 @@ view.prototype.initialize = function(options) {
         'close',
         'save',
         'mapZoom',
-        'updateCustom',
+        'updatePreview',
+        'updateCustomFormat',
         'updateTotal',
+        'updateSlider',
         'updateSize');
     this.sm = new SphericalMercator;
     this.type = options.type;
@@ -106,7 +107,7 @@ view.prototype.render = function() {
             if (e < -180) e += 360; else if (e > 180) e -= 360;
             this.$('input[name=bounds]').val([w,s,e,n].join(','));
             if (this.$('input[name=width]').size()) this.updateSize();
-            if (this.$('.slider').size()) this.updateTotal();
+            if (this.$('.slider .range').size()) this.updateTotal();
         }).bind(this));
         this.boxselector.extent(extent);
     }
@@ -132,16 +133,18 @@ view.prototype.render = function() {
     }
 
     // Update state of custom format field.
-    if (this.$('select[name=format]').size()) this.updateCustom();
+    if (this.$('select[name=format]').size()) this.updateCustomFormat();
 
     // Update total tiles
-    if (this.$('.slider').size()) this.updateTotal();
+    if (this.$('.slider .range').size()) this.updateTotal();
 
     // Set up map zoom display.
     this.map.addCallback('zoomed', this.mapZoom);
     this.map.addCallback('panned', this.mapZoom);
     this.map.addCallback('extentset', this.mapZoom);
     this.mapZoom({element: this.map.div});
+
+    this.updatePreview();
 
     return this;
 };
@@ -151,27 +154,26 @@ view.prototype.mapZoom = function(e) {
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };
 
-view.prototype.updateZoom = function(ev) {
-    var static_zoom = this.$('select[name=static_zoom]').val();
-    var bounds = _(this.$('input[name=bounds]').val().split(',')).map(parseFloat);
-    var nwLoc = new MM.Location(bounds[3], bounds[0]);
-    var seLoc = new MM.Location(bounds[1], bounds[2]);
-    var extent = [nwLoc, seLoc];
-    if (static_zoom) {
-        this.map.setExtent(extent);
-        this.map.setZoom(this.$('select[name=static_zoom]').val());
+view.prototype.updateCustomFormat = function(ev) {
+    if (this.$('select[name=format]').val() === '') {
+        this.$('.dependent').hide();
     } else {
-        this.map.setExtent(extent);
+        this.$('.dependent').show();
     }
 };
 
-view.prototype.updateCustom = function(ev) {
-    if (this.$('select[name=format]').val() === '') {
-        this.$('.dependent').show();
-    } else {
-        this.$('.dependent').hide();
-    }
-};
+view.prototype.updatePreview = function() {
+    var attr = Bones.utils.form(this.$('form'), this.model);
+    var req = 'http://' + window.abilities.tileUrl;
+    req += '/tile/' + this.project.id + '/image?';
+    req += 'width='+attr.width;
+    req += '&height='+attr.height;
+    req += '&bbox='+attr.bounds;
+    req += "&static_zoom="+attr.static_zoom;
+    var encoded = encodeURI(req);
+    var wrap = '<a href="' + encoded + '" target="_blank"><img src="' + encoded +'" width="95%" /></a>';
+    this.$('.preview_image').html(wrap);
+}
 
 view.prototype.updateTotal = function(attributes) {
     var sm = this.sm;
@@ -247,6 +249,12 @@ view.prototype.updateSize = function(ev) {
     };
     // Update total tiles.
     if (this.type === 'tiles') this.updateTotal();
+    else this.updatePreview();
+};
+
+view.prototype.updateSlider = function() {
+    if (this.type === 'tiles') this.updateTotal();
+    else this.updatePreview();
 };
 
 view.prototype.save = function() {
