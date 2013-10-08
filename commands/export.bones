@@ -9,6 +9,7 @@ var http = require('http');
 var chrono = require('chrono');
 var carto = require('carto');
 var crashutil = require('../lib/crashutil');
+var _ = require('underscore');
 var os = require('os');
 // node v6 -> v8 compatibility
 var existsSync = require('fs').existsSync || require('path').existsSync;
@@ -319,7 +320,7 @@ command.prototype.complete = function(err, data) {
 command.prototype.error = function(err, callback) {
     this.put({
         status: 'error',
-        error: err.toString(),
+        error: _.escape(err.toString()),
         updated: +new Date()
     }, callback);
 };
