@@ -37,7 +37,9 @@
       </div>
     <% } %>
     <% if (m.get('status') === 'error') { %>
-      <%=m.get('error')%>
+      <div class='joined'>
+        <pre><%=m.get('error')%></pre>
+      </div>
     <% } %>
   </div>
   <a href='#<%=m.id%>' class='icon delete'>Delete</a>
