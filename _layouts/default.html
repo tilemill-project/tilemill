@@ -429,12 +429,10 @@ footer:
     <% } else { %>
     <div class='pad2y pad4x keyline-bottom center'><%= obj %></div>
     <% } %>
-    <div class='pad2y pad4x center'>
-      <a href='#ok' class='button quiet icon check ok'>Ok</a>
-      <% if (obj.callback) { %>
-      <a href='#cancel' class='button quiet icon close cancel'>Cancel</a>
-      <% } %>
-    </div>
+    <div class='pad2y pad4x margin1 col10 center'><!--
+    --><% if (obj.callback) { %><a href='#cancel' class='pad1y small col6 quiet icon strong close cancel'>Cancel</a><% } %><!--
+    --><a href='#ok' class='button <% if (obj.callback) { %>col6<% } %> icon check ok'>Okay</a><!--
+  --></div>
   </div>
 </div>
 </script>
