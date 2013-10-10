@@ -25,9 +25,9 @@ footer:
     - title: Maki
       path: /maki
     - title: Status
-      path: http://mapbox.com/status
+      path: /status
     - title: Twitter
-      path: https://twitter.com/mapbox
+      href: https://twitter.com/mapbox
 ---
 <!DOCTYPE html >
 <html>
@@ -66,7 +66,7 @@ footer:
 
   <link href='//www.mapbox.com/base/latest/base.css' rel='stylesheet' />
   <link href='{{site.url}}/css/site.css' rel='stylesheet' />
-  <!--[if IE]><link rel='stylesheet' href='{{site.url}}/css/site-ie.css' type='text/css'/><![endif]-->
+  <!--[if IE 9]><link href='{{site.url}}/css/site-ie9.css' rel='stylesheet' /><![endif]-->
   <link rel='shortcut icon' href='{{site.url}}/img/favicon.ico' type='image/x-icon' />
   <link rel='alternate' type='application/rss+xml' title='RSS' href='{{site.url}}/blog/blog.rss' />
 
@@ -102,7 +102,7 @@ footer:
 {% else %}
 <div class='masthead fill-white keyline-bottom col12 clearfix'>
   <script type='text/template' id='nav-template'>
-  <div class='primary-wrapper'>
+  <div class='grid'>
     <nav id='nav' class='col10 margin1 text-right pad2y contain noprint'><!--
     --><div class='logos'>
       <a id='tilemill-logo' class='logo' href='{{site.baseurl}}/'>TileMill</a>
@@ -126,6 +126,7 @@ footer:
       <div class='dropdown fill-white keyline-all round-bottom animate'>
         <div>
           <a href='{{site.url}}/tour/'>Tour</a>
+          <a href='{{site.url}}/showcase/'>Showcase</a>
           <a href='{{site.url}}/blog/'>Blog</a>
           <a href='{{site.url}}/help/'>Help</a>
         </div>
@@ -143,7 +144,7 @@ footer:
       <div class='dropdown fill-white keyline-all round-bottom animate'>
         <div class='plan contain'>
           <a href='{{site.url}}/account/billing' class='plan-icon big <%= user.plan.id.replace('2', '').replace('-annual', '') %>'></a>
-          <a href='{{site.url}}/account/billing'>
+          <a href='{{site.url}}/plans'>
             <strong><%= _(user.plan?user.plan.name:'').escape() %></strong>
           </a>
           <small class='quiet'><%= numeral(user.plan.views).format('0a') %> views</small>
@@ -159,6 +160,7 @@ footer:
         </div>
         <div>
           <a href='{{site.url}}/tour/'>Tour</a>
+          <a href='{{site.url}}/showcase/'>Showcase</a>
           <a href='{{site.url}}/blog/'>Blog</a>
           <a href='{{site.url}}/help/'>Help</a>
         </div>
@@ -176,10 +178,10 @@ footer:
   <script>document.write(App.nav());</script>
 </div>
 
-<div class='{% unless page.fullwidth %} primary-wrapper {% endunless %}'>{{content}}</div>
+<div class='{% unless page.fullwidth %} grid {% endunless %}'>{{content}}</div>
 
 <div class='footer keyline-top pad4y fill-white clearfix small'>
-  <div class='primary-wrapper'>
+  <div class='grid'>
     <div class='margin1 col5'>
       <div class='col4'>
         <p class='links'>
@@ -198,24 +200,20 @@ footer:
       <div class='col4'>
         <p class='links'>
           {% for item in page.footer.tools %}
-          <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{{site.url}}{{item.path}}/'><strong>{{item.title}}</strong></a>
+          <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{% if item.href %}{{item.href}}{% else %}{{site.url}}{{item.path}}{% endif %}/'><strong>{{item.title}}</strong></a>
           {% endfor %}
         </p>
       </div>
     </div>
     <div class='col5 newsletter'>
       <h3 class='title'>Subscribe to our newsletter</h3>
-      <div id='mc-signup'>
-        <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
-          <div class='ssfr clearfix'>
-            <fieldset class='pill mobile-cols col12 with-icon'>
-              <span class='icon mail'></span>
-              <input type='text' value='' placeholder='Email Address' name='EMAIL' class='col9 required email' id='mce-EMAIL'>
-              <input type='submit' value='Submit' name='subscribe' id='mc-embedded-subscribe' class='col3'>
-            </fieldset>
-          </div>
-        </form>
-      </div>
+      <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
+        <fieldset class='pill mobile-cols col12 with-icon clearfix'>
+          <span class='icon mail'></span>
+          <input type='text' value='' placeholder='Email Address' name='EMAIL' class='col9 required email' id='mce-EMAIL'>
+          <input type='submit' value='Submit' name='subscribe' id='mc-embedded-subscribe' class='col3'>
+        </fieldset>
+      </form>
     </div>
 
   </div>
@@ -237,7 +235,7 @@ footer:
 <script type='text/html' id='template-modal-auth'>
 <div class='col12 modal-popup modal-auth'>
   <div class='clip sliding h active2'>
-    <form id='reset' class='animate'>
+    <form id='auth-reset' class='animate' method='post'>
       <div class='col6 margin3 modal-body fill-white contain'>
         <% if (obj.close) { %>
         <a href='#close' class='quiet big icon fr close'></a>
@@ -263,7 +261,7 @@ footer:
         </div>
       </div>
     </form>
-    <form id='signin' class='animate' method='post'>
+    <form id='auth-signin' class='animate' method='post'>
       <div class='col6 margin3 modal-body fill-white contain'>
         <% if (obj.close) { %>
         <a href='#close' class='quiet big icon fr close'></a>
@@ -293,7 +291,7 @@ footer:
         </div>
       </div>
     </form>
-    <form id='signup' class='animate'>
+    <form id='auth-signup' class='animate' method='post'>
       <div class='col6 margin3 modal-body fill-white contain'>
         <% if (obj.close) { %>
         <a href='#close' class='quiet big icon fr close'></a>
@@ -427,39 +425,34 @@ footer:
     <% if (obj.html) { %>
     <div class='pad2y pad4x keyline-bottom'><%= obj.html %></div>
     <% } else { %>
-    <div class='pad2y pad4x keyline-bottom center'><%= obj %></div>
+    <div class='pad2y pad4x keyline-bottom center'><%= obj.text || obj %></div>
     <% } %>
     <div class='pad2y pad4x margin1 col10 center'><!--
-    --><% if (obj.callback) { %><a href='#cancel' class='pad1y small col6 quiet icon strong close cancel'>Cancel</a><% } %><!--
-    --><a href='#ok' class='button <% if (obj.callback) { %>col6<% } %> icon check ok'>Okay</a><!--
+    --><% if (obj.callback && obj.cancel !== false) { %><a href='#cancel' class='pad1y small col6 quiet icon strong close cancel'>Cancel</a><% } %><!--
+    --><a href='#ok' class='button <% if (obj.callback && obj.cancel !== false) { %>col6<% } %> icon check ok'>Okay</a><!--
   --></div>
   </div>
 </div>
 </script>
 
 <script type='text/html' id='template-plan-confirm'>
-
 <% if (obj.plan.isUpgrade()) { %>
-
-<p><big>You're about to upgrade to the <%= plan.get('name') %> for $<%= plan.get('price') %>/<%= plan.get('period') %></big></p>
-<p><small>This change is effective immediately and you will be charged
-    $<%= plan.get('price') %> for the new plan right away. We won't
-    automatically prorate for unused time or map views on your current
-    subscription. If you have exceeded the capacity of your current plan we
-    will add an overage charge to your next invoice.
-    <a href='http://support.mapbox.com'>Let us know if you have any questions</a>.</small></p>
-
+<h2 class='center'><%= plan.get('name') %> for $<%= plan.get('price') %>/<%= plan.get('period') %></h2>
+<% if (obj.reason && obj.reason === 'satellite') { %>
+<p class='center'>To use <strong>MapBox Satellite</strong> upgrade to the <strong><%= plan.get('name') %></strong> plan.</p>
 <% } else { %>
-
-<p><big>You're about to downgrade your MapBox subscription!</big></p>
-<p>Before you do that, let's see if we can help you get the most from MapBox. <a href='http://support.mapbox.com/'>Ask our support team for help</a>.</p>
-<p><small>This change is effective immediately and we won't automatically
-    prorate for unused time or map views on your current subscription. If you have exceeded
-    the capacity of your current plan we will issue one last invoice to cover
-    the overages.</small></p>
-
+<p class='center'>You're about to upgrade to the <strong><%= plan.get('name') %></strong> plan.</p>
 <% } %>
-
+<div class='center small'>
+  <a href='{{site.url}}/help/#changing-plans' target='_blank'>What happens when I change plans?</a>
+</div>
+<% } else { %>
+<h2 class='center'>Downgrade to <%= plan.get('name') %></h2>
+<p class='center'>Before you do that, can we help you get the most out of MapBox?<br/><a href='http://support.mapbox.com/' target='_blank'>Ask our support team for help</a>.</p>
+<div class='center small'>
+  <a href='{{site.url}}/help/#changing-plans' target='_blank'>What happens when I change plans?</a>
+</div>
+<% } %>
 </script>
 
 </body>
