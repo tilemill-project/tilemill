@@ -398,7 +398,7 @@ command.prototype.static_map = function(project, callback) {
             strict: false,
             base: path.join(this.opts.files, 'project', project.id) + '/'
         });
-        map.extent = sm.convert(bbox, '900913');
+        map.extent = sm.convert(project.mml.bounds, '900913');
         map.renderFileSync(this.opts.filepath, {
             format: this.opts.format,
             scale: project.mml.scale,
