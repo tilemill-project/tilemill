@@ -64,6 +64,27 @@ For other Linux distribution or for custom-compiled TileMill installation, you'l
     cd "C:\Program Files (x86)\TileMill-v0.10.0\tilemill"
     .\node.exe .\index.js export --help
 
+### Export examples
+
+To export an mbtiles file into `~/Documents/MapBox/export` (the same folder the TileMill user interface will use)
+from the `geography-class` project for a restricted set of zoom levels do:
+
+    ./index.js export geography-class ~/Documents/MapBox/export/geography-class.mbtiles --minzoom=0 --maxzoom=5
+
+To export a single png image from the `geography-class`	project for a bounding box representing the USA do:
+
+    ./index.js export geography-class ~/Documents/MapBox/export/geography-class.png --format=png --width=600 --height=400 --bbox="-131.4844,20.3034,-62.5781,51.3992"
+
+### How to make the export less verbose
+
+By default Millstone outputs a lot of debugging information, but this can be disabled on the fly by doing:
+
+    export NODE_ENV=production
+
+Do this in the shell in which you run the export command.
+
+You can also pass `--verbose=off` to reduce the amount of output from TileMill's export script.
+
 ### Command line export options
 
 Usage:

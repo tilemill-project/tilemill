@@ -3,66 +3,97 @@ layout: docs
 section: help
 category: guides
 tag: Guides
-title: "Using Maki Icons"
+title: "Using Maki Icons in TileMill"
 permalink: /docs/guides/using-maki-icons
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "[Reviewed](/tilemill/docs/crashcourse/introduction) the Crash Course, in particular [using conditional styles](/tilemill/docs/guides/conditional-styles/)."
 nextup:
-- "[Add some color](/tilemill/docs/guides/adding-colors-to-maki-icons/) to your Maki icons."
 - "[Use MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 ---
 {% include prereq.html %}
 
-### About Maki
 [Maki](http://mapbox.com/maki) is a point of interest (POI) icon set for TileMill. On a typical base map, POIs provide context by highlighting things like schools, businesses, and parks. Maki icons are clean, clear, recognizable, and work well with a wide range of map types. 
 
 ![Maki](/tilemill/assets/pages/maki-1.png)
 
 Each symbol comes in three sizes: 24px, 18px, and 12px. They are designed to look sharp even at the smallest size. All the icons have a white outline so they are legible against both dark and light backgrounds. Currently Maki covers most of the basics and we plan to continually expand the range of symbols.
 
-### Using Maki in TileMill
+## Downloading Maki
 
-Here's a step-by-step walkthrough for creating a basic icon overlay in TileMill to composite with any base map.
+[Download the Maki icon set](https://github.com/mapbox/maki/zipball/gh-pages), and unzip it. There are two folders in the Maki project that contain the icons:
 
-1. [Download the Maki icon set](https://github.com/mapbox/maki/zipball/gh-pages), unzip it, and place the Maki folder in your TileMill project directory. You will need to reference the individual icon files later using CartoCSS.
+- **src** contains the icons in SVG format. This is generally recommended for use in TileMill as there will be a couple extra features available for them.
+- **renders** contains the icons in PNG format, including double-resolution versions for high-DPI displays. These are best for the Web, but can also be used in TileMill.
 
-2. Create a new project in TileMill called maki-overlay. You're going to be making a map of Washington, DC, so adjust your project settings to include zoom levels up to 20, and center the map over the Washington, DC area.
+## Basic Styling
 
-3. Next, you need geodata in order to place icons on your map. [This CSV](https://github.com/mapbox/tilemill/raw/gh-pages/assets/pages/combined_poi.csv) based on CloudMade's OpenStreetMap POI data should serve you well. Once it's finished downloading, place combined_poi.csv in your project's data folder, then import it as a layer in TileMill. Set the layer ID to `poi`.
+It's easiest to work with Maki icons if you have a copy of them in your [TileMill project folder](/tilemill/docs/manual/files-directories/#structure_of_a_tilemill_project). Copy the `src` directory (or `renders` directory) there and rename it to `maki`. 
+
+If you want to follow along with the same example data we're going to use, download [this CSV](https://github.com/mapbox/tilemill/raw/gh-pages/assets/pages/combined_poi.csv) of POIs in Washington, DC from OpenStreetMap. Add it as a layer in TileMill and set the layer ID to `poi`.
+
 ![Data Import](/tilemill/assets/pages/maki-2.png)
 
-4. Time to write the basic styles for your data. Using CartoCSS, select the #POI layer and then use a conditional style to filter for cafes within that layer. You'll need to reference the icon with a URL path. Here's what your CartoCSS should look like:
+Use the [marker-file](http://www.mapbox.com/carto/api/2.1.0/#marker-file) CartoCSS property to add Maki icons to the map. You'll need to use [selection filters](/tilemill/docs/guides/selectors/#basic_text_comparison_filters) to limit your style to a particular category for each icon. Here's an example styling cafes from the example CSV above:
 
-        #poi [category='Cafe'] { point-file: url(maki/cafe-18.png); }
+    #poi[category='Cafe'] { marker-file: url(maki/cafe-18.svg); }
 
-> Which results in this map:
 ![First Map Preview](/tilemill/assets/pages/maki-3-2.png) 
 
-5. Take advantage of Maki's size variations to scale the cafe icon based on your map's zoom level. To do this, you need to add conditional statements to adjust which image you use based on zoom level. Usually point of interest icons are only visible at higher zoom levels, as they start to clutter maps as you zoom out. For this example, lets leave them visible as a frame of reference because there's not much of a base map.
+## Using different Maki sizes
 
-        #poi [category='Cafe'][zoom <= 16] {point-file: url(maki/cafe-12.png); }
-        #poi [category='Cafe'][zoom >= 17] {point-file: url(maki/cafe-18.png); }
-        #poi [category='Cafe'][zoom >= 19] {point-file: url(maki/cafe-24.png); }
+Take advantage of Maki's size variations to scale the icons based on your map's zoom level. To do this, you need to add [zoom level filters](/tilemill/docs/guides/selectors/#zoom_level_filters) to adjust which image TileMill shows for each zoom level. Usually point of interest icons are only visible at higher zoom levels, as they start to clutter maps as you zoom out. For this example, lets leave them visible as a frame of reference because there's not much of a base map.
 
-6. Explore the data by clicking on the magnifying glass in the layers palette and experiment with your conditional statements. On my map, I decided to show pubs in addition to cafes, so my CartoCSS now looks like this:
+    #poi[category='Cafe'][zoom <= 16] { marker-file: url(maki/cafe-12.svg); }
+    #poi[category='Cafe'][zoom >= 17] { marker-file: url(maki/cafe-18.svg); }
+    #poi[category='Cafe'][zoom >= 19] { marker-file: url(maki/cafe-24.svg); }
 
-        #poi [category='Cafe'][zoom <= 16] {point-file: url(maki/cafe-12.png); }
-        #poi [category='Cafe'][zoom >= 17] {point-file: url(maki/cafe-18.png); }
-        #poi [category='Cafe'][zoom >= 19] {point-file: url(maki/cafe-24.png); }
-    
-        #poi [category='Pub'][zoom <= 16] {point-file: url(maki/bar-12.png); }
-        #poi [category='Pub'][zoom >= 17] {point-file: url(maki/bar-18.png); }
-        #poi [category='Pub'][zoom >= 19] {point-file: url(maki/bar-24.png); }
+Explore the data by clicking on the table icon in the layers palette and experiment with your conditional statements. As you add more icon types, it might make sense to organize your CartoCSS using nested style blocks:
 
-> Now your map should like this this: 
-![Second Map Preview](/tilemill/assets/pages/maki-5-2.png)
+    #poi[zoom<=16] {
+      [category='Cafe'] { marker-file: url(maki/cafe-12.svg); }
+      [category='Pub'] { marker-file: url(maki/pub-12.svg); }
+    }
+    #poi[zoom>=17] {
+      [category='Cafe'] { marker-file: url(maki/cafe-18.svg); }
+      [category='Pub'] { marker-file: url(maki/pub-18.svg); }
+    }
+    #poi[zoom>=18] {
+      [category='Cafe'] { marker-file: url(maki/cafe-24.svg); }
+      [category='Pub'] { marker-file: url(maki/pub-24.svg); }
+    }
 
-7. It's easy to make your icons interactive based on the data contained in the CSV. Open the interactivity palette, click on the "Teaser" tab, select "poi" as the interactive layer, and then type &#123;&#123;&#123;name&#125;&#125;&#125;, which is output markup that will display the content of the 'name' column in the .csv in a pop-up when you hover over an icon. For detailed instructions on how to use interactivity, [click here](http://mapbox.com/tilemill/docs/crashcourse/tooltips/).
+## Adjusting colors
+
+If you are using the SVG version of Maki (from the `src` directory), you can easily adjust the color of the icons using the CartoCSS property [marker-fill property](http://www.mapbox.com/carto/api/2.1.0/#marker-fill).
+
+    #poi {
+      [category='Cafe'] {
+        marker-file: url(maki/cafe-18.svg);
+        marker-fill: #48b;
+      }
+      [category='Pub'] {
+        marker-file: url(maki/beer-18.svg);
+        marker-fill: #963;
+      }
+      [category='Restaurant'] {
+        marker-file: url(maki/restaurant-18.svg);
+        marker-fill: #b36;
+      }
+    }
+
+![](/tilemill/assets/pages/adding-color-to-maki-icons-1.png)
+
+## Adding interactivity
+
+It's easy to make your icons interactive based on the data contained in the CSV. Open the interactivity palette, click on the "Teaser" tab, select "poi" as the interactive layer, and then type &#123;&#123;&#123;name&#125;&#125;&#125;, which is output markup that will display the content of the 'name' column in the .csv in a pop-up when you hover over an icon. For detailed instructions on how to use interactivity, see [the Crash Course](http://mapbox.com/tilemill/docs/crashcourse/tooltips/).
+
 ![Interactivity](/tilemill/assets/pages/maki-6.png)
 
-8. Finally, delete or comment-out the `Map` and `#countries` styles so the icons are on a transparent background. Your map is now ready to be used as an overlay. Follow instructions to [upload this overlay to MapBox hosting](http://mapbox.com/hosting/uploading/) and [composite it with another map](http://mapbox.com/hosting/compositing/). Here is our Maki overaly composited with [Mapbox Light](https://tiles.mapbox.com/mapbox/map/mapbox-light):
+## Exporting a transparent overlay
 
-<iframe width='600' height='400' frameBorder='0' src='http://a.tiles.mapbox.com/v3/saman.map-mpr6vgy4.html#17/38.907/-77.041'> </iframe>
+If you delete or comment-out the `Map` and `#countries` styles, your icons will be on a transparent background and can be used as an overlay on another layer. Follow instructions to [upload this overlay to MapBox hosting](/hosting/uploading/) and [composite it with another map](/hosting/compositing/).
+
+<iframe width='600' height='400' frameBorder='0' src='https://a.tiles.mapbox.com/v3/saman.map-mpr6vgy4.html#17/38.907/-77.041'> </iframe>
 
 {% include nextup.html %}

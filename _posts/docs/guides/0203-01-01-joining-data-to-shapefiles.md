@@ -18,7 +18,7 @@ Before we begin you will need the following:
 * A spreadsheet of geographical data.
 * A shapefile that matches your data's geography.
 
-###Shapefiles
+## Shapefiles
 
 If you are relatively new to GIS or don't yet have any shapefiles to work with, here are a couple of places to start:
 
@@ -27,7 +27,7 @@ If you are relatively new to GIS or don't yet have any shapefiles to work with, 
 
 A shapefile will come in the form of a group of several similarly named files with different extensions. These shapefiles will normally include some geographic attribute data such as names and id codes, but are mostly data-less. For the purposes of this guide we will be using a shapefile of the United States and joining it with population data.
 
-###Preparing your data
+## Preparing your data
 
 In order to join the two, you must ensure that both your data and your shapefile share a field or column with common values, called a **key**. This is often a name or ID code. In your data table, these identifiers must be unique, meaning one row per name or ID. Joining works by adding fields from your data table to the shapefile's attribute table based on matching values found in the key columns.
 
@@ -39,7 +39,7 @@ Once your data is looking good you will want to save it as a **.dbf** file. This
 
 CSV format can also be used, but there is an extra step that must be done before joining. See the section at the bottom of this guide for more on this.
 
-###Using Quantum GIS to join your data
+## Using Quantum GIS to join your data
 
 1. Once in QGIS, first load the shapefile by clicking the **Add Vector Layer** button.
   ![](/tilemill/assets/pages/qgis-add-layer-1.png)
@@ -91,7 +91,7 @@ CSV format can also be used, but there is an extra step that must be done before
 
 20. This **newly created shapefile** now has both the geometry and the data included and can be directly imported into TileMill. It should consist of at least four files with the same name but different extensions (.shp, .shx, .dbf, .prj). These must remain together.
 
-###Joining CSV files
+## Joining CSV files
 
 CSV files can be joined in the very same way. This is a commonly used format that can be read by many applications, including Quantum GIS. However, QGIS interprets all CSV columns as strings by default, which is a problem if you intend to use numbers to conditionally style your map.
 

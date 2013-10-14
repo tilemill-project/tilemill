@@ -17,7 +17,7 @@ nextup:
 
 This guide will cover some of the more advanced techniques you can employ in TileMill to take your map to the next level. For demonstration, we will continue to work with the 2010 tornado data from the [preparing data with Google Docs guide](/tilemill/docs/tutorials/google-docs/).
 
-### Styling for Zoom Levels
+## Styling for Zoom Levels
 
 Interactive maps give users the ability to change the scale by zooming in or out and we must design them accordingly. Assuming you have [imported your point data](/tilemill/docs/tutorials/point-data/) and done some initial styling, it is time to start thinking about how your map will look at different **zoom levels**.
 
@@ -60,7 +60,7 @@ The reverse is also possible. Show states that are not Oklahoma:
 
   ![](/tilemill/assets/pages/zoom-styling-7.png)
 
-### Text Labels
+## Text Labels
 
 In order to deliver information on a map more immediately, sometimes it is useful to label your data with the actual number or feature that is being represented. This can be combined with the dot or just be a label on its own.
 
@@ -78,7 +78,7 @@ This allows the text and the dots to be displayed together at the same location.
 
 That is all you need to get started with **labels**. The same idea applies to placename labels as well. You can further style them with the `text-` style parameters, changing things like size, color, opacity, placement, and more.
 
-### Images as Icons
+## Images as Icons
 
 TileMill supports using **SVG (Scalable Vector Graphic)** images as markers on your map. It is possible that we could use a custom-made tornado icon in place of the circle markers. The first thing you need is the SVG file saved somewhere on your system, preferably in your project folder for the sake of organization (Documents/MapBox/project/project-name/). Then it's all in the CartoCSS.
   ![](/tilemill/assets/pages/svg-icons-1.png)
@@ -90,7 +90,7 @@ Like other `-allow-overlap` parameters, this allows the images to be displayed e
 3. `point-transform`  
 This is the parameter used to **scale** and **move** the image, among other things. A value of `"scale(1)"` will display the image at its original size, while `"scale(0.5)"` and `"scale(2)"` will display it at 50% and 200% respectively. You can also use this property to move the image vertically and horizontally by using the property `"translate()"`. For example, the value `"translate(20, -40)"` will move the image 20 pixels to the right and 40 pixels up. There are several other properties that you can employ with `point-transform`. [Learn about them on W3](http://www.w3.org/TR/SVG/coords.html#TransformAttribute).
 
-### Exporting for Compositing
+## Exporting for Compositing
 
 When your map contains multiple levels of data as our tornado map does, it is sometimes wise to export each level separately. This has multiple benefits. Firstly, it compartmentalizes your map so that when updating you may not have to re-export the entire map. Secondly, it gives you greater flexibility when [compositing](http://mapbox.com/hosting/compositing/).
 
@@ -109,7 +109,7 @@ Next we create and switch the tooltip to the individual dots layer, and export. 
 We now have two MBTiles with their own interactivity that we can [composite](http://mapbox.com/hosting/compositing/) together with a slick base map.
 
 Here is the final map:
-<iframe width='600' height='400' frameBorder='0' src='http://a.tiles.mapbox.com/v3/mapbox.map-4qkj96dp.html#4/40/-98'> </iframe>
+<iframe width='600' height='400' frameBorder='0' src='https://a.tiles.mapbox.com/v3/mapbox.map-4qkj96dp.html#4/40/-98'> </iframe>
 
 And the final project CartoCSS code for reference:
 

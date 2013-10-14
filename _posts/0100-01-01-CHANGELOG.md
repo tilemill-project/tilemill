@@ -14,12 +14,72 @@ title: Changelog
 permalink: /changelog
 releases:
 
-# - version: 0.10.2
+
+#- version: TBD
 #
 #  notes:
-#  - OS X: added support for Notification Center during exports
-#  - OS X: added dock icon badge during exports
-#  - OS X: added support for 10.9 Mavericks & App Nap
+#  - TileMill - Added support for setting the target zoom level for static image exports
+#  - TileMill - Layer auto-naming now avoids conflicts with previously created layers by appending a unique number (@Ryanl92)
+#  - TileMill - PNG format now defaults to more space efficient 256 color paletted png, aka. `png8:m=h`
+#  - TileMill - Added support for seamless blurring with `agg-stack-blur` (Map `buffer-size` may need increased slightly for fully seamless blurring)
+#  - TileMill - Fixed crash on Windows when exporting PDF/SVG with text labels
+#  - TileMill - Boosted reprojection speed for source data in WGS 84 / epsg 4326
+#  - TileMill - Boosted rendering performance by increasing threadpool size to 1.5 * CPUs
+#  - TileMill - Restored support for sampling the running processes with Activity Monitor / dtrace
+#  - TileMill - Fixed temporarily broken upload support in previous dev build (v0.10.1.120)
+#  - TileMill - Restored OS X 10.6 support
+#  - TileMill - Updated to use node-mapnik@v1.2.0
+#  - TileMill - Now using `127.0.0.1` instead of `localhost` for url access to accomodate systems where they are not equivalent
+#  - TileMill - Added support for new static image exports - `jpeg`, `tiff`, and `webp`.
+#  - Carto - Fixed support for `direct-image-filters`
+#  - Carto - Fixed error message when invalid value is passed to `text-name` (@strk)
+#  - Carto - Fixed support for `text-name: "";` (@yohanboniface)
+#  - Mapnik - Fixed support for unicode regex - avoiding error in previous dev build of 'Could not initialize ICU resources'
+#  - Mapnik - Fixed support for fast, memory mapped reading of shapefiles - accidentally disabled in previous dev build (v0.10.1.120)
+#  - TileMill.app - Fixed ability to run app as alternative user
+#  - TileMill - Fixed potential hang when the exports directory does not exist
+#  - Millstone - Fixed bug where options where discarded when requesting the same download from more than once instance (@strk)
+#  - Millstone - Fixed double unzipping bug
+#  - Millstone - Fixed handling of zipfile download metadata (@dboze)
+#  - node-srs - Now will transform all projections using `+init` syntax to use `+proj` syntax to avoid Mapnik needing to do this
+#  - node-srs - Now will auto-detect various variant forms of epsg 4326 and make them consistent to ensure fastest reprojection in Mapnik
+
+- version: 0.10.1.120
+  tag: v0.10.1-120-g182c947
+  dev: true
+  date: 2013-09-12
+  size: 92397428
+  sign: MC0CFFcJYM/uvUCnEZnsqmvwh1ZonT/jAhUAkxGkYxXWERmn3uWtWFprCCkdlow=
+
+  notes:
+  - Mapnik - Fixed a regression involving map-buffer-size
+
+- version: 0.10.1.113
+  tag: v0.10.1-113-g1a83a15
+  dev: true
+  date: 2013-09-09
+  size: 66070202
+  sign: MC4CFQDUUaVYF0o7WIFwEy2PAj7LGYQ0zwIVAI8exGKYIFNZjWPHDjB8hL/hqcI7
+
+  notes:
+  - OS X - Added support for 10.9 Mavericks & App Nap
+  - OS X - Added support for Notification Center during exports
+  - OS X - Added dock icon badge during exports
+  - TileMill - Now using Node.js v0.10.18
+  - TileMill - Dropped support for OS X 10.6
+  - TileMill - Now built using clang++, libc++, and -std=c++11 for better performance
+  - CartoCSS - Fixed detection of 'zoom' keyword such that spaces are allowed now and fields with 'zoom' as part of the name
+  - CartoCSS - New support for 'direct-image-filters', 'scale-hsla', 'background-image-opacity', 'background-image-comp-op', and 'line-pattern-offset'
+  - Mapnik - Faster loading of SVG files
+  - Mapnik - Fixed regression in handling F type dbf fields
+  - Mapnik - Fixed handling of SVG files which contain empty 'g'
+  - Mapnik - Fixed handling of marker-ignore-placement when marker-placement is 'line'
+  - Mapnik - Added Map level background-image-comp-op to control the compositing operation used to blend the background-image onto the background-color. Has no meaning if background-color or background-image are not set.
+  - Mapnik - Added Map level background-image-opacity to dynamically set the opacity of the background-image
+  - Mapnik - Fixed missing support for using PathExpression in 'marker-file'
+  - Millstone - Fixed zipfile support to ensure .shp file is preferred over .txt file in archive
+  - Millstone - Fixed handling of zip archives with more than one shapefile
+  - Millstone - Increased download pool size from 5 to 10 for faster fetching of multiple resources
 
 - version: 0.10.1.59
   tag: v0.10.1-59-g338d40a
