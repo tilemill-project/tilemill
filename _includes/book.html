@@ -3,7 +3,7 @@
     {% assign tags = '' %}
     {% for item in site.categories[page.category] reversed %}
     {% unless item.hidden %}
-    <a class='pad1y2x {% if item.title == page.title | downcase %} active{% endif %}' href='{{site.baseurl}}{{item.url}}'>{{item.title}}</a>
+    <a class='pad1y pad2x {% if item.title == page.title | downcase %} active{% endif %}' href='{{site.baseurl}}{{item.url}}'>{{item.title}}</a>
     {% endunless %}
     {% endfor %}
   </nav>
