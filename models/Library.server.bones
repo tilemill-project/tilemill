@@ -61,7 +61,6 @@ models.Library.prototype.sync = function(method, model, success, error) {
             }
         }
 
-        var sep = process.platform === 'win32' ? '\\' : '/';
         var location = (model.get('location') || process.env.HOME);
         location = location.replace(/^~/, process.env.HOME);
         if (process.platform === 'win32') {
