@@ -6,8 +6,8 @@
 //  Copyright 2011-2013 MapBox, Inc. All rights reserved.
 //
 
-#define TileMillProductionAppcastURL  [NSURL URLWithString:@"http://mapbox.com/tilemill/platforms/osx/appcast2.xml"]
-#define TileMillDevelopmentAppcastURL [NSURL URLWithString:@"http://mapbox.com/tilemill/platforms/osx/appcast-dev.xml"]
+#define TileMillProductionAppcastURL  [NSURL URLWithString:@"https://mapbox.com/tilemill/platforms/osx/appcast2.xml"]
+#define TileMillDevelopmentAppcastURL [NSURL URLWithString:@"https://mapbox.com/tilemill/platforms/osx/appcast-dev.xml"]
 
 @interface TileMillSparklePrefsWindowController : NSWindowController <NSWindowDelegate>
 

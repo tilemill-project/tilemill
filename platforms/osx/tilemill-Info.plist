@@ -50,7 +50,7 @@
 	<key>SUAllowsAutomaticUpdates</key>
 	<false/>
 	<key>SUFeedURL</key>
-	<string>http://mapbox.com/tilemill/platforms/osx/appcast2.xml</string>
+	<string>https://mapbox.com/tilemill/platforms/osx/appcast2.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_public.pem</string>
 	<key>UTExportedTypeDeclarations</key>

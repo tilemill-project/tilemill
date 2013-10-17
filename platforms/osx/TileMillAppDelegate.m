@@ -287,7 +287,7 @@
 
 - (IBAction)openOnlineHelp:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://mapbox.com/tilemill/docs/"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://mapbox.com/tilemill/docs/"]];
 }
 
 - (IBAction)openConsole:(id)sender
