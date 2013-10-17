@@ -1,6 +1,6 @@
 # Packaging TileMill.app standalone
 
-Thes are steps to setup tilemill to be portable within an .app bundle.
+These are steps to setup tilemill to be portable within an .app bundle.
 
 This is only necessary for developers that wish to build a fully
 distributable tilemill.app without requiring any other installation steps.
@@ -76,46 +76,7 @@ For portbility with the tilemill.app bundle Mapnik needs to be compiled such tha
 all dependencies are either statically linked or are linked using @rpath/@loader_path
 (and then all those dylib deps are included).
 
-An experimental SDK includes all mapnik dependencies such that you can set up
-mapnik to be compiled statically against them.
-
-To set up the SDK and build mapnik do:
-
-    git clone git://github.com/mapnik/mapnik.git -b macbinary-tilemill
-    cd mapnik
-    mkdir osx
-    cd osx/
-    curl -o sources.tar.bz2 http://dbsgeo.com/tmp/mapnik-static-sdk-2.1.0-dev_r1.tar.bz2
-    tar xvf sources.tar.bz2
-    cd ../
-    ./configure JOBS=`sysctl -n hw.ncpu` (If you have problems with Clang, add "CC=gcc CXX=g++" as well.)
-    make
-    make install
-
-    # set critical shell env settings
-    export MAPNIK_ROOT=`pwd`/osx/sources
-    export PATH=$MAPNIK_ROOT/usr/local/bin:$PATH
-
-Confirm the SDK is working by checking mapnik-config presence at that path:
-
-    # this should produce a line of output pointing to valid mapnik-config
-    which mapnik-config | grep $MAPNIK_ROOT
-
-
-Note: this sdk was created using https://github.com/mapnik/mapnik-packaging/blob/master/osx/scripts/static-universal.sh
-
-
-Now build tilemill with a few custom flags:
-
-    export CORE_CXXFLAGS="-O3 -arch x86_64 -arch i386 -mmacosx-version-min=10.6 -isysroot /Developer/SDKs/MacOSX10.6.sdk"
-    export CORE_LINKFLAGS="-arch x86_64 -arch i386 -mmacosx-version-min=10.6 -isysroot /Developer/SDKs/MacOSX10.6.sdk"
-    export CXXFLAGS="$CORE_LINKFLAGS -I$MAPNIK_ROOT/include -I$MAPNIK_ROOT/usr/local/include $CORE_CXXFLAGS"
-    export LINKFLAGS="$CORE_LINKFLAGS -L$MAPNIK_ROOT/lib -L$MAPNIK_ROOT/usr/local/lib -Wl,-search_paths_first $CORE_LINKFLAGS"
-    export JOBS=`sysctl -n hw.ncpu`
-    npm install . --verbose
-
-As long as you don't have any globally installed modules that tilemill uses, this should deposit all 
-tilemill dependencies in node_modules/. Now the task is to check on a few and rebuild a few.
+How to do this is beyond the scope of this document, but we use the scripts at <https://github.com/mapnik/mapnik-packaging/tree/master/osx> to pull this off.
 
 
 ## Change into tilemill dir
