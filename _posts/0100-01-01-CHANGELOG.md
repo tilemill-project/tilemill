@@ -37,8 +37,8 @@ releases:
   - TileMill - Now using `127.0.0.1` instead of `localhost` for url access to accomodate systems where they are not equivalent
   - TileMill - Added support for new static image exports - `jpeg`, `tiff`, and `webp`.
   - Carto - Fixed support for `direct-image-filters`
-  - Carto - Fixed error message when invalid value is passed to `text-name` (@strk)
-  - Carto - Fixed support for `text-name: "";` (@yohanboniface)
+  - Carto - Fixed error message when invalid value is passed to `text-name` (strk)
+  - Carto - Fixed support for empty `text-name` (yohanboniface)
   - Mapnik - Fixed support for unicode regex - avoiding error in previous dev build of 'Could not initialize ICU resources'
   - Mapnik - Fixed support for fast, memory mapped reading of shapefiles - accidentally disabled in previous dev build (v0.10.1.120)
   - TileMill.app - Fixed ability to run app as alternative user
