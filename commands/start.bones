@@ -10,7 +10,7 @@ var ubuntu_gui_workaround = require('../lib/ubuntu_gui_workaround');
 
 command.options['server'] = {
     'title': 'server=1|0',
-    'description': 'Run TileMill in windowless mode.',
+    'description': 'Run TileMill in windowless mode (no client window will be launched at startup).',
     'default': defaults.server
 };
 
