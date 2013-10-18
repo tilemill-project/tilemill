@@ -3,6 +3,7 @@ TileMill is a modern map design studio powered by Node.js and Mapnik.
 Installation instructions, development docs and other information are available
 on the [TileMill website](http://mapbox.com/tilemill).
 
+[![Build Status](https://secure.travis-ci.org/mapbox/tilemill.png)](http://travis-ci.org/mapbox/tilemill)
 [![Dependencies](https://david-dm.org/mapbox/tilemill.png)](https://david-dm.org/mapbox/tilemill)
 
 # Depends
@@ -33,8 +34,8 @@ If you do not have a `template_postgis` create one like:
     POSTGIS_PATH=`pg_config --sharedir`/contrib/postgis-$POSTGIS_VERSION
     createdb -E UTF8 template_postgis
     createlang -d template_postgis plpgsql
-    psql -d template_postgis -f $POSTGIS_PATH/postgis.sql
-    psql -d template_postgis -f $POSTGIS_PATH/spatial_ref_sys.sql
+    psql -q -d template_postgis -f $POSTGIS_PATH/postgis.sql
+    psql -q -d template_postgis -f $POSTGIS_PATH/spatial_ref_sys.sql
 
 If you experience failing tests here are two tips:
 
