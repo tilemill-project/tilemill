@@ -94,14 +94,18 @@ command.prototype.initialize = function(plugin, callback) {
             'log-file': path.join(process.env.HOME, '.tilemill/cefclient.log')
         };
         ubuntu_gui_workaround.check(function(needed) {
-            if (needed) {
-                client = ubuntu_gui_workaround.get_client(options);
-            } else {
-                client = require('topcube')(options);
-            }
-            if (client) {
-                console.warn('[tilemill] Client window created (pass --server=true to disable this)');
-                plugin.children['client'] = client;
+            try {
+              if (needed) {
+                  client = ubuntu_gui_workaround.get_client(options);
+              } else {
+                  client = require('topcube')(options);
+              }
+              if (client) {
+                  console.warn('[tilemill] Client window created (pass --server=true to disable this)');
+                  plugin.children['client'] = client;
+              }
+            } catch (err) {
+              console.warn('[tilemill] Unable to open client window (' + err.message + ')');
             }
         });
     });
