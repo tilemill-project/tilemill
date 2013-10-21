@@ -12,7 +12,7 @@ prereq:
 - "[Styled](/tilemill/docs/crashcourse/styling/) your point data."
 - "[Added tooltips and a legend](/tilemill/docs/crashcourse/tooltips/) to your map."
 nextup:
-- "[Upload](/hosting/uploading/) your map to the web."
+- "[Upload](/help/#upload-mbtiles-file/) your map to the web."
 - "[Sign up](/plans) for a Mapbox hosting account."
 ---
 
