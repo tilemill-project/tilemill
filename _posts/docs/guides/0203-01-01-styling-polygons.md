@@ -71,7 +71,9 @@ If you want to control the a background pattern by zoom level you can add a laye
 
 ![](/tilemill/assets/pages/styling-polygons-4.png)
 
-You can style this layer like any polygon with a pattern or a solid fill and different styles for different scales. You can also put it above other layers and style it with a transparent pattern to create textured overlays (as in the 'Geography Class' example project).
+You can style this layer like any polygon with a pattern or a solid fill and different styles for different scales. You can also put it above other layers and style it with a transparent pattern to create textured overlays (as in the 'Geography Class' example project). Not using a global pattern or fill will leave the background blank, or transparent. Keep this in mind if your layer has a background as there will be an appearance of the map cutting off where the bounds were limited to the extent set in TileMill. To adjust for this in [MapBox.js](https://www.mapbox.com/mapbox.js/api/v1.3.1/), simply add a background value that is the same color as your TileLayer's color value.
+
+![](/tilemill/assets/pages/styling-polygons-5.png)
 
 ### Combining patterns & fills
 
