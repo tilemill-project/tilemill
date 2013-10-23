@@ -54,12 +54,12 @@ platforms:
     {% endfor %}
 
     <div class='mailchimp-subscribe col12 clearfix'>
-      <div class='col6'>
+      <div class='col6 prose'>
         <h3>Downloading&hellip;</h3>
         <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
         </small>
       </div>
-      <div class='col6'>
+      <div class='col6 prose'>
         <h3>Newsletter</h3>
         <small>For news &amp; updates subscribe now:</small>
         <!-- Begin MailChimp Signup Form -->
@@ -86,12 +86,12 @@ platforms:
   </div>
 </div>
 
-<div id='manage' class='fill-navy-dark dark prose'>
+<div id='manage' class='fill-navy-dark dark'>
   <div class='heading center'>
     <h3 class='label-title'><span class='ico manage'>&nbsp;</span>Manage data</h3>
   </div>
   <div class='clearfix full single'>
-    <div class='col6 pad4 fr'>
+    <div class='col6 pad4 fr prose'>
       <h2>Load data from a wide range of sources</h2>
       <p>Compatible datasources include ESRI Shapefile, KML, GeoJSON, GeoTIFF, PostGIS, CSV, and SQLite. Inspect, order, and layer your sources to build complex maps.</p>
       <a href='{{site.baseurl}}/docs/manual/interface-tour/'>Interface tour<span class='icon next blue'>&nbsp;</span></a>
@@ -103,14 +103,14 @@ platforms:
   <div class='clearfix full'>
     <div class='col6 pad4 contain'>
       <div class='illustration browse'></div>
-      <div class='col6'>
+      <div class='prose col6'>
         <h2>Browse public data</h2>
         <p>Access dozens of useful public datasources with the built-in MapBox Geodata browser.</p>
       </div>
     </div>
     <div class='col6 pad4 contain'>
       <div class='illustration raster'></div>
-      <div class='col6'>
+      <div class='prose col6'>
         <h2>Raster support</h2>
         <p>Show satellite data or map your DIY weather balloon aerial photography.</p>
       </div>
@@ -118,12 +118,12 @@ platforms:
   </div>
 </div>
 
-<div id='render' class='dark prose'>
+<div id='render' class='dark'>
   <div class='heading center'>
     <h3 class='label-title'><span class='ico render'>&nbsp;</span>Render + style</h3>
   </div>
   <div class='clearfix full single'>
-    <div class='col6 pad4 fr'>
+    <div class='col6 pad4 fr prose'>
       <h2>State of the art rendering</h2>
       <p>At TileMill's core is Mapnik, a powerful, full-featured library including support for RGBA color, True Type fonts, rasters, patterns, and even SVG transforms.</p>
       <a href='{{site.baseurl}}/gallery/'>Map gallery<span class='icon next blue'>&nbsp;</span></a>
@@ -135,21 +135,21 @@ platforms:
   <div class='clearfix full'>
     <div class='col6 pad4 contain'>
       <div class='illustration textures'></div>
-      <div class='col6'>
+      <div class='col6 prose'>
         <h2>Textures</h2>
         <p>With full alpha-channel support and the ability to add multiple layers and fills TileMill can create richly textured maps.</p>
       </div>
     </div>
     <div class='col6 pad4 contain'>
       <div class='illustration svg'></div>
-      <div class='col6'>
+      <div class='col6 prose'>
         <h2>SVG Markers</h2>
         <p>Resize and transform scalable vector SVG markers right in TileMill.</p>
       </div>
     </div>
   </div>
   <div class='clearfix full single'>
-    <div class='col6 pad4 fr'>
+    <div class='col6 pad4 prose fr'>
       <h2>Style maps with Carto</h2>
       <p>Inspired by CSS, Carto gives you full control over design. Filters, variables, and functions are at your fingertips in the code editor.</p>
       <a href='{{site.baseurl}}/docs/manual/carto/'>Carto guide<span class='icon next blue'>&nbsp;</span></a>
@@ -160,14 +160,14 @@ platforms:
   </div>
 </div>
 
-<div id='enrich' class='fill-navy-dark dark prose'>
+<div id='enrich' class='fill-navy-dark dark'>
   <div class='heading center'>
     <h3 class='label-title'><span class='ico enrich'>&nbsp;</span>Enrich</h3>
   </div>
   <div class='clearfix full'>
     <div class='col6 pad4 contain'>
       <div class='illustration interaction'></div>
-      <div class='col6'>
+      <div class='col6 prose'>
         <h2>Add interaction</h2>
         <p>Create hover tooltips and clickable pop ups with UTF-8 grid technology.</p>
         <a href='{{site.baseurl}}/docs/crashcourse/tooltips/'>Tooltips and legends in TileMill<span class='icon next blue'>&nbsp;</span></a>
@@ -175,7 +175,7 @@ platforms:
     </div>
     <div class='col6 pad4 contain'>
       <div class='illustration embed'></div>
-      <div class='col6'>
+      <div class='col6 prose'>
         <h2>Embed graphics or images</h2>
         <p>Insert interactive graphs, images, links, and other content into your maps.</p>
         <a href='{{site.baseurl}}/docs/tutorials/google-charts/'>Charts in TileMill<span class='icon next blue'>&nbsp;</span></a>
@@ -184,21 +184,21 @@ platforms:
   </div>
 </div>
 
-<div id='share' class='dark prose'>
+<div id='share' class='dark'>
   <div class='heading center'>
     <h3 class='label-title'><span class='ico share'>&nbsp;</span>Share</h3>
   </div>
   <div class='clearfix full'>
     <div class='col6 pad4 contain'>
       <div class='illustration publish'></div>
-      <div class='col6'>
+      <div class='col6 prose'>
         <h2>Publish to the web and mobile</h2>
         <p>Export to the MBTiles format and every map you make in TileMill is desktop and mobile ready.</p>
       </div>
     </div>
     <div class='col6 pad4 contain'>
       <div class='illustration mapbox'></div>
-      <div class='col6'>
+      <div class='col6 prose'>
         <h2>Integrate with MapBox</h2>
         <p>It's just one click to automatically render and upload maps to your MapBox account.</p>
         <a href='http://mapbox.com/'>About MapBox<span class='icon next blue'>&nbsp;</span></a>
@@ -207,9 +207,9 @@ platforms:
   </div>
 </div>
 
-<div id='open-source' class='dark prose'>
+<div id='open-source' class='dark'>
   <div class='clearfix full single fill-navy-dark'>
-    <div class='col6 pad4 fr'>
+    <div class='col6 pad4 fr prose'>
       <h2>Powered by Open Source</h2>
       <p>TileMill is built on a suite of open source libraries including <a href='http://mapnik.org'>Mapnik</a>, <a href='http://nodejs.org'>node.js</a>, <a href='http://documentcloud.github.com/backbone'>backbone.js</a>, <a href='http://expressjs.com'>express</a> and <a href='http://codemirror.net'>CodeMirror</a>. Visit <a href='http://github.com'>GitHub</a> and dig into the source code.</p>
       <a href='http://github.com/mapbox/tilemill' class='button icon github'>Fork me on GitHub</a>
