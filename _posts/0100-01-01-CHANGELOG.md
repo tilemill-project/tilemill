@@ -15,34 +15,39 @@ permalink: /changelog
 releases:
 
 
-#- version: TBD
-#
-#  notes:
-#  - TileMill - Added support for setting the target zoom level for static image exports
-#  - TileMill - Layer auto-naming now avoids conflicts with previously created layers by appending a unique number (@Ryanl92)
-#  - TileMill - PNG format now defaults to more space efficient 256 color paletted png, aka. `png8:m=h`
-#  - TileMill - Added support for seamless blurring with `agg-stack-blur` (Map `buffer-size` may need increased slightly for fully seamless blurring)
-#  - TileMill - Fixed crash on Windows when exporting PDF/SVG with text labels
-#  - TileMill - Boosted reprojection speed for source data in WGS 84 / epsg 4326
-#  - TileMill - Boosted rendering performance by increasing threadpool size to 1.5 * CPUs
-#  - TileMill - Restored support for sampling the running processes with Activity Monitor / dtrace
-#  - TileMill - Fixed temporarily broken upload support in previous dev build (v0.10.1.120)
-#  - TileMill - Restored OS X 10.6 support
-#  - TileMill - Updated to use node-mapnik@v1.2.0
-#  - TileMill - Now using `127.0.0.1` instead of `localhost` for url access to accomodate systems where they are not equivalent
-#  - TileMill - Added support for new static image exports - `jpeg`, `tiff`, and `webp`.
-#  - Carto - Fixed support for `direct-image-filters`
-#  - Carto - Fixed error message when invalid value is passed to `text-name` (@strk)
-#  - Carto - Fixed support for `text-name: "";` (@yohanboniface)
-#  - Mapnik - Fixed support for unicode regex - avoiding error in previous dev build of 'Could not initialize ICU resources'
-#  - Mapnik - Fixed support for fast, memory mapped reading of shapefiles - accidentally disabled in previous dev build (v0.10.1.120)
-#  - TileMill.app - Fixed ability to run app as alternative user
-#  - TileMill - Fixed potential hang when the exports directory does not exist
-#  - Millstone - Fixed bug where options where discarded when requesting the same download from more than once instance (@strk)
-#  - Millstone - Fixed double unzipping bug
-#  - Millstone - Fixed handling of zipfile download metadata (@dboze)
-#  - node-srs - Now will transform all projections using `+init` syntax to use `+proj` syntax to avoid Mapnik needing to do this
-#  - node-srs - Now will auto-detect various variant forms of epsg 4326 and make them consistent to ensure fastest reprojection in Mapnik
+- version: 0.10.1.152
+  tag: v0.10.1-152-gd737f56
+  dev: true
+  date: 2013-10-17
+  size: 88956348
+  sign: MC0CFQDhRX4mkGToqvxwExsIg/qe6SBndQIUPNpZtjwO6K6Omh7V2hXM9CaYzBg=
+
+  notes:
+  - TileMill - Added support for setting the target zoom level for static image exports
+  - TileMill - Layer auto-naming now avoids conflicts with previously created layers by appending a unique number (@Ryanl92)
+  - TileMill - PNG format now defaults to more space efficient 256 color paletted png, aka. `png8:m=h`
+  - TileMill - Added support for seamless blurring with `agg-stack-blur` (Map `buffer-size` may need increased slightly for fully seamless blurring)
+  - TileMill - Fixed crash on Windows when exporting PDF/SVG with text labels
+  - TileMill - Boosted reprojection speed for source data in WGS 84 / epsg 4326
+  - TileMill - Boosted rendering performance by increasing threadpool size to 1.5 * CPUs
+  - TileMill - Restored support for sampling the running processes with Activity Monitor / dtrace
+  - TileMill - Fixed temporarily broken upload support in previous dev build (v0.10.1.120)
+  - OS X - Restored 10.6 support
+  - OS X - Fixed ability to run app as a non-admin user
+  - TileMill - Updated to use node-mapnik@v1.2.0
+  - TileMill - Now using `127.0.0.1` instead of `localhost` for url access to accomodate systems where they are not equivalent
+  - TileMill - Added support for new static image exports - `jpeg`, `tiff`, and `webp`.
+  - Carto - Fixed support for `direct-image-filters`
+  - Carto - Fixed error message when invalid value is passed to `text-name` (strk)
+  - Carto - Fixed support for empty `text-name` (yohanboniface)
+  - Mapnik - Fixed support for unicode regex - avoiding error in previous dev build of 'Could not initialize ICU resources'
+  - Mapnik - Fixed support for fast, memory mapped reading of shapefiles - accidentally disabled in previous dev build (v0.10.1.120)
+  - TileMill - Fixed potential hang when the exports directory does not exist
+  - Millstone - Fixed bug where options where discarded when requesting the same download from more than once instance (@strk)
+  - Millstone - Fixed double unzipping bug
+  - Millstone - Fixed handling of zipfile download metadata (@dboze)
+  - node-srs - Now will transform all projections using `+init` syntax to use `+proj` syntax to avoid Mapnik needing to do this
+  - node-srs - Now will auto-detect various variant forms of epsg 4326 and make them consistent to ensure fastest reprojection in Mapnik
 
 - version: 0.10.1.120
   tag: v0.10.1-120-g182c947
