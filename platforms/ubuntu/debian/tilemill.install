@@ -6,6 +6,7 @@ index.js usr/share/tilemill
 package.json usr/share/tilemill
 VERSION usr/share/tilemill
 tilemill.ico usr/share/tilemill
+rebuild_cxx.sh usr/share/tilemill
 
 ## directories
 _posts usr/share/tilemill
