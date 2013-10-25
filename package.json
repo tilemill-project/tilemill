@@ -56,7 +56,7 @@
         "difflet": "0.2.x"
     },
     "optionalDependencies": {
-        "topcube": "https://github.com/creationix/topcube/tarball/master"
+        "topcube": "~0.2.0"
     },
     "scripts": {
         "preinstall": "node ./configure.js",
