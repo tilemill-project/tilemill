@@ -8,7 +8,10 @@ Build-Depends:
  debhelper (>= 7),
  nodejs (>=0.10.21),
  libmapnik (>=2.3.0),
- libmapnik-dev (>=2.3.0)
+ libmapnik-dev (>=2.3.0),
+ protobuf-compiler,
+ libprotoc-dev,
+ libprotobuf-lite7
 Recommends:
  libgtk2.0-0,
  libgtk2.0-dev,
@@ -22,7 +25,8 @@ Architecture: any
 Depends:
  ${shlibs:Depends},
  ${misc:Depends},
- ${tilemill:Depends}
+ ${tilemill:Depends},
+ libprotobuf-lite7
 Recommends:
  libgtk2.0-0,
  libwebkitgtk-1.0-0 | libwebkit-1.0-2
