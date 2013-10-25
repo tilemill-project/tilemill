@@ -16,15 +16,15 @@ while getopts "s" OPT; do
     esac
 done
 
+BUILD_ROOT=${TILEMILL_ROOT}/node_root_dir
+
 if [ "${RUN_SETUP}" = true ]; then
     NVER=`node -e "console.log(process.versions.node)"`
     echo "Running node-gyp setup for ${NVER}"
     node-gyp install ${NVER}
     BUILD_ROOT=${TILEMILL_ROOT}/node_root_dir
     cp -r ~/.node-gyp/${NVER}/ ${BUILD_ROOT}
-    #rm -rf ~/.node-gyp/
+    rm -rf ~/.node-gyp/
 fi
-BUILD_ROOT=${TILEMILL_ROOT}/node_root_dir
-CXX_MODULES=$(find ${TILEMILL_ROOT}/node_modules -name binding.gyp | sed 's,/binding.gyp,/,g')
-for i in ${CXX_MODULES}; do cd $i && node-gyp rebuild --nodedir=${BUILD_ROOT}; done
+npm rebuild --nodedir=${BUILD_ROOT} --build-from-source
 
