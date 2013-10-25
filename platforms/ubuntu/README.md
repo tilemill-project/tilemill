@@ -144,6 +144,9 @@ To create a testing package that will be built and uploaded to "mapbox-dev" PPA 
     cd platforms/ubuntu
     ./package.sh
 
+NOTE: if you make changes to tilemill sources you also need to remove the `orig` folder
+that the package.sh creates.
+
 Use the -p (production) flag to push a build up to the main "mapbox" PPA:
 
     ./package.sh -p
