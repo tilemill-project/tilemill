@@ -100,16 +100,18 @@ Now build TileMill:
 
 Grab local copy of node-gyp to ensure that the [hackish method to recompile](https://github.com/mapbox/tilemill/blob/3083b084b1e4b3cb23e105736328eb500d6d0f7a/platforms/ubuntu/debian/rules#L21) node-sqlite3 on launchpad works
 
-    cd ./node_modules/sqlite3
     npm install node-gyp
-    cp -r /home/ubuntu/.node-gyp/0.8.11/ node_root_dir
-    rm -rf /home/ubuntu/.node-gyp/
-    ./node_modules/node-gyp/bin/node-gyp.js rebuild --nodedir=node_root_dir/
-    cd ../../
+    export PATH=`pwd`/node_modules/.bin/:${PATH}
+    NVER=`node -e "console.log(process.versions.node)"`
+    TILEMILL_ROOT=`pwd`
+    BUILD_ROOT=${TILEMILL_ROOT}/node_root_dir
+    cp -r ~/.node-gyp/${NVER}/ ${BUILD_ROOT}
+    rm -rf ~/.node-gyp/
+    CXX_MODULES=$(find ${TILEMILL_ROOT}/node_modules -name binding.gyp | sed 's,/binding.gyp,/,g')
+    for i in ${CXX_MODULES}; do cd $i && node-gyp rebuild --nodedir=${BUILD_ROOT} && npm test; done
+    cd ${TILEMILL_ROOT}
 
-Note: all c++ modules must be rebuilt on launchpad and node-waf based modules are currently
-treated differently than node-gyp based modules, but ideally this can be cleaned up in the future
-since all modules will eventually use node-gyp (ideally consistently).
+Note: all c++ modules must be rebuilt on launchpad.
 
 ### Package and upload
 
