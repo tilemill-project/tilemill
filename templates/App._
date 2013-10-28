@@ -42,7 +42,7 @@
 
 <div id='page' class='fill-e'></div>
 <div id='modal'></div>
-<div id='popup' class='pane'><%= this.Pane() %></div>
+<div id='popup' class='pane scrolling'><%= this.Pane() %></div>
 <div class='mask'></div>
 
 </body>
