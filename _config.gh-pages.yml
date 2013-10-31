@@ -1,5 +1,6 @@
+api: https://www.mapbox.com
+url: https://www.mapbox.com
 exclude: [.gitignore, .gitmodules]
 baseurl: /tilemill
 permalink: /:categories/:title
 title: TileMill
-url: https://122e4e-mapbox.global.ssl.fastly.net
