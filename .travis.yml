@@ -24,3 +24,7 @@ script:
  - npm install
  - npm install mocha
  - npm test
+
+branches:
+  except:
+    - gh-pages
