@@ -4,11 +4,11 @@ section: help
 ---
 
 {% if page.section == 'help' %}
-<div class='clearfix doc-header pad4y limiter'>
-  <div class='col3'>
+<div class='clearfix limiter'>
+  <div class='pad4y'>
     <h2>Help</h2>
   </div>
-  <nav class='col9 pill clearfix five-links'>
+  <nav class='col12 pad2 keyline-top keyline-left keyline-right pill clearfix five-links'>
     <a href='{{site.baseurl}}/docs/install' class=' truncate button{% if page.category == 'installation' %} active{% endif %}'>Installation</a><a href='{{site.baseurl}}/docs/crashcourse/introduction' class='truncate button{% if page.category == 'crashcourse' %} active{% endif %}'>Crashcourse</a><a href='{{site.baseurl}}/docs/guides/add-shapefile' class='truncate button{% if page.category == 'guides' %} active{% endif %}'>Guides</a><a href='{{site.baseurl}}/docs/manual/' class='truncate button{% if page.category == 'reference' %} active{% endif %}'>Reference</a><a href='{{site.url}}/carto' class='truncate button' >CartoCSS Reference</a></li>
   </nav>
 </div>
