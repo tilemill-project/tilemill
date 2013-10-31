@@ -24,9 +24,8 @@ section: help
     {% if page.private %}
       <div class='doc-private'><h3>Private</h3>{{page.private}}</div>
     {% elsif page.navigation %}
-      <div class='doc-nav'>
       {% for heading in page.navigation %}
-        <nav class='anchors'>
+        <nav class='doc-nav anchors'>
           <a href='#{{heading[0]|downcase|replace:' ','_'}}'><strong>{{heading[0]}}</strong></a>
           {% for item in heading[1] %}
           {% if item.hash %}
@@ -37,7 +36,6 @@ section: help
           {% endfor %}
         </nav>
       {% endfor %}
-      </div>
     {% else %}
       <div class='doc-nav'>
       {% include book.html %}
