@@ -4,7 +4,7 @@ section: help
 ---
 
 {% if page.section == 'help' %}
-<div class='clearfix doc-header pad4 fill-light'>
+<div class='clearfix doc-header pad4y limiter'>
   <div class='col3'>
     <h2>Help</h2>
   </div>
@@ -14,8 +14,7 @@ section: help
 </div>
 {% endif %}
 
-<div class='doc-page pad4 fill-grey clearfix'>
-<div class='clearfix fill-white'>
+<div class='doc-page limiter keyline-all clearfix'>
   {% if page.title == 'TileMill' %}
   <div class='col12 doc-content doc prose'>
     {{content}}
@@ -27,7 +26,7 @@ section: help
     {% elsif page.navigation %}
       <div class='doc-nav'>
       {% for heading in page.navigation %}
-        <nav class='v anchors'>
+        <nav class='anchors'>
           <a href='#{{heading[0]|downcase|replace:' ','_'}}'><strong>{{heading[0]}}</strong></a>
           {% for item in heading[1] %}
           {% if item.hash %}
@@ -52,7 +51,6 @@ section: help
     </div>
   </div>
   {% endif %}
-</div>
 </div>
 
 {% include tilemill-footer.html %}

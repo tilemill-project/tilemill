@@ -1,3 +1,9 @@
+/* Base Candidate */
+.doc-nav a:hover,
+.doc-nav .active {
+  background-color:#f8f8f8;
+  }
+
 /* ### Frontpage ### */
 #hero { min-height:660px; }
 
