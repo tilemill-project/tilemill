@@ -4,18 +4,17 @@ section: help
 ---
 
 {% if page.section == 'help' %}
-<div class='clearfix doc-header pad4 fill-light'>
-  <div class='col3'>
+<div class='clearfix limiter'>
+  <div class='pad4y'>
     <h2>Help</h2>
   </div>
-  <nav class='col9 pill clearfix five-links'>
-    <a href='{{site.baseurl}}/docs/install' class='button{% if page.category == 'installation' %} active{% endif %}'>Installation</a><a href='{{site.baseurl}}/docs/crashcourse/introduction' class='button{% if page.category == 'crashcourse' %} active{% endif %}'>Crashcourse</a><a href='{{site.baseurl}}/docs/guides/add-shapefile' class='button{% if page.category == 'guides' %} active{% endif %}'>Guides</a><a href='{{site.baseurl}}/docs/manual/' class='button{% if page.category == 'reference' %} active{% endif %}'>Reference</a><a href='{{site.url}}/carto' class='button' >CartoCSS Reference</a></li>
+  <nav class='col12 space-bottom pill clearfix five-links'>
+    <a href='{{site.baseurl}}/docs/install' class=' truncate button{% if page.category == 'installation' %} active{% endif %}'>Installation</a><a href='{{site.baseurl}}/docs/crashcourse/introduction' class='truncate button{% if page.category == 'crashcourse' %} active{% endif %}'>Crashcourse</a><a href='{{site.baseurl}}/docs/guides/add-shapefile' class='truncate button{% if page.category == 'guides' %} active{% endif %}'>Guides</a><a href='{{site.baseurl}}/docs/manual/' class='truncate button{% if page.category == 'reference' %} active{% endif %}'>Reference</a><a href='{{site.url}}/carto' class='truncate button' >CartoCSS Reference</a></li>
   </nav>
 </div>
 {% endif %}
 
-<div class='doc-page pad4 fill-grey clearfix'>
-<div class='clearfix fill-white'>
+<div class='doc-page limiter keyline-all clearfix'>
   {% if page.title == 'TileMill' %}
   <div class='col12 doc-content doc prose'>
     {{content}}
@@ -25,9 +24,8 @@ section: help
     {% if page.private %}
       <div class='doc-private'><h3>Private</h3>{{page.private}}</div>
     {% elsif page.navigation %}
-      <div class='doc-nav'>
       {% for heading in page.navigation %}
-        <nav class='v anchors'>
+        <nav class='doc-nav anchors'>
           <a href='#{{heading[0]|downcase|replace:' ','_'}}'><strong>{{heading[0]}}</strong></a>
           {% for item in heading[1] %}
           {% if item.hash %}
@@ -38,7 +36,6 @@ section: help
           {% endfor %}
         </nav>
       {% endfor %}
-      </div>
     {% else %}
       <div class='doc-nav'>
       {% include book.html %}
@@ -52,7 +49,6 @@ section: help
     </div>
   </div>
   {% endif %}
-</div>
 </div>
 
 {% include tilemill-footer.html %}

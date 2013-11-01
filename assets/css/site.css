@@ -1,3 +1,9 @@
+/* Base Candidate */
+.doc-nav a:hover,
+.doc-nav .active {
+  background-color:#f8f8f8;
+  }
+
 /* ### Frontpage ### */
 #hero { min-height:660px; }
 
@@ -14,6 +20,7 @@
   border-top:6px solid rgba(0,0,0,0);
   border-bottom:6px solid rgba(0,0,0,0);
   border-left:6px solid #3887BE;
+  opacity: 1;
   height:0;
   width:0;
   margin:6px;
@@ -307,62 +314,33 @@ only screen and (max-width: 640px) {
     }
 }
 
-@media
-only screen and (-webkit-min-device-pixel-ratio : 2),
-only screen and (min-device-pixel-ratio : 2) {
-  .heading .ico {
-    background-image:url(../../img/tilemill-sprite@2x.png);
-    background-size: 150px 130px;
-    }
-  #render .illustration {
-    background:url(../../img/render-sprite@2x.png);
-    background-size: 540px 900px;
-    }
-  #manage .illustration {
-    background-image:url(../../img/manage-sprite@2x.png);
-    background-size: 540px 540px;
-    }
-  #enrich .illustration {
-    background-image:url(../../img/enrich-sprite@2x.png);
-    background-size: 540px 260px;
-    }
-  #share .illustration {
-    background-image:url(../../img/share-sprite@2x.png);
-    background-size: 670px 690px;
-    }
-  #open-source .illustration.github {
-    background-image:url(../../img/open-source@2x.png);
-    background-size: 500px 360px;
-    }
-}
-
 /* ### General Styles ### */
-.branding .logo {
+#nav {
+  padding-left:160px;
+  text-align:left;
+  }
+#nav .logos {
+  text-align:left;
+  position:absolute;
+  left:0px;
+  top:10px;
+  }
+#tilemill-logo {
+  width:160px;
+  height:60px;
+  display:block;
+  text-indent:-999px;
+  overflow:hidden;
   background:transparent url(../../img/tilemill-sprite.png) no-repeat 0 0;
   }
-.branding .attribution {
+#nav .logos .attribution {
   position:absolute;
-  left:100px;
-  top:50px;
+  left:60px;
+  top:40px;
+  white-space:nowrap;
   }
-  .branding .attribution .small-mapbox {
-    display: inline-block;
-    background: url(../../img/tilemill-sprite.png);
-    background-position:2px -74px;
-    background-repeat:no-repeat;
-    width: 70px;
-    text-indent: -9999px;
-    overflow: hidden;
-    }
 
 @media only screen and (max-width: 640px) {
-  .footer .col3 { border-color: #28353D; }
-  .branding .attribution {
-  width: 90px;
-  left: 50px;
-  right: 0;
-  margin: 0px auto;
-  }
   .mobile-hide { display: none;}
 }
 
@@ -416,17 +394,8 @@ a.method {
 
 .five-links a { width:20%; }
 
-@media
-only screen and (-webkit-min-device-pixel-ratio : 2),
-only screen and (min-device-pixel-ratio : 2) {
-  .branding .logo,
-  .branding .attribution .small-mapbox {
-    background-image: url(../../img/tilemill-sprite@2x.png);
-    background-size: 150px 130px;
-  }
-}
+h2 small { font: normal 12px/1.6667em Opensans,Arial,sans-serif; }
 
-  h2 small { font: normal 12px/1.6667em Opensans,Arial,sans-serif; }
 @media
 only screen and (max-width: 640px) { h2 { padding: 20px;}}
 
@@ -440,3 +409,34 @@ only screen and (max-width: 640px) { h2 { padding: 20px;}}
 @media (min-width:960px) {
   .doc .fig-right { float:right; margin-top:0px; margin-left:10px; }
 }
+
+@media
+only screen and (-webkit-min-device-pixel-ratio : 2),
+only screen and (min-device-pixel-ratio : 2) {
+  #tilemill-logo,
+  .heading .ico:before {
+    background-image:url(../../img/tilemill-sprite@2x.png);
+    background-size: 150px 130px;
+    }
+  #render .illustration {
+    background:url(../../img/render-sprite@2x.png);
+    background-size: 540px 900px;
+    }
+  #manage .illustration {
+    background-image:url(../../img/manage-sprite@2x.png);
+    background-size: 540px 540px;
+    }
+  #enrich .illustration {
+    background-image:url(../../img/enrich-sprite@2x.png);
+    background-size: 540px 260px;
+    }
+  #share .illustration {
+    background-image:url(../../img/share-sprite@2x.png);
+    background-size: 670px 690px;
+    }
+  #open-source .illustration.github {
+    background-image:url(../../img/open-source@2x.png);
+    background-size: 500px 360px;
+    }
+}
+

@@ -1,10 +1,10 @@
 ---
 layout: default
 ---
-<div class='changelog col12 pad4 fill-grey'>
+<div class='limiter pad4y'>
 {% for item in page.releases %}
   {% if item.dev != true %}
-  <div class='col12 pad4 prose fill-white keyline-top'>
+  <div class='col12 keyline-all pad4 space-bottom prose'>
     <h2>{{item.version}} {% if item.date %}<small>{{item.date|date:'%B %d %Y'}}</small>{% endif %}</h2>
     <ul class='checklist'>
       {% for item in item.notes %}
