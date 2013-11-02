@@ -12,11 +12,11 @@ nextup:
 - "[Using conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
 - "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 code1: "
-  createdb dc-census
-  createlang plpgsql dc-census
-  psql -d dc-census -f postgis.sql
+  createdb dc-census\n
+  createlang plpgsql dc-census\n
+  psql -d dc-census -f postgis.sql\n
   psql -d dc-census -f spatial_ref_sys.sql"
-code2: "shp2pgsql -c -D -s 4269 -I tl_2010_1101_tract10.shp dc_census_tracts | psql -d dc-census"
+code2: "shp2pgsql -c -D -s 4269 -I tl_2010_11001_tract10.shp dc_census_tracts | psql -d dc-census"
 code3: "CREATE TABLE dc_census_data (GEOID varchar(11), SUMLEV varchar(3), STATE varchar(2), COUNTY varchar(3), CBSA varchar(5), CSA varchar(3), NECTA integer, CNECTA integer, NAME varchar(30), POP100 integer, HU100 integer, POP1002000 integer, HU1002000 integer, P001001 integer, P0010012000 integer);"
 code4: "cat all_140_in_11.P1.csv | psql -d dc-census -c 'COPY dc_census_data FROM STDIN WITH CSV HEADER'"
 code5: "SELECT ST_EXTENT(the_geom) from dc_census_tracts"
