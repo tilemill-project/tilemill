@@ -1,7 +1,6 @@
 before_install:
   - gem install liquid -v 2.5.1 --no-rdoc --no-ri
   - gem install jekyll -v 1.0.2 --no-rdoc --no-ri
-  - gem install rdiscount -v 1.6.8 --no-rdoc --no-ri
 
 install:
  - jekyll build
