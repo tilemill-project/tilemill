@@ -186,25 +186,19 @@ footer:
   <div class='limiter'>
     <div class='col6'>
       <div class='col4'>
-        <p class='links'>
-          {% for item in page.footer.mapbox %}
-          <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
-          {% endfor %}
-        </p>
+        {% for item in page.footer.mapbox %}
+        <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='col12 strong' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
+        {% endfor %}
       </div>
       <div class='col4'>
-        <p class='links'>
-          {% for item in page.footer.resources %}
-          <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
-          {% endfor %}
-        </p>
+        {% for item in page.footer.resources %}
+        <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='col12 strong' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
+        {% endfor %}
       </div>
       <div class='col4'>
-        <p class='links'>
-          {% for item in page.footer.tools %}
-          <a id='footer-{{item.title | downcase | replace:' ','-'}}' href='{% if item.href %}{{item.href}}{% else %}{{site.url}}{{item.path}}{% endif %}/'><strong>{{item.title}}</strong></a>
-          {% endfor %}
-        </p>
+        {% for item in page.footer.tools %}
+        <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='col12 strong' href='{% if item.href %}{{item.href}}{% else %}{{site.url}}{{item.path}}{% endif %}/'><strong>{{item.title}}</strong></a>
+        {% endfor %}
       </div>
     </div>
     <div class='col6 newsletter'>
