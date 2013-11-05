@@ -1,4 +1,4 @@
-<div class='note'>
-  Mission complete! Next up:
-  <ul class='checklist'>{% for item in page.nextup %}<li>{{item|markdownify}}</li>{% endfor %}</ul>
+<div class='note prose'>
+  <h3>Mission complete! Next up:</h3>
+  <ul>{% for item in page.nextup %}<li>{{item|markdownify}}</li>{% endfor %}</ul>
 </div>
