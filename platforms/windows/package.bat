@@ -2,7 +2,7 @@ set DEVROOT=c:\dev2
 @rem place c++ addons outside of node_modules for now
 @rem to make it easier to remove/recreate node_modules
 set DEST=node_modules
-set MAPNIK_INSTALL=c:\mapnik-v2.2.0
+set MAPNIK_INSTALL=c:\mapnik-v2.3.0
 set NODEEXE="C:\Program Files (x86)\nodejs\node.exe"
 set MAPNIK_DEST=%DEST%\mapnik\lib\mapnik
 set MAPNIK_DATA_DEST=%DEST%\mapnik\lib\mapnik\share
@@ -24,9 +24,9 @@ set TILEMILL_DIR=%CD%
 @rem rd /q /s node_modules\sqlite3
 rd /q /s node_modules\mapnik
 rd /q /s node_modules\tilelive-mapnik\node_modules\mapnik
-rd /q /s node_modules\millstone\node_modules\srs
+@rem rd /q /s node_modules\millstone\node_modules\srs
 @rem rd /q /s node_modules\millstone\node_modules\zipfile
-rd /q /s node_modules\tilelive-mapnik\node_modules\eio
+@rem rd /q /s node_modules\tilelive-mapnik\node_modules\eio
 
 @rem remove then re-copy node-mapnik
 xcopy /i /s /exclude:platforms\windows\excludes.txt %DEVROOT%\node-mapnik %DEST%\mapnik
@@ -53,8 +53,8 @@ xcopy /i /s /exclude:platforms\windows\excludes.txt %MAPNIK_INSTALL% %MAPNIK_DES
 @rem - move all other C++ addons into place
 @rem rd /q /s %DEST%\zipfile
 @rem xcopy /i /s /exclude:platforms\windows\excludes.txt %DEVROOT%\node-zipfile %DEST%\zipfile
-rd /q /s %DEST%\srs
-xcopy /i /s /exclude:platforms\windows\excludes.txt %DEVROOT%\node-srs %DEST%\srs
+@rem rd /q /s %DEST%\srs
+@rem xcopy /i /s /exclude:platforms\windows\excludes.txt %DEVROOT%\node-srs %DEST%\srs
 @rem rd /q /s %DEST%\sqlite3
 @rem xcopy /i /s /exclude:platforms\windows\excludes.txt %DEVROOT%\node-sqlite3 %DEST%\sqlite3
 @rem rd /q /s %DEST%\contextify
