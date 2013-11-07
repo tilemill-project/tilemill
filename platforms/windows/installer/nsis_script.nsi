@@ -6,7 +6,7 @@
 !define CODE_ROOT "tilemill"
 !define SEMVER "${PRODUCT_NAME}-v${PRODUCT_VERSION}"
 !define PRODUCT_PUBLISHER "MapBox"
-!define PRODUCT_WEB_SITE "http://mapbox.com/tilemill/docs"
+!define PRODUCT_WEB_SITE "https://mapbox.com/tilemill/docs"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 !define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
