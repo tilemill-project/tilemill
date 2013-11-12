@@ -19,6 +19,7 @@ releases:
 #  - Millstone - Fixed runaway interval allowing clean exits when `carto` commandline tool uses Millstone
 #  - Carto - updated to use new Carto v0.9.5 tag which includes mapnik-reference at v5.0.7
 #  - Mapnik - Fixed support for `polygon-pattern-geometry-transform` and `line-pattern-geometry-transform`
+#  - Mapnik - Updated internal build to use boost 1.55, sqlite 3.8.1, freetype 2.5.0.1, icu4c 52.1, and gdal 1.10.1
 
 - version: 0.10.1.152
   tag: v0.10.1-152-gd737f56
