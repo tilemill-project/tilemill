@@ -15,10 +15,8 @@ install:
  - sudo apt-get -qq install libmapnik=2.3.0* mapnik-utils=2.3.0* libmapnik-dev=2.3.0*
 
 before_script:
- - POSTGIS_PATH=`pg_config --sharedir`/contrib/postgis-1.5
- - createdb -E UTF8 template_postgis -U postgres
- - psql -q -d template_postgis -f $POSTGIS_PATH/postgis.sql -U postgres
- - psql -q -d template_postgis -f $POSTGIS_PATH/spatial_ref_sys.sql -U postgres
+ - createdb template_postgis
+ - psql -c "CREATE EXTENSION postgis" template_postgis
 
 script:
  - npm install
