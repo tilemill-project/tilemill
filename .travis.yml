@@ -21,6 +21,7 @@ install:
 before_script:
  - sudo apt-get -qq install libmapnik=2.2.0* mapnik-utils=2.2.0* libmapnik-dev=2.2.0*
  - npm install
+ - npm ls
  - npm test
  - sudo apt-get purge libmapnik=2.2.0* mapnik-utils=2.2.0* libmapnik-dev=2.2.0*
 
@@ -28,5 +29,6 @@ script:
  - sudo apt-get -qq install libmapnik=2.3.0* mapnik-utils=2.3.0* libmapnik-dev=2.3.0* mapnik-input-plugin*
  - rm -rf ./node_modules/
  - npm install
+ - npm ls
  - npm test
  - sudo apt-get purge libmapnik=2.3.0* mapnik-utils=2.3.0* libmapnik-dev=2.3.0* mapnik-input-plugin*
