@@ -32,7 +32,7 @@ If your shapefile datasource is an HTTP URL, the various corresponding files mus
 
 ### GeoJSON
 
-GeoJSON is a specification for storing spatial data in [JavaScript Object Notation](http://en.wikipedia.org/wiki/JSON), a compact plain-text format. The format can store points, lines, and polygons.
+[GeoJSON](http://geojson.org) is a format for encoding information about geographic features using [JavaScript Object Notation](http://en.wikipedia.org/wiki/JSON). GeoJSON is a text format and has a flexible schema: features of a single collection may have different properties and different geometry types. The format can treat point, line, and polygon type features.
 
 ### KML
 
