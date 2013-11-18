@@ -325,8 +325,8 @@
 {
     [self writeToLog:output];
     
-    if ([[NSPredicate predicateWithFormat:@"SELF contains 'throw e; // process'"] evaluateWithObject:output] ||
-        [[NSPredicate predicateWithFormat:@"SELF contains 'Error(\"Cannot find module'"] evaluateWithObject:output]
+    if ([[NSPredicate predicateWithFormat:@"SELF contains 'Error:'"] evaluateWithObject:output] ||
+        [![NSPredicate predicateWithFormat:@"SELF contains 'Client Error"] evaluateWithObject:output]
         )
         [self presentFatalError];
 
