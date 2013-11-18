@@ -10,7 +10,7 @@
     0,
     2
   ],
-  "format": "png",
+  "format": "png8:m=h",
   "interactivity": {
     "layer": "world",
     "template_teaser": "{{NAME}}",
