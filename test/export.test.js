@@ -113,7 +113,7 @@ it("GET anti-meridian job to see if it succeeded", function(done) {
             var data = JSON.parse(res.body);
             if (data.status === 'processing') {
                 // Don't flood the socket or the test will fail.
-                setTimeout(ping, 500);
+                setTimeout(ping, 1000);
             } else if (data.status === 'error') {
                 throw new Error(data.error);
             } else {

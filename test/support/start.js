@@ -8,6 +8,7 @@ var exec = require('child_process').exec;
 var path = require('path');
 var fs = require('fs');
 var basedir = path.resolve(__dirname + '/..');
+var fsutil = require('../../lib/fsutil.js');
 
 process.env.HOME = path.resolve(__dirname + '/../fixtures/files');
 
@@ -23,14 +24,11 @@ tilemill.config.examples = false;
 
 module.exports.start = function(done) {
     // Create a clean environment.
-    var clean = '\
-        rm -f ' + basedir + '/fixtures/files/app.db && \
-        rm -rf ' + basedir + '/fixtures/files/project && \
-        rm -rf ' + basedir + '/fixtures/files/data && \
-        rm -rf ' + basedir + '/fixtures/files/export && \
-        cp -R ' + basedir + '/fixtures/pristine/project ' + basedir + '/fixtures/files';
-    exec(clean, function(err) {
-        if (err) throw err;
+    var files = basedir + '/fixtures/files/';
+    var projects = basedir + '/fixtures/pristine/project/';
+    fsutil.rm(files,function(err) {
+        if (err && err.code != 'ENOENT') throw err;
+        fsutil.cprSync(projects,files+'project/');
         console.warn('Initialized test fixture');
         var command = tilemill.start(function() {
             done(command);

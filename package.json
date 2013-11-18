@@ -61,7 +61,7 @@
     "scripts": {
         "preinstall": "node ./configure.js",
         "start": "./index.js",
-        "test": "mocha --timeout 10000",
+        "test": "mocha --timeout 100000",
         "postinstall": "node ./lib/gitutil.js"
     },
     "bin": {
