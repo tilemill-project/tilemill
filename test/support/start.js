@@ -38,11 +38,14 @@ module.exports.start = function(done) {
 
 module.exports.startPostgis = function(done) {
     var insert = '\
-        psql -d postgres -c "DROP DATABASE IF EXISTS tilemill_test;" && \
-        createdb -E UTF8 -T template_postgis tilemill_test && \
+        psql -d postgres -c "DROP DATABASE IF EXISTS tilemill_test;" ; \
+        createdb -E UTF8 -T template_postgis tilemill_test ;  \
         psql -d tilemill_test -f ' + basedir + '/fixtures/tilemill_test.sql';
-    exec(insert, function(err) {
+    exec(insert, function(err,stdout,stderr) {
         if (err) throw err;
+        if (stderr) {
+            throw new Error(stderr);
+        }
         console.warn('Inserted postgres fixture.');
         module.exports.start(done);
     });
