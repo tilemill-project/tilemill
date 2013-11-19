@@ -2,14 +2,13 @@ language: node_js
 
 node_js:
   - "0.10"
-  - "0.8"
 
 before_install:
  - sudo apt-add-repository --yes ppa:mapnik/v2.2.0
  - sudo apt-add-repository --yes ppa:mapnik/nightly-2.3
  - sudo apt-get update -qq
- - sudo apt-get -qq install libprotobuf7 libprotobuf-dev protobuf-compiler libwebkit-dev
- - sudo apt-get -qq install postgresql-9.1  postgresql-contrib-9.1 postgresql-9.1-postgis
+ - nvm install v0.10.22
+ - sudo apt-get -qq install libprotobuf7 libprotobuf-dev protobuf-compiler postgresql-9.1 postgresql-server-dev-9.1 postgresql-contrib-9.1 postgresql-9.1-postgis
 
 install:
  - POSTGIS_PATH=`pg_config --sharedir`/contrib/postgis-1.5
