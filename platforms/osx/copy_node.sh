@@ -7,5 +7,5 @@ TARGET="$1/"
 # copy node executable
 cp `which node` $TARGET
 # change shebang to use local node
-sed -i.backup 's/#!\/usr\/bin\/env node/#!node/' ${TARGET}index.js
+sed -i.backup 's/#!\/usr\/bin\/env node/#!\.\/node/' ${TARGET}index.js
 rm ${TARGET}index.js.backup
