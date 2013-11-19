@@ -1,5 +1,3 @@
-
-
 TARGET=build/Release/TileMill.app/Contents/Resources/
 JOBS=`sysctl -n hw.ncpu`
 
@@ -8,8 +6,11 @@ build:
 
 clean:
 	@xcodebuild -jobs $(JOBS) -project TileMill.xcodeproj clean
+	rm -rf ./build
 
 package: build
+	./copy_tilemill_base.sh $(TARGET)
+	./copy_node.sh $(TARGET)
 	chmod +x $(TARGET)index.js
 	rm -rf $(TARGET)test
 
