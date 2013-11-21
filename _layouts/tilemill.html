@@ -1,0 +1,19 @@
+---
+layout: default
+fullwidth: true
+head: |
+  <link href='/tilemill/assets/css/site.css' rel='stylesheet' />
+---
+<nav id='tilemill-nav' class='mobile-cols pin-top row0 limiter'><div class='col8 clearfix row2 clip'>
+  <div class='logos pad1y contain row2 fl'>
+    <a id='tilemill-logo' class='logo' href='{{site.baseurl}}/'>TileMill</a>
+    <small class='pin-bottom text-right pad1y attribution quiet'>by <a href='https://www.mapbox.com/'>MapBox</a></small>
+  </div>
+  <div class='hide-mobile pad2y pad4x fl space'>
+    <a href='{{site.url}}/tilemill/gallery/' class='inline pad1 small quiet round strong {% if page.category == 'tour' %}active{% endif %}'>Gallery</a><!--
+ --><a href='{{site.url}}/tilemill/changelog/' class='inline pad1 small quiet round strong {% if page.category == 'blog' %}active{% endif %}'>Changes</a><!--
+ --><a href='{{site.url}}/tilemill/docs/' class='inline pad1 small quiet round strong {% if page.category == 'help' %}active{% endif %}'>Help</a>
+  </div>
+</div></nav>
+
+{{content}}

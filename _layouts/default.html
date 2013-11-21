@@ -1,5 +1,4 @@
 ---
-fullwidth: true
 footer:
   mapbox:
     - title: Tour
@@ -36,7 +35,7 @@ footer:
   <meta name='robots' content='{% if page.hidden %}noindex{% else %}index{% endif %}'/>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   {% if page.description %}<meta name='description' content='{{page.description | strip_html}}'/>{% endif %}
-  <title>{% if page.url == '/' %}{{page.title}} | Fast and beautiful maps{% else %}{{page.title}} | MapBox{% endif %}</title>
+  <title>{% if page.title == 'MapBox' %}{{page.title}} | Design &amp; publish beautiful maps{% else %}{{page.title}} | MapBox{% endif %}</title>
 
   {% if page.card %}
   <meta name='twitter:site' content='@MapBox' />
@@ -57,8 +56,8 @@ footer:
   <meta property='og:video:width' content='640' />
   <meta property='og:video:height' content='480' />
   {% elsif page.image %}
-  <meta name='twitter:image' content='{{page.image}}' />
-  <meta property='og:image' content='{{page.image}}' />
+  <meta name='twitter:image' content='{{page.image | replace:"https:","http:"}}' />
+  <meta property='og:image' content='{{page.image | replace:"https:","http:"}}' />
   <meta name='twitter:card' content='summary_large_image' />
   <meta property='og:type' content='website' />
   {% endif %}
@@ -70,50 +69,43 @@ footer:
   <link rel='shortcut icon' href='{{site.url}}/img/favicon.ico' type='image/x-icon' />
   <link rel='alternate' type='application/rss+xml' title='RSS' href='{{site.url}}/blog/blog.rss' />
 
+  <!--[if lt IE 9 ]><script src='{{site.url}}/js/redirect-ie.js'></script><![endif]-->
+  <script src='{{site.api}}/api/session.js'></script>
+  <script src="//cdn.optimizely.com/js/429140220.js"></script>
   <script>
-  var analytics=analytics||[];(function(){var e=["identify","track","trackLink","trackForm","trackClick","trackSubmit","page","pageview","ab","alias","ready","group"],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)};
+  var analytics=analytics||[];(function(){var e=['identify','track','trackLink','trackForm','trackClick','trackSubmit','page','pageview','ab','alias','ready','group'],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement('script');t.type='text/javascript',t.async=!0,t.src=('https:'===document.location.protocol?'https://':"http://")+'d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/'+e+'/analytics.min.js';var n=document.getElementsByTagName('script')[0];n.parentNode.insertBefore(t,n)};
   analytics.load(window.location.hostname.indexOf('mapbox.com') !== -1 ? 'fl0c8p240n' : '0biiejpgfj');
   </script>
   <script src='https://js.stripe.com/v2/'></script>
   <script>
   Stripe.setPublishableKey(window.location.hostname.indexOf('mapbox.com') !== -1 ?
-    'pk_live_1Dy5fvoJB1pavBVrmrcbU1Gu' : 'pk_test_gmIyREg3sKzAiyMkAEeCsxUG');
+    'pk_live_hI6mmOTIg7KkywK6vo3vJvpk' : 'pk_test_gmIyREg3sKzAiyMkAEeCsxUG');
   </script>
-
-  <script src='https://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.css' rel='stylesheet' />
+  <script src='https://api.tiles.mapbox.com/mapbox.js/v1.4.0/mapbox.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox.js/v1.4.0/mapbox.css' rel='stylesheet' />
   <!--[if lte IE 8]>
-    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.ie.css' rel='stylesheet' >
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.4.0/mapbox.ie.css' rel='stylesheet' >
   <![endif]-->
-
-  <script src='{{site.api}}/api/session.js'></script>
   <script src='{{site.url}}/js/site.js'></script>
-
-  <!-- tilemill -->
-  <link href='{{site.baseurl}}/assets/css/site.css' rel='stylesheet' />
-  <script src='{{site.baseurl}}/assets/js/site.js'></script>
-
   {% if page.head %}{{page.head}}{% endif %}
+
 </head>
 <body class='{{page.class}}'>
 
 {% if page.app %}
-{% include app/app.html %}
+{{content}}
 {% else %}
-
 <div class='masthead fill-white keyline-bottom col12 animate clearfix {% if page.app %}hide-mobile{% endif %}'>
- <script type='text/template' id='nav-template'>
-    <div class='logos'>
-      <a id='tilemill-logo' class='logo' href='{{site.baseurl}}/'>TileMill</a>
-      <small class='attribution quiet'>by <a href='http://mapbox.com/'>MapBox</a></small>
-    </div>
+  <script type='text/template' id='nav-template'>
     <% if (!user.id) { %>
+    <a class='mb-logo' href='{{site.url}}/'></a>
 
-    <div class='hide-mobile'>
-      <a href='{{site.url}}/tilemill/gallery/' class='{% if page.category == 'tour' %}active{% endif %}'>Gallery</a><!--
-      --><a href='{{site.url}}/tilemill/changelog/' class='{% if page.category == 'blog' %}active{% endif %}'>Changes</a><!--
-      --><a href='{{site.url}}/tilemill/docs/' class='{% if page.category == 'help' %}active{% endif %}'>Help</a>
-
+    <div class='strong hide-mobile'>
+      <a href='{{site.url}}/tour/' class='{% if page.category == 'tour' %}active{% endif %}'>Tour</a><!--
+      --><a href='{{site.url}}/showcase/' class='{% if page.category == 'showcase' %}active{% endif %}'>Showcase</a><!--
+      --><a href='{{site.url}}/blog/' class='{% if page.category == 'blog' %}active{% endif %}'>Blog</a><!--
+      --><a href='{{site.url}}/plans/' class='{% if page.url contains 'plans' %}active{% endif %}'>Plans</a><!--
+      --><a href='{{site.url}}/help/' class='{% if page.url contains 'help' %}active{% endif %}'>Help</a>
       <div class='authmenu contain col2 fr center keyline-all'><!--
         --><a href='#signin' class='col6 signin inline keyline-right'>Sign in</a><!--
         --><a href='#signup' class='col6 signup inline'>Sign up</a>
@@ -122,11 +114,12 @@ footer:
 
     <div class='show-mobile contain drop'>
       <a href='#' class='icon menu quiet droplink keyline-all'></a>
-      <div class='dropdown fill-white keyline-all round-bottom animate'>
+      <div class='dropdown strong fill-white keyline-all round-bottom animate'>
         <div>
           <a href='{{site.url}}/tour/'>Tour</a>
           <a href='{{site.url}}/showcase/'>Showcase</a>
           <a href='{{site.url}}/blog/'>Blog</a>
+          <a href='{{site.url}}/plans/'>Plans</a>
           <a href='{{site.url}}/help/'>Help</a>
         </div>
         <div>
@@ -137,12 +130,14 @@ footer:
     </div>
 
     <% } else { %>
+      <a class='mb-logo-thumb' href='{{site.url}}/editor/#app'><span style='background-image:url("<%=thumb%>")'></span></a>
+
       <div class='authmenu authed contain col2 fr keyline-all'>
         <a href='#dropdown' class='block fl droplink quiet avatar icon menu keyline-right' style='background-image:url("<%= user.avatar %>")'></a><!--
-      --><a href='#dropdown' class='block droplink username small truncate hide-mobile'><%= _(user.name || user.id).escape()  %></a>
-      <div class='dropdown fill-white keyline-all round-bottom animate'>
+        --><a href='#dropdown' class='block droplink username strong small truncate hide-mobile'><%= _(user.name || user.id).escape()  %></a>
+      <div class='dropdown strong fill-white keyline-all round-bottom animate'>
         <div class='plan contain'>
-          <a href='{{site.url}}/account/billing/' class='plan-icon big <%= user.plan.id.replace('2', '').replace('-annual', '') %>'></a>
+          <a href='{{site.url}}/plans/' class='plan-icon big <%= user.plan.id.replace('2', '').replace('-annual', '') %>'></a>
           <a href='{{site.url}}/plans/'>
             <strong><%= _(user.plan?user.plan.name:'').escape() %></strong>
           </a>
@@ -155,6 +150,7 @@ footer:
         </div>
         <div>
           <a href='{{site.url}}/account/'>Account</a>
+          <% if (App.user.group === 'admin') { %><a href='{{site.url}}/admin/'>Admin</a><% } %>
           <a href='#signout' id='signout'>Sign out</a>
         </div>
         <div>
@@ -165,13 +161,13 @@ footer:
         </div>
       </div>
     </div>
-    <div class='hide-mobile'>
-      <a href='{{site.url}}/tilemill/gallery/' class='{% if page.category == 'tour' %}active{% endif %}'>Gallery</a><!--
-      --><a href='{{site.url}}/tilemill/changelog/' class='{% if page.category == 'blog' %}active{% endif %}'>Changes</a><!--
-      --><a href='{{site.url}}/tilemill/docs/' class='{% if page.category == 'help' %}active{% endif %}'>Help</a>
+    <div class='hide-mobile strong fr'>
+       <a href='{{site.url}}/dashboard/' class='quiet authed icon dashboard {% if page.url contains '/dashboard' %}active{% endif %}'>Dashboard</a><!--
+    --><a href='{{site.url}}/projects/' class='quiet authed icon folder {% if page.url contains '/project' %}active{% endif %}'>Projects</a><!--
+    --><a href='{{site.url}}/data/' class='quiet authed icon book {% if page.url contains '/data' %}active{% endif %}'>Data</a>
     </div>
     <% } %>
-  </script> 
+  </script>
 
   <div class='limiter clearfix'>
     <nav id='nav' class='col12 text-right pad2y contain clearfix noprint'>
@@ -180,7 +176,7 @@ footer:
   </div>
 </div>
 
-<div class='{% unless page.fullwidth %} grid {% endunless %}'>{{content}}</div>
+<div class='clearfix{% unless page.fullwidth %} limiter{% endunless %}'>{{content}}</div>
 
 <div class='footer keyline-top pad4y fill-white clearfix small'>
   <div class='limiter'>
@@ -205,7 +201,7 @@ footer:
       Follow MapBox on <a href='https://twitter.com/mapbox' class='strong'>Twitter</a> or <a href='https://www.facebook.com/MapBoxMaps' class='strong'>Facebook</a>
       <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='pad1y validate' target='_blank'>
         <fieldset class='pill mobile-cols col12 with-icon clearfix'>
-          <span class='icon quiet mail'></span>
+          <span class='icon mail quiet'></span>
           <input type='text' value='' placeholder='Subscribe to our newsletter' name='EMAIL' class='col9 required email' id='mce-EMAIL'>
           <input type='submit' value='Submit' name='subscribe' id='mc-embedded-subscribe' class='col3'>
         </fieldset>
@@ -392,10 +388,7 @@ footer:
 <% if (!(obj instanceof Error)) {
   if ('responseText' in obj) {
     try {
-      obj = new Error(_(JSON.parse(obj.responseText)).reduce(function(msg, val, key) {
-        msg.push(val.toString());
-        return msg;
-      }, []).join(' '));
+      obj = new Error(JSON.parse(obj.responseText).message);
     } catch (err) {
       obj = new Error(obj.responseText);
     }
@@ -449,6 +442,39 @@ footer:
 <% } else { %>
 <h2 class='center'>Downgrade to <%= plan.get('name') %></h2>
 <p class='center'>Before you do that, can we help you get the most out of MapBox?<br/><a href='http://support.mapbox.com/' target='_blank'>Ask our support team for help</a>.</p>
+<% if (!obj.plan.get('price')) { %>
+<h3 class='space-bottom'>What is the main reason for downgrading your subscription?</h3>
+<form id='downgrade-survey' class='small space-bottom' method='post'>
+  <div>
+    <input type='radio' name='answer' id='answer0' value='Missing a crucial feature' />
+    <label for='answer0'>Missing a crucial feature</label>
+  </div>
+  <div>
+    <input type='radio' name='answer' id='answer1' value='Not using it' />
+    <label for='answer1'>Not using it</label>
+  </div>
+  <div>
+    <input type='radio' name='answer' id='answer2' value='Free plan is enough for my needs' />
+    <label for='answer2'>Free plan is enough for my needs</label>
+  </div>
+  <div>
+    <input type='radio' name='answer' id='answer3' value='Needs better documentation' />
+    <label for='answer3'>Needs better documentation</label>
+  </div>
+  <div>
+    <input type='radio' name='answer' id='answer4' value='Not satisfied with support' />
+    <label for='answer4'>Not satisfied with support</label>
+  </div>
+  <div>
+    <input type='radio' name='answer' id='answer5' value='Went with a different tool' />
+    <label for='answer5'>Went with a different tool</label>
+  </div>
+  <div>
+    <input type='radio' name='answer' id='answer6' value='Other' />
+    <label for='answer6'>Other</label>
+  </div>
+</form>
+<% } %>
 <div class='center small'>
   <a href='{{site.url}}/help/#changing-plans' target='_blank'>What happens when I change plans?</a>
 </div>
@@ -456,7 +482,7 @@ footer:
 </script>
 
 <script type='text/html' id='template-alert'>
-<a href='#alert' id='alert' class='fill-yellow block'><span class='icon big alert'></span></a>
+<a href='#alert' id='alert' class='fill-yellow block'><span class='icon big alert quiet'></span></a>
 </script>
 
 </body>
