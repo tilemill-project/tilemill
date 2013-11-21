@@ -16,6 +16,7 @@ releases:
 
 # notes:
 #  - TileMill - Fixed Layer editing popup to be scrollable
+#  - Tilemill - Now clearing logs after they grow larger than 5 MB on windows/os x
 #  - Millstone - Fixed runaway interval allowing clean exits when `carto` commandline tool uses Millstone
 #  - Carto - updated to use new Carto v0.9.5 tag which includes mapnik-reference at v5.0.7
 #  - Mapnik - Fixed support for `polygon-pattern-geometry-transform` and `line-pattern-geometry-transform`
