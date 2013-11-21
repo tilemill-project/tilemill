@@ -81,11 +81,8 @@ footer:
   Stripe.setPublishableKey(window.location.hostname.indexOf('mapbox.com') !== -1 ?
     'pk_live_hI6mmOTIg7KkywK6vo3vJvpk' : 'pk_test_gmIyREg3sKzAiyMkAEeCsxUG');
   </script>
-  <script src='https://api.tiles.mapbox.com/mapbox.js/v1.4.0/mapbox.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox.js/v1.4.0/mapbox.css' rel='stylesheet' />
-  <!--[if lte IE 8]>
-    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.4.0/mapbox.ie.css' rel='stylesheet' >
-  <![endif]-->
+  <script src='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.5.0{% endif %}/mapbox.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.5.0{% endif %}/mapbox.css' rel='stylesheet' />
   <script src='{{site.url}}/js/site.js'></script>
   {% if page.head %}{{page.head}}{% endif %}
 
@@ -198,14 +195,14 @@ footer:
       </div>
     </div>
     <div class='col6 newsletter'>
-      Follow MapBox on <a href='https://twitter.com/mapbox' class='strong'>Twitter</a> or <a href='https://www.facebook.com/MapBoxMaps' class='strong'>Facebook</a>
-      <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='pad1y validate' target='_blank'>
+      <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='space-bottom validate' target='_blank'>
         <fieldset class='pill mobile-cols col12 with-icon clearfix'>
           <span class='icon mail quiet'></span>
           <input type='text' value='' placeholder='Subscribe to our newsletter' name='EMAIL' class='col9 required email' id='mce-EMAIL'>
           <input type='submit' value='Submit' name='subscribe' id='mc-embedded-subscribe' class='col3'>
         </fieldset>
       </form>
+      Follow MapBox on <a href='https://twitter.com/mapbox' class='strong'>Twitter</a> or <a href='https://www.facebook.com/MapBoxMaps' class='strong'>Facebook</a>
     </div>
   </div>
 </div>
