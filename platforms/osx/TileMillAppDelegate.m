@@ -123,10 +123,29 @@
         }
     }
     
-    // setup logging & fire up main functionality
+    // setup logging
     //
     self.logPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/TileMill.log"];
 
+    // truncate overly long log (5MB+)
+    //
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    unsigned long long logLength = [[[fileManager attributesOfItemAtPath:self.logPath error:nil] objectForKey:NSFileSize] unsignedLongLongValue];
+
+    if (logLength > 5242880)
+    {
+        NSMutableData *newData = [[@"---continuing truncated log---\n" dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
+
+        NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:self.logPath];
+        [fileHandle seekToFileOffset:(logLength - 1048576)]; // last 1MB
+        [newData appendData:[fileHandle availableData]];
+
+        [newData writeToFile:self.logPath atomically:YES];
+    }
+
+    // fire up main functionality
+    //
     [self showBrowserWindow:self];
     [self startTileMill];
 
