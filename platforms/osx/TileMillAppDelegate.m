@@ -140,6 +140,7 @@
         NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:self.logPath];
         [fileHandle seekToFileOffset:(logLength - 1048576)]; // last 1MB
         [newData appendData:[fileHandle availableData]];
+        [fileHandle closeFile];
 
         [newData writeToFile:self.logPath atomically:YES];
     }
