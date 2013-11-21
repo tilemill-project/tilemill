@@ -1,3 +1,17 @@
+/* TileMill masthead override */
+#tilemill-logo {
+  width:125px;
+  height:60px;
+  display:block;
+  text-indent:-999px;
+  overflow:hidden;
+  background:transparent url(../../img/tilemill-sprite.png) no-repeat 0 0;
+  }
+
+#nav > .mb-logo,
+#nav > .mb-logo-thumb,
+#nav > div > a:not(.droplink) { display:none; }
+
 /* Base Candidate */
 .doc-nav a:hover,
 .doc-nav .active {
@@ -313,40 +327,6 @@ only screen and (max-width: 640px) {
     border-top: 1px solid #28353D;
     }
 }
-
-/* ### General Styles ### */
-#nav {
-  padding-left:160px;
-  text-align:left;
-  }
-#nav .logos {
-  text-align:left;
-  position:absolute;
-  left:0px;
-  top:10px;
-  }
-#tilemill-logo {
-  width:160px;
-  height:60px;
-  display:block;
-  text-indent:-999px;
-  overflow:hidden;
-  background:transparent url(../../img/tilemill-sprite.png) no-repeat 0 0;
-  }
-#nav .logos .attribution {
-  position:absolute;
-  left:60px;
-  top:40px;
-  white-space:nowrap;
-  }
-
-@media only screen and (max-width: 640px) {
-  .mobile-hide { display: none;}
-}
-
-@media only screen and (max-width: 770px) {
-  .footer .col5.blogposts { border-color: #28353D; }
-  }
 
 /* ### Docs Landing Page ### */
 a.method {
