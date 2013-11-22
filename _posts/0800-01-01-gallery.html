@@ -32,44 +32,51 @@ maps:
   center: -45.00,36.95,3
   matte: '000000'
 - id: tmcw.rrrr2
-  creator: Tom MacWright
   name: Running Map
+  creator: Tom MacWright
   description: Running routes and heart rate visualized on top of MapBox Streets.
   matte: 2e2532
   center: -77.0373,38.9259,15
 - id: mapbox.natural-earth-2
+  name: 'MapBox natural earth'
   creator: MapBox
   description: A high-level topographic and bathymetric map.
   center: 80,0,4
   matte: 5d8eb6
 - id: aj.Sketchy2
-  creator: AJ Ashton
   name: Pirate Map
+  creator: AJ Ashton
   center: -81.52,22.187,4
   matte: ECE3CC
 - id: tristen.city_of_toronto
-  name: Toronto
+  name: 'City of toronto'
   creator: Tristen Brown
+  center: -79.38,43.63,14
   matte: 415355
 - id: villeda.simard-forests
+  name: 'Forest height'
   creator: Ian Villeda
   description: A visualization of global tree canopy height, made with data from NASA.
   matte: '000000'
   center: -59.985,-7.471,5
 - id: mapbox.baltimore-retro
+  name: 'Baltimore retro'
   creator: MapBox
   matte: 90c8c2
   center: -76.5987,39.2807,16
 - id: colemanm.persia-1891
+  name: 'Persia 1891'
   creator: Coleman McCormick
   center: 54.415,32.210,7
   matte: edd5ae
 - id: occupy.occupy-streets
+  name: 'Occupy streets'
   creator: Occupy
   description: A network map of all occupy movement locations.
   matte: 424242
   center: 10.000,55.000,4
 - id: colemanm.blue-marble-8bit
+  name: 'Blue marble 8bit'
   creator: Coleman McCormick
   matte: 000009
 - id: newamerica.motw_poverty
@@ -78,6 +85,7 @@ maps:
   center: -97.583,38.769,6
   matte: b7dee5
 - id: aj.population-fire
+  name: Population fire
   creator: AJ Ashton
   matte: 080c16
   center: 1.41,47.99,4
@@ -88,9 +96,6 @@ maps:
   center: -73.951,40.803,14
   description: Stop and frisk frequency contour map of New York City
 ---
-<script src='https://api.tiles.mapbox.com/mapbox.js/v0.6.6/mapbox.js'></script>
-<link href='https://api.tiles.mapbox.com/mapbox.js/v0.6.6/mapbox.css' rel='stylesheet' />
-
 <style>
 body {overflow: visible;}
 .masthead,
@@ -170,7 +175,7 @@ body {overflow: visible;}
   100%  { opacity:1; transform:translateY(0); }
   }
 
-  .zoomer { top: 90px;}
+  .leaflet-control-zoom { top: 90px;}
 
   .desc-box {
     padding: 20px;
@@ -193,22 +198,11 @@ body {overflow: visible;}
          -moz-animation: fadeInRight 500ms ease 500ms both;
               animation: fadeInRight 500ms ease 500ms both;
     }
-.map-tooltip {
-  color: #3C4E5A;
-  bottom: 30px; left: 20px; right: auto; top: auto;
-  }
-  .map-tooltip p { font: normal 12px/1.6667em Opensans,Arial,sans-serif; }
-  .map-tooltip h1, .map-tooltip h2, .map-tooltip h3, .map-tooltip h4 { font: bold 15px/1.6667em Opensans,Arial,sans-serif;}
 
 @media only screen and (max-width: 640px) {
   .wrapper { height: 800px;}
   .desc-box.caption { display: none;}
   .desc-box h2 { white-space: nowrap;}
-  .right { top: 180px; }
-  .zoomer { top: 205px;}
-  #map {
-    min-height: 500px;
-  }
 }
 
 @-webkit-keyframes fadeInDown {
@@ -236,7 +230,7 @@ body {overflow: visible;}
 .headerless #mapdescription {
   top:0;
   }
-.headerless .zoomer {
+.headerless .leaflet-control-zoom {
   top:10px;
   }
 </style>
@@ -290,8 +284,9 @@ body {overflow: visible;}
     },{% endfor %}
     false]).compact();
     var template = _.template(document.getElementById('gallery-template').innerHTML);
+    var map = L.mapbox.map('map');
     var playTemplate = _.template(document.getElementById('gallery-template-play').innerHTML);
-    var gallerymap;
+    var currentmap;
 
     function setMap(id, mode) {
       if (playBack) clearInterval(playBack);
@@ -304,24 +299,22 @@ body {overflow: visible;}
       if (i < 0) i = 0;
       var d = maps[i];
 
-      if (gallerymap) {
-        gallerymap.destroy();
-        $('#map').html('');
-      }
+      if (currentmap) map.removeLayer(L.mapbox.tileLayer(currentmap));
 
-      mapbox.auto('map', 'https://a.tiles.mapbox.com/v3/' + d.id + '.jsonp?secure', function(m, tj) {
-        m.ui.legend.remove();
-        gallerymap = m;
-        m.parent.style.background = d.matte ? '#' + d.matte : '';
-        if (d.center) {
-          m.centerzoom({ lat: d.center[1], lon: d.center[0]}, d.center[2]);
-        }
+      var layer = L.mapbox.tileLayer(d.id);
+      layer.addTo(map);
+
+      layer.on('ready', function(m) {
+        currentmap = d.id;
+
+        document.getElementById('map').style.background = d.matte ? '#' + d.matte : '';
+        if (d.center) map.setView([d.center[1], d.center[0]], d.center[2]);
 
         d.next = maps[(i + 1) % maps.length].id;
         d.current = maps[i % maps.length].id;
         d.prev = maps[(i - 1 + maps.length) % maps.length].id;
         d.description = d.description;
-        d.name = d.name || tj.name;
+        d.name = d.name;
 
         if (mode === 'play') {
           context.html(playTemplate(d));
@@ -329,9 +322,11 @@ body {overflow: visible;}
             setMap(d.next, 'play');
             window.location.hash = '#' + d.next;
           }, 10000);
+
           // Pausing playback on map interaction
-          m.addCallback('panned', function(){ pause(); });
-          m.addCallback('zoomed', function(){ pause(); });
+          map.on('dragstart', function(){ pause(); });
+          map.on('zoomstart', function(){ pause(); });
+
         } else {
           context.html(template(d));
         }
