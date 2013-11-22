@@ -285,8 +285,8 @@ body {overflow: visible;}
     false]).compact();
     var template = _.template(document.getElementById('gallery-template').innerHTML);
     var map = L.mapbox.map('map');
+    var layer;
     var playTemplate = _.template(document.getElementById('gallery-template-play').innerHTML);
-    var currentmap;
 
     function setMap(id, mode) {
       if (playBack) clearInterval(playBack);
@@ -299,14 +299,12 @@ body {overflow: visible;}
       if (i < 0) i = 0;
       var d = maps[i];
 
-      if (currentmap) map.removeLayer(L.mapbox.tileLayer(currentmap));
+      if (layer) map.removeLayer(layer);
 
-      var layer = L.mapbox.tileLayer(d.id);
+      layer = L.mapbox.tileLayer(d.id);
       layer.addTo(map);
 
       layer.on('ready', function(m) {
-        currentmap = d.id;
-
         document.getElementById('map').style.background = d.matte ? '#' + d.matte : '';
         if (d.center) map.setView([d.center[1], d.center[0]], d.center[2]);
 
