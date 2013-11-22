@@ -98,20 +98,20 @@ footer:
     <a class='mb-logo' href='{{site.url}}/'></a>
 
     <div class='strong hide-mobile'>
-      <a href='{{site.url}}/tour/' class='{% if page.category == 'tour' %}active{% endif %}'>Tour</a><!--
-      --><a href='{{site.url}}/showcase/' class='{% if page.category == 'showcase' %}active{% endif %}'>Showcase</a><!--
-      --><a href='{{site.url}}/blog/' class='{% if page.category == 'blog' %}active{% endif %}'>Blog</a><!--
-      --><a href='{{site.url}}/plans/' class='{% if page.url contains 'plans' %}active{% endif %}'>Plans</a><!--
-      --><a href='{{site.url}}/help/' class='{% if page.url contains 'help' %}active{% endif %}'>Help</a>
-      <div class='authmenu contain col2 fr center keyline-all'><!--
-        --><a href='#signin' class='col6 signin inline keyline-right'>Sign in</a><!--
-        --><a href='#signup' class='col6 signup inline'>Sign up</a>
+      <a href='{{site.url}}/tour/' class='{% if page.category == 'tour' %}active{% endif %} animate inline pad1 round quiet truncate'>Tour</a><!--
+      --><a href='{{site.url}}/showcase/' class='{% if page.category == 'showcase' %}active{% endif %} animate inline pad1 round quiet truncate'>Showcase</a><!--
+      --><a href='{{site.url}}/blog/' class='{% if page.category == 'blog' %}active{% endif %} animate inline pad1 round quiet truncate'>Blog</a><!--
+      --><a href='{{site.url}}/plans/' class='{% if page.url contains 'plans' %}active{% endif %} animate inline pad1 round quiet truncate'>Plans</a><!--
+      --><a href='{{site.url}}/help/' class='{% if page.url contains 'help' %}active{% endif %} animate inline pad1 round quiet truncate'>Help</a>
+      <div class='authmenu contain fr center keyline-all'><!--
+        --><a href='#signin' class='action signin inline animate keyline-right pad1 quiet truncate'>Sign in</a><!--
+        --><a href='#signup' class='action signup inline animate pad1 quiet truncate'>Sign up</a>
       </div>
     </div>
 
     <div class='show-mobile contain drop'>
-      <a href='#' class='icon menu quiet droplink keyline-all'></a>
-      <div class='dropdown strong fill-white keyline-all round-bottom animate'>
+      <a href='#' class='icon menu round quiet droplink keyline-all'></a>
+      <div class='dropdown strong fill-white keyline-all round animate'>
         <div>
           <a href='{{site.url}}/tour/'>Tour</a>
           <a href='{{site.url}}/showcase/'>Showcase</a>
@@ -127,41 +127,43 @@ footer:
     </div>
 
     <% } else { %>
-      <a class='mb-logo-thumb' href='{{site.url}}/editor/#app'><span style='background-image:url("<%=thumb%>")'></span></a>
+    <div id='authed-logo'>
+      <a class='mb-logo' href='{{site.url}}/editor/#app'>
+      </a>
+      <a href='{{site.url}}/editor/#app' class='return-to-map icon return quiet animate small hide-mobile'>Return to project</a>
+    </div>
 
-      <div class='authmenu authed contain col2 fr keyline-all'>
-        <a href='#dropdown' class='block fl droplink quiet avatar icon menu keyline-right' style='background-image:url("<%= user.avatar %>")'></a><!--
-        --><a href='#dropdown' class='block droplink username strong small truncate hide-mobile'><%= _(user.name || user.id).escape()  %></a>
-      <div class='dropdown strong fill-white keyline-all round-bottom animate'>
-        <div class='plan contain'>
-          <a href='{{site.url}}/plans/' class='plan-icon big <%= user.plan.id.replace('2', '').replace('-annual', '') %>'></a>
-          <a href='{{site.url}}/plans/'>
-            <strong><%= _(user.plan?user.plan.name:'').escape() %></strong>
-          </a>
-          <small class='quiet'><%= numeral(user.plan.views).format('0a') %> views</small>
-        </div>
-        <div class='show-mobile'>
-          <a href='{{site.url}}/dashboard/' class='authed {% if page.url contains '/dashboard' %}active{% endif %}'>Dashboard</a>
-          <a href='{{site.url}}/projects/' class='authed {% if page.url contains '/project' %}active{% endif %}'>Projects</a>
-          <a href='{{site.url}}/data/' class='authed {% if page.url contains '/data' %}active{% endif %}'>Data</a>
-        </div>
-        <div>
-          <a href='{{site.url}}/account/'>Account</a>
-          <% if (App.user.group === 'admin') { %><a href='{{site.url}}/admin/'>Admin</a><% } %>
-          <a href='#signout' id='signout'>Sign out</a>
-        </div>
-        <div>
-          <a href='{{site.url}}/tour/'>Tour</a>
-          <a href='{{site.url}}/showcase/'>Showcase</a>
-          <a href='{{site.url}}/blog/'>Blog</a>
-          <a href='{{site.url}}/help/'>Help</a>
-        </div>
+    <a href='#dropdown' class='block authmenu droplink quiet avatar icon menu round animate fr' style='background-image:url("<%= user.avatar %>")'></a>
+    <div class='dropdown fill-white keyline-all round animate col3'>
+      <div><small class='quiet'><%= _(user.name || user.id).escape() %></small></div>
+      <div class='plan contain'>
+        <a href='{{site.url}}/plans/' class='plan-icon big <%= user.plan.id.replace('2', '').replace('-annual', '') %>'></a>
+        <a href='{{site.url}}/plans/'>
+          <strong><%= _(user.plan?user.plan.name:'').escape() %></strong>
+        </a>
+        <small class='quiet'><%= numeral(user.plan.views).format('0a') %> views</small>
+      </div>
+      <div class='show-mobile strong'>
+        <a href='{{site.url}}/dashboard/' class='authed {% if page.url contains '/dashboard' %}active{% endif %}'>Dashboard</a>
+        <a href='{{site.url}}/projects/' class='authed {% if page.url contains '/project' %}active{% endif %}'>Projects</a>
+        <a href='{{site.url}}/data/' class='authed {% if page.url contains '/data' %}active{% endif %}'>Data</a>
+      </div>
+      <div class='strong'>
+        <a href='{{site.url}}/account/'>Account</a>
+        <% if (App.user.group === 'admin') { %><a href='{{site.url}}/admin/'>Admin</a><% } %>
+        <a href='#signout' id='signout'>Sign out</a>
+      </div>
+      <div class='strong'>
+        <a href='{{site.url}}/tour/'>Tour</a>
+        <a href='{{site.url}}/showcase/'>Showcase</a>
+        <a href='{{site.url}}/blog/'>Blog</a>
+        <a href='{{site.url}}/help/'>Help</a>
       </div>
     </div>
     <div class='hide-mobile strong fr'>
-       <a href='{{site.url}}/dashboard/' class='quiet authed icon dashboard {% if page.url contains '/dashboard' %}active{% endif %}'>Dashboard</a><!--
-    --><a href='{{site.url}}/projects/' class='quiet authed icon folder {% if page.url contains '/project' %}active{% endif %}'>Projects</a><!--
-    --><a href='{{site.url}}/data/' class='quiet authed icon book {% if page.url contains '/data' %}active{% endif %}'>Data</a>
+       <a href='{{site.url}}/dashboard/' class='quiet authed icon dashboard animate round pad1 truncate inline {% if page.url contains '/dashboard' %}active{% endif %}'>Dashboard</a><!--
+    --><a href='{{site.url}}/projects/' class='quiet authed icon folder animate round pad1 truncate inline {% if page.url contains '/project' %}active{% endif %}'>Projects</a><!--
+    --><a href='{{site.url}}/data/' class='quiet authed icon book animate round pad1 truncate inline {% if page.url contains '/data' %}active{% endif %}'>Data</a>
     </div>
     <% } %>
   </script>
