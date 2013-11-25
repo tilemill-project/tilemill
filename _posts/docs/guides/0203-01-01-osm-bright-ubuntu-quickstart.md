@@ -110,6 +110,16 @@ This will take something like 1 to 10 minutes, depending on the size of extract 
 
 ## Step 3: Set up OSM Bright
 
+Download a zip archive of the latest version of OSM Bright from <https://github.com/mapbox/osm-bright/zipball/master> and extract it.
+
+Now start downloading a few .zip archives that are referenced by the OSM Bright project and which contain shapefiles. Make sure to download these into the directory where you extracted OSM Bright (they should sit beside the README.md):
+
+ - http://tilemill-data.s3.amazonaws.com/osm/coastline-good.zip
+ - http://tilemill-data.s3.amazonaws.com/osm/shoreline_300.zip
+ - http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-land.zip
+
+You do not need to uncompress these .zip files - TileMill can do this automatically.
+
 You'll need to adjust some settings for things like your PostgreSQL connection information. To do this, open the folder where you've extracted OSM Bright to in your file manager and run through the following steps.
 
 1. Make a copy of configure.sample.py and name it configure.py.
