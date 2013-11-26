@@ -134,14 +134,15 @@ footer:
     </div>
 
     <a href='#dropdown' class='block authmenu droplink quiet avatar icon menu round animate fr' style='background-image:url("<%= user.avatar %>")'></a>
-    <div class='dropdown fill-white keyline-all round animate col3'>
-      <div><small class='quiet'><%= _(user.name || user.id).escape() %></small></div>
+    <div class='dropdown fill-white keyline-all round animate'>
       <div class='plan contain'>
-        <a href='{{site.url}}/plans/' class='plan-icon big <%= user.plan.id.replace('2', '').replace('-annual', '') %>'></a>
-        <a href='{{site.url}}/plans/'>
-          <strong><%= _(user.plan?user.plan.name:'').escape() %></strong>
+        <a href='{{site.url}}/plans/' class='plan-icon big <%= user.plan.id.replace('2', '').replace('-annual', '') %>'>
         </a>
-        <small class='quiet'><%= numeral(user.plan.views).format('0a') %> views</small>
+        <small class='quiet truncate'><%= _(user.name || user.id).escape() %></small>
+        <a href='{{site.url}}/plans/' class='truncate strong'>
+          <%= _(user.plan?user.plan.name:'').escape() %> 
+          <span class='quiet'>(<%= numeral(user.plan.views).format('0a') %> views)</span>
+        </a>
       </div>
       <div class='show-mobile strong'>
         <a href='{{site.url}}/dashboard/' class='authed {% if page.url contains '/dashboard' %}active{% endif %}'>Dashboard</a>
