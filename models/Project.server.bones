@@ -140,7 +140,7 @@ function mtimeProject(model, callback) {
         if (err) return callback(err);
         var max = _(files).chain()
             .filter(function(stat) {
-                return stat.basename !== '.thumb.png' && stat.isFile();
+                return stat.basename.charAt(0) !== '.' && stat.isFile(); //ignore hidden files
             })
             .pluck('mtime')
             .map(Date.parse)
