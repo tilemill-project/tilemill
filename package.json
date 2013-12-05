@@ -18,7 +18,8 @@
         "AJ Ashton <ajashton>",
         "Tristen Brown <tristen>",
         "Young Hahn <yhahn>",
-        "Ansis Brammanis <aibram>"
+        "Ansis Brammanis <aibram>",
+        "Justin Miller <incanus>"
     ],
     "licenses": [{ "type": "BSD" }],
     "dependencies": {
