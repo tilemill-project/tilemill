@@ -1,32 +1,37 @@
 ---
 footer:
-  mapbox:
+  aboutus:    
+    - title: About
+      path: /about
+    - title: Team
+      path: /about/team
+    - title: Jobs
+      path: /jobs
+    - title: Press
+      path: /about/press
+  topnav:    
     - title: Tour
       path: /tour
     - title: Showcase
       path: /showcase
-    - title: About
-      path: /about
-    - title: Plans
-      path: /plans
-  resources:
-    - title: Help
-      path: /help
     - title: Blog
       path: /blog
+    - title: Plans
+      path: /plans
+  help:
+    - title: Help
+      path: /help 
     - title: Developers
       path: /developers
+    - title: Status
+      path: /status   
     - title: Contact
-      path: /contact
-  tools:
+      path: /contact  
+  tools:    
     - title: TileMill
       path: /tilemill
     - title: Maki
       path: /maki
-    - title: Status
-      path: /status
-    - title: Jobs
-      path: /jobs
 ---
 <!DOCTYPE html >
 <html>
@@ -35,7 +40,7 @@ footer:
   <meta name='robots' content='{% if page.hidden %}noindex{% else %}index{% endif %}'/>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   {% if page.description %}<meta name='description' content='{{page.description | strip_html}}'/>{% endif %}
-  <title>{% if page.title == 'MapBox' %}{{page.title}} | Design &amp; publish beautiful maps{% else %}{{page.title}} | MapBox{% endif %}</title>
+  <title>{% if page.title == 'MapBox' %}{{page.title}} | Design and publish beautiful maps{% else %}{{page.title}} | MapBox{% endif %}</title>
 
   {% if page.card %}
   <meta name='twitter:site' content='@MapBox' />
@@ -81,8 +86,8 @@ footer:
   Stripe.setPublishableKey(window.location.hostname.indexOf('mapbox.com') !== -1 ?
     'pk_live_hI6mmOTIg7KkywK6vo3vJvpk' : 'pk_test_gmIyREg3sKzAiyMkAEeCsxUG');
   </script>
-  <script src='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.5.0{% endif %}/mapbox.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.5.0{% endif %}/mapbox.css' rel='stylesheet' />
+  <script src='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.5.1{% endif %}/mapbox.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.5.1{% endif %}/mapbox.css' rel='stylesheet' />
   <script src='{{site.url}}/js/site.js'></script>
   {% if page.head %}{{page.head}}{% endif %}
 
@@ -128,16 +133,16 @@ footer:
 
     <% } else { %>
     <div id='authed-logo'>
-      <!-- Back button -->  
+      <!-- Back button -->
       <% if (obj._type === 'tileset' || App.param('from') === 'data') { %>
         <a class='mb-logo' href='{{site.url}}/data'> </a>
-        <a href='{{site.url}}/data' class='return-to-previous icon return quiet animate small hide-mobile'>Return to data</a>
+        <a href='{{site.url}}/data' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to data</a>
       <% } else if (App.param('from') === 'projects') { %>
         <a class='mb-logo' href='{{site.url}}/projects'> </a>
-        <a href='{{site.url}}/projects' class='return-to-previous icon return quiet animate small hide-mobile'>Return to projects</a>
-      <% } else { %>      
+        <a href='{{site.url}}/projects' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to projects</a>
+      <% } else { %>
         <a class='mb-logo' href='{{site.url}}/editor/#app'> </a>
-        <a href='{{site.url}}/editor/#app' class='return-to-previous icon return quiet animate small hide-mobile'>Return to editor</a>
+        <a href='{{site.url}}/editor/#app' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to editor</a>
       <% } %>
     </div>
 
@@ -149,7 +154,7 @@ footer:
           </a>
           <small class='quiet truncate'><%= _(user.name || user.id).escape() %></small>
           <a href='{{site.url}}/plans/' class='truncate strong'>
-            <%= _(user.plan?user.plan.name:'').escape() %> 
+            <%= _(user.plan?user.plan.name:'').escape() %>
             <span class='quiet'>(<%= numeral(user.plan.views).format('0a') %> views)</span>
           </a>
         </div>
@@ -189,20 +194,28 @@ footer:
 <div class='clearfix{% unless page.fullwidth %} limiter{% endunless %}'>{{content}}</div>
 
 {% unless page.share %}
+
 <div class='footer keyline-top pad4y fill-white clearfix small'>
   <div class='limiter'>
-    <div class='col6'>
-      <div class='col4'>
-        {% for item in page.footer.mapbox %}
+    <div class='col6 mobile-cols'>
+      <div class='col3'>
+        {% for item in page.footer.aboutus %}
         <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='col12 strong' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
         {% endfor %}
       </div>
-      <div class='col4'>
-        {% for item in page.footer.resources %}
+      <div class='col3'>
+        {% for item in page.footer.topnav %}
         <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='col12 strong' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
         {% endfor %}
       </div>
-      <div class='col4'>
+      <div class='col3'>
+        {% for item in page.footer.help %}
+        <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='col12 strong' href='{% if item.href %}{{item.href}}{% else %}{{site.url}}{{item.path}}{% endif %}/'><strong>{{item.title}}</strong></a>
+        {% endfor %}
+      </div>
+       <div class='col3'>
+       <p><span style='padding-bottom:10px;' class='keyline-bottom'>Tools</span></p>
+
         {% for item in page.footer.tools %}
         <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='col12 strong' href='{% if item.href %}{{item.href}}{% else %}{{site.url}}{{item.path}}{% endif %}/'><strong>{{item.title}}</strong></a>
         {% endfor %}
@@ -216,16 +229,17 @@ footer:
           <input type='submit' value='Submit' name='subscribe' id='mc-embedded-subscribe' class='col3'>
         </fieldset>
       </form>
-      Follow MapBox on <a href='https://twitter.com/mapbox' class='strong'>Twitter</a> or <a href='https://www.facebook.com/MapBoxMaps' class='strong'>Facebook</a>
+      Follow MapBox on <a href='https://twitter.com/mapbox' class='strong'>Twitter</a> and <a href='https://www.facebook.com/MapBoxMaps' class='strong'>Facebook</a>
     </div>
   </div>
 </div>
 
 <div class='footer-copyright fill-white pad2y small center noprint'>
-  <a href='{{site.url}}/tos'>Terms of service</a> +
-  <a href='{{site.url}}/privacy'>Privacy policy</a>
+  <a href='{{site.url}}/tos'>Terms</a> +
+  <a href='{{site.url}}/privacy'>Privacy</a>
   &copy; MapBox
 </div>
+
 {% endunless %}
 {% endif %}
 
