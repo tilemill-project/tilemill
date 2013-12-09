@@ -43,34 +43,8 @@ platforms:
     <a href='{{item.url}}' class='download-button clearfix {{item.id}}' title='{{item.name}}'>
       <div class='label col5 pad1'>
         <small>{{item.name}}</small>
-        <h3 class='label-title'>Download</h3>
+        <h3 class='label-title'></h3>
       </div>
-      <div class='details col7 pad1'>
-        <small class='filename'>{{item.file}}</small>
-        <h3 class='label-title'>{{item.size}}</h3>
-      </div>
-      <div class='instructions'><small><span class='arrow'></span>{{item.help}}</small></div>
-    </a>
-    {% endfor %}
-
-    <div class='mailchimp-subscribe col12 clearfix'>
-      <div class='col6 prose'>
-        <h3>Downloading&hellip;</h3>
-        <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
-        </small>
-      </div>
-      <div class='col6 prose'>
-        <h3>Newsletter</h3>
-        <small>For news &amp; updates subscribe now:</small>
-        <!-- Begin MailChimp Signup Form -->
-        <div id='mc-signup'>
-          <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
-            <div class='mc-field-group clearfix'>
-              <input type='hidden' value='1' name='group[7417][2]'>
-              <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
-              <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='button icon mail'>
-            </div>
-            <div id='mce-responses'>
               <div class='response' id='mce-error-response' style='display:none'></div>
               <div class='response' id='mce-success-response' style='display:none'></div>
             </div>
