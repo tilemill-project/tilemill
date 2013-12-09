@@ -330,7 +330,9 @@ view.prototype.save = function(e) {
 
 view.prototype.cacheFlush = function(ev) {
     $(this.el).addClass('loading');
-    var url = this.$('form.layer-file input[name$=file]').val();
+    var target = $(ev.currentTarget);
+    var form = target.parents('form');
+    var url = form.hasClass('layer-sqlite') ? this.$('form.layer-sqlite input[name$=file]').val() : this.$('form.layer-file input[name$=file]').val();
     this.model.collection.parent.flush(this.model.id, url, {
         success: _(function(m, resp) {
             $(this.el).removeClass('loading');
