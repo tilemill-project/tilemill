@@ -25,7 +25,7 @@ If you try to launch tilemill without providing `server=true` on a machine witho
 
 If `server` is `true` then TileMill will not attempt to launch a native UI process.
 
-Also, TileMill defaults to reading data from the `~/Documents/MapBox` directory of the user running the process. For a system-wide TileMill service a global location with special permissions should be used.
+Also, TileMill defaults to reading data from the `~/Documents/Mapbox` directory of the user running the process. For a system-wide TileMill service a global location with special permissions should be used.
 
 ### Launching service using Upstart
 

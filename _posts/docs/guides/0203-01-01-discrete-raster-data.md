@@ -57,7 +57,7 @@ Now all that remains is to translate the land use data key into CartoCSS style r
 
 ```stop(``` +  pixel value + ```,``` + color to assign + ```)```
 
-![Japan Land Use | Mapnik raster-colorizer by MapBox](http://farm9.staticflickr.com/8385/8495388263_1a2c4eceb4_o.png)
+![Japan Land Use | Mapnik raster-colorizer by Mapbox](http://farm9.staticflickr.com/8385/8495388263_1a2c4eceb4_o.png)
 
 
 
@@ -99,7 +99,7 @@ Now all that remains is to translate the land use data key into CartoCSS style r
 ### Finished Map
 
 
-![Japan Land Cover | Mapnik raster-colorizer by MapBox](http://farm9.staticflickr.com/8094/8495387917_8425ce6b97_o.jpg)
+![Japan Land Cover | Mapnik raster-colorizer by Mapbox](http://farm9.staticflickr.com/8094/8495387917_8425ce6b97_o.jpg)
 
 *Japan Land Cover Finished map*
 

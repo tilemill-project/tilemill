@@ -11,9 +11,9 @@ permalink: /docs/manual/tilemill-settings
 
 The directory where TileMill stores files for projects and exports. If you want to keep your current projects, move the directory before changing this setting.
 
-## MapBox Account
+## Mapbox Account
 
-The [MapBox](http://mapbox.com) account TileMill is authorized to upload maps to. MapBox provides hosting for maps created in TileMill. [Register](http://mapbox.com/plans/) for a free MapBox account.
+The [Mapbox](http://mapbox.com) account TileMill is authorized to upload maps to. Mapbox provides hosting for maps created in TileMill. [Register](http://mapbox.com/plans/) for a free Mapbox account.
 
 ## HTTP Proxy
 

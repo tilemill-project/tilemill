@@ -10,7 +10,7 @@ prereq:
 - "[Added an earthquake CSV layer](/tilemill/docs/crashcourse/point-data) from the Crash Course."
 - "[Used conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
 nextup:
-- "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
+- "[Using Mapbox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 ---
 
 {% include prereq.html %}
@@ -29,7 +29,7 @@ With some simple CartoCSS, you can solve this by **conditioning your styles base
 
 The highlighted CartoCSS below is saying to TileMill, "when the zoom level is 7, apply the following style." You can do this for as many levels as you wish, and include any kind of styling. This is useful for scaling back the number of dots, icons, and labels as you zoom out, and creating a greater level of detail as you zoom in.
   ![](/tilemill/assets/pages/zoom-styling-3.png)
-The following symbols are allowed in conditional statements: `=`, `!=`, `>`, `>=`, `<`, `<=`  
+The following symbols are allowed in conditional statements: `=`, `!=`, `>`, `>=`, `<`, `<=`
 You can also group by zoom **ranges** by setting a beginning and an end, like this:
 
     [zoom >= 4][zoom <=8] {
@@ -67,27 +67,27 @@ In order to deliver information on a map more immediately, sometimes it is usefu
 For our tornado map, we have decided to display the total number of tornadoes inside the state-level dots. To do this we need to add just a few lines to the layer's CartoCSS:
   ![](/tilemill/assets/pages/label-styling-1.png)
 
-1. `::label`  
+1. `::label`
 This creates a new **symbolizer** for your layer. The name 'label' here is arbitrary, you can call it whatever you like. The position of the symbolizer in CartoCSS determines the order of its rendering. The first code in a CartoCSS layer is rendered first on the map and will be **below** anything that is rendered after it. Therefore, if you need a layer feature to be on **top**, like we do with the labels, it must come last in the code.
-2. `text-name`  
-This denotes the **field** whose text will be displayed.  
-3. `text-face-name`  
+2. `text-name`
+This denotes the **field** whose text will be displayed.
+3. `text-face-name`
 This sets the **font** for the text label. You can view a list of available system fonts by clicking the **font button (A)** on the lower left.
-4. `text-allow-overlap`  
+4. `text-allow-overlap`
 This allows the text and the dots to be displayed together at the same location. By default this option is set to false, which prevents overlapping items.
 
 That is all you need to get started with **labels**. The same idea applies to placename labels as well. You can further style them with the `text-` style parameters, changing things like size, color, opacity, placement, and more.
 
 ## Images as Icons
 
-TileMill supports using **SVG (Scalable Vector Graphic)** images as markers on your map. It is possible that we could use a custom-made tornado icon in place of the circle markers. The first thing you need is the SVG file saved somewhere on your system, preferably in your project folder for the sake of organization (Documents/MapBox/project/project-name/). Then it's all in the CartoCSS.
+TileMill supports using **SVG (Scalable Vector Graphic)** images as markers on your map. It is possible that we could use a custom-made tornado icon in place of the circle markers. The first thing you need is the SVG file saved somewhere on your system, preferably in your project folder for the sake of organization (Documents/Mapbox/project/project-name/). Then it's all in the CartoCSS.
   ![](/tilemill/assets/pages/svg-icons-1.png)
 
-1. `point-file`  
-This designates the **path** to the SVG relative to your project folder. In this case the SVG is located in Documents/MapBox/project/2010-tornadoes/icons/.  
-2. `point-allow-overlap`  
-Like other `-allow-overlap` parameters, this allows the images to be displayed even if they will be on top of each other.  
-3. `point-transform`  
+1. `point-file`
+This designates the **path** to the SVG relative to your project folder. In this case the SVG is located in Documents/Mapbox/project/2010-tornadoes/icons/.
+2. `point-allow-overlap`
+Like other `-allow-overlap` parameters, this allows the images to be displayed even if they will be on top of each other.
+3. `point-transform`
 This is the parameter used to **scale** and **move** the image, among other things. A value of `"scale(1)"` will display the image at its original size, while `"scale(0.5)"` and `"scale(2)"` will display it at 50% and 200% respectively. You can also use this property to move the image vertically and horizontally by using the property `"translate()"`. For example, the value `"translate(20, -40)"` will move the image 20 pixels to the right and 40 pixels up. There are several other properties that you can employ with `point-transform`. [Learn about them on W3](http://www.w3.org/TR/SVG/coords.html#TransformAttribute).
 
 ## Exporting for Compositing
@@ -116,7 +116,7 @@ And the final project CartoCSS code for reference:
     Map {
       background-color: #b8dee6;
     }
-    
+
     #countries {
       ::outline {
         line-color: #85c5d3;
@@ -125,7 +125,7 @@ And the final project CartoCSS code for reference:
       }
       [GEOUNIT != &quot;United States of America&quot;]{polygon-fill: #fff;}
     }
-    
+
     /*Individual tornado points*/
     #tornadoes [zoom &gt; 5]{
       marker-width:6;
@@ -158,7 +158,7 @@ And the final project CartoCSS code for reference:
         [fscale=5]{marker-width:30;}
       }
     }
-    
+
     /*State-level dots and labels*/
     #tornadoes-state-level [zoom &lt;= 5] {
       marker-width:6;
@@ -210,7 +210,7 @@ And the final project CartoCSS code for reference:
         }
       }
     }
-    
+
     /* State borders */
     #states {
       line-color:#ccc;

@@ -10,7 +10,7 @@ prereq:
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"
 nextup:
 - "[Using conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
-- "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
+- "[Using Mapbox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 code1: "( SELECT * from dc_census_tracts JOIN data on dc_census_tracts.geoid10 = data.geoid )"
 ---
 {% include prereq.html %}
@@ -69,7 +69,7 @@ There are many spreadsheet-like GUI editors available for OSX, Linux, and Window
 1. From within the **Editor** window of the `dc-census-tracts` project, toggle on the layer selector and click **Edit** next to the `dc` layer you just added in the previous section.
 ![step1c](/tilemill/assets/pages/addsqlite-1c.png)
 2. Move down to the **Attach DB** field. This is the field for attaching additional databases to base an SQL join statement on to add attribute data to your geographic features.
-3. Enter `data@[ path to your ]/MapBox/data/dc-census-data.sqlite` to provide the path information to the SQLite file we created from the Census total population data for the District of Columbia.
+3. Enter `data@[ path to your ]/Mapbox/data/dc-census-data.sqlite` to provide the path information to the SQLite file we created from the Census total population data for the District of Columbia.
 ![step3c](/tilemill/assets/pages/addsqlite-3c.png)
 4. Within the **Table or subquery** field, adjust the existing query to be:
 

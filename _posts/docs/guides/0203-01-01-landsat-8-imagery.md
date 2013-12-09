@@ -117,7 +117,7 @@ All TileMill really needs to know is where to find the image and what SRS to use
 Now we have all the tools of TileMill at our disposal. You might be pulling in this image as one small part of a very complex project – but let’s keep this demo bare-bones and just set the `raster-scaling` method to `lanczos`, to help prevent jaggies.
 
 ## Exporting from TileMill ##
-Once we’ve done everything we want in TileMill, we can use the Export menu in the upper right. We’ll upload to the MapBox account associated with TileMill (which can be changed in the Preferences screen):
+Once we’ve done everything we want in TileMill, we can use the Export menu in the upper right. We’ll upload to the Mapbox account associated with TileMill (which can be changed in the Preferences screen):
 
 ![](http://farm4.staticflickr.com/3683/9087506834_1fc6a6272b_o.png)
 
@@ -125,11 +125,11 @@ In the upload screen, we draw some reasonable boundaries and pick a center point
 
 ![](http://farm8.staticflickr.com/7289/9087506766_744e41cd1d_o.png)
 
-Once the tiles have rendered and uploaded, we have a browsable map hosted on MapBox:
+Once the tiles have rendered and uploaded, we have a browsable map hosted on Mapbox:
 
 <iframe width='744' height='491' frameBorder='0' src='https://a.tiles.mapbox.com/v3/char.panama-canal.html#12/9.15/-79.85' ></iframe>
 
 ## Conclusions ##
-We’ve downloaded Landsat 8 data, color-corrected it, pulled it into TileMill for use with other map resources, and uploaded it as a live map layer on MapBox. I hope this has encouraged you to make use of Landsat 8 data – and given you a head start on working with imagery from other sources.
+We’ve downloaded Landsat 8 data, color-corrected it, pulled it into TileMill for use with other map resources, and uploaded it as a live map layer on Mapbox. I hope this has encouraged you to make use of Landsat 8 data – and given you a head start on working with imagery from other sources.
 
 {% include nextup.html %}

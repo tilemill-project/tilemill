@@ -21,7 +21,7 @@ In order to use OSM Bright on Ubuntu you'll need to install a number of packages
 
 ### PostgreSQL and PostGIS
 
-Open up a terminal and run the following command to install PostGIS and all of its dependencies, including PostgreSQL. 
+Open up a terminal and run the following command to install PostGIS and all of its dependencies, including PostgreSQL.
 
 For Ubuntu 11.10 'Oneiric Ocelot':
 
@@ -126,7 +126,7 @@ You'll need to adjust some settings for things like your PostgreSQL connection i
 2. Open the new configure.py in a text editor.
 3. Change `config["importer"] = "osm2pgsql"` to `config["importer"] = "imposm"`, unless you prefer to use osm2pgsql and have that set up.
 4. Optionally change the name of your project from the default, 'OSM Bright'.
-5. Adjust the path to point to your MapBox project folder. If your Ubuntu username is 'mary', it should likely be `/home/mary/Documents/MapBox/project/`.
+5. Adjust the path to point to your Mapbox project folder. If your Ubuntu username is 'mary', it should likely be `/home/mary/Documents/Mapbox/project/`.
 6. change the line that says `config["postgis"]["user"]     = ""` to `config["postgis"]["user"]     = "postgres"`
 7. Save & close the file.
 
@@ -134,7 +134,7 @@ If you've set up PostgreSQL as described in Step 0 this should be all you need t
 
 **Note:** At this point if you've never run TileMill before you should do that - search for it in the Dash Home and click on the icon. The first time it runs it will set up some folders we need for the next step.
 
-Now you can build and install a copy of the project with this new configuration to your MapBox projects directory. In a terminal, `cd` to the directory where you extracted the project, then run the make program. For example:
+Now you can build and install a copy of the project with this new configuration to your Mapbox projects directory. In a terminal, `cd` to the directory where you extracted the project, then run the make program. For example:
 
     cd ~/Downloads/mapbox-osm-bright-*
     ./make.py
@@ -147,6 +147,6 @@ If you want, you can render the OSM Bright template without modifications - howe
 
 The first stylesheet, palette.mss, contains many of the basic color definitions for the map. Here you can easily change the colors of things like roads, land areas, buildings.
 
-For further customizations dig into the remaining stylesheets and refer to the comments and TileMill's built-in CartoCSS guide for and [the CartoCSS section of the manual](/tilemill/docs/manual/carto/) for guidance. When you're done with your customizations, you're ready to export a map. 
+For further customizations dig into the remaining stylesheets and refer to the comments and TileMill's built-in CartoCSS guide for and [the CartoCSS section of the manual](/tilemill/docs/manual/carto/) for guidance. When you're done with your customizations, you're ready to export a map.
 
 {% include nextup.html %}

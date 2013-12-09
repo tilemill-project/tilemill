@@ -8,7 +8,7 @@ permalink: /docs/guides/advanced-legends
 prereq:
 - "[Reviewed](/tilemill/docs/crashcourse/introduction) the Crash Course, particularly the [legends](/tilemill/docs/crashcourse/tooltips/#legends) section."
 nextup:
-- "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
+- "[Using Mapbox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 ---
 
 {% include prereq.html %}
@@ -49,7 +49,7 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
     </div>
     <div class='legend-source'>Source: <a href="#link to source">Name of source</a></div>
     </div>
-    
+
     <style type='text/css'>
       .my-legend .legend-title {
         text-align: left;
@@ -104,7 +104,7 @@ Copy and paste the block of code directly into TileMill's legend field. Then fol
     </div>
     <div class='legend-source'>Source: <a href="#link to source">Name of source</a></div>
     </div>
-    
+
     <style type='text/css'>
       .my-legend .legend-title {
         text-align: left;

@@ -1,6 +1,6 @@
 ---
 footer:
-  aboutus:    
+  aboutus:
     - title: About
       path: /about
     - title: Team
@@ -9,7 +9,7 @@ footer:
       path: /jobs
     - title: Press
       path: /about/press
-  topnav:    
+  topnav:
     - title: Tour
       path: /tour
     - title: Showcase
@@ -20,14 +20,14 @@ footer:
       path: /plans
   help:
     - title: Help
-      path: /help 
+      path: /help
     - title: Developers
       path: /developers
     - title: Status
-      path: /status   
+      path: /status
     - title: Contact
-      path: /contact  
-  tools:    
+      path: /contact
+  tools:
     - title: TileMill
       path: /tilemill
     - title: Maki
@@ -40,11 +40,11 @@ footer:
   <meta name='robots' content='{% if page.hidden %}noindex{% else %}index{% endif %}'/>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   {% if page.description %}<meta name='description' content='{{page.description | strip_html}}'/>{% endif %}
-  <title>{% if page.title == 'MapBox' %}{{page.title}} | Design and publish beautiful maps{% else %}{{page.title}} | MapBox{% endif %}</title>
+  <title>{% if page.title == 'Mapbox' %}{{page.title}} | Design and publish beautiful maps{% else %}{{page.title}} | Mapbox{% endif %}</title>
 
   {% if page.card %}
-  <meta name='twitter:site' content='@MapBox' />
-  <meta property='og:site_name' content='MapBox' />
+  <meta name='twitter:site' content='@Mapbox' />
+  <meta property='og:site_name' content='Mapbox' />
   <meta name='twitter:url' content='{{page.permalink}}' />
   <meta property='og:url' content='{{page.permalink}}' />
   <meta name='twitter:title' content='{{page.title}}' />
@@ -229,7 +229,7 @@ footer:
           <input type='submit' value='Submit' name='subscribe' id='mc-embedded-subscribe' class='col3'>
         </fieldset>
       </form>
-      Follow MapBox on <a href='https://twitter.com/mapbox' class='strong'>Twitter</a> and <a href='https://www.facebook.com/MapBoxMaps' class='strong'>Facebook</a>
+      Follow Mapbox on <a href='https://twitter.com/mapbox' class='strong'>Twitter</a> and <a href='https://www.facebook.com/MapboxMaps' class='strong'>Facebook</a>
     </div>
   </div>
 </div>
@@ -237,7 +237,7 @@ footer:
 <div class='footer-copyright fill-white pad2y small center noprint'>
   <a href='{{site.url}}/tos'>Terms</a> +
   <a href='{{site.url}}/privacy'>Privacy</a>
-  &copy; MapBox
+  &copy; Mapbox
 </div>
 
 {% endunless %}
@@ -345,7 +345,7 @@ footer:
             <input type='password' name='password' class='stretch' />
           </fieldset>
           <div class='pad2x'>
-            <small>You agree to the MapBox <a href='http://mapbox.com/tos/'>Terms of Service</a> and <a href='http://mapbox.com/privacy/'>Privacy Policy</a>.</small>
+            <small>You agree to the Mapbox <a href='http://mapbox.com/tos/'>Terms of Service</a> and <a href='http://mapbox.com/privacy/'>Privacy Policy</a>.</small>
           </div>
         </div>
         <div class='pad2y pad2x clearfix'>
@@ -353,7 +353,7 @@ footer:
             <a class='icon prev slide' href='#active2'>Sign in</a>
           </small>
           <div class='col6 pad2x text-right'>
-            <input class='col12' type='submit' value='Sign up for MapBox' />
+            <input class='col12' type='submit' value='Sign up for Mapbox' />
           </div>
         </div>
       </div>
@@ -458,7 +458,7 @@ footer:
 <% if (obj.plan.isUpgrade()) { %>
 <h2 class='center'><%= plan.get('name') %> for $<%= plan.get('price') %>/<%= plan.get('period') %></h2>
 <% if (obj.reason && obj.reason === 'satellite') { %>
-<p class='center'>To use <strong>MapBox Satellite</strong> upgrade to the <strong><%= plan.get('name') %></strong> plan.</p>
+<p class='center'>To use <strong>Mapbox Satellite</strong> upgrade to the <strong><%= plan.get('name') %></strong> plan.</p>
 <% } else { %>
 <p class='center'>You're about to upgrade to the <strong><%= plan.get('name') %></strong> plan.</p>
 <% } %>
@@ -467,7 +467,7 @@ footer:
 </div>
 <% } else { %>
 <h2 class='center'>Downgrade to <%= plan.get('name') %></h2>
-<p class='center'>Before you do that, can we help you get the most out of MapBox?<br/><a href='http://support.mapbox.com/' target='_blank'>Ask our support team for help</a>.</p>
+<p class='center'>Before you do that, can we help you get the most out of Mapbox?<br/><a href='http://support.mapbox.com/' target='_blank'>Ask our support team for help</a>.</p>
 <% if (!obj.plan.get('price')) { %>
 <h3 class='space-bottom'>What is the main reason for downgrading your subscription?</h3>
 <form id='downgrade-survey' class='small space-bottom' method='post'>

@@ -16,9 +16,9 @@ With a TileMill project open, the export menu at the top-right of the window and
 
 The __Upload__ and __MBTiles__ options will export pannable, zoomable maps just like the preview you see in TileMill. Any legends and interactive elements will be included. Depending on what you are exporting, this process can take up considerable time and disk space.
 
-The MBTiles option creates a package of [tiles](http://mapbox.com/developers/guide/) that can be used in a variety of ways. You can upload them to a MapBox account, host them yourself with [TileStream](https://github.com/mapbox/tilestream) or transfer them to [MapBox for iPad](http://mapbox.com/ipad/) for offline access. Technical details about MBTiles files can be found in the [MapBox developers documentation](http://mapbox.com/developers/mbtiles/).
+The MBTiles option creates a package of [tiles](http://mapbox.com/developers/guide/) that can be used in a variety of ways. You can upload them to a Mapbox account, host them yourself with [TileStream](https://github.com/mapbox/tilestream) or transfer them to [Mapbox for iPad](http://mapbox.com/ipad/) for offline access. Technical details about MBTiles files can be found in the [Mapbox developers documentation](http://mapbox.com/developers/mbtiles/).
 
-If you have a [MapBox account](http://mapbox.com/plans/) you can connect it with your TileMill installation and use the Upload export to streamline the process of creating an MBTiles file and uploading it to MapBox.
+If you have a [Mapbox account](http://mapbox.com/plans/) you can connect it with your TileMill installation and use the Upload export to streamline the process of creating an MBTiles file and uploading it to Mapbox.
 
 <!-- TODO: Export options -->
 
@@ -66,14 +66,14 @@ For other Linux distribution or for custom-compiled TileMill installation, you'l
 
 ### Export examples
 
-To export an mbtiles file into `~/Documents/MapBox/export` (the same folder the TileMill user interface will use)
+To export an mbtiles file into `~/Documents/Mapbox/export` (the same folder the TileMill user interface will use)
 from the `geography-class` project for a restricted set of zoom levels do:
 
-    ./index.js export geography-class ~/Documents/MapBox/export/geography-class.mbtiles --minzoom=0 --maxzoom=5
+    ./index.js export geography-class ~/Documents/Mapbox/export/geography-class.mbtiles --minzoom=0 --maxzoom=5
 
 To export a single png image from the `geography-class`	project for a bounding box representing the USA do:
 
-    ./index.js export geography-class ~/Documents/MapBox/export/geography-class.png --format=png --width=600 --height=400 --bbox="-131.4844,20.3034,-62.5781,51.3992"
+    ./index.js export geography-class ~/Documents/Mapbox/export/geography-class.png --format=png --width=600 --height=400 --bbox="-131.4844,20.3034,-62.5781,51.3992"
 
 ### How to make the export less verbose
 
@@ -109,11 +109,11 @@ Options:
 <tr><td><strong>--metatile=</strong>[num]                  </td><td>Metatile size. (Default: undefined)</td></tr>
 <tr><td><strong>--scale=</strong>[num]                     </td><td>Scale factor (Default: undefined)</td></tr>
 <tr><td><strong>--concurrency=</strong>[num]               </td><td>Number of exports that can be run concurrently. (Default: 4)</td></tr>
-<tr><td><strong>--files=</strong>[path]                    </td><td>Path to files directory. (Default: "/home/aj/Documents/MapBox")</td></tr>
-<tr><td><strong>--syncAPI=</strong>[URL]                   </td><td>MapBox API URL. (Default: "http://api.tiles.mapbox.com")</td></tr>
-<tr><td><strong>--syncURL=</strong>[URL]                   </td><td>MapBox sync URL. (Default: "https://tiles.mapbox.com")</td></tr>
-<tr><td><strong>--syncAccount=</strong>[account]           </td><td>MapBox account name. (Default: "")</td></tr>
-<tr><td><strong>--syncAccessToken=</strong>[token]         </td><td>MapBox access token. (Default: "")</td></tr>
+<tr><td><strong>--files=</strong>[path]                    </td><td>Path to files directory. (Default: "/home/aj/Documents/Mapbox")</td></tr>
+<tr><td><strong>--syncAPI=</strong>[URL]                   </td><td>Mapbox API URL. (Default: "http://api.tiles.mapbox.com")</td></tr>
+<tr><td><strong>--syncURL=</strong>[URL]                   </td><td>Mapbox sync URL. (Default: "https://tiles.mapbox.com")</td></tr>
+<tr><td><strong>--syncAccount=</strong>[account]           </td><td>Mapbox account name. (Default: "")</td></tr>
+<tr><td><strong>--syncAccessToken=</strong>[token]         </td><td>Mapbox access token. (Default: "")</td></tr>
 <tr><td><strong>--verbose=</strong>on|off                  </td><td>verbose logging (Default: "on")</td></tr>
 <tr><td><strong>--config=</strong>[path]                   </td><td>Path to JSON configuration file.</td></tr>
 </table>

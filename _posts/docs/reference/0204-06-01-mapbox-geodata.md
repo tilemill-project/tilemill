@@ -3,13 +3,13 @@ layout: docs
 section: help
 category: reference
 tag: Reference
-title: MapBox geodata
+title: Mapbox geodata
 permalink: /docs/manual/mapbox-geodata
 ---
-The MapBox GeoData Library is a collection of free datasets that have been optimized
+The Mapbox GeoData Library is a collection of free datasets that have been optimized
 to work well with TileMill. The library is browsable from the TileMill interface through
 the Add Layer dialog - click on the 'browse' button next to the file field,
-then click the 'MapBox' button with the cloud icon.
+then click the 'Mapbox' button with the cloud icon.
 
 All text within the data has been converted to UTF-8 which is the preferred encoding for working with data in TileMill.
 
@@ -51,7 +51,7 @@ Similarly, some files contain a "LabelRank" column which hints an appropriate zo
 - 10m-admin-0-scale-ranks.zip
 - 10m-admin-0-sovereignty.zip
 
-The four 10m-admin0-boundary- files contain lines suitable for drawing borders. 
+The four 10m-admin0-boundary- files contain lines suitable for drawing borders.
 
 Natural Earth provides several versions of its administrative level 0 units to account for different mapping needs and different definitions of "country". See their [table of comparison][NEadm0] between sovereign states, countries, map units, and map subunits to help decide which one will best fit your project.
 
@@ -90,7 +90,7 @@ The two populated places layers are points of cities and towns around the world.
 - 10m-roads-north-america.zip
 - 10m-roads.zip
 
-The roads shapefile contains major road networks across the world. There is also a supplemental file with additional roads for North America. 
+The roads shapefile contains major road networks across the world. There is also a supplemental file with additional roads for North America.
 
 The railroads file contains major railroad lines throughout North America - data for other continents is not yet available from Natural Earth.
 
@@ -120,7 +120,7 @@ The Natural Earth Physical Themes contain physical features such as water bodies
 - 10m-antarctic-ice-shelves-lines.zip
 - 10m-antarctic-ice-shelves-polys.zip
 
-The Antarctic ice shelves files reflect the non-seasonal ice surrounding Antarctica. The lines file represents just the outer edge, which may be useful for styling purposes. 
+The Antarctic ice shelves files reflect the non-seasonal ice surrounding Antarctica. The lines file represents just the outer edge, which may be useful for styling purposes.
 
 **Bathymetry**
 
@@ -146,7 +146,7 @@ The Natural Earth coastline is based on data from the World Bank with a number o
 - 10m-minor-islands-coastline.zip
 - 10m-reefs.zip
 
-Minor islands are smaller than 2 square kilometers and have been assigned a ScaleRank of 6 or greater. They are drawn to less detail than the main coastlines and are not shown in the administrative, ocean, or bathymetry files. 
+Minor islands are smaller than 2 square kilometers and have been assigned a ScaleRank of 6 or greater. They are drawn to less detail than the main coastlines and are not shown in the administrative, ocean, or bathymetry files.
 
 The reefs file contains lines indicating major coral reefs and atolls.
 
@@ -187,7 +187,7 @@ The different graticules files show latitude and longitude lines in various inte
 - 10m-lakes.zip
 - 10m-playas.zip
 
-Large lakes and reservoirs are included in the main lakes file, with many more smaller lakes available in the supplemental files for North America and Europe only. 
+Large lakes and reservoirs are included in the main lakes file, with many more smaller lakes available in the supplemental files for North America and Europe only.
 
 Pluvial lakes are basins that fill with water during periods of glaciation. In general these have been dry since prehistoric times, but a few may still fill to some extent on rare occasions. The historic file contains three lakes that have dried up in relatively recent history. The playas file contains major dry lakes, ephemeral lakes, and salt pans.
 

@@ -11,7 +11,7 @@ prereq:
 - "[Set up GDAL](/tilemill/docs/guides/gdal) for processing raster data in the terminal."
 nextup:
 - "[Exporting](/tilemill/docs/crashcourse/exporting/) your map."
-- "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
+- "[Using Mapbox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 ---
 {% include prereq.html %}
 
@@ -23,7 +23,7 @@ There are many different data formats for storing and working with digital eleva
 
 #### STRM
 
-Data collected from NASA's [Shuttle Radar Topography Mission][1] is a high quality source of elevation data covering much of the globe. It is available free from NASA directly, however we recommend working with [CGIAR's cleaned up version][2], which is also free. 
+Data collected from NASA's [Shuttle Radar Topography Mission][1] is a high quality source of elevation data covering much of the globe. It is available free from NASA directly, however we recommend working with [CGIAR's cleaned up version][2], which is also free.
 
 [1]: http://www2.jpl.nasa.gov/srtm/
 [2]: http://srtm.csi.cgiar.org/
@@ -44,7 +44,7 @@ The US Geological Survey publishes a [National Elevation Dataset][3] for the Uni
 
 ![relief-example.png](/tilemill/assets/pages/relief-example.png)
 
-Color relief assigns a color to a pixel based on the elevation of that pixel. The result is not intended to be hysically accurate, and even if natural-looking colors are chosen the results should not be interpreted as representative of actual landcover. Low-lying areas are often given assigned green and yellow shades, with higher elevations blending to shades of grey, white, and/or red. 
+Color relief assigns a color to a pixel based on the elevation of that pixel. The result is not intended to be hysically accurate, and even if natural-looking colors are chosen the results should not be interpreted as representative of actual landcover. Low-lying areas are often given assigned green and yellow shades, with higher elevations blending to shades of grey, white, and/or red.
 
 #### Hillshade (or shaded relief)
 
@@ -91,7 +91,7 @@ Our output looks like this:
 
 #### Generating color-relief
 
-Before you can create a color-relief image, you nee to decide what colors you want to assign to different elevations. This color configuration is created and stored in a specially formatted plain text file. Each line in the file should have four numbers - an elevation, and an RGB triplet of numbers from 0 to 255. To figure out the proper RGB values of a color, you can used the color selection tool of any image editor, or an online too such as [ColorPicker.com](http://www.colorpicker.com). 
+Before you can create a color-relief image, you nee to decide what colors you want to assign to different elevations. This color configuration is created and stored in a specially formatted plain text file. Each line in the file should have four numbers - an elevation, and an RGB triplet of numbers from 0 to 255. To figure out the proper RGB values of a color, you can used the color selection tool of any image editor, or an online too such as [ColorPicker.com](http://www.colorpicker.com).
 
 Here is our example, saved to a file called ramp.txt:
 
@@ -119,15 +119,15 @@ Among other things, this will tell you the minimum, maximum, and mean values of 
 
 #### Generating slope shading
 
-With the gdaldem tools, generating a slope visualization is a two step process. 
+With the gdaldem tools, generating a slope visualization is a two step process.
 
-First, we generate a slope tif where each pixel value is a degree, from 0 to 90, representing the slope of a given piece of land. 
+First, we generate a slope tif where each pixel value is a degree, from 0 to 90, representing the slope of a given piece of land.
 
     gdaldem slope dc-3785.tif dc-slope-3785.tif
 
 *The same note about horizontal and vertical scale as hillshades applies for slope.*
 
-The tif output by `gdaldem slope` has no color values assigned to pixels, but that can be achieved by feeding it through gdaldem color-relief with an appropriate ramp file. 
+The tif output by `gdaldem slope` has no color values assigned to pixels, but that can be achieved by feeding it through gdaldem color-relief with an appropriate ramp file.
 
 Create a file called 'slope-ramp.txt' containing these two lines:
 
@@ -153,9 +153,9 @@ To combine these geotiffs in TileMill, we'll make use of the 'multiply' image bl
         // note: in TileMill 0.9.x and earlier this is called raster-mode
         raster-comp-op: multiply;
     }
-    
+
     #hill-shade { raster-opacity: 0.6; }
-    
+
     #slope-shade { raster-opacity: 0.4; }
 
 The end result is something like this, ready to be combined with your vector data:
@@ -164,6 +164,6 @@ The end result is something like this, ready to be combined with your vector dat
 
 ## Raster performance
 
-If your rasters are many MBs in size, then an important optimization is to build image pyramids, or overviews. This can be done with the `gdaladdo` tool or in QGIS. Building overviews does not impact the resolution of the original image, but it rather inserts new reduced resolution image references inside the original file that will be used in place of the full resolution data at low zoom levels. Any processing of the original image will likely drop any internal overviews previously built, so make sure to rebuild them if needed. You can use the `gdalinfo` tool to check if your tiff has overviews by ensuring the output has the 'Overviews' keyword reported for each band. 
+If your rasters are many MBs in size, then an important optimization is to build image pyramids, or overviews. This can be done with the `gdaladdo` tool or in QGIS. Building overviews does not impact the resolution of the original image, but it rather inserts new reduced resolution image references inside the original file that will be used in place of the full resolution data at low zoom levels. Any processing of the original image will likely drop any internal overviews previously built, so make sure to rebuild them if needed. You can use the `gdalinfo` tool to check if your tiff has overviews by ensuring the output has the 'Overviews' keyword reported for each band.
 
 {% include nextup.html %}

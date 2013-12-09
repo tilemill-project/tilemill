@@ -103,7 +103,7 @@ As with zoom levels, you can select data based on numeric ranges.
 
 You can also filter on columns that contain text. Filter on exact matches with the equals operator (`=`) or get the inverse results with the not-equal operator (`!=`). Unlike zoom and numeric values, text values must be quoted with either double or single quotes.
 
-As an example, look at the '10m-roads' shapefile from Natural Earth (available in TileMill via the [MapBox GeoData Library]()). It contains a column called `Type`, and each value for this column is one of just a few options: "Major Highway", "Secondary Highway", or "Ferry Route". This makes it a good column to filter on for styling.
+As an example, look at the '10m-roads' shapefile from Natural Earth (available in TileMill via the [Mapbox GeoData Library]()). It contains a column called `Type`, and each value for this column is one of just a few options: "Major Highway", "Secondary Highway", or "Ferry Route". This makes it a good column to filter on for styling.
 
     #roads {
       [Type="Major Highway"] {

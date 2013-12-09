@@ -14,7 +14,7 @@ prereq:
 
 <!-- WIP, feel free to chip in -->
 
-TileMill includes a number of features that make it easy to create high-resolution versions of map designs, for example to display on Apple Retina displays. Providing an alternative, high-resolution tileset will allow you to keep your maps looking crisp and readable on phones, tablets, and other devices with very high pixel density. You can use client-side code (eg. MapBox.js) to detect devices that report high pixel density and display your high-resolution version, while falling back to normal tiles for all other clients.
+TileMill includes a number of features that make it easy to create high-resolution versions of map designs, for example to display on Apple Retina displays. Providing an alternative, high-resolution tileset will allow you to keep your maps looking crisp and readable on phones, tablets, and other devices with very high pixel density. You can use client-side code (eg. Mapbox.js) to detect devices that report high pixel density and display your high-resolution version, while falling back to normal tiles for all other clients.
 
 To create a higher-resolution set of tiles, go to your TileMill project's settings (via the wrench icon at the top-right) and look for the slider named **Scale Factor**. Increasing this will increase the thickness of lines, scale of icons, and size of text. It will also adjust zoom level filters to help account for these changes (keeping similar feature density, relative sizes, etc).
 

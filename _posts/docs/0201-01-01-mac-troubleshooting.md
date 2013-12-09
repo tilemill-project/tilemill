@@ -31,8 +31,8 @@ This will reset any customizations you have made to TileMill preferences and wil
 1. Quit TileMill.
 2. In the Finder choose "Go to folder" from the "Go" menu.
 3. Type `~/Documents` into the "Go to the folder" field and press the "Go" button.
-4. Rename the `MapBox` folder to `MapBox-backup` to backup your projects.
-5. Start TileMill again and a fresh `MapBox` directory should be created. If the application now behaves properly, copy the `project` folder from `MapBox-backup` to the newly created `MapBox` folder to restore your projects.
+4. Rename the `Mapbox` folder to `Mapbox-backup` to backup your projects.
+5. Start TileMill again and a fresh `Mapbox` directory should be created. If the application now behaves properly, copy the `project` folder from `Mapbox-backup` to the newly created `Mapbox` folder to restore your projects.
 6. If the problem returns after restoring your projects, check the logs and contact support.
 
 ## Upgrade Safari

@@ -9,11 +9,11 @@ prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "[Reviewed](/tilemill/docs/crashcourse/introduction) the Crash Course, in particular [using conditional styles](/tilemill/docs/guides/conditional-styles/)."
 nextup:
-- "[Use MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
+- "[Use Mapbox](http://mapbox.com/hosting/docs/) to upload and composite your map."
 ---
 {% include prereq.html %}
 
-[Maki](http://mapbox.com/maki) is a point of interest (POI) icon set for TileMill. On a typical base map, POIs provide context by highlighting things like schools, businesses, and parks. Maki icons are clean, clear, recognizable, and work well with a wide range of map types. 
+[Maki](http://mapbox.com/maki) is a point of interest (POI) icon set for TileMill. On a typical base map, POIs provide context by highlighting things like schools, businesses, and parks. Maki icons are clean, clear, recognizable, and work well with a wide range of map types.
 
 ![Maki](/tilemill/assets/pages/maki-1.png)
 
@@ -28,7 +28,7 @@ Each symbol comes in three sizes: 24px, 18px, and 12px. They are designed to loo
 
 ## Basic Styling
 
-It's easiest to work with Maki icons if you have a copy of them in your [TileMill project folder](/tilemill/docs/manual/files-directories/#structure_of_a_tilemill_project). Copy the `src` directory (or `renders` directory) there and rename it to `maki`. 
+It's easiest to work with Maki icons if you have a copy of them in your [TileMill project folder](/tilemill/docs/manual/files-directories/#structure_of_a_tilemill_project). Copy the `src` directory (or `renders` directory) there and rename it to `maki`.
 
 If you want to follow along with the same example data we're going to use, download [this CSV](https://github.com/mapbox/tilemill/raw/gh-pages/assets/pages/combined_poi.csv) of POIs in Washington, DC from OpenStreetMap. Add it as a layer in TileMill and set the layer ID to `poi`.
 
@@ -38,7 +38,7 @@ Use the [marker-file](http://www.mapbox.com/carto/api/2.1.0/#marker-file) CartoC
 
     #poi[category='Cafe'] { marker-file: url(maki/cafe-18.svg); }
 
-![First Map Preview](/tilemill/assets/pages/maki-3-2.png) 
+![First Map Preview](/tilemill/assets/pages/maki-3-2.png)
 
 ## Using different Maki sizes
 
@@ -92,7 +92,7 @@ It's easy to make your icons interactive based on the data contained in the CSV.
 
 ## Exporting a transparent overlay
 
-If you delete or comment-out the `Map` and `#countries` styles, your icons will be on a transparent background and can be used as an overlay on another layer. Follow instructions to [upload this overlay to MapBox hosting](/hosting/uploading/) and [composite it with another map](/hosting/compositing/).
+If you delete or comment-out the `Map` and `#countries` styles, your icons will be on a transparent background and can be used as an overlay on another layer. Follow instructions to [upload this overlay to Mapbox hosting](/hosting/uploading/) and [composite it with another map](/hosting/compositing/).
 
 <iframe width='600' height='400' frameBorder='0' src='https://a.tiles.mapbox.com/v3/saman.map-mpr6vgy4.html#17/38.907/-77.041'> </iframe>
 

@@ -10,9 +10,9 @@ nextup:
 - "Make your first map with [CSV data](/tilemill/docs/tutorials/point-data/)."
 - "Read the [TileMill manual](/tilemill/docs/manual/)."
 ---
-This page is for installing TileMill on **Ubuntu Desktop** from the MapBox provided [Launchpad PPA](https://launchpad.net/~developmentseed/+archive/mapbox/). You can use this approach for a headless Ubuntu Server as well - see the [Ubuntu Service](/tilemill/docs/guides/ubuntu-service/) for details.
+This page is for installing TileMill on **Ubuntu Desktop** from the Mapbox provided [Launchpad PPA](https://launchpad.net/~developmentseed/+archive/mapbox/). You can use this approach for a headless Ubuntu Server as well - see the [Ubuntu Service](/tilemill/docs/guides/ubuntu-service/) for details.
 
-TileMill can also run great on other Linux distributions, Solaris, and FreeBSD - basically anywhere you can run Node.js and Mapnik. But on these platforms TileMill will need to be built from source because, at this time, pre-built packages are only provided for Ubuntu. See the [source build instructions](/tilemill/docs/source) for more details. We also have instructions for [Mac OS X](/tilemill/docs/mac-install) and [Windows](/tilemill/docs/win-install). 
+TileMill can also run great on other Linux distributions, Solaris, and FreeBSD - basically anywhere you can run Node.js and Mapnik. But on these platforms TileMill will need to be built from source because, at this time, pre-built packages are only provided for Ubuntu. See the [source build instructions](/tilemill/docs/source) for more details. We also have instructions for [Mac OS X](/tilemill/docs/mac-install) and [Windows](/tilemill/docs/win-install).
 
 ### Requirements
 <ul class='checklist'>

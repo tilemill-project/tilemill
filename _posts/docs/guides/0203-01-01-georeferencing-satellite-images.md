@@ -22,9 +22,9 @@ The skies were clear on President Obama's first Inauguration and  [GeoEye](http:
 *GeoEye | 2009 Inauguration*
 <!--more-->
 
-Using [GDAL](http://www.gdal.org/), [QGIS](http://www.qgis.org), and [MapBox Satellite](http://mapbox.com/blog/mapbox-satellite/), we were able to manually georeference the 2009 imagery and compare the ceremony attendance and changes to the city with our own [MapBox Satellite layer](http://mapbox.com/blog/mapbox-satellite/). 
+Using [GDAL](http://www.gdal.org/), [QGIS](http://www.qgis.org), and [Mapbox Satellite](http://mapbox.com/blog/mapbox-satellite/), we were able to manually georeference the 2009 imagery and compare the ceremony attendance and changes to the city with our own [Mapbox Satellite layer](http://mapbox.com/blog/mapbox-satellite/).
 
-Below, we go over the steps of how to take a non-georeferenced JPEG image and turn it into a geospatial dataset ready for rendering in [TileMill](http://mapbox.com/tilemill/) and uploading to MapBox hosting. We use three free, open-source software libraries: [Quantum GIS](http://hub.qgis.org/projects/quantum-gis/wiki/Download) (These instructions are based off of QGIS version 1.8.0 Lisboa), [GDAL](http://www.gdal.org/), and [TileMill](http://mapbox.com/tilemill/).
+Below, we go over the steps of how to take a non-georeferenced JPEG image and turn it into a geospatial dataset ready for rendering in [TileMill](http://mapbox.com/tilemill/) and uploading to Mapbox hosting. We use three free, open-source software libraries: [Quantum GIS](http://hub.qgis.org/projects/quantum-gis/wiki/Download) (These instructions are based off of QGIS version 1.8.0 Lisboa), [GDAL](http://www.gdal.org/), and [TileMill](http://mapbox.com/tilemill/).
 
 ## Manual Georeferencing ##
 
@@ -32,27 +32,27 @@ Below, we go over the steps of how to take a non-georeferenced JPEG image and tu
 
 2\. Open raster dataset in Georeferencer window.
 
-3\. Log in to your MapBox account and create a new map layer. To create a Satellite base layer, you'll need a [basic account or higher](http://mapbox.com/plans/). 
+3\. Log in to your Mapbox account and create a new map layer. To create a Satellite base layer, you'll need a [basic account or higher](http://mapbox.com/plans/).
 
 4\. In the Georeferencer window in QGIS, choose a recognizable location on the source image. Select the **Add a Point** tool (Command + A), and add a point on the source image over the location. Here we are using the corner of 15th Street NW and Madison Dr. NW, across from the Washington Monument.
 
-5\. Search for the same location on the map shown in your custom MapBox Satellite layer, keeping the point of interest in the center of the screen.  Here's a screenshot of the area on the source image.
+5\. Search for the same location on the map shown in your custom Mapbox Satellite layer, keeping the point of interest in the center of the screen.  Here's a screenshot of the area on the source image.
 
 ![QGIS | POI Matching](http://farm9.staticflickr.com/8046/8380963926_b3a0689e17_b.jpg)
 
-![MapBox Satellite POI matching](http://farm9.staticflickr.com/8196/8383025229_89875305ce_b.jpg)
+![Mapbox Satellite POI matching](http://farm9.staticflickr.com/8196/8383025229_89875305ce_b.jpg)
 
 
-*MapBox Satellite*
+*Mapbox Satellite*
 
 
-Take a look at the url hash at the end of the MapBox url.
+Take a look at the url hash at the end of the Mapbox url.
 
 
     #17.00/38.89030/-77.03294
 
 
-The first number after the <code>#</code> is the **zoom level**, the second is **latitude**, and the third is **longitude**. 
+The first number after the <code>#</code> is the **zoom level**, the second is **latitude**, and the third is **longitude**.
 
 **Latitude:** 38.89030
 
@@ -64,17 +64,17 @@ The first number after the <code>#</code> is the **zoom level**, the second is *
 
 7\. Repeat steps 6-8 until you've added the desired number of control points to the image. A good rule of thumb here is to start with the four corners and work your way inward. To meet the project accuracy requirements, we added a total of 37 ground control points. Be sure to save your ground control points using the **"Save GCP Points as"** option in the georeferencer plugin. That way, you can reopen the project at a later date to modify points or add additional ones to improve spatial accuracy.
 
-8\. You can either perform the georeferencing within QGIS, or select the **"Generate GDAL Script"** from QGIS. We selected Thin Plate Spline transformation, Lanczos resampling, no compression, and generated a script to modify before running. 
+8\. You can either perform the georeferencing within QGIS, or select the **"Generate GDAL Script"** from QGIS. We selected Thin Plate Spline transformation, Lanczos resampling, no compression, and generated a script to modify before running.
 
 ![QGIS | Generate GDAL Script](http://farm9.staticflickr.com/8232/8381188430_f6e186bcb4_o.png)
 
-Here's our final processing script, which incorporates the QGIS-generated ground control points, and my project-specific projection, resampling, and overview settings. 
+Here's our final processing script, which incorporates the QGIS-generated ground control points, and my project-specific projection, resampling, and overview settings.
 
-    
+
     #!/bin/bash
-     
+
     ADDO="2 4 8 16 32 64 128 256 512 1024 2048 4096 8192"
-    
+
     gdal_translate \
       -of GTiff \
       -a_nodata "0 0 0" \
@@ -136,15 +136,15 @@ Here's our final processing script, which incorporates the QGIS-generated ground
        Inauguration_3857.tif \
        $ADDO
     rm Inauguration_4326.tif
-    
 
 
-The script produces a conventional GeoTIFF, which we can render in [TileMill](http://mapbox.com/tilemill/), and upload to MapBox hosting. 
+
+The script produces a conventional GeoTIFF, which we can render in [TileMill](http://mapbox.com/tilemill/), and upload to Mapbox hosting.
 
 
 ![TileMill | Georeferenced Image](http://farm9.staticflickr.com/8502/8380218977_f45a5a7532_o.png)
 
-We can check the spatial accuracy of the georeferencing against our [MapBox Satellite layer](mapbox.com/blog/mapbox-satellite/) using the Reference Layer Plugin from within TileMill. 
+We can check the spatial accuracy of the georeferencing against our [Mapbox Satellite layer](mapbox.com/blog/mapbox-satellite/) using the Reference Layer Plugin from within TileMill.
 
 
 {% include prereq.html %}

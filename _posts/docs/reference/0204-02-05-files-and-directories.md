@@ -6,17 +6,17 @@ tag: Reference
 title: Files & directories
 permalink: /docs/manual/files-directories
 ---
-By default TileMill manages project files, data and exports in a `MapBox` directory in your user's Documents directory. TileMill will create this directory and its contents automatically when you first start the program. Below are the default full paths for this directory; the actual locations may be different depending on your languages settings or other system configuration.
+By default TileMill manages project files, data and exports in a `Mapbox` directory in your user's Documents directory. TileMill will create this directory and its contents automatically when you first start the program. Below are the default full paths for this directory; the actual locations may be different depending on your languages settings or other system configuration.
 
-- **Mac OS X:** `/Users/<user>/Documents/MapBox`
-- **Ubuntu & other Linux:** `/home/<user>/Documents/MapBox`
-- **Windows:** `C:\Documents and Settings\<user>\My Documents\MapBox`
+- **Mac OS X:** `/Users/<user>/Documents/Mapbox`
+- **Ubuntu & other Linux:** `/home/<user>/Documents/Mapbox`
+- **Windows:** `C:\Documents and Settings\<user>\My Documents\Mapbox`
 
 ## Directory overview
 
-The layout of the `MapBox` directory is as follows:
+The layout of the `Mapbox` directory is as follows:
 
-    MapBox/
+    Mapbox/
       cache/
       data/
       export/
@@ -25,7 +25,7 @@ The layout of the `MapBox` directory is as follows:
 
 The **cache** directory contains a local copy of any remote datasources you add to your projects. For example, if you add the [http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-rivers-north-america.zip](http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-rivers-north-america.zip) shapefile to one of your projects, it will be saved to the cache directory and symlinked into your project's layers directory:
 
-    MapBox/cache/5316a7a8-10m-rivers-north-america
+    Mapbox/cache/5316a7a8-10m-rivers-north-america
 
 The **data** directory is where you should place any data files you would like to use on your maps. When adding or editing a layer you will be able to use this directory in the file browser.
 

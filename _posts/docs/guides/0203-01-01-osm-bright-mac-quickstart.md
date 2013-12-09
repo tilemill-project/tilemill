@@ -84,7 +84,7 @@ After installation you'll want to make sure that the `osm2pgsql` command is avai
     echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.bash_profile
     source ~/.bash_profile
 
-Note: OSM Bright can also be used with Imposm, but this is slightly more complicated to install on Mac OS X. Feel free to use it as an alternative if you already have it or if you are comfortable with installation systems like Homebrew and easy\_install. Refer to the import command in the OSM Bright README. 
+Note: OSM Bright can also be used with Imposm, but this is slightly more complicated to install on Mac OS X. Feel free to use it as an alternative if you already have it or if you are comfortable with installation systems like Homebrew and easy\_install. Refer to the import command in the OSM Bright README.
 
 ## Step 1: Set up a database for your OSM data
 
@@ -132,7 +132,7 @@ Next you'll need to adjust some settings for things like your PostgreSQL connect
 
 **Note:** At this point if you've never run TileMill before you should find it in your Applications folder and run it - the first time it runs it will set up some folders we need for the next step.
 
-Now you can build and install a copy of the project with this new configuration to your MapBox projects directory. In a terminal, `cd` to the directory where you extracted the project, then run the make program. For example:
+Now you can build and install a copy of the project with this new configuration to your Mapbox projects directory. In a terminal, `cd` to the directory where you extracted the project, then run the make program. For example:
 
     cd ~/Downloads/mapbox-osm-bright-*
     ./make.py
@@ -145,6 +145,6 @@ If you want, you can render the OSM Bright template without modifications - howe
 
 The first stylesheet, palette.mss, contains many of the basic color definitions for the map. Here you can easily change the colors of things like roads, land areas, buildings.
 
-For further customizations dig into the remaining stylesheets and refer to the comments and TileMill's built-in CartoCSS guide for and [the CartoCSS section of the manual](/tilemill/docs/manual/carto/) for guidance. When you're done with your customizations, you're ready to export a map. 
+For further customizations dig into the remaining stylesheets and refer to the comments and TileMill's built-in CartoCSS guide for and [the CartoCSS section of the manual](/tilemill/docs/manual/carto/) for guidance. When you're done with your customizations, you're ready to export a map.
 
 {% include nextup.html %}

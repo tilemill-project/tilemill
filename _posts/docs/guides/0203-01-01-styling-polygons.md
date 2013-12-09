@@ -51,7 +51,7 @@ You can add a pattern style from any local file or web URL using the `polygon-pa
 
 ![](/tilemill/assets/pages/pattern-example.png)
 
-For organization it's a good idea to save and store images resources like this on your computer, for example inside your TileMill project folder. To see an example of this look at the Open Streets DC example: open your Documents directory in a file manager and navigate to MapBox→project→open-streets-dc. You can see that there is a subdirectory named 'images' and there are a couple of pattern images inside of it.
+For organization it's a good idea to save and store images resources like this on your computer, for example inside your TileMill project folder. To see an example of this look at the Open Streets DC example: open your Documents directory in a file manager and navigate to Mapbox→project→open-streets-dc. You can see that there is a subdirectory named 'images' and there are a couple of pattern images inside of it.
 
 ![](/tilemill/assets/pages/tilemill-project-folder.png)
 
@@ -67,7 +67,7 @@ If you want to add a pattern image to the background of the whole map, you can u
 
 Like all other properties on the Map object, background-image has a global effect - it cannot be filtered or changed depending on zoom level.
 
-If you want to control the a background pattern by zoom level you can add a layer to your project that contains an earth-sized polygon for you to style. MapBox provides such a data file in the [MapBox GeoData Library](). Browse to the `natural-earth-1.4.0/physical` directory and it is the first file in the list - __10m-900913-bounding-box.zip__.
+If you want to control the a background pattern by zoom level you can add a layer to your project that contains an earth-sized polygon for you to style. Mapbox provides such a data file in the [Mapbox GeoData Library](). Browse to the `natural-earth-1.4.0/physical` directory and it is the first file in the list - __10m-900913-bounding-box.zip__.
 
 ![](/tilemill/assets/pages/styling-polygons-4.png)
 
