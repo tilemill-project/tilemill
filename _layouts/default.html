@@ -1,6 +1,6 @@
 ---
 footer:
-  aboutus:    
+  aboutus:
     - title: About
       path: /about
     - title: Team
@@ -9,7 +9,7 @@ footer:
       path: /jobs
     - title: Press
       path: /about/press
-  topnav:    
+  topnav:
     - title: Tour
       path: /tour
     - title: Showcase
@@ -20,14 +20,14 @@ footer:
       path: /plans
   help:
     - title: Help
-      path: /help 
+      path: /help
     - title: Developers
       path: /developers
     - title: Status
-      path: /status   
+      path: /status
     - title: Contact
-      path: /contact  
-  tools:    
+      path: /contact
+  tools:
     - title: TileMill
       path: /tilemill
     - title: Maki
@@ -133,16 +133,14 @@ footer:
 
     <% } else { %>
     <div id='authed-logo'>
+      <a class='mb-logo' href='{{site.url}}/dashboard/'> </a>
       <!-- Back button -->
       <% if (obj._type === 'tileset' || App.param('from') === 'data') { %>
-        <a class='mb-logo' href='{{site.url}}/data'> </a>
-        <a href='{{site.url}}/data' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to data</a>
+        <a href='{{site.url}}/data/' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to data</a>
       <% } else if (App.param('from') === 'projects') { %>
-        <a class='mb-logo' href='{{site.url}}/projects'> </a>
-        <a href='{{site.url}}/projects' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to projects</a>
-      <% } else { %>
-        <a class='mb-logo' href='{{site.url}}/editor/#app'> </a>
-        <a href='{{site.url}}/editor/#app' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to editor</a>
+        <a href='{{site.url}}/projects/' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to projects</a>
+      <% } else if (App.param('from') === 'editor') { %>
+        <a href='{{site.url}}/editor/?id=<%=App.param('id')%>' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to editor</a>
       <% } %>
     </div>
 
