@@ -802,7 +802,15 @@ ul.layers {
 /**
  * Tabs
  */
+.tabs-bar .move-button {
+    padding: 3px 1px;
+    float: left;
+    height: 29px;
+    z-index: 100;
+}
+
 .tabs {
+  width: 92%;
   float:left;
   position:relative;
   overflow:hidden;
