@@ -822,9 +822,7 @@ ul.layers {
 
 .tabs {
   white-space: nowrap;
-  /*float:left;*/
   position:relative;
-  /*overflow:hidden;*/
   height:30px;
   padding-left:10px;
   }
@@ -832,13 +830,11 @@ ul.layers {
 .tabs li {
   display: inline-block;
   position:relative;
-  /*float:left;*/
   top: 5px;
   }
 
 .tabs li a.tab {
   position:relative;
-  /*float:left;*/
   border:1px solid #ccc;
   border-bottom:0px;
   border-radius:3px 3px 0px 0px;
