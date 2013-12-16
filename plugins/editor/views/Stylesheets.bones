@@ -7,7 +7,9 @@ view.prototype.events = {
     'click a.add': 'stylesheetAdd',
     'click a.icon': 'stylesheetDelete',
     'sortupdate .tabs': 'sortStylesheets',
-    'click .status a[href=#close]': 'statusClose'
+    'click .status a[href=#close]': 'statusClose',
+    'click #tabs-left': 'moveTabsLeft',
+    'click #tabs-right': 'moveTabsRight'
 };
 
 view.prototype.initialize = function() {
@@ -24,7 +26,9 @@ view.prototype.initialize = function() {
         'colors',
         'colorOpen',
         'colorSave',
-        'colorClose'
+        'colorClose',
+        'moveTabsLeft',
+        'moveTabsRight'
     );
     this.model.bind('save', this.save);
     this.model.bind('saved', this.attach);
@@ -308,6 +312,29 @@ view.prototype.colors = function(color) {
         }).bind(this));
 }
 
+view.prototype.moveTabsLeft = function() {
+    var contentWidth = 0; 
+    this.$('.tabs li').each(function(i, li) {
+        contentWidth += $(li).width();
+    });
+
+    var width = this.$('.tabs-container').width();
+    
+    var currentMargin = parseInt(this.$('.tabs').css('margin-left'));
+
+    if (-currentMargin < contentWidth - width - 25) {
+        this.$('.tabs').animate({marginLeft: Math.max(currentMargin - 450, width - contentWidth - 25)}, 500);
+    }
+}
+
+view.prototype.moveTabsRight = function() {
+    var currentMargin = parseInt(this.$('.tabs').css('margin-left'));
+
+    if (currentMargin < 0) {
+        this.$('.tabs').animate({marginLeft: Math.min(0, currentMargin + 450)}, 500);
+    }
+}
+
 // Hook in to project view with an augment.
 views.Project.augment({
     render: function(p) {
@@ -319,4 +346,3 @@ views.Project.augment({
         return this;
     }
 });
-

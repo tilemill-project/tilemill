@@ -803,29 +803,42 @@ ul.layers {
  * Tabs
  */
 .tabs-bar .move-button {
-    padding: 3px 1px;
-    float: left;
-    height: 29px;
-    z-index: 100;
+  padding: 3px 1px;
+  float: left;
+  height: 29px;
+}
+
+.tabs-bar .add {
+  float: right;
+  margin-top: 9px;
+  margin-right: 5px;
+}
+
+.tabs-container {
+  overflow: hidden;
+  width: 90%;
+  float: left;
 }
 
 .tabs {
-  width: 92%;
-  float:left;
+  white-space: nowrap;
+  /*float:left;*/
   position:relative;
-  overflow:hidden;
+  /*overflow:hidden;*/
   height:30px;
   padding-left:10px;
   }
 
 .tabs li {
+  display: inline-block;
   position:relative;
-  float:left;
+  /*float:left;*/
+  top: 5px;
   }
 
 .tabs li a.tab {
   position:relative;
-  float:left;
+  /*float:left;*/
   border:1px solid #ccc;
   border-bottom:0px;
   border-radius:3px 3px 0px 0px;

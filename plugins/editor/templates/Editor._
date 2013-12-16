@@ -1,10 +1,8 @@
-<div class="tabs-bar">
-    <button class="button move-button disabled" id="tabs-left" disabled>&lt;</button>
-    <button class="button move-button disabled" id="tabs-right" disabled>&gt;</button>
-<!-- $(.tabs-container .tabs').animte({marginLeft: -250}, 1000); -->
-    <div class="tabs-container" style="overflow: hidden; display: inline-block;">
-        <ul class='tabs toggler clearfix'>
-        </ul>
+<div class='tabs-bar'>
+    <button class="button move-button" id="tabs-right">&lt;</button>
+    <button class="button move-button" id="tabs-left">&gt;</button>
+    <div class='tabs-container'>
+        <ul class='tabs toggler clearfix'></ul>
     </div>
     <a class='popup add button'><span class='icon reverse plus'>Add stylesheet</span></a>
 </div>
