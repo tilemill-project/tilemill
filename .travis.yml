@@ -3,17 +3,19 @@ language: node_js
 node_js:
   - "0.10"
 
+# http://about.travis-ci.org/blog/2013-11-29-postgresql-92-93-now-available/
+addons:
+  postgresql: "9.3"
+
 before_install:
  - sudo apt-add-repository --yes ppa:mapnik/v2.2.0
  - sudo apt-add-repository --yes ppa:mapnik/nightly-2.3
  - sudo apt-get update -qq
- - sudo apt-get -qq install libprotobuf7 libprotobuf-dev protobuf-compiler postgresql-9.1 postgresql-server-dev-9.1 postgresql-contrib-9.1 postgresql-9.1-postgis
+ - sudo apt-get -qq install libprotobuf7 libprotobuf-dev protobuf-compiler
 
 install:
- - POSTGIS_PATH=`pg_config --sharedir`/contrib/postgis-1.5
- - createdb -E UTF8 template_postgis -U postgres
- - psql -q -d template_postgis -f $POSTGIS_PATH/postgis.sql -U postgres
- - psql -q -d template_postgis -f $POSTGIS_PATH/spatial_ref_sys.sql -U postgres
+ - createdb template_postgis
+ - psql -c "CREATE EXTENSION postgis" template_postgis
  - npm install mocha
 
 before_script:
