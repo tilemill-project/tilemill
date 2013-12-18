@@ -64,7 +64,7 @@ var get = _(project.get).bind(project);
   <% if (type === 'tiles') { %>
   <li>
     <label>Zoom</label>
-    <div class='slider range small' data-key='zooms' data-min='0' data-max='22'></div>
+    <div class='slider range small' data-key='zooms' data-min='0' data-max='30'></div>
     <small class='description'><span class='totaltiles'>0</span> tiles (<span class='totalsize'>0</span>)</small>
   </li>
   <li>

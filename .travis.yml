@@ -7,8 +7,6 @@ before_install:
  - sudo apt-add-repository --yes ppa:mapnik/v2.2.0
  - sudo apt-add-repository --yes ppa:mapnik/nightly-2.3
  - sudo apt-get update -qq
- - sudo nvm install v0.10.22
- - nvm use v0.10.22
  - sudo apt-get -qq install libprotobuf7 libprotobuf-dev protobuf-compiler postgresql-9.1 postgresql-server-dev-9.1 postgresql-contrib-9.1 postgresql-9.1-postgis
 
 install:

@@ -52,12 +52,12 @@ model.prototype.schema = {
         'legend':      { 'type': 'string' },
         'minzoom': {
             'minimum': 0,
-            'maximum': 22,
+            'maximum': 30,
             'type': 'integer'
         },
         'maxzoom': {
             'minimum': 0,
-            'maximum': 22,
+            'maximum': 30,
             'type': 'integer'
         },
         'bounds': {
@@ -87,7 +87,7 @@ model.prototype.schema = {
                     'type':'number',
                     'minimum':-85.05112877980659,
                     'maximum':85.05112877980659 },
-                { 'type':'integer', 'minimum':0, 'maximum':22 }
+                { 'type':'integer', 'minimum':0, 'maximum':30 }
             ]
         },
 
@@ -172,7 +172,7 @@ model.prototype.defaults = {
     'format': 'png',
     'interactivity': false,
     'minzoom': 0,
-    'maxzoom': 22,
+    'maxzoom': 30,
     'srs': '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over',
     'Stylesheet': [],
     'Layer': [],
@@ -195,7 +195,7 @@ model.prototype.setDefaults = function(data) {
         !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT);
         !this.get('Layer').length && (template.Layer = this.LAYER_DEFAULT);
         template.minzoom = 0;
-        template.maxzoom = 22;
+        template.maxzoom = 30;
     }
     else {
         !this.get('Stylesheet').length && (template.Stylesheet = this.STYLESHEET_DEFAULT_NODATA);
