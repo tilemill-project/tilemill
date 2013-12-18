@@ -2,11 +2,10 @@ var assert = require('assert');
 var exec = require('child_process').exec;
 
 var count_module = function(name,callback) {
-    var cmd = 'npm ls | grep ' + name;
+    var cmd = 'npm ls ' + name;
     exec(cmd,
         function (error, stdout, stderr) {
-        //if (stderr) return callback(new Error(stderr));
-        return callback(null,stdout.match(/@/g).length);
+        return callback(null,stdout.match(new RegExp(name+'@','g')).length);
     });
 };
 
