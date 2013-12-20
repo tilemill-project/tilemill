@@ -15,6 +15,7 @@ permalink: /changelog
 releases:
 
 # notes:
+#  - TileMill - Added support for web fonts (.woff format)
 #  - TileMill - Project auto-update watcher now ignores hidden files
 #  - TileMill - Fixed Layer editing popup to be scrollable
 #  - Tilemill - Now clearing logs after they grow larger than 5 MB on windows/os x
