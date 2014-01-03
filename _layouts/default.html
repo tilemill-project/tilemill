@@ -40,11 +40,11 @@ footer:
   <meta name='robots' content='{% if page.hidden %}noindex{% else %}index{% endif %}'/>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   {% if page.description %}<meta name='description' content='{{page.description | strip_html}}'/>{% endif %}
-  <title>{% if page.title == 'MapBox' %}{{page.title}} | Design and publish beautiful maps{% else %}{{page.title}} | MapBox{% endif %}</title>
+  <title>{% if page.title == 'Mapbox' %}{{page.title}} | Design and publish beautiful maps{% else %}{{page.title}} | Mapbox{% endif %}</title>
 
   {% if page.card %}
-  <meta name='twitter:site' content='@MapBox' />
-  <meta property='og:site_name' content='MapBox' />
+  <meta name='twitter:site' content='@Mapbox' />
+  <meta property='og:site_name' content='Mapbox' />
   <meta name='twitter:url' content='{{page.permalink}}' />
   <meta property='og:url' content='{{page.permalink}}' />
   <meta name='twitter:title' content='{{page.title}}' />
@@ -68,7 +68,7 @@ footer:
   {% endif %}
   {% endif %}
 
-  <link href='//www.mapbox.com/base/latest/base.css' rel='stylesheet' />
+  <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
   <link href='{{site.url}}/css/site.css' rel='stylesheet' />
   <!--[if IE 9]><link href='{{site.url}}/css/site-ie9.css' rel='stylesheet' /><![endif]-->
   <link rel='shortcut icon' href='{{site.url}}/img/favicon.ico' type='image/x-icon' />
@@ -133,7 +133,7 @@ footer:
 
     <% } else { %>
     <div id='authed-logo'>
-      <a class='mb-logo' href='{{site.url}}/dashboard/'> </a>
+      <a class='mb-logo' href='{{site.url}}/projects/'> </a>
       <!-- Back button -->
       <% if (obj._type === 'tileset' || App.param('from') === 'data') { %>
         <a href='{{site.url}}/data/' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to data</a>
@@ -145,38 +145,42 @@ footer:
     </div>
 
     {% unless page.share %}
-      <a href='#dropdown' class='block authmenu droplink quiet avatar icon menu round animate fr' style='background-image:url("<%= user.avatar %>")'></a>
-      <div class='dropdown fill-white keyline-all round animate'>
-        <div class='plan contain'>
-          <a href='{{site.url}}/plans/' class='plan-icon big <%= user.plan.id.replace('2', '').replace('-annual', '') %>'>
-          </a>
-          <small class='quiet truncate'><%= _(user.name || user.id).escape() %></small>
-          <a href='{{site.url}}/plans/' class='truncate strong'>
-            <%= _(user.plan?user.plan.name:'').escape() %>
-            <span class='quiet'>(<%= numeral(user.plan.views).format('0a') %> views)</span>
-          </a>
+      <div class='hide-mobile strong'>
+        <a href='{{site.url}}/help/' class='quiet authed animate round pad1 truncate inline {% if page.url contains '/help' %}active{% endif %}'>Help</a>
+        <a href='{{site.url}}/developers/' class='quiet authed animate round pad1 truncate inline {% if page.url contains '/developers' %}active{% endif %}'>Developers</a>
+
+        <a href='#dropdown' class='inline fr small pad1 round quiet droplink animate'><img class='avatar' src='<%= user.avatar %>' /><span class='truncate'><%= _(user.id || user.name).escape() %></span></a>
+        <div class='dropdown fill-white keyline-all round animate'>
+          <div class='plan contain'>
+            <a href='{{site.url}}/plans/' class='plan-icon big <%= user.plan.id.replace('2', '').replace('-annual', '') %>'>
+            </a>
+            <a href='{{site.url}}/plans/' class='truncate strong'>
+              <%= _(user.plan?user.plan.name:'').escape() %><br />
+              <span class='quiet'>(<%= numeral(user.plan.views).format('0a') %> views)</span>
+            </a>
+          </div>
+          <div class='show-mobile strong'>
+            <a href='{{site.url}}/projects/' class='authed'>Projects</a>
+            <a href='{{site.url}}/data/' class='authed'>Data</a>
+          </div>
+          <div class='strong'>
+            <a href='{{site.url}}/account/'>Account</a>
+            <% if (App.user.group === 'admin') { %><a href='{{site.url}}/admin/'>Admin</a><% } %>
+            <a href='#signout' id='signout'>Sign out</a>
+          </div>
+          <div class='strong'>
+            <a href='{{site.url}}/tour/'>Tour</a>
+            <a href='{{site.url}}/showcase/'>Showcase</a>
+            <a href='{{site.url}}/blog/'>Blog</a>
+            <a href='{{site.url}}/help/'>Help</a>
+          </div>
         </div>
-        <div class='show-mobile strong'>
-          <a href='{{site.url}}/dashboard/' class='authed {% if page.url contains '/dashboard' %}active{% endif %}'>Dashboard</a>
-          <a href='{{site.url}}/projects/' class='authed {% if page.url contains '/project' %}active{% endif %}'>Projects</a>
-          <a href='{{site.url}}/data/' class='authed {% if page.url contains '/data' %}active{% endif %}'>Data</a>
+
+        <div class='authmenu fr keyline-all'><!--
+          --><a href='{{site.url}}/projects/' class='inline pad1 quiet truncate icon folder {% if page.url contains '/project' %}active{% endif %}'>Projects</a><!--
+          --><a href='{{site.url}}/data/' class='keyline-left inline animate pad1 quiet truncate icon book {% if page.url contains '/data' %}active{% endif %}'>Data</a>
         </div>
-        <div class='strong'>
-          <a href='{{site.url}}/account/'>Account</a>
-          <% if (App.user.group === 'admin') { %><a href='{{site.url}}/admin/'>Admin</a><% } %>
-          <a href='#signout' id='signout'>Sign out</a>
-        </div>
-        <div class='strong'>
-          <a href='{{site.url}}/tour/'>Tour</a>
-          <a href='{{site.url}}/showcase/'>Showcase</a>
-          <a href='{{site.url}}/blog/'>Blog</a>
-          <a href='{{site.url}}/help/'>Help</a>
-        </div>
-      </div>
-      <div class='hide-mobile strong fr'>
-         <a href='{{site.url}}/dashboard/' class='quiet authed icon dashboard animate round pad1 truncate inline {% if page.url contains '/dashboard' %}active{% endif %}'>Dashboard</a><!--
-      --><a href='{{site.url}}/projects/' class='quiet authed icon folder animate round pad1 truncate inline {% if page.url contains '/project' %}active{% endif %}'>Projects</a><!--
-      --><a href='{{site.url}}/data/' class='quiet authed icon book animate round pad1 truncate inline {% if page.url contains '/data' %}active{% endif %}'>Data</a>
+
       </div>
     {% endunless %}
   <% } %>
@@ -227,7 +231,7 @@ footer:
           <input type='submit' value='Submit' name='subscribe' id='mc-embedded-subscribe' class='col3'>
         </fieldset>
       </form>
-      Follow MapBox on <a href='https://twitter.com/mapbox' class='strong'>Twitter</a> and <a href='https://www.facebook.com/MapBoxMaps' class='strong'>Facebook</a>
+      Follow Mapbox on <a href='https://twitter.com/mapbox' class='strong'>Twitter</a> and <a href='https://www.facebook.com/MapBoxMaps' class='strong'>Facebook</a>
     </div>
   </div>
 </div>
@@ -235,7 +239,7 @@ footer:
 <div class='footer-copyright fill-white pad2y small center noprint'>
   <a href='{{site.url}}/tos'>Terms</a> +
   <a href='{{site.url}}/privacy'>Privacy</a>
-  &copy; MapBox
+  &copy; Mapbox
 </div>
 
 {% endunless %}
@@ -247,7 +251,7 @@ footer:
 </div>
 
 <script type='text/html' id='template-modal-auth'>
-<div class='col12 modal-popup modal-auth'>
+<div class='limiter modal-popup modal-auth'>
   <div class='clip sliding h active2'>
     <form id='auth-reset' class='animate' method='post'>
       <div class='col6 margin3 modal-body fill-white contain'>
@@ -256,10 +260,10 @@ footer:
         <% } else { %>
         <a href='/' class='quiet big icon fr close escape'></a>
         <% } %>
-        <div class='pad2y pad4x center keyline-bottom top-illustration'>
-          <span class='inline icon big mail'></span>
+        <div class='pad1y pad4x center space-bottom'>
+          <h2>Recover password</h2>
         </div>
-        <div class='pad2y pad4x keyline-bottom'>
+        <div class='pad4x'>
           <fieldset>
             <label>Email</label>
             <input type='text' name='email' class='stretch' />
@@ -269,7 +273,7 @@ footer:
           <div class='col8 pad2x'>
             <input class='col12' type='submit' value='Send reset instructions' />
           </div>
-          <small class='col4 pad1y text-right'>
+          <small class='col4 pad1y text-right pad2x'>
             <a class='rcon next slide' href='#active2'>Sign in</a>
           </small>
         </div>
@@ -282,10 +286,10 @@ footer:
         <% } else { %>
         <a href='/' class='quiet big icon fr close escape'></a>
         <% } %>
-        <div class='pad2y pad4x center keyline-bottom top-illustration'>
-          <span class='inline icon big lock'></span>
+        <div class='pad1y pad4x center space-bottom'>
+          <h2>Sign in to Mapbox</h2>
         </div>
-        <div class='pad2y pad4x keyline-bottom'>
+        <div class='pad4x'>
           <fieldset>
             <label>Username or email</label>
             <% if (obj.username) { %>
@@ -318,10 +322,10 @@ footer:
         <% } else { %>
         <a href='/' class='big icon fr close escape'></a>
         <% } %>
-        <div class='pad2y pad4x keyline-bottom center'>
-          <span class='inline icon dot big account'></span>
+        <div class='pad1y pad4x center space-bottom'>
+          <h2>Sign up for Mapbox</h2>
         </div>
-        <div class='pad2y pad2x keyline-bottom'>
+        <div class='pad2x'>
           <fieldset class='col12 pad2x'>
             <label>Username</label>
             <input type='text' name='username' autocapitalize='off' class='stretch'/>
@@ -341,17 +345,16 @@ footer:
           <fieldset class='pad2x'>
             <label>Password</label>
             <input type='password' name='password' class='stretch' />
+            <small class='password-rules'></small>
           </fieldset>
-          <div class='pad2x'>
-            <small>You agree to the MapBox <a href='http://mapbox.com/tos/'>Terms of Service</a> and <a href='http://mapbox.com/privacy/'>Privacy Policy</a>.</small>
-          </div>
+          <div class='pad2x small quiet'>You agree to the Mapbox <a href='http://mapbox.com/tos/'>Terms of Service</a> and <a href='http://mapbox.com/privacy/'>Privacy Policy</a>.</div>
         </div>
         <div class='pad2y pad2x clearfix'>
           <small class='col6 pad2x pad1y'>
             <a class='icon prev slide' href='#active2'>Sign in</a>
           </small>
           <div class='col6 pad2x text-right'>
-            <input class='col12' type='submit' value='Sign up for MapBox' />
+            <input class='col12' type='submit' value='Sign up' />
           </div>
         </div>
       </div>
@@ -361,19 +364,19 @@ footer:
 </script>
 
 <script type='text/html' id='template-modal-payment'>
-<div class='col12 modal-popup modal-payment'>
+<div class='limiter modal-popup modal-payment'>
     <form id='payment' class='round animate'>
       <div class='margin3 col6 modal-body fill-white contain'>
         <% if (obj.close) { %><a href='#close' class='quiet big icon fr close'></a><% } %>
-        <div class='pad2y pad4x center keyline-bottom top-illustration'>
-          <span class='inline icon big cart'></span>
+        <div class='pad2y pad4x center'>
+          <h2>Payment information</h2>
         </div>
-        <div class='pad4y pad2x keyline-bottom clearfix'>
+        <div class='pad2x clearfix'>
           <fieldset class='pad2x col12'>
             <label>Card number</label>
             <input type='text' name='number' class='stretch' />
           </fieldset>
-          <div class='credit-cards pad2 center space fill-light round space-bottom'>
+          <div class='credit-cards pad1 center space fill-light round space-bottom'>
             <span class='credit-card visa'></span>
             <span class='credit-card mastercard'></span>
             <span class='credit-card american-express'></span>
@@ -381,27 +384,27 @@ footer:
             <span class='credit-card discover'></span>
             <span class='credit-card diners-club'></span>
           </div>
-          <fieldset class='pad2x col4'>
-            <label>Expiration</label>
-            <input type='text' name='exp' class='stretch' placeholder='MM/YYYY' />
-          </fieldset>
-          <fieldset class='pad2x col4'>
-            <label>CVC</label>
-            <input type='text' name='cvc' class='stretch' />
-          </fieldset>
-          <fieldset class='pad2x col4'>
-            <label>Postal code</label>
-            <input type='text' name='address_zip' class='stretch' />
-          </fieldset>
+          <div class='pad1x clearfix'>
+            <fieldset class='pad1x col4'>
+              <label>Expiration</label>
+              <input type='text' name='exp' class='stretch' placeholder='MM/YYYY' />
+            </fieldset>
+            <fieldset class='pad1x col4'>
+              <label>CVC</label>
+              <input type='text' name='cvc' class='stretch' />
+            </fieldset>
+            <fieldset class='pad1x col4'>
+              <label>Postal code</label>
+              <input type='text' name='address_zip' class='stretch' />
+            </fieldset>
+          </div>
           <fieldset class='pad2x col12'>
             <label>Coupon code</label>
             <input type='text' name='coupon' class='stretch' />
           </fieldset>
         </div>
-        <div class='pad2 clearfix'>
-          <div class='col12 text-right pad2x'>
-            <input class='' type='submit' value='Done' />
-          </div>
+        <div class='pad2y pad4x clearfix'>
+          <input class='fr col6' type='submit' value='Done' />
         </div>
       </div>
     </form>
@@ -424,29 +427,29 @@ footer:
     obj = new Error('Unknown error occurred');
   }
 } %>
-<div id='modal-err' class='col12 modal-popup'>
+<div id='modal-err' class='limiter modal-popup'>
   <div class='margin3 col6 modal-body fill-white'>
-    <div class='pad2y pad4x keyline-bottom center'>
+    <div class='pad2y pad4x center'>
       <%= obj %>
     </div>
     <div class='pad2y pad4x center'>
-      <a href='#close' class='button quiet close'>Close</a>
+      <a href='#close' class='button col12 quiet close'>Close</a>
     </div>
   </div>
 </div>
 </script>
 
 <script type='text/html' id='template-modal-confirm'>
-<div id='modal-confirm' class='col12 modal-popup'>
+<div id='modal-confirm' class='limiter modal-popup'>
   <div class='margin3 col6 modal-body fill-white'>
     <% if (obj.html) { %>
-    <div class='pad2y pad4x keyline-bottom'><%= obj.html %></div>
+    <div class='pad2y pad4x'><%= obj.html %></div>
     <% } else { %>
-    <div class='pad2y pad4x keyline-bottom center'><%= obj.text || obj %></div>
+    <div class='pad2y pad4x center'><%= obj.text || obj %></div>
     <% } %>
     <div class='pad2y pad4x clearfix center'><!--
     --><% if (obj.callback && obj.cancel !== false) { %><a href='#cancel' class='pad1y small col6 quiet icon strong close cancel'>Cancel</a><% } %><!--
-    --><a href='#ok' class='button <% if (obj.callback && obj.cancel !== false) { %>col6<% } %> icon check ok'>Okay</a><!--
+    --><a href='#ok' class='button <% if (obj.callback && obj.cancel !== false) { %>col6<% } else { %>col12<% } %> icon check ok'>Okay</a><!--
   --></div>
   </div>
 </div>
@@ -454,9 +457,11 @@ footer:
 
 <script type='text/html' id='template-plan-confirm'>
 <% if (obj.plan.isUpgrade()) { %>
-<h2 class='center'><%= plan.get('name') %> for $<%= plan.get('price') %>/<%= plan.get('period') %></h2>
+<h2 class='center space-bottom'><%= plan.get('name') %> for $<%= plan.get('price') %>/<%= plan.get('period') %></h2>
 <% if (obj.reason && obj.reason === 'satellite') { %>
-<p class='center'>To use <strong>MapBox Satellite</strong> upgrade to the <strong><%= plan.get('name') %></strong> plan.</p>
+<p class='center'>To use <strong>Mapbox Satellite</strong> upgrade to the <strong><%= plan.get('name') %></strong> plan.</p>
+<% } else if (obj.reason && obj.reason === 'geometry') { %>
+<p class='center'>To save <strong>more features</strong> upgrade to the <strong><%= plan.get('name') %></strong> plan.</p>
 <% } else { %>
 <p class='center'>You're about to upgrade to the <strong><%= plan.get('name') %></strong> plan.</p>
 <% } %>
@@ -464,11 +469,11 @@ footer:
   <a href='{{site.url}}/help/#changing-plans' target='_blank'>What happens when I change plans?</a>
 </div>
 <% } else { %>
-<h2 class='center'>Downgrade to <%= plan.get('name') %></h2>
-<p class='center'>Before you do that, can we help you get the most out of MapBox?<br/><a href='http://support.mapbox.com/' target='_blank'>Ask our support team for help</a>.</p>
+<h2 class='center title'>Downgrade to <%= plan.get('name') %></h2>
+<p class='prose'>Before you do that, can we help you get the most out of Mapbox?<a href='http://support.mapbox.com/' target='_blank'> Ask our support team for help</a>.</p>
 <% if (!obj.plan.get('price')) { %>
-<h3 class='space-bottom'>What is the main reason for downgrading your subscription?</h3>
-<form id='downgrade-survey' class='small space-bottom' method='post'>
+<form id='downgrade-survey' class='small pad2 quiet round fill-light space-bottom' method='post'>
+  <h3 class='space-bottom'>What is the main reason for downgrading your subscription?</h3>
   <div>
     <input type='radio' name='answer' id='answer0' value='Missing a crucial feature' />
     <label for='answer0'>Missing a crucial feature</label>
@@ -499,9 +504,7 @@ footer:
   </div>
 </form>
 <% } %>
-<div class='center small'>
-  <a href='{{site.url}}/help/#changing-plans' target='_blank'>What happens when I change plans?</a>
-</div>
+  <a class='small' href='{{site.url}}/help/#changing-plans' target='_blank'>What happens when I change plans?</a>
 <% } %>
 </script>
 
