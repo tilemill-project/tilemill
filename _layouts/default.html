@@ -169,6 +169,11 @@ footer:
               <span class='quiet'>(<%= numeral(user.plan.views).format('0a') %> views)</span>
             </a>
           </div>
+          <div>
+            <a href='{{site.url}}/account/'>Account</a>
+            <% if (App.user.group === 'admin') { %><a href='{{site.url}}/admin/'>Admin</a><% } %>
+            <a href='#signout' id='signout'>Sign out</a>
+          </div>
           <div class='show-mobile'>
             <a href='{{site.url}}/projects/' class='authed'>Projects</a>
             <a href='{{site.url}}/data/' class='authed'>Data</a>
@@ -179,11 +184,6 @@ footer:
             <a href='{{site.url}}/tour/'>Tour</a>
             <a href='{{site.url}}/showcase/'>Showcase</a>
             <a href='{{site.url}}/blog/'>Blog</a>
-          </div>
-          <div>
-            <a href='{{site.url}}/account/'>Account</a>
-            <% if (App.user.group === 'admin') { %><a href='{{site.url}}/admin/'>Admin</a><% } %>
-            <a href='#signout' id='signout'>Sign out</a>
           </div>
         </div>
 
