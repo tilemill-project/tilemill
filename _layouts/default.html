@@ -47,8 +47,8 @@ footer:
   <meta property='og:site_name' content='Mapbox' />
   <meta name='twitter:url' content='{{page.permalink}}' />
   <meta property='og:url' content='{{page.permalink}}' />
-  <meta name='twitter:title' content='{{page.title}}' />
-  <meta property='og:title' content='{{page.title}}' />
+  <meta name='twitter:title' content='{{page.title | replace:"'","&lsquo;"}}' />
+  <meta property='og:title' content='{{page.title | replace:"'","&lsquo;"}}' />
   <meta name='twitter:description' content='{{page.content | markdownify | strip_html | trim_spaces | truncatewords: 30 | escape | replace:"'","&lsquo;" }}' />
   <meta property='og:description' content='{{page.content | markdownify | strip_html | trim_spaces | truncatewords: 30 | escape | replace:"'","&lsquo;" }}' />
   {% if page.video %}
@@ -73,10 +73,10 @@ footer:
   <!--[if IE 9]><link href='{{site.url}}/css/site-ie9.css' rel='stylesheet' /><![endif]-->
   <link rel='shortcut icon' href='{{site.url}}/img/favicon.ico' type='image/x-icon' />
   <link rel='alternate' type='application/rss+xml' title='RSS' href='{{site.url}}/blog/blog.rss' />
+  <link href='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.5.1{% endif %}/mapbox.css' rel='stylesheet' />
 
   <!--[if lt IE 9 ]><script src='{{site.url}}/js/redirect-ie.js'></script><![endif]-->
   <script src='{{site.api}}/api/session.js'></script>
-  <script src="//cdn.optimizely.com/js/429140220.js"></script>
   <script>
   var analytics=analytics||[];(function(){var e=['identify','track','trackLink','trackForm','trackClick','trackSubmit','page','pageview','ab','alias','ready','group'],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement('script');t.type='text/javascript',t.async=!0,t.src=('https:'===document.location.protocol?'https://':"http://")+'d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/'+e+'/analytics.min.js';var n=document.getElementsByTagName('script')[0];n.parentNode.insertBefore(t,n)};
   analytics.load(window.location.hostname.indexOf('mapbox.com') !== -1 ? 'fl0c8p240n' : '0biiejpgfj');
@@ -87,7 +87,6 @@ footer:
     'pk_live_hI6mmOTIg7KkywK6vo3vJvpk' : 'pk_test_gmIyREg3sKzAiyMkAEeCsxUG');
   </script>
   <script src='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.5.1{% endif %}/mapbox.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.5.1{% endif %}/mapbox.css' rel='stylesheet' />
   <script src='{{site.url}}/js/site.js'></script>
   {% if page.head %}{{page.head}}{% endif %}
 
@@ -107,7 +106,8 @@ footer:
       --><a href='{{site.url}}/showcase/' class='{% if page.category == 'showcase' %}active{% endif %} animate inline pad1 round quiet truncate'>Showcase</a><!--
       --><a href='{{site.url}}/blog/' class='{% if page.category == 'blog' %}active{% endif %} animate inline pad1 round quiet truncate'>Blog</a><!--
       --><a href='{{site.url}}/plans/' class='{% if page.url contains 'plans' %}active{% endif %} animate inline pad1 round quiet truncate'>Plans</a><!--
-      --><a href='{{site.url}}/help/' class='{% if page.url contains 'help' %}active{% endif %} animate inline pad1 round quiet truncate'>Help</a>
+      --><a href='{{site.url}}/help/' class='{% if page.url contains 'help' %}active{% endif %} animate inline pad1 round quiet truncate'>Help</a><!--
+      --><a href='{{site.url}}/developers/' class='{% if page.url contains 'developers' %}active{% endif %} animate inline pad1 round quiet truncate'>Developers</a>
       <div class='authmenu contain fr center keyline-all'><!--
         --><a href='#signin' class='action signin inline animate keyline-right pad1 quiet truncate'>Sign in</a><!--
         --><a href='#signup' class='action signup inline animate pad1 quiet truncate'>Sign up</a>
@@ -230,7 +230,7 @@ footer:
       </div>
     </div>
     <div class='col6 newsletter'>
-      <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='space-bottom validate' target='_blank'>
+      <form action='https://mapbox.us2.list-manage.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='space-bottom validate' target='_blank'>
         <fieldset class='pill mobile-cols col12 with-icon clearfix'>
           <span class='icon mail quiet'></span>
           <input type='text' value='' placeholder='Subscribe to our newsletter' name='EMAIL' class='col9 required email' id='mce-EMAIL'>
