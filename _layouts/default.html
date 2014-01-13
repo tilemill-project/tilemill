@@ -77,12 +77,12 @@ footer:
 
   <!--[if lt IE 9 ]><script src='{{site.url}}/js/redirect-ie.js'></script><![endif]-->
   <script src='{{site.api}}/api/session.js'></script>
-  <script>
-  var analytics=analytics||[];(function(){var e=['identify','track','trackLink','trackForm','trackClick','trackSubmit','page','pageview','ab','alias','ready','group'],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement('script');t.type='text/javascript',t.async=!0,t.src=('https:'===document.location.protocol?'https://':"http://")+'d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/'+e+'/analytics.min.js';var n=document.getElementsByTagName('script')[0];n.parentNode.insertBefore(t,n)};
-  analytics.load(window.location.hostname.indexOf('mapbox.com') !== -1 ? 'fl0c8p240n' : '0biiejpgfj');
-  </script>
   <script src='https://js.stripe.com/v2/'></script>
   <script>
+  var KM_COOKIE_DOMAIN = 'www.mapbox.com';
+  var analytics=analytics||[];(function(){var e=['identify','track','trackLink','trackForm','trackClick','trackSubmit','page','pageview','ab','alias','ready','group'],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement('script');t.type='text/javascript',t.async=!0,t.src=('https:'===document.location.protocol?'https://':"http://")+'d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/'+e+'/analytics.min.js';var n=document.getElementsByTagName('script')[0];n.parentNode.insertBefore(t,n)};
+  analytics.load(window.location.hostname.indexOf('mapbox.com') !== -1 ? 'fl0c8p240n' : '0biiejpgfj');
+
   Stripe.setPublishableKey(window.location.hostname.indexOf('mapbox.com') !== -1 ?
     'pk_live_hI6mmOTIg7KkywK6vo3vJvpk' : 'pk_test_gmIyREg3sKzAiyMkAEeCsxUG');
   </script>
@@ -315,7 +315,7 @@ footer:
           </div>
           <% if (!obj.username) { %>
           <small class='col6 pad1y text-right'>
-            Need an account? <a class='rcon next slide' href='#active3'>Sign up</a>
+            <a class='rcon next slide strong' href='#active3'>Sign up</a>
           </small>
           <% } %>
         </div>
@@ -330,6 +330,7 @@ footer:
         <% } %>
         <div class='pad1y pad4x center space-bottom'>
           <h2>Sign up for Mapbox</h2>
+          <p>Create custom maps &amp; integrate with apps</p>
         </div>
         <div class='pad2x'>
           <fieldset class='col12 pad2x'>
@@ -357,7 +358,7 @@ footer:
         </div>
         <div class='pad2y pad2x clearfix'>
           <small class='col6 pad2x pad1y'>
-            <a class='icon prev slide' href='#active2'>Sign in</a>
+            <a class='icon prev slide strong' href='#active2'>Sign in</a>
           </small>
           <div class='col6 pad2x text-right'>
             <input class='col12' type='submit' value='Sign up' />
@@ -455,7 +456,7 @@ footer:
     <% } %>
     <div class='pad2y pad4x clearfix center'><!--
     --><% if (obj.callback && obj.cancel !== false) { %><a href='#cancel' class='pad1y small col6 quiet icon strong close cancel'>Cancel</a><% } %><!--
-    --><a href='#ok' class='button <% if (obj.callback && obj.cancel !== false) { %>col6<% } else { %>col12<% } %> icon check ok'>Okay</a><!--
+    --><a href='#ok' class='button <% if (obj.callback && obj.cancel !== false) { %>col6<% } else { %>col12<% } %> icon check ok'><%= obj.confirm || 'Okay' %></a><!--
   --></div>
   </div>
 </div>
