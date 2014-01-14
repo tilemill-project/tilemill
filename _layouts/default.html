@@ -42,6 +42,8 @@ footer:
   {% if page.description %}<meta name='description' content='{{page.description | strip_html}}'/>{% endif %}
   <title>{% if page.title == 'Mapbox' %}{{page.title}} | Design and publish beautiful maps{% else %}{{page.title}} | Mapbox{% endif %}</title>
 
+  <meta name='st:title' content='{{page.title | replace:"'","&lsquo;"}}' />
+
   {% if page.card %}
   <meta name='twitter:site' content='@Mapbox' />
   <meta property='og:site_name' content='Mapbox' />
@@ -62,6 +64,7 @@ footer:
   <meta property='og:video:height' content='480' />
   {% elsif page.image %}
   <meta name='twitter:image' content='{{page.image | replace:"https:","http:"}}' />
+  <meta name='st:image' content='{{page.image | replace:"https:","http:"}}' />
   <meta property='og:image' content='{{page.image | replace:"https:","http:"}}' />
   <meta name='twitter:card' content='summary_large_image' />
   <meta property='og:type' content='website' />
@@ -87,6 +90,8 @@ footer:
     'pk_live_hI6mmOTIg7KkywK6vo3vJvpk' : 'pk_test_gmIyREg3sKzAiyMkAEeCsxUG');
   </script>
   <script src='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.5.1{% endif %}/mapbox.js'></script>
+  <script src='{{site.url}}/js/api.js'></script>
+  <script src='{{site.url}}/js/libs.js'></script>
   <script src='{{site.url}}/js/site.js'></script>
   {% if page.head %}{{page.head}}{% endif %}
 
@@ -97,101 +102,6 @@ footer:
 {{content}}
 {% else %}
 <div class='masthead fill-white keyline-bottom col12 animate clearfix {% if page.app %}hide-mobile{% else if page.share %}row2{% endif %}'>
-  <script type='text/template' id='nav-template'>
-    <% if (!user.id) { %>
-    <a class='mb-logo' href='{{site.url}}/'></a>
-
-    <div class='strong small primary hide-mobile'>
-      <a href='{{site.url}}/tour/' class='{% if page.category == 'tour' %}active{% endif %} animate inline pad1 round quiet truncate'>Tour</a><!--
-      --><a href='{{site.url}}/showcase/' class='{% if page.category == 'showcase' %}active{% endif %} animate inline pad1 round quiet truncate'>Showcase</a><!--
-      --><a href='{{site.url}}/blog/' class='{% if page.category == 'blog' %}active{% endif %} animate inline pad1 round quiet truncate'>Blog</a><!--
-      --><a href='{{site.url}}/plans/' class='{% if page.url contains 'plans' %}active{% endif %} animate inline pad1 round quiet truncate'>Plans</a><!--
-      --><a href='{{site.url}}/help/' class='{% if page.url contains 'help' %}active{% endif %} animate inline pad1 round quiet truncate'>Help</a><!--
-      --><a href='{{site.url}}/developers/' class='{% if page.url contains 'developers' %}active{% endif %} animate inline pad1 round quiet truncate'>Developers</a>
-      <div class='authmenu contain fr center keyline-all'><!--
-        --><a href='#signin' class='action signin inline animate keyline-right pad1 quiet truncate'>Sign in</a><!--
-        --><a href='#signup' class='action signup inline animate pad1 quiet truncate'>Sign up</a>
-      </div>
-    </div>
-
-    <div class='show-mobile contain drop'>
-      <a href='#' class='icon menu round quiet droplink keyline-all'></a>
-      <div class='dropdown strong fill-white keyline-all round animate'>
-        <div>
-          <a href='{{site.url}}/tour/'>Tour</a>
-          <a href='{{site.url}}/showcase/'>Showcase</a>
-          <a href='{{site.url}}/blog/'>Blog</a>
-          <a href='{{site.url}}/plans/'>Plans</a>
-          <a href='{{site.url}}/help/'>Help</a>
-        </div>
-        <div>
-          <a href='#signin' class='signin'>Sign in</a>
-          <a href='#signup' class='signup'>Sign up</a>
-        </div>
-      </div>
-    </div>
-
-    <% } else { %>
-    <div id='authed-logo'>
-      <a class='mb-logo' href='{{site.url}}/projects/'> </a>
-      <!-- Back button -->
-      <% if (obj._type === 'tileset' || App.param('from') === 'data') { %>
-        <a href='{{site.url}}/data/' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to data</a>
-      <% } else if (App.param('from') === 'projects') { %>
-        <a href='{{site.url}}/projects/' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to projects</a>
-      <% } else if (App.param('from') === 'editor') { %>
-        <a href='{{site.url}}/editor/?id=<%=App.param('id')%>' class='truncate return-to-previous icon return quiet animate small hide-mobile'>Return to editor</a>
-      <% } %>
-    </div>
-
-    {% unless page.share %}
-      <div class='primary small strong'>
-        <a href='{{site.url}}/help/' class='hide-mobile quiet authed animate round pad1 truncate inline {% if page.url contains '/help' %}active{% endif %}'>Help</a>
-        <a href='{{site.url}}/developers/' class='hide-mobile quiet authed animate round pad1 truncate inline {% if page.url contains '/developers' %}active{% endif %}'>Developers</a>
-
-        <a href='#dropdown' class='show-mobile keyline-all authmenu droplink quiet icon menu round animate fr'></a>
-        <a href='#dropdown' class='hide-mobile pad1 block authmenu droplink quiet round animate fr'>
-          <img class='avatar' src='<%= user.avatar %>' />
-          <%= _(user.id || user.name).escape() %>
-        </a>
-
-        <div class='fr authmenu hide-mobile keyline-all'><!--
-          --><a href='{{site.url}}/projects/' class='inline pad1 quiet truncate icon folder {% if page.url contains '/project' %}active{% endif %}'>Projects</a><!--
-          --><a href='{{site.url}}/data/' class='keyline-left inline animate pad1 quiet truncate icon book {% if page.url contains '/data' %}active{% endif %}'>Data</a>
-        </div>
-
-        <div class='dropdown fill-white keyline-all round animate'>
-          <div class='plan contain'>
-            <a href='{{site.url}}/plans/' class='plan-icon big <%= user.plan.id.replace('2', '').replace('-annual', '') %>'>
-            </a>
-            <a href='{{site.url}}/plans/' class='truncate'>
-              <%= _(user.plan?user.plan.name:'').escape() %><br />
-              <span class='quiet'>(<%= numeral(user.plan.views).format('0a') %> views)</span>
-            </a>
-          </div>
-          <div>
-            <a href='{{site.url}}/account/'>Account</a>
-            <% if (App.user.group === 'admin') { %><a href='{{site.url}}/admin/'>Admin</a><% } %>
-            <a href='#signout' id='signout'>Sign out</a>
-          </div>
-          <div class='show-mobile'>
-            <a href='{{site.url}}/projects/' class='authed'>Projects</a>
-            <a href='{{site.url}}/data/' class='authed'>Data</a>
-            <a href='{{site.url}}/help/'>Help</a>
-            <a href='{{site.url}}/developers/'>Developers</a>
-          </div>
-          <div>
-            <a href='{{site.url}}/tour/'>Tour</a>
-            <a href='{{site.url}}/showcase/'>Showcase</a>
-            <a href='{{site.url}}/blog/'>Blog</a>
-          </div>
-        </div>
-
-      </div>
-    {% endunless %}
-  <% } %>
-  </script>
-
   <div class='limiter clearfix'>
     <nav id='nav' class='{% if page.share %}col4 margin4{% else %}col12 text-right pad2y{% endif %} contain clearfix noprint '>
       <script>document.write(App.nav());</script>
@@ -255,269 +165,6 @@ footer:
   <div class='modal-mask fill-darken2 modal animate'></div>
   <div id='modal-content' class='contain modal modal-content animate'></div>
 </div>
-
-<script type='text/html' id='template-modal-auth'>
-<div class='limiter modal-popup modal-auth'>
-  <div class='clip sliding h active2'>
-    <form id='auth-reset' class='animate' method='post'>
-      <div class='col6 margin3 modal-body fill-white contain'>
-        <% if (obj.close) { %>
-        <a href='#close' class='quiet big icon fr close'></a>
-        <% } else { %>
-        <a href='/' class='quiet big icon fr close escape'></a>
-        <% } %>
-        <div class='pad1y pad4x center space-bottom'>
-          <h2>Recover password</h2>
-        </div>
-        <div class='pad4x'>
-          <fieldset>
-            <label>Email</label>
-            <input type='text' name='email' class='stretch' />
-          </fieldset>
-        </div>
-        <div class='pad2y pad2x clearfix'>
-          <div class='col8 pad2x'>
-            <input class='col12' type='submit' value='Send reset instructions' />
-          </div>
-          <small class='col4 pad1y text-right pad2x'>
-            <a class='rcon next slide' href='#active2'>Sign in</a>
-          </small>
-        </div>
-      </div>
-    </form>
-    <form id='auth-signin' class='animate' method='post'>
-      <div class='col6 margin3 modal-body fill-white contain'>
-        <% if (obj.close) { %>
-        <a href='#close' class='quiet big icon fr close'></a>
-        <% } else { %>
-        <a href='/' class='quiet big icon fr close escape'></a>
-        <% } %>
-        <div class='pad1y pad4x center space-bottom'>
-          <h2>Sign in to Mapbox</h2>
-        </div>
-        <div class='pad4x'>
-          <fieldset>
-            <label>Username or email</label>
-            <% if (obj.username) { %>
-            <input type='text' name='username' autocapitalize='off' class='stretch' tabindex='1' value='<%= obj.username %>' readonly />
-            <% } else { %>
-            <input type='text' name='username' autocapitalize='off' class='stretch' tabindex='1' />
-            <% } %>
-          </fieldset>
-          <fieldset>
-            <label>Password <small class='inline'><a href='#active1' class='slide' tabindex='3'>Forgot it?</a></small></label>
-            <input type='password' name='password' class='stretch' tabindex='2' />
-          </fieldset>
-        </div>
-        <div class='pad2y pad4x clearfix'>
-          <div class='col6'>
-            <input class='col12' type='submit' value='Sign in' />
-          </div>
-          <% if (!obj.username) { %>
-          <small class='col6 pad1y text-right'>
-            <a class='rcon next slide strong' href='#active3'>Sign up</a>
-          </small>
-          <% } %>
-        </div>
-      </div>
-    </form>
-    <form id='auth-signup' class='animate' method='post'>
-      <div class='col6 margin3 modal-body fill-navy-dark fill-stars dark contain'>
-        <% if (obj.close) { %>
-        <a href='#close' class='big icon fr close'></a>
-        <% } else { %>
-        <a href='/' class='big icon fr close escape'></a>
-        <% } %>
-        <div class='pad1y pad4x center space-bottom'>
-          <h2>Sign up for Mapbox</h2>
-          <p>Create custom maps &amp; integrate with apps</p>
-        </div>
-        <div class='pad2x'>
-          <fieldset class='col12 pad2x'>
-            <label>Username</label>
-            <input type='text' name='username' autocapitalize='off' class='stretch'/>
-          </fieldset>
-          <fieldset class='col6 pad2x'>
-            <label>First name</label>
-            <input type='text' name='firstname' class='stretch'/>
-          </fieldset>
-          <fieldset class='col6 pad2x'>
-            <label>Last name</label>
-            <input type='text' name='lastname' class='stretch' />
-          </fieldset>
-          <fieldset class='col6 pad2x'>
-            <label>Email</label>
-            <input type='text' name='email' class='stretch' />
-          </fieldset>
-          <fieldset class='pad2x'>
-            <label>Password</label>
-            <input type='password' name='password' class='stretch' />
-            <small class='password-rules'></small>
-          </fieldset>
-          <div class='pad2x small quiet'>You agree to the Mapbox <a href='http://mapbox.com/tos/'>Terms of Service</a> and <a href='http://mapbox.com/privacy/'>Privacy Policy</a>.</div>
-        </div>
-        <div class='pad2y pad2x clearfix'>
-          <small class='col6 pad2x pad1y'>
-            <a class='icon prev slide strong' href='#active2'>Sign in</a>
-          </small>
-          <div class='col6 pad2x text-right'>
-            <input class='col12' type='submit' value='Sign up' />
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-</script>
-
-<script type='text/html' id='template-modal-payment'>
-<div class='limiter modal-popup modal-payment'>
-    <form id='payment' class='round animate'>
-      <div class='margin3 col6 modal-body fill-white contain'>
-        <% if (obj.close) { %><a href='#close' class='quiet big icon fr close'></a><% } %>
-        <div class='pad2y pad4x center'>
-          <h2>Payment information</h2>
-        </div>
-        <div class='pad2x clearfix'>
-          <fieldset class='pad2x col12'>
-            <label>Card number</label>
-            <input type='text' name='number' class='stretch' />
-          </fieldset>
-          <div class='credit-cards pad1 center space fill-light round space-bottom'>
-            <span class='credit-card visa'></span>
-            <span class='credit-card mastercard'></span>
-            <span class='credit-card american-express'></span>
-            <span class='credit-card jcb'></span>
-            <span class='credit-card discover'></span>
-            <span class='credit-card diners-club'></span>
-          </div>
-          <div class='pad1x clearfix'>
-            <fieldset class='pad1x col4'>
-              <label>Expiration</label>
-              <input type='text' name='exp' class='stretch' placeholder='MM/YYYY' />
-            </fieldset>
-            <fieldset class='pad1x col4'>
-              <label>CVC</label>
-              <input type='text' name='cvc' class='stretch' />
-            </fieldset>
-            <fieldset class='pad1x col4'>
-              <label>Postal code</label>
-              <input type='text' name='address_zip' class='stretch' />
-            </fieldset>
-          </div>
-          <fieldset class='pad2x col12'>
-            <label>Coupon code</label>
-            <input type='text' name='coupon' class='stretch' />
-          </fieldset>
-        </div>
-        <div class='pad2y pad4x clearfix'>
-          <input class='fr col6' type='submit' value='Done' />
-        </div>
-      </div>
-    </form>
-</div>
-</script>
-
-<script type='text/html' id='template-modal-err'>
-<% if (!(obj instanceof Error)) {
-  if ('responseText' in obj) {
-    try {
-      obj = new Error(JSON.parse(obj.responseText).message);
-    } catch (err) {
-      obj = new Error(obj.responseText);
-    }
-  } else if ('message' in obj) {
-    obj = new Error(obj.message);
-  } else if ('status' in obj && typeof obj.status === 'number') {
-    obj = new Error('HTTP ' + obj.status);
-  } else {
-    obj = new Error('Unknown error occurred');
-  }
-} %>
-<div id='modal-err' class='limiter modal-popup'>
-  <div class='margin3 col6 modal-body fill-white'>
-    <div class='pad2y pad4x center'>
-      <%= obj %>
-    </div>
-    <div class='pad2y pad4x center'>
-      <a href='#close' class='button col12 quiet close'>Close</a>
-    </div>
-  </div>
-</div>
-</script>
-
-<script type='text/html' id='template-modal-confirm'>
-<div id='modal-confirm' class='limiter modal-popup'>
-  <div class='margin3 col6 modal-body fill-white'>
-    <% if (obj.html) { %>
-    <div class='pad2y pad4x'><%= obj.html %></div>
-    <% } else { %>
-    <div class='pad2y pad4x center'><%= obj.text || obj %></div>
-    <% } %>
-    <div class='pad2y pad4x clearfix center'><!--
-    --><% if (obj.callback && obj.cancel !== false) { %><a href='#cancel' class='pad1y small col6 quiet icon strong close cancel'>Cancel</a><% } %><!--
-    --><a href='#ok' class='button <% if (obj.callback && obj.cancel !== false) { %>col6<% } else { %>col12<% } %> icon check ok'><%= obj.confirm || 'Okay' %></a><!--
-  --></div>
-  </div>
-</div>
-</script>
-
-<script type='text/html' id='template-plan-confirm'>
-<% if (obj.plan.isUpgrade()) { %>
-<h2 class='center space-bottom'><%= plan.get('name') %> for $<%= plan.get('price') %>/<%= plan.get('period') %></h2>
-<% if (obj.reason && obj.reason === 'satellite') { %>
-<p class='center'>To use <strong>Mapbox Satellite</strong> upgrade to the <strong><%= plan.get('name') %></strong> plan.</p>
-<% } else if (obj.reason && obj.reason === 'geometry') { %>
-<p class='center'>To save <strong>more features</strong> upgrade to the <strong><%= plan.get('name') %></strong> plan.</p>
-<% } else { %>
-<p class='center'>You're about to upgrade to the <strong><%= plan.get('name') %></strong> plan.</p>
-<% } %>
-<div class='center small'>
-  <a href='{{site.url}}/help/#changing-plans' target='_blank'>What happens when I change plans?</a>
-</div>
-<% } else { %>
-<h2 class='center title'>Downgrade to <%= plan.get('name') %></h2>
-<p class='prose'>Before you do that, can we help you get the most out of Mapbox?<a href='http://support.mapbox.com/' target='_blank'> Ask our support team for help</a>.</p>
-<% if (!obj.plan.get('price')) { %>
-<form id='downgrade-survey' class='small pad2 quiet round fill-light space-bottom' method='post'>
-  <h3 class='space-bottom'>What is the main reason for downgrading your subscription?</h3>
-  <div>
-    <input type='radio' name='answer' id='answer0' value='Missing a crucial feature' />
-    <label for='answer0'>Missing a crucial feature</label>
-  </div>
-  <div>
-    <input type='radio' name='answer' id='answer1' value='Not using it' />
-    <label for='answer1'>Not using it</label>
-  </div>
-  <div>
-    <input type='radio' name='answer' id='answer2' value='Free plan is enough for my needs' />
-    <label for='answer2'>Free plan is enough for my needs</label>
-  </div>
-  <div>
-    <input type='radio' name='answer' id='answer3' value='Needs better documentation' />
-    <label for='answer3'>Needs better documentation</label>
-  </div>
-  <div>
-    <input type='radio' name='answer' id='answer4' value='Not satisfied with support' />
-    <label for='answer4'>Not satisfied with support</label>
-  </div>
-  <div>
-    <input type='radio' name='answer' id='answer5' value='Went with a different tool' />
-    <label for='answer5'>Went with a different tool</label>
-  </div>
-  <div>
-    <input type='radio' name='answer' id='answer6' value='Other' />
-    <label for='answer6'>Other</label>
-  </div>
-</form>
-<% } %>
-  <a class='small' href='{{site.url}}/help/#changing-plans' target='_blank'>What happens when I change plans?</a>
-<% } %>
-</script>
-
-<script type='text/html' id='template-alert'>
-<a href='#alert' id='alert' class='fill-yellow block'><span class='icon big alert quiet'></span></a>
-</script>
 
 </body>
 </html>
