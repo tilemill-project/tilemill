@@ -61,14 +61,14 @@ For more info see: http://postgis.net/docs/manual-1.5/ch02.html
 
 # Documentation
 
-TileMill documentation is kept in the gh-pages branch, which is independently managed and not merged with master.
+TileMill documentation is kept in the mb-pages branch, which is independently managed and not merged with master.
 
 TileMill's in-app reference available as the "Manual" (see below for syncing details) is a very small subset of docs for offline usage and is manually
-sync'ed from the gh-pages branch.
+sync'ed from the mb-pages branch.
 
-To view all the TileMill documentation locally, first checkout the gh-pages branch:
+To view all the TileMill documentation locally, first checkout the mb-pages branch:
 
-    git checkout gh-pages
+    git checkout mb-pages
 
 Then install Jekyll:
 
@@ -85,13 +85,13 @@ Once Jekyll has started you should be able to view the docs in a browser at:
 
 # Syncing manual
 
-To sync the manual with gh-pages updates do:
+To sync the manual with mb-pages updates do:
 
     export TILEMILL_SOURCES=`pwd`
     cd ../
-    git clone --depth=1 -b gh-pages https://github.com/mapbox/tilemill tilemill-gh-pages
+    git clone --depth=1 -b mb-pages https://github.com/mapbox/tilemill tilemill-mb-pages
     cd ${TILEMILL_SOURCES}
-    export TILEMILL_GHPAGES=../tilemill-gh-pages
+    export TILEMILL_GHPAGES=../tilemill-mb-pages
     rm -rf ${TILEMILL_SOURCES}/assets/manual
     mkdir -p ${TILEMILL_SOURCES}/assets/manual
     cp -r ${TILEMILL_GHPAGES}/assets/manual/* ${TILEMILL_SOURCES}/assets/manual/
