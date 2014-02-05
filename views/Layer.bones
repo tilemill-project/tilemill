@@ -165,7 +165,9 @@ view.prototype.placeholderUpdate = function(ev) {
 view.prototype.autoname = function(source) {
     var sep = window.abilities.platform === 'win32' ? '\\' : '/';
 
-    var cleanname = _(source.split(sep)).chain()
+    var cleanname = '';
+    if (source) {
+        cleanname = _(source.split(sep)).chain()
         .map(function(chunk) { return chunk.split('\\'); })
         .flatten()
         .last()
@@ -176,6 +178,7 @@ view.prototype.autoname = function(source) {
         .replace('selectfrom','')
         .replace('select','')
         .substr(0,20);
+    }
 
     if (!cleanname) {
         return "";
