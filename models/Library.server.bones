@@ -110,7 +110,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
                     .map(function(f) {
                         var asset = { name: f.basename };
                         var filepath = path.join(location, f.basename);
-                        if (f.isFile() && _(ext).include(path.extname(f.basename).toLowerCase())) {
+                        if (_(ext).include(path.extname(f.basename).toLowerCase())) {
                             asset.uri = filepath;
                             return asset;
                         } else if (f.isDirectory()) {
