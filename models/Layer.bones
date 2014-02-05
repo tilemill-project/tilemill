@@ -14,7 +14,7 @@ model.prototype.schema = {
             'required': true,
             'pattern': '^[A-Za-z0-9\-_]+$',
             'title': 'Name',
-            'description': 'Name is required and may only include alphanumeric characters, dashes and underscores.'
+            'description': 'Name/ID is required and may only include alphanumeric characters, dashes and underscores.'
         },
         'id': {
             'type': 'string',
