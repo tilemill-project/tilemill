@@ -299,7 +299,7 @@ function loadProjectAll(model, callback) {
             .each(function(file) { loadProject({id:file.basename}, group()) });
     },
     function(err, models) {
-        if (err && process.env.NODE_ENV === 'development') console.log('[tilemill] skipped loading project: ' + err.stack || err.toString());
+        if (err && process.env.NODE_ENV === 'development') console.log('[tilemill] skipped loading project: ' + err.toString());
         // Ignore errors from loading individual models (e.g.
         // don't let one bad apple spoil the collection).
         models = _(models).chain()
@@ -462,7 +462,6 @@ function compileStylesheet(mml, callback) {
             }
         });
     } catch (err) {
-        if (process.env.NODE_ENV === 'development') console.log('[tilemill] Error compiling CartoCSS: ' + err.stack || err.toString());
         callback(err);
     }
 }

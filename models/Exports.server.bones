@@ -171,7 +171,7 @@ models.Exports.prototype.sync = function(method, model, success, error) {
             return memo;
         }, {}), this);
     }, function(err, models) {
-        if (err && process.env.NODE_ENV === 'development') console.log('[tilemill] skipped loading export model: ' + err.stack || err.toString());
+        if (err && process.env.NODE_ENV === 'development') console.log('[tilemill] skipped loading export model: ' + err.toString());
         // Ignore errors from loading individual models (e.g.
         // don't let one bad apple spoil the collection).
         models = _(models).chain()
