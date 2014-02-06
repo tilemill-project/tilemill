@@ -12,7 +12,6 @@ view.prototype.events = {
     'change select[name=Datasource.extent_cache]': 'extentSelect',
     'click a[href=#extentCacheFlush]': 'extentCacheFlush',
     'change select[name=srs]': 'extentCacheFlush',
-    'change select[name=srs]': 'extentCacheFlush',
     'change select[name=srs-name]': 'nameToSrs',
     'keyup input[name=srs]': 'srsToName'
 };
