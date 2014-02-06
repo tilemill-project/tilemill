@@ -1380,6 +1380,7 @@ ul.form a.icon.favorite {
   }
 
 ul.form .cache.hidden { visibility:hidden; }
+ul.form .sublayer.hidden { visibility:hidden;display:none; }
 ul.form a.icon.favorite.hidden { visibility:hidden; }
 
 ul.form.expand li {

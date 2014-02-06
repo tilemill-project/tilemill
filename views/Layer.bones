@@ -45,11 +45,30 @@ view.prototype.render = function() {
     this.$('input[name$=file], input[name=connection]').change();
 
     // Set active tab.
-    var type = this.model.get('Datasource') && this.model.get('Datasource').type;
+    var ds = this.model.get('Datasource')
+    var type = ds && ds.type;
     this.$('a[href=#layer-' + (type||'file') + ']').click();
 
-    // Autofocus first field for new layers.
-    if (!this.model.id) this.$('input[type=text]:first').focus();
+    if (!this.model.id) {
+        // Autofocus first field for new layers.
+        this.$('input[type=text]:first').focus();
+    } else {
+        // Check if we are using a custom sub layer of multiple for ogr datasources
+        if (ds.layer) {
+            var sublayer = this.$('.sublayer');
+            sublayer.removeClass('hidden');
+            sublayer.removeClass('display');
+            var layer_select = sublayer.children('select[name=layer]');
+            layer_select.append($('<option selected="selected"></option>').val(ds.layer).html(ds.layer));
+            if (ds.all_layers && ds.layer != ds.all_layers) {
+                if (ds.all_layers) {
+                    _(ds.all_layers).each(function(element) {
+                        layer_select.append($('<option></option>').val(element).html(element));
+                    })
+                }
+            }
+        }
+    }
     return this;
 };
 
@@ -81,7 +100,6 @@ view.prototype.extentSelect = function(ev) {
 };
 
 view.prototype.extentCacheFlush = function(ev) {
-    console.log('clearing extent cache');
     $('input[name="Datasource.extent"]').val('');
     return false;
 };
@@ -270,13 +288,34 @@ view.prototype.save = function(e) {
     // Advanced options.
     var regular = _(['type', 'file','table', 'host', 'port', 'user', 
         'password', 'dbname', 'extent', 'key_field', 'geometry_field',
-        'type', 'attachdb', 'srs', 'id', 'project', 'extent_cache']);
+        'type', 'attachdb', 'srs', 'id', 'project', 'extent_cache', 'layer', 'all_layers']);
 
     var result = {};
     _(attr.Datasource || {}).each(function(v, k) {
         if (regular.include(k)) result[k] = v;
     })
     attr.Datasource = _.extend(result, attr.advanced);
+    var sublayer = this.$('.sublayer');
+    if (sublayer) {
+        var layer_select = sublayer.children('select[name=layer]');
+        if (layer_select && layer_select.val()) {
+            attr.Datasource.layer = layer_select.val();
+        }
+        attr.Datasource.all_layers = [];
+        _(this.$('.sublayer option')).each(function(element) {
+            if (!element.selected) {
+                attr.Datasource.all_layers.push(element.value);
+            }
+        });
+        if (attr.Datasource.all_layers.length > 0) {
+            attr.Datasource.all_layers.sort();
+        } else {
+            delete attr.Datasource.all_layers;
+        }
+    } else {
+        attr.Datasource.layer && delete attr.Datasource.layer
+        attr.Datasource.all_layers && delete attr.Datasource.all_layers
+    }
 
     // Parse PostGIS connection options.
     if (attr.connection) {
@@ -305,7 +344,18 @@ view.prototype.save = function(e) {
     var error = _(function(m, e) {
         if ($(this.el).hasClass('restarting')) return false;
         $(this.el).removeClass('loading').removeClass('restartable');
-        new views.Modal(e);
+        if (e.responseText && e.responseText.indexOf('has multiple layers:') > -1) {
+            var layers = e.responseText.split(':')[1].trim().split(',');
+            var sublayer = this.$('.sublayer');
+            sublayer.removeClass('hidden');
+            sublayer.removeClass('display');
+            var layer_select = sublayer.children('select[name=layer]');
+            _(layers).each(function(element) {
+                layer_select.append($('<option></option>').val(element).html(element));
+            })
+        } else {
+            new views.Modal(e);
+        }
     }).bind(this);
     this.model.validateAsync(attr, {
         success: _(function(model, resp) {

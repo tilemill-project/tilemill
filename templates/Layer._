@@ -11,7 +11,7 @@ var advancedOptions = function(obj) {
         'type', 'file',
         'table', 'host', 'port', 'user', 'password', 'dbname',
         'extent', 'key_field', 'geometry_field', 'type', 'attachdb',
-        'srs', 'id', 'project', 'extent_cache'
+        'srs', 'id', 'project', 'extent_cache', 'layer','all_layers'
     ];
     var options = [];
     return _(obj).chain()
@@ -71,6 +71,12 @@ var connectionOptions = function(obj) {
         Does the layer data appear stale? <a href='#cacheFlush'>Flush cache</a>
       </small>
       <div class='browser sunken fill-s'></div>
+    </li>
+    <li class='expand sublayer hidden'>
+      <label for='layer'><span class='required'>*</span> Layer</label>
+      <select name='layer'>
+      </select>
+      <small class='error'>This datasource has multiple layers, please choose one</small>
     </li>
     <% } %>
 

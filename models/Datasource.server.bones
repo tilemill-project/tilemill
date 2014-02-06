@@ -65,6 +65,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
             var source;
 
             // https://github.com/mapbox/tilemill/issues/1754
+            // https://github.com/mapbox/tilemill/issues/2210
             if (mml.Layer[0].Datasource.type == 'ogr') {
                 try {
                     source = new mapnik.Datasource(mml.Layer[0].Datasource);
@@ -75,14 +76,15 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                         && err.message
                         && err.message.indexOf('OGR Plugin: missing <layer>') != -1) {
                         var layers = err.message.split("are: ")[1];
-                        var layer_names = _(layers.trim().split(/[\s,]+/)).compact();
+                        var layer_names = _(layers.trim().split(/['\s,']+/)).compact();
                         if (layer_names.length > 1) {
-                            var better_error = new Error("This datasource has multiple layers:\n" + layer_names + '\n(pass layer=<name> to the Advanced input to pick one)');
-                            throw better_error;
+                            // NOTE: this error message format must by sync'ed with
+                            // code in views/Layer.bones which special cases handling it
+                            throw new Error("This datasource has multiple layers: " + layer_names);
                         } else {
                             rethrow = false;
-                            sticky_options.layer_by_index = 0;
-                            mml.Layer[0].Datasource.layer_by_index = 0;
+                            sticky_options.layer = layer_names[0].replace(/'/g,'');
+                            mml.Layer[0].Datasource.layer = layer_names[0].replace(/'/g,'');
                             source = new mapnik.Datasource(mml.Layer[0].Datasource);
                         }
                     }
