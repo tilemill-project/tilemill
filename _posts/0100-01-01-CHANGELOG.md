@@ -14,16 +14,25 @@ title: Changelog
 permalink: /changelog
 releases:
 
-# notes:
-#  - TileMill - Added support for web fonts (.woff format)
-#  - TileMill - Project auto-update watcher now ignores hidden files
-#  - TileMill - Fixed Layer editing popup to be scrollable
-#  - Tilemill - Now clearing logs after they grow larger than 5 MB on windows/os x
-#  - Millstone - Fixed runaway interval allowing clean exits when `carto` commandline tool uses Millstone
-#  - Carto - updated to use new Carto v0.9.5 tag which includes mapnik-reference at v5.0.7
-#  - Mapnik - Fixed rendering of multiple styles/attachments with GeoJSON datasources
-#  - Mapnik - Fixed support for `polygon-pattern-geometry-transform` and `line-pattern-geometry-transform`
-#  - Mapnik - Updated internal build to use boost 1.55, sqlite 3.8.1, freetype 2.5.0.1, icu4c 52.1, and gdal 1.10.1
+- version: 0.10.1.239
+  tag: v0.10.1-239-gd786d86
+  dev: true
+  date: 2014-02-06
+  size: 68532778
+  sign: MC0CFH9w7igRQmSDuS3DtzOkkeALltjFAhUAqhLXT7esM8OR4ML6I+b0HGBa7mU=
+
+ notes:
+  - TileMill - Added support for reading Topojson and ESRI File Geodatabase file formats
+  - TileMill - Added a drop down menu to Layer UI to help select which layer to read when a datasource contains multiple.
+  - TileMill - Added support for web fonts (.woff format)
+  - TileMill - Project auto-update watcher now ignores hidden files
+  - TileMill - Fixed Layer editing popup to be scrollable
+  - Tilemill - Now clearing logs after they grow larger than 5 MB on windows/os x
+  - Millstone - Fixed runaway interval allowing clean exits when `carto` commandline tool uses Millstone
+  - Carto - updated to use new Carto v0.9.5 tag which includes mapnik-reference at v5.0.7
+  - Mapnik - Fixed rendering of multiple styles/attachments with GeoJSON datasources
+  - Mapnik - Fixed support for `polygon-pattern-geometry-transform` and `line-pattern-geometry-transform`
+  - Mapnik - Updated internal build to use boost 1.55, sqlite 3.8.1, freetype 2.5.0.1, icu4c 52.1, gdal trunk at 04e9d96df5, and Mapnik 2.3.x at 645f98fa61.
 
 - version: 0.10.1.152
   tag: v0.10.1-152-gd737f56
