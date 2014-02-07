@@ -50,6 +50,12 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 row_limit: row_limit
                 });
 
+            // Millstone used to set layer_by_index in all cases, but now we can do better
+            // when saving.
+            if (Object.keys(mml.Layer[0].Datasource).indexOf('layer_by_index') > -1) {
+                delete mml.Layer[0].Datasource.layer_by_index;
+            }
+
             // simplistic validation that subselects have the key_field string present
             // not a proper parser, but this is not the right place to be parsing SQL
             // https://github.com/mapbox/tilemill/issues/1509
@@ -69,11 +75,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 try {
                     source = new mapnik.Datasource(mml.Layer[0].Datasource);
                 } catch (err) {
-                    var rethrow = true;
-                    if (!mml.Layer[0].Datasource.layer_by_index
-                        && !mml.Layer[0].Datasource.layer
-                        && err.message
-                        && err.message.indexOf('OGR Plugin: missing <layer>') != -1) {
+                    if (err.message && err.message.indexOf('OGR Plugin: missing <layer>') != -1) {
                         var layers = err.message.split("are: ")[1];
                         var layer_names = _(layers.trim().split(/['\s,']+/)).compact();
                         if (layer_names.length > 1) {
@@ -86,8 +88,9 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                             mml.Layer[0].Datasource.layer = layer_names[0].replace(/'/g,'');
                             source = new mapnik.Datasource(mml.Layer[0].Datasource);
                         }
+                    } else {
+                        throw err;
                     }
-                    if (rethrow) throw err;
                 }
             } else {
                 source = new mapnik.Datasource(mml.Layer[0].Datasource);
