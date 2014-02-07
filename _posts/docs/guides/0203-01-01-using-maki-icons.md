@@ -21,7 +21,7 @@ Each symbol comes in three sizes: 24px, 18px, and 12px. They are designed to loo
 
 ## Downloading Maki
 
-[Download the Maki icon set](https://github.com/mapbox/maki/zipball/gh-pages), and unzip it. There are two folders in the Maki project that contain the icons:
+[Download the Maki icon set](https://github.com/mapbox/maki/zipball/mb-pages), and unzip it. There are two folders in the Maki project that contain the icons:
 
 - **src** contains the icons in SVG format. This is generally recommended for use in TileMill as there will be a couple extra features available for them.
 - **renders** contains the icons in PNG format, including double-resolution versions for high-DPI displays. These are best for the Web, but can also be used in TileMill.
@@ -30,7 +30,7 @@ Each symbol comes in three sizes: 24px, 18px, and 12px. They are designed to loo
 
 It's easiest to work with Maki icons if you have a copy of them in your [TileMill project folder](/tilemill/docs/manual/files-directories/#structure_of_a_tilemill_project). Copy the `src` directory (or `renders` directory) there and rename it to `maki`. 
 
-If you want to follow along with the same example data we're going to use, download [this CSV](https://github.com/mapbox/tilemill/raw/gh-pages/assets/pages/combined_poi.csv) of POIs in Washington, DC from OpenStreetMap. Add it as a layer in TileMill and set the layer ID to `poi`.
+If you want to follow along with the same example data we're going to use, download [this CSV](https://github.com/mapbox/tilemill/raw/mb-pages/assets/pages/combined_poi.csv) of POIs in Washington, DC from OpenStreetMap. Add it as a layer in TileMill and set the layer ID to `poi`.
 
 ![Data Import](/tilemill/assets/pages/maki-2.png)
 

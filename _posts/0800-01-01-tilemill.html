@@ -243,28 +243,30 @@ platforms:
     {% endfor %}
 
     <div class='mailchimp-subscribe col12 clearfix'>
-      <div class='col6'>
+      <div class='col12'>
         <h3>Downloading&hellip;</h3>
         <small>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
         </small>
       </div>
-      <div class='col6'>
-        <h3>Newsletter</h3>
-        <small>For news &amp; updates subscribe now:</small>
+      <div class='col12 clearfix pad2y'>
+        <div class='col12 space-bottom'>
+          <h3>Newsletter</h3>
+          <small>For news &amp; updates subscribe now:</small>
+        </div>
         <!-- Begin MailChimp Signup Form -->
-        <div id='mc-signup'>
+        <div id='mc-signup' class='col12'>
           <form action='http://mapbox.us2.list-manage1.com/subscribe/post?u=1b29ad842d113cece02035883&amp;id=6cbe531fd0' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank'>
             <div class='mc-field-group clearfix'>
               <input type='hidden' value='1' name='group[7417][2]'>
-              <div class='field-wrapper'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='required email' id='mce-EMAIL'></div>
-              <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='button icon mail'><span class='reverse mail'></span>
+              <div class='field-wrapper col8 round-left'><input type='text' value='' placeholder='Email Address' name='EMAIL' class='stretch required email' id='mce-EMAIL'></div>
+              <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='button round-right col4'>
             </div>
           </form>
         </div>
       </div>
     </div>
 
-    <small class='links'>
+    <small class='links pad1y center'>
       <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>  | <a href='{{site.baseurl}}/docs/install/'>More install details</a>
     </small>
   </div>
