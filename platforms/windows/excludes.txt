@@ -12,6 +12,7 @@
 \ipch\
 \include\
 \obj\
+\build\
 .exp
 .lib
 .pdb
