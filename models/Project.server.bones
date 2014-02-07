@@ -9,6 +9,7 @@ var carto = require('carto');
 var mapnik = require('mapnik');
 if (mapnik.register_default_fonts) mapnik.register_default_fonts();
 if (mapnik.register_system_fonts) mapnik.register_system_fonts();
+if (mapnik.register_default_input_plugins) mapnik.register_default_input_plugins();
 
 var EventEmitter = require('events').EventEmitter;
 var millstone = require('millstone');

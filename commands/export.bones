@@ -18,6 +18,7 @@ var existsSync = require('fs').existsSync || require('path').existsSync;
 var mapnik = require('mapnik');
 if (mapnik.register_default_fonts) mapnik.register_default_fonts();
 if (mapnik.register_system_fonts) mapnik.register_system_fonts();
+if (mapnik.register_default_input_plugins) mapnik.register_default_input_plugins();
 
 
 command = Bones.Command.extend();
