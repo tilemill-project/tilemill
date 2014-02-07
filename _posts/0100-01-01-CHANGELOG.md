@@ -21,7 +21,7 @@ releases:
   size: 68532778
   sign: MC0CFH9w7igRQmSDuS3DtzOkkeALltjFAhUAqhLXT7esM8OR4ML6I+b0HGBa7mU=
 
- notes:
+  notes:
   - TileMill - Added support for reading Topojson and ESRI File Geodatabase file formats
   - TileMill - Added a drop down menu to Layer UI to help select which layer to read when a datasource contains multiple.
   - TileMill - Added support for web fonts (.woff format)
