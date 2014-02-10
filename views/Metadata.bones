@@ -72,7 +72,7 @@ view.prototype.render = function() {
     this.model.set({
         zooms: [
             this.project.get('minzoom'),
-            30
+            this.project.get('maxzoom')
         ],
         metatile: this.project.get('metatile')
     }, {silent:true});
@@ -86,7 +86,7 @@ view.prototype.render = function() {
     ];
     var tj = _(this.project.attributes).clone();
     tj.minzoom = 0;
-    tj.maxzoom = 30;
+    tj.maxzoom = 22;
     this.map = new MM.Map('meta-map', new wax.mm.connector(tj));
 
     // Override project attributes to allow unbounded zooming.
