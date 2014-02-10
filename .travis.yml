@@ -12,7 +12,6 @@ before_install:
  - sudo apt-add-repository --yes ppa:mapnik/nightly-2.3
  - sudo apt-get update -qq
  - sudo apt-get -qq install libprotobuf7 libprotobuf-dev protobuf-compiler
- - sudo apt-get -qq install postgresql-9.1 postgresql-server-dev-9.1 postgresql-contrib-9.1 postgresql-9.1-postgis
 
 install:
  - createdb template_postgis
