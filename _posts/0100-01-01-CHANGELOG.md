@@ -362,10 +362,10 @@ releases:
 
   notes:
   - Added preference pane and about box to main app.
-  - Added ability to authenticate with MapBox to upload directly to your hosting account.
+  - Added ability to authenticate with Mapbox to upload directly to your hosting account.
   - Support for inverted sections in Mustache tooltip templates.
   - File browser now defaults to the user's home directory.
-  - No longer create a data directory in the MapBox folder.
+  - No longer create a data directory in the Mapbox folder.
   - Centerpoint is included in exports if it is valid.
   - More reasonable default zoom settings for new projects.
   - Added option to update to development builds.
@@ -426,7 +426,7 @@ releases:
   - Fixed a bug in the Mac app where saving files such as exports would not obey custom filenames entered.
   - Ensured that saved files automatically contain the original file's extension if a custom filename is entered.
   - Added autocomplete in Carto editor for properties, variables and values. Press 'tab' to activate.
-  - Upload MBTiles to MapBox Hosting directly from export menu.
+  - Upload MBTiles to Mapbox Hosting directly from export menu.
   - Includes SQLite fixes from Mapnik which ensure features are not missing and all join types are supported.
   - Significant changes to how interactivity is authored and exported.
     [Mustache](http://mustache.github.com/) templates are now used instead of pure JavaScript.

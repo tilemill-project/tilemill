@@ -110,10 +110,10 @@ Options:
 <tr><td><strong>--scale=</strong>[num]                     </td><td>Scale factor (Default: undefined)</td></tr>
 <tr><td><strong>--concurrency=</strong>[num]               </td><td>Number of exports that can be run concurrently. (Default: 4)</td></tr>
 <tr><td><strong>--files=</strong>[path]                    </td><td>Path to files directory. (Default: "/home/aj/Documents/MapBox")</td></tr>
-<tr><td><strong>--syncAPI=</strong>[URL]                   </td><td>MapBox API URL. (Default: "http://api.tiles.mapbox.com")</td></tr>
-<tr><td><strong>--syncURL=</strong>[URL]                   </td><td>MapBox sync URL. (Default: "https://tiles.mapbox.com")</td></tr>
-<tr><td><strong>--syncAccount=</strong>[account]           </td><td>MapBox account name. (Default: "")</td></tr>
-<tr><td><strong>--syncAccessToken=</strong>[token]         </td><td>MapBox access token. (Default: "")</td></tr>
+<tr><td><strong>--syncAPI=</strong>[URL]                   </td><td>Mapbox API URL. (Default: "http://api.tiles.mapbox.com")</td></tr>
+<tr><td><strong>--syncURL=</strong>[URL]                   </td><td>Mapbox sync URL. (Default: "https://tiles.mapbox.com")</td></tr>
+<tr><td><strong>--syncAccount=</strong>[account]           </td><td>Mapbox account name. (Default: "")</td></tr>
+<tr><td><strong>--syncAccessToken=</strong>[token]         </td><td>Mapbox access token. (Default: "")</td></tr>
 <tr><td><strong>--verbose=</strong>on|off                  </td><td>verbose logging (Default: "on")</td></tr>
 <tr><td><strong>--config=</strong>[path]                   </td><td>Path to JSON configuration file.</td></tr>
 </table>
