@@ -110,9 +110,7 @@ This will take something like 1 to 10 minutes, depending on the size of extract 
 
 ## Step 3: Set up OSM Bright
 
-Download a zip archive of the latest version of OSM Bright from <https://github.com/mapbox/osm-bright/zipball/master> and extract it.
-
-Now start downloading a few .zip archives that are referenced by the OSM Bright project and which contain shapefiles. Make sure to download these into the directory where you extracted OSM Bright (they should sit beside the README.md):
+Now start downloading a few .zip archives that are referenced by the OSM Bright project in addition to the imported OSM data. Make sure to download these into the directory where you extracted OSM Bright (they should sit beside the README.md):
 
  - http://tilemill-data.s3.amazonaws.com/osm/coastline-good.zip
  - http://tilemill-data.s3.amazonaws.com/osm/shoreline_300.zip
