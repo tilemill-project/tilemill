@@ -41,17 +41,17 @@ var get = _(project.get).bind(project);
   <% if (model === project) { %>
   <li>
     <label for='format'>Format</label>
-    <select name='format'>
-      <option value='png8'<% if (get('format') == 'png8') { %> selected='selected' <% } %>>Optimized png (aka 8-bit)</option>
-      <option value='png24'<% if (get('format') == 'png24') { %> selected='selected' <% } %>>Lossless png (aka 24-bit)</option>
+    <select class="60" name='format'>
+      <option value='png8'<% if (get('format') == 'png8' || get('format') == 'png') { %> selected='selected' <% } %>>Optimized png (256 colors)</option>
+      <option value='png24'<% if (get('format') == 'png24') { %> selected='selected' <% } %>>Lossless png (Full color)</option>
       <option value='jpeg80'<% if (get('format') == 'jpeg80') { %> selected='selected' <% } %>>jpeg (80%)</option>
       <option value='jpeg85'<% if (get('format') == 'jpeg85') { %> selected='selected' <% } %>>jpeg (85%)</option>
       <option value='jpeg90'<% if (get('format') == 'jpeg90') { %> selected='selected' <% } %>>jpeg (90%)</option>
       <option value='jpeg95'<% if (get('format') == 'jpeg95') { %> selected='selected' <% } %>>jpeg (95%)</option>
-      <option value=''<% if (!_(['png8','png24','jpeg80','jpeg85','jpeg90','jpeg95']).include(get('format'))) { %> selected='selected' <% } %>>Custom</option>
+      <option value=''<% if (!_(['png','png8','png24','jpeg80','jpeg85','jpeg90','jpeg95']).include(get('format'))) { %> selected='selected' <% } %>>Custom</option>
     </select>
     <input class='dependent' type='text' name='format_custom' size='10' value='<%=get('format')%>' />
-    <small class='dependent description help'>Enter a custom Mapnik format string.</small>
+    <small class='dependent description help'>Enter a <a target='_blank' href="https://github.com/mapnik/mapnik/wiki/Image-IO">custom Mapnik format string</a>.</small>
   </li>
   <% } %>
   <% if (model !== project && model.get('format') !== 'sync') { %>
