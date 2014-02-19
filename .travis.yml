@@ -10,7 +10,7 @@ addons:
 before_install:
  - sudo apt-add-repository --yes ppa:mapnik/v2.2.0
  - sudo apt-add-repository --yes ppa:mapnik/nightly-2.3
- - sudo apt-add-repository --yes ppa:mapnik/nightly-trunk
+ #- sudo apt-add-repository --yes ppa:mapnik/nightly-trunk
  - sudo apt-get update -qq
  - sudo apt-get -qq install libprotobuf7 libprotobuf-dev protobuf-compiler g++ gcc
 
@@ -32,10 +32,10 @@ script:
  - npm install
  - npm ls
  - npm test
- - sudo apt-get purge libmapnik=2.3.0* mapnik-utils=2.3.0* libmapnik-dev=2.3.0* mapnik-input-plugin*
- - sudo apt-get -qq install libmapnik=3.0.0* mapnik-utils=3.0.0* libmapnik-dev=3.0.0* mapnik-input-plugin*
- - rm -rf ./node_modules/
- - npm install
- - npm ls
- - npm test
- - sudo apt-get purge libmapnik=3.0.0* mapnik-utils=3.0.0* libmapnik-dev=3.0.0* mapnik-input-plugin*
+ #- sudo apt-get purge libmapnik=2.3.0* mapnik-utils=2.3.0* libmapnik-dev=2.3.0* mapnik-input-plugin*
+ #- sudo apt-get -qq install libmapnik=3.0.0* mapnik-utils=3.0.0* libmapnik-dev=3.0.0* mapnik-input-plugin*
+ #- rm -rf ./node_modules/
+ #- npm install
+ #- npm ls
+ #- npm test
+ #- sudo apt-get purge libmapnik=3.0.0* mapnik-utils=3.0.0* libmapnik-dev=3.0.0* mapnik-input-plugin*
