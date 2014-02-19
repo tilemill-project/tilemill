@@ -18,15 +18,16 @@ echo
 echo
 
 zipurl=$( echo $urlbase | sed -e s/==TAG==/$tag/ )
-echo -n "Downloading $zipurl... "
-curl -L -s $zipurl > /tmp/TileMill-$tag.zip
+zipfile="./tmp/TileMill-$tag.zip"
+mkdir -p ./tmp/
+echo "Downloading $zipurl... to $zipfile"
+curl -L -s -S $zipurl > $zipfile
 if [ $? != 0 ]; then
   echo "Unable to download $zipurl. Aborting."
   exit 1
 fi
 echo "done."
 
-zipfile="/tmp/TileMill-$tag.zip"
 if [ ! -f $zipfile ]; then
   echo "Unable to stat downloaded $zipfile. Aborting."
   exit 1
