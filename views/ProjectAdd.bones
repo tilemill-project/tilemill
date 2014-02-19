@@ -27,6 +27,7 @@ view.prototype.save = function() {
             Bones.utils.until(model.thumb(), _(function() {
                 this.model.collection.add(this.model);
                 $(this.el).removeClass('loading');
+                window.location.hash = '#/project/' + this.model.get('id');
                 this.$('.close').click();
             }).bind(this));
         }).bind(this),
