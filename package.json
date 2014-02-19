@@ -41,7 +41,6 @@
         "sphericalmercator": "~1.0.2",
         "underscore": "~1.5.1",
         "wax": "6.4.2",
-        "node-markdown": "~0.1.1",
         "sqlite3": "~2.2.0",
         "passport": "0.2.x",
         "passport-oauth": "1.0.x",
