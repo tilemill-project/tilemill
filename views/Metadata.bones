@@ -156,9 +156,9 @@ view.prototype.mapZoom = function(e) {
 
 view.prototype.updateCustomFormat = function(ev) {
     if (this.$('select[name=format]').val() === '') {
-        this.$('.dependent').hide();
-    } else {
         this.$('.dependent').show();
+    } else {
+        this.$('.dependent').hide();
     }
 };
 
