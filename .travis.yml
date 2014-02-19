@@ -17,7 +17,7 @@ before_install:
 install:
  - createdb template_postgis
  - psql -c "CREATE EXTENSION postgis" template_postgis
- - sudo npm install mocha -g
+ - npm install mocha -g
 
 before_script:
  - sudo apt-get -qq install libmapnik=2.2.0* mapnik-utils=2.2.0* libmapnik-dev=2.2.0*
