@@ -93,6 +93,7 @@ You need to create a database with PostGIS enabled for the OpenStreetMap data. F
     create database osm;
     \connect osm
     create extension postgis;
+    \quit
 
 If at this point you get an error about a missing JPEG library, open a new tab (**⌘t**) and type this command:
 
