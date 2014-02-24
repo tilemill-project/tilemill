@@ -42,7 +42,8 @@ footer:
   {% if page.description %}<meta name='description' content='{{page.description | strip_html}}'/>{% endif %}
   <title>{% if page.title == 'Mapbox' %}{{page.title}} | Design and publish beautiful maps{% else %}{{page.title}} | Mapbox{% endif %}</title>
 
-  <meta name='st:title' content='{{page.title | replace:"'","&lsquo;"}}' />
+  <meta name='st:title' content='{{page.title | replace:"'","&lsquo;" | replace:"| Mapbox",""}}' />
+  <meta name='st:type' content='{% if page.category %}{{page.category}}{% elsif page.section %}{{page.section}}{% else %}site{% endif %}' />
 
   {% if page.card %}
   <meta name='twitter:site' content='@Mapbox' />
@@ -76,7 +77,7 @@ footer:
   <!--[if IE 9]><link href='{{site.url}}/css/site-ie9.css' rel='stylesheet' /><![endif]-->
   <link rel='shortcut icon' href='{{site.url}}/img/favicon.ico' type='image/x-icon' />
   <link rel='alternate' type='application/rss+xml' title='RSS' href='{{site.url}}/blog/blog.rss' />
-  <link href='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.5.1{% endif %}/mapbox.css' rel='stylesheet' />
+  <link href='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.6.1{% endif %}/mapbox.css' rel='stylesheet' />
 
   <!--[if lt IE 9 ]><script src='{{site.url}}/js/redirect-ie.js'></script><![endif]-->
   <script src='{{site.api}}/api/session.js'></script>
@@ -89,7 +90,7 @@ footer:
   Stripe.setPublishableKey(window.location.hostname.indexOf('mapbox.com') !== -1 ?
     'pk_live_hI6mmOTIg7KkywK6vo3vJvpk' : 'pk_test_gmIyREg3sKzAiyMkAEeCsxUG');
   </script>
-  <script src='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.5.1{% endif %}/mapbox.js'></script>
+  <script src='https://api.tiles.mapbox.com/mapbox.js/{% if site.mapboxjs %}{{site.mapboxjs}}{% else %}v1.6.1{% endif %}/mapbox.js'></script>
   <script src='{{site.url}}/js/api.js'></script>
   <script src='{{site.url}}/js/libs.js'></script>
   <script src='{{site.url}}/js/site.js'></script>
@@ -144,7 +145,7 @@ footer:
         <fieldset class='pill mobile-cols col12 with-icon clearfix'>
           <span class='icon mail quiet'></span>
           <input type='text' value='' placeholder='Subscribe to our newsletter' name='EMAIL' class='col9 required email' id='mce-EMAIL'>
-          <input type='submit' value='Submit' name='subscribe' id='mc-embedded-subscribe' class='col3'>
+          <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='col3 quiet'>
         </fieldset>
       </form>
       Follow Mapbox on <a href='https://twitter.com/mapbox' class='strong'>Twitter</a> and <a href='https://www.facebook.com/MapBoxMaps' class='strong'>Facebook</a>
