@@ -102,17 +102,15 @@ footer:
 {% if page.app %}
 {{content}}
 {% else %}
-<div class='masthead fill-white keyline-bottom col12 animate clearfix {% if page.app %}hide-mobile{% else if page.share %}row2{% endif %}'>
+<div class='masthead fill-white keyline-bottom col12 animate clearfix'>
   <div class='limiter clearfix'>
-    <nav id='nav' class='{% if page.share %}col4 margin4{% else %}col12 text-right pad2y{% endif %} contain clearfix noprint '>
+    <nav id='nav' class='col12 text-right pad1y contain clearfix noprint '>
       <script>document.write(App.nav());</script>
     </nav>
   </div>
 </div>
 
 <div class='clearfix{% unless page.fullwidth %} limiter{% endunless %}'>{{content}}</div>
-
-{% unless page.share %}
 
 <div class='footer keyline-top pad4y fill-white clearfix small'>
   <div class='limiter'>
@@ -162,8 +160,6 @@ footer:
     </div>
   </div>
 </div>
-
-{% endunless %}
 {% endif %}
 
 <div id='modal'>
