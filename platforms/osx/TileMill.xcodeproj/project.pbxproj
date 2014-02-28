@@ -318,6 +318,7 @@
 				DDE496FD13FEAD63006E35F3 /* Copy Frameworks */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				DD07C1F018C1145F0073E66D /* Setup Node & TileMill Subsystem */,
 			);
 			buildRules = (
 			);
@@ -420,6 +421,20 @@
 			shellPath = /bin/sh;
 			shellScript = "INFO=$( echo $TARGET_BUILD_DIR )/$( echo $INFOPLIST_PATH | sed -e 's/\\.plist$//' )\necho $INFO\nTAG=\nCOMMIT=\nCURRENT=\nCURRENT_BUILD=\nGITPATH=/usr/bin:/usr/local/bin:/usr/local/git/bin\nPATH=$PATH:$GITPATH; export PATH\n\nif [ -z $( which git ) ]; then\n  echo \"Unable to find git binary in \\$GITPATH\"\n  exit 1\nfi\n\nSHORT_VERSION=$( git describe --tags )\nVERSION=$( echo $SHORT_VERSION | sed -e 's/^v//' | sed -e 's/-/./' | sed -e 's/-.*//' )\n\necho $VERSION\n\ndefaults write \"$INFO\" CFBundleShortVersionString $SHORT_VERSION\ndefaults write \"$INFO\" CFBundleVersion $VERSION\n\nchmod 644 \"$INFO.plist\"";
 			showEnvVarsInLog = 0;
+		};
+		DD07C1F018C1145F0073E66D /* Setup Node & TileMill Subsystem */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Setup Node & TileMill Subsystem";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "DEST=\"${TARGET_BUILD_DIR}/${PRODUCT_NAME}.app/Contents/Resources\"\n\necho \"Copying TileMill base and node executable...\"\n\n./copy_tilemill_base.sh $(echo $DEST)\n./copy_node.sh $(echo $DEST)\nchmod +x $(echo $DEST)/index.js\nrm -rf $(echo $DEST)/test";
 		};
 /* End PBXShellScriptBuildPhase section */
 
