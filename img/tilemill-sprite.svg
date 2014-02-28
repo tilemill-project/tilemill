@@ -15,9 +15,9 @@
    version="1.1"
    inkscape:version="0.48.2 r9819"
    sodipodi:docname="tilemill-sprite.svg"
-   inkscape:export-filename="/Users/tristen/dev/devseed/tilemill/img/tilemill-sprite@2x.png"
-   inkscape:export-xdpi="180"
-   inkscape:export-ydpi="180">
+   inkscape:export-filename="./tilemill-sprite.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs7553" />
   <sodipodi:namedview
@@ -27,12 +27,12 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.1796875"
-     inkscape:cx="99.532058"
-     inkscape:cy="24.507989"
+     inkscape:zoom="1"
+     inkscape:cx="136.32456"
+     inkscape:cy="91.517566"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1280"
      inkscape:window-height="756"
      inkscape:window-x="43"
@@ -118,7 +118,7 @@
     <g
        id="g5159-5-0"
        style="fill:#3887be;fill-opacity:1;display:inline"
-       transform="matrix(0.13533835,0,0,0.13533835,-54.13139,68.25293)">
+       transform="matrix(0.13533835,0,0,0.13533835,-79.13139,70.25293)">
       <path
          sodipodi:nodetypes="sssssssccscsssccs"
          inkscape:connector-curvature="0"
@@ -169,11 +169,11 @@
          sodipodi:nodetypes="ccccccccc" />
     </g>
     <g
-       style="fill:#3887be;display:inline;fill-opacity:1"
+       style="fill:#3887be;fill-opacity:1;display:inline"
        id="g33033"
-       transform="matrix(0.25561149,0,0,0.25561149,-154.31562,87.8115)">
+       transform="matrix(0.15376317,0,0,0.15376317,-92.443233,72.046421)">
       <path
-         style="color:#000000;fill:#3887be;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.39130473000000010;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         style="color:#000000;fill:#3887be;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.39130473;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
          d="m 628.09847,-233.32532 c -0.58817,0.0511 -1.19873,0.26951 -1.6875,0.65625 l -14.875,11.78125 c -1.30334,1.03129 -1.63391,3.00365 -0.5,4.21875 l 33.03999,34.68876 c 1.13394,1.21509 2.91542,1.5313 4.21875,0.5 l 10.1875,-8.0625 c 1.30334,-1.03131 1.39058,-2.83584 0.46875,-4.21875 l -28.28999,-38.43876 c -0.46094,-0.69147 -1.22462,-1.0462 -2,-1.125 -0.19384,-0.0197 -0.36644,-0.017 -0.5625,0 z m 107.11999,0 c -0.77538,0.0788 -1.50781,0.43353 -1.96875,1.125 l -28.32125,38.43876 c -0.92183,1.38291 -0.80334,3.18744 0.5,4.21875 l 10.1875,8.0625 c 1.30333,1.0313 3.08481,0.71509 4.21875,-0.5 l 33.04,-34.68876 c 1.13391,-1.2151 0.80334,-3.18746 -0.5,-4.21875 l -14.90625,-11.78125 c -0.65169,-0.51566 -1.47463,-0.73501 -2.25,-0.65625 z m -53.2475,39.87032 c -1.29714,0 -2.62388,0.61384 -4.5625,1.90625 l -34,27.81718 c -2.16971,1.72199 -4.05099,2.59745 -4.48718,5.48626 l -5.66907,37.54499 -22.4375,25 c -1.13391,1.2151 -0.80334,3.18746 0.5,4.21875 l 16.09375,12.78125 -4.13593,18.259688 -9.83625,2.709062 c -2.63278,0.86103 -3.87318,1.97325 -4.25,4.5625 l -1.5625,11.63906 c -0.37682,2.58926 -0.0513,4.5625 2.71875,4.5625 l 143.22561,0 c 2.77004,0 3.09557,-1.97324 2.71875,-4.5625 l -1.5625,-11.63906 c -0.37682,-2.58926 -1.61722,-3.70147 -4.25,-4.5625 l -9.83624,-2.709062 -4.10469,-18.040938 16.375,-13 c 1.30334,-1.03129 1.63391,-3.00365 0.5,-4.21875 l -22.8125,-25.40625 -5.60656,-37.13874 c -0.4003,-2.8747 -2.31748,-3.76427 -4.48719,-5.48626 l -34,-27.81718 c -1.93862,-1.29241 -3.23411,-1.90625 -4.53125,-1.90625 z m -5.5625,43.03406 11,0 c 2.77,0 3.53127,1.26995 4,4 l 4,23.2975 c 0.46873,2.73005 -0.23,4 -3,4 l -21,0 c -2.77,0 -3.46873,-1.26995 -3,-4 l 4,-23.2975 c 0.46873,-2.73005 1.23,-4 4,-4 z"
          id="path33031"
          inkscape:connector-curvature="0"
