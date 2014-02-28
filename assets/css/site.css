@@ -1,7 +1,7 @@
 /* TileMill masthead override */
 #tilemill-nav  {
-  width: 80%;
   position: absolute;
+  right: 0;
   top: 0;
   left: 0;
 }
