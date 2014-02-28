@@ -1,4 +1,10 @@
 /* TileMill masthead override */
+#tilemill-nav  {
+  width: 80%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 #tilemill-logo {
   width:110px;
   height:60px;
