@@ -5,7 +5,7 @@ fi
 
 TARGET="$1/"
 # copy node executable
-rm -f $TARGET/node
+rm -f $TARGET/node $TARGET/TileMill
 cp `which node` $TARGET/TileMill # for OS X firewall dialogs
 # change shebang to use local aliases node
 sed -i.backup 's/#!\/usr\/bin\/env node/#!\.\/TileMill/' ${TARGET}index.js
