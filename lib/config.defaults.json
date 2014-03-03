@@ -7,7 +7,7 @@
     "host": false,
     "listenHost": "127.0.0.1",
     "syncAPI": "http://api.tiles.mapbox.com",
-    "syncURL": "https://tiles.mapbox.com",
+    "syncURL": "https://api.mapbox.com",
     "server": false,
     "verbose": "on"
 }
