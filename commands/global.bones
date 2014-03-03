@@ -8,12 +8,6 @@ Bones.Command.options['files'] = {
     'default': defaults.files.replace(/^~/, process.env.HOME)
 };
 
-Bones.Command.options['syncAPI'] = {
-    'title': 'syncAPI=[URL]',
-    'description': 'MapBox API URL.',
-    'default': defaults.syncAPI || ''
-};
-
 Bones.Command.options['syncURL'] = {
     'title': 'syncURL=[URL]',
     'description': 'MapBox sync URL.',

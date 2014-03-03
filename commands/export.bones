@@ -587,13 +587,12 @@ command.prototype.upload = function (callback) {
             handle: this.opts.project,
             token: this.opts.syncAccessToken
         });
-    var hash = crypto.createHash('md5')
-        .update(+new Date + '')
-        .digest('hex')
-        .substring(0, 6);
-    var policyEndpoint = url.format(_(url.parse(this.opts.syncAPI)).extend({
-            pathname: '/v2/'+ hash + '/upload.json'
-        }));
+    var policyEndpoint = _('<%=base%>/api/upload/<%=account%>?access_token=<%=token%>')
+        .template({
+            base: this.opts.syncURL,
+            account: this.opts.syncAccount,
+            token: this.opts.syncAccessToken
+        });
 
     Step(function() {
         request.get({
