@@ -9,11 +9,8 @@ var get = _(project.get).bind(project);
   <li class='text'>
     <h2><%= title %></h2>
     <% if (model.get('format') === 'sync') { %>
-    <% var accountURL = config.get('syncURL') + '/' + config.get('syncAccount'); %>
-    <% var mapURL = config.get('syncURL') + '/' + config.get('syncAccount') + '/map/' + model.get('project'); %>
       <div class='syncHelp'>
-        Create or update this map at
-        <b><a href='<%= mapURL %>' target='_blank'><%=mapURL%></a></b>
+        Create or replace the map <b><a href='https://www.mapbox.com/data' target='_blank'><%= config.get('syncAccount') %>.<%= model.get('project') %></a></b>.
       </div>
       <div class='buttons centered'>
         <a class='button' href='#/settings'>Change account</a>

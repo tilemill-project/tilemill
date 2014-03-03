@@ -21,7 +21,7 @@
     <label for='syncAccount'>MapBox</label>
     <div class='syncOn <%= get('syncAccount') && get('syncAccessToken') ? '' : 'dependent' %>'>
       <span style='margin-right:10px'>
-      <a target='_blank' href='<%=get('syncURL')%>/<%=get('syncAccount')%>'><%=get('syncURL')%>/<%=get('syncAccount')%></a>
+      <a target='_blank' href='https://www.mapbox.com'><%=get('syncAccount')%></a>
       </span>
       <a class='button' href='/oauth/mapbox'>Reauthorize</a>
       <a class='button' href='#disable'>Disable</a>
