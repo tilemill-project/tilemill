@@ -1,34 +1,8 @@
-/* TileMill masthead override */
-#tilemill-nav  {
-  position: absolute;
-  right: 0;
-  top: 0;
-  left: 0;
-}
-#tilemill-logo {
-  width:110px;
-  height:60px;
-  display:block;
-  text-indent:-999px;
-  overflow:hidden;
-  background:transparent url(../../img/tilemill-sprite.png) no-repeat 0 0;
-  }
-
-#nav > .mb-logo,
-#nav > .mb-logo-thumb,
-#nav > div > a:not(.droplink) { display:none; }
-
-/* Base Candidate */
-.doc-nav a:hover,
-.doc-nav .active {
-  background-color:#f8f8f8;
-  }
-
 /* ### Frontpage ### */
 #hero { min-height:660px; }
 
 #hero .tilemill-screenshot {
-  background:url(../../img/hero-tilemill.png) 0 bottom no-repeat;
+  background:url(img/hero-tilemill.png) 0 bottom no-repeat;
   height:660px;
   float:right;
   -webkit-animation:fadeIn 500ms ease 1500ms both;
@@ -56,7 +30,7 @@
   color:#fff;
   }
 .heading .ico:before {
-  background:transparent url(../../img/tilemill-sprite.png) no-repeat 0 -110px;
+  background:transparent url(img/tilemill-sprite.png) no-repeat 0 -110px;
   content:'';
   width:20px;
   height:20px;
@@ -237,13 +211,13 @@
   }
 
 #manage .illustration {
-  background:url(../../img/manage-sprite.png) 0 20px no-repeat;
+  background:url(img/manage-sprite.png) 0 20px no-repeat;
   }
    #manage .illustration.browse { background-position: 0 -280px;}
    #manage .illustration.raster { background-position: -280px -280px;}
 
 #render .illustration {
-  background:url(../../img/render-sprite.png) 0 20px no-repeat;
+  background:url(img/render-sprite.png) 0 20px no-repeat;
   }
    #render .illustration.textures { background-position: 0 -280px; }
         #render .illustration.svg { background-position: -280px -280px;}
@@ -254,12 +228,12 @@
     }
 
 #enrich .illustration {
-  background:url(../../img/enrich-sprite.png) 0 0 no-repeat;
+  background:url(img/enrich-sprite.png) 0 0 no-repeat;
   }
   #enrich .illustration.embed { background-position: -280px 0;}
 
 #share .illustration {
-  background:url(../../img/share-sprite.png) 0 0 no-repeat;
+  background:url(img/share-sprite.png) 0 0 no-repeat;
   }
   #share .illustration.publish {
   height: 100%;
@@ -269,7 +243,7 @@
   #share .illustration.mapbox { background-position: -410px -40px;}
 
 #open-source .illustration.github {
-  background:url(../../img/open-source.png) 0 0 no-repeat;
+  background:url(img/open-source.png) 0 0 no-repeat;
   width: 480px;
   height: 380px;
   }
@@ -355,7 +329,7 @@ a.method {
   top:-5px; left:0px;
   width:60px;
   height:60px;
-  background:url(../../img/tilemill-help-sprite.png) 60px 60px no-repeat;
+  background:url(img/tilemill-help-sprite.png) 60px 60px no-repeat;
   }
 
 .help-graphic.install { background-position:0px 0px; }
@@ -370,7 +344,7 @@ a.method {
   only screen and (max-width: 640px) and (-webkit-min-device-pixel-ratio : 2),
   only screen and (max-width: 640px) and (min-device-pixel-ratio : 2) {
   .help-graphic {
-    background-image:url({{site.baseurl}}/img/tilemill-help-sprite@2x.png);
+    background-image:url(img/tilemill-help-sprite@2x.png);
     background-size:480px 60px;
     }
 }

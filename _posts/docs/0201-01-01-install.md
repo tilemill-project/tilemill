@@ -1,5 +1,4 @@
 ---
-section: help
 layout: os-redirect
 category: installation
 tag: Installation

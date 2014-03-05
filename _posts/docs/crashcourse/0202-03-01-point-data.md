@@ -3,7 +3,7 @@ layout: docs
 section: help
 category: crashcourse
 tag: Crash&nbsp;course
-title: "3. Importing a spreadsheet"
+title: "Importing a spreadsheet"
 permalink: /docs/crashcourse/point-data
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."

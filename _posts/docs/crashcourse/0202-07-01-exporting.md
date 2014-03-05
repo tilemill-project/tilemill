@@ -3,7 +3,7 @@ layout: docs
 section: help
 category: crashcourse
 tag: Crash&nbsp;course
-title: "6. Exporting a map"
+title: "Exporting a map"
 permalink: /docs/crashcourse/exporting
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."

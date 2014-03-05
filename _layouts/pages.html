@@ -1,0 +1,79 @@
+---
+layout: default
+class: fill-light
+fullwidth: true
+navigation: 
+  - title: installation
+    category: installation
+    url: docs/install/
+  - title: Crashcourse
+    category: crashcourse
+    url: docs/crashcourse/introduction/
+  - title: Guides
+    category: guides
+    url: docs/guides/add-shapefile/
+  - title: Reference
+    category: reference
+    url: docs/manual
+  - title: Changelog
+    url: /changelog/
+---
+
+<link href='{{site.baseurl}}/site.css' rel='stylesheet' />
+<link href='{{site.url}}/css/docs.css' rel='stylesheet' />
+<script src='{{site.url}}/js/docs.js'></script>
+
+<!--Fixed sidebar navigation-->
+<div class='docnav hide-mobile'>
+  <div class='limiter'><div class='col3 contain'>
+    <nav class='scroll-styled quiet-scroll'>
+      <div class='space-bottom2'>
+        <a class='block quiet active strong small truncate' href='{{site.baseurl}}/'>Documentation</a>
+      </div>
+      {% for nav in page.navigation %}
+        <div class='space-bottom1'>
+          <a href='{{site.baseurl}}/{{nav.url}}' class='block strong small quiet truncate'>{{nav.title}}</a>
+          {% for item in site.categories[nav.category] reversed %}
+            {% unless item.hidden %}
+              <a class='small block truncate' href='{{site.baseurl}}{{item.url}}'>{{item.title}}</a>
+            {% endunless %}
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </nav>
+  </div></div>
+</div>
+
+<div class='limiter clearfix'>
+  <div class='pad2y'>
+    <nav class='contain margin3 col9 fill-denim space-bottom round small'>
+      <div class='col3 dark round-left keyline-right pad2y pad1x center truncate'>
+        <strong class='icon tilemill'>TileMill</strong>
+      </div>
+      <div class='col6 dark tabs mobile-cols pad1'><!--
+        --><a href='{{site.baseurl}}/' class='col6 truncate active'>Documentation</a><!--
+        --><a href='{{site.url}}/carto/' class='col6 truncate'>CartoCSS Reference</a>
+      </div>
+      <div id='docs-search' class='col3 pad1 keyline-left'>
+        <fieldset class='col12 with-icon dark'>
+          <span class='icon search'></span>
+          <input type='text' class='col12 round minimal' />
+        </fieldset>
+      </div>
+    </nav>
+  </div>
+  <div class='contain margin3 col9'>
+  {{content}}
+  </div>
+</div>
+
+<script>
+$('#docs-search input').swiftype({
+    autocompleteContainingElement: $('#docs-search'),
+    filters: {
+      page: {
+        type: ['tilemill-docs']
+      }
+    }
+});
+</script>

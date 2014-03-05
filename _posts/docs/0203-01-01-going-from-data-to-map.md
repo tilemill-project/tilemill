@@ -1,6 +1,5 @@
 ---
 layout: docs
-section: help
 category: installation
 tag: Guides
 title: "Going from Data to Map"

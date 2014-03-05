@@ -5,11 +5,7 @@
 ### NOTE - do not use colon otherwise you'll get an error like private method gsub called for #
 ### NOTE - do not start note entries with the ` character it. It causes an error that prevents page build. #
 ###
-tag: Installation
-layout: changelog
-section: tilemill
-category: TileMill
-date: 0201-01-30
+layout: docs
 title: Changelog
 permalink: /changelog
 releases:
@@ -537,3 +533,14 @@ releases:
   notes:
   - Initial public release
 ---
+
+{% for item in page.releases %}
+{% if item.dev != true %}
+<h2>{{item.version}} {% if item.date %}<small>{{item.date|date:'%B %d %Y'}}</small>{% endif %}</h2>
+<ul>
+{% for item in item.notes %}
+<li>{{item | markdownify}}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endfor %}

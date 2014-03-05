@@ -3,7 +3,7 @@ layout: docs
 section: help
 category: crashcourse
 tag: Crash&nbsp;course
-title: "2. TileMill and GIS"
+title: "TileMill and GIS"
 permalink: /docs/crashcourse/tilemill-gis
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."

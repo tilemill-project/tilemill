@@ -3,4 +3,3 @@ url: https://122e4e-mapbox.global.ssl.fastly.net
 exclude: [.gitignore, .gitmodules]
 baseurl: /tilemill
 permalink: /:categories/:title
-title: TileMill
