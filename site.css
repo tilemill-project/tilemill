@@ -60,7 +60,7 @@
     display: block;
     }
   .download-button small, .download-button h3 {
-    color: white;
+    color:#fff;
             animation: fadeIn 500ms ease 250ms both;
        -moz-animation: fadeIn 500ms ease 250ms both;
     -webkit-animation: fadeIn 500ms ease 250ms both;
@@ -121,83 +121,19 @@
     bottom: 0;
     margin: auto 0;
     }
-/* ### Borders + special tour section layout stuff ### */
-.fillE .full { border-color: #3C4E5A; }
-
-/* ### Illustrations ###  */
-.full > .col6 {
-  overflow: hidden;
-  position: relative;
-  min-height: 340px;
-  }
-
-.illustration {
-  height: 260px;
-  width: 260px;
-  position: absolute;
-  margin-left: 50%;
-  }
-
-.single .illustration {
-  width: 450px;
-  height: 280px;
-  right: 20px;
-  }
-
-.illo-container {
-  height: 380px;
-  }
-
-#manage .illustration {
-  background:url(img/manage-sprite.png) 0 20px no-repeat;
-  }
-   #manage .illustration.browse { background-position: 0 -280px;}
-   #manage .illustration.raster { background-position: -280px -280px;}
-
-#render .illustration {
-  background:url(img/render-sprite.png) 0 20px no-repeat;
-  }
-   #render .illustration.textures { background-position: 0 -280px; }
-        #render .illustration.svg { background-position: -280px -280px;}
-  #render .illustration.carto {
-    background-position: 0 -540px;
-    width: 480px;
-    height: 380px;
-    }
-
-#enrich .illustration {
-  background:url(img/enrich-sprite.png) 0 0 no-repeat;
-  }
-  #enrich .illustration.embed { background-position: -280px 0;}
-
-#share .illustration {
-  background:url(img/share-sprite.png) 0 0 no-repeat;
-  }
-  #share .illustration.publish {
-  height: 100%;
-  width: 380px;
-  top: 0;
-  }
-  #share .illustration.mapbox { background-position: -410px -40px;}
-
-#open-source .illustration.github {
-  background:url(img/open-source.png) 0 0 no-repeat;
-  width: 480px;
-  height: 380px;
-  }
-
-.footer-actions h1{
-  border-top: 1px solid #3C4E5A;
-  padding-bottom: 0;}
 
 /* ### MailChimp ### */
-.download .mailchimp-subscribe {
-  opacity: 0;
-  display: none;
+.download .mailchimp-subscribe,
+.download .mailchimp-subscribe .help {
+  opacity:0;
+  display:none;
   }
-.download .mailchimp-subscribe .col6:first-child { padding-right: 10px; }
-.download .mailchimp-subscribe .col6:last-child { padding-left: 10px; }
-.download .mailchimp-subscribe .col6 small {margin-bottom: 10px; }
+.download.mac .mailchimp-subscribe .mac,
+.download.windows .mailchimp-subscribe .windows,
+.download.linux .mailchimp-subscribe .linux {
+  opacity:1;
+  display:block;
+  }
 
 .download.subscribe .mailchimp-subscribe {
   opacity:1;
@@ -213,6 +149,64 @@
 #hero .download.subscribe nav,
 .footer-actions .download.subscribe .download-button,
 .footer-actions .subscribe nav { display: none;}
+
+/* ### Borders + special tour section layout stuff ### */
+.fillE .full { border-color: #3C4E5A; }
+
+/* ### Illustrations ###  */
+.full > .col6 {
+  overflow: hidden;
+  position: relative;
+  min-height: 340px;
+  }
+
+.illustration {
+  height: 120px;
+  width: 120px;
+  }
+.single .illustration {
+  width: 450px;
+  height: 280px;
+  }
+
+.big-graphic { padding-top:30px; }
+
+.illustration {
+  background:url(img/landing-sprite.png) 0 0 no-repeat;
+  background-size:510px 1320px;
+  }
+  .illustration.browse      { background-position:-260px -190px;}
+  .illustration.raster      { background-position:-390px -190px;}
+  .illustration.interaction { background-position:0 -190px;}
+  .illustration.embed       { background-position:-130px -190px;}
+  .illustration.textures    { background-position:0 -320px; }
+  .illustration.svg         { background-position:-130px -320px;}
+  .illustration.sources {
+    background-position:0 0;
+    width:340px;
+    height:190px;
+    }
+  .illustration.rendering {
+    background-position:0 -450px;
+    width:380px;
+    height:220px;
+    }
+  .illustration.carto {
+    background-position:0 -680px;
+    width:390px;
+    height:300px;
+    }
+  .illustration.mapbox { background-position: -410px -40px;}
+
+  .illustration.github {
+    background-position:0 -800px;
+    width: 480px;
+    height: 380px;
+    }
+
+.footer-actions h1{
+  border-top: 1px solid #3C4E5A;
+  padding-bottom: 0;}
 
 @media
 only screen and (max-width: 640px) {
@@ -278,21 +272,10 @@ a.method {
 .help-graphic.guides   { background-position:-350px 0px; }
 .help-graphic.reference   { background-position:-420px 0px; }
 
-.denim-keyline { border-color:#3c4e5a; }
-
 .mac #mac,
 .windows #windows,
 .linux #linux {
-  background-color:rgba(255,255,255,0.2);
-}
-
-@media
-  only screen and (max-width: 640px) and (-webkit-min-device-pixel-ratio : 2),
-  only screen and (max-width: 640px) and (min-device-pixel-ratio : 2) {
-  .help-graphic {
-    background-image:url(img/tilemill-help-sprite@2x.png);
-    background-size:480px 60px;
-    }
+  background-color:rgba(0,0,0,0.1);
 }
 
 /* ### Footer ### */
