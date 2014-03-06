@@ -1,6 +1,96 @@
 ---
 layout: pages
 title: TileMill
+maps:
+- id: examples.map-vyofok3q
+  name: Mapbox Streets
+  creator: Mapbox
+  description: A global map with street level detail.
+  classes: locator
+  matte: 72b5e5
+  center: -73.988,40.728,12
+- id: kkaefer.iceland
+  name: Ísland
+  creator: Konstantin Käfer
+  matte: 64b5c9
+  center: -20.9,64.7,8
+- id: dhcole.popup
+  name: Popup
+  creator: Dave Cole
+  description: Population density visualized in 3d.
+  matte: '000000'
+  center: 11.00,15.769,6
+- id: tmcw.shadowplay
+  name: Shadow Play
+  creator: Tom MacWright
+  description:
+  center: -45.00,36.95,3
+  matte: '000000'
+- id: tmcw.rrrr2
+  name: Running Map
+  creator: Tom MacWright
+  description: Running routes and heart rate visualized on top of Mapbox Streets.
+  matte: 2e2532
+  center: -77.0373,38.9259,15
+- id: mapbox.natural-earth-2
+  name: 'Mapbox natural earth'
+  creator: Mapbox
+  description: A high-level topographic and bathymetric map.
+  center: 80.00,0.00,2
+  matte: 5d8eb6
+- id: aj.Sketchy2
+  name: Pirate Map
+  creator: AJ Ashton
+  center: -81.52,22.187,4
+  matte: ECE3CC
+- id: tristen.city_of_toronto
+  name: 'City of toronto'
+  creator: Tristen Brown
+  center: -79.38,43.63,14
+  matte: 415355
+- id: villeda.simard-forests
+  name: 'Forest height'
+  creator: Ian Villeda
+  description: A visualization of global tree canopy height, made with data from NASA.
+  matte: '000000'
+  center: -59.985,-7.471,5
+- id: mapbox.baltimore-retro
+  name: 'Baltimore retro'
+  creator: Mapbox
+  matte: 90c8c2
+  center: -76.5987,39.2807,16
+- id: colemanm.persia-1891
+  name: 'Persia 1891'
+  creator: Coleman McCormick
+  center: 54.415,32.210,7
+  matte: edd5ae
+- id: occupy.occupy-streets
+  name: 'Occupy streets'
+  creator: Occupy
+  description: A network map of all occupy movement locations.
+  matte: 424242
+  center: 10.000,55.000,4
+- id: colemanm.blue-marble-8bit
+  name: 'Blue marble 8bit'
+  creator: Coleman McCormick
+  matte: 000009
+  center: 80.00,0.00,2
+- id: newamerica.motw_poverty
+  name: Poverty change in America
+  creator: The New America Foundation
+  center: -97.583, 38.769,6
+  matte: b7dee5
+- id: aj.population-fire
+  name: Population fire
+  creator: AJ Ashton
+  matte: 080c16
+  center: 1.41,47.99,4
+- id: herwig.map-olatzdh8
+  name: Stop and Frisk in NYC
+  creator: Chris Herwig
+  matte: E8E8E8
+  center: -73.951,40.803,14
+  description: Stop and frisk frequency contour map of New York City
 platforms:
 - id: mac
   name: Mac OS X
@@ -169,24 +259,23 @@ platforms:
       <h3 class='icon cloud'>Share</h3>
     </div>
     <div class='clearfix full keyline-top contain'>
-      <div class='col6 pad4 contain center keyline-right'>
-          <div class='big-graphic dot fill-light pad2 dark inline'>
-            <div class='small-graphic inline fill-purple pad1 dot'>
-              <span class='icon big mobile'></span>
-            </div>
+      <div class='col6 pad4 contain center'>
+        <div class='big-graphic dot fill-light pad2 dark inline'>
+          <div class='small-graphic inline fill-purple pad1 dot'>
+            <span class='icon big mobile'></span>
           </div>
-          <div class='prose'>
-          <h2>Publish to the web <br />and mobile</h2>
+        </div>
+        <div class='prose'>
+          <h2>Publish to web &amp; mobile</h2>
           <p>Export to the MBTiles format and every map you make in TileMill is desktop and mobile ready.</p>
         </div>
       </div>
-      <div class='col6 pad4 center contain'>
+      <div class='col6 pad4 center contain keyline-left'>
         <div class='big-graphic dot fill-light pad2 dark inline'>
           <div class='small-graphic inline fill-blue pad1 dot'>
             <span class='icon big mapbox'></span>
           </div>
         </div>
-        <div class='prose'>
         <div class='prose'>
           <h2>Integrate with Mapbox</h2>
           <p>It's just one click to automatically render and upload maps to your Mapbox account.</p>
@@ -194,6 +283,33 @@ platforms:
         </div>
       </div>
     </div>
+  </div>
+
+  <div id='gallery'>
+    <div class='heading pad2y center keyline-top'>
+      <h3 class='icon heart'>Gallery</h3>
+    </div>
+    <div class='row10 fill-grey contain'>
+      <div id='map' class='row10'></div>
+      <div class='pin-right col5 pad2'>
+        <div id='mapdescription' class='clearfix col12'></div>
+      </div>
+    </div>
+    <script type='text/template' id='gallery-template'>
+      <div class='mobile-cols row1 center fill-white round-top keyline-bottom'>
+        <a class='pad1y row1 col6 prev icon' href='#<%=prev%>'>prev</a>
+        <a class='pad1y row1 col6 next rcon keyline-left keyline-right' href='#<%=next%>'>next</a>
+      </div>
+      <div class='desc-box main-desc col12 fill-white'>
+        <h2><%=name%></h2>
+        <small>by <%=creator%></small>
+      </div>
+      <% if (description) { %>
+      <div class='desc-box cap keyline-all col12 fill-light round-bottom'>
+        <small><%=description%></small>
+      </div>
+      <% } %>
+    </script>
   </div>
 
   <div id='open-source'>
@@ -242,4 +358,65 @@ $('.download-button').click(function(ev) {
   ]);
   $('.download').addClass('subscribe');
 });
+
+(function() {
+  var playBack;
+  var maps = [{% for map in page.maps %}
+  { {% if map.creator %}creator: '{{map.creator}}',{% endif %}
+    {% if map.name %}name: '{{map.name}}',{% endif %}
+    {% if map.description %}description: '{{map.description}}',{% endif %}
+    {% if map.classes %}classes: '{{map.classes}}',{% endif %}
+    {% if map.matte %}matte: '{{map.matte}}',{% endif %}
+    {% if map.center %}center: [{{map.center}}],{% endif %}
+    id: '{{map.id}}'
+  },{% endfor %}
+  false];
+  var template = _.template(document.getElementById('gallery-template').innerHTML);
+  var map = L.mapbox.map('map', undefined, {
+      zoomControl: false
+    });
+  var layer;
+
+  function setMap(id, mode) {
+    var context = $('#mapdescription');
+
+    var i = _.indexOf(maps, _.find(maps, function(d) {
+      return d.id === id;
+    }));
+
+    if (i < 0) i = 0;
+    var d = maps[i];
+
+    if (layer) map.removeLayer(layer);
+
+    layer = L.mapbox.tileLayer(d.id);
+    layer.addTo(map);
+
+    layer.on('ready', function(m) {
+      document.getElementById('map').style.background = d.matte ? '#' + d.matte : '';
+
+      console.log(d.center);
+      if (d.center) map.setView([d.center[1], d.center[0]], d.center[2]);
+
+      d.next = maps[(i + 1) % maps.length].id;
+      d.current = maps[i % maps.length].id;
+      d.prev = maps[(i - 1 + maps.length) % maps.length].id;
+      d.description = d.description;
+      d.name = d.name;
+
+      context.html(template(d));
+
+      // Bound UI Events
+      $('a.next', context).on('click', function(e) {
+        setMap(d.next);
+      });
+
+      $('a.prev', context).on('click', function(e) {
+        setMap(d.prev);
+      });
+    });
+  }
+
+  setMap(window.location.hash.substring(1));
+})();
 </script>
