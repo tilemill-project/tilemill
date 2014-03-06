@@ -173,7 +173,7 @@
 
 .illustration {
   background:url(img/landing-sprite.png) 0 0 no-repeat;
-  background-size:510px 1320px;
+  background-size:510px 1400px;
   }
   .illustration.browse      { background-position:-260px -190px;}
   .illustration.raster      { background-position:-390px -190px;}
@@ -199,9 +199,9 @@
   .illustration.mapbox { background-position: -410px -40px;}
 
   .illustration.github {
-    background-position:0 -800px;
-    width: 480px;
-    height: 380px;
+    background-position:0 -1020px;
+    width:480px;
+    height:300px;
     }
 
 .footer-actions h1{

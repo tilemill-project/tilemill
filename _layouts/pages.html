@@ -62,8 +62,8 @@ navigation:
       </div>
     </nav>
   </div>
-  <div class='contain margin3 col9'>
-  {{content}}
+  <div class='contain margin3 col9' data-swiftype-index=true>
+    {{content}}
   </div>
 </div>
 
@@ -72,7 +72,7 @@ $('#docs-search input').swiftype({
     autocompleteContainingElement: $('#docs-search'),
     filters: {
       page: {
-        type: ['tilemill-docs']
+        type: ['tilemill-docs', 'carto-docs']
       }
     }
 });
