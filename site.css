@@ -1,7 +1,7 @@
 /* ### Frontpage ### */
 #hero { min-height:660px; }
 
-#hero .tilemill-screenshot {
+.tilemill-screenshot {
   background:url(img/hero-tilemill.png) 0 bottom no-repeat;
   height:660px;
   float:right;
@@ -20,15 +20,6 @@
   margin:6px;
   }
 
-.heading { height: 80px;}
-.heading h3 {
-  display: inline-block;
-  padding: 10px;
-  margin-top: 20px;
-  line-height:20px;
-  width: 160px;
-  color:#fff;
-  }
 .heading .ico:before {
   background:transparent url(img/tilemill-sprite.png) no-repeat 0 -110px;
   content:'';
@@ -42,52 +33,21 @@
   .heading .ico.enrich:before { background-position:-40px -110px; }
   .heading .ico.share:before  { background-position:-60px -110px; }
 
-#hero .intro {
+.intro {
   padding-bottom: 20px;
   -webkit-animation:fadeInRight 500ms ease 500ms both;
      -moz-animation:fadeInRight 500ms ease 500ms both;
           animation:fadeInRight 500ms ease 500ms both;
   }
-
 .download {
   position: relative;
   -webkit-animation:fadeIn 500ms ease 1000ms both;
      -moz-animation:fadeIn 500ms ease 1000ms both;
           animation:fadeIn 500ms ease 1000ms both;
   }
-.download ul.oslist {
-  box-shadow:rgba(0,0,0,0.05) 0 0 0 5px;
-  border-radius:4px;
-  }
-.download ul.oslist li .button.big {
-  float: left;
-  width: 33.3333%;
-  border-radius: 0;
-  margin: 0;
-  background: #3c4e5a;
-  border-right: 1px solid #28353d;
-  box-shadow: none;
-  font-size: 12px;
-  font-family: 'Opensans',Arial,sans-serif;
-  text-transform: none;
-  min-width: 0;
-  transition: background 500ms;
-  -moz-transition: background 500ms;
-  -webkit-transition: background 500ms;
-  -o-transition: background 500ms;
-  }
-  .download ul.oslist li:last-child .button.big { border-right: none; }
-  .download ul.oslist li#mac .button.big { border-radius: 4px 0 0 4px;}
-  .download ul.oslist li#windows .button.big { border-radius: 0 4px 4px 0;}
-
-.download.mac ul.oslist li#mac .button.big{ background: #597486;}
-.download.linux ul.oslist li#linux .button.big{ background: #597486;}
-.download.windows ul.oslist li#windows .button.big{ background: #597486;}
-
 .download-button {
   margin: 20px 0;
   border-radius: 4px;
-  box-shadow: rgba(0,0,0,0.05) 0px 0px 0px 5px;
   display: none;
   }
   .download.mac .download-button.mac {
@@ -106,7 +66,6 @@
     -webkit-animation: fadeIn 500ms ease 250ms both;
     }
   .download-button h3 {
-    text-shadow: rgba(0,0,0,0.2) 0px -1px;
     margin-bottom: 0;
     }
   .download-button .details {
@@ -127,9 +86,6 @@
     border-radius: 4px 0 0 4px;
     }
   .download-button:hover .label { border-color: #3bb2d0; }
-  .download-button:active .details {
-    box-shadow: inset rgba(0,0,0,0.4) 0px 1px 3px, inset rgba(0,0,0,0.1) 0px -20px 20px -10px;
-    }
 .download-button .instructions {
   display: none;
   position: absolute;
@@ -147,7 +103,6 @@
   padding: 20px;
   display: block;
   border-radius: 4px;
-  box-shadow: 0 0 35px 0px rgba(0,0,0,.5);
   transition: opacity 500ms;
   -moz-transition: opacity 500ms;
   -webkit-transition: opacity 500ms;
@@ -167,26 +122,9 @@
     margin: auto 0;
     }
 /* ### Borders + special tour section layout stuff ### */
-
-.full {
-  position: relative;
-  border-top: 1px solid #28353D;
-  }
-  .fillE .full { border-color: #3C4E5A; }
-  .full:before {
-    content: " ";
-    display: block;
-    position: absolute;
-    right: 50%;
-    height: 100%;
-    border-right: 1px solid #28353D;
-    z-index: 9999;
-    }
-  .fillE .full:before { border-color: #3C4E5A; }
-  .full.single:before { display: none; }
+.fillE .full { border-color: #3C4E5A; }
 
 /* ### Illustrations ###  */
-
 .full > .col6 {
   overflow: hidden;
   position: relative;
@@ -272,9 +210,9 @@
   }
 
 #hero .download.subscribe .download-button,
-#hero .download.subscribe ul.oslist,
+#hero .download.subscribe nav,
 .footer-actions .download.subscribe .download-button,
-.footer-actions .subscribe ul.oslist { display: none;}
+.footer-actions .subscribe nav { display: none;}
 
 @media
 only screen and (max-width: 640px) {
@@ -339,6 +277,14 @@ a.method {
 .help-graphic.export   { background-position:-280px 0px; }
 .help-graphic.guides   { background-position:-350px 0px; }
 .help-graphic.reference   { background-position:-420px 0px; }
+
+.denim-keyline { border-color:#3c4e5a; }
+
+.mac #mac,
+.windows #windows,
+.linux #linux {
+  background-color:rgba(255,255,255,0.2);
+}
 
 @media
   only screen and (max-width: 640px) and (-webkit-min-device-pixel-ratio : 2),
