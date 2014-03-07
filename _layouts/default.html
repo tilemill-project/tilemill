@@ -43,7 +43,7 @@ footer:
   <title>{% if page.title == 'Mapbox' %}{{page.title}} | Design and publish beautiful maps{% else %}{{page.title}} | Mapbox{% endif %}</title>
 
   <meta name='st:title' content='{{page.title | replace:"'","&lsquo;" | replace:"| Mapbox",""}}' />
-  <meta name='st:type' content='{% if page.category %}{{page.category}}{% elsif page.section %}{{page.section}}{% else %}site{% endif %}' />
+  <meta name='st:type' content='{% if page.section %}{{page.section}}{% elsif page.category %}{{page.category}}{% else %}site{% endif %}' />
 
   {% if page.card %}
   <meta name='twitter:site' content='@Mapbox' />
@@ -146,7 +146,7 @@ footer:
           <input type='submit' value='Subscribe' name='subscribe' id='mc-embedded-subscribe' class='col3 quiet'>
         </fieldset>
       </form>
-      Follow Mapbox on <a href='https://twitter.com/mapbox' class='strong'>Twitter</a> and <a href='https://www.facebook.com/MapBoxMaps' class='strong'>Facebook</a>
+      Follow Mapbox on <a href='https://twitter.com/mapbox' class='strong'>Twitter</a> and <a href='https://www.facebook.com/Mapbox' class='strong'>Facebook</a>
     </div>
   </div>
 </div>
