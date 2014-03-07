@@ -364,8 +364,10 @@ $('.download-button').click(function(ev) {
   },{% endfor %}
   false];
   var template = _.template(document.getElementById('gallery-template').innerHTML);
-  var map = L.mapbox.map('map');
+  var map = L.mapbox.map('map', undefined, {zoomControl: false});
   var layer;
+
+  map.scrollWheelZoom.disable();
 
   function setMap(id, mode) {
     var context = $('#mapdescription');
