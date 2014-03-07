@@ -38,7 +38,7 @@ maps:
   name: 'Mapbox natural earth'
   creator: Mapbox
   description: A high-level topographic and bathymetric map.
-  center: 80.00,0.00,2
+  center: 55.4,1.0,3
   matte: 5d8eb6
 - id: aj.Sketchy2
   name: Pirate Map
@@ -76,7 +76,7 @@ maps:
   name: 'Blue marble 8bit'
   creator: Coleman McCormick
   matte: 000009
-  center: 80.00,0.00,2
+  center: 80.00,0.00,3
 - id: newamerica.motw_poverty
   name: Poverty change in America
   creator: The New America Foundation
@@ -129,7 +129,7 @@ platforms:
 
 <div class='limiter contain'>
   <div class='tilemill-nav space pin-right'>
-    <a class='inline small strong dark quiet' href='/docs/crashcourse/introduction/'>Documentation</a>
+    <a class='inline small strong dark quiet' href='{{site.baseurl}}/docs/crashcourse/introduction/'>Documentation</a>
     <a class='inline small strong dark quiet' href='{{site.url}}/carto/'>CartoCSS Reference</a>
   </div>
 </div>
@@ -372,13 +372,13 @@ $('.download-button').click(function(ev) {
   function setMap(id, mode) {
     var context = $('#mapdescription');
 
-    var i = _.indexOf(maps, _.find(maps, function(d) {
+    var i = (id) ? _.indexOf(maps, _.find(maps, function(d) {
       return d.id === id;
-    }));
+    })) : 0;
 
-    if (i < 0) i = 0;
+    if (i >= (maps.length - 1)) i = 0;
+
     var d = maps[i];
-
     if (layer) map.removeLayer(layer);
 
     layer = L.mapbox.tileLayer(d.id);
