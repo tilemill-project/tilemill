@@ -2,7 +2,7 @@
 #hero { min-height:660px; }
 
 .tilemill-screenshot {
-  background:url(img/hero-tilemill.png) no-repeat center bottom;
+  background:url(img/hero-tilemill.png) no-repeat left top;
   -webkit-animation:fadeIn 500ms ease 1500ms both;
      -moz-animation:fadeIn 500ms ease 1500ms both;
           animation:fadeIn 500ms ease 1500ms both;
@@ -158,53 +158,37 @@
   min-height: 340px;
   }
 
-.illustration {
-  height: 120px;
-  width: 120px;
-  }
-.single .illustration {
-  width: 450px;
-  height: 280px;
-  }
-
 .big-graphic { padding-top:30px; }
 
 .illustration {
   background:url(img/landing-sprite.png) 0 0 no-repeat;
-  background-size:510px 1400px;
+  background-size:510px 1100px;
+  height:60px;
+  width:60px;
   }
-  .illustration.browse      { background-position:-260px -190px;}
-  .illustration.raster      { background-position:-390px -190px;}
-  .illustration.interaction { background-position:0 -190px;}
-  .illustration.embed       { background-position:-130px -190px;}
-  .illustration.textures    { background-position:0 -320px; }
-  .illustration.svg         { background-position:-130px -320px;}
+  .illustration.interaction { background-position:0 -175px;}
+  .illustration.embed       { background-position:-65px -175px;}
+  .illustration.browse      { background-position:-130px -175px;}
+  .illustration.raster      { background-position:-195px -175px;}
+  .illustration.textures    { background-position:-260px -175px; }
+  .illustration.svg         { background-position:-325px -175px;}
   .illustration.sources {
     background-position:0 0;
-    width:340px;
-    height:190px;
+    width:330px;
+    height:160px;
     }
+  .illustration.carto,
   .illustration.rendering {
-    background-position:0 -450px;
-    width:380px;
-    height:220px;
-    }
-  .illustration.carto {
-    background-position:0 -680px;
-    width:390px;
+    background-position:0 -470px;
+    width:440px;
     height:300px;
     }
-  .illustration.mapbox { background-position: -410px -40px;}
-
+  .illustration.carto { background-position:0 -680px; }
   .illustration.github {
-    background-position:0 -1020px;
-    width:480px;
+    background-position:0 -775px;
+    width:440px;
     height:300px;
     }
-
-.footer-actions h1{
-  border-top: 1px solid #3C4E5A;
-  padding-bottom: 0;}
 
 @media
 only screen and (max-width: 640px) {
@@ -331,10 +315,6 @@ only screen and (min-device-pixel-ratio : 2) {
   margin-left: 7px;
   margin-right: 7px;
   }
-  .footer, .footer-copyright {
-    display: none;
-  }
-
   #map img {
     animation: fadeIn 150ms ease both;
     -moz-animation: fadeIn 150ms ease both;

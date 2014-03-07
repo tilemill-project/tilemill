@@ -116,265 +116,206 @@ platforms:
 
 <link href='{{site.baseurl}}/site.css' rel='stylesheet' />
 <style>
-
 /* Site overrides */
 .masthead {
-  background: none;
-  border: none;
-  margin-bottom:20px;
-}
-nav .primary a:not(.action),
-nav .primary a.authed {
-  display: none;
-}
-
-nav .primary .authmenu,
-nav .primary .authmenu a {
-  display: inline-block;
-  border-color: rgba(256,256,256,0.2);
-  color: rgba(256,256,256,0.7);
-}
-nav .primary .authmenu a:hover,
-nav .primary a:hover {
-  background-color: rgba(0,0,0,0.4) !important;
-}
-nav .primary .dropdown a,
-nav .primary .dropdown a:hover {
-  background-color: transparent !important;
-  display: block;
-}
-nav .primary .icon:before {
-  display:none;
+  background:none;
+  border:none;
+  margin-bottom:40px;
   }
-
-.fill-navy-dark .footer .pill > * {
-  border-color: rgba(0,0,0,0.1);
-}
-
+.masthead .primary { display:none; }
 .mb-logo { background-position:0 -60px; }
+.tilemill-nav { top:-80px; }
 </style>
 
+<div class='limiter contain'>
+  <div class='tilemill-nav space pin-right'>
+    <a class='inline small strong dark quiet' href='/docs/crashcourse/introduction/'>Documentation</a>
+    <a class='inline small strong dark quiet' href='{{site.url}}/carto/'>CartoCSS Reference</a>
+  </div>
+</div>
 
 <div class='limiter dark clip clearfix'>
-  <div class='col8 margin2 center prose'>
+  <div class='col8 margin2 center prose space-bottom4'>
     <h3 class='icon tilemill'>TileMill</h3>
     <h1>Create beautiful interactive maps</h1>
     <p class='quiet'>Whether you're a journalist, web designer, researcher,  or seasoned cartographer, TileMill is the design studio to create stunning interactive maps.</p>
   </div>
-  <div class='row10 clip col12 tilemill-screenshot'></div>
-</div>
 
-<div class='fill-white pad4y'>
-<div class='limiter'>
-<div class='space-bottom2 pad2 fill-white pad4 round-bottom clearfix'>
-  <div class='download callout col8 margin2'>
-    <nav class='tabs clearfix'>
-    {% for item in page.platforms %}
-      <a href='#' id='{{item.id}}' class='col4'>{{item.name}}</a>
-    {% endfor %}
-    </nav>
-    {% for item in page.platforms %}
-    <a href='{{item.url}}' class='download-button clearfix {{item.id}}' title='{{item.name}}'>
-      <div class='label fill-denim col5 pad1'>
-        <small>{{item.name}}</small>
-        <h3 class='label-title'>Download</h3>
-      </div>
-      <div class='details col7 pad1'>
-        <small class='filename'>{{item.file}}</small>
-        <h3 class='label-title'>{{item.size}}</h3>
-      </div>
-    </a>
-    {% endfor %}
+  <div class='clearfix'>
+    <div class='col4'>
+      <div class='download callout round'>
+        <nav class='tabs clearfix'>
+        {% for item in page.platforms %}
+        <a id='{{item.id}}' class='col4' href='#'>{{item.name}}</a>
+        {% endfor %}
+        </nav>
+        {% for item in page.platforms %}
+        <a href='{{item.url}}' class='download-button clearfix {{item.id}}' title='{{item.name}}'>
+          <div class='label col5 pad1'>
+            <small class='quiet'>{{item.name}}</small>
+            <h3 class='label-title'>Download</h3>
+          </div>
+          <div class='details col7 pad1'>
+            <small class='filename'>{{item.file}}</small>
+            <h3 class='label-title'>{{item.size}}</h3>
+          </div>
+        </a>
+        {% endfor %}
 
-    <div class='mailchimp-subscribe col12 prose clearfix'>
-      <h3>Downloading&hellip;</h3>
-      {% for h in page.platforms %}
-      <span class='help {{h.id}}'>{{h.help}}</span>
-      {% endfor %}
-      <p>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
-      </p>
+        <div class='mailchimp-subscribe col12 prose clearfix'>
+          <h3>Downloading&hellip;</h3>
+          {% for h in page.platforms %}
+          <span class='help {{h.id}}'>{{h.help}}</span>
+          {% endfor %}
+          <p class='quiet'>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
+          </p>
+        </div>
+        <small class='center space'>
+          <a class='quiet' href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a>
+          <a class='quiet' href='{{site.baseurl}}/changelog/'>Changelog</a>
+          <a class='quiet' href='{{site.baseurl}}/docs/install/'>More install details</a>
+        </small>
+      </div>
     </div>
 
-    <small class='center links'>
-      <a class='quiet' href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a class='quiet' href='{{site.baseurl}}/changelog/'>Changelog</a>  | <a class='quiet' href='{{site.baseurl}}/docs/install/'>More install details</a>
-    </small>
+    <div class='row9 clip col8 tilemill-screenshot'></div>
   </div>
 </div>
 
-<div class='center pad2y'>
-  <h2>Powerful features</h2>
-</div>
+<div class='fill-white pad2y'>
+  <div class='limiter'>
+    <div class='center pad2y'>
+      <h2>Features</h2>
+    </div>
 
-<div class='prose doc round fill-white keyline-all'>
-  <div id='manage'>
-    <div class='heading pad2y center'>
-      <h3 class='icon graph'>Manage data</h3>
-    </div>
-    <div class='clearfix full keyline-top contain single'>
-      <div class='col6 pad4 prose'>
-        <h2>Load data from a wide range of sources</h2>
-        <p>Compatible datasources include ESRI Shapefile, KML, GeoJSON, GeoTIFF, PostGIS, CSV, and SQLite. Inspect, order, and layer your sources to build complex maps.</p>
-        <a href='{{site.baseurl}}/docs/manual/interface-tour/'>Interface tour</a>
-      </div>
-      <div class='col6 contain pad4y pad2x hide-mobile'>
-        <div class='illustration sources'></div>
-      </div>
-    </div>
-    <div class='clearfix full keyline-top contain'>
-      <div class='col6 pad4 contain center keyline-right'>
-        <div class='illustration inline browse'></div>
-        <div class='prose'>
-          <h2>Browse public data</h2>
-          <p>Access dozens of useful public datasources with the built-in Mapbox Geodata browser.</p>
+    <div class='prose doc'>
+      <div id='manage' class='pad4y keyline-top clearfix'>
+        <div class='col6 pad2x'>
+          <h3 class='icon graph'>Manage data</h3>
+          <h2>Load data from a wide range of sources</h2>
+          <p>Compatible datasources include ESRI Shapefile, KML, GeoJSON, GeoTIFF, PostGIS, CSV, and SQLite. Inspect, order, and layer your sources to build complex maps.</p>
+          <a href='{{site.baseurl}}/docs/manual/interface-tour/'>Interface tour</a>
         </div>
-      </div>
-      <div class='col6 pad4 center contain'>
-        <div class='illustration inline raster'></div>
-        <div class='prose'>
-          <h2>Raster support</h2>
-          <p>Show satellite data or map your DIY weather balloon aerial photography.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id='render'>
-    <div class='heading pad2y center keyline-top'>
-      <h3 class='icon sun'>Render + style</h3>
-    </div>
-    <div class='clearfix full keyline-top contain single'>
-      <div class='col6 pad4 prose'>
-        <h2>State of the art rendering</h2>
-        <p>At TileMill's core is Mapnik, a powerful, full-featured library including support for RGBA color, True Type fonts, rasters, patterns, and even SVG transforms.</p>
-      </div>
-      <div class='col6 pad4y contain'>
-        <div class='illustration rendering'></div>
-      </div>
-    </div>
-    <div class='clearfix full keyline-top contain'>
-      <div class='col6 pad4 contain center keyline-right'>
-        <div class='illustration inline textures'></div>
-        <div class='prose'>
-          <h2>Textures</h2>
-          <p>With full alpha-channel support and the ability to add multiple layers and fills TileMill can create richly textured maps.</p>
-        </div>
-      </div>
-      <div class='col6 pad4 contain center'>
-        <div class='illustration inline svg'></div>
-        <div class='prose'>
-          <h2>SVG Markers</h2>
-          <p>Resize and transform scalable vector SVG markers right in TileMill.</p>
-        </div>
-      </div>
-    </div>
-    <div class='clearfix full keyline-top contain single'>
-      <div class='col6 pad4 prose'>
-        <h2>Style maps with Carto</h2>
-        <p>Inspired by CSS, Carto gives you full control over design. Filters, variables, and functions are at your fingertips in the code editor.</p>
-        <a href='{{site.baseurl}}/docs/manual/carto/'>Carto guide</a>
-      </div>
-      <div class='col6 pad4y contain'>
-        <div class='illustration carto'></div>
-      </div>
-    </div>
-  </div>
-
-  <div id='enrich'>
-    <div class='heading pad2y center keyline-top'>
-      <h3 class='icon hand'>Enrich</h3>
-    </div>
-    <div class='clearfix full keyline-top contain'>
-      <div class='col6 pad4 contain center keyline-right'>
-        <div class='illustration inline interaction'></div>
-        <div class='prose'>
-          <h2>Add interaction</h2>
-          <p>Create hover tooltips and clickable pop ups with UTF-8 grid technology.</p>
-          <a href='{{site.baseurl}}/docs/crashcourse/tooltips/'>Tooltips and legends in TileMill</a>
-        </div>
-      </div>
-      <div class='col6 pad4 contain center'>
-        <div class='illustration inline embed'></div>
-        <div class='prose'>
-          <h2>Embed graphics or images</h2>
-          <p>Insert interactive graphs, images, links, and other content into your maps.</p>
-          <a href='{{site.baseurl}}/docs/tutorials/google-charts/'>Charts in TileMill</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id='share'>
-    <div class='heading pad2y center keyline-top'>
-      <h3 class='icon cloud'>Share</h3>
-    </div>
-    <div class='clearfix full keyline-top contain'>
-      <div class='col6 pad4 contain center'>
-        <div class='big-graphic dot fill-light pad2 dark inline'>
-          <div class='small-graphic inline fill-purple pad1 dot'>
-            <span class='icon big mobile'></span>
+        <div class='col6 contain pad2'>
+          <div class='clearfix pad1y'>
+            <div class='illustration browse inline fl margin0r space-bottom2'></div>
+            <strong>Browse public data</strong>
+            <p class='quiet'>Access dozens of useful public datasources with the built-in Mapbox Geodata browser.</p>
+          </div>
+          <div class='clearfix pad1y'>
+            <div class='illustration raster inline fl margin0r space-bottom2'></div>
+            <strong>Raster support</strong>
+            <p class='quiet'>Show satellite data or map your DIY weather balloon aerial photography.</p>
           </div>
         </div>
-        <div class='prose'>
-          <h2>Publish to web &amp; mobile</h2>
-          <p>Export to the MBTiles format and every map you make in TileMill is desktop and mobile ready.</p>
-        </div>
       </div>
-      <div class='col6 pad4 center contain keyline-left'>
-        <div class='big-graphic dot fill-light pad2 dark inline'>
-          <div class='small-graphic inline fill-blue pad1 dot'>
-            <span class='icon big mapbox'></span>
+
+      <div id='render' class='pad4y keyline-top clearfix'>
+        <div class='col6 pad2x'>
+          <h3 class='icon sun'>Render + style</h3>
+          <h2>State of the art rendering</h2>
+          <p>At TileMill's core is Mapnik, a powerful, full-featured library including support for RGBA color, True Type fonts, rasters, patterns, and even SVG transforms.</p>
+        </div>
+        <div class='col6 contain pad2'>
+          <div class='clearfix pad1y'>
+            <div class='illustration svg inline fl margin0r space-bottom2'></div>
+            <strong>SVG markers</strong>
+            <p class='quiet'>Resize and transform scalable vector SVG markers right in TileMill.</p>
+          </div>
+          <div class='clearfix pad1y'>
+            <div class='illustration textures inline fl margin0r space-bottom2'></div>
+            <strong>Textures</strong>
+            <p class='quiet'>With full alpha-channel support and the ability to add multiple layers and fills TileMill can create richly textured maps.</p>
           </div>
         </div>
-        <div class='prose'>
-          <h2>Integrate with Mapbox</h2>
-          <p>It's just one click to automatically render and upload maps to your Mapbox account.</p>
-          <a href='http://mapbox.com/'>About Mapbox</a>
+      </div>
+
+      <div id='enrich' class='pad4y keyline-top clearfix'>
+        <div class='col6 pad2x'>
+          <h3 class='icon hand'>Enrich</h3>
+          <h2>Style maps with Carto</h2>
+          <p>Inspired by CSS, Carto gives you full control over design. Filters, variables, and functions are at your fingertips in the code editor.</p>
+          <a href='{{site.baseurl}}/docs/manual/carto/'>Carto guide</a>
+        </div>
+        <div class='col6 pad2 contain'>
+          <div class='clearfix pad1y'>
+            <div class='illustration interaction inline fl margin0r space-bottom2'></div>
+            <strong>Add interation</strong>
+            <p class='quiet'>Create hover tooltips and clickable pop ups with UTF-8 grid technology.
+            <a href='{{site.baseurl}}/docs/crashcourse/tooltips/'>Tooltips and legends in TileMill</a></p>
+          </div>
+          <div class='clearfix pad1y'>
+            <div class='illustration inline embed fl margin0r space-bottom2'></div>
+            <strong>Embed graphics or images</strong>
+            <p class='quiet'>Insert interactive graphs, images, links, and other content into your maps.
+            <a href='{{site.baseurl}}/docs/tutorials/google-charts/'>Charts in TileMill</a>
+          </div>
+        </div>
+      </div>
+
+      <div id='share' class='pad4y keyline-top clearfix'>
+        <div class='center space-bottom2'>
+          <h3 class='icon cloud'>Share</h3>
+        </div>
+        <div class='col12'>
+          <div class='col6 pad2'>
+            <div class='small-graphic dot dark fill-purple inline fl pad1 margin0r space-bottom2'>
+              <span class='icon big mobile'></span>
+            </div>
+            <strong>Publish to web &amp; mobile</strong>
+            <p class='quiet'>Export to the MBTiles format and every map you make in TileMill is desktop and mobile ready.</p>
+          </div>
+          <div class='col6 pad2'>
+            <div class='small-graphic dot fill-blue inline fl pad1 dark margin0r space-bottom2'>
+              <span class='icon big mapbox'></span>
+            </div>
+            <strong>Integrate with Mapbox</strong>
+            <p class='quiet'>It's just one click to automatically render and upload maps to your Mapbox account. <a href='http://mapbox.com/'>About Mapbox</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div id='open-source'>
+        <div class='clearfix full keyline-top contain single'>
+          <div class='col6 pad4 prose'>
+            <h2>Powered by Open Source</h2>
+            <p>TileMill is built on a suite of open source libraries including <a href='http://mapnik.org'>Mapnik</a>, <a href='http://nodejs.org'>node.js</a>, <a href='http://documentcloud.github.com/backbone'>backbone.js</a>, <a href='http://expressjs.com'>express</a> and <a href='http://codemirror.net'>CodeMirror</a>. Visit <a href='http://github.com'>GitHub</a> and dig into the source code.</p>
+            <a href='http://github.com/mapbox/tilemill' class='button icon github'>Fork me on GitHub</a>
+          </div>
+          <div class='col6 contain pad4y text-right'>
+            <div class='illustration github inline'></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div id='gallery'>
-    <div class='heading pad2y center keyline-top'>
-      <h3 class='icon heart'>Gallery</h3>
-    </div>
-    <div class='row10 fill-grey contain'>
-      <div id='map' class='row10'></div>
-      <div class='pin-right col5 pad2'>
-        <div id='mapdescription' class='clearfix col12'></div>
-      </div>
-    </div>
-    <script type='text/template' id='gallery-template'>
-      <div class='mobile-cols row1 center fill-white round-top keyline-bottom'>
-        <a class='pad1y row1 col6 prev icon' href='#<%=prev%>'>prev</a>
-        <a class='pad1y row1 col6 next rcon keyline-left keyline-right' href='#<%=next%>'>next</a>
-      </div>
-      <div class='desc-box main-desc col12 fill-white'>
-        <h2><%=name%></h2>
-        <small>by <%=creator%></small>
-      </div>
-      <% if (description) { %>
-      <div class='desc-box cap keyline-all col12 fill-light round-bottom'>
-        <small><%=description%></small>
-      </div>
-      <% } %>
-    </script>
+<div id='gallery' class='fill-white'>
+  <div class='heading pad2y center keyline-top'>
+    <h3 class='icon heart'>Gallery</h3>
   </div>
-
-  <div id='open-source'>
-    <div class='clearfix full keyline-top contain single'>
-      <div class='col6 pad4 prose'>
-        <h2>Powered by Open Source</h2>
-        <p>TileMill is built on a suite of open source libraries including <a href='http://mapnik.org'>Mapnik</a>, <a href='http://nodejs.org'>node.js</a>, <a href='http://documentcloud.github.com/backbone'>backbone.js</a>, <a href='http://expressjs.com'>express</a> and <a href='http://codemirror.net'>CodeMirror</a>. Visit <a href='http://github.com'>GitHub</a> and dig into the source code.</p>
-        <a href='http://github.com/mapbox/tilemill' class='button icon github'>Fork me on GitHub</a>
-      </div>
-      <div class='col6 contain pad4y'>
-        <div class='illustration github'></div>
-      </div>
+  <div class='row12 fill-grey contain'>
+    <div id='map' class='row12'></div>
+    <div class='pin-right col5 pad2'>
+      <div id='mapdescription' class='clearfix col12'></div>
     </div>
   </div>
-</div>
-</div>
+  <script type='text/template' id='gallery-template'>
+    <div class='mobile-cols row1 center fill-white round-top keyline-bottom'>
+      <a class='pad1y row1 col6 prev icon' href='#<%=prev%>'>prev</a>
+      <a class='pad1y row1 col6 next rcon keyline-left keyline-right' href='#<%=next%>'>next</a>
+    </div>
+    <div class='desc-box main-desc col12 fill-white'>
+      <h2><%=name%></h2>
+      <small>by <%=creator%></small>
+    </div>
+    <% if (description) { %>
+    <div class='desc-box cap keyline-all col12 fill-light round-bottom'>
+      <small><%=description%></small>
+    </div>
+    <% } %>
+  </script>
 </div>
 
 <script>
