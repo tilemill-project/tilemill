@@ -1,6 +1,8 @@
 ---
-layout: pages
+layout: default
 title: TileMill
+fullwidth: true
+class: fill-denim
 maps:
 - id: examples.map-vyofok3q
   name: Mapbox Streets
@@ -112,15 +114,59 @@ platforms:
   url: http://tilemill.s3.amazonaws.com/latest/TileMill-v0.10.1-Setup.exe
 ---
 
-<div class='row8 contain fill-grey keyline-all round-top clip clearfix'>
-  <div class='pad4 col6 intro prose'>
-    <h2>Create beautiful<br /> interactive maps</h2>
+<link href='{{site.baseurl}}/site.css' rel='stylesheet' />
+<style>
+
+/* Site overrides */
+.masthead {
+  background: none;
+  border: none;
+  margin-bottom:20px;
+}
+nav .primary a:not(.action),
+nav .primary a.authed {
+  display: none;
+}
+
+nav .primary .authmenu,
+nav .primary .authmenu a {
+  display: inline-block;
+  border-color: rgba(256,256,256,0.2);
+  color: rgba(256,256,256,0.7);
+}
+nav .primary .authmenu a:hover,
+nav .primary a:hover {
+  background-color: rgba(0,0,0,0.4) !important;
+}
+nav .primary .dropdown a,
+nav .primary .dropdown a:hover {
+  background-color: transparent !important;
+  display: block;
+}
+nav .primary .icon:before {
+  display:none;
+  }
+
+.fill-navy-dark .footer .pill > * {
+  border-color: rgba(0,0,0,0.1);
+}
+
+.mb-logo { background-position:0 -60px; }
+</style>
+
+
+<div class='limiter dark clip clearfix'>
+  <div class='col8 margin2 center prose'>
+    <h3 class='icon tilemill'>TileMill</h3>
+    <h1>Create beautiful interactive maps</h1>
     <p class='quiet'>Whether you're a journalist, web designer, researcher,  or seasoned cartographer, TileMill is the design studio to create stunning interactive maps.</p>
   </div>
-  <div class='col6 tilemill-screenshot'></div>
+  <div class='row10 clip col12 tilemill-screenshot'></div>
 </div>
 
-<div class='space-bottom2 pad2 fill-white pad4 round-bottom keyline-bottom keyline-left keyline-right clearfix'>
+<div class='fill-white pad4y'>
+<div class='limiter'>
+<div class='space-bottom2 pad2 fill-white pad4 round-bottom clearfix'>
   <div class='download callout col8 margin2'>
     <nav class='tabs clearfix'>
     {% for item in page.platforms %}
@@ -150,10 +196,13 @@ platforms:
     </div>
 
     <small class='center links'>
-      <a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a href='{{site.baseurl}}/changelog/'>Changelog</a>  | <a href='{{site.baseurl}}/docs/install/'>More install details</a>
+      <a class='quiet' href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a> | <a class='quiet' href='{{site.baseurl}}/changelog/'>Changelog</a>  | <a class='quiet' href='{{site.baseurl}}/docs/install/'>More install details</a>
     </small>
   </div>
+</div>
 
+<div class='center pad2y'>
+  <h2>Powerful features</h2>
 </div>
 
 <div class='prose doc round fill-white keyline-all'>
@@ -325,6 +374,8 @@ platforms:
     </div>
   </div>
 </div>
+</div>
+</div>
 
 <script>
 $('.download').addClass((function() {
@@ -372,9 +423,7 @@ $('.download-button').click(function(ev) {
   },{% endfor %}
   false];
   var template = _.template(document.getElementById('gallery-template').innerHTML);
-  var map = L.mapbox.map('map', undefined, {
-      zoomControl: false
-    });
+  var map = L.mapbox.map('map');
   var layer;
 
   function setMap(id, mode) {
@@ -394,10 +443,7 @@ $('.download-button').click(function(ev) {
 
     layer.on('ready', function(m) {
       document.getElementById('map').style.background = d.matte ? '#' + d.matte : '';
-
-      console.log(d.center);
       if (d.center) map.setView([d.center[1], d.center[0]], d.center[2]);
-
       d.next = maps[(i + 1) % maps.length].id;
       d.current = maps[i % maps.length].id;
       d.prev = maps[(i - 1 + maps.length) % maps.length].id;
@@ -409,10 +455,12 @@ $('.download-button').click(function(ev) {
       // Bound UI Events
       $('a.next', context).on('click', function(e) {
         setMap(d.next);
+        return false;
       });
 
       $('a.prev', context).on('click', function(e) {
         setMap(d.prev);
+        return false;
       });
     });
   }
