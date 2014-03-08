@@ -1,62 +1,19 @@
 /* ### Frontpage ### */
-#hero { min-height:660px; }
-
 .tilemill-screenshot {
   background:url(img/hero-tilemill.png) no-repeat left top;
+  background-size:900px 360px;
   -webkit-animation:fadeIn 500ms ease 1500ms both;
      -moz-animation:fadeIn 500ms ease 1500ms both;
           animation:fadeIn 500ms ease 1500ms both;
-  }
-
-.icon.play:before {
-  border-top:6px solid rgba(0,0,0,0);
-  border-bottom:6px solid rgba(0,0,0,0);
-  border-left:6px solid #3887BE;
-  opacity: 1;
-  height:0;
-  width:0;
-  margin:6px;
-  }
-
-.heading .ico:before {
-  background:transparent url(img/tilemill-sprite.png) no-repeat 0 -110px;
-  content:'';
-  width:20px;
-  height:20px;
-  display:inline-block;
-  vertical-align:top;
-  }
-  .heading .ico.manage:before { background-position:0 -110px; }
-  .heading .ico.render:before { background-position:-20px -110px; }
-  .heading .ico.enrich:before { background-position:-40px -110px; }
-  .heading .ico.share:before  { background-position:-60px -110px; }
-
-.intro {
-  padding-bottom: 20px;
-  -webkit-animation:fadeInRight 500ms ease 500ms both;
-     -moz-animation:fadeInRight 500ms ease 500ms both;
-          animation:fadeInRight 500ms ease 500ms both;
-  }
-.download {
-  position: relative;
-  -webkit-animation:fadeIn 500ms ease 1000ms both;
-     -moz-animation:fadeIn 500ms ease 1000ms both;
-          animation:fadeIn 500ms ease 1000ms both;
   }
 .download-button {
   margin: 20px 0;
   border-radius: 4px;
   display: none;
   }
-  .download.mac .download-button.mac {
-    display: block;
-    }
-  .download.linux .download-button.linux {
-    display: block;
-    }
-  .download.windows .download-button.windows {
-    display: block;
-    }
+  .download.windows .download-button.windows,
+  .download.linux .download-button.linux,
+  .download.mac .download-button.mac { display: block; }
   .download-button small, .download-button h3 {
     color:#fff;
             animation: fadeIn 500ms ease 250ms both;
@@ -148,18 +105,6 @@
 .footer-actions .download.subscribe .download-button,
 .footer-actions .subscribe nav { display: none;}
 
-/* ### Borders + special tour section layout stuff ### */
-.fillE .full { border-color: #3C4E5A; }
-
-/* ### Illustrations ###  */
-.full > .col6 {
-  overflow: hidden;
-  position: relative;
-  min-height: 340px;
-  }
-
-.big-graphic { padding-top:30px; }
-
 .illustration {
   background:url(img/landing-sprite.png) 0 0 no-repeat;
   background-size:510px 1100px;
@@ -190,118 +135,11 @@
     height:300px;
     }
 
-@media
-only screen and (max-width: 640px) {
-  #hero { min-height: inherit; padding-bottom: 0;}
-  #hero .tilemill-screenshot {
-    height: 320px;
-    background-position-y: top;
-    }
-  .download { display: none;}
-  .footer-actions { display: none;}
-  .full > .col6 { min-height: inherit;}
-  .full > .col6:last-child { border-top: 1px solid #28353D;}
-  .fillE .full > .col6:last-child { border-color: #3C4E5A;}
-  .full.single > .col6:last-child { border-top: none;}
-  .full:before { display: none;}
-  .illustration {
-    margin: 0 auto 30px;
-    position: relative;
-    }
-  .single .illustration {
-    right: 0;
-    margin-bottom: 20px;
-    }
-  #share .illustration.publish {
-    height: 260px;
-    margin-top: -40px;
-    background-position-y: -420px;
-    }
-  .footer .col3:first-child {
-    border-top: 1px solid #28353D;
-    }
-}
-
 /* ### Docs Landing Page ### */
-a.method {
-  display:block;
-  color:#3c4e5a;
-  position:relative;
-  padding-left:80px;
-  min-height:60px;
-  margin:0px 0px 20px;
-  }
-
-.method h3 {
-  margin:0px;
-  color: #3887be;
-  }
-  .method h3:hover { color: #3bb2d0;}
-
-.help-graphic {
-  position:absolute;
-  top:-5px; left:0px;
-  width:60px;
-  height:60px;
-  background:url(img/tilemill-help-sprite.png) 60px 60px no-repeat;
-  }
-
-.help-graphic.install { background-position:0px 0px; }
-.help-graphic.import { background-position:-70px 0px; }
-.help-graphic.style  { background-position:-140px 0px; }
-.help-graphic.interactivity  { background-position:-210px 0px; }
-.help-graphic.export   { background-position:-280px 0px; }
-.help-graphic.guides   { background-position:-350px 0px; }
-.help-graphic.reference   { background-position:-420px 0px; }
-
 .mac #mac,
 .windows #windows,
 .linux #linux {
   background-color:rgba(0,0,0,0.1);
-}
-
-@media
-only screen and (max-width: 640px) { h2 { padding: 20px;}}
-
-.ad-support { text-align:right; }
-.ad-support a { margin-top:10px; }
-@media (max-width:640px) {
-  .five-links a { width:100%; }
-  .ad-support { text-align:center; }
-  .doc-header h2 { padding-bottom: 20px; }
-}
-@media (min-width:960px) {
-  .doc .fig-right { float:right; margin-top:0px; margin-left:10px; }
-}
-
-@media
-only screen and (-webkit-min-device-pixel-ratio : 2),
-only screen and (min-device-pixel-ratio : 2) {
-  #tilemill-logo,
-  .heading .ico:before {
-    background-image:url(../../img/tilemill-sprite@2x.png);
-    background-size: 150px 130px;
-    }
-  #render .illustration {
-    background:url(../../img/render-sprite@2x.png);
-    background-size: 540px 900px;
-    }
-  #manage .illustration {
-    background-image:url(../../img/manage-sprite@2x.png);
-    background-size: 540px 540px;
-    }
-  #enrich .illustration {
-    background-image:url(../../img/enrich-sprite@2x.png);
-    background-size: 540px 260px;
-    }
-  #share .illustration {
-    background-image:url(../../img/share-sprite@2x.png);
-    background-size: 670px 690px;
-    }
-  #open-source .illustration.github {
-    background-image:url(../../img/open-source@2x.png);
-    background-size: 500px 360px;
-    }
 }
 
 /* ### Frontpage: Gallery ### */
@@ -351,20 +189,6 @@ only screen and (min-device-pixel-ratio : 2) {
             animation: fadeInDown 500ms ease 500ms both;
     z-index: 1;
     }
-    .desc-box h2 {
-      margin: 0 0 5px 0;
-      }
-    .desc-box.main-desc h2, .desc-box.main-desc small {
-      -webkit-animation: fadeInRight 500ms ease 500ms both;
-         -moz-animation: fadeInRight 500ms ease 500ms both;
-              animation: fadeInRight 500ms ease 500ms both;
-    }
-
-@media only screen and (max-width: 640px) {
-  .wrapper { height: 800px;}
-  .desc-box.caption { display: none;}
-  .desc-box h2 { white-space: nowrap;}
-}
 
 @-webkit-keyframes fadeInDown {
   0%  { opacity:0; -webkit-transform:translateY(-100px); }
@@ -382,3 +206,12 @@ only screen and (min-device-pixel-ratio : 2) {
   0%  { opacity:0; transform:translateY(-100px); }
   100%  { opacity:1; transform:translateY(0); }
   }
+
+@media
+  (-webkit-min-device-pixel-ratio:2),
+  (min-resolution:192dpi),
+  (min-resolution:2dppx) {
+    .tilemill-screenshot  { background-image:url(img/hero-tilemill@2x.png); }
+    .illustration         { background-image:url(img/landing-sprite@2x.png); }
+}
+
