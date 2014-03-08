@@ -1,4 +1,8 @@
-<div class='note prose'>
-  <h3>Mission complete! Next up:</h3>
-  <ul>{% for item in page.nextup %}<li>{{item|markdownify}}</li>{% endfor %}</ul>
+<div class='keyline-all space-top1 fill-darken0 round'>
+  <div class='pad1y pad2x keyline-bottom strong small clearfix'>
+    Misson complete! Next up
+  </div>
+  <div class='fill-white round-bottom pad1'>
+    <ul>{% for item in page.nextup %}<li>{{item|markdownify}}</li>{% endfor %}</ul>
+  </div>
 </div>

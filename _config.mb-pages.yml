@@ -3,4 +3,3 @@ url: https://www.mapbox.com
 exclude: [.gitignore, .gitmodules]
 baseurl: /tilemill
 permalink: /:categories/:title
-title: TileMill

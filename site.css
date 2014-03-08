@@ -1,36 +1,8 @@
-/* TileMill masthead override */
-#tilemill-nav  {
-  position: absolute;
-  right: 0;
-  top: 0;
-  left: 0;
-}
-#tilemill-logo {
-  width:110px;
-  height:60px;
-  display:block;
-  text-indent:-999px;
-  overflow:hidden;
-  background:transparent url(../../img/tilemill-sprite.png) no-repeat 0 0;
-  }
-
-#nav > .mb-logo,
-#nav > .mb-logo-thumb,
-#nav > div > a:not(.droplink) { display:none; }
-
-/* Base Candidate */
-.doc-nav a:hover,
-.doc-nav .active {
-  background-color:#f8f8f8;
-  }
-
 /* ### Frontpage ### */
 #hero { min-height:660px; }
 
-#hero .tilemill-screenshot {
-  background:url(../../img/hero-tilemill.png) 0 bottom no-repeat;
-  height:660px;
-  float:right;
+.tilemill-screenshot {
+  background:url(img/hero-tilemill.png) no-repeat left top;
   -webkit-animation:fadeIn 500ms ease 1500ms both;
      -moz-animation:fadeIn 500ms ease 1500ms both;
           animation:fadeIn 500ms ease 1500ms both;
@@ -46,17 +18,8 @@
   margin:6px;
   }
 
-.heading { height: 80px;}
-.heading h3 {
-  display: inline-block;
-  padding: 10px;
-  margin-top: 20px;
-  line-height:20px;
-  width: 160px;
-  color:#fff;
-  }
 .heading .ico:before {
-  background:transparent url(../../img/tilemill-sprite.png) no-repeat 0 -110px;
+  background:transparent url(img/tilemill-sprite.png) no-repeat 0 -110px;
   content:'';
   width:20px;
   height:20px;
@@ -68,52 +31,21 @@
   .heading .ico.enrich:before { background-position:-40px -110px; }
   .heading .ico.share:before  { background-position:-60px -110px; }
 
-#hero .intro {
+.intro {
   padding-bottom: 20px;
   -webkit-animation:fadeInRight 500ms ease 500ms both;
      -moz-animation:fadeInRight 500ms ease 500ms both;
           animation:fadeInRight 500ms ease 500ms both;
   }
-
 .download {
   position: relative;
   -webkit-animation:fadeIn 500ms ease 1000ms both;
      -moz-animation:fadeIn 500ms ease 1000ms both;
           animation:fadeIn 500ms ease 1000ms both;
   }
-.download ul.oslist {
-  box-shadow:rgba(0,0,0,0.05) 0 0 0 5px;
-  border-radius:4px;
-  }
-.download ul.oslist li .button.big {
-  float: left;
-  width: 33.3333%;
-  border-radius: 0;
-  margin: 0;
-  background: #3c4e5a;
-  border-right: 1px solid #28353d;
-  box-shadow: none;
-  font-size: 12px;
-  font-family: 'Opensans',Arial,sans-serif;
-  text-transform: none;
-  min-width: 0;
-  transition: background 500ms;
-  -moz-transition: background 500ms;
-  -webkit-transition: background 500ms;
-  -o-transition: background 500ms;
-  }
-  .download ul.oslist li:last-child .button.big { border-right: none; }
-  .download ul.oslist li#mac .button.big { border-radius: 4px 0 0 4px;}
-  .download ul.oslist li#windows .button.big { border-radius: 0 4px 4px 0;}
-
-.download.mac ul.oslist li#mac .button.big{ background: #597486;}
-.download.linux ul.oslist li#linux .button.big{ background: #597486;}
-.download.windows ul.oslist li#windows .button.big{ background: #597486;}
-
 .download-button {
   margin: 20px 0;
   border-radius: 4px;
-  box-shadow: rgba(0,0,0,0.05) 0px 0px 0px 5px;
   display: none;
   }
   .download.mac .download-button.mac {
@@ -126,13 +58,12 @@
     display: block;
     }
   .download-button small, .download-button h3 {
-    color: white;
+    color:#fff;
             animation: fadeIn 500ms ease 250ms both;
        -moz-animation: fadeIn 500ms ease 250ms both;
     -webkit-animation: fadeIn 500ms ease 250ms both;
     }
   .download-button h3 {
-    text-shadow: rgba(0,0,0,0.2) 0px -1px;
     margin-bottom: 0;
     }
   .download-button .details {
@@ -153,9 +84,6 @@
     border-radius: 4px 0 0 4px;
     }
   .download-button:hover .label { border-color: #3bb2d0; }
-  .download-button:active .details {
-    box-shadow: inset rgba(0,0,0,0.4) 0px 1px 3px, inset rgba(0,0,0,0.1) 0px -20px 20px -10px;
-    }
 .download-button .instructions {
   display: none;
   position: absolute;
@@ -173,7 +101,6 @@
   padding: 20px;
   display: block;
   border-radius: 4px;
-  box-shadow: 0 0 35px 0px rgba(0,0,0,.5);
   transition: opacity 500ms;
   -moz-transition: opacity 500ms;
   -webkit-transition: opacity 500ms;
@@ -192,100 +119,19 @@
     bottom: 0;
     margin: auto 0;
     }
-/* ### Borders + special tour section layout stuff ### */
-
-.full {
-  position: relative;
-  border-top: 1px solid #28353D;
-  }
-  .fillE .full { border-color: #3C4E5A; }
-  .full:before {
-    content: " ";
-    display: block;
-    position: absolute;
-    right: 50%;
-    height: 100%;
-    border-right: 1px solid #28353D;
-    z-index: 9999;
-    }
-  .fillE .full:before { border-color: #3C4E5A; }
-  .full.single:before { display: none; }
-
-/* ### Illustrations ###  */
-
-.full > .col6 {
-  overflow: hidden;
-  position: relative;
-  min-height: 340px;
-  }
-
-.illustration {
-  height: 260px;
-  width: 260px;
-  position: absolute;
-  margin-left: 50%;
-  }
-
-.single .illustration {
-  width: 450px;
-  height: 280px;
-  right: 20px;
-  }
-
-.illo-container {
-  height: 380px;
-  }
-
-#manage .illustration {
-  background:url(../../img/manage-sprite.png) 0 20px no-repeat;
-  }
-   #manage .illustration.browse { background-position: 0 -280px;}
-   #manage .illustration.raster { background-position: -280px -280px;}
-
-#render .illustration {
-  background:url(../../img/render-sprite.png) 0 20px no-repeat;
-  }
-   #render .illustration.textures { background-position: 0 -280px; }
-        #render .illustration.svg { background-position: -280px -280px;}
-  #render .illustration.carto {
-    background-position: 0 -540px;
-    width: 480px;
-    height: 380px;
-    }
-
-#enrich .illustration {
-  background:url(../../img/enrich-sprite.png) 0 0 no-repeat;
-  }
-  #enrich .illustration.embed { background-position: -280px 0;}
-
-#share .illustration {
-  background:url(../../img/share-sprite.png) 0 0 no-repeat;
-  }
-  #share .illustration.publish {
-  height: 100%;
-  width: 380px;
-  top: 0;
-  }
-  #share .illustration.mapbox { background-position: -410px -40px;}
-
-#open-source .illustration.github {
-  background:url(../../img/open-source.png) 0 0 no-repeat;
-  width: 480px;
-  height: 380px;
-  }
-
-.footer-actions h1{
-  border-top: 1px solid #3C4E5A;
-  padding-bottom: 0;}
 
 /* ### MailChimp ### */
-.download .mailchimp-subscribe {
-  opacity: 0;
-  display: none;
+.download .mailchimp-subscribe,
+.download .mailchimp-subscribe .help {
+  opacity:0;
+  display:none;
   }
-.download .mailchimp-subscribe .col6:first-child { padding-right: 10px; }
-.download .mailchimp-subscribe .col6:last-child { padding-left: 10px; }
-.download .mailchimp-subscribe .col6 small {margin-bottom: 10px; }
+.download.mac .mailchimp-subscribe .mac,
+.download.windows .mailchimp-subscribe .windows,
+.download.linux .mailchimp-subscribe .linux {
+  opacity:1;
+  display:block;
+  }
 
 .download.subscribe .mailchimp-subscribe {
   opacity:1;
@@ -298,9 +144,51 @@
   }
 
 #hero .download.subscribe .download-button,
-#hero .download.subscribe ul.oslist,
+#hero .download.subscribe nav,
 .footer-actions .download.subscribe .download-button,
-.footer-actions .subscribe ul.oslist { display: none;}
+.footer-actions .subscribe nav { display: none;}
+
+/* ### Borders + special tour section layout stuff ### */
+.fillE .full { border-color: #3C4E5A; }
+
+/* ### Illustrations ###  */
+.full > .col6 {
+  overflow: hidden;
+  position: relative;
+  min-height: 340px;
+  }
+
+.big-graphic { padding-top:30px; }
+
+.illustration {
+  background:url(img/landing-sprite.png) 0 0 no-repeat;
+  background-size:510px 1100px;
+  height:60px;
+  width:60px;
+  }
+  .illustration.interaction { background-position:0 -175px;}
+  .illustration.embed       { background-position:-65px -175px;}
+  .illustration.browse      { background-position:-130px -175px;}
+  .illustration.raster      { background-position:-195px -175px;}
+  .illustration.textures    { background-position:-260px -175px; }
+  .illustration.svg         { background-position:-325px -175px;}
+  .illustration.sources {
+    background-position:0 0;
+    width:330px;
+    height:160px;
+    }
+  .illustration.carto,
+  .illustration.rendering {
+    background-position:0 -470px;
+    width:440px;
+    height:300px;
+    }
+  .illustration.carto { background-position:0 -680px; }
+  .illustration.github {
+    background-position:0 -775px;
+    width:440px;
+    height:300px;
+    }
 
 @media
 only screen and (max-width: 640px) {
@@ -355,7 +243,7 @@ a.method {
   top:-5px; left:0px;
   width:60px;
   height:60px;
-  background:url(../../img/tilemill-help-sprite.png) 60px 60px no-repeat;
+  background:url(img/tilemill-help-sprite.png) 60px 60px no-repeat;
   }
 
 .help-graphic.install { background-position:0px 0px; }
@@ -366,21 +254,11 @@ a.method {
 .help-graphic.guides   { background-position:-350px 0px; }
 .help-graphic.reference   { background-position:-420px 0px; }
 
-@media
-  only screen and (max-width: 640px) and (-webkit-min-device-pixel-ratio : 2),
-  only screen and (max-width: 640px) and (min-device-pixel-ratio : 2) {
-  .help-graphic {
-    background-image:url({{site.baseurl}}/img/tilemill-help-sprite@2x.png);
-    background-size:480px 60px;
-    }
+.mac #mac,
+.windows #windows,
+.linux #linux {
+  background-color:rgba(0,0,0,0.1);
 }
-
-/* ### Footer ### */
-.footer h3 { color: #3c4e5a;}
-
-.five-links a { width:20%; }
-
-h2 small { font: normal 12px/1.6667em Opensans,Arial,sans-serif; }
 
 @media
 only screen and (max-width: 640px) { h2 { padding: 20px;}}
@@ -426,3 +304,81 @@ only screen and (min-device-pixel-ratio : 2) {
     }
 }
 
+/* ### Frontpage: Gallery ### */
+.icon.reverse.play {
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid white;
+  height: 0;
+  width: 0;
+  margin-top: 3px;
+  margin-left: 7px;
+  margin-right: 7px;
+  }
+  #map img {
+    animation: fadeIn 150ms ease both;
+    -moz-animation: fadeIn 150ms ease both;
+    -webkit-animation: fadeIn 150ms ease both;
+    }
+
+-webkit-keyframes fadeInDown {
+  0%    { opacity: 0; -webkit-transform: translateY(-300px); }
+  100%  { opacity:1; -webkit-transform:translateY(0); }
+  }
+@-moz-keyframes fadeInDown {
+  0%    { opacity:0; -moz-transform:translateY(-300px); }
+  100%  { opacity:1; -moz-transform:translateY(0); }
+  }
+@-o-keyframes fadeInDown {
+  0%    { opacity:0; -o-transform:translateY(-300px); }
+  100%  { opacity:1; -o-transform:translateY(0); }
+  }
+@keyframes fadeInDown {
+  0%    { opacity:0; transform:translateY(-300px); }
+  100%  { opacity:1; transform:translateY(0); }
+  }
+
+  .desc-box {
+    padding: 20px;
+    width: 100%;
+    float: left;
+    }
+    .desc-box.main-desc { position: relative; z-index: 2;}
+    .desc-box.cap {
+    position: relative;
+    -webkit-animation: fadeInDown 500ms ease 500ms both;
+       -moz-animation: fadeInDown 500ms ease 500ms both;
+            animation: fadeInDown 500ms ease 500ms both;
+    z-index: 1;
+    }
+    .desc-box h2 {
+      margin: 0 0 5px 0;
+      }
+    .desc-box.main-desc h2, .desc-box.main-desc small {
+      -webkit-animation: fadeInRight 500ms ease 500ms both;
+         -moz-animation: fadeInRight 500ms ease 500ms both;
+              animation: fadeInRight 500ms ease 500ms both;
+    }
+
+@media only screen and (max-width: 640px) {
+  .wrapper { height: 800px;}
+  .desc-box.caption { display: none;}
+  .desc-box h2 { white-space: nowrap;}
+}
+
+@-webkit-keyframes fadeInDown {
+  0%  { opacity:0; -webkit-transform:translateY(-100px); }
+  100%  { opacity:1; -webkit-transform:translateY(0); }
+  }
+@-moz-keyframes fadeInDown {
+  0%  { opacity:0; -moz-transform:translateY(-100px); }
+  100%  { opacity:1; -moz-transform:translateY(0); }
+  }
+@-o-keyframes fadeInDown {
+  0%  { opacity:0; -o-transform:translateY(-100px); }
+  100%  { opacity:1; -o-transform:translateY(0); }
+  }
+@keyframes fadeInDown {
+  0%  { opacity:0; transform:translateY(-100px); }
+  100%  { opacity:1; transform:translateY(0); }
+  }

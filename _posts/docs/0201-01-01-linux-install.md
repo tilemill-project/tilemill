@@ -1,5 +1,4 @@
 ---
-section: help
 layout: docs
 category: installation
 tag: Installation

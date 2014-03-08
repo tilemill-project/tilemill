@@ -3,7 +3,7 @@ layout: docs
 section: help
 category: crashcourse
 tag: Crash&nbsp;course
-title: "1. Introduction"
+title: "Introduction"
 permalink: /docs/crashcourse/introduction
 nextup:
 - "[TileMill and GIS](/tilemill/docs/crashcourse/tilemill-gis/)"
