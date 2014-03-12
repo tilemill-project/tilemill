@@ -1,3 +1,4 @@
+PRODUCT="build/Release/TileMill.app"
 JOBS=`sysctl -n hw.ncpu`
 
 build:
@@ -13,7 +14,7 @@ run: package
 	open ./build/Release/TileMill.app
 
 sign: package
-	@codesign --verbose --keychain /Library/Keychains/System.keychain -f -s "Developer ID Application: Development Seed" $(TARGET)/../..
+	@codesign --deep --verbose --keychain /Library/Keychains/System.keychain -f -s "Developer ID Application: Development Seed" $(PRODUCT)
 
 zip: sign
 	cd build/Release/; ditto -c -k --sequesterRsrc --keepParent --zlibCompressionLevel 9 TileMill.app/ ../../TileMill.zip
