@@ -587,13 +587,12 @@ command.prototype.upload = function (callback) {
             handle: this.opts.project,
             token: this.opts.syncAccessToken
         });
-    var hash = crypto.createHash('md5')
-        .update(+new Date + '')
-        .digest('hex')
-        .substring(0, 6);
-    var policyEndpoint = url.format(_(url.parse(this.opts.syncAPI)).extend({
-            pathname: '/v2/'+ hash + '/upload.json'
-        }));
+    var policyEndpoint = _('<%=base%>/api/upload/<%=account%>?access_token=<%=token%>')
+        .template({
+            base: this.opts.syncURL,
+            account: this.opts.syncAccount,
+            token: this.opts.syncAccessToken
+        });
 
     Step(function() {
         request.get({
@@ -604,7 +603,7 @@ command.prototype.upload = function (callback) {
     }, function(err, resp, body) {
         if (err) throw err;
         if (resp.statusCode !== 200)
-            throw new Error('MapBox Hosting is not available. Status ' + resp.statusCode + '.');
+            throw new Error('Status ' + resp.statusCode + ' from Mapbox');
 
         // Let Step catch thrown errors here.
         uploadArgs = JSON.parse(body);
@@ -659,7 +658,7 @@ command.prototype.upload = function (callback) {
                 if (err) {
                     return this(new Error('Connection terminated. Code ' + err.code));
                 }
-                if (resp.statusCode !== 303) {
+                if (resp.statusCode !== 303 && resp.statusCode !== 204) {
                     var parsed = _({
                         code:     new RegExp('[^>]+(?=<\\/Code>)', 'g'),
                         message:  new RegExp('[^>]+(?=<\\/Message>)', 'g')
@@ -674,7 +673,7 @@ command.prototype.upload = function (callback) {
                 }
                 this();
             }.bind(this);
-            resp.on('data', function(chunk) { chunk += data; });
+            resp.on('data', function(chunk) { data += chunk; });
             resp.on('close', callback);
             resp.on('end', callback);
         }.bind(this));
