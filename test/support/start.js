@@ -44,7 +44,7 @@ module.exports.startPostgis = function(done) {
     exec(insert, function(err,stdout,stderr) {
         if (err) throw err;
         if (stderr) {
-            throw new Error(stderr);
+            console.log(stderr);
         }
         console.warn('Inserted postgres fixture.');
         module.exports.start(done);
