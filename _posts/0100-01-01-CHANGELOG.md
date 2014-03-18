@@ -8,6 +8,7 @@
 layout: docs
 title: Changelog
 permalink: /changelog
+category: changelog
 releases:
 
 - version: 0.10.1.239
