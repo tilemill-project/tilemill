@@ -10,6 +10,23 @@ title: Changelog
 permalink: /changelog
 releases:
 
+- version: 0.10.1.275
+  tag: v0.10.1-275-g5dfb6a6
+  dev: true
+  date: 2014-03-17
+  size: 58069865
+  sign: MCwCFCwjtZMKYGB/04NttoykohSV1G3WAhQ9axrJEggneNd8xC5Ruiht52Bgpg==
+
+  notes:
+  - TileMill - Fixed regression in 0.10.1.239 related to maxzoom level handling
+  - TileMill - Fixed regression in 0.10.1.239 related to selection of PNG format options.
+  - TileMill - Packaged .app now renames the `node` executable to `TileMill` to create less confusing firewall notice
+  - TileMill - Updated to use latest mapbox.com API calls for uploads.
+  - TileMill - Fixed browsing of shared folders from Windows running within VirtualBox
+  - Carto - Add support for exponents in filters (@strk)
+  - Carto - Added support for `image-filters-inflate` property
+  - Mapnik - Upgraded to latest Mapnik 2.3.x branch at f59dc36a19
+
 - version: 0.10.1.239
   tag: v0.10.1-239-gd786d86
   dev: true
