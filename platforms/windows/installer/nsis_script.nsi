@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "TileMill"
-!define PRODUCT_VERSION "0.10.2-pre"
+!define PRODUCT_VERSION "0.10.1-273-gc2ab8b0"
 !define CODE_ROOT "tilemill"
 !define SEMVER "${PRODUCT_NAME}-v${PRODUCT_VERSION}"
 !define PRODUCT_PUBLISHER "MapBox"
@@ -78,7 +78,7 @@ Section "Add Windows Firewall Rule"
 	nsisFirewall::AddAuthorizedApplication "$INSTDIR\${CODE_ROOT}\node.exe" "Evented I/O for V8 JavaScript"
 	Pop $0
 	IntCmp $0 0 +3
-		MessageBox MB_OK "Notice: unable to add node.exe (used by TileMill) to the Firewall exception list. This means that you will likely need to allow node.exe access to the firewall upon first run (code=$0)"
+		MessageBox MB_OK "Notice: unable to add node.exe (used by TileMill) to the Firewall exception list. This means that you will likely need to allow node.exe access to the firewall upon first run (code=$0)" /SD IDOK
 		Return
 SectionEnd
 
@@ -105,11 +105,11 @@ SectionEnd
 
 Function un.onUninstSuccess
   HideWindow
-  MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer."
+  MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer." /SD IDOK
 FunctionEnd
 
 Function un.onInit
-  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" IDYES +2
+  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" /SD IDYES IDYES +2
   Abort
 FunctionEnd
 
@@ -119,7 +119,7 @@ Section Uninstall
    nsisFirewall::RemoveAuthorizedApplication "$INSTDIR\${CODE_ROOT}\node.exe"
    Pop $0
    IntCmp $0 0 +3
-       MessageBox MB_OK "A problem happened while removing Node.exe (used by TileMill) from the Firewall exception list (result=$0)"
+       MessageBox MB_OK "A problem happened while removing Node.exe (used by TileMill) from the Firewall exception list (result=$0)" /SD IDOK
        Return
 
   Delete "$INSTDIR\Uninstall-TileMill.exe"
