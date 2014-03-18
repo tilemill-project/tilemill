@@ -9,7 +9,7 @@
     <language>en</language>
     {% for post in site.categories.changelog %}
       {% for item in post.releases reversed %}
-        {% if item.dev != true %}
+        {% if item.dev != true or page.dev == true %}
           {% if item.version and item.date %}
           <item>
               <title>TileMill {{item.version}}</title>

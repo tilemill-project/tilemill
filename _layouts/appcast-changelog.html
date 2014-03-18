@@ -2,13 +2,15 @@
 ---
 {% for post in site.categories.changelog %}
   {% for item in post.releases %}
-    {% if item.dev != true and item.version %}
-      <h2>{{item.version}} {% if item.date %}<small>{{item.date|date:'%B %d %Y'}}</small>{% endif %}</h2>
-      <ul class='checklist'>
-        {% for item in item.notes %}
-        <li>{{item | markdownify}}</li>
-        {% endfor %}
-      </ul>
+    {% if item.dev != true or page.dev == true %}
+      {% if item.version %}
+        <h2>{{item.version}} {% if item.date %}<small>{{item.date|date:'%B %d %Y'}}</small>{% endif %}</h2>
+        <ul class='checklist'>
+          {% for item in item.notes %}
+          <li>{{item | markdownify}}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
     {% endif %}
   {% endfor %}
 {% endfor %}
