@@ -8,8 +8,9 @@ urlbase="http://tilemill.s3.amazonaws.com/dev/TileMill-==TAG==.zip"
 
 tag=$( git describe --tags )
 version=$( echo $tag | sed -e 's/^v//' | sed -e 's/-/./' | sed -e 's/-.*//' )
+zipurl=$( echo $urlbase | sed -e s/==TAG==/$tag/ )
 echo
-read -n 1 -p "Updating Sparkle for TileMill-$tag. Proceed? " proceed
+read -n 1 -p "Updating Sparkle for $zipurl. Proceed? " proceed
 if [ $proceed != "y" ] && [ $proceed != "Y" ]; then
   clear
   exit 1
@@ -17,7 +18,6 @@ fi
 echo
 echo
 
-zipurl=$( echo $urlbase | sed -e s/==TAG==/$tag/ )
 zipfile="./tmp/TileMill-$tag.zip"
 mkdir -p ./tmp/
 echo "Downloading $zipurl... to $zipfile"
