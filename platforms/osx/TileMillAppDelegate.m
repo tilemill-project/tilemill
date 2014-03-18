@@ -214,16 +214,16 @@
 
 - (void)startTileMill
 {
-    if ( ! [[NSBundle mainBundle] URLForResource:@"node" withExtension:@""])
+    if ( ! [[NSBundle mainBundle] URLForResource:@"TileMill" withExtension:@""])
     {
-        [self writeToLog:@"Node executable is missing."];
+        [self writeToLog:@"TileMill (Node) executable is missing."];
 
         [self presentFatalError];
     }
     
     // Look for orphan node processes from previous crashes.
     //
-    NSPredicate *nodePredicate     = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'node'"];
+    NSPredicate *nodePredicate     = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'TileMill'"];
     NSPredicate *tilemillPredicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'tilemill'"];
     
     BOOL triedToKillOrphans;
