@@ -34,6 +34,8 @@ After installation you'll want to make sure that the command line tools that com
     echo 'export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"' >> ~/.bash_profile
     source ~/.bash_profile
 
+Note: your path may be different so consult the [documentation](http://postgresapp.com/documentation/) for up to date path references.
+
 #### Installing PostgreSQL/PostGIS with homebrew
 
 Skip this step if you already installed `Postgres.app`.
