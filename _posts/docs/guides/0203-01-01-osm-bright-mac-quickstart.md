@@ -31,7 +31,7 @@ We prefer <http://postgresapp.com> since its standalone `.app` based package and
 
 After installation you'll want to make sure that the command line tools that come with Postgres.app are available. Run these two commands in the Terminal:
 
-    echo 'export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"' >> ~/.bash_profile
+    echo 'export PATH="/Applications/Postgres.app/Contents/Versions/9.3/bin:$PATH"' >> ~/.bash_profile
     source ~/.bash_profile
 
 Note: your path may be different so consult the [documentation](http://postgresapp.com/documentation/) for up to date path references.
