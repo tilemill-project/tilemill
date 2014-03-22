@@ -36,6 +36,7 @@ footer:
 <!DOCTYPE html >
 <html>
 <head>
+  {% if page.prehead %}{{page.prehead}}{% endif %}
   <meta charset='UTF-8'/>
   <meta name='robots' content='{% if page.hidden %}noindex{% else %}index{% endif %}'/>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
