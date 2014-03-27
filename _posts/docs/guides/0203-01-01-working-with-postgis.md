@@ -28,9 +28,9 @@ code6: "SELECT * from dc_census_tracts JOIN data on dc_census_tracts.geoid10 = d
 
 As we've worked through in adding CSV data and shapefiles to a TileMill project in previous articles here, you can also add data from a PostGIS database.
 
-[PostGIS](http://postgis.refractions.net/) is an extension for PostgreSQL databases for storing, manipulating, and retrieving spatial data. PostGIS (along with Mapnik) powers the main maps on openstreetmap.org (OSM) and open.mapquest.com.
+[PostGIS](http://postgis.net/) is an extension for PostgreSQL databases for storing, manipulating, and retrieving spatial data. PostGIS (along with Mapnik) powers the main maps on openstreetmap.org (OSM) and open.mapquest.com.
 
-If you are not familiar with PostGIS or PostgreSQL, check out the documentation for both [PostgreSQL](http://www.postgresql.org/) and [PostGIS](http://postgis.refractions.net). These resources are great places to start if you are setting up a database for the first time.
+If you are not familiar with PostGIS or PostgreSQL, check out the documentation for both [PostgreSQL](http://www.postgresql.org/) and [PostGIS](http://postgis.net). These resources are great places to start if you are setting up a database for the first time.
 
 For this example, we'll cover the basics of creating a simple PostGIS database and making a connection to the database in TileMill. We'll also cover joining data to add attribute data to your features. We'll use Census data for the District of Columbia Census Tracts for this example.
 
@@ -44,7 +44,7 @@ For this example, we'll cover the basics of creating a simple PostGIS database a
 
 ## Creating a simple PostGIS database
 
-1. After you've installed both PostgreSQL and PostGIS using the online documentation from both sites, you need to create a database for use with spatial data. Navigate to where your PostGIS configuration installed the SQL files, typically `[prefix]/share/contrib/`. See the [PostGIS reference manual](http://postgis.refractions.net/documentation/manual-1.5/) for installation details.
+1. After you've installed both PostgreSQL and PostGIS using the online documentation from both sites, you need to create a database for use with spatial data. Navigate to where your PostGIS configuration installed the SQL files, typically `[prefix]/share/contrib/`. See the [PostGIS documentation](http://postgis.net/documentation) for installation details.
 2. Run the following commands:
 <pre>{{page.code1}}</pre>
 3. Now that your database is spatially-enabled, you can use the shapefile uploader to load features into the database. Navigate to where you downloaded the shapefile, `tl_2010_11001_tract10.shp` and run:
@@ -104,7 +104,7 @@ For this example, we'll cover the basics of creating a simple PostGIS database a
 
 <small class='note' markdown='1'>
 <h3>Note: Indexing and Optimizing PostGIS data</h3>
-To achieve fast and optimized results in TileMill, use good database management by indexing your data tables with both a unique index on your row ID and a gist index on your geometry column. See the [Building Indexes](http://postgis.refractions.net/docs/ch04.html#id2628096) section of the PostGIS manual for a beginning reference.
+To achieve fast and optimized results in TileMill, use good database management by indexing your data tables with both a unique index on your row ID and a gist index on your geometry column. See the [Building Indexes](http://postgis.net/docs/manual-2.0/using_postgis_dbmanagement.html#idp33197344) section of the PostGIS manual for a beginning reference.
 </small>
 
 {% include nextup.html %}
