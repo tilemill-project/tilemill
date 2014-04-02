@@ -34,7 +34,7 @@
         "step": "~0.0.5",
         "mbtiles": "~0.2.9",
         "mapnik": "~1.4.1",
-        "tilelive-mapnik": "~0.6.8",
+        "tilelive-mapnik": "~0.6.9",
         "tilelive": "~4.5.3",
         "carto": "https://github.com/mapbox/carto/tarball/master",
         "millstone": "~0.6.11",
