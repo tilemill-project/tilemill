@@ -33,7 +33,7 @@
         "request": "~2.34.0",
         "step": "~0.0.5",
         "mbtiles": "~0.2.9",
-        "mapnik": "~1.4.0",
+        "mapnik": "~1.4.1",
         "tilelive-mapnik": "~0.6.8",
         "tilelive": "~4.5.3",
         "carto": "https://github.com/mapbox/carto/tarball/master",
