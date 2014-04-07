@@ -10,7 +10,7 @@ prereq:
 - "[Added an earthquake CSV layer](/tilemill/docs/crashcourse/point-data) from the Crash Course."
 - "[Used conditional styles](/tilemill/docs/guides/conditional-styles/) to control the appearance of points based on data."
 nextup:
-- "[Using MapBox](http://mapbox.com/hosting/docs/) to upload and composite your map."
+- "[Using MapBox](https://www.mapbox.com/help/upload-mbtiles-file/) to upload and composite your map."
 ---
 
 {% include prereq.html %}
