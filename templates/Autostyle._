@@ -12,6 +12,7 @@
   marker-fill:#f45;
   marker-line-color:#813;
   marker-allow-overlap:true;
+  marker-ignore-placement:true;
 }<% } %><% if (get('geometry') == 'linestring' || get('geometry') == 'multilinestring') { %>
 
 #<%= get('id') %> {
