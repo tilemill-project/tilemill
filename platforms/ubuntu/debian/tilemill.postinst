@@ -24,14 +24,17 @@ if [ "$1" = "configure" ]; then
   fi
 fi
 
-echo "\nTileMill has been installed. Start it using the Ubuntu launcher (>=11.10)"
-echo "or the TileMill menu item, located in the Graphics section of the"
-echo "Applications menu (10.10 & 11.04)."
+echo "\nTileMill has been successfully installed. If you're using the Ubuntu launcher"
+echo "\n(on 11.10 or later) you can start TileMill from there, or if not you can start"
+echo "\nit by choosing Applications > Graphics > TileMill from the menu"
 
-echo "\nLearn how to use TileMill"
+echo "\n\nYou can also start TileMill from the command line:"
+echo "\n  node /usr/share/tilemill/index.js"
+
+echo "\n\nLearn how to use TileMill"
 echo "http://mapbox.com/tilemill/docs/"
 
-echo "\nLearn how to run TileMill as an Ubuntu service"
+echo "\n\nLearn how to run TileMill as an Ubuntu service"
 echo "http://mapbox.com/tilemill/docs/guides/ubuntu-service/"
 echo "\n"
 
