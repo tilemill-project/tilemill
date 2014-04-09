@@ -38,4 +38,10 @@ If you're terminal savvy, you can install TileMill with the following commands:
     sudo apt-get update
     sudo apt-get install tilemill libmapnik nodejs
 
+Then start TileMill from the command line:
+
+    node /usr/share/tilemill/index.js
+
+For more details on running from the command line see the [Ubuntu Service](/tilemill/docs/guides/ubuntu-service/) for details.
+
 {% include nextup.html %}
