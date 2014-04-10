@@ -106,6 +106,7 @@ releases:
   - TileMill - Now using Node.js v0.10.18
   - TileMill - Dropped support for OS X 10.6
   - TileMill - Now built using clang++, libc++, and -std=c++11 for better performance
+  - CartoCSS - Added support for using variables for the zoom value like: `#layer[zoom > @max_zoom] { ... }`
   - CartoCSS - Fixed detection of 'zoom' keyword such that spaces are allowed now and fields with 'zoom' as part of the name
   - CartoCSS - New support for 'direct-image-filters', 'scale-hsla', 'background-image-opacity', 'background-image-comp-op', and 'line-pattern-offset'
   - Mapnik - Faster loading of SVG files
