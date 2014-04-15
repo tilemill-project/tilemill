@@ -50,13 +50,13 @@
         "optimist": "~0.6.0",
         "mkdirp": "~0.3.5"
     },
+    "optionalDependencies": {
+        "topcube": "~0.2.0"
+    },
     "devDependencies": {
         "jshint": "0.2.x",
         "mocha": "*",
         "difflet": "0.2.x"
-    },
-    "optionalDependencies": {
-        "topcube": "~0.2.0"
     },
     "scripts": {
         "preinstall":"npm install npm",
