@@ -39,7 +39,9 @@ For this example, we'll cover the basics of loading a FileGDB, setting the proje
 2. Click to add a new layer and choose the "File" tab
 3. In the `Datasource` browse navigate to the location of `cdfadmin13_1.gdb` and choose it.
 4. Give the layer an `ID` of `cal-fire-admin`.
-5. Paste the custom `proj4` projection string from [spatialreference.org](http://spatialreference.org/ref/sr-org/10/proj4/) into the SRS input: `+proj=aea +lat_1=34 +lat_2=40.5 +lat_0=0 +lon_0=-120 +x_0=0 +y_0=-4000000 +ellps=GRS80 +datum=NAD83 +units=m +no_defs`
+5. Paste the custom `proj4` projection string from [spatialreference.org](http://spatialreference.org/ref/sr-org/10/proj4/) into the SRS input:
+<pre>{{page.code1}}</pre>
+
 ![](/tilemill/assets/pages/loading_filegdb.png) 
 4. Then press `Save`.
 5. Because this database has more than one layer you will be presented with a new `Layer` dropdown. Choose the layer named `cdfadmin13_1_unit`.
