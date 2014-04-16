@@ -19,11 +19,11 @@ cd %DEST%\mapnik
 @rem - note, intentially not quoting the below
 set MAPNIK_INPUT_PLUGINS=path.join(__dirname, 'mapnik/input')
 set MAPNIK_FONTS=path.join(__dirname, 'mapnik/fonts')
-python gen_settings.py
+set MAPNIK_DEST=%DEST%\mapnik\lib\binding\
+python gen_settings.py %MAPNIK_DEST%\mapnik_settings.js
 @rem augment the settings
 echo var path = require('path'); module.exports.env = {'GDAL_DATA': path.join(__dirname, 'mapnik/share/gdal'),'PROJ_LIB': path.join(__dirname, 'mapnik/share/proj') }; >> lib/binding/mapnik_settings.js
 
-set MAPNIK_DEST=%DEST%\mapnik\lib\binding\
 mkdir %MAPNIK_DEST%\share
 mkdir %MAPNIK_DEST%\fonts
 mkdir %MAPNIK_DEST%\input

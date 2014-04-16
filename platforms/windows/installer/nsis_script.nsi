@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "TileMill"
-!define PRODUCT_VERSION "0.10.1-273-gc2ab8b0"
+!define PRODUCT_VERSION "0.10.1-291-g31027ed"
 !define CODE_ROOT "tilemill"
 !define SEMVER "${PRODUCT_NAME}-v${PRODUCT_VERSION}"
 !define PRODUCT_PUBLISHER "MapBox"
