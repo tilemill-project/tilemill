@@ -11,6 +11,23 @@ permalink: /changelog
 category: changelog
 releases:
 
+- version: 0.10.1.291
+  tag: v0.10.1-291-g31027ed
+  dev: true
+  date: 2014-04-16
+  size: 69590791
+  sign: MC4CFQDZVCclZpLA+OnfVksOcxxkvzyXUQIVAJSRM/lOSOn1M9CR47COOiiYUo0n
+
+  notes:
+  - GDAL - Fixed reading of General Polygon shapes in FileGDB format
+  - Carto - Upgraded to Carto@0.9.6
+  - Carto - Fixed support for escaping of `&` in `text-face-name` and filters
+  - Carto - Upgraded to mapnik-reference@5.0.8
+  - Mapnik - Fixed potential crash in PostGIS plugin when connection is lost
+  - Mapnik - Changed `vertex_dist_epsilon` to speed up and fix potential rendering artifacts of very densely noded lines like contours
+  - Mapnik - Added support for rendering PostGIS 3D and 4D geometries
+  - Mapnik - Upgraded to latest Mapnik 2.3.x branch at c4dbcf93bc
+
 - version: 0.10.1.275
   tag: v0.10.1-275-g5dfb6a6
   dev: true
