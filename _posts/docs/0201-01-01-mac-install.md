@@ -23,7 +23,7 @@ We also have instructions for [Ubuntu](/tilemill/docs/linux-install), [Windows](
 
 ### Installation
 
-1. [Download TileMill]({{site.categories.homepage[0].platforms[0].url}}) for Mac OS X.
+1. [Download TileMill](/tilemill) for Mac OS X.
 2. Extract the zip archive.
 3. Drag the TileMill icon to your **Applications** folder and double-click the TileMill icon to start.
 

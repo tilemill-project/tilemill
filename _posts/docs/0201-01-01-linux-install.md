@@ -22,7 +22,7 @@ TileMill can also run great on other Linux distributions, Solaris, and FreeBSD -
 </ul>
 
 ### Installation
-1. [Download the TileMill installer]({{site.categories.homepage[0].platforms[1].url}}) for Ubuntu. If the download window appears, choose **Save File**.
+1. [Download the TileMill installer](/tilemill) for Ubuntu. If the download window appears, choose **Save File**.
   ![](/tilemill/assets/pages/linux-install-1.png)
 2. Select **install-tilemill.tar.gz** in your **Downloads** folder. Choose **Edit > Extract Here** from the menu.
   ![](/tilemill/assets/pages/linux-install-2.png)
