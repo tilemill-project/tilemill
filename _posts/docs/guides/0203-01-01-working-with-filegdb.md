@@ -24,7 +24,7 @@ A FileGDB is actually a folder consisting of various binary files named like `a0
 For this example, we'll cover the basics of loading a FileGDB, setting the projection, choosing a layer, and applying basic styling.
 
 ## Download the data
-1. To begin, download the [CAL FIRE Administrative Boundaries ](http://frap.cdf.ca.gov/data/statewide/cdfadmin13_1.zip) from the CAL Fire [Fire and Resource Assessment Program](http://frap.cdf.ca.gov/data/frapgisdata-sw-cdfadmin13_1_download.php). A zipped FileGDB will be downloaded.
+1. To begin, download the [CAL FIRE Administrative Boundaries ](http://frap.cdf.ca.gov/data/statewide/cdfadmin13_1.zip) from the CAL FIRE [Fire and Resource Assessment Program](http://frap.cdf.ca.gov/data/frapgisdata-sw-cdfadmin13_1_download.php). A zipped FileGDB will be downloaded.
 2. Unzip the FileGDB and you should see the folder `cdfadmin13_1.gdb` inside. Extract this.
 
 ## Learning the projection (aka SRS) of the data
