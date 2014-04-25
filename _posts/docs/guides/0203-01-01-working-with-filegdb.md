@@ -30,8 +30,9 @@ For this example, we'll cover the basics of loading a FileGDB, setting the proje
 ## Learning the projection (aka SRS) of the data
 
 1. Note that the projection of the `cdfadmin13_1.gdb` is listed by name at the bottom of the [download page](http://frap.cdf.ca.gov/data/frapgisdata-sw-cdfadmin13_1_download.php) as `California Teale Albers - NAD83`. TileMill does yet support auto-detecting the projection of layers inside of a FileGDB so making sure you know the exact projection is important.
-2. We know need to find the Proj4 representation for this data. We can find this via [spatialreference.org](http://spatialreference.org/) by searching for [California Teale Albers - NAD83](http://spatialreference.org/ref/?search=California+Teale+Albers+-+NAD83&srtext=Search). This leads us to the [SR-ORG #10 entry](http://spatialreference.org/ref/sr-org/10/) and where we choose the [proj4 link](http://spatialreference.org/ref/sr-org/10/proj4/) which gives us this string:
+2. We know need to find the Proj4 representation for this data. We can find this via [spatialreference.org](http://spatialreference.org/) by searching for [California Albers](http://spatialreference.org/ref/?search=california+albers). This leads us to the [EPSG:3310](http://spatialreference.org/ref/epsg/3310/) and where we choose the [proj4 link](http://spatialreference.org/ref/epsg/3310/proj4/) which gives us this string:
 <pre>{{page.code1}}</pre>
+An alternative resource for referencing Proj4 representations is [EPSG.io](http://epsg.io/). The Proj4 string can be discovered by scrollling down the page for EPSG:3310 [here](http://epsg.io/3310).
 
 ## Adding .gdb as a new TileMill layer
 
