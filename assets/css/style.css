@@ -803,16 +803,16 @@ ul.layers {
  * Tabs
  */
 .tabs-bar .move-button {
-  padding: 3px 2px;
+  padding: 1px 2px;
   float: left;
-  height: 29px;
-  margin: 0;
+  height: 23px;
+  margin: 6px 0 0 0;
 }
 
 .tabs-bar .add {
   float: right;
-  margin-top: 9px;
-  margin-right: 0px;
+  margin-top: 6px;
+  margin-right: 5px;
 }
 
 .tabs-container {
@@ -824,6 +824,7 @@ ul.layers {
   white-space: nowrap;
   position:relative;
   height:30px;
+  top: 3px;
   }
 
 .tabs li {
@@ -865,7 +866,7 @@ ul.layers {
   opacity:0.5;
   position:absolute;
   right:5px;
-  top:4px;
+  top:0px;
   z-index:1;
   }
 

@@ -349,7 +349,7 @@ view.prototype.resizeTabsBar = function() {
     fullWidth -= this.$('#tabs-left').width();
     fullWidth -= this.$('.tabs-bar .add').width();
 
-    this.$('.tabs-container').width(fullWidth - 35);
+    this.$('.tabs-container').width(fullWidth - 45);
     this.enableLeftRightButtons();
 };
 
