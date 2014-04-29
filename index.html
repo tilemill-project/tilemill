@@ -377,6 +377,7 @@ $('.download-button').click(function(ev) {
     })) : 0;
 
     if (i >= (maps.length - 1)) i = 0;
+    if (i < 0) i = 0;
 
     var d = maps[i];
     if (layer) map.removeLayer(layer);
