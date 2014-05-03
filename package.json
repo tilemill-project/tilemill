@@ -48,7 +48,7 @@
         "npm": "1.4.x",
         "semver": "~2.2.1",
         "optimist": "~0.6.0",
-        "mkdirp": "~0.3.5"
+        "mkdirp": "~0.4.0"
     },
     "optionalDependencies": {
         "topcube": "~0.2.0"
