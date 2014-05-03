@@ -6,7 +6,7 @@ Uploaders: Dane Springmeyer <dane.springmeyer@gmail.com>
 Build-Depends:
  cdbs (>=0.4.42),
  debhelper (>= 7),
- nodejs (>=0.10.21),
+ nodejs (>=0.10.28),
  libmapnik (>=2.3.0),
  libmapnik-dev (>=2.3.0),
  protobuf-compiler,
