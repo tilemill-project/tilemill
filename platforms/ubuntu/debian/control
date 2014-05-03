@@ -28,7 +28,11 @@ Depends:
  libprotobuf-lite7
 Recommends:
  libgtk2.0-0,
- libwebkitgtk-1.0-0 | libwebkit-1.0-2
+ libwebkitgtk-1.0-0 | libwebkit-1.0-2,
+ mapnik-input-plugin-gdal,
+ mapnik-input-plugin-ogr,
+ mapnik-input-plugin-postgis,
+ mapnik-input-plugin-sqlite
 Suggests:
  postgis
 Description: A modern map design studio.
