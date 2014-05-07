@@ -66,7 +66,7 @@ For this example, we'll cover the basics of creating a simple PostGIS database a
 3. Change the add layer type to **PostGIS**. You will see the fields change.
 4. Enter `dc-census` in the **ID** field.
 ![step6](/tilemill/assets/pages/postgis-4b.png)
-5. Enter the connection parameters to connect with your local PostGIS database. You need to provide `host`, `port`, `user`, `password`, and `dbname` information. Here since we're working on a database locally, `host=localhost`. `Port=5432`, and we've named our database, `dc-census`. Use the username and password for the authentication that is set up for your database.
+5. Enter the connection parameters to connect with your local PostGIS database. You need to provide `host`, `port`, `user`, `password`, and `dbname` information. Here since we're working on a database locally, `host=localhost`. `Port=5432`, and we've named our database, `dc-census`. Use the username and password for the authentication that is set up for your database. (See the note "Protecting your PostGIS password" below for a more secure method.)
 ![step6](/tilemill/assets/pages/postgis-5b.png)
 6. Enter the **Table or subquery** information to access your data. This is a query to select the data from your PostGIS database. This field acts as a subquery so the information must be entered in a subquery fashion: `( SELECT * from dc_census_tracts ) AS tracts`. The name you specify after "AS" is arbitrary and does not affect the `ID` field you gave at the top. Here we've entered, `( SELECT * from dc_census_tracts ) as tracts`, which selects all the columns in the table. To only select the columns you want to call from our database table, omit the `*` and enter the column names directly.
 ![step6](/tilemill/assets/pages/postgis-6b.png)
@@ -106,5 +106,17 @@ For this example, we'll cover the basics of creating a simple PostGIS database a
 <h3>Note: Indexing and Optimizing PostGIS data</h3>
 To achieve fast and optimized results in TileMill, use good database management by indexing your data tables with both a unique index on your row ID and a gist index on your geometry column. See the [Building Indexes](http://postgis.net/docs/manual-2.0/using_postgis_dbmanagement.html#idp33197344) section of the PostGIS manual for a beginning reference.
 </small>
+<small class='note' markdown='1'>
+<h3>Note: Protecting your PostGIS password</h3>
+The PostGIS password in your connection string is stored, unencrypted in your `project.mml` file. If your database is publicly accessible, this means that if you share your `project.mml` with anyone, they will also be able to access your database, which you may not want.
+
+One way to protect it is by using a [.pgass file](http://www.postgresql.org/docs/8.4/static/libpq-pgpass.html) as follows:
+
+1. Create the file `/usr/share/mapbox/.pgpass`
+2. Give it contents like this, changing the values as appropriate:<br/> `dbhost.example.com:*:mydbname:myusername:mypassword`
+3. Set it to be owned by the mapbox user, and not readable by anyone else:<br/>
+`chown mapbox:mapbox /usr/share/mapbox/.pgpass`
+`chmod 600 /usr/share/mapbox/.pgpass`
+4. In the TileMill layer settings, specify the connection string as: `host=dbhost.example.com dbname=mydbname user=myusername` Don't include the password here.
 
 {% include nextup.html %}
