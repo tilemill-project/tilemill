@@ -113,7 +113,7 @@ footer:
 
 <div class='{% unless page.fullwidth %} limiter clearfix{% endunless %}'>{{content}}</div>
 
-<div class='footer keyline-top pad4y fill-white clearfix small'>
+<div class='footer keyline-top pad4y fill-white clearfix small hide-mobile'>
   <div class='limiter'>
     <div class='col6 mobile-cols'>
       <div class='col3'>
@@ -151,6 +151,29 @@ footer:
     </div>
   </div>
 </div>
+
+<!-- mobile --->
+
+<div class='footer keyline-top pad4y fill-light clearfix small show-mobile'>
+  <div class='limiter'>
+    <div class='col6 mobile-cols'>
+      <div class='col6'>
+        {% for item in page.footer.topnav %}
+        <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='col12 strong keyline-bottom' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
+        {% endfor %}
+      </div>
+      <div class='col6'>
+        {% for item in page.footer.help %}
+        <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='col12 strong keyline-bottom' href='{% if item.href %}{{item.href}}{% else %}{{site.url}}{{item.path}}{% endif %}/'><strong>{{item.title}}</strong></a>
+        {% endfor %}
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
 
 <div class='footer-copyright fill-white small center noprint'>
   <div class='limiter'>
