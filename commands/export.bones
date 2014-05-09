@@ -576,7 +576,7 @@ command.prototype.upload = function (callback) {
     var proxy = Bones.plugin.config.httpProxy || process.env.HTTP_PROXY;
     var mapURL = _('<%=base%>/<%=account%>/map/<%=handle%>')
         .template({
-            base: this.opts.syncURL,
+            base: 'https://tiles.mapbox.com',
             account: this.opts.syncAccount,
             handle: this.opts.project
         });
