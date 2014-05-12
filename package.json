@@ -37,7 +37,7 @@
         "tilelive-mapnik": "~0.6.9",
         "tilelive": "~4.5.3",
         "carto": "~0.9.6",
-        "millstone": "~0.6.12",
+        "millstone": "~0.6.13",
         "sphericalmercator": "~1.0.2",
         "underscore": "~1.6.0",
         "wax": "6.4.2",
@@ -46,9 +46,9 @@
         "passport-oauth": "1.0.x",
         "modestmaps": "3.3.5",
         "npm": "1.4.x",
-        "semver": "~2.2.1",
+        "semver": "~2.3.0",
         "optimist": "~0.6.0",
-        "mkdirp": "~0.4.0"
+        "mkdirp": "~0.5.0"
     },
     "optionalDependencies": {
         "topcube": "~0.2.0"
