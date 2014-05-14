@@ -118,5 +118,6 @@ One way to protect it is by using a [.pgass file](http://www.postgresql.org/docs
 `chown mapbox:mapbox /usr/share/mapbox/.pgpass`
 `chmod 600 /usr/share/mapbox/.pgpass`
 4. In the TileMill layer settings, specify the connection string as: `host=dbhost.example.com dbname=mydbname user=myusername` Don't include the password here.
+</small>
 
 {% include nextup.html %}
