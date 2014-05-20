@@ -112,7 +112,7 @@ This is the spatial reference system your datasource is stored in. TileMill can 
 
 Databases contain one or many *database tables*, and TileMill needs to know which of these tables to pull data out of. Unlike non-database sources, you also have the power to add particular subsets of your or even make temporary adjustments to the data. For this TileMill has a **Table or subquery** field. To add an entire table from a database, simply enter the table name in this field. To specify a subquery it must be wrapped in parentheses and be given an alias using the `AS` statement. For example:
 
-    (SELECT * FROM geodata WHERE type = 'birdhouse') AS data;
+    (SELECT * FROM geodata WHERE type = 'birdhouse') AS data
 
 ### Unique Key Field
 
