@@ -45,6 +45,7 @@ footer:
 
   <meta name='st:title' content='{{page.title | replace:"'","&lsquo;" | replace:"| Mapbox",""}}' />
   <meta name='st:type' content='{% if page.section %}{{page.section}}{% elsif page.category %}{{page.category}}{% else %}site{% endif %}' />
+  <meta name='st:info' content='{% if page.info %}{{page.info}}{% else %}site{% endif %}' />
 
   {% if page.card %}
   <meta name='twitter:site' content='@Mapbox' />
@@ -154,17 +155,17 @@ footer:
 
 <!-- mobile --->
 
-<div class='footer keyline-top pad4y fill-light clearfix small show-mobile'>
+<div class='footer keyline-top pad4y fill-light clearfix show-mobile'>
   <div class='limiter'>
-    <div class='col6 mobile-cols'>
+    <div class='clearfix center mobile-cols'>
       <div class='col6'>
         {% for item in page.footer.topnav %}
-        <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='col12 strong keyline-bottom' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
+        <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='block pad1 col12 strong keyline-bottom' href='{{site.url}}{{item.path}}/'>{{item.title}}</a>
         {% endfor %}
       </div>
       <div class='col6'>
         {% for item in page.footer.help %}
-        <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='col12 strong keyline-bottom' href='{% if item.href %}{{item.href}}{% else %}{{site.url}}{{item.path}}{% endif %}/'><strong>{{item.title}}</strong></a>
+        <a id='footer-{{item.title | downcase | replace:' ','-'}}' class='block pad1 strong keyline-bottom' href='{% if item.href %}{{item.href}}{% else %}{{site.url}}{{item.path}}{% endif %}/'><strong>{{item.title}}</strong></a>
         {% endfor %}
       </div>
 
@@ -186,10 +187,7 @@ footer:
 </div>
 {% endif %}
 
-<div id='modal'>
-  <div class='modal-mask fill-darken2 modal animate'></div>
-  <div id='modal-content' class='contain modal modal-content animate'></div>
-</div>
+<div id='modal-content' class='animate modal modal-content'></div>
 
 </body>
 </html>
