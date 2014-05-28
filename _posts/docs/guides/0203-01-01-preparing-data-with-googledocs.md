@@ -11,6 +11,10 @@ nextup:
 - "[Add a CSV layer](/tilemill/docs/crashcourse/point-data) to your TileMill project."
 ---
 
+<small class='note' markdown='1'>
+__Tip:__ want to import a spreadsheet directly to Mapbox? See <a href='https://www.mapbox.com/help/import-features/'>the documentation for import CSV &amp; other types of files directly into the editor</a>.
+</small>
+
 You probably already have a favorite software or database system for data manipulation. No problem, as long as it gets your data where it needs to be. We do highly recommend using [Google Docs](http://docs.google.com) in conjunction, for it does certain tasks very well. It's also free, has versioning, and allows you to use our nifty [Geocoding and GeoJSON Export scripts](https://github.com/mapbox/geo-googledocs). Importing your data into a Google Spreadsheet is relatively painless. These tutorials will guide you through a few of the more advanced tools offered in Google Spreadsheets for pre-TileMill data preparation.
 
 For demonstration purposes we will be using [2010 tornado data](/tilemill/assets/pages/2010_tornadoes.csv), originally found at the [NOAA's Storm Prediction Center](http://www.spc.noaa.gov/wcm/).

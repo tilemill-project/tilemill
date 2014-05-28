@@ -14,6 +14,10 @@ nextup:
 
 {% include prereq.html %}
 
+<small class='note' markdown='1'>
+__Tip:__ Want to import a spreadsheet directly to Mapbox.com? See <a href='https://www.mapbox.com/help/import-features/'>the documentation for import CSV &amp; other types of files directly into the editor</a>.
+</small>
+
 One of the [many geo formats](/tilemill/docs/manual/adding-layers/) that TileMill supports is a spreadsheet, specifically a [comma-separated values (CSV) file](http://en.wikipedia.org/wiki/Comma-separated_values). We want to start by working with a basic spreadsheet to show how easy it is to make a simple point map.  
 
 ## Your CSV spreadsheet
