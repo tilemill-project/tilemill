@@ -24,7 +24,21 @@ Installation instructions, development docs and other information are available 
 - Node.js v0.10.x or v0.8.x
 - Protobuf: libprotobuf-lite and protoc
 
-For details follow:
+However, node-mapnik (which depends on Mapnik and protobuf) is now packaged as a binary. So, you do not need an external Mapnik. See [Installation](#installation)
+
+# Installation
+
+To install from source just do:
+
+    git clone git@github.com:mapbox/tilemill.git
+    cd tilemill
+    npm install
+
+Then to start TileMill do:
+
+    ./index.js # and then view http://localhost:20009 in your web browser
+
+For more extended details follow:
 
 - [Install packages](http://mapbox.com/tilemill/docs/install/)
 - [Build from source](http://mapbox.com/tilemill/docs/source/)
