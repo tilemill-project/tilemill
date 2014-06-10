@@ -102,11 +102,12 @@ For this example, we'll cover the basics of creating a simple PostGIS database a
 ![step4c](/tilemill/assets/pages/postgis-5c.png)
 5. Click the **X** or hit the `esc` on your keyboard to exit out of the table view. You can now begin to use conditional styles or add additional data to your interactivity.
 
-<small class='note' markdown='1'>
+<div class='note'>
 <h3>Note: Indexing and Optimizing PostGIS data</h3>
 To achieve fast and optimized results in TileMill, use good database management by indexing your data tables with both a unique index on your row ID and a gist index on your geometry column. See the [Building Indexes](http://postgis.net/docs/manual-2.0/using_postgis_dbmanagement.html#idp33197344) section of the PostGIS manual for a beginning reference.
-</small>
-<small class='note' markdown='1'>
+</div>
+
+<div class='note'>
 <h3>Note: Protecting your PostGIS password</h3>
 The PostGIS password in your connection string is stored, unencrypted in your `project.mml` file. If your database is publicly accessible, this means that if you share your `project.mml` with anyone, they will also be able to access your database, which you may not want.
 
@@ -118,6 +119,6 @@ One way to protect it is by using a [.pgass file](http://www.postgresql.org/docs
 `chown mapbox:mapbox /usr/share/mapbox/.pgpass`
 `chmod 600 /usr/share/mapbox/.pgpass`
 4. In the TileMill layer settings, specify the connection string as: `host=dbhost.example.com dbname=mydbname user=myusername` Don't include the password here.
-</small>
+</div>
 
 {% include nextup.html %}
