@@ -33,7 +33,7 @@
         "request": "~2.36.0",
         "step": "~0.0.5",
         "mbtiles": "~0.2.9",
-        "mapnik": "~1.4.4",
+        "mapnik": "~1.4.6",
         "tilelive-mapnik": "~0.6.9",
         "tilelive": "~4.5.3",
         "carto": "~0.9.6",
