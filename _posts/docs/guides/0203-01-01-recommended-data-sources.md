@@ -35,10 +35,11 @@ Looking for a place to start finding additional data? A variety of data sources 
 - [Baltimore](http://data.baltimorecity.gov/browse?limitTo=blob&tags=shape)
 - [Chicago](http://data.cityofchicago.org/)
 - [District of Columbia](http://dcgis.dc.gov/)
+- [Los Angeles](https://data.lacity.org/)
 - [Ottawa](http://www.ottawa.ca/online_services/opendata/index_en.html)
 - [Paris](http://opendata.paris.fr/)
+- [Portland](http://civicapps.org/)
 - [Toronto](http://toronto.ca/open)
 - [Vancouver](http://data.vancouver.ca/)
-- [Portland](http://civicapps.org/)
 
 {% include nextup.html %}
