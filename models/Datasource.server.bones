@@ -77,15 +77,16 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
                 } catch (err) {
                     if (err.message && err.message.indexOf('OGR Plugin: missing <layer>') != -1) {
                         var layers = err.message.split("are: ")[1];
-                        var layer_names = _(layers.trim().split(/['\s,']+/)).compact();
+                        var lsplit = layers.split('\',');
+                        var layer_names = lsplit.map(function(w) { return w.trim().replace(/(^\')|(\'$)/g, "") });
                         if (layer_names.length > 1) {
                             // NOTE: this error message format must by sync'ed with
                             // code in views/Layer.bones which special cases handling it
                             throw new Error("This datasource has multiple layers: " + layer_names);
                         } else {
                             rethrow = false;
-                            sticky_options.layer = layer_names[0].replace(/'/g,'');
-                            mml.Layer[0].Datasource.layer = layer_names[0].replace(/'/g,'');
+                            sticky_options.layer = layer_names[0];
+                            mml.Layer[0].Datasource.layer = layer_names[0];
                             source = new mapnik.Datasource(mml.Layer[0].Datasource);
                         }
                     } else {
