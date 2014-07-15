@@ -119,13 +119,14 @@ This will take something like 1 to 10 minutes, depending on the size of extract 
 
 Download a zip archive of the latest version of OSM Bright from <https://github.com/mapbox/osm-bright/zipball/master> and extract it.
 
-Now start downloading a few .zip archives that are referenced by the OSM Bright project and which contain shapefiles. Make sure to download these into the directory where you extracted OSM Bright (they should sit beside the README.md):
+OSM Bright depends on two large shapefiles. You will need to download and extract them before continuing.
 
- - http://tilemill-data.s3.amazonaws.com/osm/coastline-good.zip
- - http://tilemill-data.s3.amazonaws.com/osm/shoreline_300.zip
- - http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-land.zip
+Download them to the shp directory in the osm-bright folder. You can do this with wget like:
 
-You do not need to uncompress these .zip files - TileMill can do this automatically.
+    wget http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
+    wget http://data.openstreetmapdata.com/land-polygons-split-3857.zip
+
+Once downloaded, extract them from their zip files.
 
 Next you'll need to adjust some settings for things like your PostgreSQL connection information. To do this, open the folder where you've extracted OSM Bright to and run through the following steps.
 
