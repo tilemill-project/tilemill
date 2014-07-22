@@ -17,7 +17,7 @@ nextup:
 
 The skies were clear on President Obama's first Inauguration and  [GeoEye](http://geoeye.com/CorpSite/) was there to capture the incredible imagery from space.
 
-![GeoEye | 2009 Inauguration](http://farm9.staticflickr.com/8354/8380566083_f2e66936a9_o.jpg)
+![GeoEye 2009 Inauguration](http://farm9.staticflickr.com/8354/8380566083_f2e66936a9_o.jpg)
 
 *GeoEye | 2009 Inauguration*
 <!--more-->
@@ -38,7 +38,7 @@ Below, we go over the steps of how to take a non-georeferenced JPEG image and tu
 
 5\. Search for the same location on the map shown in your custom MapBox Satellite layer, keeping the point of interest in the center of the screen.  Here's a screenshot of the area on the source image.
 
-![QGIS | POI Matching](http://farm9.staticflickr.com/8046/8380963926_b3a0689e17_b.jpg)
+![QGIS POI Matching](http://farm9.staticflickr.com/8046/8380963926_b3a0689e17_b.jpg)
 
 ![MapBox Satellite POI matching](http://farm9.staticflickr.com/8196/8383025229_89875305ce_b.jpg)
 
@@ -60,13 +60,13 @@ The first number after the <code>#</code> is the **zoom level**, the second is *
 
 6\. Back in QGIS, use the values obtained from the url hash in the "Enter Map Coordinates" dialog. The second number from the URL hash, **latitude**, is the **Y** value; the third number,**longitude**, from the hash is the **X** value.
 
-![QGIS | POI Matching](http://farm9.staticflickr.com/8193/8381021830_bd4d8d81e0_b.jpg)
+![QGIS POI Matching](http://farm9.staticflickr.com/8193/8381021830_bd4d8d81e0_b.jpg)
 
 7\. Repeat steps 6-8 until you've added the desired number of control points to the image. A good rule of thumb here is to start with the four corners and work your way inward. To meet the project accuracy requirements, we added a total of 37 ground control points. Be sure to save your ground control points using the **"Save GCP Points as"** option in the georeferencer plugin. That way, you can reopen the project at a later date to modify points or add additional ones to improve spatial accuracy.
 
 8\. You can either perform the georeferencing within QGIS, or select the **"Generate GDAL Script"** from QGIS. We selected Thin Plate Spline transformation, Lanczos resampling, no compression, and generated a script to modify before running. 
 
-![QGIS | Generate GDAL Script](http://farm9.staticflickr.com/8232/8381188430_f6e186bcb4_o.png)
+![QGIS Generate GDAL Script](http://farm9.staticflickr.com/8232/8381188430_f6e186bcb4_o.png)
 
 Here's our final processing script, which incorporates the QGIS-generated ground control points, and my project-specific projection, resampling, and overview settings. 
 
@@ -142,7 +142,7 @@ Here's our final processing script, which incorporates the QGIS-generated ground
 The script produces a conventional GeoTIFF, which we can render in [TileMill](http://mapbox.com/tilemill/), and upload to MapBox hosting. 
 
 
-![TileMill | Georeferenced Image](http://farm9.staticflickr.com/8502/8380218977_f45a5a7532_o.png)
+![TileMill Georeferenced Image](http://farm9.staticflickr.com/8502/8380218977_f45a5a7532_o.png)
 
 We can check the spatial accuracy of the georeferencing against our [MapBox Satellite layer](mapbox.com/blog/mapbox-satellite/) using the Reference Layer Plugin from within TileMill. 
 
