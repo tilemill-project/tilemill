@@ -2,8 +2,7 @@
 //  TileMillSparklePrefsWindowController.m
 //  TileMill
 //
-//  Created by Justin Miller on 8/15/11.
-//  Copyright 2011-2013 MapBox, Inc. All rights reserved.
+//  Copyright 2011-2014 Mapbox, Inc. All rights reserved.
 //
 
 #import "TileMillSparklePrefsWindowController.h"

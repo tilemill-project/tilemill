@@ -2,8 +2,7 @@
 //  TileMillAppDelegate.m
 //  TileMill
 //
-//  Created by Dane Springmeyer on 7/28/11.
-//  Copyright 2011-2013 MapBox, Inc. All rights reserved.
+//  Copyright 2011-2014 Mapbox, Inc. All rights reserved.
 //
 
 #import "TileMillAppDelegate.h"
@@ -50,7 +49,7 @@
                                          defaultButton:@"OK"
                                        alternateButton:nil
                                            otherButton:nil
-                             informativeTextWithFormat:@"While %@ can export to MBTiles, it is unable to do anything with them itself. Maybe try uploading the file to your MapBox account?", [[NSProcessInfo processInfo] processName]];
+                             informativeTextWithFormat:@"While %@ can export to MBTiles, it is unable to do anything with them itself. Maybe try uploading the file to your Mapbox account?", [[NSProcessInfo processInfo] processName]];
         
         [alert runModal];
     }

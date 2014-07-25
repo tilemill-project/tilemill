@@ -2,8 +2,7 @@
 //  TileMillBrowserWindowController.m
 //  TileMill
 //
-//  Created by Justin Miller on 10/12/11.
-//  Copyright (c) 2011-2013 MapBox, Inc. All rights reserved.
+//  Copyright (c) 2011-2014 Mapbox, Inc. All rights reserved.
 //
 
 #import "TileMillBrowserWindowController.h"

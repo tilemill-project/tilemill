@@ -2,7 +2,7 @@
 <h2><a target='_blank' href='http://tilemill.com'>TileMill</a></h2>
 <p>
   Version <%=window.abilities.tilemill.version%> (<%=window.abilities.version[0]%>)<br/>
-  Copyright © 2010-2013 <a target='_blank' href='http://mapbox.com'>MapBox</a>
+  Copyright © 2010-2014 <a target='_blank' href='http://mapbox.com'>Mapbox, Inc.</a>
 </p>
 </div>
 

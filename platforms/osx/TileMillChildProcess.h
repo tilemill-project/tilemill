@@ -2,8 +2,7 @@
 //  TileMillChildProcess.h
 //  TileMill
 //
-//  Created by Will White on 8/2/11.
-//  Copyright 2011-2013 MapBox, Inc. All rights reserved.
+//  Copyright 2011-2014 Mapbox, Inc. All rights reserved.
 //
 
 @class TileMillChildProcess;

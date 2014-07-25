@@ -2,8 +2,7 @@
 //  main.m
 //  TileMill
 //
-//  Created by Dane Springmeyer on 7/28/11.
-//  Copyright MapBox, Inc. 2011-2013. All rights reserved.
+//  Copyright Mapbox, Inc. 2011-2014. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

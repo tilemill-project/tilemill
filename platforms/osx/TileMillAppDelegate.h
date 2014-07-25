@@ -2,8 +2,7 @@
 //  TileMillAppDelegate.h
 //  TileMill
 //
-//  Created by Dane Springmeyer on 7/28/11.
-//  Copyright 2011-2013 MapBox, Inc. All rights reserved.
+//  Copyright 2011-2014 Mapbox, Inc. All rights reserved.
 //
 
 #import "TileMillChildProcess.h"

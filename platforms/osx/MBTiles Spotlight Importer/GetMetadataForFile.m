@@ -1,8 +1,7 @@
 //
 //  MBTiles Spotlight Importer
 //
-//  Created by Justin R. Miller on 2/7/11.
-//  Copyright 2011-2013 MapBox, Inc.
+//  Copyright 2011-2014 Mapbox, Inc.
 //  All rights reserved.
 //  
 //  Redistribution and use in source and binary forms, with or without
@@ -15,7 +14,7 @@
 //        notice, this list of conditions and the following disclaimer in the
 //        documentation and/or other materials provided with the distribution.
 //  
-//      * Neither the name of MapBox, Inc. nor the names of its contributors
+//      * Neither the name of Mapbox, Inc. nor the names of its contributors
 //        may be used to endorse or promote products derived from this
 //        software without specific prior written permission.
 //
