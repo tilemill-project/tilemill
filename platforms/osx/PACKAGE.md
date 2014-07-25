@@ -3,7 +3,7 @@
 These are steps to setup tilemill to be portable within an .app bundle.
 
 This is only necessary for developers that wish to build a fully
-distributable tilemill.app without requiring any other installation steps.
+distributable TileMill.app without requiring any other installation steps.
 
 
 ## Build node
