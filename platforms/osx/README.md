@@ -1,11 +1,18 @@
 # TileMill OS X App
 
-A simple wrapper around TileMill for OS X.
+A wrapper around TileMill for OS X featuring: 
+
+ * An easier launch and upgrade experience. 
+ * Full screen mode support. 
+ * Familiar keyboard shortcuts. 
+ * Integration with Notification Center. 
+ * Compliance with [App Nap](https://www.apple.com/osx/advanced-technologies/). 
+ * Spotlight & QuickLook integration for [MBTiles](http://mbtiles.org) exports. 
 
 # Requires
 
  * OS X 10.6 or higher (currently tested up to 10.9)
- * Xcode >= 4.0
+ * Xcode >= 5.0
 
 # Notes
 
@@ -24,4 +31,4 @@ Compile and run the OSX App:
 
 # Standalone packaging
 
-  See PACKAGE.md
+See `PACKAGE.md`. 
