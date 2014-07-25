@@ -1,12 +1,11 @@
 # TileMill OS X App
 
-A simple wrapper around tilemill for OS X.
+A simple wrapper around TileMill for OS X.
 
 # Requires
 
  * OS X 10.6 or higher (currently tested up to 10.9)
  * Xcode >= 4.0
- * Mapnik Static SDK (see PACKAGE.md)
 
 # Notes
 
@@ -25,4 +24,4 @@ Compile and run the OSX App:
 
 # Standalone packaging
 
-  See packaging.md
+  See PACKAGE.md
