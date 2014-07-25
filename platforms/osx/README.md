@@ -11,8 +11,8 @@ A wrapper around TileMill for OS X featuring:
 
 # Requires
 
- * OS X 10.6 or higher (currently tested up to 10.9)
- * Xcode >= 5.0
+ * OS X 10.6 or higher (currently tested up to 10.10b4)
+ * Xcode >= 5.0 (currently tested up to 6.0b4)
 
 # Notes
 
