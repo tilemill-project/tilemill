@@ -7,7 +7,6 @@ This is only necessary for developers who wish to build a fully distributable `T
 ## Requirements
 
  - OS X machine with updated Xcode and modern/64-bit hardware. 
- - Most recently tested on OS X 10.9.4 & Xcode 5.1.1. 
 
 ## Install Node.js
 
