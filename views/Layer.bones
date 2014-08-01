@@ -177,8 +177,7 @@ view.prototype.placeholderUpdate = function(ev) {
 };
 
 // Currently handles URLs and brute forces SQL queries into something usable.
-// @TODO smarter handling for this or abandon the idea if it turns out to be
-// untenable for queries.
+// @TODO smarter handling for this (different handling depending on datasource type)
 view.prototype.autoname = function(source) {
     var sep = window.abilities.platform === 'win32' ? '\\' : '/';
 
@@ -191,9 +190,15 @@ view.prototype.autoname = function(source) {
         .value()
         .split('.')[0]
         .toLowerCase()
+        .replace(/\bplanet_osm_(line|polygon|point)\s+where/g,'') // leave unfiltered planet_osm_line alone
+        .replace(/select\W/g,'') // slightly safer than using \b
+        .replace(/\Wfrom\W/g,'') 
+        .replace(/\Wwhere\W/g,'')
+        .replace(/\Wlike\W/g,'')
+        .replace(/\Wtags\s*::\s*hstore\W/g,'')
+        .replace(/\bis not null\b/g,'')
+        .replace(/\)\s*(as\s+)?\w+$/g,'') // trim trailing "as paths" subquery name
         .replace(/[^a-z0-9]/g,'')
-        .replace('selectfrom','')
-        .replace('select','')
         .substr(0,20);
     }
 
