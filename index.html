@@ -1,8 +1,7 @@
 ---
 layout: default
 title: TileMill
-fullwidth: true
-class: fill-denim
+options: bleed full
 maps:
 - id: examples.map-i86l3621
   name: Mapbox Streets
@@ -120,68 +119,72 @@ platforms:
 .masthead {
   background:none;
   border:none;
-  margin-bottom:40px;
   }
 .masthead .drop { display:none!important; }
 .masthead .primary { display:none; }
 .mb-logo { background-position:0 -60px; }
-.tilemill-nav { top:-80px; }
+.tilemill-nav { top:-60px; }
 .fill-denim .fill-white .pill > * { border-color: rgba(0,0,0,0.25); }
 </style>
 
-<div class='limiter contain'>
-  <div class='tilemill-nav space pin-right'>
-    <a class='inline small strong dark quiet' href='{{site.baseurl}}/docs/crashcourse/introduction/'>Documentation</a>
-    <a class='inline small strong dark quiet' href='{{site.url}}/carto/'>CartoCSS Reference</a>
-  </div>
-</div>
+<div class='fill-navy splash'>
 
-<div class='limiter dark clip clearfix'>
-  <h3 class='icon tilemill center space-bottom2'>TileMill</h3>
-  <div class='col8 margin2 center prose space-bottom4'>
-      <h1>Create beautiful interactive maps</h1>
-      <p class='quiet'>Whether you're a journalist, web designer, researcher, or seasoned cartographer, TileMill is the design studio to create stunning interactive maps.</p>
-  </div>
-  <div class='clearfix'>
-    <div class='col4'>
-      <div class='download callout round'>
-        <nav class='tabs clearfix'>
-        {% for item in page.platforms %}
-        <a id='{{item.id}}' class='col4' href='#'>{{item.name}}</a>
-        {% endfor %}
-        </nav>
-        {% for item in page.platforms %}
-        <a href='{{item.url}}' class='download-button clearfix {{item.id}}' title='{{item.name}}'>
-          <div class='label col5 pad1'>
-            <small class='quiet'>{{item.name}}</small>
-            <h3 class='label-title'>Download</h3>
-          </div>
-          <div class='details col7 pad1'>
-            <small class='filename'>{{item.file}}</small>
-            <h3 class='label-title'>{{item.size}}</h3>
-          </div>
-        </a>
-        {% endfor %}
-
-        <div class='mailchimp-subscribe col12 prose clearfix'>
-          <h3>Downloading&hellip;</h3>
-          {% for h in page.platforms %}
-          <span class='help {{h.id}}'>{{h.help}}</span>
-          {% endfor %}
-          <p class='quiet'>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
-          </p>
-        </div>
-        <small class='center space'>
-          <a class='quiet' href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a>
-          <a class='quiet' href='{{site.baseurl}}/changelog/'>Changelog</a>
-          <a class='quiet' href='{{site.baseurl}}/docs/install/'>More install details</a>
-        </small>
-      </div>
+  <div class='limiter contain'>
+    <div class='tilemill-nav z10 space pin-right'>
+      <a class='inline small strong dark quiet' href='{{site.baseurl}}/docs/crashcourse/introduction/'>Documentation</a>
+      <a class='inline small strong dark quiet' href='{{site.url}}/carto/'>CartoCSS Reference</a>
     </div>
-
-    <div class='row9 clip col8 tilemill-screenshot'></div>
   </div>
+
+  <div class='limiter dark clip clearfix'>
+    <h3 class='icon tilemill center space-bottom2'>TileMill</h3>
+    <div class='col8 margin2 center prose space-bottom4'>
+        <h1>Create beautiful interactive maps</h1>
+        <p class='quiet'>Whether you're a journalist, web designer, researcher, or seasoned cartographer, TileMill is the design studio to create stunning interactive maps.</p>
+    </div>
+    <div class='clearfix'>
+      <div class='col4'>
+        <div class='download callout round'>
+          <nav class='tabs clearfix'>
+          {% for item in page.platforms %}
+          <a id='{{item.id}}' class='col4' href='#'>{{item.name}}</a>
+          {% endfor %}
+          </nav>
+          {% for item in page.platforms %}
+          <a href='{{item.url}}' class='download-button clearfix {{item.id}}' title='{{item.name}}'>
+            <div class='label col5 pad1'>
+              <small class='quiet'>{{item.name}}</small>
+              <h3 class='label-title'>Download</h3>
+            </div>
+            <div class='details col7 pad1'>
+              <small class='filename'>{{item.file}}</small>
+              <h3 class='label-title'>{{item.size}}</h3>
+            </div>
+          </a>
+          {% endfor %}
+
+          <div class='mailchimp-subscribe col12 prose clearfix'>
+            <h3>Downloading&hellip;</h3>
+            {% for h in page.platforms %}
+            <span class='help {{h.id}}'>{{h.help}}</span>
+            {% endfor %}
+            <p class='quiet'>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
+            </p>
+          </div>
+          <small class='center space'>
+            <a class='quiet' href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a>
+            <a class='quiet' href='{{site.baseurl}}/changelog/'>Changelog</a>
+            <a class='quiet' href='{{site.baseurl}}/docs/install/'>More install details</a>
+          </small>
+        </div>
+      </div>
+
+      <div class='row9 clip col8 tilemill-screenshot'></div>
+    </div>
+  </div>
+
 </div>
+
 
 <div class='fill-white'>
   <div class='limiter'>
