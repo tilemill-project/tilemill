@@ -178,6 +178,7 @@ view.prototype.placeholderUpdate = function(ev) {
 
 // Currently handles URLs and brute forces SQL queries into something usable.
 // @TODO smarter handling for this (different handling depending on datasource type)
+// @TODO handle /* SQL comments */ - currently they break everything and give a blank string.
 view.prototype.autoname = function(source) {
     var sep = window.abilities.platform === 'win32' ? '\\' : '/';
 
