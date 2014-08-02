@@ -69,6 +69,11 @@ view.prototype.render = function() {
             }
         }
     }
+    var table = this.$('textarea[name="Datasource.table"]');
+    // hide tilemill-generated subquery names
+    if (table.val()) {
+        table.val(table.val().replace(/^\((\s*select[\s\S]*)\) as _subquery$/i, "$1"));
+    }
     return this;
 };
 
@@ -285,6 +290,8 @@ view.prototype.save = function(e) {
     } else {
         attr.srs = attr.srs || '';
     }
+
+
     // Advanced options.
     var regular = _(['type', 'file','table', 'host', 'port', 'user', 
         'password', 'dbname', 'extent', 'key_field', 'geometry_field',
@@ -339,6 +346,11 @@ view.prototype.save = function(e) {
     attr.name =
     attr.id = (attr.id || this.autoname(attr.Datasource.file||attr.Datasource.table)).replace('#','');
     attr['class'] = (attr['class'] || '').replace('.','');
+
+    if (attr.Datasource.table) {
+        // wrap bare SELECT statements, even multi-line, in an identifiable subquery label which can be removed later.
+        attr.Datasource.table = attr.Datasource.table.replace(/^ *(select\s[\s\S]*from[\s\S]*)$/i,"($1) as _subquery");
+    }
 
     $(this.el).addClass('loading').addClass('restartable');
     var error = _(function(m, e) {
