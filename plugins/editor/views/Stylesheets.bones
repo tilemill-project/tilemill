@@ -7,6 +7,7 @@ view.prototype.events = {
     'click a.add': 'stylesheetAdd',
     'click a.icon': 'stylesheetDelete',
     'sortupdate .tabs': 'sortStylesheets',
+    'keydown': 'tabCycle',
     'click .status a[href=#close]': 'statusClose'
 };
 
@@ -24,6 +25,7 @@ view.prototype.initialize = function() {
         'colors',
         'colorOpen',
         'colorSave',
+        'tabCycle',
         'colorClose'
     );
     this.model.bind('save', this.save);
@@ -61,6 +63,26 @@ view.prototype.save = function() {
         }
     });
     this.$('.tabs a.error').removeClass('error');
+};
+
+view.prototype.tabCycle = function(e) {
+    if (e.altKey && e.which === 9 && e.shiftKey) {
+        var $tab = $('.tabs a.tab.active').parent().prev().find('a.tab');
+        if ($tab.size()) {
+            $tab.click();
+        } else {
+            $('.tabs a.tab:last').click();
+        }
+        e.preventDefault();
+    } else if (e.altKey && e.which === 9) {
+        var $tab = $('.tabs a.tab.active').parent().next().find('a.tab');
+        if ($tab.size()) {
+            $tab.click();
+        } else {
+            $('.tabs a.tab:first').click();
+        }
+        e.preventDefault();
+    }
 };
 
 // Test for a Carto error of the form
