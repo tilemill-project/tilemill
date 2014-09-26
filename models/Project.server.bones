@@ -450,20 +450,12 @@ function compileStylesheet(mml, callback) {
         effects: []
     };
 
-    // Hard clone the model JSON to avoid any alterations to it.
-    // @TODO: is this necessary?
-    var data = JSON.parse(JSON.stringify(mml));
     // try/catch here as per https://github.com/mapbox/tilemill/issues/1370
     try {
-        new carto.Renderer(env).render(data, function(err, output) {
-            if (err) {
-                callback(err);
-            } else {
-                callback(null, output);
-            }
-        });
+        var xml = new carto.Renderer(env, { mapnik_version: mapnik.versions.mapnik }).render(mml);
+        return callback(null, xml);
     } catch (err) {
-        callback(err);
+        return callback(err);
     }
 }
 
