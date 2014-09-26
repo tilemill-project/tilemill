@@ -452,7 +452,7 @@ function compileStylesheet(mml, callback) {
 
     // try/catch here as per https://github.com/mapbox/tilemill/issues/1370
     try {
-        var xml = new carto.Renderer(env, { mapnik_version: mapnik.version }).render(mml);
+        var xml = new carto.Renderer(env, { mapnik_version: mapnik.versions.mapnik }).render(mml);
         return callback(null, xml);
     } catch (err) {
         return callback(err);
