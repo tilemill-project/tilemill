@@ -2,7 +2,7 @@ language: node_js
 
 node_js:
   - "0.10"
-  - "0.11.13"
+  #- "0.11.13"
 
 # http://about.travis-ci.org/blog/2013-11-29-postgresql-92-93-now-available/
 addons:
