@@ -218,4 +218,5 @@ And the final project CartoCSS code for reference:
       polygon-opacity:1;
       polygon-fill:#fff;
     }
+
 {% include nextup.html %}
