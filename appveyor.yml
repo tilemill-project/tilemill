@@ -25,7 +25,7 @@ install:
   - node -v
   - node -e "console.log(process.argv,process.execPath,process.arch)"
   - npm -v
-  - npm install --fallback-to-build=false --toolset=v140
+  - npm install --fallback-to-build=false --toolset=v140 --msvs_version=2013
   # put dumpbin on path: required by check_shared_libs.py
   - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin;%PATH%
   - python test\check_shared_libs.py .\
