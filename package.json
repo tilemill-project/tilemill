@@ -57,7 +57,7 @@
         "mkdirp": "~0.5.0"
     },
     "optionalDependencies": {
-        "topcube": "~0.2.0"
+        "topcube": "https://github.com/sk1p/topcube/tarball/a051a425f082"
     },
     "devDependencies": {
         "jshint": "0.2.x",
