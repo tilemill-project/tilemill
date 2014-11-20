@@ -1,20 +1,36 @@
 environment:
   matrix:
-    - nodejs_version: 0.11
+    - NODE_VERSION: 0.10.33
+      platform: x64
+    - NODE_VERSION: 0.10.33
+      platform: x86
 
-platform:
-  - x86
+shallow_clone: true
 
 install:
-  - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
-  - node --version
-  - node -e "console.log(process.version)"
-  - node -e "console.log(process.arch)"
-  - npm --version
-  - npm install
-  #- npm test
+  # find and remove default node.exe to avoid conflicts
+  - node -e "console.log(process.execPath)" > node_path.txt
+  - SET /p NODE_EXE_PATH=<node_path.txt
+  - del node_path.txt
+  - del /q /s "%NODE_EXE_PATH%"
+  # add local node to path
+  - SET PATH=%CD%;%PATH%;
+  - SET ARCHPATH=
+  - if %platform% == x64 (SET ARCHPATH=x64/)
+  - ps: Write-Output "fetching https://mapbox.s3.amazonaws.com/node-cpp11/v${env:NODE_VERSION}/${env:ARCHPATH}node.exe"
+  - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/v${env:NODE_VERSION}/${env:ARCHPATH}node.exe"
+  - ps: Write-Output "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
+  - ps: Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_$env:platform.exe"
+  - .\vcredist_%platform%.exe /q /norestart
+  - node -v
+  - node -e "console.log(process.argv,process.execPath,process.arch)"
+  - npm -v
+  - npm install --fallback-to-build=false --toolset=v140
+  # put dumpbin on path: required by check_shared_libs.py
+  - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin;%PATH%
+  - python test\check_shared_libs.py .\
+  - npm test
 
 build: OFF
 test: OFF
-test_script: OFF
 deploy: OFF
