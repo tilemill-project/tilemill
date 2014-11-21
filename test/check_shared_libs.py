@@ -47,7 +47,7 @@ for match in matches:
                 sys.stderr.write('%s found in %s\n' % (bad_check,match))
         good_checks = ['VCRUNTIME140.dll','APPCRT140.dll','DESKTOPCRT140.dll']
         # these two libs do not link to anything
-        exceptions = ['icudt.dll','libcef.dll','icudt53.dll','icudt54.dll','libexpat.dll','nsisFirewall.dll','nsisFirewallW.dll']
+        exceptions = ['contextify.node','icudt.dll','libcef.dll','icudt53.dll','icudt54.dll','libexpat.dll','nsisFirewall.dll','nsisFirewallW.dll']
         found_one = False
         for good_check in good_checks:
             if good_check in result:
