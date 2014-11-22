@@ -1,11 +1,9 @@
 environment:
   matrix:
-    - NODE_VERSION: 0.11.14
+    - NODE_VERSION: 0.10.33
       platform: x64
-    #- NODE_VERSION: 0.10.33
-    #  platform: x64
-    #- NODE_VERSION: 0.10.33
-    #  platform: x86
+    - NODE_VERSION: 0.10.33
+      platform: x86
 
 shallow_clone: true
 
@@ -31,7 +29,7 @@ install:
   # put dumpbin on path: required by check_shared_libs.py
   - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin;%PATH%
   - python test\check_shared_libs.py .\
-  - npm test
+  - npm ls
 
 build: OFF
 test: OFF
