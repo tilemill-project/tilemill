@@ -3,9 +3,10 @@
 // increase the libuv threadpool size to 1.5x the number of logical CPUs.
 process.env.UV_THREADPOOL_SIZE = Math.ceil(Math.max(4, require('os').cpus().length * 1.5));
 process.env.OPENFILEGDB_IN_MEMORY_SPI = "OFF";
+var path = require('path');
+process.env.MAPNIK_FONT_PATH = path.join(__dirname,'fonts');
 
 var fs = require('fs');
-var path = require('path');
 // node v6 -> v8 compatibility
 var existsSync = require('fs').existsSync || require('path').existsSync;
 

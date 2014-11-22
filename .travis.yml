@@ -2,45 +2,23 @@ language: node_js
 
 node_js:
   - "0.10"
-  - "0.11.13"
+  #- "0.11.13"
 
-# http://about.travis-ci.org/blog/2013-11-29-postgresql-92-93-now-available/
 addons:
   postgresql: "9.3"
 
 before_install:
  - createdb template_postgis
  - psql -c "CREATE EXTENSION postgis" template_postgis
+ # upgrade libstdc++ to support C++11
+ - if [ $(uname -s) == "Linux" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt-get update -q && sudo apt-get install -y libstdc++6; fi
 
 install:
- - npm install
- - npm test
+- npm install --fallback-to-build=false
+- python test/check_shared_libs.py node_modules/
 
 before_script:
- - true
- # testing against mapnik PPA disabled due to travis conflict over postgis
- # that leads to error like `could not access file "$libdir/postgis-2.1": No such file or directory`
- #- sudo apt-add-repository --yes ppa:mapnik/v2.2.0
- #- sudo apt-add-repository --yes ppa:mapnik/nightly-2.3
- #- sudo apt-add-repository --yes ppa:mapnik/nightly-trunk
- #- sudo apt-get update --yes
- #- sudo apt-get --yes install libprotobuf7 libprotobuf-dev protobuf-compiler g++ gcc
- #- sudo apt-get -qq install libmapnik=2.2.0* mapnik-utils=2.2.0* libmapnik-dev=2.2.0*
- #- rm -rf ./node_modules/
- #- npm install --build-from-source
- #- npm test
- #- sudo apt-get purge libmapnik=2.2.0* mapnik-utils=2.2.0* libmapnik-dev=2.2.0*
+ - npm ls
 
 script:
- - true
- #- sudo apt-get --yes install libmapnik=2.3.0* mapnik-utils=2.3.0* libmapnik-dev=2.3.0* mapnik-input-plugin*
- #- rm -rf ./node_modules/
- #- npm install --build-from-source
- #- npm test
- #- sudo apt-get --yes purge libmapnik=2.3.0* mapnik-utils=2.3.0* libmapnik-dev=2.3.0* mapnik-input-plugin*
- #- sudo apt-get -qq install libmapnik=3.0.0* mapnik-utils=3.0.0* libmapnik-dev=3.0.0* mapnik-input-plugin*
- #- rm -rf ./node_modules/
- #- npm install  --build-from-source
- #- npm ls
- #- npm test
- #- sudo apt-get purge libmapnik=3.0.0* mapnik-utils=3.0.0* libmapnik-dev=3.0.0* mapnik-input-plugin*
+ - npm test

@@ -36,7 +36,7 @@ it ('should 200 (tile) for existing project', function(done) {
                 { url: '/tile/demo_01/2/2/1.png', encoding: 'binary' },
                 { status: 200 },
                 function(res) {
-                    assert.equal(res.body.length, 7986);
+                    assert.equal(res.body.length, 8000);
                     done();
                 }
             );
