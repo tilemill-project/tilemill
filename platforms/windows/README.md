@@ -6,68 +6,51 @@ on windows. It is not meant to be complete or for general use.
 ## Requires
 
  * Windows XP, Vista, or 7
- * Visual Studio C++ 2010 (Express works)
- * Mapnik master
- * vcredist_x86.exe from MS for 2010 C++ runtimes
  * Nsis Firewall plugin: http://wiz0u.free.fr/prog/nsisFirewall/
+ * chocolatey for installing wget
+ * wget for downloading remote files
+ * bsdtar for unpacking topcube client
 
 ## TODO
 
- * Update Mapnik builds notes (proj-trunk, ms 2010)
  * Trim installer by adding more excludes
 
 ## Setup
 
-1) Compile Mapnik and dependencies as per:
+1) Install Node.js x64 0.10.33 from http://nodejs.org/download/
 
-    https://github.com/mapnik/mapnik-packaging/tree/master/windows
+2) Install custom node.exe locally
 
-2) Compile the latest Node.js binary for VS 2010.
+Download Node.exe from:
 
-3) Download from github all node C++ modules required by TileMill. Build
-them by running the `vcbuild.bat` script inside. These include:
+    https://mapbox.s3.amazonaws.com/node-cpp11/v0.10.33/x64/node.exe
 
- * node-sqlite (windows branch)
- * node-mapnik (master or latest tag)
- * node-srs (master or latest tag)
- * node-zipfile (master or latest tag)
- * contextify (https://github.com/springmeyer/contextify)
+And place it in the root directory. Use this to run TileMill instead of the globally installed version.
 
-4) Then we can install TileMill
+The globally installed version is only used for npm.
+
+3) Install vcredist
+
+Download the C++ "redistributable" runtime from:
+
+    https://mapbox.s3.amazonaws.com/node-cpp11/vcredist_x64.exe
+
+And place it in the `platforms/windows` directory.
+
+4) Install TileMill
 
 ```
 git clone https://github.com/mapbox/tilemill.git
 cd tilemill
-npm install jshint mocha -g
 platforms\windows\build.bat
 ```
 
-5) Localize C++ modules
-
-Run this command:
+5) Test running TileMill
 
 ```
-platforms\windows\package
+.\node.exe .\index.js
 ```
 
-6) Test running TileMill
+6) Package
 
-```
-platforms\windows\run-tilemill
-```
-
-7) Package
-
-Remove road-trip from examples folder until https://github.com/mapbox/tilemill/issues/1212 is decided upon.
-
-Manually generate the `VERSION` file in the root until https://github.com/mapbox/tilemill/issues/1213 is solved.
-
-Download the from 2010 C++ "redistributable" runtime from:
-
-    http://www.microsoft.com/download/en/details.aspx?id=5555
-
-And place it in the `platforms/windows` directory.
-
-Download the nsisFirewall and place it in the `platforms/windows/installer` directory.
-
-Install nsis and run the installer script in `platforms\windows\installer`.
+Run the installer
