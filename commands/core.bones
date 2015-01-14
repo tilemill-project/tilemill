@@ -139,7 +139,7 @@ command.prototype.bootstrap = function(plugin, callback) {
     }
 
     // try/catch here to allow TileMill to start even if the app cannot write to
-    // its (potentiall invalid) docs location so that user can still edit the settings
+    // its (potentially invalid) docs location so that user can still edit the settings
     // to get out of problem without hand editing the config.json
     // https://github.com/mapbox/tilemill/issues/2024
     try {
