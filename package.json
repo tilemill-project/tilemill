@@ -43,7 +43,7 @@
         "tilelive-mapnik": "~0.6.14",
         "tilelive": "~4.5.3",
         "carto": "~0.14.0",
-        "millstone": "~0.6.15",
+        "millstone": "~0.6.16",
         "sphericalmercator": "~1.0.2",
         "underscore": "~1.6.0",
         "wax": "6.4.2",
