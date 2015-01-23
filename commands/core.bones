@@ -97,9 +97,7 @@ command.prototype.bootstrap = function(plugin, callback) {
     settings.files = path.resolve(settings.files.replace(/^~/, process.env.HOME));
     settings.coreUrl = settings.coreUrl || '127.0.0.1:' + settings.port;
     settings.tileUrl = settings.tileUrl || '127.0.0.1:' + settings.tilePort;
-    if (!carto.tree.Reference.setVersion(mapnik.versions.mapnik)) {
-        throw new Error("Could not set mapnik version to " + mapnik.versions.mapnik);
-    }
+    carto.tree.Reference.setVersion(mapnik.versions.mapnik);
 
     Bones.plugin.abilities = {
         version: (function() {
