@@ -54,7 +54,8 @@
         "npm": "2.1.x",
         "semver": "~4.1.0",
         "optimist": "~0.6.0",
-        "mkdirp": "~0.5.0"
+        "mkdirp": "~0.5.0",
+        "mapbox-upload": "~3.0.0"
     },
     "optionalDependencies": {
         "topcube": "https://github.com/sk1p/topcube/tarball/a051a425f082"

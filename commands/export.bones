@@ -12,6 +12,7 @@ var crashutil = require('../lib/crashutil');
 var _ = require('underscore');
 var sm = new (require('sphericalmercator'))();
 var os = require('os');
+var upload = require('mapbox-upload');
 // node v6 -> v8 compatibility
 var existsSync = require('fs').existsSync || require('path').existsSync;
 
@@ -571,181 +572,30 @@ command.prototype.upload = function (callback) {
         return callback(new Error('MapBox Hosting account must be authorized.'));
 
     var cmd = this;
-    var key;
-    var bucket;
     var proxy = Bones.plugin.config.httpProxy || process.env.HTTP_PROXY;
-    var mapURL = _('<%=base%>/<%=account%>/map/<%=handle%>')
-        .template({
-            base: 'https://tiles.mapbox.com',
-            account: this.opts.syncAccount,
-            handle: this.opts.project
+    var started = Date.now();
+    var updated = Date.now();
+
+    var progress = upload({
+        account: cmd.opts.syncAccount,
+        mapid: [this.opts.syncAccount, this.opts.project].join('.'),
+        accesstoken: this.opts.syncAccessToken,
+        stream: fs.createReadStream(cmd.opts.filepath),
+        length: fs.statSync(cmd.opts.filepath).size,
+        proxy: proxy
+    }).on('progress', function(progress) {
+        if (Date.now() < updated + 5000) return;
+        updated = Date.now();
+        cmd.put({
+            progress: progress.percentage / 100,
+            status: 'processing',
+            remaining: cmd.remaining(progress.percentage / 100, started),
+            updated: updated
         });
-    var modelURL = _('<%=base%>/api/Map/<%=account%>.<%=handle%>?access_token=<%=token%>')
-        .template({
-            base: this.opts.syncURL,
-            account: this.opts.syncAccount,
-            handle: this.opts.project,
-            token: this.opts.syncAccessToken
-        });
-    var policyEndpoint = _('<%=base%>/api/upload/<%=account%>?access_token=<%=token%>')
-        .template({
-            base: this.opts.syncURL,
-            account: this.opts.syncAccount,
-            token: this.opts.syncAccessToken
-        });
-
-    Step(function() {
-        request.get({
-            uri: policyEndpoint,
-            headers: { 'Host': url.parse(policyEndpoint).host },
-            proxy: proxy
-        }, this);
-    }, function(err, resp, body) {
-        if (err) throw err;
-        if (resp.statusCode !== 200)
-            throw new Error('Status ' + resp.statusCode + ' from Mapbox');
-
-        // Let Step catch thrown errors here.
-        uploadArgs = JSON.parse(body);
-        key = uploadArgs.key;
-        bucket = uploadArgs.bucket;
-        delete uploadArgs.bucket;
-        delete uploadArgs.filename;
-
-        var stat = fs.statSync(cmd.opts.filepath);
-        var boundary = '----TileMill' + crypto.createHash('md5')
-            .update(+new Date + '')
-            .digest('hex')
-            .substring(0, 6);
-        var filename = path.basename(cmd.opts.filepath);
-        var multipartBody = new Buffer(_(uploadArgs).map(function(value, key) {
-            return '--' + boundary + '\r\n'
-                + 'Content-Disposition: form-data; name="' + key + '"\r\n'
-                + '\r\n' + value + '\r\n';
-            })
-            .concat(['--' + boundary + '\r\n'
-                + 'Content-Disposition: form-data; name="file"; filename="' + filename + '"\r\n'
-                + 'Content-Type: application/octet-stream\r\n\r\n'])
-            .join(''));
-        var terminate = new Buffer('\r\n--' + boundary + '--', 'ascii');
-
-        var opts = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data; boundary=' + boundary,
-                'Content-Length': stat.size + multipartBody.length + terminate.length,
-                'X_FILE_NAME': filename
-            }
-        };
-        if (proxy) {
-            var parsed = url.parse(proxy);
-            opts.host = parsed.hostname;
-            opts.port = parsed.port;
-            opts.path = 'http://' + bucket + '.s3.amazonaws.com';
-            opts.headers.Host = bucket + '.s3.amazonaws.com';
-            if (parsed.auth) {
-                opts.headers['proxy-authorization'] = 'Basic ' + new Buffer(parsed.auth).toString('base64')
-            }
-        } else {
-            opts.host = bucket + '.s3.amazonaws.com';
-            opts.path = '/';
-        }
-        var dest = http.request(opts);
-
-        dest.on('response', function(resp) {
-            var data = '';
-            var callback = function(err) {
-                if (err) {
-                    return this(new Error('Connection terminated. Code ' + err.code));
-                }
-                if (resp.statusCode !== 303 && resp.statusCode !== 204) {
-                    var parsed = _({
-                        code:     new RegExp('[^>]+(?=<\\/Code>)', 'g'),
-                        message:  new RegExp('[^>]+(?=<\\/Message>)', 'g')
-                    }).reduce(function(memo, pattern, key) {
-                        memo[key] = data.match(pattern) || [];
-                        return memo;
-                    }, {});
-                    var message = 'Error: S3 upload failed. Status: ' + resp.statusCode;
-                    if (parsed.code[0] && parsed.message[0])
-                        message += ' (' + parsed.code[0] + ' - ' + parsed.message[0] + ')';
-                    return this(new Error(message));
-                }
-                this();
-            }.bind(this);
-            resp.on('data', function(chunk) { data += chunk; });
-            resp.on('close', callback);
-            resp.on('end', callback);
-        }.bind(this));
-
-        // Write multipart values from memory.
-        dest.write(multipartBody, 'ascii');
-
-        // Set up read for MBTiles file and start the upload.
-        var bytesWritten = 0;
-        var started = Date.now();
-        var updated = Date.now();
-        fs.createReadStream(cmd.opts.filepath)
-            .on('data', function(chunk) {
-                bytesWritten += chunk.length;
-
-                if (Date.now() < updated + 5000) return;
-
-                var progress = bytesWritten / stat.size;
-                updated = Date.now();
-                cmd.put({
-                    progress: progress,
-                    status: 'processing',
-                    remaining: cmd.remaining(progress, started),
-                    updated: updated
-                });
-            })
-            .on('end', function() {
-                dest.write(terminate);
-                dest.end();
-            })
-            .pipe(dest, {end: false});
-    }, function(err) {
-        if (err) throw err;
-        request.get({
-            uri: modelURL,
-            proxy: proxy
-        }, this);
-    }, function(err, res, body) {
-        if (err) throw err;
-        var model;
-        try {
-            model = _(res.statusCode === 404 ? {} : JSON.parse(body)).extend({
-                id: cmd.opts.syncAccount + '.' + cmd.opts.project,
-                _type: 'tileset',
-                created: +new Date,
-                status: 'pending',
-                url: 'http://' + bucket + '.s3.amazonaws.com/' + key
-            });
-            request.put({
-                url: modelURL,
-                json: model,
-                proxy: proxy
-            }, this);
-        } catch (err) {
-            // catch and re-throw so that body is defined in debug output below
-            if (err) this(err,res,body);
-        }
-    }, function(err, res, body) {
-        console.log('MapBox Hosting account response: ' + util.inspect(body));
-        if (err) {
-            return callback(err);
-        }
-        if (modelURL && res.statusCode !== 200) {
-            var msg;
-            if (body && body.message != undefined) {
-                msg = body.message;
-            } else {
-                msg = 'Map publish failed: ' + res.statusCode;
-            }
-            return callback(new Error(msg));
-        }
-        callback(null, { url:mapURL });
+    }).on('error', function(err) {
+        callback(err);
+    }).on('finished', function(body) {
+        callback(null, { url: 'https://www.mapbox.com/data/' });
     });
 };
 
