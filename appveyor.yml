@@ -30,6 +30,8 @@ install:
   - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin;%PATH%
   - python test\check_shared_libs.py .\
   - npm ls
+  # will fail until https://github.com/mapbox/tilemill/issues/2469 is fixed
+  - npm test
 
 build: OFF
 test: OFF
