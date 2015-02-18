@@ -31,7 +31,7 @@ However, node-mapnik (which depends on Mapnik and protobuf) is now packaged as a
 
 To install from source just do:
 
-    git clone git@github.com:mapbox/tilemill.git
+    git clone https://github.com/mapbox/tilemill.git
     cd tilemill
     npm install
 
