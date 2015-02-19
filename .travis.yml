@@ -1,17 +1,28 @@
-language: node_js
+language: cpp
 
-node_js:
-  - "0.10"
-  #- "0.11.13"
+compiler:
+  - gcc
 
-addons:
-  postgresql: "9.3"
+os:
+  - linux
+  - osx
+
+env:
+  matrix:
+  - NODE_VERSION="0.10.33" ATOM_VERSION="0.21.1"
+  global:
+  - secure: "AEuBUNlpZiNsocwK2Z40MJPhrVzZCzrhzvjn7M7xa8IBJtSPOeu4sMhxKvkwdMy2Ufu6llh5A/UeV5mefXcS3i+wuZijXkqdmRoiuHOo0Cx5FK6VN2/zGKKVQErFno/dlCap720yIChle5zHdgvxcAjIjA73f+z5KjGkIOKc4zM="
+  - secure: "n1YXyaj4Ispt85XQpg0ecMj05he57Rj9IP9I6Xud0v/gMCL3XdEDOTakOfZvKGZ0AHDUH0wTtn1e4K4Tb49MLnVYFt2mQNtQDpvPhdcbD+rDUXu8aoMzwwR1edW6bhKd68rB0kJRIZ+mICbg1b1zZ9RufIdKwj0vIpNOc0lMlbM="
+  - secure: "lTnK9Jp7nT9VrY2fWrDymp3Ki8lmY8Rbr1gbFLXK7GNSRm5vBkmKGiAhY3XGs0bPE/GgXPKR7JYZcbNWJWyuNlAEblJDv4lzYznyPA/x09oLsRK5oFSpiWfWpTkPy0EqibJBROKXKZISBh8VporJpBEygFTchcAzPnkh5nbTKjE="
 
 before_install:
- - createdb template_postgis
- - psql -c "CREATE EXTENSION postgis" template_postgis
- # upgrade libstdc++ to support C++11
- - if [ $(uname -s) == "Linux" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt-get update -q && sudo apt-get install -y libstdc++6; fi
+ - git clone https://github.com/creationix/nvm.git ../.nvm && source ../.nvm/nvm.sh
+ - nvm install $NODE_VERSION
+ - nvm use $NODE_VERSION
+ - node --version
+ - npm --version
+ - if [[ $(uname -s) == 'Linux' ]]; then wget https://launchpad.net/~ubuntu-toolchain-r/+archive/ubuntu/test/+files/libstdc%2B%2B6_4.8.1-2ubuntu1~12.04_amd64.deb && dpkg -x libstdc++6_4.8.1-2ubuntu1~12.04_amd64.deb ./ && export LD_PRELOAD=$(pwd)/usr/lib/x86_64-linux-gnu/libstdc++.so.6; fi
+ - ./scripts/build-travis.sh $TRAVIS_COMMIT
 
 install:
 - npm install --fallback-to-build=false
@@ -21,4 +32,6 @@ before_script:
  - npm ls
 
 script:
+ - ./scripts/install-postgres.sh
+ - source mason-config.env
  - npm test

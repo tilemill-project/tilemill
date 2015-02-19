@@ -1,9 +1,0 @@
-/var/log/tilemill/*.log {
-       weekly
-       rotate 10
-       copytruncate
-       delaycompress
-       compress
-       notifempty
-       missingok
-}

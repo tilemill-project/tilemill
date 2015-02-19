@@ -17,7 +17,7 @@ try { fs.unlinkSync(process.env.HOME + '/.tilemill/config.json'); }
 catch (err) { if (err.code !== 'ENOENT') throw err }
 
 // Load application.
-require('../..');
+require('../../index-server');
 var tilemill = require('bones').plugin;
 tilemill.config.files = path.resolve(__dirname + '/../fixtures/files');
 tilemill.config.examples = false;
