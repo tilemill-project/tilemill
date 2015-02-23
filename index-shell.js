@@ -35,7 +35,7 @@ function shellsetup(err){
         if (!matches) { exit(); }
         serverPort = data.toString().split('@')[1];
         if (matches) { loadURL(); }
-        logger.debug('TileMill @ http://localhost:' + serverPort + '/');
+        logger.debug('TileMill @ http://localhost:' + serverPort);
     });
 
     // Report crashes to our server.
@@ -45,7 +45,7 @@ function shellsetup(err){
     atom.on('will-quit', exit);
 
    function exit() {
-        if (server) server.kill();
+        server.kill('SIGUSR2');
         process.exit();
     };
 
