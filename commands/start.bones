@@ -50,7 +50,7 @@ command.prototype.initialize = function(plugin, callback) {
     Bones.plugin.children = {};
     process.title = 'tilemill';
     // Kill child processes on exit.
-    process.on('exit', function(code, signal) {
+    process.on('SIGINT', function(code, signal) {
         _(Bones.plugin.children).each(function(child, key) {
             console.warn('[tilemill] Closing child process: ' + key  + " (pid:" + child.pid + ")");
             child.kill();
@@ -104,7 +104,7 @@ command.prototype.child = function(name) {
     ].concat(args));
 
     redirect.onData(Bones.plugin.children[name]);
-    Bones.plugin.children[name].once('exit', function(code, signal) {
+    Bones.plugin.children[name].once('SIGINT', function(code, signal) {
         if (code === 0) {
             // restart server if exit was clean
             console.warn('[tilemill] Restarting child process: "' + name + '"');

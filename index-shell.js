@@ -6,10 +6,10 @@ var shell = require('shell');
 var dialog = require('dialog');
 var path = require('path');
 var log = require('./lib/log');
+var logger = require('fastlog')('', 'debug', '<${timestamp}>');
 var node = path.resolve(path.join(__dirname, 'vendor', 'node'));
 var exec = require('child_process').exec;
 var script = path.resolve(path.join(__dirname, 'index-server.js'));
-var logger = require('fastlog')('', 'debug', '<${timestamp}>');
 var serverPort = null;
 var mainWindow = null;
 
@@ -45,7 +45,7 @@ function shellsetup(err){
     atom.on('will-quit', exit);
 
    function exit() {
-        server.kill('SIGUSR2');
+        if (server) server.kill('SIGINT');
         process.exit();
     };
 
