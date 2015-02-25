@@ -76,22 +76,14 @@ command.prototype.initialize = function(plugin, callback) {
     this.child('core');
     this.child('tile');
 
-    if (!plugin.config.server) plugin.children['core'].stderr.on('data', function(d) {
-        if (!d.toString().match(/Started \[Server Core:\d+\]./)) return;
-        var client;
-        var options = {
-            url: 'http://' + plugin.config.coreUrl,
-            name: 'TileMill',
-            width: 800,
-            height: 600,
-            minwidth: 800,
-            minheight: 400,
-            // win32-only options.
-            ico: path.resolve(path.join(__dirname,'/../tilemill.ico')),
-            'cache-path': path.join(process.env.HOME, '.tilemill/cache-cefclient'),
-            'log-file': path.join(process.env.HOME, '.tilemill/cefclient.log')
-        };
-        if (d.toString().match(/Started \[Server Core:\d+\]./)) console.log('startatom@20009');
+    if (!plugin.config.server) plugin.children['tile'].stderr.on('data', function(data) {
+        console.log(data); // Used for logging events to the parent process
+        if (!data.toString().match(/Started \[Server Tile:\d+\]./)) return;
+    });
+
+    if (!plugin.config.server) plugin.children['core'].stderr.on('data', function(data) {
+        console.log(data); // Used for logging events to the parent process
+        if (!data.toString().match(/Started \[Server Core:\d+\]./)) return;
     });
 
     callback && callback();

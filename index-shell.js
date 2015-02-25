@@ -17,7 +17,7 @@ if (process.platform === 'win32') {
     process.env.HOME = process.env.USERPROFILE;
     shellsetup();
 } else {
-    var shellLog = path.join(process.env.HOME, '.tilemill', 'shell.log');
+    var shellLog = path.join(process.env.HOME, '.tilemill', 'tilemill.log');
     log(shellLog, 10e6, shellsetup);
 }
 
@@ -30,12 +30,14 @@ function shellsetup(err){
     var server = spawn(node, [script]);
     server.on('exit', exit);
 
-    server.stdout.once('data', function(data) {
-        var matches = data.toString().match(/^startatom@*?/);
-        if (!matches) { exit(); }
-        serverPort = data.toString().split('@')[1];
-        if (matches) { loadURL(); }
-        logger.debug('TileMill @ http://localhost:' + serverPort);
+    server.stdout.on('data', function(data) {
+        logger.debug(data.toString())
+        var matches = data.toString().match(/Started \[Server Core:\d+\]./);
+        if (matches) {
+            serverPort = parseInt(data.toString().split(':')[1]);
+            loadURL();
+            logger.debug('TileMill @ http://localhost:' + serverPort);
+        }
     });
 
     // Report crashes to our server.
@@ -190,17 +192,10 @@ function createMenu() {
             click: function() { shell.openExternal('https://www.mapbox.com/tilemill/'); }
           },
           {
-            label: 'Application Log',
+            label: 'TileMill Logs',
             click: function() {
                 var cp = require("child_process");
-                cp.exec("open -a /Applications/Utilities/Console.app ~/Library/Logs/TileMill.log");
-            }
-          },
-          {
-            label: 'Shell Log',
-            click: function() {
-                var cp = require("child_process");
-                cp.exec("open -a /Applications/Utilities/Console.app ~/.tilemill/shell.log");
+                cp.exec("open -a /Applications/Utilities/Console.app ~/.tilemill/tilemill.log");
             }
           }
         ]
