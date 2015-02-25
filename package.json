@@ -58,7 +58,8 @@
         "mapbox-upload": "~3.0.0",
         "fastlog": "1.0.0",
         "through": "2.3.x",
-        "log-rotate": "0.2.x"
+        "log-rotate": "0.2.x",
+        "rcedit": "0.3.0"
     },
     "devDependencies": {
         "jshint": "0.2.x",
