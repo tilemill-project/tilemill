@@ -96,6 +96,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
             }
             readdir(location, function(err, files) {
                 if (err &&
+                    err.code !== 'EBUSY' &&
                     err.code !== 'EACCES' &&
                     err.code !== 'UNKNOWN' &&
                     err.code !== 'EPERM' &&
