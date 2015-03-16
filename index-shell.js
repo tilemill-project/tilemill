@@ -14,6 +14,7 @@ var serverPort = null;
 var mainWindow = null;
 
 if (process.platform === 'win32') {
+    atom.commandLine.appendSwitch('disable-gpu');
     process.env.HOME = process.env.USERPROFILE;
     shellsetup();
 } else {
