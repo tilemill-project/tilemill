@@ -22,14 +22,14 @@ if (process.platform === 'win32') {
     log(shellLog, 10e6, shellsetup);
 }
 
-function shellsetup(err){
+function shellsetup(err) {
     process.on('exit', function(code) {
         logger.debug('TileMill exited with', code + '.');
     });
 
     // Start the server child process.
     var server = spawn(node, [script]);
-    server.on('exit', exit);
+    server.on('exit', process.exit);
 
     server.stdout.on('data', function(data) {
         logger.debug(data.toString())
@@ -47,7 +47,17 @@ function shellsetup(err){
     atom.on('window-all-closed', exit);
     atom.on('will-quit', exit);
 
-   function exit() {
+    function exit() {
+        if (process.platform === 'win32') {
+            var readLine = require('readline');
+            var rl = readLine.createInterface({
+                input: process.stdin,
+                output: process.stdout
+            });
+            rl.on('SIGINT', function() {
+                server.emit('SIGINT');
+            });
+        }
         if (server) server.kill('SIGINT');
         process.exit();
     };
