@@ -57,8 +57,9 @@ function shellsetup(err) {
             rl.on('SIGINT', function() {
                 server.emit('SIGINT');
             });
+        } else {
+            if (server) server.kill('SIGINT');
         }
-        if (server) server.kill('SIGINT');
         process.exit();
     };
 
