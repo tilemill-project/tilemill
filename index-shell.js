@@ -31,6 +31,19 @@ function shellsetup(err) {
     var server = spawn(node, [script]);
     server.on('exit', process.exit);
 
+    server.stderr.on('data', function(data){
+        var matches = data.toString().match(/Error:/g);
+        if (matches) {
+             var chosen = dialog.showMessageBox(null, {
+                type: 'warning',
+                message: 'There was an error',
+                detail: data.toString() + '\n\n Please report this issue to https://github.com/mapbox/tilemill',
+                buttons: ['Cancel', 'Open a GitHub ticket'],
+            });
+            if(chosen === 1) shell.openExternal('https://github.com/mapbox/tilemill/issues/new?title=Error&body=I encountered an error:' + encodeURIComponent('\n```\n' + data.toString() + '\n```\n'));
+        }
+    })
+
     server.stdout.on('data', function(data) {
         logger.debug(data.toString())
         var matches = data.toString().match(/Started \[Server Core:\d+\]./);
