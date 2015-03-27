@@ -825,6 +825,7 @@ ul.layers {
   position:relative;
   height:30px;
   top: 3px;
+  left: 10px;
   }
 
 .tabs li {

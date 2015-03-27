@@ -11,11 +11,12 @@
       window.require = undefined;
       window.module = undefined;
       delete window.process.versions.node;
+      var fs = atom.require('fs');
+      var http = atom.require('http');
       var remote = atom.require('remote');
       var shell = atom.require('shell');
-      var http = atom.require('http');
       var url = atom.require('url');
-      var fs = atom.require('fs');
+      var path = atom.require('path');
     }
   </script>
   <script src='/assets/bones/all.js' type='text/javascript'></script>

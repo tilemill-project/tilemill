@@ -269,13 +269,14 @@ view.prototype.download = function(ev) {
     if (typeof process === 'undefined') return;
     if (typeof process.versions['atom-shell'] === undefined) return;
 
-    var uri = url.parse($(ev.currentTarget).attr('href'));
+    var uri = url.parse(ev.currentTarget.href);
 
     // Opening external URLs.
     if (uri.hostname && uri.hostname !== 'localhost') {
         shell.openExternal(ev.currentTarget.href);
         return false;
     }
+
     // File saving.
     var fileTypes = {
         mbtiles: 'Tiles',
@@ -292,23 +293,56 @@ view.prototype.download = function(ev) {
     var typeExtension = (uri.pathname || '').split('.').pop().toLowerCase();
     var typeLabel = fileTypes[typeExtension];
 
-    if (typeLabel) {
-        var filePath = remote.require('dialog').showSaveDialog({
-            title: 'Save ' + typeLabel,
-            defaultPath: '~/Untitled ' + typeLabel + '.' + typeExtension,
-            filters: [{
-                name: typeExtension.toUpperCase(),
-                extensions: [typeExtension]
-            }]
+    // Passthrough for all other extensions.
+    if (!typeLabel) return undefined;
+
+    // HOME is undefined on windows
+    if (process.platform === 'win32') process.env.HOME = process.env.USERPROFILE;
+
+    // Show save dialog and make a GET request, piping
+    // the response into the specified filePath.
+    var defaultPath = path.join(process.env.HOME,'Untitled ' + typeLabel + '.' + typeExtension);
+    var filePath = remote.require('dialog').showSaveDialog({
+        title: 'Save ' + typeLabel,
+        defaultPath: defaultPath,
+        filters: [{ name: typeExtension.toUpperCase(), extensions: [typeExtension]}]
+    });
+
+    if (!filePath) return false;
+
+    function error(err) {
+        new views.Modal({
+            content: err,
+            negative: '',
+            callback: function() {}
         });
-        if (filePath) {
-            var writeStream = fs.createWriteStream(filePath);
-            var req = http.request(uri, function(res) {
-                if (res.statusCode !== 200) return;
-                res.pipe(writeStream);
-            });
-            req.end();
-        }
-        return false;
     }
+
+    function finish() {
+        new views.Modal({
+            content: 'Save complete.',
+            negative: '',
+            callback: function() {}
+        });
+    }
+
+    http.get(uri, function(res) {
+        if (res.statusCode !== 200) return error(new Error('Got HTTP code ' + res.statusCode));
+        try {
+            var writeStream = fs.createWriteStream(filePath);
+        } catch(err) {
+            return error(err);
+        }
+        // The order of event listeners here appears to be sensitive
+        // when dealing with atom-shell + Windows. Previous ordering based
+        // on expected node-core like behavior (e.g. adding the 'finish')
+        // listener after res.pipe() is called can lead to the handler
+        // never being called.
+        writeStream.on('error', error);
+        writeStream.on('finish', finish);
+        res.on('error', error);
+        res.pipe(writeStream);
+    }).on('error', error);
+
+    return false;
 };
