@@ -16,7 +16,7 @@ echo 'export PGHOST=$(pwd)/local-unix-socket' >> mason-config.env
 echo 'export PGTEMP_DIR=$(pwd)/local-tmp' >> mason-config.env
 echo 'export PGPORT=1111' >> mason-config.env
 echo 'export PATH=$(pwd)/mason_packages/.link/bin/:${PATH}' >> mason-config.env
-echo 'export GDAL_DATA=$(~/.mason/mason prefix gdal 1.11.1-big-pants)/share/gdal/' >> mason-config.env
+echo 'export PATH=$(pwd)/mason_packages/osx-10.10/gdal/1.11.1-big-pants/share/gdal/:${PATH}' >> mason-config.env
 
 # do each time you use the local postgis:
 source mason-config.env

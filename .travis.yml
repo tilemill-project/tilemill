@@ -28,9 +28,6 @@ install:
 - npm install --fallback-to-build=false
 - python test/check_shared_libs.py node_modules/
 
-before_script:
- - npm ls
-
 script:
  - ./scripts/install-postgres.sh
  - source mason-config.env
