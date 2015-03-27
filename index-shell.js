@@ -42,7 +42,7 @@ function shellsetup(err) {
             });
             if(chosen === 1) shell.openExternal('https://github.com/mapbox/tilemill/issues/new?title=Error&body=I encountered an error:' + encodeURIComponent('\n```\n' + data.toString() + '\n```\n'));
         }
-    })
+    });
 
     server.stdout.on('data', function(data) {
         logger.debug(data.toString())
