@@ -102,7 +102,8 @@ server.prototype.load = function(req, res, next) {
         query: {
             updated:req.query.updated,
             scale: +req.query.scale || 1.0,
-            metatile: req.query.metatile|0 || 2
+            metatile: req.query.metatile|0 || 2,
+            autoLoadFonts: false
         },
         // Need not be set for a cache hit. Once the cache is
         // warmed the project need not be loaded/localized again.
