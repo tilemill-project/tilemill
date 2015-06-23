@@ -1,5 +1,7 @@
 TileMill is a modern map design studio powered by [Node.js](http://nodejs.org) and [Mapnik](http://mapnik.org).
 
+This fork has customizations made for the CLIMA project (CCIAM research group, Faculdade de Ciencias da Universidade de Lisboa).
+
 Installation instructions, development docs and other information are available on the [TileMill website](https://mapbox.com/tilemill).
 
 # Build Status
