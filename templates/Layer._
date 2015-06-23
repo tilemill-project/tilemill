@@ -174,10 +174,10 @@ var connectionOptions = function(obj) {
         </option>
         <% } %>
         <option value='900913' <% if (srsName() === '900913') { %>selected='selected'<% } %>>
-          900913
+          Web Mercator (EPSG:3857)
         </option>
         <option value='WGS84'  <% if (srsName() === 'WGS84') { %>selected='selected'<% } %>>
-          WGS84
+          WGS84 (EPSG:4326)
         </option>
         <option value='custom' <% if (srsName() === 'custom') { %>selected='selected'<% } %>>
           Custom

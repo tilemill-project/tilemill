@@ -11,7 +11,9 @@ Launch TileMill: `./index.js`. This will try to start TileMill as a desktop app 
 The configuration file will be created the first time TileMill is started. It is located in `~/.tilemill/config.json`. 
 
 Useful command line options:
-`--server=true`: launch as server-only service (prevents the UI from opening)
+  - `--server=true`: launch as server-only service (prevents the UI from opening)
+
+Example: `./index.js --server=true`
 
 More informations about running TileMill as a Ubuntu service: https://www.mapbox.com/tilemill/docs/guides/ubuntu-service/
 

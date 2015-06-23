@@ -69,7 +69,10 @@ model.prototype.srsName = function(srs) {
     for (name in this.SRS) {
         if (this.SRS[name] === this.get('srs')) return name;
     }
-    return srs ? 'custom' : 'autodetect';
+    
+    // set WGS84 as the default
+    return 'WGS84';
+    //return srs ? 'custom' : 'autodetect';
 };
 model.prototype.validate = function(attr) {
     if (attr.id &&
