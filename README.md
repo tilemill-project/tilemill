@@ -2,7 +2,19 @@ TileMill is a modern map design studio powered by [Node.js](http://nodejs.org) a
 
 This fork has customizations made for the CLIMA project (CCIAM research group, Faculdade de Ciencias da Universidade de Lisboa).
 
-Installation instructions, development docs and other information are available on the [TileMill website](https://mapbox.com/tilemill).
+# Quick start (Ubuntu)
+
+Install the dependencies: `sudo npm install`
+
+Launch TileMill: `./index.js`. This will try to start TileMill as a desktop app (using the [topcube](https://github.com/creationix/topcube) module for the client window). If there is no graphical environment it will start only in server mode. In that case we can access TileMill using the browser: http://localhost:20009/
+
+The configuration file will be created the first time TileMill is started. It is located in `~/.tilemill/config.json`. 
+
+Useful command line options:
+`--server=true`: launch as server-only service (prevents the UI from opening)
+
+More informations about running TileMill as a Ubuntu service: https://www.mapbox.com/tilemill/docs/guides/ubuntu-service/
+
 
 # Build Status
 
