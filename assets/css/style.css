@@ -1893,3 +1893,31 @@ ul.grid li {
     background-size: 20px 20px;
   }
 }
+
+
+/* below this line are overrides for CLIMA */
+
+#page {
+  left: 90px;
+}
+
+.bleed {
+  width: 90px;
+}
+
+.bleed a {
+  width: 90px;
+  height: 25px;
+  padding: 40px 0px 10px;
+  border-bottom: solid 1px;
+  font-size: 12px;
+
+}
+
+.bleed a .i30 {
+  left: 30px;
+}
+
+.bleed .home {
+  line-height: 13px
+}
