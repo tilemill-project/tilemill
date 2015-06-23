@@ -8,10 +8,13 @@ Install the dependencies: `sudo npm install`
 
 Launch TileMill: `./index.js`. This will try to start TileMill as a desktop app (using the [topcube](https://github.com/creationix/topcube) module for the client window). If there is no graphical environment it will start only in server mode. In that case we can access TileMill using the browser: http://localhost:20009/
 
-The configuration file will be created the first time TileMill is started. It is located in `~/.tilemill/config.json`. 
+TileMill has several main commands (or "modes"): `start`, `core`, `export`, `test` and `tile`.  Example: `./index.js start`
 
-Useful command line options:
-  - there are several main commands (or "modes"): `start`, `core`, `export`, `test` and `tile`. Read the options for each command with `./index <command> --help`
+Each of these commands has specific options. Read more details about the options of each command with `./index <command> --help`
+
+The main configuration file will be created the first time TileMill is started. It is located in `~/.tilemill/config.json`. 
+
+Alternatively, the configuration options in that file can be given in the command line:
   - `--server=true`: launch as server-only service (prevents the UI from opening)
 
 Example: `./index.js start --server=true`
