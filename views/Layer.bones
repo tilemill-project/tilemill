@@ -40,6 +40,24 @@ view.prototype.initialize = function(options) {
 view.prototype.render = function() {
     this.$('.content').html(templates.Layer(this.model));
 
+    // changed for clima
+
+    // set default value for the "Connection" input and hide it
+    this.$('input[name="connection"]').val('host=localhost port=5432 user=user password=password dbname=dbname');
+    this.$('input[name=connection]').parent().hide();
+
+    // set default value for the "Unique key field" input and hide it
+    this.$('input[name="Datasource.key_field"]').val('gid');
+    this.$('input[name="Datasource.key_field"]').parent().hide();
+
+    // set default value for the "Geometry field" input and hide it
+    this.$('input[name="Datasource.geometry_field"]').val('geom');
+    this.$('input[name="Datasource.geometry_field"]').parent().hide();
+
+    // make sure the selected option for the "SRS" field is WGS84
+    $('select[name="srs-name"]').val('WGS84').trigger('change');
+
+
     // Quick easy way to check and set whether input
     // URI is favorited.
     this.$('input[name$=file], input[name=connection]').change();
@@ -47,6 +65,7 @@ view.prototype.render = function() {
     // Set active tab.
     var ds = this.model.get('Datasource')
     var type = ds && ds.type;
+    type = 'postgis'; // make sure the default tab is postgis
     this.$('a[href=#layer-' + (type||'file') + ']').click();
 
     if (!this.model.id) {

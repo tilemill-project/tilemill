@@ -7,6 +7,7 @@ var readdir = require('../lib/fsutil.js').readdir;
 var mapnik = require('mapnik');
 var sm = new (require('sphericalmercator'))();
 var carto = require('carto');
+var climaSettings = require("../clima-settings.json");
 
 server = Bones.Server.extend({});
 server.prototype.port = 20008;
@@ -191,6 +192,14 @@ server.prototype.thumb = function(req, res, next) {
 
 server.prototype.datasource = function(req, res, next) {
     var model = new models.Datasource({id:req.param('id')}, req.query);
+
+    // changed for clima: hardcode the postgres connection info
+    req.query["host"] = climaSettings["host"];
+    req.query["port"] = climaSettings["port"];
+    req.query["user"] = climaSettings["user"];
+    req.query["password"] = climaSettings["password"];
+    req.query["dbname"] = climaSettings["dbname"];
+
     Bones.utils.fetch({model:model}, function(err) {
         if (err) return next(err);
         res.send(model.toJSON());

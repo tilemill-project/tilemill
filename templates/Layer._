@@ -2,7 +2,7 @@
 var Datasource = get('Datasource') || {};
 var enabled = {
     file: isNew() || (Datasource.file && Datasource.type != 'sqlite'),
-    sqlite: isNew() || Datasource.type === 'sqlite',
+    sqlite: false,
     postgis: (isNew() && _(window.abilities.datasources).include('postgis')) ||
         Datasource.type === 'postgis'
 };

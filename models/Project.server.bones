@@ -7,6 +7,8 @@ var mkdirp = require('../lib/fsutil.js').mkdirp;
 var rm = require('../lib/fsutil.js').rm;
 var carto = require('carto');
 var mapnik = require('mapnik');
+var climaSettings = require("../clima-settings.json");
+
 if (mapnik.register_default_fonts) mapnik.register_default_fonts();
 if (mapnik.register_system_fonts) mapnik.register_system_fonts();
 if (mapnik.register_default_input_plugins) mapnik.register_default_input_plugins();
@@ -191,6 +193,22 @@ function loadProject(model, callback) {
         if (err) return callback(new Error.HTTP('Project does not exist: "' + projectName + '"', 404));
         try {
             object = _(object).extend(JSON.parse(file.data));
+
+            // // changed for clima: if we have layers of type postgis, hardcode the postgres connection info
+            if(object["Layer"]){
+                object["Layer"].forEach(function(layerObj){
+                    if(layerObj["Datasource"] && layerObj["Datasource"]["type"] === "postgis"){
+                        layerObj["Datasource"]["host"] = climaSettings["host"];
+                        layerObj["Datasource"]["port"] = climaSettings["port"];
+                        layerObj["Datasource"]["user"] = climaSettings["user"];
+                        layerObj["Datasource"]["password"] = climaSettings["password"];
+                        layerObj["Datasource"]["dbname"] = climaSettings["dbname"];
+                    }
+                })
+
+            }
+
+
         } catch(err) {
             var err_message = 'Could not open project.mml file for "' + model.id + '". Error was: \n\n"' + err.message + '"\n\n(in ' + projectName + ')';
             return callback(new Error(err_message));
