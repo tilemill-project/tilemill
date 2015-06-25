@@ -20,32 +20,36 @@ var get = _(project.get).bind(project);
   <% if (type === 'tiles') { %>
   <li>
     <label for='name'>Name</label>
-    <input type='text' name='name' class='stretch' value='<%= get('name') %>' />
+    <input style='opacity: 0.6;' type='text' name='name' class='stretch' value='<%= get('name') %>' disabled='disabled' />
   </li>
   <li>
     <label for='description'>Description</label>
     <textarea type='text' name='description' class='stretch' rows='4'><%= get('description') %></textarea>
   </li>
-  <li>
+
+
+  <li style="display: none;">
     <label for='attribution'>Attribution</label>
     <input type='text' name='attribution' class='stretch' value='<%= get('attribution') %>' />
   </li>
-  <li>
+  <li style="display: none;">
     <label for='version'>Version</label>
     <input type='text' name='version' size='10' value='<%= get('version') %>' />
   </li>
+
+
   <% } %>
   <% if (model === project) { %>
   <li>
     <label for='format'>Format</label>
     <select class="60" name='format'>
       <option value='png8'<% if (get('format') == 'png8' || get('format') == 'png') { %> selected='selected' <% } %>>Optimized png (256 colors)</option>
-      <option value='png24'<% if (get('format') == 'png24') { %> selected='selected' <% } %>>Lossless png (Full color)</option>
-      <option value='jpeg80'<% if (get('format') == 'jpeg80') { %> selected='selected' <% } %>>jpeg (80%)</option>
-      <option value='jpeg85'<% if (get('format') == 'jpeg85') { %> selected='selected' <% } %>>jpeg (85%)</option>
-      <option value='jpeg90'<% if (get('format') == 'jpeg90') { %> selected='selected' <% } %>>jpeg (90%)</option>
-      <option value='jpeg95'<% if (get('format') == 'jpeg95') { %> selected='selected' <% } %>>jpeg (95%)</option>
-      <option value=''<% if (!_(['png','png8','png24','jpeg80','jpeg85','jpeg90','jpeg95']).include(get('format'))) { %> selected='selected' <% } %>>Custom</option>
+      <option value='png24'<% if (get('format') == 'png24') { %> selected='selected' <% } %> disabled='disabled'>Lossless png (Full color)</option>
+      <option value='jpeg80'<% if (get('format') == 'jpeg80') { %> selected='selected' <% } %> disabled='disabled'>jpeg (80%)</option>
+      <option value='jpeg85'<% if (get('format') == 'jpeg85') { %> selected='selected' <% } %> disabled='disabled'>jpeg (85%)</option>
+      <option value='jpeg90'<% if (get('format') == 'jpeg90') { %> selected='selected' <% } %> disabled='disabled'>jpeg (90%)</option>
+      <option value='jpeg95'<% if (get('format') == 'jpeg95') { %> selected='selected' <% } %> disabled='disabled'>jpeg (95%)</option>
+      <option value=''<% if (!_(['png','png8','png24','jpeg80','jpeg85','jpeg90','jpeg95']).include(get('format'))) { %> selected='selected' <% } %>  disabled='disabled'>Custom</option>
     </select>
     <input class='dependent' type='text' name='format_custom' size='10' value='<%=get('format')%>' />
     <small class='dependent description help'>Enter a <a target='_blank' href="https://github.com/mapnik/mapnik/wiki/Image-IO">custom Mapnik format string</a>.</small>
@@ -54,7 +58,7 @@ var get = _(project.get).bind(project);
   <% if (model !== project && model.get('format') !== 'sync') { %>
   <li>
     <label>Filename</label>
-    <input type='text' name='filename' value='<%=project.id%>' size='12' />
+    <input style='opacity: 0.6;' type='text' name='filename' value='<%=project.id%>' size='20' disabled='disabled' />
     <small>.<%=model.get('format')%></small>
   </li>
   <% } %>
@@ -65,10 +69,10 @@ var get = _(project.get).bind(project);
     <small class='description'><span class='totaltiles'>0</span> tiles (<span class='totalsize'>0</span>)</small>
   </li>
   <li>
-    <span class='icon i40 center'></span>
+    <span class='icon i40 center' style='margin-top:-5px;'></span>
     <label for='center'>Center</label>
     <input type='text' name='center' size='20' value='<%=get('center').join(',')%>' />
-    <small class='description'>Click to move starting center point.</small>
+    <small class='description'>Click the map set a new center point.</small>
   </li>
   <% } %>
   <% if (type === 'image') { %>
@@ -84,10 +88,10 @@ var get = _(project.get).bind(project);
   </li>
   <% } %>
   <li>
-    <span class='icon i40 bounds'></span>
+    <span class='icon i40 bounds' style='margin-top:-5px;'></span>
     <label for='bounds'>Bounds</label>
     <input type='text' name='bounds' size='20' value='<%=get('bounds').join(',')%>' />
-    <small class='description'>Shift + drag to select bounds.</small>
+    <small class='description'>Hold the shift key + drag the corners to select new bounds.</small>
   </li>
   <% if (model === project) { %>
   <li>
@@ -97,15 +101,17 @@ var get = _(project.get).bind(project);
   </li>
   <% } %>
   <% if (type === 'tiles') { %>
-  <li>
+
+  <li style="display: none;">
     <label for='metatile'>MetaTile size</label>
-    <div class='slider' data-key='metatile' data-step='1' data-min='1' data-max='15'></div>
+    <div style="pointer-events:none; opacity: 0.6;" class='slider' data-key='metatile' data-step='1' data-min='1' data-max='15'></div>
     <small class='description'></small>
   </li>
+
   <% } %>
   <% if (model !== project && type === 'tiles') { %>
   <li>
-    <input type='checkbox' name='_saveProject' value='1' <% if (model.get('format') === 'sync') %>checked='checked' disabled='disabled'<%;%>>
+    <input type='checkbox' name='_saveProject' value='1' checked='checked' >
     <span class='description'>Save settings to project</span>
   </li>
   <% } %>

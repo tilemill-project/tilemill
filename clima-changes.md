@@ -2,13 +2,14 @@
 
 -ao adicionar novo layer, desactivar a tab "files"? (como feito para a tab sqlite - ver em baixo)
 
--quando estamos a criar o projecto, 
+-DONE quando estamos a criar o projecto, 
   -no campo file, aplicar uma funcao de tirar os acentos 
   -mudar a descricao de "file" para "name2
   -no campo name, nao mostrar e garantir que é preenchida com o mesmo que foi no file (que agora se chama name)
 
--zoom/centro por omissao: ler de um ficheiro de opcoes
+-DONE zoom/centro por omissao: ler de um ficheiro de opcoes
 
+-instalar plugins que permitem ordenar tabelas e pan suave no mapa
 
 
 ### Changes done for CLIMA

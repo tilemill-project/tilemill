@@ -1,8 +1,7 @@
 <div class='about sunken'>
-<h2><a target='_blank' href='http://tilemill.com'>TileMill</a></h2>
+<h2><a target='_blank' href='github.com/paulovieira/tilemill-clima'>TileMill (CLIMA version)</a></h2>
 <p>
-  Version <%=window.abilities.tilemill.version%> (<%=window.abilities.version[0]%>)<br/>
-  Copyright © 2010-2014 <a target='_blank' href='http://mapbox.com'>Mapbox, Inc.</a>
+  Version <%=window.abilities.tilemill.version%> <br/>
 </p>
 </div>
 
@@ -12,12 +11,12 @@
   </li>
   <li>
     <label for='files'>Documents</label>
-    <input type='text' name='files' size='40' value='<%= get('files') %>' />
+    <input style='opacity: 0.6;' type='text' name='files' size='40' value='<%= get('files') %>' disabled='disabled'/>
     <div class='description'>
-      Local file path to TileMill projects &amp; exports.
+      Server path to TileMill projects &amp; exports.
     </div>
   </li>
-  <li>
+  <li style='display: none;'>
     <label for='syncAccount'>MapBox</label>
     <div class='syncOn <%= get('syncAccount') && get('syncAccessToken') ? '' : 'dependent' %>'>
       <span style='margin-right:10px'>
@@ -29,7 +28,7 @@
     <div class='syncOff <%= get('syncAccount') && get('syncAccessToken') ? 'dependent' : '' %>'>
       <a class='button' href='/oauth/mapbox'>Authorize</a>
     </div>
-    <div class='description'>
+    <div  class='description' >
       <% if (get('syncAccount') && get('syncAccessToken')) { %>
       Upload maps to this account.
       <% } else { %>
@@ -39,12 +38,12 @@
   </li>
   <li>
     <label for='httpProxy'>HTTP Proxy</label>
-    <input type='text' name='httpProxy' size='40' placeholder='http://user:pass@hostname:port' value='<%= get('httpProxy') %>' />
+    <input style='opacity: 0.6;' type='text' name='httpProxy' size='40' placeholder='http://user:pass@hostname:port' value='<%= get('httpProxy') %>' disabled='disabled'/>
     <div class='description'>
       HTTP proxy to be used when connecting to the Internet.
     </div>
   </li>
-  <li>
+  <li style='display: none;'>
     <label for='profile'>System profile</label>
     <input type='checkbox' name='profile' <% if (get('profile')) %>checked='checked'<% ; %> /> Report system profile anonymously.
     <div class='description'>
@@ -61,7 +60,7 @@
     </div>
   </li>
   <% if (window.abilities.platform !== 'darwin') { %>
-  <li>
+  <li style='display: none;'>
     <label for='updates'>Updates</label>
     <input type='checkbox' name='updates' <% if (get('updates')) %>checked='checked'<% ; %> /> Check for new releases of TileMill.
     <% if (get('updatesTime')) { %>

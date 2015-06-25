@@ -4,10 +4,10 @@
     <div class='description'>Provide information about your project. You can edit these fields later.</div>
   </li>
   <li>
-    <label for='id'><span class='required'>*</span> Filename</label>
+    <label for='id'><span class='required'>*</span> Name</label>
     <input type='text' name='id' size='40' value='<%= get('id') %>' />
   </li>
-  <li>
+  <li style='display: none;'>
     <label for='name'>Name</label>
     <input type='text' name='name' size='40' value='<%= get('name') %>' />
   </li>
@@ -19,11 +19,11 @@
     <label for='format'>Image format</label>
     <select class="60" name='format'>
       <option value='png8'<% if (get('format') == 'png8') { %> selected='selected' <% } %>>Optimized png (256 colors)</option>
-      <option value='png24'<% if (get('format') == 'png24') { %> selected='selected' <% } %>>Lossless png (Full color)</option>
-      <option value='jpeg80'<% if (get('format') == 'jpeg80') { %> selected='selected' <% } %>>jpeg (80%)</option>
-      <option value='jpeg85'<% if (get('format') == 'jpeg85') { %> selected='selected' <% } %>>jpeg (85%)</option>
-      <option value='jpeg90'<% if (get('format') == 'jpeg90') { %> selected='selected' <% } %>>jpeg (90%)</option>
-      <option value='jpeg95'<% if (get('format') == 'jpeg95') { %> selected='selected' <% } %>>jpeg (95%)</option>
+      <option value='png24'<% if (get('format') == 'png24') { %> selected='selected' <% } %> disabled='disabled'>Lossless png (Full color)</option>
+      <option value='jpeg80'<% if (get('format') == 'jpeg80') { %> selected='selected' <% } %> disabled='disabled'>jpeg (80%)</option>
+      <option value='jpeg85'<% if (get('format') == 'jpeg85') { %> selected='selected' <% } %> disabled='disabled'>jpeg (85%)</option>
+      <option value='jpeg90'<% if (get('format') == 'jpeg90') { %> selected='selected' <% } %> disabled='disabled'>jpeg (90%)</option>
+      <option value='jpeg95'<% if (get('format') == 'jpeg95') { %> selected='selected' <% } %> disabled='disabled'>jpeg (95%)</option>
     </select>
   </li>
   <li>
