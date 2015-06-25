@@ -1,5 +1,7 @@
 ### Changes TO BE DONE for CLIMA
 
+-ao adicionar novo layer postgis, damos apenas o nome da tabela; depois de clickar no botao save temos de acrescentar o schema onde estao as tabelas postgis (geo). Este schema deve estar no clima-settings.json
+
 -ao adicionar novo layer, desactivar a tab "files"? (como feito para a tab sqlite - ver em baixo)
 
 -DONE quando estamos a criar o projecto, 
