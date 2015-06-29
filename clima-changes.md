@@ -1,5 +1,18 @@
 ### Changes TO BE DONE for CLIMA
 
+-who to add icons to layer that are points?
+
+-in the default style.mms, add a description saying that "#countries" and "Map" should be removed before exporting to mbtiles
+
+-o nome do projecto deve ter pelo menos 5 caracteres
+
+-no clima e aqui, temos sempre de verificar que foi definido 
+export TILEMILL_FILES_PATH, caso contrario vamos ter erros
+
+-tirar o botao de criar novos projectos; para criar novos projectos o utilizador tem necessariamente de usar o dashboard (deste modo garantimos que o nome do projecto  é unico)
+
+-antes de renderizar mbtiles, por um aviso a dizer que o layer dos paises nao deve estar
+
 -ao adicionar novo layer postgis, damos apenas o nome da tabela; depois de clickar no botao save temos de acrescentar o schema onde estao as tabelas postgis (geo). Este schema deve estar no clima-settings.json
 
 -ao adicionar novo layer, desactivar a tab "files"? (como feito para a tab sqlite - ver em baixo)
@@ -11,7 +24,7 @@
 
 -DONE zoom/centro por omissao: ler de um ficheiro de opcoes
 
--instalar plugins que permitem ordenar tabelas e pan suave no mapa
+-instalar plugins que permitem ordenar tabelas e pan/zoom suave
 
 
 ### Changes done for CLIMA
