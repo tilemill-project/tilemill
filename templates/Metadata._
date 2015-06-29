@@ -20,7 +20,7 @@ var get = _(project.get).bind(project);
   <% if (type === 'tiles') { %>
   <li>
     <label for='name'>Name</label>
-    <input style='opacity: 0.6;' type='text' name='name' class='stretch' value='<%= get('name') %>' disabled='disabled' />
+    <input type='text' name='name' class='stretch' value='<%= get('name') %>'  />
   </li>
   <li>
     <label for='description'>Description</label>
