@@ -85,7 +85,13 @@ view.prototype.render = function() {
             $('select[name="Datasource.shape_name"]').html(options);
 
             $('select[name="Datasource.shape_name"]').change(function(){
-                var selectedOption = $('select[name="Datasource.shape_name"]').val();
+                //debugger;
+
+                // ??? - for some reason $('select[name="Datasource.shape_name"]') selects 2 elements!
+                var selectedOption = $('select[name="Datasource.shape_name"]').first().val();
+                var selectedOption2 = $('select[name="Datasource.shape_name"]').last().val();
+                selectedOption = selectedOption || selectedOption2;
+
                 $('input[name=id]').attr('placeholder', selectedOption);
                 $('textarea[name="Datasource.table"]').val("geo." + selectedOption);
             });
@@ -404,9 +410,14 @@ view.prototype.save = function(e) {
     attr.id = (attr.id || this.autoname(attr.Datasource.file||attr.Datasource.table)).replace('#','');
 
     // force the name and id
-    var tableName = $('select[name="Datasource.shape_name"]').val()
-    attr.name = attr.id = this.autoname(tableName).replace('#',''); 
+    //debugger;
+    
+    // ??? - for some reason $('select[name="Datasource.shape_name"]') selects 2 elements!
+    var tableName = $('select[name="Datasource.shape_name"]').first().val();
+    var tableName2 = $('select[name="Datasource.shape_name"]').last().val();
+    tableName = tableName || tableName2;
 
+    attr.name = attr.id = this.autoname(tableName).replace('#',''); 
     
 
     attr['class'] = (attr['class'] || '').replace('.','');

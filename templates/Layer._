@@ -52,6 +52,12 @@ var connectionOptions = function(obj) {
 
 
     <li>
+      <label><span class='required'>*</span><b>Choose shape</b></label>
+      <select name='Datasource.shape_name' id="shape_name" style="width: 500px;">
+      </select>
+    </li>
+
+    <li>
       <label for='id'>ID</label>
       <input type='text' name='id' value='<%=get('id')%>' size='20'/>
       <span class='description'>select in Carto <code>#id</code></span>
@@ -130,11 +136,7 @@ var connectionOptions = function(obj) {
       <small class='description'>Table name, or query like: <code>(select * from planet_osm_line where highway like 'path') as paths</code></small>
     </li>
 
-    <li>
-      <label><span class='required'>*</span><b>Choose shape</b></label>
-      <select name='Datasource.shape_name' style="width: 500px;">
-      </select>
-    </li>
+
 
     <li>
       <label for='extent'>Unique key field</label>
