@@ -49,6 +49,8 @@ var connectionOptions = function(obj) {
   <form class='dependent layer-<%=type%> active'>
   <% if (type !== 'file') { %><input type='hidden' name='Datasource.type' value='<%=type%>' /><% } %>
   <ul class='form'>
+
+
     <li>
       <label for='id'>ID</label>
       <input type='text' name='id' value='<%=get('id')%>' size='20'/>
@@ -127,6 +129,13 @@ var connectionOptions = function(obj) {
       </div>
       <small class='description'>Table name, or query like: <code>(select * from planet_osm_line where highway like 'path') as paths</code></small>
     </li>
+
+    <li>
+      <label><span class='required'>*</span><b>Choose shape</b></label>
+      <select name='Datasource.shape_name' style="width: 500px;">
+      </select>
+    </li>
+
     <li>
       <label for='extent'>Unique key field</label>
       <input type='text' name='Datasource.key_field' value='<%=Datasource.key_field%>' />

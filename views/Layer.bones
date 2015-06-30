@@ -40,6 +40,7 @@ view.prototype.initialize = function(options) {
 view.prototype.render = function() {
     this.$('.content').html(templates.Layer(this.model));
 
+
     // changed for clima
 
     // set default value for the "Connection" input and hide it
@@ -54,8 +55,49 @@ view.prototype.render = function() {
     this.$('input[name="Datasource.geometry_field"]').val('geom');
     this.$('input[name="Datasource.geometry_field"]').parent().hide();
 
+    // hide the text area (the value will be changed automatically when the new select changes)
+    this.$('textarea[name="Datasource.table"]').parent().parent().hide();
+
+    
     // make sure the selected option for the "SRS" field is WGS84
     $('select[name="srs-name"]').val('WGS84').trigger('change');
+
+    $.ajax({
+        url: "/api/v1/shapes",
+        success: function(data){
+
+            var options = "<option value=''>---</option>";
+            $.each(data, function(index, obj){
+                var tableName = obj.tableName;
+                var d = new Date(obj.createdAt);
+
+                var year = d.getFullYear();
+                var month = d.getMonth();
+                var day = d.getDate();
+                var hours = d.getHours();
+                var minutes = d.getMinutes();
+
+                options += "<option value='" + tableName +"'>" + 
+                            tableName + " (uploaded on " + year + "/" + month + "/" + day + " " + hours + ":" + minutes + ")" +
+                            "</option>";
+            });
+
+            $('select[name="Datasource.shape_name"]').html(options);
+
+            $('select[name="Datasource.shape_name"]').change(function(){
+                var selectedOption = $('select[name="Datasource.shape_name"]').val();
+                $('input[name=id]').attr('placeholder', selectedOption);
+                $('textarea[name="Datasource.table"]').val("geo." + selectedOption);
+            });
+           
+        },
+        error: function(jqxhr, status, s){
+            alert("ERROR: " + jqxhr.responseText);
+        }
+
+    });
+
+    // end of changes
 
 
     // Quick easy way to check and set whether input
@@ -199,6 +241,7 @@ view.prototype.placeholderUpdate = function(ev) {
 // @TODO smarter handling for this or abandon the idea if it turns out to be
 // untenable for queries.
 view.prototype.autoname = function(source) {
+
     var sep = window.abilities.platform === 'win32' ? '\\' : '/';
 
     var cleanname = '';
@@ -210,7 +253,8 @@ view.prototype.autoname = function(source) {
         .value()
         .split('.')[0]
         .toLowerCase()
-        .replace(/[^a-z0-9]/g,'')
+//        .replace(/[^a-z0-9]/g,'')
+        .replace(/[^a-z0-9_-]/g,'')
         .replace('selectfrom','')
         .replace('select','')
         .substr(0,20);
@@ -354,9 +398,17 @@ view.prototype.save = function(e) {
         attr.Datasource = _(attr.Datasource||{}).defaults(attr.connection);
         delete attr.connection;
     }
+
     // Autoname this layer if id is blank.
     attr.name =
     attr.id = (attr.id || this.autoname(attr.Datasource.file||attr.Datasource.table)).replace('#','');
+
+    // force the name and id
+    var tableName = $('select[name="Datasource.shape_name"]').val()
+    attr.name = attr.id = this.autoname(tableName).replace('#',''); 
+
+    
+
     attr['class'] = (attr['class'] || '').replace('.','');
 
     $(this.el).addClass('loading').addClass('restartable');
