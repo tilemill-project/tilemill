@@ -10,8 +10,7 @@ controller.prototype.initialize = function() {
         type: 'GET',
         dataType: 'json',
         success: function(data) {
-            if (window.abilities.platform === 'darwin') return;
-            if (!data.updates) return;
+            if (!data || !data.updates) return;
             if (!semver.gt(data.updatesVersion,
                     window.abilities.tilemill.version)) return;
             new views.Modal({
@@ -20,9 +19,14 @@ controller.prototype.initialize = function() {
                             Update to TileMill <%=version%> today.<br/>\
                             <small>You can disable update notifications in the <strong>Settings</strong> panel.</small>\
                             ').template({ version:data.updatesVersion }),
-                    affirmative: 'Update',
+                affirmative: 'Update',
                 negative: 'Later',
-                callback: function() { window.open('http://tilemill.com') }
+                callback: function() {
+                    if (typeof process === 'undefined' || typeof process.versions['atom-shell'] === undefined) {
+                        window.open('http://tilemill.com');
+                    }
+                    shell.openExternal('https://www.mapbox.com/tilemill/');
+                }
             });
         }
     });

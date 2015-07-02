@@ -154,7 +154,7 @@ command.prototype.initialize = function(plugin, callback) {
         });
     });
 
-    process.on('exit', function(code, signal) {
+    process.on('SIGINT', function(code, signal) {
         console.warn('Exiting process [' + process.title + ']');
         if (code !== 0)
         {

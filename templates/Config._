@@ -60,7 +60,6 @@
       TileMill <%= window.abilities.tilemill.version %>
     </div>
   </li>
-  <% if (window.abilities.platform !== 'darwin') { %>
   <li>
     <label for='updates'>Updates</label>
     <input type='checkbox' name='updates' <% if (get('updates')) %>checked='checked'<% ; %> /> Check for new releases of TileMill.
@@ -68,7 +67,6 @@
     <div class='description'>Last checked <%= new Date(get('updatesTime')).format('g:ia M j') %>.</div>
     <% } %>
   </li>
-  <% } %>
   <li>
     <label for='verbose'>Logging</label>
     <input type='checkbox' name='verbose' <% if (get('verbose') == 'on') %>checked='checked'<% ; %> /> Use verbose logging

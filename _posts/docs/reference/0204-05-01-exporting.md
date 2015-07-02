@@ -48,7 +48,7 @@ TileMill can be invoked from a terminal shell. This is useful for running export
 
 ### Mac OS X
 
-    cd /Applications/TileMill.app/Contents/Resources/
+    cd /Applications/TileMill.app/Contents/Resources/app
     ./index.js export --help
 
 ### Ubuntu
@@ -61,8 +61,8 @@ For other Linux distribution or for custom-compiled TileMill installation, you'l
 
 ### Windows
 
-    cd "C:\Program Files (x86)\TileMill-v0.10.0\tilemill"
-    .\node.exe .\index.js export --help
+    cd "C:\Program Files (x86)\tilemill\resources\app"
+    node .\index.js export --help
 
 ### Export examples
 

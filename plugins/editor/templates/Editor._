@@ -1,6 +1,4 @@
 <div class='tabs-bar'>
-    <button class="button move-button" id="tabs-right">&lt;</button>
-    <button class="button move-button" id="tabs-left">&gt;</button>
     <div class='tabs-container'>
         <ul class='tabs toggler clearfix'></ul>
     </div>

@@ -1,9 +1,0 @@
-#!/bin/sh
-
-set -e
-
-BASE="/usr/local/lib"
-
-if [ -e "$BASE/libmapnik.so" ]; then
-  echo "\n\n\033[38;50;33mNOTICE:\033[39m You appear to have another version of libmapnik installed under /usr/local on this system.  In order for TileMill to run correctly you must remove this version of libmapnik.  The TileMill package includes its own libmapnik library, but your copy of libmapnik in /usr/local will interfere with the TileMill package version of libmapnik. Quick solution is to go to where you previously installed mapnik and run \`make uninstall\`.\n\n"
-fi

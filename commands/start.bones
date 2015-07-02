@@ -4,9 +4,7 @@ var redirect = require('../lib/redirect.js');
 var defaults = models.Config.defaults;
 var command = commands['start'];
 var crashutil = require('../lib/crashutil');
-// we can drop this when we drop support for ubuntu lucid/maverick/natty
-// https://github.com/mapbox/tilemill/issues/1244
-var ubuntu_gui_workaround = require('../lib/ubuntu_gui_workaround');
+var logger = require('fastlog')('', 'debug', '<${timestamp}>');
 
 command.options['server'] = {
     'title': 'server=1|0',
@@ -52,7 +50,7 @@ command.prototype.initialize = function(plugin, callback) {
     Bones.plugin.children = {};
     process.title = 'tilemill';
     // Kill child processes on exit.
-    process.on('exit', function(code, signal) {
+    process.on('SIGINT', function(code, signal) {
         _(Bones.plugin.children).each(function(child, key) {
             console.warn('[tilemill] Closing child process: ' + key  + " (pid:" + child.pid + ")");
             child.kill();
@@ -78,36 +76,14 @@ command.prototype.initialize = function(plugin, callback) {
     this.child('core');
     this.child('tile');
 
-    if (!plugin.config.server) plugin.children['core'].stderr.on('data', function(d) {
-        if (!d.toString().match(/Started \[Server Core:\d+\]./)) return;
-        var client;
-        var options = {
-            url: 'http://' + plugin.config.coreUrl,
-            name: 'TileMill',
-            width: 800,
-            height: 600,
-            minwidth: 800,
-            minheight: 400,
-            // win32-only options.
-            ico: path.resolve(path.join(__dirname,'/../tilemill.ico')),
-            'cache-path': path.join(process.env.HOME, '.tilemill/cache-cefclient'),
-            'log-file': path.join(process.env.HOME, '.tilemill/cefclient.log')
-        };
-        ubuntu_gui_workaround.check(function(needed) {
-            try {
-              if (needed) {
-                  client = ubuntu_gui_workaround.get_client(options);
-              } else {
-                  client = require('topcube')(options);
-              }
-              if (client) {
-                  console.warn('[tilemill] Client window created (pass --server=true to disable this)');
-                  plugin.children['client'] = client;
-              }
-            } catch (err) {
-              console.warn('[tilemill] Unable to open client window (' + err.message + ')');
-            }
-        });
+    if (!plugin.config.server) plugin.children['tile'].stderr.on('data', function(data) {
+        console.log(data); // Used for logging events to the parent process
+        if (!data.toString().match(/Started \[Server Tile:\d+\]./)) return;
+    });
+
+    if (!plugin.config.server) plugin.children['core'].stderr.on('data', function(data) {
+        console.log(data); // Used for logging events to the parent process
+        if (!data.toString().match(/Started \[Server Core:\d+\]./)) return;
     });
 
     callback && callback();
@@ -115,12 +91,12 @@ command.prototype.initialize = function(plugin, callback) {
 
 command.prototype.child = function(name) {
     Bones.plugin.children[name] = spawn(process.execPath, [
-        path.resolve(path.join(__dirname + '/../index.js')),
+        path.resolve(path.join(__dirname + '/../index-server.js')),
         name
     ].concat(args));
 
     redirect.onData(Bones.plugin.children[name]);
-    Bones.plugin.children[name].once('exit', function(code, signal) {
+    Bones.plugin.children[name].once('SIGINT', function(code, signal) {
         if (code === 0) {
             // restart server if exit was clean
             console.warn('[tilemill] Restarting child process: "' + name + '"');

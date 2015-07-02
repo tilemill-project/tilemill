@@ -25,6 +25,7 @@ view.prototype.render = function() {
     }));
 
     if (!MM) throw new Error('ModestMaps not found.');
+    this.preview.attributes.scheme = 'tms';
     this.map = new MM.Map('preview',
         new wax.mm.connector(this.preview.attributes));
     wax.mm.interaction()
@@ -60,4 +61,50 @@ view.prototype.upload = function(ev) {
         }).bind(this)
     }));
     return false;
+};
+
+view.prototype.download = function(ev) {
+    if (typeof process === 'undefined') return;
+    if (typeof process.versions['atom-shell'] === undefined) return;
+    var uri = url.parse($(ev.currentTarget).attr('href'));
+        // Opening external URLs.
+    if (uri.hostname && uri.hostname !== 'localhost') {
+        shell.openExternal(ev.currentTarget.href);
+        return false;
+    }
+    // File saving.
+    var fileTypes = {
+        mbtiles: 'Tiles',
+        png: 'Image',
+        jpg: 'Image',
+        jpeg: 'Image',
+        tiff: 'Tiff',
+        webp: 'WebP',
+        pdf: 'PDF',
+        svg: 'SVG',
+        xml: 'Mapnik XML'
+    };
+
+    var typeExtension = (uri.pathname || '').split('.').pop().toLowerCase();
+    var typeLabel = fileTypes[typeExtension];
+
+    if (typeLabel) {
+        var filePath = remote.require('dialog').showSaveDialog({
+            title: 'Save ' + typeLabel,
+            defaultPath: '~/Untitled ' + typeLabel + '.' + typeExtension,
+            filters: [{
+                name: typeExtension.toUpperCase(),
+                extensions: [typeExtension]
+            }]
+        });
+        if (filePath) {
+            var writeStream = fs.createWriteStream(filePath);
+            var req = http.request(uri, function(res) {
+                if (res.statusCode !== 200) return;
+                res.pipe(writeStream);
+            });
+            req.end();
+        }
+        return false;
+    }
 };

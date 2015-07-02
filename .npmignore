@@ -1,0 +1,6 @@
+/node_modules
+/platforms
+/local-postgres
+/local-unix-socket
+/mason_packages
+mason-config.env

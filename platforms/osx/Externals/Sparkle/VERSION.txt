@@ -1,5 +1,0 @@
-Sparkle.framework (mapbox/master f8c74e7)
-Built 9/10/13
-
-This exists so that TileMill can include a binary build of Sparkle.framework 
-and not have to build it from source each time. 
