@@ -1,5 +1,5 @@
 <ul class='projects grid'>
-  <li>
+  <li style='display:none;'>
   <span class='sunken actions'>
     <a class='button large popup' href='#add'>
       <span class='icon plus reverse labeled'></span>
@@ -13,7 +13,7 @@
     <span class='thumb'></span>
     <span class='thumb' style='background:url(<%=model.thumb()%>) 50% 50% no-repeat; background-size:cover'></span>
     <%= model.get('name') || model.get('id') %><br/>
-    <small class='description'>Updated <%= new Date(model.get('_updated')).format('D M j g:ia') %></small>
+    <small class='description'>Last update: <%= new Date(model.get('_updated')).format('y-m-d H:i') %></small>
     <span id='<%= model.id %>' class='icon delete'>Delete</span>
   </a>
   </li>

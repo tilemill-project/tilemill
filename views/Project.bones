@@ -117,7 +117,7 @@ view.prototype.settings = function(ev) {
         type: 'tiles',
         model: this.model,
         project: this.model,
-        title: 'Project settings',
+        title: 'Map settings',
         success: _(function() {
             this.$('#meta').empty();
             this.$('.project').removeClass('meta');

@@ -4,6 +4,7 @@
   <div class='workspace fill-e'>
     <div class='header'>
     <div>
+       <span style='font-size: 16px;'>Map name: </span>
        <span class='name'><%= get('name') || get('id') %></span>
        <span class='project-status' title="check the logs for more details"></span>
     </div>

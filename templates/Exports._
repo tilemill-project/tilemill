@@ -12,12 +12,12 @@
   <h2><%= m.get('name') || m.get('filename') %></h2>
   <div class='description'>
     <% if (m.get('created')) { %>
-    Started <%= (new Date(m.get('created'))).format('M j h:ia') %>
+    Started <%= (new Date(m.get('created'))).format('y-m-d H:i') %>
     <% } else if (m.get('status') === 'waiting') { %>
     Waiting to be processed
     <% } %>
     <% if (m.get('updated')) { %>
-    &mdash; <%= obj.time(m.get('updated') - m.get('created')) %>
+    &mdash; Processing time: <%= obj.time(m.get('updated') - m.get('created')) %>
     <% } %>
   </div>
   <div class='status'>
@@ -30,9 +30,9 @@
       <% if (m.get('format') === 'upload' || m.get('format') === 'sync') { %>
       <a class='button' target='_blank' href='<%=m.get('url')%>'><span class='icon reverse labeled cloud'></span> View</a>
       <% } else if (m.get('format') === 'mbtiles') { %>
-      <a class='button preview popup' href='#<%=m.id%>'><span class='icon reverse labeled export'></span> Save</a>
+      <a class='button preview popup' href='#<%=m.id%>'><span class='icon reverse labeled export'></span> Download</a>
       <% } else { %>
-      <a class='button' href='/export/download/<%=m.get('filename')%>'><span class='icon reverse labeled export'></span> Save</a>
+      <a class='button' href='/export/download/<%=m.get('filename')%>'><span class='icon reverse labeled export'></span> Download</a>
       <% } %>
       </div>
     <% } %>

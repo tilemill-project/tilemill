@@ -112,7 +112,7 @@ var get = _(project.get).bind(project);
   <% if (model !== project && type === 'tiles') { %>
   <li>
     <input type='checkbox' name='_saveProject' value='1' checked='checked' >
-    <span class='description'>Save settings to project</span>
+    <span class='description'>Save settings</span>
   </li>
   <% } %>
   <li class='buttons'>
