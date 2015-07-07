@@ -50,6 +50,23 @@ var connectionOptions = function(obj) {
   <% if (type !== 'file') { %><input type='hidden' name='Datasource.type' value='<%=type%>' /><% } %>
   <ul class='form'>
 
+    <li>
+      <label><span class='required'>*</span><b>Choose shape</b></label>
+
+      <table id="shapes-table" style="height: 110px; width: 500px; overflow-y: scroll; display: block;">
+          <thead>
+              <tr>
+                  <th style="xwidth: 10%"></th>
+                  <th style="xwidth: 30%">Shape file</th>
+                  <th style="xwidth: 40%">Description</th>
+                  <th style="xwidth: 20%">Upload date</th>
+              </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
+
+    </li>
 
     <li>
       <label><span class='required'>*</span><b>Choose shape</b></label>

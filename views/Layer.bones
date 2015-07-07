@@ -58,6 +58,7 @@ view.prototype.render = function() {
     // hide the text area (the value will be changed automatically when the new select changes)
     this.$('textarea[name="Datasource.table"]').parent().parent().hide();
 
+    this.$('select[name="Datasource.shape_name"]').parent().hide();
     
     // make sure the selected option for the "SRS" field is WGS84
     $('select[name="srs-name"]').val('WGS84').trigger('change');
@@ -65,8 +66,9 @@ view.prototype.render = function() {
     $.ajax({
         url: "/api/v1/shapes",
         success: function(data){
-
+/*
             var options = "<option value=''>---</option>";
+
             $.each(data, function(index, obj){
                 var tableName = obj.tableName;
                 var d = new Date(obj.createdAt);
@@ -80,12 +82,20 @@ view.prototype.render = function() {
                 options += "<option value='" + tableName +"'>" + 
                             tableName + " (uploaded on " + year + "/" + month + "/" + day + " " + hours + ":" + minutes + ")" +
                             "</option>";
+
+                var uploadTime = year + "/" + month + "/" + day + " " + hours + ":" + minutes;
+                tableRows += 
+                    '<tr>' +
+                    '<td><input type="radio" name="shape-radio" id="' + tableName + '" value="' + tableName + '"></td>' +
+                    '<td>' + tableName + '</td>' + 
+                    '<td></td>' + 
+                    '<td>' + uploadTime + '</td>' +
+                    '</tr>'
             });
 
             $('select[name="Datasource.shape_name"]').html(options);
 
             $('select[name="Datasource.shape_name"]').change(function(){
-                //debugger;
 
                 // ??? - for some reason $('select[name="Datasource.shape_name"]') selects 2 elements!
                 var selectedOption = $('select[name="Datasource.shape_name"]').first().val();
@@ -95,7 +105,44 @@ view.prototype.render = function() {
                 $('input[name=id]').attr('placeholder', selectedOption);
                 $('textarea[name="Datasource.table"]').val("geo." + selectedOption);
             });
-           
+*/
+
+
+            var tableRows = "";
+
+            $.each(data, function(index, obj){
+                var tableName = obj.tableName;
+                var desc = "";
+                if(obj.description && obj.description.en){
+                    desc = obj.description.en;
+                }
+
+                var d = new Date(obj.createdAt);
+
+                var year = d.getFullYear();
+                var month = d.getMonth();
+                var day = d.getDate();
+                var hours = d.getHours();
+                var minutes = d.getMinutes();
+
+                var uploadTime = year + "/" + month + "/" + day + " " + hours + ":" + minutes;
+                tableRows += 
+                    '<tr>' +
+                    '<td><input type="radio" name="shape-radio" id="' + tableName + '" value="' + tableName + '"></td>' +
+                    '<td title="' + tableName + '">' + tableName + '</td>' + 
+                    '<td title="' + desc + '">' + desc + '</td>' + 
+                    '<td>' + uploadTime + '</td>' +
+                    '</tr>'
+            });
+
+            $('#shapes-table tbody').append(tableRows);
+
+            $('input[name="shape-radio"]').change(function () {
+                var selectedShape = this.value;
+
+                $('input[name=id]').attr('placeholder', selectedShape);
+                $('textarea[name="Datasource.table"]').val("geo." + selectedShape);
+            });
         },
         error: function(jqxhr, status, s){
             alert("ERROR: " + jqxhr.responseText);
@@ -413,12 +460,12 @@ view.prototype.save = function(e) {
     //debugger;
     
     // ??? - for some reason $('select[name="Datasource.shape_name"]') selects 2 elements!
-    var tableName = $('select[name="Datasource.shape_name"]').first().val();
-    var tableName2 = $('select[name="Datasource.shape_name"]').last().val();
-    tableName = tableName || tableName2;
-
+    // var tableName = $('select[name="Datasource.shape_name"]').first().val();
+    // var tableName2 = $('select[name="Datasource.shape_name"]').last().val();
+    // tableName = tableName || tableName2;
+    var tableName = $("#shapes-table input[type='radio']:checked").val();    
     attr.name = attr.id = this.autoname(tableName).replace('#',''); 
-    
+
 
     attr['class'] = (attr['class'] || '').replace('.','');
 
