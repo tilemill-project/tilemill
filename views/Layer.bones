@@ -306,11 +306,11 @@ view.prototype.autoname = function(source) {
         .value()
         .split('.')[0]
         .toLowerCase()
-//        .replace(/[^a-z0-9]/g,'')
-        .replace(/[^a-z0-9_-]/g,'')
+//        .replace(/[^a-z0-9]/g,'')   // original
+//        .replace(/[^a-z0-9_-]/g,'')   // replacement (but is this really needed?)
         .replace('selectfrom','')
-        .replace('select','')
-        .substr(0,20);
+        .replace('select','');
+//        .substr(0,20);
     }
 
     if (!cleanname) {
