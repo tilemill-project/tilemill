@@ -7,7 +7,7 @@ view.prototype.events = {
 
 view.prototype.initialize = function(options) {
     _(this).bindAll('insert', 'keydown');
-    this.render();
+//    this.render();
 };
 
 view.prototype.render = function() {
@@ -49,7 +49,7 @@ views.Project.augment({
     },
     render: function(p) {
         p.call(this);
-        this.$('.palette').prepend("<a class='drawer' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>");
+        // this.$('.palette').prepend("<a class='drawer' href='#fonts'><span class='icon reverse fonts'>Fonts</span></a>");
         return this;
     }
 });

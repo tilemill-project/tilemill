@@ -53,7 +53,7 @@ views.Project.augment({
     },
     render: function(p) {
         p.call(this);
-        this.$('.palette').prepend("<a class='drawer' href='#carto'><span class='icon reverse reference'>Carto</span></a>");
+        this.$('.palette').prepend("<a title='CartoCSS reference' class='drawer' href='#carto'><span class='icon reverse reference'>Carto</span></a>");
         return this;
     }
 });

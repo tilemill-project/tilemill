@@ -103,7 +103,7 @@ views.Project.augment({
     },
     render: function(p) {
         p.call(this);
-        this.$('.palette').prepend("<a class='drawer' href='#templates'><span class='icon reverse tooltip'>Templates</span></a>");
+        this.$('.palette').prepend("<a title='Legends' class='drawer' href='#templates'><span class='icon reverse tooltip'>Templates</span></a>");
         return this;
     }
 });
