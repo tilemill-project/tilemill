@@ -58,7 +58,14 @@ view.prototype.render = function() {
     // hide the text area (the value will be changed automatically when the new select changes)
     this.$('textarea[name="Datasource.table"]').parent().parent().hide();
 
+    
+    this.$('select[name="Datasource.extent_cache"]').parent().hide();
+    this.$('select[name="srs-name"]').parent().hide();
+    this.$('input[name="advanced"]').parent().hide();
+
     this.$('select[name="Datasource.shape_name"]').parent().hide();
+
+
     
     // make sure the selected option for the "SRS" field is WGS84
     $('select[name="srs-name"]').val('WGS84').trigger('change');

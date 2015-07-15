@@ -53,7 +53,7 @@ var connectionOptions = function(obj) {
     <li>
       <label><span class='required'>*</span><b>Choose shape</b></label>
 
-      <table id="shapes-table" style="height: 110px; width: 500px; overflow-y: scroll; display: block;">
+      <table id="shapes-table" style="height: 310px; width: 500px; overflow-y: scroll; display: block;">
           <thead>
               <tr>
                   <th style="xwidth: 10%"></th>
