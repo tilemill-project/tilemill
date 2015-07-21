@@ -7,7 +7,26 @@ view = Backbone.View.extend({
         _(this).bindAll('render', 'add', 'del');
         this.collection.bind('add', this.render);
         this.collection.bind('remove', this.render);
-        this.render();
+//        this.render();
+//return;
+        //debugger;
+        var self = this;
+        $.ajax({
+            url: "/api/v1/maps",
+            success: function(data){
+
+                data = _.sortBy(data, function(obj){ 
+                    return -obj.createdAt;
+                });
+
+                self.collection.refresh(data);
+                self.render();
+            },
+            error: function(e){
+                debugger;
+                alert("ERROR: ", e.message)
+            }
+        });
     },
     render: function() {
         $('.bleed .active').removeClass('active');

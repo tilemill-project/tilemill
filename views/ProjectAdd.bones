@@ -1,7 +1,8 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'click input[type=submit]': 'save'
+//    'click input[type=submit]': 'save'
+    'click #add-new-map': 'save'
 };
 
 view.prototype.initialize = function(options) {
@@ -16,6 +17,44 @@ view.prototype.render = function() {
 };
 
 view.prototype.save = function() {
+
+    var newMap = {
+        name: $('input[name="id"]').val(),
+        description: $('input[name="description"]').val(),
+        center: this.$('[name="map-center"]').val()
+    };
+
+
+    // todo: make sure name is not empty
+    $(this.el).addClass('loading');
+
+    var self = this;
+    $.ajax({
+        type: 'POST',
+        url: '/api/v1/maps',
+        data: JSON.stringify(newMap),
+        dataType: 'json',
+        contentType:'application/json; charset=utf-8',
+        success: function(data){
+
+            $(self.el).removeClass('loading');
+            window.location.hash = '#/project/' + data.id;
+            self.$('.close').click();
+        },
+        error: function(jqxhr, status, s){
+
+            $(self.el).removeClass('loading');
+            var message = "ERROR";
+            if(jqxhr.responseText){
+                message += " :" + jqxhr.responseText;
+            }
+            alert(message);
+            self.$('.close').click();
+        }
+    });
+};
+
+view.prototype.saveOriginal = function() {
 
     // changed for clima: the "name" is not invisible; we manually set it's value to be equal
     // to the "filename" field (which now is shown an "name")

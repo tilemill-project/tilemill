@@ -55,7 +55,7 @@
   <div id='drawer' class='pane fill raised'><%= this.Pane() %></div>
 
   <div class='palette clearfix'>
-    <a class='drawer mini' href='#layers'><span class='icon reverse layers'>Layers</span></a>
+    <a title="Shapes" class='drawer mini' href='#layers'><span class='icon reverse layers'>Shapes</span></a>
   </div>
 
   <div id='meta' class='fill'></div>

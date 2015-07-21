@@ -70,6 +70,7 @@ view.prototype.initialize = function() {
 };
 
 view.prototype.render = function(init) {
+    debugger;
     $('.bleed .active').removeClass('active');
     $('.bleed .editor')
         .addClass('active')

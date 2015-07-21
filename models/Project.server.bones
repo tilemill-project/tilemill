@@ -321,9 +321,14 @@ function loadProjectAll(model, callback) {
         if (err && process.env.NODE_ENV === 'development') console.log('[tilemill] skipped loading project: ' + err.toString());
         // Ignore errors from loading individual models (e.g.
         // don't let one bad apple spoil the collection).
+debugger;
         models = _(models).chain()
             .select(function(model) { return model && model.id })
-            .sortBy(function(model) { return model.id })
+            //.sortBy(function(model) { return model.id })
+            .sortBy(function(model) { 
+                debugger;
+                return model.id; 
+            })
             .value();
         return callback(null, models);
     });
