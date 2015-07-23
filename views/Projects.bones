@@ -22,9 +22,9 @@ view = Backbone.View.extend({
                 self.collection.refresh(data);
                 self.render();
             },
-            error: function(e){
-                debugger;
-                alert("ERROR: ", e.message)
+            error: function(jqxhr, status, s){
+                
+                alert("ERROR: " + jqxhr.responseText);
             }
         });
     },
