@@ -1,0 +1,17 @@
+{
+  "name": "tilemill-clima",
+  "script": "index.js",
+  "args": [
+    "--server=true", 
+    "--files=/home/pvieira/tilemill-files", 
+    "--coreUrl=clima.dev", 
+    "--tileUrl=clima.dev"
+  ],
+  "env": {
+    "NODE_ENV": "dev",
+    "TILEMILL_HOSTNAME": "clima.dev",
+    "TILEMILL_FILES_PATH": "/home/pvieira/tilemill-files"
+   },
+   "max_memory_restart" : "300M",
+   "treekill": true
+}
