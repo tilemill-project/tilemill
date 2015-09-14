@@ -4,14 +4,9 @@
   "args": [
     "--server=true", 
     "--files=/home/pvieira/tilemill-files", 
-    "--coreUrl=clima.fc.ul.pt", 
-    "--tileUrl=clima.fc.ul.pt"
+    "--coreUrl=clima-madeira.pt", 
+    "--tileUrl=clima-madeira.pt"
   ],
-  "env": {
-    "NODE_ENV": "dev",
-    "TILEMILL_HOSTNAME": "clima.fc.ul.pt",
-    "TILEMILL_FILES_PATH": "/home/pvieira/tilemill-files"
-   },
    "max_memory_restart" : "300M",
    "treekill": true
 }
