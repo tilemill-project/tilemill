@@ -15,6 +15,11 @@ view = Backbone.View.extend({
             url: "/api/v1/maps",
             success: function(data){
 
+                // remove the sequential maps
+                data = _.filter(data, function(obj){
+                    return !obj.sequence;
+                });
+
                 data = _.sortBy(data, function(obj){ 
                     return -obj.createdAt;
                 });
