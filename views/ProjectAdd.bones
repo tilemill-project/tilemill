@@ -37,9 +37,9 @@ view.prototype.save = function() {
         contentType:'application/json; charset=utf-8',
         success: function(data){
 
+            self.$('input.cancel[type="button"]').click();
             $(self.el).removeClass('loading');
             window.location.hash = '#/project/' + data.id;
-            self.$('.close').click();
         },
         error: function(jqxhr, status, s){
 
@@ -49,7 +49,7 @@ view.prototype.save = function() {
                 message += " :" + jqxhr.responseText;
             }
             alert(message);
-            self.$('.close').click();
+            self.$('input.cancel[type="button"]').click();
         }
     });
 };
