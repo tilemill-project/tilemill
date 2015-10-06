@@ -478,6 +478,7 @@ view.prototype.save = function(e) {
 
     $(this.el).addClass('loading').addClass('restartable');
     var error = _(function(m, e) {
+        
         if ($(this.el).hasClass('restarting')) return false;
         $(this.el).removeClass('loading').removeClass('restartable');
         if (e.responseText && e.responseText.indexOf('has multiple layers:') > -1) {
@@ -495,6 +496,7 @@ view.prototype.save = function(e) {
     }).bind(this);
     this.model.validateAsync(attr, {
         success: _(function(model, resp) {
+            //debugger;
             $(this.el).removeClass('loading').removeClass('restartable');
             if (attr.Datasource && attr.Datasource.extent_cache === 'auto') {
                 attr.Datasource.extent = resp.extent;
@@ -509,7 +511,8 @@ view.prototype.save = function(e) {
                 this.model.collection.add(this.model);
                 if (autostyle) this.autostyle();
             }
-            this.$('.close').click();
+            this.$('.close.button').click();
+            
         }).bind(this),
         error: error
     });
