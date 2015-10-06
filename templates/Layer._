@@ -222,7 +222,7 @@ var connectionOptions = function(obj) {
       <span class='description'>Optional, advanced arguments to pass to Mapnik.</span>
     </li>
     <li class='buttons' style="border-bottom: 0;">
-      <input type='submit' value='Save' />
+      <input style='display: none;' type='submit' value='Save' />
       <% if (isNew()) {%>
       <input type='submit' class='with-style' value='Save &amp; Style' />
       <% } %>
