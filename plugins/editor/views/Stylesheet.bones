@@ -26,7 +26,7 @@ view.prototype.save = function() {
     };
     if (this.model.set(attr, options)) {
         this.model.collection.add(this.model);
-        this.$('.close').click();
+        this.$('a[href="#close"]').click();
     }
     return false;
 };
