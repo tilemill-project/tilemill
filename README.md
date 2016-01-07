@@ -2,6 +2,8 @@ TileMill is a modern map design studio powered by [Node.js](http://nodejs.org) a
 
 This fork uses TileMill as a Hapi plugin and has customizations made for the CLIMA project (CCIAM research group, Faculdade de Ciencias da Universidade de Lisboa).
 
+The original readme is below.
+
 # Quick start (Ubuntu)
 
 Install the dependencies: `sudo npm install`
