@@ -1,5 +1,5 @@
 var path = require('path');
-var tilelive = require('tilelive');
+var tilelive = require('tilelive-clima');
 var settings = Bones.plugin.config;
 
 models.Preview.prototype.sync = function(method, model, success, error) {

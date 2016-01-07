@@ -414,7 +414,7 @@ command.prototype.static_map = function(project, callback) {
 
 command.prototype.tilelive = function (project, callback) {
     var cmd = this;
-    var tilelive = require('tilelive');
+    var tilelive = require('tilelive-clima');
 
     // Attempt to support additional tilelive protocols.
     try { require('tilelive-' + this.opts.format).registerProtocols(tilelive); }
@@ -440,7 +440,10 @@ command.prototype.tilelive = function (project, callback) {
         if (bboxIndex >= bboxes.length) {
             return callback();
         }
-        var opts = $.extend({}, cmd.opts);
+
+        //var opts = $.extend({}, cmd.opts);
+        var opts = {};        
+        opts = _(opts).extend(cmd.opts);
 
         // Try to load a job file if one was given and it exists.
         if (opts.job) {

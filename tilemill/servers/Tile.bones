@@ -1,13 +1,13 @@
 var fs = require('fs');
 var path = require('path');
-var tilelive = require('tilelive');
+var tilelive = require('tilelive-clima');
 var settings = Bones.plugin.config;
 var Step = require('step');
 var readdir = require('../lib/fsutil.js').readdir;
 var mapnik = require('mapnik');
 var sm = new (require('sphericalmercator'))();
 var carto = require('carto');
-var climaSettings = require("../clima-settings.json");
+var climaSettings = require("../../clima-settings.json");
 
 server = Bones.Server.extend({});
 server.prototype.port = 20008;

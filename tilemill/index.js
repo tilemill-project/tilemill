@@ -34,10 +34,10 @@ if (existsSync(config)) {
     argv.config = argv.config || config;
 }
 
-require('tilelive-mapnik').registerProtocols(require('tilelive'));
-require('mbtiles').registerProtocols(require('tilelive'));
+require('tilelive-mapnik').registerProtocols(require('tilelive-clima'));
+require('mbtiles').registerProtocols(require('tilelive-clima'));
 
-require('bones').load(__dirname);
+require('bones-clima').load(__dirname);
 
-//!module.parent && require('bones').start();
-require('bones').start();
+//!module.parent && require('bones-clima').start();
+require('bones-clima').start();

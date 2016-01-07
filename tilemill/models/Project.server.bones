@@ -7,14 +7,14 @@ var mkdirp = require('../lib/fsutil.js').mkdirp;
 var rm = require('../lib/fsutil.js').rm;
 var carto = require('carto');
 var mapnik = require('mapnik');
-var climaSettings = require("../clima-settings.json");
+var climaSettings = require("../../clima-settings.json");
 
 if (mapnik.register_default_fonts) mapnik.register_default_fonts();
 if (mapnik.register_system_fonts) mapnik.register_system_fonts();
 if (mapnik.register_default_input_plugins) mapnik.register_default_input_plugins();
 
 var EventEmitter = require('events').EventEmitter;
-var millstone = require('millstone');
+var millstone = require('millstone-clima');
 var settings = Bones.plugin.config;
 var tileURL = _('http://<%=url%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>&metatile=<%=metatile%>&scale=<%=scale%>').template();
 var request = require('request');
@@ -393,7 +393,6 @@ function saveProject(model, callback) {
 
         var group = this.group();
         _(files).each(function(data, filename) {
-            console.log("yyy: ", JSON.stringify(data, null, 2));
 
             // remove the database connection info
             if(Array.isArray(data.Layer)){

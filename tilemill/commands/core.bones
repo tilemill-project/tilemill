@@ -97,6 +97,7 @@ command.prototype.bootstrap = function(plugin, callback) {
     settings.files = path.resolve(settings.files.replace(/^~/, process.env.HOME));
     settings.coreUrl = settings.coreUrl || '127.0.0.1:' + settings.port;
     settings.tileUrl = settings.tileUrl || '127.0.0.1:' + settings.tilePort;
+
     carto.tree.Reference.setVersion(mapnik.versions.mapnik);
 
     Bones.plugin.abilities = {
@@ -113,7 +114,7 @@ command.prototype.bootstrap = function(plugin, callback) {
         coreUrl: settings.coreUrl,
         tileUrl: settings.tileUrl,
         tilePort: settings.tilePort,
-        tilemill: JSON.parse(fs.readFileSync(path.resolve(__dirname + '/../package.json'),'utf8')),
+        tilemill: JSON.parse(fs.readFileSync(path.resolve(__dirname + '/../../package.json'),'utf8')),
         carto: carto.tree.Reference.data,
         fonts: mapnik.fonts(),
         datasources: mapnik.datasources(),
@@ -189,7 +190,7 @@ command.prototype.bootstrap = function(plugin, callback) {
                     }
                     // Load plugin
                     // NOTE: even broken plugins (ones that throw upon require) will likely get partially loaded here
-                    require('bones').load(path.join(p, dir));
+                    require('bones-clima').load(path.join(p, dir));
                     console.warn('Plugin [%s] loaded.', Bones.utils.colorize(data.name, 'green'));
                     return data;
                 } catch (err) {
