@@ -7,7 +7,7 @@ models.Page.prototype.sync = function(method, model, success, error) {
     fs.readFile(filepath, 'utf8', function(err, data) {
         if (err) return error(err);
         data = data.substring(data.indexOf('---', 3) + 3);
-        data = data.replace(/{{site.baseurl}}\/assets/g, '/assets/tilemill');
+        data = data.replace(/{{site.baseurl}}\/assets/g, '/assets/tilemill-clima');
         return success({id: model.id, data: data});
     });
 };

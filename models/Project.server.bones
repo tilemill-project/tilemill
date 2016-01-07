@@ -393,6 +393,20 @@ function saveProject(model, callback) {
 
         var group = this.group();
         _(files).each(function(data, filename) {
+            console.log("yyy: ", JSON.stringify(data, null, 2));
+
+            // remove the database connection info
+            if(Array.isArray(data.Layer)){
+                data.Layer.forEach(function(obj){
+                    if(obj.Datasource){
+                        delete obj.Datasource.host;
+                        delete obj.Datasource.port;
+                        delete obj.Datasource.user;
+                        delete obj.Datasource.password;
+                        delete obj.Datasource.dbname;
+                    }
+                })
+            }
             fs.writeFile(
                 path.join(modelPath, filename),
                 _(data).isString() ? data : JSON.stringify(data, null, 2),

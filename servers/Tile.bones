@@ -202,6 +202,8 @@ server.prototype.datasource = function(req, res, next) {
 
     Bones.utils.fetch({model:model}, function(err) {
         if (err) return next(err);
+
+        console.log("xxx", model.toJSON());
         res.send(model.toJSON());
     });
 };

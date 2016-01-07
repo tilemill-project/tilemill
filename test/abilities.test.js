@@ -20,7 +20,7 @@ after(function(done) {
 
 it('GET should return JSON', function(done) {
     assert.response(core,
-        { url: '/assets/tilemill/js/abilities.js' },
+        { url: '/assets/tilemill-clima/js/abilities.js' },
         { status: 200 },
         function(res) {
             var body = res.body.replace(/^\s*var\s+abilities\s*=\s*(.+?);?$/, '$1');

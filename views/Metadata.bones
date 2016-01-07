@@ -258,6 +258,7 @@ view.prototype.updateSlider = function() {
 };
 
 view.prototype.save = function() {
+    debugger;
     var attr = Bones.utils.form(this.$('form'), this.model);
     var save = attr._saveProject;
     var error = function(m, e) { new views.Modal(e); };

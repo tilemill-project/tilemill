@@ -21,7 +21,7 @@ server.prototype.initialize = function(app) {
     this.post('/restart', this.restart);
 
     this.get('/', this.index);
-    this.get('/assets/tilemill/js/abilities.js', this.abilities);
+    this.get('/assets/tilemill-clima/js/abilities.js', this.abilities);
 
     // Simplified GET endpoint for retrieving config values by key.
     // Used by the native Cocoa app to retrieve specific settings.

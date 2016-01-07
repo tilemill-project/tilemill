@@ -30,9 +30,9 @@ servers['Route'].augment({
     },
     initializeAssets: function(parent, app) {
         parent.call(this, app);
-        this.get('/assets/tilemill/css/vendor.css',
+        this.get('/assets/tilemill-clima/css/vendor.css',
             mirror.assets(this.assets.styles, { type: '.css' }).handler);
-        this.get('/assets/tilemill/js/vendor.js',
+        this.get('/assets/tilemill-clima/js/vendor.js',
             mirror.assets(this.assets.scripts, { type: '.js' }).handler);
     }
 });

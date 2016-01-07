@@ -1745,7 +1745,7 @@ div.manual { margin-right:180px; }
 
 /* About */
 .about {
-  background:#ddd url(/assets/tilemill/images/tilemill.png) 20px 50% no-repeat;
+  background:#ddd url(/assets/tilemill-clima/images/tilemill.png) 20px 50% no-repeat;
   margin:0px 0px 10px;
   padding:19px 19px 19px 79px;
   }
@@ -1892,7 +1892,7 @@ ul.grid li {
   }
 
   .about {
-    background-image:url(/assets/tilemill/images/tilemill_2x.png);
+    background-image:url(/assets/tilemill-clima/images/tilemill_2x.png);
     background-size: 40px 45px;
   }
 

@@ -3,11 +3,11 @@
 <head>
   <meta charset='UTF-8'/>
   <title>TileMill</title>
-  <link rel='shortcut icon' href='/assets/tilemill/images/favicon.ico' type='image/x-icon' />
-  <link rel='stylesheet' href='/assets/tilemill/css/vendor.css' type='text/css'/>
+  <link rel='shortcut icon' href='/assets/tilemill-clima/images/favicon.ico' type='image/x-icon' />
+  <link rel='stylesheet' href='/assets/tilemill-clima/css/vendor.css' type='text/css'/>
   <script src='/assets/bones/all.js' type='text/javascript'></script>
-  <script src='/assets/tilemill/js/vendor.js' type='text/javascript'></script>
-  <script src='/assets/tilemill/js/abilities.js' type='text/javascript'></script>
+  <script src='/assets/tilemill-clima/js/vendor.js' type='text/javascript'></script>
+  <script src='/assets/tilemill-clima/js/abilities.js' type='text/javascript'></script>
   <script type='text/javascript'>$(Bones.start);</script>
   <meta name='viewport' content='user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0' />
   <% if (obj.profile) { %>

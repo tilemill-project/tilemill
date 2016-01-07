@@ -10,7 +10,7 @@ Once you've finished a map design, you can export your map for use in other appl
 
 With a TileMill project open, the export menu at the top-right of the window and presents a number of options.
 
-![TileMill export menu](/assets/tilemill/manual/export.png)
+![TileMill export menu](/assets/tilemill-clima/manual/export.png)
 
 ## Interactive, multiscale exports
 
