@@ -1,6 +1,6 @@
 {
     "name": "hapi-tilemill",
-    "version": "0.10.1",
+    "version": "0.10.2",
     "main": "./start.js",
     "description": "A fork of Tilemill from Mapbox (Hapi plugin)",
     "url": "https://github.com/paulovieira/hapi-tilemill.git",
