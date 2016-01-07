@@ -23,18 +23,19 @@ exports.register = function (server, pluginOptions, next) {
         fakeArgs += " --updates=" + pluginOptions.updates;
     }
 
-
     var delay = pluginOptions.delay || 1;
 
     process.argv = process.argv.concat(fakeArgs.split(" "));
 
-    console.log("Tilemill will start in " + 1 + " seconds");
+    console.log("Tilemill will start in " + delay + " seconds");
 
     setTimeout(function(){
         console.log("Starting Tilemill");
         require("./tilemill/index");
     }, delay*1000);
 
+
+    return next();
 };
 
 exports.register.attributes = {
