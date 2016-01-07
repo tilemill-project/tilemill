@@ -1,12 +1,12 @@
 {
-    "name": "tilemill-clima",
+    "name": "hapi-tilemill",
     "version": "0.10.1",
     "main": "./start.js",
-    "description": "A fork of Tilemill from Mapbox",
-    "url": "https://github.com/paulovieira/tilemill-clima.git",
+    "description": "A fork of Tilemill from Mapbox (Hapi plugin)",
+    "url": "https://github.com/paulovieira/hapi-tilemill.git",
     "repository": {
         "type": "git",
-        "url": "https://github.com/paulovieira/tilemill-clima.git"
+        "url": "https://github.com/paulovieira/hapi-tilemill.git"
     },
     "licenses": [{ "type": "BSD" }],
     "dependencies": {
