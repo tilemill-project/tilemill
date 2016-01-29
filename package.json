@@ -7,7 +7,7 @@
     "url": "http://github.com/mapbox/tilemill",
     "repository": {
         "type": "git",
-        "url": "git://github.com/mapbox/tilemill.git"
+        "url": "git://github.com/florianf/tilemill.git"
     },
     "contributors": [
         "Tom MacWright <tmcw>",
@@ -39,10 +39,10 @@
         "request": "2.x",
         "step": "~0.0.5",
         "mbtiles": "~0.7.4",
-        "mapnik": "~3.2.0",
+        "mapnik": "3.4.9",
         "tilelive-mapnik": "~0.6.16 ",
         "tilelive": "~4.5.3",
-        "carto": "~0.14.1",
+        "carto": "0.15.x",
         "millstone": "~0.6.16",
         "sphericalmercator": "~1.0.2",
         "underscore": "~1.6.0",
@@ -56,9 +56,6 @@
         "optimist": "~0.6.0",
         "mkdirp": "~0.5.0",
         "mapbox-upload": "~3.0.0"
-    },
-    "optionalDependencies": {
-        "topcube": "https://github.com/sk1p/topcube/tarball/a051a425f082"
     },
     "devDependencies": {
         "jshint": "0.2.x",
