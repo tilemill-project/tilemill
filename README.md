@@ -1,6 +1,6 @@
 # Fork info
 
-This is a maintained fork of TileMill, tested on Linux Mint 17.3 running in server mode (--server=true) only!
+This is a maintained fork of TileMill, tested on Linux Mint 17.3 running in server mode only!
 
 
 TileMill is a modern map design studio powered by [Node.js](http://nodejs.org) and [Mapnik](http://mapnik.org).
@@ -36,7 +36,7 @@ However, node-mapnik (which depends on Mapnik and protobuf) is now packaged as a
 
 To install from source just do:
 
-    git clone https://github.com/mapbox/tilemill.git
+    git clone https://github.com/florianf/tilemill.git
     cd tilemill
     npm install
 
