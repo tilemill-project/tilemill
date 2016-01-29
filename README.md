@@ -1,3 +1,8 @@
+# Fork info
+
+This is a maintained fork of TileMill, tested on Linux Mint 17.3 running in server mode (--server=true) only!
+
+
 TileMill is a modern map design studio powered by [Node.js](http://nodejs.org) and [Mapnik](http://mapnik.org).
 
 Installation instructions, development docs and other information are available on the [TileMill website](https://mapbox.com/tilemill).
