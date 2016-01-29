@@ -641,7 +641,7 @@ ul.projects { margin:0px -5px; }
  */
 
 ul.layers {
-  max-height:240px;
+  max-height:500px;
   min-height:120px;
   }
 
