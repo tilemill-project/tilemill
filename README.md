@@ -9,6 +9,7 @@ This is a maintained fork of TileMill, tested on Linux Mint 17.3 running in serv
 - Fixed Tab indentation in editor window
 - Increased size of layer panel
 - Added search option to layer
+- Fixed "Close" button bugs in Google Chrome (https://github.com/mapbox/tilemill/issues/2534)
 
 # Readme
 

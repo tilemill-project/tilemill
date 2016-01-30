@@ -373,7 +373,7 @@ view.prototype.save = function(e) {
                 this.model.collection.add(this.model);
                 if (autostyle) this.autostyle();
             }
-            this.$('.close').click();
+            this.$('a[href="#close"]').click();
         }).bind(this),
         error: error
     });
