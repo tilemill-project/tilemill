@@ -4,14 +4,21 @@ This is a maintained fork of TileMill, tested on Linux Mint 17.3 running in serv
 
 # Changelog since forking
 
-- Updated carto and node-mapnik dependencies, removed topcube dependency
+### Features
+
+- Added layer selection to map panel for fast comparisons with OSM and to save render time for low zoom levels
+- Added search field to layer panel
+- Increased size of layer panel
+- Updated carto and node-mapnik dependencies, new CartoCSS commands available
+
+### Bugfixes
+
+- Removed topcube and other obsolete dependencies
 - Removed windowed mode, only server mode is supported
 - Fixed Tab indentation in editor window
-- Increased size of layer panel
-- Added search option to layer
 - Fixed "Close" button bugs in Google Chrome (https://github.com/mapbox/tilemill/issues/2534)
 - Fixed mbtiles preview map
-- Removed Mapbox integration and reduced dependencies
+- Removed Mapbox integration
 
 # Readme
 
