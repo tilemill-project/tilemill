@@ -8,7 +8,7 @@ This is a maintained fork of TileMill, tested on Linux Mint 17.3 running in serv
 - Removed windowed mode, only server mode is supported
 - Fixed Tab indentation in editor window
 - Increased size of layer panel
-- Added search option to layer panel
+- Added search option to layer
 
 # Readme
 
@@ -18,9 +18,8 @@ Installation instructions, development docs and other information are available 
 
 # Build Status
 
-[![Build Status](https://secure.travis-ci.org/mapbox/tilemill.png)](https://travis-ci.org/mapbox/tilemill)
-[![Build status](https://ci.appveyor.com/api/projects/status/hw3rqpyd7bj0cb03?svg=true)](https://ci.appveyor.com/project/Mapbox/tilemill)
-[![Dependencies](https://david-dm.org/mapbox/tilemill.png)](https://david-dm.org/mapbox/tilemill)
+[![Build status](https://ci.appveyor.com/api/projects/status/haslgva8xv8j7fay?svg=true)](https://ci.appveyor.com/project/florianf/tilemill)
+[![Dependencies](https://david-dm.org/florianf/tilemill.svg)](https://david-dm.org/florianf/tilemill)
 
 ### Key modules
 
