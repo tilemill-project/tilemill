@@ -18,7 +18,7 @@ Installation instructions, development docs and other information are available 
 
 # Build Status
 
-[![Build status](https://ci.appveyor.com/api/projects/status/haslgva8xv8j7fay?svg=true)](https://ci.appveyor.com/project/florianf/tilemill)
+[![Build status](https://travis-ci.org/florianf/tilemill.svg)](https://travis-ci.org/florianf/tilemill.)
 [![Dependencies](https://david-dm.org/florianf/tilemill.svg)](https://david-dm.org/florianf/tilemill)
 
 ### Key modules
