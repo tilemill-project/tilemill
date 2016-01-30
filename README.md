@@ -1,6 +1,7 @@
-# Fork info
+# General Info
 
-This is a maintained fork of TileMill, tested on Linux Mint 17.3 running in server mode only!
+TileOven is a maintained fork of TileMill, tested on Linux Mint 17.3 running in server mode.
+The original version is not maintained anymore, see: https://github.com/mapbox/tilemill/issues/2543.
 
 # Changelog since forking
 
@@ -22,14 +23,14 @@ This is a maintained fork of TileMill, tested on Linux Mint 17.3 running in serv
 
 # Readme
 
-TileMill is a modern map design studio powered by [Node.js](http://nodejs.org) and [Mapnik](http://mapnik.org).
+TileOven is a modern map design studio powered by [Node.js](http://nodejs.org) and [Mapnik](http://mapnik.org).
 
 Installation instructions, development docs and other information are available on the [TileMill website](https://mapbox.com/tilemill).
 
 # Build Status
 
-[![Build status](https://travis-ci.org/florianf/tilemill.svg)](https://travis-ci.org/florianf/tilemill)
-[![Dependencies](https://david-dm.org/florianf/tilemill.svg)](https://david-dm.org/florianf/tilemill)
+[![Build status](https://travis-ci.org/florianf/tileoven.svg)](https://travis-ci.org/florianf/tileoven)
+[![Dependencies](https://david-dm.org/florianf/tileoven.svg)](https://david-dm.org/florianf/tileoven)
 
 ### Key modules
 
@@ -54,8 +55,8 @@ However, node-mapnik (which depends on Mapnik and protobuf) is now packaged as a
 
 To install from source just do:
 
-    git clone https://github.com/florianf/tilemill.git
-    cd tilemill
+    git clone https://github.com/florianf/tileoven.git
+    cd tileoven
     npm install
 
 Then to start TileMill do:
