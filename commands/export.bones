@@ -12,7 +12,6 @@ var crashutil = require('../lib/crashutil');
 var _ = require('underscore');
 var sm = new (require('sphericalmercator'))();
 var os = require('os');
-var upload = require('mapbox-upload');
 // node v6 -> v8 compatibility
 var existsSync = require('fs').existsSync || require('path').existsSync;
 
@@ -29,7 +28,7 @@ command.usage = '<project> <export>';
 
 command.options['format'] = {
     'title': 'format=[format]',
-    'description': 'Export format (png|jpeg|webp|tiff|pdf|svg|mbtiles|upload|sync).'
+    'description': 'Export format (png|jpeg|webp|tiff|pdf|svg|mbtiles).'
 };
 
 command.options['bbox'] = {
@@ -217,9 +216,6 @@ command.prototype.initialize = function(plugin, callback) {
     // Set process title.
     process.title = 'tm-' + path.basename(opts.filepath);
 
-    // Upload format does not require loaded project.
-    if (opts.format === 'upload') return this[opts.format](this.complete);
-
     // Load project, localize and call export function.
     var model = new models.Project({id:opts.project});
     Step(function() {
@@ -285,14 +281,6 @@ command.prototype.initialize = function(plugin, callback) {
         case 'pdf':
             console.log('Rendering single static map');
             cmd.static_map(model, cmd.complete);
-            break;
-        case 'upload':
-            console.log('Uploading new export');
-            cmd.upload(model, cmd.complete);
-            break;
-        case 'sync':
-            console.log('Syncing export with existing upload');
-            cmd.sync(model, cmd.complete);
             break;
         default:
             console.log('Rendering export');

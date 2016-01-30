@@ -15,9 +15,6 @@
         <span class='icon reverse right dropdown'></span>
         <span class='menu'>
           <% if (window.abilities.exports.mbtiles) { %>
-          <a class='divfloor' href='#export-sync' title='Upload to MapBox'>Upload</a>
-          <% } %>
-          <% if (window.abilities.exports.mbtiles) { %>
           <a href='#export-mbtiles' title='Export MBTiles'>MBTiles</a>
           <% } %>
           <% if (window.abilities.exports.png) { %>

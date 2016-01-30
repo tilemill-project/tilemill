@@ -65,8 +65,6 @@ view.prototype.render = function() {
     if (this.model.get('format') !== 'sync' ||
         (this.config.get('syncAccount') && this.config.get('syncAccessToken'))) {
         $(this.el).html(templates.Metadata(this));
-    } else {
-        $(this.el).html(templates.MetadataSignup(this));
     }
 
     this.model.set({
@@ -290,12 +288,6 @@ view.prototype.save = function() {
 
     // Exports.
     switch (this.model.get('format')) {
-    case 'sync':
-        if (!this.model.set({
-            id: this.project.id,
-            name: this.project.get('name') || this.project.id
-        }, {error:error})) return false;
-        break;
     case 'mbtiles':
         if (!this.model.set({
             filename: attr.filename,
