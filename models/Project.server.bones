@@ -12,7 +12,7 @@ if (mapnik.register_system_fonts) mapnik.register_system_fonts();
 if (mapnik.register_default_input_plugins) mapnik.register_default_input_plugins();
 
 var EventEmitter = require('events').EventEmitter;
-var millstone = require('millstone');
+var millstone = require('millstone-clima');
 var settings = Bones.plugin.config;
 var tileURL = _('http://<%=url%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>&metatile=<%=metatile%>&scale=<%=scale%>').template();
 var request = require('request');
