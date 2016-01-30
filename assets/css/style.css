@@ -273,7 +273,7 @@ small { font-size:11px; }
   }
 
 #drawer.active {
-  z-index:10;
+  z-index:102;
   opacity:1;
   }
 
