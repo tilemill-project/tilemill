@@ -7,7 +7,8 @@ view.prototype.events = {
     'click a.inspect': 'layerInspect',
     'click a.delete': 'layerDelete',
     'click a.visibility': 'layerToggleStatus',
-    'click a.extent': 'layerExtent'
+    'click a.extent': 'layerExtent',
+    'keyup input.search' : 'searchLayers'
 };
 
 view.prototype.initialize = function(options) {
@@ -192,5 +193,23 @@ view.prototype.sortLayers = function() {
     this.model.get('Layer').models = this.model.get('Layer')
         .sortBy(function(model) { return _(order).indexOf(model.id) });
     this.model.get('Layer').trigger('change');
+};
+
+view.prototype.searchLayers = function(ev) {
+    var val = this.$("input.search").val() || "";
+    if (val == "") {
+        this.$("ul li").show();
+        return;
+    }
+    val = val.toLowerCase();
+    this.$("ul li").each(function(idx, li) {
+        var name = $(li).find("label").text().toLowerCase();
+        if (name.indexOf(val) == -1) {
+            $(li).hide();
+        }
+        else {
+            $(li).show();
+        }
+    });
 };
 

@@ -642,7 +642,8 @@ ul.projects { margin:0px -5px; }
 
 ul.layers {
   max-height:500px;
-  min-height:120px;
+  min-height:500px;
+  min-width: 420px;
   }
 
 .layers li {
@@ -651,8 +652,8 @@ ul.layers {
   padding:5px 130px 4px 30px;
   overflow:hidden;
   white-space:nowrap;
-  min-width:60px;
-  max-width:240px;
+  min-width:260px;
+  max-width:260px;
   }
 
 .layers li.status-off { color:#999; }
