@@ -1,13 +1,13 @@
 {
-    "name": "tilemill",
+    "name": "tileoven",
     "version": "0.10.2",
     "main": "./index.js",
     "description": "A modern map design studio.",
     "keywords": ["map", "design", "cartography"],
-    "url": "http://github.com/florianf/tilemill",
+    "url": "http://github.com/florianf/tileoven",
     "repository": {
         "type": "git",
-        "url": "git://github.com/florianf/tilemill.git"
+        "url": "git://github.com/florianf/tileoven.git"
     },
     "contributors": [
         "Tom MacWright <tmcw>",
@@ -66,7 +66,7 @@
         "postinstall": "node ./lib/gitutil.js"
     },
     "bin": {
-        "tilemill": "./index.js"
+        "tileoven": "./index.js"
     },
     "engineStrict": true,
     "engines": { "node": "0.8.x || 0.10.x" }
