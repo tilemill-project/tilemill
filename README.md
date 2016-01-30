@@ -2,6 +2,15 @@
 
 This is a maintained fork of TileMill, tested on Linux Mint 17.3 running in server mode only!
 
+# Changelog since forking
+
+- Updated carto and node-mapnik dependencies, removed topcube dependency
+- Removed windowed mode, only server mode is supported
+- Fixed Tab indentation in editor window
+- Increased size of layer panel
+- Added search option to layer panel
+
+# Readme
 
 TileMill is a modern map design studio powered by [Node.js](http://nodejs.org) and [Mapnik](http://mapnik.org).
 
