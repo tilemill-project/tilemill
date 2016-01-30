@@ -21,7 +21,8 @@ view.prototype.initialize = function(options) {
         'layerToggleStatus',
         'layerExtent',
         'makeLayer',
-        'sortLayers'
+        'sortLayers',
+        'searchLayers'
     );
     this.model.bind('poll', this.render);
     this.render();

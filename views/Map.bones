@@ -1,11 +1,16 @@
 view = Backbone.View.extend();
 
+view.prototype.events = {
+    'change select.maplayer-selection' : 'selectLayer'
+};
+
 view.prototype.initialize = function() {
     _(this).bindAll(
         'render',
         'attach',
         'mapZoom',
-        'fullscreen'
+        'fullscreen',
+        'selectLayer'
     );
     this.model.bind('saved', this.attach);
     this.model.bind('poll', this.attach);
@@ -120,3 +125,17 @@ view.prototype.attach = function() {
     this.map.draw();
     this.mapZoom();
 };
+
+view.prototype.selectLayer = function() {
+    var val = this.$('select.maplayer-selection').val();
+    
+    if (val === "project") {
+        val = this.model.attributes.tiles[0];
+        val = val.replace(/\{x\}/,"{X}")
+                    .replace(/\{y\}/,"{Y}")
+                    .replace(/\{z\}/,"{Z}");
+    }
+
+    this.map.removeLayerAt(0);
+    this.map.addLayer(new MM.TemplatedLayer(val));
+}

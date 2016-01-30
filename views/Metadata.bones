@@ -10,7 +10,8 @@ view.prototype.events = {
         input[name=width],\
         input[name=height]': 'updateSize',
     'click input[type=submit]': 'save',
-    'click .cancel': 'close'
+    'click .cancel': 'close',
+    'change select.maplayer-selection' : 'selectLayer'
 };
 
 view.prototype.initialize = function(options) {
@@ -27,7 +28,8 @@ view.prototype.initialize = function(options) {
         'updateCustomFormat',
         'updateTotal',
         'updateSlider',
-        'updateSize');
+        'updateSize',
+        'selectLayer');
     this.sm = new SphericalMercator;
     this.type = options.type;
     this.title = options.title;
@@ -330,4 +332,20 @@ view.prototype.save = function() {
     }).bind(this)]);
     return false;
 };
+
+view.prototype.selectLayer = function() {
+    var val = this.$('select.maplayer-selection').val();
+    
+    if (val === "project") {
+        val = this.project.attributes.tiles[0];
+        val = val.replace(/\{x\}/,"{X}")
+                    .replace(/\{y\}/,"{Y}")
+                    .replace(/\{z\}/,"{Z}");
+    }
+
+    this.map.removeLayerAt(0);
+    this.map.addLayer(new MM.TemplatedLayer(val));
+
+    this.boxselector.add(this.map);
+}
 
