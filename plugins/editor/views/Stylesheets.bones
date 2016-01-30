@@ -174,6 +174,12 @@ view.prototype.makeStylesheet = function(model) {
     model.codemirror.setOption('onKeyEvent',
         cartoCompleter.onKeyEvent);
 
+    model.codemirror.setOption("extraKeys", {
+          Tab: function(cm) {
+            cm.indentSelection();
+          }
+    });
+
     model.codemirror.setOption('onHighlightComplete',
         _.throttle(cartoCompleter.setTitles, 100));
 
