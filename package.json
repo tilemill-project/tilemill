@@ -1,10 +1,10 @@
 {
     "name": "tilemill",
-    "version": "0.10.1",
+    "version": "0.10.2",
     "main": "./index.js",
     "description": "A modern map design studio.",
     "keywords": ["map", "design", "cartography"],
-    "url": "http://github.com/mapbox/tilemill",
+    "url": "http://github.com/florianf/tilemill",
     "repository": {
         "type": "git",
         "url": "git://github.com/florianf/tilemill.git"
