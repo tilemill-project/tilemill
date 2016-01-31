@@ -5,14 +5,15 @@ The original version is not maintained anymore, see: https://github.com/mapbox/t
 
 # Changelog since forking
 
-### Features
+## Features
 
+- Support for Node 4, thanks to patches and updated dependencies of https://github.com/paulovieira/hapi-tilemill
 - Added layer selection to map panel for fast comparisons with OSM and to save render time for low zoom levels
 - Added search field to layer panel
 - Increased size of layer panel
 - Updated carto and node-mapnik dependencies, new CartoCSS commands available
 
-### Bugfixes
+## Bugfixes
 
 - Removed topcube and other obsolete dependencies
 - Removed windowed mode, only server mode is supported
