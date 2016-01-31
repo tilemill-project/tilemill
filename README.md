@@ -54,6 +54,8 @@ However, node-mapnik (which depends on Mapnik and protobuf) is now packaged as a
 
 # Installation
 
+Note: on Ubuntu make sure that you have the nodejs-legacy package installed!
+
 To install from source just do:
 
     git clone https://github.com/florianf/tileoven.git
