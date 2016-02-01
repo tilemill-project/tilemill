@@ -28,7 +28,7 @@
         "mbtiles": "~0.8.1",
         "mapnik": "3.4.9",
         "tilelive-mapnik": "~0.6.16 ",
-        "tilelive-clima": "paulovieira/tilelive-clima",
+        "tilelive": "paulovieira/tilelive",
         "carto": "0.15.x",
         "millstone-clima": "paulovieira/millstone-clima",
         "sphericalmercator": "~1.0.2",
