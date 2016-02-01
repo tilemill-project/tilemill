@@ -3,7 +3,7 @@ var url = require('url');
 var fs = require('fs');
 var mapnik = require('mapnik');
 var Step = require('step');
-var millstone = require('millstone-clima');
+var millstone = require('millstone');
 
 models.Datasource.prototype.sync = function(method, model, success, error) {
     if (method !== 'read') return error('Method not supported.');
