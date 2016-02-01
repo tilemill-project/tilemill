@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'TileMill' target in the 'TileMill' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif
