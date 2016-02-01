@@ -18,7 +18,7 @@ catch (err) { if (err.code !== 'ENOENT') throw err }
 
 // Load application.
 require('../..');
-var tilemill = require('bones-clima').plugin;
+var tilemill = require('bones').plugin;
 tilemill.config.files = path.resolve(__dirname + '/../fixtures/files');
 tilemill.config.examples = false;
 

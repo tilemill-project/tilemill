@@ -11,7 +11,7 @@ var config = Bones.plugin.config;
 var url = require('url');
 // node v6 -> v8 compatibility
 var existsAsync = require('fs').exists || require('path').exists;
-var millstone = require('millstone-clima');
+var millstone = require('millstone');
 
 
 // File based extensions supported by TileMill.
