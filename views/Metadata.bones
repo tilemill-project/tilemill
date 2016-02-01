@@ -146,6 +146,11 @@ view.prototype.render = function() {
 
     this.updatePreview();
 
+    $("#meta-map .zoom-display").css({
+        top: "63px",
+        width: "120px"
+    });
+
     return this;
 };
 
