@@ -76,6 +76,14 @@ view.prototype.render = function(init) {
     this.map.addCallback('extentset', this.mapZoom);
     this.map.addCallback('resized', this.fullscreen);
     this.mapZoom({element: this.map.div});
+
+    //Change style of zoom display in JS, because doing in style would
+    //break tilelots plugin, see: https://github.com/florianf/tileoven/issues/2
+    $("#map .zoom-display").css({
+        top: "63px",
+        width: "120px"
+    });
+
     return this;
 };
 
@@ -124,13 +132,6 @@ view.prototype.attach = function() {
 
     this.map.draw();
     this.mapZoom();
-
-    //Change style of zoom display in JS, because doing in style would
-    //break tilelots plugin, see: https://github.com/florianf/tileoven/issues/2
-    $("#map .zoom-display").css({
-        top: "63px",
-        width: "120px"
-    });
 };
 
 view.prototype.selectLayer = function() {
