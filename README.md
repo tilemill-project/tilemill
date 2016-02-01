@@ -1,7 +1,8 @@
 # General Info
 
-TileOven is a maintained fork of TileMill, tested on Linux with Node 0.10.25 and 4.2.6
-The original version is not maintained anymore, see: https://github.com/mapbox/tilemill/issues/2543.
+TileOven is a maintained fork of TileMill, tested on Linux with Node 0.10.25 and 4.2.6.
+TileOven works only in server mode, no native packages are provided.
+Platforms other than Linux should theoretically work, but aren't tested.
 
 # Changelog since forking
 
