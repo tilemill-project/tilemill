@@ -124,6 +124,13 @@ view.prototype.attach = function() {
 
     this.map.draw();
     this.mapZoom();
+
+    //Change style of zoom display in JS, because doing in style would
+    //break tilelots plugin, see: https://github.com/florianf/tileoven/issues/2
+    $("#map .zoom-display").css({
+        top: "63px",
+        width: "120px"
+    });
 };
 
 view.prototype.selectLayer = function() {

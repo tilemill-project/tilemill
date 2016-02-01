@@ -131,11 +131,11 @@
   }
 
 .zoom-display {
-  width:121px;
+  width:88px;
   background:url(../images/mask-48-90.png);
   position:absolute;
   left:10px;
-  top:68px;
+  top:35px;
   padding:5px 0px 0px;
   text-align:center;
   color:#fff;
@@ -154,6 +154,8 @@
     z-index: 101;
     left: 10px;
     box-shadow: rgba(0,0,0,0.1) 0px 1px 3px;
-    height:24px;
+    height:22px;
+    width: 120px;
+    border: 1px solid #ccc;
   }
 
