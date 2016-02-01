@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var tilelive = require('tilelive-clima');
+var tilelive = require('tilelive');
 var settings = Bones.plugin.config;
 var Step = require('step');
 var readdir = require('../lib/fsutil.js').readdir;

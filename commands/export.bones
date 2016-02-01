@@ -402,7 +402,7 @@ command.prototype.static_map = function(project, callback) {
 
 command.prototype.tilelive = function (project, callback) {
     var cmd = this;
-    var tilelive = require('tilelive-clima');
+    var tilelive = require('tilelive');
 
     // Attempt to support additional tilelive protocols.
     try { require('tilelive-' + this.opts.format).registerProtocols(tilelive); }

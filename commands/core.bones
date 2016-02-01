@@ -189,7 +189,7 @@ command.prototype.bootstrap = function(plugin, callback) {
                     }
                     // Load plugin
                     // NOTE: even broken plugins (ones that throw upon require) will likely get partially loaded here
-                    require('bones-clima').load(path.join(p, dir));
+                    require('bones').load(path.join(p, dir));
                     console.warn('Plugin [%s] loaded.', Bones.utils.colorize(data.name, 'green'));
                     return data;
                 } catch (err) {

@@ -34,8 +34,8 @@ if (existsSync(config)) {
     argv.config = argv.config || config;
 }
 
-require('tilelive-mapnik').registerProtocols(require('tilelive-clima'));
-require('mbtiles').registerProtocols(require('tilelive-clima'));
+require('tilelive-mapnik').registerProtocols(require('tilelive'));
+require('mbtiles').registerProtocols(require('tilelive'));
 
-require('bones-clima').load(__dirname);
-!module.parent && require('bones-clima').start();
+require('bones').load(__dirname);
+!module.parent && require('bones').start();
