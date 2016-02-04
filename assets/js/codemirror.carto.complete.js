@@ -51,7 +51,7 @@
 
         function getVariables() {
             var v = editor.getValue();
-            return _.uniq(v.match(/@[\w\d\-]+/));
+            return _.uniq(v.match(/@[\w\d\-]+/g));
         }
 
         function getCompletions(token, cur) {
