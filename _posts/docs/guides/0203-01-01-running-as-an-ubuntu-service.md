@@ -94,7 +94,7 @@ But, be careful. Only take this step if you do not have sensitive data and you a
 The configuration below tells the TileMill core server to listen on the default ports but to also respond to traffic like a normal web server, allowing users to access the application via LAN or the Internet:
 
     {
-      "listenHost": "0.0.0.0"
+      "listenHost": "0.0.0.0",
       "coreUrl": "<TILEMILL_HOST>:20009",
       "tileUrl": "<TILEMILL_HOST>:20008",
       "server": true
