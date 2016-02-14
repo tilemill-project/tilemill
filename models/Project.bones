@@ -40,7 +40,7 @@ model.prototype.schema = {
             'type': ['object', 'boolean']
         },
 
-        //last opened folder in browser in project
+        //last opened folder in layer browser
         'lastBrowsedFolder' : { 'type' : 'string' },
 
         // TileJSON properties.
