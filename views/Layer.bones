@@ -238,21 +238,28 @@ view.prototype.browse = function(ev) {
         .text(target.hasClass('active') ? 'Done' : 'Browse');
     $('ul.form', form).toggleClass('expand');
 
-    if (target.is('.active')) (new models.Library({
-        id:id,
-        location:location,
-        project: this.model.collection.parent.id
-    })).fetch({
-        success: _(function(model, resp) {
-            new views.Library({
-                model: model,
-                favorites: this.favorites,
-                change: function(uri) { $('input.browsable', form).val(uri).change(); },
-                el: $('.browser', form)
-            });
-        }).bind(this),
-        error: function(model, err) { new views.Modal(err) }
-    });
+    //Clicked for the first time, so show selection (dir / sql)
+    if (target.is('.active')) {
+        (new models.Library({
+            id:id,
+            location:location || this.model.collection.parent.get("lastBrowsedFolder"),
+            project: this.model.collection.parent.id
+        })).fetch({
+            success: _(function(model, resp) {
+                new views.Library({
+                    model: model,
+                    favorites: this.favorites,
+                    change: function(uri) { $('input.browsable', form).val(uri).change(); },
+                    el: $('.browser', form)
+                });
+            }).bind(this),
+            error: function(model, err) { new views.Modal(err) }
+        });  
+    }
+    //closing of drawer, save last selected folder
+    else if (id == "file") {
+        this.model.collection.parent.set({"lastBrowsedFolder":location});
+    }
     return false;
 };
 

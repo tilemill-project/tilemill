@@ -40,6 +40,9 @@ model.prototype.schema = {
             'type': ['object', 'boolean']
         },
 
+        //last opened folder in browser in project
+        'lastBrowsedFolder' : { 'type' : 'string' },
+
         // TileJSON properties.
         'name':        { 'type': 'string' },
         'description': { 'type': 'string' },
