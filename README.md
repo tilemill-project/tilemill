@@ -13,6 +13,7 @@ Platforms other than Linux should theoretically work, but aren't tested.
 - Added search field to layer panel
 - Increased size of layer panel
 - Updated carto and node-mapnik dependencies, new CartoCSS commands available
+- Remember last selected folder in new layer dialog
 
 ## Bugfixes
 
@@ -22,6 +23,7 @@ Platforms other than Linux should theoretically work, but aren't tested.
 - Fixed "Close" button bugs in Google Chrome (https://github.com/mapbox/tilemill/issues/2534)
 - Fixed mbtiles preview map
 - Removed Mapbox integration
+- Fixed CartoCSS variable auto completion
 
 # Readme
 
