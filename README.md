@@ -50,7 +50,7 @@ Installation instructions, development docs and other information are available 
 # Depends
 
 - Mapnik v2.3.0
-- Node.js v0.10.x or v0.8.x
+- Node.js v4.x, v0.10.x or v0.8.x
 - Protobuf: libprotobuf-lite and protoc
 
 However, node-mapnik (which depends on Mapnik and protobuf) is now packaged as a binary. So, you do not need an external Mapnik. See [Installation](#installation)
