@@ -14,6 +14,7 @@ Platforms other than Linux should theoretically work, but aren't tested.
 - Increased size of layer panel
 - Updated carto and node-mapnik dependencies, new CartoCSS commands available
 - Remember last selected folder in new layer dialog
+- Better compatibility with kosmtik, TileOven mml project files should work out of the box with kosmtik (https://github.com/kosmtik)
 
 ## Bugfixes
 
