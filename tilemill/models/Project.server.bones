@@ -7,7 +7,7 @@ var mkdirp = require('../lib/fsutil.js').mkdirp;
 var rm = require('../lib/fsutil.js').rm;
 var carto = require('carto');
 var mapnik = require('mapnik');
-var climaSettings = require("../../clima-settings.json");
+//var climaSettings = require("../../clima-settings.json");
 
 if (mapnik.register_default_fonts) mapnik.register_default_fonts();
 if (mapnik.register_system_fonts) mapnik.register_system_fonts();
@@ -198,11 +198,20 @@ function loadProject(model, callback) {
             if(object["Layer"]){
                 object["Layer"].forEach(function(layerObj){
                     if(layerObj["Datasource"] && layerObj["Datasource"]["type"] === "postgis"){
+/*
                         layerObj["Datasource"]["host"] = climaSettings["host"];
                         layerObj["Datasource"]["port"] = climaSettings["port"];
                         layerObj["Datasource"]["user"] = climaSettings["user"];
                         layerObj["Datasource"]["password"] = climaSettings["password"];
                         layerObj["Datasource"]["dbname"] = climaSettings["dbname"];
+*/
+                        var config = Bones.plugin.config;
+
+                        layerObj["Datasource"]["host"]     = config["db_host"];
+                        layerObj["Datasource"]["port"]     = config["db_port"];
+                        layerObj["Datasource"]["user"]     = config["db_user"];
+                        layerObj["Datasource"]["password"] = config["db_password"];
+                        layerObj["Datasource"]["dbname"]   = config["db_database"];
                     }
                 })
 

@@ -23,6 +23,22 @@ exports.register = function (server, pluginOptions, next) {
         fakeArgs += " --updates=" + pluginOptions.updates;
     }
 
+    if(pluginOptions.db_host){
+        fakeArgs += " --db_host=" + pluginOptions.db.host;
+    }
+    if(pluginOptions.db_port){
+        fakeArgs += " --db_port=" + pluginOptions.db.port;
+    }
+    if(pluginOptions.db_user){
+        fakeArgs += " --db_user=" + pluginOptions.db.user;
+    }
+    if(pluginOptions.db_password){
+        fakeArgs += " --db_password=" + pluginOptions.db.password;
+    }
+    if(pluginOptions.db_database){
+        fakeArgs += " --db_database=" + pluginOptions.db.database;
+    }
+
     var delay = pluginOptions.delay || 1;
 
     process.argv = process.argv.concat(fakeArgs.split(" "));
