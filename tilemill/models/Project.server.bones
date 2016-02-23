@@ -189,6 +189,14 @@ function loadProject(model, callback) {
         });
     },
     function(err, file) {
+
+                        var config = Bones.plugin.config;
+
+    console.log("yyyyyyyyyyyyy")
+    console.log("config\n", config)
+    console.log("yyyyyyyyyyyyy")
+
+
         var projectName = path.join(modelPath, 'project.mml');
         if (err) return callback(new Error.HTTP('Project does not exist: "' + projectName + '"', 404));
         try {
@@ -205,13 +213,13 @@ function loadProject(model, callback) {
                         layerObj["Datasource"]["password"] = climaSettings["password"];
                         layerObj["Datasource"]["dbname"] = climaSettings["dbname"];
 */
-                        var config = Bones.plugin.config;
 
                         layerObj["Datasource"]["host"]     = config["db_host"];
                         layerObj["Datasource"]["port"]     = config["db_port"];
                         layerObj["Datasource"]["user"]     = config["db_user"];
                         layerObj["Datasource"]["password"] = config["db_password"];
                         layerObj["Datasource"]["dbname"]   = config["db_database"];
+
                     }
                 })
 

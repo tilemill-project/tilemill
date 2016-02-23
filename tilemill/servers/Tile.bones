@@ -195,6 +195,10 @@ server.prototype.datasource = function(req, res, next) {
 
     var config = Bones.plugin.config;
 
+    console.log("xxxxxxxxxx")
+    console.log("config\n", config)
+    console.log("xxxxxxxxxx")
+
     // changed for clima: hardcode the postgres connection info
 /*
     req.query["host"] = climaSettings["host"];
