@@ -15,13 +15,16 @@ div.CodeMirror {
 div.CodeMirror-lines,
 div.CodeMirror-gutter-text { padding:5px; }
 
-div.CodeMirror-gutter-text pre.error {
-  background:#fe8;
-  color:#222;
-  padding:0px 5px;
-  margin:0px -5px;
-  cursor:pointer;
-  }
+div.CodeMirror .errors {
+  width: 12px;
+}
+
+div.CodeMirror .error-marker {
+  background-color: #822;
+  width: 8px;
+  height: 16px;
+  cursor: pointer;
+}
 
 span.cm-carto-variable           { color:#708; }
 span.cm-carto-color-variable     { color:#B60049; }

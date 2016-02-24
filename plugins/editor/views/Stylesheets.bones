@@ -63,9 +63,7 @@ view.prototype.save = function() {
     this.model.get('Stylesheet').forEach(function(model) {
         if (model.errors) {
             model.errors = [];
-            for (i = 0; i < (model.codemirror.getValue().match(/\n/g)||[]).length+1; i++) {
-                model.codemirror.clearMarker(i);
-            }
+            model.codemirror.clearGutter("errors")
         }
     });
     this.$('.tabs a.error').removeClass('error');
@@ -93,7 +91,11 @@ view.prototype.error = function(model, resp) {
                 stylesheet.errors = stylesheet.errors || [];
                 lines.push(lineNum+1);
                 stylesheet.errors[lineNum] = match[5] + ' (line ' + (lineNum+1) + ')';
-                stylesheet.codemirror.setMarker(lineNum, '%N%', 'error');
+
+                var marker = document.createElement("div");
+                marker.className = "error-marker";
+
+                stylesheet.codemirror.setGutterMarker(lineNum, 'errors', marker);
                 if (err_group.length == 1) {
                     this.$('.status').addClass('active');
                     this.$('.status .content').text(stylesheet.errors[lineNum]);
@@ -125,30 +127,32 @@ view.prototype.makeStylesheet = function(model) {
         value: model.get('data'),
         lineNumbers: true,
         tabMode: 'shift',
-        mode: {
-            name: 'carto',
-            reference: window.abilities.carto,
-            onColor: this.colors
-        },
-        onCursorActivity: function() {
-            model.set({'data': model.codemirror.getValue()});
-        },
-        onChange: function() {
-            // onchange runs before this function is finished,
-            // so self.codemirror is false.
-            model.codemirror && model.set({
-                data: model.codemirror.getValue()
-            });
-            _.debounce(self.colors, 500);
-        },
-        onGutterClick: _(function(editor, line, ev) {
-            if (model.errors && model.errors[line]) {
-                this.$('.status').addClass('active');
-                this.$('.status .content').text(model.errors[line]);
-                return false;
-            }
-        }).bind(this)
+        name: 'carto',
+        reference: window.abilities.carto,
+        onColor: this.colors,
+        gutters: ["CodeMirror-linenumbers", "errors"]
     });
+
+    model.codemirror.on("changes", function() {
+        // onchange runs before this function is finished,
+        // so self.codemirror is false.
+        model.codemirror && model.set({
+            data: model.codemirror.getValue()
+        });
+        _.debounce(self.colors, 500);
+    });
+
+    model.codemirror.on("cursorActivity", function() {
+        model.set({'data': model.codemirror.getValue()});
+    });
+
+    model.codemirror.on("gutterClick", _(function(editor, line, ev) {
+        if (model.errors && model.errors[line]) {
+            this.$('.status').addClass('active');
+            this.$('.status .content').text(model.errors[line]);
+            return false;
+        }
+    }).bind(this));
 
     var cartoCompleter = cartoCompletion(
         model.codemirror,
@@ -175,9 +179,12 @@ view.prototype.makeStylesheet = function(model) {
         cartoCompleter.onKeyEvent);
 
     model.codemirror.setOption("extraKeys", {
-          Tab: function(cm) {
-            cm.indentSelection();
-          }
+            Tab: function(cm) {
+                cm.indentSelection();
+            },
+            "Ctrl-Space" : function(cm) {
+                cartoCompleter.complete(cm);
+            }
     });
 
     model.codemirror.setOption('onHighlightComplete',
