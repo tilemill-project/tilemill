@@ -107,9 +107,15 @@ view.prototype.mapZoom = function(e) {
 };
 
 view.prototype.attach = function() {
+    var selectedLayer = this.$('select.maplayer-selection').val();
     this._error = '';
 
+    if (selectedLayer !== "project") {
+        return;
+    }
+
     var layer = this.map.getLayerAt(0);
+    layer.provider.options = layer.provider.options || {};
     layer.provider.options.tiles = this.model.get('tiles');
     layer.provider.options.minzoom = this.model.get('minzoom');
     layer.provider.options.maxzoom = this.model.get('maxzoom');
@@ -136,14 +142,17 @@ view.prototype.attach = function() {
 
 view.prototype.selectLayer = function() {
     var val = this.$('select.maplayer-selection').val();
-    
-    if (val === "project") {
-        val = this.model.attributes.tiles[0];
-        val = val.replace(/\{x\}/,"{X}")
-                    .replace(/\{y\}/,"{Y}")
-                    .replace(/\{z\}/,"{Z}");
-    }
+    var layer = this.map.getLayerAt(0);
 
-    this.map.removeLayerAt(0);
-    this.map.addLayer(new MM.TemplatedLayer(val));
+    if (val === "project") {
+        layer.provider.options = this.model.attributes;
+    }
+    else {
+        //don't mess with the original ref from the project, simple clone
+        var clone = JSON.parse(JSON.stringify(this.map.getLayerAt(0).provider.options));
+        clone.tiles[0] = val.toLowerCase();
+        layer.provider.options = clone;
+    }
+    layer.setProvider(layer.provider);
+    this.map.draw();
 }
