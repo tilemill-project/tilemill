@@ -29,8 +29,8 @@
   <li style="">
       <label for="format">Map center</label>
       <select class="60" name="map-center">
-        <option value="madeira" selected>Madeira</option>
-        <option value="azores">Azores</option>
+        <option value="azores" selected>Azores</option>
+        <option value="madeira">Madeira</option>
         <option value="mainland">Mainland Portugal</option>
       </select>
   </li>
