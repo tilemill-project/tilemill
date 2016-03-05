@@ -45,7 +45,7 @@
     "jsdom": "https://github.com/springmeyer/jsdom-nogyp/tarball/c501ee8b71d8",
     "mapbox-upload": "~3.0.0",
     "mapnik": "~3.5.0",
-    "mbtiles": "~0.7.4",
+    "mbtiles": "~0.8.2",
     "millstone": "~0.6.16",
     "mkdirp": "~0.5.0",
     "modestmaps": "3.3.5",
