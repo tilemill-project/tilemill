@@ -7,7 +7,13 @@ environment:
 
 shallow_clone: true
 
+services:
+  - postgresql94 #if changing this, also change PATH below
+
 install:
+  - SET PGUSER=postgres
+  - SET PGPASSWORD=Password12!
+  - SET PATH=C:\Program Files\PostgreSQL\9.4\bin\;%PATH%
   # find and remove default node.exe to avoid conflicts
   - node -e "console.log(process.execPath)" > node_path.txt
   - SET /p NODE_EXE_PATH=<node_path.txt
