@@ -225,7 +225,7 @@
     NSPredicate *nodePredicate     = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'TileMill'"];
     NSPredicate *tilemillPredicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS 'tilemill'"];
     
-    BOOL triedToKillOrphans;
+    BOOL triedToKillOrphans = NO;
     
     for (NSRunningApplication *app in [[NSWorkspace sharedWorkspace] runningApplications])
     {
