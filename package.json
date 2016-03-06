@@ -61,7 +61,7 @@
     "wax": "6.4.2"
   },
   "optionalDependencies": {
-    "topcube": "https://github.com/sk1p/topcube/tarball/a051a425f082"
+    "topcube": "https://github.com/creationix/topcube/tarball/96ff0177bf8f490cabd78e"
   },
   "devDependencies": {
     "jshint": "0.2.x",
