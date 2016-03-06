@@ -4,7 +4,8 @@ sudo: false
 
 node_js:
   - "0.10"
-  - "4"
+  # jsdom breaks hard
+  #- "4"
 
 addons:
   postgresql: "9.3"
