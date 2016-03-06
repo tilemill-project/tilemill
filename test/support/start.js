@@ -22,17 +22,20 @@ var tilemill = require('bones').plugin;
 tilemill.config.files = path.resolve(__dirname + '/../fixtures/files');
 tilemill.config.examples = false;
 
-module.exports.start = function(done) {
+module.exports.reset = function(done) {
     // Create a clean environment.
     var files = basedir + '/fixtures/files/';
     var projects = basedir + '/fixtures/pristine/project/';
     fsutil.rm(files,function(err) {
         if (err && err.code != 'ENOENT') throw err;
         fsutil.cprSync(projects,files+'project/');
-        console.warn('Initialized test fixture');
-        var command = tilemill.start(function() {
-            done(command);
-        });
+        done();
+    });
+};
+
+module.exports.start = function(done) {
+    var command = tilemill.start(function() {
+        done(command);
     });
 };
 

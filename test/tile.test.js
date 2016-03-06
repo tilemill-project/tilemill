@@ -26,20 +26,12 @@ it('should 404 for missing project', function(done) {
     );
 });
 it ('should 200 (tile) for existing project', function(done) {
-    // first response will be a 500
     assert.response(tile,
         { url: '/tile/demo_01/2/2/1.png', encoding: 'binary' },
-        { status: 500 },
+        { status: 200 },
         function(res) {
-            // try again, should be downloaded now
-            assert.response(tile,
-                { url: '/tile/demo_01/2/2/1.png', encoding: 'binary' },
-                { status: 200 },
-                function(res) {
-                    assert.equal(res.body.length, 7983);
-                    done();
-                }
-            );
+            assert.equal(res.body.length, 7983);
+            done();
         }
     );
 });
