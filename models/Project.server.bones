@@ -177,7 +177,6 @@ function loadProject(model, callback) {
         mtimeProject(model, this);
     },
     function(err, mtime) {
-        if (err) console.error(err);
         object._updated = mtime;
         var cb = this;
         read(path.join(modelPath, 'project.mml'), function(err, stat) {
@@ -189,7 +188,7 @@ function loadProject(model, callback) {
     },
     function(err, file) {
         var projectName = path.join(modelPath, 'project.mml');
-        if (err) return callback(new Error.HTTP('Project does not exist: "' + projectName + '" ' + err.message, 404));
+        if (err) return callback(new Error.HTTP('Project does not exist: "' + projectName + '"', 404));
         try {
             object = _(object).extend(JSON.parse(file.data));
         } catch(err) {
