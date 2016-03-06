@@ -32,17 +32,12 @@
   ],
   "dependencies": {
     "JSV": "4.0.x",
-    "backbone": "0.3.3",
     "backbone-dirty": "~1.1.3",
-    "bones": "1.3.29",
+    "bones": "https://github.com/springmeyer/bones/tarball/1.3",
     "carto": "~0.15.3",
     "chrono": "~1.0.1",
-    "connect": "1.9.2",
-    "express": "2.5.11",
     "generic-pool": "~2.4.1",
     "glob": "~7.0.0",
-    "jquery": "1.6.3",
-    "jsdom": "https://github.com/springmeyer/jsdom-nogyp/tarball/c501ee8b71d8",
     "mapbox-upload": "~3.0.0",
     "mapnik": "~3.5.0",
     "mbtiles": "~0.8.2",
@@ -63,8 +58,7 @@
     "tilelive": "~5.12.1",
     "tilelive-mapnik": "~0.6.16 ",
     "underscore": "~1.6.0",
-    "wax": "6.4.2",
-    "xmlhttprequest": "1.5.0"
+    "wax": "6.4.2"
   },
   "optionalDependencies": {
     "topcube": "https://github.com/sk1p/topcube/tarball/a051a425f082"
