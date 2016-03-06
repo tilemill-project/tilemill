@@ -28,7 +28,7 @@ view.prototype.save = function() {
                 this.model.collection.add(this.model);
                 $(this.el).removeClass('loading');
                 window.location.hash = '#/project/' + this.model.get('id');
-                this.$('.close').click();
+                this.$('a[href="#close"]').click();
             }).bind(this));
         }).bind(this),
         error:error
