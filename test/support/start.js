@@ -29,7 +29,11 @@ module.exports.reset = function(done) {
     fsutil.rm(files,function(err) {
         if (err && err.code != 'ENOENT') throw err;
         fsutil.cprSync(projects,files+'project/');
-        done();
+        var command = tilemill.start(function() {
+            command.servers['Core'].close();
+            command.servers['Tile'].close();
+            done();
+        });
     });
 };
 
