@@ -50,6 +50,7 @@
     "passport-oauth": "1.0.x",
     "progress-stream": "^1.2.0",
     "request": "2.x",
+    "rimraf": "^2.5.2",
     "sax": "0.6.x",
     "semver": "~4.1.0",
     "sphericalmercator": "~1.0.2",
