@@ -438,7 +438,8 @@ command.prototype.tilelive = function (project, callback) {
         if (bboxIndex >= bboxes.length) {
             return callback();
         }
-        var opts = $.extend({}, cmd.opts);
+        var opts = {};
+        opts = _(opts).extend(cmd.opts);
 
         var from = {
             protocol: 'mapnik:',
