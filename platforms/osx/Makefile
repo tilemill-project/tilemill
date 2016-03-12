@@ -29,7 +29,4 @@ upload: zip
 tar: sign
 	tar cfj TileMill.tar.bz2 -C build/Release/TileMill.app
 
-sparkle:
-	@./sparkle.sh
-
-.PHONY: build clean package run sign zip tar sparkle
+.PHONY: build clean package run sign zip tar

@@ -7,18 +7,14 @@
 
 #import "TileMillAppDelegate.h"
 #import "TileMillBrowserWindowController.h"
-#import "TileMillSparklePrefsWindowController.h"
 #import "TileMillDatabaseWatcher.h"
 
 #import "PFMoveApplication.h"
-
-#import <Sparkle/Sparkle.h>
 
 @interface TileMillAppDelegate ()
 
 @property (nonatomic, strong) TileMillChildProcess *searchTask;
 @property (nonatomic, strong) TileMillBrowserWindowController *browserController;
-@property (nonatomic, strong) TileMillSparklePrefsWindowController *sparklePrefsController;
 @property (nonatomic, strong) TileMillDatabaseWatcher *databaseWatcher;
 @property (nonatomic, strong) NSString *logPath;
 
@@ -34,7 +30,6 @@
 
 @synthesize searchTask;
 @synthesize browserController;
-@synthesize sparklePrefsController;
 @synthesize databaseWatcher;
 @synthesize logPath;
 
@@ -59,20 +54,6 @@
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    SUUpdater *updater = [SUUpdater sharedUpdater];
-    
-    /*
-     * This ensures that fresh installs of dev builds sync up the 
-     * defaults to reflect the dev channel.
-     */
-    
-    if ([[updater feedURL] isEqual:TileMillDevelopmentAppcastURL] && ( ! [defaults objectForKey:@"installDevBuilds"] || ! [defaults objectForKey:@"SUFeedURL"]))
-    {
-        [defaults setBool:YES forKey:@"installDevBuilds"];
-        [updater setFeedURL:TileMillDevelopmentAppcastURL];
-    }
-    
     // clear shared URL cache (see #1057)
     //
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
@@ -315,14 +296,6 @@
     //
     [[NSWorkspace sharedWorkspace] openFile:self.logPath withApplication:@"Console"];
     [[NSWorkspace sharedWorkspace] openFile:self.logPath withApplication:@"Console" andDeactivate:YES];
-}
-
-- (IBAction)openSparklePreferences:(id)sender
-{
-    if ( ! self.sparklePrefsController)
-        self.sparklePrefsController = [[TileMillSparklePrefsWindowController alloc] initWithWindowNibName:@"TileMillSparklePrefsWindow"];
-
-    [self.sparklePrefsController showWindow:self];
 }
 
 - (IBAction)openNodeSettingsView:(id)sender
