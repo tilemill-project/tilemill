@@ -8,7 +8,6 @@
 #import "TileMillChildProcess.h"
 
 @class TileMillBrowserWindowController;
-@class TileMillSparklePrefsWindowController;
 
 void (^requestLoadBlock)(void) = NULL;
 
@@ -19,7 +18,6 @@ void (^requestLoadBlock)(void) = NULL;
 - (IBAction)openDiscussions:(id)sender;
 - (IBAction)openOnlineHelp:(id)sender;
 - (IBAction)openConsole:(id)sender;
-- (IBAction)openSparklePreferences:(id)sender;
 - (IBAction)showBrowserWindow:(id)sender;
 - (NSString *)configurationForKey:(NSString *)key;
 

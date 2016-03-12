@@ -47,12 +47,6 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>SUAllowsAutomaticUpdates</key>
-	<false/>
-	<key>SUFeedURL</key>
-	<string>https://mapbox.com/tilemill/platforms/osx/appcast2.xml</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_public.pem</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -77,10 +71,10 @@
 			</dict>
 		</dict>
 	</array>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>
