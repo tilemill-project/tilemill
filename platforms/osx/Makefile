@@ -3,6 +3,8 @@ JOBS=`sysctl -n hw.ncpu`
 VERSION=`node -e "console.log(require('../../package.json').version)"`
 
 build:
+	# clear out hidden files which might break codesigning
+	find ../../node_modules/ -name "._*" -exec rm {} \;
 	@xcodebuild -jobs $(JOBS) -project TileMill.xcodeproj
 
 clean:
@@ -15,9 +17,9 @@ run: package
 	open ./build/Release/TileMill.app
 
 sign: package
-	@codesign --deep --verbose --keychain /Library/Keychains/System.keychain -f -s "Developer ID Application: Development Seed" $(PRODUCT)
+	./codesign.sh
 
-zip:
+zip: sign
 	cd build/Release/; ditto -c -k --sequesterRsrc --keepParent --zlibCompressionLevel 9 TileMill.app/ ../../TileMill.zip
 
 upload: zip
