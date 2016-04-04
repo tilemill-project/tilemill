@@ -2,6 +2,8 @@ TileMill is a modern map design studio powered by [Node.js](http://nodejs.org) a
 
 Installation instructions, development docs and other information are available on the [TileMill website](https://mapbox.com/tilemill).
 
+**[Mapbox Studio](https://www.mapbox.com/mapbox-studio/) is the modern alternative to TileMill**: if you're starting out and creating a map today, we recommend starting with [Mapbox Studio](https://www.mapbox.com/mapbox-studio/) rather than TileMill.
+
 # Build Status
 
 [![Build Status](https://secure.travis-ci.org/mapbox/tilemill.png)](https://travis-ci.org/mapbox/tilemill)
