@@ -7,6 +7,7 @@ var mkdirp = require('../lib/fsutil.js').mkdirp;
 var rm = require('../lib/fsutil.js').rm;
 var carto = require('carto');
 var mapnik = require('mapnik');
+var yaml = require('js-yaml');
 if (mapnik.register_default_fonts) mapnik.register_default_fonts();
 if (mapnik.register_system_fonts) mapnik.register_system_fonts();
 if (mapnik.register_default_input_plugins) mapnik.register_default_input_plugins();
@@ -190,7 +191,7 @@ function loadProject(model, callback) {
         var projectName = path.join(modelPath, 'project.mml');
         if (err) return callback(new Error.HTTP('Project does not exist: "' + projectName + '"', 404));
         try {
-            object = _(object).extend(JSON.parse(file.data));
+            object = _(object).extend(yaml.safeLoad(file.data));
         } catch(err) {
             var err_message = 'Could not open project.mml file for "' + model.id + '". Error was: \n\n"' + err.message + '"\n\n(in ' + projectName + ')';
             return callback(new Error(err_message));
