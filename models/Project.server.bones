@@ -183,11 +183,18 @@ function loadProject(model, callback) {
         read(path.join(modelPath, 'project.mml'), function(err, stat) {
             if (! err) return cb(err, stat);
 
-            // If `project.mml` is missing fallback to `PROJECTNAME.mml`
-            read(path.join(modelPath, model.id + '.mml'), cb);
+            // If `project.mml` is missing, fall back to `project.yml`, `PROJECTNAME.mml`, `PROJECTNAME.yml`
+            read(path.join(modelPath, 'project.yml'), function(err, stat) {
+                if (! err) return cb(err, stat);
+                read(path.join(modelPath, model.id + '.mml'), function(err, stat) {
+                    if (! err) return cb(err, stat);
+                    read(path.join(modelPath, model.id + '.yml'), cb);
+                });
+            });
         });
     },
     function(err, file) {
+        // projectName is only used for error messages
         var projectName = path.join(modelPath, 'project.mml');
         if (err) return callback(new Error.HTTP('Project does not exist: "' + projectName + '"', 404));
         try {
@@ -296,7 +303,9 @@ function loadProjectAll(model, callback) {
                 var modelPath = path.join(basepath, file.basename);
                 return ((file.isDirectory() && file.basename[0] !== '.')
                          && (existsSync(path.join(modelPath, 'project.mml')) ||
-                             existsSync(path.join(modelPath, file.basename + '.mml'))));
+                             existsSync(path.join(modelPath, 'project.yml')) ||
+                             existsSync(path.join(modelPath, file.basename + '.mml')) ||
+                             existsSync(path.join(modelPath, file.basename + '.yml'))));
             })
             .each(function(file) { loadProject({id:file.basename}, group()) });
     },
