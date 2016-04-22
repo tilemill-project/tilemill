@@ -25,6 +25,7 @@ Platforms other than Linux should theoretically work, but aren't tested.
 - Fixed mbtiles preview map
 - Removed Mapbox integration
 - Fixed CartoCSS variable auto completion
+- Fixed creation of job file in export if it doesn't exist
 
 # Readme
 

@@ -437,7 +437,7 @@ command.prototype.tilelive = function (project, callback) {
             try {
                 var job = fs.readFileSync(opts.job, 'utf8');
             } catch(err) {
-                if (err.code !== 'EBADF') throw err;
+                if (err.code !== 'EBADF' && err.code !== 'ENOENT') throw err;
             }
         } else {
             // Generate a job file based on the output filename.
