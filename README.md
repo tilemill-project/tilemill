@@ -3,7 +3,8 @@
 TileOven is a maintained fork of TileMill, tested on Linux with Node 0.10.25 and 4.2.6.
 TileOven works only in server mode, no native packages are provided.
 Platforms other than Linux should theoretically work, but aren't tested.
-Changes from upstream are cherry-picked, last time on Apr 22, 2016
+Changes from upstream are cherry-picked, last time on Apr 22, 2016.
+Node 6.0.0 currently doesn't work because node-gdal fails to compile - stay tuned.
 
 # Changelog since forking
 
