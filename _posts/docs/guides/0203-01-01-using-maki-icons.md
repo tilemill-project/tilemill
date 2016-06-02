@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Using Maki Icons in TileMill"
-permalink: /docs/guides/using-maki-icons
+permalink: /docs/guides/using-maki-icons/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "[Reviewed](/tilemill/docs/crashcourse/introduction) the Crash Course, in particular [using conditional styles](/tilemill/docs/guides/conditional-styles/)."

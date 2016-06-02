@@ -3,4 +3,4 @@ api: https://122e4e-mapbox.global.ssl.fastly.net/core
 tileApi: https://api-maps-staging.tilestream.net
 exclude: [.gitignore, .gitmodules]
 baseurl: /tilemill
-permalink: /:categories/:title
+permalink: /:categories/:title/

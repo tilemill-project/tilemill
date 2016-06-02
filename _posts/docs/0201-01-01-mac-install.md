@@ -3,7 +3,7 @@ layout: docs
 category: installation
 tag: Installation
 title: Installing on Mac OS X
-permalink: /docs/mac-install
+permalink: /docs/mac-install/
 hidden: true
 nextup:
 - "Make your first map with [CSV data](/tilemill/docs/tutorials/point-data/)."

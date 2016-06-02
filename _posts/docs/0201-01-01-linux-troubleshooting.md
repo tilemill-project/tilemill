@@ -3,7 +3,7 @@ layout: docs
 category: installation
 tag: Installation
 title: Troubleshooting
-permalink: /docs/linux-troubleshooting
+permalink: /docs/linux-troubleshooting/
 hidden: true
 ---
 If TileMill isn't starting up or performing properly, try these troubleshooting steps. This page is for **Ubuntu**. We also have instructions for [Mac OS X](/tilemill/docs/mac-troubleshooting) and [Windows](/tilemill/docs/win-troubleshooting).

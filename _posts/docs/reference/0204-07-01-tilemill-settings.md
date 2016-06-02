@@ -4,7 +4,7 @@ section: help
 category: reference
 tag: Reference
 title: TileMill settings
-permalink: /docs/manual/tilemill-settings
+permalink: /docs/manual/tilemill-settings/
 ---
 
 ## Documents

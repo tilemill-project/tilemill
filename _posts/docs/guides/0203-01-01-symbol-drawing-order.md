@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Symbol Drawing Order"
-permalink: /docs/guides/symbol-drawing-order
+permalink: /docs/guides/symbol-drawing-order/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

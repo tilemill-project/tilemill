@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Working with PostGIS"
-permalink: /docs/guides/postgis-work
+permalink: /docs/guides/postgis-work/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

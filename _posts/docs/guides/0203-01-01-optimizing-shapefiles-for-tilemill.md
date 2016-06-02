@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Optimizing shapefiles"
-permalink: /docs/guides/optimizing-shapefiles
+permalink: /docs/guides/optimizing-shapefiles/
 prereq:
 - "[Set up GDAL](/tilemill/docs/guides/gdal)"
 nextup:

@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Working with SQLite"
-permalink: /docs/tutorials/sqlite-work
+permalink: /docs/tutorials/sqlite-work/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

@@ -4,7 +4,7 @@ section: help
 category: crashcourse
 tag: Crash&nbsp;course
 title: "TileMill and GIS"
-permalink: /docs/crashcourse/tilemill-gis
+permalink: /docs/crashcourse/tilemill-gis/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "[Reviewed](/tilemill/docs/crashcourse/introduction/) the Crash Course introduction."

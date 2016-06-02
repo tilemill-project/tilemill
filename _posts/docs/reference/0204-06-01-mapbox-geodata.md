@@ -4,7 +4,7 @@ section: help
 category: reference
 tag: Reference
 title: Mapbox geodata
-permalink: /docs/manual/mapbox-geodata
+permalink: /docs/manual/mapbox-geodata/
 ---
 The Mapbox GeoData Library is a collection of free datasets that have been optimized
 to work well with TileMill. The library is browsable from the TileMill interface through

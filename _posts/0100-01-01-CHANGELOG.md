@@ -7,7 +7,7 @@
 ###
 layout: docs
 title: Changelog
-permalink: /changelog
+permalink: /changelog/
 category: changelog
 releases:
 

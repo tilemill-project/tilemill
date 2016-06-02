@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Tips for using color in maps"
-permalink: /docs/guides/tips-for-color
+permalink: /docs/guides/tips-for-color/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

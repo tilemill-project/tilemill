@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "OSM Bright Ubuntu quickstart"
-permalink: /docs/guides/osm-bright-ubuntu-quickstart
+permalink: /docs/guides/osm-bright-ubuntu-quickstart/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 nextup:

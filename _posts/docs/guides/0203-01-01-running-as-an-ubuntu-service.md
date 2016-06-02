@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: Running as an Ubuntu service
-permalink: /docs/guides/ubuntu-service
+permalink: /docs/guides/ubuntu-service/
 prereq:
 - "[Installed TileMill](/tilemill/docs/install) on your computer."
 ---

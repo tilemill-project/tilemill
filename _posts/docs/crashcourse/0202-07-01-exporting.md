@@ -4,7 +4,7 @@ section: help
 category: crashcourse
 tag: Crash&nbsp;course
 title: "Exporting a map"
-permalink: /docs/crashcourse/exporting
+permalink: /docs/crashcourse/exporting/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "[Reviewed](/tilemill/docs/crashcourse/introduction/) the Crash Course introduction."

@@ -4,7 +4,7 @@ section: help
 category: reference
 tag: Reference
 title: Adding layers
-permalink: /docs/manual/adding-layers
+permalink: /docs/manual/adding-layers/
 ---
 Layers are how sets of data are added to a map in TileMill. Each layer references a single file or database query. Multiple layers can be combined over top of each other to create the final map - if you are familiar with layers in Photoshop or other graphics software the concept is very similar. 
 

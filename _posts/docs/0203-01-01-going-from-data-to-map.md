@@ -3,7 +3,7 @@ layout: docs
 category: installation
 tag: Guides
 title: "Going from Data to Map"
-permalink: /docs/guides/data-to-map
+permalink: /docs/guides/data-to-map/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

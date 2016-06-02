@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Working with GeoTIFFs"
-permalink: /docs/guides/reprojecting-geotiff
+permalink: /docs/guides/reprojecting-geotiff/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Advanced Label Placement"
-permalink: /docs/guides/labels-advanced
+permalink: /docs/guides/labels-advanced/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

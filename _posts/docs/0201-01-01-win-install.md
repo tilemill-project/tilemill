@@ -3,7 +3,7 @@ layout: docs
 category: installation
 tag: Installation
 title: Installing on Windows
-permalink: /docs/win-install
+permalink: /docs/win-install/
 hidden: true
 nextup:
 - "Make your first map with [CSV data](/tilemill/docs/tutorials/point-data/)."

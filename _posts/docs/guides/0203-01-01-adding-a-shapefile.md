@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Adding a shapefile layer"
-permalink: /docs/guides/add-shapefile
+permalink: /docs/guides/add-shapefile/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

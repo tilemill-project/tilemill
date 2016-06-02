@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "OSM Bright Mac OS X quickstart"
-permalink: /docs/guides/osm-bright-mac-quickstart
+permalink: /docs/guides/osm-bright-mac-quickstart/
 prereq:
     - "[Installed](/tilemill/docs/install) TileMill on your computer."
 nextup:

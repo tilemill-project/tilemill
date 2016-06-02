@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Styling Lines"
-permalink: /docs/guides/styling-lines
+permalink: /docs/guides/styling-lines/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

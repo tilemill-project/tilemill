@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Understanding Metatiles"
-permalink: /docs/guides/metatiles
+permalink: /docs/guides/metatiles/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Georeferencing Satellite Images"
-permalink: /docs/guides/georeferencing-satellite-images
+permalink: /docs/guides/georeferencing-satellite-images/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

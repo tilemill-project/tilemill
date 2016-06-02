@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Colorizing Single-band Raster Data"
-permalink: /docs/guides/colorizing-single-band-raster-data
+permalink: /docs/guides/colorizing-single-band-raster-data/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

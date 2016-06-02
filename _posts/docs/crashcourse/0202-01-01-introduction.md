@@ -4,7 +4,7 @@ section: help
 category: crashcourse
 tag: Crash&nbsp;course
 title: "Introduction"
-permalink: /docs/crashcourse/introduction
+permalink: /docs/crashcourse/introduction/
 nextup:
 - "[TileMill and GIS](/tilemill/docs/crashcourse/tilemill-gis/)"
 ---

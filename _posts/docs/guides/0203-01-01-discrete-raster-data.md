@@ -5,7 +5,7 @@ category: guides
 tag: Guides
 title: "Discrete Raster Data"
 subtitle: "Land Cover Example"
-permalink: /docs/guides/discrete-raster-data
+permalink: /docs/guides/discrete-raster-data/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

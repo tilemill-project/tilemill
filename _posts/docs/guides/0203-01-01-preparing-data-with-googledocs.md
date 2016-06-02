@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Preparing data with Google Docs"
-permalink: /docs/guides/google-docs
+permalink: /docs/guides/google-docs/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 nextup:
