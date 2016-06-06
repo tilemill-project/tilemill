@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "High-Resolution Tiles"
-permalink: /docs/guides/high-resolution-tiles
+permalink: /docs/guides/high-resolution-tiles/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: Working with terrain data
-permalink: /docs/guides/terrain-data
+permalink: /docs/guides/terrain-data/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

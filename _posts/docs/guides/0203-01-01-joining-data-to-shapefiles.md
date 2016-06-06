@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Joining data to shapefiles"
-permalink: /docs/guides/joining-data
+permalink: /docs/guides/joining-data/
 nextup:
 - "[Adding a shapefile layer](/tilemill/docs/guides/add-shapefile/) to your TileMill project."
 ---

@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Adding MapBox Geodata"
-permalink: /docs/guides/add-geodata
+permalink: /docs/guides/add-geodata/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

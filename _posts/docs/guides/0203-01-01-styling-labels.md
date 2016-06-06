@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: 'Styling Labels'
-permalink: /docs/guides/styling-labels
+permalink: /docs/guides/styling-labels/
 prereq:
 - '[Installed](/tilemill/docs/install) TileMill on your computer.'
 - 'Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)'

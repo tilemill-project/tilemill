@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Advanced map design"
-permalink: /docs/guides/advanced-map-design
+permalink: /docs/guides/advanced-map-design/
 prereq:
 - "[Prepared your data](/tilemill/docs/guides/google-docs/)."
 - "[Added an earthquake CSV layer](/tilemill/docs/crashcourse/point-data) from the Crash Course."

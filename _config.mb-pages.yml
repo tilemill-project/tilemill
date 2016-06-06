@@ -3,4 +3,4 @@ api: https://www.mapbox.com/core
 tileApi: https://api.tiles.mapbox.com
 exclude: [.gitignore, .gitmodules]
 baseurl: /tilemill
-permalink: /:categories/:title
+permalink: /:categories/:title/

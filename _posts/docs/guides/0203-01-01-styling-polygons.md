@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Styling Polygons"
-permalink: /docs/guides/styling-polygons
+permalink: /docs/guides/styling-polygons/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

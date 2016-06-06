@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Processing Landsat 8 Imagery"
-permalink: /docs/guides/landsat-8-imagery
+permalink: /docs/guides/landsat-8-imagery/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

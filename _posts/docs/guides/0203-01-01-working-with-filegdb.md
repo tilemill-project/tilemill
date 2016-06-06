@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Working with FileGDB"
-permalink: /docs/guides/filegdb-work
+permalink: /docs/guides/filegdb-work/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "You have installed TileMill > 0.10.1"

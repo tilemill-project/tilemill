@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: Google charts in tooltips
-permalink: /docs/guides/google-charts
+permalink: /docs/guides/google-charts/
 code1: "{{{ID}}}"
 code2: |
   chd=t: {{{data1}}},{{{data2}}},{{{data3}}},{{{data4}}},{{{data5}}},{{{data6}}},{{{data7}}},_,_,{{{data8}}},{{{data9}}}|

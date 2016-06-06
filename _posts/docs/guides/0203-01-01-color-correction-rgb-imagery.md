@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Color Correction of RGB Imagery"
-permalink: /docs/guides/color-correction-rgb-imagery
+permalink: /docs/guides/color-correction-rgb-imagery/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Complex 3D Structures"
-permalink: /docs/guides/tilemill-complex-3d-structures
+permalink: /docs/guides/tilemill-complex-3d-structures/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

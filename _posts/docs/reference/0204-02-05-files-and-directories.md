@@ -4,7 +4,7 @@ section: help
 category: reference
 tag: Reference
 title: Files & directories
-permalink: /docs/manual/files-directories
+permalink: /docs/manual/files-directories/
 ---
 By default TileMill manages project files, data and exports in a `MapBox` directory in your user's Documents directory. TileMill will create this directory and its contents automatically when you first start the program. Below are the default full paths for this directory; the actual locations may be different depending on your languages settings or other system configuration.
 

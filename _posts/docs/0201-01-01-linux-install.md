@@ -3,7 +3,7 @@ layout: docs
 category: installation
 tag: Installation
 title: Installing on Ubuntu
-permalink: /docs/linux-install
+permalink: /docs/linux-install/
 hidden: true
 nextup:
 - "Make your first map with [CSV data](/tilemill/docs/tutorials/point-data/)."

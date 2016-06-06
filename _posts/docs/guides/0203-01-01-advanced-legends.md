@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Advanced legends"
-permalink: /docs/guides/advanced-legends
+permalink: /docs/guides/advanced-legends/
 prereq:
 - "[Reviewed](/tilemill/docs/crashcourse/introduction) the Crash Course, particularly the [legends](/tilemill/docs/crashcourse/tooltips/#legends) section."
 nextup:

@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Selectors"
-permalink: /docs/guides/selectors
+permalink: /docs/guides/selectors/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "Reviewed [Crash Course](/tilemill/docs/crashcourse/introduction/)"

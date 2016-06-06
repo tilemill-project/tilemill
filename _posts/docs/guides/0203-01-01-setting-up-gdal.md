@@ -5,7 +5,7 @@ section: help
 category: guides
 tag: Guides
 title: Setting up GDAL
-permalink: /docs/guides/gdal
+permalink: /docs/guides/gdal/
 prereq: 
   - "[Installed TileMill](/tilemill/docs/install) on your computer."
 nextup: 

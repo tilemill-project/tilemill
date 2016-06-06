@@ -4,7 +4,7 @@ section: help
 category: guides
 tag: Guides
 title: "Recommended data sources"
-permalink: /docs/guides/recommended-sources
+permalink: /docs/guides/recommended-sources/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 nextup:

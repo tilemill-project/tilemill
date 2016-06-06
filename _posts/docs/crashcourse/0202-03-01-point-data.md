@@ -4,7 +4,7 @@ section: help
 category: crashcourse
 tag: Crash&nbsp;course
 title: "Importing a spreadsheet"
-permalink: /docs/crashcourse/point-data
+permalink: /docs/crashcourse/point-data/
 prereq:
 - "[Installed](/tilemill/docs/install) TileMill on your computer."
 - "[Reviewed](/tilemill/docs/crashcourse/introduction/) the Crash Course introduction."
