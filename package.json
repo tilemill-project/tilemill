@@ -38,6 +38,7 @@
     "chrono": "~1.0.1",
     "generic-pool": "~2.4.1",
     "glob": "~7.0.0",
+    "js-yaml": "^3.4.6",
     "mapbox-upload": "~4.2.2",
     "mapnik": "~3.5.13",
     "mbtiles": "~0.8.2",
