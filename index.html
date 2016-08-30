@@ -2,25 +2,6 @@
 layout: default
 title: TileMill
 options: bleed full
-platforms:
-- id: mac
-  name: Mac OS X
-  help: Extract this archive and drag TileMill to your Applications folder.
-  file: TileMill-0.10.1.zip
-  size: 58.9 MB
-  url: http://tilemill.s3.amazonaws.com/latest/TileMill-0.10.1.zip
-- id: linux
-  name: Ubuntu
-  help: Extract this archive and double-click on <code>install-tilemill.sh</code>.
-  file: install-tilemill.tar.gz
-  size: 30 MB
-  url: http://tilemill.s3.amazonaws.com/latest/install-tilemill.tar.gz
-- id: windows
-  name: Windows
-  help: Double-click this installer to set up TileMill on your computer.
-  file: TileMill-v0.10.1-Setup.exe
-  size: 73.2 MB
-  url: http://tilemill.s3.amazonaws.com/latest/TileMill-v0.10.1-Setup.exe
 ---
 
 <link href='{{site.baseurl}}/site.css' rel='stylesheet' />
@@ -46,37 +27,21 @@ platforms:
     </div>
   </div>
 
-  <div class="fill-yellow pad1y pad2x medium icon alert space-bottom round center">
-    TileMill is no longer in active development. For our most up-to-date map design tool, check out <a href="https://mapbox.com/mapbox-studio">Mapbox Studio</a>.
-  </div>
-
   <div class='limiter dark clip clearfix'>
     <h3 class='icon tilemill center space-bottom2'>TileMill</h3>
-    <div class='col8 margin2 center prose space-bottom4'>
-        <h1>Create beautiful interactive maps</h1>
-        <p class='quiet'>Whether you're a journalist, web designer, researcher, or seasoned cartographer, TileMill is the design studio to create stunning interactive maps.</p>
-    </div>
     <div class='clearfix'>
       <div class='col4'>
+        <p class='prose'>
+        TileMill has been replaced by <a href="https://mapbox.com/mapbox-studio/">Mapbox Studio</a>.
+        <a class='button col12 space-top2' href="https://mapbox.com/mapbox-studio/">Start using Mapbox Studio</a>
+        </p>
+        <p class='prose small'>
+          If you're sure you want TileMill, you can still download it for
+          <a href='http://tilemill.s3.amazonaws.com/latest/TileMill-0.10.1.zip'>macOS</a>,
+          <a href='http://tilemill.s3.amazonaws.com/latest/install-tilemill.tar.gz'>Linux</a>, and
+          <a href='http://tilemill.s3.amazonaws.com/latest/TileMill-v0.10.1-Setup.exe'>Windows</a>.
+        </p>
         <div class='download callout round'>
-          <nav class='tabs clearfix'>
-          {% for item in page.platforms %}
-          <a id='{{item.id}}' class='col4' href='#'>{{item.name}}</a>
-          {% endfor %}
-          </nav>
-          {% for item in page.platforms %}
-          <a href='{{item.url}}' class='download-button clearfix {{item.id}}' title='{{item.name}}'>
-            <div class='label col5 pad1'>
-              <small class='quiet'>{{item.name}}</small>
-              <h3 class='label-title'>Download</h3>
-            </div>
-            <div class='details col7 pad1'>
-              <small class='filename'>{{item.file}}</small>
-              <h3 class='label-title'>{{item.size}}</h3>
-            </div>
-          </a>
-          {% endfor %}
-
           <div class='mailchimp-subscribe col12 prose clearfix'>
             <h3>Downloading&hellip;</h3>
             {% for h in page.platforms %}
@@ -85,7 +50,7 @@ platforms:
             <p class='quiet'>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
             </p>
           </div>
-          <small class='center space'>
+          <small class='space'>
             <a class='quiet' href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a>
             <a class='quiet' href='{{site.baseurl}}/changelog/'>Changelog</a>
             <a class='quiet' href='{{site.baseurl}}/docs/install/'>More install details</a>
@@ -97,112 +62,6 @@ platforms:
     </div>
   </div>
 
-</div>
-
-
-<div class='fill-white'>
-  <div class='limiter'>
-    <div class='center pad2y'>
-      <h2>Features</h2>
-    </div>
-
-    <div class='prose doc'>
-      <div id='manage' class='pad4y keyline-top clearfix'>
-        <h3 class='icon graph pad2x'>Manage data</h3>
-        <div class='col6 pad2x'>
-            <h2>Load data from a wide range of sources</h2>
-            <p>Compatible datasources include ESRI Shapefile, KML, GeoJSON, GeoTIFF, PostGIS, CSV, and SQLite. Inspect, order, and layer your sources to build complex maps.</p>
-            <a href='{{site.baseurl}}/docs/manual/interface-tour/'>Interface tour</a>
-        </div>
-        <div class='col6 contain pad2x'>
-          <div class='clearfix pad1y'>
-            <div class='illustration browse inline fl margin0r space-bottom2'></div>
-            <strong>Browse public data</strong>
-            <p class='quiet'>Access dozens of useful public datasources with the built-in Mapbox Geodata browser.</p>
-          </div>
-          <div class='clearfix pad1y'>
-            <div class='illustration raster inline fl margin0r space-bottom2'></div>
-            <strong>Raster support</strong>
-            <p class='quiet'>Show satellite data or map your DIY weather balloon aerial photography.</p>
-          </div>
-        </div>
-      </div>
-
-      <div id='render' class='pad4y keyline-top clearfix'>
-        <h3 class='icon sun pad2x'>Render + style</h3>
-        <div class='col6 pad2x'>
-            <h2>State-of-the-art rendering</h2>
-            <p>At TileMill's core is Mapnik, a powerful, full-featured library that includes support for RGBA color, True Type fonts, rasters, patterns, and even SVG transforms.</p>
-        </div>
-        <div class='col6 contain pad2x'>
-          <div class='clearfix pad1y'>
-            <div class='illustration svg inline fl margin0r space-bottom2'></div>
-            <strong>SVG markers</strong>
-            <p class='quiet'>Resize and transform scalable vector SVG markers right in TileMill.</p>
-          </div>
-          <div class='clearfix pad1y'>
-            <div class='illustration textures inline fl margin0r space-bottom2'></div>
-            <strong>Textures</strong>
-            <p class='quiet'>With full alpha-channel support and the ability to add multiple layers and fills, TileMill can create richly textured maps.</p>
-          </div>
-        </div>
-      </div>
-
-      <div id='enrich' class='pad4y keyline-top clearfix'>
-        <h3 class='icon hand pad2x'>Enrich</h3>
-        <div class='col6 pad2x'>
-            <h2>Style maps with Carto</h2>
-            <p>Inspired by CSS, Carto gives you full control over design. Filters, variables, and functions are at your fingertips in the code editor.</p>
-            <a href='{{site.baseurl}}/docs/manual/carto/'>Carto guide</a>
-        </div>
-        <div class='col6 pad2x contain'>
-          <div class='clearfix pad1y'>
-            <div class='illustration interaction inline fl margin0r space-bottom2'></div>
-            <strong>Add interaction</strong>
-            <p class='quiet'>Create hover <a href='{{site.baseurl}}/docs/crashcourse/tooltips/'>tooltips</a> and clickable pop ups with UTF-8 grid technology.</p>
-          </div>
-          <div class='clearfix pad1y'>
-            <div class='illustration inline embed fl margin0r space-bottom2'></div>
-            <strong>Embed graphics or images</strong>
-            <p class='quiet'>Insert <a href='{{site.baseurl}}/docs/tutorials/google-charts/'>interactive graphs</a>, images, links, and other content into your maps.
-          </div>
-        </div>
-      </div>
-
-      <div id='share' class='pad4y keyline-top clearfix'>
-          <h3 class='icon cloud pad2x'>Share</h3>
-        <div class='col12'>
-          <div class='col6 pad2x'>
-            <div class='small-graphic dot dark fill-purple inline fl pad1 margin0r space-bottom2'>
-              <span class='icon big mobile'></span>
-            </div>
-            <strong>Publish to web &amp; mobile</strong>
-            <p class='quiet'>Every map you make in TileMill is desktop and mobile ready when you export to the MBTiles format.</p>
-          </div>
-          <div class='col6 pad2x'>
-            <div class='small-graphic dot fill-blue inline fl pad1 dark margin0r space-bottom2'>
-              <span class='icon big mapbox'></span>
-            </div>
-            <strong>Integrate with Mapbox</strong>
-            <p class='quiet'>It's just one click to automatically render and upload maps to your <a href='http://mapbox.com/'>Mapbox</a> account.</p>
-          </div>
-        </div>
-      </div>
-
-      <div id='open-source'>
-        <div class='clearfix full keyline-top contain single'>
-          <div class='col6 pad4y pad2x'>
-            <h2>Powered by open source</h2>
-            <p>TileMill is built on a suite of open source libraries including <a href='http://mapnik.org'>Mapnik</a>, <a href='http://nodejs.org'>node.js</a>, <a href='http://documentcloud.github.com/backbone'>backbone.js</a>, <a href='http://expressjs.com'>express</a> and <a href='http://codemirror.net'>CodeMirror</a>. Visit <a href='http://github.com'>GitHub</a> to dig into the source code.</p>
-            <a href='http://github.com/mapbox/tilemill' class='button icon github'>Fork me on GitHub</a>
-          </div>
-          <div class='col6 contain pad4y text-right'>
-            <div class='illustration github inline'></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -219,14 +78,14 @@ $('nav #mac').click(function() {
   });
 
 $('nav #windows').click(function() {
-    $('.download').addClass('windows').removeClass('mac').removeClass('linux');
-    return false;
-  });
+  $('.download').addClass('windows').removeClass('mac').removeClass('linux');
+  return false;
+});
 
 $('nav #linux').click(function() {
-    $('.download').addClass('linux').removeClass('windows').removeClass('mac');
-    return false;
-  });
+  $('.download').addClass('linux').removeClass('windows').removeClass('mac');
+  return false;
+});
 
 $('.download-button').click(function(ev) {
   var _gaq = _gaq || [];
