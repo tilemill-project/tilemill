@@ -40,7 +40,7 @@
         "rimraf": "^2.5.2",
         "step": "~0.0.5",
         "mbtiles": "~0.8.2",
-        "mapnik": "3.5.13",
+        "mapnik": "3.5.14",
         "tilelive-mapnik": "~0.6.16 ",
         "tilelive": "git://github.com/paulovieira/tilelive.git",
         "carto": "0.16.1",
