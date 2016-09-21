@@ -1,0 +1,96 @@
+/* Base candidates
+------------------------------------------------------- */
+.prose .unspace-bottom,
+.unspace-bottom { margin-bottom: 0;}
+
+var {
+  color:#56b881;
+  font-style:italic;
+}
+
+/* Layout overrides to support docs structure
+------------------------------------------------------- */
+.docnav           {position:fixed;top: 20px;bottom:0;width:100%;}
+.docnav .active   { color:#404040; color:rgba(0,0,0,0.75); }
+.docnav .limiter  { height:100%; }
+.docnav .col3     { height:100%; }
+.docnav nav {
+  position: absolute;
+  left:0; top:0; right:20px; bottom:20px;
+  }
+
+.hide-in-docs { display: none;}
+
+.footer-in-docs {
+  background: transparent;
+  z-index:1;
+  pointer-events: none;
+}
+
+.footer-cols-in-docs {
+  pointer-events: all;
+}
+
+.footer-col-in-docs { width: 25%; }
+
+.footer-cols-in-docs {
+  padding: 20px;
+  background: transparent;
+  margin-left:25%;
+  width:75%;
+  max-width:none;
+}
+
+a.doc-section {
+  display:block;
+  position:relative;
+  z-index:-1;
+}
+
+.terms-in-docs {
+  pointer-events: all;
+  width: 33.3333%;
+  margin-left: 33.3333%;
+}
+
+.newsletter-in-docs { width: 100%;}
+
+/* Mobile */
+@media only screen and (max-width:640px) {
+  /* offset for fixed header */
+  a.doc-section { top: -60px;}
+}
+
+nav .sub { padding:4px 10px; }
+@media only screen and (max-width:640px) {
+  .swiftype-widget > nav {
+    width:100%;
+  }
+}
+
+.quiet-scroll pre {
+  overflow:auto;
+  white-space:pre;
+  word-wrap:normal;
+  word-break:normal;
+}
+.quiet-scroll pre::-webkit-scrollbar,
+.quiet-scroll::-webkit-scrollbar {
+  width:5px;
+  height:5px;
+  border-left:0;
+  background:rgba(0,0,0,0.1);
+}
+.quiet-scroll pre::-webkit-scrollbar-track,
+.quiet-scroll::-webkit-scrollbar-track {
+  background:none;
+}
+.quiet-scroll pre::-webkit-scrollbar-thumb,
+.quiet-scroll::-webkit-scrollbar-thumb {
+  background:rgba(0,0,0,0.4);
+  border-radius:0;
+}
+.quiet-scroll pre::-webkit-scrollbar:hover,
+.quiet-scroll::-webkit-scrollbar:hover {
+  background:rgba(0,0,0,0.4);
+}
