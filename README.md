@@ -1,4 +1,6 @@
-**[Mapbox Studio](https://www.mapbox.com/mapbox-studio/) is the modern alternative to TileMill**: if you're starting out and creating a map today, we recommend starting with [Mapbox Studio](https://www.mapbox.com/mapbox-studio/) rather than TileMill.
+Maintenance status:
+
+TileMill has shifted to an [open open source](http://openopensource.org/) contributor model and moved to its own organization, `tilemill-project`.
 
 ## Alternatives to TileMill
 
