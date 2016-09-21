@@ -1,99 +1,40 @@
 ---
 layout: default
 title: TileMill
-options: bleed full
+options: bleed full fill-navy
 ---
 
 <link href='{{site.baseurl}}/site.css' rel='stylesheet' />
-<style>
-/* Site overrides */
-.masthead {
-  background:none;
-  border:none;
-  }
-.masthead .drop { display:none!important; }
-.masthead .primary { display:none; }
-.mb-logo { background-position:0 -60px; }
-.tilemill-nav { top:-60px; }
-.fill-denim .fill-white .pill > * { border-color: rgba(0,0,0,0.25); }
-</style>
 
-<div class='fill-navy splash'>
-
-  <div class='limiter contain'>
-    <div class='tilemill-nav z10 space pin-right'>
-      <a class='inline small strong dark quiet' href='{{site.baseurl}}/docs/crashcourse/introduction/'>Documentation</a>
-      <a class='inline small strong dark quiet' href='{{site.url}}/carto/'>CartoCSS Reference</a>
-    </div>
-  </div>
-
-  <div class='limiter dark clip clearfix'>
-    <h3 class='icon tilemill center space-bottom2'>TileMill</h3>
-    <div class='clearfix'>
-      <div class='col4'>
+<div class='fill-white'>
+  <div class='limiter clip clearfix'>
+    <div class='clearfix space-top8'>
+      <div class='col4 prose'>
+        <h2 class='space-bottom2'>TileMill</h2>
         <p class='prose'>
-        TileMill has been replaced by <a href="https://mapbox.com/mapbox-studio/">Mapbox Studio</a>.
-        <a class='button col12 space-top2' href="https://mapbox.com/mapbox-studio/">Start using Mapbox Studio</a>
-        </p>
-        <p class='prose small'>
-          If you're sure you want TileMill, you can still download it for
+          Download TileMill for
           <a href='http://tilemill.s3.amazonaws.com/latest/TileMill-0.10.1.zip'>macOS</a>,
           <a href='http://tilemill.s3.amazonaws.com/latest/install-tilemill.tar.gz'>Linux</a>, and
           <a href='http://tilemill.s3.amazonaws.com/latest/TileMill-v0.10.1-Setup.exe'>Windows</a>.
         </p>
-        <div class='download callout round'>
-          <div class='mailchimp-subscribe col12 prose clearfix'>
-            <h3>Downloading&hellip;</h3>
-            {% for h in page.platforms %}
-            <span class='help {{h.id}}'>{{h.help}}</span>
-            {% endfor %}
-            <p class='quiet'>While you wait, check out the <a href='{{site.baseurl}}/docs/crashcourse/introduction'>TileMill Crash course</a>.
-            </p>
-          </div>
-          <small class='space'>
-            <a class='quiet' href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a>
-            <a class='quiet' href='{{site.baseurl}}/changelog/'>Changelog</a>
-            <a class='quiet' href='{{site.baseurl}}/docs/install/'>More install details</a>
-          </small>
-        </div>
+        <ul>
+          <li><a href='http://github.com/mapbox/tilemill'>Open Source Community on GitHub</a>
+          <li><a href='{{site.baseurl}}/docs/crashcourse/introduction/'>Documentation</a>
+          <li><a href='{{site.baseurl}}/docs/upgrade/'>Upgrade notes</a>
+          <li><a href='{{site.baseurl}}/changelog/'>Changelog</a>
+          <li><a href='{{site.baseurl}}/docs/install/'>More install details</a>
+        </ul>
       </div>
-
       <div class='row9 clip col8 tilemill-screenshot'></div>
     </div>
   </div>
-
+  <div class='dark prose small'>
+    <div class='col6 margin3 pad2y pad1x'>
+      <p>
+      TileMill is an open source map design studio, developed by a community of volunteer open source contributors.
+      Original development on the project was led by Development Seed and Mapbox as part of the 2010 Knight
+      News Challenge.
+      </p>
+    </div>
+  </div>
 </div>
-
-<script>
-$('.download').addClass((function() {
-  if (navigator.appVersion.indexOf('Win') != -1) return 'windows';
-  if (navigator.appVersion.indexOf('Mac') != -1) return 'mac';
-  if (navigator.appVersion.indexOf('X11') != -1 || navigator.appVersion.indexOf('Linux') != -1) return 'linux';
-  return 'mac'; // default to Mac.
-})());
-
-$('nav #mac').click(function() {
-    $('.download').addClass('mac').removeClass('windows').removeClass('linux');
-    return false;
-  });
-
-$('nav #windows').click(function() {
-  $('.download').addClass('windows').removeClass('mac').removeClass('linux');
-  return false;
-});
-
-$('nav #linux').click(function() {
-  $('.download').addClass('linux').removeClass('windows').removeClass('mac');
-  return false;
-});
-
-$('.download-button').click(function(ev) {
-  var _gaq = _gaq || [];
-  _gaq.push([
-    '_trackEvent',
-    'TileMill Download',
-    $(ev.currentTarget).attr('title')
-  ]);
-  $('.download').addClass('subscribe');
-});
-</script>
