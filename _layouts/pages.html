@@ -32,7 +32,7 @@ navigation:
       <div class='space-bottom1'>
         <a href='{{site.url}}/carto/' class='block strong small quiet truncate'>CartoCSS Reference</a>
       </div>
-      {% for nav in page.navigation %}
+      {% for nav in layout.navigation %}
         <div class='space-bottom1'>
           <a href='{{site.baseurl}}/{{nav.url}}' class='block strong small quiet truncate'>{{nav.title}}</a>
           {% for item in site.categories[nav.category] reversed %}
