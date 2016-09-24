@@ -17,7 +17,7 @@ TileMill has shifted to an [open open source](http://openopensource.org/) contri
 
 To install from source just do:
 
-    git clone https://github.com/mapbox/tilemill.git
+    git clone https://github.com/tilemill-project/tilemill.git
     cd tilemill
     npm install
 
