@@ -12,7 +12,7 @@ Changes from upstream are cherry-picked, last time on Apr 22, 2016.
 ## Features
 
 - Forked millstone dependency, Node 6 now supported
-- Support for Node 4 and Node 6, thanks to patches and updated dependencies of @paulovieira and own millstone fork
+- Support for Node 4, thanks to patches and updated dependencies of @paulovieira
 - Added layer selection to map panel for fast comparisons with OSM and to save render time for low zoom levels
 - Added search field to layer panel
 - Increased size of layer panel
