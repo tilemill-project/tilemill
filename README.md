@@ -1,18 +1,18 @@
 # General Info
 
-TileOven is a maintained fork of TileMill, tested on Linux with Node 0.10.25, 4.2.6 and 4.5.0.
+TileOven is a maintained fork of TileMill, tested on Linux with Node 0.10.25, 4.2.6, 4.5.0 and 6.9.1
 TileOven works only in server mode, no native packages are provided.
 Platforms other than Linux should theoretically work, but aren't tested.
 
 Changes from upstream are cherry-picked, last time on Apr 22, 2016.
 
-Node 6.x currently doesn't work because nodezip fails to compile [Sep 19, 2016]
 
 # Changelog since forking
 
 ## Features
 
-- Support for Node 4, thanks to patches and updated dependencies of https://github.com/paulovieira/hapi-tilemill
+- Forked millstone dependency, Node 6 now supported
+- Support for Node 4 and Node 6, thanks to patches and updated dependencies of @paulovieira and own millstone fork
 - Added layer selection to map panel for fast comparisons with OSM and to save render time for low zoom levels
 - Added search field to layer panel
 - Increased size of layer panel
