@@ -5,10 +5,13 @@ view.prototype.events = {
     'click a.add-layer': 'layerAdd',
     'click a.edit': 'layerEdit',
     'click a.inspect': 'layerInspect',
+    'click a.layers' : 'layerClone',
     'click a.delete': 'layerDelete',
     'click a.visibility': 'layerToggleStatus',
     'click a.extent': 'layerExtent',
-    'keyup input.search' : 'searchLayers'
+    'keyup input.search' : 'searchLayers',
+    'mouseenter ul.layers li' : 'showLayerActions',
+    'mouseleave ul.layers li' : 'hideLayerActions'
 };
 
 view.prototype.initialize = function(options) {
@@ -17,12 +20,15 @@ view.prototype.initialize = function(options) {
         'layerAdd',
         'layerInspect',
         'layerEdit',
+        'layerClone',
         'layerDelete',
         'layerToggleStatus',
         'layerExtent',
         'makeLayer',
         'sortLayers',
-        'searchLayers'
+        'searchLayers',
+        'showLayerActions',
+        'hideLayerActions'
     );
     this.model.bind('poll', this.render);
     this.render();
@@ -83,6 +89,31 @@ view.prototype.layerEdit = function(ev) {
         });
     }).bind(this);
     (new models.Favorites).fetch({success:cb,error:cb});
+};
+
+view.prototype.layerClone = function(ev) {
+    var id = $(ev.currentTarget).attr('href').split('#').pop();
+
+    new views.Modal({
+        content: 'Are you sure you want to clone layer "'+ id +'"?',
+        callback: _(function() {
+            var original = this.model.get('Layer').get(id);
+
+            var rnd = Math.round(Math.random() * 10000);    
+            var attributes = jQuery.extend({}, original.attributes);
+            attributes.name += "_clone_" + rnd;
+            attributes.id += "_clone_" + rnd;
+            var clone = new models.Layer(attributes, {
+                collection: this.model.get('Layer')
+            });
+
+            this.model.get("Layer").add(clone);
+            this.makeLayer(clone);
+        }).bind(this),
+        affirmative: 'Clone'
+    });
+
+    return false;
 };
 
 view.prototype.layerDelete = function(ev) {
@@ -214,3 +245,11 @@ view.prototype.searchLayers = function(ev) {
     });
 };
 
+view.prototype.showLayerActions = function(ev) {
+    this.$shownActions = this.$(ev.target).find("span.actions");
+    this.$shownActions.show();
+};
+
+view.prototype.hideLayerActions = function(ev) {
+    this.$shownActions.hide();
+};

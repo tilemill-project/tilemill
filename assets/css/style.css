@@ -683,6 +683,11 @@ ul.layers {
 .layers li .actions .icon { opacity:0.5; }
 .layers li .actions .icon:hover { opacity:1; }
 
+.layers li .actions {
+  display: none;
+}
+
+
 .palette {
   position:fixed;
   left:20px;

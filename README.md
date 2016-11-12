@@ -15,6 +15,8 @@ Changes from upstream are cherry-picked, last time on Apr 22, 2016.
 - Support for Node 4, thanks to patches and updated dependencies of @paulovieira
 - Added layer selection to map panel for fast comparisons with OSM and to save render time for low zoom levels
 - Added search field to layer panel
+- Added cloning of layers to layer panel
+- Layer actions only shown on hover, ideal for long layer names and reduces visual noise
 - Increased size of layer panel
 - Updated carto and node-mapnik dependencies, new CartoCSS commands available
 - Remember last selected folder in new layer dialog
@@ -56,7 +58,7 @@ Installation instructions, development docs and other information are available 
 # Depends
 
 - Mapnik v2.3.0
-- Node.js v4.x, v0.10.x or v0.8.x
+- Node.js v6.x, v4.x, v0.10.x or v0.8.x
 - Protobuf: libprotobuf-lite and protoc
 
 However, node-mapnik (which depends on Mapnik and protobuf) is now packaged as a binary. So, you do not need an external Mapnik. See [Installation](#installation)
