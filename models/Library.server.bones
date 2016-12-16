@@ -99,6 +99,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
                     err.code !== 'EACCES' &&
                     err.code !== 'UNKNOWN' &&
                     err.code !== 'EPERM' &&
+                    err.code !== 'EBUSY' &&
                     err.code !== 'EINVAL') return error(err);
                 var data = {};
                 var ext = model.id === 'file' ? extFile : extSqlite;
