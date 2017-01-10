@@ -121,8 +121,11 @@ Download a zip archive of the latest version of OSM Bright from <https://github.
 
 OSM Bright depends on two large shapefiles. You will need to download and extract them before continuing.
 
-Download them to the shp directory in the osm-bright folder. You can do this with wget like:
+Download them to the shp directory in the mapbox-osm-bright-* folder. You can do this with wget like:
 
+    cd ~/Downloads/mapbox-osm-bright-*
+    mkdir shp
+    cd shp
     wget http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
     wget http://data.openstreetmapdata.com/land-polygons-split-3857.zip
 
