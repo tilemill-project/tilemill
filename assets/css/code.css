@@ -15,7 +15,7 @@ div.CodeMirror {
 div.CodeMirror-lines,
 div.CodeMirror-gutter-text { padding:5px; }
 
-div.CodeMirror .errors {
+div.CodeMirror .errors, div.CodeMirror .search {
   width: 12px;
 }
 
@@ -24,6 +24,12 @@ div.CodeMirror .error-marker {
   width: 8px;
   height: 16px;
   cursor: pointer;
+}
+
+div.CodeMirror .search-marker {
+  background-color: #009928;
+  width: 8px;
+  height: 16px;
 }
 
 span.cm-carto-variable           { color:#708; }

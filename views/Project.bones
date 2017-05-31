@@ -6,7 +6,8 @@ view.prototype.events = {
     'click .actions a[href=#exports]': 'exportList',
     'click a[href=#settings]': 'settings',
     'click a[href=#layers]': 'layers',
-    'click .breadcrumb .logo': 'unload'
+    'click .breadcrumb .logo': 'unload',
+	 'keyup input.search' : 'searchStyles',
 };
 
 view.prototype.initialize = function() {
@@ -21,7 +22,8 @@ view.prototype.initialize = function() {
         'exportList',
         'settings',
         'layers',
-        'unload'
+        'unload',
+		  'searchStyles'
     );
     Bones.intervals = Bones.intervals || {};
 
@@ -203,3 +205,31 @@ view.prototype.unload = function(ev) {
     return false;
 };
 
+view.prototype.searchStyles = function(ev) {
+	var val = this.$("input.search").val() || "";
+	val = val.toLowerCase();
+
+	if (val == "") {
+		for (var i=0;i<this.model.get("Stylesheet").models.length;i++) {
+			this.model.get("Stylesheet").models[i].codemirror.clearGutter("search");
+		}
+		$('.workspace .search-results').text("");
+		return;
+	}
+	var searchResults = 0;
+	for (var i=0;i<this.model.get("Stylesheet").models.length;i++) {
+		var model = this.model.get("Stylesheet").models[i];
+		var lines = model.get("data").split("\n");
+		model.codemirror.clearGutter("search");
+
+		for (var j=0;j<lines.length;j++) {
+			if (lines[j].toLowerCase().indexOf(val) != -1) {
+				var marker = document.createElement("div");
+				marker.className = "search-marker";
+				model.codemirror.setGutterMarker(j, 'search', marker);
+				searchResults++;
+			}
+		}
+	}
+	$('.workspace .search-results').text(" " + searchResults);
+}

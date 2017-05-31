@@ -131,7 +131,7 @@ view.prototype.makeStylesheet = function(model) {
         name: 'carto',
         reference: window.abilities.carto,
         onColor: this.colors,
-        gutters: ["CodeMirror-linenumbers", "errors"]
+        gutters: ["CodeMirror-linenumbers", "errors", "search"]
     });
 
     model.codemirror.on("changes", function() {
@@ -333,13 +333,13 @@ view.prototype.colors = function(color) {
 view.prototype.moveTabsLeft = function() {
     if (this.$('.tabs:animated').size() > 0) return;
 
-    var contentWidth = 0; 
+    var contentWidth = 0;
     this.$('.tabs li').each(function(i, li) {
         contentWidth += $(li).width();
     });
 
     var width = this.$('.tabs-container').width();
-    
+
     var currentMargin = parseInt(this.$('.tabs').css('margin-left'));
 
     if (-currentMargin < contentWidth - width - 1) {
@@ -368,8 +368,8 @@ view.prototype.resizeTabsBar = function() {
 };
 
 view.prototype.enableLeftRightButtons = function() {
-    
-    var contentWidth = 0; 
+
+    var contentWidth = 0;
     this.$('.tabs li').each(function(i, li) {
         contentWidth += $(li).width();
     });
