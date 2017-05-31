@@ -33,6 +33,7 @@ Changes from upstream are cherry-picked, last time on Apr 22, 2016.
 - Removed Mapbox integration
 - Fixed CartoCSS variable auto completion
 - Fixed creation of job file in export if it doesn't exist
+- Fixed multiple output of CartoCSS errors to update to latest version
 
 # Readme
 
