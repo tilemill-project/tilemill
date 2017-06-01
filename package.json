@@ -43,7 +43,7 @@
         "mapnik": "3.5.13",
         "tilelive-mapnik": "~0.6.16 ",
         "tilelive": "git://github.com/paulovieira/tilelive.git",
-        "carto": "0.18.0",
+        "carto": "0.18.1",
         "millstone": "git://github.com/florianf/millstone.git",
         "sphericalmercator": "~1.0.2",
         "underscore": "~1.6.0",
