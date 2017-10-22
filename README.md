@@ -23,7 +23,16 @@ To install from source just do:
 
 Then to start TileMill do:
 
-    ./index.js # and then view http://localhost:20009 in your web browser
+As a Desktop application:
+
+    ./index.js 
+
+To run the **web version** pass `server=true`: 
+	
+    ./index.js --server=true
+
+and then go to `localhost:20009` in your web browser
+
 
 For more extended details follow:
 
