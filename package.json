@@ -36,7 +36,7 @@
         "chrono": "~1.0.1",
         "JSV": "4.0.x",
         "sax": "0.6.x",
-        "request": "2.x",
+        "request": "2.81.0",
         "rimraf": "^2.5.2",
         "step": "~0.0.5",
         "mbtiles": "~0.8.2",
