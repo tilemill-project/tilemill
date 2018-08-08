@@ -50,7 +50,7 @@
         "mbtiles": "~0.8.2",
         "mapnik": "3.6.2",
         "tilelive-mapnik": "~0.6.16 ",
-        "tilelive": "git://github.com/paulovieira/tilelive.git",
+        "tilelive": "git://github.com/florianf/tilelive.git",
         "carto": "0.18.2",
         "millstone": "git://github.com/florianf/millstone.git",
         "sphericalmercator": "~1.0.2",
