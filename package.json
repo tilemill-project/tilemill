@@ -8,7 +8,7 @@
     "design",
     "cartography"
   ],
-  "url": "http://github.com/mapbox/tilemill",
+  "url": "https://github.com/mapbox/tilemill",
   "repository": {
     "type": "git",
     "url": "git://github.com/mapbox/tilemill.git"
@@ -25,11 +25,7 @@
     "Ansis Brammanis <aibram>",
     "Justin Miller <incanus>"
   ],
-  "licenses": [
-    {
-      "type": "BSD"
-    }
-  ],
+  "license": "BSD-3-Clause",
   "dependencies": {
     "JSV": "4.0.x",
     "backbone-dirty": "~1.1.3",
