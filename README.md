@@ -1,6 +1,6 @@
 Maintenance status:
 
-TileMill has shifted to an [open open source](http://openopensource.org/) contributor model and moved to its own organization, `tilemill-project`.
+TileMill has shifted to an [open source](http://openopensource.org/) contributor model and moved to its own organization, `tilemill-project`.
 
 ## Alternatives to TileMill
 
