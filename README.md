@@ -39,7 +39,7 @@ Changes from upstream are cherry-picked, last time on Apr 22, 2016.
 
 TileOven is a modern map design studio powered by [Node.js](http://nodejs.org) and [Mapnik](http://mapnik.org).
 
-Installation instructions, development docs and other information are available on the [TileMill website](https://mapbox.com/tilemill).
+Installation instructions, development docs and other information are available in the [Wiki](https://github.com/florianf/tileoven/wiki/Installation-Guide).
 
 # Build Status
 
