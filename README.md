@@ -1,5 +1,21 @@
 # General Info
 
+Tilemill has now been updated on the great work of Tileoven.  The current goal is to bring back apps for each platform, using Electron.
+Changes from Tileoven were pulled on Jan 20, 2019.
+
+If you're looking for the pre-Tileoven versions:
+
+## Binaries
+The previous binaries for OSX and Windows based upon the v0.10.1 version can be found on AWS:
+https://tilemill-project.github.io/tilemill/
+
+There are also dev versions found here:
+http://tilemill.s3.amazonaws.com/index.html?path=dev/
+
+## Source code
+The previous code can be found under the tag v0.11-deprecated.
+
+# Tileoven Previous README
 TileOven is a maintained fork of TileMill, tested on Linux with Node 8.11.3 LTS
 TileOven works only in server mode, no native packages are provided.
 Platforms other than Linux should theoretically work, but aren't tested.
