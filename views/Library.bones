@@ -21,6 +21,7 @@ view.prototype.initialize = function(options) {
     this.favorites = options.favorites;
     this.favorites.bind('add', this.libraryUpdate);
     this.favorites.bind('remove', this.libraryUpdate);
+
     this.render();
 };
 

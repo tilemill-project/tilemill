@@ -38,7 +38,7 @@ model.prototype.schema = {
         'format': {
             'type': 'string',
             'required': true,
-            'enum': ['png', 'tiff', 'jpeg', 'webp', 'pdf', 'svg', 'svg', 'mbtiles', 'upload', 'sync']
+            'enum': ['png', 'tiff', 'jpeg', 'webp', 'pdf', 'svg', 'svg', 'mbtiles']
         },
         'metatile': {
             'type': 'integer',

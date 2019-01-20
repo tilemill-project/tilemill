@@ -1,3 +1,14 @@
+<select name="mapLayer" class="maplayer-selection">
+	<option value="project">
+		Project
+	</option>
+	<option value="http://a.tile.openstreetmap.org/{Z}/{X}/{Y}.png">
+		OpenStreetMap
+	</option>
+	<option value="http://a.tile.opencyclemap.org/cycle/{Z}/{X}/{Y}.png">
+		OpenCycleMap
+	</option>
+</select>
 <div id='map' class='fill'>
   <div class='zoom-display'>Zoom <span class='zoom'></span></div>
 </div>

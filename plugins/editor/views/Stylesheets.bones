@@ -63,9 +63,7 @@ view.prototype.save = function() {
     this.model.get('Stylesheet').forEach(function(model) {
         if (model.errors) {
             model.errors = [];
-            for (i = 0; i < (model.codemirror.getValue().match(/\n/g)||[]).length+1; i++) {
-                model.codemirror.clearMarker(i);
-            }
+            model.codemirror.clearGutter("errors")
         }
     });
     this.$('.tabs a.error').removeClass('error');
@@ -81,7 +79,8 @@ view.prototype.error = function(model, resp) {
     if (resp.responseText) {
         // this assume Carto.js specific error array format response
         var err_message = JSON.parse(resp.responseText).message;
-        var err_group = _(err_message.toString().split('\n')).compact();
+        var err_group = _.compact(err_message.toString().split('\n'));
+        err_group = _.uniq(err_group);
         var lines = [];
         for (var i = 0; i < err_group.length; i++) {
             var match = err_group[i].match(/^(Error: )?([\w.]+):([\d]+):([\d]+) (.*)$/);
@@ -93,7 +92,11 @@ view.prototype.error = function(model, resp) {
                 stylesheet.errors = stylesheet.errors || [];
                 lines.push(lineNum+1);
                 stylesheet.errors[lineNum] = match[5] + ' (line ' + (lineNum+1) + ')';
-                stylesheet.codemirror.setMarker(lineNum, '%N%', 'error');
+
+                var marker = document.createElement("div");
+                marker.className = "error-marker";
+
+                stylesheet.codemirror.setGutterMarker(lineNum, 'errors', marker);
                 if (err_group.length == 1) {
                     this.$('.status').addClass('active');
                     this.$('.status .content').text(stylesheet.errors[lineNum]);
@@ -125,30 +128,32 @@ view.prototype.makeStylesheet = function(model) {
         value: model.get('data'),
         lineNumbers: true,
         tabMode: 'shift',
-        mode: {
-            name: 'carto',
-            reference: window.abilities.carto,
-            onColor: this.colors
-        },
-        onCursorActivity: function() {
-            model.set({'data': model.codemirror.getValue()});
-        },
-        onChange: function() {
-            // onchange runs before this function is finished,
-            // so self.codemirror is false.
-            model.codemirror && model.set({
-                data: model.codemirror.getValue()
-            });
-            _.debounce(self.colors, 500);
-        },
-        onGutterClick: _(function(editor, line, ev) {
-            if (model.errors && model.errors[line]) {
-                this.$('.status').addClass('active');
-                this.$('.status .content').text(model.errors[line]);
-                return false;
-            }
-        }).bind(this)
+        name: 'carto',
+        reference: window.abilities.carto,
+        onColor: this.colors,
+        gutters: ["CodeMirror-linenumbers", "errors", "search"]
     });
+
+    model.codemirror.on("changes", function() {
+        // onchange runs before this function is finished,
+        // so self.codemirror is false.
+        model.codemirror && model.set({
+            data: model.codemirror.getValue()
+        });
+        _.debounce(self.colors, 500);
+    });
+
+    model.codemirror.on("cursorActivity", function() {
+        model.set({'data': model.codemirror.getValue()});
+    });
+
+    model.codemirror.on("gutterClick", _(function(editor, line, ev) {
+        if (model.errors && model.errors[line]) {
+            this.$('.status').addClass('active');
+            this.$('.status .content').text(model.errors[line]);
+            return false;
+        }
+    }).bind(this));
 
     var cartoCompleter = cartoCompletion(
         model.codemirror,
@@ -173,6 +178,15 @@ view.prototype.makeStylesheet = function(model) {
 
     model.codemirror.setOption('onKeyEvent',
         cartoCompleter.onKeyEvent);
+
+    model.codemirror.setOption("extraKeys", {
+            Tab: function(cm) {
+                cm.indentSelection();
+            },
+            "Ctrl-Space" : function(cm) {
+                cartoCompleter.complete(cm);
+            }
+    });
 
     model.codemirror.setOption('onHighlightComplete',
         _.throttle(cartoCompleter.setTitles, 100));
@@ -319,13 +333,13 @@ view.prototype.colors = function(color) {
 view.prototype.moveTabsLeft = function() {
     if (this.$('.tabs:animated').size() > 0) return;
 
-    var contentWidth = 0; 
+    var contentWidth = 0;
     this.$('.tabs li').each(function(i, li) {
         contentWidth += $(li).width();
     });
 
     var width = this.$('.tabs-container').width();
-    
+
     var currentMargin = parseInt(this.$('.tabs').css('margin-left'));
 
     if (-currentMargin < contentWidth - width - 1) {
@@ -354,8 +368,8 @@ view.prototype.resizeTabsBar = function() {
 };
 
 view.prototype.enableLeftRightButtons = function() {
-    
-    var contentWidth = 0; 
+
+    var contentWidth = 0;
     this.$('.tabs li').each(function(i, li) {
         contentWidth += $(li).width();
     });

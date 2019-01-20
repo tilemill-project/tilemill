@@ -239,7 +239,7 @@ small { font-size:11px; }
   margin-left:-361px;
   width:720px;
   height:90%;
-  z-index:101;
+  z-index:102;
   border:1px solid #666;
   border-bottom:0px;
   border-radius:5px 5px 0px 0px;
@@ -273,7 +273,7 @@ small { font-size:11px; }
   }
 
 #drawer.active {
-  z-index:10;
+  z-index:102;
   opacity:1;
   }
 
@@ -564,7 +564,7 @@ ul.projects { margin:0px -5px; }
 
 #meta .syncHelp { display:block; margin:10px 0px; }
 
-.project.meta .zoom-display { width:59px; }
+
 .project.meta .zoomin {
   border-radius:0px 3px 3px 0px;
   -moz-border-radius:0px 3px 3px 0px;
@@ -653,8 +653,9 @@ ul.projects { margin:0px -5px; }
  */
 
 ul.layers {
-  max-height:240px;
-  min-height:120px;
+  max-height:500px;
+  min-height:500px;
+  min-width: 420px;
   }
 
 .layers li {
@@ -663,8 +664,8 @@ ul.layers {
   padding:5px 130px 4px 30px;
   overflow:hidden;
   white-space:nowrap;
-  min-width:60px;
-  max-width:240px;
+  min-width:260px;
+  max-width:260px;
   }
 
 .layers li.status-off { color:#999; }
@@ -693,6 +694,11 @@ ul.layers {
 .layers li .actions .icon { float:left; }
 .layers li .actions .icon { opacity:0.5; }
 .layers li .actions .icon:hover { opacity:1; }
+
+.layers li .actions {
+  display: none;
+}
+
 
 .palette {
   position:fixed;

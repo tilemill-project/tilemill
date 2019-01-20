@@ -1,6 +1,6 @@
-CodeMirror.defineMode('carto', function(config, parserConfig) {
+CodeMirror.defineMode('carto', function(config) {
   var indentUnit = config.indentUnit, type;
-  if (!parserConfig.reference) throw "Reference required.";
+  if (!config.reference) throw "Reference required.";
 
   var valid_identifiers = (function(reference) {
     var ids = {};
@@ -10,7 +10,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
       }
     }
     return ids;
-  })(parserConfig.reference);
+  })(config.reference);
 
   var valid_colors = (function(reference) {
     var ids = {};
@@ -18,7 +18,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
       ids[i] = true;
     }
     return ids;
-  })(parserConfig.reference);
+  })(config.reference);
 
   var valid_keywords = (function(reference) {
     var ids = {};
@@ -32,7 +32,7 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
       }
     }
     return ids;
-  })(parserConfig.reference);
+  })(config.reference);
 
   function ret(style, tp) { type = tp; return style; }
 
@@ -117,8 +117,8 @@ CodeMirror.defineMode('carto', function(config, parserConfig) {
       var context = state.stack[state.stack.length - 1];
       if (type == 'hash' && (context == 'rule' || context == 'variable')) {
           style = 'carto-colorcode';
-          if (parserConfig.onColor) {
-              parserConfig.onColor(stream.current());
+          if (config.onColor) {
+              config.onColor(stream.current());
           }
       } else if (style == 'carto-identifier') {
         if (context == 'rule' || context == 'variable') {

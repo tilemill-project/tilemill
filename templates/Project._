@@ -6,6 +6,7 @@
     <div>
        <span class='name'><%= get('name') || get('id') %></span>
        <span class='project-status' title="check the logs for more details"></span>
+		 <input name="search" class="search" value="" size="15" placeholder="Search styles..." type="text"><span class='search-results' title=""></span>
     </div>
     <div class='actions joined'>
       <a class='button disabled' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
@@ -14,9 +15,6 @@
         Export
         <span class='icon reverse right dropdown'></span>
         <span class='menu'>
-          <% if (window.abilities.exports.mbtiles) { %>
-          <a class='divfloor' href='#export-sync' title='Upload to MapBox'>Upload</a>
-          <% } %>
           <% if (window.abilities.exports.mbtiles) { %>
           <a href='#export-mbtiles' title='Export MBTiles'>MBTiles</a>
           <% } %>

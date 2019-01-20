@@ -145,5 +145,17 @@
   border-radius:0px 0px 3px 3px;
   -moz-border-radius:0px 0px 3px 3px;
   -webkit-border-radius:0px 0px 3px 3px;
+  box-shadow: rgba(0,0,0,0.1) 0px 1px 3px;
+  }
+
+  .maplayer-selection {
+    position: absolute;
+    top: 44px;
+    z-index: 101;
+    left: 10px;
+    box-shadow: rgba(0,0,0,0.1) 0px 1px 3px;
+    height:22px;
+    width: 120px;
+    border: 1px solid #ccc;
   }
 

@@ -369,6 +369,17 @@ function saveProject(model, callback) {
                 } else {
                     l.Datasource.file = l.Datasource.file.replace(/^~/, process.env.HOME);
                 }
+
+                //Try to guess type of datasource and set it to project file for better compatibility with kosmtik
+                if (!l.Datasource.type) {
+                    var ext = path.extname(l.Datasource.file);
+                    if (ext) {
+                        var type = millstone.valid_ds_extensions[ext];
+                        if (type) {
+                            l.Datasource.type = type;
+                        }
+                    }
+                }
             }
             return l;
         });

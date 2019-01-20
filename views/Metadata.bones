@@ -10,7 +10,8 @@ view.prototype.events = {
         input[name=width],\
         input[name=height]': 'updateSize',
     'click input[type=submit]': 'save',
-    'click .cancel': 'close'
+    'click .cancel': 'close',
+    'change select.maplayer-selection' : 'selectLayer'
 };
 
 view.prototype.initialize = function(options) {
@@ -27,7 +28,8 @@ view.prototype.initialize = function(options) {
         'updateCustomFormat',
         'updateTotal',
         'updateSlider',
-        'updateSize');
+        'updateSize',
+        'selectLayer');
     this.sm = new SphericalMercator;
     this.type = options.type;
     this.title = options.title;
@@ -65,8 +67,6 @@ view.prototype.render = function() {
     if (this.model.get('format') !== 'sync' ||
         (this.config.get('syncAccount') && this.config.get('syncAccessToken'))) {
         $(this.el).html(templates.Metadata(this));
-    } else {
-        $(this.el).html(templates.MetadataSignup(this));
     }
 
     this.model.set({
@@ -145,6 +145,11 @@ view.prototype.render = function() {
     this.mapZoom({element: this.map.div});
 
     this.updatePreview();
+
+    $("#meta-map .zoom-display").css({
+        top: "63px",
+        width: "120px"
+    });
 
     return this;
 };
@@ -290,12 +295,6 @@ view.prototype.save = function() {
 
     // Exports.
     switch (this.model.get('format')) {
-    case 'sync':
-        if (!this.model.set({
-            id: this.project.id,
-            name: this.project.get('name') || this.project.id
-        }, {error:error})) return false;
-        break;
     case 'mbtiles':
         if (!this.model.set({
             filename: attr.filename,
@@ -338,4 +337,24 @@ view.prototype.save = function() {
     }).bind(this)]);
     return false;
 };
+
+view.prototype.selectLayer = function() {
+    var val = this.$('select.maplayer-selection').val();
+    var layer = this.map.getLayerAt(0);
+
+    if (val === "project") {
+        layer.provider.options = this.model.attributes;
+        layer.provider.options.tiles = this.project.attributes.tiles;
+    }
+    else {
+        //don't mess with the original ref from the project, simple clone
+        var clone = JSON.parse(JSON.stringify(this.map.getLayerAt(0).provider.options));
+        clone.tiles[0] = val.toLowerCase();
+        layer.provider.options = clone;
+    }
+    layer.setProvider(layer.provider);
+    this.map.draw();
+
+    this.boxselector.add(this.map);
+}
 

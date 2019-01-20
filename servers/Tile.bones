@@ -152,7 +152,7 @@ server.prototype.mbtiles = function(req, res, next) {
             x = +req.params.x,
             y = +req.params.y;
         // The interface is still TMS.
-        y = (1 << z) - 1 - y;
+        // y = (1 << z) - 1 - y;
 
         req.query.callback = 'grid';
         var fn = req.params.format === 'grid.json' ? 'getGrid' : 'getTile';

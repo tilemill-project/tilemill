@@ -1,11 +1,16 @@
 view = Backbone.View.extend();
 
+view.prototype.events = {
+    'change select.maplayer-selection' : 'selectLayer'
+};
+
 view.prototype.initialize = function() {
     _(this).bindAll(
         'render',
         'attach',
         'mapZoom',
-        'fullscreen'
+        'fullscreen',
+        'selectLayer'
     );
     this.model.bind('saved', this.attach);
     this.model.bind('poll', this.attach);
@@ -71,6 +76,14 @@ view.prototype.render = function(init) {
     this.map.addCallback('extentset', this.mapZoom);
     this.map.addCallback('resized', this.fullscreen);
     this.mapZoom({element: this.map.div});
+
+    //Change style of zoom display in JS, because doing in style would
+    //break tilelots plugin, see: https://github.com/florianf/tileoven/issues/2
+    $("#map .zoom-display").css({
+        top: "63px",
+        width: "120px"
+    });
+
     return this;
 };
 
@@ -94,9 +107,15 @@ view.prototype.mapZoom = function(e) {
 };
 
 view.prototype.attach = function() {
+    var selectedLayer = this.$('select.maplayer-selection').val();
     this._error = '';
 
+    if (selectedLayer !== "project") {
+        return;
+    }
+
     var layer = this.map.getLayerAt(0);
+    layer.provider.options = layer.provider.options || {};
     layer.provider.options.tiles = this.model.get('tiles');
     layer.provider.options.minzoom = this.model.get('minzoom');
     layer.provider.options.maxzoom = this.model.get('maxzoom');
@@ -120,3 +139,20 @@ view.prototype.attach = function() {
     this.map.draw();
     this.mapZoom();
 };
+
+view.prototype.selectLayer = function() {
+    var val = this.$('select.maplayer-selection').val();
+    var layer = this.map.getLayerAt(0);
+
+    if (val === "project") {
+        layer.provider.options = this.model.attributes;
+    }
+    else {
+        //don't mess with the original ref from the project, simple clone
+        var clone = JSON.parse(JSON.stringify(this.map.getLayerAt(0).provider.options));
+        clone.tiles[0] = val.toLowerCase();
+        layer.provider.options = clone;
+    }
+    layer.setProvider(layer.provider);
+    this.map.draw();
+}

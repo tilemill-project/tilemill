@@ -51,25 +51,25 @@
 
         function getVariables() {
             var v = editor.getValue();
-            return _.uniq(v.match(/@[\w\d\-]+/));
+            return _.uniq(v.match(/@[\w\d\-]+/g));
         }
 
         function getCompletions(token, cur) {
             var against;
-            if (token.className === 'carto-value') {
+            if (token.type === 'carto-value') {
                 var l = editor.getLine(cur.line);
                 var start = l.match(/\w/);
                 var p = editor.getTokenAt({
                     line: cur.line,
                     ch: start.index + 1
                 });
-                if (p && p.className === 'carto-valid-identifier' &&
+                if (p && p.type === 'carto-valid-identifier' &&
                     kw_by_property[p.string]) {
                         against = kw_by_property[p.string];
                 }
-            } else if (token.className === 'carto-variable') {
+            } else if (token.type === 'carto-variable') {
                 against = getVariables();
-            } else if (token.className === 'carto-selector') {
+            } else if (token.type === 'carto-selector') {
                 if (token.string[0] == '.') {
                     against = classes;
                 } else {
@@ -82,11 +82,11 @@
             return _.filter(against, function(i) {
                 return i.indexOf(token.string) === 0;
             }).map(function(i) {
-                if (token.className === 'carto-value') {
+                if (token.type === 'carto-value') {
                     return i + ';';
-                } else if (token.className === 'carto-variable') {
+                } else if (token.type === 'carto-variable') {
                     return i;
-                } else if (token.className === 'carto-selector') {
+                } else if (token.type === 'carto-selector') {
                     return i + ' {';
                 } else {
                     return i + ':';
@@ -94,7 +94,7 @@
             });
         }
 
-        function complete(e) {
+        function complete(cm) {
             // We want a single cursor position.
             // Find the token at the cursor
             // If it's not a 'word-style' token, ignore the token.
@@ -172,8 +172,8 @@
             widget.className = 'completions';
             widget.style.height = '100px';
             widget.style.position = 'absolute';
-            widget.style.left = pos.x + 'px';
-            widget.style.top = pos.yBot + 'px';
+            widget.style.left = pos.left + 'px';
+            widget.style.top = (pos.top + 12) + 'px';
 
             document.body.appendChild(widget);
 
@@ -238,6 +238,7 @@
                     return complete(e);
                 }
             },
+            complete: complete,
             setTitles: function() {
                 setTitles();
             },

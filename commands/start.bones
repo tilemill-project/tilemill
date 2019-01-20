@@ -4,15 +4,6 @@ var redirect = require('../lib/redirect.js');
 var defaults = models.Config.defaults;
 var command = commands['start'];
 var crashutil = require('../lib/crashutil');
-// we can drop this when we drop support for ubuntu lucid/maverick/natty
-// https://github.com/mapbox/tilemill/issues/1244
-var ubuntu_gui_workaround = require('../lib/ubuntu_gui_workaround');
-
-command.options['server'] = {
-    'title': 'server=1|0',
-    'description': 'Run TileMill in windowless mode (no client window will be launched at startup).',
-    'default': defaults.server
-};
 
 command.options['port'] = { 'default': defaults.port };
 command.options['coreUrl'] = { 'default': defaults.coreUrl };
@@ -29,9 +20,6 @@ var args = _(require('optimist').argv).chain()
     .value();
 
 command.prototype.initialize = function(plugin, callback) {
-    // Process args.
-    plugin.config.server = Boolean(plugin.config.server);
-
     // Default out the coreUrl, needed to point the client
     // window at the right URL.
     plugin.config.coreUrl = plugin.config.coreUrl ||
@@ -78,38 +66,8 @@ command.prototype.initialize = function(plugin, callback) {
     this.child('core');
     this.child('tile');
 
-    if (!plugin.config.server) plugin.children['core'].stderr.on('data', function(d) {
-        if (!d.toString().match(/Started \[Server Core:\d+\]./)) return;
-        var client;
-        var options = {
-            url: 'http://' + plugin.config.coreUrl,
-            name: 'TileMill',
-            width: 800,
-            height: 600,
-            minwidth: 800,
-            minheight: 400,
-            // win32-only options.
-            ico: path.resolve(path.join(__dirname,'/../tilemill.ico')),
-            'cache-path': path.join(process.env.HOME, '.tilemill/cache-cefclient'),
-            'log-file': path.join(process.env.HOME, '.tilemill/cefclient.log')
-        };
-        ubuntu_gui_workaround.check(function(needed) {
-            try {
-              if (needed) {
-                  client = ubuntu_gui_workaround.get_client(options);
-              } else {
-                  client = require('topcube')(options);
-              }
-              if (client) {
-                  console.warn('[tilemill] Client window created (pass --server=true to disable this)');
-                  plugin.children['client'] = client;
-              }
-            } catch (err) {
-              console.warn('[tilemill] Unable to open client window (' + err.message + ')');
-            }
-        });
-    });
-
+    console.info("[tilemill] Starting in server mode.");
+    
     callback && callback();
 };
 

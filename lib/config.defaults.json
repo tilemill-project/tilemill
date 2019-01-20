@@ -6,7 +6,6 @@
     "sampledata": true,
     "host": false,
     "listenHost": "127.0.0.1",
-    "syncURL": "https://api.mapbox.com",
-    "server": false,
+    "server": true,
     "verbose": "on"
 }

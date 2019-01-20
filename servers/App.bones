@@ -27,9 +27,6 @@ server.prototype.initialize = function(app) {
     // Used by the native Cocoa app to retrieve specific settings.
     this.get('/api/Key/:key', this.getKey);
 
-    // Endpoint for checking for new TileMill version
-    this.get('/api/updatesVersion', this.updatesVersion);
-
     // Custom Project sync endpoints.
     this.get('/api/Project/:id.xml', this.projectXML);
     this.get('/api/Project/:id.debug', this.projectDebug);
@@ -131,48 +128,3 @@ server.prototype.getKey = function(req, res, next) {
         return res.send(Bones.plugin.abilities[key].toString());
     return next(new Error.HTTP(404));
 };
-
-server.prototype.updatesVersion = function(req, res, next) {
-    var settings = Bones.plugin.config;
-
-    // Config values to save.
-    var attr = {};
-
-    // Skip latest TileMill version check if disabled or
-    // we've checked the npm repo in the past 24 hours.
-    var skip = !settings.updates || (settings.updatesTime > Date.now() - 864e5);
-    var npm = require('npm');
-    Step(function() {
-        if (skip) return this();
-
-        console.warn('Checking for new version of TileMill...');
-        var opts = settings.httpProxy ? {proxy: settings.httpProxy} : {};
-        npm.load(opts, this);
-    }, function(err) {
-        if (skip || err) return this(err);
-
-        npm.localPrefix = path.join(process.env.HOME, '.tilemill');
-        npm.commands.view(['tilemill'], true, this);
-    }, function(err, resp) {
-        if (skip || err) return this(err);
-
-        if (!_(resp).size()) throw new Error('Latest TileMill package not found.');
-        if (!_(resp).toArray()[0].version) throw new Error('No version for TileMill package.');
-        console.warn('Latest version of TileMill is %s.', _(resp).toArray()[0].version);
-        attr.updatesVersion = _(resp).toArray()[0].version;
-        attr.updatesTime = Date.now();
-        this();
-    }, function(err) {
-        // Continue despite errors but log them to the console.
-        if (err) console.error(err);
-        // Save any config attributes.
-        if (_(attr).keys().length) (new models.Config).save(attr, {
-            error: function(m, err) { console.error(err); }
-        });
-        // Send the current updates settings and version
-        res.send({
-            updates: settings.updates,
-            updatesVersion: attr.updatesVersion || settings.updatesVersion
-        });
-    });
-}
