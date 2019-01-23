@@ -1,29 +1,53 @@
+# Latest Status - Jan 22, 2019
+
+Tilemill has now been updated from the great work of [TileOven](https://github.com/florianf/tileoven), which was merged back into this project.  The current goal is to update TileMill's dependencies to current versions and bring back GUI apps for each platform using Electron.
+
+Changes from [TileOven](https://github.com/florianf/tileoven) were pulled on Jan 20, 2019.
+
 # General Info
+TileMill is a modern map design studio powered by [Node.js](https://nodejs.org) and [Mapnik](https://mapnik.org).
 
-Tilemill has now been updated on the great work of Tileoven.  The current goal is to bring back apps for each platform, using Electron.
-Changes from Tileoven were pulled on Jan 20, 2019.
-
-If you're looking for the pre-Tileoven versions:
-
-## Binaries
-The previous binaries for OSX and Windows based upon the v0.10.1 version can be found on AWS:
-https://tilemill-project.github.io/tilemill/
-
-There are also dev versions found here:
-http://tilemill.s3.amazonaws.com/index.html?path=dev/
-
-## Source code
-The previous code can be found under the tag v0.11-deprecated.
-
-# Tileoven Previous README
-TileOven is a maintained fork of TileMill, tested on Linux with Node 8.11.3 LTS
-TileOven works only in server mode, no native packages are provided.
-Platforms other than Linux should theoretically work, but aren't tested.
-
-Changes from upstream are cherry-picked, last time on Apr 22, 2016.
+- TileMill is tested on Linux with Node 8.11.3 LTS, and partially tested on MacOS 10.14 with Node 8.15.0 lts/carbon
+- TileMill currently only works in server mode, there is no standalone GUI.  Your browser is used for the interface.
+- Therea are no native packages provided. Installation requires cloning this repo. See details below under *Installation*.
+- Tilemill should theoretically work on the Windows platform, but it isn't tested.
 
 
-# Changelog since forking
+# Dependencies
+
+- Mapnik v2.3.0 (initial tests have worked on Mapnik 3.6.2, you'll need to update package.json)
+- Node.js v6.x, v4.x, v0.10.x or v0.8.x (initial tests have worked on Node 8.15 lts/carbon, but you'll need to update other packages as well)
+- Protobuf: libprotobuf-lite and protoc
+
+
+# Installation
+
+Note: on Ubuntu make sure that you have the nodejs-legacy package installed!
+
+To install from source just do:
+
+    git clone https://github.com/tilemill-project/tilemill.git
+    cd tilemill
+    nvm install v6.14.3
+    nvm use v6.14.3
+    npm install
+
+Then to start TileMill do:
+
+    npm start # and then view http://localhost:20009 in your web browser
+
+For more extended details follow:
+
+- [Install packages](http://tilemill-project.github.io/tilemill/docs/mac-install/)
+- [Build from source](https://tilemill-project.github.io/tilemill/docs/source/)
+
+If you'd like to pull in OpenStreetMap data for map generation in TileMill, a good starting point is to follow the OSM Bright Quickstart guides:
+
+- [OSM Bright Mac OSX Quickstart](http://tilemill-project.github.io/tilemill/docs/guides/osm-bright-mac-quickstart/)
+- [OSM Bright Ubuntu Quickstart](http://tilemill-project.github.io/tilemill/docs/guides/osm-bright-ubuntu-quickstart/)
+
+
+# Changes pulled from Tileoven, since original fork from Tilemill
 
 ## Features
 
@@ -37,7 +61,7 @@ Changes from upstream are cherry-picked, last time on Apr 22, 2016.
 - Increased size of layer panel
 - Updated carto and node-mapnik dependencies, new CartoCSS commands available
 - Remember last selected folder in new layer dialog
-- Better compatibility with kosmtik, TileOven mml project files should work out of the box with kosmtik (https://github.com/kosmtik)
+- Better compatibility with kosmtik, TileMill mml project files should work out of the box with kosmtik (https://github.com/kosmtik)
 
 ## Bugfixes
 
@@ -51,54 +75,22 @@ Changes from upstream are cherry-picked, last time on Apr 22, 2016.
 - Fixed creation of job file in export if it doesn't exist
 - Fixed multiple output of CartoCSS errors to update to latest version
 
-# Readme
-
-TileOven is a modern map design studio powered by [Node.js](http://nodejs.org) and [Mapnik](http://mapnik.org).
-
-Installation instructions, development docs and other information are available in the [Wiki](https://github.com/florianf/tileoven/wiki/Installation-Guide).
 
 # Build Status
 
-[![Build status](https://travis-ci.org/florianf/tileoven.svg)](https://travis-ci.org/florianf/tileoven)
-[![Dependencies](https://david-dm.org/florianf/tileoven.svg)](https://david-dm.org/florianf/tileoven)
+TBD
 
 ### Key modules
 
 - mapnik - [![Build Status](https://secure.travis-ci.org/mapnik/mapnik.png?branch=2.3.x)](https://travis-ci.org/mapnik/mapnik)
 - node-mapnik - [![Build Status](https://secure.travis-ci.org/mapnik/node-mapnik.png)](https://travis-ci.org/mapnik/node-mapnik)
 - carto - [![Build Status](https://secure.travis-ci.org/mapbox/carto.png)](http://travis-ci.org/mapbox/carto)
-- tilelive - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive.png)](https://travis-ci.org/mapbox/tilelive)
+- tilelive - TBD
 - tilelive-mapnik - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive-mapnik.png)](https://travis-ci.org/mapbox/tilelive-mapnik)
-- millstone - [![Build Status](https://secure.travis-ci.org/mapbox/millstone.png)](http://travis-ci.org/mapbox/millstone)
+- millstone - TBD
 - node-mbtiles - [![Build Status](https://secure.travis-ci.org/mapbox/node-mbtiles.png)](http://travis-ci.org/mapbox/node-mbtiles)
 - node-sqlite3 - [![Build Status](https://secure.travis-ci.org/mapbox/node-sqlite3.png)](http://travis-ci.org/mapbox/node-sqlite3)
 
-# Depends
-
-- Mapnik v2.3.0
-- Node.js v6.x, v4.x, v0.10.x or v0.8.x
-- Protobuf: libprotobuf-lite and protoc
-
-However, node-mapnik (which depends on Mapnik and protobuf) is now packaged as a binary. So, you do not need an external Mapnik. See [Installation](#installation)
-
-# Installation
-
-Note: on Ubuntu make sure that you have the nodejs-legacy package installed!
-
-To install from source just do:
-
-    git clone https://github.com/florianf/tileoven.git
-    cd tileoven
-    npm install
-
-Then to start TileMill do:
-
-    ./index.js # and then view http://localhost:20009 in your web browser
-
-For more extended details follow:
-
-- [Install packages](http://mapbox.com/tilemill/docs/install/)
-- [Build from source](http://mapbox.com/tilemill/docs/source/)
 
 # Running tests
 
@@ -133,8 +125,7 @@ For more info see: http://postgis.net/docs/manual-1.5/ch02.html
 
 TileMill documentation is kept in the mb-pages branch, which is independently managed and not merged with master.
 
-TileMill's in-app reference available as the "Manual" (see below for syncing details) is a very small subset of docs for offline usage and is manually
-sync'ed from the mb-pages branch.
+TileMill's in-app reference available as the "Manual" (see below for syncing details) is a very small subset of docs for offline usage and is manually sync'ed from the mb-pages branch.
 
 To view all the TileMill documentation locally, first checkout the mb-pages branch:
 
