@@ -9,7 +9,7 @@ function readJSON(name) {
     return JSON.parse(json);
 }
 
-describe('export', function() {
+describe('Testing Export Functions (export.test.js)', function() {
 
 before(function(done) {
     require('./support/start').start(function(command) {

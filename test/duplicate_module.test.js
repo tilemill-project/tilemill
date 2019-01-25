@@ -5,7 +5,8 @@ var count_module = function(name,callback) {
     var cmd = 'npm ls ' + name;
     exec(cmd,
         function (error, stdout, stderr) {
-            var pattern = new RegExp(name+'@','g');
+            // Added check to remove deduped results.  CJS 1/24/19
+            var pattern = new RegExp(name+'@\\d+.\\d+.\\d+\\s+\\\n','g')
             var match = stdout.match(pattern);
             if (!match) {
                 return callback(null,0);
@@ -14,7 +15,7 @@ var count_module = function(name,callback) {
     });
 };
 
-describe('config loading pwnage', function() {
+describe('Testing Config Functions [config loading pwnage] (duplicate_module.test.js)', function() {
 
 ['optimist','sqlite3','mapnik'].forEach(function(mod) {
     it('there should only be one ' + mod + ' module otherwise you are hosed', function(done) {

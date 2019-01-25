@@ -21,7 +21,7 @@ function cleanProject(proj) {
     if (Array.isArray(proj.grids)) proj.grids = proj.grids.map(removeTimestamp);
 }
 
-describe('project', function() {
+describe('Testing Project Functions (project.test.js)', function() {
 
 before(function(done) {
     require('./support/start').start(function(command) {

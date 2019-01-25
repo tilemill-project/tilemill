@@ -2,7 +2,7 @@ var assert = require('assert');
 var core;
 var tile;
 
-describe('abilities', function() {
+describe('Testing Abilities Functions (abilities.test.js)', function() {
 
 before(function(done) {
     require('./support/start').start(function(command) {

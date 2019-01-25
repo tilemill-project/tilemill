@@ -10,7 +10,7 @@ function readJSON(name) {
     return JSON.parse(json);
 }
 
-describe('datasource', function() {
+describe('Testing Datasource Functions (datasource.test.js)', function() {
 
 before(function(done) {
     require('./support/start').startPostgis(function(command) {
