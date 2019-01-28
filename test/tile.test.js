@@ -2,7 +2,7 @@ var assert = require('assert');
 var core;
 var tile;
 
-describe('tile endpoint', function() {
+describe('Testing Tile Enpoint (tile.test.js) tile endpoint', function() {
 
 before(function(done) {
     require('./support/start').start(function(command) {

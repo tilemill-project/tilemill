@@ -94,6 +94,7 @@ assert.response = function(server, req, res, msg) {
         method: method,
         headers: req.headers
     });
+    //console.log('Request = ', request)
 
     var check = function() {
         if (--server.__pending === 0) {
@@ -113,10 +114,18 @@ assert.response = function(server, req, res, msg) {
 
     if (data) request.write(data);
 
+    // Added function to report on errors from HTTP calls.  1/24/19 CJS
+    request.on('error', function (e, response) {
+        console.log(e);
+        callback(response);
+    });
+
     request.on('response', function(response) {
         response.body = '';
         response.setEncoding(encoding);
+
         response.on('data', function(chunk) { response.body += chunk; });
+
         response.on('end', function() {
             if (timer) clearTimeout(timer);
             // Assert response body
@@ -165,7 +174,6 @@ assert.response = function(server, req, res, msg) {
             callback(response);
         });
     });
-
     request.end();
 
 };

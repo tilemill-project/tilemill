@@ -2,7 +2,7 @@ var assert = require('assert');
 var core;
 var tile;
 
-describe('abilities', function() {
+describe('Testing Abilities Functions (abilities.test.js)', function() {
 
 before(function(done) {
     require('./support/start').start(function(command) {
@@ -28,8 +28,7 @@ it('GET should return JSON', function(done) {
             // travis does a shallow clone so the git version and hash will
             // not be known, which is harmless
             if (!process.env.TRAVIS && !process.env.APPVEYOR) {
-                assert.ok(/v\d+.\d+.\d+-\d+-[a-z0-9]+/.test(abilities.version[0]),abilities.version[0]);
-                assert.ok(/\d+.\d+.\d+.\d+/.test(abilities.version[1]),abilities.version[1]);
+                assert.ok(/v\d+.\d+\d+-[a-z0-9]+/.test(abilities.version[0]),abilities.version[0]);
             }
             assert.ok(abilities.fonts.indexOf('Arial Regular') >= 0 ||
                       abilities.fonts.indexOf('DejaVu Sans Book') >= 0);
