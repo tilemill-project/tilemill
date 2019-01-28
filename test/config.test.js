@@ -107,7 +107,7 @@ it('PUT should 409 on invalid config', function(done) {
         }
     );
 });
-/*  Currently failing, either Forbidden or ECONNRESET. 1/24/19 CJS
+
 it('DELETE should 409', function(done) {
     assert.response(core,
         {
@@ -115,17 +115,17 @@ it('DELETE should 409', function(done) {
             method: 'DELETE',
             headers: {
                 'content-type': 'application/json',
-                'cookie': 'bones.token=asdf'
+                'cookie': 'bones.token=asdf',
+                'Content-Length': Buffer.byteLength(JSON.stringify({ 'bones.token': 'asdf' }))
             },
             data: JSON.stringify({ 'bones.token': 'asdf' })
         },
         { status:409 },
         function(res) {
-            assert.equal(res.body, 'Method not supported.');
+            assert.equal(res.body, 'Method not supported.');  
             done();
         }
     );
 });
-*/
 
 });

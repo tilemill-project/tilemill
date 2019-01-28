@@ -135,7 +135,8 @@ it('DELETE should remove project', function(done) {
         method: 'DELETE',
         headers: {
             'content-type': 'application/json',
-            'cookie': 'bones.token=' + data['bones.token']
+            'cookie': 'bones.token=' + data['bones.token'],
+            'Content-Length': Buffer.byteLength(JSON.stringify({ 'bones.token': data['bones.token'] }))
         },
         data: JSON.stringify({ 'bones.token': data['bones.token'] })
     }, { status: 200 }, function(res) {

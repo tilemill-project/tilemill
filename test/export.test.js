@@ -69,8 +69,9 @@ it('DELETE should stop export job', function(done) {
         url: '/api/Export/' + id,
         method: 'DELETE',
         headers: {
-            cookie: "bones.token=" + token,
-            'content-type': "application/json"
+            'cookie': 'bones.token=' + token,
+            'content-type': 'application/json',
+            'Content-Length': Buffer.byteLength(JSON.stringify(job))
         },
         body: JSON.stringify(job)
     }, {
@@ -144,7 +145,8 @@ it('DELETE should remove anti-meridian export job', function(done) {
         method: 'DELETE',
         headers: {
             cookie: "bones.token=" + token,
-            'content-type': "application/json"
+            'content-type': "application/json",
+            'Content-Length': Buffer.byteLength(JSON.stringify(job))
         },
         body: JSON.stringify(job)
     }, {
