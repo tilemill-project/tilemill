@@ -53,7 +53,7 @@
         "request": "2.81.0",
         "rimraf": "2.5.2",
         "sax": "0.6.1",
-        "semver": "4.1.0",
+        "semver": "4.3.2",
         "sphericalmercator": "1.0.2",
         "sqlite3": "3.1.13",
         "step": "0.0.5",
