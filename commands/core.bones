@@ -5,7 +5,8 @@ var path = require('path');
 var Step = require('step');
 var defaults = models.Config.defaults;
 var mapnik = require('mapnik');
-var carto = require('carto');
+var carto = new require('carto');
+var cartoRef = new carto.tree.Reference(null);
 if (mapnik.register_default_fonts) mapnik.register_default_fonts();
 if (mapnik.register_system_fonts) mapnik.register_system_fonts();
 if (mapnik.register_default_input_plugins) mapnik.register_default_input_plugins();
@@ -97,7 +98,7 @@ command.prototype.bootstrap = function(plugin, callback) {
     settings.files = path.resolve(settings.files.replace(/^~/, process.env.HOME));
     settings.coreUrl = settings.coreUrl || '127.0.0.1:' + settings.port;
     settings.tileUrl = settings.tileUrl || '127.0.0.1:' + settings.tilePort;
-    carto.tree.Reference.setVersion(mapnik.versions.mapnik);
+    cartoRef.setVersion(mapnik.versions.mapnik);
 
     Bones.plugin.abilities = {
         version: (function() {
@@ -114,7 +115,7 @@ command.prototype.bootstrap = function(plugin, callback) {
         tileUrl: settings.tileUrl,
         tilePort: settings.tilePort,
         tilemill: JSON.parse(fs.readFileSync(path.resolve(__dirname + '/../package.json'),'utf8')),
-        carto: carto.tree.Reference.data,
+        carto: cartoRef.data,
         fonts: mapnik.fonts(),
         datasources: mapnik.datasources(),
         exports: {
