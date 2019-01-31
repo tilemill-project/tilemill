@@ -32,8 +32,8 @@
         }
     ],
     "dependencies": {
-        "JSV": "4.0.x",
-        "backbone": "0.3.3",
+        "JSV": "4.0.2",
+        "backbone": "1.3.3",
         "backbone-dirty": "1.1.3",
         "bones": "git://github.com/florianf/bones.git#1.3",
         "carto": "0.18.2",
@@ -53,7 +53,7 @@
         "request": "2.81.0",
         "rimraf": "2.5.2",
         "sax": "0.6.1",
-        "semver": "4.3.2",
+        "semver": "5.0.0",
         "sphericalmercator": "1.0.2",
         "sqlite3": "3.1.13",
         "step": "0.0.5",
