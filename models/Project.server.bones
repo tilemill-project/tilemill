@@ -555,7 +555,7 @@ models.Project.prototype.localize = function(mml, callback) {
             throw err;
         }
         localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
-        localizedCache[key].xml = compiled;
+        localizedCache[key].xml = compiled.data;
         localizedCache[key].emit('load');
     }, function(err) {
         if (!err) return;
