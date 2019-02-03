@@ -472,9 +472,17 @@ function compileStylesheet(mml, callback) {
     };
 
     // try/catch here as per https://github.com/mapbox/tilemill/issues/1370
+    // with carto 1.x, it no longer throws an error for compile errors, instead returned data is null
     try {
         var xml = new carto.Renderer(env, { mapnik_version: mapnik.versions.mapnik }).render(mml);
-        return callback(null, xml);
+        if (xml.data != null) {
+            return callback(null, xml);
+        } else {
+            return callback(new Error(xml.msg[0].filename + ":" +
+            xml.msg[0].line + ":" +
+            xml.msg[0].column + " " +
+            xml.msg[0].message));
+        }
     } catch (err) {
         return callback(err);
     }
