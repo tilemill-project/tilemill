@@ -58,7 +58,7 @@
         "sqlite3": "3.1.13",
         "step": "1.0.0",
         "tilelive": "git://github.com/florianf/tilelive.git",
-        "tilelive-mapnik": "0.6.16 ",
+        "tilelive-mapnik": "0.6.18",
         "underscore": "1.9.1",
         "wax": "6.4.2",
         "xmlhttprequest": "1.8.0"
