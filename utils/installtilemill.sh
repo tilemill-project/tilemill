@@ -7,6 +7,7 @@ NVM_VER="v0.34.0"                # Version of NVM that will be installed if no v
 NODE_VER="lts/carbon"            # Version of Node that will be installed.
 info=`tput setaf 6`;error=`tput setaf 1`;success=`tput setaf 2`;reset=`tput sgr0` # Colors for text
 # As more versions become available, copy the line below to add them.
+VERSIONS+=( "tpotter-issue-2667" )
 VERSIONS+=( "v1.0.0-dev" )
 VERSIONS+=( "v1.0.0" )
 
