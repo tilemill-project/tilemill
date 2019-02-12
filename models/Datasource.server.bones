@@ -58,7 +58,7 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
 
             // simplistic validation that subselects have the key_field string present
             // not a proper parser, but this is not the right place to be parsing SQL
-            // https://github.com/mapbox/tilemill/issues/1509
+            // https://github.com/tilemill-project/tilemill/issues/1509
             if (mml.Layer[0].Datasource.table !== undefined
                 && mml.Layer[0].Datasource.key_field !== undefined
                 && mml.Layer[0].Datasource.table.match(/select /i)
@@ -69,8 +69,8 @@ models.Datasource.prototype.sync = function(method, model, success, error) {
 
             var source;
 
-            // https://github.com/mapbox/tilemill/issues/1754
-            // https://github.com/mapbox/tilemill/issues/2210
+            // https://github.com/tilemill-project/tilemill/issues/1754
+            // https://github.com/tilemill-project/tilemill/issues/2210
             if (mml.Layer[0].Datasource.type == 'ogr') {
                 try {
                     source = new mapnik.Datasource(mml.Layer[0].Datasource);
