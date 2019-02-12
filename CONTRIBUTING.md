@@ -11,16 +11,9 @@ Install mocha and run the tests
     npm install mocha
     npm test
 
-
 Note: the tests require a running postgres server and a postgis enabled
-database called `template_postgis`.
-
-If you do not have a `template_postgis` create one like:
-
-    createdb -E UTF8 template_postgis
-    psql -c "CREATE EXTENSION postgis" template_postgis
-
-If you experience failing tests here are two tips:
+database called `template_postgis`. To install these, see the [Using Open Street Map (OSM) Data in TileMill section of the installation guide](https://tilemill-project.github.io/tilemill/docs/install/#useosm).
+For more info see: http://postgis.net/docs/manual-1.5/ch02.html
 
 1. Debug the project data by running TileMill with
 
@@ -30,42 +23,56 @@ If you experience failing tests here are two tips:
 
     rm -rf ./test/fixtures/files/
 
-For more info see: http://postgis.net/docs/manual-1.5/ch02.html
-
 
 # Documentation
 
-TileMill documentation is kept in the mb-pages branch, which is independently managed and not merged with master.
+TileMill documentation is kept in the gh-pages branch, which is independently managed and not merged with master.
 
-TileMill's in-app reference available as the "Manual" (see below for syncing details) is a very small subset of docs for offline usage and is manually
-sync'ed from the mb-pages branch.
+TileMill's in-app reference available as the "Manual" (see below for syncing details) is a very small subset of docs for offline usage and is manually sync'ed from the gh-pages branch.
 
-To view all the TileMill documentation locally, first checkout the mb-pages branch:
+To view all the TileMill documentation locally, first checkout the gh-pages branch:
 
-    git checkout mb-pages
+    git clone -b gh-pages https://github.com/tilemill-project/tilemill.git tilemill-gh-pages
 
-Then install Jekyll:
+Check your Ruby version. If the version is not V2.X.X or higher, then you need to upgrade your Ruby installation:
 
-    sudo gem install jekyll
+    ruby --version
+
+Install Jekyll and bundler:
+
+    sudo gem install jekyll bundler
+    cd tilemill-gh-pages
+
+Create/update Gemfile. If you have a Gemfile, add the following lines to it. If you don't, then create a file named "Gemfile" and add the following lines to it.:
+    source 'https://rubygems.org'
+    gem 'github-pages', group: :jekyll_plugins
+
+Install the site:
+
+    bundle install
 
 And run Jekyll:
 
-    jekyll
+    bundle exec jekyll serve
 
 Once Jekyll has started you should be able to view the docs in a browser at:
 
-    http://localhost:4000/tilemill/
+    [http://127.0.0.1:4000/tilemill/](http://127.0.0.1:4000/tilemill/)
 
+If you have problems, you can check out this reference [Setting Up GitHub Pages with Jekyll](https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll). You just don't need to do the git steps where they are creating a new git branch or documentation files since those already exist.
 
-# Syncing manual
+# Syncing manual from gh_pages into the TileMill application
 
-To sync the manual with mb-pages updates do:
+This assumes that you already have tilemill checked out in your HOME directory. If you don't have the gh-pages branch checked out, start by checking it out:
 
-    export TILEMILL_SOURCES=`pwd`
-    cd ../
-    git clone --depth=1 -b mb-pages https://github.com/mapbox/tilemill tilemill-mb-pages
+    cd ${HOME}
+    git clone -b gh-pages https://github.com/mapbox/tilemill tilemill-gh-pages
+
+To sync the manual in the app with gh-pages updates do:
+
+    export TILEMILL_SOURCES="${HOME}/tilemill"
+    export TILEMILL_GHPAGES="${HOME}/tilemill-gh-pages"
     cd ${TILEMILL_SOURCES}
-    export TILEMILL_GHPAGES=../tilemill-mb-pages
     rm -rf ${TILEMILL_SOURCES}/assets/manual
     mkdir -p ${TILEMILL_SOURCES}/assets/manual
     cp -r ${TILEMILL_GHPAGES}/assets/manual/* ${TILEMILL_SOURCES}/assets/manual/
