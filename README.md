@@ -68,7 +68,7 @@ If you'd like to pull in OpenStreetMap data for map generation in TileMill, a go
 - Removed topcube and other obsolete dependencies
 - Removed windowed mode, only server mode is supported
 - Fixed Tab indentation in editor window
-- Fixed "Close" button bugs in Google Chrome (https://github.com/mapbox/tilemill/issues/2534)
+- Fixed "Close" button bugs in Google Chrome (https://github.com/tilemill-project/tilemill/issues/2534)
 - Fixed mbtiles preview map
 - Removed Mapbox integration
 - Fixed CartoCSS variable auto completion
@@ -150,7 +150,7 @@ To sync the manual with mb-pages updates do:
 
     export TILEMILL_SOURCES=`pwd`
     cd ../
-    git clone --depth=1 -b mb-pages https://github.com/mapbox/tilemill tilemill-mb-pages
+    git clone --depth=1 -b mb-pages https://github.com/tilemill-project/tilemill tilemill-mb-pages
     cd ${TILEMILL_SOURCES}
     export TILEMILL_GHPAGES=../tilemill-mb-pages
     rm -rf ${TILEMILL_SOURCES}/assets/manual

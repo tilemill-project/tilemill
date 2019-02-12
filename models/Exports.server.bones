@@ -76,7 +76,7 @@ function start(id, callback) {
                         console.warn(err.stack || err.toString());
                     }
                     if (logname) {
-                        console.warn("Please post this crash log: '" + logname + "' to https://github.com/mapbox/tilemill/issues");
+                        console.warn("Please post this crash log: '" + logname + "' to https://github.com/tilemill-project/tilemill/issues");
                     }
                     delete pids[pid];
                     callback();

@@ -32,7 +32,7 @@ command.prototype.initialize = function(plugin, callback) {
     if (plugin.config.verbose == 'on') {
         process.env.NODE_ENV = 'development';
     } else  {
-        // beware, do not set to 'production': https://github.com/mapbox/tilemill/issues/1697
+        // beware, do not set to 'production': https://github.com/tilemill-project/tilemill/issues/1697
         process.env.NODE_ENV = 'normal'; // NOTE: normal is arbitrary, just needs to be not 'development'
     }
 
@@ -52,7 +52,7 @@ command.prototype.initialize = function(plugin, callback) {
                     console.warn('Fatal error: ' + err.stack || err.toString());
                 }
                 if (logname) {
-                    console.warn("[tilemill] Please post this crash log: '" + logname + "' to https://github.com/mapbox/tilemill/issues");
+                    console.warn("[tilemill] Please post this crash log: '" + logname + "' to https://github.com/tilemill-project/tilemill/issues");
                 }
             });
         }

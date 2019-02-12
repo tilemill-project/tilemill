@@ -13,7 +13,7 @@ For anyone coming from a GIS or cartography background, the biggest assumption T
 
 TileMill can also export directly to the SQLite-based [MBTiles](http://www.mbtiles.org) file format. This format was designed to make traditional web maps available offline and is used by tools like [MapBox Hosting](http://mapbox.com/hosting), [TileStream](https://github.com/mapbox/tilestream), and [MapBox for iPad](http://mapbox.com/ipad).
 
-TileMill is a project of [Development Seed](http://www.developmentseed.org) and the source code is [available on GitHub](http://github.com/mapbox/tilemill).
+TileMill is a project of [Development Seed](http://www.developmentseed.org) and the source code is [available on GitHub](http://github.com/tilemill-project/tilemill).
 
 ## Further tools & resources
 

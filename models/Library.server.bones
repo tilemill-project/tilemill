@@ -64,7 +64,7 @@ models.Library.prototype.sync = function(method, model, success, error) {
         var location = (model.get('location') || process.env.HOME);
         location = location.replace(/^~/, process.env.HOME);
         if (process.platform === 'win32') {
-            //https://github.com/mapbox/tilemill/issues/1679
+            //https://github.com/tilemill-project/tilemill/issues/1679
             location = location.replace(/^\\([a-zA-Z]:)/, "$1");
             if (location == '/') {
                 var data = {};
