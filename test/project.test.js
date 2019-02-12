@@ -106,7 +106,7 @@ it('PUT should create a project', function(done) {
                 tiles: ["http://127.0.0.1:20008/tile/demo_02/{z}/{x}/{y}.png"],
                 grids: ["http://127.0.0.1:20008/tile/demo_02/{z}/{x}/{y}.grid.json"]
             };
-            // https://github.com/mapbox/tilemill/issues/1552
+            // https://github.com/tilemill-project/tilemill/issues/1552
             //assert.deepEqual(expected, body, diff.compare(expected, body));
             done();
         }
@@ -121,7 +121,7 @@ it('GET should load created project', function(done) {
             var body = JSON.parse(res.body);
             cleanProject(body);
             var expected = readJSON('created-project');
-            // https://github.com/mapbox/tilemill/issues/1552
+            // https://github.com/tilemill-project/tilemill/issues/1552
             //assert.deepEqual(expected, body, diff.compare(expected, body));
             done();
         }

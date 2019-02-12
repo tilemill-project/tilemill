@@ -13,7 +13,7 @@ For anyone coming from a GIS or cartography background, the biggest assumption T
 
 TileMill can export directly to a [Mapbox account](http://mapbox.com), or to your computer using the SQLite-based [MBTiles](http://www.mbtiles.org) file format, which allows for easy transfer or use in offline-capable applications.
 
-TileMill is an open-source project of Mapbox and the code is [available on GitHub](http://github.com/mapbox/tilemill).
+TileMill is an open-source project of Mapbox and the code is [available on GitHub](http://github.com/tilemill-project/tilemill).
 
 ## Further tools & resources
 

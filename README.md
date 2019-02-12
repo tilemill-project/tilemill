@@ -21,22 +21,6 @@ TileMill is a modern map design studio powered by [Node.js](https://nodejs.org) 
 [Installation instructions can be found in the TileMill Documentation](https://tilemill-project.github.io/tilemill/docs/install/).
 
 
-# Build Status
-
-See CONTRIBUTING.md
-
-### Key modules
-
-- mapnik - [![Build Status](https://secure.travis-ci.org/mapnik/mapnik.png?branch=2.3.x)](https://travis-ci.org/mapnik/mapnik)
-- node-mapnik - [![Build Status](https://secure.travis-ci.org/mapnik/node-mapnik.png)](https://travis-ci.org/mapnik/node-mapnik)
-- carto - [![Build Status](https://secure.travis-ci.org/mapbox/carto.png)](http://travis-ci.org/mapbox/carto)
-- tilelive - TBD
-- tilelive-mapnik - [![Build Status](https://secure.travis-ci.org/mapbox/tilelive-mapnik.png)](https://travis-ci.org/mapbox/tilelive-mapnik)
-- millstone - TBD
-- node-mbtiles - [![Build Status](https://secure.travis-ci.org/mapbox/node-mbtiles.png)](http://travis-ci.org/mapbox/node-mbtiles)
-- node-sqlite3 - [![Build Status](https://secure.travis-ci.org/mapbox/node-sqlite3.png)](http://travis-ci.org/mapbox/node-sqlite3)
-
-
-# Running tests and Updating Documentation
+# Build Status, Running Tests, Updating Documentation
 
 See CONTRIBUTING.md

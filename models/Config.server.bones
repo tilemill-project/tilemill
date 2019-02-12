@@ -46,7 +46,7 @@ models.Config.prototype.sync = function(method, model, success, error) {
 
         Step(function() {
             // validate that the 'files' option is okay to write to
-            // https://github.com/mapbox/tilemill/issues/2024
+            // https://github.com/tilemill-project/tilemill/issues/2024
             if (data.files) {
                 try {
                     create_files.init_dirs(['export','cache'],data);

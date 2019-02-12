@@ -134,7 +134,7 @@ command.prototype.initialize = function(plugin, callback) {
     process.on('uncaughtException', function(err) {
         cmd.error(err, function() {
             // try/catch here to avoid recursion
-            // https://github.com/mapbox/tilemill/issues/2072
+            // https://github.com/tilemill-project/tilemill/issues/2072
             try {
                 var crash_log = opts.filepath + '.crashlog';
                 if (opts.log) {
@@ -148,7 +148,7 @@ command.prototype.initialize = function(plugin, callback) {
             }
             // force exit here because cleanup in tilelive is not working leading to:
             // Error: SQLITE_IOERR: disk I/O error
-            // https://github.com/mapbox/tilemill/issues/1360
+            // https://github.com/tilemill-project/tilemill/issues/1360
             process.exit(0);
         });
     });
@@ -162,7 +162,7 @@ command.prototype.initialize = function(plugin, callback) {
                     console.warn(err.stack || err.toString());
                 }
                 if (logname) {
-                    console.warn("[tilemill] Please post this crash log: '" + logname + "' to https://github.com/mapbox/tilemill/issues");
+                    console.warn("[tilemill] Please post this crash log: '" + logname + "' to https://github.com/tilemill-project/tilemill/issues");
                 }
             });
         }
