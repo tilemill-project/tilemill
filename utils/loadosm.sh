@@ -1,26 +1,25 @@
 #!/bin/sh
 
 # Initialize volatile global variables.
-MAPDATA_ROOT="${HOME}/Documents"        # Location of the MapData directory.
-#MAPDATA_ROOT="/GoogleDrive"             # Location of the MapData directory.
-UTILS_DIR="${HOME}/tilemill/utils"      # Location of the tilemill utils directory.
-OSM_DB="osm"                            # Postgres DB for OSM data.
-DB_USERNAME=$(whoami)                   # Postgres usernam (default is your Mac login).
-STYLE="${UTILS_DIR}/default.style"      # Style file for use by osm2pgsql.
-INDEXES_SQL="${UTILS_DIR}/indexes.sql"  # SQL to create indexes.
-COUNTS_SQL="${UTILS_DIR}/counts.sql"    # SQL to print out table counts.
+MAPDATA_ROOT="${HOME}/Documents/MapBox"    # Location of the map data directory.
+UTILS_DIR="${HOME}/tilemill/utils"         # Location of the tilemill utils directory.
+OSM_DB="osm"                               # Postgres DB for OSM data.
+DB_USERNAME=$(whoami)                      # Postgres usernam (default is your Mac login).
+STYLE="${UTILS_DIR}/default.style"         # Style file for use by osm2pgsql.
+INDEXES_SQL="${UTILS_DIR}/indexes.sql"     # SQL to create indexes.
+COUNTS_SQL="${UTILS_DIR}/counts.sql"       # SQL to print out table counts.
 info=`tput setaf 6`;error=`tput setaf 1`;success=`tput setaf 2`;reset=`tput sgr0` # Colors for text
 
 print_intro () {
-  echo "This script can be used to download OSM data and then load it into your Postgres database. The script downloads the data from http://download.geofabrik.de as a file which it puts into your ${MAPDATA_ROOT}/MapData/OSM directory. It will then load that OSM file into your Postgres database and prepare it for use by TileMill. If you already have an OSM file downloaded, you can run this script to skip the download and to only load a specified file into your Postgres database."
+  echo "This script can be used to download OSM data and then load it into your Postgres database. The script downloads the data from http://download.geofabrik.de as a file which it puts into your ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR} directory by default. Use -d to specify a different directory. It will then load that OSM file into your Postgres database and prepare it for use by TileMill. If you already have an OSM file downloaded, you can run this script with -f to skip the download and to only load a specified file into your Postgres database."
 }
 
 print_usage () {
   echo "Usage:"
-  echo "    $0 osm-area         Download and load osm-area into database."
-  echo "    $0 -h               Print help."
-  echo "    $0 -a               List valid osm-areas."
-  echo "    $0 -f osm-file      Only load osm-file into database."
+  echo "    $0 [-d data-dir] osm-area       Download and load osm-area into database."
+  echo "    $0 [-d data-dir] -f osm-file    Only load osm-file into database (no download)."
+  echo "    $0 -h                           Print help."
+  echo "    $0 -a                           List valid osm-areas."
 }
 
 # Print out a list of the geographies and valid osm-areas that can be used by this script.
@@ -55,13 +54,15 @@ get_geography () {
 }
 
 # Initialize static global variables.
-MAPDATA_DIR="${MAPDATA_ROOT}/MapData/OSM"  # Location where the file will be downloaded or expected to be found. If this is changed, hardcoded values of MapData and OSM will need to be updated in the script below where the directories are being created.
-FILE_END="-latest.osm.bz2"                 # Value after the area in the geofabrik file names.
-DOMAIN="http://download.geofabrik.de/"     # Geofabrik domain for downloads.
-DOWNLOAD_URL=""                            # Variable to hold the full geofabrik URL.
-OSM_AREA=""                                # Variable to hold the requested area.
-GEOGRAPHY=""                               # Variable to hold the Geography that matches area.
-OSM_FILE=""                                # Variable to hold the filename that will be loaded.
+DATA_DIR="data"
+OSM_DIR="osm"
+MAPDATA_DIR=""                           # Location where the file will be downloaded or is expected to be found.
+FILE_END="-latest.osm.bz2"               # Value after the area in the geofabrik file names.
+DOMAIN="http://download.geofabrik.de/"   # Geofabrik domain for downloads.
+DOWNLOAD_URL=""                          # Variable to hold the full geofabrik URL.
+OSM_AREA=""                              # Variable to hold the requested area.
+GEOGRAPHY=""                             # Variable to hold the Geography that matches area.
+OSM_FILE=""                              # Variable to hold the filename that will be loaded.
 # All combinations of geographies and areas that are available from geofabrik (note; some of the long area names were shortened up for convenience).
 AREA+=( "africa>africa" )
 AREA+=( "algeria>africa/algeria" )
@@ -326,63 +327,86 @@ AREA+=( "venezuela>south-america/venezuela" )
 if [ "$1" == "--help" ]; then
   print_intro; print_usage; exit 1
 fi
-while getopts ":haf:" opt; do
+while getopts ":had:f:" opt; do
   case ${opt} in
     h ) print_intro; print_usage; exit 1;;
     a ) print_areas; exit 1;;
-    f ) 
-      if [ "$3" != "" ]; then
-        echo "${error}Error: Invalid argument $3.${reset}"; print_usage; exit 1
-      fi
-      OSM_FILE="$OPTARG"
-      if [ ! -e ${MAPDATA_DIR}/${OSM_FILE} ]; then
-        echo "${error}Error: osm-file ${MAPDATA_DIR}/${OSM_FILE} does not exist.${reset}"; print_usage; exit 1
+    d ) 
+      MAPDATA_DIR="$OPTARG"
+      if [ ! -d ${MAPDATA_DIR} ]; then
+        echo "${error}Error: data-dir ${MAPDATA_DIR} does not exist.${reset}"; print_usage; exit 1
       fi
       ;;
+    f ) OSM_FILE="$OPTARG";;
     \? ) echo "${error}Error: Invalid option.${reset}"; print_usage; exit 1;;
   esac
 done
-if [ "$OSM_FILE" == "" ]; then
-  if [ "$1" == "-f" ]; then
-    echo "${error}Error: osm-file required with -f option.${reset}"; print_usage; exit 1
+if [ "${OSM_FILE}" == "" ]; then # -f NOT specified
+  if [ "${MAPDATA_DIR}" == "" ]; then # -f NOT specified and -d NOT specified
+    if [ "$2" != "" ]; then
+      echo "${error}Error: Invalid argument $2.${reset}"; print_usage; exit 1
+    fi
+    OSM_AREA="$1"
+  else # -f NOT specified and -d specified
+    if [ "$4" != "" ]; then
+      echo "${error}Error: Invalid argument $4.${reset}"; print_usage; exit 1
+    fi
+    OSM_AREA="$3"
   fi
-  if [ "$1" == "" ]; then
+  if [ "${OSM_AREA}" == "" ]; then
     echo "${error}Error: osm-area required.${reset}"; print_usage; exit 1
   fi
-  if [ "$2" != "" ]; then
-    echo "${error}Error: Invalid argument $2.${reset}"; print_usage; exit 1
+else # -f specified
+  if [ "${MAPDATA_DIR}" == "" ]; then # -f specified and -d NOT specified
+    if [ "$3" != "" ]; then
+      echo "${error}Error: Invalid argument $3.${reset}"; print_usage; exit 1
+    fi
+    if [ ! -e ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}/${OSM_FILE} ]; then
+      echo "${error}Error: osm-file ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}/${OSM_FILE} does not exist.${reset}"; print_usage; exit 1
+    fi
+  else  # -f specified and -d specified
+    if [ "$5" != "" ]; then
+      echo "${error}Error: Invalid argument $5.${reset}"; print_usage; exit 1
+    fi
+    if [ ! -e ${MAPDATA_DIR}/${OSM_FILE} ]; then
+      echo "${error}Error: osm-file ${MAPDATA_DIR}/${OSM_FILE} does not exist.${reset}"; print_usage; exit 1
+    fi
   fi
-  get_geography "$1"
+fi
+if [ "${OSM_AREA}" != "" ]; then
+  get_geography "$OSM_AREA"
   if [ $? != 0 ]; then
-    echo "${error}Error: Invalid osm-area $1.${reset}"; print_usage; exit 1
+    echo "${error}Error: Invalid osm-area ${OSM_AREA}.${reset}"; print_usage; exit 1
   fi
-  OSM_AREA="$1"
 fi
 
 echo "${success}$0: Starting...${reset}"
 echo "${success}----------------------------------------------------------------------${reset}"
 cd ${UTILS_DIRECTORY}
 
-# Create the MapData/OSM directory if it is not already there.
-if [ ! -d ${MAPDATA_ROOT}/MapData/OSM ]; then
-  echo ""; echo ""
-  echo "${info}$0: Creating ${MAPDATA_ROOT}/MapData/OSM directory if not already there...${reset}"
-  echo "${info}----------------------------------------------------------------------${reset}"
-  if [ ! -d ${MAPDATA_ROOT} ]; then
-    echo "${error}Error: Expected ${MAPDATA_ROOT} directory to exist.${reset}"; exit 1
-  fi
-  if [ ! -d ${MAPDATA_ROOT}/MapData ]; then
-    mkdir ${MAPDATA_ROOT}/MapData
-    if [ $? != 0 ]; then
-      echo "${error}Error: Creation of directory failed. Command:${reset} mkdir ${MAPDATA_ROOT}/MapData"; exit 1
+# Create the default directory to hold osm data if it is needed and it is not already there.
+if [ "${MAPDATA_DIR}" == "" ]; then
+  if [ ! -d ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR} ]; then
+    echo ""; echo ""
+    echo "${info}$0: Creating ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR} directory...${reset}"
+    echo "${info}----------------------------------------------------------------------${reset}"
+    if [ ! -d ${MAPDATA_ROOT} ]; then
+      echo "${error}Error: Expected ${MAPDATA_ROOT} directory to exist.${reset}"; exit 1
+    fi
+    if [ ! -d ${MAPDATA_ROOT}/${DATA_DIR} ]; then
+      mkdir ${MAPDATA_ROOT}/${DATA_DIR}
+      if [ $? != 0 ]; then
+        echo "${error}Error: Creation of directory failed. Command:${reset} mkdir ${MAPDATA_ROOT}/${DATA_DIR}"; exit 1
+      fi
+    fi
+    if [ ! -d ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR} ]; then
+      mkdir ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}
+      if [ $? != 0 ]; then
+        echo "${error}Error: Creation of directory failed. Command:${reset} mkdir ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}"; exit 1
+      fi
     fi
   fi
-  if [ ! -d ${MAPDATA_ROOT}/MapData/OSM ]; then
-    mkdir ${MAPDATA_ROOT}/MapData/OSM
-    if [ $? != 0 ]; then
-      echo "${error}Error: Creation of directory failed. Command:${reset} mkdir ${MAPDATA_ROOT}/MapData/OSM"; exit 1
-    fi
-  fi
+  MAPDATA_DIR="${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}"
 fi
 
 # Download the OSM data if they did not want to only do the database load.
