@@ -42,12 +42,10 @@ Start by installing some packages that you will need to get the TileMill source 
 
 ### Package Manager (Homebrew)
 
-We recommend installing Homebrew because it is the easiest tool to use to install some of the following software packages. To install Homebrew, open your Terminal app and type:
+We recommend installing Homebrew because it is the easiest tool to use to install some of the following software packages. After you type the ruby command below, you may be prompted to hit enter and then later be prompted with a key icon which means that it wants you to enter your Mac password. You may also have a box pop up saying you need to install the XCode command line tools. Just click "Install" on this box and follow the instructions. If you get an eror on the install of the command line tools, then close your Terminal app, go to the App Store on your Mac and download XCode, then try to install Homebrew again. To install Homebrew, open your Terminal app and type:
 
     cd ~
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
-Note: After you type this command, you may be prompted to hit enter and then later be prompted with a key icon which means that it wants you to enter your Mac password.
 
 ### Version Control System (git)
 
@@ -58,14 +56,19 @@ Now you can use Homebrew to install other packages that are needed by TileMill. 
 
 ### Download TileMill for the First Time
 
-Now, download TileMill source to your Mac. The following “git clone” command will install v1.0.0. If you want to install a different version, replace “v1.0.0” in the command below with a different version number. To download TileMill, open your Terminal app and type:
+Now, download TileMill source to your Mac. To download TileMill, open your Terminal app and type:
 
     cd ~
-    git clone –b v1.0.0 https://github.com/tilemill-project/tilemill.git tilemill
+    git clone https://github.com/tilemill-project/tilemill.git tilemill
 
 ## Install or Update TileMill
 
-In the utils directory of TileMill, you will find a helper script that will install TileMill for you (if it has never been installed), including installing Node, the framework that TileMill runs on. If you have already installed TileMill, then this script will update TileMill instead. The script will require you to enter the version of TileMill that you want to install or update to. These instructions only work for TileMill v1.0.0 or later. If you want to install a different version than in the example below, just replace the “v1.0.0” with a different version number. To run this script, open your Terminal app and type:
+In the utils directory of TileMill, you will find a helper script that will install TileMill for you (if it has never been installed), including installing Node (the framework that TileMill runs on). If you have already installed TileMill, then this script will update TileMill instead. The script will require you to enter the version of TileMill that you want to install or update to. These instructions only work for TileMill v1.0.0 or later. To see the available versions that you can install with the script, open your Terminal app and type:
+
+    cd ~/tilemill/utils
+    ./installtilemill.sh -v
+
+If you want to install a different version than in the example below, just replace the “v1.0.0” with a different version number from the list above. To run this script, open your Terminal app and type:
 
     cd ~/tilemill/utils
     ./installtilemill.sh v1.0.0
@@ -87,15 +90,15 @@ When you are finished using TileMill, you can either leave the server running an
 <a name="useosm"></a>
 ## Using Open Street Map (OSM) Data in TileMill
 
-If you want to use [OSM](https://wiki.openstreetmap.org/wiki/Main_Page) data in your TileMill projects, then you will need a Postgres database. If you do not need OSM data, then you are done with the installation.
+If you want to use [OSM](https://wiki.openstreetmap.org/wiki/Main_Page) data in your TileMill projects, then you will need a Postgres database. If you do not need OSM data, then you are done with the installation and can skip the remaining procedures.
 
-In addition to Postgres, you will need the PostGIS database extension. You will need to initialize the database for use with OSM data. Finally, you will need the osm2pgsql database-loading tool. In the utils directory of TileMill, you will find a helper script that will take care of these steps for you. This script is only tested for installing from scratch. If you already have a Postgres database, then it is recommended that you remove before using this script (if you don't want to use your existing Postgres database). Before continuing, make sure that TileMill is shutdown (see previous section). Then, to run this script, open your Terminal app and type:
+In addition to Postgres, you will need the PostGIS database extension. You will need to initialize the database for use with OSM data. Finally, you will need the osm2pgsql database-loading tool. In the utils directory of TileMill, you will find a helper script that will take care of these steps for you. This script is only tested for installing from scratch. If you already have a Postgres database, then it is recommended that you remove it before using this script (if you don't want to use your existing Postgres database). Before continuing, make sure that TileMill is shutdown (see previous section). Then, to run this script, open your Terminal app and type:
 
     cd ~/tilemill/utils
     ./installdb.sh
     source ~/.bash_profile
 
-After following these instructions, when you restart TileMill, you can use OSM data from your Postgres database into your TileMill projects.
+After following these instructions, when you restart TileMill, you can use OSM data from your Postgres database in your TileMill projects.
 
 ## Downloading OSM Data
 
@@ -104,7 +107,7 @@ Your database is now setup and ready for you to load OSM data for use in your Ti
     cd ~/tilemill/utils
     ./osmload.sh -a
 
-This will list out all of the areas that you can load into your database. Just use the osm-area value from the right hand column that matches the data that you want when you run the script. This script will create a MapData/OSM directory (if you don’t already have one) in your HOME directory and will store all downloaded osm-files there. For example, to download and load OSM data for Washington State in the US into your database, open your Terminal app and type:
+This will list out all of the areas that you can load into your database. Just use the osm-area value from the right hand column that matches the data that you want when you run the script. This script will create a MapData/OSM directory (if you don’t already have one) in your HOME directory and will store all downloaded osm-files there. For example, to download and load OSM data for Washington State in the United States into your database, open your Terminal app and type:
 
     cd ~/tilemill/utils
     ./osmload.sh washington
