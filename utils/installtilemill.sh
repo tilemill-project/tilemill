@@ -82,6 +82,7 @@ echo "${info}-------------------------------------------------------------------
 if [ ! -e ${HOME}/.nvm/nvm.sh ]; then
   # Installing NVM.
   touch ~/.bash_profile
+  # From instructions found at https://github.com/creationix/nvm
   curl -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VER}/install.sh | bash
   if [ $? != 0 ]; then
     echo "${error}Error: Installation of Node Version Manager failed. Command:${reset} curl -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VER}/install.sh | bash"; exit 1
