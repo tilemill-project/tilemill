@@ -12,7 +12,6 @@ do
   VERSIONS+=( "$v" )
 done
 # The following vesions are added so that we can do testing.
-VERSIONS+=( "tpotter-issue-2667" )
 VERSIONS+=( "v1.0.0-dev" )
 
 print_intro () {
