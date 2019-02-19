@@ -4,7 +4,7 @@
 host="127.0.0.1"
 port="20009"
 port_status="closed"
-timeout=15
+timeout=30
 counter=0
 
 while [ $port_status != "open" ]
