@@ -11,7 +11,7 @@ do
   VERSIONS+=( "$v" )
 done
 # The following vesions are added so that we can do testing.
-VERSIONS+=( "v1.0.0-dev" )
+#VERSIONS+=( "v1.0.1-dev" )
 
 print_intro () {
   echo "This script will install or update TileMill. It is assumed that TileMill is already cloned using git and you are running this script from the tilemill/utils directory. This script only works for versions of TileMill > v1.0.0. If TileMill has not been installed before, this script will install Node and install the requested version of TileMill. If TileMill has been installed, this script will update Node and update TileMill to the requested version."
