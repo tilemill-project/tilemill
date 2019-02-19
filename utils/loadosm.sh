@@ -1,11 +1,12 @@
 #!/bin/sh
 
 # Initialize volatile global variables.
-MAPDATA_ROOT="${HOME}/Documents/MapBox"    # Location of the map data directory.
-UTILS_DIR="${HOME}/tilemill/utils"         # Location of the tilemill utils directory.
+MAPDATA_ROOT="${HOME}/Documents/MapBox"    # Default location of the map data directory.
+CONFIG="${HOME}/.tilemill/config.json"     # Tilemill config file to override defaults.
+UTILS_DIR="$(pwd)"                         # Location of the tilemill utils directory.
 OSM_DB="osm"                               # Postgres DB for OSM data.
 DB_USERNAME=$(whoami)                      # Postgres usernam (default is your Mac login).
-STYLE="${UTILS_DIR}/default.style"         # Style file for use by osm2pgsql.
+STYLE="default.style"                      # Style file for use by osm2pgsql.
 INDEXES_SQL="${UTILS_DIR}/indexes.sql"     # SQL to create indexes.
 COUNTS_SQL="${UTILS_DIR}/counts.sql"       # SQL to print out table counts.
 info=`tput setaf 6`;error=`tput setaf 1`;success=`tput setaf 2`;reset=`tput sgr0` # Colors for text
@@ -323,6 +324,14 @@ AREA+=( "suriname>south-america/suriname" )
 AREA+=( "uruguay>south-america/uruguay" )
 AREA+=( "venezuela>south-america/venezuela" )
 
+# Update the MAPDATA_ROOT if they have a configured root path.
+if [ -e ${CONFIG} ]; then
+  temp="$(grep -F "\"files\":" ${CONFIG} | cut -d "/" -f2- | cut -d "\"" -f1)"
+  if [ "${temp}" != "" ]; then
+    MAPDATA_ROOT="/${temp}"
+  fi
+fi
+
 # Ensure that options and arguments enterered are valid.
 if [ "$1" == "--help" ]; then
   print_intro; print_usage; exit 1
@@ -333,7 +342,7 @@ while getopts ":had:f:" opt; do
     a ) print_areas; exit 1;;
     d ) 
       MAPDATA_DIR="$OPTARG"
-      if [ ! -d ${MAPDATA_DIR} ]; then
+      if [ ! -d "${MAPDATA_DIR}" ]; then
         echo "${error}Error: data-dir ${MAPDATA_DIR} does not exist.${reset}"; print_usage; exit 1
       fi
       ;;
@@ -361,14 +370,14 @@ else # -f specified
     if [ "$3" != "" ]; then
       echo "${error}Error: Invalid argument $3.${reset}"; print_usage; exit 1
     fi
-    if [ ! -e ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}/${OSM_FILE} ]; then
+    if [ ! -e "${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}/${OSM_FILE}" ]; then
       echo "${error}Error: osm-file ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}/${OSM_FILE} does not exist.${reset}"; print_usage; exit 1
     fi
   else  # -f specified and -d specified
     if [ "$5" != "" ]; then
       echo "${error}Error: Invalid argument $5.${reset}"; print_usage; exit 1
     fi
-    if [ ! -e ${MAPDATA_DIR}/${OSM_FILE} ]; then
+    if [ ! -e "${MAPDATA_DIR}/${OSM_FILE}" ]; then
       echo "${error}Error: osm-file ${MAPDATA_DIR}/${OSM_FILE} does not exist.${reset}"; print_usage; exit 1
     fi
   fi
@@ -382,31 +391,42 @@ fi
 
 echo "${success}$0: Starting...${reset}"
 echo "${success}----------------------------------------------------------------------${reset}"
-cd ${UTILS_DIRECTORY}
+cd ${UTILS_DIR}
 
 # Create the default directory to hold osm data if it is needed and it is not already there.
 if [ "${MAPDATA_DIR}" == "" ]; then
-  if [ ! -d ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR} ]; then
+  if [ ! -d "${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}" ]; then
     echo ""; echo ""
     echo "${info}$0: Creating ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR} directory...${reset}"
     echo "${info}----------------------------------------------------------------------${reset}"
-    if [ ! -d ${MAPDATA_ROOT} ]; then
+    if [ ! -d "${MAPDATA_ROOT}" ]; then
       echo "${error}Error: Expected ${MAPDATA_ROOT} directory to exist.${reset}"; exit 1
     fi
-    if [ ! -d ${MAPDATA_ROOT}/${DATA_DIR} ]; then
-      mkdir ${MAPDATA_ROOT}/${DATA_DIR}
+    if [ ! -d "${MAPDATA_ROOT}/${DATA_DIR}" ]; then
+      mkdir "${MAPDATA_ROOT}/${DATA_DIR}"
       if [ $? != 0 ]; then
         echo "${error}Error: Creation of directory failed. Command:${reset} mkdir ${MAPDATA_ROOT}/${DATA_DIR}"; exit 1
       fi
     fi
-    if [ ! -d ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR} ]; then
-      mkdir ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}
+    if [ ! -d "${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}" ]; then
+      mkdir "${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}"
       if [ $? != 0 ]; then
         echo "${error}Error: Creation of directory failed. Command:${reset} mkdir ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}"; exit 1
       fi
     fi
   fi
   MAPDATA_DIR="${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}"
+fi
+
+# Make sure that they have a default.style file in their osm directory.
+if [ ! -e "${MAPDATA_DIR}/${STYLE}" ]; then
+  echo ""; echo ""
+  echo "${info}$0: Creating an initial ${MAPDATA_DIR}/${STYLE} file for you...${reset}"
+  echo "${info}----------------------------------------------------------------------${reset}"
+  cp ${UTILS_DIR}/${STYLE} "${MAPDATA_DIR}"
+  if [ $? != 0 ]; then
+    echo "${error}Error: Copy of ${STYLE} failed. Command:${reset} cp ${UTILS_DIR}/${STYLE} ${MAPDATA_DIR}"; exit 1
+  fi
 fi
 
 # Download the OSM data if they did not want to only do the database load.
@@ -416,11 +436,11 @@ if [ "${OSM_FILE}" == "" ]; then
   DOWNLOAD_URL="${DOMAIN}${GEOGRAPHY}${FILE_END}"
 
   # Save a backup of a file with the same name before we do the download.
-  if [ -e ${MAPDATA_DIR}/${OSM_FILE} ]; then
+  if [ -e "${MAPDATA_DIR}/${OSM_FILE}" ]; then
     echo ""; echo ""
     echo "${info}$0: Saving a copy of the existing file with a .prev extension.${reset}"
     echo "${info}----------------------------------------------------------------------${reset}"
-    mv ${MAPDATA_DIR}/${OSM_FILE} ${MAPDATA_DIR}/${OSM_FILE}.prev
+    mv "${MAPDATA_DIR}/${OSM_FILE}" "${MAPDATA_DIR}/${OSM_FILE}.prev"
     if [ $? != 0 ]; then
       echo "${error}Error: Rename of file failed. Command:${reset} mv ${MAPDATA_DIR}/${OSM_FILE} ${MAPDATA_DIR}$/{OSM_FILE}.prev"; exit 1
     fi
@@ -430,7 +450,7 @@ if [ "${OSM_FILE}" == "" ]; then
   echo ""; echo ""
   echo "${info}$0: Downloading the file ${MAPDATA_DIR}${OSM_FILE} from ${DOWNLOAD_URL}...${reset}"
   echo "${info}----------------------------------------------------------------------${reset}"
-  curl ${DOWNLOAD_URL} > ${MAPDATA_DIR}/${OSM_FILE}
+  curl ${DOWNLOAD_URL} > "${MAPDATA_DIR}/${OSM_FILE}"
   if [ $? != 0 ]; then
     echo "${error}Error: Download of file failed. Command:${reset} curl ${DOWNLOAD_URL} > ${MAPDATA_DIR}/${OSM_FILE}"; exit 1
   fi
@@ -440,9 +460,9 @@ fi
 echo ""; echo ""
 echo "${info}$0: Loading the data into the Postgres database...${reset}"
 echo "${info}----------------------------------------------------------------------${reset}"
-osm2pgsql --create --multi-geometry --database ${OSM_DB} --username ${DB_USERNAME} --style ${STYLE} --hstore ${MAPDATA_DIR}/${OSM_FILE}
+osm2pgsql --create --multi-geometry --database ${OSM_DB} --username ${DB_USERNAME} --style "${MAPDATA_DIR}/${STYLE}" --hstore "${MAPDATA_DIR}/${OSM_FILE}"
 if [ $? != 0 ]; then
-  echo "${error}Error: Load of OSM data into database failed. Command:${reset} osm2pgsql --create --multi-geometry --database ${OSM_DB} --username ${DB_USERNAME} --style ${STYLE} --hstore ${MAPDATA_DIR}/${OSM_FILE}"; exit 1
+  echo "${error}Error: Load of OSM data into database failed. Command:${reset} osm2pgsql --create --multi-geometry --database ${OSM_DB} --username ${DB_USERNAME} --style ${MAPDATA_DIR}/${STYLE} --hstore ${MAPDATA_DIR}/${OSM_FILE}"; exit 1
 fi
 
 # Create indexes for better TileMill performance.

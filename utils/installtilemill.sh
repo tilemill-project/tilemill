@@ -1,10 +1,9 @@
 #!/bin/sh
 
 # Initialize global variables.
-TILEMILL_DIR="${HOME}/tilemill"  # Directory that tilemill source should be in.
-VERSION=""                       # Variable used to hold the desired version.
 NVM_VER="v0.34.0"                # Version of NVM that will be installed if no version is present.
 NODE_VER="lts/carbon"            # Version of Node that will be installed.
+VERSION=""                       # Variable used to hold the desired version.
 info=`tput setaf 6`;error=`tput setaf 1`;success=`tput setaf 2`;reset=`tput sgr0` # Colors for text
 # Set the versions that will be supported by this script (anything >= v1.0.0).
 for v in $(git tag -l | grep "^v" | grep -v "^v0")
@@ -71,8 +70,7 @@ VERSION="$1"
 
 echo "${success}$0: Starting...${reset}"
 echo "${success}----------------------------------------------------------------------${reset}"
-cd ${TILEMILL_DIR}
-exit 0
+cd ..
 
 # Install Node Version Manager if it is not already there.
 echo ""; echo ""
