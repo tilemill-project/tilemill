@@ -1,14 +1,17 @@
 #!/bin/sh
 
 # Initialize global variables.
-TILEMILL_DIR="${HOME}/tilemill"  # Directory that tilemill source should be in.
-VERSION=""                       # Variable used to hold the desired version.
 NVM_VER="v0.34.0"                # Version of NVM that will be installed if no version is present.
 NODE_VER="lts/carbon"            # Version of Node that will be installed.
+VERSION=""                       # Variable used to hold the desired version.
 info=`tput setaf 6`;error=`tput setaf 1`;success=`tput setaf 2`;reset=`tput sgr0` # Colors for text
-# As more versions become available, copy the line below to add them.
-VERSIONS+=( "v1.0.0-dev" )
-VERSIONS+=( "v1.0.0" )
+# Set the versions that will be supported by this script (anything >= v1.0.0).
+for v in $(git tag -l | grep "^v" | grep -v "^v0")
+do
+  VERSIONS+=( "$v" )
+done
+# The following vesions are added so that we can do testing.
+#VERSIONS+=( "v1.0.1-dev" )
 
 print_intro () {
   echo "This script will install or update TileMill. It is assumed that TileMill is already cloned using git and you are running this script from the tilemill/utils directory. This script only works for versions of TileMill > v1.0.0. If TileMill has not been installed before, this script will install Node and install the requested version of TileMill. If TileMill has been installed, this script will update Node and update TileMill to the requested version."
@@ -67,7 +70,7 @@ VERSION="$1"
 
 echo "${success}$0: Starting...${reset}"
 echo "${success}----------------------------------------------------------------------${reset}"
-cd ${TILEMILL_DIR}
+cd ..
 
 # Install Node Version Manager if it is not already there.
 echo ""; echo ""
@@ -76,6 +79,7 @@ echo "${info}-------------------------------------------------------------------
 if [ ! -e ${HOME}/.nvm/nvm.sh ]; then
   # Installing NVM.
   touch ~/.bash_profile
+  # From instructions found at https://github.com/creationix/nvm
   curl -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VER}/install.sh | bash
   if [ $? != 0 ]; then
     echo "${error}Error: Installation of Node Version Manager failed. Command:${reset} curl -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VER}/install.sh | bash"; exit 1

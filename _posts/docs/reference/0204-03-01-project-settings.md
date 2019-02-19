@@ -4,7 +4,7 @@ section: help
 category: reference
 tag: Reference
 title: Project settings
-permalink: /docs/manual/project-settings
+permalink: /docs/manual/project-settings/
 ---
 You can adjust a variety project settings using the **Settings** panel. The panel is divided into three sections.
 

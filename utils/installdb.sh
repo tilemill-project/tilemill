@@ -1,12 +1,9 @@
 #!/bin/sh
 
 # Initialize global variables.
-UTILS_DIR="${HOME}/tilemill/utils"      # Location of the tilemill utils directory.
 POSTGIS_DB="template_postgis"           # PostGIS template DB (used to create other DBs).
 OSM_DB="osm"                            # OSM DB (used to hold OSM data).
 DB_USERNAME=$(whoami)                   # Postgres usernam (default is your Mac login).
-X900913_SQL="${UTILS_DIR}/900913.sql"   # SQL for 900913 projection.
-LEGACY_POSTGIS_SQL="${UTILS_DIR}/legacy-postgis-gist.sql"  # SQL for legacy postgis operators.
 info=`tput setaf 6`;error=`tput setaf 1`;success=`tput setaf 2`;reset=`tput sgr0` # Colors for text
 
 print_intro () {

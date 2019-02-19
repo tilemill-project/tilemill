@@ -4,7 +4,7 @@ section: help
 category: reference
 tag: Reference
 title: Adding layers
-permalink: /docs/manual/adding-layers
+permalink: /docs/manual/adding-layers/
 ---
 Layers are how sets of data are added to a map in TileMill. Each layer references a single file or database query. Multiple layers can be combined over top of each other to create the final map - if you are familiar with layers in Photoshop or other graphics software the concept is very similar. 
 
@@ -58,7 +58,7 @@ Since Mapnik is currently unable to reproject raster data sources, to load them 
 
 ### PostGIS
 
-[PostGIS](http://postgis.refractions.net/) is an extension for the general-purpose [PostgreSQL](http://www.postgresql.org/) database that allows you to store geographical objects in a database. It provides special functions and indexes for querying and manipulating spatial data and can be used as a powerful storage/analysis tool. From TileMill you can connect to a PostGIS supported database and run queries from the application directly.
+[PostGIS](http://postgis.net/) is an extension for the general-purpose [PostgreSQL](http://www.postgresql.org/) database that allows you to store geographical objects in a database. It provides special functions and indexes for querying and manipulating spatial data and can be used as a powerful storage/analysis tool. From TileMill you can connect to a PostGIS supported database and run queries from the application directly.
 
 
 Layer Settings
@@ -112,7 +112,7 @@ This is the spatial reference system your datasource is stored in. TileMill can 
 
 Databases contain one or many *database tables*, and TileMill needs to know which of these tables to pull data out of. Unlike non-database sources, you also have the power to add particular subsets of your or even make temporary adjustments to the data. For this TileMill has a **Table or subquery** field. To add an entire table from a database, simply enter the table name in this field. To specify a subquery it must be wrapped in parentheses and be given an alias using the `AS` statement. For example:
 
-    (SELECT * FROM geodata WHERE type = 'birdhouse') AS data;
+    (SELECT * FROM geodata WHERE type = 'birdhouse') AS data
 
 ### Unique Key Field
 
