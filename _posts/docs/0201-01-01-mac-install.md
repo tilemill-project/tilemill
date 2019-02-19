@@ -79,8 +79,8 @@ If you want to install a different version than in the example below, just repla
 
 To run TileMill, you will need to first start the server and then run the client in your browser. To start the server, open your Terminal app and type:
 
-    cd ~/tilemill/utils
-    ./runtilemill.sh
+    cd ~/tilemill
+    ./tilemill.sh
 
 The above command should automatically start the tilemill client in your default browser after a 10-15 second pause to let the server startup. If the browser does not pop up, or if you want to use a different browser, you can juse use this link: <a href="http://localhost:20009" target="_blank">http://localhost:20009</a>.
 Note: TileMill can be a little slow in rendering the maps depending on how much data it needs to process, so be patient.
