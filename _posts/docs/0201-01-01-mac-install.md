@@ -32,9 +32,9 @@ In TileMille v0.10.1 and prior (when TileMill was being maintained by MapBox), t
 
 ### To install v1.0.0 or later:
 
-To follow these installation instructions, you will need to use your Terminal app, which is usually found in your Applications/Utilities folder. When you run Terminal, you will get a window with a command prompt. In the instructions below, where there are lines in gray boxes, you can simply copy and paste those lines into your terminal app one entire line at a time. In these instructions, we start each set of commands with “cd ~”. This assumes that you want to install the related software in your home folder. If you want to install it somewhere else, then you will need to replace the “~” with a different file path wherever you see it.
+To follow these installation instructions, you will need to use your Terminal app, which is usually found in your Applications/Utilities folder. When you run Terminal, you will get a window with a command prompt. In the instructions below, where there are lines in gray boxes, you can simply copy and paste those lines into your terminal app one entire line at a time.
 
-If you are starting with a pre-v1.0.0 version of TileMill, you may want to figure out where your MapBox and MapData directories are and back them up. Later, you will want to move the contents of those direcotries to to ~/MapBox and ~/MapData which will be created during this installtion process if they do not already exist. You should then remove your current version of TileMill.
+If you are starting with a pre-v1.0.0 version of TileMill, you may want to figure out where your MapBox directory is and back it up. Later, you will want to move the contents of those direcotries to to ~/MapBox which will be created during this installtion process if they do not already exist. You should then remove your current version of TileMill.
 
 ## Prepare to Install TileMill
 
@@ -42,9 +42,15 @@ Start by installing some packages that you will need to get the TileMill source 
 
 ### Package Manager (Homebrew)
 
-We recommend installing Homebrew because it is the easiest tool to use to install some of the following software packages. After you type the ruby command below, you may be prompted to hit enter and then later be prompted with a key icon which means that it wants you to enter your Mac password. You may also have a box pop up saying you need to install the XCode command line tools. Just click "Install" on this box and follow the instructions. If you get an eror on the install of the command line tools, then close your Terminal app, go to the App Store on your Mac and download XCode, then try to install Homebrew again. To install Homebrew, open your Terminal app and type:
+We recommend installing Homebrew because it is the easiest tool to use to install some of the following software packages. After you type the ruby command below, you may be prompted to hit enter and then later be prompted with a key icon which means that it wants you to enter your Mac password. You may also have a box pop up saying you need to install the XCode command line tools. Just click "Install" on this box and follow the instructions. If you get an eror on the install of the command line tools, then skip to the next paragraph to try a more complicated procedure. To install Homebrew, open your Terminal app and type:
 
     cd ~
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+If the above install worked without an error at the end, then skip down to the Version Control System section below. On the other hand, if your ruby command ended with errors about XCode command line tools, then close your Terminal app, go to the App Store on your Mac and download XCode. Once downloaded, go to your Applications folder and open the XCode app. Agree to the license, let it install components, then close the app once it has opened all of the way. You will not need to use this app, you just need it installed. Now, open your Terminal app and type:
+
+    cd ~
+    sudo ln -s $(xcode-select -p) /Library/Developer/CommandLineTools
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 ### Version Control System (git)
