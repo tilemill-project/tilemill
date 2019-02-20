@@ -32,13 +32,15 @@ In TileMille v0.10.1 and prior (when TileMill was being maintained by MapBox), t
 
 ### To install v1.0.0 or later:
 
+These instructions are written for someone not familiar with installing applications at the commandline, and the corresponding dependencies that may be involved. If you know what you're doing, the quick steps are outlined in the repo README file.
+
 To follow these installation instructions, you will need to use your Terminal app, which is usually found in your Applications/Utilities folder. When you run Terminal, you will get a window with a command prompt. In the instructions below, where there are lines in gray boxes, you can simply copy and paste those lines into your terminal app one entire line at a time.
 
-If you are starting with a pre-v1.0.0 version of TileMill, you may want to figure out where your MapBox directory is and back it up. Later, you will want to move the contents of those direcotries to to ~/MapBox which will be created during this installtion process if they do not already exist. You should then remove your current version of TileMill.
+If you are starting with a pre-v1.0.0 version of TileMill, you will want to figure out where your MapBox directory is and back it up. After installing this version, you will want to move the contents of those directories into ~/MapBox, which will be created during this installation process if they do not already exist. You should then remove your current version of TileMill.
 
-## Prepare to Install TileMill
+### Prepare to Install TileMill
 
-Start by installing some packages that you will need to get the TileMill source and then do an initial download of the TileMill code.
+Start by installing the packages that you will need to get the TileMill source and then do an initial download of the TileMill code.
 
 ### Package Manager (Homebrew)
 
@@ -55,14 +57,14 @@ If the above install worked without an error at the end, then skip down to the V
 
 ### Version Control System (git)
 
-Now you can use Homebrew to install other packages that are needed by TileMill. Open your Terminal app and type:
+Use Homebrew to install other packages that are needed by TileMill. Open your Terminal app and type:
 
     cd ~
     brew install git
 
 ### Download TileMill for the First Time
 
-Now, download TileMill source to your Mac. To download TileMill, open your Terminal app and type:
+Download TileMill source to your Mac. To download TileMill, open your Terminal app and type:
 
     cd ~
     git clone https://github.com/tilemill-project/tilemill.git tilemill
@@ -88,13 +90,13 @@ To run TileMill, you will need to first start the server and then run the client
     cd ~/tilemill
     ./tilemill.sh
 
-The above command should automatically start the tilemill client in your default browser after a 10-15 second pause to let the server startup. If the browser does not pop up, or if you want to use a different browser, you can juse use this link: <a href="http://localhost:20009" target="_blank">http://localhost:20009</a>.
+The above command should automatically start the tilemill client in your default browser after the server starts up. If the browser does not pop up, or if you want to use a different browser, you can juse use this link: <a href="http://localhost:20009" target="_blank">http://localhost:20009</a>.
 Note: TileMill can be a little slow in rendering the maps depending on how much data it needs to process, so be patient.
 
 When you are finished using TileMill, you can either leave the server running and your Terminal app open, or you can just close the Terminal app window and restart it the next time with these instructions.
 
 <a name="useosm"></a>
-## Using Open Street Map (OSM) Data in TileMill
+## Using OpenStreetMap (OSM) Data in TileMill
 
 If you want to use [OSM](https://wiki.openstreetmap.org/wiki/Main_Page) data in your TileMill projects, then you will need a Postgres database. If you do not need OSM data, then you are done with the installation and can skip the remaining procedures.
 
@@ -118,6 +120,6 @@ This will list out all of the areas that you can load into your database. Just u
     cd ~/tilemill/utils
     ./osmload.sh washington
 
-Now you are ready to use the OSM data in your projects. If you are looking for a sample of how to use OSM data in your TileMill projects, you can check out the [OSM Bright project](https://github.com/mapbox/osm-bright). Just skip to step 3 (ealier steps have already been taken care of with these instructions) of one of these guides: [OSM Bright for Mac OS X](/tilemill/docs/guides/osm-bright-mac-quickstart/) or [OSM Bright for Unbuntu](/tilemill/docs/guides/osm-bright-ubuntu-quickstart/)
+You are now setup to use the OSM data in your projects. If you are looking for a sample of how to use OSM data in your TileMill projects, you can check out the [OSM Bright project](https://github.com/mapbox/osm-bright). Just skip to step 3 (ealier steps have already been taken care of with these instructions) of one of these guides: [OSM Bright for Mac OS X](/tilemill/docs/guides/osm-bright-mac-quickstart/) or [OSM Bright for Unbuntu](/tilemill/docs/guides/osm-bright-ubuntu-quickstart/)
 
 {% include nextup.html %}
