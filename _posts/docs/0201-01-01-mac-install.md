@@ -44,16 +44,15 @@ Start by installing the packages that you will need to get the TileMill source a
 
 ### Package Manager (Homebrew)
 
-We recommend installing Homebrew because it is the easiest tool to use to install some of the following software packages. After you type the ruby command below, you may be prompted to hit enter and then later be prompted with a key icon which means that it wants you to enter your Mac password. You may also have a box pop up saying you need to install the XCode command line tools. Just click "Install" on this box and follow the instructions. If you get an eror on the install of the command line tools, then skip to the next paragraph to try a more complicated procedure. To install Homebrew, open your Terminal app and type:
+We recommend installing Homebrew because it is the easiest tool to use to install some of the following software packages. After you type the ruby command below, you may be prompted to hit enter and then later be prompted with a key icon, which means that it wants you to enter your Mac password. You may also have a box pop up saying you need to install the XCode command line tools. Just click "Install" on this box and follow the instructions. If you get an eror on the install of the command line tools, then skip to the next paragraph to try a workaround procedure. To install Homebrew, open your Terminal app and type:
 
     cd ~
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-If the above install worked without an error at the end, then skip down to the Version Control System section below. On the other hand, if your ruby command ended with errors about XCode command line tools, then close your Terminal app, go to the App Store on your Mac and download XCode. Once downloaded, go to your Applications folder and open the XCode app. Agree to the license, let it install components, then close the app once it has opened all of the way. You will not need to use this app, you just need it installed. Now, open your Terminal app and type:
+If the above install worked without an error at the end, then skip down to the Version Control System section below. On the other hand, if your ruby command ended with errors about XCode command line tools, then close your Terminal app, go to the App Store on your Mac and download XCode. Once downloaded, go to your Applications folder and open the XCode app. Agree to the license, let it install components, then close the app once it has opened all of the way. You will not need to use this app, you just need it installed. Like above, when you run this, you may need to hit enter and then type in your password if you get a key icon. Now, open your Terminal app and type:
 
     cd ~
-    sudo ln -s $(xcode-select -p) /Library/Developer/CommandLineTools
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/tilemill-project/tilemill/master/utils/installhomebrew)"
 
 ### Version Control System (git)
 
@@ -82,8 +81,7 @@ If you want to install a different version than in the example below, just repla
     ./installtilemill.sh v1.0.0
     source ~/.bash_profile
 
-<a name="runtilemill"></a>
-## Run TileMill
+## Run TileMill<a name="runtilemill"></a>
 
 To run TileMill, you will need to first start the server and then run the client in your browser. To start the server, open your Terminal app and type:
 
@@ -95,12 +93,11 @@ Note: TileMill can be a little slow in rendering the maps depending on how much 
 
 When you are finished using TileMill, you can either leave the server running and your Terminal app open, or you can just close the Terminal app window and restart it the next time with these instructions.
 
-<a name="useosm"></a>
-## Using OpenStreetMap (OSM) Data in TileMill
+## Using OpenStreetMap (OSM) Data in TileMill<a name="useosm"></a>
 
 If you want to use [OSM](https://wiki.openstreetmap.org/wiki/Main_Page) data in your TileMill projects, then you will need a Postgres database. If you do not need OSM data, then you are done with the installation and can skip the remaining procedures.
 
-In addition to Postgres, you will need the PostGIS database extension. You will need to initialize the database for use with OSM data. Finally, you will need the osm2pgsql database-loading tool. In the utils directory of TileMill, you will find a helper script that will take care of these steps for you. This script is only tested for installing from scratch. If you already have a Postgres database, then it is recommended that you remove it before using this script (if you don't want to use your existing Postgres database). Before continuing, make sure that TileMill is shutdown (see previous section). Then, to run this script, open your Terminal app and type:
+In addition to Postgres, you will need the PostGIS database extension. You will need to initialize the database for use with OSM data. Finally, you will need the osm2pgsql database-loading tool. In the utils directory of TileMill, you will find a helper script that will take care of these steps for you. This script is only tested for installing from scratch. If you already have a Postgres database, then it is recommended that you remove it before using this script (if you don't want to use your existing Postgres database). Before continuing, make sure that TileMill is shutdown (see previous section). Finally, this process may take a long time so be patient. To run this script, open your Terminal app and type:
 
     cd ~/tilemill/utils
     ./installdb.sh
