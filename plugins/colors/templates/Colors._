@@ -25,11 +25,10 @@
 <div class='page fill-e scrolling'>
 <% _(colors).each(function(f) { %>
 <a class='font active group-0 group-<%= f.group %>'>
-&nbsp<%= f.name %>&nbsp
+&nbsp<%= f.name %>
   <span class="swatch" title="rgb(<%= f.rgbcode %>)">
     <span style="background-color:rgb(<%= f.rgbcode %>)" class="color"></span>
   </span>
-  <span class='description'>Copy & Paste into editor</span>
 </a>
 <% }); %>
 </div>
