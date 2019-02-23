@@ -49,17 +49,7 @@ We recommend installing Homebrew because it is the easiest tool to use to instal
     cd ~
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-If the above install worked without an error at the end, then skip down to the Version Control System section below. On the other hand, if your ruby command ended with errors about XCode command line tools, then close your Terminal app, go to the App Store on your Mac and download XCode. Once downloaded, go to your Applications folder and open the XCode app. Agree to the license, let it install components, then close the app once it has opened all of the way. You will not need to use this app, you just need it installed. Like above, when you run this, you may need to hit enter and then type in your password if you get a key icon. Now, open your Terminal app and type:
-
-    cd ~
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/tilemill-project/tilemill/master/utils/installhomebrew)"
-
-### Version Control System (git)
-
-Use Homebrew to install other packages that are needed by TileMill. Open your Terminal app and type:
-
-    cd ~
-    brew install git
+If the above install worked without an error, then skip down to the Version Control System section below. On the other hand, if your pop up box installation of the xcode command line tools did not work, then close your Terminal app. You will need to download the xcode command line tools fromt the [Apple Developer site](https://developer.apple.com/download/more/?name=for%20Xcode%20-). Once you have downloaded the command line tools successfully, then go back to the previous paragraph and try again.
 
 ### Download TileMill for the First Time
 
