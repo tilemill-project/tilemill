@@ -100,12 +100,12 @@ After following these instructions, when you restart TileMill, you can use OSM d
 Your database is now setup and ready for you to load OSM data for use in your TileMill projects.  There is a utility script in the tilemill/utils directory called osmload.sh that you can use to do this. This script takes advantage of the <a href="http://download.geofabrik.de" target="_blank">geofabrik</a> OSM data extracts. Geofabrik does these extracts from OSM daily. So, if you make OSM updates, it may take a while before they show up in the geofabrik data. Geofabrik has chopped the world up into many different areas of different sizes. In general, we recommend that you download the smallest area possible that still has the data that you need, otherwise your download will take a very long time and use a lot of memory. To see the areas that you can download, open your Terminal app and type:
 
     cd ~/tilemill/utils
-    ./osmload.sh -a
+    ./loadosm.sh -a
 
 This will list out all of the areas that you can load into your database. Just use the osm-area value from the right hand column that matches the data that you want when you run the script. This script will create a MapData/OSM directory (if you don’t already have one) in your HOME directory and will store all downloaded osm-files there. For example, to download and load OSM data for Washington State in the United States into your database, open your Terminal app and type:
 
     cd ~/tilemill/utils
-    ./osmload.sh washington
+    ./loadosm.sh washington
 
 You are now setup to use the OSM data in your projects. If you are looking for a sample of how to use OSM data in your TileMill projects, you can check out the [OSM Bright project](https://github.com/mapbox/osm-bright). Just skip to step 3 (ealier steps have already been taken care of with these instructions) of one of these guides: [OSM Bright for Mac OS X](/tilemill/docs/guides/osm-bright-mac-quickstart/) or [OSM Bright for Unbuntu](/tilemill/docs/guides/osm-bright-ubuntu-quickstart/)
 
