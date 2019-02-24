@@ -1,8 +1,7 @@
 #!/bin/sh
 
+TILEMILL_GHPAGES="$(pwd)"
 TILEMILL_SOURCES="${HOME}/tilemill"
-TILEMILL_GHPAGES="${HOME}/tilemill-gh-pages"
-cd ${TILEMILL_SOURCES}
 rm -rf ${TILEMILL_SOURCES}/assets/manual
 mkdir -p ${TILEMILL_SOURCES}/assets/manual
 cp -r ${TILEMILL_GHPAGES}/assets/manual/* ${TILEMILL_SOURCES}/assets/manual/
