@@ -1,4 +1,4 @@
-# Latest Status - Feb 12, 2019
+# Latest Status - Feb 23, 2019
 
 # General Info
 TileMill is a modern map design studio powered by [Node.js](https://nodejs.org) and [Mapnik](https://mapnik.org).
