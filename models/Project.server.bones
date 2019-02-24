@@ -43,7 +43,7 @@ models.Project.prototype.sync = function(method, model, success, error) {
         break;
     case 'create':
     case 'update':
-        // disabled until https://github.com/mapbox/tilemill/issues/1851 is resolved
+        // disabled until https://github.com/tilemill-project/tilemill/issues/1851 is resolved
         /*mapnik.clearCache();
         request.get({ url:'http://'+settings.tileUrl+'/clear-mapnik-cache' }, function(err) {
             if (err) return error(err);
@@ -325,7 +325,7 @@ function loadProjectAll(model, callback) {
 function destroyProject(model, callback) {
     var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
 	if (process.platform === 'win32') {
-        // https://github.com/mapbox/tilemill/issues/1121
+        // https://github.com/tilemill-project/tilemill/issues/1121
         // Workaround to access denied error on Windows when mapnik has
         // open file handles to a data file in a project that needs to
         // be deleted. Stopgap is to kill the tileserver, delete the project
@@ -471,10 +471,18 @@ function compileStylesheet(mml, callback) {
         effects: []
     };
 
-    // try/catch here as per https://github.com/mapbox/tilemill/issues/1370
+    // try/catch here as per https://github.com/tilemill-project/tilemill/issues/1370
+    // with carto 1.x, it no longer throws an error for compile errors, instead returned data is null
     try {
         var xml = new carto.Renderer(env, { mapnik_version: mapnik.versions.mapnik }).render(mml);
-        return callback(null, xml);
+        if (xml.data != null) {
+            return callback(null, xml);
+        } else {
+            return callback(new Error(xml.msg[0].filename + ":" +
+            xml.msg[0].line + ":" +
+            xml.msg[0].column + " " +
+            xml.msg[0].message));
+        }
     } catch (err) {
         return callback(err);
     }
@@ -555,7 +563,7 @@ models.Project.prototype.localize = function(mml, callback) {
             throw err;
         }
         localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
-        localizedCache[key].xml = compiled;
+        localizedCache[key].xml = compiled.data;
         localizedCache[key].emit('load');
     }, function(err) {
         if (!err) return;

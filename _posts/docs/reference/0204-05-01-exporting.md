@@ -4,13 +4,13 @@ section: help
 category: reference
 tag: Reference
 title: Exporting
-permalink: /docs/manual/exporting
+permalink: /docs/manual/exporting/
 ---
 Once you've finished a map design, you can export your map for use in other applications. You can export the entire world or choose a smaller region by setting the bounding box. TileMill can export a variety of formats and each has different advantages.
 
 With a TileMill project open, the export menu at the top-right of the window and presents a number of options.
 
-![TileMill export menu](/assets/tilemill/manual/export.png)
+![TileMill export menu](/tilemill/assets/pages/export.png)
 
 ## Interactive, multiscale exports
 
@@ -61,7 +61,7 @@ For other Linux distribution or for custom-compiled TileMill installation, you'l
 
 ### Windows
 
-    cd "C:\Program Files (x86)\TileMill-v0.10.0\tilemill"
+    cd "C:\Program Files (x86)\TileMill-v0.10.1\tilemill"
     .\node.exe .\index.js export --help
 
 ### Export examples
@@ -110,9 +110,10 @@ Options:
 <tr><td><strong>--scale=</strong>[num]                     </td><td>Scale factor (Default: undefined)</td></tr>
 <tr><td><strong>--concurrency=</strong>[num]               </td><td>Number of exports that can be run concurrently. (Default: 4)</td></tr>
 <tr><td><strong>--files=</strong>[path]                    </td><td>Path to files directory. (Default: "/home/aj/Documents/MapBox")</td></tr>
-<tr><td><strong>--syncURL=</strong>[URL]                   </td><td>MapBox sync URL. (Default: "https://api.mapbox.com")</td></tr>
-<tr><td><strong>--syncAccount=</strong>[account]           </td><td>MapBox account name. (Default: "")</td></tr>
-<tr><td><strong>--syncAccessToken=</strong>[token]         </td><td>MapBox access token. (Default: "")</td></tr>
+<tr><td><strong>--syncAPI=</strong>[URL]                   </td><td>Mapbox API URL. (Default: "http://api.tiles.mapbox.com")</td></tr>
+<tr><td><strong>--syncURL=</strong>[URL]                   </td><td>Mapbox sync URL. (Default: "https://tiles.mapbox.com")</td></tr>
+<tr><td><strong>--syncAccount=</strong>[account]           </td><td>Mapbox account name. (Default: "")</td></tr>
+<tr><td><strong>--syncAccessToken=</strong>[token]         </td><td>Mapbox access token. (Default: "")</td></tr>
 <tr><td><strong>--verbose=</strong>on|off                  </td><td>verbose logging (Default: "on")</td></tr>
 <tr><td><strong>--config=</strong>[path]                   </td><td>Path to JSON configuration file.</td></tr>
 </table>

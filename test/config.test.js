@@ -15,7 +15,7 @@ var attr = function(body) {
     }, {});
 };
 
-describe('config', function() {
+describe('Testing Config Functions (config.test.js)', function() {
 
 before(function(done) {
     require('./support/start').start(function(command) {
@@ -107,6 +107,7 @@ it('PUT should 409 on invalid config', function(done) {
         }
     );
 });
+
 it('DELETE should 409', function(done) {
     assert.response(core,
         {
@@ -114,13 +115,14 @@ it('DELETE should 409', function(done) {
             method: 'DELETE',
             headers: {
                 'content-type': 'application/json',
-                'cookie': 'bones.token=asdf'
+                'cookie': 'bones.token=asdf',
+                'Content-Length': Buffer.byteLength(JSON.stringify({ 'bones.token': 'asdf' }))
             },
             data: JSON.stringify({ 'bones.token': 'asdf' })
         },
         { status:409 },
         function(res) {
-            assert.equal(res.body, 'Method not supported.');
+            assert.equal(res.body, 'Method not supported.');  
             done();
         }
     );

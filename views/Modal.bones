@@ -35,7 +35,7 @@ view.prototype.initialize = function(options) {
         if (options.err_message) {
            content += options.err_message + ' : ';
         }
-        content += 'Unable to reach the local TileMill Server. Check the logs for details. If this problem persists please contact support at: http://support.mapbox.com/discussions/tilemill';
+        content += 'Unable to reach the local TileMill Server. Check the logs for details. If this problem persists please log a bug at: https://github.com/tilemill-project/tilemill/issues';
         options = { content: content };
     } else if (typeof options === 'string') {
         options = { content: options };

@@ -21,7 +21,7 @@ function cleanProject(proj) {
     if (Array.isArray(proj.grids)) proj.grids = proj.grids.map(removeTimestamp);
 }
 
-describe('project', function() {
+describe('Testing Project Functions (project.test.js)', function() {
 
 before(function(done) {
     require('./support/start').start(function(command) {
@@ -106,7 +106,7 @@ it('PUT should create a project', function(done) {
                 tiles: ["http://127.0.0.1:20008/tile/demo_02/{z}/{x}/{y}.png"],
                 grids: ["http://127.0.0.1:20008/tile/demo_02/{z}/{x}/{y}.grid.json"]
             };
-            // https://github.com/mapbox/tilemill/issues/1552
+            // https://github.com/tilemill-project/tilemill/issues/1552
             //assert.deepEqual(expected, body, diff.compare(expected, body));
             done();
         }
@@ -121,7 +121,7 @@ it('GET should load created project', function(done) {
             var body = JSON.parse(res.body);
             cleanProject(body);
             var expected = readJSON('created-project');
-            // https://github.com/mapbox/tilemill/issues/1552
+            // https://github.com/tilemill-project/tilemill/issues/1552
             //assert.deepEqual(expected, body, diff.compare(expected, body));
             done();
         }
@@ -135,7 +135,8 @@ it('DELETE should remove project', function(done) {
         method: 'DELETE',
         headers: {
             'content-type': 'application/json',
-            'cookie': 'bones.token=' + data['bones.token']
+            'cookie': 'bones.token=' + data['bones.token'],
+            'Content-Length': Buffer.byteLength(JSON.stringify({ 'bones.token': data['bones.token'] }))
         },
         data: JSON.stringify({ 'bones.token': data['bones.token'] })
     }, { status: 200 }, function(res) {
