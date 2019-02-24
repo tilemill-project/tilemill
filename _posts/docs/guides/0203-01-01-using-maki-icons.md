@@ -30,7 +30,7 @@ Each symbol comes in three sizes: 24px, 18px, and 12px. They are designed to loo
 
 It's easiest to work with Maki icons if you have a copy of them in your [TileMill project folder](/tilemill/docs/manual/files-directories/#structure_of_a_tilemill_project). Copy the `src` directory (or `renders` directory) there and rename it to `maki`. 
 
-If you want to follow along with the same example data we're going to use, download [this CSV](https://github.com/mapbox/tilemill/raw/mb-pages/assets/pages/combined_poi.csv) of POIs in Washington, DC from OpenStreetMap. Add it as a layer in TileMill and set the layer ID to `poi`.
+If you want to follow along with the same example data we're going to use, download [this CSV](https://github.com/tilemill-project/tilemill/raw/mb-pages/assets/pages/combined_poi.csv) of POIs in Washington, DC from OpenStreetMap. Add it as a layer in TileMill and set the layer ID to `poi`.
 
 ![Data Import](/tilemill/assets/pages/maki-2.png)
 

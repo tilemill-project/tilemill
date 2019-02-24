@@ -86,7 +86,7 @@ To achieve the best performance when reading large FileGDB it is important that 
 
 <small class='note' markdown='1'>
 <h3>Note: FileGDB data and spatial indexes</h3>
-Spatial indexes can help speed up viewing of FileGDB when you are zoomed into just a subsection of the data. TileMill supports reading spatial indexes that you can generate in ArcGIS for FileGDB. However this support is currently disabled due to [this bug](https://github.com/mapbox/tilemill/issues/2275).
+Spatial indexes can help speed up viewing of FileGDB when you are zoomed into just a subsection of the data. TileMill supports reading spatial indexes that you can generate in ArcGIS for FileGDB. However this support is currently disabled due to [this bug](https://github.com/tilemill-project/tilemill/issues/2275).
 </small>
 
 {% include nextup.html %}

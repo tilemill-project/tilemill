@@ -61,7 +61,7 @@ For other Linux distribution or for custom-compiled TileMill installation, you'l
 
 ### Windows
 
-    cd "C:\Program Files (x86)\TileMill-v0.10.0\tilemill"
+    cd "C:\Program Files (x86)\TileMill-v0.10.1\tilemill"
     .\node.exe .\index.js export --help
 
 ### Export examples

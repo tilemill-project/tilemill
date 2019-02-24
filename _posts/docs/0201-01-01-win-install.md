@@ -9,6 +9,8 @@ nextup:
 - "Make your first map with [CSV data](/tilemill/docs/tutorials/point-data/)."
 - "Read the [TileMill manual](/tilemill/docs/manual/)."
 ---
+<span style="color:red">WARNING:</span> These instructions will only work with TileMill v0.10.1 or earlier. For v1.0.0 or later, you will need to install from source.
+
 This page is for installing on **Windows**.
 
 We also have instructions for [Mac OS X](/tilemill/docs/mac-install), [Ubuntu](/tilemill/docs/linux-install), and [other platforms](/tilemill/docs/source).
