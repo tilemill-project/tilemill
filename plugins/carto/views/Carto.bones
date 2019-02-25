@@ -19,20 +19,26 @@ view.prototype.toggler = function(ev) {
 view.prototype.render = function() {
     if (this.$('.manual').size()) return this;
 
-    this.$('.content').html(templates.Reference(abilities.carto));
-    /*this.$('pre.carto-snippet').each(function(i, elem) {
-        CodeMirror(function(el) {
-            $(elem).replaceWith(el);
-        }, {
-                readOnly: 'nocursor',
-                mode: {
-                    name: 'carto',
-                    reference: abilities.carto
-                },
-                value: $(elem).text()
-            }
-        );
-    });*/
+    function rgbToHex(r, g, b) {
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+
+    allColors = abilities.carto.colors;
+    colorKeys = Object.keys(allColors);
+    var colors = _(colorKeys).map(function(color) {
+        var rgb = allColors[color];
+        var rgbObj = {R:rgb[0], G:rgb[1], B:rgb[2]};
+        var hex = rgbToHex.apply(this,rgb);
+        var hsv = Color.RGB_HSV(rgbObj);
+        return { name:color, rgbcode:rgb, hexcode:hex, hsvcode:hsv };
+    });
+    var colorsSorted = _.sortBy(colors,function(c) { return -c.hsvcode.H; });
+
+    this.$('.content').html(templates.Reference({
+        symbolizers: abilities.carto.symbolizers,
+        colors: colors,
+        colorsSorted: colorsSorted
+    }));
     return this;
 };
 
@@ -53,7 +59,7 @@ views.Project.augment({
     },
     render: function(p) {
         p.call(this);
-        this.$('.palette').prepend("<a class='drawer' href='#carto'><span class='icon reverse reference'>Carto</span></a>");
+        this.$('.palette').prepend("<a class='drawer' title='Carto Reference' href='#carto'><span class='icon reverse reference'>Carto Reference v"+abilities.carto.version+"</span></a>");
         return this;
     }
 });
