@@ -32,7 +32,10 @@ view.prototype.render = function() {
         var hsv = Color.RGB_HSV(rgbObj);
         return { name:color, rgbcode:rgb, hexcode:hex, hsvcode:hsv };
     });
-    var colorsSorted = _.sortBy(colors,function(c) { return -c.hsvcode.H; });
+
+    var colorsSorted = _.sortBy(colors,function(c) { 
+        return -(c.rgbcode[0]+c.rgbcode[1]+c.rgbcode[2]);
+            });
 
     this.$('.content').html(templates.Reference({
         symbolizers: abilities.carto.symbolizers,
