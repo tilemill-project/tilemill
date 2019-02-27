@@ -33,7 +33,7 @@
     ],
     "dependencies": {
         "JSV": "4.0.2",
-        "backbone": "1.3.3",
+        "backbone": "1.4.0",
         "backbone-dirty": "1.1.3",
         "bones": "git://github.com/florianf/bones.git#1.3",
         "carto": "1.0.1",
