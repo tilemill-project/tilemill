@@ -2,7 +2,11 @@
 
 A summary of changes to TileMill can be found in the [TileMill Documentation Upgrade Notes](https://tilemill-project.github.io/tilemill/docs/upgrade/). Detailed dev notes about changes can be found below.
 
-## [v1.0.0] - 2019-02-??
+## [v1.0.1] - 2019-02-25
+
+- Fix to a test issue in the abilities test. Did not impact the TileMill app.
+
+## [v1.0.0] - 2019-02-23
 
 Tilemill has now been updated from the great work of [TileOven](https://github.com/florianf/tileoven), which was merged back into this project.  The current goal is to update TileMill's dependencies to current versions and bring back GUI apps for each platform using Electron.
 
