@@ -10,7 +10,7 @@ var chrono = require('chrono');
 var carto = require('carto');
 var crashutil = require('../lib/crashutil');
 var _ = require('underscore');
-var sm = new (require('sphericalmercator'))();
+var sm = new (require('@mapbox/sphericalmercator'))();
 var os = require('os');
 // node v6 -> v8 compatibility
 var existsSync = require('fs').existsSync || require('path').existsSync;
