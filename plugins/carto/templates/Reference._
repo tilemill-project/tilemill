@@ -132,14 +132,13 @@
           <p>These colors are available to use by name in the TileMill stylesheets.</p>
           <li>
           <% _(colorsSorted).each(function(f) { %>
-            <span class="swatch" title="<%= f.name %> rgb(<%= f.rgbcode %>) hex(<%= f.hexcode %>)">
-              <span style="background-color:rgb(<%= f.rgbcode %>)" class="color"></span>
+            <span class="swatch color" style="background-color:rgb(<%= f.rgbcode %>)" title="<%= f.name %> rgb(<%= f.rgbcode %>) hex(<%= f.hexcode %>)">
             </span>
           <% }); %>
         </li>
           <% _(colors).each(function(f) { %>
           <li>
-            <span class="swatch" title="rgb(<%= f.rgbcode %>) hex(<%= f.hexcode %>)">
+            <span class="swatch" name="<%= f.name %>" title="rgb(<%= f.rgbcode %>) hex(<%= f.hexcode %>)">
               <span style="background-color:rgb(<%= f.rgbcode %>)" class="color"></span>
             </span>
             <label>

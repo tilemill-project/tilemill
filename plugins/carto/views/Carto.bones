@@ -1,7 +1,8 @@
 view = Backbone.View.extend();
 
 view.prototype.events = {
-    'click .toggler a': 'toggler'
+    'click .toggler a': 'toggler',
+    'click span.swatch': 'color_swatch'
 }
 
 view.prototype.initialize = function(options) {
@@ -14,6 +15,12 @@ view.prototype.initialize = function(options) {
 
 view.prototype.toggler = function(ev) {
     this._carto_state.section = $(ev.currentTarget).attr('href');
+};
+
+view.prototype.color_swatch = function(ev) {
+    console.log("foobar",ev.currentTarget.title)
+
+    // this._carto_state.section = $(ev.currentTarget).attr('href');
 };
 
 view.prototype.render = function() {
