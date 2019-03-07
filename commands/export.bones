@@ -410,7 +410,7 @@ command.prototype.tilelive = function (project, callback) {
     try { require(this.opts.format).registerProtocols(tilelive); }
     catch(err) {}
 
-    require('tilelive-mapnik').registerProtocols(tilelive);
+    require('@mapbox/tilelive-mapnik').registerProtocols(tilelive);
 
     // Copy the bounds so that we can modify them if we need to split the export
     var bboxes = [ project.mml.bounds.slice(0) ];
