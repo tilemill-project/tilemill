@@ -6,6 +6,8 @@ title: Troubleshooting
 permalink: /docs/linux-troubleshooting/
 hidden: true
 ---
+<span style="color:red">WARNING:</span> These instructions below are listed for historical reasons, and will only work with TileMill v0.10.1 or earlier.
+
 If TileMill isn't starting up or performing properly, try these troubleshooting steps. This page is for **Ubuntu**. We also have instructions for [Mac OS X](/tilemill/docs/mac-troubleshooting) and [Windows](/tilemill/docs/win-troubleshooting).
 
 ## Update or reinstall TileMill
