@@ -49,7 +49,7 @@ Install the necessary Node modules and dependencies:
     cd tilemill
     npm install
 
-Then start TileMill from the command line, by typing:
+Then start TileMill and open client in browser, from the command line, by typing:
 
     ./tilemill.sh
 
@@ -65,6 +65,96 @@ Once the TileMill core and tile servers are running, open your browser and go to
     127.0.0.1:2009
 
 For more details on running from the command line see the [Ubuntu Service](/tilemill/docs/guides/ubuntu-service/) for details.
+
+### Postgres & PostGIS Installation
+
+These steps will guide you through if you want a Postgres & PostGIS database for your TileMill data backend, and want to load OpenStreetMap data sets.
+
+**Install Postgresql 10 w/PostGIS 2.4:**
+
+    sudo apt-get install postgresql-10-postgis-2.4
+  - User 'postgres' is automatically created
+  - DB template1 is automatically created
+
+You’ll need to adjust PostgreSQL’s access permissions.  This is only recommended for local installations. It is *NOT* secure if you are hosting on a public site:
+
+    sudo nano /etc/postgresql/10/main/pg_hba.conf
+
+Page down to the bottom section of the file and adjust all local access permissions to ‘trust’. This will allow you to access the PostgreSQL database from the same machine without a password. Your configuration should contain something like this:
+
+local   all             postgres                                trust
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            trust
+# IPv6 local connections:
+host    all             all             ::1/128                 trust
+
+Restart your Postgres server:
+
+    sudo systemctl restart postgresql.service
+or:
+
+    sudo /etc/init.d/postgresql restart
+
+**Create a personal user account** - this is very helpful. Since the only user who can connect to a fresh install is the postgres user, here is how to create yourself a database account (which is in this case also a database superuser) with the same name as your login name and then create a password for the user:
+
+    sudo -u postgres createuser --superuser $USER
+    sudo -u postgres psql
+postgres=# `\password $USER`
+
+Client programs, by default, connect to the local host using your Ubuntu login name and expect to find a database with that name too. So to make things REALLY easy, use your new superuser privileges granted above to create a database with the same name as your login name:
+
+    sudo -u postgres createdb $USER
+
+You can now connect to your own database to try out some SQL. Just type:
+
+    psql
+
+**Creating TileMill Database**:
+
+Create a database named `osm` to store TileMill data:
+
+    psql -U postgres -h localhost -c "CREATE DATABASE osm ENCODING 'UTF-8'"
+
+Create the postgis and hstore extensions:
+
+    psql -c "\connect osm" 
+    psql -d osm -c "CREATE EXTENSION postgis" 
+    psql -d osm -c "CREATE EXTENSION hstore"
+
+Install osm2pgsql:
+
+    sudo apt-get install osm2pgsql
+
+Download OpenStreetMap map extract.  You need to download an appropriate .osm or .pbf file to load into your database. Some popular sites:
+https://download.geofabrik.de/
+https://download.bbbike.org/osm/
+
+For example, if you wanted the *washington* or *great-britain* extract from GeoFfabrik, using curl or wget:
+
+    curl http://download.geofabrik.de/north-america/us/washington-latest.osm.pbf
+    wget -c https://download.geofabrik.de/europe/great-britain-latest.osm.pbf
+
+Load the osm data file into your `osm` Postgres database:
+
+    osm2pgsql --create --multi-geometry --database osm --username $USER --style "./utils/default.style" --hstore "<replace_with_osm_file_name>"
+
+Additionally, you can nstall pgadmin3 to use a GUI to interact and configure your Postgres databases:
+
+    sudo apt-get install pgadmin3
+
+Postgresql config files are stored in:
+
+    /etc/postgresql/10/main
+
+
+Reference sites for further help:
+https://ircama.github.io/osm-carto-tutorials/tilemill-ubuntu/
+
 
 
 <span style="color:red">WARNING:</span> The instructions below are listed for historical reasons, and will only work with TileMill v0.10.1 or earlier. For v1.0.0 or later, you will need to follow the directions above.
