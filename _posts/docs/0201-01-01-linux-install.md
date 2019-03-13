@@ -82,16 +82,16 @@ You’ll need to adjust PostgreSQL’s access permissions.  This is only recomme
 
 Page down to the bottom section of the file and adjust all local access permissions to ‘trust’. This will allow you to access the PostgreSQL database from the same machine without a password. Your configuration should contain something like this:
 
-local   all             postgres                                trust
+    local   all             postgres                                trust
 
-# TYPE  DATABASE        USER            ADDRESS                 METHOD
+    # TYPE  DATABASE        USER            ADDRESS                 METHOD
 
-# "local" is for Unix domain socket connections only
-local   all             all                                     trust
-# IPv4 local connections:
-host    all             all             127.0.0.1/32            trust
-# IPv6 local connections:
-host    all             all             ::1/128                 trust
+    # "local" is for Unix domain socket connections only
+    local   all             all                                     trust
+    # IPv4 local connections:
+    host    all             all             127.0.0.1/32            trust
+    # IPv6 local connections:
+    host    all             all             ::1/128                 trust
 
 Restart your Postgres server:
 
@@ -170,7 +170,7 @@ This page is for installing TileMill on **Ubuntu Desktop** from the Mapbox provi
 </ul>
 
 ### Installation
-1. [Download the TileMill installer](/tilemill) for Ubuntu. If the download window appears, choose **Save File**.
+1. [Download the TileMill installer](http://tilemill.s3.amazonaws.com/latest/install-tilemill.tar.gz) for Ubuntu. If the download window appears, choose **Save File**.
   ![](/tilemill/assets/pages/linux-install-1.png)
 2. Select **install-tilemill.tar.gz** in your **Downloads** folder. Choose **Edit > Extract Here** from the menu.
   ![](/tilemill/assets/pages/linux-install-2.png)

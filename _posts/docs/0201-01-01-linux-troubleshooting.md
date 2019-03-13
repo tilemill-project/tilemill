@@ -2,7 +2,7 @@
 layout: docs
 category: installation
 tag: Installation
-title: Troubleshooting
+title: Unbuntu Troubleshooting
 permalink: /docs/linux-troubleshooting/
 hidden: true
 ---
