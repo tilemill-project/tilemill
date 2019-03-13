@@ -44,4 +44,4 @@ This assumes that you already have tilemill checked out in your HOME directory. 
 
 To sync the manual in the app with gh-pages updates do:
 
-    ./.updatemanual.sh
+    ./updatemanual.sh

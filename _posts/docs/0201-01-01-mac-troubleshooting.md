@@ -2,7 +2,7 @@
 layout: docs
 category: installation
 tag: Installation
-title: Troubleshooting
+title: Mac OS X Troubleshooting
 permalink: /docs/mac-troubleshooting/
 hidden: true
 ---

@@ -2,7 +2,7 @@
 layout: docs
 category: installation
 tag: Installation
-title: Troubleshooting
+title: Windows Troubleshooting
 permalink: /docs/win-troubleshooting/
 hidden: true
 ---
