@@ -19,6 +19,10 @@
     <% if (m.get('updated')) { %>
     &mdash; <%= obj.time(m.get('updated') - m.get('created')) %>
     <% } %>
+    <% if (m.get('format') !== 'mbtiles') { %>
+     | z<%= m.get('static_zoom') %> | <%= m.get('width') %> x <%= m.get('height') %>
+    <% } %>
+      | <%= m.get('bbox') %>
   </div>
   <div class='status'>
     <% if (m.get('status') === 'processing' || m.get('status') === 'waiting') { %>
@@ -41,6 +45,7 @@
     <% } %>
   </div>
   <a href='#<%=m.id%>' class='icon delete'>Delete</a>
+  <a href='#<%=m.id%>' class='icon delete'>Load</a>
 </li>
 <% }); %>
 </ul>
