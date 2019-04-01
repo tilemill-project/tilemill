@@ -69,17 +69,20 @@ view.prototype.render = function() {
         $(this.el).html(templates.Metadata(this));
     }
 
+    var center = (this.model.get('center') !== undefined) ? this.model.get('center') : this.project.get('center');
+    var bounds = (this.model.get('bbox') !== undefined) ? this.model.get('bbox') : this.project.get('bounds');
+
     this.model.set({
-        zooms: [
+        zooms: this.model.get('zooms') !== undefined ? this.model.get('zooms') : [
             this.project.get('minzoom'),
-            this.project.get('maxzoom')
-        ],
-        metatile: this.project.get('metatile')
+            this.project.get('maxzoom')],
+        metatile: this.model.get('metatile') !== undefined ? this.model.get('metatile') :this.project.get('metatile'),
+        center: center,
+        bounds: bounds
     }, {silent:true});
+
     Bones.utils.sliders(this.$('.slider'), this.model);
 
-    var center = this.project.get('center');
-    var bounds = this.project.get('bounds');
     var extent = [
         new MM.Location(bounds[1], bounds[0]),
         new MM.Location(bounds[3], bounds[2])
@@ -87,6 +90,7 @@ view.prototype.render = function() {
     var tj = _(this.project.attributes).clone();
     tj.minzoom = 0;
     tj.maxzoom = 22;
+    tj.center = center;
     this.map = new MM.Map('meta-map', new wax.mm.connector(tj));
 
     // Override project attributes to allow unbounded zooming.

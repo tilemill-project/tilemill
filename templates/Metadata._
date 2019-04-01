@@ -65,7 +65,11 @@ var get = _(project.get).bind(project);
   <% if (model !== project && model.get('format') !== 'sync') { %>
   <li>
     <label>Filename</label>
-    <input type='text' name='filename' value='<%=project.id%>' size='12' />
+    <% if (model.get('filename')) { %>
+      <input type='text' name='filename' value='<%=model.get('filename').split('.')[0]%>' size='12' />
+    <% } else { %>
+        <input type='text' name='filename' value='<%=project.id%>' size='12' />
+    <% } %>
     <small>.<%=model.get('format')%></small>
   </li>
   <% } %>
@@ -85,8 +89,8 @@ var get = _(project.get).bind(project);
   <% if (type === 'image') { %>
   <li>
     <label>Size</label>
-    <input name='width' type='text' value='400' size='4' /> x
-    <input name='height' type='text' value='400' size='4' />
+    <input name='width' type='text' value='<% if (model.get('width') !== undefined) { %><%=model.get('width')%><% } else { %>400<% } %>' size='4' /> x
+    <input name='height' type='text' value='<%=model.get('height')%>' size='4' />
   </li>
   <li>
     <label for='static_zoom'>Zoom</label>
