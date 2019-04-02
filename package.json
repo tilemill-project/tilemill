@@ -57,7 +57,7 @@
         "@mapbox/sphericalmercator": "1.1.0",
         "sqlite3": "4.0.6",
         "step": "1.0.0",
-        "tilelive": "git://github.com/florianf/tilelive.git",
+        "tilelive": "git://github.com/tilemill-project/tilelive.git#v5.14.0",
         "@mapbox/tilelive-mapnik": "1.0.0",
         "underscore": "1.9.1",
         "wax": "6.4.2",
