@@ -285,31 +285,34 @@ view.prototype.save = function() {
     delete attr.format_custom;
     delete attr._saveProject;
     attr = _(attr).reduce(function(memo, val, key) {
-        var allowEmpty = ['description', 'attribution'];
+        var allowEmpty = ['description', 'attribution', 'note'];
         if (val !== '' || _(allowEmpty).include(key)) memo[key] = val;
         return memo;
     }, {});
 
-    // Project settings.
+    // If only editing the Project settings, just save the Settings and exit
     if (this.model === this.project) {
         if (!this.project.set(attr, {error:error})) return false;
         this.project.save({}, { success:this.success, error:error});
         return false;
     }
 
-    // Exports.
+    // Write export settings to Exports model
     switch (this.model.get('format')) {
     case 'mbtiles':
         if (!this.model.set({
             filename: attr.filename,
+            note: attr.note,
             bbox: attr.bounds,
             minzoom: attr.minzoom,
-            maxzoom: attr.maxzoom
+            maxzoom: attr.maxzoom,
+            center: attr.center
         }, {error:error})) return false;
         break;
     default:
         if (!this.model.set({
             filename: attr.filename,
+            note: attr.note,
             bbox: attr.bounds,
             width: attr.width,
             height: attr.height,

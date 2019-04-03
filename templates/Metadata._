@@ -39,11 +39,11 @@ var get = _(project.get).bind(project);
   </li>
   <li>
     <label for='attribution'>Attribution</label>
-    <input type='text' name='attribution' class='stretch' value='<%= get('attribution') %>' />
+    <textarea type='text' name='attribution' class='stretch' rows='1'><%= get('attribution') %></textarea>
   </li>
   <li>
     <label for='version'>Version</label>
-    <input type='text' name='version' size='10' value='<%= get('version') %>' />
+    <input type='text' name='version' size='20' value='<%= get('version') %>' />
   </li>
   <% } %>
   <% if (model === project) { %>
@@ -66,11 +66,15 @@ var get = _(project.get).bind(project);
   <li>
     <label>Filename</label>
     <% if (model.get('filename')) { %>
-      <input type='text' name='filename' value='<%=model.get('filename').split('.')[0]%>' size='12' />
+      <input type='text' name='filename' value='<%=model.get('filename').split('.')[0]%>' size='20' />
     <% } else { %>
-        <input type='text' name='filename' value='<%=project.id%>' size='12' />
+        <input type='text' name='filename' value='<%=project.id%>' size='20' />
     <% } %>
     <small>.<%=model.get('format')%></small>
+  </li>
+  <li>
+    <label for='note'>Export Note</label>
+    <textarea type='text' name='note' class='stretch' rows='2'><%= get('note') %></textarea>
   </li>
   <% } %>
   <% if (type === 'tiles') { %>
@@ -95,13 +99,13 @@ var get = _(project.get).bind(project);
   <li>
     <label for='static_zoom'>Zoom</label>
     <div class='slider' data-key='static_zoom' data-step='1' data-min='0' data-max='30'></div>
-    <small class='description'>Target zoom level for rendering</small>
+    <small class='description'>Target static zoom level for rendering</small>
   </li>
   <% } %>
   <li>
     <span class='icon i40 bounds'></span>
     <label for='bounds'>Bounds</label>
-    <input type='text' name='bounds' size='20' value='<%=get('bounds').join(',')%>' />
+    <textarea type="text" name="bounds" size="20" rows="2"><%=get('bounds').join(',')%></textarea>
     <small class='description'>Shift + drag to select bounds.</small>
   </li>
   <% if (model === project) { %>
@@ -136,7 +140,7 @@ var get = _(project.get).bind(project);
     <input type='button' value='Cancel' class='cancel' />
   </li>
   <% if (type === 'image') { %>
-  <small class='description centered'>Preview</small>
+  <small class='description centered'>Preview (click to open in new window)</small>
   <div class="preview_image centered"> </div>
   <% } %>
 </ul></form>

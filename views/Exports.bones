@@ -3,14 +3,14 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'click a.delete': 'exportDelete',
     'click a.preview': 'exportPreview',
-    'click a.load': 'loadExport'
+    'click a.update': 'updateExport'
 };
 
 view.prototype.initialize = function(options) {
     if (!options.project) throw new Error('No project model provided.');
     this.project = options.project;
-    //_(this).bindAll('render', 'exportDelete', 'exportPreview', 'loadExport', 'poll');
-    _(this).bindAll('render', 'poll', 'exportDelete', 'exportPreview', 'loadExport');
+    //_(this).bindAll('render', 'exportDelete', 'exportPreview', 'updateExport', 'poll');
+    _(this).bindAll('render', 'poll', 'exportDelete', 'exportPreview', 'updateExport');
     this.collection.bind('all', this.render);
     this.collection.bind('all', this.poll);
     this.render(true).poll();
@@ -40,11 +40,11 @@ view.prototype.time = function(ms) {
     return lpad(hours, 2, '0') + ':' + lpad(minutes, 2, '0') + ':' + lpad(seconds, 2, '0') + 's';
 };
 
-// Load the export properties back into the Export dialog, to process again
-view.prototype.loadExport = function(ev) {
+// Load the selected export back into the Export dialog, to process again
+view.prototype.updateExport = function(ev) {
     $('.project').addClass('meta');
     // Get selected export ID, then get selected export model
-    var id = $(ev.currentTarget).attr('href').split('#load-').pop();
+    var id = $(ev.currentTarget).attr('href').split('#update-').pop();
     var selExport = this.collection.get(id);
     var format = selExport.get('format');
 
