@@ -270,6 +270,8 @@ view.prototype.save = function() {
     var attr = Bones.utils.form(this.$('form'), this.model);
     var save = attr._saveProject;
     var error = function(m, e) { new views.Modal(e); };
+    $('input[type=submit]').addClass('disabled');
+    $('#meta-map').addClass('loading');
 
     // Massage values.
     if (attr.filename) attr.filename = attr.filename + '.' + this.model.get('format');
