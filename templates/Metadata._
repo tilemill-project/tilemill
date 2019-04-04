@@ -105,7 +105,7 @@ var get = _(project.get).bind(project);
   <li>
     <span class='icon i40 bounds'></span>
     <label for='bounds'>Bounds</label>
-    <textarea type="text" name="bounds" size="20" rows="2"><%=get('bounds').join(',')%></textarea>
+    <input type='text' name='bounds' size='20' value='<%=get('bounds').join(',')%>' />
     <small class='description'>Shift + drag to select bounds.</small>
   </li>
   <% if (model === project) { %>
