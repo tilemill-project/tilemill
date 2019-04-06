@@ -100,6 +100,14 @@ var get = _(project.get).bind(project);
     <input type='text' name='bounds' size='20' value='<%=get('bounds').join(',')%>' />
     <small class='description'>Shift + drag to select bounds.</small>
   </li>
+  <li>
+    <label>Aspect Ratio</label>
+    <input name='aspectwidth' type='text' value='8.5' size='4' disabled /> :
+    <input name='aspectheight' type='text' value='11' size='4' disabled />
+    <input type='checkbox' name='setaspect' value='1'/>
+    <span class="description">lock</span>
+    <small class='description'>any units</small>
+  </li>
   <% if (model === project) { %>
   <li>
     <label for='scale'>Scale factor</label>
