@@ -95,19 +95,29 @@ var get = _(project.get).bind(project);
   </li>
   <% } %>
   <li>
-    <span class='icon i40 bounds'></span>
     <label for='bounds'>Bounds</label>
-    <input type='text' name='bounds' size='20' value='<%=get('bounds').join(',')%>' />
+    <input type='text' name='bounds' size='35' value='<%=get('bounds').join(',')%>' />
     <small class='description'>Shift + drag to select bounds.</small>
   </li>
   <li>
     <label>Aspect Ratio</label>
     <input name='aspectwidth' type='text' value='8.5' size='4' disabled /> :
     <input name='aspectheight' type='text' value='11' size='4' disabled />
-    <input type='checkbox' name='setaspect' value='1'/>
-    <span class="description">lock</span>
+    <input type='checkbox' name='setaspect' value='1'/><small> lock</small>
     <small class='description'>any units</small>
   </li>
+  <% if (type === 'image') { %>
+  <li>
+    <label>Scale</label><small>1:</small>
+    <input name='scale' type='text' value='' size='6' disabled />
+    <small> at Printed width </small><input name='printedWidth' type='text' value='8.5' size='3'  /><small>in</small>
+  </li>
+  <li>
+    <label>Box Size</label>
+    <input name='boxWidth' type='text' value='' size='6' disabled style='border:0; background:transparent; text-align:right;'/><small>m   </small>x
+    <input name='boxHeight' type='text' value='' size='6' disabled style='border:0; background:transparent; text-align:right;'/><small>m</small>
+  </li>
+  <% } %>
   <% if (model === project) { %>
   <li>
     <label for='scale'>Scale factor</label>

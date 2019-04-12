@@ -163,12 +163,10 @@ view.prototype.render = function() {
 
 // Set zoom display.
 view.prototype.mapZoom = function(e) {
-    console.log("Metadata:mapZoom()");
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };
 
 view.prototype.updateCustomFormat = function(ev) {
-    console.log("Metadata:updateCustomFormat()");
     if (this.$('select[name=format]').val() === '') {
         this.$('.dependent').show();
     } else {
@@ -177,7 +175,6 @@ view.prototype.updateCustomFormat = function(ev) {
 };
 
 view.prototype.updatePreview = function() {
-    console.log("Metadata:updatePreview()");
     var attr = Bones.utils.form(this.$('form'), this.model);
     var req = 'http://' + window.abilities.tileUrl;
     req += '/tile/' + this.project.id + '/image?';
@@ -191,7 +188,6 @@ view.prototype.updatePreview = function() {
 }
 
 view.prototype.updateTotal = function(attributes) {
-    console.log("Metadata:updateTotal()");
     var sm = this.sm;
     var attr = Bones.utils.form(this.$('form'), this.model);
     var bbox = _(attr.bounds.split(',')).map(parseFloat);
@@ -238,11 +234,12 @@ view.prototype.updateTotal = function(attributes) {
 
 // Update size fields based on bbox ratio.
 view.prototype.updateSize = function(ev) {
-    console.log("Metadata:updateSize()");
+    //console.log("Metadata:updateSize()");
     // Get bound values from text field
     var bounds = _(this.$('input[name=bounds]').val().split(',')).map(parseFloat);
     var nwLoc = new MM.Location(bounds[3], bounds[0]);
     var seLoc = new MM.Location(bounds[1], bounds[2]);
+    var neLoc = new MM.Location(bounds[3], bounds[2]);
     var nw = this.map.locationPoint(nwLoc);
     var se = this.map.locationPoint(seLoc);
     var aspect = (Math.round(se.x) - Math.round(nw.x)) /
@@ -269,14 +266,25 @@ view.prototype.updateSize = function(ev) {
     default:
     };
 
+    /*  These get executed regardless of what caused the change */
+
+    // Update Size Height field, keep width constant
+    var w = parseInt(this.$('input[name=width]').val(), 10);
+    if (_(w).isNumber() && _(aspect).isNumber())
+        this.$('input[name=height]').val(Math.round(w / aspect));
+
     // Update aspect ratio fields
     var aspectwidth_cur = parseFloat(this.$('input[name=aspectwidth]').val());
-    var aspectheight_cur = parseFloat(this.$('input[name=aspectheight]').val());
-    this.$('input[name=aspectheight]').val((aspectwidth_cur/aspect).toFixed(1));
+    this.$('input[name=aspectheight]').val((aspectwidth_cur / aspect).toFixed(0));
 
-    // Update scale field
-    // meters_width = bounds width(x) * 1 D Longitude(75772 meters)
-    // meters_width/( paper width * DPI(72) * Pixel Size(0.00035m) )
+    // Update scale & distances fields
+    var pixelSize = .00035;
+    var dpi = 72;
+    var distances = this.boxselector.distances(nwLoc, seLoc);
+    var scale = distances.x / ( parseFloat(this.$('input[name=printedWidth]').val()) * pixelSize * dpi);
+    this.$('input[name=scale]').val(scale.toFixed(0));
+    this.$('input[name=boxWidth]').val(distances.x.toFixed(1));
+    this.$('input[name=boxHeight]').val(distances.y.toFixed(1));
 
     // Update total tiles.
     if (this.type === 'tiles') this.updateTotal();
