@@ -5,7 +5,7 @@ var settings = Bones.plugin.config;
 var Step = require('step');
 var readdir = require('../lib/fsutil.js').readdir;
 var mapnik = require('mapnik');
-var sm = new (require('sphericalmercator'))();
+var sm = new (require('@mapbox/sphericalmercator'))();
 var carto = require('carto');
 
 server = Bones.Server.extend({});

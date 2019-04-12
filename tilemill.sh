@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Source bash profile just in case they have not done that between installing nvm/npm and this.
 source ${HOME}/.bash_profile
