@@ -22,7 +22,14 @@ Install mocha and run the tests
     npm test
 
 Note: the tests require a running postgres server and a postgis enabled
-database called `template_postgis`. To install these, see the [Using Open Street Map (OSM) Data in TileMill section of the installation guide](https://tilemill-project.github.io/tilemill/docs/install/#useosm).
+database called `template_postgis`. 
+
+If you do not have a template_postgis create one like:
+
+    createdb -E UTF8 template_postgis
+    psql -c "CREATE EXTENSION postgis" template_postgis
+
+For more detailed info, see the [Using Open Street Map (OSM) Data in TileMill section of the installation guide](https://tilemill-project.github.io/tilemill/docs/install/#useosm).
 For more info see: http://postgis.net/docs/manual-1.5/ch02.html
 
 1. Debug the project data by running TileMill with
