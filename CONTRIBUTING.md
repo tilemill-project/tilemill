@@ -4,6 +4,8 @@ TileMill documentation is kept in the gh-pages branch, which is independently ma
 
 TileMill's in-app reference available as the "Manual" (see below for syncing details) is a very small subset of docs for offline usage and is manually sync'ed from the gh-pages branch.
 
+Detailed Github instructions to setup Jekyll: https://help.github.com/en/articles/setting-up-your-github-pages-site-locally-with-jekyll
+
 To view all the TileMill documentation locally, first checkout the gh-pages branch:
 
     git clone -b gh-pages https://github.com/tilemill-project/tilemill.git tilemill-gh-pages
@@ -17,7 +19,8 @@ Install Jekyll and bundler:
     sudo gem install jekyll bundler
     cd tilemill-gh-pages
 
-Create/update Gemfile. If you have a Gemfile, add the following lines to it. If you don't, then create a file named "Gemfile" and add the following lines to it.:
+Create/update Gemfile. If you have a Gemfile, add the following lines to it. If you don't, then create a file named "Gemfile" and add the following lines to it:
+
     source 'https://rubygems.org'
     gem 'github-pages', group: :jekyll_plugins
 
