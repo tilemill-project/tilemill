@@ -112,7 +112,7 @@ var get = _(project.get).bind(project);
     <input name='aspectwidth' type='text' value='<% if (model.get('aspectwidth') !== undefined) { %><%=model.get('aspectwidth')%><% } else { %>8.5<% } %>' size='4' disabled /> :
     <input name='aspectheight' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled />
     <input type='checkbox' name='setaspect' value='1'/><small> lock</small>
-    <small class='description'>any units</small>
+    <small class='description'>any units - lock to edit</small>
   </li>
   <% if (type === 'image') { %>
   <li>

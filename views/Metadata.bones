@@ -84,7 +84,8 @@ view.prototype.render = function() {
             this.project.get('maxzoom')],
         metatile: this.model.get('metatile') !== undefined ? this.model.get('metatile') :this.project.get('metatile'),
         center: center,
-        bounds: bounds
+        bounds: bounds,
+        static_zoom: this.model.get('static_zoom') !== undefined ? this.model.get('static_zoom') : center[2]
     }, {silent:true});
 
     Bones.utils.sliders(this.$('.slider'), this.model);
