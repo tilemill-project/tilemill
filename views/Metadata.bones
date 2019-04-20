@@ -7,7 +7,9 @@ view.prototype.events = {
         input[name=width],\
         input[name=height]': 'updateSize',
     'change input[name=bounds],\
+        input[name=printedwidth],\
         input[name=width],\
+        input[name=featurepixels],\
         input[name=height]': 'updateSize',
     'click input[type=submit]': 'save',
     'click .cancel': 'close',
@@ -68,8 +70,6 @@ view.prototype.close = function() {
 };
 
 view.prototype.render = function() {
-    console.log("Metadata:render()");
-
     if (this.model.get('format') !== 'sync' ||
         (this.config.get('syncAccount') && this.config.get('syncAccessToken'))) {
         $(this.el).html(templates.Metadata(this));
@@ -238,8 +238,6 @@ view.prototype.updateTotal = function(attributes) {
 
 // Update size fields based on bbox ratio.
 view.prototype.updateSize = function(ev) {
-    //console.log("Metadata:updateSize()");
-    // Get bound values from text field
     var bounds = _(this.$('input[name=bounds]').val().split(',')).map(parseFloat);
     var nwLoc = new MM.Location(bounds[3], bounds[0]);
     var seLoc = new MM.Location(bounds[1], bounds[2]);
@@ -279,25 +277,29 @@ view.prototype.updateSize = function(ev) {
 
     // Update aspect ratio fields
     var aspectwidth_cur = parseFloat(this.$('input[name=aspectwidth]').val());
-    this.$('input[name=aspectheight]').val((aspectwidth_cur / aspect).toFixed(0));
+    this.$('input[name=aspectheight]').val((aspectwidth_cur / aspect).toFixed(1));
 
     // Update scale & distances fields
     var pixelSize = .00035;
     var dpi = 72;
     var distances = this.boxselector.distances(nwLoc, seLoc);
-    var scale = distances.x / ( parseFloat(this.$('input[name=printedWidth]').val()) * pixelSize * dpi);
+    var scale = distances.x / ( parseFloat(this.$('input[name=printedwidth]').val()) * pixelSize * dpi);
     this.$('input[name=scale]').val(scale.toFixed(0));
     this.$('input[name=boxWidth]').val(distances.x.toFixed(1));
     this.$('input[name=boxHeight]').val(distances.y.toFixed(1));
+
+    // Update feature size fields
+    var featurepixels = parseFloat(this.$('input[name=featurepixels]').val());
+    var printedwidth = parseFloat(this.$('input[name=printedwidth]').val());
+    this.$('input[name=featureprinted]').val((featurepixels * printedwidth / w).toFixed(3));
 
     // Update total tiles.
     if (this.type === 'tiles') this.updateTotal();
     else this.updatePreview();
 };
 
-// Fix bbox size based upon ratio.
+// Fix the bbox size based upon entered aspect ratio.
 view.prototype.setAspect = function(ev) {
-    console.log("Metadata:setAspect()");
     this.$('input[name=aspectwidth]').attr('disabled', false);
     this.$('input[name=aspectheight]').attr('disabled', false);
     this.$('input[name=bounds]').attr('disabled', true);

@@ -72,6 +72,15 @@ model.prototype.schema = {
         },
         'note': {
             'type': 'string'
+        },
+        'aspectwidth': {
+            'type': 'string'
+        },
+        'aspectheight': {
+            'type': 'string'
+        },
+        'printedwidth': {
+            'type': 'string'
         }
     }
 };
