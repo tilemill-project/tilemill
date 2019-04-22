@@ -8,4 +8,4 @@ To checkout the gh-pages branch, do the following:
 
     git clone -b gh-pages https://github.com/tilemill-project/tilemill.git tilemill-gh-pages
 
-You can find more info about how to keep the documentation up to date in the [CONTRIBUTING.md](CONTRIBUTING.MD) file
+You can find more info about how to keep the documentation up to date in the [CONTRIBUTING.md](CONTRIBUTING.md) file
