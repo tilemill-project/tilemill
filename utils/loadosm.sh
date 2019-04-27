@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Initialize volatile global variables.
 MAPDATA_ROOT="${HOME}/Documents/MapBox"    # Default location of the map data directory.
