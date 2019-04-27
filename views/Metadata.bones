@@ -240,6 +240,7 @@ view.prototype.updateTotal = function(attributes) {
 // Update size fields based on bbox ratio.
 view.prototype.updateSize = function(ev) {
     var bounds = _(this.$('input[name=bounds]').val().split(',')).map(parseFloat);
+    var attr = Bones.utils.form(this.$('form'), this.model);
     var nwLoc = new MM.Location(bounds[3], bounds[0]);
     var seLoc = new MM.Location(bounds[1], bounds[2]);
     var neLoc = new MM.Location(bounds[3], bounds[2]);
@@ -277,8 +278,10 @@ view.prototype.updateSize = function(ev) {
         this.$('input[name=height]').val(Math.round(w / aspect));
 
     // Update aspect ratio fields
-    var aspectwidth_cur = parseFloat(this.$('input[name=aspectwidth]').val());
-    this.$('input[name=aspectheight]').val((aspectwidth_cur / aspect).toFixed(1));
+    if (!attr.setaspect) {
+        var aspectwidth_cur = parseFloat(this.$('input[name=aspectwidth]').val());
+        this.$('input[name=aspectheight]').val((aspectwidth_cur / aspect).toFixed(1));
+    }
 
     // Update scale & distances fields
     var pixelSize = .00035;
