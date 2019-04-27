@@ -69,9 +69,6 @@ model.prototype.schema = {
         },
         'error': {
             'type': 'string'
-        },
-        'note': {
-            'type': 'string'
         }
     }
 };

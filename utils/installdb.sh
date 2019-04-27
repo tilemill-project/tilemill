@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Initialize global variables.
 POSTGIS_DB="template_postgis"           # PostGIS template DB (used to create other DBs).

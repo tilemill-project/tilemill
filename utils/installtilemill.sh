@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Initialize global variables.
 NVM_VER="v0.34.0"                # Version of NVM that will be installed if no version is present.

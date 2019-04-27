@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Check if TileMill port is open...
 host="127.0.0.1"
