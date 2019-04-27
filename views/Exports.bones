@@ -3,14 +3,17 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'click a.delete': 'exportDelete',
     'click a.preview': 'exportPreview',
-    'click a.update': 'updateExport'
+    'click a.deleteall': 'exportDeleteAll',
+    'click a.update': 'updateExport',
+    'keyup input.search' : 'searchExports',
+
 };
 
 view.prototype.initialize = function(options) {
     if (!options.project) throw new Error('No project model provided.');
     this.project = options.project;
     //_(this).bindAll('render', 'exportDelete', 'exportPreview', 'updateExport', 'poll');
-    _(this).bindAll('render', 'poll', 'exportDelete', 'exportPreview', 'updateExport');
+    _(this).bindAll('render', 'poll', 'exportDelete', 'exportPreview', 'updateExport', 'exportDeleteAll', 'searchExports');
     this.collection.bind('all', this.render);
     this.collection.bind('all', this.poll);
     this.render(true).poll();
@@ -58,10 +61,14 @@ view.prototype.updateExport = function(ev) {
             format: format,
             project: selExport.get('project'),
             filename: selExport.get('filename'),
-            bbox: selExport.get('bbox'),
+            note: selExport.get('note'),
             width: selExport.get('width'),
             height: selExport.get('height'),
             zooms: selExport.get('zooms'),
+            bbox: selExport.get('bbox'),
+            aspectwidth: selExport.get('aspectwidth'),
+            aspectheight: selExport.get('aspectheight'),
+            printedwidth: selExport.get('printedwidth'),
             center: selExport.get('center'),
             metatile: selExport.get('metatile'),
             static_zoom: selExport.get('static_zoom')
@@ -122,6 +129,37 @@ view.prototype.exportDelete = function(ev) {
         affirmative: 'Delete'
     });
     return false;
+};
+
+view.prototype.exportDeleteAll = function(ev) {
+    var col = this.collection;
+        new views.Modal({
+            content: 'Are you sure you want to delete ALL the Exports for EVERY project?',
+            callback: function() {
+                col.each(function(model) {
+                    model.destroy({ error: function(m, e) { new views.Modal(e) }});
+                })},
+            affirmative: 'Delete'
+        });
+        return false;
+};
+
+view.prototype.searchExports = function(ev) {
+    var val = this.$("input.search").val() || "";
+    if (val == "") {
+        this.$("ul li").show();
+        return;
+    }
+    val = val.toLowerCase();
+    this.$("ul li").each(function(idx, li) {
+        var name = $(li).find("h2").text().toLowerCase();
+        if (name.indexOf(val) == -1) {
+            $(li).hide();
+        }
+        else {
+            $(li).show();
+        }
+    });
 };
 
 view.prototype.exportPreview = function(ev) {
