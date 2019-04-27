@@ -166,6 +166,7 @@ view.prototype.exportAdd = function(ev) {
 // collection.
 view.prototype.exportList = function(ev) {
     $('#drawer').addClass('loading');
+    var projectModel = this.model;
     Bones.models = Bones.models || {};
     Bones.models.exports = Bones.models.exports || new models.Exports();
     Bones.models.exports.fetch({
@@ -173,6 +174,7 @@ view.prototype.exportList = function(ev) {
             $('#drawer').removeClass('loading');
             new views.Exports({
                 collection: collection,
+                project: projectModel,
                 el: $('#drawer')
             });
         },

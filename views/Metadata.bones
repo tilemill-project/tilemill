@@ -69,17 +69,20 @@ view.prototype.render = function() {
         $(this.el).html(templates.Metadata(this));
     }
 
+    var center = (this.model.get('center') !== undefined) ? this.model.get('center') : this.project.get('center');
+    var bounds = (this.model.get('bbox') !== undefined) ? this.model.get('bbox') : this.project.get('bounds');
+
     this.model.set({
-        zooms: [
+        zooms: this.model.get('zooms') !== undefined ? this.model.get('zooms') : [
             this.project.get('minzoom'),
-            this.project.get('maxzoom')
-        ],
-        metatile: this.project.get('metatile')
+            this.project.get('maxzoom')],
+        metatile: this.model.get('metatile') !== undefined ? this.model.get('metatile') :this.project.get('metatile'),
+        center: center,
+        bounds: bounds
     }, {silent:true});
+
     Bones.utils.sliders(this.$('.slider'), this.model);
 
-    var center = this.project.get('center');
-    var bounds = this.project.get('bounds');
     var extent = [
         new MM.Location(bounds[1], bounds[0]),
         new MM.Location(bounds[3], bounds[2])
@@ -87,6 +90,7 @@ view.prototype.render = function() {
     var tj = _(this.project.attributes).clone();
     tj.minzoom = 0;
     tj.maxzoom = 22;
+    tj.center = center;
     this.map = new MM.Map('meta-map', new wax.mm.connector(tj));
 
     // Override project attributes to allow unbounded zooming.
@@ -266,6 +270,8 @@ view.prototype.save = function() {
     var attr = Bones.utils.form(this.$('form'), this.model);
     var save = attr._saveProject;
     var error = function(m, e) { new views.Modal(e); };
+    $('input[type=submit]').addClass('disabled');
+    $('#meta-map').addClass('loading');
 
     // Massage values.
     if (attr.filename) attr.filename = attr.filename + '.' + this.model.get('format');
@@ -281,31 +287,34 @@ view.prototype.save = function() {
     delete attr.format_custom;
     delete attr._saveProject;
     attr = _(attr).reduce(function(memo, val, key) {
-        var allowEmpty = ['description', 'attribution'];
+        var allowEmpty = ['description', 'attribution', 'note'];
         if (val !== '' || _(allowEmpty).include(key)) memo[key] = val;
         return memo;
     }, {});
 
-    // Project settings.
+    // If only editing the Project settings, just save the Settings and exit
     if (this.model === this.project) {
         if (!this.project.set(attr, {error:error})) return false;
         this.project.save({}, { success:this.success, error:error});
         return false;
     }
 
-    // Exports.
+    // Write export settings to Exports model
     switch (this.model.get('format')) {
     case 'mbtiles':
         if (!this.model.set({
             filename: attr.filename,
+            note: attr.note,
             bbox: attr.bounds,
             minzoom: attr.minzoom,
-            maxzoom: attr.maxzoom
+            maxzoom: attr.maxzoom,
+            center: attr.center
         }, {error:error})) return false;
         break;
     default:
         if (!this.model.set({
             filename: attr.filename,
+            note: attr.note,
             bbox: attr.bounds,
             width: attr.width,
             height: attr.height,
