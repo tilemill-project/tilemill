@@ -622,6 +622,53 @@ ul.projects { margin:0px -5px; }
     rgba(0,0,0,0.5) 0px 0px 0px 2000px;
   }
 
+/* Tooltip container */
+.boxselector-instructions-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.boxselector-instructions-tooltip .tooltiptext {
+  visibility: hidden;
+  width: 190px;
+  background-color: #555;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px 5px;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  top: 120%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.boxselector-instructions-tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.boxselector-instructions-tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Remove this not very helpful instruction which also changes cursor behavior on the box edges.
 .boxselector-box:after {
   content:'shift + drag';
   position:absolute;
@@ -635,6 +682,7 @@ ul.projects { margin:0px -5px; }
   white-space:nowrap;
   border-radius:0px 0px 3px 3px;
   }
+*/
 
 .wax-point-div {
   text-align:center;

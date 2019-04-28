@@ -63,6 +63,15 @@ var get = _(project.get).bind(project);
   </li>
   <% } %>
   <% if (model !== project && model.get('format') !== 'sync') { %>
+  <div class="boxselector-instructions-tooltip">
+    <small class='description'><--- Hover for map instructions</small>
+    <span class="tooltiptext">
+      - drag inside box to move box<br>
+      - drag outside box to move map<br>
+      - drag box edges to resize the box<br>
+      - shift drag to draw a new box
+    </span>
+  </div>
   <li>
     <label>Filename</label>
     <% if (model.get('filename')) { %>
@@ -74,7 +83,7 @@ var get = _(project.get).bind(project);
   </li>
   <li>
     <label for='note'>Export Note</label>
-    <textarea type='text' name='note' class='stretch' rows='2'><%= get('note') %></textarea>
+    <textarea type='text' name='note' class='stretch' rows='2'><%= model.get('note') %></textarea>
   </li>
   <% } %>
   <% if (type === 'tiles') { %>
@@ -103,11 +112,34 @@ var get = _(project.get).bind(project);
   </li>
   <% } %>
   <li>
-    <span class='icon i40 bounds'></span>
     <label for='bounds'>Bounds</label>
-    <input type='text' name='bounds' size='20' value='<%=get('bounds').join(',')%>' />
+    <input type='text' name='bounds' size='35' value='<%=get('bounds').join(',')%>' />
     <small class='description'>Shift + drag to select bounds.</small>
   </li>
+  <li>
+    <label>Aspect Ratio</label>
+    <input name='aspectwidth' type='text' value='<% if (model.get('aspectwidth') !== undefined) { %><%=model.get('aspectwidth')%><% } else { %>8.5<% } %>' size='4' disabled /> :
+    <input name='aspectheight' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled />
+    <input type='checkbox' name='setaspect' value='1'/><small> lock</small>
+    <small class='description'>Any units - lock to edit</small>
+  </li>
+  <% if (type === 'image') { %>
+  <li>
+    <label>Scale</label><small>1:</small>
+    <input name='scale' type='text' value='' size='6' disabled />
+    <small> at Printed width </small><input name='printedwidth' type='text' value='<% if (model.get('printedwidth') !== undefined) { %><%=model.get('printedwidth')%><% } else { %>8.5<% } %>' size='3'  /><small>in</small>
+  </li>
+  <li>
+    <label>Feature Size</label>
+    <input name='featurepixels' type='text' value='30' size='3' /><small>pixels =</small>
+    <input name='featureprinted' type='text' value='' size='5' disabled style='border:0; background:transparent; text-align:right;'/><small>in</small>
+    <small class='description'>Feature size at the printed width.</small>
+  </li>
+  <li>
+    <label>Box Size</label>
+    <input name='boxWidth' type='text' value='' size='6' disabled style='border:0; background:transparent; text-align:right;'/><small>m   </small>x
+    <input name='boxHeight' type='text' value='' size='6' disabled style='border:0; background:transparent; text-align:right;'/><small>m</small>
+  </li>  <% } %>
   <% if (model === project) { %>
   <li>
     <label for='scale'>Scale factor</label>

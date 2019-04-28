@@ -32,7 +32,7 @@
           <a class='button update' href='#update-<%=m.id%>'><span class='icon reverse labeled edit'></span> Update</a>
           <% } %>
           <% if (m.get('format') === 'mbtiles') { %>
-          <a class='button preview popup' href='#<%=m.id%>'><span class='icon reverse labeled export'></span> View</a>
+          <a class='button preview popup' href='#<%=m.id%>'><span class='icon reverse labeled export'></span> Save</a>
           <% } else { %>
           <a class='button' href='/export/download/<%=m.get('filename')%>'><span class='icon reverse labeled export'></span> Save</a>
        <% } %>
