@@ -668,7 +668,7 @@ ul.projects { margin:0px -5px; }
   opacity: 1;
 }
 
-/*
+/* Remove this not very helpful instruction which also changes cursor behavior on the box edges.
 .boxselector-box:after {
   content:'shift + drag';
   position:absolute;
