@@ -3,14 +3,16 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'click a.delete': 'exportDelete',
     'click a.preview': 'exportPreview',
-    'click a.update': 'updateExport'
+    'click a.update': 'updateExport',
+    'click a.deleteall': 'exportDeleteAll',
+    'keyup input.search' : 'searchExports'
 };
 
 view.prototype.initialize = function(options) {
     if (!options.project) throw new Error('No project model provided.');
     this.project = options.project;
     //_(this).bindAll('render', 'exportDelete', 'exportPreview', 'updateExport', 'poll');
-    _(this).bindAll('render', 'poll', 'exportDelete', 'exportPreview', 'updateExport');
+    _(this).bindAll('render', 'poll', 'exportDelete', 'exportPreview', 'updateExport', 'exportDeleteAll', 'searchExports');
     this.collection.bind('all', this.render);
     this.collection.bind('all', this.poll);
     this.render(true).poll();
@@ -126,6 +128,43 @@ view.prototype.exportDelete = function(ev) {
         affirmative: 'Delete'
     });
     return false;
+};
+
+// Delete all the exports, regardless of Project
+view.prototype.exportDeleteAll = function(ev) {
+    var col = this.collection;
+        new views.Modal({
+            content: 'Are you sure you want to delete ALL the Exports for EVERY project?',
+            callback: function() {
+                col.each(function(model) {
+                    model.destroy({ error: function(m, e) { new views.Modal(e) }});
+                })},
+            affirmative: 'Delete'
+        });
+        return false;
+};
+
+// Filter the list of exports by looking for matching characters in the filename or description
+view.prototype.searchExports = function(ev) {
+    // Get character(s) entered for the search
+    var val = this.$("input.search").val() || "";
+    if (val == "") {
+        this.$("ul li").show();
+        return;
+    }
+    val = val.toLowerCase();
+
+    // Look through each Export line item filename or description/note
+    this.$("ul li").each(function(idx, li) {
+        var name = $(li).find("h2").text().toLowerCase();
+        var desc = $(li).find("div.description").text().toLowerCase();
+        if (name.indexOf(val) == -1 && desc.indexOf(val) == -1) {
+            $(li).hide();
+        }
+        else {
+            $(li).show();
+        }
+    });
 };
 
 view.prototype.exportPreview = function(ev) {

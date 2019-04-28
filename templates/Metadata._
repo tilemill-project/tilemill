@@ -64,7 +64,7 @@ var get = _(project.get).bind(project);
   <% } %>
   <% if (model !== project && model.get('format') !== 'sync') { %>
   <div class="boxselector-instructions-tooltip">
-    <small class='description'><--- Hover for map instructions</small>
+    <small class='description'>---> Hover here for map instructions</small>
     <span class="tooltiptext">
       - drag inside box to move box<br>
       - drag outside box to move map<br>
@@ -80,6 +80,7 @@ var get = _(project.get).bind(project);
         <input type='text' name='filename' value='<%=project.id%>' size='20' />
     <% } %>
     <small>.<%=model.get('format')%></small>
+    <small class='description'>No spaces allowed</small>
   </li>
   <li>
     <label for='note'>Export Note</label>
