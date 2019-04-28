@@ -1667,7 +1667,7 @@ div.fonts {
 
 .exports li.complete,
 .exports li.error {
-  color:#999;
+  /*color:#999; Make export filename standout more */
   background:#f8f8f8;
   height: 40px;
   }
