@@ -63,15 +63,6 @@ var get = _(project.get).bind(project);
   </li>
   <% } %>
   <% if (model !== project && model.get('format') !== 'sync') { %>
-  <div class="boxselector-instructions-tooltip">
-    <small class='description'>---> Hover here for map instructions</small>
-    <span class="tooltiptext">
-      - drag inside box to move box<br>
-      - drag outside box to move map<br>
-      - drag box edges to resize the box<br>
-      - shift drag to draw a new box
-    </span>
-  </div>
   <li>
     <label>Filename</label>
     <% if (model.get('filename')) { %>
@@ -115,7 +106,15 @@ var get = _(project.get).bind(project);
   <li>
     <label for='bounds'>Bounds</label>
     <input type='text' name='bounds' size='35' value='<%=get('bounds').join(',')%>' />
-    <small class='description'>Shift + drag to select bounds.</small>
+    <div class="boxselector-instructions-tooltip">
+      <small class="description">Map instructions<i class="icon left info"></i></small>
+      <span class="tooltiptext">
+        - drag inside box to move box<br>
+        - drag outside box to move map<br>
+        - drag box edges to resize the box<br>
+        - shift+drag to draw a new box
+      </span>
+    </div>
   </li>
   <li>
     <label>Aspect Ratio</label>

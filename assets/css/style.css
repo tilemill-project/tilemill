@@ -1041,6 +1041,14 @@ li:hover .icon { display:block; }
   margin:-1px -10px -1px 0px;
   }
 
+.icon.left {
+  float:left;
+  }
+
+.icon.right {
+  float:right;
+  }
+
 .icon.edit           { background-position:0px -180px; }
 .icon.extent         { background-position:-20px -180px; }
 .icon.delete         { background-position:-60px -180px; }
