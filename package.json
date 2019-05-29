@@ -60,7 +60,7 @@
         "tilelive": "git://github.com/tilemill-project/tilelive.git#v5.14.0",
         "@mapbox/tilelive-mapnik": "1.0.0",
         "underscore": "1.9.1",
-        "wax": "git://github.com/tilemill-project/wax.git#v6.4.3",
+        "wax": "git://github.com/tilemill-project/wax.git#v6.4.4",
         "xmlhttprequest": "1.8.0"
     },
     "devDependencies": {
