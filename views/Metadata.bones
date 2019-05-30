@@ -142,6 +142,8 @@ view.prototype.render = function() {
             first = false;
         }).bind(this));
         this.pointselector.addLocation(new MM.Location(center[1],center[0]));
+        // Give pointselector a chance to register a mouseDown handler for the box.
+        this.pointselector.addBoxselector(this.boxselector);
     }
 
     // Update state of custom format field.
