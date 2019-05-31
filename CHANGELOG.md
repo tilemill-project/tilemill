@@ -79,4 +79,3 @@ Changes from [TileOven](https://github.com/florianf/tileoven) were pulled on Jan
 - Fixed CartoCSS variable auto completion
 - Fixed creation of job file in export if it doesn't exist
 - Fixed multiple output of CartoCSS errors to update to latest version
-
