@@ -2,6 +2,14 @@
 
 A summary of changes to TileMill can be found in the [TileMill Documentation Upgrade Notes](https://tilemill-project.github.io/tilemill/docs/upgrade/). Detailed dev notes about changes can be found below.
 
+## [v1.1.0] - 2019-05-30
+
+- Boxselector enhancements from Wax allowing box to be moved relative to the map without changing the box size.
+- Support for aspect ratio and locked aspect ratio in export and project settings.
+- Added better instructions within export.
+- Added delete all, search, and new fields in export list.
+- Added ability to reload the export settings from a previous export.
+
 ## [v1.0.1] - 2019-02-25
 
 - Fix to a test issue in the abilities test. Did not impact the TileMill app.
