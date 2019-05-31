@@ -23,12 +23,7 @@ We also have instructions for [Ubuntu](/tilemill/docs/linux-install), [Windows](
 
 ## Installation Options
 
-In TileMill v0.10.1 and prior (when TileMill was being maintained by MapBox), there were installation packages available for MacOS. Since it has been moved to be maintained by the general community, we have not yet upgraded all dependencies to the point where we can create an installation package. As part of this shift, TileMill has also been modified to run from the browser rather than as a stand-alone app. To get version v1.0.0 and later (with the latest functionality and utilities for managing OSM data in your projects), you will need to install from source.
-
-### To install v0.10.1:
-1. [Download TileMill for Mac OS X](http://tilemill.s3.amazonaws.com/latest/TileMill-0.10.1.zip).
-2. Extract the zip archive.
-3. Drag the TileMill icon to your **Applications** folder and double-click the TileMill icon to start.
+In TileMill v0.10.1 and prior (when TileMill was being maintained by MapBox), there were installation packages available for MacOS. Since it has been moved to be maintained by the general community, we have not yet upgraded all dependencies to the point where we can create an installation package. As part of this shift, TileMill has also been modified to run from the browser rather than as a stand-alone app. To get version v1.0.0 and later (with the latest functionality and utilities for managing OSM data in your projects), you will need to install from source. To install v0.10.1, see instructions at the bottom of this file.
 
 ### To install v1.0.0 or later:
 
@@ -108,5 +103,10 @@ This will list out all of the areas that you can load into your database. Just u
     ./loadosm.sh washington
 
 You are now setup to use the OSM data in your projects. If you are looking for a sample of how to use OSM data in your TileMill projects, you can check out the [OSM Bright project](https://github.com/mapbox/osm-bright). Just skip to step 3 (ealier steps have already been taken care of with these instructions) of one of these guides: [OSM Bright for Mac OS X](/tilemill/docs/guides/osm-bright-mac-quickstart/) or [OSM Bright for Unbuntu](/tilemill/docs/guides/osm-bright-ubuntu-quickstart/)
+
+### To install v0.10.1:
+1. [Download TileMill for Mac OS X](http://tilemill.s3.amazonaws.com/latest/TileMill-0.10.1.zip).
+2. Extract the zip archive.
+3. Drag the TileMill icon to your **Applications** folder and double-click the TileMill icon to start.
 
 {% include nextup.html %}

@@ -30,7 +30,7 @@ Install the site:
 
 And run Jekyll:
 
-    ./.runjekyll.sh
+    ./runjekyll.sh
 
 Once Jekyll has started you should be able to view the docs in a browser at:
 
