@@ -127,7 +127,7 @@ table {
 input,
 select,
 textarea,
-body { font: 13px/20px "Helvetica Neue",Helvetica,Arial,sans-serif; }
+body { font: 12px/20px "Helvetica Neue",Helvetica,Arial,sans-serif; }
 
 /*
 ** Markup free clearing

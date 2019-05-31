@@ -10,7 +10,7 @@ var chrono = require('chrono');
 var carto = require('carto');
 var crashutil = require('../lib/crashutil');
 var _ = require('underscore');
-var sm = new (require('sphericalmercator'))();
+var sm = new (require('@mapbox/sphericalmercator'))();
 var os = require('os');
 // node v6 -> v8 compatibility
 var existsSync = require('fs').existsSync || require('path').existsSync;
@@ -404,13 +404,35 @@ command.prototype.tilelive = function (project, callback) {
     var cmd = this;
     var tilelive = require('tilelive');
 
-    // Attempt to support additional tilelive protocols.
-    try { require('tilelive-' + this.opts.format).registerProtocols(tilelive); }
-    catch(err) {}
-    try { require(this.opts.format).registerProtocols(tilelive); }
-    catch(err) {}
+    // Attempt to support additional tilelive protocols. So far, the plugin's are in the 
+    // following formats (where * is the format name):
+    //     @mapbox/tilelive-*
+    //     @mapbox/*
+    //     tilelive-*
+    //     *
+    let pluginName = '@mapbox/tilelive-' + this.opts.format;
+    try { require(pluginName).registerProtocols(tilelive); }
+    catch(err) {
+	pluginName = '@mapbox/' + this.opts.format;
+	try { require(pluginName).registerProtocols(tilelive); }
+	catch(err) {
+	    pluginName = 'tilelive-' + this.opts.format;
+	    try { require(pluginName).registerProtocols(tilelive); }
+	    catch(err) {
+		pluginName = this.opts.format;
+		try { require(pluginName).registerProtocols(tilelive); }
+		catch(err) {
+		    console.log( 'Unable to add plugin for ' + this.opts.format + ' to tilelive.' );
+		    pluginName = null;
+		}
+	    }
+	}
+    }
+    if (pluginName != null) {
+	console.log( 'Added ' + pluginName + ' plugin to tilelive.' );
+    }
 
-    require('tilelive-mapnik').registerProtocols(tilelive);
+    require('@mapbox/tilelive-mapnik').registerProtocols(tilelive);
 
     // Copy the bounds so that we can modify them if we need to split the export
     var bboxes = [ project.mml.bounds.slice(0) ];

@@ -69,6 +69,18 @@ model.prototype.schema = {
         },
         'error': {
             'type': 'string'
+        },
+        'note': {
+            'type': 'string'
+        },
+        'aspectwidth': {
+            'type': 'string'
+        },
+        'aspectheight': {
+            'type': 'string'
+        },
+        'printedwidth': {
+            'type': 'string'
         }
     }
 };

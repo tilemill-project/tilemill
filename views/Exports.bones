@@ -2,11 +2,17 @@ view = Backbone.View.extend();
 
 view.prototype.events = {
     'click a.delete': 'exportDelete',
-    'click a.preview': 'exportPreview'
+    'click a.preview': 'exportPreview',
+    'click a.update': 'updateExport',
+    'click a.deleteall': 'exportDeleteAll',
+    'keyup input.search' : 'searchExports'
 };
 
 view.prototype.initialize = function(options) {
-    _(this).bindAll('render', 'exportDelete', 'exportPreview', 'poll');
+    if (!options.project) throw new Error('No project model provided.');
+    this.project = options.project;
+    //_(this).bindAll('render', 'exportDelete', 'exportPreview', 'updateExport', 'poll');
+    _(this).bindAll('render', 'poll', 'exportDelete', 'exportPreview', 'updateExport', 'exportDeleteAll', 'searchExports');
     this.collection.bind('all', this.render);
     this.collection.bind('all', this.poll);
     this.render(true).poll();
@@ -36,6 +42,80 @@ view.prototype.time = function(ms) {
     return lpad(hours, 2, '0') + ':' + lpad(minutes, 2, '0') + ':' + lpad(seconds, 2, '0') + 's';
 };
 
+// Load the selected export back into the Export dialog, to process again
+view.prototype.updateExport = function(ev) {
+    $('.project').addClass('meta');
+    // Get selected export ID, then get selected export model
+    var id = $(ev.currentTarget).attr('href').split('#update-').pop();
+    var selExport = this.collection.get(id);
+    var format = selExport.get('format');
+
+    // Create new view for Export dialog
+    new views.Metadata({
+        el: $('#meta'),
+        type: (format === 'sync' || format === 'mbtiles') ? 'tiles' : 'image',
+        // Create new Export model, and copy over settings from selected export
+        model: new models.Export({
+            id: undefined,  //create new export
+            format: format,
+            project: selExport.get('project'),
+            filename: selExport.get('filename'),
+            note: selExport.get('note'),
+            width: selExport.get('width'),
+            height: selExport.get('height'),
+            zooms: selExport.get('zooms'),
+            bbox: selExport.get('bbox'),
+            aspectwidth: selExport.get('aspectwidth'),
+            aspectheight: selExport.get('aspectheight'),
+            printedwidth: selExport.get('printedwidth'),
+            center: selExport.get('center'),
+            metatile: selExport.get('metatile'),
+            static_zoom: selExport.get('static_zoom')
+        }),
+        project: this.project,
+        title: $(ev.currentTarget).attr('title'),
+        // After user selects Export from Export dialog, then...
+        success: _(function() {
+            $('#meta').empty();
+            $('.project').removeClass('meta');
+            if (!$('#drawer').is('.active')) {
+                $('a[href=#exports]').click();
+            }
+            // Call exportList() to display lists of exports
+            this.exportList();
+        }).bind(this),
+        cancel: _(function() {
+            $('#meta').empty();
+            $('.project').removeClass('meta');
+        }).bind(this)
+    });
+    return false;
+};
+
+// Create a global reference to the exports collection on the Bones
+// object. Ensures that export polling only ever occurs against one
+// collection.
+view.prototype.exportList = function(model) {
+    $('#drawer').addClass('loading');
+    var projectModel = this.project;
+    Bones.models = Bones.models || {};
+    Bones.models.exports = Bones.models.exports || new models.Exports();
+    Bones.models.exports.fetch({
+        success: function(collection) {
+            $('#drawer').removeClass('loading');
+            new views.Exports({
+                collection: collection,
+                project: projectModel,
+                el: $('#drawer')
+            });
+        },
+        error: function(m, e) {
+            $('#drawer').removeClass('loading');
+            new views.Modal(e);
+        }
+    });
+};
+
 view.prototype.exportDelete = function(ev) {
     var id = $(ev.currentTarget).attr('href').split('#').pop();
     var model = this.collection.get(id);
@@ -48,6 +128,43 @@ view.prototype.exportDelete = function(ev) {
         affirmative: 'Delete'
     });
     return false;
+};
+
+// Delete all the exports, regardless of Project
+view.prototype.exportDeleteAll = function(ev) {
+    var col = this.collection;
+        new views.Modal({
+            content: 'Are you sure you want to delete ALL the Exports for EVERY project?',
+            callback: function() {
+                col.each(function(model) {
+                    model.destroy({ error: function(m, e) { new views.Modal(e) }});
+                })},
+            affirmative: 'Delete'
+        });
+        return false;
+};
+
+// Filter the list of exports by looking for matching characters in the filename or description
+view.prototype.searchExports = function(ev) {
+    // Get character(s) entered for the search
+    var val = this.$("input.search").val() || "";
+    if (val == "") {
+        this.$("ul li").show();
+        return;
+    }
+    val = val.toLowerCase();
+
+    // Look through each Export line item filename or description/note
+    this.$("ul li").each(function(idx, li) {
+        var name = $(li).find("h2").text().toLowerCase();
+        var desc = $(li).find("div.description").text().toLowerCase();
+        if (name.indexOf(val) == -1 && desc.indexOf(val) == -1) {
+            $(li).hide();
+        }
+        else {
+            $(li).show();
+        }
+    });
 };
 
 view.prototype.exportPreview = function(ev) {

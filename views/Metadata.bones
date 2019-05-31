@@ -7,11 +7,16 @@ view.prototype.events = {
         input[name=width],\
         input[name=height]': 'updateSize',
     'change input[name=bounds],\
+        input[name=printedwidth],\
         input[name=width],\
+        input[name=featurepixels],\
         input[name=height]': 'updateSize',
     'click input[type=submit]': 'save',
     'click .cancel': 'close',
-    'change select.maplayer-selection' : 'selectLayer'
+    'change select.maplayer-selection' : 'selectLayer',
+    'change input[name=aspectwidth],\
+        input[name=setaspect],\
+        input[name=aspectheight]': 'setAspect'
 };
 
 view.prototype.initialize = function(options) {
@@ -29,7 +34,8 @@ view.prototype.initialize = function(options) {
         'updateTotal',
         'updateSlider',
         'updateSize',
-        'selectLayer');
+        'selectLayer',
+        'setAspect');
     this.sm = new SphericalMercator;
     this.type = options.type;
     this.title = options.title;
@@ -69,17 +75,21 @@ view.prototype.render = function() {
         $(this.el).html(templates.Metadata(this));
     }
 
+    var center = (this.model.get('center') !== undefined) ? this.model.get('center') : this.project.get('center');
+    var bounds = (this.model.get('bbox') !== undefined) ? this.model.get('bbox') : this.project.get('bounds');
+
     this.model.set({
-        zooms: [
+        zooms: this.model.get('zooms') !== undefined ? this.model.get('zooms') : [
             this.project.get('minzoom'),
-            this.project.get('maxzoom')
-        ],
-        metatile: this.project.get('metatile')
+            this.project.get('maxzoom')],
+        metatile: this.model.get('metatile') !== undefined ? this.model.get('metatile') :this.project.get('metatile'),
+        center: center,
+        bounds: bounds,
+        static_zoom: this.model.get('static_zoom') !== undefined ? this.model.get('static_zoom') : center[2]
     }, {silent:true});
+
     Bones.utils.sliders(this.$('.slider'), this.model);
 
-    var center = this.project.get('center');
-    var bounds = this.project.get('bounds');
     var extent = [
         new MM.Location(bounds[1], bounds[0]),
         new MM.Location(bounds[3], bounds[2])
@@ -87,6 +97,7 @@ view.prototype.render = function() {
     var tj = _(this.project.attributes).clone();
     tj.minzoom = 0;
     tj.maxzoom = 22;
+    tj.center = center;
     this.map = new MM.Map('meta-map', new wax.mm.connector(tj));
 
     // Override project attributes to allow unbounded zooming.
@@ -109,6 +120,7 @@ view.prototype.render = function() {
             if (this.$('input[name=width]').size()) this.updateSize();
             if (this.$('.slider .range').size()) this.updateTotal();
         }).bind(this));
+        this.$('input[name=setaspect]').attr('checked', false);
         this.boxselector.extent(extent);
     }
     if (this.$('input[name=center]').size()) {
@@ -130,6 +142,8 @@ view.prototype.render = function() {
             first = false;
         }).bind(this));
         this.pointselector.addLocation(new MM.Location(center[1],center[0]));
+        // Give pointselector a chance to register a mouseDown handler for the box.
+        this.pointselector.addBoxselector(this.boxselector);
     }
 
     // Update state of custom format field.
@@ -228,31 +242,107 @@ view.prototype.updateTotal = function(attributes) {
 // Update size fields based on bbox ratio.
 view.prototype.updateSize = function(ev) {
     var bounds = _(this.$('input[name=bounds]').val().split(',')).map(parseFloat);
+    var attr = Bones.utils.form(this.$('form'), this.model);
     var nwLoc = new MM.Location(bounds[3], bounds[0]);
     var seLoc = new MM.Location(bounds[1], bounds[2]);
+    var neLoc = new MM.Location(bounds[3], bounds[2]);
     var nw = this.map.locationPoint(nwLoc);
     var se = this.map.locationPoint(seLoc);
     var aspect = (Math.round(se.x) - Math.round(nw.x)) /
         (Math.round(se.y) - Math.round(nw.y));
 
     var target = $((ev || {}).currentTarget);
-    if (target.attr('name') && target.attr('name') === 'bounds')
-        this.boxselector.extent([nwLoc, seLoc], true);
 
+    // Switch based upon which field was changed
     switch (target.attr('name')) {
+    case 'bounds':
+        this.$('input[name=setaspect]').attr('checked', false);
+        this.boxselector.extent([nwLoc, seLoc], true);
+        break;    
     case 'height':
         var h = parseInt(this.$('input[name=height]').val(), 10);
         if (_(h).isNumber() && _(aspect).isNumber())
             this.$('input[name=width]').val(Math.round(h * aspect));
         break;
     case 'width':
-    default:
         var w = parseInt(this.$('input[name=width]').val(), 10);
         if (_(w).isNumber() && _(aspect).isNumber())
             this.$('input[name=height]').val(Math.round(w / aspect));
         break;
+    default:
     };
+
+    /*  These get executed regardless of what caused the change */
+
+    // Update Size Height field, keep width constant
+    var w = parseInt(this.$('input[name=width]').val(), 10);
+    if (_(w).isNumber() && _(aspect).isNumber())
+        this.$('input[name=height]').val(Math.round(w / aspect));
+
+    // Update aspect ratio fields
+    if (!attr.setaspect) {
+        var aspectwidth_cur = parseFloat(this.$('input[name=aspectwidth]').val());
+        this.$('input[name=aspectheight]').val((aspectwidth_cur / aspect).toFixed(1));
+    }
+
+    // Update scale & distances fields
+    var pixelSize = .00035;
+    var dpi = 72;
+    var distances = this.boxselector.distances(nwLoc, seLoc);
+    var scale = distances.x / ( parseFloat(this.$('input[name=printedwidth]').val()) * pixelSize * dpi);
+    this.$('input[name=scale]').val(scale.toFixed(0));
+    this.$('input[name=boxWidth]').val(distances.x.toFixed(1));
+    this.$('input[name=boxHeight]').val(distances.y.toFixed(1));
+
+    // Update feature size fields
+    var featurepixels = parseFloat(this.$('input[name=featurepixels]').val());
+    var printedwidth = parseFloat(this.$('input[name=printedwidth]').val());
+    this.$('input[name=featureprinted]').val((featurepixels * printedwidth / w).toFixed(3));
+
     // Update total tiles.
+    if (this.type === 'tiles') this.updateTotal();
+    else this.updatePreview();
+};
+
+// Fix the bbox size based upon entered aspect ratio.
+view.prototype.setAspect = function(ev) {
+    this.$('input[name=aspectwidth]').attr('disabled', false);
+    this.$('input[name=aspectheight]').attr('disabled', false);
+    this.$('input[name=bounds]').attr('disabled', true);
+    var attr = Bones.utils.form(this.$('form'), this.model);
+    if (!attr.setaspect) {
+        this.$('input[name=bounds]').attr('disabled', false);
+        this.$('input[name=aspectwidth]').attr('disabled', true);
+        this.$('input[name=aspectheight]').attr('disabled', true);
+        return false;
+    };
+
+    // Get drawn extent coordinates
+    var bounds = _(this.$('input[name=bounds]').val().split(',')).map(parseFloat);
+    var nwLoc = new MM.Location(bounds[3], bounds[0]);
+    var seLoc = new MM.Location(bounds[1], bounds[2]);
+    var nw = this.map.locationPoint(nwLoc);
+    var se = this.map.locationPoint(seLoc);
+
+    // Set aspect
+    // Fix the left-edge of bounding box, adjust right-edge
+    var aspectwidth = parseFloat(this.$('input[name=aspectwidth]').val());
+    var aspectheight = parseFloat(this.$('input[name=aspectheight]').val());
+    var aspect = (aspectheight / aspectwidth).toFixed(4);
+    //var aspect = 1.2941;  //Paper 8.5x11 size
+
+    shiftX = ((Math.round(se.y) - Math.round(nw.y)) / aspect);
+    se.x = (Math.round(nw.x) + shiftX).toFixed(4);
+    seLoc = this.map.pointLocation(se);
+    // Remove extra decimals that get added
+    seLoc.lat = (seLoc.lat).toFixed(4);
+
+    // Update bounding box field, redraw bounding extent
+    this.$('input[name=bounds]').val([nwLoc.lon,seLoc.lat,seLoc.lon,nwLoc.lat].join(','));
+    this.boxselector.extent([nwLoc, seLoc], true);
+    this.updateSize();
+
+    // Update total tiles if mbtiles, otherwise update the preview
     if (this.type === 'tiles') this.updateTotal();
     else this.updatePreview();
 };
@@ -266,6 +356,8 @@ view.prototype.save = function() {
     var attr = Bones.utils.form(this.$('form'), this.model);
     var save = attr._saveProject;
     var error = function(m, e) { new views.Modal(e); };
+    $('input[type=submit]').addClass('disabled');
+    $('#meta-map').addClass('loading');
 
     // Massage values.
     if (attr.filename) attr.filename = attr.filename + '.' + this.model.get('format');
@@ -281,31 +373,34 @@ view.prototype.save = function() {
     delete attr.format_custom;
     delete attr._saveProject;
     attr = _(attr).reduce(function(memo, val, key) {
-        var allowEmpty = ['description', 'attribution'];
+        var allowEmpty = ['description', 'attribution', 'note'];
         if (val !== '' || _(allowEmpty).include(key)) memo[key] = val;
         return memo;
     }, {});
 
-    // Project settings.
+    // If only editing the Project settings, just save the Settings and exit
     if (this.model === this.project) {
         if (!this.project.set(attr, {error:error})) return false;
         this.project.save({}, { success:this.success, error:error});
         return false;
     }
 
-    // Exports.
+    // Write export settings to Exports model
     switch (this.model.get('format')) {
     case 'mbtiles':
         if (!this.model.set({
             filename: attr.filename,
+            note: attr.note,
             bbox: attr.bounds,
             minzoom: attr.minzoom,
-            maxzoom: attr.maxzoom
+            maxzoom: attr.maxzoom,
+            center: attr.center
         }, {error:error})) return false;
         break;
     default:
         if (!this.model.set({
             filename: attr.filename,
+            note: attr.note,
             bbox: attr.bounds,
             width: attr.width,
             height: attr.height,
