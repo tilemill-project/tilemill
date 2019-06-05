@@ -101,6 +101,8 @@ command.prototype.bootstrap = function(plugin, callback) {
     cartoRef.setVersion(mapnik.versions.mapnik);
 
     Bones.plugin.abilities = {
+        // Get the unique version (from the VERSION file) that will be used in the parens in the heading
+        // of the project settings page.
         version: (function() {
             try {
                 return _(fs.readFileSync(path.resolve(__dirname + '/../VERSION'),'utf8').split('\n')).compact();
