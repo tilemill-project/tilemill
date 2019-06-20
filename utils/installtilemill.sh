@@ -172,7 +172,7 @@ if [ ! -e ${HOME}/.nvm/nvm.sh ]; then
       echo "${error}Update of apt failed. Command:${reset} sudo apt-get update"; exit 1
     fi
     # Install packages that may be needed by nvm.
-    sudo apt-get install build-essential libssl-dev
+    sudo apt-get --assume-yes install build-essential libssl-dev
     if [ $? != 0 ]; then
       echo "${error}Installation of pre-requisite packages failed. Command:${reset} sudo apt-get install build-essential libssl-dev"; exit 1
     fi
