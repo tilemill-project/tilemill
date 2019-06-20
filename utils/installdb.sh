@@ -58,17 +58,14 @@ uninstall () {
     brew services stop postgresql
   fi
 
-  # Uninstall Postgresql database.
+  # Uninstall osm2pgsql.
   echo ""; echo ""
-  echo "${info}$0: Uninstalling Postgres database...${reset}"
+  echo "${inf}o$0: Uninstalling osm2pgsql database loading tool...${reset}"
   echo "${info}----------------------------------------------------------------------${reset}"
   if [ ${OS} == "linux" ]; then
-    for s in $(dpkg -l | grep postgres | cut -d ' ' -f 3)
-    do
-      sudo apt-get --assume-yes --purge remove $s
-    done
+    sudo apt-get --assume-yes --purge remove osm2pgsql
   elif [ ${OS} == "osx" ]; then
-    brew uninstall --ignore-dependencies postgresql
+    brew uninstall osm2pgsql
   fi
 
   # Uninstall postgis and dependencies.
@@ -85,14 +82,18 @@ uninstall () {
     brew uninstall postgis
   fi
     
-  # Uninstall osm2pgsql.
+  # Uninstall Postgresql database.
   echo ""; echo ""
-  echo "${inf}o$0: Uninstalling osm2pgsql database loading tool...${reset}"
+  echo "${info}$0: Uninstalling Postgres database...${reset}"
   echo "${info}----------------------------------------------------------------------${reset}"
   if [ ${OS} == "linux" ]; then
-    sudo apt-get --assume-yes --purge remove osm2pgsql
+    for s in $(dpkg -l | grep postgres | cut -d ' ' -f 3)
+    do
+      sudo apt-get --assume-yes --purge remove $s
+    done
   elif [ ${OS} == "osx" ]; then
-    brew uninstall osm2pgsql
+    brew uninstall --ignore-dependencies postgresql
+    rm -rf /usr/local/var/postgres/data
   fi
 
   # Uninstall other unused packages.
@@ -183,6 +184,10 @@ if [ ${OS} == "linux" ]; then
   sudo update-rc.d postgresql enable
   if [ $? != 0 ]; then
     echo "${error}Database start-prep failed. Command:${reset} sudo update-rc.d postgresql enable"; exit 1
+  fi
+  sudo service postgresql initdb
+  if [ $? != 0 ]; then
+    echo "${error}Database init failed. Command:${reset} sudo service postgresql initdb"; exit 1
   fi
   sudo service postgresql start
   if [ $? != 0 ]; then

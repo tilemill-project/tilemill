@@ -528,7 +528,7 @@ if [ "${LOAD_DB}" == "true" ]; then
   echo "${info}----------------------------------------------------------------------${reset}"
   osm2pgsql ${OSM2PGSQL_OPTIONS} ${DB_HOST} ${DB_PORT} --username ${DB_USERNAME} --database ${OSM_DB} --create --multi-geometry --style ${MAPDATA_DIR}/${STYLE} --hstore ${MAPDATA_DIR}/${OSM_FILE}
   if [ $? != 0 ]; then
-    echo "${error}Error: Load of OSM data into database failed. Command:${reset} osm2pgsql ${OSM2PGSQL_OPTIONS} --create --multi-geometry --database ${OSM_DB} --host ${DB_HOST} --port ${DB_PORT} --username ${DB_USERNAME} --style ${MAPDATA_DIR}/${STYLE} --hstore ${MAPDATA_DIR}/${OSM_FILE}"; exit 1
+    echo "${error}Error: Load of OSM data into database failed. Command:${reset} osm2pgsql ${OSM2PGSQL_OPTIONS} ${DB_HOST} ${DB_PORT} --username ${DB_USERNAME} --database ${OSM_DB} --create --multi-geometry --style ${MAPDATA_DIR}/${STYLE} --hstore ${MAPDATA_DIR}/${OSM_FILE}"; exit 1
   fi
 
   # Create indexes for better TileMill performance.
