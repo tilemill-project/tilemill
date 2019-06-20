@@ -27,7 +27,7 @@ DB_USERNAME=$(whoami)                   # Postgres usernam (default is your Mac 
 DB_USERDEF="postgres"                   # Default DB username on Linux installations.
 
 print_intro () {
-  echo "This script will install a Postgres database which is from which TileMill will get OSM data that you download and load into the database using the osmload.sh script. The script will also install the Postgis extension that is required by the database and the osm2pgsql database loading tool. This script is only meant to be used when these tools have not already been loaded onto your Mac."
+  echo "This script will install a local Postgres database which is from which TileMill will get OSM data that you download and load into the database using the osmload.sh script. The script will also install the Postgis extension that is required by the database and the osm2pgsql database loading tool. This script is only meant to be used when these tools have not already been loaded onto your Mac."
 }
 
 print_usage () {

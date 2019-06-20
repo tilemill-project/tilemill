@@ -7,13 +7,13 @@ START=`date +%s`
 MAPDATA_ROOT="${HOME}/Documents/MapBox"    # Default location of the map data directory.
 CONFIG="${HOME}/.tilemill/config.json"     # Tilemill config file to override defaults.
 UTILS_DIR="$(pwd)"                         # Location of the tilemill utils directory.
-DB_HOST="127.0.0.1"                        # Postgres DB host on AWS RDS.
-#DB_HOST="tilemilldev.cuveite2ttso.us-east-2.rds.amazonaws.com" # Postgres DB host on AWS RDS.
-DB_PORT="5432"                             # Postgres DB port on AWS RDS.
+DB_HOST=""                                 # Postgres DB host (default: use localhost).
+DB_PORT=""                                 # Postgres DB port (default: use default port).
+#DB_HOST="--host tilemilldev.cuveite2ttso.us-east-2.rds.amazonaws.com" # Postgres DB host on AWS RDS.
+#DB_PORT="--port 5432"                      # Postgres DB port on AWS RDS.
 DB_USERNAME=$(whoami)                      # Postgres usernam (default is your Mac login).
-#DB_USERNAME="postgresql"                   # Postgres usernam (default is your Mac login).
-#OSM2PGSQL_OPTIONS="--slim --cache 500 --password" # Options to use on the osm2pgsql call.
 OSM2PGSQL_OPTIONS=""                       # Options to use on the osm2pgsql call.
+#OSM2PGSQL_OPTIONS="--slim --cache 500 --password" # Options to use on the osm2pgsql call.
 OSM_DB="osm"                               # Postgres DB for OSM data.
 STYLE="default.style"                      # Style file for use by osm2pgsql.
 INDEXES_SQL="${UTILS_DIR}/indexes.sql"     # SQL to create indexes.
@@ -526,7 +526,7 @@ if [ "${LOAD_DB}" == "true" ]; then
   echo ""; echo ""
   echo "${info}$0: Loading the data into the Postgres database...${reset}"
   echo "${info}----------------------------------------------------------------------${reset}"
-  osm2pgsql ${OSM2PGSQL_OPTIONS} --create --multi-geometry --database ${OSM_DB} --host ${DB_HOST} --port ${DB_PORT} --username ${DB_USERNAME} --style ${MAPDATA_DIR}/${STYLE} --hstore ${MAPDATA_DIR}/${OSM_FILE}
+  osm2pgsql ${OSM2PGSQL_OPTIONS} ${DB_HOST} ${DB_PORT} --username ${DB_USERNAME} --database ${OSM_DB} --create --multi-geometry --style ${MAPDATA_DIR}/${STYLE} --hstore ${MAPDATA_DIR}/${OSM_FILE}
   if [ $? != 0 ]; then
     echo "${error}Error: Load of OSM data into database failed. Command:${reset} osm2pgsql ${OSM2PGSQL_OPTIONS} --create --multi-geometry --database ${OSM_DB} --host ${DB_HOST} --port ${DB_PORT} --username ${DB_USERNAME} --style ${MAPDATA_DIR}/${STYLE} --hstore ${MAPDATA_DIR}/${OSM_FILE}"; exit 1
   fi
@@ -535,18 +535,18 @@ if [ "${LOAD_DB}" == "true" ]; then
   echo ""; echo ""
   echo "${info}$0: Creating indexes in database for better TileMill performance...${reset}"
   echo "${info}----------------------------------------------------------------------${reset}"
-  psql -d ${OSM_DB} -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USERNAME} -a -f ${INDEXES_SQL}
+  psql -d ${OSM_DB} ${DB_HOST} ${DB_PORT} -U ${DB_USERNAME} -a -f ${INDEXES_SQL}
   if [ $? != 0 ]; then
-    echo "${error}Error: Index creation failed. Command:${reset} psql -d ${OSM_DB} -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USERNAME} -a -f ${INDEXES_SQL}"; exit 1
+    echo "${error}Error: Index creation failed. Command:${reset} psql -d ${OSM_DB} ${DB_HOST} ${DB_PORT} -U ${DB_USERNAME} -a -f ${INDEXES_SQL}"; exit 1
   fi
 
   # Print out table counts.
   echo ""; echo ""
   echo "${info}$0: Printing out database table counts...${reset}"
   echo "${info}----------------------------------------------------------------------${reset}"
-  psql -d ${OSM_DB} -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USERNAME} -a -f ${COUNTS_SQL}
+  psql -d ${OSM_DB} ${DB_HOST} ${DB_PORT} -U ${DB_USERNAME} -a -f ${COUNTS_SQL}
   if [ $? != 0 ]; then
-    echo "${error}Error: Table counts failed. Command:${reset} psql -d ${OSM_DB} -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USERNAME} -a -f ${COUNTS_SQL}"; exit 1
+    echo "${error}Error: Table counts failed. Command:${reset} psql -d ${OSM_DB} ${DB_HOST} ${DB_PORT} -U ${DB_USERNAME} -a -f ${COUNTS_SQL}"; exit 1
   fi
 fi
 
