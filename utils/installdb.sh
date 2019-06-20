@@ -68,7 +68,7 @@ uninstall () {
       sudo apt-get --assume-yes --purge remove $s
     done
   elif [ ${OS} == "osx" ]; then
-    brew uninstall postgresql
+    brew uninstall --ignore-dependencies postgresql
   fi
 
   # Uninstall postgis and dependencies.
@@ -82,7 +82,7 @@ uninstall () {
     done
     sudo apt-get --assume-yes --purge remove libpng-dev
   elif [ ${OS} == "osx" ]; then
-    brew uninstall libpng postgis
+    brew uninstall postgis
   fi
     
   # Uninstall osm2pgsql.
