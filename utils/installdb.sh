@@ -207,9 +207,9 @@ echo "${info}-------------------------------------------------------------------
 if [ ${OS} == "linux" ]; then
   # For linux, need to create a user account matching the logged-in user with necessary permissions.
   # This has to be done from the default root DB user account: postgres.
-  sudo su -c "psql -U ${DB_USERDEF} -c \"create user tpotter;\"" postgres
-  sudo su -c "psql -U ${DB_USERDEF} -c \"ALTER USER tpotter CREATEDB;\"" postgres
-  sudo su -c "psql -U ${DB_USERDEF} -c \"ALTER USER tpotter WITH SUPERUSER;\"" postgres
+  sudo su -c "psql -U ${DB_USERDEF} -c \"create user ${DB_USERNAME};\"" postgres
+  sudo su -c "psql -U ${DB_USERDEF} -c \"ALTER USER ${DB_USERNAME} CREATEDB;\"" postgres
+  sudo su -c "psql -U ${DB_USERDEF} -c \"ALTER USER ${DB_USERNAME} WITH SUPERUSER;\"" postgres
 fi
 # Just creating this because it is handy to be able to login to psql without specifying a DB and then to query the DBs.
 createdb -U ${DB_USERNAME} ${DB_USERNAME} >& installdb.tmp
