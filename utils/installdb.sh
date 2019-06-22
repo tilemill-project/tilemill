@@ -194,9 +194,11 @@ if [ ${OS} == "linux" ]; then
     echo "${error}Database start failed. Command:${reset} sudo service postgresql start"; exit 1
   fi
 elif [ ${OS} == "osx" ]; then
-  initdb /usr/local/var/postgres/data -E utf8
-  if [ $? != 0 ]; then
-    echo "${error}Database start-prep failed. Command:${reset} initdb /usr/local/var/postgres -E utf8"; exit 1
+  if [ ! -d /usr/local/var/postgres/data ]; then
+    initdb /usr/local/var/postgres/data -E utf8
+    if [ $? != 0 ]; then
+      echo "${error}Database start-prep failed. Command:${reset} initdb /usr/local/var/postgres -E utf8"; exit 1
+    fi
   fi
   brew services start postgresql
   if [ $? != 0 ]; then
