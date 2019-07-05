@@ -126,8 +126,8 @@ Download them to the shp directory in the mapbox-osm-bright-* folder. You can do
     cd ~/Downloads/mapbox-osm-bright-*
     mkdir shp
     cd shp
-    wget http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
-    wget http://data.openstreetmapdata.com/land-polygons-split-3857.zip
+    wget https://osmdata.openstreetmap.de/download/simplified-land-polygons-complete-3857.zip
+    wget https://osmdata.openstreetmap.de/download/land-polygons-split-3857.zip
 
 Once downloaded, extract them from their zip files.
 
