@@ -114,8 +114,8 @@ OSM Bright depends on two large shapefiles. You will need to download and extrac
 
 Download them to the `/path/to/osm-bright/shp` directory. You can do this with wget like:
 
-    wget http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
-    wget http://data.openstreetmapdata.com/land-polygons-split-3857.zip
+    wget https://osmdata.openstreetmap.de/download/simplified-land-polygons-complete-3857.zip
+    wget https://osmdata.openstreetmap.de/download/land-polygons-split-3857.zip
     wget https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_populated_places.zip
 
 Once downloaded, extract them from their zip files.
