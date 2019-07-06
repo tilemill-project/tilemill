@@ -12,7 +12,7 @@ prereq:
 - "[Styled](/tilemill/docs/crashcourse/styling/) your point data."
 - "[Added tooltips and a legend](/tilemill/docs/crashcourse/tooltips/) to your map."
 nextup:
-- "[Create an OSM Bright Map](tilemill/docs/guides/osm-bright-mac-quickstart/) that pulls it all together."
+- "[Create an OSM Bright Map](/tilemill/docs/guides/osm-bright-mac-quickstart/) that pulls it all together."
 ---
 
 {% include prereq.html %}
