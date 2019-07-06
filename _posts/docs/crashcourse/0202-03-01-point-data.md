@@ -25,7 +25,7 @@ To import data into TileMill as a CSV file you need column headings on the first
 
 If your CSV contains place names or addresses instead of lat/lon coordinates, you will have to geocode the data before it will work in TileMill. We have a [plugin for Google Docs](http://developmentseed.org/blog/2011/10/12/mapping-google-doc-spreadsheet/) that makes geocoding easy.
 
-In this crash course, we'll use [earthquake data from the USGS](http://earthquake.usgs.gov/earthquakes/feed/) to make a map showing points for earthquakes that have occurred. 
+In this crash course, we'll use [earthquake data from the USGS](https://earthquake.usgs.gov/earthquakes/feed/v1.0/csv.php) to make a map showing points for earthquakes that have occurred. 
 
 1. Start TileMill and click on the "New project" button on the main screen.
   ![Add project](/tilemill/assets/pages/csv-1.png)
@@ -37,7 +37,7 @@ In this crash course, we'll use [earthquake data from the USGS](http://earthquak
 5. Now click "Add layer".
   ![Add layer](/tilemill/assets/pages/csv-4.png)
 6. Enter `earthquakes` in the "ID" field. You'll use this ID to to reference this layer in CartoCSS selectors.
-7. Enter the URL `http://earthquake.usgs.gov/earthquakes/feed/csv/2.5/week` into the "Datasource" field.
+7. Enter the URL `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.csv` into the "Datasource" field.
 8. Click the "Save & Style" button. This will add the layer to your project and insert a default CartoCSS rule for the layer.
   ![Add layer](/tilemill/assets/pages/csv-7.png)
 9. Preview the result in the map preview pane.
