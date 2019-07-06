@@ -12,8 +12,7 @@ prereq:
 - "[Styled](/tilemill/docs/crashcourse/styling/) your point data."
 - "[Added tooltips and a legend](/tilemill/docs/crashcourse/tooltips/) to your map."
 nextup:
-- "[Upload](/help/upload-mbtiles-file) your map to the web."
-- "[Sign up](/plans) for a Mapbox hosting account."
+- "[Create an OSM Bright Map](tilemill/docs/guides/osm-bright-mac-quickstart/) that pulls it all together."
 ---
 
 {% include prereq.html %}
