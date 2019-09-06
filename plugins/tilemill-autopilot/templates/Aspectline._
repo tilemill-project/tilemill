@@ -1,0 +1,29 @@
+<ul class='form'>
+  <%=this.AspectFilters(obj)%>
+  <li>
+    <label>Zoom delta</label>
+    <div class='slider value' data-key='_line-delta' data-step='0.1' data-min='1' data-max='2'></div>
+  </li>
+  <li>
+    <label>Width</label>
+    <div class='slider value' data-key='line-width' data-min='0' data-max='10' data-step='0.5'></div>
+  </li>
+  <li>
+    <label>Join</label>
+    <!-- @TODO Use carto reference.json for this! -->
+    <select name='line-join'>
+      <option value='miter'>Miter</option>
+      <option value='round'>Round</option>
+      <option value='bevel'>Bevel</option>
+    </select>
+  </li>
+  <li>
+    <label>Cap</label>
+    <select name='line-cap'>
+      <option value='butt'>Butt</option>
+      <option value='round'>Round</option>
+      <option value='square'>Square</option>
+    </select>
+  </li>
+</ul>
+<div class='colorpicker fill-e' data-key='line-color'></div>

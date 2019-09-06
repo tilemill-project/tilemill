@@ -1,0 +1,9 @@
+<div class='autopilot-header sunken'>
+  <h2>Autopilot</h2>
+  <div class='actions'>
+    <a href='#add' class='popup add-layer button'><span class='icon reverse plus labeled'></span> Add layer</a>
+    <a href='#custom' class='button'><span class='icon reverse edit labeled'></span> Custom</a>
+    <a href='#disable' class='button destructive'><span class='icon reverse close labeled'></span> Disable</a>
+  </div>
+</div>
+<ul class='autopilot-layers layers fill-s'></ul>

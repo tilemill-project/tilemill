@@ -10,4 +10,4 @@ examples/geography-class/layers
 examples/road-trip/layers
 examples/control-room/layers
 /.vscode
-plugins/tilemill-autopilot/
+#plugins/tilemill-autopilot/

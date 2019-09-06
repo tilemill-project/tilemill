@@ -1,0 +1,16 @@
+<ul class='form'>
+  <%= this.AspectFilters(obj) %>
+  <li>
+    <label>Zoom delta</label>
+    <div class='slider value' data-key='_marker-delta' data-step='0.1' data-min='1' data-max='2'></div>
+  </li>
+  <li>
+    <label>Size</label>
+    <div class='slider range' data-key='marker-width' data-min='0' data-max='10'></div>
+  </li>
+  <li>
+    <label>Line</label>
+    <div class='slider range' data-step='0.5' data-key='marker-line-width' data-min='0' data-max='10'></div>
+  </li>
+</ul>
+<div class='colorpicker fill-e' data-key='marker-fill.0'></div>

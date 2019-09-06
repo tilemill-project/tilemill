@@ -1,0 +1,62 @@
+<li class='tools clearfix'>
+  <select data-key='_<%=type%>-filters'>
+    <option class='null' value=''>- Fields -</option>
+    <% _(datasource.get('fields')).each(function(val, field) { %>
+    <% if (val.type === 'Number') { %>
+    <option value='<%=field%>'><%=field%></option>
+    <% } %>
+    <% }); %>
+  </select>
+  <span class='buttons joined'>
+    <a class='button' href='#filterAdd'><span class='icon reverse autopilot-filter'></span></a>
+    <% if (type === 'marker' || type === 'text') { %>
+    <a class='button' href='#macroAdd' data-key='scaleby'><span class='icon reverse autopilot-scaleby<%=type%>'></span></a>
+    <% } %>
+    <% if (type === 'marker' || type === 'text' || type === 'polygon') { %>
+    <a class='button' href='#macroAdd' data-key='colorby'><span class='icon reverse autopilot-colorby<%=type%>'></span></a>
+    <% } %>
+  </span>
+</li>
+<% _(model.get('_'+type+'-filters')||{}).each(function(filter, key) { %>
+<% var info = datasource.get('fields')[key]; %>
+<% if (info) { %>
+<li class='filter'>
+  <label>
+    <%= key==='zoom' ? 'Zoom' : key %>
+    <span class='icon autopilot-filter'></span>
+  </label>
+  <div class='slider range' data-step='<%=(info.max - info.min) < 10 ? 0.5 : 1%>' data-key='_<%=type%>-filters.<%=key%>' data-min='<%=info.min || 0%>' data-max='<%=info.max || 10000%>'></div>
+  <a href='#filterRemove' data-key='_<%=type%>-filters.<%=key%>' class='icon close'></a>
+</li>
+<% } %>
+<% }); %>
+
+<% _(['scaleby', 'colorby']).each(function(key) {
+var macro = model.get('_'+type+'-'+key);
+var info = datasource.get('fields')[macro && macro.field];
+if (!macro || !info) return; %>
+<li class='macro'>
+  <label>
+    <%=macro.field%>
+    <span class='icon autopilot-<%=key%><%=type%>'></span>
+  </label>
+  <div class='slider range minmax' data-step='<%=(info.max - info.min) < 10 ? 0.5 : 1%>' data-key='_<%=type%>-<%=key%>.range' data-min='<%=info.min%>' data-max='<%=info.max%>'></div>
+  <a href='#macroRemove' data-key='_<%=type%>-<%=key%>' class='icon close'></a>
+
+  <% if (key === 'colorby') { %>
+  <div class='shades swatches clearfix'>
+    <% var fill = model.get(type + '-fill') || [];
+    _(_(fill).isArray() ? fill : [fill]).each(function(color, index) { %>
+    <a class='swatch' href='#swatch' data-key='<%=type%>-fill.<%=index%>'><span class='fill' style='background-color:<%=color%>'></span></a>
+    <% }); %>
+  </div>
+  <div class='shade-links buttons joined'>
+    <a class='button' data-key='<%=type%>-fill' href='#shadeRemove'><span class='icon minus reverse'></span></a>
+    <a class='button' data-key='<%=type%>-fill' href='#shadeAdd'><span class='icon plus reverse'></span></a>
+    <a class='button' data-key='<%=type%>-fill' href='#shadeFlip'><span class='icon autopilot-flip reverse'></span></a>
+    <a class='button' data-key='<%=type%>-fill' href='#shadeInterpolate'><span class='icon autopilot-interpolate reverse'></a>
+  </div>
+  <% } %>
+</li>
+<% }); %>
+

@@ -1,0 +1,7 @@
+{
+    "name": "tilemill-autopilot",
+    "description": "UI for common map designs.",
+    "version": "0.0.5",
+    "engines": {"tilemill":"*"},
+    "keywords": ["tilemill"]
+}

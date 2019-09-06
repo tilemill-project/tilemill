@@ -1,0 +1,7 @@
+<ul class='form'>
+  <li class='text'>
+    <h2>Background</h2>
+    <p class='description'>Background for the entire map.</p>
+  </li>
+</ul>
+<div class='colorpicker fill-e' data-key='background-color'></div>

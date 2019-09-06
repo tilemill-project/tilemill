@@ -1,0 +1,86 @@
+<li id='layer-<%= id %>' class='<%= id === 'Map' ? 'pinned' : '' %>'?>
+  <span class='handle fill-w'>
+    <a title='<%= get('geometry') %>' class='icon geometry geometry-<%= get('geometry') %>'></a>
+  </span>
+  <label><%=id%></label>
+
+  <div class='aspect'></div>
+
+  <% if (id !== 'Map') { %>
+  <span class='actions fill-e'>
+    <% if (get('geometry') !== 'raster') { %>
+      <a title='Features (<%= id %>)' class='icon inspect drawer' href='#<%= id %>'>Features (<%= id %>)</a>
+    <% } %>
+    <a title='Edit <%= id %>' class='icon edit popup' href='#<%= id %>'>Edit <%= id %></a>
+    <a title='Delete <%= id %>' class='icon delete' href='#<%= id %>'>Delete <%= id %></a>
+  </span>
+  <% } %>
+
+  <span class='aspects'>
+    <% if (_(['polygon','line','linestring','point']).include(get('geometry'))) { %>
+    <a class='aspect-text' href='#<%=id%>' title='Text'>
+      <% if (chart.get('text-size') && chart.get('text-name')) { %>
+      <span class='fill fontview' style='
+        color:<%=(chart.get('text-fill')||[])[0] || 'transparent'%>;
+        font-family:"<%=fontFamily(chart.get('text-face-name')||'Arial')%>",sans-serif;
+        font-weight:<%=fontWeight(chart.get('text-face-name')||'normal')%>;
+        font-style:<%=fontStyle(chart.get('text-face-name')||'regular')%>;
+        '>Abc</span>
+      <% } %>
+      <span class='icon autopilot-text'></span>
+    </a>
+    <% } %>
+
+    <% if (_(['polygon','line','linestring']).include(get('geometry'))) { %>
+    <a class='aspect-line' href='#<%=id%>' title='Line'>
+      <span class='line' style='
+        border-top:<%=chart.get('line-width')||'0'%>px <%=chart.get('line-color')||'transparent'%> solid;
+        margin-top:-<%=(parseInt(chart.get('line-width'),10)||0)*0.5%>px;
+        '></span>
+      <span class='icon autopilot-line'></span>
+    </a>
+    <% } %>
+
+    <% if (_(['point']).include(get('geometry'))) { %>
+    <a class='aspect-marker' href='#<%=id%>' title='Fill'>
+      <span class='fill' style='
+        background-color:<%=(chart.get('marker-fill')||[])[0] || 'transparent'%>
+        '></span>
+      <span class='icon autopilot-marker'></span>
+    </a>
+    <% } %>
+
+    <% if (_(['polygon']).include(get('geometry'))) { %>
+    <a class='aspect-polygon' href='#<%=id%>' title='Fill'>
+      <span class='fill' style='
+        background-color:<%=(chart.get('polygon-fill')||[])[0] || 'transparent'%>
+        '></span>
+      <span class='icon autopilot-fill'></span>
+    </a>
+    <% } %>
+
+    <% if (_(['map']).include(get('geometry'))) { %>
+    <a class='aspect-background' href='#<%=id%>' title='Fill'>
+      <span class='fill' style='
+        background-color:<%=chart.get('background-color')%>
+        '></span>
+      <span class='icon autopilot-fill'></span>
+    </a>
+    <% } %>
+    <% /* @TODO: raster */ %>
+  </span>
+</li>
+
+<%
+function fontFamily(val) {
+    var matches = val.match(/[ ]*(Bold|Semibold|Italic|Oblique|Regular)/);
+    if (!matches) return val;
+    else return val.substr(0, val.indexOf(matches[0]));
+}
+function fontWeight(val) {
+    return /Semibold|Bold/.test(val) ? 'bold' : 'normal';
+}
+function fontStyle(val) {
+    return /Italic|Oblique/i.test(val) ? 'italic' : 'regular';
+}
+%>

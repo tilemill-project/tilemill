@@ -1,0 +1,12 @@
+<% if (!disable) { %>/*
+autopilot 0.0.1
+<%= JSON.stringify(charts) %>
+
+This stylesheet is managed by autopilot. Any changes will
+be overwritten unless you disable autopilot for this project.
+*/<% } %>
+<% charts.chain()
+  .filter(function(chart) { return chart.id === 'Map' || !!layer.get(chart.id) })
+  .each(function(chart) { %>
+<%=chart.compile(layer.get(chart.id))%>
+<% }); %>

@@ -1,0 +1,257 @@
+/* AUTOPILOT */
+.autopilot ul.form input.with-style,
+.project.autopilot .pane a[href='#back'],
+.project.autopilot .palette a[href="#fonts"],
+.project.autopilot .palette a[href="#carto"],
+.project.autopilot .palette a[href="#layers"] { display:none; }
+
+.icon.geometry-map,
+.icon.autopilot-fill,
+.icon.autopilot-line,
+.icon.autopilot-text,
+.icon.autopilot-marker,
+.icon.autopilot-flip,
+.icon.autopilot-scalebytext,
+.icon.autopilot-scalebymarker,
+.icon.autopilot-colorbytext,
+.icon.autopilot-colorbymarker,
+.icon.autopilot-colorbypolygon,
+.icon.autopilot-interpolate,
+.icon.autopilot-filter { background-image:url(/assets/tilemill-autopilot/autopilot.png); }
+.icon.geometry-map          { background-position:0px 0px; }
+.icon.autopilot-fill        { background-position:-20px 0px; }
+.icon.autopilot-line        { background-position:-40px 0px; }
+.icon.autopilot-text        { background-position:-60px 0px; }
+.icon.autopilot-marker      { background-position:-80px 0px; }
+.icon.autopilot-flip        { background-position:-100px 0px; }
+.icon.autopilot-interpolate { background-position:-120px 0px; }
+.icon.autopilot-scalebymarker  { background-position:-140px 0px; }
+.icon.autopilot-scalebytext    { background-position:-160px 0px; }
+.icon.autopilot-colorbymarker  { background-position:-120px 0px; }
+.icon.autopilot-colorbytext    { background-position:-120px 0px; }
+.icon.autopilot-colorbypolygon { background-position:-120px 0px; }
+.icon.autopilot-filter      { background-position:-180px 0px; }
+.reverse.geometry-map       { background-position:0px -20px; }
+.reverse.autopilot-fill     { background-position:-20px -20px; }
+.reverse.autopilot-line     { background-position:-40px -20px; }
+.reverse.autopilot-text     { background-position:-60px -20px; }
+.reverse.autopilot-marker   { background-position:-80px -20px; }
+.reverse.autopilot-flip        { background-position:-100px -20px; }
+.reverse.autopilot-interpolate { background-position:-120px -20px; }
+.reverse.autopilot-scalebymarker  { background-position:-140px -20px; }
+.reverse.autopilot-scalebytext    { background-position:-160px -20px; }
+.reverse.autopilot-colorbymarker  { background-position:-120px -20px; }
+.reverse.autopilot-colorbytext    { background-position:-120px -20px; }
+.reverse.autopilot-colorbypolygon { background-position:-120px -20px; }
+.reverse.autopilot-filter      { background-position:-180px -20px; }
+
+.project div.autopilot { top:40px; }
+
+.autopilot-header {
+  position:relative;
+  padding:9px;
+  margin:0px 10px;
+  height:20px;
+  }
+
+.autopilot-header h2 {
+  font-weight:bold;
+  text-shadow:#fff 0px 1px;
+  color:#999;
+  }
+
+.autopilot-header .actions {
+  position:absolute;
+  top:9px;
+  right:9px;
+  }
+
+ul.autopilot-layers {
+  top:40px;
+  overflow:auto;
+  width:auto;
+  min-height:none;
+  max-height:none;
+  }
+
+ul.autopilot-layers > li {
+  position:relative;
+  background:#eee;
+  padding:10px 30px 0px;
+  border-bottom:1px solid #ccc;
+  min-width:none;
+  max-width:none;
+  }
+
+ul.autopilot-layers > li > label {
+  display:block;
+  padding-bottom:9px;
+  }
+
+ul.autopilot-layers .ui-sortable-helper { padding-top:9px; }
+
+ul.autopilot-layers li .handle,
+ul.autopilot-layers li .actions,
+ul.autopilot-layers li .aspects { padding:10px; }
+ul.autopilot-layers li .actions { bottom:auto; }
+
+.aspects {
+  display:block;
+  position:absolute;
+  right:70px;
+  top:0px;
+  }
+
+.aspects a {
+  float:left;
+  width:50px;
+  height:20px;
+  margin-left:5px;
+  background:#888 url(/assets/tilemill-autopilot/autopilot.png) -40px -40px;
+  text-indent:-9999px;
+  position:relative;
+  }
+
+.aspects a .icon {
+  border-radius:3px 0px 0px 3px;
+  background-color:#ccc;
+  position:absolute;
+  box-shadow:
+    inset rgba(0,0,0,0.2) 0px 0px 0px 1px,
+    inset rgba(255,255,255,1) 0px 20px 40px -20px,
+    inset rgba(255,255,255,0.4) 0px 2px;
+  }
+
+.aspects a.active .icon {
+  background-color:#aaa;
+  box-shadow:
+    inset rgba(0,0,0,0.5) 0px 1px 3px,
+    inset rgba(255,255,255,0.2) 0px 10px 20px -5px;
+  }
+
+.aspects a,
+.aspects a .fill {
+  border-radius:3px;
+  box-shadow:inset rgba(0,0,0,0.1) 0px 0px 0px 1px;
+  }
+
+.aspects a .fontview {
+  overflow:hidden;
+  padding-left:25px;
+  text-indent:0px;
+  }
+
+.aspects a .line {
+  position:absolute;
+  left:0px;
+  top:10px;
+  right:0px;
+  border-radius:0px !important;
+  }
+
+.aspect {
+  position:relative;
+  background:#fff;
+  padding:0px 224px 0px 0px;
+  display:none;
+  border-top:1px solid #ccc;
+  margin:0px -30px 0px;
+  min-height:200px;
+  }
+
+.aspect.active { display:block }
+
+.aspects a.active:after {
+  content:'';
+  text-indent:-9999px;
+  overflow:hidden;
+  position:absolute;
+  right:10px;
+  bottom:-10px;
+  width:30px;
+  height:15px;
+  background:url(/assets/tilemill-autopilot/autopilot.png) 0px -40px no-repeat;
+  }
+
+.aspect ul.form li.active { display:block; }
+.aspect ul.form li { max-width:none; padding:5px 10px 4px 100px; }
+.aspect ul.form li.text { padding:10px 10px 9px; }
+.aspect ul.form li.tools { padding-left:10px; }
+.aspect ul.form li.macro,
+.aspect ul.form li.filter { padding-right:35px; }
+.aspect ul.form li label { width:90px; margin-left:-90px; text-align:left; }
+.aspect ul.form li:last-child { border:0px; }
+
+#page .aspect ul.form li.tools,
+#page .aspect ul.form li.filter,
+#page .aspect ul.form li.macro {
+  background-color:#ddd;
+  border-color:#ccc;
+  }
+.aspect li.macro .ui-slider:before,
+.aspect li.filter .ui-slider:before { background-color:#eee; }
+.aspect li.tools .buttons,
+.aspect li a.close { position:absolute; right:10px; top:5px; }
+
+.aspect li.macro label,
+.aspect li.filter label {
+  position:relative;
+  font-size:11px;
+  text-transform:uppercase;
+  }
+
+.aspect li.macro label .icon,
+.aspect li.filter label .icon {
+  position:absolute;
+  right:0px;
+  top:0px;
+  }
+
+.aspect .colorpicker {
+  position:absolute;
+  background:#fff;
+  border-left:1px solid #ddd;
+  padding:10px;
+  }
+
+.aspect option.null { color:#999; }
+
+.aspect .shade-links { margin-top:5px; }
+
+.aspect .swatch {
+  margin:2px 5px 2px 0px;
+  width:20px;
+  height:16px;
+  background:#888 url(/assets/tilemill-autopilot/autopilot.png) -40px -40px;
+  }
+
+.aspect .swatch.active { box-shadow: #fff 0px 0px 0px 1px, #888 0px 0px 0px 3px; }
+
+.aspect .swatch,
+.aspect .swatch .fill {
+  border-radius:3px;
+  box-shadow:inset rgba(0,0,0,0.1) 0px 0px 0px 1px;
+  }
+
+.autopilot .editor {
+  visibility:hidden;
+  position:absolute;
+  top:90px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  background:#eee;
+  z-index:-1;
+  }
+
+.autopilot .editor.active {
+  visibility:visible;
+  z-index:1;
+  }
+
+.autopilot .code { top:29px; }
+
+ul.form .buttons.joined .button {
+  min-width: 30px;
+  margin: 0;
+}
