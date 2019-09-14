@@ -64,13 +64,25 @@ var get = _(project.get).bind(project);
   <% } %>
   <% if (model !== project && model.get('format') !== 'sync') { %>
   <li>
+    <label for='exportFormat'>File Format</label>
+    <select name="exportFormat" class="exportformat-selection" style='width:unset' >
+      <option value="PNG"<% if (model.get('format') == 'png') { %> selected='selected' <% } %>>PNG</option>
+      <option value="JPEG"<% if (model.get('format') == 'jpeg') { %> selected='selected' <% } %>>JPEG</option>
+      <option value="PDF"<% if (model.get('format') == 'pdf') { %> selected='selected' <% } %>>PDF</option>
+      <option value="TIFF"<% if (model.get('format') == 'tiff') { %> selected='selected' <% } %>>TIFF</option>
+      <option value="WEBP"<% if (model.get('format') == 'webp') { %> selected='selected' <% } %>>WEBP</option>
+      <option value="SVG"<% if (model.get('format') == 'svg') { %> selected='selected' <% } %>>SVG</option>
+    </select>
+  </li>
+  <li>
     <label>Filename</label>
     <% if (model.get('filename')) { %>
       <input type='text' name='filename' value='<%=model.get('filename').split('.')[0]%>' size='20' />
     <% } else { %>
         <input type='text' name='filename' value='<%=project.id%>' size='20' />
     <% } %>
-    <small>.<%=model.get('format')%></small>
+    <small>.
+    <input name='filenameExtension' type='text' value='<%=model.get('format')%>' size='5' style='border:none; background:transparent; text-align:left; box-shadow: none;'/></small>
     <small class='description'>No spaces allowed</small>
   </li>
   <li>

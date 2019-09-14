@@ -73,7 +73,7 @@ view.prototype.updateExport = function(ev) {
             static_zoom: selExport.get('static_zoom')
         }),
         project: this.project,
-        title: $(ev.currentTarget).attr('title'),
+        title: (format === 'mbtiles') ? 'Export MBTiles' : 'Export Printed Map',
         // After user selects Export from Export dialog, then...
         success: _(function() {
             $('#meta').empty();
