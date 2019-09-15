@@ -14,6 +14,7 @@ view.prototype.events = {
     'click input[type=submit]': 'save',
     'click .cancel': 'close',
     'change select.maplayer-selection' : 'selectLayer',
+    'change select.exportformat-selection' : 'exportFormat',
     'change input[name=aspectwidth],\
         input[name=setaspect],\
         input[name=aspectheight]': 'setAspect'
@@ -35,7 +36,8 @@ view.prototype.initialize = function(options) {
         'updateSlider',
         'updateSize',
         'selectLayer',
-        'setAspect');
+        'setAspect',
+        'exportFormat');
     this.sm = new SphericalMercator;
     this.type = options.type;
     this.title = options.title;
@@ -453,3 +455,8 @@ view.prototype.selectLayer = function() {
     this.boxselector.add(this.map);
 }
 
+view.prototype.exportFormat = function() {
+    var extension = this.$('select.exportformat-selection').val().toLowerCase();
+    this.model.set({format: extension}, {silent:true});
+    this.$('input[name=filenameExtension]').val(extension);
+}
