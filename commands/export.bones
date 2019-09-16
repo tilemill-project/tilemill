@@ -115,6 +115,7 @@ command.options['concurrency'] = {
 command.prototype.initialize = function(plugin, callback) {
     _(this).bindAll('error', 'put', 'complete');
 
+    console.log('Export initializing...');
     var opts = plugin.config;
     if (process.env.tilemillConfig)
         _(opts).extend(JSON.parse(process.env.tilemillConfig));
@@ -126,7 +127,7 @@ command.prototype.initialize = function(plugin, callback) {
     callback = callback || function() {};
     this.opts = opts;
     var cmd = this;
-
+    console.warn('Options: ' + cmd.opts.verbose);
     // Note: this is reset again below, to reflect any changes in the output name
     process.title = 'tm-' + path.basename(opts.filepath);
 
@@ -219,14 +220,14 @@ command.prototype.initialize = function(plugin, callback) {
     // Load project, localize and call export function.
     var model = new models.Project({id:opts.project});
     Step(function() {
-        if (!cmd.opts.quiet) process.stderr.write('Loading project...');
+        if (cmd.opts.verbose == "on") process.stderr.write('Loading project...');
         Bones.utils.fetch({model:model}, this);
     }, function(err) {
         if (err) return cmd.error(err, function() {
             process.stderr.write(err.stack || err.toString() + '\n');
             process.exit(1);
         });
-        if (!cmd.opts.quiet) process.stderr.write(' done.\n');
+        if (cmd.opts.verbose == "on") process.stderr.write(' done.\n');
         // Set the postgres connection pool size to 2 * # of cpus based on
         // assumption of pool size in tilelive-mapnik.
         model.get('Layer').each(function(l) {
@@ -235,11 +236,10 @@ command.prototype.initialize = function(plugin, callback) {
                 if (l.attributes.Datasource.max_size === undefined ||
                     l.attributes.Datasource.max_size < target_size) {
                     l.attributes.Datasource.max_size = target_size;
-                    console.log('setting PostGIS max_size='+target_size+' for ' + l.id);
                 }
             }
         });
-        if (!cmd.opts.quiet) process.stderr.write('Localizing project...');
+        if (cmd.opts.verbose == "on") process.stderr.write('Localizing project...');
         model.localize(model.toJSON(), this);
     }, function(err) {
         if (err) return cmd.error(err, function() {
@@ -247,7 +247,7 @@ command.prototype.initialize = function(plugin, callback) {
             process.exit(1);
         });
 
-        if (!cmd.opts.quiet) process.stderr.write(' done.\n');
+        if (cmd.opts.verbose == "on") process.stderr.write(' done.\n');
         model.mml = _(model.mml).extend({
             name: model.mml.name || model.id,
             version: model.mml.version || '1.0.0',
@@ -469,7 +469,7 @@ command.prototype.tilelive = function (project, callback) {
 
         if (job) {
             job = JSON.parse(job);
-            if (!cmd.opts.quiet) console.warn('Continuing job ' + opts.job);
+            if (cmd.opts.verbose == "on") console.warn('Continuing job ' + opts.job);
             bboxIndex = job.from.bboxIndex;
             // If we don't reset the filepath here the next bbox exported will be exported using a filepath with a hash
             // instead of into the same file.
@@ -477,7 +477,7 @@ command.prototype.tilelive = function (project, callback) {
             var scheme = tilelive.Scheme.unserialize(job.scheme);
             var task = new tilelive.CopyTask(job.from, job.to, scheme, opts.job);
         } else {
-            if (!cmd.opts.quiet) console.warn('Creating new job ' + opts.job);
+            if (cmd.opts.verbose == "on") console.warn('Creating new job ' + opts.job);
 
             var from = {
                 protocol: 'mapnik:',
@@ -518,7 +518,7 @@ command.prototype.tilelive = function (project, callback) {
 
 
         var errorfile = path.join(path.dirname(opts.job), path.basename(opts.job) + '-failed');
-        if (!cmd.opts.quiet) console.warn('Writing errors to ' + errorfile);
+        if (cmd.opts.verbose == "on") console.warn('Writing errors to ' + errorfile);
 
         fs.open(errorfile, 'a', function(err, fd) {
             if (err) throw err;
@@ -532,7 +532,7 @@ command.prototype.tilelive = function (project, callback) {
             task.on('progress', report);
 
             task.on('finished', function() {
-                if (!cmd.opts.quiet) console.warn('\nfinished');
+                if (cmd.opts.verbose == "on") console.warn('\nfinished');
                 cmd.opts.job = false;
                 exportTiles(bboxIndex + 1);
             });
@@ -556,7 +556,7 @@ command.prototype.tilelive = function (project, callback) {
                 rate: stats.speed
             });
 
-            if (!cmd.opts.quiet) {
+            if (cmd.opts.verbose == "on") {
                 util.print(formatString('\r\033[K[%s] Part(%s/%s) %s%% %s/%s @ %s/s | %s left | ✓ %s ■ %s □ %s fail %s',
                     formatDuration(stats.date - task.started),
                     bboxIndex + 1,
