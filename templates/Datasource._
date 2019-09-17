@@ -8,6 +8,7 @@ obj.escape = function(string) {
     .replace(/>/g, '&gt;');
 }; %>
 <div class='pane-actions'>
+  <input name="search" class="search" value="" size="10" type="text" placeholder="Search..."></input>
 <a href='#back' class='button'>
   <span class='icon prev reverse labeled' title='layers'></span>
   Back
@@ -23,7 +24,7 @@ obj.escape = function(string) {
     </tr>
   </thead>
   <tbody>
-    <tr class='min'>
+    <tr class='min no-sort'>
       <% _(fields).each(function (field) { %>
         <% if (field.type === 'Number') { %>
         <td class='<%= field.type %>'><span class='description'>min</span> <%= obj.escape(field.min) %></td>
@@ -32,7 +33,7 @@ obj.escape = function(string) {
         <% } %>
       <% }); %>
     </tr>
-    <tr class='max'>
+    <tr class='max no-sort'>
       <% _(fields).each(function (field) { %>
         <% if (field.type === 'Number') { %>
         <td class='<%= field.type %>'><span class='description'>max</span> <%= obj.escape(field.max) %></td>
