@@ -1,8 +1,7 @@
 <div class='pane-actions'>
 <input name="search" class="search" value="" size="10" type="text" placeholder="Search..."></input>
-<a href='#add' class='popup add-layer button'>
-  <span class='icon reverse plus labeled'></span>
-  Add layer
-</a>
+  <a href='#add' class='popup add-layer button'>
+    <span class='icon reverse plus labeled'></span>
+    Add layer</a>
 </div>
 <ul class='layers scrolling'></ul>
