@@ -339,6 +339,9 @@ view.prototype.setAspect = function(ev) {
     // Remove extra decimals that get added
     seLoc.lat = (seLoc.lat).toFixed(4);
 
+    // Update printed width value based upon aspect ratio x value
+    this.$('input[name=printedwidth]').val(aspectwidth);
+
     // Update bounding box field, redraw bounding extent
     this.$('input[name=bounds]').val([nwLoc.lon,seLoc.lat,seLoc.lon,nwLoc.lat].join(','));
     this.boxselector.extent([nwLoc, seLoc], true);
