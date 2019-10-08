@@ -15,9 +15,15 @@ view.prototype.events = {
     'click .cancel': 'close',
     'change select.maplayer-selection' : 'selectLayer',
     'change select.exportformat-selection' : 'exportFormat',
+    'change select.papersize-selection,\
+        select.orientation-selection' : 'setAspect',
     'change input[name=aspectwidth],\
         input[name=setaspect],\
-        input[name=aspectheight]': 'setAspect'
+        input[name=aspectheight],\
+        input[name=margin-top],\
+        input[name=margin-btm],\
+        input[name=margin-left],\
+        input[name=margin-right], ': 'setAspect'
 };
 
 view.prototype.initialize = function(options) {
@@ -308,9 +314,72 @@ view.prototype.updateSize = function(ev) {
 
 // Fix the bbox size based upon entered aspect ratio.
 view.prototype.setAspect = function(ev) {
-    this.$('input[name=aspectwidth]').attr('disabled', false);
-    this.$('input[name=aspectheight]').attr('disabled', false);
-    this.$('input[name=bounds]').attr('disabled', true);
+    // Get value from paper size dropdown
+    var papersize = this.$('select.papersize-selection').val().toLowerCase();
+    var orientation = this.$('select.orientation-selection').val().toLowerCase();
+    var aspectwidth, aspectheight, aspect;
+    var setmargins = false;
+
+    this.$('input[name=bounds]').attr('disabled', false);
+    this.$('input[name=aspectwidth]').attr('disabled', true);
+    this.$('input[name=aspectheight]').attr('disabled', true);
+
+    // If paper size Unset, disable fields and remove size restriction
+    // If paper size set, use paper size for aspect ratio
+    // If paper size is Custom, enable aspect ratio fields
+    switch (papersize) {
+    case 'unset':   //disable fields and remove size restriction
+        this.$('div[id=custom-aspect-ratio]')[0].setAttribute('hidden',true);
+        this.$('div[id=margins]')[0].setAttribute('hidden',true);
+        this.$('select.orientation-selection').attr('hidden',true)
+        this.$('input[name=setaspect]').attr('checked', false);
+        return false;
+        break;    
+    case 'custom':  //allow user to draw custom bounding box
+        //enable aspect ratio fields
+        this.$('div[id=custom-aspect-ratio]')[0].removeAttribute('hidden');
+        this.$('select.orientation-selection').attr('hidden',true)
+        this.$('input[name=aspectwidth]').attr('disabled', false);
+        this.$('input[name=aspectheight]').attr('disabled', false);
+        this.$('input[name=bounds]').attr('disabled', true);
+        this.$('input[name=setaspect]').attr('checked', true);
+
+        // Set aspect values from current drawn box on screen
+        aspectwidth = parseFloat(this.$('input[name=aspectwidth]').val());
+        aspectheight = parseFloat(this.$('input[name=aspectheight]').val());
+        aspect = parseFloat(aspectheight / aspectwidth);
+        //var aspect = 1.2941;  //Paper 8.5x11 size
+        break;
+    default:  //use paper size for aspect ratio
+        // Set aspect values from selected paper size
+        setmargins = true;
+        this.$('div[id=margins]')[0].removeAttribute('hidden');
+        this.$('div[id=custom-aspect-ratio]')[0].setAttribute('hidden',true);
+        this.$('select.orientation-selection').attr('hidden',false)
+        this.$('input[name=setaspect]').attr('checked', true);
+        var dimensions = papersize.split('x').map(parseFloat);
+        aspectwidth = orientation == "portrait" ? dimensions[0] : dimensions[1];
+        aspectheight = orientation == "portrait" ? dimensions[1] : dimensions[0];
+
+        // If margins are set, subtract the margin values from width and height
+        if (setmargins) {
+            margintop = parseFloat(this.$('input[name=margin-top]').val());
+            marginbtm = parseFloat(this.$('input[name=margin-btm]').val());
+            marginleft = parseFloat(this.$('input[name=margin-left]').val());
+            marginright = parseFloat(this.$('input[name=margin-right]').val());
+            aspectwidth = aspectwidth - (marginleft + marginright);
+            aspectheight = aspectheight - (margintop + marginbtm);
+        }
+        aspect = parseFloat(aspectheight / aspectwidth);
+
+        // Update displayed values
+        this.$('input[name=aspectwidth]').val((aspectwidth).toFixed(1));
+        this.$('input[name=aspectheight]').val((aspectheight).toFixed(1));
+    };
+
+
+    /* Wait on this, don't know if I still need to do it
+    // If lock aspect ratio radiobox is NOT checked, disable aspect ratio fields
     var attr = Bones.utils.form(this.$('form'), this.model);
     if (!attr.setaspect) {
         this.$('input[name=bounds]').attr('disabled', false);
@@ -318,8 +387,9 @@ view.prototype.setAspect = function(ev) {
         this.$('input[name=aspectheight]').attr('disabled', true);
         return false;
     };
+    */
 
-    // Get drawn extent coordinates
+    // Get current drawn extent coordinates
     var bounds = _(this.$('input[name=bounds]').val().split(',')).map(parseFloat);
     var nwLoc = new MM.Location(bounds[3], bounds[0]);
     var seLoc = new MM.Location(bounds[1], bounds[2]);
@@ -328,13 +398,14 @@ view.prototype.setAspect = function(ev) {
 
     // Set aspect
     // Fix the left-edge of bounding box, adjust right-edge
-    var aspectwidth = parseFloat(this.$('input[name=aspectwidth]').val());
-    var aspectheight = parseFloat(this.$('input[name=aspectheight]').val());
-    var aspect = (aspectheight / aspectwidth).toFixed(4);
-    //var aspect = 1.2941;  //Paper 8.5x11 size
-
-    shiftX = ((Math.round(se.y) - Math.round(nw.y)) / aspect);
-    se.x = (Math.round(nw.x) + shiftX).toFixed(4);
+    if (papersize != "custom") { // i.e. paper size is set to a fixed size
+        shiftX = Math.round(se.y) - Math.round(nw.y);
+        se.x = (Math.round(nw.x) + shiftX).toFixed(4);
+        se.y = (Math.round(nw.y) + (shiftX * aspect)).toFixed(4);
+    } else {
+        shiftX = ((Math.round(se.y) - Math.round(nw.y)) / aspect);
+        se.x = (Math.round(nw.x) + shiftX).toFixed(4); 
+    }
     seLoc = this.map.pointLocation(se);
     // Remove extra decimals that get added
     seLoc.lat = (seLoc.lat).toFixed(4);
