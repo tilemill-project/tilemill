@@ -9,10 +9,9 @@ obj.escape = function(string) {
 }; %>
 <div class='pane-actions'>
   <input name="search" class="search" value="" size="10" type="text" placeholder="Search..."></input>
-<a href='#back' class='button'>
-  <span class='icon prev reverse labeled' title='layers'></span>
-  Back
-</a>
+  <a href='#back' class='button'>
+    <span class='icon prev reverse labeled' title='layers'></span>
+    Back</a>
 </div>
 <div class='features fill scrolling'>
 <table id='features'>

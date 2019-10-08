@@ -1,6 +1,8 @@
 <div class='pane-actions'>
   <input name="search" class="search" value="" size="10" type="text" placeholder="Search..."></input>
-  <a class='button deleteall' href='#deleteall'><span class='icon reverse labeled delete'></span> Delete All</a>
+  <a class='button deleteall' href='#deleteall'>
+    <span class='icon reverse labeled delete'></span>
+    Delete All</a>
 </div>
 
 <ul class='exports fill scrolling'>

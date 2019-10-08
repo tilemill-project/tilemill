@@ -25,7 +25,7 @@ servers['Route'].augment({
             require.resolve('../assets/js/codemirror.mustache.js'),
             require.resolve('../assets/js/showdown.js'),
             require.resolve('@mapbox/sphericalmercator'),
-            require.resolve('../assets//js/tablesort.min.js')
+            require.resolve('../assets/js/tablesort.min.js')
         ]
     },
     initializeAssets: function(parent, app) {
