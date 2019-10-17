@@ -167,6 +167,10 @@ view.prototype.render = function() {
         width: "120px"
     });
 
+    // Hide the aspect ratio fields for mbtiles exports.
+    if (this.model.get('format') === 'mbtiles')
+        this.$('div[id=aspect-ratio-fields]')[0].setAttribute('hidden',true);
+
     return this;
 };
 

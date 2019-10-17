@@ -130,14 +130,16 @@ var get = _(project.get).bind(project);
       </span>
     </div>
   </li>
+  <div id="aspect-ratio-fields">
+    <li>
+      <label>Aspect Ratio</label>
+      <input name='aspectwidth' type='text' value='<% if (model.get('aspectwidth') !== undefined) { %><%=model.get('aspectwidth')%><% } else { %>8.5<% } %>' size='4' disabled /> :
+      <input name='aspectheight' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled />
+      <input type='checkbox' name='setaspect' value='1'/><small> lock</small>
+      <small class='description'>Any units - lock to edit</small>
+    </li>
+  </div>
   <% if (type === 'image') { %>
-  <li>
-    <label>Aspect Ratio</label>
-    <input name='aspectwidth' type='text' value='<% if (model.get('aspectwidth') !== undefined) { %><%=model.get('aspectwidth')%><% } else { %>8.5<% } %>' size='4' disabled /> :
-    <input name='aspectheight' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled />
-    <input type='checkbox' name='setaspect' value='1'/><small> lock</small>
-    <small class='description'>Any units - lock to edit</small>
-  </li>
   <li>
     <label>Scale</label><small>1:</small>
     <input name='scale' type='text' value='' size='6' disabled />
