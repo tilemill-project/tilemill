@@ -62,7 +62,7 @@ var get = _(project.get).bind(project);
     <small class='dependent description help'>Enter a <a target='_blank' href="https://github.com/mapnik/mapnik/wiki/Image-IO">custom Mapnik format string</a>.</small>
   </li>
   <% } %>
-  <% if (model !== project && model.get('format') !== 'sync') { %>
+  <% if (type === 'image') { %>
   <li>
     <label for='exportFormat'>File Format</label>
     <select name="exportFormat" class="exportformat-selection" style='width:unset' >
@@ -74,6 +74,8 @@ var get = _(project.get).bind(project);
       <option value="SVG"<% if (model.get('format') == 'svg') { %> selected='selected' <% } %>>SVG</option>
     </select>
   </li>
+  <% } %>
+  <% if (model !== project && model.get('format') !== 'sync') { %>
   <li>
     <label>Filename</label>
     <% if (model.get('filename')) { %>
@@ -128,13 +130,15 @@ var get = _(project.get).bind(project);
       </span>
     </div>
   </li>
-  <li>
-    <label>Aspect Ratio</label>
-    <input name='aspectwidth' type='text' value='<% if (model.get('aspectwidth') !== undefined) { %><%=model.get('aspectwidth')%><% } else { %>8.5<% } %>' size='4' disabled /> :
-    <input name='aspectheight' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled />
-    <input type='checkbox' name='setaspect' value='1'/><small> lock</small>
-    <small class='description'>Any units - lock to edit</small>
-  </li>
+  <div id="aspect-ratio-fields">
+    <li>
+      <label>Aspect Ratio</label>
+      <input name='aspectwidth' type='text' value='<% if (model.get('aspectwidth') !== undefined) { %><%=model.get('aspectwidth')%><% } else { %>8.5<% } %>' size='4' disabled /> :
+      <input name='aspectheight' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled />
+      <input type='checkbox' name='setaspect' value='1'/><small> lock</small>
+      <small class='description'>Any units - lock to edit</small>
+    </li>
+  </div>
   <% if (type === 'image') { %>
   <li>
     <label>Scale</label><small>1:</small>
