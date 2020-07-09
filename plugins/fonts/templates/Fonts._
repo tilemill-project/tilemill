@@ -1,0 +1,34 @@
+<div class='fonts fill'>
+
+<div class='toggler navigation'>
+  <a class='active all' href='#group-0'>All</a>
+  <div class='col col-1'>
+  <% _(65).chain().range(78).each(function(code) { %>
+    <% if (groups[code]) { %>
+      <a href='#group-<%= code %>'><%= String.fromCharCode(code) %></a>
+    <% } else { %>
+      <span><%= String.fromCharCode(code) %></span>
+    <% } %>
+  <% }); %>
+  </div>
+  <div class='col'>
+  <% _(78).chain().range(91).each(function(code) { %>
+    <% if (groups[code]) { %>
+      <a href='#group-<%= code %>'><%= String.fromCharCode(code) %></a>
+    <% } else { %>
+      <span><%= String.fromCharCode(code) %></span>
+    <% } %>
+  <% }); %>
+  </div>
+</div>
+
+<div class='page fill-e scrolling'>
+<% _(fonts).each(function(f) { %>
+<a href='#insert' class='font active group-0 group-<%= f.group %>'>
+  <input type='text' value='<%= f.name %>' />
+  <span class='description'>Copy + paste into editor</span>
+</a>
+<% }); %>
+</div>
+
+</div>

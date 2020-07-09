@@ -1,0 +1,124 @@
+# This is the style file that matches the old version of osm2pgsql, which
+# did not make distinctions between tags for nodes and for ways. There are a
+# number of optimisations that can be applied here. Firstly, certain tags
+# only apply to only nodes or only ways. By fixing this we reduce the amount
+# of useless data loaded into the DB, which is a good thing. Possible
+# optimisations for the future:
+
+# 1. Generate this file directly from the mapnik XML config, so it's always
+# optimal
+
+# 2. Extend it so it can understand that highway=tertiary is for ways and
+# highway=bus_stop is for nodes
+
+# Flags field isn't used much yet, expect if it contains the text "polygon"
+# it indicates the shape is candidate for the polygon table. In the future I
+# would like to be able to add directives like "nocache" which tells
+# osm2pgsql that it is unlikely this node will be used by a way and so it
+# doesn't need to be stored (eg coastline nodes). While in essence an
+# optimisation hack, for --slim mode it doesn't matter if you're wrong, but
+# in non-slim you might break something!
+
+# Also possibly an ignore flag, for things like "note" and "source" which
+# can simply be deleted. (In slim mode this is, does not apply to non-slim
+# obviously)
+
+# OsmType Tag DataType Flags
+node,way note text delete # These tags can be long but are useless for rendering
+node,way source text delete # This indicates that we shouldn't store them
+node,way created_by text delete
+
+node,way access text linear
+node,way addr:housename text linear
+node,way addr:housenumber text linear
+node,way addr:interpolation text linear
+node,way admin_level text linear
+node,way aerialway text linear
+node,way aeroway text polygon
+node,way amenity text nocache,polygon
+node,way area text # hard coded support for area=1/yes => polygon is in osm2pgsql
+node,way barrier text linear
+node,way bicycle text nocache
+node,way brand text linear
+node,way bridge text linear
+node,way boundary text linear
+node,way building text polygon
+node capital text linear
+node,way construction text linear
+node,way covered text linear
+node,way culvert text linear
+node,way cutting text linear
+node,way denomination text linear
+node,way disused text linear
+node ele text linear
+node,way embankment text linear
+node,way foot text linear
+node,way generator:source text linear
+node,way harbour text polygon
+node,way highway text linear
+node,way historic text polygon
+node,way horse text linear
+node,way intermittent text linear
+node,way junction text linear
+node,way landuse text polygon
+node,way layer text linear
+node,way leisure text polygon
+node,way lock text linear
+node,way man_made text polygon
+node,way military text polygon
+node,way motorcar text linear
+node,way name text linear
+node,way natural text polygon # natural=coastline tags are discarded by a hard coded rule in osm2pgsql
+node,way office text polygon
+node,way oneway text linear
+node,way operator text linear
+node,way place text polygon
+node poi text
+node,way population text linear
+node,way power text polygon
+node,way power_source text linear
+node,way public_transport text polygon
+node,way railway text linear
+node,way ref text linear
+node,way religion text nocache
+node,way route text linear
+node,way service text linear
+node,way shop text polygon
+node,way sport text polygon
+node,way surface text linear
+way width real linear
+node,way toll text linear
+node,way tourism text polygon
+node,way tower:type text linear
+way tracktype text linear
+node,way tunnel text linear
+node,way water text polygon
+node,way waterway text polygon
+node,way wetland text polygon
+node,way wood text linear
+node,way z_order int4 linear # This is calculated during import
+way way_area real # This is calculated during import
+
+# If you're interested in bicycle routes, you may want the following fields
+# To make these work you need slim mode or the necessary data won't be remembered.
+#way lcn_ref text linear
+#way rcn_ref text linear
+#way ncn_ref text linear
+#way lcn text linear
+#way rcn text linear
+#way ncn text linear
+#way lwn_ref text linear
+#way rwn_ref text linear
+#way nwn_ref text linear
+#way lwn text linear
+#way rwn text linear
+#way nwn text linear
+#way route_pref_color text linear
+#way route_name text linear
+
+# The following entries can be used with the --extra-attributes option
+# to include the username, userid, version & timstamp in the DB
+#node,way osm_user text
+#node,way osm_uid text
+#node,way osm_version text
+#node,way osm_timestamp text

@@ -1,0 +1,44 @@
+<div class='project'>
+  <div class='map fill-w'></div>
+
+  <div class='workspace fill-e'>
+    <div class='header'>
+    <div>
+       <span class='name'><%= get('name') || get('id') %></span>
+       <span class='project-status' title="check the logs for more details"></span>
+		 <input name="search" class="search" value="" size="15" placeholder="Search styles..." type="text"><span class='search-results' title=""></span>
+    </div>
+    <div class='actions joined'>
+      <a class='button disabled' href='#save'><span class='icon reverse edit labeled'></span> Save</a>
+      <span class='button dropdown' href='#export'>
+        <span class='icon reverse labeled export'></span>
+        Export
+        <span class='icon reverse right dropdown'></span>
+        <span class='menu'>
+          <% if (window.abilities.exports.png) { %>
+          <a href='#export-png' title='Export Printed Map'>Printed Map</a>
+          <% } %>
+          <% if (window.abilities.exports.mbtiles) { %>
+          <a href='#export-mbtiles' title='Export MBTiles'>MBTiles</a>
+          <% } %>
+          <a href='<%= url() %>.xml' title='Export Mapnik XML'>Mapnik XML</a>
+          <a class='divceil drawer' href='#exports'>View exports</a>
+        </span>
+      </span>
+      <a class='button' href='#settings'>
+        <span class='icon reverse settings'>Project settings</span>
+      </a>
+    </div>
+    <span class='icon spinner'></span>
+    </div>
+    <div class='editor'></div>
+  </div>
+
+  <div id='drawer' class='pane fill raised'><%= this.Pane() %></div>
+
+  <div class='palette clearfix'>
+    <a class='drawer mini' href='#layers'><span class='icon reverse layers'>Layers</span></a>
+  </div>
+
+  <div id='meta' class='fill'></div>
+</div>

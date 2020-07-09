@@ -1,0 +1,53 @@
+<div class='about sunken'>
+<h2><a target='_blank' href='http://tilemill.com'>TileMill</a></h2>
+<p>
+  Version <%=window.abilities.tilemill.version%> (<%=window.abilities.version[0]%>)<br/>
+  Copyright © 2010-2014 <a target='_blank' href='http://mapbox.com'>Mapbox, Inc.</a>
+</p>
+</div>
+
+<form><ul class='form raised'>
+  <li class='text'>
+    <h2>Application settings</h2>
+  </li>
+  <li>
+    <label for='files'>Documents</label>
+    <input type='text' name='files' size='40' value='<%= get('files') %>' />
+    <div class='description'>
+      Local file path to TileMill projects &amp; exports.
+    </div>
+  </li>
+  <li>
+    <label for='httpProxy'>HTTP Proxy</label>
+    <input type='text' name='httpProxy' size='40' placeholder='http://user:pass@hostname:port' value='<%= get('httpProxy') %>' />
+    <div class='description'>
+      HTTP proxy to be used when connecting to the Internet.
+    </div>
+  </li>
+  <li>
+    <label for='profile'>System profile</label>
+    <input type='checkbox' name='profile' <% if (get('profile')) %>checked='checked'<% ; %> /> Report system profile anonymously.
+    <div class='description'>
+      Help the TileMill development team by reporting your system profile:<br/>
+      <% if(window.abilities.platform !== 'darwin'){ %>
+      <%= window.abilities.cpus.length + ' x ' + window.abilities.cpus[0].model %><br/>
+      <%= (window.abilities.totalmem / 1e9).toFixed(1) %>GB RAM /
+      <% } else { %>
+      <%= window.abilities.cpus[0].model + ' / ' + window.abilities.cpus.length + '&times;' + (window.abilities.cpus[0].speed/1000).toFixed(1) %>GHz<br/>
+      <%= (window.abilities.totalmem / 1073741824).toFixed(1) %>GB RAM /
+      <% } %>
+      <%= window.abilities.platform %> /
+      TileMill <%= window.abilities.tilemill.version %>
+    </div>
+  </li>
+  <li>
+    <label for='verbose'>Logging</label>
+    <input type='checkbox' name='verbose' <% if (get('verbose') == 'on') %>checked='checked'<% ; %> /> Use verbose logging
+    <div class='description'>
+      Check this to see more output in your logs about what TileMill processes are doing
+    </div>
+  </li>
+  <li class='buttons'>
+    <input type='submit' value='Saved' class='disabled' />
+  </li>
+</ul></form>

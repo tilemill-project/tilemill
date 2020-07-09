@@ -1,0 +1,21 @@
+{
+    "fields": {
+        "AREA": { "type": "Number" },
+        "FIPS": { "type": "String" },
+        "ISO2": { "type": "String" },
+        "ISO3": {"type": "String" },
+        "LAT": { "type": "Number" },
+        "LON": { "type": "Number" },
+        "NAME": { "type": "String" },
+        "POP2005": { "type": "Number" },
+        "REGION": { "type": "Number" },
+        "SUBREGION": { "type": "Number" },
+        "UN": { "type": "Number" }
+    },
+    "geometry_type": "polygon",
+    "id": "world",
+    "project": "demo_01",
+    "type": "vector",
+    "url": "http://tilemill-data.s3.amazonaws.com/world_borders_merc.zip",
+    "features": []
+}

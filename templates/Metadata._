@@ -1,0 +1,235 @@
+<%
+var get = _(project.get).bind(project);
+%>
+<select name="mapLayer" class="maplayer-selection">
+  <option value="project">
+    Project
+  </option>
+  <option value="http://a.tile.openstreetmap.org/{Z}/{X}/{Y}.png">
+    OpenStreetMap
+  </option>
+  <option value="http://a.tile.opencyclemap.org/cycle/{Z}/{X}/{Y}.png">
+    OpenCycleMap
+  </option>
+</select>
+<div class='fill-w' id='meta-map'>
+  <div class='zoom-display'>Zoom <span class='zoom'></span></div>
+</div>
+
+<form><ul class='form fill-e scrolling'>
+  <li class='text'>
+    <h2><%= title %></h2>
+    <% if (model.get('format') === 'sync') { %>
+      <div class='syncHelp'>
+        Create or replace the map <b><a href='https://www.mapbox.com/data' target='_blank'><%= config.get('syncAccount') %>.<%= model.get('project') %></a></b>.
+      </div>
+      <div class='buttons centered'>
+        <a class='button' href='#/settings'>Change account</a>
+      </div>
+    <% } %>
+  </li>
+  <% if (type === 'tiles') { %>
+  <li>
+    <label for='name'>Project Name</label>
+    <input type='text' name='name' class='stretch' value='<%= get('name') %>' />
+  </li>
+  <li>
+    <label for='description'>Project</br>Description</label>
+    <textarea type='text' name='description' class='stretch' rows='4'><%= get('description') %></textarea>
+  </li>
+  <li>
+    <label for='attribution'>Attribution</label>
+    <textarea type='text' name='attribution' class='stretch' rows='1'><%= get('attribution') %></textarea>
+  </li>
+  <li>
+    <label for='version'>Version</label>
+    <input type='text' name='version' size='20' value='<%= get('version') %>' />
+  </li>
+  <% } %>
+  <% if (model === project) { %>
+  <li>
+    <label for='format'>Format</label>
+    <select class="60" name='format'>
+      <option value='png8'<% if (get('format') == 'png8' || get('format') == 'png') { %> selected='selected' <% } %>>Optimized png (256 colors)</option>
+      <option value='png24'<% if (get('format') == 'png24') { %> selected='selected' <% } %>>Lossless png (Full color)</option>
+      <option value='jpeg80'<% if (get('format') == 'jpeg80') { %> selected='selected' <% } %>>jpeg (80%)</option>
+      <option value='jpeg85'<% if (get('format') == 'jpeg85') { %> selected='selected' <% } %>>jpeg (85%)</option>
+      <option value='jpeg90'<% if (get('format') == 'jpeg90') { %> selected='selected' <% } %>>jpeg (90%)</option>
+      <option value='jpeg95'<% if (get('format') == 'jpeg95') { %> selected='selected' <% } %>>jpeg (95%)</option>
+      <option value=''<% if (!_(['png','png8','png24','jpeg80','jpeg85','jpeg90','jpeg95']).include(get('format'))) { %> selected='selected' <% } %>>Custom</option>
+    </select>
+    <input class='dependent' type='text' name='format_custom' size='10' value='<%=get('format')%>' />
+    <small class='dependent description help'>Enter a <a target='_blank' href="https://github.com/mapnik/mapnik/wiki/Image-IO">custom Mapnik format string</a>.</small>
+  </li>
+  <% } %>
+  <% if (type === 'image') { %>
+  <li>
+    <label for='exportFormat'>File Format</label>
+    <select name="exportFormat" class="exportformat-selection" style='width:unset' >
+      <option value="PNG"<% if (model.get('format') == 'png') { %> selected='selected' <% } %>>PNG</option>
+      <option value="JPEG"<% if (model.get('format') == 'jpeg') { %> selected='selected' <% } %>>JPEG</option>
+      <option value="PDF"<% if (model.get('format') == 'pdf') { %> selected='selected' <% } %>>PDF</option>
+      <option value="TIFF"<% if (model.get('format') == 'tiff') { %> selected='selected' <% } %>>TIFF</option>
+      <option value="WEBP"<% if (model.get('format') == 'webp') { %> selected='selected' <% } %>>WEBP</option>
+      <option value="SVG"<% if (model.get('format') == 'svg') { %> selected='selected' <% } %>>SVG</option>
+    </select>
+  </li>
+  <% } %>
+  <% if (model !== project && model.get('format') !== 'sync') { %>
+  <li>
+    <label>Filename</label>
+    <% if (model.get('filename')) { %>
+      <input type='text' name='filename' value='<%=model.get('filename').split('.')[0]%>' size='20' />
+    <% } else { %>
+        <input type='text' name='filename' value='<%=project.id%>' size='20' />
+    <% } %>
+    <small>.
+    <input name='filenameExtension' type='text' value='<%=model.get('format')%>' size='5' style='border:none; background:transparent; text-align:left; box-shadow: none;'/></small>
+    <small class='description'>No spaces allowed</small>
+  </li>
+  <li>
+    <label for='note'>Export Note</label>
+    <textarea type='text' name='note' class='stretch' rows='2'><%= model.get('note') %></textarea>
+  </li>
+  <% } %>
+  <% if (type === 'tiles') { %>
+  <li>
+    <label>Zoom</label>
+    <div class='slider range small' data-key='zooms' data-min='0' data-max='22'></div>
+    <small class='description'><span class='totaltiles'>0</span> tiles (<span class='totalsize'>0</span>)</small>
+  </li>
+  <li>
+    <span class='icon i40 center'></span>
+    <label for='center'>Center</label>
+    <input type='text' name='center' size='20' value='<%=get('center').join(',')%>' />
+    <small class='description'>Click to move starting center point.</small>
+  </li>
+  <% } %>
+  <% if (type === 'image') { %>
+  <li>
+    <label>Size</label>
+    <input name='width' type='text' value='<% if (model.get('width') !== undefined) { %><%=model.get('width')%><% } else { %>400<% } %>' size='4' /> x
+    <input name='height' type='text' value='<%=model.get('height')%>' size='4' /><small>pixels</small>
+  </li>
+  <li>
+    <label for='static_zoom'>Zoom</label>
+    <div class='slider' data-key='static_zoom' data-step='1' data-min='0' data-max='30'></div>
+    <small class='description'>Target static zoom level for rendering</small>
+  </li>
+  <% } %>
+  <li>
+    <label for='bounds'>Bounds</label>
+    <input type='text' name='bounds' size='35' value='<%=get('bounds').join(',')%>' />
+    <input type='text' name='bounds-prev' size='35' value='<%=get('bounds').join(',')%>' disabled hidden/>
+    <div class="boxselector-instructions-tooltip">
+      <small class="description">Map instructions<i class="icon right info"></i></small>
+      <span class="tooltiptext">
+        - drag inside box to move box<br>
+        - drag outside box to move map<br>
+        - drag box edges to resize the box<br>
+        - shift+drag to draw a new box
+      </span>
+    </div>
+  </li>
+  <% if (type === 'image') { %>
+  <li>
+    <label>Paper Size</label>
+    <select name="papersize" class="papersize-selection" style='width:unset' >
+      <option value="freeform"<% if (model.get('papersize') == 'notset') { %> selected='selected' <% } %>>Freeform</option>
+      <option value="8.5x11"<% if (model.get('papersize') == 'letter') { %> selected='selected' <% } %>>Letter</option>
+      <option value="8.5x14"<% if (model.get('papersize') == 'legal') { %> selected='selected' <% } %>>Legal</option>
+      <option value="11x17"<% if (model.get('papersize') == 'tabloid') { %> selected='selected' <% } %>>Tabloid</option>
+      <option value="16.54x23.39"<% if (model.get('papersize') == 'A2') { %> selected='selected' <% } %>>A2</option>
+      <option value="11.69x16.54"<% if (model.get('papersize') == 'A3') { %> selected='selected' <% } %>>A3</option>
+      <option value="8.27x11.69"<% if (model.get('papersize') == 'A4') { %> selected='selected' <% } %>>A4</option>
+      <option value="5.83x8.27"<% if (model.get('papersize') == 'A5') { %> selected='selected' <% } %>>A5</option>
+      <option value="custom"<% if (model.get('papersize') == 'custom') { %> selected='selected' <% } %>>Custom</option>
+    </select>
+    <select name="orientation" class="orientation-selection" style='width:unset' hidden>
+      <option value="portrait"<% if (model.get('papersize') == 'portrait') { %> selected='selected' <% } %>>Portrait</option>
+      <option value="landscape"<% if (model.get('papersize') == 'landscape') { %> selected='selected' <% } %>>Landscape</option>
+    </select>
+    <div id="custom-aspect-ratio" hidden>
+      </br>
+      <input name='fullaspectwidth' type='text' value='<% if (model.get('aspectwidth') !== undefined) { %><%=model.get('aspectwidth')%><% } else { %>8.5<% } %>' size='4' disabled/>
+      X
+      <input name='fullaspectheight' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled/><small>in</small>
+      <small class='description'>Paper Dimensions</small>
+      <input name='fullaspectwidth-prev' type='text' value='<% if (model.get('aspectwidth') !== undefined) { %><%=model.get('aspectwidth')%><% } else { %>8.5<% } %>' size='4' disabled hidden/>
+      <input name='fullaspectheight-prev' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled hidden/>
+    </div>
+    <input name='aspectwidth' type='text' value='<% if (model.get('aspectwidth') !== undefined) { %><%=model.get('aspectwidth')%><% } else { %>8.5<% } %>' size='4' disabled hidden />
+    <input name='aspectheight' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled hidden />
+    <input type='checkbox' name='setaspect' value='1' disabled hidden/>
+    <div id="margins" hidden>
+      <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input name='margin-top' type='text' required value='<% if (model.get('margin-top') !== undefined) { %><%=model.get('margin-top')%><% } else { %>0<% } %>' size='3' style="text-align: center;" /><small>in</small></br>
+      <input name='margin-left' type='text' required value='<% if (model.get('margin-left') !== undefined) { %><%=model.get('margin-left')%><% } else { %>0<% } %>' size='3' style="text-align: center;" /><small>in</small> &nbsp;&nbsp;&nbsp;&nbsp;
+      <input name='margin-right' type='text' required value='<% if (model.get('margin-right') !== undefined) { %><%=model.get('margin-right')%><% } else { %>0<% } %>' size='3' style="text-align: center;" /><small>in</small>
+      <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input name='margin-btm' type='text' required value='<% if (model.get('margin-btm') !== undefined) { %><%=model.get('margin-btm')%><% } else { %>0<% } %>' size='3' style="text-align: center;" /><small>in</small>
+      <small class='description'>Paper Margins</small>
+      <input name='margin-top-prev' type='text' required value='<% if (model.get('margin-top') !== undefined) { %><%=model.get('margin-top')%><% } else { %>0<% } %>' size='3' style="text-align: center;" disabled hidden/>
+      <input name='margin-left-prev' type='text' required value='<% if (model.get('margin-left') !== undefined) { %><%=model.get('margin-left')%><% } else { %>0<% } %>' size='3' style="text-align: center;" disabled hidden/>
+      <input name='margin-right-prev' type='text' required value='<% if (model.get('margin-right') !== undefined) { %><%=model.get('margin-right')%><% } else { %>0<% } %>' size='3' style="text-align: center;" disabled hidden/>
+      <input name='margin-btm-prev' type='text' required value='<% if (model.get('margin-btm') !== undefined) { %><%=model.get('margin-btm')%><% } else { %>0<% } %>' size='3' style="text-align: center;" disabled hidden/>
+    </div>
+  </li>
+  <li>
+    <label>Scale</label><small>1:</small>
+    <input name='scale' type='text' value='' size='6' disabled />
+    <small> at Printed width </small>
+    <input name='printedwidth' type='text' value='<% if (model.get('printedwidth') !== undefined) { %><%=model.get('printedwidth')%><% } else { %>8.5<% } %>' size='3' /><small>in</small>
+    <input name='printedwidth-prev' type='text' value='<% if (model.get('printedwidth') !== undefined) { %><%=model.get('printedwidth')%><% } else { %>8.5<% } %>' size='3' disabled hidden/>
+  </li>
+  <li>
+    <label>Feature Size</label>
+    <input name='featurepixels' type='text' value='30' size='3' /><small>pixels =</small>
+    <input name='featurepixels-prev' type='text' value='30' size='3' disabled hidden />
+    <input name='featureprinted' type='text' value='' size='5' style='border:0; background:transparent; text-align:right;' disabled/><small>in</small>
+    <small class='description'>Feature size at the printed width.</small>
+  </li>
+  <li>
+    <label>Box Size</label>
+    <input name='boxWidth' type='text' value='' size='6' disabled style='border:0; background:transparent; text-align:right;'/><small>m   </small>x
+    <input name='boxHeight' type='text' value='' size='6' disabled style='border:0; background:transparent; text-align:right;'/><small>m</small>
+  </li>  <% } %>
+  <% if (model === project) { %>
+  <li>
+    <label for='scale'>Scale factor</label>
+    <div class='slider' data-key='scale' data-step='0.1' data-min='1' data-max='5'></div>
+    <small class='description'>Factor to scale map by.</small>
+  </li>
+  <% } %>
+  <% if (type === 'tiles') { %>
+  <li>
+    <input name='aspectwidth' type='text' value='<% if (model.get('aspectwidth') !== undefined) { %><%=model.get('aspectwidth')%><% } else { %>8.5<% } %>' size='4' disabled hidden />
+    <input name='aspectheight' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled hidden />
+    <input type='checkbox' name='setaspect' value='1' disabled hidden/>
+    <label for='metatile'>MetaTile size</label>
+    <div class='slider' data-key='metatile' data-step='1' data-min='1' data-max='15'></div>
+    <small class='description'></small>
+  </li>
+  <% } %>
+  <% if (model !== project && type === 'tiles') { %>
+  <li>
+    <input type='checkbox' name='_saveProject' value='1' <% if (model.get('format') === 'sync') %>checked='checked' disabled='disabled'<%;%>>
+    <span class='description'>Save settings to project</span>
+  </li>
+  <% } %>
+  <li class='buttons'>
+    <% if (model === project) { %>
+    <input type='hidden' name='_saveProject' value='1' />
+    <input type='submit' value='Save' />
+    <% } else if (model.get('format') === 'sync') { %>
+    <input type='submit' value='Upload' />
+    <% } else { %>
+    <input type='submit' value='Export' />
+    <% } %>
+    <input type='button' value='Cancel' class='cancel' />
+  </li>
+  <% if (type === 'image') { %>
+  <small class='description centered'>Preview (click to open in new window)</small>
+  <div class="preview_image centered"> </div>
+  <% } %>
+</ul></form>

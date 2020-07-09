@@ -1,0 +1,231 @@
+{
+  "bounds": [
+    -77.1408,
+    38.779,
+    -76.893,
+    39.0088
+  ],
+  "center": [
+    -77.036,
+    38.9013,
+    12
+  ],
+  "format": "png",
+  "interactivity": {
+    "fields": []
+  },
+  "minzoom": 7,
+  "maxzoom": 18,
+  "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+  "Stylesheet": [
+    "style.mss",
+    "highway.mss",
+    "labels.mss"
+  ],
+  "Layer": [
+    {
+      "id": "landusages",
+      "name": "landusages",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "layers/osm-landusages.shp",
+        "id": "natural",
+        "srs": "",
+        "project": "open-streets-dc"
+      },
+      "geometry": "polygon",
+      "extent": [
+        -77.11930264157353,
+        38.80315049119033,
+        -76.90914770514456,
+        38.995960228962566
+      ],
+      "srs-name": "autodetect",
+      "advanced": {}
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -77.04786361160811,
+        38.791636589623394,
+        -77.0164310862004,
+        38.8781479
+      ],
+      "id": "ocean",
+      "class": "",
+      "Datasource": {
+        "file": "layers/dc-coastline.shp"
+      },
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "ocean"
+    },
+    {
+      "id": "water",
+      "name": "water",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "class": "",
+      "Datasource": {
+        "file": "layers/osm-waterareas.shp",
+        "id": "dcgis-water",
+        "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+        "project": "open-streets-dc"
+      },
+      "geometry": "polygon",
+      "extent": [
+        -77.11979289660997,
+        38.853243259126195,
+        -76.93917631623486,
+        38.98706755172806
+      ],
+      "srs-name": "900913",
+      "advanced": {}
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -77.11718944069726,
+        38.792397209478516,
+        -76.90951835729004,
+        38.995661712388085
+      ],
+      "id": "tunnels",
+      "class": "",
+      "Datasource": {
+        "file": "layers/osm-roads.shp",
+        "cache-features": "on"
+      },
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {
+        "cache-features": "on"
+      },
+      "name": "tunnels"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -77.11718944069726,
+        38.792397209478516,
+        -76.90951835729004,
+        38.995661712388085
+      ],
+      "id": "roads",
+      "class": "",
+      "Datasource": {
+        "file": "layers/osm-roads.shp"
+      },
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "roads"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -77.11652930790603,
+        38.820831361563556,
+        -76.91065941957852,
+        38.99246390729336
+      ],
+      "id": "mainroads",
+      "class": "",
+      "Datasource": {
+        "file": "layers/osm-mainroads.shp"
+      },
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "mainroads"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -77.11663688162237,
+        38.792397209478516,
+        -76.91316118128722,
+        38.94633988420798
+      ],
+      "id": "motorways",
+      "class": "",
+      "Datasource": {
+        "file": "layers/osm-motorways.shp"
+      },
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "motorways"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -77.11718944069726,
+        38.792397209478516,
+        -76.90951835729004,
+        38.995661712388085
+      ],
+      "id": "bridges",
+      "class": "",
+      "Datasource": {
+        "file": "layers/osm-roads.shp",
+        "id": "bridges",
+        "project": "open-streets-dc",
+        "srs": ""
+      },
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "bridges"
+    },
+    {
+      "id": "places",
+      "name": "places",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "layers/osm-places.shp",
+        "id": "location",
+        "srs": "",
+        "project": "open-streets-dc"
+      },
+      "geometry": "point",
+      "extent": [
+        -77.10775630000002,
+        38.8265324,
+        -76.91636240000008,
+        38.992610099999965
+      ],
+      "srs-name": "autodetect",
+      "advanced": {}
+    },
+    {
+      "id": "road-label",
+      "name": "road-label",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "layers/osm-roads.shp",
+        "id": "highway-label",
+        "srs": "",
+        "project": "open-streets-dc"
+      },
+      "geometry": "linestring",
+      "extent": [
+        -77.11718944069726,
+        38.792397209478516,
+        -76.90951835729004,
+        38.995661712388085
+      ],
+      "srs-name": "autodetect",
+      "advanced": {}
+    }
+  ],
+  "scale": 1,
+  "metatile": 2,
+  "legend": "<!-- This legend uses Unicode box-drawing characters to approxmate line styles. -->\n<span style='color:#F56544'>━</span> Motorways <br />\n<span style='color:#FFC53C'>━</span> Main roads <br />\n<span style='color:#ccc'>━</span> Other roads <br />\n<span style='color:#AC9'>┉</span> Bike paths <br />\n<span style='color:#9CA'>┉</span> Foot paths <br />\n<span style='color:#cea'>▉</span> Park <br />\n<span style='color:#f8e8c8'>▉</span> School <br />\n<span style='color:#c0d8ff'>▉</span> Water",
+  "name": "Open Streets, DC",
+  "description": "An example of street-level map design.",
+  "attribution": "Data used by this map is © OpenStreetMap contributors,  CC-BY-SA. See <http://openstreetmap.org> for more info."
+}

@@ -1,0 +1,465 @@
+#!/bin/bash
+
+##################################################################################
+# Script Domain: Spurpoint                                                       #
+#                                                                                #
+# Script Overview:                                                               #
+# ----------------                                                               #
+# This is a utility script for managing the operations of the tilemill instances #
+# in the spurpoint environment. It will let you build and run tilemill instances #
+# in the background. It will check on the status of instances and let you watch  #
+# the log for instances. In addition, it can be used to create and delete        #
+# instances as well as other misc functions. See the usage for more info.        #
+#                                                                                #
+# Script Unfinished Tasks:                                                       #
+# ------------------------                                                       #
+# - None.                                                                        #
+#                                                                                #
+# Script Notes:                                                                  #
+# -------------                                                                  #
+# - None.                                                                        #
+##################################################################################
+
+# Initialize global variables.
+SCRIPT=$(basename $0)                  # Name of this script.
+START_DIR="$(pwd)"                     # Path where the user started out.
+TILEMILL_DIR="${HOME}/spurpoint"       # Directory containing the tilemill code to operate on.
+CONFIG_DIR="${HOME}/.tilemill"         # Directory containing the tilemill config files.
+STD_CONFIG="${CONFIG_DIR}/config.json" # Standard config file.
+LOG_DIR="${HOME}/logs"                 # Directory where logs should be stored.
+FILES_DIR="${HOME}/Documents/MapBox"   # Location of the MapBox files.
+OSM_AREA="washington"                  # Location of the MapBox files.
+COMMAND="$1"                   # Command requested by the user.
+INSTANCE=""                    # Instance name to use as part of tile & dir names (variable set below).
+INSTANCES=""                   # List of all instances (variable set below).
+PROCESS=""                     # Process name to use (variable set below).
+IP=""                          # IP address to change (variable set below).
+LOG=""                         # Logfile with full path (variable set below).
+CONFIG=""                      # Config file (variable set below).
+MAIN_PID=""                    # Process ID of the main tilemill process (variable set below).
+CORE_PID=""                    # Process ID of the core/ui tilemill process (variable set below).
+TILE_PID=""                    # Process ID of the tile tilemill process (variable set below).
+ANY_PIDS="false"               # Indicator that any of the tilemill processes are running.
+URL=""                         # URL to use to access tilemill (variable set below).
+UPDATE_ONLY="false"            # Indicator that tilemill should only be updated (not a full build).
+info="$(tput setaf 6)";warning="$(tput setaf 3)";error="$(tput setaf 1)";success="$(tput setaf 2)";reset=$(tput sgr0) # Colors for text
+
+print_usage () {
+  echo "${info}Usage:${reset}"
+  echo "    ${info}Building:${reset}"
+  echo "    ${SCRIPT} build               # full build of tilemill (remove node_modules)"
+  echo "    ${SCRIPT} update              # incremental build of tilemill"
+  echo "    ${SCRIPT} test                # mocha test of tilemill"
+  echo "    ${info}Running:${reset}"
+  echo "    ${SCRIPT} check   [instance]  # checks processes for specified tilemill instance"
+  echo "    ${SCRIPT} check all           # checks processes for all tilemill instance"
+  echo "    ${SCRIPT} start   [instance]  # starts specified tilemill instance"
+  echo "    ${SCRIPT} stop    [instance]  # stops specified tilemill instance"
+  echo "    ${SCRIPT} restart [instance]  # stops and start specified tilemill instance"
+  echo "    ${SCRIPT} watch   [instance]  # watches logfile for specified tilemill instance"
+  echo "    Note: if instance is not specified, the default tilemill instance will be used."
+  echo "    ${info}Instance Management:${reset}"
+  echo "    ${SCRIPT} show                # show all instances that have been created"
+  echo "    ${SCRIPT} create   instance   # creates a new tilemill instance"
+  echo "    ${SCRIPT} delete   instance   # deletes an existin tilemill instance"
+  echo "    ${info}Data Management:${reset}"
+  echo "    ${SCRIPT} loadosm             # reloads ${OSM_AREA} osm data into postgresql"
+  echo "    Note: Execute ${TILEMILL_DIR}/utils/loadosm.sh for more load options (different areas, by bounding box)"
+  echo "    ${info}Misc:${reset}"
+  echo "    ${SCRIPT} updateip ipaddress  # updates all ip addreses in config*.json files"
+  echo "    ${SCRIPT} help                # displays this usage info"
+}
+
+set_params () {
+  # Figure out where the config file is and make sure it exists.
+  if [ "${INSTANCE}" == "<default>" ]; then
+    CONFIG="${STD_CONFIG}"
+  else
+    CONFIG="${CONFIG_DIR}/config-${INSTANCE}.json"
+  fi
+  if [ ! -e ${CONFIG} ]; then
+    echo "    ${error}Error: Config file does not exist:${reset} ${CONFIG}"; exit 1
+  fi
+
+  # Set find or set the process name.
+  PROCESS=$(grep process ${CONFIG} | cut -d'"' -f4)
+  if [ "${PROCESS}" == "" ]; then
+    PROCESS="tilemill"
+  fi
+
+  # Make sure that we have a log directory before we need it and set the log variable.
+  if [ ! -d ${LOG_DIR} ]; then
+    mkdir ${LOG_DIR}
+  fi
+  LOG="${LOG_DIR}/${PROCESS}.log"
+}
+
+find_pids () {
+  ANY_PIDS="false"
+  MAIN_PID=""
+  CORE_PID=""
+  TILE_PID=""
+  grep_param="^.*\b[0-9]*\b\s${PROCESS}$"
+  for pidcmd in $(ps -e -o pid,cmd | grep "${grep_param}" | grep -v "$$\|grep" | awk '{printf "%s:%s\n",$1,$2}')
+  do
+    t_pid="$(echo $pidcmd | cut -d ':' -f 1)"
+    MAIN_PID="${t_pid}"
+    ANY_PIDS="true"
+  done
+  grep_param="^.*\b[0-9]*\b\s${PROCESS}-ui$"
+  for pidcmd in $(ps -e -o pid,cmd | grep "${grep_param}" | grep -v "$$\|grep" | awk '{printf "%s:%s\n",$1,$2}')
+  do
+    t_pid="$(echo $pidcmd | cut -d ':' -f 1)"
+    CORE_PID="${t_pid}"
+    ANY_PIDS="true"
+  done
+  grep_param="^.*\b[0-9]*\b\s${PROCESS}-tile$"
+  for pidcmd in $(ps -e -o pid,cmd | grep "${grep_param}" | grep -v "$$\|grep" | awk '{printf "%s:%s\n",$1,$2}')
+  do
+    t_pid="$(echo $pidcmd | cut -d ':' -f 1)"
+    TILE_PID="${t_pid}"
+    ANY_PIDS="true"
+  done
+}
+
+get_url () {
+  coreip=$(grep "coreUrl" ${CONFIG} | sed 's/^.*:\s*\"\([0-9\.]*\):.*$/\1/')
+  coreport=$(grep "port" ${CONFIG} | sed 's/^.*:\s*\([0-9]*\).*$/\1/')
+  echo "    ${warning}Use one of these URLs to access this tilemill instance:${reset} ${URL}"
+  echo "        http://maps.spurpoint.com:${coreport}"
+  echo "        http://${coreip}:${coreport}"
+}
+
+get_instances () {
+  for instance in $(ls ${CONFIG_DIR}/config*.json | xargs -n1 basename)
+  do
+    if [ "${instance}" == "config.json" ]; then
+      INSTANCES="${INSTANCES} <default>"
+    else
+      INSTANCES="${INSTANCES} $(echo ${instance} | sed 's/^config-\(.*\)\.json/\1/')"
+    fi          
+  done
+}
+
+check_tilemill () {
+  if [ "$INSTANCE" == "all" ]; then
+      get_instances
+  else
+      INSTANCES=${INSTANCE}
+  fi
+    
+  for inst in ${INSTANCES}
+  do
+    INSTANCE=${inst}
+    echo "${info}Processes for instance:${reset} ${INSTANCE}"
+    set_params
+    find_pids
+    if [ "${MAIN_PID}" != "" ]; then
+      echo "    ${success}${PROCESS} is running.${reset}"
+    fi
+    if [ "${CORE_PID}" != "" ]; then
+      echo "    ${success}${PROCESS}-ui is running.${reset}"
+    fi
+    if [ "${TILE_PID}" != "" ]; then
+      echo "    ${success}${PROCESS}-tile is running.${reset}"
+    fi
+    if [ "${ANY_PIDS}" == "true" ]; then
+      get_url
+    else
+      echo "    ${error}No ${PROCESS} processes are running.${reset}"
+    fi
+  done
+}
+
+start_tilemill () {
+  echo "${info}Starting tilemill processes for instance:${reset} ${INSTANCE}"
+  # Set the CONFIG and PROCESS variables.
+  set_params
+
+  # Fist, make sure that it is not already running.
+  find_pids
+  if [ "${ANY_PIDS}" == "true" ]; then
+    echo "    ${error}Error: ${PROCESS} is already running. Try restart.${reset}"; exit 1
+  fi
+  # Start tilemill
+  cd ${TILEMILL_DIR}
+  ./index.js --config ${CONFIG} >& ${LOG} &
+  if [ $? != 0 ]; then
+    echo "    ${error}Error: Start of ${PROCESS} failed. Command:${reset} index.js --config ${CONFIG} >& ${LOG} &"
+    cd ${START_DIR}
+    exit 1
+  fi
+  cd ${START_DIR}
+  echo "    ${success}${PROCESS} started in the background.${reset}"
+  get_url
+}
+
+watch_tilemill () {
+  echo "${info}Watching log for tilemill instance:${reset} ${INSTANCE}"
+  # Set the CONFIG and PROCESS variables.
+  set_params
+
+  if [ ! -e ${LOG} ]; then
+    echo "    ${error}There is no tilemill log file at:${reset} ${LOG}"
+    cd ${START_DIR}
+    exit 1
+  fi
+  tail --lines=100 -f ${LOG}
+}
+
+stop_tilemill () {
+  echo "${info}Stopping tilemill processes for instance:${reset} ${INSTANCE}"
+  # Set the CONFIG and PROCESS variables.
+  set_params
+
+  find_pids
+  if [ "${MAIN_PID}" != "" ]; then
+    echo "    Killing process:${reset} ${MAIN_PID} ${PROCESS}"
+    kill ${MAIN_PID}
+  fi
+  if [ "${CORE_PID}" != "" ]; then
+    echo "    Killing process:${reset} ${CORE_PID} ${PROCESS}-ui"
+    kill ${CORE_PID}
+  fi
+  if [ "${TILE_PID}" != "" ]; then
+    echo "    Killing process:${reset} ${TILE_PID} ${PROCESS}-tile"
+    kill ${TILE_PID}
+  fi
+  sleep 2
+
+  # See if it is still running.
+  find_pids
+  if [ "${ANY_PIDS}" == "true" ]; then
+    echo "    ${error}Error: ${PROCESS} is still running.${reset}"; exit 1
+  else
+    echo "    ${success}${PROCESS} successfully stopped.${reset}"
+  fi
+
+  # Archive the log file.
+  if [ -e ${LOG} ]; then
+      archive="${LOG}.$(date +"%Y%m%d")"
+      echo "    ${warning}Archiving log file to:${reset} ${archive}"
+      mv ${LOG} ${archive}
+  fi
+}
+
+create_instance () {
+  echo "${info}Creating instance:${reset} ${INSTANCE}"
+  # Set the CONFIG variables.
+  CONFIG="${CONFIG_DIR}/config-${INSTANCE}.json"
+
+  # Setup variables and ensure that the instance does not already exist.
+  FILES_SOURCE=${FILES_DIR}
+  FILES_TARGET=${FILES_DIR}-${INSTANCE}
+  if [ ! -e ${STD_CONFIG} ]; then
+    echo "    ${error}Error: The Standard tilemill Config file is missing:${reset} ${STD_CONFIG}"; exit 1
+  fi
+  if [ -e ${CONFIG} ]; then
+    echo "    ${error}Error: Config file already exists for instance ${INSTANCE}:${reset} ${CONFIG}"; exit 1
+  fi
+  if [ -d ${FILES_TARGET} ]; then
+    echo "    ${error}Error: File directory already exists for Instance ${INSTANCE}:${reset} ${FILES_TARGET}"; exit 1
+  fi
+
+  maxport=0
+  for port in $(grep "port" ${CONFIG_DIR}/config*.json | sed 's/^.*:\s*\([0-9]*\).*$/\1/')
+  do
+    if [[ $port > $maxport ]]; then
+      maxport=$port
+    fi
+  done
+  tileport=$((maxport + 1))
+  coreport=$((maxport + 2))
+
+  # Create a new config.json for the instance.
+  cp ${STD_CONFIG} ${CONFIG}
+  sed_param="s/tilemill/tilemill-${INSTANCE}/g"
+  sed -i "${sed_param}" ${CONFIG}
+  sed_param="s/20008/${tileport}/g"
+  sed -i "${sed_param}" ${CONFIG}
+  sed_param="s/20009/${coreport}/g"
+  sed -i "${sed_param}" ${CONFIG}
+  sed_param="s/MapBox/Mapbox-${INSTANCE}/g"
+  sed -i "${sed_param}" ${CONFIG}
+  
+  #Create a files structure for the instance.
+  mkdir ${FILES_TARGET}
+  mkdir ${FILES_TARGET}/export
+  cp -r ${FILES_SOURCE}/project ${FILES_TARGET}/project
+  cp -r ${FILES_SOURCE}/cache ${FILES_TARGET}/cache
+  ln -s ${FILES_SOURCE}/images ${FILES_TARGET}/images
+  ln -s ${FILES_SOURCE}/data ${FILES_TARGET}/data
+  echo "    ${success}Instance ${INSTANCE} successfully created.${reset}"
+  echo "    ${warning}Don't forget to open up access to the following ports for ${INSTANCE}:${reset} ${tileport}, ${coreport}"
+}
+
+delete_instance () {
+  echo "${info}Deleting instance:${reset} ${INSTANCE}"
+  # Set the CONFIG and PROCESS variables.
+  set_params
+
+  # Make sure that the instance is not running.
+  find_pids
+  if [ "${ANY_PIDS}" == "true" ]; then
+    echo "    ${error}Error: Instance ${INSTANCE} is running. Stop first then retry.${reset}"; exit 1
+  fi
+
+  # Setup variables and ensure that the instance exists
+  FILES_TARGET=${FILES_DIR}-${INSTANCE}
+  if [[ ! -e ${CONFIG} && ! -d ${FILES_TARGET} ]]; then
+    echo "    ${error}Error: Instance ${INSTANCE} does not exist.${reset}"; exit 1
+  fi
+
+  # Ensure that the user wants to delete the instance.
+  read -p "    ${warning}Are you sure that you want to delete instance ${INSTANCE} (yes/no)?${reset} " response
+  if [ "${response}" != "yes" ]; then
+    echo "    ${error}Aborting delete.${reset}"; exit 1
+  fi
+
+  # Figure out what ports are being used for the port warning.
+  tileport=$(grep "tilePort" ${CONFIG} | sed 's/^.*:\s*\([0-9]*\).*$/\1/')
+  coreport=$(grep "port" ${CONFIG} | sed 's/^.*:\s*\([0-9]*\).*$/\1/')
+
+  # Delete the files/directories for the instance.
+  rm ${CONFIG}
+  rm -rf ${FILES_TARGET}
+  echo "    ${success}Instance ${INSTANCE} successfully deleted.${reset}"
+  echo "    ${warning}Don't forget to close access to the following ports for ${INSTANCE}:${reset} ${tileport}, ${coreport}"
+}
+
+show () {
+  echo "${info}Current instances:${reset}"
+  get_instances
+  for instance in ${INSTANCES}
+  do
+    echo "    ${instance}${reset}"
+  done
+}
+
+update_ip () {
+  echo "${info}Updating config file IP Addresses.${reset}"
+  for file in $(ls ${CONFIG_DIR}/config*.json)
+  do
+    # Do the update for the tileURL.
+    oldip=$(grep "tileUrl" ${file} | sed 's/^.*:\s*\"\([0-9\.]*\):.*$/\1/')
+    sed_param="s/${oldip}/${IP}/g"
+    sed -i "${sed_param}" ${file}
+    # Do the update for the coreURL just in case it is different.
+    oldip=$(grep "coreUrl" ${file} | sed 's/^.*:\s*\"\([0-9\.]*\):.*$/\1/')
+    sed_param="s/${oldip}/${IP}/g"
+    sed -i "${sed_param}" ${file}
+  done
+  echo "    ${success}IP Addresses successfully updated to ${IP}.${reset}"
+}
+
+build_tilemill () {
+  cd ${TILEMILL_DIR}
+  # Copy spurpoint utility scripts to the user's bin.
+  echo "${info}Building/installing spurpoint utililities:${reset}"
+  cd utils
+  g++ geodist.cc -o geodist
+  mv geodist   ${HOME}/bin
+  cp cbl*      ${HOME}/bin
+  cp ${SCRIPT} ${HOME}/bin
+  cd ..
+
+  echo "${info}Building/updating tilemill:${reset}"
+  if [ "${UPDATE_ONLY}" == "false" ]; then
+    echo "${warning}Removing node_modules.${reset}"
+    rm -rf node_modules
+  fi
+  npm install
+  if [ $? != 0 ]; then
+    echo "    ${error}Error: Build of tilemill failed. Command:${reset} npm install"
+    cd ${START_DIR}
+    exit 1
+  fi
+  cd ${START_DIR}
+  echo "    ${success}Build of tilemill complete.${reset}"
+}
+
+test_tilemill () {
+  echo "${info}Testing tilemill:${reset}"
+  cd ${TILEMILL_DIR}
+  npm test
+  if [ $? != 0 ]; then
+    echo "    ${error}Error: Tilemill test failed. Command:${reset} npm test"
+    cd ${START_DIR}
+    exit 1
+  fi
+  cd ${START_DIR}
+  echo "    ${success}Test of tilemill complete.${reset}"
+}
+
+load_osm () {
+  echo "${info}Loading osm data into postgresql for area:${reset} ${OSM_AREA}"
+  cd ${TILEMILL_DIR}/utils
+  ./loadosm.sh -a ${OSM_AREA}
+  if [ $? != 0 ]; then
+    echo "    ${error}Error: Load of osm data failed. Command:${reset} ${TILEMILL_DIR}/utils/loadosm.sh -a ${OSM_AREA}"
+    cd ${START_DIR}
+    exit 1
+  fi
+  cd ${START_DIR}
+  echo "    ${success}Successfully loaded osm data for area:${reset} ${OSM_AREA}"
+}
+
+# Handle commands that do not require any arguments.
+if [ "${COMMAND}" == "help" ]; then
+  print_usage; exit 0
+elif [ "${COMMAND}" == "show" ]; then
+  show; exit 0
+elif [ "${COMMAND}" == "build" ]; then
+  UPDATE_ONLY="false"
+  build_tilemill; exit 0
+elif [ "${COMMAND}" == "update" ]; then
+  UPDATE_ONLY="true"
+  build_tilemill; exit 0
+elif [ "${COMMAND}" == "test" ]; then
+  test_tilemill; exit 0
+elif [ "${COMMAND}" == "loadosm" ]; then
+  load_osm; exit 0
+fi
+
+# Check on commands that require a second argument.
+if [ "$2" == "" ]; then
+  if [ "${COMMAND}" == "create" ]; then
+    echo "${error}Error: instance is required for create.${reset}"; print_usage; exit 1
+  elif [ "${COMMAND}" == "delete" ]; then
+    echo "${error}Error: instance is required for delete.${reset}"; print_usage; exit 1
+  elif [ "${COMMAND}" == "updateip" ]; then
+    echo "${error}Error: ipaddres is required for updateip.${reset}"; print_usage; exit 1
+  fi
+  INSTANCE="<default>"
+else
+  # The updateip command has everything it needs so execute it.
+  if [ "${COMMAND}" == "updateip" ]; then
+    IP="$2"
+    update_ip; exit 0
+  fi
+  INSTANCE="$2"
+  # The create and delete commands have everything they need so execute them.
+  if [ "${COMMAND}" == "create" ]; then
+    create_instance; exit 0
+  elif [ "${COMMAND}" == "delete" ]; then
+    delete_instance; exit 0
+  fi
+fi
+
+# Execute the appropriate remaining command.
+if [ "${COMMAND}" == "start" ]; then
+  start_tilemill
+elif [ "${COMMAND}" == "watch" ]; then
+  watch_tilemill
+elif [ "${COMMAND}" == "stop" ]; then
+  stop_tilemill
+elif [ "${COMMAND}" == "restart" ]; then
+  stop_tilemill
+  start_tilemill
+elif [ "${COMMAND}" == "check" ]; then
+  check_tilemill
+else
+  echo "${error}Error: Invalid option.${reset}"; print_usage; exit 1
+fi
+
+exit 0
