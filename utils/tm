@@ -58,6 +58,7 @@ print_usage () {
   echo "    ${SCRIPT} restart [instance]  # stops and start specified tilemill instance"
   echo "    ${SCRIPT} watch   [instance]  # watches logfile for specified tilemill instance"
   echo "    Note: if instance is not specified, the default tilemill instance will be used."
+  echo "    ${SCRIPT} client              # starts a local client against a local server."
   echo "    ${info}Instance Management:${reset}"
   echo "    ${SCRIPT} show                # show all instances that have been created"
   echo "    ${SCRIPT} create   instance   # creates a new tilemill instance"
@@ -100,21 +101,21 @@ find_pids () {
   CORE_PID=""
   TILE_PID=""
   grep_param="^.*\b[0-9]*\b\s${PROCESS}$"
-  for pidcmd in $(ps -e -o pid,cmd | grep "${grep_param}" | grep -v "$$\|grep" | awk '{printf "%s:%s\n",$1,$2}')
+  for pidcmd in $(ps -e -o pid,comm | grep "${grep_param}" | grep -v "$$\|grep" | awk '{printf "%s:%s\n",$1,$2}')
   do
     t_pid="$(echo $pidcmd | cut -d ':' -f 1)"
     MAIN_PID="${t_pid}"
     ANY_PIDS="true"
   done
   grep_param="^.*\b[0-9]*\b\s${PROCESS}-ui$"
-  for pidcmd in $(ps -e -o pid,cmd | grep "${grep_param}" | grep -v "$$\|grep" | awk '{printf "%s:%s\n",$1,$2}')
+  for pidcmd in $(ps -e -o pid,comm | grep "${grep_param}" | grep -v "$$\|grep" | awk '{printf "%s:%s\n",$1,$2}')
   do
     t_pid="$(echo $pidcmd | cut -d ':' -f 1)"
     CORE_PID="${t_pid}"
     ANY_PIDS="true"
   done
   grep_param="^.*\b[0-9]*\b\s${PROCESS}-tile$"
-  for pidcmd in $(ps -e -o pid,cmd | grep "${grep_param}" | grep -v "$$\|grep" | awk '{printf "%s:%s\n",$1,$2}')
+  for pidcmd in $(ps -e -o pid,comm | grep "${grep_param}" | grep -v "$$\|grep" | awk '{printf "%s:%s\n",$1,$2}')
   do
     t_pid="$(echo $pidcmd | cut -d ':' -f 1)"
     TILE_PID="${t_pid}"
@@ -204,7 +205,7 @@ watch_tilemill () {
     cd ${START_DIR}
     exit 1
   fi
-  tail --lines=100 -f ${LOG}
+  tail -n 100 -f ${LOG}
 }
 
 stop_tilemill () {
@@ -241,6 +242,25 @@ stop_tilemill () {
       echo "    ${warning}Archiving log file to:${reset} ${archive}"
       mv ${LOG} ${archive}
   fi
+}
+
+start_local_tilemill_client () {
+  local_host="127.0.0.1"
+  local_port="20009"
+  port_status="closed"
+  timeout=30
+  counter=0
+  while [ $port_status != "open" ]
+  do
+    sleep 1
+    (( counter += 1 ))
+    # Check if tiletill port is open...
+    port_status=`(echo >/dev/tcp/$local_host/$local_port) &>/dev/null && echo "open" || echo "close"`
+    if [ $counter == $timeout ];
+      then echo "tilemill is not available at ${local_host}:${local_port}";return 1;
+    fi
+  done
+  open "http://${local_host}:${local_port}"
 }
 
 create_instance () {
@@ -458,6 +478,8 @@ elif [ "${COMMAND}" == "restart" ]; then
   start_tilemill
 elif [ "${COMMAND}" == "check" ]; then
   check_tilemill
+elif [ "${COMMAND}" == "client" ]; then
+  start_local_tilemill_client
 else
   echo "${error}Error: Invalid option.${reset}"; print_usage; exit 1
 fi

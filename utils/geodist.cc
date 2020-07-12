@@ -5,7 +5,7 @@
 #define EARTH_RADIUS       (6371.0072 * 0.6214)
 #define TORADS(degrees)    (degrees * (M_PI / 180))
 
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
    double lat1, long1, lat2, long2;
    double dLat, dLong, a, c, d;
