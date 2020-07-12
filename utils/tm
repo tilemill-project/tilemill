@@ -17,16 +17,17 @@
 #                                                                                #
 # Script Notes:                                                                  #
 # -------------                                                                  #
-# - None.                                                                        #
+# - Will use a variable of TILEMILL_DIR if set. If not set, will use the git     #
+#   root of the current directory.                                               #
+# - Will use a variable of TILEMILL_LOGS if set. If not set, will create/use a   #
+#   log directory within the TILEMILL_DIR.                                       #
 ##################################################################################
 
 # Initialize global variables.
 SCRIPT=$(basename $0)                  # Name of this script.
 START_DIR="$(pwd)"                     # Path where the user started out.
-TILEMILL_DIR="${HOME}/spurpoint"       # Directory containing the tilemill code to operate on.
 CONFIG_DIR="${HOME}/.tilemill"         # Directory containing the tilemill config files.
 STD_CONFIG="${CONFIG_DIR}/config.json" # Standard config file.
-LOG_DIR="${HOME}/logs"                 # Directory where logs should be stored.
 FILES_DIR="${HOME}/Documents/MapBox"   # Location of the MapBox files.
 OSM_AREA="washington"                  # Location of the MapBox files.
 COMMAND="$1"                   # Command requested by the user.
@@ -423,6 +424,33 @@ load_osm () {
   cd ${START_DIR}
   echo "    ${success}Successfully loaded osm data for area:${reset} ${OSM_AREA}"
 }
+
+# Set the TILEMILL_DIR, if not already set, by finding the tilemill home in the current
+# directory structure. Also set the LOG_DIR if not TILEMILL_LOGS variable defined.
+if [ "${TILEMILL_DIR}" != "" ]; then
+  if [ ! -d ${TILEMILL_DIR} ]; then
+    echo "${error}Error: TILEMILL_DIR variable must be a valid directory.${reset}"; exit 1
+  else
+    cd ${TILEMILL_DIR}
+  fi
+fi
+while [ ! -d .git ] && [ "${PWD}" != "/" ]; do
+  cd ..
+done
+if [ -d .git ] && [ -e tilemill.sh ]; then
+  TILEMILL_DIR="$(pwd)"
+else
+  echo "${error}Error: TILEMILL_DIR variable not set and current directory not in a tilemill directory structure.${reset}"; exit 1
+fi
+if [ "${TILEMILL_LOGS}" != "" ]; then
+  if [ ! -d ${TILEMILL_LOGS} ]; then
+    echo "${error}Error: TILEMILL_LOGS variable must be a valid directory.${reset}"; exit 1
+  else
+    LOG_DIR="${TILEMILL_LOGS}"
+  fi
+else
+  LOG_DIR="${TILEMILL_DIR}/logs"
+fi
 
 # Handle commands that do not require any arguments.
 if [ "${COMMAND}" == "help" ]; then

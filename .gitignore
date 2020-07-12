@@ -11,3 +11,4 @@ examples/road-trip/layers
 examples/control-room/layers
 /.vscode
 plugins/tilemill-autopilot/
+logs
