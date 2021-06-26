@@ -63,6 +63,18 @@ command.options['height'] = {
     'default': 400
 };
 
+command.options['pages_x'] = {
+    'title': 'pages_x=[pages_x]',
+    'description': 'Static export only: produce a tiled poster pages_x pages wide',
+    'default': 1
+};
+
+command.options['pages_y'] = {
+    'title': 'pages_y=[pages_y]',
+    'description': 'Static export only: produce a tiled poster pages_y pages high',
+    'default': 1
+};
+
 command.options['url'] = {
     'title': 'url=[url]',
     'description': 'URL to PUT updates to.'
@@ -188,6 +200,10 @@ command.prototype.initialize = function(plugin, callback) {
         opts.width = parseInt(opts.width, 10);
     if (!_(opts.height).isUndefined())
         opts.height = parseInt(opts.height, 10);
+    if (!_(opts.pages_x).isUndefined())
+        opts.pages_x = parseInt(opts.pages_x) || 1;
+    if (!_(opts.pages_y).isUndefined())
+        opts.pages_y = parseInt(opts.pages_y) || 1;
     if (!_(opts.metatile).isUndefined())
         opts.metatile = parseInt(opts.metatile, 10);
     if (!_(opts.scale).isUndefined())
@@ -199,6 +215,7 @@ command.prototype.initialize = function(plugin, callback) {
     }
 
     // Rename the output filepath using a random hash if file already exists.
+    // TODO: fix this for multiple files in the case of posters
     if (existsSync(opts.filepath) &&
         _(['png','jpeg','jpg','wepb','tiff','tif','pdf','svg','mbtiles']).include(opts.format)) {
         var hash = crypto.createHash('md5')
@@ -383,17 +400,43 @@ function formatString(string) {
 
 command.prototype.static_map = function(project, callback) {
     try {
-        var map = new mapnik.Map(this.opts.width, this.opts.height);
-        map.fromStringSync(project.xml, {
-            strict: false,
-            base: path.join(this.opts.files, 'project', project.id) + '/'
-        });
-        map.extent = sm.convert(project.mml.bounds, '900913');
-        map.renderFileSync(this.opts.filepath, {
-            format: this.opts.format,
-            scale: project.mml.scale,
-            scale_denominator: this.opts.scale_denominator || 0.0
-        });
+        increment_x = (project.mml.bounds[2] - project.mml.bounds[0]) / this.opts.pages_x;
+        increment_y = (project.mml.bounds[3] - project.mml.bounds[1]) / this.opts.pages_y;
+
+        // correct aspect ratio for page size if we're outputing a poster so that tile edges match
+        var aspect = (project.mml.bounds[2] - project.mml.bounds[0]) /
+            (project.mml.bounds[3] - project.mml.bounds[1]);
+        this.opts.height = Math.round(this.opts.height * aspect)
+
+        letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for (pagex = 1; pagex <= this.opts.pages_x; pagex++) {
+            for (pagey = 1; pagey <= this.opts.pages_y; pagey++) {
+                var map = new mapnik.Map(this.opts.width, this.opts.height);
+                map.fromStringSync(project.xml, {
+                    strict: false,
+                    base: path.join(this.opts.files, 'project', project.id) + '/'
+                });
+                page_bounds = [];
+                page_bounds[0] = project.mml.bounds[0] + increment_x * (pagex - 1);
+                page_bounds[2] = page_bounds[0] + increment_x;
+                page_bounds[1] = project.mml.bounds[1] + increment_y * (pagey - 1);
+                page_bounds[3] = page_bounds[1] + increment_y;
+                map.extent = sm.convert(page_bounds, '900913');
+                if ((this.opts.pages_x + this.opts.pages_y) > 2) {
+                    var pageref = letters[pagex - 1] + pagey.toString();
+                    var ext = path.extname(this.opts.filepath);
+                    filepath = this.opts.filepath.replace(ext, '_' + pageref + ext);
+                } else {
+                    filepath = this.opts.filepath;
+                }
+                console.log('Rendering file ' + filepath);
+                map.renderFileSync(filepath, {
+                    format: this.opts.format,
+                    scale: project.mml.scale,
+                    scale_denominator: this.opts.scale_denominator || 0.0
+                });
+            }
+        }
         callback();
     } catch(err) {
         callback(err);
