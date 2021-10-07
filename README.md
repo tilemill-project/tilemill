@@ -43,7 +43,20 @@ Scripts have been created that will do most everything for you. They were writte
 
 [Full Installation instructions can be found in the TileMill Documentation](https://tilemill-project.github.io/tilemill/docs/install/).
 
+### Docker
+It is also possible to run tilemill as a docker container:
 
+    git clone https://github.com/tilemill-project/tilemill.git
+    cd tilemill
+    docker-compose up
+    
+This will host a docker container which uses the port 20008 and 20009 for tilemill, tilemill is then reachable under [http://localhost:20009](http://localhost:20009) .
+Additionally, a postgis instance is started as well which is reachable under 
+
+	host=localhost port=5432 user=docker password=docker dbname=gis
+
+Docker hosted volumes are used for the containers, hence if you want to use sqlite dbs you have to interact with those to get the dbs into the docker container.
+    
 # Build Status, Running Tests, Updating Documentation
 
 See CONTRIBUTING.md
