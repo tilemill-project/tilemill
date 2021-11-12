@@ -16,8 +16,6 @@ WORKDIR /usr/src/app
 COPY --chown=node:node --from=BUILD /usr/src/app/node_modules /usr/src/app/node_modules
 COPY --chown=node:node . /usr/src/app
 
-RUN chmod 777 startdocker.sh
-
 USER node
 # Export port for tiles
 EXPOSE 20008
