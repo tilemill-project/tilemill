@@ -130,14 +130,18 @@ view.prototype.exportDelete = function(ev) {
     return false;
 };
 
-// Delete all the exports, regardless of Project
+// Delete all the exports for the current Project
 view.prototype.exportDeleteAll = function(ev) {
+    var projectModel = this.project
     var col = this.collection;
         new views.Modal({
-            content: 'Are you sure you want to delete ALL the Exports for EVERY project?',
+            content: 'Are you sure you want to delete ALL the Exports for the project: ' + projectModel.id + '?',
             callback: function() {
                 col.each(function(model) {
-                    model.destroy({ error: function(m, e) { new views.Modal(e) }});
+                    if(model.get('project') == projectModel.id) {
+                        model.destroy({ error: function(m, e) { new views.Modal(e) }});
+                        //console.log("Deleted: " + model.get('filename'));
+                    }
                 })},
             affirmative: 'Delete'
         });
