@@ -135,26 +135,26 @@ var get = _(project.get).bind(project);
   <li>
     <label>Paper Size</label>
     <select name="papersize" class="papersize-selection" style='width:unset' >
-      <option value="freeform"<% if (model.get('papersize') == 'notset') { %> selected='selected' <% } %>>Freeform</option>
-      <option value="8.5x11"<% if (model.get('papersize') == 'letter') { %> selected='selected' <% } %>>Letter</option>
-      <option value="8.5x14"<% if (model.get('papersize') == 'legal') { %> selected='selected' <% } %>>Legal</option>
-      <option value="11x17"<% if (model.get('papersize') == 'tabloid') { %> selected='selected' <% } %>>Tabloid</option>
-      <option value="16.54x23.39"<% if (model.get('papersize') == 'A2') { %> selected='selected' <% } %>>A2</option>
-      <option value="11.69x16.54"<% if (model.get('papersize') == 'A3') { %> selected='selected' <% } %>>A3</option>
-      <option value="8.27x11.69"<% if (model.get('papersize') == 'A4') { %> selected='selected' <% } %>>A4</option>
-      <option value="5.83x8.27"<% if (model.get('papersize') == 'A5') { %> selected='selected' <% } %>>A5</option>
+      <option value="freeform"<% if (model.get('papersize') == 'freeform') { %> selected='selected' <% } %>>Freeform</option>
+      <option value="8.5x11"<% if (model.get('papersize') == '8.5x11') { %> selected='selected' <% } %>>Letter 8.5x11in</option>
+      <option value="8.5x14"<% if (model.get('papersize') == '8.5x14') { %> selected='selected' <% } %>>Legal 8.5x14in</option>
+      <option value="11x17"<% if (model.get('papersize') == '11x17') { %> selected='selected' <% } %>>Tabloid 11x17in</option>
+      <option value="16.54x23.39"<% if (model.get('papersize') == '16.54x23.39') { %> selected='selected' <% } %>>A2 42x59.4cm</option>
+      <option value="11.69x16.54"<% if (model.get('papersize') == '11.69x16.54') { %> selected='selected' <% } %>>A3 29.7x42cm</option>
+      <option value="8.27x11.69"<% if (model.get('papersize') == '.27x11.69') { %> selected='selected' <% } %>>A4 21x29.7cm</option>
+      <option value="5.83x8.27"<% if (model.get('papersize') == '5.83x8.27') { %> selected='selected' <% } %>>A5 14.8x21cm</option>
       <option value="custom"<% if (model.get('papersize') == 'custom') { %> selected='selected' <% } %>>Custom</option>
     </select>
-    <select name="orientation" class="orientation-selection" style='width:unset' hidden>
-      <option value="portrait"<% if (model.get('papersize') == 'portrait') { %> selected='selected' <% } %>>Portrait</option>
-      <option value="landscape"<% if (model.get('papersize') == 'landscape') { %> selected='selected' <% } %>>Landscape</option>
+    <select name="orientation" class="orientation-selection" style='width:unset' <% if (model.get('papersize') == 'freeform' || model.get('papersize') == '') { %> hidden <% } %>>
+      <option value="portrait"<% if (model.get('orientation') == 'portrait') { %> selected='selected' <% } %>>Portrait</option>
+      <option value="landscape"<% if (model.get('orientation') == 'landscape') { %> selected='selected' <% } %>>Landscape</option>
     </select>
     <div id="custom-aspect-ratio" hidden>
       </br>
+      <label>Dimensions</label>
       <input name='fullaspectwidth' type='text' value='<% if (model.get('aspectwidth') !== undefined) { %><%=model.get('aspectwidth')%><% } else { %>8.5<% } %>' size='4' disabled/>
       X
-      <input name='fullaspectheight' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled/><small>in</small>
-      <small class='description'>Paper Dimensions</small>
+      <input name='fullaspectheight' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled/><small> in</small>
       <input name='fullaspectwidth-prev' type='text' value='<% if (model.get('aspectwidth') !== undefined) { %><%=model.get('aspectwidth')%><% } else { %>8.5<% } %>' size='4' disabled hidden/>
       <input name='fullaspectheight-prev' type='text' value='<% if (model.get('aspectheight') !== undefined) { %><%=model.get('aspectheight')%><% } else { %>11<% } %>' size='4' disabled hidden/>
     </div>
@@ -163,16 +163,16 @@ var get = _(project.get).bind(project);
     <input type='checkbox' name='setaspect' value='1' disabled hidden/>
     <div id="margins" hidden>
       <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <input name='margin-top' type='text' required value='<% if (model.get('margin-top') !== undefined) { %><%=model.get('margin-top')%><% } else { %>0<% } %>' size='3' style="text-align: center;" /><small>in</small></br>
-      <input name='margin-left' type='text' required value='<% if (model.get('margin-left') !== undefined) { %><%=model.get('margin-left')%><% } else { %>0<% } %>' size='3' style="text-align: center;" /><small>in</small> &nbsp;&nbsp;&nbsp;&nbsp;
-      <input name='margin-right' type='text' required value='<% if (model.get('margin-right') !== undefined) { %><%=model.get('margin-right')%><% } else { %>0<% } %>' size='3' style="text-align: center;" /><small>in</small>
+      <input name='margin_top' type='text' required value='<% if (model.get('margin_top') !== undefined) { %><%=model.get('margin_top')%><% } else { %>0<% } %>' size='3' style="text-align: center;" /><small>in</small></br>
+      <label>Margins</label>
+      <input name='margin_left' type='text' required value='<% if (model.get('margin_left') !== undefined) { %><%=model.get('margin_left')%><% } else { %>0<% } %>' size='3' style="text-align: center;" /><small>in</small> &nbsp;&nbsp;&nbsp;&nbsp;
+      <input name='margin_right' type='text' required value='<% if (model.get('margin_right') !== undefined) { %><%=model.get('margin_right')%><% } else { %>0<% } %>' size='3' style="text-align: center;" /><small>in</small>
       <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <input name='margin-btm' type='text' required value='<% if (model.get('margin-btm') !== undefined) { %><%=model.get('margin-btm')%><% } else { %>0<% } %>' size='3' style="text-align: center;" /><small>in</small>
-      <small class='description'>Paper Margins</small>
-      <input name='margin-top-prev' type='text' required value='<% if (model.get('margin-top') !== undefined) { %><%=model.get('margin-top')%><% } else { %>0<% } %>' size='3' style="text-align: center;" disabled hidden/>
-      <input name='margin-left-prev' type='text' required value='<% if (model.get('margin-left') !== undefined) { %><%=model.get('margin-left')%><% } else { %>0<% } %>' size='3' style="text-align: center;" disabled hidden/>
-      <input name='margin-right-prev' type='text' required value='<% if (model.get('margin-right') !== undefined) { %><%=model.get('margin-right')%><% } else { %>0<% } %>' size='3' style="text-align: center;" disabled hidden/>
-      <input name='margin-btm-prev' type='text' required value='<% if (model.get('margin-btm') !== undefined) { %><%=model.get('margin-btm')%><% } else { %>0<% } %>' size='3' style="text-align: center;" disabled hidden/>
+      <input name='margin_btm' type='text' required value='<% if (model.get('margin_btm') !== undefined) { %><%=model.get('margin_btm')%><% } else { %>0<% } %>' size='3' style="text-align: center;" /><small>in</small>
+      <input name='margin_top-prev' type='text' required value='<% if (model.get('margin_top') !== undefined) { %><%=model.get('margin_top')%><% } else { %>0<% } %>' size='3' style="text-align: center;" disabled hidden/>
+      <input name='margin_left-prev' type='text' required value='<% if (model.get('margin_left') !== undefined) { %><%=model.get('margin_left')%><% } else { %>0<% } %>' size='3' style="text-align: center;" disabled hidden/>
+      <input name='margin_right-prev' type='text' required value='<% if (model.get('margin_right') !== undefined) { %><%=model.get('margin_right')%><% } else { %>0<% } %>' size='3' style="text-align: center;" disabled hidden/>
+      <input name='margin_btm-prev' type='text' required value='<% if (model.get('margin_btm') !== undefined) { %><%=model.get('margin_btm')%><% } else { %>0<% } %>' size='3' style="text-align: center;" disabled hidden/>
     </div>
   </li>
   <li>

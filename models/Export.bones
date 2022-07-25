@@ -79,6 +79,24 @@ model.prototype.schema = {
         'aspectheight': {
             'type': 'string'
         },
+        'papersize': {
+            'type': 'string'
+        },
+        'orientation': {
+            'type': 'string'
+        },
+        'margin_top': {
+            'type': 'string'
+        },
+        'margin_btm': {
+            'type': 'string'
+        },
+        'margin_left': {
+            'type': 'string'
+        },
+        'margin_right': {
+            'type': 'string'
+        },
         'printedwidth': {
             'type': 'string'
         }
