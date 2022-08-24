@@ -128,8 +128,11 @@ view.prototype.render = function() {
             if (e < -180) e += 360; else if (e > 180) e -= 360;
             this.$('input[name=bounds]').val([w,s,e,n].join(','));
             if (this.$('input[name=width]').size()) this.updateSize();
-            this.updateAspect();
             if (this.$('.slider .range').size()) this.updateTotal();
+            // If only updating Project Settings, don't set bounding box aspect ratio
+            if (this.model != this.project) {
+                this.updateAspect();
+            }
         }).bind(this));
         this.$('input[name=setaspect]').attr('checked', false);
         this.boxselector.extent(extent);
