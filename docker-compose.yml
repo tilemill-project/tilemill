@@ -12,6 +12,7 @@ services:
       - "5432:5432"
 
   tilemill:
+    platform: linux/amd64
     build:
       context: ./
     ports:
