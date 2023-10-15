@@ -130,7 +130,8 @@ view.prototype.render = function() {
             if (this.$('input[name=width]').size()) this.updateSize();
             if (this.$('.slider .range').size()) this.updateTotal();
             // If only updating Project Settings, don't set bounding box aspect ratio
-            if (this.model != this.project) {
+            //if (this.model != this.project {
+            if (this.model != this.project && this.model.attributes.format != 'mbtiles') {
                 this.updateAspect();
             }
         }).bind(this));

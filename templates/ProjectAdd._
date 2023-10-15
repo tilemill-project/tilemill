@@ -19,7 +19,7 @@
     <label for='format'>Image format</label>
     <select class="60" name='format'>
       <option value='png8'<% if (get('format') == 'png8') { %> selected='selected' <% } %>>Optimized png (256 colors)</option>
-      <option value='png24'<% if (get('format') == 'png24') { %> selected='selected' <% } %>>Lossless png (Full color)</option>
+      <option value='png'<% if (get('format') == 'png') { %> selected='selected' <% } %>>Lossless png (Full color)</option>
       <option value='jpeg80'<% if (get('format') == 'jpeg80') { %> selected='selected' <% } %>>jpeg (80%)</option>
       <option value='jpeg85'<% if (get('format') == 'jpeg85') { %> selected='selected' <% } %>>jpeg (85%)</option>
       <option value='jpeg90'<% if (get('format') == 'jpeg90') { %> selected='selected' <% } %>>jpeg (90%)</option>

@@ -62,7 +62,8 @@ server.prototype.image = function(req, res, next) {
                     }
                     map.render(im,opts,function(err,im){
                         if (err) return next(err);
-                        im.encode('png24',function(err,tile) {
+                        //im.encode('png24',function(err,tile) { cjs 10/14/23 png24 -> png
+                        im.encode('png',function(err,tile) {
                             if (err) return next(err);
                             res.send(tile,{ 'Content-Type': 'image/png' });
                         });
