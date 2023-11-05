@@ -1,0 +1,6 @@
+{
+    "name": "colors",
+    "description": "List of system defined colors.",
+    "engines": {"tilemill":"*"},
+    "private": true
+}
