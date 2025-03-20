@@ -11,6 +11,7 @@ var carto = require('carto');
 server = Bones.Server.extend({});
 server.prototype.port = 20008;
 server.prototype.start = function(callback) {
+    console.warn('Starting Tile.bones...');
     if (this.plugin.config.tileSocket) {
         this.port = null;
         this.listen(this.plugin.config.tileSocket, callback);
@@ -42,6 +43,7 @@ server.prototype.initialize = function() {
 };
 
 server.prototype.image = function(req, res, next) {
+    console.warn('Tile.bones rendering image()');
     var id = req.params.id;
     (new models.Project({id:req.param('id')})).fetch({
         success: function(model, resp) {
@@ -56,9 +58,14 @@ server.prototype.image = function(req, res, next) {
                         base: path.join(settings.files, 'project', id) + '/'
                     });
                     map.extent = sm.convert(bbox, '900913');
+                    //Explicity pass zoom as variable to Mapnik
+                    //From: https://github.com/mapbox/carto/issues/269#issuecomment-268660458
+                    //map.render(im, {scale: project.mml.scale, variables: {zoom: this.z}}, cb); 
+                    console.log('Adding zoom as variable...');
                     var opts = {
                         scale_denominator: carto.tree.Zoom.ranges[req.query.static_zoom] || 0.0,
-                        scale: model.mml.scale
+                        scale: model.mml.scale,
+                        variables: {zoom: this.z}
                     }
                     map.render(im,opts,function(err,im){
                         if (err) return next(err);
