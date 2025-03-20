@@ -79,7 +79,7 @@ view.prototype.close = function() {
 };
 
 view.prototype.render = function() {
-
+    console.log('Rendering map in Metadata.bones...');
     if (this.model.get('format') !== 'sync' ||
         (this.config.get('syncAccount') && this.config.get('syncAccessToken'))) {
         $(this.el).html(templates.Metadata(this));

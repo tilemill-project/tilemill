@@ -53,6 +53,7 @@ node,way disused text linear
 node ele text linear
 node,way embankment text linear
 node,way foot text linear
+node,way footway text linear
 node,way generator:source text linear
 node,way harbour text polygon
 node,way highway text linear
