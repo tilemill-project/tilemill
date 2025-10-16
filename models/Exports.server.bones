@@ -48,6 +48,10 @@ function start(id, callback) {
         if (!_(data.minzoom).isUndefined()) args.push('--minzoom=' + data.minzoom);
         if (!_(data.maxzoom).isUndefined()) args.push('--maxzoom=' + data.maxzoom);
         if (!_(data.metatile).isUndefined()) args.push('--metatile=' + data.metatile);
+        if (data.name) args.push('--name=' + data.name);
+        if (data.description) args.push('--description=' + data.description);
+        if (data.attribution) args.push('--attribution=' + data.attribution);
+        if (data.version) args.push('--version=' + data.version);
 
         var child = spawn(process.execPath, args, {
             env: _(process.env).extend({
