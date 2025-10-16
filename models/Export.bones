@@ -57,6 +57,15 @@ model.prototype.schema = {
         'name': {
             'type': 'string'
         },
+        'description': {
+            'type': 'string'
+        },
+        'attribution': {
+            'type': 'string'
+        },
+        'version': {
+            'type': 'string'
+        },
         'filename': {
             'type': 'string',
             'pattern': '^[A-Za-z0-9\-_.]+$'

@@ -543,7 +543,11 @@ view.prototype.save = function() {
             bbox: attr.bounds,
             minzoom: attr.minzoom,
             maxzoom: attr.maxzoom,
-            center: attr.center
+            center: attr.center,
+            name: attr.name,
+            description: attr.description,
+            attribution: attr.attribution,
+            version: attr.version
         }, {error:error})) return false;
         break;
     default: // printed export
