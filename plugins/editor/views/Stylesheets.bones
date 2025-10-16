@@ -655,7 +655,7 @@ view.prototype.enableLeftRightButtons = function() {
 views.Project.augment({
     render: function(p) {
         p.call(this);
-        return new views.Stylesheets({
+        this.stylesheets = new views.Stylesheets({
             el:this.$('.editor'),
             model:this.model
         });
