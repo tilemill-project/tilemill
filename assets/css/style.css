@@ -514,11 +514,43 @@ ul.projects { margin:0px -5px; }
 .project .map,
 .project .workspace {
   top:0px;
-  width:50% !important;
   height:auto !important;
   }
 
-.project .workspace { border-left:1px solid #ccc; }
+.project .map {
+  left: 0 !important;
+  width: 50% !important;
+  right: auto !important;
+  }
+
+.project .workspace {
+  left: 50% !important;
+  width: auto !important;
+  right: 0 !important;
+  border-left:1px solid #ccc;
+  }
+
+/* Resize handle between map and workspace */
+.project .resize-handle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 5px;
+  height: 100%;
+  margin-left: -3px;
+  cursor: ew-resize;
+  z-index: 50;
+  background: transparent;
+  }
+
+.project .resize-handle:hover {
+  background: rgba(102, 187, 204, 0.3);
+  }
+
+.project .resize-handle:active,
+.project.resizing .resize-handle {
+  background: rgba(102, 187, 204, 0.5);
+  }
 
 .project.fullscreen .palette { display:none; }
 .project.fullscreen .map,

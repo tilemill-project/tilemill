@@ -1,5 +1,7 @@
 <div class='project'>
   <div class='map fill-w'></div>
+  
+  <div class='resize-handle'></div>
 
   <div class='workspace fill-e'>
     <div class='header'>
