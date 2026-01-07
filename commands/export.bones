@@ -218,15 +218,24 @@ command.prototype.initialize = function(plugin, callback) {
         opts.scale_denominator = carto.tree.Zoom.ranges[opts.static_zoom];
     }
 
-    // Rename the output filepath using a random hash if file already exists.
+    // Rename the output filepath using version numbers if file already exists.
     if (existsSync(opts.filepath) &&
         _(['png','jpeg','jpg','wepb','tiff','tif','pdf','svg','mbtiles']).include(opts.format)) {
-        var hash = crypto.createHash('md5')
-            .update(+new Date + '')
-            .digest('hex')
-            .substring(0, 6);
         var ext = path.extname(opts.filepath);
-        opts.filepath = opts.filepath.replace(ext, '_' + hash + ext);
+        var filepathWithoutExt = opts.filepath.replace(ext, '');
+
+        // Remove existing version suffix if present (e.g., "_v1", "_v2", etc.)
+        var baseFilepath = filepathWithoutExt.replace(/_v\d+$/, '');
+        var version = 1;
+        var newFilepath;
+
+        // Find the next available version number
+        do {
+            newFilepath = baseFilepath + '_v' + version + ext;
+            version++;
+        } while (existsSync(newFilepath));
+
+        opts.filepath = newFilepath;
         console.log('found previous export with same name, so renamed to: ' + path.basename(opts.filepath));
 
         // Update filename in TileMill.

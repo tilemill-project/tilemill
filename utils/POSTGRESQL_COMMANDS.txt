@@ -1,0 +1,11 @@
+brew services start postgresql@17
+
+brew services restart postgresql@17
+
+psql
+
+# Link postgresql@17
+brew link postgresql@17
+
+# Now try starting PostgreSQL
+pg_ctl -D /usr/local/var/postgresql@17 -l /usr/local/var/postgresql@17/logfile start
