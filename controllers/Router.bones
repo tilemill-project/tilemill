@@ -22,6 +22,7 @@ controller.prototype.routes = {
     '/manual/:page?': 'manual',
     '/settings': 'config',
     '/plugins': 'plugins',
+    '/postgres': 'postgres',
 };
 
 controller.prototype.goto = function(path) {
@@ -109,6 +110,10 @@ controller.prototype.plugins = function() {
         el: $('#page'),
         collection: new models.Plugins(_(window.abilities.plugins).toArray())
     });
+};
+
+controller.prototype.postgres = function() {
+    new views.Postgres({ el: $('#page') });
 };
 
 controller.prototype.oauthSuccess = function() {

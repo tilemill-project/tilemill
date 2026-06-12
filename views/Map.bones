@@ -101,9 +101,15 @@ view.prototype.fullscreen = function(e) {
     this.map.draw();
 };
 
-// Set zoom display.
+// Set zoom display and persist current bbox to localStorage for the Postgres page.
 view.prototype.mapZoom = function(e) {
     this.$('.zoom-display .zoom').text(this.map.getZoom());
+    var ext = this.map.getExtent();
+    if (ext) {
+        var bbox = ext.south.toFixed(6) + ',' + ext.west.toFixed(6) + ',' +
+                   ext.north.toFixed(6) + ',' + ext.east.toFixed(6);
+        localStorage.setItem('tilemill.bbox', bbox);
+    }
 };
 
 view.prototype.attach = function() {
