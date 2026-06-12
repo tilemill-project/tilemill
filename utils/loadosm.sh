@@ -20,6 +20,126 @@ INDEXES_SQL="${UTILS_DIR}/indexes.sql"     # SQL to create indexes.
 COUNTS_SQL="${UTILS_DIR}/counts.sql"       # SQL to print out table counts.
 info=`tput setaf 6`;error=`tput setaf 1`;success=`tput setaf 2`;reset=`tput sgr0` # Colors for text
 
+# PostgreSQL service management. Leave PG_START_CMD empty to auto-detect the
+# installation method and version. Set it explicitly to override, for example:
+#   PG_START_CMD="brew services start postgresql@17"   # Homebrew (macOS)
+#   PG_START_CMD="sudo systemctl start postgresql"     # systemd (Linux)
+#   PG_START_CMD="sudo service postgresql start"       # SysV init (older Linux)
+#   PG_START_CMD="pg_ctl start -D /usr/local/pgsql/data" # bare pg_ctl
+PG_START_CMD=""
+
+# Detect how PostgreSQL is installed and what version, then set PG_START_CMD.
+detect_postgres_start_cmd () {
+  local pg_version=""
+  local brew_svc=""
+
+  # --- Strategy 1: Homebrew (macOS) ---
+  if command -v brew &>/dev/null; then
+    # Find any postgresql formula installed via Homebrew (versioned or plain).
+    brew_svc=$(brew services list 2>/dev/null \
+      | awk '/^postgresql/ {print $1}' | head -1)
+    if [ -n "$brew_svc" ]; then
+      # Derive the major version for display, e.g. "postgresql@17" -> "17".
+      pg_version=$(echo "$brew_svc" | grep -oE '[0-9]+$')
+      [ -z "$pg_version" ] && pg_version=$(psql --version 2>/dev/null \
+        | grep -oE '[0-9]+' | head -1)
+      echo "${info}$0: Detected Homebrew PostgreSQL${pg_version:+ $pg_version} (service: ${brew_svc}).${reset}"
+      PG_START_CMD="brew services start ${brew_svc}"
+      return 0
+    fi
+  fi
+
+  # --- Strategy 2: systemd (modern Linux) ---
+  if command -v systemctl &>/dev/null; then
+    # Look for a running or available postgresql unit (versioned or plain).
+    local svc
+    svc=$(systemctl list-units --type=service --all 2>/dev/null \
+      | awk '/postgresql/ {print $1}' | head -1)
+    if [ -z "$svc" ]; then
+      # Try common known names as a fallback.
+      for candidate in postgresql postgresql.service; do
+        if systemctl cat "$candidate" &>/dev/null; then
+          svc="$candidate"; break
+        fi
+      done
+    fi
+    if [ -n "$svc" ]; then
+      pg_version=$(psql --version 2>/dev/null | grep -oE '[0-9]+' | head -1)
+      echo "${info}$0: Detected systemd PostgreSQL${pg_version:+ $pg_version} (unit: ${svc}).${reset}"
+      PG_START_CMD="sudo systemctl start ${svc}"
+      return 0
+    fi
+  fi
+
+  # --- Strategy 3: SysV init / 'service' command (older Linux/macOS) ---
+  if command -v service &>/dev/null; then
+    pg_version=$(psql --version 2>/dev/null | grep -oE '[0-9]+' | head -1)
+    echo "${info}$0: Detected SysV init PostgreSQL${pg_version:+ $pg_version}.${reset}"
+    PG_START_CMD="sudo service postgresql start"
+    return 0
+  fi
+
+  # --- Strategy 4: bare pg_ctl ---
+  if command -v pg_ctl &>/dev/null; then
+    local pgdata="${PGDATA:-}"
+    # If PGDATA isn't set in the environment, try to find the data dir from
+    # the running config, or fall back to a common Homebrew default.
+    if [ -z "$pgdata" ]; then
+      pgdata=$(pg_config --configure 2>/dev/null \
+        | grep -oE "'--with-pgport=[^']+'" | head -1) # rough heuristic
+      pgdata="${HOMEBREW_PREFIX:-/usr/local}/var/postgresql@$(psql --version 2>/dev/null | grep -oE '[0-9]+' | head -1)"
+    fi
+    pg_version=$(pg_ctl --version 2>/dev/null | grep -oE '[0-9.]+' | head -1)
+    echo "${info}$0: Detected pg_ctl PostgreSQL ${pg_version} (data dir: ${pgdata}).${reset}"
+    PG_START_CMD="pg_ctl start -D \"${pgdata}\""
+    return 0
+  fi
+
+  # --- No known installation method found ---
+  echo "${error}Error: Could not detect a PostgreSQL installation or service manager.${reset}"
+  echo "${error}       Set PG_START_CMD at the top of this script to specify how to start PostgreSQL.${reset}"
+  exit 1
+}
+
+ensure_postgres_running () {
+  local pg_host="${1:-localhost}"
+  local pg_port="${2:-5432}"
+
+  echo ""
+  echo "${info}$0: Checking if PostgreSQL is running...${reset}"
+  echo "${info}----------------------------------------------------------------------${reset}"
+
+  # pg_isready exits 0 if accepting connections, non-zero otherwise.
+  if pg_isready -h "$pg_host" -p "$pg_port" -q; then
+    echo "${success}$0: PostgreSQL is running and accepting connections.${reset}"
+    return 0
+  fi
+
+  # Auto-detect how to start PostgreSQL if not explicitly configured.
+  if [ -z "$PG_START_CMD" ]; then
+    detect_postgres_start_cmd
+  fi
+
+  echo "${info}$0: PostgreSQL is not running. Starting with: ${PG_START_CMD}${reset}"
+  eval "$PG_START_CMD"
+  if [ $? != 0 ]; then
+    echo "${error}Error: Failed to start PostgreSQL. Command: ${PG_START_CMD}${reset}"; exit 1
+  fi
+
+  # Poll until PostgreSQL is ready, up to 15 seconds.
+  local attempts=0
+  local max_attempts=15
+  while ! pg_isready -h "$pg_host" -p "$pg_port" -q; do
+    attempts=$((attempts + 1))
+    if [ $attempts -ge $max_attempts ]; then
+      echo "${error}Error: PostgreSQL did not become ready after ${max_attempts} seconds.${reset}"; exit 1
+    fi
+    echo "${info}$0: Waiting for PostgreSQL to become ready (${attempts}/${max_attempts})...${reset}"
+    sleep 1
+  done
+  echo "${success}$0: PostgreSQL is now running and accepting connections.${reset}"
+}
+
 print_intro () {
   echo ""
   echo "This script will download OSM data and load it into a Postgres database. The script either downloads a pre-defined area (from geofabrik) or it does a custom download (using overpass) based on a bounding box that you define. The script loads the OSM file into your Postgres database as a new data load (deleting previous OSM data) and prepares it for use by TileMill. If you already have an OSM file downloaded, you can run this script to only load that file with no download."
@@ -511,6 +631,11 @@ fi
 
 # Load the OSM data into the database if requested by the user.
 if [ "${LOAD_DB}" == "true" ]; then
+  # Resolve host/port for the pg_isready check (strip leading --host/--port flags if set).
+  PG_CHECK_HOST=$(echo "${DB_HOST}" | sed 's/--host[[:space:]]*//')
+  PG_CHECK_PORT=$(echo "${DB_PORT}" | sed 's/--port[[:space:]]*//')
+  ensure_postgres_running "${PG_CHECK_HOST:-localhost}" "${PG_CHECK_PORT:-5432}"
+
   # Make sure that they have a default.style file in their OSM directory.
   if [ ! -e "${MAPDATA_DIR}/${STYLE}" ]; then
     echo ""; echo ""
