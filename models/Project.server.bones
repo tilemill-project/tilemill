@@ -16,6 +16,15 @@ var EventEmitter = require('events').EventEmitter;
 var millstone = require('millstone');
 var settings = Bones.plugin.config;
 var tileURL = _('http://<%=url%>/tile/<%=id%>/{z}/{x}/{y}.<%=format%>?updated=<%=updated%>&metatile=<%=metatile%>&scale=<%=scale%>').template();
+
+var util = require('util');
+function vlog() {
+    if (settings.verbose !== 'on') return;
+    var ts = new Date().toISOString().replace('T', ' ').replace('Z', '');
+    var args = Array.prototype.slice.call(arguments);
+    args[0] = '[' + ts + '] ' + args[0];
+    console.warn.apply(console, args);
+}
 var request = require('request');
 var existsSync = require('fs').existsSync || require('path').existsSync;
 
@@ -324,6 +333,7 @@ function loadProjectAll(model, callback) {
 // Destroy a project. `rm -rf` equivalent for the project directory.
 function destroyProject(model, callback) {
     var modelPath = path.resolve(path.join(settings.files, 'project', model.id));
+    console.warn('[project] deleted "%s"', model.id);
 	if (process.platform === 'win32') {
         // https://github.com/tilemill-project/tilemill/issues/1121
         // Workaround to access denied error on Windows when mapnik has
@@ -420,6 +430,8 @@ function saveProject(model, callback) {
             metatile: model.get('metatile'),
             scale: model.get('scale')
         });
+        var layerCount = (model.get('Layer') || []).length;
+        console.warn('[project] saved "%s" (%d layers)', model.id, layerCount);
         callback(err, {
             _updated: updated,
             tiles: [tiles],
@@ -447,48 +459,87 @@ function saveProject(model, callback) {
     });
 }
 
+// Cache mapnik.fonts() — building this list scans all registered font paths
+// and is expensive to call on every compile.
+var cachedMapnikFonts = null;
+function getMapnikFonts(extraFontDir) {
+    if (extraFontDir) {
+        mapnik.register_fonts(extraFontDir);
+        cachedMapnikFonts = null; // invalidate after registering new fonts
+    }
+    if (!cachedMapnikFonts) {
+        var t = Date.now();
+        cachedMapnikFonts = mapnik.fonts();
+        vlog('[carto] mapnik.fonts() took %dms (%d fonts)', Date.now() - t, cachedMapnikFonts.length);
+    }
+    return cachedMapnikFonts;
+}
+
 function compileStylesheet(mml, callback) {
     // Parse project stylesheets for `font-directory` property and register
     // font path if it is present so that `validation_data` includes fonts from
     // this directory.
-    // @TODO Probably the only more reasonable way to do this would be to have
-    // carto expand validation data dynamically to include this dir when it
-    // comes across this map property. Gross....
     var styles = _(mml.Stylesheet || []).pluck('data').join('\n');
-    var fonts = styles.match(/font-directory:[\s]*url\(['"]*([^'"\)]*)['"]*\)/);
-    if (fonts) {
-        fonts = fonts[1];
-        // @TODO - will be broken on windows
-        fonts = fonts.charAt(0) !== '/'
-            ? path.join(settings.files, 'project', mml.id, fonts)
-            : fonts;
-        mapnik.register_fonts(fonts);
+    var fontMatch = styles.match(/font-directory:[\s]*url\(['"]*([^'\"\)]*)['"]*\)/);
+    var extraFontDir = null;
+    if (fontMatch) {
+        extraFontDir = fontMatch[1];
+        if (extraFontDir.charAt(0) !== '/') {
+            extraFontDir = path.join(settings.files, 'project', mml.id, extraFontDir);
+        }
     }
 
+    // carto 1.x Renderer constructor takes options (camelCase); benchmark logs
+    // per-layer timing — only enabled when verbose logging is on.
     var env = {
-        validation_data: { fonts: mapnik.fonts() },
+        validationData: { fonts: getMapnikFonts(extraFontDir) },
+        benchmark: settings.verbose === 'on',
         returnErrors: true,
         effects: []
     };
+
+    var t = Date.now();
+    console.warn('[carto] starting compile for "%s" (%d stylesheets, %d layers)',
+        mml.id || '?',
+        (mml.Stylesheet || []).length,
+        (mml.Layer || []).length);
 
     // try/catch here as per https://github.com/tilemill-project/tilemill/issues/1370
     // with carto 1.x, it no longer throws an error for compile errors, instead returned data is null
     try {
         var xml = new carto.Renderer(env, { mapnik_version: mapnik.versions.mapnik }).render(mml);
+        console.warn('[carto] compile finished in %dms', Date.now() - t);
         if (xml.data != null) {
             return callback(null, xml);
         } else {
-            return callback(new Error(xml.msg[0].filename + ":" +
-            xml.msg[0].line + ":" +
-            xml.msg[0].column + " " +
-            xml.msg[0].message));
+            var msg = xml.msg[0].filename + ':' + xml.msg[0].line + ':' +
+                xml.msg[0].column + ' ' + xml.msg[0].message;
+            console.error('[carto] compile error: %s', msg);
+            return callback(new Error(msg));
         }
     } catch (err) {
         return callback(err);
     }
 }
-
 var localizedCache = {};
+
+// Returns cached xml/mml for a project id if localization has completed, else null.
+models.Project.getCachedLocalization = function(id) {
+    var key = path.join(settings.files, 'project', id);
+    var entry = localizedCache[key];
+    if (entry && entry.xml && entry.mml) return entry;
+    return null;
+};
+
+// Returns the in-flight EventEmitter for a project that is currently being
+// localized (started but not yet finished), else null. Callers can attach a
+// 'load' listener to avoid redundant project fetches during a long compile.
+models.Project.getLocalizationInFlight = function(id) {
+    var key = path.join(settings.files, 'project', id);
+    var entry = localizedCache[key];
+    if (entry && !entry.xml) return entry; // EventEmitter exists but xml not ready
+    return null;
+};
 
 // Localizes an MML file and compiles the stylesheet for use in tilelive-mapnik.
 models.Project.prototype.localize = function(mml, callback) {
@@ -564,6 +615,10 @@ models.Project.prototype.localize = function(mml, callback) {
         }
         localizedCache[key].debug.compile = (+new Date) - compileTime + 'ms';
         localizedCache[key].xml = compiled.data;
+        console.warn('[tile] localized "%s" — millstone: %s, carto: %s',
+            model.id,
+            localizedCache[key].debug.localize,
+            localizedCache[key].debug.compile);
         localizedCache[key].emit('load');
     }, function(err) {
         if (!err) return;
