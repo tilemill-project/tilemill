@@ -36,6 +36,16 @@ view.prototype.render = function() {
 // Server management
 // ---------------------------------------------------------------------------
 
+// Helper: set a detail row's value and mark it as having data.
+view.prototype.setDetail = function(rowSel, valSel, text) {
+    if (text) {
+        this.$(valSel).text(text);
+        this.$(rowSel).addClass('pg-has-data');
+    } else {
+        this.$(rowSel).removeClass('pg-has-data').hide();
+    }
+};
+
 view.prototype.checkDBStatus = function() {
     var self = this;
     self.$('.db-status-badge').text('Checking...').removeClass('connected disconnected');
@@ -56,7 +66,7 @@ view.prototype.checkDBStatus = function() {
                 return;
             }
 
-            // ── Installed ─────────────────────────────────────────────────
+            // ── Installed — render badge and buttons immediately ──────────
             self.$('.pg-row-hint').hide();
             self.$('.pg-details-toggle').show();
 
@@ -68,46 +78,43 @@ view.prototype.checkDBStatus = function() {
             self.$('.db-status-message').text(
                 d.pgReadyMsg ? ' — ' + d.pgReadyMsg : '');
 
-            // Button states
             self.$('.pg-btn-start').toggleClass('disabled', connected);
             self.$('.pg-btn-stop, .pg-btn-restart').toggleClass('disabled', !connected);
 
-            // Helper: set a detail row's value and mark it as having data.
-            function setDetail(rowSel, valSel, text) {
-                if (text) {
-                    self.$(valSel).text(text);
-                    self.$(rowSel).addClass('pg-has-data');
-                } else {
-                    self.$(rowSel).removeClass('pg-has-data').hide();
-                }
-            }
-
-            setDetail('.pg-row-version',     '.pg-version',     d.version || '');
-            setDetail('.pg-row-bindir',      '.pg-bindir',      d.binDir  || '');
-            setDetail('.pg-row-datadir',     '.pg-datadir',     d.dataDir || '');
-
             if (d.installMethod) {
                 var inst = d.installMethod + (d.installService ? '  (' + d.installService + ')' : '');
-                setDetail('.pg-row-install', '.pg-install', inst);
-            }
-
-            if (d.port) {
-                setDetail('.pg-row-port', '.pg-port', 'localhost : ' + d.port);
-            }
-
-            if (d.connections !== undefined && d.connections !== null && d.connections !== '') {
-                setDetail('.pg-row-connections', '.pg-connections', d.connections + ' active');
-            }
-
-            if (connected) {
-                var osmText = d.osmDbExists
-                    ? 'osm  (' + d.osmDbSize + ')  —  ' +
-                      (d.osmTablesLoaded ? 'data loaded' : 'no data loaded yet')
-                    : 'osm database not found';
-                setDetail('.pg-row-osmdb', '.pg-osmdb', osmText);
+                self.setDetail('.pg-row-install', '.pg-install', inst);
             }
 
             self.applyDetailsState();
+
+            // ── Fetch extended details in the background ──────────────────
+            if (!connected) return;
+
+            (new models.Postgres({ id: 'dbstatus-details' })).fetch({
+                success: function(detailModel) {
+                    var dd = detailModel.toJSON();
+                    self.setDetail('.pg-row-version',     '.pg-version',     dd.version || '');
+                    self.setDetail('.pg-row-bindir',      '.pg-bindir',      dd.binDir  || '');
+                    self.setDetail('.pg-row-datadir',     '.pg-datadir',     dd.dataDir || '');
+
+                    if (dd.port) {
+                        self.setDetail('.pg-row-port', '.pg-port', 'localhost : ' + dd.port);
+                    }
+
+                    if (dd.connections !== undefined && dd.connections !== null && dd.connections !== '') {
+                        self.setDetail('.pg-row-connections', '.pg-connections', dd.connections + ' active');
+                    }
+
+                    var osmText = dd.osmDbExists
+                        ? 'osm  (' + dd.osmDbSize + ')  —  ' +
+                          (dd.osmTablesLoaded ? 'data loaded' : 'no data loaded yet')
+                        : 'osm database not found';
+                    self.setDetail('.pg-row-osmdb', '.pg-osmdb', osmText);
+
+                    self.applyDetailsState();
+                }
+            });
         },
         error: function() {
             self.$('.db-status-badge').text('Unknown');

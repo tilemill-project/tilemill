@@ -144,15 +144,14 @@ function getInstallHint() {
 }
 
 // ---------------------------------------------------------------------------
-// Extended status query
+// Status queries
 // ---------------------------------------------------------------------------
 
 function psql(database, sql, cb) {
     exec('psql -d ' + database + ' -c ' + JSON.stringify(sql) + ' -t -A 2>/dev/null', cb);
 }
 
-function getExtendedStatus(callback) {
-    // First confirm postgres client tools are present at all.
+function getBasicStatus(callback) {
     exec('command -v pg_isready || command -v psql', function(whichErr, whichOut) {
         if (whichErr || !(whichOut || '').trim()) {
             return callback(null, {
@@ -164,7 +163,7 @@ function getExtendedStatus(callback) {
 
         var result = { installed: true };
         var pending = 2;
-        function check() { if (--pending === 0) afterBasic(); }
+        function check() { if (--pending === 0) callback(null, result); }
 
         exec('pg_isready', function(err, stdout) {
             result.connected  = !err;
@@ -183,57 +182,56 @@ function getExtendedStatus(callback) {
             result.restartCmd     = info.restart;
             check();
         });
-
-        function afterBasic() {
-            if (!result.connected) return callback(null, result);
-
-            var pending2 = 6;
-            function done() { if (--pending2 === 0) callback(null, result); }
-
-            psql('postgres', 'SELECT version();', function(e, out) {
-                if (!e) result.version = (out || '').trim();
-                done();
-            });
-
-            psql('postgres', 'SHOW data_directory;', function(e, out) {
-                if (!e) result.dataDir = (out || '').trim();
-                done();
-            });
-
-            psql('postgres', 'SHOW port;', function(e, out) {
-                if (!e) result.port = (out || '').trim();
-                done();
-            });
-
-            psql('postgres',
-                'SELECT count(*) FROM pg_stat_activity WHERE pid <> pg_backend_pid();',
-                function(e, out) {
-                    if (!e) result.connections = (out || '').trim();
-                    done();
-                });
-
-            exec('pg_config --bindir 2>/dev/null', function(e, out) {
-                if (!e) result.binDir = (out || '').trim();
-                done();
-            });
-
-            psql('osm',
-                "SELECT pg_size_pretty(pg_database_size('osm')), " +
-                "EXISTS(SELECT FROM information_schema.tables " +
-                "WHERE table_schema='public' AND table_name='planet_osm_point');",
-                function(e, out) {
-                    if (!e && (out || '').trim()) {
-                        var parts = out.trim().split('\n')[0].split('|');
-                        result.osmDbExists     = true;
-                        result.osmDbSize       = parts[0];
-                        result.osmTablesLoaded = parts[1] === 't';
-                    } else {
-                        result.osmDbExists = false;
-                    }
-                    done();
-                });
-        }
     });
+}
+
+function getDetailStatus(callback) {
+    var pending = 6;
+    var result = {};
+    function done() { if (--pending === 0) callback(null, result); }
+
+    psql('postgres', 'SELECT version();', function(e, out) {
+        if (!e) result.version = (out || '').trim();
+        done();
+    });
+
+    psql('postgres', 'SHOW data_directory;', function(e, out) {
+        if (!e) result.dataDir = (out || '').trim();
+        done();
+    });
+
+    psql('postgres', 'SHOW port;', function(e, out) {
+        if (!e) result.port = (out || '').trim();
+        done();
+    });
+
+    psql('postgres',
+        'SELECT count(*) FROM pg_stat_activity WHERE pid <> pg_backend_pid();',
+        function(e, out) {
+            if (!e) result.connections = (out || '').trim();
+            done();
+        });
+
+    exec('pg_config --bindir 2>/dev/null', function(e, out) {
+        if (!e) result.binDir = (out || '').trim();
+        done();
+    });
+
+    psql('osm',
+        "SELECT pg_size_pretty(pg_database_size('osm')), " +
+        "EXISTS(SELECT FROM information_schema.tables " +
+        "WHERE table_schema='public' AND table_name='planet_osm_point');",
+        function(e, out) {
+            if (!e && (out || '').trim()) {
+                var parts = out.trim().split('\n')[0].split('|');
+                result.osmDbExists     = true;
+                result.osmDbSize       = parts[0];
+                result.osmTablesLoaded = parts[1] === 't';
+            } else {
+                result.osmDbExists = false;
+            }
+            done();
+        });
 }
 
 // ---------------------------------------------------------------------------
@@ -246,9 +244,17 @@ models.Postgres.prototype.sync = function(method, model, success, error) {
     case 'read':
         var id = model.id;
         if (id === 'dbstatus') {
-            getExtendedStatus(function(err, result) {
+            getBasicStatus(function(err, result) {
                 if (err) return error(err);
                 result.id = 'dbstatus';
+                success(result);
+            });
+            return;
+        }
+        if (id === 'dbstatus-details') {
+            getDetailStatus(function(err, result) {
+                if (err) return error(err);
+                result.id = 'dbstatus-details';
                 success(result);
             });
             return;
