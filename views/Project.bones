@@ -39,7 +39,25 @@ view.prototype.initialize = function() {
             clearInterval(Bones.intervals.project);
         }});
     }).bind(this), 1000);
-    this.dots = '.'
+    this.dots = '.';
+    this.project_checks = 0;
+    this.startTileStatusPolling();
+    this.model.bind('save', _(function() {
+        this.startTileStatusPolling();
+    }).bind(this));
+
+    window.onbeforeunload = window.onbeforeunload || this.unload;
+
+    this.model.bind('error', this.error);
+    this.model.bind('save', this.saving);
+    this.model.bind('saved', this.attach);
+    this.model.bind('change', this.change);
+    this.model.bind('poll', this.attach);
+    this.render().attach();
+};
+
+view.prototype.startTileStatusPolling = function() {
+    this.dots = '.';
     this.project_checks = 0;
     if (Bones.intervals.projectTile) clearInterval(Bones.intervals.projectTile);
     Bones.intervals.projectTile = setInterval(_(function() {
@@ -47,11 +65,10 @@ view.prototype.initialize = function() {
         this.model.pollTileServer({
             success: _(function(m, resp) {
                 if (resp && resp.status) {
-                    var name = resp.status+this.dots;
+                    var name = resp.status + this.dots;
                     $('.workspace .project-status').text(name);
-                    this.dots += '.'
-                    if (this.dots.split('.').length > 5)
-                       this.dots = '.';
+                    this.dots += '.';
+                    if (this.dots.split('.').length > 5) this.dots = '.';
                 } else {
                     $('.workspace .project-status').text('');
                     this.project_checks++;
@@ -64,15 +81,6 @@ view.prototype.initialize = function() {
             }).bind(this)
         });
     }).bind(this), 1000);
-
-    window.onbeforeunload = window.onbeforeunload || this.unload;
-
-    this.model.bind('error', this.error);
-    this.model.bind('save', this.saving);
-    this.model.bind('saved', this.attach);
-    this.model.bind('change', this.change);
-    this.model.bind('poll', this.attach);
-    this.render().attach();
 };
 
 view.prototype.render = function(init) {

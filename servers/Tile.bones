@@ -3,6 +3,15 @@ var path = require('path');
 var tilelive = require('tilelive');
 var settings = Bones.plugin.config;
 var Step = require('step');
+
+var util = require('util');
+function vlog() {
+    if (settings.verbose !== 'on') return;
+    var ts = new Date().toISOString().replace('T', ' ').replace('Z', '');
+    var args = Array.prototype.slice.call(arguments);
+    args[0] = '[' + ts + '] ' + args[0];
+    console.warn.apply(console, args);
+}
 var readdir = require('../lib/fsutil.js').readdir;
 var mapnik = require('mapnik');
 var sm = new (require('@mapbox/sphericalmercator'))();
@@ -43,8 +52,9 @@ server.prototype.initialize = function() {
 };
 
 server.prototype.image = function(req, res, next) {
-    console.warn('Tile.bones rendering image()');
     var id = req.params.id;
+    var t0 = Date.now();
+    console.warn('[Tile.bones] rendering image for "%s" (%sx%s)', id, req.query.width, req.query.height);
     (new models.Project({id:req.param('id')})).fetch({
         success: function(model, resp) {
             model.localize(resp, function(err) {
@@ -53,26 +63,26 @@ server.prototype.image = function(req, res, next) {
                     var im = new mapnik.Image(+req.query.width,+req.query.height);
                     var map = new mapnik.Map(im.width(),im.height());
                     var bbox = _(req.query.bbox.split(',')).map(parseFloat);
+                    var t1 = Date.now();
                     map.fromStringSync(model.xml, {
                         strict: false,
                         base: path.join(settings.files, 'project', id) + '/'
                     });
+                    vlog('[Tile.bones] fromStringSync took %dms', Date.now() - t1);
                     map.extent = sm.convert(bbox, '900913');
-                    //Explicity pass zoom as variable to Mapnik
-                    //From: https://github.com/mapbox/carto/issues/269#issuecomment-268660458
-                    //map.render(im, {scale: project.mml.scale, variables: {zoom: this.z}}, cb); 
-                    console.log('Adding zoom as variable...');
                     var opts = {
                         scale_denominator: carto.tree.Zoom.ranges[req.query.static_zoom] || 0.0,
                         scale: model.mml.scale,
                         variables: {zoom: this.z}
-                    }
-                    map.render(im,opts,function(err,im){
+                    };
+                    var t2 = Date.now();
+                    map.render(im, opts, function(err, im) {
                         if (err) return next(err);
-                        //im.encode('png24',function(err,tile) { cjs 10/14/23 png24 -> png
-                        im.encode('png',function(err,tile) {
+                        vlog('[Tile.bones] map.render took %dms', Date.now() - t2);
+                        im.encode('png', function(err, tile) {
                             if (err) return next(err);
-                            res.send(tile,{ 'Content-Type': 'image/png' });
+                            console.warn('[Tile.bones] total for "%s": %dms', id, Date.now() - t0);
+                            res.send(tile, { 'Content-Type': 'image/png' });
                         });
                     });
                 } catch (err) {
@@ -96,6 +106,10 @@ server.prototype.clearMapnikCache = function(req, res, next) {
     res.send({});
 };
 
+// Tracks in-flight project fetches keyed by project id. Prevents redundant
+// parallel fetches before the first localize() call creates its EventEmitter.
+var pendingFetches = {};
+
 server.prototype.load = function(req, res, next) {
     // This is the cache key in tilelive-mapnik, so make sure it
     // contains the mtime with _updated. These attributes should be
@@ -103,6 +117,12 @@ server.prototype.load = function(req, res, next) {
     // used in tilelive-mapnik to generate the tilelive source cache key.
     var load = this.load;
     var id = req.params.id;
+
+    // If the project has already been localized (xml/mml in memory), use it
+    // directly so tilelive-mapnik never has to read a non-existent .xml file
+    // from disk. Without this, every tile request misses tilelive's cache and
+    // pays a 50–600ms project-fetch round trip even after the first compile.
+    var cached = models.Project.getCachedLocalization(id);
     var uri = {
         protocol: 'mapnik:',
         slashes: true,
@@ -113,10 +133,8 @@ server.prototype.load = function(req, res, next) {
             metatile: req.query.metatile|0 || 2,
             autoLoadFonts: false
         },
-        // Need not be set for a cache hit. Once the cache is
-        // warmed the project need not be loaded/localized again.
-        xml: req.project && req.project.xml,
-        mml: req.project && req.project.mml
+        xml: (req.project && req.project.xml) || (cached && cached.xml),
+        mml: (req.project && req.project.mml) || (cached && cached.mml)
     };
 
     tilelive.load(uri, function(err, source) {
@@ -124,16 +142,54 @@ server.prototype.load = function(req, res, next) {
 
         // Fetch, localize the project, then call #load again with
         // req.project populated.
-        if (!source) return (new models.Project({id:req.param('id')})).fetch({
-            success: function(model, resp) {
-                model.localize(resp, function(err) {
+        if (!source) {
+            // If localization is already in progress (millstone/carto running),
+            // attach to its EventEmitter without another redundant fetch.
+            var inFlight = models.Project.getLocalizationInFlight(id);
+            if (inFlight) {
+                inFlight.once('load', function() {
+                    load(req, res, next);
+                });
+                return;
+            }
+
+            // If a project fetch is already in flight (before localize() has
+            // even started), queue on it rather than kicking off a parallel fetch.
+            if (pendingFetches[id]) {
+                pendingFetches[id].push(function(err, model) {
                     if (err) return next(err);
                     req.project = model;
                     load(req, res, next);
                 });
-            },
-            error: function(model, resp) { next(resp) }
-        });
+                return;
+            }
+
+            vlog('[tile] cache miss for "%s" — fetching and localizing project', id);
+            var fetchStart = Date.now();
+            pendingFetches[id] = [];
+            return (new models.Project({id:req.param('id')})).fetch({
+                success: function(model, resp) {
+                    vlog('[tile] project fetched in %dms, starting localize for "%s"', Date.now() - fetchStart, id);
+                    var waiters = pendingFetches[id];
+                    delete pendingFetches[id];
+                    model.localize(resp, function(err) {
+                        if (err) {
+                            waiters.forEach(function(fn) { fn(err); });
+                            return next(err);
+                        }
+                        waiters.forEach(function(fn) { fn(null, model); });
+                        req.project = model;
+                        load(req, res, next);
+                    });
+                },
+                error: function(model, resp) {
+                    var waiters = pendingFetches[id] || [];
+                    delete pendingFetches[id];
+                    waiters.forEach(function(fn) { fn(resp); });
+                    next(resp);
+                }
+            });
+        }
 
         var z = req.params.z,
             x = +req.params.x,
@@ -141,8 +197,10 @@ server.prototype.load = function(req, res, next) {
 
         req.query.callback = 'grid';
         var fn = req.params.format === 'grid.json' ? 'getGrid' : 'getTile';
+        var renderStart = Date.now();
         source[fn](z, x, y, function(err, tile, headers) {
             if (err) return next(new Error.HTTP(err.message, 404));
+            vlog('[tile] %s z=%s x=%s y=%s rendered in %dms', id, z, x, y, Date.now() - renderStart);
             if (res.cache) fs.writeFile(res.cache, tile);
             if (headers) headers['Cache-control'] = 'max-age=3600';
             res.send(tile, headers);
