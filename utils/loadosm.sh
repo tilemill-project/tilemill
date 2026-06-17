@@ -212,10 +212,10 @@ MAPDATA_DIR=""                        # Location where the file will be download
                                       # to be found.
 GEOFABRIK_URL_START="http://download.geofabrik.de/" # Start of geofabrik URL for downloads.
 GEOFABRIK_FILE_END="-latest.osm.pbf"  # Value after the area in the geofabrik file names.
-OVERPASS_URL_START="http://overpass-api.de/api/interpreter?(" # Start of overpass URL/query.
-OVERPASS_URL_END=");out;"             # End of overpass URL/query.
+OVERPASS_API_URL="https://overpass-api.de/api/interpreter" # Overpass API endpoint.
 OVERPASS_FILE_END="-latest.osm"       # Value to use for a file downloaded from overpass.
-DOWNLOAD_URL=""                       # Variable to hold the full URL.
+DOWNLOAD_URL=""                       # Variable to hold the full URL (geofabrik) or base URL (overpass).
+OVERPASS_QUERY=""                     # Variable to hold the Overpass QL query (URL-encoded by curl).
 OSM_AREA=""                           # Variable to hold the requested area.
 GEOGRAPHY=""                          # Variable to hold the Geography that matches area.
 BOUNDING_BOX=""                       # Variable to hold a custom area bounding box definition.
@@ -557,9 +557,9 @@ if [ "${OSM_FILE}" == "" ]; then # -f NOT specified
       # Both -a and -b are specified so setup for an overpass download and a file load 
       # into the database.
       DOWNLOAD_DATA="true"
-      # Build the download URL and file name that should be used.
-      OVERPASS_URL_MIDDLE="node(${BOUNDING_BOX});way(${BOUNDING_BOX});relation(${BOUNDING_BOX});"
-      DOWNLOAD_URL="${OVERPASS_URL_START}${OVERPASS_URL_MIDDLE}${OVERPASS_URL_END}"
+      # Build the Overpass QL query and file name that should be used.
+      DOWNLOAD_URL="${OVERPASS_API_URL}"
+      OVERPASS_QUERY="(node(${BOUNDING_BOX});way(${BOUNDING_BOX});relation(${BOUNDING_BOX});>;);out meta;"
       OSM_FILE="${OSM_AREA}${OVERPASS_FILE_END}"
     fi
   fi
@@ -623,9 +623,13 @@ if [ "${DOWNLOAD_DATA}" == "true" ]; then
   echo ""; echo ""
   echo "${info}$0: Downloading the file ${MAPDATA_DIR}${OSM_FILE} from ${DOWNLOAD_URL}...${reset}"
   echo "${info}----------------------------------------------------------------------${reset}"
-  curl ${DOWNLOAD_URL} > "${MAPDATA_DIR}/${OSM_FILE}"
+  if [ -n "${OVERPASS_QUERY}" ]; then
+    curl -L --data-urlencode "data=${OVERPASS_QUERY}" "${DOWNLOAD_URL}" > "${MAPDATA_DIR}/${OSM_FILE}"
+  else
+    curl -L "${DOWNLOAD_URL}" > "${MAPDATA_DIR}/${OSM_FILE}"
+  fi
   if [ $? != 0 ]; then
-    echo "${error}Error: Download of file failed. Command:${reset} curl ${DOWNLOAD_URL} > ${MAPDATA_DIR}/${OSM_FILE}"; exit 1
+    echo "${error}Error: Download of file failed. Command:${reset} curl -L \"${DOWNLOAD_URL}\" > ${MAPDATA_DIR}/${OSM_FILE}"; exit 1
   fi
 fi
 

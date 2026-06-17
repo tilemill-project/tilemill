@@ -27,8 +27,19 @@ view.prototype.initialize = function() {
 
 view.prototype.render = function() {
     $(this.el).html(templates.Postgres());
-    var bbox = localStorage.getItem('tilemill.bbox') || '';
-    this.$('input[name=bbox]').val(bbox);
+    var self = this;
+    var projectId = localStorage.getItem('tilemill.lastProjectId');
+    if (projectId) {
+        (new models.Project({ id: projectId })).fetch({
+            success: function(model) {
+                var b = model.get('bounds');
+                if (b) {
+                    var bbox = b[0] + ',' + b[1] + ',' + b[2] + ',' + b[3];
+                    self.$('input[name=bbox]').val(bbox);
+                }
+            }
+        });
+    }
     return this;
 };
 
@@ -175,9 +186,13 @@ view.prototype.pgRefresh = function(e) {
 
 view.prototype.fetchOSM = function(e) {
     e.preventDefault();
-    var bbox = this.$('input[name=bbox]').val().trim();
-    if (!bbox) { new views.Modal(new Error('Please enter a bounding box.')); return false; }
-    this.startJob({ type: 'fetch', bbox: bbox });
+    var raw = this.$('input[name=bbox]').val().replace(/\s+/g, '');
+    if (!raw) { new views.Modal(new Error('Please enter a bounding box.')); return false; }
+    // Input is west,south,east,north (Project format); Overpass needs south,west,north,east
+    var p = raw.split(',');
+    if (p.length !== 4) { new views.Modal(new Error('Bounding box must have 4 values: West, South, East, North.')); return false; }
+    var overpassBbox = p[1] + ',' + p[0] + ',' + p[3] + ',' + p[2];
+    this.startJob({ type: 'fetch', bbox: overpassBbox });
     return false;
 };
 
