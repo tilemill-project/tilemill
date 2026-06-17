@@ -63,6 +63,10 @@ view.prototype.render = function(init) {
         }).bind(this) });
     }).bind(this));
 
+    if (this.model.id) {
+        localStorage.setItem('tilemill.lastProjectId', this.model.id);
+    }
+
     var center = this.model.get('center');
     this.map.setCenterZoom(new MM.Location(
         center[1],
@@ -101,15 +105,8 @@ view.prototype.fullscreen = function(e) {
     this.map.draw();
 };
 
-// Set zoom display and persist current bbox to localStorage for the Postgres page.
 view.prototype.mapZoom = function(e) {
     this.$('.zoom-display .zoom').text(this.map.getZoom());
-    var ext = this.map.getExtent();
-    if (ext) {
-        var bbox = ext.south.toFixed(6) + ',' + ext.west.toFixed(6) + ',' +
-                   ext.north.toFixed(6) + ',' + ext.east.toFixed(6);
-        localStorage.setItem('tilemill.bbox', bbox);
-    }
 };
 
 view.prototype.attach = function() {

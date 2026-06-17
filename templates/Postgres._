@@ -59,12 +59,12 @@
   <ul class='form sunken'>
     <li class='text'>
       <h3>Fetch OSM Data from OpenStreetMap</h3>
-      <p class='description'>Downloads OSM data for the bounding box from Overpass API and loads it into PostgreSQL. The bounding box is defaulted from the current Map extent.</p>
+      <p class='description'>Downloads OSM data for the bounding box from Overpass API and loads it into PostgreSQL. The bounding box is defaulted from the current Project's Bounds.</p>
     </li>
     <li class='input-hint-row'>
       <label>Bounding Box</label>
-      <input type='text' name='bbox' class='text wide' placeholder='47.598,-122.338,47.663,-122.270' />
-      <span class='quiet'>(South, West, North, East)</span>
+      <input type='text' name='bbox' class='text wide' placeholder='-122.338,47.598,-122.270,47.663' />
+      <span class='quiet'>(West, South, East, North)</span>
     </li>
     <li>
       <a href='#fetch' class='button'>Fetch OSM Data</a>
