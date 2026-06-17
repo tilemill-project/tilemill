@@ -122,7 +122,11 @@ server.prototype.load = function(req, res, next) {
     // directly so tilelive-mapnik never has to read a non-existent .xml file
     // from disk. Without this, every tile request misses tilelive's cache and
     // pays a 50–600ms project-fetch round trip even after the first compile.
+    // Only use the cached localization if its timestamp matches the request —
+    // after a save the tile URL gets a new ?updated= value, so a stale cache
+    // entry must not be passed as xml/mml (tilelive would use the old XML).
     var cached = models.Project.getCachedLocalization(id);
+    var cacheIsFresh = cached && (cached.updated == req.query.updated);
     var uri = {
         protocol: 'mapnik:',
         slashes: true,
@@ -133,8 +137,8 @@ server.prototype.load = function(req, res, next) {
             metatile: req.query.metatile|0 || 2,
             autoLoadFonts: false
         },
-        xml: (req.project && req.project.xml) || (cached && cached.xml),
-        mml: (req.project && req.project.mml) || (cached && cached.mml)
+        xml: (req.project && req.project.xml) || (cacheIsFresh && cached.xml),
+        mml: (req.project && req.project.mml) || (cacheIsFresh && cached.mml)
     };
 
     tilelive.load(uri, function(err, source) {
