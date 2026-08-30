@@ -1,10 +1,10 @@
-# Latest Status - June 13, 2021
+# Latest Status - August 30, 2026
 
-We are looking for people to get involved!  Take a look at some of the current Feature Request Issues, and let us know if you can help.
+Lots of improvements with v1.2.0 to make map exports easier, visual aids for colors, and managing Postgres.
 
-- Create Docker for Tilemill releases: https://github.com/tilemill-project/tilemill/issues/2742
-- Create Survey of Users: https://github.com/tilemill-project/tilemill/issues/2743
-- Get Funding for Tilemill: https://github.com/tilemill-project/tilemill/issues/2744
+See [Change Log](https://tilemill-project.github.io/tilemill/CHANGELOG.md) for more details.
+
+Next planned release v1.3.0 will update npm to a more recent version, as well as other dependecies.
 
 
 # General Info
