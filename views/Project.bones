@@ -8,6 +8,7 @@ view.prototype.events = {
     'click a[href=#layers]': 'layers',
     'click .breadcrumb .logo': 'unload',
 	 'keyup input.search' : 'searchStyles',
+    'mousedown .resize-handle': 'startResize'
 };
 
 view.prototype.initialize = function() {
@@ -23,7 +24,10 @@ view.prototype.initialize = function() {
         'settings',
         'layers',
         'unload',
-		  'searchStyles'
+		  'searchStyles',
+        'startResize',
+        'doResize',
+        'stopResize'
     );
     Bones.intervals = Bones.intervals || {};
 
@@ -35,7 +39,25 @@ view.prototype.initialize = function() {
             clearInterval(Bones.intervals.project);
         }});
     }).bind(this), 1000);
-    this.dots = '.'
+    this.dots = '.';
+    this.project_checks = 0;
+    this.startTileStatusPolling();
+    this.model.bind('save', _(function() {
+        this.startTileStatusPolling();
+    }).bind(this));
+
+    window.onbeforeunload = window.onbeforeunload || this.unload;
+
+    this.model.bind('error', this.error);
+    this.model.bind('save', this.saving);
+    this.model.bind('saved', this.attach);
+    this.model.bind('change', this.change);
+    this.model.bind('poll', this.attach);
+    this.render().attach();
+};
+
+view.prototype.startTileStatusPolling = function() {
+    this.dots = '.';
     this.project_checks = 0;
     if (Bones.intervals.projectTile) clearInterval(Bones.intervals.projectTile);
     Bones.intervals.projectTile = setInterval(_(function() {
@@ -43,11 +65,10 @@ view.prototype.initialize = function() {
         this.model.pollTileServer({
             success: _(function(m, resp) {
                 if (resp && resp.status) {
-                    var name = resp.status+this.dots;
+                    var name = resp.status + this.dots;
                     $('.workspace .project-status').text(name);
-                    this.dots += '.'
-                    if (this.dots.split('.').length > 5)
-                       this.dots = '.';
+                    this.dots += '.';
+                    if (this.dots.split('.').length > 5) this.dots = '.';
                 } else {
                     $('.workspace .project-status').text('');
                     this.project_checks++;
@@ -60,15 +81,6 @@ view.prototype.initialize = function() {
             }).bind(this)
         });
     }).bind(this), 1000);
-
-    window.onbeforeunload = window.onbeforeunload || this.unload;
-
-    this.model.bind('error', this.error);
-    this.model.bind('save', this.saving);
-    this.model.bind('saved', this.attach);
-    this.model.bind('change', this.change);
-    this.model.bind('poll', this.attach);
-    this.render().attach();
 };
 
 view.prototype.render = function(init) {
@@ -78,6 +90,29 @@ view.prototype.render = function(init) {
         .removeClass('disabled')
         .attr('href', '#/project/' + this.model.id);
     $(this.el).html(templates.Project(this.model));
+
+    // Restore saved map width from localStorage
+    try {
+        var savedMapWidth = localStorage.getItem('tilemill.project.mapWidth');
+        if (savedMapWidth) {
+            var mapPercent = parseFloat(savedMapWidth);
+            var mapEl = this.$('.map')[0];
+            if (mapEl) {
+                mapEl.style.setProperty('left', '0', 'important');
+                mapEl.style.setProperty('width', mapPercent + '%', 'important');
+                mapEl.style.setProperty('right', 'auto', 'important');
+            }
+            var workspaceEl = this.$('.workspace')[0];
+            if (workspaceEl) {
+                workspaceEl.style.setProperty('left', mapPercent + '%', 'important');
+                workspaceEl.style.setProperty('right', '0', 'important');
+                workspaceEl.style.setProperty('width', 'auto', 'important');
+            }
+            this.$('.resize-handle').css('left', mapPercent + '%');
+        }
+    } catch(e) {
+        // LocalStorage may not be available
+    }
 
     // Create map
     this.map = new views.Map({
@@ -235,3 +270,86 @@ view.prototype.searchStyles = function(ev) {
 	}
 	$('.workspace .search-results').text(" " + searchResults);
 }
+
+// Resize handle functionality
+view.prototype.startResize = function(ev) {
+    ev.preventDefault();
+    this.resizing = true;
+    this.startX = ev.pageX;
+    this.startMapWidth = this.$('.map').width();
+    this.containerWidth = this.$('.project').width();
+    
+    this.$('.project').addClass('resizing');
+    $(document).bind('mousemove', this.doResize);
+    $(document).bind('mouseup', this.stopResize);
+    
+    return false;
+};
+
+view.prototype.doResize = function(ev) {
+    if (!this.resizing) return;
+    
+    var delta = ev.pageX - this.startX;
+    var newMapWidth = this.startMapWidth + delta;
+    var mapPercent = (newMapWidth / this.containerWidth) * 100;
+    
+    // Constrain between 20% and 80%
+    mapPercent = Math.max(20, Math.min(80, mapPercent));
+    
+    // Update map: set width and ensure right is auto (so width takes effect)
+    var mapEl = this.$('.map')[0];
+    if (mapEl) {
+        mapEl.style.setProperty('left', '0', 'important');
+        mapEl.style.setProperty('width', mapPercent + '%', 'important');
+        mapEl.style.setProperty('right', 'auto', 'important');
+    }
+    
+    // Update workspace: set left position and keep right:0 (width auto-calculated)
+    var workspaceEl = this.$('.workspace')[0];
+    if (workspaceEl) {
+        workspaceEl.style.setProperty('left', mapPercent + '%', 'important');
+        workspaceEl.style.setProperty('right', '0', 'important');
+        workspaceEl.style.setProperty('width', 'auto', 'important');
+    }
+    
+    this.$('.resize-handle').css('left', mapPercent + '%');
+    
+    // Trigger map resize/refresh if available
+    if (this.map && this.map.map) {
+        // Try different map refresh methods
+        if (typeof this.map.map.invalidateSize === 'function') {
+            this.map.map.invalidateSize();
+        } else if (typeof this.map.map.refresh === 'function') {
+            this.map.map.refresh();
+        } else if (typeof this.map.updateMap === 'function') {
+            this.map.updateMap();
+        }
+    }
+    
+    // Trigger tabs bar resize to adjust visible tabs
+    if (this.stylesheets && typeof this.stylesheets.resizeTabsBar === 'function') {
+        this.stylesheets.resizeTabsBar();
+    }
+};
+
+view.prototype.stopResize = function(ev) {
+    if (!this.resizing) return;
+    
+    this.resizing = false;
+    this.$('.project').removeClass('resizing');
+    $(document).unbind('mousemove', this.doResize);
+    $(document).unbind('mouseup', this.stopResize);
+    
+    // Save the preference to localStorage
+    var mapPercent = parseFloat(this.$('.map').css('width')) / this.containerWidth * 100;
+    try {
+        localStorage.setItem('tilemill.project.mapWidth', mapPercent);
+    } catch(e) {
+        // LocalStorage may not be available
+    }
+    
+    // Final tabs bar resize after drag complete
+    if (this.stylesheets && typeof this.stylesheets.resizeTabsBar === 'function') {
+        this.stylesheets.resizeTabsBar();
+    }
+};

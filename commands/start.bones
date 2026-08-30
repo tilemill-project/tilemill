@@ -20,6 +20,10 @@ var args = _(require('optimist').argv).chain()
     .value();
 
 command.prototype.initialize = function(plugin, callback) {
+    plugin.config.process = plugin.config.process || 'tilemill';
+    process.title = plugin.config.process;
+    console.log("process.title-start: ",process.title);//timtim
+
     // Default out the coreUrl, needed to point the client
     // window at the right URL.
     plugin.config.coreUrl = plugin.config.coreUrl ||
@@ -38,7 +42,6 @@ command.prototype.initialize = function(plugin, callback) {
 
     Bones.plugin.command = this;
     Bones.plugin.children = {};
-    process.title = 'tilemill';
     // Kill child processes on exit.
     process.on('exit', function(code, signal) {
         _(Bones.plugin.children).each(function(child, key) {

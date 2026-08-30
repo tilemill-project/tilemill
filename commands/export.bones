@@ -112,6 +112,26 @@ command.options['concurrency'] = {
     'default': 4
 };
 
+command.options['name'] = {
+    'title': 'name=[name]',
+    'description': 'MBTiles: name to use in metadata.'
+};
+
+command.options['description'] = {
+    'title': 'description=[description]',
+    'description': 'MBTiles: description to use in metadata.'
+};
+
+command.options['attribution'] = {
+    'title': 'attribution=[attribution]',
+    'description': 'MBTiles: attribution to use in metadata.'
+};
+
+command.options['version'] = {
+    'title': 'version=[version]',
+    'description': 'MBTiles: version to use in metadata.'
+};
+
 command.prototype.initialize = function(plugin, callback) {
     _(this).bindAll('error', 'put', 'complete');
 
@@ -198,15 +218,24 @@ command.prototype.initialize = function(plugin, callback) {
         opts.scale_denominator = carto.tree.Zoom.ranges[opts.static_zoom];
     }
 
-    // Rename the output filepath using a random hash if file already exists.
+    // Rename the output filepath using version numbers if file already exists.
     if (existsSync(opts.filepath) &&
         _(['png','jpeg','jpg','wepb','tiff','tif','pdf','svg','mbtiles']).include(opts.format)) {
-        var hash = crypto.createHash('md5')
-            .update(+new Date + '')
-            .digest('hex')
-            .substring(0, 6);
         var ext = path.extname(opts.filepath);
-        opts.filepath = opts.filepath.replace(ext, '_' + hash + ext);
+        var filepathWithoutExt = opts.filepath.replace(ext, '');
+
+        // Remove existing version suffix if present (e.g., "_v1", "_v2", etc.)
+        var baseFilepath = filepathWithoutExt.replace(/_v\d+$/, '');
+        var version = 1;
+        var newFilepath;
+
+        // Find the next available version number
+        do {
+            newFilepath = baseFilepath + '_v' + version + ext;
+            version++;
+        } while (existsSync(newFilepath));
+
+        opts.filepath = newFilepath;
         console.log('found previous export with same name, so renamed to: ' + path.basename(opts.filepath));
 
         // Update filename in TileMill.
@@ -248,9 +277,13 @@ command.prototype.initialize = function(plugin, callback) {
         });
 
         if (!cmd.opts.quiet) process.stderr.write(' done.\n');
+        var exportName = opts.name || model.mml.name || model.id;
         model.mml = _(model.mml).extend({
-            name: model.mml.name || model.id,
-            version: model.mml.version || '1.0.0',
+            id: exportName,
+            name: exportName,
+            description: opts.description || model.mml.description,
+            attribution: opts.attribution || model.mml.attribution,
+            version: opts.version || model.mml.version || '1.0.0',
             minzoom: !_(opts.minzoom).isUndefined() ? opts.minzoom : model.get('minzoom'),
             maxzoom: !_(opts.maxzoom).isUndefined() ? opts.maxzoom : model.get('maxzoom'),
             bounds: !_(opts.bbox).isUndefined() ? opts.bbox : model.get('bounds'),
@@ -539,7 +572,17 @@ command.prototype.tilelive = function (project, callback) {
 
             task.start(function(err) {
                 if (err) throw err;
-                task.sink.putInfo(project.mml, function(err) {
+                // Prepare metadata for mbtiles, normalizing format to standard values
+                var metadata = _(project.mml).clone();
+                // Normalize format: png8/png24 -> png, jpeg* -> jpeg
+                if (metadata.format) {
+                    if (metadata.format.match(/^png/)) {
+                        metadata.format = 'png';
+                    } else if (metadata.format.match(/^jpeg/)) {
+                        metadata.format = 'jpeg';
+                    }
+                }
+                task.sink.putInfo(metadata, function(err) {
                     if (err) throw err;
                 });
             });

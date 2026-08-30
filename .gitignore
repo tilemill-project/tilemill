@@ -11,3 +11,5 @@ examples/road-trip/layers
 examples/control-room/layers
 /.vscode
 plugins/tilemill-autopilot/
+logs
+assets/images/sprite_96dpi_screen.svg

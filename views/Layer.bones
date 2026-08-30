@@ -135,7 +135,7 @@ view.prototype.favoriteToggle = function(ev) {
         model.destroy();
         $(ev.currentTarget).removeClass('active');
     } else if (uri) {
-        var model = new models.Favorite({ id:uri, created:+new Date });
+        var model = new models.Favorite({ id:uri, created:+new Date, context:'layer' });
         this.favorites.add(model);
         model.save();
         $(ev.currentTarget).addClass('active');
@@ -260,6 +260,7 @@ view.prototype.browse = function(ev) {
                 new views.Library({
                     model: model,
                     favorites: this.favorites,
+                    context: 'layer',
                     change: function(uri) { $('input.browsable', form).val(uri).change(); },
                     el: $('.browser', form)
                 });

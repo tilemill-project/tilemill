@@ -1,6 +1,7 @@
 {
-    "port": 20009,
+    "process": "tilemill",
     "tilePort": 20008,
+    "port": 20009,
     "files": "~/Documents/MapBox",
     "examples": true,
     "sampledata": true,

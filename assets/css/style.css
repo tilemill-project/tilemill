@@ -514,11 +514,43 @@ ul.projects { margin:0px -5px; }
 .project .map,
 .project .workspace {
   top:0px;
-  width:50% !important;
   height:auto !important;
   }
 
-.project .workspace { border-left:1px solid #ccc; }
+.project .map {
+  left: 0 !important;
+  width: 50% !important;
+  right: auto !important;
+  }
+
+.project .workspace {
+  left: 50% !important;
+  width: auto !important;
+  right: 0 !important;
+  border-left:1px solid #ccc;
+  }
+
+/* Resize handle between map and workspace */
+.project .resize-handle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 5px;
+  height: 100%;
+  margin-left: -3px;
+  cursor: ew-resize;
+  z-index: 50;
+  background: transparent;
+  }
+
+.project .resize-handle:hover {
+  background: rgba(102, 187, 204, 0.3);
+  }
+
+.project .resize-handle:active,
+.project.resizing .resize-handle {
+  background: rgba(102, 187, 204, 0.5);
+  }
 
 .project.fullscreen .palette { display:none; }
 .project.fullscreen .map,
@@ -1143,6 +1175,7 @@ li:hover .icon { display:block; }
 .i30.manual   { background-position:-60px 0px; }
 .i30.settings { background-position:-90px 0px; }
 .i30.plugins  { background-position:-120px 0px; }
+.i30.postgres { background-position:-150px 0px; }
 
 .icon.i40 {
   width:40px;
@@ -1467,7 +1500,7 @@ ul.form select { width: 200px; }
 /* Libraries */
 ul.form a.icon.favorite {
   display:inline-block;
-  margin-left:-25px;
+  margin-left:-15px;
   }
 
 ul.form .cache.hidden { visibility:hidden; }
@@ -1966,4 +1999,117 @@ ul.grid li {
     background-image:url(../images/spinner_2x.gif);
     background-size: 20px 20px;
   }
+}
+
+th.sort-header {
+  cursor:pointer;
+  }
+th.sort-header::-moz-selection,
+th.sort-header::selection {
+  background:transparent;
+  }
+table th.sort-header:after {
+  content:'';
+  float:right;
+  margin-top:7px;
+  border-width:0 4px 4px;
+  border-style:solid;
+  border-color:#404040 transparent;
+  visibility:hidden;
+  }
+table th.sort-header:hover:after {
+  visibility:visible;
+  }
+table th.sort-up:after,
+table th.sort-down:after,
+table th.sort-down:hover:after {
+  visibility:visible;
+  opacity:0.4;
+  }
+table th.sort-up:after {
+  border-bottom:none;
+  border-width:4px 4px 0;
+  }
+
+/* Postgres page */
+.postgres-page { padding:20px; }
+.postgres-page h3 { margin:0; font-size:13px; }
+.postgres-page .quiet { color:#aaa; font-weight:normal; font-size:11px; margin-left:8px; }
+
+/* Server management header row (title + action buttons side by side) */
+.pg-management-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.pg-actions { display:flex; gap:6px; flex-wrap:wrap; }
+
+/* Read-only stat values — dark grey, inherits form font */
+.pg-stat {
+  color:#555;
+  white-space:pre-wrap;   /* preserves newlines in install hint */
+}
+
+/* Collapsible details toggle row */
+li.pg-details-toggle { cursor:pointer; }
+li.pg-details-toggle a { color:#888; font-size:12px; text-decoration:none; }
+li.pg-details-toggle a:hover { color:#444; }
+.pg-toggle-arrow { display:inline-block; font-size:10px; margin-right:4px; }
+
+/* Status badge */
+.db-status-badge {
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:3px;
+  font-size:11px;
+  font-weight:bold;
+  background:#aaa;
+  color:#fff;
+  margin-right:4px;
+}
+.db-status-badge.connected    { background:#5a5; }
+.db-status-badge.disconnected { background:#a44; }
+.db-status-message { color:#888; font-size:11px; }
+
+/* Disabled button state */
+.button.disabled {
+  opacity:0.35;
+  cursor:default;
+  pointer-events:none;
+}
+
+.input-hint-row { display:flex; align-items:center; flex-wrap:nowrap; }
+.input-hint-row label { flex-shrink:0; margin-right:8px; }
+.input-hint-row input.wide { flex:0 0 auto; width:380px; }
+.input-hint-row .quiet { flex-shrink:0; }
+
+.job-status {
+  font-size:11px;
+  font-weight:normal;
+  padding:1px 6px;
+  border-radius:3px;
+  margin-left:6px;
+}
+.job-status.running    { background:#e8a020; color:#fff; }
+.job-status.complete   { background:#5a5;    color:#fff; }
+.job-status.error      { background:#a44;    color:#fff; }
+
+li.output-wrap  { padding:0; border:none; }
+.pg-file-form input.browsable { margin-right:16px; }
+.output-console {
+  display:block;
+  background:#1c1c1c;
+  color:#ccc;
+  font-family:monospace;
+  font-size:11px;
+  line-height:1.4;
+  padding:10px;
+  height:220px;
+  overflow-y:auto;
+  white-space:pre-wrap;
+  word-break:break-all;
+  margin:0;
+  border-radius:0 0 3px 3px;
 }

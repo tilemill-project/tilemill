@@ -30,7 +30,8 @@ view.prototype.initialize = function() {
         'moveTabsLeft',
         'moveTabsRight',
         'enableLeftRightButtons',
-        'resizeTabsBar'
+        'resizeTabsBar',
+        'updateColorSwatches'
     );
     this.model.bind('save', this.save);
     this.model.bind('saved', this.attach);
@@ -56,6 +57,7 @@ view.prototype.render = function(init) {
 view.prototype.attach = function() {
     this.statusClose();
     this.colors();
+    this.updateColorSwatches();
     return this;
 };
 
@@ -134,6 +136,11 @@ view.prototype.makeStylesheet = function(model) {
         gutters: ["CodeMirror-linenumbers", "errors", "search"]
     });
 
+    // Create debounced version of updateColorSwatches for this model
+    var debouncedUpdateSwatches = _.debounce(function() {
+        self.updateColorSwatches();
+    }, 300);
+
     model.codemirror.on("changes", function() {
         // onchange runs before this function is finished,
         // so self.codemirror is false.
@@ -141,6 +148,7 @@ view.prototype.makeStylesheet = function(model) {
             data: model.codemirror.getValue()
         });
         _.debounce(self.colors, 500);
+        debouncedUpdateSwatches();
     });
 
     model.codemirror.on("cursorActivity", function() {
@@ -202,6 +210,11 @@ view.prototype.makeStylesheet = function(model) {
         $(model.codemirror.getWrapperElement()).remove();
         this.$('.tabs a.tab:last').click();
     }).bind(this));
+    
+    // Initial color swatch update for this stylesheet
+    setTimeout(function() {
+        self.updateColorSwatches();
+    }, 100);
 };
 
 view.prototype.stylesheetAdd = function(ev) {
@@ -330,6 +343,254 @@ view.prototype.colors = function(color) {
         }).bind(this));
 }
 
+// Add inline color swatches next to color values in the editor
+view.prototype.updateColorSwatches = function() {
+    var self = this;
+    
+    // Get valid named colors from carto reference
+    var namedColors = window.abilities && window.abilities.carto && window.abilities.carto.colors || {};
+    
+    // First pass: collect all color variable definitions across all stylesheets
+    var colorVariables = {};
+    var colorFunctions = {}; // Track variables defined with color functions
+    
+    this.model.get('Stylesheet').each(function(stylesheet) {
+        if (!stylesheet.codemirror) return;
+        var cm = stylesheet.codemirror;
+        var lineCount = cm.lineCount();
+        
+        for (var i = 0; i < lineCount; i++) {
+            var line = cm.getLine(i);
+            if (!line) continue;
+            
+            // Match variable definitions with hex colors: @varname: #color;
+            var varHexMatch = /@([a-zA-Z0-9_\-]+)\s*:\s*(#[A-Fa-f0-9]{3,6})\b/g.exec(line);
+            if (varHexMatch) {
+                colorVariables[varHexMatch[1]] = varHexMatch[2];
+            }
+            
+            // Match variable definitions with rgb colors: @varname: rgb(...);
+            var varRgbMatch = /@([a-zA-Z0-9_\-]+)\s*:\s*(rgba?\s*\([^)]+\))/g.exec(line);
+            if (varRgbMatch) {
+                colorVariables[varRgbMatch[1]] = varRgbMatch[2];
+            }
+            
+            // Match variable definitions with named colors: @varname: colorname;
+            var varNamedMatch = /@([a-zA-Z0-9_\-]+)\s*:\s*([a-z]+)\s*;/gi.exec(line);
+            if (varNamedMatch && namedColors[varNamedMatch[2].toLowerCase()]) {
+                var colorValue = namedColors[varNamedMatch[2].toLowerCase()];
+                if (Array.isArray(colorValue)) {
+                    colorVariables[varNamedMatch[1]] = 'rgb(' + colorValue[0] + ',' + colorValue[1] + ',' + colorValue[2] + ')';
+                } else {
+                    colorVariables[varNamedMatch[1]] = colorValue;
+                }
+            }
+            
+            // Match color function definitions: @varname: lighten(@other, 10%);
+            // Color functions: lighten, darken, saturate, desaturate, fadein, fadeout, spin
+            var colorFuncMatch = /@([a-zA-Z0-9_\-]+)\s*:\s*(lighten|darken|saturate|desaturate|fadein|fadeout|spin|fade)\s*\(\s*@([a-zA-Z0-9_\-]+)/gi.exec(line);
+            if (colorFuncMatch) {
+                // Store that this variable is based on another variable
+                // We'll resolve it after all direct colors are collected
+                colorFunctions[colorFuncMatch[1]] = {
+                    func: colorFuncMatch[2],
+                    sourceVar: colorFuncMatch[3]
+                };
+            }
+            
+            // Match variable operations: @varname: @other * 0.9; or @varname: @other + #111;
+            var varOpMatch = /@([a-zA-Z0-9_\-]+)\s*:\s*@([a-zA-Z0-9_\-]+)\s*[*+\-/]/gi.exec(line);
+            if (varOpMatch && !colorFuncMatch) { // Don't override color function matches
+                colorFunctions[varOpMatch[1]] = {
+                    func: 'operation',
+                    sourceVar: varOpMatch[2]
+                };
+            }
+        }
+    });
+    
+    // Second pass: resolve color functions and operations based on their source variables
+    for (var varName in colorFunctions) {
+        var funcInfo = colorFunctions[varName];
+        var sourceColor = colorVariables[funcInfo.sourceVar];
+        
+        if (sourceColor) {
+            // Use the source variable's color as an approximation
+            // We can't calculate the exact modified color without Less.js,
+            // but showing the base color is better than nothing
+            colorVariables[varName] = sourceColor;
+        }
+    }
+    
+    // Second pass: add swatches
+    this.model.get('Stylesheet').each(function(stylesheet) {
+        if (!stylesheet.codemirror) return;
+        
+        var cm = stylesheet.codemirror;
+        
+        // Clear existing color markers and widgets
+        if (stylesheet.colorWidgets) {
+            stylesheet.colorWidgets.forEach(function(widget) {
+                try {
+                    widget.clear();
+                } catch(e) {
+                    // Widget may already be cleared
+                }
+            });
+        }
+        stylesheet.colorWidgets = [];
+        
+        // Scan each line for color values
+        var lineCount = cm.lineCount();
+        for (var i = 0; i < lineCount; i++) {
+            var line = cm.getLine(i);
+            if (!line) continue;
+            
+            // Match hex colors (#fff, #ffffff)
+            var hexRegex = /#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})\b/g;
+            var match;
+            while ((match = hexRegex.exec(line)) !== null) {
+                var color = match[0];
+                var end = match.index + color.length;
+                
+                // Create a swatch element
+                var swatch = document.createElement('span');
+                swatch.className = 'inline-color-swatch';
+                swatch.style.backgroundColor = color;
+                swatch.title = color;
+                
+                try {
+                    // Use setBookmark instead of markText for better compatibility
+                    var widget = cm.setBookmark(
+                        {line: i, ch: end},
+                        {
+                            widget: swatch,
+                            insertLeft: false,
+                            handleMouseEvents: true
+                        }
+                    );
+                    stylesheet.colorWidgets.push(widget);
+                } catch(e) {
+                    console.log('Error creating bookmark for color ' + color + ':', e);
+                }
+            }
+            
+            // Match rgb/rgba colors
+            var rgbRegex = /\b(rgba?\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(?:,\s*(?:0?\.)?\d+\s*)?\))/g;
+            while ((match = rgbRegex.exec(line)) !== null) {
+                var color = match[0];
+                var end = match.index + color.length;
+                
+                // Create a swatch element
+                var swatch = document.createElement('span');
+                swatch.className = 'inline-color-swatch';
+                swatch.style.backgroundColor = color;
+                swatch.title = color;
+                
+                try {
+                    var widget = cm.setBookmark(
+                        {line: i, ch: end},
+                        {
+                            widget: swatch,
+                            insertLeft: false,
+                            handleMouseEvents: true
+                        }
+                    );
+                    stylesheet.colorWidgets.push(widget);
+                } catch(e) {
+                    console.log('Error creating bookmark for color ' + color + ':', e);
+                }
+            }
+            
+            // Match named colors - but only if they appear in a property value context
+            // Look for pattern: property-name: colorname; or property-name: colorname}
+            if (namedColors && Object.keys(namedColors).length > 0) {
+                var namedColorRegex = /:\s*([a-z]+)\s*[;,\)\}]/gi;
+                while ((match = namedColorRegex.exec(line)) !== null) {
+                    var colorName = match[1].toLowerCase();
+                    if (namedColors[colorName]) {
+                        var colorValue = namedColors[colorName];
+                        var end = match.index + match[0].indexOf(match[1]) + match[1].length;
+                        
+                        // Convert color value to CSS format
+                        var cssColor;
+                        if (Array.isArray(colorValue)) {
+                            // RGB array format: [255, 0, 0]
+                            cssColor = 'rgb(' + colorValue[0] + ',' + colorValue[1] + ',' + colorValue[2] + ')';
+                        } else if (typeof colorValue === 'string') {
+                            // Already a string (hex or color name)
+                            cssColor = colorValue;
+                        } else {
+                            // Unknown format, skip
+                            continue;
+                        }
+                        
+                        // Create a swatch element
+                        var swatch = document.createElement('span');
+                        swatch.className = 'inline-color-swatch';
+                        swatch.style.backgroundColor = cssColor;
+                        swatch.title = colorName + ' (' + cssColor + ')';
+                        
+                        try {
+                            var widget = cm.setBookmark(
+                                {line: i, ch: end},
+                                {
+                                    widget: swatch,
+                                    insertLeft: false,
+                                    handleMouseEvents: true
+                                }
+                            );
+                            stylesheet.colorWidgets.push(widget);
+                        } catch(e) {
+                            console.log('Error creating bookmark for named color ' + colorName + ':', e);
+                        }
+                    }
+                }
+            }
+            
+            // Match color variable usage: @variable_name
+            // Look for variables used in property values or other contexts
+            if (colorVariables && Object.keys(colorVariables).length > 0) {
+                var variableRegex = /@([a-zA-Z0-9_\-]+)\b/g;
+                while ((match = variableRegex.exec(line)) !== null) {
+                    var varName = match[1];
+                    if (colorVariables[varName]) {
+                        var end = match.index + match[0].length;
+                        
+                        // Skip if this is a variable definition (followed by colon)
+                        // e.g., skip the left side of "@motorway_fill: ..."
+                        if (line.charAt(end) === ':' || line.substring(end).match(/^\s*:/)) {
+                            continue;
+                        }
+                        
+                        var cssColor = colorVariables[varName];
+                        
+                        // Create a swatch element
+                        var swatch = document.createElement('span');
+                        swatch.className = 'inline-color-swatch';
+                        swatch.style.backgroundColor = cssColor;
+                        swatch.title = '@' + varName + ' (' + cssColor + ')';
+                        
+                        try {
+                            var widget = cm.setBookmark(
+                                {line: i, ch: end},
+                                {
+                                    widget: swatch,
+                                    insertLeft: false,
+                                    handleMouseEvents: true
+                                }
+                            );
+                            stylesheet.colorWidgets.push(widget);
+                        } catch(e) {
+                            console.log('Error creating bookmark for variable ' + varName + ':', e);
+                        }
+                    }
+                }
+            }
+        }
+    });
+};
+
 view.prototype.moveTabsLeft = function() {
     if (this.$('.tabs:animated').size() > 0) return;
 
@@ -394,7 +655,7 @@ view.prototype.enableLeftRightButtons = function() {
 views.Project.augment({
     render: function(p) {
         p.call(this);
-        return new views.Stylesheets({
+        this.stylesheets = new views.Stylesheets({
             el:this.$('.editor'),
             model:this.model
         });

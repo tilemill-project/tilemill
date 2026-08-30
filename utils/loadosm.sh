@@ -1,30 +1,180 @@
 #!/bin/bash
 
+# Record the start time.
+START=`date +%s`
+
 # Initialize volatile global variables.
 MAPDATA_ROOT="${HOME}/Documents/MapBox"    # Default location of the map data directory.
 CONFIG="${HOME}/.tilemill/config.json"     # Tilemill config file to override defaults.
 UTILS_DIR="$(pwd)"                         # Location of the tilemill utils directory.
-OSM_DB="osm"                               # Postgres DB for OSM data.
+DB_HOST=""                                 # Postgres DB host (default: use localhost).
+DB_PORT=""                                 # Postgres DB port (default: use default port).
+#DB_HOST="--host tilemilldev.cuveite2ttso.us-east-2.rds.amazonaws.com" # Postgres DB host on AWS RDS.
+#DB_PORT="--port 5432"                      # Postgres DB port on AWS RDS.
 DB_USERNAME=$(whoami)                      # Postgres usernam (default is your Mac login).
+OSM2PGSQL_OPTIONS=""                       # Options to use on the osm2pgsql call.
+#OSM2PGSQL_OPTIONS="--slim --cache 500 --password" # Options to use on the osm2pgsql call.
+OSM_DB="osm"                               # Postgres DB for OSM data.
 STYLE="default.style"                      # Style file for use by osm2pgsql.
 INDEXES_SQL="${UTILS_DIR}/indexes.sql"     # SQL to create indexes.
 COUNTS_SQL="${UTILS_DIR}/counts.sql"       # SQL to print out table counts.
 info=`tput setaf 6`;error=`tput setaf 1`;success=`tput setaf 2`;reset=`tput sgr0` # Colors for text
 
+# PostgreSQL service management. Leave PG_START_CMD empty to auto-detect the
+# installation method and version. Set it explicitly to override, for example:
+#   PG_START_CMD="brew services start postgresql@17"   # Homebrew (macOS)
+#   PG_START_CMD="sudo systemctl start postgresql"     # systemd (Linux)
+#   PG_START_CMD="sudo service postgresql start"       # SysV init (older Linux)
+#   PG_START_CMD="pg_ctl start -D /usr/local/pgsql/data" # bare pg_ctl
+PG_START_CMD=""
+
+# Detect how PostgreSQL is installed and what version, then set PG_START_CMD.
+detect_postgres_start_cmd () {
+  local pg_version=""
+  local brew_svc=""
+
+  # --- Strategy 1: Homebrew (macOS) ---
+  if command -v brew &>/dev/null; then
+    # Find any postgresql formula installed via Homebrew (versioned or plain).
+    brew_svc=$(brew services list 2>/dev/null \
+      | awk '/^postgresql/ {print $1}' | head -1)
+    if [ -n "$brew_svc" ]; then
+      # Derive the major version for display, e.g. "postgresql@17" -> "17".
+      pg_version=$(echo "$brew_svc" | grep -oE '[0-9]+$')
+      [ -z "$pg_version" ] && pg_version=$(psql --version 2>/dev/null \
+        | grep -oE '[0-9]+' | head -1)
+      echo "${info}$0: Detected Homebrew PostgreSQL${pg_version:+ $pg_version} (service: ${brew_svc}).${reset}"
+      PG_START_CMD="brew services start ${brew_svc}"
+      return 0
+    fi
+  fi
+
+  # --- Strategy 2: systemd (modern Linux) ---
+  if command -v systemctl &>/dev/null; then
+    # Look for a running or available postgresql unit (versioned or plain).
+    local svc
+    svc=$(systemctl list-units --type=service --all 2>/dev/null \
+      | awk '/postgresql/ {print $1}' | head -1)
+    if [ -z "$svc" ]; then
+      # Try common known names as a fallback.
+      for candidate in postgresql postgresql.service; do
+        if systemctl cat "$candidate" &>/dev/null; then
+          svc="$candidate"; break
+        fi
+      done
+    fi
+    if [ -n "$svc" ]; then
+      pg_version=$(psql --version 2>/dev/null | grep -oE '[0-9]+' | head -1)
+      echo "${info}$0: Detected systemd PostgreSQL${pg_version:+ $pg_version} (unit: ${svc}).${reset}"
+      PG_START_CMD="sudo systemctl start ${svc}"
+      return 0
+    fi
+  fi
+
+  # --- Strategy 3: SysV init / 'service' command (older Linux/macOS) ---
+  if command -v service &>/dev/null; then
+    pg_version=$(psql --version 2>/dev/null | grep -oE '[0-9]+' | head -1)
+    echo "${info}$0: Detected SysV init PostgreSQL${pg_version:+ $pg_version}.${reset}"
+    PG_START_CMD="sudo service postgresql start"
+    return 0
+  fi
+
+  # --- Strategy 4: bare pg_ctl ---
+  if command -v pg_ctl &>/dev/null; then
+    local pgdata="${PGDATA:-}"
+    # If PGDATA isn't set in the environment, try to find the data dir from
+    # the running config, or fall back to a common Homebrew default.
+    if [ -z "$pgdata" ]; then
+      pgdata=$(pg_config --configure 2>/dev/null \
+        | grep -oE "'--with-pgport=[^']+'" | head -1) # rough heuristic
+      pgdata="${HOMEBREW_PREFIX:-/usr/local}/var/postgresql@$(psql --version 2>/dev/null | grep -oE '[0-9]+' | head -1)"
+    fi
+    pg_version=$(pg_ctl --version 2>/dev/null | grep -oE '[0-9.]+' | head -1)
+    echo "${info}$0: Detected pg_ctl PostgreSQL ${pg_version} (data dir: ${pgdata}).${reset}"
+    PG_START_CMD="pg_ctl start -D \"${pgdata}\""
+    return 0
+  fi
+
+  # --- No known installation method found ---
+  echo "${error}Error: Could not detect a PostgreSQL installation or service manager.${reset}"
+  echo "${error}       Set PG_START_CMD at the top of this script to specify how to start PostgreSQL.${reset}"
+  exit 1
+}
+
+ensure_postgres_running () {
+  local pg_host="${1:-localhost}"
+  local pg_port="${2:-5432}"
+
+  echo ""
+  echo "${info}$0: Checking if PostgreSQL is running...${reset}"
+  echo "${info}----------------------------------------------------------------------${reset}"
+
+  # pg_isready exits 0 if accepting connections, non-zero otherwise.
+  if pg_isready -h "$pg_host" -p "$pg_port" -q; then
+    echo "${success}$0: PostgreSQL is running and accepting connections.${reset}"
+    return 0
+  fi
+
+  # Auto-detect how to start PostgreSQL if not explicitly configured.
+  if [ -z "$PG_START_CMD" ]; then
+    detect_postgres_start_cmd
+  fi
+
+  echo "${info}$0: PostgreSQL is not running. Starting with: ${PG_START_CMD}${reset}"
+  eval "$PG_START_CMD"
+  if [ $? != 0 ]; then
+    echo "${error}Error: Failed to start PostgreSQL. Command: ${PG_START_CMD}${reset}"; exit 1
+  fi
+
+  # Poll until PostgreSQL is ready, up to 15 seconds.
+  local attempts=0
+  local max_attempts=15
+  while ! pg_isready -h "$pg_host" -p "$pg_port" -q; do
+    attempts=$((attempts + 1))
+    if [ $attempts -ge $max_attempts ]; then
+      echo "${error}Error: PostgreSQL did not become ready after ${max_attempts} seconds.${reset}"; exit 1
+    fi
+    echo "${info}$0: Waiting for PostgreSQL to become ready (${attempts}/${max_attempts})...${reset}"
+    sleep 1
+  done
+  echo "${success}$0: PostgreSQL is now running and accepting connections.${reset}"
+}
+
 print_intro () {
-  echo "This script can be used to download OSM data and then load it into your Postgres database. The script downloads the data from http://download.geofabrik.de as a file which it puts into your ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR} directory by default. Use -d to specify a different directory. It will then load that OSM file into your Postgres database and prepare it for use by TileMill. If you already have an OSM file downloaded, you can run this script with -f to skip the download and to only load a specified file into your Postgres database."
+  echo ""
+  echo "This script will download OSM data and load it into a Postgres database. The script either downloads a pre-defined area (from geofabrik) or it does a custom download (using overpass) based on a bounding box that you define. The script loads the OSM file into your Postgres database as a new data load (deleting previous OSM data) and prepares it for use by TileMill. If you already have an OSM file downloaded, you can run this script to only load that file with no download."
 }
 
 print_usage () {
+  echo ""
   echo "Usage:"
-  echo "    $0 [-d data-dir] osm-area       Download and load osm-area into database."
-  echo "    $0 [-d data-dir] -f osm-file    Only load osm-file into database (no download)."
-  echo "    $0 -h                           Print help."
-  echo "    $0 -a                           List valid osm-areas."
+  echo "    $0 [-n] [-d data-dir] -a osm-area    Download pre-defined OSM-area (default: load into DB)."
+  echo "    $0 [-n] [-d data-dir] -a osm-area -b bounding-box"
+  echo "                                         Download custom OSM-area (default: load into DB)."
+  echo "    $0 [-d data-dir] -f osm-file         Load osm-file into DB (no OSM data download)."
+  echo "    $0 -h"
+  echo "    $0 -l"
+  echo ""
+  echo "Command Options:"
+  echo "    -a    Either the name of a pre-defined OSM area (see -l for area names) or"
+  echo "          a name that should be used to describe a custom OSM area (see -b)."
+  echo "          Must not contain spaces or special characters other than '-' or '_'."
+  echo "    -b    Bounding box that should be used for a custom area definition."
+  echo "          Bounding box format: 'minLatitude,minLongitude,maxLatitude,maxLongitude'"
+  echo "                               (i.e. 'South,West,North,East')."
+  echo "                               (e.g. '47.5985,-122.3382,47.6635,-122.27')"
+  echo "    -d    Directory where downloaded OSM data file should be stored."
+  echo "          Default location is: ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}"
+  echo "    -f    OSM file to load into database (no download)."
+  echo "    -h    Print help."
+  echo "    -l    Print list of valid pre-defined OSM areas."
+  echo "    -n    No DB load, download the OSM data only, do not load into the database."
+  echo ""
 }
 
 # Print out a list of the geographies and valid osm-areas that can be used by this script.
 print_areas () {
+  echo ""
   echo "Valid osm-area values:"
   echo "    geography                                           osm-area"
   echo "    --------------------------------------------------  -------------------------"
@@ -33,9 +183,10 @@ print_areas () {
     g=${a#*>}             # Get geography from before the ">".
     oa=${a%>*}            # Get osm-area from after the ">".
     l=${#g}               # Get the length of the geography value.
-    sp=$(expr 52 - $l)    # Calculate the number of spaces to use between geography and osm-area.
-    echo "    $g$(seq  -f "." -s '' $sp)$oa"
+    sp=$(expr 53 - $l)    # Calculate the number of spaces to use between geography and osm-area.
+    echo "    $g$(seq -s. $sp | tr -d '[:digit:]')$oa"
   done
+  echo ""
 }
 
 # For a passed in osm-area, see if it is in the AREA array and if it is, then fill out 
@@ -57,13 +208,21 @@ get_geography () {
 # Initialize static global variables.
 DATA_DIR="data"
 OSM_DIR="osm"
-MAPDATA_DIR=""                           # Location where the file will be downloaded or is expected to be found.
-FILE_END="-latest.osm.bz2"               # Value after the area in the geofabrik file names.
-DOMAIN="http://download.geofabrik.de/"   # Geofabrik domain for downloads.
-DOWNLOAD_URL=""                          # Variable to hold the full geofabrik URL.
-OSM_AREA=""                              # Variable to hold the requested area.
-GEOGRAPHY=""                             # Variable to hold the Geography that matches area.
-OSM_FILE=""                              # Variable to hold the filename that will be loaded.
+MAPDATA_DIR=""                        # Location where the file will be downloaded or is expected 
+                                      # to be found.
+GEOFABRIK_URL_START="http://download.geofabrik.de/" # Start of geofabrik URL for downloads.
+GEOFABRIK_FILE_END="-latest.osm.pbf"  # Value after the area in the geofabrik file names.
+OVERPASS_API_URL="https://overpass-api.de/api/interpreter" # Overpass API endpoint.
+OVERPASS_FILE_END="-latest.osm"       # Value to use for a file downloaded from overpass.
+DOWNLOAD_URL=""                       # Variable to hold the full URL (geofabrik) or base URL (overpass).
+OVERPASS_QUERY=""                     # Variable to hold the Overpass QL query (URL-encoded by curl).
+OSM_AREA=""                           # Variable to hold the requested area.
+GEOGRAPHY=""                          # Variable to hold the Geography that matches area.
+BOUNDING_BOX=""                       # Variable to hold a custom area bounding box definition.
+OSM_FILE=""                           # Variable to hold the filename that will be loaded.
+DOWNLOAD_DATA="false"                 # Flag to indicate if an OSM file should be downloaded.
+LOAD_DB="true"                        # Flag to indicate if the file should be loaded into the 
+                                      # database.
 # All combinations of geographies and areas that are available from geofabrik (note; some of the long area names were shortened up for convenience).
 AREA+=( "africa>africa" )
 AREA+=( "algeria>africa/algeria" )
@@ -336,64 +495,93 @@ fi
 if [ "$1" == "--help" ]; then
   print_intro; print_usage; exit 1
 fi
-while getopts ":had:f:" opt; do
+while getopts "hlna:b:d:f:" opt; do
   case ${opt} in
     h ) print_intro; print_usage; exit 1;;
-    a ) print_areas; exit 1;;
+    l ) print_areas; exit 1;;
+    n )
+      LOAD_DB="false"
+      ;;
+    a ) 
+      OSM_AREA="$OPTARG"
+      if ! [[ "${OSM_AREA}" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+        echo "${error}Error: osm-area ${OSM_AREA} may only contain alphanumeric '-' or '_' characters.${reset}"; print_usage; exit 1
+      fi
+      ;;
+    b )
+      BOUNDING_BOX="$OPTARG"
+      if ! [[ "$BOUNDING_BOX" =~ ^-?[0-9]+\.[0-9]+,-?[0-9]+\.[0-9]+,-?[0-9]+\.[0-9]+,-?[0-9]+\.[0-9]+$ ]]; then
+        echo "${error}Error: Invalid format for bounding-box '${BOUNDING_BOX}'.${reset}"; print_usage; exit 1
+      fi
+      ;;
     d ) 
       MAPDATA_DIR="$OPTARG"
       if [ ! -d "${MAPDATA_DIR}" ]; then
         echo "${error}Error: data-dir ${MAPDATA_DIR} does not exist.${reset}"; print_usage; exit 1
       fi
       ;;
-    f ) OSM_FILE="$OPTARG";;
+    f ) 
+      OSM_FILE="$OPTARG"
+      ;;
     \? ) echo "${error}Error: Invalid option.${reset}"; print_usage; exit 1;;
   esac
 done
+# Make sure there are no remaining arguments after processing the options.
+shift $(($OPTIND - 1))
+remaining_args="$@"
+if [ "${remaining_args}" != "" ] ; then
+  echo "${error}Error: Invalid argument ${remaining_args}.${reset}"; print_usage; exit 1
+fi
+# Make sure that they did not combine arguments that cannot be combined.
+if [ "${LOAD_DB}" == "false" ] && [ "${OSM_FILE}" != "" ]; then
+  echo "${error}Error: -n not falid with -f.${reset}"; print_usage; exit 1
+fi
+# Do validation of the options that have been selected and setup variables for processing.
 if [ "${OSM_FILE}" == "" ]; then # -f NOT specified
-  if [ "${MAPDATA_DIR}" == "" ]; then # -f NOT specified and -d NOT specified
-    if [ "$2" != "" ]; then
-      echo "${error}Error: Invalid argument $2.${reset}"; print_usage; exit 1
+  if [ "${OSM_AREA}" == "" ]; then # -a NOT specified
+    echo "${error}Error: Must specify either -a, -f, -h, or -l.${reset}"; print_usage; exit 1
+  else # -a specified
+    if [ "${BOUNDING_BOX}" == "" ]; then # -b NOT specified
+      # Only -a is specified so setup for a geofabrik download and a file load into the database. 
+      # Start by finding the pre-defined area name from the user specified OSM-area.
+      get_geography "$OSM_AREA"
+      if [ $? != 0 ]; then
+        echo "${error}Error: Invalid osm-area ${OSM_AREA}.${reset}"; print_usage; exit 1
+      fi
+      DOWNLOAD_DATA="true"
+      # Build the download URL and file name that should be used.
+      DOWNLOAD_URL="${GEOFABRIK_URL_START}${GEOGRAPHY}${GEOFABRIK_FILE_END}"
+      oa=$(echo ${GEOGRAPHY} | sed 's/.*\///')  # Get osm-area from after the "/".
+      OSM_FILE="${oa}${GEOFABRIK_FILE_END}"
+    else # -a and -b specified
+      # Both -a and -b are specified so setup for an overpass download and a file load 
+      # into the database.
+      DOWNLOAD_DATA="true"
+      # Build the Overpass QL query and file name that should be used.
+      DOWNLOAD_URL="${OVERPASS_API_URL}"
+      OVERPASS_QUERY="(node(${BOUNDING_BOX});way(${BOUNDING_BOX});relation(${BOUNDING_BOX});>;);out meta;"
+      OSM_FILE="${OSM_AREA}${OVERPASS_FILE_END}"
     fi
-    OSM_AREA="$1"
-  else # -f NOT specified and -d specified
-    if [ "$4" != "" ]; then
-      echo "${error}Error: Invalid argument $4.${reset}"; print_usage; exit 1
-    fi
-    OSM_AREA="$3"
-  fi
-  if [ "${OSM_AREA}" == "" ]; then
-    echo "${error}Error: osm-area required.${reset}"; print_usage; exit 1
   fi
 else # -f specified
   if [ "${MAPDATA_DIR}" == "" ]; then # -f specified and -d NOT specified
-    if [ "$3" != "" ]; then
-      echo "${error}Error: Invalid argument $3.${reset}"; print_usage; exit 1
-    fi
+    # Make sure that the file exists.
     if [ ! -e "${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}/${OSM_FILE}" ]; then
       echo "${error}Error: osm-file ${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}/${OSM_FILE} does not exist.${reset}"; print_usage; exit 1
     fi
   else  # -f specified and -d specified
-    if [ "$5" != "" ]; then
-      echo "${error}Error: Invalid argument $5.${reset}"; print_usage; exit 1
-    fi
     if [ ! -e "${MAPDATA_DIR}/${OSM_FILE}" ]; then
       echo "${error}Error: osm-file ${MAPDATA_DIR}/${OSM_FILE} does not exist.${reset}"; print_usage; exit 1
     fi
   fi
-fi
-if [ "${OSM_AREA}" != "" ]; then
-  get_geography "$OSM_AREA"
-  if [ $? != 0 ]; then
-    echo "${error}Error: Invalid osm-area ${OSM_AREA}.${reset}"; print_usage; exit 1
-  fi
+  # Only -f is specified so setup for a file load into the database.
 fi
 
 echo "${success}$0: Starting...${reset}"
 echo "${success}----------------------------------------------------------------------${reset}"
 cd ${UTILS_DIR}
 
-# Create the default directory to hold osm data if it is needed and it is not already there.
+# Create the default directory to hold OSM data if it is needed and it is not already there.
 if [ "${MAPDATA_DIR}" == "" ]; then
   if [ ! -d "${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}" ]; then
     echo ""; echo ""
@@ -418,23 +606,8 @@ if [ "${MAPDATA_DIR}" == "" ]; then
   MAPDATA_DIR="${MAPDATA_ROOT}/${DATA_DIR}/${OSM_DIR}"
 fi
 
-# Make sure that they have a default.style file in their osm directory.
-if [ ! -e "${MAPDATA_DIR}/${STYLE}" ]; then
-  echo ""; echo ""
-  echo "${info}$0: Creating an initial ${MAPDATA_DIR}/${STYLE} file for you...${reset}"
-  echo "${info}----------------------------------------------------------------------${reset}"
-  cp ${UTILS_DIR}/${STYLE} "${MAPDATA_DIR}"
-  if [ $? != 0 ]; then
-    echo "${error}Error: Copy of ${STYLE} failed. Command:${reset} cp ${UTILS_DIR}/${STYLE} ${MAPDATA_DIR}"; exit 1
-  fi
-fi
-
-# Download the OSM data if they did not want to only do the database load.
-if [ "${OSM_FILE}" == "" ]; then
-  oa=$(echo ${GEOGRAPHY} | sed 's/.*\///')  # Get osm-area from after the "/".
-  OSM_FILE="${oa}${FILE_END}"
-  DOWNLOAD_URL="${DOMAIN}${GEOGRAPHY}${FILE_END}"
-
+# Download the OSM data if the user requested a download.
+if [ "${DOWNLOAD_DATA}" == "true" ]; then
   # Save a backup of a file with the same name before we do the download.
   if [ -e "${MAPDATA_DIR}/${OSM_FILE}" ]; then
     echo ""; echo ""
@@ -450,40 +623,87 @@ if [ "${OSM_FILE}" == "" ]; then
   echo ""; echo ""
   echo "${info}$0: Downloading the file ${MAPDATA_DIR}${OSM_FILE} from ${DOWNLOAD_URL}...${reset}"
   echo "${info}----------------------------------------------------------------------${reset}"
-  curl ${DOWNLOAD_URL} > "${MAPDATA_DIR}/${OSM_FILE}"
+  if [ -n "${OVERPASS_QUERY}" ]; then
+    curl -L --data-urlencode "data=${OVERPASS_QUERY}" "${DOWNLOAD_URL}" > "${MAPDATA_DIR}/${OSM_FILE}"
+  else
+    curl -L "${DOWNLOAD_URL}" > "${MAPDATA_DIR}/${OSM_FILE}"
+  fi
   if [ $? != 0 ]; then
-    echo "${error}Error: Download of file failed. Command:${reset} curl ${DOWNLOAD_URL} > ${MAPDATA_DIR}/${OSM_FILE}"; exit 1
+    echo "${error}Error: Download of file failed. Command:${reset} curl -L \"${DOWNLOAD_URL}\" > ${MAPDATA_DIR}/${OSM_FILE}"; exit 1
   fi
 fi
 
-# Load the data into Postgres.
-echo ""; echo ""
-echo "${info}$0: Loading the data into the Postgres database...${reset}"
-echo "${info}----------------------------------------------------------------------${reset}"
-osm2pgsql --create --multi-geometry --database ${OSM_DB} --username ${DB_USERNAME} --style "${MAPDATA_DIR}/${STYLE}" --hstore "${MAPDATA_DIR}/${OSM_FILE}"
-if [ $? != 0 ]; then
-  echo "${error}Error: Load of OSM data into database failed. Command:${reset} osm2pgsql --create --multi-geometry --database ${OSM_DB} --username ${DB_USERNAME} --style ${MAPDATA_DIR}/${STYLE} --hstore ${MAPDATA_DIR}/${OSM_FILE}"; exit 1
+# Load the OSM data into the database if requested by the user.
+if [ "${LOAD_DB}" == "true" ]; then
+  # Resolve host/port for the pg_isready check (strip leading --host/--port flags if set).
+  PG_CHECK_HOST=$(echo "${DB_HOST}" | sed 's/--host[[:space:]]*//')
+  PG_CHECK_PORT=$(echo "${DB_PORT}" | sed 's/--port[[:space:]]*//')
+  ensure_postgres_running "${PG_CHECK_HOST:-localhost}" "${PG_CHECK_PORT:-5432}"
+
+  # Make sure that they have a default.style file in their OSM directory.
+  if [ ! -e "${MAPDATA_DIR}/${STYLE}" ]; then
+    echo ""; echo ""
+    echo "${info}$0: Creating an initial ${MAPDATA_DIR}/${STYLE} file for you...${reset}"
+    echo "${info}----------------------------------------------------------------------${reset}"
+    cp ${UTILS_DIR}/${STYLE} "${MAPDATA_DIR}"
+    if [ $? != 0 ]; then
+      echo "${error}Error: Copy of ${STYLE} failed. Command:${reset} cp ${UTILS_DIR}/${STYLE} ${MAPDATA_DIR}"; exit 1
+    fi
+  fi
+
+  # Load the data into Postgres.
+  echo ""; echo ""
+  echo "${info}$0: Loading the data into the Postgres database...${reset}"
+  echo "${info}----------------------------------------------------------------------${reset}"
+  osm2pgsql ${OSM2PGSQL_OPTIONS} ${DB_HOST} ${DB_PORT} --username ${DB_USERNAME} --database ${OSM_DB} --create --multi-geometry --style ${MAPDATA_DIR}/${STYLE} --hstore ${MAPDATA_DIR}/${OSM_FILE}
+  if [ $? != 0 ]; then
+    echo "${error}Error: Load of OSM data into database failed. Command:${reset} osm2pgsql ${OSM2PGSQL_OPTIONS} ${DB_HOST} ${DB_PORT} --username ${DB_USERNAME} --database ${OSM_DB} --create --multi-geometry --style ${MAPDATA_DIR}/${STYLE} --hstore ${MAPDATA_DIR}/${OSM_FILE}"; exit 1
+  fi
+
+  # Create indexes for better TileMill performance.
+  echo ""; echo ""
+  echo "${info}$0: Creating indexes in database for better TileMill performance...${reset}"
+  echo "${info}----------------------------------------------------------------------${reset}"
+  psql -d ${OSM_DB} ${DB_HOST} ${DB_PORT} -U ${DB_USERNAME} -a -f ${INDEXES_SQL}
+  if [ $? != 0 ]; then
+    echo "${error}Error: Index creation failed. Command:${reset} psql -d ${OSM_DB} ${DB_HOST} ${DB_PORT} -U ${DB_USERNAME} -a -f ${INDEXES_SQL}"; exit 1
+  fi
+
+  # Print out table counts.
+  echo ""; echo ""
+  echo "${info}$0: Printing out database table counts...${reset}"
+  echo "${info}----------------------------------------------------------------------${reset}"
+  psql -d ${OSM_DB} ${DB_HOST} ${DB_PORT} -U ${DB_USERNAME} -a -f ${COUNTS_SQL}
+  if [ $? != 0 ]; then
+    echo "${error}Error: Table counts failed. Command:${reset} psql -d ${OSM_DB} ${DB_HOST} ${DB_PORT} -U ${DB_USERNAME} -a -f ${COUNTS_SQL}"; exit 1
+  fi
 fi
 
-# Create indexes for better TileMill performance.
-echo ""; echo ""
-echo "${info}$0: Creating indexes in database for better TileMill performance...${reset}"
-echo "${info}----------------------------------------------------------------------${reset}"
-psql -d ${OSM_DB} -U ${DB_USERNAME} -a -f ${INDEXES_SQL}
-if [ $? != 0 ]; then
-  echo "${error}Error: Index creation failed. Command:${reset} psql -d ${OSM_DB} -U ${DB_USERNAME} -a -f ${INDEXES_SQL}"; exit 1
-fi
-
-# Print out table counts.
-echo ""; echo ""
-echo "${info}$0: Printing out database table counts...${reset}"
-echo "${info}----------------------------------------------------------------------${reset}"
-psql -d ${OSM_DB} -U ${DB_USERNAME} -a -f ${COUNTS_SQL}
-if [ $? != 0 ]; then
-  echo "${error}Error: Table counts failed. Command:${reset} psql -d ${OSM_DB} -U ${DB_USERNAME} -a -f ${COUNTS_SQL}"; exit 1
+# Record the end time and calculate the duration.
+END=`date +%s`
+DURATION=$((END-START))
+sec=0
+min=0
+hour=0
+if((DURATION>59));then
+  ((sec=DURATION%60))
+  ((DURATION=DURATION/60))
+  if((DURATION>59));then
+    ((min=DURATION%60))
+    ((DURATION=DURATION/60))
+    if((DURATION>23));then
+      ((hour=DURATION%24))
+    else
+      ((hour=DURATION))
+    fi
+  else
+    ((min=DURATION))
+  fi
+else
+  ((sec=DURATION))
 fi
 
 echo ""; echo ""
 echo "${success}----------------------------------------------------------------------${reset}"
-echo "${success}$0: Complete!${reset}"
+echo "${success}$0: Complete! Processing time: ${hour}:${min}:$sec${reset}"
 exit 0

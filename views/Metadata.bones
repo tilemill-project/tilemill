@@ -14,12 +14,19 @@ view.prototype.events = {
     'click input[type=submit]': 'save',
     'click .cancel': 'close',
     'change select.maplayer-selection' : 'selectLayer',
-    'change input[name=aspectwidth],\
-        input[name=setaspect],\
-        input[name=aspectheight]': 'setAspect'
+    'change select.exportformat-selection' : 'exportFormat',
+    'change select.papersize-selection,\
+        select.orientation-selection' : 'updateAspect',
+    'change input[name=fullaspectwidth],\
+        input[name=fullaspectheight],\
+        input[name=margin_top],\
+        input[name=margin_btm],\
+        input[name=margin_left],\
+        input[name=margin_right], ': 'updateBox'
 };
 
 view.prototype.initialize = function(options) {
+
     if (!options.type) throw new Error('No type provided.');
     if (!options.model) throw new Error('No export model provided.');
     if (!options.project) throw new Error('No project model provided.');
@@ -35,7 +42,9 @@ view.prototype.initialize = function(options) {
         'updateSlider',
         'updateSize',
         'selectLayer',
-        'setAspect');
+        'updateAspect',
+        'updateBox',
+        'exportFormat');
     this.sm = new SphericalMercator;
     this.type = options.type;
     this.title = options.title;
@@ -70,6 +79,7 @@ view.prototype.close = function() {
 };
 
 view.prototype.render = function() {
+    console.log('Rendering map in Metadata.bones...');
     if (this.model.get('format') !== 'sync' ||
         (this.config.get('syncAccount') && this.config.get('syncAccessToken'))) {
         $(this.el).html(templates.Metadata(this));
@@ -119,6 +129,11 @@ view.prototype.render = function() {
             this.$('input[name=bounds]').val([w,s,e,n].join(','));
             if (this.$('input[name=width]').size()) this.updateSize();
             if (this.$('.slider .range').size()) this.updateTotal();
+            // If only updating Project Settings, don't set bounding box aspect ratio
+            //if (this.model != this.project {
+            if (this.model != this.project && this.model.attributes.format != 'mbtiles') {
+                this.updateAspect();
+            }
         }).bind(this));
         this.$('input[name=setaspect]').attr('checked', false);
         this.boxselector.extent(extent);
@@ -239,50 +254,234 @@ view.prototype.updateTotal = function(attributes) {
     })(total * 1000));
 };
 
-// Update size fields based on bbox ratio.
-view.prototype.updateSize = function(ev) {
+view.prototype.updateSlider = function() {
+    if (this.type === 'tiles') this.updateTotal();
+    else this.updatePreview();
+};
+
+// Fix the bbox size based upon entered aspect ratio.
+view.prototype.updateAspect = function(ev) {
+    // Get value from paper size dropdown
+    var papersize = this.$('select.papersize-selection').val().toLowerCase();
+    var orientation = this.$('select.orientation-selection').val().toLowerCase();
+
+    // Default settings to common values.
+    this.$('input[name=bounds]').attr('disabled', true);                // Bounds disabled
+    this.$('select.orientation-selection').attr('hidden',true)          // Orientation hidden
+    this.$('div[id=custom-aspect-ratio]')[0].setAttribute('hidden',true); // Custom fields hidden
+    this.$('input[name=fullaspectwidth]').attr('disabled', true);       // AspectWidth disabled
+    this.$('input[name=fullaspectheight]').attr('disabled', true);      // AspectHeight disabled
+    this.$('input[name=setaspect]').attr('checked', true);              // SetAspect checked/locked
+    this.$('div[id=margins]')[0].removeAttribute('hidden');             // Margin fields displayed
+    this.$('input[name=printedwidth]').attr('disabled', true);          // PrintedWidth disabled
+
+    switch (papersize) {
+    case 'freeform': //disable fields and remove size restriction
+        this.$('input[name=bounds]').attr('disabled', false);           // Bounds enabled
+        this.$('input[name=setaspect]').attr('checked', false);         // SetAspect unchecked/unlocked
+        this.$('div[id=margins]')[0].setAttribute('hidden',true);       // Margin fields hidden
+        this.$('input[name=printedwidth]').attr('disabled', false);     // PrintedWidth enabled
+        return false;
+        break;    
+    case 'custom':   //allow user to draw custom bounding box
+        //enable aspect ratio fields (if not already defaulted to enabled)
+        this.$('div[id=custom-aspect-ratio]')[0].removeAttribute('hidden'); // Custom fields displayed
+        this.$('input[name=fullaspectwidth]').attr('disabled', false);  // AspectWidth enabled
+        this.$('input[name=fullaspectheight]').attr('disabled', false); // AspectHeight enabled
+        break;
+    default:         //use standard paper size for aspect ratio
+        this.$('select.orientation-selection').attr('hidden',false);    // Orientation displayed
+        // Set aspect values from selected paper size
+        var dimensions = papersize.split('x').map(parseFloat);
+        this.$('div[id=custom-aspect-ratio]')[0].removeAttribute('hidden'); // Custom fields displayed
+        var fullaspectwidth  = orientation == "portrait" ? dimensions[0] : dimensions[1];
+        var fullaspectheight = orientation == "portrait" ? dimensions[1] : dimensions[0];
+        // Update displayed values for the aspect.
+        this.$('input[name=fullaspectwidth]').val((fullaspectwidth).toFixed(2));
+        this.$('input[name=fullaspectheight]').val((fullaspectheight).toFixed(2));
+        break;
+    };
+
+    this.updateBox(ev);
+};
+
+// Update fields to change the screen.
+view.prototype.updateBox = function(ev) {
+
+    // Get width and height and if they are not numbers, then reset them to their previous values.
+    var fullaspectwidth = parseFloat(this.$('input[name=fullaspectwidth]').val());
+    if (!_(fullaspectwidth).isNumber() || fullaspectwidth <= 0) {
+        fullaspectwidth = parseFloat(this.$('input[name=fullaspectwidth-prev]').val());
+        this.$('input[name=fullaspectwidth]').val((fullaspectwidth).toFixed(2));
+    }
+    var fullaspectheight = parseFloat(this.$('input[name=fullaspectheight]').val());
+    if (!_(fullaspectheight).isNumber() || fullaspectheight <= 0) {
+        fullaspectheight = parseFloat(this.$('input[name=fullaspectheight-prev]').val());
+        this.$('input[name=fullaspectheight]').val((fullaspectheight).toFixed(2));
+    }
+    // Save the fullaspect values to the previous attributes for use the next time.
+    this.$('input[name=fullaspectwidth-prev]').val((fullaspectwidth).toFixed(2));
+    this.$('input[name=fullaspectheight-prev]').val((fullaspectheight).toFixed(2));
+
+    // Get margins and if they are not numbers (or otherwise have bogus values), then reset them.
+    var margintop = parseFloat(this.$('input[name=margin_top]').val());
+    if (!_(margintop).isNumber() || margintop < 0 || (fullaspectheight - margintop) <= 0) {
+        if ((fullaspectheight - margintop) <= 0) { // The margin is bigger than the aspect.
+            margintop = 0;
+        } else {
+            margintop = parseFloat(this.$('input[name=margin_top-prev]').val());
+        }
+        this.$('input[name=margin_top]').val((margintop).toFixed(2));
+    }
+    var marginbottom = parseFloat(this.$('input[name=margin_btm]').val());
+    if (!_(marginbottom).isNumber() || marginbottom < 0 || (fullaspectheight - margintop - marginbottom) <= 0) {
+        if ((fullaspectheight - margintop - marginbottom) <= 0) { // The margins are bigger than the aspect.
+            marginbottom = 0;
+        } else {
+            marginbottom = parseFloat(this.$('input[name=margin_btm-prev]').val());
+        }
+        this.$('input[name=margin_btm]').val((marginbottom).toFixed(2));
+    }
+    var marginleft = parseFloat(this.$('input[name=margin_left]').val());
+    if (!_(marginleft).isNumber() || marginleft < 0 || (fullaspectwidth - marginleft) <= 0) {
+        if ((fullaspectwidth - marginleft) <= 0) { // The margin is bigger than the aspect.
+            marginleft = 0;
+        } else {
+            marginleft = parseFloat(this.$('input[name=margin_left-prev]').val());
+        }
+        this.$('input[name=margin_left]').val((marginleft).toFixed(2));
+    }
+    var marginright = parseFloat(this.$('input[name=margin_right]').val());
+    if (!_(marginright).isNumber() || marginright < 0 || (fullaspectwidth - marginleft - marginright) <= 0) {
+        if ((fullaspectwidth - marginleft - marginright) <= 0) { // The margins are bigger than the aspect.
+            marginright = 0;
+        } else {
+            marginright = parseFloat(this.$('input[name=margin_right-prev]').val());
+        }
+        this.$('input[name=margin_right]').val((marginright).toFixed(2));
+    }
+    // Save the margin values to the previous attributes for use the next time.
+    this.$('input[name=margin_top-prev]').val((margintop).toFixed(2));
+    this.$('input[name=margin_btm-prev]').val((marginbottom).toFixed(2));
+    this.$('input[name=margin_left-prev]').val((marginleft).toFixed(2));
+    this.$('input[name=margin_right-prev]').val((marginright).toFixed(2));
+
+    // Save the original value of aspectwidth.
+    var aspectwidthprev  = parseFloat(this.$('input[name=aspectwidth]').val());
+    // Update stored values after adjusting for margins.
+    var aspectwidth  = fullaspectwidth  - (marginleft + marginright);
+    var aspectheight = fullaspectheight - (margintop  + marginbottom);
+    this.$('input[name=aspectwidth]').val((aspectwidth).toFixed(2));
+    this.$('input[name=aspectheight]').val((aspectheight).toFixed(2));
+    // Calculate the new aspect and the width ratio.
+    var aspectwidthchange = parseFloat(aspectwidth / aspectwidthprev);
+    var aspect = parseFloat(aspectheight / aspectwidth);
+
+    // Get current drawn extent coordinates
     var bounds = _(this.$('input[name=bounds]').val().split(',')).map(parseFloat);
-    var attr = Bones.utils.form(this.$('form'), this.model);
     var nwLoc = new MM.Location(bounds[3], bounds[0]);
     var seLoc = new MM.Location(bounds[1], bounds[2]);
-    var neLoc = new MM.Location(bounds[3], bounds[2]);
     var nw = this.map.locationPoint(nwLoc);
     var se = this.map.locationPoint(seLoc);
-    var aspect = (Math.round(se.x) - Math.round(nw.x)) /
-        (Math.round(se.y) - Math.round(nw.y));
+
+    // Update the box to match the new aspect.
+    var oldWidth = parseFloat(se.x) - parseFloat(nw.x);
+    var newWidth = oldWidth * aspectwidthchange;
+    se.x = (nw.x + newWidth).toFixed(4);
+    se.y = (nw.y + (newWidth * aspect)).toFixed(4);
+    var seLoc = this.map.pointLocation(se);
+    // Remove extra decimals that get added
+    seLoc.lat = (seLoc.lat).toFixed(4);
+
+    // Update printed width value based upon aspect ratio x value
+    this.$('input[name=printedwidth]').val(aspectwidth);
+
+    // Update bounding box field, redraw bounding extent
+    this.$('input[name=bounds]').val([nwLoc.lon,seLoc.lat,seLoc.lon,nwLoc.lat].join(','));
+    this.boxselector.extent([nwLoc, seLoc], true);
+    this.updateSize();
+};
+
+// Update size fields based on bbox ratio.
+view.prototype.updateSize = function(ev) {
+
+    // Get bounds and if it is not made up of at least 4 numbers, then reset it to it's previous values.
+    var boundsstring = this.$('input[name=bounds]').val();
+    var bounds = _(boundsstring.split(',')).map(parseFloat);
+    if (!_(bounds[0]).isNumber() || !_(bounds[1]).isNumber() || !_(bounds[2]).isNumber() || !_(bounds[3]).isNumber()) {
+        boundsstring = this.$('input[name=bounds-prev]').val();
+        bounds = _(boundsstring.split(',')).map(parseFloat);
+        this.$('input[name=bounds]').val(boundsstring);
+    }
+    // Save the new bounds value to the prev field for use later.
+    this.$('input[name=bounds-prev]').val(boundsstring);
+
+    // Get printedwidth and if it is invalid, then reset it to it's previous value.
+    var printedwidth = parseFloat(this.$('input[name=printedwidth]').val());
+    if (!_(printedwidth).isNumber() || printedwidth <= 0) {
+        printedwidth = parseFloat(this.$('input[name=printedwidth-prev]').val());
+        this.$('input[name=printedwidth]').val(printedwidth);
+    }
+    // Save the new printedwidth value to the prev field for use later.
+    this.$('input[name=printedwidth-prev]').val(printedwidth);
+
+    // Get featurepixels and if it is invalid, then reset it to it's previous value.
+    var featurepixels = parseFloat(this.$('input[name=featurepixels]').val());
+    if (!_(featurepixels).isNumber() || featurepixels <= 0 || !Number.isInteger(featurepixels)) {
+        featurepixels = parseFloat(this.$('input[name=featurepixels-prev]').val());
+        this.$('input[name=featurepixels]').val(featurepixels);
+    }
+    // Save the new featurepixels value to the prev field for use later.
+    this.$('input[name=featurepixels-prev]').val(featurepixels);
 
     var target = $((ev || {}).currentTarget);
+    var attr   = Bones.utils.form(this.$('form'), this.model);
+    var nwLoc  = new MM.Location(bounds[3], bounds[0]);
+    var seLoc  = new MM.Location(bounds[1], bounds[2]);
+    var neLoc  = new MM.Location(bounds[3], bounds[2]);
+    var nw     = this.map.locationPoint(nwLoc);
+    var se     = this.map.locationPoint(seLoc);
+    var aspect = (se.x - nw.x) / (se.y - nw.y);
+    var sizewidth  = parseInt(this.$('input[name=width]').val(), 10);
+    var sizeheight = parseInt(this.$('input[name=height]').val(), 10);
 
     // Switch based upon which field was changed
     switch (target.attr('name')) {
     case 'bounds':
         this.$('input[name=setaspect]').attr('checked', false);
         this.boxselector.extent([nwLoc, seLoc], true);
-        break;    
+        break;
     case 'height':
-        var h = parseInt(this.$('input[name=height]').val(), 10);
-        if (_(h).isNumber() && _(aspect).isNumber())
-            this.$('input[name=width]').val(Math.round(h * aspect));
+        if (_(sizeheight).isNumber() && _(aspect).isNumber()) {
+            sizewidth = Math.round(sizeheight * aspect);
+            this.$('input[name=width]').val(sizewidth);
+            }
         break;
     case 'width':
-        var w = parseInt(this.$('input[name=width]').val(), 10);
-        if (_(w).isNumber() && _(aspect).isNumber())
-            this.$('input[name=height]').val(Math.round(w / aspect));
+        // Handled below.
         break;
     default:
     };
 
-    /*  These get executed regardless of what caused the change */
-
     // Update Size Height field, keep width constant
-    var w = parseInt(this.$('input[name=width]').val(), 10);
-    if (_(w).isNumber() && _(aspect).isNumber())
-        this.$('input[name=height]').val(Math.round(w / aspect));
+    // TODO: Change to keep Height, change width instead
+    if (_(sizewidth).isNumber() && _(aspect).isNumber()) {
+        sizeheight = Math.round(sizewidth / aspect);
+        this.$('input[name=height]').val(sizeheight);
+    }
 
-    // Update aspect ratio fields
+    // Update aspect ratio fields only if the aspect ratio is not locked.
     if (!attr.setaspect) {
-        var aspectwidth_cur = parseFloat(this.$('input[name=aspectwidth]').val());
-        this.$('input[name=aspectheight]').val((aspectwidth_cur / aspect).toFixed(1));
+        // Keep the aspectheight matching the change in size based on the aspect ratio.
+        var aspectwidth  = parseFloat(this.$('input[name=aspectwidth]').val());
+        var aspectheight = parseFloat(this.$('input[name=aspectheight]').val());
+        aspectheight = aspectwidth / aspect;
+        this.$('input[name=aspectheight]').val(aspectheight.toFixed(2));
+        // Update the fullaspectheight by adding the margins to aspectheight.
+        var margintop    = parseFloat(this.$('input[name=margin_top]').val());
+        var marginbottom = parseFloat(this.$('input[name=margin_btm]').val());
+        var fullaspectheight = aspectheight + (margintop + marginbottom);
+        this.$('input[name=fullaspectheight]').val(fullaspectheight.toFixed(2));
     }
 
     // Update scale & distances fields
@@ -291,63 +490,13 @@ view.prototype.updateSize = function(ev) {
     var distances = this.boxselector.distances(nwLoc, seLoc);
     var scale = distances.x / ( parseFloat(this.$('input[name=printedwidth]').val()) * pixelSize * dpi);
     this.$('input[name=scale]').val(scale.toFixed(0));
-    this.$('input[name=boxWidth]').val(distances.x.toFixed(1));
-    this.$('input[name=boxHeight]').val(distances.y.toFixed(1));
+    this.$('input[name=boxWidth]').val(distances.x.toFixed(2));
+    this.$('input[name=boxHeight]').val(distances.y.toFixed(2));
 
     // Update feature size fields
-    var featurepixels = parseFloat(this.$('input[name=featurepixels]').val());
-    var printedwidth = parseFloat(this.$('input[name=printedwidth]').val());
-    this.$('input[name=featureprinted]').val((featurepixels * printedwidth / w).toFixed(3));
+    this.$('input[name=featureprinted]').val((featurepixels * printedwidth / sizewidth).toFixed(3));
 
     // Update total tiles.
-    if (this.type === 'tiles') this.updateTotal();
-    else this.updatePreview();
-};
-
-// Fix the bbox size based upon entered aspect ratio.
-view.prototype.setAspect = function(ev) {
-    this.$('input[name=aspectwidth]').attr('disabled', false);
-    this.$('input[name=aspectheight]').attr('disabled', false);
-    this.$('input[name=bounds]').attr('disabled', true);
-    var attr = Bones.utils.form(this.$('form'), this.model);
-    if (!attr.setaspect) {
-        this.$('input[name=bounds]').attr('disabled', false);
-        this.$('input[name=aspectwidth]').attr('disabled', true);
-        this.$('input[name=aspectheight]').attr('disabled', true);
-        return false;
-    };
-
-    // Get drawn extent coordinates
-    var bounds = _(this.$('input[name=bounds]').val().split(',')).map(parseFloat);
-    var nwLoc = new MM.Location(bounds[3], bounds[0]);
-    var seLoc = new MM.Location(bounds[1], bounds[2]);
-    var nw = this.map.locationPoint(nwLoc);
-    var se = this.map.locationPoint(seLoc);
-
-    // Set aspect
-    // Fix the left-edge of bounding box, adjust right-edge
-    var aspectwidth = parseFloat(this.$('input[name=aspectwidth]').val());
-    var aspectheight = parseFloat(this.$('input[name=aspectheight]').val());
-    var aspect = (aspectheight / aspectwidth).toFixed(4);
-    //var aspect = 1.2941;  //Paper 8.5x11 size
-
-    shiftX = ((Math.round(se.y) - Math.round(nw.y)) / aspect);
-    se.x = (Math.round(nw.x) + shiftX).toFixed(4);
-    seLoc = this.map.pointLocation(se);
-    // Remove extra decimals that get added
-    seLoc.lat = (seLoc.lat).toFixed(4);
-
-    // Update bounding box field, redraw bounding extent
-    this.$('input[name=bounds]').val([nwLoc.lon,seLoc.lat,seLoc.lon,nwLoc.lat].join(','));
-    this.boxselector.extent([nwLoc, seLoc], true);
-    this.updateSize();
-
-    // Update total tiles if mbtiles, otherwise update the preview
-    if (this.type === 'tiles') this.updateTotal();
-    else this.updatePreview();
-};
-
-view.prototype.updateSlider = function() {
     if (this.type === 'tiles') this.updateTotal();
     else this.updatePreview();
 };
@@ -394,17 +543,30 @@ view.prototype.save = function() {
             bbox: attr.bounds,
             minzoom: attr.minzoom,
             maxzoom: attr.maxzoom,
-            center: attr.center
+            center: attr.center,
+            name: attr.name,
+            description: attr.description,
+            attribution: attr.attribution,
+            version: attr.version
         }, {error:error})) return false;
         break;
-    default:
+    default: // printed export
         if (!this.model.set({
             filename: attr.filename,
             note: attr.note,
             bbox: attr.bounds,
             width: attr.width,
             height: attr.height,
-            static_zoom: attr.static_zoom
+            static_zoom: attr.static_zoom,
+            papersize: attr.papersize,
+            orientation: attr.orientation,
+            margin_top: attr.margin_top,
+            margin_btm: attr.margin_btm,
+            margin_left: attr.margin_left,
+            margin_right: attr.margin_right,
+            aspectwidth: attr.aspectwidth,
+            aspectheight: attr.aspectheight,
+            printedwidth: attr.printedwidth
         }, {error:error})) return false;
         break;
     }
@@ -453,3 +615,8 @@ view.prototype.selectLayer = function() {
     this.boxselector.add(this.map);
 }
 
+view.prototype.exportFormat = function() {
+    var extension = this.$('select.exportformat-selection').val().toLowerCase();
+    this.model.set({format: extension}, {silent:true});
+    this.$('input[name=filenameExtension]').val(extension);
+}

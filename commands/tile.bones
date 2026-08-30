@@ -13,8 +13,10 @@ command.options['tilePort'] = {
 
 command.prototype.bootstrap = function(plugin, callback) {
     var settings = Bones.plugin.config;
+    settings.process = settings.process || 'tilemill';
+    process.title = settings.process + '-tile';
+    console.log("process.title-tile: ",process.title);//timtim
     settings.files = path.resolve(settings.files.replace(/^~/, process.env.HOME));
-    process.title = 'tilemill-tile';
     callback();
 };
 

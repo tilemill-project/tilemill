@@ -2,6 +2,12 @@ var fs = require('fs');
 var path = require('path');
 var defaults = models.Config.defaults;
 
+Bones.Command.options['process'] = { 
+    'title': 'process=[process-name]',
+    'description': 'Process name for tilemill processes.',
+    'default': defaults.process
+};
+
 Bones.Command.options['files'] = {
     'title': 'files=[path]',
     'description': 'Path to files directory.',

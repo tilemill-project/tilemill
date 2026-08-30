@@ -57,6 +57,15 @@ model.prototype.schema = {
         'name': {
             'type': 'string'
         },
+        'description': {
+            'type': 'string'
+        },
+        'attribution': {
+            'type': 'string'
+        },
+        'version': {
+            'type': 'string'
+        },
         'filename': {
             'type': 'string',
             'pattern': '^[A-Za-z0-9\-_.]+$'
@@ -77,6 +86,24 @@ model.prototype.schema = {
             'type': 'string'
         },
         'aspectheight': {
+            'type': 'string'
+        },
+        'papersize': {
+            'type': 'string'
+        },
+        'orientation': {
+            'type': 'string'
+        },
+        'margin_top': {
+            'type': 'string'
+        },
+        'margin_btm': {
+            'type': 'string'
+        },
+        'margin_left': {
+            'type': 'string'
+        },
+        'margin_right': {
             'type': 'string'
         },
         'printedwidth': {

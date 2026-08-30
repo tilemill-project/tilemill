@@ -48,6 +48,13 @@ function start(id, callback) {
         if (!_(data.minzoom).isUndefined()) args.push('--minzoom=' + data.minzoom);
         if (!_(data.maxzoom).isUndefined()) args.push('--maxzoom=' + data.maxzoom);
         if (!_(data.metatile).isUndefined()) args.push('--metatile=' + data.metatile);
+        if (data.name) args.push('--name=' + data.name);
+        if (data.description) args.push('--description=' + data.description);
+        if (data.attribution) args.push('--attribution=' + data.attribution);
+        if (data.version) args.push('--version=' + data.version);
+
+        var exportStart = Date.now();
+        console.warn('[export] starting "%s" (format: %s)', data.project, data.format);
 
         var child = spawn(process.execPath, args, {
             env: _(process.env).extend({
@@ -68,7 +75,7 @@ function start(id, callback) {
                 if (signal) {
                     message += " with signal '" + signal + "' ";
                 }
-                console.warn(message);
+                console.warn('[export] error: "%s" — %s', data.project, message);
                 message += " (see tilemill log for details)"
                 pid_errors[pid] = message;
                 crashutil.display_crash_log(function(err,logname) {
@@ -82,6 +89,8 @@ function start(id, callback) {
                     callback();
                 });
             } else {
+                console.warn('[export] completed "%s" (format: %s) in %ds',
+                    data.project, data.format, ((Date.now() - exportStart) / 1000).toFixed(1));
                 delete pids[pid];
                 callback();
             }

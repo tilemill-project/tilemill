@@ -63,6 +63,10 @@ view.prototype.render = function(init) {
         }).bind(this) });
     }).bind(this));
 
+    if (this.model.id) {
+        localStorage.setItem('tilemill.lastProjectId', this.model.id);
+    }
+
     var center = this.model.get('center');
     this.map.setCenterZoom(new MM.Location(
         center[1],
@@ -101,7 +105,6 @@ view.prototype.fullscreen = function(e) {
     this.map.draw();
 };
 
-// Set zoom display.
 view.prototype.mapZoom = function(e) {
     this.$('.zoom-display .zoom').text(this.map.getZoom());
 };

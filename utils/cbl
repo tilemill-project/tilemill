@@ -1,0 +1,499 @@
+#!/bin/bash
+
+##################################################################################
+# Script Domain: Spurpoint                                                       #
+#                                                                                #
+# Script Overview:                                                               #
+# ----------------                                                               #
+# This script creates images for basemap layers that can be used as a basemap in #
+# other project. It uses a basemap project for the layers and styling for the    #
+# images. There is a cbl.config file that should be copied into the basemap      #
+# project folder. That folder will also need a mapnik xml extract to be present  #
+# named after the project folder name with an xml extension. The config has      #
+# values that will direct the processing of this script. See the comments in the #
+# cbl.config file for more info. As output, this script will create a set of     #
+# GeoTIFF files as well as template mss and mml files. The mss file should be    #
+# copied into the project directory of the project where you want to use the     #
+# basemap. The mml file should be included into the top of the layers portion of #
+# the target project mml file (replacing any redundant layers).                  #
+#                                                                                #
+# Script Unfinished Tasks:                                                       #
+# ------------------------                                                       #
+# - Would be nice to have the lower zoom level maps have a box drawn around the  #
+#   project area so that you can see where zooming in will have a map and where  #
+#   it will be blank.                                                            #
+# - Come up with a better way to find the ratio depending on the center rather   #
+#   than a fixed value that will probably vary based on lat.                     #
+#                                                                                #
+# Script Notes:                                                                  #
+# -------------                                                                  #
+# - An image of over about 400Meg does not appear to load in tilemill. A 394M    #
+#   image loaded and a 457M image did not load. I would guess that it has to do  #
+#   with cache size limits. This is why the width is limited to 2.5 miles.       #
+#   So, need to limit the extent based on the resultant file size.               #
+# - Nik4 gives a divide by zero error for low zoom levels (0-3 for               #
+#   BBOX -120.9546,47.2519,-120.8888,47.2888). Seems like it might be based on   #
+#   the BBOX size? Not really a practical issue now since those are more than    #
+#   state zoom levels.                                                           #
+##################################################################################
+
+# Set defaults for volatile global variables (These values will be overridden by the cbl.config file or in the initialze variables function.
+CENTER=""          # Center (lon/lat) of the images that should be generated.
+ZOOM_MAX=17        # Max zoom that images should be generated for.
+ZOOM_MIN=7         # Min zoom that images should be generated for (and inbetween max and min).
+WIDTH=0            # Width in decimal lon/lat coorinate values that a single image should be set to.
+HEIGHT=0           # Height in decimal lon/lat coorinate values that a single image should be set to.
+FACTOR=1           # The number of images at the max zoom level that should be created per side of a table of images.
+ZOOM_DOUBLE=13     # Default zoom level where we start doubling the size of the image so that it does not become tiny on the screen.
+
+# Set static global variables.
+SCRIPT=$(basename $0) # Name of this script.
+GEODIST="${HOME}/bin/geodist" # Utility that finds the miles between two lat/lons.
+RATIO=1.4696       # For a height about equal to the width at our lattitude.
+WIDTH_18_MAX=0.0532 # Width in lat/lon coordinates (default is about 2.5 miles in Seattle which is a bit below the max image size at zoom 18 that is supported).
+HEIGHT_18_MAX=$(echo "scale=4;$WIDTH_18_MAX / $RATIO" | bc) # Default hehgith in lat/lon coordinates.
+BBOX=""            # Bounding box for an image that will be generated.
+CENTER_LON=""      # Center longitude of the bounding box that is in process.
+CENTER_LAT=""      # Center latitude of the bounding box that is in process.
+XDISTM=0           # Distance in miles of an image on the X axis.
+YDISTM=0           # Distancd in miles of an image on the Y axis.
+XDISTK=0           # Distance in kilometers of an image on the X axis.
+YDISTK=0           # Distance in kilometers of an image on the Y axis.
+FILEPREFIX="z"     # Prefix to be used for the name of the image files.
+MAPBOX_DIR="$HOME/Documents/MapBox" # Directory where the projects can be found.
+BASEMAPPROJECT=""  # Name of the basemap project that is the source of the basemap layers and styles.
+OUTPUT_DIR=""      # Directory where the output should be placed (relative to the MapBox dir).
+AREANAME=""        # Name of the area that the basemap is covering.
+XMLFILE=""         # Path/name of the mapnik xml file for the basemap project.
+MML=""             # Name to use for the mml template that is created.
+MSS=""             # Name to use for the mss template that is created.
+INFOFILE=""        # Name to use for the info file that is created.
+hour=p             # Number of hours that the sccript took to run.
+min=0              # Number of minutes that the sccript took to run.
+sec=p              # Number of seconds that the sccript took to run.
+if [ "${TERM}" != "dumb" ]; then
+  # The script is being run by a user.
+  info="$(tput setaf 6)";warning="$(tput setaf 3)";error="$(tput setaf 1)";success="$(tput setaf 2)";reset="$(tput sgr0)" # Colors for text
+else
+  # The script is being run from cron.
+  info="";warning="";error="";success="";reset=""
+fi
+
+# Initialize the script timer.
+START=`date +%s`
+END=""
+
+##################################################################################
+# Print out usage info for this script.
+print_usage () {
+  echo "${info}Description: Creates basemap layers${reset}"
+  echo "${info}Usage:${reset}"
+  echo "    ${SCRIPT} BasemapProject"
+}
+
+##################################################################################
+# Initialize and validate varibles that may have been set in the config file.
+initialize_global_variables () {
+  # If there is "Basemap" at the end of the name, remove that for the basename that will be used in generated files (and convert to lowercase).
+  bmp=$(echo "${BASEMAPPROJECT}" | tr A-Z a-z)
+  AREANAME=$(echo "${bmp//basemap/}")
+
+  basepath="${MAPBOX_DIR}/project/${BASEMAPPROJECT}"
+
+  # Make sure that the project exists.
+  if [ ! -d ${basepath} ]; then
+    echo "${error}Error:Specified BasemapProject directory (${basepath}) does not exist. Note: This must be the directory name (which can be different from the project name specified in Tilemill).${reset}"; exit 1
+  fi
+
+  # Verify that a mapnik xml file is in the BasemapProject directory.
+  XMLFILE="${basepath}/${BASEMAPPROJECT}.xml"
+  if [ ! -e ${XMLFILE} ]; then
+    echo "${error}Error:Mapnik xml file ${basepath}/${BASEMAPPROJECT}.xml is missing. You must first use tilemill to export a mapnik xml file for the project.${reset}"; exit 1     
+  fi
+
+  # Verify that a config file is in the BasemapProject directory.
+  if [ ! -e ${basepath}/${SCRIPT}.config ]; then
+    echo "${error}Error:Config file ${basepath}/${SCRIPT}.config is missing. A template for this file is available with this script.${reset}"; exit 1     
+  fi
+  
+  # Source the config file to set custom global variables.
+  source ${basepath}/${SCRIPT}.config
+
+  # Verify that the center is specified. If not, set the center from the mapnik xml file.
+  if [ "${CENTER}" == "" ]; then
+    CENTER=$(grep 'name="center"' ${basepath}/${BASEMAPPROJECT}.xml | cut -d'>' -f2 | cut -d'<' -f1 | cut -d',' -f1,2)
+  fi
+
+  # Make sure that the zoom max and min are valid values.
+  if [[ ($ZOOM_MIN -lt 4) || ($ZOOM_MIN -gt $ZOOM_MAX) || ($ZOOM_MAX -gt 18) ]]; then
+    echo "${error}Error:Invalid zoom levels requested (MIN:${ZOOM_MIN} MAX:${ZOOM_MAX}). Zoom must be between 4-18 inclusive.${reset}"; exit 1     
+  fi
+
+  # Validate the factor.
+  if [[ ($FACTOR -lt 1) || ($FACTOR -gt 10) ]]; then
+    echo "${error}Error:Invalid factor requested (${FACTOR}). Factor must be between 1-10 inclusive.${reset}"; exit 1     
+  fi
+
+  # Make sure that width is specified and valid. If not, set it to a default value based on the zoom level.
+  maxwidth=$(echo "$WIDTH_18_MAX * (19 - $ZOOM_MAX)" | bc)
+  if (( $(echo "$WIDTH == 0" | bc -l) )); then
+    WIDTH=$maxwidth
+  elif (( $(echo "$WIDTH <= 0" | bc -l) || $(echo "$WIDTH > $maxwidth" | bc -l) )); then
+    echo "${error}Error:Invalid width requested ($WIDTH). Width must be greater than zero and no larger than $maxwidth at this zoom level.${reset}"; exit 1     
+  fi
+
+  # If the height is specified, then make sure that it is valid. If not, set it to a default value based on the width.
+  maxheight=$(echo "$HEIGHT_18_MAX * (19 - $ZOOM_MAX)" | bc)
+  if (( $(echo "$HEIGHT == 0" | bc -l) )); then
+    HEIGHT=$(echo "scale=4;$WIDTH / $RATIO" | bc)
+  elif (( $(echo "$HEIGHT <= 0" | bc -l) || $(echo "$HEIGHT > $maxheight" | bc -l) )); then
+    echo "${error}Error:Invalid height requested ($HEIGHT). Height must be greater than zero and no larger than $maxheight at this zoom level.${reset}"; exit 1     
+  fi
+
+  # Move the zoom level where we start doubling down one for each zoom max level below 18.
+  zoom_adjust=$((18 - ZOOM_MAX))
+  ZOOM_DOUBLE=$((ZOOM_DOUBLE - $zoom_adjust))
+
+  # Make sure that the output parent directory exists and if not, then create it.
+  OUTPUT_DIR="data/shared/Basemaps"
+  if [ ! -d ${MAPBOX_DIR}/${OUTPUT_DIR} ]; then
+    mkdir ${MAPBOX_DIR}/${OUTPUT_DIR}
+  fi
+  # Make sure that the output directory exists and if not, then create it.
+  OUTPUT_DIR="${OUTPUT_DIR}/${AREANAME}"
+  if [ ! -d ${MAPBOX_DIR}/${OUTPUT_DIR} ]; then
+    mkdir ${MAPBOX_DIR}/${OUTPUT_DIR}
+  fi
+
+  # Set other variables that are dependent upon variables that were set above.
+  MML="${MAPBOX_DIR}/${OUTPUT_DIR}/baselayers_${AREANAME}.mml"
+  MSS="${MAPBOX_DIR}/${OUTPUT_DIR}/basemap_${AREANAME}.mss"
+  INFOFILE="${MAPBOX_DIR}/${OUTPUT_DIR}/${AREANAME}.info"
+}
+
+##################################################################################
+# Finalize the script timer.
+finalize_timer () {
+  # Record the end time and calculate the duration.
+  END=`date +%s`
+  DURATION=$((END-START))
+  sec=0
+  min=0
+  hour=0
+  if((DURATION>59));then
+    ((sec=DURATION%60))
+    ((DURATION=DURATION/60))
+    if((DURATION>59));then
+      ((min=DURATION%60))
+      ((DURATION=DURATION/60))
+      if((DURATION>23));then
+        ((hour=DURATION%24))
+      else
+        ((hour=DURATION))
+      fi
+    else
+      ((min=DURATION))
+    fi
+  else
+    ((sec=DURATION))
+  fi
+}
+
+##################################################################################
+# Create the MML template file.
+write_initial_mml () {
+  cat /dev/null > ${MML}
+}
+
+# Add layer info to the MML template file for a new image.
+write_image_mml () {
+  z=$1       # Zoom level for the image.
+  bb=$2      # Bounding box for the image.
+  col=$3     # Row in the table that this image is for.
+  row=$4     # column in the talbe that this image is for.
+  tiffile=$5 # Relative path/name of the TIFF file.
+  CLASS="basemap_${FILEPREFIX}${z}"
+  LAYER="${AREANAME}_${FILEPREFIX}${z}-${col}-${row}"
+
+  # Add a layer to the template.
+  echo "    {
+      \"geometry\": \"raster\",
+      \"extent\": [ ${bb} ],
+      \"id\": \"${LAYER}\",
+      \"class\": \"${CLASS}\",
+      \"Datasource\": {
+        \"file\": \"${tiffile}\",
+        \"type\": \"gdal\"
+      },
+      \"layer\": null,
+      \"srs-name\": \"900913\",
+      \"srs\": \"+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over\",
+      \"advanced\": {},
+      \"name\": \"${LAYER}\",
+      \"layerId\": \"${LAYER}\"
+    }," >> ${MML}
+}
+
+##################################################################################
+# Create the MSS template file.
+write_initial_mss () {
+  echo "/* ---- basemaps ---- */" > ${MSS}
+}
+
+# Add a zoom level to the MSS template file.
+write_zoom_mss () {
+  z=$1       # Zoom level for the image.
+  CLASS="basemap_${FILEPREFIX}${z}"
+
+  echo ".${CLASS}[zoom=${z}] {
+  raster-opacity: 1;
+  raster-scaling:bilinear;
+}" >> ${MSS}
+}
+
+##################################################################################
+# Write out project level for later reference.
+write_initial_info() {
+  w=$(echo "scale=8;$WIDTH * $FACTOR" | bc)
+  h=$(echo "scale=8;$HEIGHT * $FACTOR" | bc)
+  setup_bbox $CENTER_LON $CENTER_LAT $w $h
+  measure_bbox $BBOX
+  echo "Basemap Project : ${BASEMAPPROJECT}"           > ${INFOFILE}
+  echo "Output Directory: ${MAPBOX_DIR}/${OUTPUT_DIR}" >> ${INFOFILE}
+  echo "Center : ${CENTER}"                            >> ${INFOFILE}
+  echo "Zoom   : ${ZOOM_MIN}-${ZOOM_MAX}"              >> ${INFOFILE}
+  echo "Size mi: ${XDISTM}X${YDISTM}"                  >> ${INFOFILE}
+  echo "Size km: ${XDISTK}X${YDISTK}"                  >> ${INFOFILE}
+  cat ${INFOFILE}
+}
+
+# Write out zoom level info for later reference.
+write_zoom_info() {
+  z=$1
+  echo ""                                                        >> ${INFOFILE}
+  echo "Zoom: ${z}  Factor: ${FACTOR}  Size: ${WIDTH}X${HEIGHT}" >> ${INFOFILE}
+  echo ""
+  echo "${info}Processing zoom level: ${z}  Factor: ${FACTOR}  Size: ${WIDTH}X${HEIGHT}${reset}"
+}
+
+# Write out the image level info for later reference.
+write_image_info() {
+  col=$1 # Row in the table that this image is for.
+  row=$2 # column in the talbe that this image is for.
+  echo "   Creating image at ${col}X${row} for bbox: $BBOX" >> ${INFOFILE}
+  echo "  ${info}Creating image at ${col}X${row} for bbox: $BBOX${reset}"
+}
+
+# Write out project level for later reference.
+write_final_info() {
+  echo ""                                     >> ${INFOFILE}
+  echo "Processing time: ${hour}:${min}:$sec" >> ${INFOFILE}
+}
+
+##################################################################################
+# Determine if a number is a power of two.
+function is_power_of_two () {
+    declare -i n=$1
+    (( n > 0 && (n & (n - 1)) == 0 ))
+}
+
+##################################################################################
+# Reset the center lat and lon back to the original center.
+reset_center () {
+  CENTER_LON=$(echo ${CENTER} | cut -d, -f1)
+  CENTER_LAT=$(echo ${CENTER} | cut -d, -f2)
+}
+
+##################################################################################
+# Find the center of the top left box in a table (sized FACTOR cells wide/tall)
+# of boxes where the entire table is centered on the original image center.
+find_top_left_of_table () {
+  # Find the correct offset to use for the FACTOR.
+  woffset=$(echo "scale=8;($FACTOR - 1) * ($WIDTH  / 2)" | bc)
+  hoffset=$(echo "scale=8;($FACTOR - 1) * ($HEIGHT / 2)" | bc)
+
+  # Calculate the new center based on the offset.
+  CENTER_LON=$(echo "scale=8;$CENTER_LON - $woffset" | bc)
+  CENTER_LAT=$(echo "scale=8;$CENTER_LAT + $hoffset" | bc)
+}
+
+##################################################################################
+# Setup the bounding box for an image.
+setup_bbox () {
+  ctr_lon=$1 # Logitude of the center that should be used for the bbox.
+  ctr_lat=$2 # Lattitude of the center that should be used for the bbox.
+  w=$3       # Width that should be used for the bbox.
+  h=$4       # Height that should be used for the bbox.
+
+  # Calcuate the sides of the bbox based on the center and width/height and set the bbox.
+  west=$(echo "scale=8;$ctr_lon - ($w / 2)" | bc)
+  east=$(echo "scale=8;$ctr_lon + ($w / 2)" | bc)
+  north=$(echo "scale=8;$ctr_lat + ($h / 2)" | bc)
+  south=$(echo "scale=8;$ctr_lat - ($h / 2)" | bc)
+  BBOX="${west},${south},${east},${north}"
+}
+
+# Determine BBOX size.
+measure_bbox () {
+  bb=$1 # Bounding box that should be measured.
+
+  west="$(echo ${BBOX}  | cut -d, -f1)"
+  south="$(echo ${BBOX} | cut -d, -f2)"
+  east="$(echo ${BBOX}  | cut -d, -f3)"
+  north="$(echo ${BBOX} | cut -d, -f4)"
+
+  # Figure out the lengths of the x and y axes of the bbox.
+  xlen=$(${GEODIST} ${north} ${west} ${north} ${east})
+  ylen=$(${GEODIST} ${north} ${west} ${south} ${west})
+
+  # Covert that to mile and kilometer distances with the correct precision for reference.
+  XDISTM=$(echo "scale=2;($xlen / 1)" | bc)
+  YDISTM=$(echo "scale=2;($ylen / 1)" | bc)
+  XDISTK=$(echo "scale=2;($xlen * 1.60934) / 1" | bc)
+  YDISTK=$(echo "scale=2;($ylen * 1.60934) / 1" | bc)
+}
+
+##################################################################################
+# Create an image file for the BBOX.
+create_image () {
+  z=$1   # Zoom level for the image.
+  bb=$2  # Bounding box for the image.
+  col=$3 # Row in the table that this image is for.
+  row=$4 # column in the talbe that this image is for.
+  pngfile="${MAPBOX_DIR}/${OUTPUT_DIR}/${FILEPREFIX}${z}.png"
+  wldfile="${MAPBOX_DIR}/${OUTPUT_DIR}/${FILEPREFIX}${z}.pngw"
+  tiffile_name="${FILEPREFIX}${z}-${col}-${row}.tif"
+  tiffile_fullpath="${MAPBOX_DIR}/${OUTPUT_DIR}/${tiffile_name}"
+  tiffile_relativepath="../../${OUTPUT_DIR}/${tiffile_name}"
+
+  # Use nik4 to create a PNG image for the project.
+  echo "    ${info}Rendering PNG map...${reset}"
+  boundingbox="$(echo "${bb}" | sed 's/,/ /g')"
+  nik4 -b ${boundingbox} -z ${z} --wld ${wldfile} ${XMLFILE} ${pngfile}
+
+  # Use gdal to convert the PNG to a GeoTIFF.
+  echo "    ${info}Converting PNG to GeoTIFF...${reset}"
+  gdal_translate -of GTiff -a_srs epsg:3857 ${pngfile} ${tiffile_fullpath}
+
+  # Cleanup temporary files.
+  rm ${pngfile} ${wldfile}
+
+  # Add a layer to the mml template.
+  write_image_mml $z $bb $col $row $tiffile_relativepath
+}
+
+##################################################################################
+# START SCRIPT
+
+# Verify that there is a basemap project name specified as an argument.
+if [ "$1" == "" ]; then
+  echo "${error}Error:BasemapProjectName must be specified.${reset}"; print_usage; exit 1
+else
+  BASEMAPPROJECT="$1"
+fi
+
+# Read the config file and initialize/validate global variables.
+initialize_global_variables
+
+echo "${info}$0: Creating basemap layers.${reset}"
+echo "${info}----------------------------------------------------------------------${reset}"
+echo ""
+
+# Set the center values with initial settings.
+reset_center
+
+# Calculate a bbox for the overall requested project size and Write out initial job info to a .info file.
+write_initial_info
+
+# Remove old generated files, create initial mml and mss template files.
+rm -f ${MAPBOX_DIR}/${OUTPUT_DIR}/${FILEPREFIX}*
+write_initial_mml
+write_initial_mss
+
+# Process each zoom level.
+zoom=$ZOOM_MAX
+while [ $zoom -ge $ZOOM_MIN ]; do
+  write_zoom_info $zoom
+
+  # For certain zoom levels double the size of the bbox so that it still fills the screen.
+  if [ $zoom -le $ZOOM_DOUBLE ]; then
+    # Double the width/height.
+    echo "    ${info}Doubling the size of the image...${reset}"
+    WIDTH=$(echo "scale=8;$WIDTH * 2" | bc)
+    HEIGHT=$(echo "scale=8;$HEIGHT * 2" | bc)
+  fi
+
+  # Find the center of the top/left position in the image table.
+  find_top_left_of_table
+
+  # For each table position, create an image.
+  table_row=1
+  while [ "$table_row" -le "$FACTOR" ]; do
+    table_column=1
+    while [ "$table_column" -le "$FACTOR" ]; do
+      setup_bbox $CENTER_LON $CENTER_LAT $WIDTH $HEIGHT
+      # Write out zoom level job info to file.
+      write_image_info $table_column $table_row
+      # Create the image.
+      create_image $zoom $BBOX $table_column $table_row
+      # Move to the next column right in the table by adding the width.
+      CENTER_LON=$(echo "scale=8;$CENTER_LON + $WIDTH" | bc)
+      let table_column++
+    done
+    # Move to the next row down in the table by adding the height.
+    CENTER_LAT=$(echo "scale=8;$CENTER_LAT - $HEIGHT" | bc)
+    # Move back to the first column in the table by subtracting the width times the number of columns.
+    CENTER_LON=$(echo "scale=8;$CENTER_LON - ($FACTOR * $WIDTH)" | bc)
+    let table_row++
+  done
+
+  # Reset the center lat and lon back to the original center.
+  reset_center
+
+  # Write out info for the zoom level to the mss template.
+  write_zoom_mss $zoom
+
+  let zoom--
+  # Calculate new factor and width/height values for the next zoom level
+  # (if factor is not already down to 1).
+  if [ $FACTOR -gt 1 ]; then
+    # Verify that the factor is a power of 2.
+    if is_power_of_two "$FACTOR"; then
+      # Cut the factor in half and double the width/height.
+      FACTOR=$((FACTOR / 2))
+      WIDTH=$(echo "scale=8;$WIDTH * 2" | bc)
+      HEIGHT=$(echo "scale=8;$HEIGHT * 2" | bc)
+      # Since the factor has been adjusted to a new value, we need one less
+      # on the zoom level for doubling image size after we get to a factor of 1.
+      let ZOOM_DOUBLE--
+    else # Factor is not a power of 2
+      # Save the previous factor/width/height for the calculation.
+      prevFACTOR=$FACTOR
+      prevWIDTH=$WIDTH
+      prevHEIGHT=$HEIGHT
+      power_of_two="false"
+
+      # Find the next lowest factor that is a power of two.
+      while [ "${power_of_two}" == "false" ]; do
+        let FACTOR--
+        if is_power_of_two "$FACTOR"; then
+          power_of_two="true"
+        fi
+      done
+
+      # Update the width/height in a way that maintains the same cumulative area as with the previous factor.
+      WIDTH=$(echo "scale=8;(sqrt ($prevFACTOR * $prevFACTOR * $prevWIDTH * $prevWIDTH)) / $FACTOR" | bc)
+      HEIGHT=$(echo "scale=8;(sqrt ($prevFACTOR * $prevFACTOR * $prevHEIGHT * $prevHEIGHT)) / $FACTOR" | bc)
+    fi
+  fi
+done
+
+echo ""
+echo "${warning}Don't forget to apply the mml and mss templates (located in ${MAPBOX_DIR}/${OUTPUT_DIR} to the target project.${reset}"
+
+finalize_timer
+write_final_info
+echo ""
+echo "${success}----------------------------------------------------------------------${reset}"
+echo "${success}$0: Complete! Processing time: ${hour}:${min}:$sec${reset}"
+exit 0

@@ -65,6 +65,12 @@ view.prototype.updateExport = function(ev) {
             height: selExport.get('height'),
             zooms: selExport.get('zooms'),
             bbox: selExport.get('bbox'),
+            papersize: selExport.get('papersize'),
+            orientation: selExport.get('orientation'),
+            margin_top: selExport.get('margin_top'),
+            margin_btm: selExport.get('margin_btm'),
+            margin_left: selExport.get('margin_left'),
+            margin_right: selExport.get('margin_right'),
             aspectwidth: selExport.get('aspectwidth'),
             aspectheight: selExport.get('aspectheight'),
             printedwidth: selExport.get('printedwidth'),
@@ -73,8 +79,8 @@ view.prototype.updateExport = function(ev) {
             static_zoom: selExport.get('static_zoom')
         }),
         project: this.project,
-        title: $(ev.currentTarget).attr('title'),
-        // After user selects Export from Export dialog, then...
+        title: (format === 'mbtiles') ? 'Export MBTiles' : 'Export Printed Map',
+        // In new Export sidepanel, after user selects Export from Export dialog, then...
         success: _(function() {
             $('#meta').empty();
             $('.project').removeClass('meta');
