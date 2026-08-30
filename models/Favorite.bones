@@ -13,6 +13,10 @@ model.prototype.schema = {
         },
         'created': {
             'type': 'integer'
+        },
+        'context': {
+            'type': 'string',
+            'description': 'Page context where the favorite was added (e.g. "layer", "postgres").'
         }
     }
 };

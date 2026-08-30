@@ -1500,7 +1500,7 @@ ul.form select { width: 200px; }
 /* Libraries */
 ul.form a.icon.favorite {
   display:inline-block;
-  margin-left:-25px;
+  margin-left:-15px;
   }
 
 ul.form .cache.hidden { visibility:hidden; }
@@ -2096,7 +2096,8 @@ li.pg-details-toggle a:hover { color:#444; }
 .job-status.complete   { background:#5a5;    color:#fff; }
 .job-status.error      { background:#a44;    color:#fff; }
 
-li.output-wrap { padding:0; border:none; }
+li.output-wrap  { padding:0; border:none; }
+.pg-file-form input.browsable { margin-right:16px; }
 .output-console {
   display:block;
   background:#1c1c1c;
