@@ -243,6 +243,7 @@ models.Postgres.prototype.sync = function(method, model, success, error) {
 
     case 'read':
         var id = model.id;
+
         if (id === 'dbstatus') {
             getBasicStatus(function(err, result) {
                 if (err) return error(err);

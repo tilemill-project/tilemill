@@ -72,14 +72,16 @@
   </ul>
 
   <!-- ── Load from local file ───────────────────────────────────────── -->
-  <ul class='form sunken'>
+  <ul class='form sunken pg-file-form'>
     <li class='text'>
       <h3>Manually Load OSM Data from File</h3>
       <p class='description'>Loads a local .osm or .osm.pbf file into PostgreSQL using osm2pgsql.</p>
     </li>
     <li class='input-hint-row'>
       <label>OSM Path/Filename</label>
-      <input type='text' name='file-path' class='text wide' placeholder='/path/to/file.osm' />
+      <input type='text' name='file-path' class='text wide browsable' placeholder='/path/to/file.osm' />
+      <a href='#' class='icon favorite hidden'></a>
+      <a href='#open' class='button open'>Browse</a>
     </li>
     <li>
       <a href='#load' class='button'>Load OSM Data</a>

@@ -19,6 +19,7 @@ view.prototype.initialize = function(options) {
     );
     this.change = options.change;
     this.favorites = options.favorites;
+    this.context = options.context || null;
     this.favorites.bind('add', this.libraryUpdate);
     this.favorites.bind('remove', this.libraryUpdate);
 
@@ -62,7 +63,7 @@ view.prototype.library = function(ev) {
     if (id === 'favoritesFile' ||
         id === 'favoritesPostGIS' ||
         id === 'favoritesSqlite') {
-        this.model.set(this.favorites.toLibrary(id));
+        this.model.set(this.favorites.toLibrary(id, this.context));
         this.render();
     } else {
         this.model.set({id:id, location:undefined});
@@ -77,7 +78,7 @@ view.prototype.libraryUpdate = function() {
     _(['File', 'PostGIS', 'Sqlite']).each(_(function(id) {
         id = 'favorites' + id;
         if (this.$('a[href=#' + id + ']').is('.active')) {
-            this.model.set(this.favorites.toLibrary(id));
+            this.model.set(this.favorites.toLibrary(id, this.context));
             this.render();
         }
     }).bind(this));
@@ -86,7 +87,6 @@ view.prototype.libraryUpdate = function() {
 
 view.prototype.libraryLocation = function(ev) {
     var location = $(ev.currentTarget).attr('href').split('#').pop();
-    this.change(location);
     this.model.set({location:location});
     this.model.fetch({
         success:this.render,

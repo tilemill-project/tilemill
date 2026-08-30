@@ -3,6 +3,10 @@ view = Backbone.View.extend();
 view.prototype.events = {
     'click a[href=#fetch]':      'fetchOSM',
     'click a[href=#load]':       'loadFile',
+    'click a[href=#open]':          'browseFile',
+    'click a.icon.favorite':        'favoriteToggle',
+    'keyup input[name=file-path]':  'favoriteUpdate',
+    'change input[name=file-path]': 'favoriteUpdate',
     'click a[href=#pg-start]':   'pgStart',
     'click a[href=#pg-stop]':    'pgStop',
     'click a[href=#pg-restart]': 'pgRestart',
@@ -13,14 +17,26 @@ view.prototype.events = {
 view.prototype.initialize = function() {
     _(this).bindAll(
         'render', 'checkDBStatus', 'applyDetailsState', 'toggleDetails',
-        'fetchOSM', 'loadFile',
+        'fetchOSM', 'loadFile', 'browseFile', 'favoriteToggle', 'favoriteUpdate',
         'pgStart', 'pgStop', 'pgRestart', 'pgRefresh',
         'startJob', 'pollJob', 'updateOutput'
     );
     this.pollTimer   = null;
     this.detailsOpen = false;
+    this.favorites   = null;
     this.render();
     this.checkDBStatus();
+    var self = this;
+    (new models.Favorites()).fetch({
+        success: function(col) {
+            self.favorites = col;
+            self.favoriteUpdate();
+        },
+        error: function() {
+            self.favorites = new models.Favorites();
+            self.favoriteUpdate();
+        }
+    });
     $('.bleed a').removeClass('active');
     $('.bleed .postgres').addClass('active');
 };
@@ -39,6 +55,10 @@ view.prototype.render = function() {
                 }
             }
         });
+        var savedPath = localStorage.getItem('tilemill.osmFilePath.' + projectId);
+        if (savedPath) {
+            self.$('input[name=file-path]').val(savedPath).trigger('change');
+        }
     }
     return this;
 };
@@ -207,8 +227,92 @@ view.prototype.loadFile = function(e) {
     e.preventDefault();
     var filePath = this.$('input[name=file-path]').val().trim();
     if (!filePath) { new views.Modal(new Error('Please enter a file path.')); return false; }
+    var projectId = localStorage.getItem('tilemill.lastProjectId');
+    if (projectId) localStorage.setItem('tilemill.osmFilePath.' + projectId, filePath);
     this.startJob({ type: 'load', filePath: filePath });
     return false;
+};
+
+view.prototype.browseFile = function(e) {
+    e.preventDefault();
+    if (!this.favorites) { new views.Modal(new Error('Still loading, please try again.')); return false; }
+    var self  = this;
+    var input = this.$('input.browsable');
+    var popup = $('#popup');
+
+    // Open the popup overlay
+    $('body').addClass('overlay');
+    popup.addClass('active');
+    popup.find('h2.title').text('Browse for OSM File');
+
+    var location = input.val();
+    if (location) {
+        var sep = window.abilities.platform === 'win32' ? '\\' : '/';
+        var parts = location.split(sep);
+        if (parts.length > 1 && parts[parts.length - 1].match(/\.[a-z0-9]+$/i)) {
+            location = parts.slice(0, parts.length - 1).join(sep);
+        }
+    }
+
+    var projectId = localStorage.getItem('tilemill.lastProjectId') || '';
+    (new models.Library({
+        id: 'file',
+        location: location,
+        project: projectId
+    })).fetch({
+        success: function(model) {
+            new views.Library({
+                model:     model,
+                favorites: self.favorites,
+                context:   'postgres',
+                change:    function(uri) {
+                    input.val(uri).trigger('change');
+                    var projectId = localStorage.getItem('tilemill.lastProjectId');
+                    if (projectId) localStorage.setItem('tilemill.osmFilePath.' + projectId, uri);
+                    // Close popup after a file is selected
+                    $('body').removeClass('overlay');
+                    popup.removeClass('active').html(templates.Pane());
+                },
+                el: popup.find('.content')[0]
+            });
+        },
+        error: function(model, err) { new views.Modal(err); }
+    });
+
+    return false;
+};
+
+view.prototype.favoriteToggle = function(e) {
+    e.preventDefault();
+    if (!this.favorites) return false;
+    var uri = this.$('input[name=file-path]').val().trim();
+    if (!uri) return false;
+    var btn = this.$('a.icon.favorite');
+    if (this.favorites.get(uri)) {
+        var m = this.favorites.get(uri);
+        this.favorites.remove(uri);
+        m.destroy();
+        btn.removeClass('active');
+    } else {
+        var m = new models.Favorite({ id: uri, created: +new Date, context: 'postgres' });
+        this.favorites.add(m);
+        m.save();
+        btn.addClass('active');
+    }
+    return false;
+};
+
+view.prototype.favoriteUpdate = function(e) {
+    if (!this.favorites) return;
+    var uri = this.$('input[name=file-path]').val();
+    var btn = this.$('a.icon.favorite');
+    var sep = window.abilities.platform === 'win32' ? '\\' : '/';
+    if (uri && uri.charAt(0) === sep) {
+        btn.removeClass('hidden');
+        btn.toggleClass('active', !!this.favorites.isFavorite(uri));
+    } else {
+        btn.addClass('hidden');
+    }
 };
 
 // ---------------------------------------------------------------------------
