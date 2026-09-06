@@ -5,6 +5,7 @@
 /test/fixtures/files
 npm-debug.log
 VERSION
+REPO
 platforms/osx/Externals/Sparkle/source
 examples/geography-class/layers
 examples/road-trip/layers
