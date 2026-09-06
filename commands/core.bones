@@ -14,6 +14,7 @@ if (mapnik.register_default_input_plugins) mapnik.register_default_input_plugins
 var semver = require('semver');
 var os = require('os');
 var crypto = require('crypto');
+var stats = require('../lib/stats');
 // node v6 -> v8 compatibility
 var existsSync = require('fs').existsSync || require('path').existsSync;
 
@@ -111,6 +112,16 @@ command.prototype.bootstrap = function(plugin, callback) {
                 return ['unknown', 'unknown'];
             }
         })(),
+        // Git remote/branch this checkout was built from (from the REPO file
+        // written at install-time), used to tell forks/branches apart in
+        // anonymous system profile reports. See lib/stats.js.
+        repo: (function() {
+            try {
+                return JSON.parse(fs.readFileSync(path.resolve(__dirname + '/../REPO'), 'utf8'));
+            } catch(e) {
+                return { remote: 'unknown', branch: 'unknown' };
+            }
+        })(),
         platform: process.platform,
         totalmem: os.totalmem(),
         cpus: os.cpus(),
@@ -133,6 +144,8 @@ command.prototype.bootstrap = function(plugin, callback) {
             svg: mapnik.supports.cairo_svg || mapnik.supports.cairo
         }
     };
+
+    stats.report(settings, Bones.plugin.abilities);
 
     var configDir = path.join(process.env.HOME, '.tilemill');
     if (!existsSync(configDir)) {
